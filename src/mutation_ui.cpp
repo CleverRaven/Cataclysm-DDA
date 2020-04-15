@@ -70,7 +70,7 @@ void player::power_mutations()
 
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
-    for( auto &mut : my_mutations ) {
+    for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         if( !mut.first->activated ) {
             passive.push_back( mut.first );
         } else {
@@ -178,8 +178,8 @@ void player::power_mutations()
                 mvwprintz( wBio, point( 2, list_start_y ), c_light_gray, _( "None" ) );
             } else {
                 for( size_t i = scroll_position; i < passive.size(); i++ ) {
-                    const auto &md = passive[i].obj();
-                    const auto &td = my_mutations[passive[i]];
+                    const mutation_branch &md = passive[i].obj();
+                    const trait_data &td = my_mutations[passive[i]];
                     if( list_start_y + static_cast<int>( i ) ==
                         ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) ) {
                         break;
@@ -193,8 +193,8 @@ void player::power_mutations()
                 mvwprintz( wBio, point( second_column, list_start_y ), c_light_gray, _( "None" ) );
             } else {
                 for( size_t i = scroll_position; i < active.size(); i++ ) {
-                    const auto &md = active[i].obj();
-                    const auto &td = my_mutations[active[i]];
+                    const mutation_branch &md = active[i].obj();
+                    const trait_data &td = my_mutations[active[i]];
                     if( list_start_y + static_cast<int>( i ) ==
                         ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) ) {
                         break;
@@ -257,7 +257,7 @@ void player::power_mutations()
                        mutation_chars.get_allowed_chars() );
                 continue;
             }
-            const auto other_mut_id = trait_by_invlet( newch );
+            const trait_id other_mut_id = trait_by_invlet( newch );
             if( !other_mut_id.is_null() ) {
                 std::swap( my_mutations[mut_id].key, my_mutations[other_mut_id].key );
             } else {

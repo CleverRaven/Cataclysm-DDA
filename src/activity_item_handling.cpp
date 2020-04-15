@@ -1141,11 +1141,11 @@ static activity_reason_info find_base_construction(
 static std::string random_string( size_t length )
 {
     auto randchar = []() -> char {
-        const char charset[] =
+        static constexpr char charset[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";
-        const size_t max_index = ( sizeof( charset ) - 1 );
-        return charset[rand() % max_index];
+        static constexpr size_t num_chars = sizeof( charset ) - 1;
+        return charset[rng( 0, num_chars - 1 )];
     };
     std::string str( length, 0 );
     std::generate_n( str.begin(), length, randchar );
@@ -1269,7 +1269,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             return activity_reason_info::fail( NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
-        if( abs( veh->velocity ) > 100 || veh->player_in_control( g->u ) ) {
+        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( g->u ) ) {
             return activity_reason_info::fail( NO_ZONE );
         }
         for( const npc &guy : g->all_npcs() ) {
@@ -1323,8 +1323,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 const int max_lift = p.best_nearby_lifting_assist( src_loc );
-                const int lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                                      TOOL_LIFT_FACTOR );
+                const int lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
+                                           TOOL_LIFT_FACTOR );
                 const bool use_aid = max_lift >= lvl;
                 const bool use_str = p.can_lift( base );
                 if( !( use_aid || use_str ) ) {

@@ -2434,7 +2434,7 @@ void mapgen_ants_four_way( mapgendata &dat )
             }
         }
         x += rng( -1, 1 );
-        while( abs( SEEX - x ) > SEEY * 2 - j - 1 ) {
+        while( std::abs( SEEX - x ) > SEEY * 2 - j - 1 ) {
             if( x < SEEX ) {
                 x++;
             }
@@ -2452,7 +2452,7 @@ void mapgen_ants_four_way( mapgendata &dat )
             }
         }
         y += rng( -1, 1 );
-        while( abs( SEEY - y ) > SEEX * 2 - i - 1 ) {
+        while( std::abs( SEEY - y ) > SEEX * 2 - i - 1 ) {
             if( y < SEEY ) {
                 y++;
             }
@@ -2476,7 +2476,7 @@ void mapgen_ants_straight( mapgendata &dat )
             }
         }
         x += rng( -1, 1 );
-        while( abs( SEEX - x ) > SEEX * 2 - j - 1 ) {
+        while( std::abs( SEEX - x ) > SEEX * 2 - j - 1 ) {
             if( x < SEEX ) {
                 x++;
             }
@@ -2503,7 +2503,7 @@ void mapgen_ants_tee( mapgendata &dat )
             }
         }
         x += rng( -1, 1 );
-        while( abs( SEEX - x ) > SEEY * 2 - j - 1 ) {
+        while( std::abs( SEEX - x ) > SEEY * 2 - j - 1 ) {
             if( x < SEEX ) {
                 x++;
             }
@@ -2520,7 +2520,7 @@ void mapgen_ants_tee( mapgendata &dat )
             }
         }
         y += rng( -1, 1 );
-        while( abs( SEEY - y ) > SEEX * 2 - 1 - i ) {
+        while( std::abs( SEEY - y ) > SEEX * 2 - 1 - i ) {
             if( y < SEEY ) {
                 y++;
             }

@@ -222,8 +222,8 @@ bool Creature::sees( const Creature &critter ) const
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
                ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
-                 !( abs( posx() - critter.posx() ) <= 1 && abs( posy() - critter.posy() ) <= 1 &&
-                    abs( posz() - critter.posz() ) <= 1 ) ) ) {
+                 !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
+                    std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
     if( ch != nullptr ) {
@@ -421,7 +421,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         bool maybe_boo = false;
         if( angle_iff ) {
             int tangle = coord_to_angle( pos(), m->pos() );
-            int diff = abs( u_angle - tangle );
+            int diff = std::abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {

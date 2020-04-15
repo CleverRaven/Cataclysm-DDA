@@ -3391,19 +3391,21 @@
     "time": "10 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "bag_plastic", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "plastic_chunk",
-    "id_suffix": "from_cash_cards",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "time": "10 m",
-    "autolearn": true,
-    "tools": [ [ [ "surface_heat", 6, "LIST" ], [ "soldering_iron", 10 ] ] ],
-    "components": [ [ [ "cash_card", 9 ], [ "plastic_straw", 3 ], [ "bag_zipper", 25 ] ] ]
+    "components": [
+      [
+        [ "stopcock", 11 ],
+        [ "button_plastic", 3 ],
+        [ "bottle_folding", 4 ],
+        [ "plastic_straw", 3 ],
+        [ "plastic_knife", 2 ],
+        [ "plastic_spoon", 2 ],
+        [ "plastic_fork", 2 ],
+        [ "plastic_six_dice", 11 ],
+        [ "bag_zipper", 25 ],
+        [ "cup_plastic", 25 ],
+        [ "bag_plastic", 10 ]
+      ]
+    ]
   },
   {
     "type": "recipe",

@@ -199,7 +199,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     }
     const int num_seed_clusters =
         std::max( std::min( input_sounds.size(), static_cast<size_t>( 10 ) ),
-                  static_cast<size_t>( log( input_sounds.size() ) ) );
+                  static_cast<size_t>( std::log( input_sounds.size() ) ) );
     const size_t stopping_point = input_sounds.size() - num_seed_clusters;
     const size_t max_map_distance = rl_dist( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
     // Randomly choose cluster seeds.
@@ -361,7 +361,7 @@ void sounds::process_sound_markers( player *p )
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
         const int distance_to_sound = rl_dist( p->pos().xy(), pos.xy() ) +
-                                      abs( p->pos().z - pos.z ) * 10;
+                                      std::abs( p->pos().z - pos.z ) * 10;
         const int raw_volume = sound.volume;
 
         // The felt volume of a sound is not affected by negative multipliers, such as already

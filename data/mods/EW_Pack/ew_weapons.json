@@ -38,7 +38,7 @@
     "magazines": [
       [ "654", [ "svs24_robomag", "svs24_robodrum" ] ],
       [ "545x39", [ "cw24_robomag", "cw24_bigrobomag", "ak74mag" ] ],
-      [ "762", [ "akmmag", "akmbigmag" ] ]
+      [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ]
     ]
   },
   {
@@ -104,7 +104,7 @@
     ],
     "magazines": [
       [ "545x39", [ "cw24_robomag", "cw24_bigrobomag" ] ],
-      [ "762", [ "akmmag", "akmbigmag" ] ],
+      [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ],
       [ "654", [ "svs24_robomag", "svs24_robodrum" ] ]
     ]
   },
@@ -130,7 +130,7 @@
     "price": 160000,
     "ammo": "762",
     "magazines": [
-      [ "762", [ "akmmag", "akmbigmag" ] ],
+      [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ],
       [ "545x39", [ "cw24_robomag", "cw24_bigrobomag" ] ],
       [ "654", [ "svs24_robomag", "svs24_robodrum" ] ]
     ]

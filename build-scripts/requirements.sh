@@ -74,7 +74,6 @@ fi
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
   brew update
   brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses ccache
-  brew link --force gettext ncurses
 fi
 
 if [[ "$NATIVE" == "android" ]]; then

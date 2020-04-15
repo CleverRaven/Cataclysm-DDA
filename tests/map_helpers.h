@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAP_HELPERS_H
-#define MAP_HELPERS_H
+#ifndef CATA_TESTS_MAP_HELPERS_H
+#define CATA_TESTS_MAP_HELPERS_H
 
 #include <string>
 
@@ -20,4 +20,4 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
 void clear_vehicles();
 void build_test_map( const ter_id &terrain );
 
-#endif
+#endif // CATA_TESTS_MAP_HELPERS_H

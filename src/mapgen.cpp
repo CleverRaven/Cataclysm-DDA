@@ -3872,7 +3872,7 @@ void map::draw_lab( mapgendata &dat )
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     // Carve out a diamond area that covers 2 spaces on each edge.
-                    if( i + j > 10 && i + j < 36 && abs( i - j ) < 13 ) {
+                    if( i + j > 10 && i + j < 36 && std::abs( i - j ) < 13 ) {
                         // Doors and walls get sometimes destroyed:
                         // 100% at the edge, usually in a central cross, occasionally elsewhere.
                         if( ( has_flag_ter( "DOOR", point( i, j ) ) || has_flag_ter( "WALL", point( i, j ) ) ) ) {
@@ -3929,7 +3929,7 @@ void map::draw_lab( mapgendata &dat )
         } else if( one_in( 2 ) ) {
             // Create a spread of densities, from all possible lights on, to 1/3, ...
             // to ~1 per segment.
-            light_odds = pow( rng( 1, 12 ), 1.6 );
+            light_odds = std::pow( rng( 1, 12 ), 1.6 );
         }
         if( light_odds > 0 ) {
             for( int i = 0; i < SEEX * 2; i++ ) {
@@ -4429,7 +4429,7 @@ void map::draw_lab( mapgendata &dat )
         if( central_lab ) {
             light_odds = 1;
         } else if( one_in( 2 ) ) {
-            light_odds = pow( rng( 1, 12 ), 1.6 );
+            light_odds = std::pow( rng( 1, 12 ), 1.6 );
         }
         if( light_odds > 0 ) {
             for( int i = 0; i < SEEX * 2; i++ ) {
@@ -4461,7 +4461,7 @@ void map::draw_temple( mapgendata &dat )
             square( this, t_rock_floor, point_zero, point( EAST_EDGE, SOUTH_EDGE ) );
             // We always start at the south and go north.
             // We use (y / 2 + z) % 4 to guarantee that rooms don't repeat.
-            switch( 1 + abs( abs_sub.y / 2 + dat.zlevel() + 4 ) % 4 ) { // TODO: More varieties!
+            switch( 1 + std::abs( abs_sub.y / 2 + dat.zlevel() + 4 ) % 4 ) { // TODO: More varieties!
 
                 case 1:
                     // Flame bursts
@@ -4851,16 +4851,16 @@ void map::draw_mine( mapgendata &dat )
                     for( int i = 0; i < num_worms; i++ ) {
                         std::vector<direction> sides;
                         if( dat.n_fac == 6 ) {
-                            sides.push_back( NORTH );
+                            sides.push_back( direction::NORTH );
                         }
                         if( dat.e_fac == 6 ) {
-                            sides.push_back( EAST );
+                            sides.push_back( direction::EAST );
                         }
                         if( dat.s_fac == 6 ) {
-                            sides.push_back( SOUTH );
+                            sides.push_back( direction::SOUTH );
                         }
                         if( dat.w_fac == 6 ) {
-                            sides.push_back( WEST );
+                            sides.push_back( direction::WEST );
                         }
                         if( sides.empty() ) {
                             place_spawns( GROUP_DARK_WYRM, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 1, true );
@@ -4868,16 +4868,16 @@ void map::draw_mine( mapgendata &dat )
                         } else {
                             point p;
                             switch( random_entry( sides ) ) {
-                                case NORTH:
+                                case direction::NORTH:
                                     p = point( rng( 1, SEEX * 2 - 2 ), rng( 1, 5 ) );
                                     break;
-                                case EAST:
+                                case direction::EAST:
                                     p = point( SEEX * 2 - rng( 2, 6 ), rng( 1, SEEY * 2 - 2 ) );
                                     break;
-                                case SOUTH:
+                                case direction::SOUTH:
                                     p = point( rng( 1, SEEX * 2 - 2 ), SEEY * 2 - rng( 2, 6 ) );
                                     break;
-                                case WEST:
+                                case direction::WEST:
                                     p = point( rng( 1, 5 ), rng( 1, SEEY * 2 - 2 ) );
                                     break;
                                 default:
@@ -4908,16 +4908,16 @@ void map::draw_mine( mapgendata &dat )
         if( terrain_type == "mine_down" ) { // Don't forget to build a slope down!
             std::vector<direction> open;
             if( dat.n_fac == 4 ) {
-                open.push_back( NORTH );
+                open.push_back( direction::NORTH );
             }
             if( dat.e_fac == 4 ) {
-                open.push_back( EAST );
+                open.push_back( direction::EAST );
             }
             if( dat.s_fac == 4 ) {
-                open.push_back( SOUTH );
+                open.push_back( direction::SOUTH );
             }
             if( dat.w_fac == 4 ) {
-                open.push_back( WEST );
+                open.push_back( direction::WEST );
             }
 
             if( open.empty() ) { // We'll have to build it in the center
@@ -4946,19 +4946,19 @@ void map::draw_mine( mapgendata &dat )
                 square( this, t_slope_down, p + point( 1, 1 ), p + point( 2, 2 ) );
             } else { // We can build against a wall
                 switch( random_entry( open ) ) {
-                    case NORTH:
+                    case direction::NORTH:
                         square( this, t_rock_floor, point( SEEX - 3, 6 ), point( SEEX + 2, SEEY ) );
                         line( this, t_slope_down, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
                         break;
-                    case EAST:
+                    case direction::EAST:
                         square( this, t_rock_floor, point( SEEX + 1, SEEY - 3 ), point( SEEX * 2 - 7, SEEY + 2 ) );
                         line( this, t_slope_down, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
                         break;
-                    case SOUTH:
+                    case direction::SOUTH:
                         square( this, t_rock_floor, point( SEEX - 3, SEEY + 1 ), point( SEEX + 2, SEEY * 2 - 7 ) );
                         line( this, t_slope_down, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
                         break;
-                    case WEST:
+                    case direction::WEST:
                         square( this, t_rock_floor, point( 6, SEEY - 3 ), point( SEEX, SEEY + 2 ) );
                         line( this, t_slope_down, point( 6, SEEY - 2 ), point( 6, SEEY + 1 ) );
                         break;
@@ -4971,16 +4971,16 @@ void map::draw_mine( mapgendata &dat )
         if( dat.above() == "mine_down" ) { // Don't forget to build a slope up!
             std::vector<direction> open;
             if( dat.n_fac == 6 && ter( point( SEEX, 6 ) ) != t_slope_down ) {
-                open.push_back( NORTH );
+                open.push_back( direction::NORTH );
             }
             if( dat.e_fac == 6 && ter( point( SEEX * 2 - 7, SEEY ) ) != t_slope_down ) {
-                open.push_back( EAST );
+                open.push_back( direction::EAST );
             }
             if( dat.s_fac == 6 && ter( point( SEEX, SEEY * 2 - 7 ) ) != t_slope_down ) {
-                open.push_back( SOUTH );
+                open.push_back( direction::SOUTH );
             }
             if( dat.w_fac == 6 && ter( point( 6, SEEY ) ) != t_slope_down ) {
-                open.push_back( WEST );
+                open.push_back( direction::WEST );
             }
 
             if( open.empty() ) { // We'll have to build it in the center
@@ -5010,16 +5010,16 @@ void map::draw_mine( mapgendata &dat )
 
             } else { // We can build against a wall
                 switch( random_entry( open ) ) {
-                    case NORTH:
+                    case direction::NORTH:
                         line( this, t_slope_up, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
                         break;
-                    case EAST:
+                    case direction::EAST:
                         line( this, t_slope_up, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
                         break;
-                    case SOUTH:
+                    case direction::SOUTH:
                         line( this, t_slope_up, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
                         break;
-                    case WEST:
+                    case direction::WEST:
                         line( this, t_slope_up, point( 6, SEEY - 2 ), point( 6, SEEY + 1 ) );
                         break;
                     default:
@@ -5044,25 +5044,25 @@ void map::draw_mine( mapgendata &dat )
         if( dat.north() == "mine" ) {
             square( this, t_rock_floor, point( SEEX, 0 ), point( SEEX + 1, 3 ) );
         } else {
-            face.push_back( NORTH );
+            face.push_back( direction::NORTH );
         }
 
         if( dat.east()  == "mine" ) {
             square( this, t_rock_floor, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
         } else {
-            face.push_back( EAST );
+            face.push_back( direction::EAST );
         }
 
         if( dat.south() == "mine" ) {
             square( this, t_rock_floor, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
         } else {
-            face.push_back( SOUTH );
+            face.push_back( direction::SOUTH );
         }
 
         if( dat.west()  == "mine" ) {
             square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
         } else {
-            face.push_back( WEST );
+            face.push_back( direction::WEST );
         }
 
         // Now, pick and generate a type of finale!
@@ -5117,19 +5117,19 @@ void map::draw_mine( mapgendata &dat )
             case 4: { // Amigara fault
                 // Construct the fault on the appropriate face
                 switch( random_entry( face ) ) {
-                    case NORTH:
+                    case direction::NORTH:
                         square( this, t_rock, point_zero, point( EAST_EDGE, 4 ) );
                         line( this, t_fault, point( 4, 4 ), point( SEEX * 2 - 5, 4 ) );
                         break;
-                    case EAST:
+                    case direction::EAST:
                         square( this, t_rock, point( SEEX * 2 - 5, 0 ), point( SOUTH_EDGE, EAST_EDGE ) );
                         line( this, t_fault, point( SEEX * 2 - 5, 4 ), point( SEEX * 2 - 5, SEEY * 2 - 5 ) );
                         break;
-                    case SOUTH:
+                    case direction::SOUTH:
                         square( this, t_rock, point( 0, SEEY * 2 - 5 ), point( EAST_EDGE, SOUTH_EDGE ) );
                         line( this, t_fault, point( 4, SEEY * 2 - 5 ), point( SEEX * 2 - 5, SEEY * 2 - 5 ) );
                         break;
-                    case WEST:
+                    case direction::WEST:
                         square( this, t_rock, point_zero, point( 4, SOUTH_EDGE ) );
                         line( this, t_fault, point( 4, 4 ), point( 4, SEEY * 2 - 5 ) );
                         break;
@@ -5484,7 +5484,7 @@ void map::draw_slimepit( mapgendata &dat )
                                        j > SEEY * 2 - dat.s_fac * SEEY ||
                                        i > SEEX * 2 - dat.e_fac * SEEX ) ) {
                     ter_set( point( i, j ), ( !one_in( 10 ) ? t_slime : t_rock_floor ) );
-                } else if( rng( 0, SEEX ) > abs( i - SEEX ) && rng( 0, SEEY ) > abs( j - SEEY ) ) {
+                } else if( rng( 0, SEEX ) > std::abs( i - SEEX ) && rng( 0, SEEY ) > std::abs( j - SEEY ) ) {
                     ter_set( point( i, j ), t_slime );
                 } else if( dat.zlevel() == 0 ) {
                     ter_set( point( i, j ), t_dirt );
@@ -5555,16 +5555,16 @@ void map::draw_triffid( mapgendata &dat )
             // Next, pick a cell to move to
             std::vector<direction> move;
             if( node % 4 > 0 && !node_built[node - 1] ) {
-                move.push_back( WEST );
+                move.push_back( direction::WEST );
             }
             if( node % 4 < 3 && !node_built[node + 1] ) {
-                move.push_back( EAST );
+                move.push_back( direction::EAST );
             }
             if( static_cast<int>( node / 4 ) > 0 && !node_built[node - 4] ) {
-                move.push_back( NORTH );
+                move.push_back( direction::NORTH );
             }
             if( static_cast<int>( node / 4 ) < 3 && !node_built[node + 4] ) {
-                move.push_back( SOUTH );
+                move.push_back( direction::SOUTH );
             }
 
             if( move.empty() ) { // Nowhere to go!
@@ -5572,19 +5572,19 @@ void map::draw_triffid( mapgendata &dat )
                 done = true;
             } else {
                 switch( random_entry( move ) ) {
-                    case NORTH:
+                    case direction::NORTH:
                         square( this, t_dirt, point( nodex + 1, nodey - 2 ), point( nodex + 2, nodey - 1 ) );
                         node -= 4;
                         break;
-                    case EAST:
+                    case direction::EAST:
                         square( this, t_dirt, point( nodex + 4, nodey + 1 ), point( nodex + 5, nodey + 2 ) );
                         node++;
                         break;
-                    case SOUTH:
+                    case direction::SOUTH:
                         square( this, t_dirt, point( nodex + 1, nodey + 4 ), point( nodex + 2, nodey + 5 ) );
                         node += 4;
                         break;
-                    case WEST:
+                    case direction::WEST:
                         square( this, t_dirt, point( nodex - 2, nodey + 1 ), point( nodex - 1, nodey + 2 ) );
                         node--;
                         break;
@@ -6856,47 +6856,47 @@ void build_mine_room( room_type type, int x1, int y1, int x2, int y2, mapgendata
     std::vector<direction> possibilities;
     int midx = static_cast<int>( ( x1 + x2 ) / 2 ), midy = static_cast<int>( ( y1 + y2 ) / 2 );
     if( x2 < SEEX ) {
-        possibilities.push_back( EAST );
+        possibilities.push_back( direction::EAST );
     }
     if( x1 > SEEX + 1 ) {
-        possibilities.push_back( WEST );
+        possibilities.push_back( direction::WEST );
     }
     if( y1 > SEEY + 1 ) {
-        possibilities.push_back( NORTH );
+        possibilities.push_back( direction::NORTH );
     }
     if( y2 < SEEY ) {
-        possibilities.push_back( SOUTH );
+        possibilities.push_back( direction::SOUTH );
     }
 
     if( possibilities.empty() ) { // We're in the middle of the map!
         if( midx <= SEEX ) {
-            possibilities.push_back( EAST );
+            possibilities.push_back( direction::EAST );
         } else {
-            possibilities.push_back( WEST );
+            possibilities.push_back( direction::WEST );
         }
         if( midy <= SEEY ) {
-            possibilities.push_back( SOUTH );
+            possibilities.push_back( direction::SOUTH );
         } else {
-            possibilities.push_back( NORTH );
+            possibilities.push_back( direction::NORTH );
         }
     }
 
     const direction door_side = random_entry( possibilities );
     point door_point;
     switch( door_side ) {
-        case NORTH:
+        case direction::NORTH:
             door_point.x = midx;
             door_point.y = y1;
             break;
-        case EAST:
+        case direction::EAST:
             door_point.x = x2;
             door_point.y = midy;
             break;
-        case SOUTH:
+        case direction::SOUTH:
             door_point.x = midx;
             door_point.y = y2;
             break;
-        case WEST:
+        case direction::WEST:
             door_point.x = x1;
             door_point.y = midy;
             break;
@@ -6939,13 +6939,13 @@ void build_mine_room( room_type type, int x1, int y1, int x2, int y2, mapgendata
 
         case room_mine_fuel: {
             int spacing = rng( 2, 4 );
-            if( door_side == NORTH || door_side == SOUTH ) {
-                int y = ( door_side == NORTH ? y1 + 2 : y2 - 2 );
+            if( door_side == direction::NORTH || door_side == direction::SOUTH ) {
+                int y = ( door_side == direction::NORTH ? y1 + 2 : y2 - 2 );
                 for( int x = x1 + 1; x <= x2 - 1; x += spacing ) {
                     m->place_gas_pump( point( x, y ), rng( 10000, 50000 ) );
                 }
             } else {
-                int x = ( door_side == EAST ? x2 - 2 : x1 + 2 );
+                int x = ( door_side == direction::EAST ? x2 - 2 : x1 + 2 );
                 for( int y = y1 + 1; y <= y2 - 1; y += spacing ) {
                     m->place_gas_pump( point( x, y ), rng( 10000, 50000 ) );
                 }
@@ -6954,7 +6954,7 @@ void build_mine_room( room_type type, int x1, int y1, int x2, int y2, mapgendata
         break;
 
         case room_mine_housing:
-            if( door_side == NORTH || door_side == SOUTH ) {
+            if( door_side == direction::NORTH || door_side == direction::SOUTH ) {
                 for( int y = y1 + 2; y <= y2 - 2; y += 2 ) {
                     m->ter_set( point( x1, y ), t_window );
                     m->furn_set( point( x1 + 1, y ), f_bed );
@@ -7011,16 +7011,16 @@ void build_mine_room( room_type type, int x1, int y1, int x2, int y2, mapgendata
 
     if( type == room_mine_fuel ) { // Fuel stations are open on one side
         switch( door_side ) {
-            case NORTH:
+            case direction::NORTH:
                 line( m, t_floor, point( x1, y1 ), point( x2, y1 ) );
                 break;
-            case EAST:
+            case direction::EAST:
                 line( m, t_floor, point( x2, y1 + 1 ), point( x2, y2 - 1 ) );
                 break;
-            case SOUTH:
+            case direction::SOUTH:
                 line( m, t_floor, point( x1, y2 ), point( x2, y2 ) );
                 break;
-            case WEST:
+            case direction::WEST:
                 line( m, t_floor, point( x1, y1 + 1 ), point( x1, y2 - 1 ) );
                 break;
             default:

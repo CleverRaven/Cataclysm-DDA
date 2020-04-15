@@ -1,5 +1,5 @@
-#ifndef CATA_ACHIEVEMENT_H
-#define CATA_ACHIEVEMENT_H
+#ifndef CATA_SRC_ACHIEVEMENT_H
+#define CATA_SRC_ACHIEVEMENT_H
 
 #include <list>
 #include <string>
@@ -123,4 +123,4 @@ class achievements_tracker : public event_subscriber
         std::unordered_map<string_id<achievement>, achievement_state> achievements_status_;
 };
 
-#endif // CATA_ACHIEVEMENT_H
+#endif // CATA_SRC_ACHIEVEMENT_H

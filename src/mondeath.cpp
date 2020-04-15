@@ -126,7 +126,7 @@ static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monste
     pile_size = std::max( pile_size, 1 );
     // can't have more items in a pile than total items
     pile_size = std::min( chunk_amt, pile_size );
-    distance = abs( distance );
+    distance = std::abs( distance );
     const item chunk( chunk_name, calendar::turn, pile_size );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
         bool drop_chunks = true;
@@ -194,15 +194,15 @@ void mdeath::splatter( monster &z )
         }
     }
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
-    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
-                                       ( overflow_damage / max_hp + 1 ) ) );
+    int gibbed_weight = rng( 0, std::round( to_gram( z.get_weight() ) / 100.0 *
+                                            ( overflow_damage / max_hp + 1 ) ) );
     const int z_weight = to_gram( z.get_weight() );
     // limit gibbing to 15%
     gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
-        int gib_distance = round( rng( 2, 4 ) );
+        int gib_distance = std::round( rng( 2, 4 ) );
         for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {

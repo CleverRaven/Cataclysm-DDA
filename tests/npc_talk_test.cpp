@@ -345,8 +345,8 @@ TEST_CASE( "npc_talk_rules", "[npc_talk]" )
     d.add_topic( "TALK_TEST_NPC_RULES" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    talker_npc.rules.engagement = ENGAGE_ALL;
-    talker_npc.rules.aim = AIM_SPRAY;
+    talker_npc.rules.engagement = combat_engagement::ALL;
+    talker_npc.rules.aim = aim_rule::SPRAY;
     talker_npc.rules.set_flag( ally_rule::use_silent );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );

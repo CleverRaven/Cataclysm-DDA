@@ -318,7 +318,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                         }
                     }
 
-                } else if( one_in( 4 + ( abs( x - cx ) + ( abs( y -
+                } else if( one_in( 4 + ( std::abs( x - cx ) + ( std::abs( y -
                                          cy ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                     if( !one_in( 3 ) ) {
@@ -350,8 +350,8 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     int x_offset = veh->dir_vec().x * x_length / 2;
     int y_offset = veh->dir_vec().y * y_length / 2;
 
-    int x_min = abs( bbox.p1.x ) + 0;
-    int y_min = abs( bbox.p1.y ) + 0;
+    int x_min = std::abs( bbox.p1.x ) + 0;
+    int y_min = std::abs( bbox.p1.y ) + 0;
 
     int x_max = SEEX * 2 - bbox.p2.x - 1;
     int y_max = SEEY * 2 - bbox.p2.y - 1;
@@ -1570,24 +1570,24 @@ static bool mx_fumarole( map &m, const tripoint &abs_sub )
     // Pick a random cardinal direction to also spawn lava in
     // This will make the lava a single connected line, not just on diagonals
     std::vector<direction> possibilities;
-    possibilities.push_back( EAST );
-    possibilities.push_back( WEST );
-    possibilities.push_back( NORTH );
-    possibilities.push_back( SOUTH );
+    possibilities.push_back( direction::EAST );
+    possibilities.push_back( direction::WEST );
+    possibilities.push_back( direction::NORTH );
+    possibilities.push_back( direction::SOUTH );
     const direction extra_lava_dir = random_entry( possibilities );
     int x_extra = 0;
     int y_extra = 0;
     switch( extra_lava_dir ) {
-        case NORTH:
+        case direction::NORTH:
             y_extra = -1;
             break;
-        case EAST:
+        case direction::EAST:
             x_extra = 1;
             break;
-        case SOUTH:
+        case direction::SOUTH:
             y_extra = 1;
             break;
-        case WEST:
+        case direction::WEST:
             x_extra = -1;
             break;
         default:
@@ -1673,21 +1673,21 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                     x2 = rng( SEEX, SEEX * 2 - 3 ), y2 = rng( SEEY, SEEY * 2 - 3 );
                 // Pick a random cardinal direction to also spawn lava in
                 // This will make the lava a single connected line, not just on diagonals
-                static const std::array<direction, 4> possibilities = { { EAST, WEST, NORTH, SOUTH } };
+                static const std::array<direction, 4> possibilities = { { direction::EAST, direction::WEST, direction::NORTH, direction::SOUTH } };
                 const direction extra_lava_dir = random_entry( possibilities );
                 int x_extra = 0;
                 int y_extra = 0;
                 switch( extra_lava_dir ) {
-                    case NORTH:
+                    case direction::NORTH:
                         y_extra = -1;
                         break;
-                    case EAST:
+                    case direction::EAST:
                         x_extra = 1;
                         break;
-                    case SOUTH:
+                    case direction::SOUTH:
                         y_extra = 1;
                         break;
-                    case WEST:
+                    case direction::WEST:
                         x_extra = -1;
                         break;
                     default:

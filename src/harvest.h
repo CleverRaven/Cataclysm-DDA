@@ -1,6 +1,6 @@
 #pragma once
-#ifndef HARVEST_H
-#define HARVEST_H
+#ifndef CATA_SRC_HARVEST_H
+#define CATA_SRC_HARVEST_H
 
 #include <algorithm>
 #include <list>
@@ -92,4 +92,4 @@ class harvest_list
         void finalize();
 };
 
-#endif
+#endif // CATA_SRC_HARVEST_H
