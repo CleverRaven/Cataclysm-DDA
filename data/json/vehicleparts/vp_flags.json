@@ -163,7 +163,6 @@
     "id": "POWERED_TURRET_MOUNT",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "A mount for a mechanically-powered turret, which siphons mechanical power from an engine via the fan belt where an alternator would normally go.",
     "requires_flag": "E_ALTERNATOR"
   },
   {

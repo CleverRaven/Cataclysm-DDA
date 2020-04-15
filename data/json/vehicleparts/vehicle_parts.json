@@ -3597,7 +3597,7 @@
       "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "150 m", "using": [ [ "vehicle_weld_removal", 30 ] ] },
       "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "30 m", "using": [ [ "welding_standard", 30 ] ] }
     },
-    "flags": [ "POWERED_TURRET_MOUNT", "ALTERNATOR" ],
+    "flags": [ "POWERED_TURRET_MOUNT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 10, 20 ] } ],
     "damage_reduction": { "all": 30 }
   },

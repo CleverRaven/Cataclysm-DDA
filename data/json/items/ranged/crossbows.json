@@ -573,7 +573,7 @@
     "symbol": "(",
     "color": "green",
     "name": { "str": "siege ballista" },
-    "description": "An enormous and complex medieval siege weapon with attached 5-bolt gravity magazine, engineered to fire huge wooden stakes when cranked by an engine.  You couldn't crank or fire this by hand, even were you suicidal enough to try.",
+    "description": "An enormous and complex medieval siege weapon with attached 5-bolt gravity magazine, engineered to fire huge wooden stakes when cranked by a fan belt assembly linked to an engine.  You couldn't crank or fire this by hand, even were you suicidal enough to try.",
     "price": 32400,
     "//": "453 gram projectile, draw length 38″, draw weight 4500 lbs., velocity 333.1 fps, energy 1722 foot lbs. ",
     "//": "source: https://wattsunique.com/blog/1772-foot-lbs/",
