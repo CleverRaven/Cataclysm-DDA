@@ -1,13 +1,13 @@
 #pragma once
-#ifndef VEHICLE_GROUP_H
-#define VEHICLE_GROUP_H
+#ifndef CATA_SRC_VEHICLE_GROUP_H
+#define CATA_SRC_VEHICLE_GROUP_H
 
-#include <memory>
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "mapgen.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "rng.h"
 #include "string_id.h"
@@ -15,9 +15,9 @@
 #include "weighted_list.h"
 
 class JsonObject;
-class map;
-class VehicleSpawn;
 class VehicleGroup;
+class VehicleSpawn;
+class map;
 
 using vspawn_id = string_id<VehicleSpawn>;
 struct point;
@@ -189,4 +189,4 @@ class VehicleSpawn
         static FunctionMap builtin_functions;
 };
 
-#endif
+#endif // CATA_SRC_VEHICLE_GROUP_H

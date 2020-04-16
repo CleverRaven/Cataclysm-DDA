@@ -257,7 +257,8 @@
       [ "cell_phone", 60 ],
       [ "smart_phone", 60 ],
       [ "wristwatch", 60 ],
-      [ "mobile_memory_card_used", 10 ]
+      [ "mobile_memory_card_used", 10 ],
+      [ "fitness_band", 5 ]
     ]
   },
   {

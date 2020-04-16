@@ -1,12 +1,13 @@
 #pragma once
-#ifndef MAPGENFORMAT_H
-#define MAPGENFORMAT_H
+#ifndef CATA_SRC_MAPGENFORMAT_H
+#define CATA_SRC_MAPGENFORMAT_H
 
 #include <cstddef>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
+#include "int_id.h"
 #include "type_id.h"
 
 class map;
@@ -84,4 +85,4 @@ inline format_effect<furn_id> furn_bind( const char ( &characters )[N], Args... 
 
 } //END NAMESPACE mapf
 
-#endif
+#endif // CATA_SRC_MAPGENFORMAT_H

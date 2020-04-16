@@ -184,7 +184,7 @@
   {
     "id": "MISSION_ISHERWOOD_JESSE_1",
     "type": "mission_definition",
-    "name": "Kill monster",
+    "name": { "str": "Kill monster" },
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
     "value": 50000,
@@ -211,7 +211,7 @@
   {
     "id": "MISSION_ISHERWOOD_JESSE_2",
     "type": "mission_definition",
-    "name": "Kill monster",
+    "name": { "str": "Kill monster" },
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 8,
     "value": 80000,
@@ -237,7 +237,7 @@
   {
     "id": "MISSION_ISHERWOOD_JESSE_2",
     "type": "mission_definition",
-    "name": "Kill monster",
+    "name": { "str": "Kill monster" },
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 8,
     "value": 80000,

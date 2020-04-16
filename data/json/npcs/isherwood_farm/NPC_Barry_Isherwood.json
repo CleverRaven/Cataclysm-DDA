@@ -70,7 +70,7 @@
   {
     "id": "MISSION_ISHERWOOD_BARRY_1",
     "type": "mission_definition",
-    "name": "Return Barry to Eddie at the dairy.",
+    "name": { "str": "Return Barry to Eddie at the dairy." },
     "goal": "MGOAL_GO_TO",
     "difficulty": 3,
     "value": 20000,

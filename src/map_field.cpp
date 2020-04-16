@@ -1,64 +1,64 @@
-#include <array>
-#include <cmath>
-#include <cstddef>
 #include <algorithm>
-#include <queue>
-#include <tuple>
-#include <iterator>
-#include <list>
-#include <memory>
-#include <utility>
-#include <vector>
 #include <array>
 #include <bitset>
+#include <cstddef>
+#include <list>
+#include <memory>
+#include <queue>
+#include <set>
 #include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 
-#include "field.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "colony.h"
 #include "coordinate_conversions.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
 #include "emit.h"
 #include "enums.h"
+#include "field.h"
+#include "field_type.h"
 #include "fire.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_contents.h"
 #include "itype.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "material.h"
 #include "messages.h"
+#include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
 #include "overmapbuffer.h"
+#include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "rng.h"
-#include "scent_map.h"
+#include "scent_block.h"
+#include "string_id.h"
 #include "submap.h"
+#include "teleport.h"
 #include "translations.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "bodypart.h"
-#include "creature.h"
-#include "damage.h"
-#include "int_id.h"
-#include "item.h"
-#include "line.h"
-#include "optional.h"
-#include "player.h"
-#include "pldata.h"
-#include "string_id.h"
-#include "units.h"
-#include "type_id.h"
-#include "basecamp.h"
-#include "colony.h"
-#include "game_constants.h"
-#include "point.h"
-#include "scent_block.h"
-#include "mongroup.h"
-#include "teleport.h"
 
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
@@ -106,7 +106,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
                 continue;
             }
             const float eff = bp.second;
-            const int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
+            const int n = std::floor( eff * ( by_weight / item::find_type( id )->weight ) );
 
             if( n <= 0 ) {
                 continue;
@@ -550,11 +550,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if( destroyed ) {
                                 // If we decided the item was destroyed by fire, remove it.
                                 // But remember its contents, except for irremovable mods, if any
-                                std::copy( fuel->contents.begin(), fuel->contents.end(),
-                                           std::back_inserter( new_content ) );
-                                new_content.erase( std::remove_if( new_content.begin(), new_content.end(), [&]( const item & i ) {
-                                    return i.is_irremovable();
-                                } ), new_content.end() );
+                                const std::list<item *> content_list = fuel->contents.all_items_top();
+                                for( item *it : content_list ) {
+                                    if( !it->is_irremovable() ) {
+                                        new_content.push_back( item( *it ) );
+                                    }
+                                }
                                 fuel = items_here.erase( fuel );
                                 consumed++;
                             } else {
@@ -2078,7 +2079,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
 
         int increment = std::max<int>( 1, amount / gas_front.size() );
 
-        while( amount > 0 && !gas_front.empty() ) {
+        while( !gas_front.empty() ) {
             gas_blast gp = random_entry_removed( gas_front );
             closed.insert( gp.second );
             const int cur_intensity = get_field_intensity( gp.second, type );

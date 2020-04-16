@@ -98,7 +98,7 @@
     "id": "fusion_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted fusion gun",
+    "name": { "str": "mounted fusion gun" },
     "item": "ftk93",
     "color": "magenta",
     "broken_color": "magenta",
@@ -112,7 +112,7 @@
   {
     "id": "bio_blaster_gun",
     "type": "GUN",
-    "name": "fusion blaster",
+    "name": { "str": "fusion blaster" },
     "description": "this a pseudo item",
     "volume": "3 L",
     "price": 0,
@@ -121,8 +121,7 @@
     "color": "magenta",
     "skill": "rifle",
     "range": 30,
-    "ranged_damage": 22,
-    "pierce": 15,
+    "ranged_damage": { "damage_type": "stab", "amount": 22, "armor_penetration": 15 },
     "dispersion": 30,
     "durability": 10,
     "loudness": 12,
@@ -136,7 +135,7 @@
     "id": "unbio_blaster_gun",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "fusion blaster rifle",
+    "name": { "str": "fusion blaster rifle" },
     "description": "A cyborg's fusion blaster arm, cannibalized and converted into a rifle.  This improvised weapon is powered by a standard UPS connection.",
     "weight": "2680 g",
     "volume": "2500 ml",
@@ -148,7 +147,7 @@
     "color": "magenta",
     "skill": "rifle",
     "range": 30,
-    "ranged_damage": 22,
+    "ranged_damage": { "damage_type": "stab", "amount": 22 },
     "dispersion": 90,
     "durability": 6,
     "loudness": 15,
@@ -185,7 +184,7 @@
     "volume": "3500 ml",
     "bashing": 10,
     "to_hit": -1,
-    "ranged_damage": 40,
+    "ranged_damage": { "damage_type": "stab", "amount": 40 },
     "dispersion": 30,
     "durability": 9,
     "clip_size": 2,
@@ -211,7 +210,7 @@
     "type": "AMMO",
     "id": "laser_pack",
     "price": 80000,
-    "name": "fusion pack",
+    "name": { "str": "fusion pack" },
     "symbol": "=",
     "color": "light_green",
     "description": "In the middle of the 21st Century, military powers began to look towards energy based weapons.  The result was the standard fusion pack, capable of delivering bolts of superheated gas at near light speed with no recoil.",
@@ -219,8 +218,7 @@
     "volume": "250 ml",
     "weight": "68 g",
     "ammo_type": "fusion",
-    "damage": 12,
-    "pierce": 15,
+    "damage": { "damage_type": "stab", "amount": 12, "armor_penetration": 15 },
     "range": 30,
     "stack_size": 40,
     "count": 20,
@@ -230,7 +228,7 @@
     "type": "AMMO",
     "id": "reloaded_laser_pack",
     "price": 80,
-    "name": "bootleg fusion pack",
+    "name": { "str": "bootleg fusion pack" },
     "symbol": "=",
     "color": "light_green",
     "description": "In the middle of the 21st Century, military powers began to look towards energy based weapons.  The result was the standard fusion pack, capable of delivering bolts of superheated gas at near light speed with no recoil.  This one has been hand-crafted from spare parts.",
@@ -239,8 +237,7 @@
     "weight": "68 g",
     "bashing": 1,
     "ammo_type": "fusion",
-    "damage": 11,
-    "pierce": 14,
+    "damage": { "damage_type": "stab", "amount": 11, "armor_penetration": 14 },
     "range": 30,
     "stack_size": 40,
     "count": 20,
@@ -255,14 +252,14 @@
     "id": "wheel_steerable",
     "copy-from": "wheel",
     "type": "vehicle_part",
-    "name": "wheel (steerable)",
+    "name": { "str": "wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_slick_steerable",
     "copy-from": "wheel_slick",
     "type": "vehicle_part",
-    "name": "racing slick (steerable)",
+    "name": { "str": "racing slick (steerable)" },
     "item": "wheel_slick",
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
@@ -277,49 +274,49 @@
     "id": "wheel_bicycle_steerable",
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
-    "name": "bicycle wheel (steerable)",
+    "name": { "str": "bicycle wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_bicycle_or_steerable",
     "copy-from": "wheel_bicycle_or",
     "type": "vehicle_part",
-    "name": "off-road bicycle wheel (steerable)",
+    "name": { "str": "off-road bicycle wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_motorbike_steerable",
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
-    "name": "motorbike wheel (steerable)",
+    "name": { "str": "motorbike wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_motorbike_or_steerable",
     "copy-from": "wheel_motorbike_or",
     "type": "vehicle_part",
-    "name": "off-road motorbike wheel (steerable)",
+    "name": { "str": "off-road motorbike wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_small_steerable",
     "copy-from": "wheel_small",
     "type": "vehicle_part",
-    "name": "small wheel (steerable)",
+    "name": { "str": "small wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_wide_steerable",
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
-    "name": "wide wheel (steerable)",
+    "name": { "str": "wide wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_wide_or_steerable",
     "copy-from": "wheel_wide_or",
     "type": "vehicle_part",
-    "name": "off-road wide wheel (steerable)",
+    "name": { "str": "off-road wide wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
@@ -358,7 +355,7 @@
   {
     "id": "metal_wheel",
     "type": "vehicle_part",
-    "name": "metal wheel",
+    "name": { "str": "metal wheel" },
     "item": "wheel_metal",
     "location": "under",
     "symbol": "|",
@@ -381,7 +378,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_bone",
-    "name": "bone plating",
+    "name": { "str": "bone plating" },
     "symbol": ")",
     "color": "white",
     "broken_symbol": ")",
@@ -397,7 +394,7 @@
   {
     "id": "washcloth",
     "type": "TOOL",
-    "name": "washcloth",
+    "name": { "str": "washcloth" },
     "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -448,5 +445,119 @@
     "result": "ring",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "id": "bio_scent_vision",
+    "type": "bionic",
+    "name": { "str": "Scent Vision" },
+    "description": "While this system is powered, you're able to visually sense your own scent, making it possible for you to recognize your surroundings even in complete darkness.",
+    "occupied_bodyparts": [ [ "HEAD", 3 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": "2 J",
+    "react_cost": "2 J",
+    "time": 1
+  },
+  {
+    "type": "recipe",
+    "result": "tihar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helsing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pneumatic_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_launcher",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebar_rifle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_rail_rifle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "coilgun",
+    "obsolete": true
+  },
+  {
+    "result": "nailrifle",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "nailmag",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_mod",
+    "obsolete": true
+  },
+  {
+    "id": "mounted_mininuke_launcher",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted mininuke launcher" },
+    "item": "mininuke_launcher",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
+  },
+  {
+    "id": "mounted_heavy_rail_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted heavy rail rifle" },
+    "item": "heavy_rail_rifle",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 30 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_rebar_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted ferromagnetic rail rifle" },
+    "item": "rebar_rifle",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_coilgun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted coilgun" },
+    "item": "coilgun",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   }
 ]

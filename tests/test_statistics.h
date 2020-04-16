@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TEST_STATISTICS_H
-#define TEST_STATISTICS_H
+#ifndef CATA_TESTS_TEST_STATISTICS_H
+#define CATA_TESTS_TEST_STATISTICS_H
 
 #include <cmath>
 #include <limits>
@@ -227,4 +227,4 @@ inline BinomialMatcher IsBinomialObservation(
     return BinomialMatcher( num_samples, p, max_deviation );
 }
 
-#endif
+#endif // CATA_TESTS_TEST_STATISTICS_H

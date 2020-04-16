@@ -2348,5 +2348,51 @@
     "type": "recipe",
     "result": "l_lmg_223",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "compcrossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "compbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "recurbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reflexrecurvebow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "q_solarpack",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "q_solarpack_on",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "taint_tornado",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "drink_sewerbrew",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_chunk",
+    "id_suffix": "from_cash_cards",
+    "obsolete": true
   }
 ]

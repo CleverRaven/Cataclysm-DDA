@@ -1,0 +1,120 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dino",
+    "name": "dinosaur egg",
+    "weight": 75,
+    "color": "green",
+    "spoils_in": "14 days",
+    "comestible_type": "FOOD",
+    "symbol": "o",
+    "quench": 4,
+    "healthy": 1,
+    "calories": 113,
+    "description": "Pale, football-shaped egg laid by a dinosaur.",
+    "price": 500,
+    "material": "egg",
+    "volume": 1,
+    "stack_size": 4,
+    "fun": -6,
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_EGG_DINO",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_compsognathus",
+    "name": "compsognathus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_gallimimus",
+    "name": "gallimimus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pachycephalosaurus",
+    "name": "pachycephalosaurus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_spinosaurus",
+    "name": "spinosaurus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tyrannosaurus",
+    "name": "tyrannosaurus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_triceratops",
+    "name": "triceratops egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_stegosaurus",
+    "name": "stegosaurus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_ankylosaurus",
+    "name": "ankylosaurus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_allosaurus",
+    "name": "allosaurus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_eoraptor",
+    "name": "eoraptor egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_velociraptor",
+    "name": "velociraptor egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_deinonychus",
+    "name": "deinonychus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_utahraptor",
+    "name": "utahraptor egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_parasaurolophus",
+    "name": "parasaurolophus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dimorphodon",
+    "name": "dimorphodon egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dilophosaurus",
+    "name": "dilophosaurus egg",
+    "copy-from": "egg_dino"
+  }
+]

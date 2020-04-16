@@ -1,26 +1,29 @@
 #include "trap.h"
 
-#include <vector>
+#include <memory>
 #include <set>
+#include <vector>
 
+#include "assign.h"
+#include "bodypart.h"
+#include "character.h"
+#include "creature.h"
 #include "debug.h"
+#include "event.h"
 #include "event_bus.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "int_id.h"
+#include "item.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "player.h"
+#include "point.h"
+#include "rng.h"
 #include "string_id.h"
 #include "translations.h"
-#include "assign.h"
-#include "bodypart.h"
-#include "item.h"
-#include "rng.h"
-#include "creature.h"
-#include "point.h"
 
 static const skill_id skill_traps( "traps" );
 
@@ -122,6 +125,7 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
     for( const JsonValue entry : jo.get_array( "drops" ) ) {
         std::string item_type;

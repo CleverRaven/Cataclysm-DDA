@@ -2,6 +2,7 @@
 
 #include "getpost.h"
 
+#include <unistd.h>
 #include <cstdlib>
 #include <fstream>
 #include <functional>
@@ -212,14 +213,18 @@ int main( int argc, char *argv[] )
 #ifdef MSYS2
         erase_char( in_str, '\r' );
 #endif
+        bool supports_color = isatty( STDOUT_FILENO );
+        std::string color_good = supports_color ? "\x1b[32m" : std::string();
+        std::string color_bad = supports_color ? "\x1b[31m" : std::string();
+        std::string color_end = supports_color ? "\x1b[0m" : std::string();
         if( in_str == out.str() ) {
-            std::cout << "Unformatted " << filename << std::endl;
+            std::cout << color_good << "Well formatted: " << color_end << filename << std::endl;
             exit( EXIT_SUCCESS );
         } else {
             std::ofstream fout( filename, std::ios::binary | std::ios::trunc );
             fout << out.str();
             fout.close();
-            std::cout << filename << " needs to be linted" << std::endl;
+            std::cout << color_bad << "Needs linting : " << color_end << filename << std::endl;
             std::cout << "Please read doc/JSON_STYLE.md" << std::endl;
             exit( EXIT_FAILURE );
         }

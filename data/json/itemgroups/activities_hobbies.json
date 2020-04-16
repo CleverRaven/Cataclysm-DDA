@@ -37,6 +37,8 @@
       [ "jersey", 30 ],
       [ "puck", 30 ],
       [ "basketball", 25 ],
+      [ "indoor_volleyball", 20 ],
+      [ "beach_volleyball", 20 ],
       [ "golf_club", 35 ],
       [ "hat_golf", 20 ],
       [ "gloves_golf", 20 ],
@@ -111,7 +113,8 @@
       [ "survnote", 1 ],
       [ "halter_top", 30 ],
       [ "iceaxe", 30 ],
-      [ "tourist_table", 30 ]
+      [ "tourist_table", 30 ],
+      [ "fitness_band", 5 ]
     ]
   },
   {
@@ -161,7 +164,8 @@
       { "item": "slingshot", "prob": 10 },
       { "item": "wristrocket", "prob": 5 },
       { "item": "powered_earmuffs", "prob": 80 },
-      { "item": "bandolier_wrist", "prob": 100 }
+      { "item": "bandolier_wrist", "prob": 100 },
+      { "item": "fitness_band", "prob": 5 }
     ]
   },
   {
@@ -205,6 +209,7 @@
       [ "bolt_cf", 5 ],
       [ "bbgun", 10 ],
       [ "crossbow", 2 ],
+      [ "compcrossbow", 2 ],
       [ "mag_survival", 40 ],
       [ "textbook_survival", 20 ],
       [ "modern_tanner", 8 ],

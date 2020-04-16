@@ -3,13 +3,14 @@
 #include <string>
 
 #include "catch/catch.hpp"
+#include "creature.h"
+#include "game_constants.h"
+#include "item.h"
 #include "monattack.h"
 #include "monster.h"
 #include "npc.h"
-#include "creature.h"
-#include "item.h"
 #include "player.h"
-#include "material.h"
+#include "point.h"
 #include "type_id.h"
 
 static float brute_probability( Creature &attacker, Creature &target, const size_t iters )
@@ -43,7 +44,7 @@ static std::string full_attack_details( const player &dude )
     std::stringstream ss;
     ss << "Details for " << dude.disp_name() << std::endl;
     ss << "get_hit() == " << dude.get_hit() << std::endl;
-    ss << "get_hit_base() == " << dude.get_hit_base() << std::endl;
+    ss << "get_melee_hit_base() == " << dude.get_melee_hit_base() << std::endl;
     ss << "get_hit_weapon() == " << dude.get_hit_weapon( dude.weapon ) << std::endl;
     return ss.str();
 }

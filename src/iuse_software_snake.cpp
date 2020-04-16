@@ -1,20 +1,23 @@
 #include "iuse_software_snake.h"
 
+#include <algorithm>
 #include <cstddef>
 #include <map>
-#include <string>
-#include <vector>
 #include <memory>
+#include <string>
 #include <utility>
+#include <vector>
 
 #include "catacharset.h"  // utf8_width()
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "output.h"
+#include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "color.h"
+#include "ui_manager.h"
 
 snake_game::snake_game() = default;
 
@@ -123,6 +126,9 @@ int snake_game::start_game()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         //Check if we hit a border
