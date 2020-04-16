@@ -4434,15 +4434,13 @@ void Character::update_needs( int rate_multiplier )
     }
 
     if( is_player() ) {
-        if( -500 < get_excrete_amount() ) {
+        if( 500 < get_excrete_amount() ) {
             if( asleep ){
                 int excrete_delta = (get_excrete_amount() / 144 ) * rate_multiplier;
                 mod_excrete_need( excrete_delta );
             } else {
                 int excrete_delta = (get_excrete_amount() / 72 ) * rate_multiplier;
                 mod_excrete_need( excrete_delta );
-                mod_excrete_need( 299 );
-                mod_excrete_amount( 99 );
             }
         }
     }
