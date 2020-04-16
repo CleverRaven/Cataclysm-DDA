@@ -18,6 +18,17 @@ class achievements_tracker;
 class requirement_watcher;
 class stats_tracker;
 
+enum class achievement_comparison {
+    less_equal,
+    greater_equal,
+    last,
+};
+
+template<>
+struct enum_traits<achievement_comparison> {
+    static constexpr achievement_comparison last = achievement_comparison::last;
+};
+
 class achievement
 {
     public:

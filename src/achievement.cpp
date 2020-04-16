@@ -42,11 +42,6 @@ generic_factory<achievement> achievement_factory( "achievement" );
 
 } // namespace
 
-enum class achievement_comparison {
-    greater_equal,
-    last,
-};
-
 namespace io
 {
 
@@ -55,6 +50,7 @@ std::string enum_to_string<achievement_comparison>( achievement_comparison data 
 {
     switch( data ) {
         // *INDENT-OFF*
+        case achievement_comparison::less_equal: return "<=";
         case achievement_comparison::greater_equal: return ">=";
         // *INDENT-ON*
         case achievement_comparison::last:
@@ -65,11 +61,6 @@ std::string enum_to_string<achievement_comparison>( achievement_comparison data 
 }
 
 } // namespace io
-
-template<>
-struct enum_traits<achievement_comparison> {
-    static constexpr achievement_comparison last = achievement_comparison::last;
-};
 
 struct achievement_requirement {
     string_id<event_statistic> statistic;
@@ -94,6 +85,8 @@ struct achievement_requirement {
     bool satisifed_by( const cata_variant &v ) const {
         int value = v.get<int>();
         switch( comparison ) {
+            case achievement_comparison::less_equal:
+                return value <= target;
             case achievement_comparison::greater_equal:
                 return value >= target;
             case achievement_comparison::last:
