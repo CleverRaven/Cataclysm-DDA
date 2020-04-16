@@ -660,7 +660,7 @@ class Character : public Creature, public visitable<Character>
         void unset_mutation( const trait_id & );
         /**Unset switched mutation and set target mutation instead*/
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
-        
+
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );

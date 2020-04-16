@@ -940,7 +940,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
                 per_hand += 2;
             }
-          
+
             for( const trait_id &mut : get_mutations() ) {
                 if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
                     continue;
