@@ -1189,6 +1189,44 @@
     "type": "mapgen",
     "method": "json",
     "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_office_N",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||+||",
+        "|PP E|",
+        "|T   |",
+        "|rh y|",
+        "|rrYR|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_office_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|PPYE|",
+        "|r   |",
+        "|rh y|",
+        "|rr R|",
+        "|:|+||"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_office_E",
     "object": {
       "mapgensize": [ 6, 6 ],
