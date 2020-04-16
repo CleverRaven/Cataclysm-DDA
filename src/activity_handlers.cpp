@@ -5382,7 +5382,7 @@ void activity_handlers::take_shower_do_turn( player_activity *act, player *p ){
 
 void activity_handlers::take_shower_finish( player_activity *act, player *p ){
     if( !act->str_values.empty() && act->str_values[0] == "hands" ){
-        p->add_msg_if_player( m_good, _( "You finished washing hands." ) );
+        p->add_msg_if_player( m_good, _( "カンペ見ろ ) );
         p->add_morale( MORALE_TAKE_SHOWER, 5, 10, 180_minutes, 120_minutes );
     } else if( !act->str_values.empty() && act->str_values[0] == "hot" ){
         p->add_msg_if_player( m_good, _( "や ん ほ ぬ ) );
