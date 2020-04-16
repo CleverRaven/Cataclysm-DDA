@@ -273,8 +273,8 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 
 weather_type weather_generator::get_variant_modded_weather_conditions( const w_point &w ) const
 {
-    // rainbw!!!
-    return WEATHER_RAINBOW;
+    // rainbooooooow!!!
+    return WEATHER_RAINBOOOOOOW;
 }
 
 int weather_generator::get_wind_direction( const season_type season ) const
