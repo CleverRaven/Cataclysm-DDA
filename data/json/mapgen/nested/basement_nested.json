@@ -1189,6 +1189,44 @@
     "type": "mapgen",
     "method": "json",
     "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_office_N",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||+||",
+        "|PP E|",
+        "|T   |",
+        "|rh y|",
+        "|rrYR|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_office_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|PPYE|",
+        "|r   |",
+        "|rh y|",
+        "|rr R|",
+        "|:|+||"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_office_E",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -1308,8 +1346,6 @@
       "place_items": [
         { "chance": 75, "item": "moonshine_brew", "x": 1, "y": 1 },
         { "chance": 75, "item": "moonshine_brew", "x": 1, "y": 1 },
-        { "chance": 55, "item": "honey_bottled", "x": 1, "y": 1 },
-        { "chance": 75, "item": "bottle_glass", "x": [ 3, 4 ], "y": 4, "repeat": [ 3, 24 ] },
         { "chance": 55, "item": "winemaking_beginner", "x": 1, "y": 2 },
         { "chance": 55, "item": "brewing_cookbook", "x": 1, "y": 2 }
       ]
@@ -1344,8 +1380,6 @@
       "place_items": [
         { "chance": 75, "item": "moonshine_brew", "x": 1, "y": 1 },
         { "chance": 75, "item": "moonshine_brew", "x": 1, "y": 1 },
-        { "chance": 55, "item": "honey_bottled", "x": 1, "y": 1 },
-        { "chance": 75, "item": "bottle_glass", "x": [ 3, 4 ], "y": 4, "repeat": [ 3, 24 ] },
         { "chance": 55, "item": "winemaking_beginner", "x": 1, "y": 2 },
         { "chance": 55, "item": "brewing_cookbook", "x": 1, "y": 2 }
       ]
@@ -1675,10 +1709,11 @@
         "   &=% ",
         "   %%% ",
         "   G   ",
-        "   0 G ",
+        "     G ",
         "     K "
       ],
       "palettes": [ "standard_domestic_palette" ],
+      "traps": { "=": "tr_rollmat" },
       "terrain": {
         " ": "t_carpet_green",
         "K": "t_carpet_green",
@@ -1688,12 +1723,12 @@
         "&": "t_carpet_green",
         "0": "t_carpet_green"
       },
-      "furniture": { "%": "f_canvas_wall", "=": "f_groundsheet", "&": "f_canvas_door", "0": "f_brazier" },
+      "furniture": { "%": "f_canvas_wall", "=": "f_groundsheet", "&": "f_canvas_door" },
       "place_items": [
         { "item": "snacks", "x": 5, "y": 6, "chance": 75 },
         { "item": "snacks", "x": 2, "y": 0, "chance": 75 },
         { "item": "camping", "x": 4, "y": 2, "chance": 30, "repeat": [ 1, 3 ] },
-        { "item": "stash_wood", "x": 4, "y": 4, "chance": 100, "repeat": [ 6, 10 ] }
+        { "item": "child_items", "x": [ 0, 6 ], "y": [ 4, 6 ], "chance": 80, "repeat": [ 4, 8 ] }
       ]
     }
   },
@@ -2339,7 +2374,7 @@
       },
       "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" },
-      "nested": { "1": { "chunks": [ [ "5x5_sauna_N", 50 ], [ "5x5_pool", 50 ], [ "5x5_gym_N", 250 ] ] } }
+      "nested": { "1": { "chunks": [ [ "5x5_sauna_N", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_N", 60 ] ] } }
     }
   },
   {
@@ -2370,7 +2405,7 @@
       },
       "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" },
-      "nested": { "1": { "chunks": [ [ "5x5_sauna_S", 50 ], [ "5x5_pool", 50 ], [ "5x5_gym_S", 250 ] ] } }
+      "nested": { "1": { "chunks": [ [ "5x5_sauna_S", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_S", 60 ] ] } }
     }
   },
   {
@@ -2401,7 +2436,7 @@
       },
       "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" },
-      "nested": { "1": { "chunks": [ [ "5x5_sauna_E", 50 ], [ "5x5_pool", 50 ], [ "5x5_gym_E", 250 ] ] } }
+      "nested": { "1": { "chunks": [ [ "5x5_sauna_E", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_E", 60 ] ] } }
     }
   },
   {
@@ -2432,7 +2467,210 @@
       },
       "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" },
-      "nested": { "1": { "chunks": [ [ "5x5_sauna_W", 50 ], [ "5x5_pool", 50 ], [ "5x5_gym_W", 250 ] ] } }
+      "nested": { "1": { "chunks": [ [ "5x5_sauna_W", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_W", 60 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_electronics_open",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "CyT..C",
+        "C    C",
+        "C EE C",
+        ".    .",
+        ".h  Af",
+        "BBB..f"
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "y": "t_floor",
+        "T": "t_floor",
+        "f": "t_floor",
+        "E": "t_carpet_green",
+        " ": "t_carpet_green",
+        "h": "t_carpet_green",
+        "A": "t_carpet_green"
+      },
+      "furniture": {
+        "A": "f_stool",
+        "B": "f_workbench",
+        "E": "f_sofa",
+        "C": "f_rack_wood",
+        "T": "f_floor_lamp",
+        "f": "f_table",
+        "h": "f_chair",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "place_item": [
+        { "item": "television", "x": 5, "y": 5, "chance": 100 },
+        { "item": "laptop", "x": 1, "y": 5, "chance": 90 },
+        { "item": "multitool", "x": 0, "y": 5, "chance": 100 }
+      ],
+      "items": {
+        "C": [
+          { "item": "elecsto_homapl", "chance": 30, "repeat": [ 0, 3 ] },
+          { "item": "elecsto_persele", "chance": 20, "repeat": [ 0, 2 ] },
+          { "item": "elecsto_diy", "chance": 60, "repeat": [ 2, 4 ] }
+        ],
+        "f": [
+          { "item": "electronics", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "elecsto_entapl", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "elecsto_stor", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "B": [
+          { "item": "elecsto_diy", "chance": 60, "repeat": [ 1, 4 ] },
+          { "item": "elecsto_books", "chance": 40, "repeat": [ 1, 2 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_sewing_open",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "BBT..C",
+        "Bh   C",
+        "B Af C",
+        ".  f .",
+        "Ed f C",
+        "yE...C"
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "y": "t_floor",
+        "T": "t_floor",
+        "E": "t_floor",
+        " ": "t_carpet_red",
+        "h": "t_carpet_red",
+        "A": "t_carpet_red",
+        "d": "t_carpet_red",
+        "f": "t_carpet_red",
+        "O": "t_carpet_red",
+        "=": "t_carpet_red"
+      },
+      "furniture": {
+        "A": "f_stool",
+        "B": "f_workbench",
+        "E": "f_armchair",
+        "C": "f_rack_wood",
+        "T": "f_floor_lamp",
+        "d": "f_mannequin",
+        "b": "f_bench",
+        "f": "f_table",
+        "h": "f_chair",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "items": {
+        "C": [
+          { "item": "SUS_tailoring_materials", "chance": 80, "repeat": [ 3, 6 ] },
+          { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "f": [
+          { "item": "SUS_tailoring_materials", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "d": [
+          { "item": "pants", "chance": 100 },
+          { "item": "shirts", "chance": 100 },
+          { "item": "leather_shop_accessories", "chance": 10 }
+        ],
+        "B": [
+          { "item": "SUS_tailoring_tool_drawer", "chance": 60, "repeat": [ 0, 1 ] },
+          { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] },
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_8x8_hobby_N",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "||||+|||",
+        "|1     |",
+        "|      |",
+        "|      |",
+        "|      |",
+        "|      |",
+        "|      |",
+        "||||||||"
+      ],
+      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_8x8_hobby_S",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "||||||||",
+        "|1     |",
+        "|      |",
+        "|      |",
+        "|      |",
+        "|      |",
+        "|      |",
+        "||||+|||"
+      ],
+      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_8x8_hobby_E",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "||||||||",
+        "|1     |",
+        "|      |",
+        "|      |",
+        "|      +",
+        "|      |",
+        "|      |",
+        "||||||||"
+      ],
+      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_8x8_hobby_W",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "||||||||",
+        "|1     |",
+        "|      |",
+        "|      |",
+        "+      |",
+        "|      |",
+        "|      |",
+        "||||||||"
+      ],
+      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
     }
   }
 ]
