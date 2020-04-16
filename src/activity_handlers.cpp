@@ -5385,7 +5385,7 @@ void activity_handlers::take_shower_finish( player_activity *act, player *p ){
         p->add_msg_if_player( m_good, _( "You finished washing hands." ) );
         p->add_morale( MORALE_TAKE_SHOWER, 5, 10, 180_minutes, 120_minutes );
     } else if( !act->str_values.empty() && act->str_values[0] == "hot" ){
-        p->add_msg_if_player( m_good, _( "や ん ほ ぬ ) );
+        p->add_msg_if_player( m_good, _( "You finished taking a hot shower." ) );
         p->add_morale( MORALE_TAKE_SHOWER, 20, 40, 180_minutes, 120_minutes );
     } else {
         p->add_msg_if_player( m_good, _( "菅野美穂 ) );
