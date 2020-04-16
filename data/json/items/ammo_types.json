@@ -73,9 +73,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "shot",
-    "name": "shot",
-    "default": "shot_00"
+    "id": "12ga",
+    "name": "12 gauge",
+    "default": "12ga_00"
   },
   {
     "type": "ammunition_type",
