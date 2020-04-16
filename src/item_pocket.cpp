@@ -27,6 +27,7 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
     case item_pocket::pocket_type::MOD: return "MOD";
     case item_pocket::pocket_type::CORPSE: return "CORPSE";
     case item_pocket::pocket_type::SOFTWARE: return "SOFTWARE";
+    case item_pocket::pocket_type::MIGRATION: return "MIGRATION";
     case item_pocket::pocket_type::LAST: break;
     }
     debugmsg( "Invalid valid_target" );
@@ -101,6 +102,10 @@ bool item_pocket::same_contents( const item_pocket &rhs ) const
 
 void item_pocket::restack()
 {
+    return;
+    if( contents.size() <= 1 ) {
+        return;
+    }
     for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
         if( !outer_iter->count_by_charges() ) {
             continue;
@@ -844,9 +849,10 @@ void item_pocket::overflow( const tripoint &pos )
     // first remove items that shouldn't be in there anyway
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         ret_val<item_pocket::contain_code> ret_contain = can_contain( *iter );
-        if( !ret_contain.success() &&
-            ret_contain.value() != contain_code::ERR_NO_SPACE &&
-            ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) {
+        if( is_type( item_pocket::pocket_type::MIGRATION ) ||
+            ( !ret_contain.success() &&
+              ret_contain.value() != contain_code::ERR_NO_SPACE &&
+              ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) ) {
             g->m.add_item_or_charges( pos, *iter );
             iter = contents.erase( iter );
         } else {
@@ -1060,8 +1066,10 @@ void item_pocket::migrate_item( item &obj, const std::set<itype_id> &migrations 
 
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
 {
+    const bool contain_override = !is_type( pocket_type::CONTAINER ) &&
+                                  !is_type( pocket_type::MAGAZINE );
     const ret_val<item_pocket::contain_code> ret = can_contain( it );
-    if( ret.success() ) {
+    if( contain_override || ret.success() ) {
         contents.push_back( it );
     }
     restack();

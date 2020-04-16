@@ -1911,6 +1911,11 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         tmp = *mod;
         tmp.ammo_set( mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default() );
         loaded_mod = &tmp;
+        if( loaded_mod->typeId() == "none" || loaded_mod == nullptr ||
+            loaded_mod->ammo_data() == nullptr ) {
+            debugmsg( "loaded a nun or ammo_data() is nullptr" );
+            return;
+        }
         if( parts->test( iteminfo_parts::GUN_DEFAULT_AMMO ) ) {
             insert_separation_line( info );
             info.emplace_back( "GUN",

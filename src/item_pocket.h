@@ -14,6 +14,8 @@
 #include "value_ptr.h"
 #include "visitable.h"
 
+#include <memory>
+
 class Character;
 class item;
 class item_location;
@@ -35,6 +37,7 @@ class item_pocket
             MOD, // the gunmods or toolmods
             CORPSE, // the "corpse" pocket - bionics embedded in a corpse
             SOFTWARE, // software put into usb or some such
+            MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
             LAST
         };
         enum class contain_code {
@@ -240,6 +243,12 @@ class pocket_data
 {
     public:
         bool was_loaded;
+
+        pocket_data() = default;
+        // this constructor is used for special types of pockets, not loading
+        pocket_data( item_pocket::pocket_type pk ) : type( pk ) {
+            rigid = true;
+        }
 
         item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold

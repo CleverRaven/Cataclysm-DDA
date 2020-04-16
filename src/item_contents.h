@@ -28,6 +28,7 @@ using itype_id = std::string;
 class item;
 class item_location;
 class player;
+class pocket_data;
 
 struct iteminfo;
 struct tripoint;
@@ -37,11 +38,7 @@ class item_contents
     public:
         item_contents() = default;
         // used for loading itype
-        item_contents( const std::vector<pocket_data> &pockets ) {
-            for( const pocket_data &data : pockets ) {
-                contents.push_back( item_pocket( &data ) );
-            }
-        }
+        item_contents( const std::vector<pocket_data> &pockets );
 
         /**
           * returns a pointer to the best pocket that can contain the item @it

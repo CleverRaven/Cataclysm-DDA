@@ -9399,7 +9399,7 @@ void Character::fall_asleep( const time_duration &duration )
 
 void Character::migrate_items_to_storage()
 {
-    inv.visit_items( [&]( const item *it ) {
+    inv.visit_items( [&]( const item * it ) {
         i_add( *it );
         return VisitResponse::SKIP;
     } );

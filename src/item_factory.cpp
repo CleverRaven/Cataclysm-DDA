@@ -2188,6 +2188,29 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     }
 }
 
+static bool has_pocket_type( const std::vector<pocket_data> &data, item_pocket::pocket_type pk )
+{
+    for( const pocket_data &pocket : data ) {
+        if( pocket.type == pk ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Item_factory::add_special_pockets( itype &def )
+{
+    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) ) {
+        def.pockets.emplace_back( item_pocket::pocket_type::CORPSE );
+    }
+    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) ) {
+        def.pockets.emplace_back( item_pocket::pocket_type::MOD );
+    }
+    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION ) ) {
+        def.pockets.emplace_back( item_pocket::pocket_type::MIGRATION );
+    }
+}
+
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
     bool strict = src == "dda";
@@ -2389,8 +2412,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
-    assign( jo, "pocket_data", def.pockets );
-
     load_slot_optional( def.armor, jo, "armor_data", src );
     load_slot_optional( def.pet_armor, jo, "pet_armor_data", src );
     load_slot_optional( def.book, jo, "book_data", src );
@@ -2412,7 +2433,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         load_slot( def.mod, jo_gunmod, src );
     }
 
+    assign( jo, "pocket_data", def.pockets );
     check_and_create_magazine_pockets( def );
+    add_special_pockets( def );
 
     if( jo.has_string( "abstract" ) ) {
         def.id = jo.get_string( "abstract" );

@@ -173,6 +173,10 @@ class Item_factory
           *  - creates a magazine pocket if none is specified and the islot is loaded
           */
         void check_and_create_magazine_pockets( itype &def );
+        /**
+         * adds the pockets that are not encoded in json - CORPSE, MOD, etc.
+         */
+        void add_special_pockets( itype &def );
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
         void finalize();

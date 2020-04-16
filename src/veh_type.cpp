@@ -666,7 +666,7 @@ void vpart_info::check()
             debugmsg( "%s has non-zero epower, but lacks a flag that would make it affect epower (one of %s)",
                       part.id.c_str(), warnings_are_good_docs.c_str() );
         }
-        if( base_item_type.pockets.size() > 1 ) {
+        if( base_item_type.pockets.size() > 4 ) {
             debugmsg( "Error: vehicle parts assume only one pocket.  Multiple pockets unsupported" );
         }
     }

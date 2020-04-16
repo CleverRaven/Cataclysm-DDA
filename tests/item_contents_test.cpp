@@ -3,6 +3,8 @@
 #include "item.h"
 #include "item_contents.h"
 
+#include <sstream>
+
 TEST_CASE( "item_contents" )
 {
     item tool_belt( "tool_belt" );

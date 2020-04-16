@@ -8,6 +8,7 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "item_pocket.h"
 #include "map.h"
 
 struct tripoint;
@@ -16,6 +17,14 @@ static const std::vector<item_pocket::pocket_type> avail_types{
     item_pocket::pocket_type::CONTAINER,
     item_pocket::pocket_type::MAGAZINE
 };
+
+item_contents::item_contents( const std::vector<pocket_data> &pockets )
+{
+
+    for( const pocket_data &data : pockets ) {
+        contents.push_back( item_pocket( &data ) );
+    }
+}
 
 bool item_contents::empty() const
 {
@@ -68,6 +77,11 @@ ret_val<item_pocket *> item_contents::find_pocket_for( const item &it,
     for( item_pocket &pocket : contents ) {
         if( !pocket.is_type( pk_type ) ) {
             continue;
+        }
+        if( pk_type != item_pocket::pocket_type::CONTAINER &&
+            pk_type != item_pocket::pocket_type::MAGAZINE &&
+            pocket.is_type( pk_type ) ) {
+            return ret_val<item_pocket *>::make_success( &pocket, "special pocket type override" );
         }
         ret_val<item_pocket::contain_code> ret_contain = pocket.can_contain( it );
         if( ret_contain.success() ) {
@@ -123,27 +137,11 @@ ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_ty
         pk_type = item_pocket::pocket_type::CONTAINER;
     }
     ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
-    if( !pocket.success() ) {
-        /**
-         * these are special pocket types that always exist if needed
-         */
-        static const std::vector<item_pocket::pocket_type> special_pocket_types{
-            item_pocket::pocket_type::CORPSE,
-            item_pocket::pocket_type::SOFTWARE,
-            item_pocket::pocket_type::MOD
-        };
-        for( const item_pocket::pocket_type special_type : special_pocket_types ) {
-            if( pk_type == special_type ) {
-                pocket_data special_data;
-                special_data.type = special_type;
 
-                contents.push_back( item_pocket( &special_data ) );
-                return insert_item( it, pk_type );
-            } else {
-                return ret_val<bool>::make_failure( pocket.str() );
-            }
-        }
+    if( pocket.value() == nullptr ) {
+        return ret_val<bool>::make_failure( "No success" );
     }
+
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
     if( pocket_contain_code.success() ) {
         return ret_val<bool>::make_success();
@@ -239,6 +237,11 @@ ret_val<bool> item_contents::can_contain( const item &it ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
+        // mod, migration, corpse, and software aren't regular pockets.
+        if( !( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
+               pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) ) {
+            continue;
+        }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
         if( pocket_contain_code.success() ) {
             return ret_val<bool>::make_success();
@@ -431,7 +434,7 @@ bool item_contents::seal_all_pockets()
 
 void item_contents::migrate_item( item &obj, const std::set<itype_id> &migrations )
 {
-    for( item_pocket pocket : contents ) {
+    for( item_pocket &pocket : contents ) {
         pocket.migrate_item( obj, migrations );
     }
 }
@@ -449,7 +452,7 @@ bool item_contents::has_pocket_type( const item_pocket::pocket_type pk_type ) co
 bool item_contents::has_any_with( const std::function<bool( const item &it )> &filter,
                                   item_pocket::pocket_type pk_type ) const
 {
-    for( const item_pocket pocket : contents ) {
+    for( const item_pocket &pocket : contents ) {
         if( !pocket.is_type( pk_type ) ) {
             continue;
         }
@@ -641,7 +644,7 @@ const item &item_contents::legacy_front() const
 std::vector<item *> item_contents::gunmods()
 {
     std::vector<item *> mods;
-    for( item_pocket pocket : contents ) {
+    for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
             std::vector<item *> internal_mods{ pocket.gunmods() };
             mods.insert( mods.end(), internal_mods.begin(), internal_mods.end() );
@@ -653,7 +656,7 @@ std::vector<item *> item_contents::gunmods()
 std::vector<const item *> item_contents::gunmods() const
 {
     std::vector<const item *> mods;
-    for( const item_pocket pocket : contents ) {
+    for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
             std::vector<const item *> internal_mods{ pocket.gunmods() };
             mods.insert( mods.end(), internal_mods.begin(), internal_mods.end() );

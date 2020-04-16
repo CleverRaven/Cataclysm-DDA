@@ -2356,6 +2356,26 @@ void item::io( Archive &archive )
     }
 }
 
+void item::migrate_content_item( const item &contained )
+{
+    if( contained.is_gunmod() || contained.is_toolmod() ) {
+        put_in( contained, item_pocket::pocket_type::MOD );
+    } else if( !contained.made_of( LIQUID )
+               && ( contained.is_magazine() || contained.is_ammo() ) ) {
+        put_in( contained, item_pocket::pocket_type::MAGAZINE );
+    } else if( typeId() == "usb_drive" ) {
+        // as of this migration, only usb_drive has any software in it.
+        put_in( contained, item_pocket::pocket_type::SOFTWARE );
+    } else if( is_corpse() ) {
+        put_in( contained, item_pocket::pocket_type::CORPSE );
+    } else if( can_contain( contained ) ) {
+        put_in( contained, item_pocket::pocket_type::CONTAINER );
+    } else {
+        // we want this to silently fail - the contents will fall out later
+        put_in( contained, item_pocket::pocket_type::MIGRATION );
+    }
+}
+
 void item::deserialize( JsonIn &jsin )
 {
     const JsonObject data = jsin.get_object();
@@ -2365,26 +2385,27 @@ void item::deserialize( JsonIn &jsin )
     if( savegame_loading_version < 27 ) {
         legacy_fast_forward_time();
     }
+    contents = item_contents( type->pockets );
+    // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
         data.read( "contents", items );
-        const bool corpse{ is_corpse() };
         for( const item &it : items ) {
-            if( corpse ) {
-                contents.insert_item( it, item_pocket::pocket_type::CORPSE );
-            } else if( it.is_ammo() || it.is_magazine() ) {
-                contents.insert_item( it, item_pocket::pocket_type::MAGAZINE );
-            } else if( it.is_gunmod() || it.is_toolmod() ) {
-                contents.insert_item( it, item_pocket::pocket_type::MOD );
-            } else {
-                contents.insert_item( it, item_pocket::pocket_type::CONTAINER );
-            }
+            migrate_content_item( it );
         }
     } else {
         item_contents read_contents;
         data.read( "contents", read_contents );
-        contents = item_contents( type->pockets );
         contents.combine( read_contents );
+
+        if( data.has_object( "contents" ) && data.get_object( "contents" ).has_array( "items" ) ) {
+            // migration for nested containers. leave until after 0.F
+            std::list<item> items;
+            data.get_object( "contents" ).read( "items", items );
+            for( const item &it : items ) {
+                migrate_content_item( it );
+            }
+        }
     }
 }
 

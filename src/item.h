@@ -2077,6 +2077,8 @@ class item : public visitable<item>
                                                bool round_value = false ) const;
 
     private:
+        /** migrates an item into this item. */
+        void migrate_content_item( const item &contained );
 
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
