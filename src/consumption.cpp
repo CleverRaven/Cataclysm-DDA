@@ -1356,17 +1356,17 @@ bool Character::consume_effects( item &food )
 hint_rating Character::rate_action_eat( const item &it ) const
 {
     if( !can_consume( it ) ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     const auto rating = will_eat( it );
     if( rating.success() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
-    return HINT_IFFY;
+    return hint_rating::iffy;
 }
 
 bool Character::can_feed_reactor_with( const item &it ) const

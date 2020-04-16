@@ -2064,7 +2064,8 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? HINT_CANT : HINT_GOOD;
+        const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? hint_rating::cant :
+                                           hint_rating::good;
 
         int max_text_length = 0;
         uilist action_menu;
@@ -2074,13 +2075,13 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
             action_menu.addentry( key, true, key, text );
             auto &entry = action_menu.entries.back();
             switch( hint ) {
-                case HINT_CANT:
+                case hint_rating::cant:
                     entry.text_color = c_light_gray;
                     break;
-                case HINT_IFFY:
+                case hint_rating::iffy:
                     entry.text_color = c_light_red;
                     break;
-                case HINT_GOOD:
+                case hint_rating::good:
                     entry.text_color = c_light_green;
                     break;
             }
@@ -2090,8 +2091,8 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         addentry( 'R', pgettext( "action", "read" ), u.rate_action_read( oThisItem ) );
         addentry( 'E', pgettext( "action", "eat" ), u.rate_action_eat( oThisItem ) );
         addentry( 'W', pgettext( "action", "wear" ), u.rate_action_wear( oThisItem ) );
-        addentry( 'w', pgettext( "action", "wield" ), HINT_GOOD );
-        addentry( 't', pgettext( "action", "throw" ), HINT_GOOD );
+        addentry( 'w', pgettext( "action", "wield" ), hint_rating::good );
+        addentry( 't', pgettext( "action", "throw" ), hint_rating::good );
         addentry( 'c', pgettext( "action", "change side" ), u.rate_action_change_side( oThisItem ) );
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
@@ -2102,17 +2103,17 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
 
         if( oThisItem.is_favorite ) {
-            addentry( 'f', pgettext( "action", "unfavorite" ), HINT_GOOD );
+            addentry( 'f', pgettext( "action", "unfavorite" ), hint_rating::good );
         } else {
-            addentry( 'f', pgettext( "action", "favorite" ), HINT_GOOD );
+            addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
         }
 
-        addentry( '=', pgettext( "action", "reassign" ), HINT_GOOD );
+        addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
 
         if( bHPR ) {
-            addentry( '-', _( "Autopickup" ), HINT_IFFY );
+            addentry( '-', _( "Autopickup" ), hint_rating::iffy );
         } else {
-            addentry( '+', _( "Autopickup" ), HINT_GOOD );
+            addentry( '+', _( "Autopickup" ), hint_rating::good );
         }
 
         int iScrollPos = 0;
@@ -8406,7 +8407,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     switch( u.rate_action_reload( *it ) ) {
-        case HINT_IFFY:
+        case hint_rating::iffy:
             if( ( it->is_ammo_container() || it->is_magazine() ) && it->ammo_remaining() > 0 &&
                 it->ammo_remaining() == it->ammo_capacity() ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname() );
@@ -8427,11 +8428,11 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
         // intentional fall-through
 
-        case HINT_CANT:
+        case hint_rating::cant:
             add_msg( m_info, _( "You can't reload a %s!" ), it->tname() );
             return;
 
-        case HINT_GOOD:
+        case hint_rating::good:
             break;
     }
 
@@ -8486,7 +8487,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 void game::reload_item()
 {
     item_location item_loc = inv_map_splice( [&]( const item & it ) {
-        return u.rate_action_reload( it ) == HINT_GOOD;
+        return u.rate_action_reload( it ) == hint_rating::good;
     }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
     if( !item_loc ) {
