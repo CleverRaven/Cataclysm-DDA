@@ -369,7 +369,7 @@
   {
     "id": "reloaded_shot_he",
     "type": "MIGRATION",
-    "replace": "shot_he"
+    "replace": "12ga_he"
   },
   {
     "id": "saiga_sawn",
@@ -386,7 +386,7 @@
   {
     "id": "shot_scrapslug",
     "type": "MIGRATION",
-    "replace": "reloaded_shot_slug"
+    "replace": "reloaded_12ga_slug"
   },
   {
     "id": "UPS_on",
