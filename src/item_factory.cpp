@@ -66,8 +66,6 @@ static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
-extern const double MAX_RECOIL;
-
 static const int ascii_art_width = 42;
 
 bool item_is_blacklisted( const std::string &id )

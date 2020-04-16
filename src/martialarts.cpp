@@ -936,7 +936,7 @@ bool player::can_grab_break( const item &weap ) const
     return tec.is_valid_character( *this );
 }
 
-bool player::can_miss_recovery( const item &weap ) const
+bool Character::can_miss_recovery( const item &weap ) const
 {
     if( !martial_arts_data.has_miss_recovery_tec( weap ) ) {
         return false;
@@ -1153,7 +1153,7 @@ bool Character::is_throw_immune() const
         return b.is_throw_immune();
     } );
 }
-bool player::is_quiet() const
+bool Character::is_quiet() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_quiet();

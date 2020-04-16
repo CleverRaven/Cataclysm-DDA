@@ -215,6 +215,11 @@ struct aim_type {
     int threshold;
 };
 
+struct special_attack {
+    std::string text;
+    damage_instance damage;
+};
+
 struct social_modifiers {
     int lie = 0;
     int persuade = 0;
@@ -606,11 +611,99 @@ class Character : public Creature, public visitable<Character>
          */
         void check_item_encumbrance_flag();
 
+        /** Returns true if the character is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
+        bool natural_attack_restricted_on( body_part bp ) const;
+
+        int blocks_left;
+        int dodges_left;
+
+        double recoil = MAX_RECOIL;
+
+        /** Returns true if the player is able to use a miss recovery technique */
+        bool can_miss_recovery( const item &weap ) const;
+        /** Returns true if the player has quiet melee attacks */
+        bool is_quiet() const;
+
+        // melee.cpp
+        /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
+        bool block_hit( Creature *source, body_part &bp_hit, damage_instance &dam ) override;
+        /** Returns the best item for blocking with */
+        item &best_shield();
+        /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
+        bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
+        /** Returns a random valid technique */
+        matec_id pick_technique( Creature &t, const item &weap,
+                                 bool crit, bool dodge_counter, bool block_counter );
+        void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
+                                int &move_cost );
+        /**
+         * Sets up a melee attack and handles melee attack function calls
+         * @param t Creature to attack
+         * @param allow_special whether non-forced martial art technique or mutation attack should be
+         *   possible with this attack.
+         * @param force_technique special technique to use in attack.
+         * @param allow_unarmed always uses the wielded weapon regardless of martialarts style
+         */
+        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
+                           bool allow_unarmed = true );
+        /**
+         * Calls the to other melee_attack function with an empty technique id (meaning no specific
+         * technique should be used).
+         */
+        void melee_attack( Creature &t, bool allow_special );
+        /** Handles combat effects, returns a string of any valid combat effect messages */
+        std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
+        /** Performs special attacks and their effects (poisonous, stinger, etc.) */
+        void perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam );
+
+        /** Returns a vector of valid mutation attacks */
+        std::vector<special_attack> mutation_attacks( Creature &t ) const;
+        /** Returns the bonus bashing damage the player deals based on their stats */
+        float bonus_damage( bool random ) const;
+        /** Returns weapon skill */
+        float get_melee_hit_base() const;
+        /** Returns the player's basic hit roll that is compared to the target's dodge roll */
+        float hit_roll() const override;
+        /** Returns the chance to critical given a hit roll and target's dodge roll */
+        double crit_chance( float roll_hit, float target_dodge, const item &weap ) const;
+        /** Returns true if the player scores a critical hit */
+        bool scored_crit( float target_dodge, const item &weap ) const;
+        /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
+        int attack_speed( const item &weap ) const;
+        /** Gets melee accuracy component from weapon+skills */
+        float get_hit_weapon( const item &weap ) const;
+
+        // If average == true, adds expected values of random rolls instead of rolling.
+        /** Adds all 3 types of physical damage to instance */
+        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        /** Adds player's total bash damage to the damage instance */
+        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        /** Adds player's total cut damage to the damage instance */
+        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        /** Adds player's total stab damage to the damage instance */
+        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+
+    private:
+        /** Check if an area-of-effect technique has valid targets */
+        bool valid_aoe_technique( Creature &t, const ma_technique &technique );
+        bool valid_aoe_technique( Creature &t, const ma_technique &technique,
+                                  std::vector<Creature *> &targets );
+    public:
+
         // any side effects that might happen when the Character is hit
         void on_hit( Creature *source, body_part /*bp_hit*/,
                      float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
+
+        /** Actually hurt the player, hurts a body_part directly, no armor reduction */
+        void apply_damage( Creature *source, body_part hurt, int dam,
+                           bool bypass_med = false ) override;
+        /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
+        dealt_damage_instance deal_damage( Creature *source, body_part bp,
+                                           const damage_instance &d ) override;
+        /** Reduce healing effect intensity, return initial intensity of the effect */
+        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
 
         void cough( bool harmful = false, int loudness = 4 );
         /**
