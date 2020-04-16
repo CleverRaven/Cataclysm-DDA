@@ -164,7 +164,7 @@
             [ "6x6_electronics_open", 40 ],
             [ "6x6_sewing_open", 40 ],
             [ "room_6x6_brewer_N", 20 ],
-            [ "room_6x6_junk_N", 50 ]
+            [ "room_6x6_junk", 50 ]
           ]
         },
         "2": {
