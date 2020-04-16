@@ -1283,5 +1283,10 @@
     "id": "shot_slug",
     "type": "MIGRATION",
     "replace": "12ga_slug"
+  },
+  {
+    "id": "shot_hull",
+    "type": "MIGRATION",
+    "replace": "12ga_hull"
   }
 ]
