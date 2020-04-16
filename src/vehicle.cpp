@@ -4743,6 +4743,7 @@ void vehicle::power_parts()
         battery_deficit = discharge_battery( abs( delta_energy_bat ) );
     }
 
+
     if( battery_deficit != 0 ) {
         // Scoops need a special case since they consume power during actual use
         for( const vpart_reference &vp : get_enabled_parts( "SCOOP" ) ) {
@@ -4773,6 +4774,11 @@ void vehicle::power_parts()
             }
         }
     }
+}
+
+void vehicle::power_turrets()
+{
+
 }
 
 vehicle *vehicle::find_vehicle( const tripoint &where )
@@ -4987,6 +4993,15 @@ void vehicle::idle( bool on_map )
             add_msg( _( "The %s's engine dies!" ), name );
         }
         engine_on = false;
+    }
+
+
+    // Turrets with long rearm times need to update arming status
+    turret_data td;
+    for ( vehicle_part * e : turrets() ) {
+        if (e->has_flag(VPFLAG_TURRET_LONG_REARM)) {
+            turret_query(*e).do_rearming();
+        }
     }
 
     if( !warm_enough_to_plant( g->u.pos() ) ) {

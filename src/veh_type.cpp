@@ -102,7 +102,8 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "REACTOR", VPFLAG_REACTOR },
     { "RAIL", VPFLAG_RAIL },
     { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
-    { "POWERED_TURRET_MOUNT", VPFLAG_POWERED_TURRET_MOUNT }
+    { "POWERED_TURRET_MOUNT", VPFLAG_POWERED_TURRET_MOUNT },
+    { "TURRET_LONG_REARM", VPFLAG_TURRET_LONG_REARM }
 };
 
 static const std::vector<std::pair<std::string, veh_ter_mod>> standard_terrain_mod = {{
@@ -339,7 +340,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "epower", def.epower );
     assign( jo, "emissions", def.emissions );
     assign( jo, "fuel_type", def.fuel_type );
+
     assign( jo, "default_ammo", def.default_ammo );
+    assign( jo, "rearm_time", def.rearm_time );
+
     assign( jo, "folded_volume", def.folded_volume );
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );

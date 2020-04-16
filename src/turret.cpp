@@ -94,6 +94,39 @@ item_location turret_data::base() const
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
 
+int turret_data::do_rearming()
+{
+    int ret = 0;
+    if (remaining_turns_to_rearm == -1)
+    {
+        ret = remaining_turns_to_rearm;
+    }
+    else if (remaining_turns_to_rearm == 0)
+    {
+        add_msg(_("The %s finished rearming!"), name());
+        remaining_turns_to_rearm--;
+        ret = 0;
+    }
+    else if (remaining_turns_to_rearm == (int)(max_rearm_time / 2) && !has_reported_halfway_rearmed)
+    {
+        add_msg(_("The %s is halfway done rearming."), name());
+        has_reported_halfway_rearmed = true;
+        ret = remaining_turns_to_rearm;
+        remaining_turns_to_rearm--;
+    }
+    else 
+    {
+        ret = remaining_turns_to_rearm;
+        remaining_turns_to_rearm--;
+    }
+    return ret;    
+}
+
+time_duration turret_data::time_to_rearm() const
+{
+    return time_duration::from_turns(remaining_turns_to_rearm);
+}
+
 int turret_data::ammo_remaining() const
 {
     if( !veh || !part ) {

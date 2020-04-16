@@ -779,6 +779,12 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
             add_msg( m_bad, _( "The %s is not powered." ), turret.name() );
             return false;
 
+        case turret_data::status::rearming:
+            add_msg( m_bad, _( "The %s is rearming for another %i seconds."), 
+                turret.name(), 
+                to_turns<int>(turret.time_to_rearm()));
+            return false;
+
         case turret_data::status::ready:
             break;
 

@@ -68,6 +68,7 @@
     "symbol": "t",
     "durability": 400,
     "damage_modifier": 80,
+    "rearm_time": 8,
     "type": "vehicle_part",
     "name": { "str": "mounted siege ballista" },
     "item": "siege_ballista",

@@ -399,6 +399,11 @@ struct vehicle_part {
         /** how much blood covers part (in turns). */
         int blood = 0;
 
+        /** Time this (turret) takes to rearm itself when powered **/
+        time_duration max_rearm_time = time_duration::from_turns(0);
+
+
+
         /**
          * if tile provides cover.
          * WARNING: do not read it directly, use vpart_position::is_inside() instead
@@ -551,15 +556,32 @@ class turret_data
             invalid,
             no_ammo,
             no_power,
+            rearming,
             ready
         };
 
         status query() const;
 
+        // Called in vehicle::idle() each turn to update arming status of slow-arming turrets.
+        // Countdown function. Returns number of turns until turret is armed.
+        // Returns 0 when turret is freshly armed and -1 when already armed.
+        int do_rearming();
+
+        time_duration time_to_rearm() const;
+
     private:
         turret_data( vehicle *veh, vehicle_part *part )
             : veh( veh ), part( part ) {}
         double cached_recoil = 0;
+        bool requires_rearming = false;
+
+
+        int max_rearm_time;
+        const int halftime = (int)max_rearm_time / 2;
+
+        // prevent double-reporting of halfway rearmed due to rounding errors
+        bool has_reported_halfway_rearmed = false;
+        int remaining_turns_to_rearm = -1;
 
     protected:
         vehicle *veh = nullptr;
@@ -1177,6 +1199,8 @@ class vehicle
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();
+        // Consume electrical and/or mechanical power to re-arm mechanical turrets
+        void power_turrets();
 
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.

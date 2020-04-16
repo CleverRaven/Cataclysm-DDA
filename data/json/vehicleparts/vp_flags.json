@@ -165,6 +165,12 @@
     "context": [ "vehicle_part" ],
     "requires_flag": "E_ALTERNATOR"
   },
+    {
+    "id": "TURRET_LONG_REARM",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "This turret takes a long time to re-arm and can't be fired every turn."
+  },
   {
     "id": "TURRET_CONTROLS",
     "type": "json_flag",
