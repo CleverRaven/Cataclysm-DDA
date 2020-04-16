@@ -1000,7 +1000,8 @@
     "name": { "str": "Autonomous Surgical Scalpels" },
     "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts and can also be used as a high-quality butchering tool.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "ARM_L", 1 ] ],
-    "fake_item": "bio_scalpel"
+    "fake_item": "bio_scalpel",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
   },
   {
     "id": "bio_sunglasses",
