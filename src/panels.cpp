@@ -1464,7 +1464,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
     mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
-    mvwprintz( w, point( 23, 2 ), c_light_gray, _( "うんち:" ) );
+    mvwprintz( w, point( 23, 2 ), c_light_gray, _( "Bowel :" ) );
     mvwprintz( w, point( 30, 2 ), excrete_pair.second, excrete_pair.first );
     wrefresh( w );
 }
