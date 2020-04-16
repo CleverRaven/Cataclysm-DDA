@@ -314,8 +314,8 @@
   },
   {
     "id": [
-      "shot_00",
-      "shot_paper_00",
+      "12ga_00",
+      "12ga_paper_00",
       "410shot_000",
       "20x66_exp",
       "20x66_flechette",
@@ -328,77 +328,77 @@
     "replace": "shot_buck"
   },
   {
-    "id": [ "shot_beanbag", "20x66_beanbag" ],
+    "id": [ "12ga_beanbag", "20x66_beanbag" ],
     "type": "MIGRATION",
     "replace": "shot_bean"
   },
   {
-    "id": [ "shot_bird", "shot_paper_bird" ],
+    "id": [ "12ga_bird", "shot_paper_bird" ],
     "type": "MIGRATION",
     "replace": "shot_fowl"
   },
   {
-    "id": [ "shot_slug", "shot_paper_slug", "20x66_slug" ],
+    "id": [ "12ga_slug", "shot_paper_slug", "20x66_slug" ],
     "type": "MIGRATION",
     "replace": "shot_foster"
   },
   {
-    "id": [ "shot_dragon", "shot_paper_dragon" ],
+    "id": [ "12ga_dragon", "shot_paper_dragon" ],
     "type": "MIGRATION",
     "replace": "shot_pyro"
   },
   {
-    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette", "shot_scrap" ],
+    "id": [ "reloaded_12ga_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette", "12ga_scrap" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
   },
   {
-    "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette" ],
+    "id": [ "reloaded_12ga_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"
   },
   {
-    "id": [ "reloaded_shot_bird" ],
+    "id": [ "reloaded_12ga_bird" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_fowl"
   },
   {
-    "id": [ "reloaded_shot_slug", "20x66_bootleg_slug" ],
+    "id": [ "reloaded_12ga_slug", "20x66_bootleg_slug" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_foster"
   },
   {
-    "id": [ "reloaded_shot_dragon" ],
+    "id": [ "reloaded_12ga_dragon" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_pyro"
   },
   {
-    "id": [ "reloaded_shot_flechette" ],
+    "id": [ "reloaded_12ga_flechette" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_dart"
   },
   {
-    "id": [ "bp_shot_00", "bp_shot_scrap" ],
+    "id": [ "bp_12ga_00", "bp_12ga_scrap" ],
     "type": "MIGRATION",
     "replace": "bp_shot_buck"
   },
   {
-    "id": [ "bp_shot_bird" ],
+    "id": [ "bp_12ga_bird" ],
     "type": "MIGRATION",
     "replace": "bp_shot_fowl"
   },
   {
-    "id": [ "bp_shot_slug" ],
+    "id": [ "bp_12ga_slug" ],
     "type": "MIGRATION",
     "replace": "bp_shot_foster"
   },
   {
-    "id": [ "bp_shot_dragon" ],
+    "id": [ "bp_12ga_dragon" ],
     "type": "MIGRATION",
     "replace": "bp_shot_pyro"
   },
   {
-    "id": [ "bp_shot_flechette" ],
+    "id": [ "bp_12ga_flechette" ],
     "type": "MIGRATION",
     "replace": "bp_shot_dart"
   },
