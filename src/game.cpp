@@ -237,8 +237,6 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 
 static const faction_id your_followers( "your_followers" );
 
-void intro();
-
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
@@ -430,15 +428,21 @@ void game::load_data_from_dir( const std::string &path, const std::string &src, 
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
 
+#if !(defined(_WIN32) || defined(TILES))
+// in ncurses_def.cpp
+void check_encoding();
+void ensure_term_size();
+#endif
+
 void game::init_ui( const bool resized )
 {
     // clear the screen
     static bool first_init = true;
 
     if( first_init ) {
-        catacurses::clear();
-
-        // print an intro screen, making sure the terminal is the correct size
+#if !(defined(_WIN32) || defined(TILES))
+        check_encoding();
+#endif
 
         first_init = false;
 
@@ -461,7 +465,7 @@ void game::init_ui( const bool resized )
     }
 #else
     ( void ) resized;
-    intro();
+    ensure_term_size();
 
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
@@ -11317,60 +11321,6 @@ void game::autosave()
         return;
     }
     quicksave();    //Driving checks are handled by quicksave()
-}
-
-void intro()
-{
-    int maxy = getmaxy( catacurses::stdscr );
-    int maxx = getmaxx( catacurses::stdscr );
-    const int minHeight = FULL_SCREEN_HEIGHT;
-    const int minWidth = FULL_SCREEN_WIDTH;
-    catacurses::window tmp = catacurses::newwin( minHeight, minWidth, point_zero );
-
-    while( maxy < minHeight || maxx < minWidth ) {
-        werase( tmp );
-        if( maxy < minHeight && maxx < minWidth ) {
-            fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Whoa!  Your terminal is tiny!  This game requires a minimum terminal size of "
-                               "%dx%d to work properly.  %dx%d just won't do.  Maybe a smaller font would help?" ),
-                            minWidth, minHeight, maxx, maxy );
-        } else if( maxx < minWidth ) {
-            fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Oh!  Hey, look at that.  Your terminal is just a little too narrow.  This game "
-                               "requires a minimum terminal size of %dx%d to function.  It just won't work "
-                               "with only %dx%d.  Can you stretch it out sideways a bit?" ),
-                            minWidth, minHeight, maxx, maxy );
-        } else {
-            fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Woah, woah, we're just a little short on space here.  The game requires a "
-                               "minimum terminal size of %dx%d to run.  %dx%d isn't quite enough!  Can you "
-                               "make the terminal just a smidgen taller?" ),
-                            minWidth, minHeight, maxx, maxy );
-        }
-        wrefresh( tmp );
-        inp_mngr.wait_for_any_key();
-        maxy = getmaxy( catacurses::stdscr );
-        maxx = getmaxx( catacurses::stdscr );
-    }
-    werase( tmp );
-
-#if !(defined(_WIN32) || defined(TILES))
-    // Check whether LC_CTYPE supports the UTF-8 encoding
-    // and show a warning if it doesn't
-    if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {
-        const char *unicode_error_msg =
-            _( "You don't seem to have a valid Unicode locale. You may see some weird "
-               "characters (e.g. empty boxes or question marks). You have been warned." );
-        fold_and_print( tmp, point_zero, maxx, c_white, unicode_error_msg, minWidth, minHeight,
-                        maxx, maxy );
-        wrefresh( tmp );
-        inp_mngr.wait_for_any_key();
-        werase( tmp );
-    }
-#endif
-
-    wrefresh( tmp );
-    catacurses::erase();
 }
 
 void game::process_artifact( item &it, player &p )
