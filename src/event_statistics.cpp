@@ -642,7 +642,13 @@ void event_statistic::check() const
 
 std::string score::description( stats_tracker &stats ) const
 {
-    return string_format( description_.translated(), value( stats ).get_string() );
+    std::string value_string = value( stats ).get_string();
+    if( description_.empty() ) {
+        //~ Default format for scores.  %1$s is statistic description; %2$s is value.
+        return string_format( _( "%1$s: %2$s" ), this->stat_->description(), value_string );
+    } else {
+        return string_format( description_.translated(), value_string );
+    }
 }
 
 cata_variant score::value( stats_tracker &stats ) const
@@ -652,7 +658,7 @@ cata_variant score::value( stats_tracker &stats ) const
 
 void score::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "description", description_ );
+    optional( jo, was_loaded, "description", description_ );
     mandatory( jo, was_loaded, "statistic", stat_ );
 }
 

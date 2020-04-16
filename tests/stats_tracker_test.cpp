@@ -112,10 +112,12 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         b.send<event_type::game_start>( u_id );
         CHECK( avatar_id->value( s ) == cata_variant( u_id ) );
         CHECK( score_kills->value( s ).get<int>() == 0 );
+        CHECK( score_kills->description( s ) == "Number of monsters killed: 0" );
         b.send( avatar_zombie_kill );
         CHECK( num_avatar_kills->value( s ).get<int>() == 1 );
         CHECK( num_avatar_zombie_kills->value( s ).get<int>() == 1 );
         CHECK( score_kills->value( s ).get<int>() == 1 );
+        CHECK( score_kills->description( s ) == "Number of monsters killed: 1" );
         b.send( avatar_dog_kill );
         CHECK( num_avatar_kills->value( s ).get<int>() == 2 );
         CHECK( num_avatar_zombie_kills->value( s ).get<int>() == 1 );
