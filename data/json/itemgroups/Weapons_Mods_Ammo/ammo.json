@@ -253,9 +253,9 @@
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "shot_00", "prob": 100 },
-      { "item": "shot_bird", "prob": 70 },
-      { "item": "shot_slug", "prob": 70 },
+      { "item": "12ga_00", "prob": 100 },
+      { "item": "12ga_bird", "prob": 70 },
+      { "item": "12ga_slug", "prob": 70 },
       { "item": "410shot_000", "prob": 50 }
     ]
   },
@@ -269,8 +269,8 @@
       { "item": "20x66_flare", "prob": 10 },
       { "item": "20x66_shot", "prob": 40 },
       { "item": "20x66_slug", "prob": 20 },
-      { "item": "shot_dragon", "prob": 10 },
-      { "item": "shot_beanbag", "prob": 20 }
+      { "item": "12ga_dragon", "prob": 10 },
+      { "item": "12ga_beanbag", "prob": 20 }
     ]
   },
   {
@@ -282,8 +282,8 @@
       { "item": "20x66_exp", "prob": 10 },
       { "item": "20x66_flechette", "prob": 60 },
       { "item": "20x66_inc", "prob": 20 },
-      { "item": "shot_flechette", "prob": 100 },
-      { "item": "shot_he", "prob": 10 }
+      { "item": "12ga_flechette", "prob": 100 },
+      { "item": "12ga_he", "prob": 10 }
     ]
   },
   {
@@ -299,12 +299,12 @@
     "//": "Reloaded shotgun ammo balanced according to rarity.",
     "subtype": "distribution",
     "entries": [
-      { "item": "reloaded_shot_00", "prob": 200 },
-      { "item": "reloaded_shot_bird", "prob": 30 },
-      { "item": "reloaded_shot_dragon", "prob": 20 },
-      { "item": "reloaded_shot_flechette", "prob": 5 },
-      { "item": "reloaded_shot_slug", "prob": 30 },
-      { "item": "shot_scrap", "prob": 80 }
+      { "item": "reloaded_12ga_00", "prob": 200 },
+      { "item": "reloaded_12ga_bird", "prob": 30 },
+      { "item": "reloaded_12ga_dragon", "prob": 20 },
+      { "item": "reloaded_12ga_flechette", "prob": 5 },
+      { "item": "reloaded_12ga_slug", "prob": 30 },
+      { "item": "12ga_scrap", "prob": 80 }
     ]
   },
   {
@@ -414,8 +414,8 @@
       { "item": "45_acp", "prob": 20 },
       { "item": "57mm", "prob": 80 },
       { "item": "9mm", "prob": 100 },
-      { "item": "shot_00", "prob": 40 },
-      { "item": "shot_beanbag", "prob": 40 }
+      { "item": "12ga_00", "prob": 40 },
+      { "item": "12ga_beanbag", "prob": 40 }
     ]
   },
   {
@@ -429,7 +429,7 @@
       { "item": "40x46mm_m433", "prob": 5 },
       { "item": "40x46mm_m651", "prob": 20 },
       { "item": "556", "prob": 10 },
-      { "item": "shot_slug", "prob": 20 }
+      { "item": "12ga_slug", "prob": 20 }
     ]
   },
   {
@@ -470,7 +470,7 @@
       { "item": "762R_casing", "prob": 60 },
       { "item": "9mm_casing", "prob": 100 },
       { "item": "9x18mm_casing", "prob": 80 },
-      { "item": "shot_hull", "prob": 100 },
+      { "item": "12ga_hull", "prob": 100 },
       { "item": "300blk_casing", "prob": 80 }
     ]
   },
