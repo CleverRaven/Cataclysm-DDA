@@ -476,7 +476,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "shot", [ "saiga10mag", "saiga30mag" ] ] ]
+    "magazines": [ [ "12ga", [ "saiga10mag", "saiga30mag" ] ] ]
   },
   {
     "id": "shotgun_d",
@@ -673,7 +673,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
-    "magazines": [ [ "shot", [ "USAS10mag", "USAS20mag" ] ] ]
+    "magazines": [ [ "12ga", [ "USAS10mag", "USAS20mag" ] ] ]
   },
   {
     "id": "winchester_1887",
