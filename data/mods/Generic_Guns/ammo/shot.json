@@ -1,7 +1,7 @@
 [
   {
     "id": "shot_buck",
-    "copy-from": "shot_00",
+    "copy-from": "12ga_00",
     "type": "AMMO",
     "name": { "str": "shotshell, buckshot", "str_pl": "shotshell, buckshot" },
     "ammo_type": "ammo_shot"
