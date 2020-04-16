@@ -3640,6 +3640,48 @@
   },
   {
     "type": "profession",
+    "ident": "demolition_expert",
+    "name": "Demolitions Expert",
+    "description": "Before this all began you were having the time of your life at your dream job, blowing things up.  Now you're finally allowed to do it full time. ",
+    "skills": [ { "level": 2, "name": "cooking" } ],
+    "points": 3,
+    "items": {
+      "both": {
+        "items": [
+          "socks",
+          "boots_steel",
+          "gloves_work",
+          "jumpsuit",
+          "canteen",
+          "tool_belt",
+          "mbag",
+          "briefcase",
+          "wristwatch",
+          "matches"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "dynamite" },
+          { "item": "dynamite" },
+          { "item": "dynamite" },
+          { "item": "dynamite" },
+          { "item": "dynamite" },
+          { "item": "dynamite" },
+          { "item": "dynamite" },
+          { "item": "dynamite" },
+          { "item": "c4" },
+          { "item": "c4" },
+          { "item": "c4" },
+          { "item": "c4" },
+          { "group": "charged_cell_phone" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "parkour_practitioner",
     "name": { "male": "Traceur", "female": "Traceuse" },
     "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
