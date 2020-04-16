@@ -1,27 +1,6 @@
 [
   {
     "type": "recipe",
-    "result": "mininuke_mod",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 7 ],
-    "difficulty": 8,
-    "time": "95 m",
-    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "recipe_mininuke_launch", 5 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [
-      [ [ "mininuke", 1 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "circuit", 1 ] ],
-      [ [ "transponder", 1 ] ],
-      [ [ "pipe", 8 ] ],
-      [ [ "chem_rocket_fuel", 33 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "pebble",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
