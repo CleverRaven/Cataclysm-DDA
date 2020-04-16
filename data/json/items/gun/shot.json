@@ -15,7 +15,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "shot",
+    "ammo": "12ga",
     "ranged_damage": { "damage_type": "stab", "amount": -11 },
     "dispersion": 900,
     "durability": 6,
