@@ -50,7 +50,7 @@
     "id": "mic_stand_tall",
     "name": { "str": "microphone stand" },
     "description": "A lightweight telescoping boom stand made of aluminum and painted black.  About 6' tall when full extended, or 3' when closed fully.  Has threads for a mic clip on one end.",
-    "symbol": "|",
+    "symbol": "Γ",
     "color": "dark_gray",
     "volume": "2200 ml",
     "material": [ "aluminum" ],
