@@ -1371,7 +1371,7 @@
     "type": "profession",
     "ident": "crowd_control",
     "name": "Crowd Control Specialist",
-    "description": "When the riots started getting really bad, the brass issued you a new set of gear and told you to put them down hard.  You deserted rather than follow those orders, and now you think the new gear might come in handy after all",
+    "description": "When the riots started getting really bad, the brass issued you a new set of gear and told you to put them down hard.  You deserted rather than follow those orders, and now you think the new gear might come in handy after all.",
     "points": 5,
     "skills": [
       { "level": 3, "name": "launcher" },
