@@ -1188,5 +1188,100 @@
     "id": "akmbigmag",
     "type": "MIGRATION",
     "replace": "akmag40"
+  },
+  {
+    "id": "reloaded_shot_bird",
+    "type": "MIGRATION",
+    "replace": "reloaded_12ga_bird"
+  },
+  {
+    "id": "reloaded_shot_dragon",
+    "type": "MIGRATION",
+    "replace": "reloaded_12ga_dragon"
+  },
+  {
+    "id": "reloaded_shot_00",
+    "type": "MIGRATION",
+    "replace": "reloaded_12ga_00"
+  },
+  {
+    "id": "reloaded_shot_flechette",
+    "type": "MIGRATION",
+    "replace": "reloaded_12ga_flechette"
+  },
+  {
+    "id": "reloaded_shot_slug",
+    "type": "MIGRATION",
+    "replace": "reloaded_12ga_slug"
+  },
+  {
+    "id": "bp_shot_bird",
+    "type": "MIGRATION",
+    "replace": "bp_12ga_bird"
+  },
+  {
+    "id": "bp_shot_dragon",
+    "type": "MIGRATION",
+    "replace": "bp_12ga_dragon"
+  },
+  {
+    "id": "bp_shot_00",
+    "type": "MIGRATION",
+    "replace": "bp_12ga_00"
+  },
+  {
+    "id": "bp_shot_flechette",
+    "type": "MIGRATION",
+    "replace": "bp_12ga_flechette"
+  },
+  {
+    "id": "bp_shot_slug",
+    "type": "MIGRATION",
+    "replace": "bp_12ga_slug"
+  },
+  {
+    "id": "shot_00",
+    "type": "MIGRATION",
+    "replace": "12ga_00"
+  },
+  {
+    "id": "shot_beanbag",
+    "type": "MIGRATION",
+    "replace": "12ga_beanbag"
+  },
+  {
+    "id": "shot_bird",
+    "type": "MIGRATION",
+    "replace": "12ga_bird"
+  },
+  {
+    "id": "shot_dragon",
+    "type": "MIGRATION",
+    "replace": "12ga_dragon"
+  },
+  {
+    "id": "shot_flechette",
+    "type": "MIGRATION",
+    "replace": "12ga_flechette"
+  },
+  {
+    "id": "shot_slug",
+    "type": "MIGRATION",
+    "replace": "12ga_slug"
+  },
+  {
+    "id": "shot_scrap",
+    "type": "MIGRATION",
+    "replace": "12ga_scrap"
+  },
+  {
+    "id": "bp_shot_scrap",
+    "type": "MIGRATION",
+    "replace": "bp_12ga_scrap"
+  },
+  {
+    "id": "shot_slug",
+    "type": "MIGRATION",
+    "replace": "12ga_slug"
   }
 ]
