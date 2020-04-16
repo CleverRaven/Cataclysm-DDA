@@ -41,7 +41,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
+    "gun_data": { "ammo": "12ga", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -58,7 +58,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
+    "gun_data": { "ammo": "12ga", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -120,7 +120,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
     "gun_data": {
-      "ammo": "shot",
+      "ammo": "12ga",
       "skill": "shotgun",
       "ranged_damage": { "damage_type": "stab", "amount": 1 },
       "dispersion": 425,
@@ -144,7 +144,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
     "gun_data": {
-      "ammo": "shot",
+      "ammo": "12ga",
       "skill": "shotgun",
       "ranged_damage": 5,
       "dispersion": 425,
@@ -169,7 +169,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
     "gun_data": {
-      "ammo": "shot",
+      "ammo": "12ga",
       "skill": "shotgun",
       "ranged_damage": { "damage_type": "stab", "amount": 1 },
       "dispersion": 320,
@@ -194,7 +194,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
     "gun_data": {
-      "ammo": "shot",
+      "ammo": "12ga",
       "skill": "shotgun",
       "ranged_damage": { "damage_type": "stab", "amount": 1 },
       "dispersion": 320,
@@ -309,7 +309,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
+    "gun_data": { "ammo": "12ga", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -338,7 +338,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
+    "gun_data": { "ammo": "12ga", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
@@ -425,7 +425,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
+    "gun_data": { "ammo": "12ga", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
