@@ -20,7 +20,7 @@
   },
   {
     "id": "shot_paper_00",
-    "copy-from": "bp_shot_00",
+    "copy-from": "bp_12ga_00",
     "type": "AMMO",
     "name": { "str": "buckshot paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of 00 buckshot.",
