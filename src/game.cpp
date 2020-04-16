@@ -11555,21 +11555,21 @@ void game::start_calendar()
     if( scen_season ) {
         // Configured starting date overridden by scenario, calendar::start is left as Spring 1
         calendar::start_of_cataclysm = calendar::turn_zero + 1_hours * get_option<int>( "INITIAL_TIME" );
-        calendar::turn = calendar::turn_zero + 1_hours * get_option<int>( "INITIAL_TIME" );
+        calendar::start_of_game = calendar::turn_zero + 1_hours * get_option<int>( "INITIAL_TIME" );
         if( scen->has_flag( "SPR_START" ) ) {
             calendar::initial_season = SPRING;
         } else if( scen->has_flag( "SUM_START" ) ) {
             calendar::initial_season = SUMMER;
-            calendar::turn += calendar::season_length();
+            calendar::start_of_game += calendar::season_length();
         } else if( scen->has_flag( "AUT_START" ) ) {
             calendar::initial_season = AUTUMN;
-            calendar::turn += calendar::season_length() * 2;
+            calendar::start_of_game += calendar::season_length() * 2;
         } else if( scen->has_flag( "WIN_START" ) ) {
             calendar::initial_season = WINTER;
-            calendar::turn += calendar::season_length() * 3;
+            calendar::start_of_game += calendar::season_length() * 3;
         } else if( scen->has_flag( "SUM_ADV_START" ) ) {
             calendar::initial_season = SUMMER;
-            calendar::turn += calendar::season_length() * 5;
+            calendar::start_of_game += calendar::season_length() * 5;
         } else {
             debugmsg( "The Unicorn" );
         }
@@ -11595,11 +11595,12 @@ void game::start_calendar()
             calendar::initial_season = WINTER;
         }
 
-        calendar::turn = calendar::start_of_cataclysm
-                         + 1_hours * get_option<int>( "INITIAL_TIME" )
-                         + 1_days * get_option<int>( "SPAWN_DELAY" );
+        calendar::start_of_game = calendar::start_of_cataclysm
+                                  + 1_hours * get_option<int>( "INITIAL_TIME" )
+                                  + 1_days * get_option<int>( "SPAWN_DELAY" );
     }
 
+    calendar::turn = calendar::start_of_game;
 }
 
 void game::add_artifact_messages( const std::vector<art_effect_passive> &effects )
