@@ -216,8 +216,8 @@
       "type": "general",
       "context": "none",
       "value": "asked",
-      "no": "Here in the center, Alonso is a bit lonely.  We get a few brave, strong travellers like yourself, though, and seeing them brightens Alonso's day.",
-      "yes": "Could be better.  I don't really got any friends here in the center, but seeing travellers like you always brightens my day."
+      "no": "Here in the center, Alonso is a bit lonely.  We get a few brave, strong travelers like yourself, though, and seeing them brightens Alonso's day.",
+      "yes": "Could be better.  I don't really got any friends here in the center, but seeing travelers like you always brightens my day."
     },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },

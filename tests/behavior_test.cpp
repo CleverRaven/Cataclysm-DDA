@@ -4,15 +4,15 @@
 #include "behavior.h"
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
+#include "catch/catch.hpp"
 #include "game.h"
-#include "npc.h"
 #include "item.h"
-#include "material.h"
+#include "item_location.h"
+#include "npc.h"
+#include "player.h"
+#include "player_helpers.h"
 #include "string_id.h"
 #include "weather.h"
-
-#include "catch/catch.hpp"
-#include "player_helpers.h"
 
 namespace behavior
 {

@@ -11,7 +11,7 @@
     "weight": "57500 g",
     "hp": 86,
     "speed": 100,
-    "aggression": 3,
+    "aggression": 0,
     "morale": 10,
     "melee_dice": 1,
     "melee_dice_sides": 2,

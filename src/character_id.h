@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_CHARACTER_ID_H
-#define CATA_CHARACTER_ID_H
+#ifndef CATA_SRC_CHARACTER_ID_H
+#define CATA_SRC_CHARACTER_ID_H
 
 #include <cassert>
 #include <ostream>
@@ -55,4 +55,4 @@ inline std::ostream &operator<<( std::ostream &o, character_id id )
     return o << id.get_value();
 }
 
-#endif // CATA_CHARACTER_ID_H
+#endif // CATA_SRC_CHARACTER_ID_H

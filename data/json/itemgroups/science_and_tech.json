@@ -79,7 +79,6 @@
       [ "EMPbomb", 2 ],
       [ "pheromone", 1 ],
       [ "flux_comp_gen", 3 ],
-      [ "recipe_mininuke_launch", 4 ],
       [ "portal", 2 ],
       [ "bot_manhack", 1 ],
       [ "UPS_off", 5 ],
@@ -362,7 +361,6 @@
       [ "recipe_lab_elec", 15 ],
       [ "software_electronics_reference", 2 ],
       [ "recipe_lab_cvd", 8 ],
-      [ "recipe_mininuke_launch", 5 ],
       [ "teleporter", 10 ],
       [ "antiparasitic", 5 ],
       [ "usb_drive", 5 ]

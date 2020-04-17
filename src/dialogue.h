@@ -1,27 +1,24 @@
 #pragma once
-#ifndef DIALOGUE_H
-#define DIALOGUE_H
+#ifndef CATA_SRC_DIALOGUE_H
+#define CATA_SRC_DIALOGUE_H
 
 #include <functional>
-#include <string>
-#include <vector>
 #include <set>
+#include <string>
 #include <type_traits>
-#include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "dialogue_win.h"
-#include "npc.h"
 #include "json.h"
-#include "string_id.h"
+#include "npc.h"
+#include "player.h"
 #include "translations.h"
-#include "material.h"
 #include "type_id.h"
 
+class martialart;
 class mission;
 struct dialogue;
-class martialart;
-class player;
 
 enum talk_trial_type : unsigned char {
     TALK_TRIAL_NONE, // No challenge here!
@@ -439,4 +436,4 @@ class json_talk_topic
 void unload_talk_topics();
 void load_talk_topic( const JsonObject &jo );
 
-#endif
+#endif // CATA_SRC_DIALOGUE_H

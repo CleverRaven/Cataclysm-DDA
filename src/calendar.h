@@ -1,16 +1,15 @@
 #pragma once
-#ifndef CALENDAR_H
-#define CALENDAR_H
+#ifndef CATA_SRC_CALENDAR_H
+#define CATA_SRC_CALENDAR_H
 
 #include <string>
-#include <iosfwd>
 #include <utility>
 #include <vector>
 
+class JsonIn;
+class JsonOut;
 class time_duration;
 class time_point;
-class JsonOut;
-class JsonIn;
 template<typename T> struct enum_traits;
 
 /** Real world seasons */
@@ -568,4 +567,4 @@ enum class weekdays : int {
 
 weekdays day_of_week( const time_point &p );
 
-#endif
+#endif // CATA_SRC_CALENDAR_H

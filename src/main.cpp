@@ -27,6 +27,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "input.h"
 #include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
@@ -35,8 +36,8 @@
 #include "path_info.h"
 #include "rng.h"
 #include "translations.h"
-#include "input.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -688,6 +689,7 @@ int main( int argc, char *argv[] )
             }
         }
 
+        shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         while( !g->do_turn() );
     }
 
