@@ -10,6 +10,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "yellow",
+    "price_postapoc": 1000,
     "use_action": "install_bionic",
     "flags": [ "CBM" ],
     "is_upgrade": false,
@@ -28,6 +29,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "abstract faulty bionic module" },
     "price": 0,
+    "price_postapoc": 0,
     "weight": "500 g",
     "description": "This CBM is broken beyond repair, you can't do anything with it."
   },

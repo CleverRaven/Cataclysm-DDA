@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ACTIVITY_ACTOR_H
-#define ACTIVITY_ACTOR_H
+#ifndef CATA_SRC_ACTIVITY_ACTOR_H
+#define CATA_SRC_ACTIVITY_ACTOR_H
 
 #include <algorithm>
 #include <memory>
@@ -120,4 +120,4 @@ deserialize_functions;
 void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout );
 void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin );
 
-#endif // ACTIVITY_ACTOR_H
+#endif // CATA_SRC_ACTIVITY_ACTOR_H

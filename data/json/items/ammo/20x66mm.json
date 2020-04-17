@@ -54,7 +54,7 @@
     "range": 20,
     "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 4 },
     "dispersion": 120,
-    "effects": [ "COOKOFF", "EXPLOSIVE_SMALL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_20x66", "NEVER_MISFIRES" ]
   },
   {
     "id": "20x66_flare",
@@ -96,7 +96,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 5,
     "proportional": { "damage": { "damage_type": "stab", "amount": 0.25, "armor_penetration": 0.25 } },
-    "extend": { "effects": [ "FRAG" ] }
+    "extend": { "effects": [ "FRAG_20x66" ] }
   },
   {
     "id": "20x66_inc",

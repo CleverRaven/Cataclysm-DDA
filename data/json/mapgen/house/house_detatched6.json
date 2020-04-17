@@ -131,13 +131,13 @@
       "rows": [
         "                        ",
         " |||||||||||||||||||||| ",
-        " |....................| ",
+        " |.......2............| ",
         " |....................| ",
         " |....................| ",
         " |....................| ",
         " |....................| ",
         " |............<..F.gUU| ",
-        " |.......ZJW||||||||||| ",
+        " |1.....|ZJW||||||||||| ",
         " |......|||||           ",
         " |......|               ",
         " |......|               ",
@@ -154,7 +154,41 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ]
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 60 ],
+            [ "room_6x6_guns_N", 10 ],
+            [ "room_6x6_office_N", 40 ],
+            [ "6x6_electronics_open", 40 ],
+            [ "6x6_sewing_open", 40 ],
+            [ "room_6x6_brewer_N", 20 ],
+            [ "room_6x6_junk", 50 ]
+          ]
+        },
+        "2": {
+          "chunks": [
+            [ "null", 50 ],
+            [ "5x5_holdout_S", 2 ],
+            [ "5x5_holdout_E", 2 ],
+            [ "5x5_gym_N", 20 ],
+            [ "5x5_gym_S", 20 ],
+            [ "5x5_gym_E", 20 ],
+            [ "5x5_gym_W", 20 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 10 ],
+            [ "home_office_4x4_S", 10 ]
+          ]
+        }
+      }
     }
   }
 ]

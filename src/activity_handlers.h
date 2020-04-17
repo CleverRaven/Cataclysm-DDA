@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ACTIVITY_HANDLERS_H
-#define ACTIVITY_HANDLERS_H
+#ifndef CATA_SRC_ACTIVITY_HANDLERS_H
+#define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
 #include <list>
@@ -37,7 +37,7 @@ enum butcher_type : int {
     DISSECT         // dissect a corpse for CBMs
 };
 
-enum do_activity_reason : int {
+enum class do_activity_reason : int {
     CAN_DO_CONSTRUCTION,    // Can do construction.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
     CAN_DO_PREREQ,          // for constructions - can't build the main construction, but can build the pre-req
@@ -276,4 +276,4 @@ finish_functions;
 
 } // namespace activity_handlers
 
-#endif
+#endif // CATA_SRC_ACTIVITY_HANDLERS_H

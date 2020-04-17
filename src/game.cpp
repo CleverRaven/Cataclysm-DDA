@@ -237,8 +237,6 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 
 static const faction_id your_followers( "your_followers" );
 
-void intro();
-
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
@@ -430,15 +428,21 @@ void game::load_data_from_dir( const std::string &path, const std::string &src, 
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
 
+#if !(defined(_WIN32) || defined(TILES))
+// in ncurses_def.cpp
+void check_encoding();
+void ensure_term_size();
+#endif
+
 void game::init_ui( const bool resized )
 {
     // clear the screen
     static bool first_init = true;
 
     if( first_init ) {
-        catacurses::clear();
-
-        // print an intro screen, making sure the terminal is the correct size
+#if !(defined(_WIN32) || defined(TILES))
+        check_encoding();
+#endif
 
         first_init = false;
 
@@ -461,7 +465,7 @@ void game::init_ui( const bool resized )
     }
 #else
     ( void ) resized;
-    intro();
+    ensure_term_size();
 
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
@@ -2064,7 +2068,8 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? HINT_CANT : HINT_GOOD;
+        const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? hint_rating::cant :
+                                           hint_rating::good;
 
         int max_text_length = 0;
         uilist action_menu;
@@ -2074,13 +2079,13 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
             action_menu.addentry( key, true, key, text );
             auto &entry = action_menu.entries.back();
             switch( hint ) {
-                case HINT_CANT:
+                case hint_rating::cant:
                     entry.text_color = c_light_gray;
                     break;
-                case HINT_IFFY:
+                case hint_rating::iffy:
                     entry.text_color = c_light_red;
                     break;
-                case HINT_GOOD:
+                case hint_rating::good:
                     entry.text_color = c_light_green;
                     break;
             }
@@ -2090,8 +2095,8 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         addentry( 'R', pgettext( "action", "read" ), u.rate_action_read( oThisItem ) );
         addentry( 'E', pgettext( "action", "eat" ), u.rate_action_eat( oThisItem ) );
         addentry( 'W', pgettext( "action", "wear" ), u.rate_action_wear( oThisItem ) );
-        addentry( 'w', pgettext( "action", "wield" ), HINT_GOOD );
-        addentry( 't', pgettext( "action", "throw" ), HINT_GOOD );
+        addentry( 'w', pgettext( "action", "wield" ), hint_rating::good );
+        addentry( 't', pgettext( "action", "throw" ), hint_rating::good );
         addentry( 'c', pgettext( "action", "change side" ), u.rate_action_change_side( oThisItem ) );
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
@@ -2102,17 +2107,17 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
 
         if( oThisItem.is_favorite ) {
-            addentry( 'f', pgettext( "action", "unfavorite" ), HINT_GOOD );
+            addentry( 'f', pgettext( "action", "unfavorite" ), hint_rating::good );
         } else {
-            addentry( 'f', pgettext( "action", "favorite" ), HINT_GOOD );
+            addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
         }
 
-        addentry( '=', pgettext( "action", "reassign" ), HINT_GOOD );
+        addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
 
         if( bHPR ) {
-            addentry( '-', _( "Autopickup" ), HINT_IFFY );
+            addentry( '-', _( "Autopickup" ), hint_rating::iffy );
         } else {
-            addentry( '+', _( "Autopickup" ), HINT_GOOD );
+            addentry( '+', _( "Autopickup" ), hint_rating::good );
         }
 
         int iScrollPos = 0;
@@ -2676,7 +2681,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
-    show_scores_ui( stats(), get_kill_tracker() );
+    show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
     disp_NPC_epilogues();
     follower_ids.clear();
     display_faction_epilogues();
@@ -4008,49 +4013,49 @@ void game::mon_info_update( )
             // for compatibility with old code, see diagram below, it explains the values for index,
             // also might need revisiting one z-levels are in.
             switch( dir_to_mon ) {
-                case ABOVENORTHWEST:
-                case NORTHWEST:
-                case BELOWNORTHWEST:
+                case direction::ABOVENORTHWEST:
+                case direction::NORTHWEST:
+                case direction::BELOWNORTHWEST:
                     index = 7;
                     break;
-                case ABOVENORTH:
-                case NORTH:
-                case BELOWNORTH:
+                case direction::ABOVENORTH:
+                case direction::NORTH:
+                case direction::BELOWNORTH:
                     index = 0;
                     break;
-                case ABOVENORTHEAST:
-                case NORTHEAST:
-                case BELOWNORTHEAST:
+                case direction::ABOVENORTHEAST:
+                case direction::NORTHEAST:
+                case direction::BELOWNORTHEAST:
                     index = 1;
                     break;
-                case ABOVEWEST:
-                case WEST:
-                case BELOWWEST:
+                case direction::ABOVEWEST:
+                case direction::WEST:
+                case direction::BELOWWEST:
                     index = 6;
                     break;
-                case ABOVECENTER:
-                case CENTER:
-                case BELOWCENTER:
+                case direction::ABOVECENTER:
+                case direction::CENTER:
+                case direction::BELOWCENTER:
                     index = 8;
                     break;
-                case ABOVEEAST:
-                case EAST:
-                case BELOWEAST:
+                case direction::ABOVEEAST:
+                case direction::EAST:
+                case direction::BELOWEAST:
                     index = 2;
                     break;
-                case ABOVESOUTHWEST:
-                case SOUTHWEST:
-                case BELOWSOUTHWEST:
+                case direction::ABOVESOUTHWEST:
+                case direction::SOUTHWEST:
+                case direction::BELOWSOUTHWEST:
                     index = 5;
                     break;
-                case ABOVESOUTH:
-                case SOUTH:
-                case BELOWSOUTH:
+                case direction::ABOVESOUTH:
+                case direction::SOUTH:
+                case direction::BELOWSOUTH:
                     index = 4;
                     break;
-                case ABOVESOUTHEAST:
-                case SOUTHEAST:
-                case BELOWSOUTHEAST:
+                case direction::ABOVESOUTHEAST:
+                case direction::SOUTHEAST:
+                case direction::BELOWSOUTHEAST:
                     index = 3;
                     break;
             }
@@ -5027,7 +5032,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         load_npcs();
 
     } else {
-        const int failure_level = static_cast<int>( sqrt( abs( success ) * 4.0 * difficulty /
+        const int failure_level = static_cast<int>( std::sqrt( std::abs( success ) * 4.0 * difficulty /
                                   adjusted_skill ) );
         const int fail_type = std::min( 5, failure_level );
         switch( fail_type ) {
@@ -8006,12 +8011,12 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
     const std::string msgFactor = factor > INT_MIN
-                                  ? string_format( _( "Your best tool has %d butchering." ), factor )
+                                  ? string_format( _( "Your best tool has <color_cyan>%d butchering</color>." ), factor )
                                   :  _( "You have no butchering tool." );
 
     const int factorD = g->u.max_quality( quality_id( "CUT_FINE" ) );
     const std::string msgFactorD = factorD > INT_MIN
-                                   ? string_format( _( "Your best tool has %d fine cutting." ), factorD )
+                                   ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factorD )
                                    :  _( "You have no fine cutting tool." );
 
     bool has_skin = false;
@@ -8406,7 +8411,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     switch( u.rate_action_reload( *it ) ) {
-        case HINT_IFFY:
+        case hint_rating::iffy:
             if( ( it->is_ammo_container() || it->is_magazine() ) && it->ammo_remaining() > 0 &&
                 it->ammo_remaining() == it->ammo_capacity() ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname() );
@@ -8427,11 +8432,11 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
         // intentional fall-through
 
-        case HINT_CANT:
+        case hint_rating::cant:
             add_msg( m_info, _( "You can't reload a %s!" ), it->tname() );
             return;
 
-        case HINT_GOOD:
+        case hint_rating::good:
             break;
     }
 
@@ -8486,7 +8491,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 void game::reload_item()
 {
     item_location item_loc = inv_map_splice( [&]( const item & it ) {
-        return u.rate_action_reload( it ) == HINT_GOOD;
+        return u.rate_action_reload( it ) == hint_rating::good;
     }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
     if( !item_loc ) {
@@ -9033,7 +9038,7 @@ bool game::walk_move( const tripoint &dest_loc )
         }
         const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
         const double encumb_moves = u.get_weight() / 4800.0_gram;
-        u.moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
+        u.moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( CMM_WALK ) ) {
             crit->use_mech_power( -2 );
         } else if( u.movement_mode_is( CMM_CROUCH ) ) {
@@ -9337,7 +9342,7 @@ point game::place_player( const tripoint &dest_loc )
 
     //Auto pulp or butcher and Auto foraging
     if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.is_mounted() ) {
-        static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
+        static const direction adjacentDir[8] = { direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST };
 
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
         if( forage_type != "off" ) {
@@ -9778,7 +9783,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( shifting_furniture ) {
         // We didn't move
         tripoint d_sum = u.grab_point + dp;
-        if( abs( d_sum.x ) < 2 && abs( d_sum.y ) < 2 ) {
+        if( std::abs( d_sum.x ) < 2 && std::abs( d_sum.y ) < 2 ) {
             u.grab_point = d_sum; // furniture moved relative to us
         } else { // we pushed furniture out of reach
             add_msg( _( "You let go of the %s." ), furntype.name() );
@@ -10253,7 +10258,7 @@ void game::vertical_move( int movez, bool force )
 
     std::vector<shared_ptr_fast<npc>> npcs_to_bring;
     std::vector<monster *> monsters_following;
-    if( !m.has_zlevels() && abs( movez ) == 1 ) {
+    if( !m.has_zlevels() && std::abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
         [this]( const shared_ptr_fast<npc> &np ) {
             return np->is_walking_with() && !np->is_mounted() && !np->in_sleep_state() &&
@@ -10261,7 +10266,7 @@ void game::vertical_move( int movez, bool force )
         } );
     }
 
-    if( m.has_zlevels() && abs( movez ) == 1 ) {
+    if( m.has_zlevels() && std::abs( movez ) == 1 ) {
         bool ladder = m.has_flag( "DIFFICULT_Z", u.pos() );
         for( monster &critter : all_monsters() ) {
             if( ladder && !critter.climbs() ) {
@@ -11316,60 +11321,6 @@ void game::autosave()
         return;
     }
     quicksave();    //Driving checks are handled by quicksave()
-}
-
-void intro()
-{
-    int maxy = getmaxy( catacurses::stdscr );
-    int maxx = getmaxx( catacurses::stdscr );
-    const int minHeight = FULL_SCREEN_HEIGHT;
-    const int minWidth = FULL_SCREEN_WIDTH;
-    catacurses::window tmp = catacurses::newwin( minHeight, minWidth, point_zero );
-
-    while( maxy < minHeight || maxx < minWidth ) {
-        werase( tmp );
-        if( maxy < minHeight && maxx < minWidth ) {
-            fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Whoa!  Your terminal is tiny!  This game requires a minimum terminal size of "
-                               "%dx%d to work properly.  %dx%d just won't do.  Maybe a smaller font would help?" ),
-                            minWidth, minHeight, maxx, maxy );
-        } else if( maxx < minWidth ) {
-            fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Oh!  Hey, look at that.  Your terminal is just a little too narrow.  This game "
-                               "requires a minimum terminal size of %dx%d to function.  It just won't work "
-                               "with only %dx%d.  Can you stretch it out sideways a bit?" ),
-                            minWidth, minHeight, maxx, maxy );
-        } else {
-            fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Woah, woah, we're just a little short on space here.  The game requires a "
-                               "minimum terminal size of %dx%d to run.  %dx%d isn't quite enough!  Can you "
-                               "make the terminal just a smidgen taller?" ),
-                            minWidth, minHeight, maxx, maxy );
-        }
-        wrefresh( tmp );
-        inp_mngr.wait_for_any_key();
-        maxy = getmaxy( catacurses::stdscr );
-        maxx = getmaxx( catacurses::stdscr );
-    }
-    werase( tmp );
-
-#if !(defined(_WIN32) || defined(TILES))
-    // Check whether LC_CTYPE supports the UTF-8 encoding
-    // and show a warning if it doesn't
-    if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {
-        const char *unicode_error_msg =
-            _( "You don't seem to have a valid Unicode locale. You may see some weird "
-               "characters (e.g. empty boxes or question marks). You have been warned." );
-        fold_and_print( tmp, point_zero, maxx, c_white, unicode_error_msg, minWidth, minHeight,
-                        maxx, maxy );
-        wrefresh( tmp );
-        inp_mngr.wait_for_any_key();
-        werase( tmp );
-    }
-#endif
-
-    wrefresh( tmp );
-    catacurses::erase();
 }
 
 void game::process_artifact( item &it, player &p )
