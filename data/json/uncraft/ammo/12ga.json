@@ -1,6 +1,6 @@
 [
   {
-    "result": "shot_00",
+    "result": "12ga_00",
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
@@ -10,7 +10,7 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "result": "shot_beanbag",
+    "result": "12ga_beanbag",
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
@@ -20,7 +20,7 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "result": "shot_bird",
+    "result": "12ga_bird",
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
@@ -30,7 +30,7 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "result": "shot_dragon",
+    "result": "12ga_dragon",
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
@@ -40,7 +40,7 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "result": "shot_flechette",
+    "result": "12ga_flechette",
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
@@ -51,7 +51,7 @@
   },
   {
     "type": "uncraft",
-    "result": "shot_he",
+    "result": "12ga_he",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "50 s",
@@ -61,7 +61,7 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "result": "shot_slug",
+    "result": "12ga_slug",
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
