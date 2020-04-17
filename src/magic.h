@@ -316,9 +316,9 @@ class spell
         void gain_exp( int nxp );
         void set_exp( int nxp );
         // how much xp you get if you successfully cast the spell
-        int casting_exp( const Character &c ) const;
+        int casting_exp( const Character &guy ) const;
         // modifier for gaining exp
-        float exp_modifier( const Character &c ) const;
+        float exp_modifier( const Character &guy ) const;
         // level up!
         void gain_level();
         // is the spell at max level?
@@ -337,21 +337,21 @@ class spell
         // distance spell can be cast
         int range() const;
         // how much energy does the spell cost
-        int energy_cost( const Character &c ) const;
+        int energy_cost( const Character &guy ) const;
         // how long does this spell's effect last
         int duration() const;
         time_duration duration_turns() const;
         // how often does the spell fail
         // based on difficulty, level of spell, spellcraft skill, intelligence
-        float spell_fail( const Character &c ) const;
-        std::string colorized_fail_percent( const Character &c ) const;
+        float spell_fail( const Character &guy ) const;
+        std::string colorized_fail_percent( const Character &guy ) const;
         // how long does it take to cast the spell
-        int casting_time( const Character &c ) const;
+        int casting_time( const Character &guy ) const;
 
         // can the Character cast this spell?
-        bool can_cast( const Character &c ) const;
+        bool can_cast( const Character &guy ) const;
         // can the Character learn this spell?
-        bool can_learn( const Character &c ) const;
+        bool can_learn( const Character &guy ) const;
         // is this spell valid
         bool is_valid() const;
         // is the bodypart affected by the effect
@@ -384,9 +384,9 @@ class spell
         // energy source as a string (translated)
         std::string energy_string() const;
         // energy cost returned as a string
-        std::string energy_cost_string( const Character &c ) const;
+        std::string energy_cost_string( const Character &guy ) const;
         // current energy the Character has available as a string
-        std::string energy_cur_string( const Character &c ) const;
+        std::string energy_cur_string( const Character &guy ) const;
         // prints out a list of valid targets separated by commas
         std::string enumerate_targets() const;
         // returns the name string of all list of all targeted monster id
@@ -422,13 +422,13 @@ class spell
         void cast_all_effects( Creature &source, const tripoint &target ) const;
 
         // checks if a target point is in spell range
-        bool is_target_in_range( const Creature &caster, const tripoint &c ) const;
+        bool is_target_in_range( const Creature &caster, const tripoint &guy ) const;
 
         // is the target valid for this spell?
-        bool is_valid_target( const Creature &caster, const tripoint &c ) const;
+        bool is_valid_target( const Creature &caster, const tripoint &guy ) const;
         bool is_valid_target( valid_target t ) const;
         bool is_valid_effect_target( valid_target t ) const;
-        bool target_by_monster_id( const tripoint &c ) const;
+        bool target_by_monster_id( const tripoint &guy ) const;
 
         // picks a random valid tripoint from @area
         cata::optional<tripoint> random_valid_target( const Creature &caster,
@@ -452,15 +452,15 @@ class known_magic
 
         known_magic();
 
-        void learn_spell( const std::string &sp, Character &c, bool force = false );
-        void learn_spell( const spell_id &sp, Character &c, bool force = false );
-        void learn_spell( const spell_type *sp, Character &c, bool force = false );
+        void learn_spell( const std::string &sp, Character &guy, bool force = false );
+        void learn_spell( const spell_id &sp, Character &guy, bool force = false );
+        void learn_spell( const spell_type *sp, Character &guy, bool force = false );
         void forget_spell( const std::string &sp );
         void forget_spell( const spell_id &sp );
         // time in moves for the Character to memorize the spell
-        int time_to_learn_spell( const Character &c, const spell_id &sp ) const;
-        int time_to_learn_spell( const Character &c, const std::string &str ) const;
-        bool can_learn_spell( const Character &c, const spell_id &sp ) const;
+        int time_to_learn_spell( const Character &guy, const spell_id &sp ) const;
+        int time_to_learn_spell( const Character &guy, const std::string &str ) const;
+        bool can_learn_spell( const Character &guy, const spell_id &sp ) const;
         bool knows_spell( const std::string &sp ) const;
         bool knows_spell( const spell_id &sp ) const;
         // does the Character know a spell?
@@ -471,21 +471,21 @@ class known_magic
         spell &get_spell( const spell_id &sp );
         // opens up a ui that the Character can choose a spell from
         // returns the index of the spell in the vector of spells
-        int select_spell( const Character &c );
+        int select_spell( const Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
         // how much mana is available to use to cast spells
         int available_mana() const;
         // max mana vailable
-        int max_mana( const Character &c ) const;
-        void mod_mana( const Character &c, int add_mana );
+        int max_mana( const Character &guy ) const;
+        void mod_mana( const Character &guy, int add_mana );
         void set_mana( int new_mana );
-        void update_mana( const Character &c, float turns );
+        void update_mana( const Character &guy, float turns );
         // does the Character have enough energy to cast this spell?
         // not specific to mana
-        bool has_enough_energy( const Character &c, spell &sp ) const;
+        bool has_enough_energy( const Character &guy, spell &sp ) const;
 
-        void on_mutation_gain( const trait_id &mid, Character &c );
+        void on_mutation_gain( const trait_id &mid, Character &guy );
         void on_mutation_loss( const trait_id &mid );
 
         void serialize( JsonOut &json ) const;
