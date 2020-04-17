@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "event_bus.h"
+#include "optional.h"
 #include "string_id.h"
 #include "translations.h"
 
@@ -29,6 +30,18 @@ struct enum_traits<achievement_comparison> {
     static constexpr achievement_comparison last = achievement_comparison::last;
 };
 
+enum class achievement_completion {
+    pending,
+    completed,
+    failed,
+    last
+};
+
+template<>
+struct enum_traits<achievement_completion> {
+    static constexpr achievement_completion last = achievement_completion::last;
+};
+
 class achievement
 {
     public:
@@ -37,6 +50,7 @@ class achievement
         void load( const JsonObject &, const std::string & );
         void check() const;
         static void load_achievement( const JsonObject &, const std::string & );
+        static void finalize();
         static void check_consistency();
         static const std::vector<achievement> &get_all();
         static void reset();
@@ -48,23 +62,42 @@ class achievement
             return description_;
         }
 
+        class time_bound
+        {
+            public:
+                enum class epoch {
+                    cataclysm,
+                    game_start,
+                    last
+                };
+
+                void deserialize( JsonIn & );
+
+                time_point target() const;
+                achievement_completion completed() const;
+                std::string ui_text() const;
+            private:
+                achievement_comparison comparison_;
+                epoch epoch_;
+                time_duration period_;
+        };
+
+        const cata::optional<time_bound> &time_constraint() const {
+            return time_constraint_;
+        }
+
         const std::vector<achievement_requirement> &requirements() const {
             return requirements_;
         }
     private:
         translation description_;
+        cata::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;
 };
 
-enum class achievement_completion {
-    pending,
-    completed,
-    last
-};
-
 template<>
-struct enum_traits<achievement_completion> {
-    static constexpr achievement_completion last = achievement_completion::last;
+struct enum_traits<achievement::time_bound::epoch> {
+    static constexpr achievement::time_bound::epoch last = achievement::time_bound::epoch::last;
 };
 
 struct achievement_state {

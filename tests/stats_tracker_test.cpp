@@ -11,6 +11,7 @@
 #include "game.h"
 #include "stats_tracker.h"
 #include "string_id.h"
+#include "stringmaker.h"
 #include "type_id.h"
 
 TEST_CASE( "stats_tracker_count_events", "[stats]" )
@@ -227,29 +228,68 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
 
 TEST_CASE( "achievments_tracker", "[stats]" )
 {
-    const achievement *achievement_completed = nullptr;
+    std::map<string_id<achievement>, const achievement *> achievements_completed;
     event_bus b;
     stats_tracker s;
     b.subscribe( &s );
     achievements_tracker a( s, [&]( const achievement * a ) {
-        achievement_completed = a;
+        achievements_completed.emplace( a->id, a );
     } );
     b.subscribe( &a );
 
     SECTION( "kills" ) {
+        time_duration time_since_game_start = GENERATE( 30_seconds, 10_minutes );
+        CAPTURE( time_since_game_start );
+        calendar::turn = calendar::start_of_game + time_since_game_start;
+
         const character_id u_id = g->u.getID();
         const mtype_id mon_zombie( "mon_zombie" );
         const cata::event avatar_zombie_kill =
             cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
 
+        string_id<achievement> a_kill_zombie( "achievement_kill_zombie" );
+        string_id<achievement> a_kill_in_first_minute( "achievement_kill_in_first_minute" );
+
         b.send<event_type::game_start>( u_id );
-        CHECK( achievement_completed == nullptr );
+
+        CHECK( a.ui_text_for( &*a_kill_zombie ) ==
+               "<color_c_yellow>One down, billions to go…</color>\n"
+               "  <color_c_yellow>0/1 Number of zombies killed</color>\n" );
+        if( time_since_game_start < 1_minutes ) {
+            CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
+                   "<color_c_yellow>Rude awakening</color>\n"
+                   "  <color_c_light_green>Within 1 minute of start of game (30 seconds remaining)</color>\n"
+                   "  <color_c_yellow>0/1 Number of monsters killed</color>\n" );
+        } else {
+            CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
+                   "<color_c_light_gray>Rude awakening</color>\n"
+                   "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
+                   "  <color_c_yellow>0/1 Number of monsters killed</color>\n" );
+        }
+
+        CHECK( achievements_completed.empty() );
         b.send( avatar_zombie_kill );
-        REQUIRE( achievement_completed != nullptr );
-        CHECK( achievement_completed->id.str() == "achievement_kill_zombie" );
-        CHECK( a.ui_text_for( achievement_completed ) ==
-               "<color_c_light_green>One down, billions to go…</color>\n"
-               "  <color_c_green>1/1 Number of zombies killed</color>\n" );
+
+        if( time_since_game_start < 1_minutes ) {
+            CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
+                   "<color_c_light_green>One down, billions to go…</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 0 0000.30</color>\n"
+                   "  <color_c_green>1/1 Number of zombies killed</color>\n" );
+            CHECK( a.ui_text_for( achievements_completed.at( a_kill_in_first_minute ) ) ==
+                   "<color_c_light_green>Rude awakening</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 0 0000.30</color>\n"
+                   "  <color_c_green>1/1 Number of monsters killed</color>\n" );
+        } else {
+            CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
+                   "<color_c_light_green>One down, billions to go…</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 0 0010.00</color>\n"
+                   "  <color_c_green>1/1 Number of zombies killed</color>\n" );
+            CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
+            CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
+                   "<color_c_light_gray>Rude awakening</color>\n"
+                   "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
+                   "  <color_c_green>1/1 Number of monsters killed</color>\n" );
+        }
     }
 }
 

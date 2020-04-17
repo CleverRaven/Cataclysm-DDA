@@ -195,7 +195,9 @@ void game::unserialize( std::istream &fin )
         calendar::turn = tmpturn;
         calendar::start_of_cataclysm = tmpcalstart;
 
-        data.read( "game_start", calendar::start_of_game, calendar::start_of_cataclysm );
+        if( !data.read( "game_start", calendar::start_of_game ) ) {
+            calendar::start_of_game = calendar::start_of_cataclysm;
+        }
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
