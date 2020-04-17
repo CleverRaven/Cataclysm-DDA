@@ -364,6 +364,7 @@
       { "item": "m2browning", "prob": 15 },
       { "item": "mark19", "prob": 15 },
       { "item": "556", "prob": 30 },
+      { "item": "belt40mm", "prob": 8 },
       { "item": "40x46mm_m433", "prob": 10 },
       { "item": "40x46mm_m576", "prob": 6 },
       { "item": "8mm_hvp", "prob": 4 },
