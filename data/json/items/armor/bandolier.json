@@ -102,7 +102,7 @@
     "coverage": 10,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 25, "ammo": [ "410shot", "shot", "20x66mm", "signal_flare" ], "draw_cost": 25 },
+    "use_action": { "type": "bandolier", "capacity": 25, "ammo": [ "410shot", "12ga", "20x66mm", "signal_flare" ], "draw_cost": 25 },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
   {
@@ -122,7 +122,7 @@
     "coverage": 12,
     "encumbrance": 3,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 50, "ammo": [ "410shot", "shot", "20x66mm", "signal_flare" ], "draw_cost": 35 },
+    "use_action": { "type": "bandolier", "capacity": 50, "ammo": [ "410shot", "12ga", "20x66mm", "signal_flare" ], "draw_cost": 35 },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
   },
   {
