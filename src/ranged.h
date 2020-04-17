@@ -89,8 +89,8 @@ trajectory mode_turret_manual( player &pc, turret_data *turret );
 trajectory mode_turrets( player &pc, vehicle *veh, const std::vector<vehicle_part *> *turrets );
 
 /** Casting a spell */
-trajectory mode_spell( spell *casting, bool no_fail, bool no_mana );
-trajectory mode_spell( spell_id sp, bool no_fail, bool no_mana );
+trajectory mode_spell( player &pc, spell *casting, bool no_fail, bool no_mana );
+trajectory mode_spell( player &pc, spell_id sp, bool no_fail, bool no_mana );
 }
 
 int range_with_even_chance_of_good_hit( int dispersion );

@@ -113,53 +113,81 @@ enum target_mode : int {
     TARGET_MODE_SPELL
 };
 
-// TODO: Remove these forward declarations when done refactoring
-namespace target_handler
+class target_ui
 {
-std::vector<tripoint> target_ui( player &pc, target_mode mode,
-                                 item *relevant, int range,
-                                 const itype *ammo = nullptr,
-                                 turret_data *turret = nullptr,
-                                 vehicle *veh = nullptr,
-                                 const std::vector<vehicle_part *> &vturrets = std::vector<vehicle_part *>()
-                               );
-std::vector<tripoint> target_ui( spell_id sp, bool no_fail = false,
-                                 bool no_mana = false );
-std::vector<tripoint> target_ui( spell &casting, bool no_fail = false,
-                                 bool no_mana = false );
-}
+    public:
+        // Interface mode
+        target_mode mode = TARGET_MODE_FIRE;
+        // Weapon being fired/thrown
+        item *relevant = nullptr;
+        // Cached selection range from player's position
+        int range = 0;
+        // Cached current ammo to display
+        const itype *ammo = nullptr;
+        // Turret being manually fired
+        turret_data *turret = nullptr;
+        // Turrets being fired (via vehicle controls)
+        const std::vector<vehicle_part *> *vturrets = nullptr;
+        // Vehicle that turrets belong to
+        vehicle *veh = nullptr;
+        // Spell being cast
+        spell *casting = nullptr;
+        // Spell cannot fail
+        bool no_fail = false;
+        // Spell does not require mana
+        bool no_mana = false;
+
+        target_handler::trajectory run( player &pc );
+
+    private:
+        // TODO: break down these functions into methods
+        std::vector<tripoint> run_normal_ui_old( player &pc );
+        std::vector<tripoint> run_spell_ui_old( player &pc );
+};
 
 target_handler::trajectory target_handler::mode_fire( player &pc, item *weapon )
 {
+    target_ui ui = target_ui();
+    ui.mode = TARGET_MODE_FIRE;
+    ui.relevant = weapon;
     gun_mode gun = weapon->gun_current_mode();
-    int range = gun.target->gun_range( &pc );
-    const itype *ammo = gun->ammo_data();
+    ui.range = gun.target->gun_range( &pc );
+    ui.ammo = gun->ammo_data();
 
-    return target_ui( pc, TARGET_MODE_FIRE, weapon, range, ammo );
+    return ui.run( pc );
 }
 
 target_handler::trajectory target_handler::mode_throw( player &pc, item *relevant,
         bool blind_throwing )
 {
-    target_mode mode = blind_throwing ? TARGET_MODE_THROW_BLIND : TARGET_MODE_THROW;
-    int range = pc.throw_range( *relevant );
+    target_ui ui = target_ui();
+    ui.mode = blind_throwing ? TARGET_MODE_THROW_BLIND : TARGET_MODE_THROW;
+    ui.relevant = relevant;
+    ui.range = pc.throw_range( *relevant );
 
-    return target_ui( pc, mode, relevant, range );
+    return ui.run( pc );
 }
 
 target_handler::trajectory target_handler::mode_reach( player &pc, item *weapon )
 {
-    int range = weapon->current_reach_range( pc );
-    return target_ui( pc, TARGET_MODE_REACH, weapon, range );
+    target_ui ui = target_ui();
+    ui.mode = TARGET_MODE_REACH;
+    ui.relevant = weapon;
+    ui.range = weapon->current_reach_range( pc );
+
+    return ui.run( pc );
 }
 
 target_handler::trajectory target_handler::mode_turret_manual( player &pc, turret_data *turret )
 {
-    item *turret_base = &*turret->base();
-    int range = turret->range();
-    const itype *ammo = turret->ammo_data();
+    target_ui ui = target_ui();
+    ui.mode = TARGET_MODE_TURRET_MANUAL;
+    ui.turret = turret;
+    ui.relevant = &*turret->base();
+    ui.range = turret->range();
+    ui.ammo = turret->ammo_data();
 
-    return target_ui( pc, TARGET_MODE_TURRET_MANUAL, turret_base, range, ammo, turret );
+    return ui.run( pc );
 }
 
 target_handler::trajectory target_handler::mode_turrets( player &pc, vehicle *veh,
@@ -181,19 +209,31 @@ target_handler::trajectory target_handler::mode_turrets( player &pc, vehicle *ve
         range_total = std::max( range_total, res );
     }
 
-    return target_ui( pc, TARGET_MODE_TURRET, nullptr, range_total, nullptr, nullptr, veh, *turrets );
+    target_ui ui = target_ui();
+    ui.mode = TARGET_MODE_TURRET;
+    ui.veh = veh;
+    ui.vturrets = turrets;
+    ui.range = range_total;
+
+    return ui.run( pc );
 }
 
-target_handler::trajectory target_handler::mode_spell( spell *casting, bool no_fail,
+target_handler::trajectory target_handler::mode_spell( player &pc, spell *casting, bool no_fail,
         bool no_mana )
 {
-    return target_ui( *casting, no_fail, no_mana );
+    target_ui ui = target_ui();
+    ui.mode = TARGET_MODE_SPELL;
+    ui.casting = casting;
+    ui.no_fail = no_fail;
+    ui.no_mana = no_mana;
+
+    return ui.run( pc );
 }
 
-target_handler::trajectory target_handler::mode_spell( spell_id sp, bool no_fail,
+target_handler::trajectory target_handler::mode_spell( player &pc, spell_id sp, bool no_fail,
         bool no_mana )
 {
-    return target_ui( sp, no_fail, no_mana );
+    return mode_spell( pc, &g->u.magic.get_spell( sp ), no_fail, no_mana );
 }
 
 bool targeting_data::is_valid() const
@@ -1437,9 +1477,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 }
 
 // TODO: Shunt redundant drawing code elsewhere
-std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
-        item *relevant, int range, const itype *ammo, turret_data *turret, vehicle *veh,
-        const std::vector<vehicle_part *> &vturrets )
+std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
 {
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
@@ -1710,7 +1748,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                predicted_delay );
                 }
             } else if( mode == TARGET_MODE_TURRET ) {
-                list_turrets_in_range( veh, vturrets, w_target, line_number, dst );
+                list_turrets_in_range( veh, *vturrets, w_target, line_number, dst );
             } else if( mode == TARGET_MODE_THROW && relevant ) {
                 draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, false );
             } else if( mode == TARGET_MODE_THROW_BLIND && relevant ) {
@@ -2027,17 +2065,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     return ret;
 }
 
-// magic mod
-std::vector<tripoint> target_handler::target_ui( spell_id sp, const bool no_fail,
-        const bool no_mana )
+std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
 {
-    return target_ui( g->u.magic.get_spell( sp ), no_fail, no_mana );
-}
-// does not have a targeting mode because we know this is the spellcasting version of this function
-std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_fail,
-        const bool no_mana )
-{
-    player &pc = g->u;
+    spell &casting = *this->casting; // TODO: make code use pointer
     if( !no_mana && !casting.can_cast( pc ) ) {
         pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                               casting.energy_string() );
@@ -2756,4 +2786,13 @@ double player::gun_value( const item &weap, int ammo ) const
              weap.type->get_id(), gun_value, dispersion_factor, damage_factor,
              capacity_factor );
     return std::max( 0.0, gun_value );
+}
+
+target_handler::trajectory target_ui::run( player &pc )
+{
+    if( mode == TARGET_MODE_SPELL ) {
+        return run_spell_ui_old( pc );
+    } else {
+        return run_normal_ui_old( pc );
+    }
 }
