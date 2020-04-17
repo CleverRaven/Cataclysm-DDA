@@ -67,23 +67,37 @@
     "relative": { "intelligence": -1, "price_postapoc": -1600, "chapters": 2 }
   },
   {
+    "abstract": "book_nonf_hard_cook_tpl",
+    "type": "BOOK",
+    "name": "Hardcover Cookbook",
+    "description": "This is a template for books about cooking.",
+    "skill": "cooking",
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "intelligence": -1 }
+  },
+  {
+    "abstract": "book_nonf_soft_cook_tpl",
+    "type": "BOOK",
+    "name": "Softcover Cookbook",
+    "description": "This is a template for books about cooking.",
+    "skill": "cooking",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "intelligence": -1 }
+  },
+  {
     "abstract": "book_nonf_hard_dodge_tpl",
     "type": "BOOK",
     "name": "dodge skillbook abstract",
     "description": "An ordinary book.  Or is it?  It is.",
     "weight": "600 g",
-    "volume": "1 L",
     "price": 1000,
     "price_postapoc": 5000,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "looks_like": "story_book",
-    "color": "light_blue",
     "flags": [ "TINDER", "FLAMMABLE" ],
     "skill": "dodge",
     "intelligence": 4,
     "time": "10 m",
-    "fun": -1
+    "fun": -1,
+    "copy-from": "book_nonf_hard_tpl"
   },
   {
     "abstract": "paperback_occult",
