@@ -6098,7 +6098,7 @@
     "id": "PROF_HELI_PILOT",
     "name": "Helicopter Pilot",
     "points": 0,
-    "description": "You are a commercial helicopter pilot, there are no paying passengers anymore, yet still you dream of taking your bird for a spin.",
+    "description": "You are a trained pilot, you wonder if you will ever have the chance to fly again.",
     "valid": false,
     "purifiable": false,
     "profession": true
