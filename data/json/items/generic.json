@@ -521,7 +521,7 @@
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 8,
-    "to_hit": -2,
+    "to_hit": -1,
     "qualities": [ [ "BUTCHER", -38 ] ]
   },
   {
