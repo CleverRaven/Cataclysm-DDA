@@ -51,13 +51,13 @@
     "id": "xl_uplift_death_drop",
     "subtype": "collection",
     "entries": [
-      { "xlboots_combat" },
-      { "xl_technician_pants_gray", "prob": 50 },
-      [ "xl_technician_shirt_gray", 100 ],
-      { "xl_jeans", "prob": 50 },
-      { "mp5mag", "prob": 10 },
-      { "military", "prob": 50 },
-      [ "mil_food", 100 ]
+      { "item": "xlboots_combat" },
+      { "item": "xl_technician_pants_gray", "prob": 50 },
+      { "item": "xl_technician_shirt_gray", 100 },
+      { "item": "xl_jeans", "prob": 50 },
+      { "item": "mp5mag", "prob": 10 },
+      { "group": "military", "prob": 50 },
+      { "group": "mil_food", 100 }
     ]
   },
   {
@@ -65,13 +65,13 @@
     "id": "xl_uplift_zed_death_drop",
     "subtype": "collection",
     "entries": [
-      { "xlboots_combat" },
-      { "xl_technician_pants_gray", "prob": 50 },
-      [ "xl_technician_shirt_gray", 100 ],
-      { "xl_jeans", "prob": 50 },
-      { "mp5mag", "prob": 10 },
-      { "military", "prob": 50 },
-      [ "mil_food", 100 ]
+      { "item": "xlboots_combat" },
+      { "item": "xl_technician_pants_gray", "prob": 50 },
+      { "item": "xl_technician_shirt_gray", 100 },
+      { "item": "xl_jeans", "prob": 50 },
+      { "item": "mp5mag", "prob": 10 },
+      { "group": "military", "prob": 50 },
+      { "group": "mil_food", 100 }
     ]
   }
 ]
