@@ -8,6 +8,7 @@
     "weight": "4535 g",
     "volume": "2 L",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -1,
     "bashing": 4,
     "material": [ "steel" ],
@@ -28,6 +29,7 @@
     "bashing": 7,
     "category": "veh_parts",
     "price": 90000,
+    "price_postapoc": 5000,
     "ammo": "plutonium",
     "max_charges": 10000
   },
@@ -44,7 +46,8 @@
     "volume": "7500 ml",
     "bashing": 12,
     "category": "veh_parts",
-    "price": 20000
+    "price": 20000,
+    "price_postapoc": 1500
   },
   {
     "type": "GENERIC",
@@ -59,7 +62,8 @@
     "volume": "7500 ml",
     "bashing": 12,
     "category": "veh_parts",
-    "price": 20000
+    "price": 20000,
+    "price_postapoc": 1500
   },
   {
     "type": "GENERIC",
@@ -74,7 +78,8 @@
     "volume": "2500 ml",
     "bashing": 4,
     "category": "veh_parts",
-    "price": 3000
+    "price": 3000,
+    "price_postapoc": 10
   },
   {
     "type": "GENERIC",
@@ -89,7 +94,8 @@
     "volume": "5 L",
     "bashing": 5,
     "category": "veh_parts",
-    "price": 90000
+    "price": 90000,
+    "price_postapoc": 1000
   },
   {
     "type": "GENERIC",
@@ -104,7 +110,8 @@
     "volume": "125 L",
     "bashing": 8,
     "category": "veh_parts",
-    "price": 60000
+    "price": 60000,
+    "price_postapoc": 500
   },
   {
     "type": "GENERIC",
@@ -119,7 +126,8 @@
     "volume": "10 L",
     "bashing": 3,
     "category": "veh_parts",
-    "price": 90000
+    "price": 90000,
+    "price_postapoc": 2500
   },
   {
     "type": "GENERIC",
@@ -127,6 +135,7 @@
     "name": { "str": "mountable autoclave" },
     "description": "This autoclave has been rigged to run off a vehicle power grid.",
     "price": 162654,
+    "price_postapoc": 1500,
     "symbol": "A",
     "color": "yellow",
     "weight": "34500 g",
@@ -147,6 +156,7 @@
     "name": { "str": "minifreezer" },
     "description": "Compact version of a chest freezer, designed as a mobile solution for freezing food.  Provides insulation from the elements.",
     "price": 70000,
+    "price_postapoc": 4000,
     "insulation": 4,
     "copy-from": "minifridge"
   },
@@ -181,6 +191,7 @@
     "volume": "750 ml",
     "bashing": 2,
     "category": "veh_parts",
-    "price": 3000
+    "price": 3000,
+    "price_postapoc": 50
   }
 ]

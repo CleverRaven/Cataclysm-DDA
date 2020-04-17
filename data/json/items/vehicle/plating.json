@@ -14,6 +14,7 @@
     "bashing": 5,
     "category": "spare_parts",
     "price": 6000,
+    "price_postapoc": 100,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -29,7 +30,8 @@
     "volume": "1250 ml",
     "bashing": 5,
     "category": "veh_parts",
-    "price": 7500
+    "price": 7500,
+    "price_postapoc": 250
   },
   {
     "type": "GENERIC",
@@ -44,7 +46,8 @@
     "volume": "3 L",
     "bashing": 10,
     "category": "veh_parts",
-    "price": 12000
+    "price": 12000,
+    "price_postapoc": 100
   },
   {
     "type": "GENERIC",
@@ -60,6 +63,7 @@
     "bashing": 6,
     "category": "veh_parts",
     "price": 12000,
+    "price_postapoc": 250,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -76,6 +80,7 @@
     "bashing": 6,
     "category": "veh_parts",
     "price": 18500,
+    "price_postapoc": 500,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -91,6 +96,7 @@
     "volume": "500 ml",
     "category": "veh_parts",
     "price": 8500,
+    "price_postapoc": 500,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -109,6 +115,7 @@
     "flags": [ "STAB" ],
     "category": "veh_parts",
     "price": 18500,
+    "price_postapoc": 250,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -125,6 +132,7 @@
     "bashing": 6,
     "category": "veh_parts",
     "price": 16000,
+    "price_postapoc": 500,
     "qualities": [ [ "COOK", 1 ], [ "ANVIL", 1 ] ]
   },
   {
@@ -141,6 +149,7 @@
     "bashing": 8,
     "category": "veh_parts",
     "price": 16000,
+    "price_postapoc": 750,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -151,6 +160,7 @@
     "name": { "str": "chitin armor kit" },
     "description": "Light chitin plating made for a vehicle.",
     "price": 1200,
+    "price_postapoc": 250,
     "material": [ "chitin" ],
     "weight": "2000 g",
     "volume": "5500 ml",
@@ -175,6 +185,7 @@
     "name": { "str": "bone armor kit" },
     "description": "Bone plating made for a vehicle.",
     "price": 1200,
+    "price_postapoc": 100,
     "material": [ "bone" ],
     "weight": "4000 g",
     "volume": "9500 ml",
