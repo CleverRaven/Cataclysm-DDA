@@ -224,6 +224,7 @@ static const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
+static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -10153,6 +10154,23 @@ void game::vertical_move( int movez, bool force )
     }
 
     if( !u.move_effects( false ) ) {
+        return;
+    }
+
+    if( m.has_flag( "UNSTABLE", u.pos() ) ) {
+        u.moves -= 500;
+    }
+
+    ///\EFFECT_DEX decreases chances of slipping while climbing
+    int climb = u.dex_cur;
+    if( u.has_trait( trait_BADKNEES ) ) {
+        climb /= 2;
+    }
+    if( movez == 1 && one_in( climb ) ) {
+        add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
+        if( climb <= 1 ) {
+            add_msg( m_bad, _( "Climbing is impossible in your current state." ) );
+        }
         return;
     }
 
