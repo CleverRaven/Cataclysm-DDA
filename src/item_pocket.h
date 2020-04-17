@@ -132,6 +132,8 @@ class item_pocket
         bool resealable() const;
         // seal the pocket. returns false if it fails (pocket does not seal)
         bool seal();
+        // unseal the pocket.
+        void unseal();
         /**
          * if the item is resealable then it is never "sealed", otherwise check if sealed and !resealable
          * if the item is "sealed" then that means you cannot interact with it normally without breaking the seal

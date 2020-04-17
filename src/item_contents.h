@@ -123,6 +123,7 @@ class item_contents
         // spill items that don't fit in the container
         void overflow( const tripoint &pos );
         void clear_items();
+        void update_open_pockets();
 
         /**
          * Sets the items contained to their defaults.

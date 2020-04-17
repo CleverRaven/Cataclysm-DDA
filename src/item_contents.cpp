@@ -411,6 +411,15 @@ void item_contents::clear_items()
     }
 }
 
+void item_contents::update_open_pockets()
+{
+    for( item_pocket &pocket : contents ) {
+        if( pocket.empty() ) {
+            pocket.unseal();
+        }
+    }
+}
+
 void item_contents::set_item_defaults()
 {
     /* For Items with a magazine or battery in its contents */

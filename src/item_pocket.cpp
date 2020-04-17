@@ -460,6 +460,11 @@ bool item_pocket::seal()
     return true;
 }
 
+void item_pocket::unseal()
+{
+    _sealed = false;
+}
+
 bool item_pocket::sealed() const
 {
     if( resealable() ) {
