@@ -8664,8 +8664,12 @@ bool game::unload( item &it )
     return u.unload( it );
 }
 
-void game::wield( item_location &loc )
+void game::wield( item_location loc )
 {
+    if( !loc ) {
+        debugmsg( "ERROR: tried to wield null item" );
+        return;
+    }
     if( u.is_armed() ) {
         const bool is_unwielding = u.is_wielding( *loc );
         const auto ret = u.can_unwield( *loc );
