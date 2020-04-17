@@ -102,7 +102,6 @@ bool item_pocket::same_contents( const item_pocket &rhs ) const
 
 void item_pocket::restack()
 {
-    return;
     if( contents.size() <= 1 ) {
         return;
     }
