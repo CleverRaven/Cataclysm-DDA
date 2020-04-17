@@ -14,6 +14,7 @@
     "calories": 26,
     "description": "Bird dropping, feathers, and soiled bits of rubbish.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "feces",
     "volume": "250 ml",
     "charges": 4,
