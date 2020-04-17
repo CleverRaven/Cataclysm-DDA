@@ -1220,7 +1220,7 @@ cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
     return random_entry( valid_area );
 }
 
-// Character
+// player
 
 known_magic::known_magic()
 {
