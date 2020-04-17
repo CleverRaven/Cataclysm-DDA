@@ -42,13 +42,13 @@
   },
   {
     "type": "construction_category",
-    "id": "OTHER",
-    "name": "Others"
+    "id": "WINDOWS",
+    "name": "Windows"
   },
   {
     "type": "construction_category",
-    "id": "WINDOWS",
-    "name": "Windows"
+    "id": "OTHER",
+    "name": "Others"
   },
   {
     "//": "Should be last in the list",

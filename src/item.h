@@ -2234,13 +2234,13 @@ bool item_ptr_compare_by_charges( const item *left, const item *right );
  *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
  *  will eventually be rewritten to eliminate the need for this hack.
  */
-enum hint_rating {
+enum class hint_rating : int {
     /** Item should display as gray */
-    HINT_CANT = 0,
+    cant = 0,
     /** Item should display as red */
-    HINT_IFFY = 1,
+    iffy = 1,
     /** Item should display as green */
-    HINT_GOOD = -999
+    good = -999
 };
 
 /**

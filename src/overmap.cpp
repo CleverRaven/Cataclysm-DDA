@@ -1764,14 +1764,15 @@ bool overmap::generate_sub( const int z )
         requires_sub = true;
     }
     for( auto &i : ant_points ) {
-        if( ter( { i.pos, z } ) != "empty_rock" ) {
+        const tripoint p_loc = tripoint( i.pos, z );
+        if( ter( p_loc ) != "empty_rock" ) {
             continue;
         }
-        mongroup_id ant_group( ter( i.pos + tripoint_above ) == "anthill" ?
+        mongroup_id ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
                                "GROUP_ANT" : "GROUP_ANT_ACID" );
         add_mon_group( mongroup( ant_group, tripoint( i.pos.x * 2, i.pos.y * 2, z ),
                                  ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
-        build_anthill( tripoint( i.pos, z ), i.size );
+        build_anthill( p_loc, i.size );
     }
 
     return requires_sub;

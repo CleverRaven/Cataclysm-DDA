@@ -17,12 +17,12 @@
     "symbol": "/",
     "color": "red",
     "name": { "str": "fake firecannon" },
+    "ranged_damage": { "damage_type": "heat", "amount": 20, "armor_penetration": 30 },
     "description": "Fires an explosive bolt of firey energy.  If you're seeing this, it's a bug.",
     "skill": "launcher",
     "range": 15,
-    "ranged_damage": 5,
     "flags": [ "NEVER_JAMS" ],
-    "ammo_effects": [ "NAPALM", "PLASMA", "STREAM_BIG", "INCENDIARY" ]
+    "ammo_effects": [ "NAPALM", "PLASMA", "INCENDIARY" ]
   },
   {
     "id": "dks_mon_radgun",
@@ -31,6 +31,7 @@
     "symbol": "/",
     "color": "red",
     "name": { "str": "fake smokegun" },
+    "ranged_damage": { "damage_type": "bash", "amount": 1 },
     "description": "Shoots dangerous radioactive gas.  If you're seeing this, it's a bug.",
     "skill": "launcher",
     "range": 10,
@@ -44,6 +45,7 @@
     "symbol": "/",
     "color": "red",
     "name": { "str": "fake riotgun" },
+    "ranged_damage": { "damage_type": "bash", "amount": 1 },
     "description": "Shoots pacification gas.  If you're seeing this, it's a bug.",
     "skill": "launcher",
     "range": 25,
