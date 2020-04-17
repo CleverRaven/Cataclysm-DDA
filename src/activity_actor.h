@@ -28,6 +28,13 @@ class activity_actor
         virtual activity_id get_type() const = 0;
 
         /**
+         * Called once at the start of the activity.
+         * This may be used to preform setup actions and/or set
+         * player_activity::moves_left/moves_total.
+         */
+        virtual void start( player_activity &act, Character &who ) = 0;
+
+        /**
          * Called on every turn of the activity
          * It may be used to stop the activity prematurely by setting it to null.
          */
@@ -77,6 +84,8 @@ class move_items_activity_actor : public activity_actor
         activity_id get_type() const override {
             return activity_id( "ACT_MOVE_ITEMS" );
         }
+
+        void start( player_activity &, Character & ) override {};
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
 
@@ -97,6 +106,7 @@ class migration_cancel_activity_actor : public activity_actor
             return activity_id( "ACT_MIGRATION_CANCEL" );
         }
 
+        void start( player_activity &, Character & ) override {};
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
 
