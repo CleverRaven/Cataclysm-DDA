@@ -795,10 +795,11 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```NO_UNWIELD``` Cannot unwield this item.
+- ```POLEARM``` Item is clumsy up close and does 70% of normal damage against adjacent targets.  Should be paired with REACH_ATTACK.  Simple reach piercing weapons like spears should not get this flag.
 - ```REACH_ATTACK``` Allows to perform reach attack.
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
-- ```SPEAR``` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle
+- ```SPEAR``` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle.  Should be paired with REACH_ATTACK.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```WHIP``` Has a chance of disarming the opponent.
 

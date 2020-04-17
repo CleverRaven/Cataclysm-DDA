@@ -655,6 +655,7 @@ class Character : public Creature, public visitable<Character>
         std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam );
+        bool reach_attacking = false;
 
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks( Creature &t ) const;
