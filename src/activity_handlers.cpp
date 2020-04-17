@@ -3397,7 +3397,8 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         upgraded_cbm_id = 4,
         installer_name = 5,
         is_autodoc = 6,
-        trait_first = 7
+        trait_first = 7,
+        first_bodypart_involved = 8
     };
     const bionic_id bid( act->str_values[cbm_id] );
     const bionic_id upbid( act->str_values[upgraded_cbm_id] );
@@ -3426,15 +3427,15 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                           _( "The Autodoc's failure damages you greatly." ),
                                           _( "The Autodoc's failure damages <npcname> greatly." ) );
             }
-            if( act->values.size() > 4 ) {
-                for( size_t i = 4; i < act->values.size(); i++ ) {
-                    p->make_bleed( body_part( act->values[i] ), 1_turns, difficulty, true );
-                    p->apply_damage( nullptr, body_part( act->values[i] ), 20 * difficulty );
+            if( act->str_values.size() > 7 ) {
+                for( size_t i = first_bodypart_involved; i < act->str_values.size(); i++ ) {
+                    p->make_bleed( bodypart_id( act->str_values[i] )->token, 1_turns, difficulty, true );
+                    p->apply_damage( nullptr, bodypart_id( act->str_values[i] ), 20 * difficulty );
 
                     if( u_see ) {
                         p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
                                                   _( "<npcname>'s %s is ripped open." ),
-                                                  body_part_name_accusative( body_part( act->values[i] ) ) );
+                                                  body_part_name_accusative( bodypart_id( act->str_values[i] )->token ) );
                     }
 
                     if( body_part( act->values[i] ) == bp_eyes ) {
@@ -3443,7 +3444,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 }
             } else {
                 p->make_bleed( num_bp, 1_turns, difficulty, true );
-                p->apply_damage( nullptr, num_bp, 20 * difficulty );
+                p->apply_damage( nullptr, bodypart_id( "num_bp" ), 20 * difficulty );
             }
         }
     }
@@ -4516,7 +4517,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         //A near success
         p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ), z->name() );
         //damage it a little
-        z->apply_damage( p, bp_torso, rng( 1, 10 ) );
+        z->apply_damage( p, bodypart_id( "torso" ), rng( 1, 10 ) );
         if( z->is_dead() ) {
             p->practice( skill_id( "computer" ), 10 );
             // Do not do the other effects if the robot died

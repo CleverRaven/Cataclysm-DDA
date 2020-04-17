@@ -843,7 +843,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
 
     mod_pain( total_pain );
 
-    apply_damage( source, bp, total_damage );
+    apply_damage( source, convert_bp( bp ).id(), total_damage );
     return dealt_dams;
 }
 void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,

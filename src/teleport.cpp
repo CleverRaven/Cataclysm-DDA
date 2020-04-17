@@ -56,7 +56,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
             }
             return false;
         }
-        critter.apply_damage( nullptr, bp_torso, 9999 );
+        critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
         if( c_is_u ) {
             g->events().send<event_type::teleports_into_wall>( p->getID(), g->m.obstacle_name( new_pos ) );
             add_msg( m_bad, _( "You die after teleporting into a solid." ) );
@@ -95,7 +95,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
                 }
             }
             //Splatter real nice.
-            poor_soul->apply_damage( nullptr, bp_torso, 9999 );
+            poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
             poor_soul->check_dead_state();
         }
     }

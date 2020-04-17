@@ -1492,10 +1492,10 @@ void player::knock_back_to( const tripoint &to )
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
             critter->knock_back_from( pos() ); // Chain reaction!
-            critter->apply_damage( this, bp_torso, ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         } else if( ( str_max - 6 ) / 4 == critter->type->size ) {
-            critter->apply_damage( this, bp_torso, ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         }
         critter->check_dead_state();
@@ -1525,7 +1525,7 @@ void player::knock_back_to( const tripoint &to )
 
         // It's some kind of wall.
         // TODO: who knocked us back? Maybe that creature should be the source of the damage?
-        apply_damage( nullptr, bp_torso, 3 );
+        apply_damage( nullptr, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                g->m.obstacle_name( to ) );
@@ -1754,14 +1754,14 @@ void player::process_one_effect( effect &it, bool is_new )
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
                 }
-                apply_damage( nullptr, bp_torso, val, true );
+                apply_damage( nullptr, bodypart_id( "torso" ), val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
-                apply_damage( nullptr, bp, val, true );
+                apply_damage( nullptr, convert_bp( bp ).id(), val, true );
             }
         }
     }

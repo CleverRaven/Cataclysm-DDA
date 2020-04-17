@@ -1714,8 +1714,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         add_msg( m_bad, _( "You fall asleep…" ) );
         p.fall_asleep( 2_hours );
         add_msg( m_bad, _( "Your legs are covered in the poppy's roots!" ) );
-        p.apply_damage( nullptr, bp_leg_l, 4 );
-        p.apply_damage( nullptr, bp_leg_r, 4 );
+        p.apply_damage( nullptr, bodypart_id( "leg_l" ), 4 );
+        p.apply_damage( nullptr, bodypart_id( "leg_r" ), 4 );
         p.moves -= 50;
     }
 
@@ -1741,8 +1741,8 @@ void iexamine::flower_cactus( player &p, const tripoint &examp )
 
     if( one_in( 6 ) ) {
         add_msg( m_bad, _( "The cactus' nettles sting you!" ) );
-        p.apply_damage( nullptr, bp_arm_l, 4 );
-        p.apply_damage( nullptr, bp_arm_r, 4 );
+        p.apply_damage( nullptr, bodypart_id( "arm_l" ), 4 );
+        p.apply_damage( nullptr, bodypart_id( "arm_r" ), 4 );
     }
 
     g->m.furn_set( examp, f_null );
