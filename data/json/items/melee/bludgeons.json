@@ -464,9 +464,9 @@
     "techniques": [ "WBLOCK_1" ],
     "weight": "420 g",
     "volume": "1750 ml",
-    "bashing": 14,
+    "bashing": 18,
     "cutting": 1,
-    "to_hit": 1
+    "to_hit": 2
   },
   {
     "type": "GENERIC",
@@ -501,7 +501,7 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": "2200 g",
     "volume": "3 L",
-    "bashing": 25,
+    "bashing": 29,
     "category": "weapons",
     "to_hit": 3,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -517,7 +517,7 @@
     "price": 5000,
     "price_postapoc": 3000,
     "to_hit": 3,
-    "bashing": 18,
+    "bashing": 24,
     "material": [ "superalloy", "steel" ],
     "symbol": "/",
     "color": "light_gray",
@@ -548,6 +548,7 @@
     "name": { "str": "L-stick (on)", "str_pl": "L-sticks (on)" },
     "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries.",
     "material": [ "superalloy", "steel" ],
+    "to_hit": 4,
     "revert_to": "l-stick",
     "power_draw": 5000,
     "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
