@@ -103,6 +103,99 @@ int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
+enum target_mode : int {
+    TARGET_MODE_FIRE,
+    TARGET_MODE_THROW,
+    TARGET_MODE_TURRET,
+    TARGET_MODE_TURRET_MANUAL,
+    TARGET_MODE_REACH,
+    TARGET_MODE_THROW_BLIND,
+    TARGET_MODE_SPELL
+};
+
+// TODO: Remove these forward declarations when done refactoring
+namespace target_handler
+{
+std::vector<tripoint> target_ui( player &pc, target_mode mode,
+                                 item *relevant, int range,
+                                 const itype *ammo = nullptr,
+                                 turret_data *turret = nullptr,
+                                 vehicle *veh = nullptr,
+                                 const std::vector<vehicle_part *> &vturrets = std::vector<vehicle_part *>()
+                               );
+std::vector<tripoint> target_ui( spell_id sp, bool no_fail = false,
+                                 bool no_mana = false );
+std::vector<tripoint> target_ui( spell &casting, bool no_fail = false,
+                                 bool no_mana = false );
+}
+
+target_handler::trajectory target_handler::mode_fire( player &pc, item *weapon )
+{
+    gun_mode gun = weapon->gun_current_mode();
+    int range = gun.target->gun_range( &pc );
+    const itype *ammo = gun->ammo_data();
+
+    return target_ui( pc, TARGET_MODE_FIRE, weapon, range, ammo );
+}
+
+target_handler::trajectory target_handler::mode_throw( player &pc, item *relevant,
+        bool blind_throwing )
+{
+    target_mode mode = blind_throwing ? TARGET_MODE_THROW_BLIND : TARGET_MODE_THROW;
+    int range = pc.throw_range( *relevant );
+
+    return target_ui( pc, mode, relevant, range );
+}
+
+target_handler::trajectory target_handler::mode_reach( player &pc, item *weapon )
+{
+    int range = weapon->current_reach_range( pc );
+    return target_ui( pc, TARGET_MODE_REACH, weapon, range );
+}
+
+target_handler::trajectory target_handler::mode_turret_manual( player &pc, turret_data *turret )
+{
+    item *turret_base = &*turret->base();
+    int range = turret->range();
+    const itype *ammo = turret->ammo_data();
+
+    return target_ui( pc, TARGET_MODE_TURRET_MANUAL, turret_base, range, ammo, turret );
+}
+
+target_handler::trajectory target_handler::mode_turrets( player &pc, vehicle *veh,
+        const std::vector<vehicle_part *> *turrets )
+{
+    // Find radius of a circle centered at u encompassing all points turrets can aim at
+    // FIXME: this calculation is fine for square distances, but results in an underestimation
+    //        when used with real circles
+    int range_total = 0;
+    for( vehicle_part *t : *turrets ) {
+        int range = veh->turret_query( *t ).range();
+        tripoint pos = veh->global_part_pos3( *t );
+
+        int res = 0;
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( range, 0 ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( -range, 0 ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, range ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, -range ) ) );
+        range_total = std::max( range_total, res );
+    }
+
+    return target_ui( pc, TARGET_MODE_TURRET, nullptr, range_total, nullptr, nullptr, veh, *turrets );
+}
+
+target_handler::trajectory target_handler::mode_spell( spell *casting, bool no_fail,
+        bool no_mana )
+{
+    return target_ui( *casting, no_fail, no_mana );
+}
+
+target_handler::trajectory target_handler::mode_spell( spell_id sp, bool no_fail,
+        bool no_mana )
+{
+    return target_ui( sp, no_fail, no_mana );
+}
+
 bool targeting_data::is_valid() const
 {
     return weapon_source != WEAPON_SOURCE_INVALID;
@@ -1782,7 +1875,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
             } else {
                 item_location loc( pc, relevant );
-                g->reload( loc, true );
+                // TODO: make this compile.
+                // g->reload( loc, true );
                 ret.clear();
                 break;
             }

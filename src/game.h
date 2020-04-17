@@ -153,7 +153,6 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
-        friend class target_handler;
     public:
         game();
         ~game();

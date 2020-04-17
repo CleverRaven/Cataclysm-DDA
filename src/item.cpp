@@ -4861,6 +4861,24 @@ int item::reach_range( const player &p ) const
     return res;
 }
 
+int item::current_reach_range( const player &p ) const
+{
+    int res = 1;
+
+    if( has_flag( flag_REACH_ATTACK ) ) {
+        res = has_flag( flag_REACH3 ) ? 3 : 2;
+    }
+
+    if( is_gun() && !is_gunmod() ) {
+        gun_mode gun = gun_current_mode();
+        if( !( gun.flags.count( "NPC_AVOID" ) && p.is_npc() ) && gun.melee() ) {
+            res = std::max( res, gun.qty );
+        }
+    }
+
+    return res;
+}
+
 void item::unset_flags()
 {
     item_tags.clear();
