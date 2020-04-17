@@ -140,6 +140,36 @@ class target_ui
         target_handler::trajectory run( player &pc );
 
     private:
+        // Current trajectory (TODO: better name)
+        std::vector<tripoint> ret;
+        // Aiming source (player's position)
+        tripoint src;
+        // Aiming destination (cursor position)
+        tripoint dst;
+        // List of visible hostile targets (TODO: better name)
+        std::vector<Creature *> t;
+        // Currently selected target (TODO: get rid of this)
+        int target = 0;
+
+        // 'true' if map has z levels and 3D fov is on
+        bool allow_zlevel_shift;
+        // Snap camera to cursor. Can be permanently toggled in settings
+        // or temporarily in this window
+        bool snap_to_target;
+
+        // Compact layout - slightly smaller then normal
+        bool compact;
+        // Tiny layout - smallest possible
+        bool tiny;
+        // Window width
+        int height;
+        // Window height
+        int width;
+        // Window
+        catacurses::window w_target;
+        // Input context
+        input_context ctxt;
+
         // TODO: break down these functions into methods
         std::vector<tripoint> run_normal_ui_old( player &pc );
         std::vector<tripoint> run_spell_ui_old( player &pc );
@@ -224,6 +254,7 @@ target_handler::trajectory target_handler::mode_spell( player &pc, spell *castin
     target_ui ui = target_ui();
     ui.mode = TARGET_MODE_SPELL;
     ui.casting = casting;
+    ui.range = casting->range();
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
@@ -1479,73 +1510,13 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
 {
-    // TODO: this should return a reference to a static vector which is cleared on each call.
-    static const std::vector<tripoint> empty_result{};
-    std::vector<tripoint> ret;
-
     int sight_dispersion = 0;
-    if( relevant ) {
+    if( mode == TARGET_MODE_FIRE ) {
         sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
     }
 
-    const bool allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
-
-    const tripoint src = pc.pos();
-    tripoint dst = pc.pos();
-
-    std::vector<Creature *> t;
-    int target = 0;
-
-    update_targets( pc, range, t, target, src, dst );
-
     double recoil_pc = pc.recoil;
     tripoint recoil_pos = dst;
-
-    bool compact = TERMY < 41;
-    bool tiny = TERMY < 31;
-
-    // Default to the maximum window size we can use.
-    int height = 31;
-    int width = 55;
-    int top = 0;
-    if( tiny ) {
-        // If we're extremely short on space, use the whole sidebar.
-        height = TERMY;
-    } else if( compact ) {
-        // Cover up more low-value ui elements if we're tight on space.
-        height = 25;
-    }
-    catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
-
-    input_context ctxt( "TARGET" );
-    ctxt.set_iso( true );
-    // "ANY_INPUT" should be added before any real help strings
-    // Or strings will be written on window border.
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_directions();
-    ctxt.register_action( "COORDINATE" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "FIRE" );
-    ctxt.register_action( "NEXT_TARGET" );
-    ctxt.register_action( "PREV_TARGET" );
-    ctxt.register_action( "LEVEL_UP" );
-    ctxt.register_action( "LEVEL_DOWN" );
-    ctxt.register_action( "CENTER" );
-    ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "zoom_out" );
-    ctxt.register_action( "zoom_in" );
-
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-        ctxt.register_action( "SWITCH_MODE" );
-        ctxt.register_action( "SWITCH_AMMO" );
-    }
-    if( mode == TARGET_MODE_FIRE ) {
-        ctxt.register_action( "AIM" );
-        ctxt.register_action( "SWITCH_AIM" );
-    }
 
     std::vector<aim_type> aim_types;
     std::vector<aim_type>::iterator aim_mode;
@@ -1565,8 +1536,6 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
     // always be the case. Consider passing a name into this function.
     int num_instruction_lines = draw_targeting_window( w_target,
                                 relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny, src == dst );
-
-    bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
     const auto set_last_target = [&pc]( const tripoint & dst ) {
         pc.last_target_pos = g->m.getabs( dst );
@@ -1606,9 +1575,6 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
 
         return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );
     };
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     bool redraw = true;
     const tripoint old_offset = pc.view_offset;
@@ -1875,7 +1841,8 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 pc.assign_activity( ACT_AIM, 0, 0 );
                 pc.activity.str_values.push_back( "AIM" );
                 pc.view_offset = old_offset;
-                return empty_result;
+                ret.clear();
+                return ret;
             }
         } else if( action == "SWITCH_MODE" ) {
             if( relevant && relevant->is_gun() ) {
@@ -1973,7 +1940,8 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 pc.assign_activity( ACT_AIM, 0, 0 );
                 pc.activity.str_values.push_back( action );
                 pc.view_offset = old_offset;
-                return empty_result;
+                ret.clear();
+                return ret;
             }
         } else if( action == "FIRE" ) {
             if( src == dst ) {
@@ -2072,52 +2040,13 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
         pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                               casting.energy_string() );
     }
-    bool compact = TERMY < 41;
-    bool tiny = TERMY < 31;
 
-    // Default to the maximum window size we can use.
-    int height = 31;
-    int width = 55;
-    catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, 0 ) );
-
-    // TODO: this should return a reference to a static vector which is cleared on each call.
-    static const std::vector<tripoint> empty_result{};
-    std::vector<tripoint> ret;
     std::set<tripoint> spell_aoe;
-
-    tripoint src = pc.pos();
-    tripoint dst = pc.pos();
-
-    std::vector<Creature *> t;
-    int target = 0;
-    int range = static_cast<int>( casting.range() );
-
-    update_targets( pc, range, t, target, src, dst );
-
-    input_context ctxt( "TARGET" );
-    ctxt.set_iso( true );
-    // "ANY_INPUT" should be added before any real help strings
-    // Or strings will be written on window border.
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_directions();
-    ctxt.register_action( "COORDINATE" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "FIRE" );
-    ctxt.register_action( "NEXT_TARGET" );
-    ctxt.register_action( "PREV_TARGET" );
-    ctxt.register_action( "LEVEL_UP" );
-    ctxt.register_action( "LEVEL_DOWN" );
-    ctxt.register_action( "CENTER" );
-    ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
 
     std::vector<aim_type> aim_types;
 
     int num_instruction_lines = draw_targeting_window( w_target, casting.name(),
                                 TARGET_MODE_SPELL, ctxt, aim_types, tiny );
-
-    bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
     const auto set_last_target = [&pc]( const tripoint & dst ) {
         pc.last_target_pos = g->m.getabs( dst );
@@ -2143,9 +2072,6 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
     };
     const std::string fx = casting.effect();
     const tripoint old_offset = pc.view_offset;
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         ret = g->m.find_clear_path( src, dst );
@@ -2790,6 +2716,64 @@ double player::gun_value( const item &weap, int ammo ) const
 
 target_handler::trajectory target_ui::run( player &pc )
 {
+    // Load settings
+    allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
+    snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
+
+    // Initialize cursor position
+    src = pc.pos();
+    dst = pc.pos();
+    update_targets( pc, range, t, target, src, dst );
+
+    // Create window
+    compact = TERMY < 41;
+    tiny = TERMY < 31;
+    int top = 0;
+    width = 55;
+    if( tiny ) {
+        // If we're extremely short on space, use the whole sidebar.
+        height = TERMY;
+    } else if( compact ) {
+        // Cover up more low-value ui elements if we're tight on space.
+        height = 25;
+    } else {
+        // Go all out
+        height = 31;
+    }
+    w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
+
+    ctxt = input_context( "TARGET" );
+    ctxt.set_iso( true );
+    // "ANY_INPUT" should be added before any real help strings
+    // Or strings will be written on window border.
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_directions();
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "FIRE" );
+    ctxt.register_action( "NEXT_TARGET" );
+    ctxt.register_action( "PREV_TARGET" );
+    ctxt.register_action( "LEVEL_UP" );
+    ctxt.register_action( "LEVEL_DOWN" );
+    ctxt.register_action( "CENTER" );
+    ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "zoom_in" );
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+        ctxt.register_action( "SWITCH_MODE" );
+        ctxt.register_action( "SWITCH_AMMO" );
+    }
+    if( mode == TARGET_MODE_FIRE ) {
+        ctxt.register_action( "AIM" );
+        ctxt.register_action( "SWITCH_AIM" );
+    }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     if( mode == TARGET_MODE_SPELL ) {
         return run_spell_ui_old( pc );
     } else {
