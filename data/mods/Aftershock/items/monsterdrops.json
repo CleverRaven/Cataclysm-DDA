@@ -45,5 +45,33 @@
       [ "hard_plate", 30 ],
       [ "robot_controls", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "xl_uplift_death_drop",
+    "subtype": "collection",
+    "entries": [
+      { "xlboots_combat" },
+      { "xl_technician_pants_gray", "prob": 50 },
+      [ "xl_technician_shirt_gray", 100 ],
+      { "xl_jeans", "prob": 50 },
+      { "mp5mag", "prob": 10 },
+      { "military", "prob": 50 },
+      [ "mil_food", 100 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xl_uplift_zed_death_drop",
+    "subtype": "collection",
+    "entries": [
+      { "xlboots_combat" },
+      { "xl_technician_pants_gray", "prob": 50 },
+      [ "xl_technician_shirt_gray", 100 ],
+      { "xl_jeans", "prob": 50 },
+      { "mp5mag", "prob": 10 },
+      { "military", "prob": 50 },
+      [ "mil_food", 100 ]
+    ]
   }
 ]

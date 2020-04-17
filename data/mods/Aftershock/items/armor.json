@@ -70,5 +70,51 @@
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
+  },
+  {
+    "id": "xl_jeans",
+    "type": "ARMOR",
+    "name": { "str": "XL jeans", "str_pl": "XL jeans" },
+    "description": "A pair of XL blue jeans with two deep pockets.",
+    "weight": "900 g",
+    "volume": "3 L",
+    "copy-from": "jeans",
+    "storage": "750 ml",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_technician_pants_gray",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "XL work pants", "str_pl": "pairs of XL work pants" },
+    "description": "A pair of gray work pants.",
+    "copy-from": "technician_pants_gray",
+    "weight": "770 g",
+    "volume": "3 L",
+    "storage": "1700 ml",
+    "material_thickness": 2,
+    "snippet_category": [
+      { "id": "xl_technician_pants_blue", "text": "A pair of XL blue work pants." },
+      { "id": "xl_technician_pants_gray", "text": "A pair of XL gray work pants." },
+      { "id": "xl_technician_pants_lightblue", "text": "A pair of XL light-blue work pants." }
+    ],
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_technician_shirt_gray",
+    "repairs_like": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "work t-shirt" },
+    "description": "A gray XL work t-shirt with a small front pocket.",
+    "weight": "84 g",
+    "volume": "350 ml",
+    "copy-from": "technician_shirt_gray",
+    "snippet_category": [
+      { "id": "xl_technician_shirt_blue", "text": "An XL blue work t-shirt with a small front pocket." },
+      { "id": "xl_technician_shirt_gray", "text": "An XL gray work t-shirt with a small front pocket." },
+      { "id": "xl_technician_shirt_lightblue", "text": "An XL light-blue work t-shirt with a small front pocket." }
+    ],
+    "flags": [ "VARSIZE", "OVERSIZE" ]
   }
 ]
