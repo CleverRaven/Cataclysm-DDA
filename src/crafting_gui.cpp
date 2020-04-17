@@ -213,6 +213,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         w_head = catacurses::newwin( headHeight, width, point( wStart, 0 ) );
         w_subhead = catacurses::newwin( subHeadHeight, width, point( wStart, 3 ) );
+        w_data = catacurses::newwin( dataHeight, width, point( wStart,
+                                     headHeight + subHeadHeight ) );
 
         if( isWide ) {
             item_info_width = width - FULL_SCREEN_WIDTH - 2;
@@ -226,9 +228,6 @@ const recipe *select_crafting_recipe( int &batch_size )
             item_info_width = 0;
             w_iteminfo = {};
         }
-
-        w_data = catacurses::newwin( dataHeight, width - item_info_width,
-                                     point( wStart, headHeight + subHeadHeight ) );
 
         ui.position( point( wStart, 0 ), point( width, TERMY ) );
     } );
@@ -571,6 +570,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
 
         draw_scrollbar( w_data, line, dataLines, recmax, point_zero );
+        wrefresh( w_data );
 
         if( isWide && !current.empty() ) {
             item_info_data data = item_info_data_from_recipe( current[line], count, item_info_scroll );
@@ -584,8 +584,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( cursor_pos ) {
             // place the cursor at the selected item name as expected by screen readers
             wmove( w_data, cursor_pos.value() );
+            wrefresh( w_data );
         }
-        wrefresh( w_data );
     } );
 
     do {
