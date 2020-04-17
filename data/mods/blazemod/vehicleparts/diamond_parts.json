@@ -1,0 +1,147 @@
+[
+  {
+    "id": "dboard_horizontal",
+    "type": "vehicle_part",
+    "name": "diamond barrier",
+    "item": "diamondplate",
+    "location": "center",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "white",
+    "broken_color": "white",
+    "description": "A transparent, solid sheet of self-sustaining crystals.",
+    "durability": 5000,
+    "breaks_into": [ { "item": "spiral_matrix" }, { "item": "dshards", "count": [ 50, 100 ] }, { "item": "dcluster", "count": [ 2, 6 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "OBSTACLE", "WINDOW", "FULL_BOARD" ]
+  },
+  {
+    "id": "dboard_ne",
+    "type": "vehicle_part",
+    "copy-from": "dboard_horizontal",
+    "symbol": "u"
+  },
+  {
+    "id": "dboard_nw",
+    "type": "vehicle_part",
+    "copy-from": "dboard_horizontal",
+    "symbol": "y"
+  },
+  {
+    "id": "dboard_se",
+    "type": "vehicle_part",
+    "copy-from": "dboard_horizontal",
+    "symbol": "n"
+  },
+  {
+    "id": "dboard_sw",
+    "type": "vehicle_part",
+    "copy-from": "dboard_horizontal",
+    "symbol": "b"
+  },
+  {
+    "id": "dboard_vertical",
+    "type": "vehicle_part",
+    "copy-from": "dboard_horizontal",
+    "symbol": "j"
+  },
+  {
+    "id": "dframe_cover",
+    "type": "vehicle_part",
+    "name": "diamond frame",
+    "item": "diamondframe",
+    "location": "structure",
+    "symbol": "^",
+    "broken_symbol": "#",
+    "color": "white",
+    "broken_color": "white",
+    "description": "A framework of super-strong crystal.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "durability": 3000,
+    "breaks_into": [ { "item": "spiral_matrix" }, { "item": "dshards", "count": [ 75, 150 ] }, { "item": "dcluster", "count": [ 4, 8 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "MOUNTABLE" ]
+  },
+  {
+    "id": "dframe_cross",
+    "type": "vehicle_part",
+    "copy-from": "dframe_cover",
+    "symbol": "c",
+    "flags": [ "MOUNTABLE", "INITIAL_PART" ]
+  },
+  {
+    "id": "dframe_horizontal",
+    "type": "vehicle_part",
+    "copy-from": "dframe_cover",
+    "symbol": "h"
+  },
+  {
+    "id": "dframe_horizontal_2",
+    "type": "vehicle_part",
+    "copy-from": "dframe_cover",
+    "symbol": "="
+  },
+  {
+    "id": "dframe_ne",
+    "type": "vehicle_part",
+    "copy-from": "dframe_cover",
+    "symbol": "u"
+  },
+  {
+    "id": "dframe_nw",
+    "type": "vehicle_part",
+    "copy-from": "dframe_cover",
+    "symbol": "y"
+  },
+  {
+    "id": "dframe_se",
+    "type": "vehicle_part",
+    "copy-from": "dframe_cover",
+    "symbol": "n"
+  },
+  {
+    "id": "dframe_sw",
+    "type": "vehicle_part",
+    "copy-from": "dframe_cover",
+    "symbol": "b"
+  },
+  {
+    "id": "dframe_vertical",
+    "type": "vehicle_part",
+    "copy-from": "dframe_cover",
+    "symbol": "j"
+  },
+  {
+    "id": "dframe_vertical_2",
+    "type": "vehicle_part",
+    "copy-from": "dframe_cover",
+    "symbol": "H"
+  },
+  {
+    "id": "plating_diamond",
+    "type": "vehicle_part",
+    "name": "diamond plating",
+    "item": "diamondplate",
+    "location": "armor",
+    "symbol": ")",
+    "broken_symbol": ")",
+    "color": "white",
+    "broken_color": "white",
+    "description": "Transparent crystal armor plate.  Will partially protect other components on the same frame from damage.",
+    "durability": 5000,
+    "breaks_into": [ { "item": "spiral_matrix" }, { "item": "dshards", "count": [ 50, 100 ] }, { "item": "dcluster", "count": [ 2, 6 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "ARMOR", "WINDOW" ]
+  }
+]

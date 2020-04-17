@@ -128,5 +128,19 @@
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ]
     ]
+  },
+  {
+    "result": "space_anomaly",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "skills_required": [ [ "mechanics", 3 ], [ "electronics", 3 ] ],
+    "time": 144000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "cargo_rack", 1 ] ], [ [ "teleporter", 1 ] ], [ [ "portal", 1 ] ], [ [ "plut_cell", 5 ] ] ]
   }
 ]
