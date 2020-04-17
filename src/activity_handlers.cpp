@@ -145,7 +145,6 @@ static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
-static const activity_id ACT_HACKING( "ACT_HACKING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
@@ -418,7 +417,6 @@ activity_handlers::finish_functions = {
     { ACT_UNLOAD_MAG, unload_mag_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_MIND_SPLICER, mind_splicer_finish },
-    { ACT_HACKING, hacking_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
     { ACT_STUDY_SPELL, study_spell_finish }
 };
@@ -4593,139 +4591,6 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         q.pop();
     }
     p->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
-    act->set_to_null();
-}
-
-static int hack_level( const player &p )
-{
-    ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    // odds go up with int>8, down with int<8
-    // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking card readers
-    return p.get_skill_level( skill_computer ) + p.int_cur / 2 - 8;
-}
-
-static hack_result hack_attempt( player &p )
-{
-    if( p.has_trait( trait_ILLITERATE ) ) {
-        return HACK_UNABLE;
-    }
-    const bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
-                                   query_yn( _( "Use electrohack?" ) );
-    const bool using_fingerhack = !using_electrohack && p.has_bionic( bio_fingerhack ) &&
-                                  p.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
-
-    if( !( using_electrohack || using_fingerhack ) ) {
-        return HACK_UNABLE;
-    }
-
-    p.practice( skill_computer, 20 );
-    if( using_fingerhack ) {
-        p.mod_power_level( -25_kJ );
-    } else {
-        p.use_charges( "electrohack", 25 );
-    }
-
-    // only skilled supergenius never cause short circuits, but the odds are low for people
-    // with moderate skills
-    const int hack_stddev = 5;
-    int success = std::ceil( normal_roll( hack_level( p ), hack_stddev ) );
-    if( success < 0 ) {
-        add_msg( _( "You cause a short circuit!" ) );
-        if( using_fingerhack ) {
-            p.mod_power_level( -25_kJ );
-        } else {
-            p.use_charges( "electrohack", 25 );
-        }
-
-        if( success <= -5 ) {
-            if( using_electrohack ) {
-                add_msg( m_bad, _( "Your electrohack is ruined!" ) );
-                p.use_amount( "electrohack", 1 );
-            } else {
-                add_msg( m_bad, _( "Your power is drained!" ) );
-                p.mod_power_level( units::from_kilojoule( -rng( 25,
-                                   units::to_kilojoule( p.get_power_level() ) ) ) );
-            }
-        }
-        return HACK_FAIL;
-    } else if( success < 6 ) {
-        return HACK_NOTHING;
-    } else {
-        return HACK_SUCCESS;
-    }
-}
-
-static hack_type get_hack_type( tripoint examp )
-{
-    hack_type type = HACK_NULL;
-    const furn_t &xfurn_t = g->m.furn( examp ).obj();
-    const ter_t &xter_t = g->m.ter( examp ).obj();
-    if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
-        type = HACK_GAS;
-    } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
-        type = HACK_DOOR;
-    } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
-        type = HACK_SAFE;
-    }
-    return type;
-
-}
-
-void activity_handlers::hacking_finish( player_activity *act, player *p )
-{
-    tripoint examp = act->placement;
-    hack_type type = get_hack_type( examp );
-    switch( hack_attempt( *p ) ) {
-        case HACK_UNABLE:
-            p->add_msg_if_player( _( "You cannot hack this." ) );
-            break;
-        case HACK_FAIL:
-            // currently all things that can be hacked have equivalent alarm failure states.
-            // this may not always be the case with new hackable things.
-            g->events().send<event_type::triggers_alarm>( p->getID() );
-            sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
-                           "alarm" );
-            if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                     p->global_sm_location() );
-            }
-            break;
-        case HACK_NOTHING:
-            p->add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
-            break;
-        case HACK_SUCCESS:
-            if( type == HACK_GAS ) {
-                int tankGasUnits;
-                const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankGasUnits );
-                if( !pTank_ ) {
-                    break;
-                }
-                const tripoint pTank = *pTank_;
-                const cata::optional<tripoint> pGasPump = iexamine::getGasPumpByNumber( examp,
-                        uistate.ags_pay_gas_selected_pump );
-                if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankGasUnits ) ) {
-                    p->add_msg_if_player( _( "You hack the terminal and route all available fuel to your pump!" ) );
-                    sounds::sound( examp, 6, sounds::sound_t::activity,
-                                   _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ), true, "tool", "gaspump" );
-                } else {
-                    p->add_msg_if_player( _( "Nothing happens." ) );
-                }
-            } else if( type == HACK_SAFE ) {
-                p->add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
-                g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
-            } else if( type == HACK_DOOR ) {
-                p->add_msg_if_player( _( "You activate the panel!" ) );
-                p->add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
-                g->m.ter_set( examp, t_card_reader_broken );
-                for( const tripoint &tmp : g->m.points_in_radius( ( examp ), 3 ) ) {
-                    if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                        g->m.ter_set( tmp, t_door_metal_c );
-                    }
-                }
-            }
-            break;
-    }
     act->set_to_null();
 }
 
