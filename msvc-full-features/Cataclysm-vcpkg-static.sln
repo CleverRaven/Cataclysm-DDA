@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-test-vcpkg-static
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-lib-vcpkg-static", "Cataclysm-lib-vcpkg-static.vcxproj", "{0009BB11-11AD-4C14-A5FC-D882A942C00B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter", "JsonFormatter.vcxproj", "{35D74C75-FC4A-442F-AF44-43BC9D845BAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -47,6 +49,14 @@ Global
 		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release|x64.Build.0 = Release|x64
 		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release|x86.ActiveCfg = Release|Win32
 		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release|x86.Build.0 = Release|Win32
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x64.ActiveCfg = Debug|x64
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x64.Build.0 = Debug|x64
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x86.ActiveCfg = Debug|Win32
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x86.Build.0 = Debug|Win32
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x64.ActiveCfg = Release|x64
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x64.Build.0 = Release|x64
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x86.ActiveCfg = Release|Win32
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
