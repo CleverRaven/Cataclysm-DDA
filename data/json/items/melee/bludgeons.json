@@ -1053,6 +1053,6 @@
     "bashing": 22,
     "cutting": 23,
     "price": 16000,
-    "qualities": [ [  "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ]
   }
 ]
