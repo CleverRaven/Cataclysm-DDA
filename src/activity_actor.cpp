@@ -75,11 +75,6 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     }
 }
 
-void move_items_activity_actor::finish( player_activity &, Character & )
-{
-    // Do nothing
-}
-
 void move_items_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -120,11 +115,6 @@ void migration_cancel_activity_actor::do_turn( player_activity &act, Character &
         avatar_who.clear_destination();
         avatar_who.backlog.clear();
     }
-}
-
-void migration_cancel_activity_actor::finish( player_activity &, Character & )
-{
-    // Do nothing
 }
 
 void migration_cancel_activity_actor::serialize( JsonOut &jsout ) const
