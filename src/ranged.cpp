@@ -173,6 +173,10 @@ class target_ui
         // TODO: break down these functions into methods
         std::vector<tripoint> run_normal_ui_old( player &pc );
         std::vector<tripoint> run_spell_ui_old( player &pc );
+
+        // On-selected-as-target checks that act as if they are on-hit checks.
+        // `harmful` is `false` if using a non-damaging spell
+        void on_target_accepted( player &pc, bool harmful );
 };
 
 target_handler::trajectory target_handler::mode_fire( player &pc, item *weapon )
@@ -2015,20 +2019,7 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
     }
 
     set_last_target( ret.back() );
-
-    const auto lt_ptr = pc.last_target.lock();
-    if( npc *const guy = dynamic_cast<npc *>( lt_ptr.get() ) ) {
-        if( !guy->guaranteed_hostile() ) {
-            // TODO: get rid of this. Or combine it with effect_hit_by_player
-            guy->hit_by_player = true; // used for morale penalty
-        }
-        // TODO: should probably go into the on-hit code?
-        guy->make_angry();
-
-    } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
-        // TODO: get rid of this. Or move into the on-hit code?
-        mon->add_effect( effect_hit_by_player, 10_minutes );
-    }
+    on_target_accepted( pc, true );
     wrefresh( w_target );
     return ret;
 }
@@ -2322,21 +2313,7 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
     }
 
     set_last_target( ret.back() );
-
-    const auto lt_ptr = pc.last_target.lock();
-    if( npc *const guy = dynamic_cast<npc *>( lt_ptr.get() ) ) {
-        if( casting.damage() > 0 ) {
-            if( !guy->guaranteed_hostile() ) {
-                // TODO: get rid of this. Or combine it with effect_hit_by_player
-                guy->hit_by_player = true; // used for morale penalty
-            }
-            // TODO: should probably go into the on-hit code?
-            guy->make_angry();
-        }
-    } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
-        // TODO: get rid of this. Or move into the on-hit code?
-        mon->add_effect( effect_hit_by_player, 10_minutes );
-    }
+    on_target_accepted( pc, casting.damage() > 0 );
     wrefresh( w_target );
     return ret;
 }
@@ -2778,5 +2755,22 @@ target_handler::trajectory target_ui::run( player &pc )
         return run_spell_ui_old( pc );
     } else {
         return run_normal_ui_old( pc );
+    }
+}
+
+void target_ui::on_target_accepted( player &pc, bool harmful )
+{
+    // TODO: all of this should be moved into on-hit code
+    const auto lt_ptr = pc.last_target.lock();
+    if( npc *const guy = dynamic_cast<npc *>( lt_ptr.get() ) ) {
+        if( harmful ) {
+            if( !guy->guaranteed_hostile() ) {
+                // TODO: get rid of this. Or combine it with effect_hit_by_player
+                guy->hit_by_player = true; // used for morale penalty
+            }
+            guy->make_angry();
+        }
+    } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
+        mon->add_effect( effect_hit_by_player, 10_minutes );
     }
 }
