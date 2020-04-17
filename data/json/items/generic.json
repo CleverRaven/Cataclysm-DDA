@@ -295,7 +295,8 @@
     "material": [ "steel" ],
     "techniques": [ "WRAP" ],
     "volume": "1 L",
-    "bashing": 12,
+    "bashing": 26,
+    "to_hit": -2,
     "price": 8000,
     "price_postapoc": 50
   },
