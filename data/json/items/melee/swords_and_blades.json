@@ -28,6 +28,7 @@
     "weight": "648 g",
     "bashing": 12,
     "cutting": 4,
+    "to_hit": 2,
     "price_postapoc": 100,
     "techniques": [ "WBLOCK_1" ]
   },
@@ -1111,7 +1112,6 @@
     "weight": "200 g",
     "volume": "1531 ml",
     "bashing": 3,
-    "to_hit": 2,
     "looks_like": "cane",
     "use_action": {
       "type": "holster",

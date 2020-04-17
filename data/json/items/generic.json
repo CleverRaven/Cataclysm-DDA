@@ -504,6 +504,7 @@
     "material": "gold",
     "weight": "1500 g",
     "volume": "250 ml",
+    "to_hit": -2,
     "bashing": 9
   },
   {
@@ -631,7 +632,7 @@
     "weight": "908 g",
     "volume": "1500 ml",
     "bashing": 12,
-    "to_hit": 2,
+    "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -691,7 +692,6 @@
     "weight": "751 g",
     "volume": "750 ml",
     "bashing": 8,
-    "to_hit": 3,
     "flags": [ "TRADER_AVOID" ]
   },
   {

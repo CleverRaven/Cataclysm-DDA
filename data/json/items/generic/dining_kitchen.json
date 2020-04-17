@@ -591,7 +591,6 @@
     "name": { "str": "rolling pin" },
     "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as a very effective club.",
     "weight": "725 g",
-    "to_hit": 1,
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
@@ -641,6 +640,7 @@
     "weight": "750 g",
     "volume": "2 L",
     "bashing": 6,
+    "to_hit": -2,
     "container_data": { "contains": "2 L", "watertight": true }
   },
   {
@@ -703,6 +703,7 @@
     "weight": "2628 g",
     "volume": "1 L",
     "bashing": 12,
+    "to_hit": -3,
     "container_data": { "contains": "1 L", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] }
@@ -721,6 +722,7 @@
     "weight": "528 g",
     "volume": "1 L",
     "bashing": 8,
+    "to_hit": -2,
     "container_data": { "contains": "2 L", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "COOK", 2 ] ] }
@@ -739,6 +741,7 @@
     "weight": "628 g",
     "volume": "1 L",
     "bashing": 7,
+    "to_hit": -2,
     "container_data": { "contains": "1 L", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "COOK", 2 ] ] }
