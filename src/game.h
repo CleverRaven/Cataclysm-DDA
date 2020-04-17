@@ -234,6 +234,8 @@ class game
         cata::optional<tripoint> zone_start;
         cata::optional<tripoint> zone_end;
         bool zone_blink = false;
+        bool zone_cursor = false;
+        bool is_looking = false;
 
     public:
         // when force_redraw is true, redraw all panel instead of just animated panels
@@ -558,7 +560,7 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
-        look_around_result look_around( catacurses::window w_info, tripoint &center,
+        look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info

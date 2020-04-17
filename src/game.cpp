@@ -3264,6 +3264,13 @@ void game::draw()
     werase( w_terrain );
     draw_ter();
 
+    if( zone_cursor ) {
+        if( zone_end ) {
+            g->draw_cursor( zone_end.value() );
+        } else if( zone_start ) {
+            g->draw_cursor( zone_start.value() );
+        }
+    }
     if( zone_blink && zone_start && zone_end ) {
         const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
         const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
@@ -3279,7 +3286,13 @@ void game::draw()
         }
 #endif
 
-        draw_zones( zone_start.value(), zone_end.value(), offset );
+        const tripoint start( std::min( zone_start->x, zone_end->x ),
+                              std::min( zone_start->y, zone_end->y ),
+                              zone_end->z );
+        const tripoint end( std::max( zone_start->x, zone_end->x ),
+                            std::max( zone_start->y, zone_end->y ),
+                            zone_end->z );
+        draw_zones( start, end, offset );
     }
 
     wrefresh( w_terrain );
@@ -3398,7 +3411,7 @@ bool game::is_in_viewport( const tripoint &p, int margin ) const
 
 void game::draw_ter( const bool draw_sounds )
 {
-    draw_ter( u.pos() + u.view_offset, false,
+    draw_ter( u.pos() + u.view_offset, is_looking,
               draw_sounds );
 }
 
@@ -5745,7 +5758,7 @@ void game::peek( const tripoint &p )
     tripoint prev = u.pos();
     u.setpos( p );
     tripoint center = p;
-    const look_around_result result = look_around( catacurses::window(), center, center, false, false,
+    const look_around_result result = look_around( /*show_window=*/true, center, center, false, false,
                                       true );
     u.setpos( prev );
 
@@ -6255,18 +6268,18 @@ void game::zones_manager()
     std::string zones_info_msg;
 
     auto query_position =
-    [this, &w_zones_info, &zones_info_msg]() -> cata::optional<std::pair<tripoint, tripoint>> {
+    [this, &zones_info_msg]() -> cata::optional<std::pair<tripoint, tripoint>> {
         zones_info_msg = _( "Select first point." );
 
         tripoint center = u.pos() + u.view_offset;
 
-        const look_around_result first = look_around( w_zones_info, center, center, false, true,
+        const look_around_result first = look_around( /*show_window=*/false, center, center, false, true,
                 false );
         if( first.position )
         {
             zones_info_msg = _( "Select second point." );
 
-            const look_around_result second = look_around( w_zones_info, center, *first.position,
+            const look_around_result second = look_around( /*show_window=*/false, center, *first.position,
                     true, true, false );
             if( second.position ) {
                 tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
@@ -6563,12 +6576,12 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
 cata::optional<tripoint> game::look_around()
 {
     tripoint center = u.pos() + u.view_offset;
-    look_around_result result = look_around( catacurses::window(), center, center, false, false,
+    look_around_result result = look_around( /*show_window=*/true, center, center, false, false,
                                 false );
     return result.position;
 }
 
-look_around_result game::look_around( catacurses::window w_info, tripoint &center,
+look_around_result game::look_around( const bool show_window, tripoint &center,
                                       const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 {
     bVMonsterLookFire = false;
@@ -6577,49 +6590,45 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     temp_exit_fullscreen();
 
-    const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
-    const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
-
     tripoint lp = start_point; // cursor
-    if( !has_first_point ) {
-        lp = start_point;
-    }
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
 
-    draw_ter( center );
-    wrefresh( w_terrain );
-    draw_panels();
-
     int soffset = get_option<int>( "FAST_SCROLL_OFFSET" );
     bool fast_scroll = false;
 
-    bool bNewWindow = false;
-    if( !w_info ) {
-        int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
-        int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
+    std::unique_ptr<ui_adaptor> ui;
+    catacurses::window w_info;
+    if( show_window ) {
+        ui = std::make_unique<ui_adaptor>();
+        ui->on_screen_resize( [&]( ui_adaptor & ui ) {
+            int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+            int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
 
-        // If particularly small, base height on panel width irrespective of other elements.
-        // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
-        if( height < panel_width / 2 ) {
-            height = panel_width / 2;
-        }
-
-        int la_y = 0;
-        int la_x = TERMX - panel_width;
-        std::string position = get_option<std::string>( "LOOKAROUND_POSITION" );
-        if( position == "left" ) {
-            if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
-                la_x = panel_manager::get_manager().get_width_left();
-            } else {
-                la_x = panel_manager::get_manager().get_width_left() - panel_width;
+            // If particularly small, base height on panel width irrespective of other elements.
+            // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
+            if( height < panel_width / 2 ) {
+                height = panel_width / 2;
             }
-        }
-        int la_h = height;
-        int la_w = panel_width;
-        w_info = catacurses::newwin( la_h, la_w, point( la_x, la_y ) );
-        bNewWindow = true;
+
+            int la_y = 0;
+            int la_x = TERMX - panel_width;
+            std::string position = get_option<std::string>( "LOOKAROUND_POSITION" );
+            if( position == "left" ) {
+                if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
+                    la_x = panel_manager::get_manager().get_width_left();
+                } else {
+                    la_x = panel_manager::get_manager().get_width_left() - panel_width;
+                }
+            }
+            int la_h = height;
+            int la_w = panel_width;
+            w_info = catacurses::newwin( la_h, la_w, point( la_x, la_y ) );
+
+            ui.position_from_window( w_info );
+        } );
+        ui->mark_resize();
     }
 
     dbg( D_PEDANTIC_INFO ) << ": calling handle_input()";
@@ -6665,79 +6674,67 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
     bool blink = true;
-    bool redraw = true;
     look_around_result result;
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    if( show_window && ui ) {
+        ui->on_redraw( [&]( const ui_adaptor & ) {
+            werase( w_info );
+            draw_border( w_info );
 
-    do {
-        if( redraw ) {
-            if( bNewWindow ) {
-                werase( w_info );
-                draw_border( w_info );
+            center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look Around</color> >" ) ) );
 
-                center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look Around</color> >" ) ) );
+            std::string fast_scroll_text = string_format( _( "%s - %s" ),
+                                           ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
+                                           ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
+            std::string pixel_minimap_text = string_format( _( "%s - %s" ),
+                                             ctxt.get_desc( "toggle_pixel_minimap" ),
+                                             ctxt.get_action_name( "toggle_pixel_minimap" ) );
+            mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
+                       fast_scroll_text );
+            right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
+                         pixel_minimap_text );
 
-                std::string fast_scroll_text = string_format( _( "%s - %s" ),
-                                               ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
-                                               ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
-                std::string pixel_minimap_text = string_format( _( "%s - %s" ),
-                                                 ctxt.get_desc( "toggle_pixel_minimap" ),
-                                                 ctxt.get_action_name( "toggle_pixel_minimap" ) );
-                mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
-                           fast_scroll_text );
-                right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
-                             pixel_minimap_text );
+            int first_line = 1;
+            const int last_line = getmaxy( w_info ) - 2;
+            pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
 
-                int first_line = 1;
-                const int last_line = getmaxy( w_info ) - 2;
-                pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
-            }
-
-            draw_ter( center, true );
-
-            if( select_zone && has_first_point ) {
-                if( blink ) {
-                    const int dx = start_point.x - offset_x + u.posx() - lx;
-                    const int dy = start_point.y - offset_y + u.posy() - ly;
-
-                    const tripoint start = tripoint( std::min( dx, POSX ), std::min( dy, POSY ), lz );
-                    const tripoint end = tripoint( std::max( dx, POSX ), std::max( dy, POSY ), lz );
-
-                    tripoint offset; //ASCII/SDL
-#if defined(TILES)
-                    if( use_tiles ) {
-                        offset = tripoint( offset_x + lx - u.posx(), offset_y + ly - u.posy(), 0 ); //TILES
-                    }
-#endif
-                    draw_zones( start, end, offset );
-                }
-
-                //Draw first point
-                g->draw_cursor( start_point );
-            }
-
-            //Draw select cursor
-            g->draw_cursor( lp );
-
-            // redraw order: terrain, panels, look_around panel
-            wrefresh( w_terrain );
-            draw_panels();
             wrefresh( w_info );
+        } );
+    }
 
+    is_looking = true;
+    zone_cursor = true;
+    const tripoint prev_offset = u.view_offset;
+    do {
+        u.view_offset = center - u.pos();
+        if( select_zone ) {
+            if( has_first_point ) {
+                zone_start = start_point;
+                zone_end = lp;
+            } else {
+                zone_start = lp;
+                zone_end = cata::nullopt;
+            }
+            zone_blink = blink;
+        } else {
+            zone_start = lp;
+            zone_end = cata::nullopt;
+            zone_blink = false;
         }
+        invalidate_main_ui_adaptor();
+        ui_manager::redraw();
 
         if( select_zone && has_first_point ) {
             ctxt.set_timeout( BLINK_SPEED );
         }
 
-        redraw = true;
         //Wait for input
         // only specify a timeout here if "EDGE_SCROLL" is enabled
         // otherwise use the previously set timeout
-        int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
-        if( scroll_timeout >= 0 ) {
+        const tripoint edge_scroll = mouse_edge_scrolling_terrain( ctxt );
+        const int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
+        const bool edge_scrolling = edge_scroll != tripoint_zero && scroll_timeout >= 0;
+        if( edge_scrolling ) {
             action = ctxt.handle_input( scroll_timeout );
         } else {
             action = ctxt.handle_input();
@@ -6749,18 +6746,9 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
         } else if( action == "toggle_pixel_minimap" ) {
             toggle_pixel_minimap();
 
-            int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
-            int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
-            int la_x = TERMX - panel_width;
-            std::string position = get_option<std::string>( "LOOKAROUND_POSITION" );
-            if( position == "left" ) {
-                if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
-                    la_x = panel_manager::get_manager().get_width_left();
-                } else {
-                    la_x = panel_manager::get_manager().get_width_left() - panel_width;
-                }
+            if( show_window && ui ) {
+                ui->mark_resize();
             }
-            w_info = catacurses::newwin( height, panel_width, point( la_x, 0 ) );
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
             if( !allow_zlev_move ) {
                 continue;
@@ -6773,7 +6761,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             add_msg( m_debug, "levx: %d, levy: %d, levz: %d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
-            refresh_all();
             if( select_zone && has_first_point ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
@@ -6819,34 +6806,26 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             // at the edge. But even if edge scroll isn't in play, there's
             // other things for us to do here.
 
-            if( action == "TIMEOUT" ) {
-                blink = !blink;
-            }
-            tripoint edge_scroll = mouse_edge_scrolling_terrain( ctxt );
-            if( edge_scroll != tripoint_zero ) {
+            if( edge_scrolling ) {
                 if( action == "MOUSE_MOVE" ) {
-                    edge_scroll *= 2;
+                    center += edge_scroll * 2;
+                } else {
+                    center += edge_scroll;
                 }
-                center += edge_scroll;
+                if( select_zone && has_first_point ) { // is blinking
+                    blink = true; // Always draw blink symbols when moving cursor
+                }
             } else if( action == "MOUSE_MOVE" ) {
-
-                const tripoint old_lp = lp;
-                const tripoint old_center = center;
-
                 const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
                 if( mouse_pos ) {
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
                 if( select_zone && has_first_point ) { // is blinking
-                    if( blink && lp == old_lp ) { // blink symbols drawn (blink == true) and cursor not changed
-                        redraw = false; // no need to redraw, so don't redraw to save CPU
-                    } else {
-                        blink = true; // Always draw blink symbols when moving cursor
-                    }
-                } else if( lp == old_lp && center == old_center ) { // not blinking and cursor not changed
-                    redraw = false; // no need to redraw, so don't redraw to save CPU
+                    blink = true; // Always draw blink symbols when moving cursor
                 }
+            } else if( action == "TIMEOUT" ) {
+                blink = !blink;
             }
         } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             if( fast_scroll ) {
@@ -6882,10 +6861,13 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     }
 
     ctxt.reset_timeout();
+    u.view_offset = prev_offset;
+    zone_start = zone_end = cata::nullopt;
+    zone_blink = false;
+    zone_cursor = false;
+    is_looking = false;
+    invalidate_main_ui_adaptor();
 
-    if( bNewWindow ) {
-        w_info = catacurses::window();
-    }
     reenter_fullscreen();
     bVMonsterLookFire = true;
 
