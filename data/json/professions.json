@@ -104,7 +104,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_shotgun_hunter",
-    "entries": [ { "item": "shot_00", "charges": 18 } ]
+    "entries": [ { "item": "12ga_00", "charges": 18 } ]
   },
   {
     "type": "item_group",
@@ -116,13 +116,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_swat_cqc1",
-    "entries": [ { "item": "shot_00", "charges": 12 } ]
+    "entries": [ { "item": "12ga_00", "charges": 12 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_swat_cqc2",
-    "entries": [ { "item": "shot_slug", "charges": 12 } ]
+    "entries": [ { "item": "12ga_slug", "charges": 12 } ]
   },
   {
     "type": "item_group",
@@ -1281,7 +1281,7 @@
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
           { "item": "baton-extended", "container-item": "police_belt" },
-          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" }
+          { "item": "ksg", "ammo-item": "12ga_00", "charges": 7, "contents-item": "shoulder_strap" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1447,7 +1447,7 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap" },
+          { "item": "remington_870", "ammo-item": "12ga_00", "charges": 5, "contents-item": "shoulder_strap" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_shotgun_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
@@ -2121,7 +2121,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "shot_00" ],
+        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "12ga_00" ],
         "entries": [
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
