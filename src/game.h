@@ -230,7 +230,12 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+    private:
+        cata::optional<tripoint> zone_start;
+        cata::optional<tripoint> zone_end;
+        bool zone_blink = false;
 
+    public:
         // when force_redraw is true, redraw all panel instead of just animated panels
         // mostly used after UI updates
         void draw_panels( bool force_draw = false );

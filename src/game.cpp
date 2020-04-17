@@ -3263,6 +3263,25 @@ void game::draw()
 
     werase( w_terrain );
     draw_ter();
+
+    if( zone_blink && zone_start && zone_end ) {
+        const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
+        const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
+
+        tripoint offset;
+#if defined(TILES)
+        if( use_tiles ) {
+            offset = tripoint_zero; //TILES
+        } else {
+#endif
+            offset = tripoint( offset_x, offset_y, 0 ); //CURSES
+#if defined(TILES)
+        }
+#endif
+
+        draw_zones( zone_start.value(), zone_end.value(), offset );
+    }
+
     wrefresh( w_terrain );
 
     draw_panels( true );
@@ -6130,34 +6149,40 @@ void game::zones_manager()
 
     u.view_offset = tripoint_zero;
 
-    const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
-    const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
-
-    draw_ter();
-
-    int stored_pm_opt = pixel_minimap_option;
-    pixel_minimap_option = 0;
-
-    int zone_ui_height = 12;
-    int zone_options_height = 7;
+    const int zone_ui_height = 12;
+    const int zone_options_height = 7;
 
     const int width = 45;
-    const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ?
-                        TERMX + VIEW_OFFSET_X - width : VIEW_OFFSET_X;
-    int w_zone_height = TERMY - zone_ui_height - VIEW_OFFSET_Y * 2;
-    catacurses::window w_zones = catacurses::newwin( w_zone_height - 2, width - 2,
-                                 point( offsetX + 1, VIEW_OFFSET_Y + 1 ) );
-    catacurses::window w_zones_border = catacurses::newwin( w_zone_height, width,
-                                        point( offsetX, VIEW_OFFSET_Y ) );
-    catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1,
-                                      width - 2, point( offsetX + 1, w_zone_height + VIEW_OFFSET_Y ) );
-    catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
-            point( offsetX, w_zone_height + VIEW_OFFSET_Y ) );
-    catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
-                                         point( offsetX + 1, TERMY - zone_options_height - VIEW_OFFSET_Y ) );
 
-    zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
-    zones_manager_shortcuts( w_zones_info );
+    int offsetX = 0;
+    int max_rows = 0;
+
+    catacurses::window w_zones;
+    catacurses::window w_zones_border;
+    catacurses::window w_zones_info;
+    catacurses::window w_zones_info_border;
+    catacurses::window w_zones_options;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ?
+                  TERMX + VIEW_OFFSET_X - width : VIEW_OFFSET_X;
+        const int w_zone_height = TERMY - zone_ui_height - VIEW_OFFSET_Y * 2;
+        max_rows = w_zone_height - 2;
+        w_zones = catacurses::newwin( w_zone_height - 2, width - 2,
+                                      point( offsetX + 1, VIEW_OFFSET_Y + 1 ) );
+        w_zones_border = catacurses::newwin( w_zone_height, width,
+                                             point( offsetX, VIEW_OFFSET_Y ) );
+        w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1,
+                                           width - 2, point( offsetX + 1, w_zone_height + VIEW_OFFSET_Y ) );
+        w_zones_info_border = catacurses::newwin( zone_ui_height, width,
+                              point( offsetX, w_zone_height + VIEW_OFFSET_Y ) );
+        w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
+                                              point( offsetX + 1, TERMY - zone_options_height - VIEW_OFFSET_Y ) );
+
+        ui.position( point( offsetX, VIEW_OFFSET_Y ), point( width, TERMY - VIEW_OFFSET_Y * 2 ) );
+    } );
+    ui.mark_resize();
 
     std::string action;
     input_context ctxt( "ZONES_MANAGER" );
@@ -6175,7 +6200,6 @@ void game::zones_manager()
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     auto &mgr = zone_manager::get_manager();
-    const int max_rows = w_zone_height - 2;
     int start_index = 0;
     int active_index = 0;
     bool blink = false;
@@ -6228,10 +6252,11 @@ void game::zones_manager()
         wrefresh( w_zones_options );
     };
 
-    auto query_position = [this, w_zones_info]() -> cata::optional<std::pair<tripoint, tripoint>> {
-        werase( w_zones_info );
-        mvwprintz( w_zones_info, point( 2, 3 ), c_white, _( "Select first point." ) );
-        wrefresh( w_zones_info );
+    std::string zones_info_msg;
+
+    auto query_position =
+    [this, &w_zones_info, &zones_info_msg]() -> cata::optional<std::pair<tripoint, tripoint>> {
+        zones_info_msg = _( "Select first point." );
 
         tripoint center = u.pos() + u.view_offset;
 
@@ -6239,15 +6264,11 @@ void game::zones_manager()
                 false );
         if( first.position )
         {
-            mvwprintz( w_zones_info, point( 2, 3 ), c_white, _( "Select second point." ) );
-            wrefresh( w_zones_info );
+            zones_info_msg = _( "Select second point." );
 
             const look_around_result second = look_around( w_zones_info, center, *first.position,
                     true, true, false );
             if( second.position ) {
-                werase( w_zones_info );
-                wrefresh( w_zones_info );
-
                 tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
                                                second.position->x ),
                                                std::min( first.position->y, second.position->y ),
@@ -6258,201 +6279,29 @@ void game::zones_manager()
                                                 std::max( first.position->y, second.position->y ),
                                                 std::max( first.position->z,
                                                         second.position->z ) ) );
+                zones_info_msg.clear();
+
                 return std::pair<tripoint, tripoint>( first_abs, second_abs );
             }
         }
 
+        zones_info_msg.clear();
+
         return cata::nullopt;
     };
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-    zones_manager_open = true;
-    do {
-        if( action == "ADD_ZONE" ) {
-            zones_manager_draw_borders( w_zones_border, w_zones_info_border,
-                                        zone_ui_height, width );
-
-            do { // not a loop, just for quick bailing out if canceled
-                const auto maybe_id = mgr.query_type();
-                if( !maybe_id.has_value() ) {
-                    break;
-                }
-
-                const zone_type_id &id = maybe_id.value();
-                auto options = zone_options::create( id );
-
-                if( !options->query_at_creation() ) {
-                    break;
-                }
-
-                auto default_name = options->get_zone_name_suggestion();
-                if( default_name.empty() ) {
-                    default_name = mgr.get_name_from_type( id );
-                }
-                const auto maybe_name = mgr.query_name( default_name );
-                if( !maybe_name.has_value() ) {
-                    break;
-                }
-                const itype_id &name = maybe_name.value();
-
-                const auto position = query_position();
-                if( !position ) {
-                    break;
-                }
-
-                mgr.add( name, id, g->u.get_faction()->id, false, true, position->first,
-                         position->second, options );
-
-                zones = get_zones();
-                active_index = zone_cnt - 1;
-
-                stuff_changed = true;
-            } while( false );
-
-            draw_ter();
-            blink = false;
-
-            zones_manager_draw_borders( w_zones_border, w_zones_info_border,
-                                        zone_ui_height, width );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+        if( zones_info_msg.empty() ) {
             zones_manager_shortcuts( w_zones_info );
-
-        } else if( action == "SHOW_ALL_ZONES" ) {
-            show_all_zones = !show_all_zones;
-            zones = get_zones();
-            active_index = 0;
-            draw_ter();
-
-        } else if( zone_cnt > 0 ) {
-            if( action == "UP" ) {
-                active_index--;
-                if( active_index < 0 ) {
-                    active_index = zone_cnt - 1;
-                }
-                draw_ter();
-                blink = false;
-
-            } else if( action == "DOWN" ) {
-                active_index++;
-                if( active_index >= zone_cnt ) {
-                    active_index = 0;
-                }
-                draw_ter();
-                blink = false;
-
-            } else if( action == "REMOVE_ZONE" ) {
-                if( active_index < zone_cnt ) {
-                    mgr.remove( zones[active_index] );
-                    zones = get_zones();
-                    active_index--;
-
-                    if( active_index < 0 ) {
-                        active_index = 0;
-                    }
-
-                    draw_ter();
-                    wrefresh( w_terrain );
-                    draw_panels( true );
-                }
-                blink = false;
-                stuff_changed = true;
-
-            } else if( action == "CONFIRM" ) {
-                auto &zone = zones[active_index].get();
-
-                uilist as_m;
-                as_m.text = _( "What do you want to change:" );
-                as_m.entries.emplace_back( 1, true, '1', _( "Edit name" ) );
-                as_m.entries.emplace_back( 2, true, '2', _( "Edit type" ) );
-                as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
-                                           zone.get_type() == zone_type_id( "LOOT_CUSTOM" ) ? _( "Edit filter" ) : _( "Edit options" ) );
-                as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
-                as_m.query();
-
-                switch( as_m.ret ) {
-                    case 1:
-                        if( zone.set_name() ) {
-                            stuff_changed = true;
-                        }
-                        break;
-                    case 2:
-                        if( zone.set_type() ) {
-                            stuff_changed = true;
-                        }
-                        break;
-                    case 3:
-                        if( zone.get_options().query() ) {
-                            stuff_changed = true;
-                        }
-                        break;
-                    case 4: {
-                        const auto pos = query_position();
-                        if( pos && ( pos->first != zone.get_start_point() ||
-                                     pos->second != zone.get_end_point() ) ) {
-                            zone.set_position( *pos );
-                            stuff_changed = true;
-                        }
-                    }
-                    break;
-                    default:
-                        break;
-                }
-
-                draw_ter();
-
-                blink = false;
-
-                zones_manager_draw_borders( w_zones_border, w_zones_info_border,
-                                            zone_ui_height, width );
-                zones_manager_shortcuts( w_zones_info );
-
-            } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
-                if( active_index < zone_cnt - 1 ) {
-                    mgr.swap( zones[active_index], zones[active_index + 1] );
-                    zones = get_zones();
-                    active_index++;
-                }
-                blink = false;
-                stuff_changed = true;
-
-            } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
-                if( active_index > 0 ) {
-                    mgr.swap( zones[active_index], zones[active_index - 1] );
-                    zones = get_zones();
-                    active_index--;
-                }
-                blink = false;
-                stuff_changed = true;
-
-            } else if( action == "SHOW_ZONE_ON_MAP" ) {
-                //show zone position on overmap;
-                tripoint player_overmap_position = ms_to_omt_copy( m.getabs( u.pos() ) );
-                tripoint zone_overmap = ms_to_omt_copy( zones[active_index].get().get_center_point() );
-
-                ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
-
-                zones_manager_draw_borders( w_zones_border, w_zones_info_border,
-                                            zone_ui_height, width );
-                zones_manager_shortcuts( w_zones_info );
-
-                draw_ter();
-
-            } else if( action == "ENABLE_ZONE" ) {
-                zones[active_index].get().set_enabled( true );
-
-                stuff_changed = true;
-
-            } else if( action == "DISABLE_ZONE" ) {
-                zones[active_index].get().set_enabled( false );
-
-                stuff_changed = true;
-            }
+        } else {
+            werase( w_zones_info );
+            mvwprintz( w_zones_info, point( 2, 3 ), c_white, zones_info_msg );
+            wrefresh( w_zones_info );
         }
 
         if( zone_cnt == 0 ) {
             werase( w_zones );
-            wrefresh( w_zones_border );
             mvwprintz( w_zones, point( 2, 5 ), c_white, _( "No Zones defined." ) );
 
         } else {
@@ -6507,72 +6356,183 @@ void game::zones_manager()
             zones_manager_options();
         }
 
-        if( zone_cnt > 0 ) {
-            const auto &zone = zones[active_index].get();
+        wrefresh( w_zones );
+    } );
 
-            blink = !blink;
-
-            tripoint start = m.getlocal( zone.get_start_point() );
-            tripoint end = m.getlocal( zone.get_end_point() );
-
-            if( blink ) {
-                //draw marked area
-                tripoint offset = tripoint( offset_x, offset_y, 0 ); //ASCII
-#if defined(TILES)
-                if( use_tiles ) {
-                    offset = tripoint_zero; //TILES
-                } else {
-                    offset = tripoint( -offset_x, -offset_y, 0 ); //SDL
+    zones_manager_open = true;
+    do {
+        if( action == "ADD_ZONE" ) {
+            do { // not a loop, just for quick bailing out if canceled
+                const auto maybe_id = mgr.query_type();
+                if( !maybe_id.has_value() ) {
+                    break;
                 }
-#endif
 
-                draw_zones( start, end, offset );
-            } else {
-                //clear marked area
-#if defined(TILES)
-                if( !use_tiles ) {
-#endif
-                    for( int iY = start.y; iY <= end.y; ++iY ) {
-                        for( int iX = start.x; iX <= end.x; ++iX ) {
-                            if( u.sees( tripoint( iX, iY, u.posz() ) ) ) {
-                                m.drawsq( w_terrain, u,
-                                          tripoint( iX, iY, u.posz() + u.view_offset.z ),
-                                          false,
-                                          false,
-                                          u.pos() + u.view_offset );
-                            } else {
-                                if( u.has_effect( effect_boomered ) ) {
-                                    mvwputch( w_terrain, point( iX - offset_x, iY - offset_y ),
-                                              c_magenta, '#' );
-                                } else {
-                                    mvwputch( w_terrain, point( iX - offset_x, iY - offset_y ),
-                                              c_black, ' ' );
-                                }
-                            }
+                const zone_type_id &id = maybe_id.value();
+                auto options = zone_options::create( id );
+
+                if( !options->query_at_creation() ) {
+                    break;
+                }
+
+                auto default_name = options->get_zone_name_suggestion();
+                if( default_name.empty() ) {
+                    default_name = mgr.get_name_from_type( id );
+                }
+                const auto maybe_name = mgr.query_name( default_name );
+                if( !maybe_name.has_value() ) {
+                    break;
+                }
+                const itype_id &name = maybe_name.value();
+
+                const auto position = query_position();
+                if( !position ) {
+                    break;
+                }
+
+                mgr.add( name, id, g->u.get_faction()->id, false, true, position->first,
+                         position->second, options );
+
+                zones = get_zones();
+                active_index = zone_cnt - 1;
+
+                stuff_changed = true;
+            } while( false );
+
+            blink = false;
+        } else if( action == "SHOW_ALL_ZONES" ) {
+            show_all_zones = !show_all_zones;
+            zones = get_zones();
+            active_index = 0;
+        } else if( zone_cnt > 0 ) {
+            if( action == "UP" ) {
+                active_index--;
+                if( active_index < 0 ) {
+                    active_index = zone_cnt - 1;
+                }
+                blink = false;
+            } else if( action == "DOWN" ) {
+                active_index++;
+                if( active_index >= zone_cnt ) {
+                    active_index = 0;
+                }
+                blink = false;
+            } else if( action == "REMOVE_ZONE" ) {
+                if( active_index < zone_cnt ) {
+                    mgr.remove( zones[active_index] );
+                    zones = get_zones();
+                    active_index--;
+
+                    if( active_index < 0 ) {
+                        active_index = 0;
+                    }
+                }
+                blink = false;
+                stuff_changed = true;
+
+            } else if( action == "CONFIRM" ) {
+                auto &zone = zones[active_index].get();
+
+                uilist as_m;
+                as_m.text = _( "What do you want to change:" );
+                as_m.entries.emplace_back( 1, true, '1', _( "Edit name" ) );
+                as_m.entries.emplace_back( 2, true, '2', _( "Edit type" ) );
+                as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
+                                           zone.get_type() == zone_type_id( "LOOT_CUSTOM" ) ? _( "Edit filter" ) : _( "Edit options" ) );
+                as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
+                as_m.query();
+
+                switch( as_m.ret ) {
+                    case 1:
+                        if( zone.set_name() ) {
+                            stuff_changed = true;
+                        }
+                        break;
+                    case 2:
+                        if( zone.set_type() ) {
+                            stuff_changed = true;
+                        }
+                        break;
+                    case 3:
+                        if( zone.get_options().query() ) {
+                            stuff_changed = true;
+                        }
+                        break;
+                    case 4: {
+                        const auto pos = query_position();
+                        if( pos && ( pos->first != zone.get_start_point() ||
+                                     pos->second != zone.get_end_point() ) ) {
+                            zone.set_position( *pos );
+                            stuff_changed = true;
                         }
                     }
-#if defined(TILES)
+                    break;
+                    default:
+                        break;
                 }
-#endif
-            }
 
+                blink = false;
+            } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
+                if( active_index < zone_cnt - 1 ) {
+                    mgr.swap( zones[active_index], zones[active_index + 1] );
+                    zones = get_zones();
+                    active_index++;
+                }
+                blink = false;
+                stuff_changed = true;
+
+            } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
+                if( active_index > 0 ) {
+                    mgr.swap( zones[active_index], zones[active_index - 1] );
+                    zones = get_zones();
+                    active_index--;
+                }
+                blink = false;
+                stuff_changed = true;
+
+            } else if( action == "SHOW_ZONE_ON_MAP" ) {
+                //show zone position on overmap;
+                tripoint player_overmap_position = ms_to_omt_copy( m.getabs( u.pos() ) );
+                tripoint zone_overmap = ms_to_omt_copy( zones[active_index].get().get_center_point() );
+
+                ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
+            } else if( action == "ENABLE_ZONE" ) {
+                zones[active_index].get().set_enabled( true );
+
+                stuff_changed = true;
+
+            } else if( action == "DISABLE_ZONE" ) {
+                zones[active_index].get().set_enabled( false );
+
+                stuff_changed = true;
+            }
+        }
+
+        if( zone_cnt > 0 ) {
+            blink = !blink;
+            const auto &zone = zones[active_index].get();
+            zone_start = m.getlocal( zone.get_start_point() );
+            zone_end = m.getlocal( zone.get_end_point() );
             ctxt.set_timeout( BLINK_SPEED );
         } else {
+            blink = false;
+            zone_start = zone_end = cata::nullopt;
             ctxt.reset_timeout();
         }
 
-        wrefresh( w_terrain );
-        zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
-        zones_manager_shortcuts( w_zones_info );
-        draw_panels();
-        wrefresh( w_zones );
-        wrefresh( w_zones_border );
+        zone_blink = blink;
+        invalidate_main_ui_adaptor();
+
+        ui_manager::redraw();
 
         //Wait for input
         action = ctxt.handle_input();
     } while( action != "QUIT" );
     zones_manager_open = false;
     ctxt.reset_timeout();
+    zone_start = zone_end = cata::nullopt;
+    zone_blink = false;
+    invalidate_main_ui_adaptor();
 
     if( stuff_changed ) {
         auto &zones = zone_manager::get_manager();
@@ -6586,9 +6546,6 @@ void game::zones_manager()
     }
 
     u.view_offset = stored_view_offset;
-    pixel_minimap_option = stored_pm_opt;
-
-    refresh_all();
 }
 
 void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
