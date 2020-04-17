@@ -1027,11 +1027,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         if( p.has_trait( trait_BADKNEES ) ) {
             climb = climb / 2;
         }
-        if( one_in( climb ) ) {
-            add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
-            if( climb <= 1 ) {
-                add_msg( m_bad, _( "Climbing this obstacle is impossible in your current state." ) );
-            }
+        if( g->slip_down() ) {
             return;
         }
         p.moves += climb * 10;
@@ -4315,17 +4311,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
             p.setpos( examp );
 
-            ///\EFFECT_DEX decreases chances of slipping while climbing
-            int climb = p.dex_cur;
-            if( p.has_trait( trait_BADKNEES ) ) {
-                climb /= 2;
-            }
-            if( one_in( climb ) ) {
-                add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
-                if( climb <= 1 ) {
-                    add_msg( m_bad, _( "Climbing is impossible in your current state." ) );
-                }
-                g->m.creature_on_trap( p );
+            if( g->slip_down( true ) ) {
                 return;
             }
 

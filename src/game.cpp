@@ -10161,16 +10161,7 @@ void game::vertical_move( int movez, bool force )
         u.moves -= 500;
     }
 
-    ///\EFFECT_DEX decreases chances of slipping while climbing
-    int climb = u.dex_cur;
-    if( u.has_trait( trait_BADKNEES ) ) {
-        climb /= 2;
-    }
-    if( movez == 1 && one_in( climb ) ) {
-        add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
-        if( climb <= 1 ) {
-            add_msg( m_bad, _( "Climbing is impossible in your current state." ) );
-        }
+    if( movez == 1 && slip_down() ) {
         return;
     }
 
@@ -12037,4 +12028,24 @@ void game::shift_destination_preview( const point &delta )
     for( tripoint &p : destination_preview ) {
         p += delta;
     }
+}
+
+bool game::slip_down( bool check_for_traps )
+{
+    ///\EFFECT_DEX decreases chances of slipping while climbing
+    int climb = u.dex_cur;
+    if( u.has_trait( trait_BADKNEES ) ) {
+        climb = climb / 2;
+    }
+    if( one_in( climb ) ) {
+        add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
+        if( climb <= 1 ) {
+            add_msg( m_bad, _( "Climbing is impossible in your current state." ) );
+        }
+        if( check_for_traps ) {
+            m.creature_on_trap( u );
+        }
+        return true;
+    }
+    return false;
 }
