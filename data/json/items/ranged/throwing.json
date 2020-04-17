@@ -95,8 +95,9 @@
     "material": [ "steel", "wood" ],
     "volume": "750 ml",
     "weight": "792 g",
-    "bashing": 6,
-    "cutting": 16,
+    "to_hit": -1,
+    "bashing": 10,
+    "cutting": 17,
     "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ]
   },
   {
