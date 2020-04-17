@@ -2042,7 +2042,10 @@ static void handle_contents_changed( item_location acted_item )
         pocket = parent->contained_where( *child );
         parent->on_contents_changed();
         if( pocket == nullptr ) {
-            debugmsg( "ERROR: item_location parent does not contain child item" );
+            if( acted_item ) {
+                // if the item_location expired, the parent doesn't contain it, so we can't find the pocket it was in.
+                debugmsg( "ERROR: item_location parent does not contain child item" );
+            }
             return;
         }
         pocket->on_contents_changed();
