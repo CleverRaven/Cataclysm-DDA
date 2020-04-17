@@ -1717,7 +1717,7 @@ void game::process_activity()
     }
 
     if( calendar::once_every( 5_minutes ) ) {
-        draw();
+        ui_manager::redraw();
         refresh_display();
     }
 
@@ -1806,6 +1806,10 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
             activity.ignore_distraction( type );
         }
     }
+
+    ui_manager::redraw();
+    refresh_display();
+
     return false;
 }
 
@@ -2025,21 +2029,23 @@ void game::handle_key_blocking_activity()
 {
     if( ( u.activity && u.activity.moves_left > 0 ) || ( u.has_destination() &&
             !u.omt_path.empty() ) ) {
-        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
+        bool refresh = true;
         if( action == "pause" ) {
             cancel_activity_query( _( "Confirm:" ) );
         } else if( action == "player_data" ) {
             u.disp_info();
         } else if( action == "messages" ) {
             Messages::display_messages();
-            refresh_all();
         } else if( action == "help" ) {
             get_help().display_help();
-            refresh_all();
+        } else if( action != "HELP_KEYBINDINGS" ) {
+            refresh = false;
+        }
+        if( refresh ) {
+            ui_manager::redraw();
+            refresh_display();
         }
     }
 }
