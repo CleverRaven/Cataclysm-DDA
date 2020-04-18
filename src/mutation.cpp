@@ -171,6 +171,17 @@ void Character::unset_mutation( const trait_id &trait_ )
     reset_encumbrance();
 }
 
+void Character::switch_mutations( const trait_id &switched, const trait_id &target,
+                                  bool start_powered )
+{
+    unset_mutation( switched );
+    mutation_loss_effect( switched );
+
+    set_mutation( target );
+    my_mutations[target].powered = start_powered;
+    mutation_effect( target );
+}
+
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
     auto &mod_data = mut->mods;
@@ -494,6 +505,13 @@ void Character::activate_mutation( const trait_id &mut )
         recalc_sight_limits();
     }
 
+    if( mdata.transform ) {
+        const cata::value_ptr<mut_transform> trans = mdata.transform;
+        mod_moves( - trans->moves );
+        switch_mutations( mut, trans->target, trans->active );
+        return;
+    }
+
     if( mut == trait_WEB_WEAVER ) {
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
@@ -619,6 +637,12 @@ void Character::deactivate_mutation( const trait_id &mut )
     // Handle stat changes from deactivation
     apply_mods( mut, false );
     recalc_sight_limits();
+    const mutation_branch &mdata = mut.obj();
+    if( mdata.transform ) {
+        const cata::value_ptr<mut_transform> trans = mdata.transform;
+        mod_moves( -trans->moves );
+        switch_mutations( mut, trans->target, trans->active );
+    }
 }
 
 trait_id Character::trait_by_invlet( const int ch ) const

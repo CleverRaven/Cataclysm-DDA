@@ -56,6 +56,7 @@
     "weight": "20000 g",
     "volume": "1500 ml",
     "price": 10000,
+    "price_postapoc": 1000,
     "displacement": 40,
     "faults": [ "fault_engine_starter" ]
   },
@@ -68,6 +69,7 @@
     "weight": "40000 g",
     "volume": "2 L",
     "price": 10000,
+    "price_postapoc": 1250,
     "displacement": 55,
     "faults": [ "fault_engine_starter" ]
   },
@@ -80,6 +82,7 @@
     "weight": "10000 g",
     "volume": "750 ml",
     "price": 6000,
+    "price_postapoc": 750,
     "displacement": 20,
     "faults": [  ]
   },
@@ -92,6 +95,7 @@
     "weight": "130000 g",
     "volume": "3500 ml",
     "price": 15000,
+    "price_postapoc": 1250,
     "displacement": 160
   },
   {
@@ -103,6 +107,7 @@
     "weight": "185000 g",
     "volume": "7 L",
     "price": 27000,
+    "price_postapoc": 1500,
     "displacement": 600
   },
   {
@@ -114,6 +119,7 @@
     "weight": "45000 g",
     "volume": "2 L",
     "price": 10000,
+    "price_postapoc": 1000,
     "displacement": 100
   },
   {
@@ -125,6 +131,7 @@
     "weight": "180000 g",
     "volume": "4750 ml",
     "price": 18000,
+    "price_postapoc": 1500,
     "displacement": 280
   },
   {
@@ -136,6 +143,7 @@
     "weight": "190000 g",
     "volume": "5 L",
     "price": 20000,
+    "price_postapoc": 1500,
     "displacement": 280
   },
   {
@@ -147,6 +155,7 @@
     "weight": "250000 g",
     "volume": "7500 ml",
     "price": 25000,
+    "price_postapoc": 1750,
     "displacement": 450
   },
   {
@@ -158,6 +167,7 @@
     "weight": "255000 g",
     "volume": "8 L",
     "price": 26500,
+    "price_postapoc": 1750,
     "displacement": 450
   },
   {
@@ -169,6 +179,7 @@
     "weight": "300000 g",
     "volume": "14500 ml",
     "price": 36000,
+    "price_postapoc": 2250,
     "displacement": 700
   },
   {
@@ -180,6 +191,7 @@
     "weight": "310000 g",
     "volume": "15 L",
     "price": 32000,
+    "price_postapoc": 2250,
     "displacement": 700
   },
   {
@@ -191,7 +203,7 @@
     "weight": "225000 g",
     "volume": "62500 ml",
     "price": 225000,
-    "price_postapoc": 300000
+    "price_postapoc": 5000
   },
   {
     "id": "steam_triple_small",
@@ -202,7 +214,7 @@
     "weight": "180000 g",
     "volume": "37500 ml",
     "price": 555000,
-    "price_postapoc": 1110000
+    "price_postapoc": 8000
   },
   {
     "id": "steam_triple_medium",
@@ -213,7 +225,7 @@
     "weight": "280000 g",
     "volume": "57500 ml",
     "price": 870000,
-    "price_postapoc": 1740000
+    "price_postapoc": 10000
   },
   {
     "id": "engine_block_massive",
@@ -224,7 +236,8 @@
     "material": "iron",
     "weight": "280000 g",
     "volume": "6250 ml",
-    "price": 30000
+    "price": 30000,
+    "price_postapoc": 500
   },
   {
     "id": "engine_block_large",
@@ -235,7 +248,8 @@
     "material": "iron",
     "weight": "190000 g",
     "volume": "5 L",
-    "price": 20000
+    "price": 20000,
+    "price_postapoc": 500
   },
   {
     "id": "engine_block_medium",
@@ -246,7 +260,8 @@
     "material": "iron",
     "weight": "90000 g",
     "volume": "2500 ml",
-    "price": 10000
+    "price": 10000,
+    "price_postapoc": 250
   },
   {
     "id": "engine_block_small",
@@ -257,7 +272,8 @@
     "material": "iron",
     "weight": "40000 g",
     "volume": "1250 ml",
-    "price": 5000
+    "price": 5000,
+    "price_postapoc": 250
   },
   {
     "id": "engine_block_tiny",
@@ -268,7 +284,8 @@
     "material": "iron",
     "weight": "8000 g",
     "volume": "500 ml",
-    "price": 3500
+    "price": 3500,
+    "price_postapoc": 100
   },
   {
     "id": "small_turbine_engine",
@@ -279,6 +296,7 @@
     "weight": "1130000 g",
     "volume": "45 L",
     "price": 96000,
+    "price_postapoc": 2500,
     "displacement": 2700
   },
   {
@@ -290,6 +308,7 @@
     "weight": "1582000 g",
     "volume": "63 L",
     "price": 192000,
+    "price_postapoc": 5000,
     "displacement": 3800
   },
   {
@@ -301,6 +320,7 @@
     "weight": "3164000 g",
     "volume": "95 L",
     "price": 960000,
+    "price_postapoc": 7500,
     "displacement": 11995
   }
 ]

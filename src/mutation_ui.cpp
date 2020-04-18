@@ -71,7 +71,7 @@ void player::power_mutations()
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
     for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( !mut.first->activated ) {
+        if( !mut.first->activated && ! mut.first->transform ) {
             passive.push_back( mut.first );
         } else {
             active.push_back( mut.first );
@@ -290,10 +290,15 @@ void player::power_mutations()
                 break;
             }
             const auto &mut_data = mut_id.obj();
+            const cata::value_ptr<mut_transform> &trans = mut_data.transform;
             if( menu_mode == "activating" ) {
-                if( mut_data.activated ) {
+                if( mut_data.activated || trans ) {
                     if( my_mutations[mut_id].powered ) {
-                        add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
+                        if( trans && !trans->msg_transform.empty() ) {
+                            add_msg_if_player( m_neutral, trans->msg_transform );
+                        } else {
+                            add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
+                        }
 
                         deactivate_mutation( mut_id );
                         // Action done, leave screen
@@ -303,7 +308,12 @@ void player::power_mutations()
                                ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
 
                         g->draw();
-                        add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
+                        if( trans && !trans->msg_transform.empty() ) {
+                            add_msg_if_player( m_neutral, trans->msg_transform );
+                        } else {
+                            add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
+                        }
+
                         activate_mutation( mut_id );
                         // Action done, leave screen
                         break;

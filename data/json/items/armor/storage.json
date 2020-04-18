@@ -1002,6 +1002,6 @@
     "storage": "3 L",
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WAIST" ]
+    "flags": [ "VARSIZE" ]
   }
 ]
