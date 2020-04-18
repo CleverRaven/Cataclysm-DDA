@@ -224,6 +224,7 @@ static const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
+static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -10162,6 +10163,14 @@ void game::vertical_move( int movez, bool force )
         return;
     }
 
+    if( m.has_flag( "UNSTABLE", u.pos() ) ) {
+        u.moves -= 500;
+    }
+
+    if( movez == 1 && slip_down() ) {
+        return;
+    }
+
     // Check if there are monsters are using the stairs.
     bool slippedpast = false;
     if( !m.has_zlevels() && !coming_to_stairs.empty() && !force ) {
@@ -12025,4 +12034,24 @@ void game::shift_destination_preview( const point &delta )
     for( tripoint &p : destination_preview ) {
         p += delta;
     }
+}
+
+bool game::slip_down( bool check_for_traps )
+{
+    ///\EFFECT_DEX decreases chances of slipping while climbing
+    int climb = u.dex_cur;
+    if( u.has_trait( trait_BADKNEES ) ) {
+        climb = climb / 2;
+    }
+    if( one_in( climb ) ) {
+        add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
+        if( climb <= 1 ) {
+            add_msg( m_bad, _( "Climbing is impossible in your current state." ) );
+        }
+        if( check_for_traps ) {
+            m.creature_on_trap( u );
+        }
+        return true;
+    }
+    return false;
 }

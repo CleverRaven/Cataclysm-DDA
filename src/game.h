@@ -1071,6 +1071,13 @@ class game
 
         // called on map shifting
         void shift_destination_preview( const point &delta );
+
+        /**
+        Checks if player is able to successfully climb to/from some terrain and not slip down
+        @param check_for_traps Used if needed to call trap function on player's location after slipping down
+        @return whether player has slipped down
+        */
+        bool slip_down( bool check_for_traps = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
