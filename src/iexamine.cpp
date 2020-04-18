@@ -114,6 +114,7 @@ static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
@@ -1289,52 +1290,6 @@ void iexamine::safe( player &p, const tripoint &examp )
 }
 
 /**
- * Attempt to pick the gunsafe's lock and open it.
- */
-void iexamine::gunsafe_ml( player &p, const tripoint &examp )
-{
-    int pick_quality = 0;
-
-    if( p.has_amount( "picklocks", 1 ) || p.has_bionic( bio_lockpick ) ) {
-        pick_quality = 5;
-    } else if( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) ) {
-        pick_quality = 3;
-    } else if( p.has_amount( "fc_hairpin", 1 ) ) {
-        pick_quality = 1;
-    }
-
-    if( pick_quality == 0 ) {
-        add_msg( m_info, _( "You need a lockpick to open this gun safe." ) );
-        return;
-    } else if( !query_yn( _( "Pick the gun safe?" ) ) ) {
-        return;
-    }
-
-    p.practice( skill_mechanics, 1 );
-
-    ///\EFFECT_DEX speeds up lock picking gun safe
-    ///\EFFECT_MECHANICS speeds up lock picking gun safe
-    p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
-                         - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
-
-    ///\EFFECT_DEX increases chance of lock picking gun safe
-    ///\EFFECT_MECHANICS increases chance of lock picking gun safe
-    int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
-                      p.dex_cur ) ) * pick_quality;
-    int door_roll = dice( 4, 30 );
-    if( pick_roll >= door_roll ) {
-        p.practice( skill_mechanics, 1 );
-        add_msg( _( "You successfully unlock the gun safe." ) );
-        g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
-    } else if( door_roll > ( 3 * pick_roll ) ) {
-        add_msg( _( "Your clumsy attempt jams the lock!" ) );
-        g->m.furn_set( examp, furn_str_id( "f_gunsafe_mj" ) );
-    } else {
-        add_msg( _( "The gun safe stumps your efforts to pick it." ) );
-    }
-}
-
-/**
  * Attempt to "hack" the gunsafe's electronic lock and open it.
  */
 void iexamine::gunsafe_el( player &p, const tripoint &examp )
@@ -1392,7 +1347,7 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 
     if( picklocks.empty() ) {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
-                 g->m.tername( examp ) );
+                 g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
         return;
     }
 
@@ -1409,7 +1364,7 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         const auto actor = dynamic_cast<const pick_lock_actor *>
                            ( it->type->get_use( "picklock" )->get_actor_ptr() );
         p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
-                             g->m.tername( examp ), it->tname() );
+                             g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ), it->tname() );
         const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
         if( can_use.success() ) {
             actor->use( p, *it, false, examp );
@@ -5807,7 +5762,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "curtains", &iexamine::curtains },
             { "sign", &iexamine::sign },
             { "pay_gas", &iexamine::pay_gas },
-            { "gunsafe_ml", &iexamine::gunsafe_ml },
             { "gunsafe_el", &iexamine::gunsafe_el },
             { "locked_object", &iexamine::locked_object },
             { "locked_object_pickable", &iexamine::locked_object_pickable },
