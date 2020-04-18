@@ -1,7 +1,7 @@
 [
   {
     "id": "TDI",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "TDI Vector turret",
     "item": "TDI",
@@ -10,7 +10,7 @@
   },
   {
     "id": "bolter",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual storm bolter",
     "item": "bolter",
@@ -21,7 +21,7 @@
   },
   {
     "id": "cangun",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual slingshot cannon",
     "item": "cangun",
@@ -32,7 +32,7 @@
   },
   {
     "id": "acr",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Remington ACR turret",
     "item": "acr",
@@ -41,7 +41,7 @@
   },
   {
     "id": "gattler1",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual rotary cannon",
     "item": "gattler",
@@ -52,7 +52,7 @@
   },
   {
     "id": "ak47",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "AK47 turret",
     "item": "ak47",
@@ -61,7 +61,7 @@
   },
   {
     "id": "ak74",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "AK74 turret",
     "item": "ak74",
@@ -70,7 +70,7 @@
   },
   {
     "id": "lasgun",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual laser cannon",
     "item": "lasgun",
@@ -81,7 +81,7 @@
   },
   {
     "id": "lasgunp",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual pulse laser",
     "item": "lasgunp",
@@ -92,7 +92,7 @@
   },
   {
     "id": "lasgunx",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual turbolaser",
     "item": "lasgunx",
@@ -103,7 +103,7 @@
   },
   {
     "id": "american_180",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "American-180 turret",
     "item": "american_180",
@@ -112,7 +112,7 @@
   },
   {
     "id": "an94",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "AN94 turret",
     "item": "an94",
@@ -121,7 +121,7 @@
   },
   {
     "id": "mcutter",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual lacerator",
     "item": "cutter",
@@ -135,7 +135,7 @@
   },
   {
     "id": "mflamethrower3",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual RM451 flamethrower",
     "item": "rm451_flamethrower",
@@ -147,7 +147,7 @@
   },
   {
     "id": "nailer",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual perforator",
     "item": "nailer",
@@ -158,7 +158,7 @@
   },
   {
     "id": "needler",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual needler",
     "item": "needler",
@@ -169,7 +169,7 @@
   },
   {
     "id": "ar15",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "AR-15 turret",
     "item": "ar15",
@@ -178,7 +178,7 @@
   },
   {
     "id": "railturret",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual hypervelocity driver",
     "item": "railturret",
@@ -189,7 +189,7 @@
   },
   {
     "id": "ripper",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual ripper",
     "item": "ripper",
@@ -203,7 +203,7 @@
   },
   {
     "id": "rslauncher",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual rotary speargun",
     "item": "rslauncher",
@@ -214,7 +214,7 @@
   },
   {
     "id": "scorpion",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual scorpion ballista",
     "item": "scorpion",
@@ -225,7 +225,7 @@
   },
   {
     "id": "shardgun",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual splintergun",
     "item": "shardgun",
@@ -236,7 +236,7 @@
   },
   {
     "id": "slauncher",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual speargun",
     "item": "slauncher",
@@ -247,7 +247,7 @@
   },
   {
     "id": "teslagun",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual tesla cannon",
     "item": "teslagun",
@@ -258,7 +258,7 @@
   },
   {
     "id": "tiharturret",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "manual avalanche rifle",
     "item": "tiharturret",
@@ -269,7 +269,7 @@
   },
   {
     "id": "bigun",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "autoshotgun turret",
     "item": "bigun",
@@ -278,7 +278,7 @@
   },
   {
     "id": "blunderbuss",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "blunderbuss turret",
     "item": "blunderbuss",
@@ -287,7 +287,7 @@
   },
   {
     "id": "browning_blr",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Browning BLR turret",
     "item": "browning_blr",
@@ -296,7 +296,7 @@
   },
   {
     "id": "calico",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Calico M960 turret",
     "item": "calico",
@@ -305,7 +305,7 @@
   },
   {
     "id": "carbine_flintlock",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "flintlock carbine turret",
     "item": "carbine_flintlock",
@@ -319,7 +319,7 @@
   },
   {
     "id": "coilgun",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "coilgun turret",
     "item": "coilgun",
@@ -328,7 +328,7 @@
   },
   {
     "id": "cutter",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "lacerator turret",
     "item": "cutter",
@@ -342,7 +342,7 @@
   },
   {
     "id": "cx4",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Cx4 Storm turret",
     "item": "cx4",
@@ -351,7 +351,7 @@
   },
   {
     "id": "flamethrower1",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "simple flamethrower turret",
     "item": "flamethrower_simple",
@@ -363,7 +363,7 @@
   },
   {
     "id": "flamethrower2",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "flamethrower turret",
     "item": "flamethrower",
@@ -375,7 +375,7 @@
   },
   {
     "id": "flamethrower3",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM451 flamethrower turret",
     "item": "rm451_flamethrower",
@@ -387,7 +387,7 @@
   },
   {
     "id": "fn_fal",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "FN FAL turret",
     "item": "fn_fal",
@@ -396,7 +396,7 @@
   },
   {
     "id": "fn_p90",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "FN P90 turret",
     "item": "fn_p90",
@@ -405,7 +405,7 @@
   },
   {
     "id": "h&k416a5",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K 416A5 turret",
     "item": "h&k416a5",
@@ -414,7 +414,7 @@
   },
   {
     "id": "heavy_rail_rifle",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "heavy rail rifle turret",
     "item": "heavy_rail_rifle",
@@ -423,7 +423,7 @@
   },
   {
     "id": "hk_g3",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K G3 turret",
     "item": "hk_g3",
@@ -432,7 +432,7 @@
   },
   {
     "id": "hk_g36",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K G36 turret",
     "item": "hk_g36",
@@ -441,7 +441,7 @@
   },
   {
     "id": "hk_g80",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K G80 turret",
     "item": "hk_g80",
@@ -450,7 +450,7 @@
   },
   {
     "id": "hk_mp5",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K MP5 turret",
     "item": "hk_mp5",
@@ -459,7 +459,7 @@
   },
   {
     "id": "hk_mp7",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K MP7 turret",
     "item": "hk_mp7",
@@ -468,7 +468,7 @@
   },
   {
     "id": "hk_ump45",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "H&K UMP45 turret",
     "item": "hk_ump45",
@@ -477,7 +477,7 @@
   },
   {
     "id": "ksg",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Kel-Tec KSG turret",
     "item": "ksg",
@@ -486,7 +486,7 @@
   },
   {
     "id": "l_base_223",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "L523 turret",
     "item": "l_base_223",
@@ -495,7 +495,7 @@
   },
   {
     "id": "l_car_223",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "L523-CAR turret",
     "item": "l_car_223",
@@ -504,7 +504,7 @@
   },
   {
     "id": "l_def_12",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Tavor TS12 turret",
     "item": "tavor_12",
@@ -513,7 +513,7 @@
   },
   {
     "id": "l_dsr_223",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "L523-DSR turret",
     "item": "l_dsr_223",
@@ -522,7 +522,7 @@
   },
   {
     "id": "l_lmg_223",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "L523-LMG turret",
     "item": "l_lmg_223",
@@ -531,7 +531,7 @@
   },
   {
     "id": "l_long_45",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Long Ranger turret",
     "item": "l_long_45",
@@ -540,7 +540,7 @@
   },
   {
     "id": "l_mbr_223",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "L523-MBR turret",
     "item": "l_mbr_223",
@@ -549,7 +549,7 @@
   },
   {
     "id": "launcher_simple",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "40mm launcher turret",
     "item": "launcher_simple",
@@ -558,7 +558,7 @@
   },
   {
     "id": "m1014",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M1014 shotgun turret",
     "item": "m1014",
@@ -567,7 +567,7 @@
   },
   {
     "id": "m107a1",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Barrett M107A1 turret",
     "item": "m107a1",
@@ -576,7 +576,7 @@
   },
   {
     "id": "m14ebr",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M14-EBR turret",
     "item": "m14ebr",
@@ -585,7 +585,7 @@
   },
   {
     "id": "m1a",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M1A turret",
     "item": "m1a",
@@ -594,7 +594,7 @@
   },
   {
     "id": "m2010",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M2010 ESR turret",
     "item": "m2010",
@@ -603,7 +603,7 @@
   },
   {
     "id": "m27iar",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M27 IAR turret",
     "item": "m27iar",
@@ -612,7 +612,7 @@
   },
   {
     "id": "m2browning_sawn",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": ".50 caliber turret",
     "item": "m2browning_sawn",
@@ -621,7 +621,7 @@
   },
   {
     "id": "m320",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M320 turret",
     "item": "m320",
@@ -630,7 +630,7 @@
   },
   {
     "id": "m4a1",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M4A1 turret",
     "item": "m4a1",
@@ -639,7 +639,7 @@
   },
   {
     "id": "m60",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M60 turret",
     "item": "m60",
@@ -648,7 +648,7 @@
   },
   {
     "id": "m79",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "M79 turret",
     "item": "m79",
@@ -657,7 +657,7 @@
   },
   {
     "id": "mac_10",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "MAC-10 turret",
     "item": "mac_10",
@@ -666,7 +666,7 @@
   },
   {
     "id": "marlin_9a",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Marlin 39A turret",
     "item": "marlin_9a",
@@ -675,7 +675,7 @@
   },
   {
     "id": "mgl",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Milkor MGL turret",
     "item": "mgl",
@@ -684,7 +684,7 @@
   },
   {
     "id": "mossberg_500",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Mossberg 500 turret",
     "item": "mossberg_500",
@@ -693,7 +693,7 @@
   },
   {
     "id": "nailrifle",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "nail rifle turret",
     "item": "nailrifle",
@@ -702,7 +702,7 @@
   },
   {
     "id": "needlegun",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM216 SPIW turret",
     "item": "needlegun",
@@ -711,7 +711,7 @@
   },
   {
     "id": "pipe_double_shotgun",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "double pipe shotgun turret",
     "item": "pipe_double_shotgun",
@@ -720,7 +720,7 @@
   },
   {
     "id": "pipe_shotgun",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "pipe shotgun turret",
     "item": "pipe_shotgun",
@@ -729,7 +729,7 @@
   },
   {
     "id": "rebar_rifle",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "rail rifle turret",
     "item": "rebar_rifle",
@@ -738,7 +738,7 @@
   },
   {
     "id": "remington_700",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Remington 700 turret",
     "item": "remington_700",
@@ -747,7 +747,7 @@
   },
   {
     "id": "remington_870",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Remington 870 turret",
     "item": "remington_870",
@@ -756,7 +756,7 @@
   },
   {
     "id": "repeatingcrossbow",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "repeating crossbow turret",
     "item": "rep_crossbow",
@@ -767,7 +767,7 @@
   },
   {
     "id": "revolver_shotgun",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "revolver shotgun turret",
     "item": "revolver_shotgun",
@@ -776,7 +776,7 @@
   },
   {
     "id": "rifle_22",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": ".22 pipe rifle turret",
     "item": "rifle_22",
@@ -785,7 +785,7 @@
   },
   {
     "id": "rifle_308",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": ".308 pipe rifle turret",
     "item": "rifle_308",
@@ -794,7 +794,7 @@
   },
   {
     "id": "rifle_9mm",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "9x19mm pipe rifle turret",
     "item": "rifle_9mm",
@@ -803,7 +803,7 @@
   },
   {
     "id": "rifle_flintlock",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "flintlock rifle turret",
     "item": "rifle_flintlock",
@@ -815,7 +815,7 @@
   },
   {
     "id": "rm11b_sniper_rifle",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM11B scout rifle turret",
     "item": "rm11b_sniper_rifle",
@@ -824,7 +824,7 @@
   },
   {
     "id": "rm2000_smg",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM2000 SMG turret",
     "item": "rm2000_smg",
@@ -833,7 +833,7 @@
   },
   {
     "id": "rm360_carbine",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM360 carbine turret",
     "item": "rm360_carbine",
@@ -842,7 +842,7 @@
   },
   {
     "id": "rm51_assault_rifle",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM51 assault rifle turret",
     "item": "rm51_assault_rifle",
@@ -851,7 +851,7 @@
   },
   {
     "id": "rm614_lmg",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM614 LMG turret",
     "item": "rm614_lmg",
@@ -860,7 +860,7 @@
   },
   {
     "id": "rm802",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM802 turret",
     "item": "rm802",
@@ -869,7 +869,7 @@
   },
   {
     "id": "rm88_battle_rifle",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "RM88 battle rifle turret",
     "item": "rm88_battle_rifle",
@@ -878,7 +878,7 @@
   },
   {
     "id": "rslauncher",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "rotary speargun turret",
     "item": "rslauncher",
@@ -889,7 +889,7 @@
   },
   {
     "id": "ruger_1022",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Ruger 10/22 turret",
     "item": "ruger_1022",
@@ -898,7 +898,7 @@
   },
   {
     "id": "ruger_mini",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Ruger mini-14 turret",
     "item": "ruger_mini",
@@ -907,7 +907,7 @@
   },
   {
     "id": "saiga_12",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Saiga 12 turret",
     "item": "saiga_12",
@@ -916,7 +916,7 @@
   },
   {
     "id": "savage_111f",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Savage 111F turret",
     "item": "savage_111f",
@@ -925,7 +925,7 @@
   },
   {
     "id": "scar_h",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "FN SCAR-H turret",
     "item": "scar_h",
@@ -934,7 +934,7 @@
   },
   {
     "id": "scar_l",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "FN SCAR-L turret",
     "item": "scar_l",
@@ -943,7 +943,7 @@
   },
   {
     "id": "shotgun_d",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "double shotgun turret",
     "item": "shotgun_d",
@@ -952,7 +952,7 @@
   },
   {
     "id": "shotgun_s",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "single shotgun turret",
     "item": "shotgun_s",
@@ -961,7 +961,7 @@
   },
   {
     "id": "sks",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "SKS turret",
     "item": "sks",
@@ -970,7 +970,7 @@
   },
   {
     "id": "slauncher",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "speargun turret",
     "item": "slauncher",
@@ -981,7 +981,7 @@
   },
   {
     "id": "steyr_aug",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Steyr AUG turret",
     "item": "steyr_aug",
@@ -990,7 +990,7 @@
   },
   {
     "id": "surv_carbine_223",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "223 carbine turret",
     "item": "surv_carbine_223",
@@ -999,7 +999,7 @@
   },
   {
     "id": "survivor_special_700",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "survivor special turret",
     "item": "survivor_special_700",
@@ -1008,7 +1008,7 @@
   },
   {
     "id": "tec9",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "TEC-9 turret",
     "item": "tec9",
@@ -1017,7 +1017,7 @@
   },
   {
     "id": "uzi",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "Uzi turret",
     "item": "uzi",
@@ -1026,7 +1026,7 @@
   },
   {
     "id": "v29",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "V29 laser turret",
     "item": "v29",
@@ -1035,7 +1035,7 @@
   },
   {
     "id": "v29_cheap",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "LACP laser turret",
     "item": "v29_cheap",
