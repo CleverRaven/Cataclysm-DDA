@@ -147,6 +147,9 @@ class target_ui
         // Aiming destination (cursor position)
         // Use set_cursor_pos() to modify
         tripoint dst;
+        // Creature currently under cursor
+        // nullptr if aiming at empty tile or yourself
+        Creature *dst_critter = nullptr;
         // List of visible hostile targets (TODO: better name)
         std::vector<Creature *> t;
         // Currently selected target (TODO: get rid of this)
@@ -184,6 +187,9 @@ class target_ui
         // selects closest position in range.
         // Returns 'false' if cursor position did not change
         bool set_cursor_pos( player &pc, const tripoint &new_pos );
+
+        // Set creature (or tile) under cursor as player's last target
+        void set_last_target( player &pc );
 
         // Toggle snap-to-target
         void toggle_snap_to_target( player &pc );
@@ -1558,15 +1564,6 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
     int num_instruction_lines = draw_targeting_window( w_target,
                                 relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny, src == dst );
 
-    const auto set_last_target = [&pc]( const tripoint & dst ) {
-        pc.last_target_pos = g->m.getabs( dst );
-        if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
-            pc.last_target = g->shared_from( *critter_ptr );
-        } else {
-            pc.last_target.reset();
-        }
-    };
-
     const auto confirm_non_enemy_target = [&pc]( const tripoint & dst ) {
         if( dst == pc.pos() ) {
             return true;
@@ -1785,7 +1782,7 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
             recoil_pc = pc.recoil;
             recoil_pos = dst;
 
-            set_last_target( dst );
+            set_last_target( pc );
             const double min_recoil = calculate_aim_cap( pc, dst );
             for( int i = 0; i < 10; ++i ) {
                 do_aim( pc, *relevant, min_recoil );
@@ -1869,7 +1866,7 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 aim_mode = aim_types.begin();
             }
             int aim_threshold = it->threshold;
-            set_last_target( dst );
+            set_last_target( pc );
             const double min_recoil = calculate_aim_cap( pc, dst );
             do {
                 do_aim( pc, relevant ? *relevant : null_item_reference(), min_recoil );
@@ -1909,12 +1906,10 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
             break;
         } else if( action == "CENTER" ) {
             set_cursor_pos( pc, src );
-            set_last_target( src );
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             toggle_snap_to_target( pc );
         } else if( action == "QUIT" ) { // return empty vector (cancel)
             ret.clear();
-            pc.last_target_pos = cata::nullopt;
             break;
         } else if( action == "zoom_in" ) {
             g->zoom_in();
@@ -1944,7 +1939,6 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
         return ret;
     }
 
-    set_last_target( ret.back() );
     on_target_accepted( pc, true );
     wrefresh( w_target );
     return ret;
@@ -1964,15 +1958,6 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
 
     int num_instruction_lines = draw_targeting_window( w_target, casting.name(),
                                 TARGET_MODE_SPELL, ctxt, aim_types, tiny );
-
-    const auto set_last_target = [&pc]( const tripoint & dst ) {
-        pc.last_target_pos = g->m.getabs( dst );
-        if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
-            pc.last_target = g->shared_from( *critter_ptr );
-        } else {
-            pc.last_target.reset();
-        }
-    };
 
     const auto confirm_non_enemy_target = [&pc]( const tripoint & dst ) {
         if( dst == pc.pos() ) {
@@ -2143,15 +2128,14 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
                 continue;
             }
             find_target( t, dst );
+            set_last_target( pc );
             break;
         } else if( action == "CENTER" ) {
             set_cursor_pos( pc, src );
-            set_last_target( src );
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             toggle_snap_to_target( pc );
         } else if( action == "QUIT" ) { // return empty vector (cancel)
             ret.clear();
-            pc.last_target_pos = cata::nullopt;
             break;
         }
     } while( true );
@@ -2162,7 +2146,6 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
         return ret;
     }
 
-    set_last_target( ret.back() );
     on_target_accepted( pc, casting.damage() > 0 );
     wrefresh( w_target );
     return ret;
@@ -2714,7 +2697,24 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
         }
     }
 
+    // Cache creature under cursor
+    if( src != dst ) {
+        dst_critter = g->critter_at( dst, true );
+    } else {
+        dst_critter = nullptr;
+    }
+
     return true;
+}
+
+void target_ui::set_last_target( player &pc )
+{
+    pc.last_target_pos = g->m.getabs( dst );
+    if( dst_critter ) {
+        pc.last_target = g->shared_from( *dst_critter );
+    } else {
+        pc.last_target.reset();
+    }
 }
 
 void target_ui::toggle_snap_to_target( player &pc )
