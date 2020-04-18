@@ -12,6 +12,7 @@
 #include <utility>
 
 #include "ammo.h"
+#include "activity_actor.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -97,7 +98,6 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
-static const activity_id ACT_HACKING( "ACT_HACKING" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
@@ -890,7 +890,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             add_msg( _( "The nearby doors are already opened." ) );
         }
     } else if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        p.assign_activity( ACT_HACKING, to_moves<int>( 5_minutes ) );
+        p.assign_activity( player_activity( hacking_activity_actor() ) );
         p.activity.placement = examp;
     }
 }
@@ -951,7 +951,7 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
         if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-            p.assign_activity( ACT_HACKING, to_moves<int>( 5_minutes ) );
+            p.assign_activity( player_activity( hacking_activity_actor() ) );
             p.activity.placement = examp;
         }
     }
@@ -1340,7 +1340,7 @@ void iexamine::gunsafe_ml( player &p, const tripoint &examp )
 void iexamine::gunsafe_el( player &p, const tripoint &examp )
 {
     if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
-        p.assign_activity( ACT_HACKING, to_moves<int>( 5_minutes ) );
+        p.assign_activity( player_activity( hacking_activity_actor() ) );
         p.activity.placement = examp;
     }
 }
@@ -4196,7 +4196,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( hack == choice ) {
-        p.assign_activity( ACT_HACKING, to_moves<int>( 5_minutes ) );
+        p.assign_activity( player_activity( hacking_activity_actor() ) );
         p.activity.placement = examp;
     }
 

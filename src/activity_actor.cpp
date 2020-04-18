@@ -6,16 +6,196 @@
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "avatar.h"
 #include "character.h"
+#include "computer_session.h"
 #include "debug.h"
 #include "enums.h"
+#include "game.h"
+#include "iexamine.h"
 #include "item.h"
 #include "item_location.h"
 #include "json.h"
 #include "line.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "npc.h"
+#include "output.h"
 #include "pickup.h"
 #include "player_activity.h"
 #include "point.h"
+#include "timed_event.h"
+#include "uistate.h"
+
+static const bionic_id bio_fingerhack( "bio_fingerhack" );
+
+static const skill_id skill_computer( "computer" );
+
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+
+void hacking_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( 5_minutes );
+    act.moves_left = to_moves<int>( 5_minutes );
+}
+
+enum hack_result {
+    HACK_UNABLE,
+    HACK_FAIL,
+    HACK_NOTHING,
+    HACK_SUCCESS
+};
+
+enum hack_type {
+    HACK_SAFE,
+    HACK_DOOR,
+    HACK_GAS,
+    HACK_NULL
+};
+
+static int hack_level( const Character &who )
+{
+    ///\EFFECT_COMPUTER increases success chance of hacking card readers
+    // odds go up with int>8, down with int<8
+    // 4 int stat is worth 1 computer skill here
+    ///\EFFECT_INT increases success chance of hacking card readers
+    return who.get_skill_level( skill_computer ) + who.int_cur / 2 - 8;
+}
+
+static hack_result hack_attempt( Character &who )
+{
+    if( who.has_trait( trait_ILLITERATE ) ) {
+        return HACK_UNABLE;
+    }
+    const bool using_electrohack = who.has_charges( "electrohack", 25 ) &&
+                                   query_yn( _( "Use electrohack?" ) );
+    const bool using_fingerhack = !using_electrohack && who.has_bionic( bio_fingerhack ) &&
+                                  who.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
+
+    if( !( using_electrohack || using_fingerhack ) ) {
+        return HACK_UNABLE;
+    }
+
+    // TODO: Remove this once player -> Character migration is complete
+    {
+        player *p = dynamic_cast<player *>( &who );
+        p->practice( skill_computer, 20 );
+    }
+    if( using_fingerhack ) {
+        who.mod_power_level( -25_kJ );
+    } else {
+        who.use_charges( "electrohack", 25 );
+    }
+
+    // only skilled supergenius never cause short circuits, but the odds are low for people
+    // with moderate skills
+    const int hack_stddev = 5;
+    int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
+    if( success < 0 ) {
+        who.add_msg_if_player( _( "You cause a short circuit!" ) );
+        if( using_fingerhack ) {
+            who.mod_power_level( -25_kJ );
+        } else {
+            who.use_charges( "electrohack", 25 );
+        }
+
+        if( success <= -5 ) {
+            if( using_electrohack ) {
+                who.add_msg_if_player( m_bad, _( "Your electrohack is ruined!" ) );
+                who.use_amount( "electrohack", 1 );
+            } else {
+                who.add_msg_if_player( m_bad, _( "Your power is drained!" ) );
+                who.mod_power_level( units::from_kilojoule( -rng( 25,
+                                     units::to_kilojoule( who.get_power_level() ) ) ) );
+            }
+        }
+        return HACK_FAIL;
+    } else if( success < 6 ) {
+        return HACK_NOTHING;
+    } else {
+        return HACK_SUCCESS;
+    }
+}
+
+static hack_type get_hack_type( tripoint examp )
+{
+    hack_type type = HACK_NULL;
+    const furn_t &xfurn_t = g->m.furn( examp ).obj();
+    const ter_t &xter_t = g->m.ter( examp ).obj();
+    if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
+        type = HACK_GAS;
+    } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
+        type = HACK_DOOR;
+    } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
+        type = HACK_SAFE;
+    }
+    return type;
+}
+
+void hacking_activity_actor::finish( player_activity &act, Character &who )
+{
+    tripoint examp = act.placement;
+    hack_type type = get_hack_type( examp );
+    switch( hack_attempt( who ) ) {
+        case HACK_UNABLE:
+            who.add_msg_if_player( _( "You cannot hack this." ) );
+            break;
+        case HACK_FAIL:
+            // currently all things that can be hacked have equivalent alarm failure states.
+            // this may not always be the case with new hackable things.
+            g->events().send<event_type::triggers_alarm>( who.getID() );
+            sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
+                           "alarm" );
+            if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                     who.global_sm_location() );
+            }
+            break;
+        case HACK_NOTHING:
+            who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
+            break;
+        case HACK_SUCCESS:
+            if( type == HACK_GAS ) {
+                int tankGasUnits;
+                const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankGasUnits );
+                if( !pTank_ ) {
+                    break;
+                }
+                const tripoint pTank = *pTank_;
+                const cata::optional<tripoint> pGasPump = iexamine::getGasPumpByNumber( examp,
+                        uistate.ags_pay_gas_selected_pump );
+                if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankGasUnits ) ) {
+                    who.add_msg_if_player( _( "You hack the terminal and route all available fuel to your pump!" ) );
+                    sounds::sound( examp, 6, sounds::sound_t::activity,
+                                   _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ), true, "tool", "gaspump" );
+                } else {
+                    who.add_msg_if_player( _( "Nothing happens." ) );
+                }
+            } else if( type == HACK_SAFE ) {
+                who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
+                g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
+            } else if( type == HACK_DOOR ) {
+                who.add_msg_if_player( _( "You activate the panel!" ) );
+                who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
+                g->m.ter_set( examp, t_card_reader_broken );
+                for( const tripoint &tmp : g->m.points_in_radius( ( examp ), 3 ) ) {
+                    if( g->m.ter( tmp ) == t_door_metal_locked ) {
+                        g->m.ter_set( tmp, t_door_metal_c );
+                    }
+                }
+            }
+            break;
+    }
+    act.set_to_null();
+}
+
+void hacking_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
+{
+    return hacking_activity_actor().clone();
+}
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
@@ -75,11 +255,6 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     }
 }
 
-void move_items_activity_actor::finish( player_activity &, Character & )
-{
-    // Do nothing
-}
-
 void move_items_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -122,11 +297,6 @@ void migration_cancel_activity_actor::do_turn( player_activity &act, Character &
     }
 }
 
-void migration_cancel_activity_actor::finish( player_activity &, Character & )
-{
-    // Do nothing
-}
-
 void migration_cancel_activity_actor::serialize( JsonOut &jsout ) const
 {
     // This will probably never be called, but write null to avoid invalid json in
@@ -142,12 +312,13 @@ std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( Js
 namespace activity_actors
 {
 
+// Please keep this alphabetically sorted
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
+    { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
 };
-
 } // namespace activity_actors
 
 void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout )
