@@ -416,7 +416,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
     GIVEN( "avatar is boomered and wet" ) {
         dummy.add_effect( efftype_id( "boomered" ), 1_hours );
         dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-        REQUIRE( abs( dummy.has_morale( MORALE_WET ) ) );
+        REQUIRE( std::abs( dummy.has_morale( MORALE_WET ) ) );
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
@@ -424,7 +424,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
             THEN( "it removes the boomered effect, but not the wetness" ) {
                 CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
-                CHECK( abs( dummy.has_morale( MORALE_WET ) ) );
+                CHECK( std::abs( dummy.has_morale( MORALE_WET ) ) );
 
                 AND_THEN( "the towel becomes soiled" ) {
                     CHECK( towel.typeId() == "towel_soiled" );

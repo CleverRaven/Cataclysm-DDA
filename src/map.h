@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAP_H
-#define MAP_H
+#ifndef CATA_SRC_MAP_H
+#define CATA_SRC_MAP_H
 
 #include <array>
 #include <bitset>
@@ -26,6 +26,7 @@
 #include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
+#include "line.h"
 #include "lru_cache.h"
 #include "mapdata.h"
 #include "point.h"
@@ -65,7 +66,6 @@ struct partial_con;
 struct rl_vec2d;
 struct trap;
 
-enum direction : unsigned;
 enum class special_item_type : int;
 using itype_id = std::string;
 class npc_template;
@@ -1842,4 +1842,4 @@ class fake_map : public tinymap
                   int fake_map_z );
         ~fake_map() override;
 };
-#endif
+#endif // CATA_SRC_MAP_H

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef FLAG_H
-#define FLAG_H
+#ifndef CATA_SRC_FLAG_H
+#define CATA_SRC_FLAG_H
 
 #include <set>
 #include <string>
@@ -71,4 +71,4 @@ class json_flag
         static void reset();
 };
 
-#endif
+#endif // CATA_SRC_FLAG_H

@@ -292,7 +292,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 16 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "kevlar_plate", 16 ] ],
       [ [ "rag", 19 ] ],
       [
         [ "tacvest", 1 ],
@@ -488,7 +488,7 @@
         [ "fanny", 1 ]
       ],
       [ [ "duct_tape", 150 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
     ]
   },
   {
@@ -502,85 +502,6 @@
     "decomp_learn": 0,
     "autolearn": true,
     "components": [ [ [ "ballistic_vest_empty", 1 ] ], [ [ "esapi_plate", 2 ] ], [ [ "esbi_plate", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "modularvest",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "difficulty": 4,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "kevlar_plate", 24 ] ] ]
-  },
-  {
-    "result": "modularvestceramic",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "reversible": true,
-    "decomp_learn": 0,
-    "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "ceramic_armor", 4 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "modularvesthard",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "reversible": true,
-    "decomp_learn": 0,
-    "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "hard_steel_armor", 8 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "modularvestkevlar",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "reversible": true,
-    "decomp_learn": 0,
-    "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "kevlar_plate", 8 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "modularveststeel",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "reversible": true,
-    "decomp_learn": 0,
-    "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "steel_armor", 8 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "modularvestsuper",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "reversible": true,
-    "decomp_learn": 0,
-    "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "alloy_sheet", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -777,7 +698,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 13 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "kevlar_plate", 13 ] ],
       [ [ "rag", 14 ] ],
       [
         [ "tacvest", 1 ],
@@ -922,7 +843,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 10 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "kevlar_plate", 10 ] ],
       [ [ "rag", 11 ] ],
       [
         [ "tacvest", 1 ],
@@ -1104,7 +1025,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 12 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "kevlar_plate", 12 ] ],
       [ [ "rag", 14 ] ],
       [
         [ "tacvest", 1 ],

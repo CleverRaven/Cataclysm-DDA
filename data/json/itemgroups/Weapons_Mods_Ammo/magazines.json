@@ -234,7 +234,8 @@
       [ "stanag20", 5 ],
       [ "stanag30", 10 ],
       [ "stanag40", 3 ],
-      [ "ar10mag_20rd", 30 ]
+      [ "ar10mag_20rd", 30 ],
+      [ "akmag30", 25 ]
     ]
   },
   {
@@ -248,8 +249,10 @@
     "id": "mags_rifle_rare",
     "//": "Aftermarket or otherwise uncommon rifle magazines excluding milspec.",
     "items": [
-      [ "akmbigmag", 5 ],
-      [ "akmmag", 25 ],
+      [ "akmag10", 40 ],
+      [ "akmag20", 40 ],
+      [ "akmag40", 40 ],
+      [ "akdrum75", 30 ],
       [ "falmag", 100 ],
       [ "falbigmag", 50 ],
       [ "g3mag", 80 ],
@@ -305,7 +308,7 @@
     "type": "item_group",
     "id": "mags_other_makeshift",
     "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "nailmag", 20 ], [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
+    "items": [ [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
   },
   {
     "type": "item_group",

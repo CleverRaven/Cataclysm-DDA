@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAME_CONSTANTS_H
-#define GAME_CONSTANTS_H
+#ifndef CATA_SRC_GAME_CONSTANTS_H
+#define CATA_SRC_GAME_CONSTANTS_H
 
 #include "units.h"
 
@@ -126,6 +126,10 @@ constexpr double accuracy_goodhit  = 0.5;
 constexpr double accuracy_standard = 0.8;
 constexpr double accuracy_grazing  = 1.0;
 
+// The maximum level recoil will ever reach.
+// This corresponds to the level of accuracy of a "snap" or "hip" shot.
+constexpr double MAX_RECOIL = 3000;
+
 // Minimum item damage output of relevant type to allow using with relevant weapon skill.
 #define MELEE_STAT 5
 
@@ -181,4 +185,4 @@ constexpr float very_obese = 35.0f;
 constexpr float morbidly_obese = 40.0f;
 } // namespace character_weight_category
 
-#endif
+#endif // CATA_SRC_GAME_CONSTANTS_H

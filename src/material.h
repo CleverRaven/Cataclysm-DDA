@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MATERIAL_H
-#define MATERIAL_H
+#ifndef CATA_SRC_MATERIAL_H
+#define CATA_SRC_MATERIAL_H
 
 #include <algorithm>
 #include <cstddef>
@@ -125,4 +125,4 @@ std::set<material_id> get_rotting();
 
 } // namespace materials
 
-#endif
+#endif // CATA_SRC_MATERIAL_H

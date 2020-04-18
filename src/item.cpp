@@ -572,7 +572,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( ammo == "null" && ammo_types().empty() ) || is_money() ) {
+    if( ( ( ammo == "null" || ammo == "NULL" ) && ammo_types().empty() ) || is_money() ) {
         if( ( is_tool() || is_gun() ) && magazine_integral() ) {
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
@@ -1352,19 +1352,19 @@ struct dps_comp_data {
     bool evaluate;
 };
 
-const std::map<std::string, dps_comp_data> dps_comp_monsters = {
-    { _( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
-    { _( "Best" ), { mtype_id( "debug_mon" ), true, false } },
-    { _( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
-    { _( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } }
+static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
+    { to_translation( "Best" ), { mtype_id( "debug_mon" ), true, false } },
+    { to_translation( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } },
+    { to_translation( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
+    { to_translation( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
 };
 
 std::map<std::string, double> item::dps( const player &guy ) const
 {
     std::map<std::string, double> results;
-    for( const std::pair<std::string, dps_comp_data> &comp_mon : dps_comp_monsters ) {
+    for( const std::pair<translation, dps_comp_data> &comp_mon : dps_comp_monsters ) {
         monster test_mon = monster( comp_mon.second.mon_id );
-        results[ comp_mon.first ] = effective_dps( guy, test_mon );
+        results[ comp_mon.first.translated() ] = effective_dps( guy, test_mon );
     }
     return results;
 }
@@ -1563,7 +1563,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
 
     if( parts->test( iteminfo_parts::MED_PORTIONS ) ) {
         info.push_back( iteminfo( "MED", _( "Portions: " ),
-                                  abs( static_cast<int>( med_item->charges ) * batch ) ) );
+                                  std::abs( static_cast<int>( med_item->charges ) * batch ) ) );
     }
 
     if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
@@ -1620,7 +1620,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
         info.push_back( iteminfo( "FOOD", _( "Portions: " ),
-                                  abs( static_cast<int>( food_item->charges ) * batch ) ) );
+                                  std::abs( static_cast<int>( food_item->charges ) * batch ) ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
         ( debug || ( g != nullptr && ( g->u.has_trait( trait_CARNIVORE ) ||
@@ -1816,7 +1816,10 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RECOIL ) ) {
             info.emplace_back( "AMMO", _( "Recoil: " ), "",
-                               iteminfo::lower_is_better, ammo.recoil );
+                               iteminfo::lower_is_better | iteminfo::no_newline, ammo.recoil );
+        }
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
+            info.emplace_back( "AMMO", space + _( "Critical multiplier: " ), ammo.critical_multiplier );
         }
     }
 
@@ -1905,6 +1908,13 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
     }
     info.back().bNewLine = true;
+
+    if( mod->ammo_required() && curammo->ammo->critical_multiplier != 1.0 ) {
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
+            info.push_back( iteminfo( "GUN", _( "Critical multiplier: " ), "<num>",
+                                      iteminfo::no_flags, curammo->ammo->critical_multiplier ) );
+        }
+    }
 
     int max_gun_range = loaded_mod->gun_range( &g->u );
     if( max_gun_range > 0 && parts->test( iteminfo_parts::GUN_MAX_RANGE ) ) {
@@ -1998,7 +2008,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     return e.second.qty > 1 && !e.second.melee();
     } ) ) {
         info.emplace_back( "GUN", _( "Recommended strength (burst): " ), "",
-                           iteminfo::lower_is_better, ceil( mod->type->weight / 333.0_gram ) );
+                           iteminfo::lower_is_better, std::ceil( mod->type->weight / 333.0_gram ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
@@ -3158,14 +3168,14 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       iteminfo::lower_is_better, attack_time() ) );
             info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
             const std::map<std::string, double> &dps_data = dps();
-            for( const std::pair<std::string, double> &dps_entry : dps_data ) {
-                const auto &ref_data = dps_comp_monsters.find( dps_entry.first );
-                if( ( ref_data == dps_comp_monsters.end() ) || !ref_data->second.display ) {
+            for( const std::pair<translation, dps_comp_data> &ref_data : dps_comp_monsters ) {
+                const auto dps_entry = dps_data.find( ref_data.first.translated() );
+                if( ( dps_entry == dps_data.end() ) || !ref_data.second.display ) {
                     continue;
                 }
-                info.emplace_back( "BASE", space + dps_entry.first + ": ", "",
+                info.emplace_back( "BASE", space + dps_entry->first + ": ", "",
                                    iteminfo::no_newline | iteminfo::is_decimal,
-                                   dps_entry.second );
+                                   dps_entry->second );
             }
         }
     }
@@ -4069,8 +4079,7 @@ void item::handle_pickup_ownership( Character &c )
                     }
                 }
                 if( !guard_chosen ) {
-                    int random_index = rand() % witnesses.size();
-                    witnesses[random_index]->witness_thievery( &*this );
+                    random_entry( witnesses )->witness_thievery( &*this );
                 }
             }
             set_owner( c );
@@ -6509,7 +6518,7 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
     modify += add_value;
     modify *= mult_value;
     if( round_value ) {
-        modify = round( modify );
+        modify = std::round( modify );
     }
     return modify;
 }
@@ -6528,7 +6537,7 @@ double item::calculate_by_enchantment_wield( double modify, enchantment::mod val
     modify += add_value;
     modify *= mult_value;
     if( round_value ) {
-        modify = round( modify );
+        modify = std::round( modify );
     }
     return modify;
 }
@@ -6842,7 +6851,7 @@ int item::gun_recoil( const player &p, bool bipod ) const
     handling /= 10;
 
     // algorithm is biased so heavier weapons benefit more from improved handling
-    handling = pow( wt, 0.8 ) * pow( handling, 1.2 );
+    handling = std::pow( wt, 0.8 ) * std::pow( handling, 1.2 );
 
     int qty = type->gun->recoil;
     if( ammo_data() ) {
@@ -7992,6 +8001,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
 {
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
+    std::vector<item *> removed_items;
     // First, check contents
     visit_items(
     [&]( item * a ) {
@@ -8000,11 +8010,15 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
             return VisitResponse::NEXT;
         }
         if( a->use_amount_internal( it, quantity, used, filter ) ) {
-            this->remove_item( *a );
+            removed_items.emplace_back( a );
             return VisitResponse::SKIP;
         }
         return VisitResponse::NEXT;
     } );
+
+    for( item *remove : removed_items ) {
+        remove_item( *remove );
+    }
 
     if( quantity != old_quantity ) {
         on_contents_changed();
@@ -8038,7 +8052,10 @@ bool item::allow_crafting_component() const
     // fixes #18886 - turret installation may require items with irremovable mods
     if( is_gun() ) {
         bool valid = true;
-        visit_items( [&valid]( const item * it ) {
+        visit_items( [&]( const item * it ) {
+            if( this == it ) {
+                return VisitResponse::NEXT;
+            }
             if( !( it->is_magazine() || ( it->is_gunmod() && it->is_irremovable() ) ) ) {
                 valid = false;
                 return VisitResponse::ABORT;
@@ -8638,7 +8655,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-    item_internal::scoped_goes_bad_cache _( this );
+    item_internal::scoped_goes_bad_cache _cache( this );
     const bool process_rot = goes_bad();
 
     if( process_rot ) {
@@ -8788,7 +8805,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
         // Was solid.
         new_item_temperature = ( - temperature_difference
-                                 * exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass * specific_heat_solid ) )
+                                 * std::exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass * specific_heat_solid ) )
                                  + env_temperature );
         new_specific_energy = new_item_temperature * specific_heat_solid;
         if( new_item_temperature > freezing_temperature + 0.5 ) {
@@ -8797,7 +8814,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
             // Calculate how long the item was solid
             // and apply rest of the time as melting
             extra_time = to_turns<int>( time_delta )
-                         - log( - temperature_difference / ( freezing_temperature - env_temperature ) )
+                         - std::log( - temperature_difference / ( freezing_temperature - env_temperature ) )
                          * ( mass * specific_heat_solid / conductivity_term );
             new_specific_energy = completely_frozen_specific_energy
                                   + conductivity_term
@@ -8815,8 +8832,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
         // Was liquid.
         new_item_temperature = ( - temperature_difference
-                                 * exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass *
-                                         specific_heat_liquid ) )
+                                 * std::exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass *
+                                             specific_heat_liquid ) )
                                  + env_temperature );
         new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid +
                               completely_liquid_specific_energy;
@@ -8826,7 +8843,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
             // Calculate how long the item was liquid
             // and apply rest of the time as freezing
             extra_time = to_turns<int>( time_delta )
-                         - log( - temperature_difference / ( freezing_temperature - env_temperature ) )
+                         - std::log( - temperature_difference / ( freezing_temperature - env_temperature ) )
                          * ( mass * specific_heat_liquid / conductivity_term );
             new_specific_energy = completely_liquid_specific_energy
                                   + conductivity_term
@@ -8854,8 +8871,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
                          *
                          ( completely_liquid_specific_energy - 0.00001 * specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
-                                     * exp( - extra_time * conductivity_term / ( mass *
-                                             specific_heat_liquid ) )
+                                     * std::exp( - extra_time * conductivity_term / ( mass *
+                                                 specific_heat_liquid ) )
                                      + env_temperature );
             new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid +
                                   completely_liquid_specific_energy;
@@ -8867,8 +8884,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
                          *
                          ( completely_frozen_specific_energy - 0.00001 * specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
-                                     * exp( -  extra_time * conductivity_term / ( mass *
-                                             specific_heat_solid ) )
+                                     * std::exp( -  extra_time * conductivity_term / ( mass *
+                                                 specific_heat_solid ) )
                                      + env_temperature );
             new_specific_energy = new_item_temperature * specific_heat_solid;
         }

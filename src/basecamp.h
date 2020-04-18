@@ -1,6 +1,6 @@
 #pragma once
-#ifndef BASECAMP_H
-#define BASECAMP_H
+#ifndef CATA_SRC_BASECAMP_H
+#define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
 #include <list>
@@ -380,4 +380,4 @@ class basecamp_action_components
         std::unique_ptr<tinymap> map_; // Used for by-radio crafting
 };
 
-#endif
+#endif // CATA_SRC_BASECAMP_H

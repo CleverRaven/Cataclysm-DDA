@@ -504,7 +504,7 @@ std::string spell::damage_string() const
         if( dmg >= 0 ) {
             return string_format( "%d", dmg );
         } else {
-            return string_format( "+%d", abs( dmg ) );
+            return string_format( "+%d", std::abs( dmg ) );
         }
     }
 }
@@ -616,10 +616,10 @@ int spell::energy_cost( const player &p ) const
     int cost;
     if( type->base_energy_cost < type->final_energy_cost ) {
         cost = std::min( type->final_energy_cost,
-                         static_cast<int>( round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
+                         static_cast<int>( std::round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else if( type->base_energy_cost > type->final_energy_cost ) {
         cost = std::max( type->final_energy_cost,
-                         static_cast<int>( round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
+                         static_cast<int>( std::round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else {
         cost = type->base_energy_cost;
     }
@@ -687,10 +687,12 @@ int spell::casting_time( const player &p ) const
     int casting_time = 0;
     if( type->base_casting_time < type->final_casting_time ) {
         casting_time = std::min( type->final_casting_time,
-                                 static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
+                                 static_cast<int>( std::round( type->base_casting_time + type->casting_time_increment *
+                                         get_level() ) ) );
     } else if( type->base_casting_time > type->final_casting_time ) {
         casting_time = std::max( type->final_casting_time,
-                                 static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
+                                 static_cast<int>( std::round( type->base_casting_time + type->casting_time_increment *
+                                         get_level() ) ) );
     } else {
         casting_time = type->base_casting_time;
     }
@@ -735,7 +737,7 @@ float spell::spell_fail( const player &p ) const
     } else if( effective_skill < 0.0f ) {
         return 1.0f;
     }
-    float fail_chance = pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
+    float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
     if( has_flag( spell_flag::SOMATIC ) && !p.has_trait_flag( "SUBTLE_SPELL" ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
@@ -895,7 +897,7 @@ void spell::create_field( const tripoint &at ) const
 void spell::make_sound( const tripoint &target ) const
 {
     if( !has_flag( spell_flag::SILENT ) ) {
-        int loudness = abs( damage() ) / 3;
+        int loudness = std::abs( damage() ) / 3;
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }
@@ -1009,7 +1011,7 @@ constexpr float c = -62.5;
 int spell::get_level() const
 {
     // you aren't at the next level unless you have the requisite xp, so floor
-    return std::max( static_cast<int>( floor( log( experience + a ) / b + c ) ), 0 );
+    return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
 
 int spell::get_max_level() const
@@ -1026,7 +1028,7 @@ static int exp_for_level( int level )
     if( level == 0 ) {
         return 0;
     }
-    return ceil( exp( ( level - c ) * b ) ) - a;
+    return std::ceil( std::exp( ( level - c ) * b ) ) - a;
 }
 
 int spell::exp_to_next_level() const
@@ -1042,7 +1044,7 @@ std::string spell::exp_progress() const
     const int denominator = next_level_xp - this_level_xp;
     const float progress = static_cast<float>( xp() - this_level_xp ) / std::max( 1.0f,
                            static_cast<float>( denominator ) );
-    return string_format( "%i%%", clamp( static_cast<int>( round( progress * 100 ) ), 0, 99 ) );
+    return string_format( "%i%%", clamp( static_cast<int>( std::round( progress * 100 ) ), 0, 99 ) );
 }
 
 float spell::exp_modifier( const player &p ) const
@@ -1059,7 +1061,7 @@ int spell::casting_exp( const player &p ) const
     // the amount of xp you would get with no modifiers
     const int base_casting_xp = 75;
 
-    return round( p.adjust_for_focus( base_casting_xp * exp_modifier( p ) ) );
+    return std::round( p.adjust_for_focus( base_casting_xp * exp_modifier( p ) ) );
 }
 
 std::string spell::enumerate_targets() const
@@ -1157,7 +1159,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
 {
     if( has_flag( spell_flag::WONDER ) ) {
         const auto iter = type->additional_spells.begin();
-        for( int num_spells = abs( damage() ); num_spells > 0; num_spells-- ) {
+        for( int num_spells = std::abs( damage() ); num_spells > 0; num_spells-- ) {
             if( type->additional_spells.empty() ) {
                 debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", type->id.c_str() );
                 return;

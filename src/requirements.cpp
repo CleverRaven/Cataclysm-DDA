@@ -117,7 +117,7 @@ std::string tool_comp::to_string( const int batch, const int ) const
                                          count * batch ),
                               item::nname( type ), count * batch );
     } else {
-        return item::nname( type, abs( count ) );
+        return item::nname( type, std::abs( count ) );
     }
 }
 
@@ -337,7 +337,7 @@ template<typename T>
 bool requirement_data::any_marked_available( const std::vector<T> &comps )
 {
     for( const auto &comp : comps ) {
-        if( comp.available == a_true ) {
+        if( comp.available == available_status::a_true ) {
             return true;
         }
     }
@@ -557,7 +557,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
             const std::string color_tag = get_tag_from_color( color );
             int qty = 0;
-            if( component.get_component_type() == COMPONENT_ITEM ) {
+            if( component.get_component_type() == component_type::ITEM ) {
                 const itype_id item_id = static_cast<itype_id>( component.type );
                 if( item::count_by_charges( item_id ) ) {
                     qty = crafting_inv.charges_of( item_id, INT_MAX, filter );
@@ -658,11 +658,11 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
             [ &UPS_charges_used ]( int charges ) {
             UPS_charges_used = std::min( UPS_charges_used, charges );
             } ) ) {
-                tool.available = a_true;
+                tool.available = available_status::a_true;
             } else {
-                tool.available = a_false;
+                tool.available = available_status::a_false;
             }
-            has_tool_in_set = has_tool_in_set || tool.available == a_true;
+            has_tool_in_set = has_tool_in_set || tool.available == available_status::a_true;
         }
         if( !has_tool_in_set ) {
             retval = false;
@@ -692,7 +692,7 @@ bool quality_requirement::has(
 nc_color quality_requirement::get_color( bool has_one, const inventory &,
         const std::function<bool( const item & )> &, int ) const
 {
-    if( available == a_true ) {
+    if( available == available_status::a_true ) {
         return c_green;
     }
     return has_one ? c_dark_gray : c_red;
@@ -722,7 +722,7 @@ bool tool_comp::has(
 nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
                                const std::function<bool( const item & )> &filter, int batch ) const
 {
-    if( available == a_insufficent ) {
+    if( available == available_status::a_insufficent ) {
         return c_brown;
     } else if( has( crafting_inv, filter, batch ) ) {
         return c_green;
@@ -748,7 +748,7 @@ bool item_comp::has(
 nc_color item_comp::get_color( bool has_one, const inventory &crafting_inv,
                                const std::function<bool( const item & )> &filter, int batch ) const
 {
-    if( available == a_insufficent ) {
+    if( available == available_status::a_insufficent ) {
         return c_brown;
     } else if( has( crafting_inv, filter, batch ) ) {
         return c_green;
@@ -791,12 +791,12 @@ bool requirement_data::check_enough_materials( const inventory &crafting_inv,
 bool requirement_data::check_enough_materials( const item_comp &comp, const inventory &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch ) const
 {
-    if( comp.available != a_true ) {
+    if( comp.available != available_status::a_true ) {
         return false;
     }
     const int cnt = std::abs( comp.count ) * batch;
     const tool_comp *tq = find_by_type( tools, comp.type );
-    if( tq != nullptr && tq->available == a_true ) {
+    if( tq != nullptr && tq->available == available_status::a_true ) {
         // The very same item type is also needed as tool!
         // Use charges of it, or use it by count?
         const int tc = tq->by_charges() ? 1 : std::abs( tq->count );
@@ -817,7 +817,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
         const tool_comp t_tmp( comp.type, -( cnt + tc ) ); // not by charges!
         // batch factor is explicitly 1, because it's already included in the count.
         if( !i_tmp.has( crafting_inv, filter, 1 ) && !t_tmp.has( crafting_inv, filter, 1 ) ) {
-            comp.available = a_insufficent;
+            comp.available = available_status::a_insufficent;
         }
     }
     const itype *it = item::find_type( comp.type );
@@ -828,11 +828,11 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
         }
         // This item can be used for the quality requirement, same as above for specific
         // tools applies.
-        if( !crafting_inv.has_quality( qr->type, qr->level, qr->count + abs( comp.count ) ) ) {
-            comp.available = a_insufficent;
+        if( !crafting_inv.has_quality( qr->type, qr->level, qr->count + std::abs( comp.count ) ) ) {
+            comp.available = available_status::a_insufficent;
         }
     }
-    return comp.available == a_true;
+    return comp.available == available_status::a_true;
 }
 
 template <typename T>

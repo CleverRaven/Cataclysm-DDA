@@ -1151,9 +1151,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 alignment_offset = 0;
-                if( ft.alignment == TEXT_ALIGNMENT_CENTER ) {
+                if( ft.alignment == text_alignment::center ) {
                     alignment_offset = full_text_length / 2;
-                } else if( ft.alignment == TEXT_ALIGNMENT_RIGHT ) {
+                } else if( ft.alignment == text_alignment::right ) {
                     alignment_offset = full_text_length - 1;
                 }
             }
@@ -3777,8 +3777,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     if( tile_iso && use_tiles ) {
         const float win_mid_x = win_min.x + win_size.x / 2.0f;
         const float win_mid_y = -win_min.y + win_size.y / 2.0f;
-        const int screen_col = round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
-        const int screen_row = round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
+        const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
+        const int screen_row = std::round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
         p = view_offset + selected;
     } else {

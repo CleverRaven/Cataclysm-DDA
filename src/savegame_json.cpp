@@ -500,12 +500,12 @@ void Character::load( const JsonObject &data )
     if( savegame_loading_version <= 23 ) {
         std::unordered_set<trait_id> old_my_mutations;
         data.read( "mutations", old_my_mutations );
-        for( const auto &mut : old_my_mutations ) {
+        for( const trait_id &mut : old_my_mutations ) {
             my_mutations[mut]; // Creates a new entry with default values
         }
         std::map<trait_id, char> trait_keys;
         data.read( "mutation_keys", trait_keys );
-        for( const auto &k : trait_keys ) {
+        for( const std::pair<trait_id, char> &k : trait_keys ) {
             my_mutations[k.first].key = k.second;
         }
         std::set<trait_id> active_muts;
@@ -517,14 +517,14 @@ void Character::load( const JsonObject &data )
         data.read( "mutations", my_mutations );
     }
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
-        const auto &mid = it->first;
+        const trait_id &mid = it->first;
         if( mid.is_valid() ) {
             on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
-            my_mutations.erase( it++ );
+            it = my_mutations.erase( it );
         }
     }
     size_class = calculate_size( *this );
@@ -976,10 +976,10 @@ void avatar::store( JsonOut &json ) const
     json.member( "focus_pool", focus_pool );
 
     // stats through kills
-    json.member( "str_upgrade", abs( str_upgrade ) );
-    json.member( "dex_upgrade", abs( dex_upgrade ) );
-    json.member( "int_upgrade", abs( int_upgrade ) );
-    json.member( "per_upgrade", abs( per_upgrade ) );
+    json.member( "str_upgrade", std::abs( str_upgrade ) );
+    json.member( "dex_upgrade", std::abs( dex_upgrade ) );
+    json.member( "int_upgrade", std::abs( int_upgrade ) );
+    json.member( "per_upgrade", std::abs( per_upgrade ) );
 
     // targeting
     if( activity.id() == ACT_AIM ) {

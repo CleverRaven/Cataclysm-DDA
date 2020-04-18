@@ -1,27 +1,6 @@
 [
   {
     "type": "recipe",
-    "result": "mininuke_mod",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 7 ],
-    "difficulty": 8,
-    "time": "95 m",
-    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "recipe_mininuke_launch", 5 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [
-      [ [ "mininuke", 1 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "circuit", 1 ] ],
-      [ [ "transponder", 1 ] ],
-      [ [ "pipe", 8 ] ],
-      [ [ "chem_rocket_fuel", 33 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "pebble",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -69,9 +48,9 @@
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 1 ] ],
-    "using": [ [ "forging_standard", 5 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "forging_standard", 5 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "weights", 10, "LIST" ] ] ]
+    "components": [ [ [ "weights", 34, "LIST" ], [ "steel_tiny", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",

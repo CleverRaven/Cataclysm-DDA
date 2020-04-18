@@ -99,8 +99,8 @@ bool Character::has_trait( const trait_id &b ) const
 bool Character::has_trait_flag( const std::string &b ) const
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
-    for( const auto &mut : my_mutations ) {
-        auto &mut_data = mut.first.obj();
+    for( const trait_id &mut : get_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
             return true;
         }
@@ -115,50 +115,71 @@ bool Character::has_base_trait( const trait_id &b ) const
     return my_traits.find( b ) != my_traits.end();
 }
 
-void Character::toggle_trait( const trait_id &flag )
+void Character::toggle_trait( const trait_id &trait_ )
 {
-    const auto titer = my_traits.find( flag );
+    // Take copy of argument because it might be a reference into a container
+    // we're about to erase from.
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
+    const trait_id trait = trait_;
+    const auto titer = my_traits.find( trait );
+    const auto miter = my_mutations.find( trait );
     if( titer == my_traits.end() ) {
-        my_traits.insert( flag );
+        my_traits.insert( trait );
     } else {
         my_traits.erase( titer );
     }
-    const auto miter = my_mutations.find( flag );
+    if( ( titer == my_traits.end() ) != ( miter == my_mutations.end() ) ) {
+        debugmsg( "my_traits and my_mutations were out of sync for %s\n", trait.str() );
+        return;
+    }
     if( miter == my_mutations.end() ) {
-        set_mutation( flag );
-        mutation_effect( flag );
+        set_mutation( trait );
     } else {
-        unset_mutation( flag );
-        mutation_loss_effect( flag );
+        unset_mutation( trait );
     }
 }
 
-void Character::set_mutation( const trait_id &flag )
+void Character::set_mutation( const trait_id &trait )
 {
-    const auto iter = my_mutations.find( flag );
-    if( iter == my_mutations.end() ) {
-        my_mutations[flag]; // Creates a new entry with default values
-        cached_mutations.push_back( &flag.obj() );
-    } else {
-        return;
-    }
-    recalc_sight_limits();
-    reset_encumbrance();
-}
-
-void Character::unset_mutation( const trait_id &flag )
-{
-    const auto iter = my_mutations.find( flag );
+    const auto iter = my_mutations.find( trait );
     if( iter != my_mutations.end() ) {
-        my_mutations.erase( iter );
-        const mutation_branch &mut = *flag;
-        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
-                                cached_mutations.end() );
-    } else {
         return;
     }
+    my_mutations.emplace( trait, trait_data{} );
+    cached_mutations.push_back( &trait.obj() );
+    mutation_effect( trait );
     recalc_sight_limits();
     reset_encumbrance();
+}
+
+void Character::unset_mutation( const trait_id &trait_ )
+{
+    // Take copy of argument because it might be a reference into a container
+    // we're about to erase from.
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
+    const trait_id trait = trait_;
+    const auto iter = my_mutations.find( trait );
+    if( iter == my_mutations.end() ) {
+        return;
+    }
+    const mutation_branch &mut = *trait;
+    cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
+                            cached_mutations.end() );
+    my_mutations.erase( iter );
+    mutation_loss_effect( trait );
+    recalc_sight_limits();
+    reset_encumbrance();
+}
+
+void Character::switch_mutations( const trait_id &switched, const trait_id &target,
+                                  bool start_powered )
+{
+    unset_mutation( switched );
+    mutation_loss_effect( switched );
+
+    set_mutation( target );
+    my_mutations[target].powered = start_powered;
+    mutation_effect( target );
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
@@ -390,8 +411,8 @@ bool Character::is_category_allowed( const std::string &category ) const
 
 bool Character::is_weak_to_water() const
 {
-    for( const auto &mut : my_mutations ) {
-        if( mut.first.obj().weakness_to_water > 0 ) {
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut.obj().weakness_to_water > 0 ) {
             return true;
         }
     }
@@ -482,6 +503,13 @@ void Character::activate_mutation( const trait_id &mut )
         // Handle stat changes from activation
         apply_mods( mut, true );
         recalc_sight_limits();
+    }
+
+    if( mdata.transform ) {
+        const cata::value_ptr<mut_transform> trans = mdata.transform;
+        mod_moves( - trans->moves );
+        switch_mutations( mut, trans->target, trans->active );
+        return;
     }
 
     if( mut == trait_WEB_WEAVER ) {
@@ -609,11 +637,17 @@ void Character::deactivate_mutation( const trait_id &mut )
     // Handle stat changes from deactivation
     apply_mods( mut, false );
     recalc_sight_limits();
+    const mutation_branch &mdata = mut.obj();
+    if( mdata.transform ) {
+        const cata::value_ptr<mut_transform> trans = mdata.transform;
+        mod_moves( -trans->moves );
+        switch_mutations( mut, trans->target, trans->active );
+    }
 }
 
 trait_id Character::trait_by_invlet( const int ch ) const
 {
-    for( auto &mut : my_mutations ) {
+    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.key == ch ) {
             return mut.first;
         }
@@ -1010,8 +1044,6 @@ bool Character::mutate_towards( const trait_id &mut )
         }
     }
 
-    set_mutation( mut );
-
     bool mutation_replaced = false;
 
     game_message_type rating;
@@ -1037,8 +1069,6 @@ bool Character::mutate_towards( const trait_id &mut )
 
         g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing );
-        mutation_loss_effect( replacing );
-        mutation_effect( mut );
         mutation_replaced = true;
     }
     if( replacing2 ) {
@@ -1058,8 +1088,6 @@ bool Character::mutate_towards( const trait_id &mut )
                                replace_mdata.name(), mdata.name() );
         g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing2 );
-        mutation_loss_effect( replacing2 );
-        mutation_effect( mut );
         mutation_replaced = true;
     }
     for( const auto &i : canceltrait ) {
@@ -1082,8 +1110,6 @@ bool Character::mutate_towards( const trait_id &mut )
                                cancel_mdata.name(), mdata.name() );
         g->events().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
         unset_mutation( i );
-        mutation_loss_effect( i );
-        mutation_effect( mut );
         mutation_replaced = true;
     }
     if( !mutation_replaced ) {
@@ -1102,8 +1128,9 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "<npcname> gains a mutation called %s!" ),
                                mdata.name() );
         g->events().send<event_type::gains_mutation>( getID(), mdata.id );
-        mutation_effect( mut );
     }
+
+    set_mutation( mut );
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -1213,8 +1240,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                                    mdata.name(), replace_mdata.name() );
         }
         set_mutation( replacing );
-        mutation_loss_effect( mut );
-        mutation_effect( replacing );
         mutation_replaced = true;
     }
     if( replacing2 ) {
@@ -1235,8 +1260,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                                    mdata.name(), replace_mdata.name() );
         }
         set_mutation( replacing2 );
-        mutation_loss_effect( mut );
-        mutation_effect( replacing2 );
         mutation_replaced = true;
     }
     if( !mutation_replaced ) {
@@ -1255,7 +1278,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                                    _( "<npcname> loses their %s mutation." ),
                                    mdata.name() );
         }
-        mutation_loss_effect( mut );
     }
 
     set_highest_cat_level();

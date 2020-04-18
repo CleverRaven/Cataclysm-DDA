@@ -10,6 +10,7 @@
     "category": "veh_parts",
     "weight": "10000 g",
     "volume": "2500 ml",
-    "price": 5500
+    "price": 5500,
+    "price_postapoc": 2500
   }
 ]

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_COMPATIBILITY_H
-#define CATA_COMPATIBILITY_H
+#ifndef CATA_SRC_COMPATIBILITY_H
+#define CATA_SRC_COMPATIBILITY_H
 
 //--------------------------------------------------------------------------------------------------
 // HACK:
@@ -135,4 +135,4 @@ inline void std::advance( I iter, int num )
 }
 #endif //CATA_NO_ADVANCE
 
-#endif //CATA_COMPATIBILITY_H
+#endif // CATA_SRC_COMPATIBILITY_H

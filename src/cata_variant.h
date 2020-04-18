@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_VARIANT_H
-#define CATA_VARIANT_H
+#ifndef CATA_SRC_CATA_VARIANT_H
+#define CATA_SRC_CATA_VARIANT_H
 
 #include <array>
 #include <cstddef>
@@ -13,13 +13,13 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "hash_utils.h"
+#include "pldata.h"
 #include "type_id.h"
 
 class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;
 
-enum add_type : int;
 enum body_part : int;
 enum class mutagen_technique : int;
 enum hp_part : int;
@@ -349,4 +349,4 @@ struct hash<cata_variant> {
 
 } // namespace std
 
-#endif // CATA_VARIANT_H
+#endif // CATA_SRC_CATA_VARIANT_H

@@ -210,7 +210,7 @@
     "ammo": "bolt",
     "skill": "rifle",
     "range": 6,
-    "ranged_damage": 7,
+    "ranged_damage": 3,
     "dispersion": 500,
     "durability": 6,
     "clip_size": 1,

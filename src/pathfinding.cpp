@@ -483,7 +483,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             ret.push_back( cur );
             // Jumps are acceptable on 1 z-level changes
             // This is because stairs teleport the player too
-            if( rl_dist( cur, par ) > 1 && abs( cur.z - par.z ) != 1 ) {
+            if( rl_dist( cur, par ) > 1 && std::abs( cur.z - par.z ) != 1 ) {
                 debugmsg( "Jump in our route!  %d:%d:%d->%d:%d:%d",
                           cur.x, cur.y, cur.z, par.x, par.y, par.z );
                 return ret;

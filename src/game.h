@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAME_H
-#define GAME_H
+#ifndef CATA_SRC_GAME_H
+#define CATA_SRC_GAME_H
 
 #include <array>
 #include <chrono>
@@ -649,7 +649,7 @@ class game
         void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
-        void draw_hit_player( const player &p, int dam );
+        void draw_hit_player( const Character &p, int dam );
         void draw_line( const tripoint &p, const tripoint &center_point,
                         const std::vector<tripoint> &points );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
@@ -1081,4 +1081,4 @@ int get_heat_radiation( const tripoint &location, bool direct );
 // Returns temperature modifier from hot air fields of given location
 int get_convection_temperature( const tripoint &location );
 
-#endif
+#endif // CATA_SRC_GAME_H

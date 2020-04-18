@@ -1446,7 +1446,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     const int moves_base = moves_cost_by_fuel( pos );
     const double moves_per_turn = to_moves<double>( 1_turns );
     const int min_moves = std::min<int>(
-                              moves_base, sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
+                              moves_base, std::sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
@@ -1552,7 +1552,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
     // There must be some historical significance to these items.
     if( !it.is_salvageable() ) {
         add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
-        if( p.rate_action_disassemble( it ) != HINT_CANT ) {
+        if( p.rate_action_disassemble( it ) != hint_rating::cant ) {
             add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
         }
         return false;
@@ -2944,7 +2944,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     item mag( belt );
     mag.ammo_unset();
 
-    if( p.rate_action_reload( mag ) != HINT_GOOD ) {
+    if( p.rate_action_reload( mag ) != hint_rating::good ) {
         p.add_msg_if_player( _( "Insufficient ammunition to assemble %s" ), mag.tname() );
         return 0;
     }

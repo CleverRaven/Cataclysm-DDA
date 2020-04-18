@@ -183,8 +183,8 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
         sqrt_of_sum_of_squares = get_net_bonus() + new_bonus;
     } else {
         // Otherwise use the sqrt of sum of squares to nerf stacking
-        sqrt_of_sum_of_squares = pow( get_net_bonus(), 2 ) + pow( new_bonus, 2 );
-        sqrt_of_sum_of_squares = sqrt( sqrt_of_sum_of_squares );
+        sqrt_of_sum_of_squares = std::pow( get_net_bonus(), 2 ) + std::pow( new_bonus, 2 );
+        sqrt_of_sum_of_squares = std::sqrt( sqrt_of_sum_of_squares );
         sqrt_of_sum_of_squares *= sgn( bonus );
     }
 
@@ -220,7 +220,8 @@ void player_morale::morale_point::decay( const time_duration &ticks )
 
 int player_morale::morale_point::normalize_bonus( int bonus, int max_bonus, bool capped ) const
 {
-    return ( ( abs( bonus ) > abs( max_bonus ) && ( max_bonus != 0 || capped ) ) ? max_bonus : bonus );
+    return ( ( std::abs( bonus ) > std::abs( max_bonus ) && ( max_bonus != 0 ||
+               capped ) ) ? max_bonus : bonus );
 }
 
 bool player_morale::mutation_data::get_active() const
@@ -381,18 +382,18 @@ void player_morale::calculate_percentage()
     for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
-            sum_of_positive_squares += pow( bonus, 2 );
+            sum_of_positive_squares += std::pow( bonus, 2 );
         } else {
-            sum_of_negative_squares += pow( bonus, 2 );
+            sum_of_negative_squares += std::pow( bonus, 2 );
         }
     }
 
     for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
-            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_positive_squares ) * 100 );
+            m.set_percent_contribution( ( std::pow( bonus, 2 ) / sum_of_positive_squares ) * 100 );
         } else {
-            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_negative_squares ) * 100 );
+            m.set_percent_contribution( ( std::pow( bonus, 2 ) / sum_of_negative_squares ) * 100 );
         }
     }
 }
@@ -404,10 +405,10 @@ int player_morale::get_total_negative_value() const
     for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus < 0 ) {
-            sum += pow( bonus, 2 );
+            sum += std::pow( bonus, 2 );
         }
     }
-    return sqrt( sum );
+    return std::sqrt( sum );
 }
 
 int player_morale::get_total_positive_value() const
@@ -417,11 +418,11 @@ int player_morale::get_total_positive_value() const
     for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
-            sum += pow( bonus, 2 );
+            sum += std::pow( bonus, 2 );
         }
 
     }
-    return sqrt( sum );
+    return std::sqrt( sum );
 }
 
 int player_morale::get_level() const
@@ -435,13 +436,13 @@ int player_morale::get_level() const
         for( auto &m : points ) {
             const int bonus = m.get_net_bonus( mult );
             if( bonus > 0 ) {
-                sum_of_positive_squares += pow( bonus, 2 );
+                sum_of_positive_squares += std::pow( bonus, 2 );
             } else {
-                sum_of_negative_squares += pow( bonus, 2 );
+                sum_of_negative_squares += std::pow( bonus, 2 );
             }
         }
 
-        level = sqrt( sum_of_positive_squares ) - sqrt( sum_of_negative_squares );
+        level = std::sqrt( sum_of_positive_squares ) - std::sqrt( sum_of_negative_squares );
 
         if( took_prozac ) {
             level *= morale_mults::prozac;
