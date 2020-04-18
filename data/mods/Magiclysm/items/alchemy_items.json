@@ -98,9 +98,8 @@
     "id": "potion_starter_superior",
     "copy-from": "chem_ethanol",
     "type": "COMESTIBLE",
-    "name": "superior potion starter (chemically unstable)",
-    "description": "Pure ethanol, infused with a powerful magical energy source. The sheer power concentrated within causes the liquid to vibrate. Beware - overheating will set off a dangerous chemical explosion.",
-    "flags": [ "EXPLOSIVE" ]
+    "name": "superior potion starter",
+    "description": "Pure ethanol saturated with magical energy. The sheer power concentrated within causes the surface of the potion to ripple continuously."
   },
   {
     "id": "adrenal_gland_large",
