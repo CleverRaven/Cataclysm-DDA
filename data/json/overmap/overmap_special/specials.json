@@ -1497,8 +1497,8 @@
       { "point": [ 4, 9, 0 ], "terrain": "road" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 1, 5 ],
-    "city_sizes": [ 1, 12 ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 1, -1 ],
     "occurrences": [ 33, 100 ],
     "flags": [ "UNIQUE" ]
   },
