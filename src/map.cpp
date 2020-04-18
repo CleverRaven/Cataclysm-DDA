@@ -4385,36 +4385,31 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
             if( n.ammo_capacity() > n.ammo_remaining() ||
                 ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
-                if(cur_veh.part_flag( part, VPFLAG_ALTERNATOR_CHARGER ) ) {
-                    // Handcrank alternator charger
-                    const int power = -cur_veh.parts[part].info().power;
-                    const int chance = 48 * power / 100; // fairly low efficiency, like bicycle alternator
-                    if( x_in_y(chance, 1000) ) {
-                        if( n.is_battery() ) {
-                            n.set_energy( 1_kJ );
-                        } else {
-                            n.ammo_set( "battery", n.ammo_remaining() + 1 );
-                        }
-                    }
-                    break;
+                int power = 0;
+                if( cur_veh.part_flag( part, VPFLAG_ALTERNATOR_CHARGER ) ) {
+                    power = -cur_veh.parts[part].info().power;
                 } else if( cur_veh.has_part( "RECHARGE", true ) ) {
-                    // Around 85% efficient, so double discharge once every 7 seconds
-                    const int per_charge = one_in( 7 ) ? 2 : 1;
-                    const int missing = cur_veh.discharge_battery( per_charge, false );
-                    if( missing < per_charge &&
-                        ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
-                        if( n.is_battery() ) {
-                            n.set_energy( 1_kJ );
-                        } else {
-                            n.ammo_set( "battery", n.ammo_remaining() + 1 );
-                        }
-                    }
-
-                    if( missing > 0 ) {
-                        // Not enough charge - stop charging
+                    power = 1000;
+                    const int missing = cur_veh.discharge_battery( 1, false ); // kJ units
+                    if( missing ) {
                         break;
                     }
                 }
+                const float efficiency = cur_veh.parts[part].info().bonus;
+                int joules = power * efficiency / 100; // implicit 1 second turns, so power = energy
+                while( joules >= 1000 || ( joules > 0 && x_in_y( joules, 1000 ) ) ) {
+                    if( n.is_battery() ) {
+                        n.set_energy( 1_kJ );
+                    } else {
+                        n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                    }
+                    joules -= 1000;
+                    if( n.ammo_capacity() >= n.ammo_remaining() ||
+                        ( n.type->battery && n.type->battery->max_capacity >= n.energy_remaining() ) ) {
+                        break;
+                    }
+                }
+                break; // only one battery gets recharges per turn
             }
         }
     }
