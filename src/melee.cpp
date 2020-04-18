@@ -295,7 +295,7 @@ float Character::get_melee_hit_base() const
 float Character::hit_roll() const
 {
     // Dexterity, skills, weapon and martial arts
-    float hit = get_hit();
+    float hit = get_melee_hit_base();
 
     // Farsightedness makes us hit worse
     if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
