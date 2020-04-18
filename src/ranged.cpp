@@ -172,6 +172,20 @@ class target_ui
         // Input context
         input_context ctxt;
 
+        /* These members are relevant for TARGET_MODE_FIRE */
+        // Weapon sight dispersion
+        int sight_dispersion = 0;
+        // List of available weapon aim types
+        std::vector<aim_type> aim_types;
+        // Currently selected aim mode
+        std::vector<aim_type>::iterator aim_mode;
+
+        /* These members are relevant for TARGET_MODE_SPELL */
+        // For AOE spells, list of tiles affected by the spell
+        std::set<tripoint> spell_aoe;
+        // Spell casting effect
+        std::string spell_fx;
+
         // TODO: break down these functions into methods
         std::vector<tripoint> run_normal_ui_old( player &pc );
         std::vector<tripoint> run_spell_ui_old( player &pc );
@@ -1531,27 +1545,8 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
 {
-    int sight_dispersion = 0;
-    if( mode == TARGET_MODE_FIRE ) {
-        sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
-    }
-
     double recoil_pc = pc.recoil;
     tripoint recoil_pos = dst;
-
-    std::vector<aim_type> aim_types;
-    std::vector<aim_type>::iterator aim_mode;
-
-    if( mode == TARGET_MODE_FIRE ) {
-        // get_aim_types works for non-guns (null item)
-        aim_types = pc.get_aim_types( relevant ? *relevant : null_item_reference() );
-        for( aim_type &type : aim_types ) {
-            if( type.has_threshold ) {
-                ctxt.register_action( type.action );
-            }
-        }
-        aim_mode = aim_types.begin();
-    }
 
     // TODO: this assumes that relevant == null means firing turrets, but that may not
     // always be the case. Consider passing a name into this function.
@@ -1915,32 +1910,13 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
 std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
 {
     spell &casting = *this->casting; // TODO: make code use pointer
-    if( !no_mana && !casting.can_cast( pc ) ) {
-        pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
-                              casting.energy_string() );
-    }
-
-    std::set<tripoint> spell_aoe;
-
-    std::vector<aim_type> aim_types;
 
     int num_instruction_lines = draw_targeting_window( w_target, casting.name(),
                                 TARGET_MODE_SPELL, ctxt, aim_types, tiny );
 
-    const std::string fx = casting.effect();
     const tripoint old_offset = pc.view_offset;
 
     do {
-        if( fx == "target_attack" || fx == "projectile_attack" || fx == "ter_transform" ) {
-            spell_aoe = spell_effect::spell_effect_blast( casting, src, ret.back(), casting.aoe(), true );
-        } else if( fx == "cone_attack" ) {
-            spell_aoe = spell_effect::spell_effect_cone( casting, src, ret.back(), casting.aoe(), true );
-        } else if( fx == "line_attack" ) {
-            spell_aoe = spell_effect::spell_effect_line( casting, src, ret.back(), casting.aoe(), true );
-        } else {
-            spell_aoe.clear();
-        }
-
         tripoint center = pc.pos() + pc.view_offset;
         // Clear the target window.
         for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
@@ -2470,16 +2446,17 @@ double player::gun_value( const item &weap, int ammo ) const
 
 target_handler::trajectory target_ui::run( player &pc )
 {
+    if( mode == TARGET_MODE_SPELL ) {
+        if( !no_mana && !casting->can_cast( pc ) ) {
+            pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
+                                  casting->energy_string() );
+        }
+        spell_fx = casting->effect();
+    }
+
     // Load settings
     allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
-
-    // Initialize cursor position
-    src = pc.pos();
-    tripoint initial_dst = pc.pos();
-    int _target_idx = 0;
-    update_targets( pc, range, targets, _target_idx, src, initial_dst );
-    set_cursor_pos( pc, initial_dst );
 
     // Create window
     compact = TERMY < 41;
@@ -2527,8 +2504,28 @@ target_handler::trajectory target_ui::run( player &pc )
         ctxt.register_action( "SWITCH_AIM" );
     }
 
+    if( mode == TARGET_MODE_FIRE ) {
+        sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
+
+        aim_types = pc.get_aim_types( *relevant );
+        for( aim_type &type : aim_types ) {
+            if( type.has_threshold ) {
+                ctxt.register_action( type.action );
+            }
+        }
+
+        aim_mode = aim_types.begin();
+    }
+
     // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
     ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
+    // Initialize cursor position
+    src = pc.pos();
+    tripoint initial_dst = pc.pos();
+    int _target_idx = 0;
+    update_targets( pc, range, targets, _target_idx, src, initial_dst );
+    set_cursor_pos( pc, initial_dst );
 
     if( mode == TARGET_MODE_SPELL ) {
         return run_spell_ui_old( pc );
@@ -2647,6 +2644,18 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
         dst_critter = g->critter_at( dst, true );
     } else {
         dst_critter = nullptr;
+    }
+
+    // Update tiles affected by AOE spells
+    if( spell_fx == "target_attack" || spell_fx == "projectile_attack" ||
+        spell_fx == "ter_transform" ) {
+        spell_aoe = spell_effect::spell_effect_blast( *casting, src, dst, casting->aoe(), true );
+    } else if( spell_fx == "cone_attack" ) {
+        spell_aoe = spell_effect::spell_effect_cone( *casting, src, dst, casting->aoe(), true );
+    } else if( spell_fx == "line_attack" ) {
+        spell_aoe = spell_effect::spell_effect_line( *casting, src, dst, casting->aoe(), true );
+    } else {
+        spell_aoe.clear();
     }
 
     return true;
