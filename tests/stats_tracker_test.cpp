@@ -273,16 +273,16 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 0 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
                    "  <color_c_green>1/1 Number of zombies killed</color>\n" );
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_in_first_minute ) ) ==
                    "<color_c_light_green>Rude awakening</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 0 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
                    "  <color_c_green>1/1 Number of monsters killed</color>\n" );
         } else {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 0 0010.00</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0010.00</color>\n"
                    "  <color_c_green>1/1 Number of zombies killed</color>\n" );
             CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
