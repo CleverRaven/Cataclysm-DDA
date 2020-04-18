@@ -2173,7 +2173,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         mag_data.rigid = true;
         def.pockets.push_back( mag_data );
         return;
-    } else if( def.gun ) {
+    } else if( def.gun || !def.magazines.empty() ) {
         pocket_data mag_data;
         mag_data.type = item_pocket::pocket_type::MAGAZINE;
         // only one magazine in a pocket, for now

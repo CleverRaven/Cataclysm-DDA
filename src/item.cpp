@@ -566,7 +566,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             if( mag.type->magazine->count > 0 ) {
                 qty = mag.type->magazine->count;
             } else {
-                qty = item( magazine_default() ).ammo_capacity();
+                qty = mag.ammo_capacity();
             }
         }
     }
