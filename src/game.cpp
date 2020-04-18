@@ -10165,10 +10165,9 @@ void game::vertical_move( int movez, bool force )
 
     if( m.has_flag( "UNSTABLE", u.pos() ) ) {
         u.moves -= 500;
-    }
-
-    if( movez == 1 && slip_down() ) {
-        return;
+        if( movez == 1 && slip_down() ) {
+            return;
+        }
     }
 
     // Check if there are monsters are using the stairs.
