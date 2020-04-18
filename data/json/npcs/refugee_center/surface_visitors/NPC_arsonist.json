@@ -128,14 +128,14 @@
     "count": 120,
     "dialogue": {
       "describe": "I could use some help getting some materials.",
-      "offer": "I could use some help getting some materials.  Molotovs are nice for burning down buildings but aren't all that for keeping yourself safe.  If you could get me two bags of commercial fertilizer i could make something a lot more potent.",
+      "offer": "I could use some help getting some materials.  Molotovs are nice for burning down buildings but aren't all that for keeping yourself safe.  If you could get me two bags of commercial fertilizer I could make something a lot more potent.",
       "accepted": "Oh man, thanks so much friend.  You won't regret it.",
       "rejected": "Think it over.",
-      "advice": "Commercial fertilizer tends to be made from ammonium nitrate, which is also usable as an explosive.  Try looking for some around the abandoned farms",
+      "advice": "Commercial fertilizer tends to be made from ammonium nitrate, which is also usable as an explosive.  Try looking for some around the abandoned farms.",
       "inquire": "Did you find any fertilizer?  Are you sure this is the ammonium nitrate kind?",
-      "success": "This is great! I'll get to work making something of this.  You can have some of my molotovs, i won't need quite so many now.",
-      "success_lie": "I guess i could convince the shelter to sell me some.",
-      "failure": "Damned.  Perhaps i wasn't the only one that thought of this."
+      "success": "This is great!  I'll get to work making something of this.  You can have some of my Molotovs, I won't need quite so many now.",
+      "success_lie": "I guess I could convince the shelter to sell me some.",
+      "failure": "Damn.  Perhaps I wasn't the only one who thought of this."
     },
     "end": {
       "effect": [
