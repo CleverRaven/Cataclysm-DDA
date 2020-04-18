@@ -84,7 +84,7 @@ No item should be worth more than 150000. They might be worth more if the econom
 Food is priced mostly for a combination of calories, how preservable they are, and how nutritious they are.
 Meat jerky is 250
 Food that has more calories, is canned, and is very nutritious might be 500
-Food that las less calories, goes bad quickly, and is junk food, might be 50
+Food that has less calories, goes bad quickly, and is junk food, might be 50
 
 #### Stack size
 For items that have a stack size, you need to divide the price by stack size find the price per unit of the item.
