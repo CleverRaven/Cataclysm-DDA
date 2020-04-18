@@ -157,7 +157,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
         amenu.addentry( WEAR, u.can_wear( it ).success(), 'W', _( "Wear %s" ), it.display_name() );
     }
     if( it.is_bucket_nonempty() ) {
-        amenu.addentry( SPILL, u.can_pickVolume( it ), 's', _( "Spill contents of %s, then pick up %s" ),
+        amenu.addentry( SPILL, u.can_stash( it ), 's', _( "Spill contents of %s, then pick up %s" ),
                         it.tname(), it.display_name() );
     }
 
