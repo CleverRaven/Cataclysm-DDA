@@ -8673,6 +8673,7 @@ void game::wield( item_location loc )
         debugmsg( "ERROR: tried to wield null item" );
         return;
     }
+    std::string name = loc->tname();
     if( u.is_armed() ) {
         const bool is_unwielding = u.is_wielding( *loc );
         const auto ret = u.can_unwield( *loc );
@@ -8689,6 +8690,14 @@ void game::wield( item_location loc )
             }
             return;
         }
+    }
+    if( !loc ) {
+        /** 
+          * If we lost the location here, that means the thing we're
+          * trying to wield was inside a wielded item.
+          */
+        add_msg( m_info, "You need to put the bag away before trying to wield %s.", name );
+        return;
     }
 
     const auto ret = u.can_wield( *loc );
