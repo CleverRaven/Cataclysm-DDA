@@ -1650,7 +1650,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // vehicle display
     if( veh ) {
-        veh->print_fuel_indicators( w, 2, 39 );
+        veh->print_fuel_indicators( w, point( 39, 2 ) );
         mvwprintz( w, point( 35, 4 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
@@ -1764,7 +1764,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, 0, 0 );
+        veh->print_fuel_indicators( w, point_zero );
         mvwprintz( w, point( 6, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
@@ -1796,7 +1796,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, 0, 1 );
+        veh->print_fuel_indicators( w, point_east );
         mvwprintz( w, point( 7, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();

@@ -697,7 +697,7 @@ void npc::setpos( const tripoint &pos )
 void npc::travel_overmap( const tripoint &pos )
 {
     const point pos_om_old = sm_to_om_copy( submap_coords );
-    spawn_at_sm( pos.x, pos.y, pos.z );
+    spawn_at_sm( pos );
     const point pos_om_new = sm_to_om_copy( submap_coords );
     if( global_omt_location() == goal ) {
         reach_omt_destination();
