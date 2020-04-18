@@ -47,7 +47,6 @@
 #include <sstream>
 #include <string>
 
-bool trigdist;
 bool use_tiles;
 bool log_from_top;
 int message_ttl;
