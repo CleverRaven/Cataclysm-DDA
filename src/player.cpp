@@ -2985,8 +2985,17 @@ player::wear( item &to_wear, bool interactive )
     if( &to_wear == &weapon ) {
         weapon = item();
         was_weapon = true;
-    } else {
+    } else if( has_item( to_wear ) ) {
         remove_item( to_wear );
+        was_weapon = false;
+    } else {
+        /**
+         * we actually know with certainty that if we're here the
+         * item was dropped to the ground and is at pos().
+         * ideally the parameter of this function should be an item_location instead of
+         * constructing it in place here.
+         */
+        item_location( map_cursor( pos() ), &to_wear ).remove_item();
         was_weapon = false;
     }
 
@@ -3052,21 +3061,22 @@ bool player::takeoff( item &it, std::list<item> *res )
         return &it == &wit;
     } );
 
+    item takeoff_copy( it );
+    worn.erase( iter );
     if( res == nullptr ) {
         iter->on_takeoff( *this );
-        i_add( it );
+        i_add( takeoff_copy, true, &it );
     } else {
         iter->on_takeoff( *this );
-        res->push_back( it );
+        res->push_back( takeoff_copy );
     }
 
     add_msg_player_or_npc( _( "You take off your %s." ),
                            _( "<npcname> takes off their %s." ),
-                           it.tname() );
+                           takeoff_copy.tname() );
 
     // TODO: Make this variable
     mod_moves( -250 );
-    worn.erase( iter );
 
     recalc_sight_limits();
     reset_encumbrance();

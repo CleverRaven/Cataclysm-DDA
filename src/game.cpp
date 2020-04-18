@@ -8692,7 +8692,7 @@ void game::wield( item_location loc )
         }
     }
     if( !loc ) {
-        /** 
+        /**
           * If we lost the location here, that means the thing we're
           * trying to wield was inside a wielded item.
           */

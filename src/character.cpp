@@ -2243,12 +2243,11 @@ item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
     }
     item_pocket *pocket = best_pocket( it, avoid );
     if( pocket == nullptr ) {
-        if( !has_weapon() ) {
-            weapon = it;
+        if( !wield( it ) ) {
+            return g->m.add_item_or_charges( pos(), it );
+        } else {
             return weapon;
         }
-        debugmsg( "no space to add item. dropping" );
-        return g->m.add_item_or_charges( pos(), it );
     } else {
         pocket->add( it );
         item &ret = pocket->back();
