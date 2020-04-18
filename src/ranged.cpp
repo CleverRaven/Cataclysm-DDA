@@ -191,6 +191,9 @@ class target_ui
         // Set creature (or tile) under cursor as player's last target
         void set_last_target( player &pc );
 
+        // Prompts player to confirm attack on neutral NPC
+        bool confirm_non_enemy_target();
+
         // Toggle snap-to-target
         void toggle_snap_to_target( player &pc );
 
@@ -1564,22 +1567,6 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
     int num_instruction_lines = draw_targeting_window( w_target,
                                 relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny, src == dst );
 
-    const auto confirm_non_enemy_target = [&pc]( const tripoint & dst ) {
-        if( dst == pc.pos() ) {
-            return true;
-        }
-        if( npc *const who_ = g->critter_at<npc>( dst, false ) ) {
-            const npc &who = *who_;
-            if( who.guaranteed_hostile() ) {
-                return true;
-            }
-            if( g->u.sees( who ) ) {
-                return query_yn( _( "Really attack %s?" ), who.name );
-            }
-        }
-        return true;
-    };
-
     auto recalc_recoil = [&recoil_pc, &recoil_pos, &pc]( tripoint & dst ) {
         if( pc.pos() == dst || pc.pos() == recoil_pos ) {
             return MAX_RECOIL;
@@ -1849,7 +1836,7 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
 
             // This action basically means "FIRE" as well, the actual firing may be delayed
             // through aiming, but there is usually no means to stop it. Therefore we query here.
-            if( !confirm_non_enemy_target( dst ) ) {
+            if( !confirm_non_enemy_target() ) {
                 continue;
             }
 
@@ -1900,7 +1887,7 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 // TODO: Consider allowing firing vehicle turret at yourself
                 continue;
             }
-            if( !confirm_non_enemy_target( dst ) ) {
+            if( !confirm_non_enemy_target() ) {
                 continue;
             }
             break;
@@ -1959,19 +1946,6 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
     int num_instruction_lines = draw_targeting_window( w_target, casting.name(),
                                 TARGET_MODE_SPELL, ctxt, aim_types, tiny );
 
-    const auto confirm_non_enemy_target = [&pc]( const tripoint & dst ) {
-        if( dst == pc.pos() ) {
-            return true;
-        }
-        if( npc *const who_ = g->critter_at<npc>( dst, false ) ) {
-            const npc &who = *who_;
-            if( who.guaranteed_hostile() ) {
-                return true;
-            }
-            return query_yn( _( "Really attack %s?" ), who.name.c_str() );
-        }
-        return true;
-    };
     const std::string fx = casting.effect();
     const tripoint old_offset = pc.view_offset;
 
@@ -2124,7 +2098,7 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
             tripoint new_dst = t[newtarget]->pos();
             set_cursor_pos( pc, new_dst );
         } else if( action == "FIRE" ) {
-            if( casting.damage() > 0 && !confirm_non_enemy_target( dst ) ) {
+            if( casting.damage() > 0 && !confirm_non_enemy_target() ) {
                 continue;
             }
             find_target( t, dst );
@@ -2715,6 +2689,15 @@ void target_ui::set_last_target( player &pc )
     } else {
         pc.last_target.reset();
     }
+}
+
+bool target_ui::confirm_non_enemy_target()
+{
+    npc *const who = dynamic_cast<npc *>( dst_critter );
+    if( who && !who->guaranteed_hostile() ) {
+        return query_yn( _( "Really attack %s?" ), who->name.c_str() );
+    }
+    return true;
 }
 
 void target_ui::toggle_snap_to_target( player &pc )
