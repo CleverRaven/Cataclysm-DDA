@@ -1924,20 +1924,14 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     activity.values.push_back( units::to_kilojoule( b_id->capacity ) );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( "uninstall" );
-    activity.str_values.push_back( "" );
     activity.str_values.push_back( b_id.str() );
-    activity.str_values.push_back( "" );
-    activity.str_values.push_back( "" );
-    activity.str_values.push_back( "" );
+    activity.str_values.push_back( "" ); // installer_name is unused for uninstall
     if( autodoc ) {
         activity.str_values.push_back( "true" );
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<const body_part, size_t> &elem : b_id->occupied_bodyparts ) {
-        activity.str_values.push_back( convert_bp( elem.first ).c_str() );
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
-    }
+
     return true;
 }
 
@@ -2191,15 +2185,8 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     activity.values.push_back( units::to_millijoule( bioid->capacity ) );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( "install" );
-    activity.str_values.push_back( "" );
     activity.str_values.push_back( bioid.str() );
-    if( upbioid ) {
-        activity.str_values.push_back( "" );
-        activity.str_values.push_back( upbioid.str() );
-    } else {
-        activity.str_values.push_back( "" );
-        activity.str_values.push_back( "" );
-    }
+
     if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
         activity.str_values.push_back( installer.disp_name( true ) );
     } else {
@@ -2210,15 +2197,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<const body_part, size_t> &elem : bioid->occupied_bodyparts ) {
-        activity.values.push_back( elem.first );
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
-    }
-    for( const trait_id &mid : bioid->canceled_mutations ) {
-        if( has_trait( mid ) ) {
-            activity.str_values.push_back( mid.c_str() );
-        }
-    }
+
     return true;
 }
 

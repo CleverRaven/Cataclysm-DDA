@@ -18,6 +18,7 @@
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bionics.h"
 #include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -3379,34 +3380,27 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     - values[1]: success
     - values[2]: max_power_level
     - values[3]: pl_skill
-    - values[4] and above: occupied body_parts
     - str_values[0]: install/uninstall
-    - str_values[1]: deprecated
-    - str_values[2]: bionic_id
-    - str_values[3]: deprecated
-    - str_values[4]: upgraded cbm bionic_id
-    - str_values[5]: installer name
-    - str_values[6]: bool autodoc
-    - str_values[7] and above: traits removed by the cbm
+    - str_values[1]: bionic_id
+    - str_values[2]: installer_name
+    - str_values[3]: bool autodoc
     */
     enum operation_values_ids {
         operation_type = 0,
-        cbm_name = 1,
-        cbm_id = 2,
-        upgraded_cbm_name = 3,
-        upgraded_cbm_id = 4,
-        installer_name = 5,
-        is_autodoc = 6,
-        trait_first = 7,
-        first_bodypart_involved = 8
+        cbm_id = 1,
+        installer_name = 2,
+        is_autodoc = 3
     };
     const bionic_id bid( act->str_values[cbm_id] );
-    const bionic_id upbid( act->str_values[upgraded_cbm_id] );
+    const bionic_id upbid = bid->upgraded_bionic;
     const bool autodoc = act->str_values[is_autodoc] == "true";
     const bool u_see = g->u.sees( p->pos() ) && ( !g->u.has_effect( effect_narcosis ) ||
                        g->u.has_bionic( bio_painkiller ) || g->u.has_trait( trait_NOPAIN ) );
 
     const int difficulty = act->values.front();
+
+    const std::vector<body_part> bps = get_occupied_bodyparts( bid );
+    const std::vector<trait_id> &trait_to_rem = bid->canceled_mutations;
 
     const time_duration half_op_duration = difficulty * 10_minutes;
     const time_duration message_freq = difficulty * 2_minutes;
@@ -3427,36 +3421,36 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                           _( "The Autodoc's failure damages you greatly." ),
                                           _( "The Autodoc's failure damages <npcname> greatly." ) );
             }
-            if( act->str_values.size() > 7 ) {
-                for( size_t i = first_bodypart_involved; i < act->str_values.size(); i++ ) {
-                    p->make_bleed( bodypart_id( act->str_values[i] )->token, 1_turns, difficulty, true );
-                    p->apply_damage( nullptr, bodypart_id( act->str_values[i] ), 20 * difficulty );
+            if( !bps.empty() ) {
+                for( const body_part bp : bps ) {
+                    const bodypart_id bpid = convert_bp( bp ).id();
+                    p->make_bleed( bp, 1_turns, difficulty, true );
+                    p->apply_damage( nullptr, bpid, 20 * difficulty );
 
                     if( u_see ) {
                         p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
-                                                  _( "<npcname>'s %s is ripped open." ),
-                                                  body_part_name_accusative( bodypart_id( act->str_values[i] )->token ) );
+                                                  _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp ) );
                     }
 
-                    if( body_part( act->values[i] ) == bp_eyes ) {
+                    if( bp == bp_eyes ) {
                         p->add_effect( effect_blind, 1_hours, num_bp );
                     }
                 }
             } else {
                 p->make_bleed( num_bp, 1_turns, difficulty, true );
-                p->apply_damage( nullptr, bodypart_id( "num_bp" ), 20 * difficulty );
+                p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
     }
 
     if( time_left > half_op_duration ) {
-        if( act->values.size() > 4 ) {
-            for( size_t i = 4; i < act->values.size(); i++ ) {
+        if( !bps.empty() ) {
+            for( const body_part bp : bps ) {
                 if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
                                               _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
-                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                                              body_part_name_accusative( bp ) );
                 }
             }
         } else {
@@ -3476,8 +3470,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 p->perform_uninstall( bid, act->values[0], act->values[1],
                                       units::from_millijoule( act->values[2] ), act->values[3] );
             } else {
-                debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
-                          act->str_values[cbm_id] );
+                debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ), bid.c_str() );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
@@ -3487,28 +3480,22 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
 
             if( bid.is_valid() ) {
-                std::vector<trait_id> trait_to_rem;
-                if( act->str_values.size() > trait_first + 1 ) {
-                    for( size_t i = trait_first; i < act->str_values.size(); i++ ) {
-                        trait_to_rem.emplace_back( trait_id( act->str_values[i] ) );
-                    }
-                }
                 p->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
                                     act->str_values[installer_name], trait_to_rem, p->pos() );
             } else {
-                debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[cbm_id] );
+                debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
         }
     } else if( act->values[1] > 0 ) {
-        if( act->values.size() > 4 ) {
-            for( size_t i = 4; i < act->values.size(); i++ ) {
+        if( !bps.empty() ) {
+            for( const body_part bp : bps ) {
                 if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),
                                               _( "The Autodoc is stitching <npcname>'s %s back up." ),
-                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                                              body_part_name_accusative( bp ) );
                 }
             }
         } else {
