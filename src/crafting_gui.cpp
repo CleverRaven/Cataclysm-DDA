@@ -315,9 +315,6 @@ const recipe *select_crafting_recipe( int &batch_size )
             draw_hidden_amount( w_head, num_hidden, num_recipe );
         }
 
-        draw_can_craft_indicator( w_head, *current[line] );
-        wrefresh( w_head );
-
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
 
@@ -412,10 +409,11 @@ const recipe *select_crafting_recipe( int &batch_size )
         const int count = batch ? line + 1 : 1; // batch size
         if( !current.empty() ) {
             int pane = FULL_SCREEN_WIDTH - 30 - 1;
-            nc_color col = available[ line ].color();
+            nc_color col = available[line].color();
 
-            const auto &req = current[ line ]->simple_requirements();
+            const auto &req = current[line]->simple_requirements();
 
+            draw_can_craft_indicator( w_head, *current[line] );
             wrefresh( w_head );
 
             int ypos = 0;
@@ -429,7 +427,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             std::vector<std::string> component_print_buffer;
             auto tools = req.get_folded_tools_list( pane, col, crafting_inv, count );
             auto comps = req.get_folded_components_list( pane, col, crafting_inv,
-                         current[ line ]->get_component_filter(), count, qry_comps );
+                         current[line]->get_component_filter(), count, qry_comps );
             component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
             component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
@@ -473,9 +471,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 auto player_skill = g->u.get_skill_level( current[line]->skill_used );
                 std::string difficulty_color =
-                    current[ line ]->difficulty > player_skill ? "yellow" : "green";
+                    current[line]->difficulty > player_skill ? "yellow" : "green";
                 std::string primary_skill_level = string_format( "(%s/%s)", player_skill,
-                                                  current[ line ]->difficulty );
+                                                  current[line]->difficulty );
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
                     string_format( _( "Primary skill: <color_cyan>%s</color> <color_%s>%s</color>" ),
@@ -893,7 +891,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 recalc = true;
                 continue;
             }
-            std::string recipe_name = peek_related_recipe( current[ line ], available_recipes );
+            std::string recipe_name = peek_related_recipe( current[line], available_recipes );
             if( recipe_name.empty() ) {
                 keepline = true;
             } else {
@@ -992,7 +990,7 @@ int related_menu_fill( uilist &rmenu,
 
             // 1st pass: check if we need to add group
             for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
-                if( current_part[ recipe_n ]->result_name() != recipe_name ) {
+                if( current_part[recipe_n]->result_name() != recipe_name ) {
                     // add group
                     rmenu.addentry( ++np_last, false, -1, recipe_name );
                     defferent_recipes = true;
@@ -1007,7 +1005,7 @@ int related_menu_fill( uilist &rmenu,
                 std::string prev_item_name;
                 // 2nd pass: add defferent recipes
                 for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
-                    std::string cur_item_name = current_part[ recipe_n ]->result_name();
+                    std::string cur_item_name = current_part[recipe_n]->result_name();
                     if( cur_item_name != prev_item_name ) {
                         std::string sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
                         rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
@@ -1033,11 +1031,14 @@ static bool query_is_yes( const std::string &query )
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
 {
     if( amount == 1 ) {
-        right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipe - %s in category *" ), amount, num_recipe ) );
+        right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipe - %s in category *" ), amount,
+                     num_recipe ) );
     } else if( amount >= 2 ) {
-        right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipes - %s in category *" ), amount, num_recipe ) );
+        right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipes - %s in category *" ), amount,
+                     num_recipe ) );
     } else if( amount == 0 ) {
-        right_print( w, 1, 1, c_green, string_format( _( "* No hidden recipe - %s in category *" ), num_recipe ) );
+        right_print( w, 1, 1, c_green, string_format( _( "* No hidden recipe - %s in category *" ),
+                     num_recipe ) );
     }
 }
 
