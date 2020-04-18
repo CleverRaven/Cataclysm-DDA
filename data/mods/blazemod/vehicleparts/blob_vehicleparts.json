@@ -21,7 +21,7 @@
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "FOLDABLE" ]
   },
   {
-    "id": "frostie_wall",
+    "id": "frostie_windshield",
     "type": "vehicle_part",
     "name": "icy windshield",
     "item": "frostie",
@@ -32,11 +32,29 @@
     "broken_color": "light_blue",
     "durability": 500,
     "damage_modifier": 80,
-    "folded_volume": 1,
+    "folded_volume": "1000 ml",
     "breaks_into": [ { "item": "frostiegrow" } ],
     "description": "A living blob, existing in a super-cooled state.  It is transparent, and can be used to see out of the vehicle.",
     "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "WINDOW", "FOLDABLE" ]
+    "flags": [ "OVER", "WINDSHIELD", "OBSTACLE", "WINDOW", "FOLDABLE" ]
+  },
+  {
+    "id": "frostie_boat_hull",
+    "type": "vehicle_part",
+    "name": "gelacier boat hull",
+    "item": "frostie",
+    "location": "under",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "light_blue",
+    "broken_color": "light_blue",
+    "durability": 500,
+    "damage_modifier": 200,
+    "folded_volume": "1000 ml",
+    "breaks_into": [ { "item": "frostiegrow" } ],
+    "description": "A living blob, existing in a super-cooled state.  It acts as a boat hull.",
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "FLOATS", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED" ]
   },
   {
     "id": "gloople_amalgam",
