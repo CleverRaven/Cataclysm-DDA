@@ -9,6 +9,7 @@
     "weight": "40 g",
     "volume": "50ml",
     "price": 1000,
+    "price_postapoc": 50,
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",

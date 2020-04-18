@@ -751,6 +751,8 @@ class Character : public Creature, public visitable<Character>
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
         void set_mutation( const trait_id & );
         void unset_mutation( const trait_id & );
+        /**Unset switched mutation and set target mutation instead*/
+        void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );

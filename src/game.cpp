@@ -8011,12 +8011,12 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
     const std::string msgFactor = factor > INT_MIN
-                                  ? string_format( _( "Your best tool has %d butchering." ), factor )
+                                  ? string_format( _( "Your best tool has <color_cyan>%d butchering</color>." ), factor )
                                   :  _( "You have no butchering tool." );
 
     const int factorD = g->u.max_quality( quality_id( "CUT_FINE" ) );
     const std::string msgFactorD = factorD > INT_MIN
-                                   ? string_format( _( "Your best tool has %d fine cutting." ), factorD )
+                                   ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factorD )
                                    :  _( "You have no fine cutting tool." );
 
     bool has_skin = false;

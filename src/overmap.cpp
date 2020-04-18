@@ -1563,8 +1563,6 @@ bool overmap::generate_sub( const int z )
                 if( one_in( 3 ) ) {
                     ter_set( p, oter_id( "cave_rat" ) );
                     requires_sub = true; // rat caves are two level
-                } else {
-                    ter_set( p, oter_id( "cave" ) );
                 }
             } else if( oter_above == "cave_rat" && z == -2 ) {
                 ter_set( p, oter_id( "cave_rat" ) );

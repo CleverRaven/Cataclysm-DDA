@@ -8,6 +8,7 @@
     "weight": "1 g",
     "volume": "1 ml",
     "price": 1,
+    "price_postapoc": 5,
     "material": "cotton",
     "symbol": "=",
     "color": "dark_gray",
@@ -21,6 +22,7 @@
     "name": { "str": "faux fur scraps", "str_pl": "faux fur scraps" },
     "description": "Oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
+    "price_postapoc": 5,
     "material": "faux_fur"
   },
   {
@@ -103,6 +105,7 @@
     "weight": "5 g",
     "volume": "300 ml",
     "price": 1000,
+    "price_postapoc": 100,
     "material": "cotton",
     "symbol": "=",
     "color": "dark_gray",
@@ -118,6 +121,7 @@
     "weight": "100 g",
     "volume": "60 ml",
     "price": 200,
+    "price_postapoc": 50,
     "count": 1
   },
   {
@@ -129,6 +133,7 @@
     "weight": "10 g",
     "volume": "4500 ml",
     "price": 5000,
+    "price_postapoc": 100,
     "material": "faux_fur",
     "symbol": "=",
     "color": "dark_gray",
@@ -144,6 +149,7 @@
     "weight": "200 g",
     "volume": "900 ml",
     "price": 1000,
+    "price_postapoc": 50,
     "count": 1
   },
   {
@@ -155,6 +161,7 @@
     "weight": "8 g",
     "volume": "1800 ml",
     "price": 2500,
+    "price_postapoc": 250,
     "material": "wool",
     "symbol": "=",
     "color": "dark_gray",
@@ -170,6 +177,7 @@
     "weight": "160 g",
     "volume": "360 ml",
     "price": 500,
+    "price_postapoc": 100,
     "count": 1
   },
   {
@@ -181,6 +189,7 @@
     "weight": "5 g",
     "volume": "300 ml",
     "price": 15000,
+    "price_postapoc": 500,
     "material": "kevlar",
     "symbol": "=",
     "color": "dark_gray",
@@ -196,6 +205,7 @@
     "weight": "3 g",
     "volume": "300 ml",
     "price": 5000,
+    "price_postapoc": 100,
     "material": "lycra",
     "symbol": "=",
     "color": "dark_gray",
@@ -211,6 +221,7 @@
     "weight": "60 g",
     "volume": "60 ml",
     "price": 1000,
+    "price_postapoc": 50,
     "count": 1
   },
   {
@@ -222,6 +233,7 @@
     "weight": "6 g",
     "volume": "300 ml",
     "price": 5000,
+    "price_postapoc": 100,
     "material": "neoprene",
     "symbol": "=",
     "color": "dark_gray",
@@ -237,6 +249,7 @@
     "weight": "120 g",
     "volume": "60 ml",
     "price": 1000,
+    "price_postapoc": 50,
     "count": 1
   },
   {
@@ -248,6 +261,7 @@
     "weight": "5 g",
     "volume": "300 ml",
     "price": 15000,
+    "price_postapoc": 250,
     "material": "nomex",
     "symbol": "=",
     "color": "dark_gray",
@@ -263,6 +277,7 @@
     "weight": "100 g",
     "volume": "60 ml",
     "price": 3000,
+    "price_postapoc": 50,
     "count": 1
   },
   {
@@ -274,6 +289,7 @@
     "weight": "3 g",
     "volume": "300 ml",
     "price": 5000,
+    "price_postapoc": 100,
     "material": "nylon",
     "symbol": "=",
     "color": "dark_gray",
@@ -289,6 +305,7 @@
     "weight": "60 g",
     "volume": "60 ml",
     "price": 1000,
+    "price_postapoc": 50,
     "count": 1
   },
   {
@@ -296,6 +313,7 @@
     "id": "thread_kevlar",
     "category": "spare_parts",
     "price": 5000,
+    "price_postapoc": 250,
     "name": { "str": "Kevlar thread" },
     "symbol": "=",
     "color": "light_gray",
@@ -314,6 +332,7 @@
     "id": "thread_nomex",
     "category": "spare_parts",
     "price": 5000,
+    "price_postapoc": 100,
     "name": { "str": "Nomex thread" },
     "symbol": "=",
     "color": "light_gray",
