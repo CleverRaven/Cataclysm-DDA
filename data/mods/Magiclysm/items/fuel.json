@@ -80,6 +80,6 @@
     "ammo_data": { "ammo_type": "mana_infused_blood" },
     "flags": [ "NO_INGEST" ],
     "delete_flags": [ "CANNIBALISM" ],
-    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 0 }
+    "use_action": { "type": "cast_spell", "spell_id": "mana_doping", "no_fail": true, "level": 0 }
   }
 ]

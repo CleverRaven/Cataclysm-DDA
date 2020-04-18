@@ -85,5 +85,23 @@
     "final_energy_cost": 0,
     "flags": [ "SILENT", "NO_LEGS" ],
     "difficulty": 3
+  },
+  {
+    "id": "mana_doping",
+    "type": "SPELL",
+    "name": { "str": "Pain" },
+    "description": "Increases pain",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
+    "min_damage": -25,
+    "max_damage": -225,
+    "damage_increment": -50.0,
+    "max_level": 10,
+    "effect": "recover_energy",
+    "effect_str": "PAIN",
+    "spell_class": "NONE",
+    "message": "Your veins feel like they are on fire!\nYou start regenerating mana!",
+    "extra_effects": [ { "id": "potion_recover_mana" } ]
   }
 ]
