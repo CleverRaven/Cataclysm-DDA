@@ -30,9 +30,6 @@ enum face_type : int {
 namespace overmap_ui
 {
 void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                         const tripoint &global_omt, int start_y, int start_x, int width,
-                         int height );
-void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
                          const tripoint &global_omt, const point &start, int width,
                          int height );
 } // namespace overmap_ui

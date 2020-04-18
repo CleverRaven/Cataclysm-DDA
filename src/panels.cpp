@@ -207,15 +207,15 @@ std::string window_panel::get_name() const
 }
 
 void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                                     const tripoint &global_omt, const int start_y_input, const int start_x_input, const int width,
-                                     const int height )
+                                     const tripoint &global_omt, const point &start_input,
+                                     const int width, const int height )
 {
     const int cursx = global_omt.x;
     const int cursy = global_omt.y;
     const tripoint targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
-    const int start_y = start_y_input + ( height / 2 ) - 2;
-    const int start_x = start_x_input + ( width / 2 ) - 2;
+    const int start_y = start_input.y + ( height / 2 ) - 2;
+    const int start_x = start_input.x + ( width / 2 ) - 2;
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
@@ -410,7 +410,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
 {
     const tripoint curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, 0, 0, 5, 5 );
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 5, 5 );
 }
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
@@ -1370,7 +1370,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     if( minimap ) {
         const int offset = getmaxx( w ) - 6;
         const tripoint curs = u.global_omt_location();
-        overmap_ui::draw_overmap_chunk( w, u, curs, -1, offset, 5, 5 );
+        overmap_ui::draw_overmap_chunk( w, u, curs, point( offset, -1 ), 5, 5 );
     }
     wrefresh( w );
 }

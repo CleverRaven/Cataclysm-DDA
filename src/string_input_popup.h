@@ -174,7 +174,6 @@ class string_input_popup // NOLINT(cata-xy)
          * This method only has effect before the default window is initialized.
          * After that calls to this method are just ignored.
          */
-        string_input_popup &window( const catacurses::window &w, int startx, int starty, int endx );
         string_input_popup &window( const catacurses::window &w, const point &start, int endx );
         /**
          * Set / get the input context that is used to gather user input.
