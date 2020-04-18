@@ -221,8 +221,8 @@
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land", "swamp" ],
-    "city_distance": [ 10, 200 ],
-    "city_sizes": [ 1, 3 ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 1, 8 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },

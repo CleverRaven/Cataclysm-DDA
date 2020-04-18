@@ -418,11 +418,24 @@
     "ident": "foodplace",
     "name": "The Mascot Rises",
     "points": 0,
-    "description": "You just finished your shift and got back in the break room when you heard the alarms and the security door shutting down behind you.  There's a lot of customers out there and you're not sure Foodplace delicious food is going to be enough for them.",
+    "description": "You just finished your shift and got back in the break room when you heard the alarms and the security door shutting down behind you.  There's a lot of customers out there and you're not sure Foodplace's delicious food™ is going to be enough for them.",
     "allowed_locs": [ "sloc_restaraunt_foodplace_break_room" ],
     "professions": [ "true_foodperson", "unemployed" ],
     "start_name": "Foodplace Break Room",
     "flags": [ "CITY_START" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "last_delivery",
+    "name": "The Last Delivery",
+    "points": 2,
+    "description": "While the world was falling apart someone called to order some of Foodplace's delicious food™ and they sent you to do the delivery.  You're not sure about much, but one thing is certain: that delicious food™ is going to get delivered even if that's the last thing you do!",
+    "vehicle": "food_truck_delivery_mission",
+    "professions": [ "true_foodperson", "unemployed" ],
+    "start_name": "A Stop On The Road",
+    "allowed_locs": [ "sloc_gas_station" ],
+    "missions": [ "MISSION_LAST_DELIVERY" ],
+    "flags": [ "LONE_START" ]
   },
   {
     "type": "scenario",
