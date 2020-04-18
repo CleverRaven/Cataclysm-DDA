@@ -144,6 +144,7 @@
     "name": { "str": "buttered popcorn", "str_pl": "buttered popcorn" },
     "copy-from": "popcorn",
     "healthy": -1,
+    "calories": 50,
     "description": "Popcorn with a light covering of butter for extra flavor.",
     "material": "junk",
     "fun": 10
