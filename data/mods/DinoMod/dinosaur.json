@@ -555,11 +555,13 @@
     "dodge": 3,
     "armor_bash": 3,
     "armor_cut": 1,
-    "luminance": 0,
     "vision_day": 50,
     "hp": 30,
     "death_function": [ "NORMAL" ],
-    "description": "A small flying reptile, circling overhead looking for prey.",
+    "description": "A feathered flying reptile over three feet long, with short wings and a big colorful beak.",
+    "reproduction": { "baby_egg": "egg_dimorphodon", "baby_count": 3, "baby_timer": 24 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED" ],
     "harvest": "animal_noskin",
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
@@ -720,6 +722,13 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and magenta hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_parasaurolophus" }
+  },
+  {
+    "id": "mon_dimorphodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
   },
   {
     "id": "mon_dilophosaurus_hatchling",
