@@ -1073,6 +1073,10 @@ class vehicle
         // Vehicle fuel indicators (all of them)
         void print_fuel_indicators( const catacurses::window &win, int y, int x, int start_index = 0,
                                     bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false );
+        void print_fuel_indicators(
+            const catacurses::window &win, const point &, int start_index = 0,
+            bool fullsize = false, bool verbose = false, bool desc = false,
+            bool isHorizontal = false );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, int dir, const point &pivot );
@@ -1411,6 +1415,7 @@ class vehicle
          * vehicle is driving itself
          */
         void autodrive( int x, int y );
+        void autodrive( const point & );
         /**
          * can the helicopter descend/ascend here?
          */
