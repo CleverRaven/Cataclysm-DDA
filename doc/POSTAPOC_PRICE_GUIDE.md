@@ -4,7 +4,7 @@
 Prices were based on the philosophy that there is a decent portion of humanity unwilling to regularly brave the risks of city scavenging, that are always on the lookout for supplies to stay alive. This mean food and medicine are relatively quite valuable compared to the goods you would use to acquire them.
 
 The standard unit of currency, the free merchants note, is priced to be the equivalent to one piece of meat jerky. (250 cents)
-One piece of meat jerky will stay for 24 days, a decent time, and contains 347 calories.
+One piece of meat jerky will stay fresh for 24 days, a decent time, and contains 347 calories.
 A survivor that bring back 2000 cents worth of goods back to the merchants every day is doing well enough to eke out a subsistence living.
 A survivor that brings back 4000 cents worth of goods every day is doing quite well for himself.
 
@@ -96,4 +96,3 @@ Pre cataclysm consumables that can not be replaced can be given the flag:
 
 This is used for things such as unreloaded ammo, medicine, and luxury consumables such as coffee and tea.
 In the future we can implement a feature that will allow this items to increase in price over time.
-
