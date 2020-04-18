@@ -1501,7 +1501,7 @@ void advanced_inventory::display()
             string_input_popup spopup;
             std::string filter = spane.filter;
             filter_edit = true;
-            spopup.window( spane.window, 4, w_height - 1, w_width / 2 - 4 )
+            spopup.window( spane.window, point( 4, w_height - 1 ), w_width / 2 - 4 )
             .max_length( 256 )
             .text( filter );
 

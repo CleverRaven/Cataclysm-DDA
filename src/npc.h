@@ -821,7 +821,7 @@ class npc : public player
          * Set @ref submap_coords and @ref pos.
          * @param m global submap coordinates.
          */
-        void spawn_at_sm( const tripoint &m );
+        void spawn_at_sm( const tripoint &p );
         /**
          * As spawn_at, but also sets position within the submap.
          * Note: final submap may differ from submap_offset if @ref square has

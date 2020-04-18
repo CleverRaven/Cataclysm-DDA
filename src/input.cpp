@@ -1034,7 +1034,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
         display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
         // width of the legend
         legwidth = width - 4 - BORDER_SPACE;
-        spopup.window( w_help, 4, 8, legwidth )
+        spopup.window( w_help, point( 4, 8 ), legwidth )
         .max_length( legwidth )
         .context( ctxt );
         ui.position_from_window( w_help );
