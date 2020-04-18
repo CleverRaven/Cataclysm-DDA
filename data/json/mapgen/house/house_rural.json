@@ -77,8 +77,7 @@
         "    |---3               "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" },
-      "place_monsters": [ { "monster": "GROUP_ROOF_ANIMAL", "x": [ 3, 9 ], "y": [ 16, 20 ], "chance": 2 } ]
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
   {
