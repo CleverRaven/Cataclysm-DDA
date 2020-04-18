@@ -49,6 +49,7 @@
       "F": "f_fridge",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
-    "toilets": { "T": {  } }
+    "toilets": { "T": {  } },
+    "place_monsters": [ { "monster": "GROUP_ROOF_ANIMAL", "x": [ 8, 16 ], "y": [ 6, 10 ], "chance": 2 } ]
   }
 ]
