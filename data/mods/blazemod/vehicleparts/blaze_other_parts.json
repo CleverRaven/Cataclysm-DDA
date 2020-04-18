@@ -236,31 +236,6 @@
     "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
   },
   {
-    "id": "turretframe",
-    "type": "vehicle_part",
-    "name": "turret chassis",
-    "item": "turretframe",
-    "symbol": "Y",
-    "broken_symbol": "#",
-    "color": "light_gray",
-    "broken_color": "light_gray",
-    "durability": 400,
-    "damage_modifier": 80,
-    "folded_volume": 25,
-    "description": "A rotating turret, capable of mounting a weapon system.  Install a suitable weapon on it as an automated weapon and the vehicle will be able to fire on hostile targets that get too close.",
-    "breaks_into": [
-      { "item": "scrap", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 4, 10 ] },
-      { "item": "spring", "count": [ 2, 8 ] }
-    ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    },
-    "flags": [ "TURRET_MOUNT" ]
-  },
-  {
     "id": "wiring",
     "type": "vehicle_part",
     "name": "wiring",
