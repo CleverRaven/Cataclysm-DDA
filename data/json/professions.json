@@ -3643,7 +3643,7 @@
     "ident": "demolition_expert",
     "name": "Demolition Expert",
     "description": "Before this all began you were having the time of your life at your dream job, blowing things up.  Now you're finally allowed to do it full time. ",
-    "skills": [ { "level": 2, "name": "cooking" } ],
+    "skills": [ { "level": 2, "name": "fabrication" } ],
     "points": 3,
     "items": {
       "both": {
