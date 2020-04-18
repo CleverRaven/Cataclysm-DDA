@@ -817,7 +817,6 @@ class npc : public player
         void set_fac( const faction_id &id );
         faction *get_faction() const override;
         faction_id get_fac_id() const;
-        void spawn_at_sm( int mx, int my, int mz );
         /**
          * Set @ref submap_coords and @ref pos.
          * @param m global submap coordinates.
@@ -1057,7 +1056,6 @@ class npc : public player
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
          */
-        void shift( int sx, int sy );
         void shift( const point &s );
 
         // Movement; the following are defined in npcmove.cpp

@@ -715,9 +715,9 @@ void npc::travel_overmap( const tripoint &pos )
     }
 }
 
-void npc::spawn_at_sm( int x, int y, int z )
+void npc::spawn_at_sm( const tripoint &p )
 {
-    spawn_at_precise( point( x, y ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), z ) );
+    spawn_at_precise( p.xy(), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), p.z ) );
 }
 
 void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
@@ -2363,16 +2363,15 @@ static void maybe_shift( tripoint &pos, int dx, int dy )
     }
 }
 
-void npc::shift( int sx, int sy )
+void npc::shift( const point &s )
 {
-    const int shiftx = sx * SEEX;
-    const int shifty = sy * SEEY;
+    const point shift = sm_to_ms_copy( s );
 
-    setpos( pos() - point( shiftx, shifty ) );
+    setpos( pos() - shift );
 
-    maybe_shift( wanted_item_pos, -shiftx, -shifty );
-    maybe_shift( last_player_seen_pos, -shiftx, -shifty );
-    maybe_shift( pulp_location, -shiftx, -shifty );
+    maybe_shift( wanted_item_pos, -shift.x, -shift.y );
+    maybe_shift( last_player_seen_pos, -shift.x, -shift.y );
+    maybe_shift( pulp_location, -shift.x, -shift.y );
     path.clear();
 }
 
