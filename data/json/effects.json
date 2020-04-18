@@ -631,6 +631,13 @@
   },
   {
     "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisible" ],
+    "desc": [ "You are invisible." ],
+    "flags": [ "EFFECT_INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "took_flumed"
   },
   {

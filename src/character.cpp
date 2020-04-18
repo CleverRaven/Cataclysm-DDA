@@ -1548,6 +1548,8 @@ void Character::process_turn()
     }
 
     Creature::process_turn();
+
+    enchantment_cache.activate_passive( *this );
 }
 
 void Character::recalc_hp()
@@ -6311,8 +6313,6 @@ bool Character::is_invisible() const
 {
     return (
                has_effect_with_flag( flag_EFFECT_INVISIBLE ) ||
-               has_active_bionic( str_bio_cloak ) ||
-               has_active_bionic( str_bio_night ) ||
                is_wearing_active_optcloak() ||
                has_trait( trait_DEBUG_CLOAK ) ||
                has_artifact_with( AEP_INVISIBLE )
@@ -7955,6 +7955,20 @@ void Character::recalculate_enchantment_cache()
         }
 
         for( const enchantment_id &ench_id : mut.enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this ) ) {
+                enchantment_cache.force_add( ench );
+            }
+        }
+    }
+
+    for( const bionic &bio : *my_bionics ) {
+        const bionic_id &bid = bio.id;
+        if( bid->toggled && !bio.powered ) {
+            continue;
+        }
+
+        for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this ) ) {
                 enchantment_cache.force_add( ench );
