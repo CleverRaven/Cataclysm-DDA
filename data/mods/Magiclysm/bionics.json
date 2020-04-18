@@ -5,7 +5,7 @@
     "name": { "str": "Blood Power Generator CBM" },
     "description": "Embedded into your back and connected to your bionic power supply is a powerfull spell focus able to consume blood from dead creatures to produce bionic power.  It can store up to 100 mL of blood.",
     "occupied_bodyparts": [ [ "TORSO", 8 ] ],
-    "fuel_options": [ "blood", "dragon_blood", "tainted_blood" ],
+    "fuel_options": [ "blood", "dragon_blood", "tainted_blood", "mana_infused_blood" ],
     "fuel_capacity": 100,
     "fuel_efficiency": 0.6,
     "exothermic_power_gen": true,

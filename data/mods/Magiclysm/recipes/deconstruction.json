@@ -25,5 +25,11 @@
     "time": "6 h",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 800 ] ], [ [ "steel_lump", 200 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "mana_infusion_lesser",
+    "components": [ [ [ "mana_infused_blood", 1 ] ], [ [ "syringe", 1 ] ] ],
+    "time": "1 m"
   }
 ]
