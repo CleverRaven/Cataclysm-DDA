@@ -122,20 +122,6 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
 namespace activity_handlers
 {
 
-enum hack_result {
-    HACK_UNABLE,
-    HACK_FAIL,
-    HACK_NOTHING,
-    HACK_SUCCESS
-};
-
-enum hack_type {
-    HACK_SAFE,
-    HACK_DOOR,
-    HACK_GAS,
-    HACK_NULL
-};
-
 bool resume_for_multi_activities( player &p );
 /** activity_do_turn functions: */
 void burrow_do_turn( player_activity *act, player *p );
@@ -226,6 +212,7 @@ void churn_finish( player_activity *act, player *p );
 void plant_seed_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
+void lockpicking_finish( player_activity *act, player *p );
 void open_gate_finish( player_activity *act, player * );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
@@ -264,7 +251,6 @@ void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void mind_splicer_finish( player_activity *act, player *p );
-void hacking_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );
 void study_spell_finish( player_activity *act, player *p );
 

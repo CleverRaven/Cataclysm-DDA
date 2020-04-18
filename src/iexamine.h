@@ -48,7 +48,6 @@ void pit( player &p, const tripoint &examp );
 void pit_covered( player &p, const tripoint &examp );
 void slot_machine( player &p, const tripoint &examp );
 void safe( player &p, const tripoint &examp );
-void gunsafe_ml( player &p, const tripoint &examp );
 void gunsafe_el( player &p, const tripoint &examp );
 void harvest_furn_nectar( player &p, const tripoint &examp );
 void harvest_furn( player &p, const tripoint &examp );

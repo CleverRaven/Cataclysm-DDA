@@ -377,6 +377,9 @@ bool Character::activate_bionic( int b, bool eff_only )
         if( bio.info().charge_time > 0 ) {
             bio.charge_timer = bio.info().charge_time;
         }
+        if( !bio.id->enchantments.empty() ) {
+            recalculate_enchantment_cache();
+        }
     }
 
     auto add_msg_activate = [&]() {
@@ -977,6 +980,9 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     reset_encumbrance();
     reset();
+    if( !bio.id->enchantments.empty() ) {
+        recalculate_enchantment_cache();
+    }
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
     if( !bio.info().fake_item.empty() ) {
@@ -2436,6 +2442,9 @@ void Character::add_bionic( const bionic_id &b )
 
     reset_encumbrance();
     recalc_sight_limits();
+    if( !b->enchantments.empty() ) {
+        recalculate_enchantment_cache();
+    }
 }
 
 void Character::remove_bionic( const bionic_id &b )
@@ -2456,6 +2465,9 @@ void Character::remove_bionic( const bionic_id &b )
     *my_bionics = new_my_bionics;
     reset_encumbrance();
     recalc_sight_limits();
+    if( !b->enchantments.empty() ) {
+        recalculate_enchantment_cache();
+    }
 }
 
 int player::num_bionics() const
@@ -2571,6 +2583,8 @@ void load_bionic( const JsonObject &jsobj )
 
     new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
 
+    assign( jsobj, "enchantments", new_bionic.enchantments );
+
     assign( jsobj, "weight_capacity_bonus", new_bionic.weight_capacity_bonus, false, 0_gram );
     assign( jsobj, "exothermic_power_gen", new_bionic.exothermic_power_gen );
     assign( jsobj, "power_gen_emission", new_bionic.power_gen_emission );
@@ -2638,6 +2652,11 @@ void check_bionics()
             if( !mid.is_valid() ) {
                 debugmsg( "Bionic %s cancels undefined mutation %s",
                           bio.first.c_str(), mid.c_str() );
+            }
+        }
+        for( const enchantment_id &eid : bio.first->enchantments ) {
+            if( !eid.is_valid() ) {
+                debugmsg( "Bionic %s uses undefined enchantment %s", bio.first.c_str(), eid.c_str() );
             }
         }
         for( const bionic_id &bid : bio.second.included_bionics ) {

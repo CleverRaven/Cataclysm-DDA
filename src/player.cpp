@@ -777,23 +777,6 @@ bool player::has_conflicting_trait( const trait_id &flag ) const
              has_same_type_trait( flag ) );
 }
 
-bool player::has_opposite_trait( const trait_id &flag ) const
-{
-    for( const trait_id &i : flag->cancels ) {
-        if( has_trait( i ) ) {
-            return true;
-        }
-    }
-    for( const trait_id &mut : get_mutations() ) {
-        for( const trait_id &canceled_trait : mut->cancels ) {
-            if( canceled_trait == flag ) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 bool player::has_lower_trait( const trait_id &flag ) const
 {
     for( auto &i : flag->prereqs ) {
@@ -4165,24 +4148,6 @@ float player::fine_detail_vision_mod( const tripoint &p ) const
     return std::min( own_light, ambient_light );
 }
 
-int player::adjust_for_focus( int amount ) const
-{
-    int effective_focus = focus_pool;
-    if( has_trait( trait_FASTLEARNER ) ) {
-        effective_focus += 15;
-    }
-    if( has_active_bionic( bio_memory ) ) {
-        effective_focus += 10;
-    }
-    if( has_trait( trait_SLOWLEARNER ) ) {
-        effective_focus -= 15;
-    }
-    effective_focus += ( get_int_base() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
-                       get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
-    double tmp = amount * ( effective_focus / 100.0 );
-    return roll_remainder( tmp );
-}
-
 void player::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
     SkillLevel &level = get_skill_level_object( id );
@@ -5165,56 +5130,6 @@ bool player::crush_frozen_liquid( item_location loc )
         popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
     }
     return false;
-}
-
-void player::on_mutation_gain( const trait_id &mid )
-{
-    morale->on_mutation_gain( mid );
-    magic.on_mutation_gain( mid, *this );
-    update_type_of_scent( mid );
-    recalculate_enchantment_cache(); // mutations can have enchantments
-}
-
-void player::on_mutation_loss( const trait_id &mid )
-{
-    morale->on_mutation_loss( mid );
-    magic.on_mutation_loss( mid );
-    update_type_of_scent( mid, false );
-    recalculate_enchantment_cache(); // mutations can have enchantments
-}
-
-void player::on_stat_change( const std::string &stat, int value )
-{
-    morale->on_stat_change( stat, value );
-}
-
-void player::on_item_wear( const item &it )
-{
-    morale->on_item_wear( it );
-}
-
-void player::on_item_takeoff( const item &it )
-{
-    morale->on_item_takeoff( it );
-}
-
-void player::on_worn_item_washed( const item &it )
-{
-    if( is_worn( it ) ) {
-        morale->on_worn_item_washed( it );
-    }
-}
-
-void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
-{
-    // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
-    // See @ref get_perceived_pain()
-    if( eid == effect_adrenaline ) {
-        // Note that calling this does no harm if it wasn't changed.
-        on_stat_change( "perceived_pain", get_perceived_pain() );
-    }
-
-    morale->on_effect_int_change( eid, intensity, bp );
 }
 
 bool player::query_yn( const std::string &mes ) const

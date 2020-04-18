@@ -1738,18 +1738,26 @@ class Character : public Creature, public visitable<Character>
         void update_stamina( int turns );
 
     protected:
-        void on_stat_change( const std::string &, int ) override {}
         void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
-        virtual void on_mutation_gain( const trait_id & ) {}
-        virtual void on_mutation_loss( const trait_id & ) {}
     public:
-        virtual void on_item_wear( const item & ) {}
-        virtual void on_item_takeoff( const item & ) {}
-        virtual void on_worn_item_washed( const item & ) {}
-
+        /** Called when an item is worn */
+        void on_item_wear( const item &it );
+        /** Called when an item is taken off */
+        void on_item_takeoff( const item &it );
+        /** Called when an item is washed */
+        void on_worn_item_washed( const item &it );
+        /** Called when effect intensity has been changed */
+        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
+        /** Called when a mutation is gained */
+        void on_mutation_gain( const trait_id &mid );
+        /** Called when a mutation is lost */
+        void on_mutation_loss( const trait_id &mid );
+        /** Called when a stat is changed */
+        void on_stat_change( const std::string &stat, int value ) override;
         /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
         tripoint adjacent_tile() const;
-
+        /** Returns true if the player has a trait which cancels the entered trait */
+        bool has_opposite_trait( const trait_id &flag ) const;
         /** Removes "sleep" and "lying_down" */
         void wake_up();
         // how loud a character can shout. based on mutations and clothing
@@ -1766,6 +1774,7 @@ class Character : public Creature, public visitable<Character>
 
         std::map<std::string, int> mutation_category_level;
 
+        int adjust_for_focus( int amount ) const;
         void update_type_of_scent( bool init = false );
         void update_type_of_scent( const trait_id &mut, bool gain = true );
         void set_type_of_scent( const scenttype_id &id );

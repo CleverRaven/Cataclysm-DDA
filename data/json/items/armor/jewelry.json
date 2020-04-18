@@ -295,7 +295,9 @@
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "tieclip",
-    "color": "brown"
+    "color": "brown",
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "copper_locket",
@@ -793,7 +795,9 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "gold_locket",
@@ -1090,7 +1094,9 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "platinum_locket",
@@ -1216,7 +1222,9 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "silver_locket",
