@@ -905,6 +905,13 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_PARK_ANIMAL",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_CAVE",
     "default": "mon_null",
     "is_animal": true,
