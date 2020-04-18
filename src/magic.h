@@ -422,13 +422,13 @@ class spell
         void cast_all_effects( Creature &source, const tripoint &target ) const;
 
         // checks if a target point is in spell range
-        bool is_target_in_range( const Creature &caster, const tripoint &guy ) const;
+        bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 
         // is the target valid for this spell?
-        bool is_valid_target( const Creature &caster, const tripoint &guy ) const;
+        bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
         bool is_valid_effect_target( valid_target t ) const;
-        bool target_by_monster_id( const tripoint &guy ) const;
+        bool target_by_monster_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
         cata::optional<tripoint> random_valid_target( const Creature &caster,

@@ -1741,11 +1741,11 @@ class Character : public Creature, public visitable<Character>
         void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
     public:
         /** Called when an item is worn */
-        void on_item_wear( const item & );
+        void on_item_wear( const item &it );
         /** Called when an item is taken off */
-        void on_item_takeoff( const item & );
+        void on_item_takeoff( const item &it );
         /** Called when an item is washed */
-        void on_worn_item_washed( const item & );
+        void on_worn_item_washed( const item &it );
         /** Called when effect intensity has been changed */
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
         /** Called when a mutation is gained */
