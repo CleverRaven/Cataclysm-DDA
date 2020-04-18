@@ -1,22 +1,5 @@
 [
   {
-    "id": "mana_infusion_lesser",
-    "name": "Lesser Mana Infusion",
-    "description": "A faint glow emanates from the syringe.",
-    "use_action": { "type": "cast_spell", "spell_id": "recover_mana", "no_fail": true, "level": 0 },
-    "type": "COMESTIBLE",
-    "weight": "12 g",
-    "volume": "10ml",
-    "symbol": "!",
-    "looks_like": "vaccine_shot",
-    "material": "plastic",
-    "color": "light_blue",
-    "comestible_type": "MED",
-    "flags": [ "NO_INGEST" ],
-    "delete_flags": [ "CANNIBALISM" ],
-    "price": 2500
-  },
-  {
     "id": "mana_potion_lesser",
     "name": "Lesser Mana Potion",
     "description": "You can't buy these, so you need to save them until the last boss!  Actually, don't even use them there!",
