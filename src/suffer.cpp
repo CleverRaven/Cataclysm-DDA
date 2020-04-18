@@ -1809,7 +1809,7 @@ void Character::apply_wetness_morale( int temperature )
 
         if( bp_morale < 0 ) {
             // Damp, hot clothing on hot skin feels bad
-            scaled_temperature = fabs( scaled_temperature );
+            scaled_temperature = std::fabs( scaled_temperature );
         }
 
         // For an unmutated human swimming in deep water, this will add up to:

@@ -3597,7 +3597,7 @@ void game::draw_minimap()
         double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
                        ( targ.x - cursx ) : 4;
 
-        if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
+        if( cursx == targ.x || std::fabs( slope ) > 3.5 ) { // Vertical slope
             if( targ.y > cursy ) {
                 mvwputch( w_minimap, point( 3, 6 ), c_red, "*" );
             } else {
@@ -3606,7 +3606,7 @@ void game::draw_minimap()
         } else {
             int arrowx = -1;
             int arrowy = -1;
-            if( fabs( slope ) >= 1. ) { // y diff is bigger!
+            if( std::fabs( slope ) >= 1. ) { // y diff is bigger!
                 arrowy = ( targ.y > cursy ? 6 : 0 );
                 arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
@@ -11106,10 +11106,10 @@ void game::perhaps_add_random_npc()
 
     float density = get_option<float>( "NPC_DENSITY" );
     static constexpr int density_search_radius = 60;
-    const int npc_num = overmap_buffer.get_npcs_near_player( density_search_radius ).size();
-    if( npc_num > 0 ) {
+    const float npc_num = overmap_buffer.get_npcs_near_player( density_search_radius ).size();
+    if( npc_num > 0.0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
-        density *= powf( 0.8f, npc_num );
+        density *= std::pow( 0.8f, npc_num );
     }
 
     if( !x_in_y( density, 100 ) ) {
