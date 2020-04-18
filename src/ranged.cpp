@@ -145,6 +145,7 @@ class target_ui
         // Aiming source (player's position)
         tripoint src;
         // Aiming destination (cursor position)
+        // Use set_cursor_pos() to modify
         tripoint dst;
         // List of visible hostile targets (TODO: better name)
         std::vector<Creature *> t;
@@ -173,6 +174,22 @@ class target_ui
         // TODO: break down these functions into methods
         std::vector<tripoint> run_normal_ui_old( player &pc );
         std::vector<tripoint> run_spell_ui_old( player &pc );
+
+        // Returns new cursor position or current cursor position
+        // based on user input
+        // TODO: betters docs/name?
+        tripoint get_desired_cursor_pos( const std::string &action );
+
+        // Set cursor position. If new position is out of range,
+        // selects closest position in range.
+        // Returns 'false' if cursor position did not change
+        bool set_cursor_pos( player &pc, const tripoint &new_pos );
+
+        // Toggle snap-to-target
+        void toggle_snap_to_target( player &pc );
+
+        // Set new view offset. Updates map cache if necessary
+        void set_view_offset( player &pc, const tripoint &new_offset );
 
         // On-selected-as-target checks that act as if they are on-hit checks.
         // `harmful` is `false` if using a non-damaging spell
@@ -1583,30 +1600,7 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
     bool redraw = true;
     const tripoint old_offset = pc.view_offset;
     do {
-        ret = g->m.find_clear_path( src, dst );
-
-        // This chunk of code handles shifting the aim point around
-        // at maximum range when using circular distance.
-        // The range > 1 check ensures that you can always at least hit adjacent squares.
-        if( trigdist && range > 1 && std::round( trig_dist( src, dst ) ) > range ) {
-            bool cont = true;
-            tripoint cp = dst;
-            for( size_t i = 0; i < ret.size() && cont; i++ ) {
-                if( std::round( trig_dist( src, ret[i] ) ) > range ) {
-                    ret.resize( i );
-                    cont = false;
-                } else {
-                    cp = ret[i];
-                }
-            }
-            dst = cp;
-        }
-        tripoint center;
-        if( snap_to_target ) {
-            center = dst;
-        } else {
-            center = pc.pos() + pc.view_offset;
-        }
+        tripoint center = pc.pos() + pc.view_offset;
         if( redraw ) {
             // Clear the target window.
             for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
@@ -1745,55 +1739,15 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
         // Clear the activity if any, we'll re-set it later if we need to.
         pc.cancel_activity();
 
-        tripoint targ;
-        cata::optional<tripoint> mouse_pos;
-        // Our coordinates will either be determined by coordinate input(mouse),
-        // by a direction key, or by the previous value.
-        if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
-            targ = *mouse_pos;
-            targ.x -= dst.x;
-            targ.y -= dst.y;
-            targ.z -= dst.z;
-        } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            targ.x = vec->x;
-            targ.y = vec->y;
-        } else {
-            targ.x = 0;
-            targ.y = 0;
-        }
         if( action == "FIRE" && mode == TARGET_MODE_FIRE && aim_mode->has_threshold ) {
             action = aim_mode->action;
         }
 
-        if( allow_zlevel_shift && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
-            // Just determine our delta-z.
-            const int dz = action == "LEVEL_UP" ? 1 : -1;
-
-            // Shift the view up or down accordingly.
-            // We need to clamp the offset, but it needs to be clamped such that
-            // the player position plus the offset is still in range, since the player
-            // might be at Z+10 and looking down to Z-10, which is an offset greater than
-            // OVERMAP_DEPTH or OVERMAP_HEIGHT
-            const int potential_result = pc.pos().z + pc.view_offset.z + dz;
-            if( potential_result <= OVERMAP_HEIGHT && potential_result >= -OVERMAP_DEPTH ) {
-                pc.view_offset.z += dz;
-            }
-
-            // Set our cursor z to our view z. This accounts for cases where
-            // our view and our target are on different z-levels (e.g. when
-            // we cycle targets on different z-levels but do not have SNAP_TO_TARGET
-            // enabled). This will ensure that we don't just chase the cursor up or
-            // down, never catching up.
-            dst.z = clamp( pc.pos().z + pc.view_offset.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
-
-            // We need to do a bunch of redrawing and cache updates since we're
-            // looking at a different z-level.
-            g->m.invalidate_map_cache( dst.z );
-            g->refresh_all();
-        }
+        // Move cursor based on user input
+        tripoint new_dst = get_desired_cursor_pos( action );
 
         /* More drawing to terrain */
-        if( targ != tripoint_zero ) {
+        if( set_cursor_pos( pc, new_dst ) ) {
             const Creature *critter = g->critter_at( dst, true );
             if( critter != nullptr ) {
                 g->draw_critter( *critter, center );
@@ -1803,26 +1757,22 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 mvwputch( g->w_terrain, point( POSX, POSY ), c_black, 'X' );
             }
 
-            // constrain by range
-            dst.x = std::min( std::max( dst.x + targ.x, src.x - range ), src.x + range );
-            dst.y = std::min( std::max( dst.y + targ.y, src.y - range ), src.y + range );
-            dst.z = std::min( std::max( dst.z + targ.z, src.z - range ), src.z + range );
-
             pc.recoil = recalc_recoil( dst );
-
         } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
             int newtarget = find_target( t, dst ) - 1;
             if( newtarget < 0 ) {
                 newtarget = t.size() - 1;
             }
-            dst = t[newtarget]->pos();
+            tripoint new_dst = t[newtarget]->pos();
+            set_cursor_pos( pc, new_dst );
             pc.recoil = recalc_recoil( dst );
         } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
             int newtarget = find_target( t, dst ) + 1;
             if( newtarget == static_cast<int>( t.size() ) ) {
                 newtarget = 0;
             }
-            dst = t[newtarget]->pos();
+            tripoint new_dst = t[newtarget]->pos();
+            set_cursor_pos( pc, new_dst );
             pc.recoil = recalc_recoil( dst );
         } else if( action == "AIM" ) {
             if( src == dst ) {
@@ -1844,7 +1794,7 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 // We've run out of moves, clear target vector, but leave target selected.
                 pc.assign_activity( ACT_AIM, 0, 0 );
                 pc.activity.str_values.push_back( "AIM" );
-                pc.view_offset = old_offset;
+                set_view_offset( pc, old_offset );
                 ret.clear();
                 return ret;
             }
@@ -1932,7 +1882,7 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 ( !g->critter_at( dst ) && pc.recoil == min_recoil ) ) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
-                pc.view_offset = old_offset;
+                set_view_offset( pc, old_offset );
                 return ret;
 
             } else {
@@ -1943,7 +1893,7 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 // Also clear target vector, but leave target selected.
                 pc.assign_activity( ACT_AIM, 0, 0 );
                 pc.activity.str_values.push_back( action );
-                pc.view_offset = old_offset;
+                set_view_offset( pc, old_offset );
                 ret.clear();
                 return ret;
             }
@@ -1958,17 +1908,10 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
             }
             break;
         } else if( action == "CENTER" ) {
-            pc.view_offset = tripoint_zero;
-            dst = src;
-            set_last_target( dst );
-            ret.clear();
+            set_cursor_pos( pc, src );
+            set_last_target( src );
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
-            if( snap_to_target ) {
-                snap_to_target = false;
-                pc.view_offset = dst - pc.pos();
-            } else {
-                snap_to_target = true;
-            }
+            toggle_snap_to_target( pc );
         } else if( action == "QUIT" ) { // return empty vector (cancel)
             ret.clear();
             pc.last_target_pos = cata::nullopt;
@@ -1985,34 +1928,17 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 if( action == "MOUSE_MOVE" ) {
                     edge_scroll *= 2;
                 }
-                pc.view_offset += edge_scroll;
                 if( snap_to_target ) {
-                    dst += edge_scroll;
+                    tripoint new_dst = dst + edge_scroll;
+                    set_cursor_pos( pc, new_dst );
+                } else {
+                    set_view_offset( pc, pc.view_offset + edge_scroll );
                 }
-            }
-        }
-
-        int new_dx = dst.x - src.x;
-        int new_dy = dst.y - src.y;
-
-        // Make player's sprite flip to face the current target
-        if( !tile_iso ) {
-            if( new_dx > 0 ) {
-                g->u.facing = FD_RIGHT;
-            } else if( new_dx < 0 ) {
-                g->u.facing = FD_LEFT;
-            }
-        } else {
-            if( new_dx >= 0 && new_dy >= 0 ) {
-                g->u.facing = FD_RIGHT;
-            }
-            if( new_dy <= 0 && new_dx <= 0 ) {
-                g->u.facing = FD_LEFT;
             }
         }
     } while( true );
 
-    pc.view_offset = old_offset;
+    set_view_offset( pc, old_offset );
 
     if( ret.empty() ) {
         return ret;
@@ -2065,8 +1991,6 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
     const tripoint old_offset = pc.view_offset;
 
     do {
-        ret = g->m.find_clear_path( src, dst );
-
         if( fx == "target_attack" || fx == "projectile_attack" || fx == "ter_transform" ) {
             spell_aoe = spell_effect::spell_effect_blast( casting, src, ret.back(), casting.aoe(), true );
         } else if( fx == "cone_attack" ) {
@@ -2077,28 +2001,7 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
             spell_aoe.clear();
         }
 
-        // This chunk of code handles shifting the aim point around
-        // at maximum range when using circular distance.
-        // The range > 1 check ensures that you can always at least hit adjacent squares.
-        if( trigdist && range > 1 && std::round( trig_dist( src, dst ) ) > range ) {
-            bool cont = true;
-            tripoint cp = dst;
-            for( size_t i = 0; i < ret.size() && cont; i++ ) {
-                if( std::round( trig_dist( src, ret[i] ) ) > range ) {
-                    ret.resize( i );
-                    cont = false;
-                } else {
-                    cp = ret[i];
-                }
-            }
-            dst = cp;
-        }
-        tripoint center;
-        if( snap_to_target ) {
-            center = dst;
-        } else {
-            center = pc.pos() + pc.view_offset;
-        }
+        tripoint center = pc.pos() + pc.view_offset;
         // Clear the target window.
         for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
             // Clear width excluding borders.
@@ -2210,75 +2113,31 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
         // Clear the activity if any, we'll re-set it later if we need to.
         pc.cancel_activity();
 
-        tripoint targ;
-        cata::optional<tripoint> mouse_pos;
-        // Our coordinates will either be determined by coordinate input(mouse),
-        // by a direction key, or by the previous value.
-        if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
-            targ = *mouse_pos;
-            targ.x -= dst.x;
-            targ.y -= dst.y;
-            targ.z -= dst.z;
-        } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            targ.x = vec->x;
-            targ.y = vec->y;
-        } else {
-            targ.x = 0;
-            targ.y = 0;
-        }
-
-        if( g->m.has_zlevels() && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
-            // Just determine our delta-z.
-            const int dz = action == "LEVEL_UP" ? 1 : -1;
-
-            // Shift the view up or down accordingly.
-            // We need to clamp the offset, but it needs to be clamped such that
-            // the player position plus the offset is still in range, since the player
-            // might be at Z+10 and looking down to Z-10, which is an offset greater than
-            // OVERMAP_DEPTH or OVERMAP_HEIGHT
-            const int potential_result = pc.pos().z + pc.view_offset.z + dz;
-            if( potential_result <= OVERMAP_HEIGHT && potential_result >= -OVERMAP_DEPTH ) {
-                pc.view_offset.z += dz;
-            }
-
-            // Set our cursor z to our view z. This accounts for cases where
-            // our view and our target are on different z-levels (e.g. when
-            // we cycle targets on different z-levels but do not have SNAP_TO_TARGET
-            // enabled). This will ensure that we don't just chase the cursor up or
-            // down, never catching up.
-            dst.z = clamp( pc.pos().z + pc.view_offset.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
-
-            // We need to do a bunch of redrawing and cache updates since we're
-            // looking at a different z-level.
-            g->refresh_all();
-        }
+        // Move cursor based on user input
+        tripoint new_dst = get_desired_cursor_pos( action );
 
         /* More drawing to terrain */
-        if( targ != tripoint_zero ) {
+        if( set_cursor_pos( pc, new_dst ) ) {
             const Creature *critter = g->critter_at( dst, true );
             if( critter != nullptr ) {
                 g->draw_critter( *critter, center );
             } else if( g->m.pl_sees( dst, -1 ) ) {
                 g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
             }
-
-            // constrain by range
-            dst.x = std::min( std::max( dst.x + targ.x, src.x - range ), src.x + range );
-            dst.y = std::min( std::max( dst.y + targ.y, src.y - range ), src.y + range );
-            dst.z = std::min( std::max( dst.z + targ.z, src.z - range ), src.z + range );
-
         } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
             int newtarget = find_target( t, dst ) - 1;
             if( newtarget < 0 ) {
                 newtarget = t.size() - 1;
             }
-            dst = t[newtarget]->pos();
+            tripoint new_dst = t[newtarget]->pos();
+            set_cursor_pos( pc, new_dst );
         } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
             int newtarget = find_target( t, dst ) + 1;
             if( newtarget == static_cast<int>( t.size() ) ) {
                 newtarget = 0;
             }
-            dst = t[newtarget]->pos();
+            tripoint new_dst = t[newtarget]->pos();
+            set_cursor_pos( pc, new_dst );
         } else if( action == "FIRE" ) {
             if( casting.damage() > 0 && !confirm_non_enemy_target( dst ) ) {
                 continue;
@@ -2286,27 +2145,18 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
             find_target( t, dst );
             break;
         } else if( action == "CENTER" ) {
-            dst = src;
-            set_last_target( dst );
-            ret.clear();
+            set_cursor_pos( pc, src );
+            set_last_target( src );
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
-            snap_to_target = !snap_to_target;
+            toggle_snap_to_target( pc );
         } else if( action == "QUIT" ) { // return empty vector (cancel)
             ret.clear();
             pc.last_target_pos = cata::nullopt;
             break;
         }
-
-        // Make player's sprite flip to face the current target
-        if( dst.x > src.x ) {
-            g->u.facing = FD_RIGHT;
-        } else if( dst.x < src.x ) {
-            g->u.facing = FD_LEFT;
-        }
-
     } while( true );
 
-    pc.view_offset = old_offset;
+    set_view_offset( pc, old_offset );
 
     if( ret.empty() || ret.back() == pc.pos() ) {
         return ret;
@@ -2699,8 +2549,9 @@ target_handler::trajectory target_ui::run( player &pc )
 
     // Initialize cursor position
     src = pc.pos();
-    dst = pc.pos();
-    update_targets( pc, range, t, target, src, dst );
+    tripoint initial_dst = pc.pos();
+    update_targets( pc, range, t, target, src, initial_dst );
+    set_cursor_pos( pc, initial_dst );
 
     // Create window
     compact = TERMY < 41;
@@ -2756,6 +2607,136 @@ target_handler::trajectory target_ui::run( player &pc )
     } else {
         return run_normal_ui_old( pc );
     }
+}
+
+tripoint target_ui::get_desired_cursor_pos( const std::string &action )
+{
+    // Our coordinates will either be determined by coordinate input(mouse),
+    // by a direction key, or by the previous value.
+    tripoint new_dst = dst;
+    cata::optional<tripoint> mouse_pos;
+    if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
+        new_dst = *mouse_pos;
+    } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        new_dst.x += vec->x;
+        new_dst.y += vec->y;
+    }
+    if( allow_zlevel_shift && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
+        const int delta_z = action == "LEVEL_UP" ? 1 : -1;
+        new_dst.z += delta_z;
+    }
+    return new_dst;
+}
+
+bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
+{
+    if( dst == new_pos ) {
+        return false;
+    }
+
+    // Make sure new position is valid or find a closest valid position
+    std::vector<tripoint> new_traj;
+    tripoint valid_pos = new_pos;
+    if( new_pos != src ) {
+        // On Z axis, make sure we do not exceed map boundaries
+        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+
+        new_traj = g->m.find_clear_path( src, valid_pos );
+        if( range == 1 ) {
+            // We should always be able to hit adjacent squares
+            if( square_dist( src, valid_pos ) > 1 ) {
+                valid_pos = new_traj[0];
+            }
+        } else if( trigdist ) {
+            const auto dist_fn = [this]( const tripoint & p ) {
+                return static_cast<int>( std::round( trig_dist( this->src, p ) ) );
+            };
+
+            if( dist_fn( valid_pos ) > range ) {
+                // Find the farthest point that is still in range
+                for( size_t i = new_traj.size(); i > 0; i-- ) {
+                    if( dist_fn( new_traj[i - 1] ) <= range ) {
+                        valid_pos = new_traj[i - 1];
+                        break;
+                    }
+                }
+
+                // FIXME: due to a bug in map::find_clear_path (#39693),
+                //        returned trajectory is invalid in some cases.
+                //        This bandaid stops us from exceeding range,
+                //        but does not fix the issue.
+                if( dist_fn( valid_pos ) > range ) {
+                    debugmsg( "Exceeded allowed range!" );
+                    valid_pos = src;
+                }
+            }
+        } else {
+            tripoint delta = valid_pos - src;
+            valid_pos = src + tripoint(
+                            clamp( delta.x, -range, range ),
+                            clamp( delta.y, -range, range ),
+                            clamp( delta.z, -range, range )
+                        );
+        }
+    }
+
+    if( valid_pos == dst ) {
+        // We don't need to move the cursor after all
+        return false;
+    } else if( new_pos == valid_pos ) {
+        // We can reuse new_traj
+        dst = valid_pos;
+        ret = new_traj;
+    } else {
+        dst = valid_pos;
+        ret = g->m.find_clear_path( src, dst );
+    }
+
+    if( snap_to_target ) {
+        set_view_offset( pc, dst - src );
+    }
+
+    // Make player's sprite flip to face the current target
+    int dx = dst.x - src.x;
+    int dy = dst.y - src.y;
+    if( !tile_iso ) {
+        if( dx > 0 ) {
+            g->u.facing = FD_RIGHT;
+        } else if( dx < 0 ) {
+            g->u.facing = FD_LEFT;
+        }
+    } else {
+        if( dx >= 0 && dy >= 0 ) {
+            g->u.facing = FD_RIGHT;
+        }
+        if( dy <= 0 && dx <= 0 ) {
+            g->u.facing = FD_LEFT;
+        }
+    }
+
+    return true;
+}
+
+void target_ui::toggle_snap_to_target( player &pc )
+{
+    if( snap_to_target ) {
+        // Keep current view offset
+    } else {
+        set_view_offset( pc, dst - src );
+    }
+    snap_to_target = !snap_to_target;
+}
+
+void target_ui::set_view_offset( player &pc, const tripoint &new_offset )
+{
+    // TODO: player's sprite disappears when shifting view back into player's z level
+    if( pc.view_offset.z != new_offset.z ) {
+        // We need to do a bunch of redrawing and cache updates since we're
+        // looking at a different z-level.
+        g->m.invalidate_map_cache( new_offset.z );
+        g->refresh_all();
+    }
+    pc.view_offset = new_offset;
 }
 
 void target_ui::on_target_accepted( player &pc, bool harmful )
