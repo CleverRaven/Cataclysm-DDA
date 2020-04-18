@@ -150,10 +150,8 @@ class target_ui
         // Creature currently under cursor
         // nullptr if aiming at empty tile or yourself
         Creature *dst_critter = nullptr;
-        // List of visible hostile targets (TODO: better name)
-        std::vector<Creature *> t;
-        // Currently selected target (TODO: get rid of this)
-        int target = 0;
+        // List of visible hostile targets
+        std::vector<Creature *> targets;
 
         // 'true' if map has z levels and 3D fov is on
         bool allow_zlevel_shift;
@@ -196,6 +194,9 @@ class target_ui
 
         // Toggle snap-to-target
         void toggle_snap_to_target( player &pc );
+
+        // Cycle targets. 'direction' is either 1 or -1
+        void cycle_targets( player &pc, int direction );
 
         // Set new view offset. Updates map cache if necessary
         void set_view_offset( player &pc, const tripoint &new_offset );
@@ -1132,16 +1133,6 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     return lines_used;
 }
 
-static int find_target( const std::vector<Creature *> &t, const tripoint &tpos )
-{
-    for( size_t i = 0; i < t.size(); ++i ) {
-        if( t[i]->pos() == tpos ) {
-            return static_cast<int>( i );
-        }
-    }
-    return -1;
-}
-
 static void do_aim( player &p, const item &relevant, const double min_recoil )
 {
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
@@ -1611,11 +1602,11 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
 
                 // Print to target window
                 mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
-                           rl_dist( src, dst ), range, relative_elevation, t.size() );
+                           rl_dist( src, dst ), range, relative_elevation, targets.size() );
 
             } else {
                 mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
-                           relative_elevation, t.size() );
+                           relative_elevation, targets.size() );
             }
 
             // Skip blank lines if we're short on space.
@@ -1742,21 +1733,11 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
             }
 
             pc.recoil = recalc_recoil( dst );
-        } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
-            int newtarget = find_target( t, dst ) - 1;
-            if( newtarget < 0 ) {
-                newtarget = t.size() - 1;
-            }
-            tripoint new_dst = t[newtarget]->pos();
-            set_cursor_pos( pc, new_dst );
+        } else if( action == "PREV_TARGET" ) {
+            cycle_targets( pc, -1 );
             pc.recoil = recalc_recoil( dst );
-        } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
-            int newtarget = find_target( t, dst ) + 1;
-            if( newtarget == static_cast<int>( t.size() ) ) {
-                newtarget = 0;
-            }
-            tripoint new_dst = t[newtarget]->pos();
-            set_cursor_pos( pc, new_dst );
+        } else if( action == "NEXT_TARGET" ) {
+            cycle_targets( pc, 1 );
             pc.recoil = recalc_recoil( dst );
         } else if( action == "AIM" ) {
             if( src == dst ) {
@@ -2010,11 +1991,11 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
 
             // Print to target window
             mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
-                       rl_dist( src, dst ), range, relative_elevation, t.size() );
+                       rl_dist( src, dst ), range, relative_elevation, targets.size() );
 
         } else {
             mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
-                       relative_elevation, t.size() );
+                       relative_elevation, targets.size() );
         }
 
         g->draw_cursor( dst );
@@ -2083,25 +2064,14 @@ std::vector<tripoint> target_ui::run_spell_ui_old( player &pc )
             } else if( g->m.pl_sees( dst, -1 ) ) {
                 g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
             }
-        } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
-            int newtarget = find_target( t, dst ) - 1;
-            if( newtarget < 0 ) {
-                newtarget = t.size() - 1;
-            }
-            tripoint new_dst = t[newtarget]->pos();
-            set_cursor_pos( pc, new_dst );
-        } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
-            int newtarget = find_target( t, dst ) + 1;
-            if( newtarget == static_cast<int>( t.size() ) ) {
-                newtarget = 0;
-            }
-            tripoint new_dst = t[newtarget]->pos();
-            set_cursor_pos( pc, new_dst );
+        } else if( action == "PREV_TARGET" ) {
+            cycle_targets( pc, -1 );
+        } else if( action == "NEXT_TARGET" ) {
+            cycle_targets( pc, 1 );
         } else if( action == "FIRE" ) {
             if( casting.damage() > 0 && !confirm_non_enemy_target() ) {
                 continue;
             }
-            find_target( t, dst );
             set_last_target( pc );
             break;
         } else if( action == "CENTER" ) {
@@ -2507,7 +2477,8 @@ target_handler::trajectory target_ui::run( player &pc )
     // Initialize cursor position
     src = pc.pos();
     tripoint initial_dst = pc.pos();
-    update_targets( pc, range, t, target, src, initial_dst );
+    int _target_idx = 0;
+    update_targets( pc, range, targets, _target_idx, src, initial_dst );
     set_cursor_pos( pc, initial_dst );
 
     // Create window
@@ -2708,6 +2679,33 @@ void target_ui::toggle_snap_to_target( player &pc )
         set_view_offset( pc, dst - src );
     }
     snap_to_target = !snap_to_target;
+}
+
+void target_ui::cycle_targets( player &pc, int direction )
+{
+    if( targets.empty() ) {
+        // Nothing to cycle
+        return;
+    }
+
+    if( dst_critter ) {
+        auto t = std::find( targets.begin(), targets.end(), dst_critter );
+        size_t new_target = 0;
+        if( t != targets.end() ) {
+            size_t idx = std::distance( targets.begin(), t );
+            new_target = ( idx + targets.size() + direction ) % targets.size();
+            set_cursor_pos( pc, targets[new_target]->pos() );
+            return;
+        }
+    }
+
+    // There is either no creature under the cursor or the player can't see it.
+    // Use the closest/farthest target in this case
+    if( direction == 1 ) {
+        set_cursor_pos( pc, targets.front()->pos() );
+    } else {
+        set_cursor_pos( pc, targets.back()->pos() );
+    }
 }
 
 void target_ui::set_view_offset( player &pc, const tripoint &new_offset )
