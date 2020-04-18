@@ -134,7 +134,7 @@
       "advice": "Commercial fertilizer tends to be made from ammonium nitrate, which is also usable as an explosive.  Try looking for some around the abandoned farms",
       "inquire": "Did you find any fertilizer?  Are you sure this is the ammonium nitrate kind?",
       "success": "This is great! I'll get to work making something of this.  You can have some of my molotovs, i won't need quite so many now.",
-      "success_lie": "I guess i could convince the shelter to sell me some.",
+      "success_lie": "I guess I could convince the shelter to sell me some.",
       "failure": "Damned.  Perhaps i wasn't the only one that thought of this."
     },
     "end": {
