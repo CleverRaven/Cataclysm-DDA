@@ -179,6 +179,12 @@ class target_ui
         std::vector<aim_type> aim_types;
         // Currently selected aim mode
         std::vector<aim_type>::iterator aim_mode;
+        // 'Recoil' value the player will reach if they
+        // start aiming at cursor position. Equals player's
+        // 'recoil' while they are actively spending moves to aim,
+        // but increases the further away the new aim point will be
+        // relative to the current one.
+        double predicted_recoil;
 
         /* These members are relevant for TARGET_MODE_SPELL */
         // For AOE spells, list of tiles affected by the spell
@@ -214,6 +220,16 @@ class target_ui
 
         // Set new view offset. Updates map cache if necessary
         void set_view_offset( player &pc, const tripoint &new_offset );
+
+        // Recalculate 'recoil' penalty. This should be called if
+        // player's 'recoil' value has been modified
+        // Relevant for TARGET_MODE_FIRE
+        void recalc_aim_turning_penalty( player &pc );
+
+        // Apply penalty to player's 'recoil' value based on
+        // how much they moved their aim point.
+        // Relevant for TARGET_MODE_FIRE
+        void apply_aim_turning_penalty( player &pc );
 
         // On-selected-as-target checks that act as if they are on-hit checks.
         // `harmful` is `false` if using a non-damaging spell
@@ -1545,27 +1561,10 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
 {
-    double recoil_pc = pc.recoil;
-    tripoint recoil_pos = dst;
-
     // TODO: this assumes that relevant == null means firing turrets, but that may not
     // always be the case. Consider passing a name into this function.
     int num_instruction_lines = draw_targeting_window( w_target,
                                 relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny, src == dst );
-
-    auto recalc_recoil = [&recoil_pc, &recoil_pos, &pc]( tripoint & dst ) {
-        if( pc.pos() == dst || pc.pos() == recoil_pos ) {
-            return MAX_RECOIL;
-        }
-        static const double recoil_per_deg = MAX_RECOIL / 180;
-
-        const double phi = fmod( std::abs( coord_to_angle( pc.pos(), dst ) -
-                                           coord_to_angle( pc.pos(), recoil_pos ) ),
-                                 360.0 );
-        const double angle = phi > 180.0 ? 360.0 - phi : phi;
-
-        return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );
-    };
 
     bool redraw = true;
     const tripoint old_offset = pc.view_offset;
@@ -1656,6 +1655,10 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
             // Assumes that relevant == null means firing turrets (maybe even multiple at once),
             // so printing their firing mode / ammo / ... of one of them is misleading.
             if( relevant && mode == TARGET_MODE_FIRE && src != dst ) {
+                // These 2 lines here keep the good ol' code working during the trying times of refactoring
+                double saved_pc_recoil = pc.recoil;
+                pc.recoil = predicted_recoil;
+
                 double predicted_recoil = pc.recoil;
                 int predicted_delay = 0;
                 if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
@@ -1681,6 +1684,9 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                     mvwprintw( w_target, point( 1, line_number++ ), _( "%s Delay: %i" ), aim_mode->name,
                                predicted_delay );
                 }
+
+                // End of old code compatibility
+                pc.recoil = saved_pc_recoil;
             } else if( mode == TARGET_MODE_TURRET ) {
                 list_turrets_in_range( veh, *vturrets, w_target, line_number, dst );
             } else if( mode == TARGET_MODE_THROW && relevant ) {
@@ -1726,14 +1732,10 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
             } else {
                 mvwputch( g->w_terrain, point( POSX, POSY ), c_black, 'X' );
             }
-
-            pc.recoil = recalc_recoil( dst );
         } else if( action == "PREV_TARGET" ) {
             cycle_targets( pc, -1 );
-            pc.recoil = recalc_recoil( dst );
         } else if( action == "NEXT_TARGET" ) {
             cycle_targets( pc, 1 );
-            pc.recoil = recalc_recoil( dst );
         } else if( action == "AIM" ) {
             if( src == dst ) {
                 // Skip this action if no target selected
@@ -1742,10 +1744,8 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
 
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.
-            recoil_pc = pc.recoil;
-            recoil_pos = dst;
-
             set_last_target( pc );
+            apply_aim_turning_penalty( pc );
             const double min_recoil = calculate_aim_cap( pc, dst );
             for( int i = 0; i < 10; ++i ) {
                 do_aim( pc, *relevant, min_recoil );
@@ -1758,6 +1758,8 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 ret.clear();
                 return ret;
             }
+            // We've changed pc.recoil, update penalty
+            recalc_aim_turning_penalty( pc );
         } else if( action == "SWITCH_MODE" ) {
             if( relevant && relevant->is_gun() ) {
                 relevant->gun_cycle_mode();
@@ -1816,8 +1818,6 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
                 continue;
             }
 
-            recoil_pc = pc.recoil;
-            recoil_pos = dst;
             std::vector<aim_type>::iterator it;
             for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
                 if( action == it->action ) {
@@ -1830,6 +1830,7 @@ std::vector<tripoint> target_ui::run_normal_ui_old( player &pc )
             }
             int aim_threshold = it->threshold;
             set_last_target( pc );
+            apply_aim_turning_penalty( pc );
             const double min_recoil = calculate_aim_cap( pc, dst );
             do {
                 do_aim( pc, relevant ? *relevant : null_item_reference(), min_recoil );
@@ -2658,6 +2659,11 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
         spell_aoe.clear();
     }
 
+    // Update predicted 'recoil'
+    if( mode == TARGET_MODE_FIRE ) {
+        recalc_aim_turning_penalty( pc );
+    }
+
     return true;
 }
 
@@ -2727,6 +2733,51 @@ void target_ui::set_view_offset( player &pc, const tripoint &new_offset )
         g->refresh_all();
     }
     pc.view_offset = new_offset;
+}
+
+void target_ui::recalc_aim_turning_penalty( player &pc )
+{
+    if( dst == src ) {
+        // Can't aim at yourself
+        predicted_recoil = MAX_RECOIL;
+        return;
+    }
+
+    double curr_recoil = pc.recoil;
+    tripoint curr_recoil_pos;
+    const Creature *lt_ptr = pc.last_target.lock().get();
+    if( lt_ptr ) {
+        curr_recoil_pos = lt_ptr->pos();
+    } else if( pc.last_target_pos ) {
+        curr_recoil_pos = g->m.getlocal( *pc.last_target_pos );
+    } else {
+        curr_recoil_pos = src;
+        // TODO: last_target and last_target_pos are both set to null when target dies,
+        //       making automatic weapons not as efficient against groups of enemies as they should be
+        //       (since you need to re-aim your gun from zero for every Zed).
+    }
+
+    if( curr_recoil_pos == dst ) {
+        // We're aiming at that point right now, no penalty
+        predicted_recoil = curr_recoil;
+    } else if( curr_recoil_pos == src ) {
+        // The player wasn't aiming anywhere, max it out
+        predicted_recoil = MAX_RECOIL;
+    } else {
+        // Raise it proportionally to how much
+        // the player has to turn from previous aiming point
+        const double recoil_per_degree = MAX_RECOIL / 180.0;
+        const double angle_curr = coord_to_angle( src, curr_recoil_pos );
+        const double angle_desired = coord_to_angle( src, dst );
+        const double phi = fmod( std::abs( angle_curr - angle_desired ), 360.0 );
+        const double angle = phi > 180.0 ? 360.0 - phi : phi;
+        predicted_recoil = std::min( MAX_RECOIL, curr_recoil + angle * recoil_per_degree );
+    }
+}
+
+void target_ui::apply_aim_turning_penalty( player &pc )
+{
+    pc.recoil = predicted_recoil;
 }
 
 void target_ui::on_target_accepted( player &pc, bool harmful )
