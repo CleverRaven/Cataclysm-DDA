@@ -10202,3 +10202,48 @@ bool Character::sees_with_infrared( const Creature &critter ) const
 
     return g->m.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
 }
+
+bool Character::is_visible_in_range( const Creature &critter, const int range ) const
+{
+    return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
+}
+
+std::vector<Creature *> Character::get_visible_creatures( const int range ) const
+{
+    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
+        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
+        rl_dist( pos(), critter.pos() ) <= range && sees( critter );
+    } );
+}
+
+std::vector<Creature *> Character::get_targetable_creatures( const int range ) const
+{
+    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
+        bool can_see = sees( critter ) || sees_with_infrared( critter );
+        if( can_see )   //handles the case where we can see something with glass in the way or a mutation lets us see through walls
+        {
+            std::vector<tripoint> path = g->m.find_clear_path( pos(), critter.pos() );
+            for( const tripoint &point : path ) {
+                if( g->m.impassable( point ) ) {
+                    can_see = false;
+                    break;
+                }
+            }
+        }
+        bool in_range = std::round( rl_dist_exact( pos(), critter.pos() ) ) <= range;
+        // TODO: get rid of fake npcs (pos() check)
+        bool valid_target = this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY;
+        return valid_target && in_range && can_see;
+    } );
+}
+
+std::vector<Creature *> Character::get_hostile_creatures( int range ) const
+{
+    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
+        // Fixes circular distance range for ranged attacks
+        float dist_to_creature = std::round( rl_dist_exact( pos(), critter.pos() ) );
+        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
+        dist_to_creature <= range && critter.attitude_to( *this ) == A_HOSTILE
+        && sees( critter );
+    } );
+}

@@ -143,8 +143,6 @@ class player : public Character
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
-        /** Returns an enumeration of visible mutations with colors */
-        std::string visible_mutations( int visibility_cap ) const;
         std::vector<std::string> short_description_parts() const;
         std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
@@ -205,24 +203,6 @@ class player : public Character
         bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
-        /**
-         * Get all hostile creatures currently visible to this player.
-         */
-        std::vector<Creature *> get_hostile_creatures( int range ) const;
-
-        /**
-         * Returns all creatures that this player can see and that are in the given
-         * range. This player object itself is never included.
-         * The player character (g->u) is checked and might be included (if applicable).
-         * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
-         * are included.
-         */
-        std::vector<Creature *> get_visible_creatures( int range ) const;
-        /**
-         * As above, but includes all creatures the player can detect well enough to target
-         * with ranged weapons, e.g. with infrared vision.
-         */
-        std::vector<Creature *> get_targetable_creatures( int range ) const;
 
         Attitude attitude_to( const Creature &other ) const override;
 
@@ -860,14 +840,6 @@ class player : public Character
         void process_one_effect( effect &it, bool is_new ) override;
 
     private:
-
-        /**
-         * Check whether the other creature is in range and can be seen by this creature.
-         * @param critter Creature to check for visibility
-         * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
-         * are included.
-         */
-        bool is_visible_in_range( const Creature &critter, int range ) const;
 
         /**
          * Consumes an item as medication.
