@@ -145,6 +145,7 @@ class event_transformation::impl
         virtual event_multiset initialize( stats_tracker & ) const = 0;
         virtual std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const = 0;
         virtual void check( const std::string &/*name*/ ) const {}
+        virtual cata::event::fields_type fields() const = 0;
         virtual monotonically monotonicity() const = 0;
         virtual std::unique_ptr<impl> clone() const = 0;
 };
@@ -156,6 +157,7 @@ class event_statistic::impl
         virtual cata_variant value( stats_tracker & ) const = 0;
         virtual std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const = 0;
         virtual void check( const std::string &/*name*/ ) const {}
+        virtual cata_variant_type type() const = 0;
         virtual monotonically monotonicity() const = 0;
         virtual std::unique_ptr<impl> clone() const = 0;
 };
@@ -214,7 +216,7 @@ struct value_constraint {
 };
 
 struct new_field {
-    EventFieldTransformation transformation;
+    event_field_transformation transformation;
     std::string input_field;
 
     void deserialize( JsonIn &jsin ) {
@@ -243,11 +245,15 @@ struct new_field {
             debugmsg( "Expected input field '%s' not present in event", input_field );
             return result;
         }
-        for( cata_variant v : transformation( it->second ) ) {
+        for( cata_variant v : transformation.function( it->second ) ) {
             result.push_back( data );
             result.back().emplace( new_field_name, v );
         }
         return result;
+    }
+
+    cata_variant_type type( const cata::event::fields_type &/*input*/ ) const {
+        return transformation.return_type;
     }
 };
 
@@ -278,11 +284,35 @@ struct event_source {
         }
     }
 
+    std::string debug_description() const {
+        if( transformation.is_empty() ) {
+            return "event type " + io::enum_to_string( type );
+        } else {
+            return "event_transformation " + transformation->id.str();
+        }
+    }
+
+    bool is_game_start() const {
+        if( transformation.is_empty() ) {
+            return type == event_type::game_start;
+        } else {
+            return false;
+        }
+    }
+
     void add_watcher( stats_tracker &stats, event_multiset_watcher *watcher ) const {
         if( transformation.is_empty() ) {
             stats.add_watcher( type, watcher );
         } else {
             stats.add_watcher( transformation, watcher );
+        }
+    }
+
+    cata::event::fields_type fields() const {
+        if( transformation.is_empty() ) {
+            return cata::event::get_fields( type );
+        } else {
+            return transformation->fields();
         }
     }
 
@@ -414,6 +444,20 @@ struct event_transformation_impl : public event_transformation::impl {
         }
     }
 
+    cata::event::fields_type fields() const override {
+        cata::event::fields_type result = source_.fields();
+
+        for( const std::pair<std::string, new_field> &p : new_fields_ ) {
+            result.emplace( p.first, p.second.type( result ) );
+        }
+
+        for( const std::string drop_field_name : drop_fields_ ) {
+            result.erase( drop_field_name );
+        }
+
+        return result;
+    }
+
     monotonically monotonicity() const override {
         for( const std::pair<std::string, value_constraint> &constraint : constraints_ ) {
             if( !constraint.second.is_constant() ) {
@@ -460,6 +504,11 @@ void event_transformation::check() const
     impl_->check( id.str() );
 }
 
+cata::event::fields_type event_transformation::fields() const
+{
+    return impl_->fields();
+}
+
 monotonically event_transformation::monotonicity() const
 {
     return impl_->monotonicity();
@@ -502,6 +551,10 @@ struct event_statistic_count : event_statistic::impl {
 
     std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
         return std::make_unique<state>( this, stats );
+    }
+
+    cata_variant_type type() const override {
+        return cata_variant_type::int_;
     }
 
     monotonically monotonicity() const override {
@@ -553,6 +606,10 @@ struct event_statistic_total : event_statistic::impl {
         return std::make_unique<state>( this, stats );
     }
 
+    cata_variant_type type() const override {
+        return cata_variant_type::int_;
+    }
+
     monotonically monotonicity() const override {
         return source.monotonicity();
     }
@@ -563,17 +620,17 @@ struct event_statistic_total : event_statistic::impl {
 };
 
 struct event_statistic_unique_value : event_statistic::impl {
-    event_statistic_unique_value( const string_id<event_statistic> &id, event_type type,
+    event_statistic_unique_value( const string_id<event_statistic> &id, const event_source &s,
                                   const std::string &field ) :
-        id_( id ), type_( type ), field_( field )
+        id_( id ), source_( s ), field_( field )
     {}
 
     string_id<event_statistic> id_;
-    event_type type_;
+    event_source source_;
     std::string field_;
 
     cata_variant value( stats_tracker &stats ) const override {
-        const event_multiset::counts_type &counts = stats.get_events( type_ ).counts();
+        const event_multiset::counts_type counts = source_.get( stats ).counts();
         if( counts.size() != 1 ) {
             return cata_variant();
         }
@@ -590,11 +647,11 @@ struct event_statistic_unique_value : event_statistic::impl {
         state( const event_statistic_unique_value *s, stats_tracker &stats ) :
             stat( s ) {
             init( stats );
-            stats.add_watcher( stat->type_, this );
+            stat->source_.add_watcher( stats, this );
         }
 
         void init( stats_tracker &stats ) {
-            count = stats.get_events( stat->type_ ).count();
+            count = stat->source_.get( stats ).count();
             value = stat->value( stats );
         }
 
@@ -625,16 +682,26 @@ struct event_statistic_unique_value : event_statistic::impl {
     }
 
     void check( const std::string &name ) const override {
-        std::map<std::string, cata_variant_type> event_fields = cata::event::get_fields( type_ );
+        cata::event::fields_type event_fields = source_.fields();
         auto it = event_fields.find( field_ );
         if( it == event_fields.end() ) {
-            debugmsg( "event_statistic %s refers to field %s in event_type %s, but that type has "
-                      "no such field", name, field_, io::enum_to_string( type_ ) );
+            debugmsg( "event_statistic %s refers to field %s in event source %s, but that source "
+                      "has no such field", name, field_, source_.debug_description() );
+        }
+    }
+
+    cata_variant_type type() const override {
+        cata::event::fields_type source_fields = source_.fields();
+        auto it = source_fields.find( field_ );
+        if( it == source_fields.end() ) {
+            return cata_variant_type::void_;
+        } else {
+            return it->second;
         }
     }
 
     monotonically monotonicity() const override {
-        if( type_ == event_type::game_start ) {
+        if( source_.is_game_start() ) {
             return monotonically::constant;
         } else {
             return monotonically::unknown;
@@ -684,6 +751,11 @@ void event_statistic::load( const JsonObject &jo, const std::string & )
 void event_statistic::check() const
 {
     impl_->check( id.str() );
+}
+
+cata_variant_type event_statistic::type() const
+{
+    return impl_->type();
 }
 
 monotonically event_statistic::monotonicity() const

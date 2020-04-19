@@ -558,7 +558,8 @@ class event
                    > ()( calendar::turn, std::forward<Args>( args )... );
         }
 
-        static std::map<std::string, cata_variant_type> get_fields( event_type );
+        using fields_type = std::unordered_map<std::string, cata_variant_type>;
+        static fields_type get_fields( event_type );
 
         event_type type() const {
             return type_;
