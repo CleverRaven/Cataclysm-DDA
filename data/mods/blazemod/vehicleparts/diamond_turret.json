@@ -1,7 +1,7 @@
 [
   {
     "id": "diamondlance",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "diamond lance",
     "item": "diamondlance",
@@ -15,7 +15,7 @@
   },
   {
     "id": "diamondnova",
-    "copy-from": "turret_manual_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
     "name": "diamond nova",
     "item": "diamondnova",
