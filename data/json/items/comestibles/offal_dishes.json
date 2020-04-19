@@ -275,8 +275,7 @@
     "id": "sausage_casings",
     "copy-from": "spice",
     "type": "COMESTIBLE",
-    "name": "sausage casing",
-    "name_plural": "sausage casings",
+    "name": { "str": "sausage casing", "str_pl": "sausage casings" },
     "description": "Sausage casings made from animal intestines.  Ready to be used for forming meat products.",
     "color": "red",
     "material": "flesh",
@@ -285,8 +284,7 @@
   {
     "type": "COMESTIBLE",
     "id": "homemade_hotdogs",
-    "name": "homemade hot dog",
-    "name_plural": "homemade hot dogs",
+    "name": { "str": "homemade hot dog", "str_pl": "homemade hot dogs" },
     "copy-from": "hotdogs_frozen"
   }
 ]
