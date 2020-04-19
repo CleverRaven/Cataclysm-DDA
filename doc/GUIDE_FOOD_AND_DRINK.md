@@ -1,0 +1,257 @@
+# Guide to add Food and Drink
+
+- [Making Comestibles](#making-comestibles)
+  - [Notes](#notes)
+  - [Getting nutrient data](#getting-nutrient-data)
+  - [Determening values](#determening-values)
+    - [Weight, volume and portions](#weight-volume-and-portions)
+    - [Calories and vitamins](#calories-and-vitamins)
+    - [Quench](#quench)
+    - [Health](#health)
+  - [Example](#example)
+
+
+## Notes
+
+This is a guide for adding food and drink items.
+
+## Getting nutrient data
+
+For consistency and because the game mostly have products made in the USA, use the FDA website:
+
+* https://fdc.nal.usda.gov/
+
+## Determening values
+
+### Weight, volume and portion size.
+
+You generally get weight from the package or the FDA website linked above. 
+
+Packaged comestibles should have the volume of the package, and portioned comestibles should have the volume of the portion. For food and drinks that come in bulk you can use a unit of 250ml. 
+
+If you have nutrient data per 100g, you should first determine approximate density of the food.
+
+Density table for common food components:
+
+component | density (g/ml)
+---|--:
+water | 1
+alcohol (ethanol) | 0.789
+animal/vegetable oil | 0.9
+protein | 1.35
+sugar | 1.6
+starch | 1.5 (listed as "Carbohydrate, by difference" on FDA website)
+
+Anything with air bubbles in it (e.g. baked with yeast or baking powder) has lower density. 
+
+If you can get several portions from the same unit, you use `charges`.
+
+To get a conversion factor from units per 100g to units of 250ml, divide weight by density and multiply by 2.5. 
+
+To get a conversion factor from units per 100g to portions, divide the number above by `charges`.
+
+For a food item with portions. Volume remains the same, but weight, calories, quench, vitamins and minerals should be scaled to volume/charges.
+
+### Calories and vitamins
+
+You should get calories from the nutrition data. If not you can use the following table:
+
+* Fat 9 calories/g
+* Carbohydrates 4 calories/g
+* Protein 4 calories/g
+* Ethanol 7 calories/g
+
+If you have nutrition data per 100g, multiply it by the conversion factor we calculated in weight and volume.
+
+We're interested in 12 values, calories, water, saturated fat, sugar, fiber, sodium, Vitamin A, Vitamin B12, Vitamin C, Calcium, Iron and alcohol.
+
+You can copy the table from FDA website for pasting in a spreadsheet by selecting the text or holding ctrl for select table cells.
+
+Vitamins and minerls are measured in units percentage of Reference Daily Intake (RDI).
+
+Reference:
+
+Nutrient | FDA RDI | Scaled to 2500 kcal | unit
+--- | --: | --: | ---
+Vitamin A | 900 | 1125 | µg/day
+Vitamin B12 | 2.4 | 3 | µg/day
+Vitamin C | 90 | 112.5 | mg/day
+Calcium | 1300 | 1625 | mg/day
+Iron | 18 | 22.5 | mg/day
+Dietary Fibre | 28 | 35 | g/day
+Sodium | 1500 | 1875 | mg/day
+Sugar | 62.5 | 78.125 | g/day
+Saturated fat | 20 | 25 | g/day
+
+### Quench
+
+The base value is 5 ml of water gives 1 quench, then we remove quench for calories, alcohol and salt.
+
+Quench is currently calculated as: water(g)/5 - 0.005 * calories(g) - 0.004 * sodium(mg) - 1.281 * alcohol(g)
+
+### Health
+
+* First we calculate the average RDI of Vitamin A, Vitamin B12, Vitamin C, Calcium, Iron and dietary fiber.
+* Then we subtracct the average RDI of sugar, saturated fats and salt.
+* Then we subtract every 1g of alcohol.
+* Then we take it to the 3/2th root, or equivalently to the power of 2/3, to make the values more managable.
+
+### Fun 
+
+TODO
+
+### Expiration date
+
+TODO
+
+### Addiction
+
+TODO
+
+## Example
+
+Say we want to make a Bloody Mary drink.
+
+#### Step 1: Get guidelines for comestibles from `JSON_INFO.md`. 
+
+Our .json now looks like this:
+
+````
+{
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "id": "bloody_mary",
+    "name": { "str": "Bloody Mary", "str_pl": "Bloody Marys" },
+    "description": "A cocktail containing vodka, tomato juice, and other spices and flavorings."
+}
+````
+
+#### Step 2: We get nutrients per 100g on the fda website:
+
+* https://fdc.nal.usda.gov/fdc-app.html#/food-details/789607/nutrients
+
+#### Step 3: We calculate weight and volume.
+
+We see it has 87.31g water, 7.8g ethanol and 3.16g starch and 2.22g sugars. We can probably split the difference between the carbs and the ethanol and assume a 1g/ml density, but lets to the calculations for the sake of this example.
+
+87.31g / 1g/ml +
+7.8g / 0.789g/ml +
+3.16g / 1.5g/ml +
+2.22g / 1.6g/ml =
+
+100.69 ml.
+
+Density = (87.31+7.8+3.16+2.22)g / 100.69ml = 0.998g/ml.
+
+Then we have the conversion factor from units per 100g to units of 250ml = 0.998g/ml * 2.5 = 2.495g/ml
+
+As you would consume the drink in one go you don't need portion sizes.
+
+#### Step 4: We determine Calories and vitamins
+
+We copy the table from the FDA website, paste it in a spreadsheet and multiply by 2.495g to get unit per 250ml.
+
+Nutrient | Per 100g | Unit | Value per 250ml | RDI | Percent of RDI
+---|--:|---|--:|--:|--:
+Water  | 87.31 | g  | 217.84 |  | 
+Energy  | 69 | kcal  | 172.16 |  | 
+Fiber, total dietary  | 0.4 | g  | 1.00 | 35 | 3
+Sugars, total including NLEA  | 2.22 | g  | 5.54 | 78.125 | 7
+Calcium, Ca  | 10 | mg  | 24.95 | 1625 | 2
+Iron, Fe  | 0.4 | mg  | 1.00 | 22.5 | 4
+Sodium, Na  | 207 | mg  | 516.47 | 1875 | 28
+Vitamin C, total ascorbic acid  | 51.1 | mg  | 127.49 | 112.5 | 113
+Vitamin B-12  | 0 | µg  | 0 | 3 | 0
+Vitamin A, RAE  | 17 | µg  | 42.42 | 1125 | 4
+Fatty acids, total saturated  | 0.017 | g  | 0.04216 | 25 | 0
+
+We divide the vitamins and minerals by their RDI.
+
+Our .json now looks like this:
+
+````
+{
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "id": "bloody_mary",
+    "name": { "str": "Bloody Mary", "str_pl": "Bloody Marys" },
+    "weight": "248 g",
+    "volume": "250 ml",
+    "calories": 140,
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 113 ], [ "calcium", 2 ], [ "iron", 4 ] ],
+}
+````
+
+#### Step 5: We determine Quench
+
+We plug in the values in the formula:
+
+Nutrient | Calculaton | result
+---|--|---
+water | 217.84 / 5 | 43.4
+calories | 172.16 * -0.005 | -0.860775
+sodium | 516.47 * -0.004 | -2
+alcohol | 19.46 * -1.281 | -24.929541
+total quench | | 18.1032565656817
+
+Our .json now looks like this:
+
+````
+{
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "id": "bloody_mary",
+    "name": { "str": "Bloody Mary", "str_pl": "Bloody Marys" },
+    "weight": "248 g",
+    "volume": "250 ml",
+    "calories": 172,
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 113 ], [ "calcium", 2 ], [ "iron", 4 ] ],
+    "quench": 19,
+}
+````
+
+#### Step 5: We determine Health
+
+First we average the RDI of the good stuff:
+
+0.029 Vitamine A
+0 Vitamin B-12
+1.133 Vitamin C
+0.015 Calcium
+0.044 Iron
+0.029 Fiber
+
+0.210 Total good stuff
+
+Then we subtract the average RDI of the bad stuff:
+
+0.071 Sugar
+0.002 Saturated fat
+0.275 Sodium
+
+0.116 Total bad stuff.
+
+Bad stuff - good stuff = 0.094
+
+Then we subtract the alcohol penalty 19.46*0.2 and we get 0.094-3.892 = -3.798. This to the power of 2/3 gives us the health value -2.434 which is rounded to -2.
+
+Our .json now looks like this:
+
+````
+{
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "id": "bloody_mary",
+    "name": { "str": "Bloody Mary", "str_pl": "Bloody Marys" },
+    "description": "A cocktail containing vodka, tomato juice, and other spices and flavorings.",
+    "container": "bottle_glass",
+    "material": [ "alcohol", "fruit" ],
+    "primary_material": "alcohol",
+    "weight": "249 g",
+    "volume": "250 ml",
+    "calories": 172,
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 113 ], [ "calcium", 2 ], [ "iron", 4 ] ],
+    "quench": 16,
+    "health": -2
+}
+````
