@@ -202,10 +202,31 @@ struct value_constraint {
         }
     }
 
-    void check( const std::string &name ) const {
-        if( equals_statistic_ && !equals_statistic_->is_valid() ) {
-            debugmsg( "constraint for event_transformation %s refers to invalid statistic %s",
-                      name, equals_statistic_->str() );
+    void check( const std::string &name, const cata_variant_type input_type ) const {
+        if( equals_statistic_ ) {
+            if( !equals_statistic_->is_valid() ) {
+                debugmsg( "constraint for event_transformation %s refers to invalid statistic %s",
+                          name, equals_statistic_->str() );
+                return;
+            }
+
+            cata_variant_type stat_type = ( *equals_statistic_ )->type();
+            if( stat_type != input_type ) {
+                debugmsg( "constraint for event_transformation %s matches statistic %s of "
+                          "different type.  Statistic has type %s but value compared with it has "
+                          "type %s",
+                          name, equals_statistic_->str(), io::enum_to_string( stat_type ),
+                          io::enum_to_string( input_type ) );
+            }
+        }
+
+        if( equals_ ) {
+            if( input_type != equals_->type() ) {
+                debugmsg( "constraint for event_transformation %s matches constant of type %s but "
+                          "value compared with it has type %s",
+                          name, io::enum_to_string( equals_->type() ),
+                          io::enum_to_string( input_type ) );
+            }
         }
     }
 
@@ -237,12 +258,34 @@ struct new_field {
         }
     }
 
+    void check( const std::string &context_name,
+                const cata::event::fields_type &input_fields ) const {
+        auto it = input_fields.find( input_field );
+        if( it == input_fields.end() ) {
+            debugmsg( "event_transformation %s specifies transformation on field %s but not such "
+                      "field exists on the input", context_name, input_field );
+            return;
+        }
+        if( transformation.argument_types.size() != 1 ) {
+            debugmsg( "event_field_transformations of arity not 1 not supported" );
+            return;
+        }
+        if( it->second != transformation.argument_types[0] ) {
+            debugmsg( "event_transformation %s specifies transformation on field %s of incorrect "
+                      "type.  Transformation expects %s; field was %s.", context_name, input_field,
+                      io::enum_to_string( transformation.argument_types[0] ),
+                      io::enum_to_string( it->second ) );
+        }
+    }
+
     std::vector<cata::event::data_type> transform( const cata::event::data_type &data,
             const std::string &new_field_name ) const {
         std::vector<cata::event::data_type> result;
         auto it = data.find( input_field );
         if( it == data.end() ) {
-            debugmsg( "Expected input field '%s' not present in event", input_field );
+            // Field missing, probably due to stale data.  Reporting an error
+            // would spam, so we rely on the fact that it should already have
+            // been reported at startup time.
             return result;
         }
         for( cata_variant v : transformation.function( it->second ) ) {
@@ -399,6 +442,35 @@ struct event_transformation_impl : public event_transformation::impl {
         return initialize( source_.get( stats ).counts(), stats );
     }
 
+    void check( const std::string &name ) const override {
+        const cata::event::fields_type input_fields = source_.fields();
+
+        for( const std::pair<std::string, new_field> &p : new_fields_ ) {
+            if( input_fields.count( p.first ) ) {
+                debugmsg( "event_transformation %s tries to add field with name %s but a field "
+                          "with that name already exists", name, p.first );
+            }
+            p.second.check( name, input_fields );
+        }
+
+        for( const std::pair<std::string, value_constraint> &p : constraints_ ) {
+            auto it = input_fields.find( p.first );
+            if( it == input_fields.end() ) {
+                debugmsg( "event_transformation %s applies constraint to field %s, but no field "
+                          "with that name exists in the input", name, p.first );
+            } else {
+                p.second.check( name, it->second );
+            }
+        }
+
+        for( const std::string drop_field_name : drop_fields_ ) {
+            if( input_fields.find( drop_field_name ) == input_fields.end() ) {
+                debugmsg( "event_transformation %s lists field %s to be dropped, but no field "
+                          "with that name exists in the input", name, drop_field_name );
+            }
+        }
+    }
+
     struct state : stats_tracker_state, event_multiset_watcher, stat_watcher {
         state( const event_transformation_impl *trans, stats_tracker &stats ) :
             transformation_( trans ),
@@ -436,12 +508,6 @@ struct event_transformation_impl : public event_transformation::impl {
 
     std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
         return std::make_unique<state>( this, stats );
-    }
-
-    void check( const std::string &name ) const override {
-        for( const std::pair<std::string, value_constraint> &p : constraints_ ) {
-            p.second.check( name );
-        }
     }
 
     cata::event::fields_type fields() const override {
