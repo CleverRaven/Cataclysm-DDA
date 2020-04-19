@@ -2226,8 +2226,10 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
         add_bionic( bid );
 
         if( !trait_to_rem.empty() ) {
-            for( trait_id tid : trait_to_rem ) {
-                remove_mutation( tid );
+            for( const trait_id tid : trait_to_rem ) {
+                if( has_trait( tid ) ) {
+                    remove_mutation( tid );
+                }
             }
         }
 
