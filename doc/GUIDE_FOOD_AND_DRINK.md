@@ -78,7 +78,7 @@ Vitamin B12 | 2.4 | 3 | µg/day
 Vitamin C | 90 | 112.5 | mg/day
 Calcium | 1300 | 1625 | mg/day
 Iron | 18 | 22.5 | mg/day
-Dietary Fibre | 28 | 35 | g/day
+Dietary Fiber | 28 | 35 | g/day
 Sodium | 1500 | 1875 | mg/day
 Sugar | 62.5 | 78.125 | g/day
 Saturated fat | 20 | 25 | g/day
