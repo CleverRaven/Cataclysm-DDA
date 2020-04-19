@@ -13,6 +13,7 @@
 #include "string_id.h"
 #include "stringmaker.h"
 #include "type_id.h"
+#include "options_helpers.h"
 
 TEST_CASE( "stats_tracker_count_events", "[stats]" )
 {
@@ -228,6 +229,8 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
 
 TEST_CASE( "achievments_tracker", "[stats]" )
 {
+    override_option opt( "24_HOUR", "military" );
+
     std::map<string_id<achievement>, const achievement *> achievements_completed;
     event_bus b;
     stats_tracker s;
