@@ -3,7 +3,7 @@
 - [Making Comestibles](#making-comestibles)
   - [Notes](#notes)
   - [Getting nutrient data](#getting-nutrient-data)
-  - [Determening values](#determening-values)
+  - [Determining values](#determining-values)
     - [Weight, volume and portions](#weight-volume-and-portions)
     - [Calories and vitamins](#calories-and-vitamins)
     - [Quench](#quench)
@@ -21,7 +21,7 @@ For consistency and because the game mostly have products made in the USA, use t
 
 * https://fdc.nal.usda.gov/
 
-## Determening values
+## Determining values
 
 ### Weight, volume and portion size.
 
@@ -67,11 +67,11 @@ We're interested in 12 values, calories, water, saturated fat, sugar, fiber, sod
 
 You can copy the table from FDA website for pasting in a spreadsheet by selecting the text or holding ctrl for select table cells.
 
-Vitamins and minerls are measured in units percentage of Reference Daily Intake (RDI).
+Vitamins and minerals are measured in units percentage of Reference Daily Intake (DRI).
 
 Reference:
 
-Nutrient | FDA RDI | Scaled to 2500 kcal | unit
+Nutrient | FDA DRI | Scaled to 2500 kcal | unit
 --- | --: | --: | ---
 Vitamin A | 900 | 1125 | µg/day
 Vitamin B12 | 2.4 | 3 | µg/day
@@ -87,12 +87,12 @@ Saturated fat | 20 | 25 | g/day
 
 The base value is 5 ml of water gives 1 quench, then we remove quench for calories, alcohol and salt.
 
-Quench is currently calculated as: water(g)/5 - 0.005 * calories(g) - 0.004 * sodium(mg) - 1.281 * alcohol(g)
+Quench is calculated as: water(g)/5 - 0.005 * calories(g) - 0.004 * sodium(mg) - 1.281 * alcohol(g)
 
 ### Health
 
-* First we calculate the average RDI of Vitamin A, Vitamin B12, Vitamin C, Calcium, Iron and dietary fiber.
-* Then we subtracct the average RDI of sugar, saturated fats and salt.
+* First we calculate the average DRI of Vitamin A, Vitamin B12, Vitamin C, Calcium, Iron and dietary fiber.
+* Then we subtract the average DRI of sugar, saturated fats and salt.
 * Then we subtract every 1g of alcohol.
 * Then we take it to the 3/2th root, or equivalently to the power of 2/3, to make the values more managable.
 
@@ -104,15 +104,19 @@ TODO
 
 TODO
 
+### Stimulation
+
+TODO
+
 ### Addiction
 
 TODO
 
 ## Example
 
-Say we want to make a Bloody Mary drink.
+This is better done with automated tools provided, but just to illustrate the principle say we want to make a Bloody Mary drink.
 
-#### Step 1: Get guidelines for comestibles from `JSON_INFO.md`. 
+#### Step 1: Get basic guidelines for comestibles from `JSON_INFO.md`. 
 
 Our .json now looks like this:
 
@@ -126,7 +130,7 @@ Our .json now looks like this:
 }
 ````
 
-#### Step 2: We get nutrients per 100g on the fda website:
+#### Step 2: We get nutrients per 100g for a Bloody Mary from the FDA website:
 
 * https://fdc.nal.usda.gov/fdc-app.html#/food-details/789607/nutrients
 
@@ -151,7 +155,7 @@ As you would consume the drink in one go you don't need portion sizes.
 
 We copy the table from the FDA website, paste it in a spreadsheet and multiply by 2.495g to get unit per 250ml.
 
-Nutrient | Per 100g | Unit | Value per 250ml | RDI | Percent of RDI
+Nutrient | Per 100g | Unit | Value per 250ml | DRI | Percent of DRI
 ---|--:|---|--:|--:|--:
 Water  | 87.31 | g  | 217.84 |  | 
 Energy  | 69 | kcal  | 172.16 |  | 
@@ -165,7 +169,7 @@ Vitamin B-12  | 0 | µg  | 0 | 3 | 0
 Vitamin A, RAE  | 17 | µg  | 42.42 | 1125 | 4
 Fatty acids, total saturated  | 0.017 | g  | 0.04216 | 25 | 0
 
-We divide the vitamins and minerals by their RDI.
+We divide the vitamins and minerals by their DRI.
 
 Our .json now looks like this:
 
@@ -186,7 +190,7 @@ Our .json now looks like this:
 
 We plug in the values in the formula:
 
-Nutrient | Calculaton | result
+Nutrient | Calculation | result
 ---|--|---
 water | 217.84 / 5 | 43.4
 calories | 172.16 * -0.005 | -0.860775
@@ -212,9 +216,9 @@ Our .json now looks like this:
 
 #### Step 5: We determine Health
 
-First we average the RDI of the good stuff:
+First we average the DRI of the good stuff:
 
-0.029 Vitamine A
+0.029 Vitamin A
 0 Vitamin B-12
 1.133 Vitamin C
 0.015 Calcium
@@ -223,7 +227,7 @@ First we average the RDI of the good stuff:
 
 0.210 Total good stuff
 
-Then we subtract the average RDI of the bad stuff:
+Then we subtract the average DRI of the bad stuff:
 
 0.071 Sugar
 0.002 Saturated fat
