@@ -747,9 +747,7 @@ int item_contents::remaining_capacity_for_liquid( const item &liquid ) const
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             continue;
         }
-        if( pocket.can_contain( liquid_copy ).success() ) {
-            charges_of_liquid += liquid.charges_per_volume( pocket.remaining_volume() );
-        }
+        charges_of_liquid += pocket.remaining_capacity_for_item( liquid );
     }
     return charges_of_liquid;
 }

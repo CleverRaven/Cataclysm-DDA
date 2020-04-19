@@ -1249,10 +1249,10 @@ class Character : public Creature, public visitable<Character>
         /*@}*/
 
         /**
-         * Try to find a container/s on character containing ammo of type it.typeId() and
-         * add charges until the container is full.
+         * Try to find containers that can contain @it and fills them up as much as possible.
+         * Does not work for items that are not count by charges.
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
-         * @return Remaining charges which could not be stored in a container.
+         * @return Remaining charges which could not be stored on the character.
          */
         int i_add_to_container( const item &it, bool unloading );
         /** @avoid is the item to not put @it into */

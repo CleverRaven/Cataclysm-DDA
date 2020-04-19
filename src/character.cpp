@@ -2170,39 +2170,23 @@ std::vector<item_location> Character::nearby( const
 
 int Character::i_add_to_container( const item &it, const bool unloading )
 {
-    int charges = it.charges;
-    if( !it.is_ammo() || unloading ) {
+    int charges = it.count();
+    if( unloading || !it.count_by_charges() ) {
         return charges;
     }
 
-    const itype_id item_type = it.typeId();
-    auto add_to_container = [&it, &charges]( item & container ) {
-        item &contained_ammo = container.contents.first_ammo();
-        if( contained_ammo.charges < container.ammo_capacity() ) {
-            const int diff = container.ammo_capacity() - contained_ammo.charges;
-            //~ %1$s: item name, %2$s: container name
-            add_msg( pgettext( "container", "You put the %1$s in your %2$s." ), it.tname(), container.tname() );
-            if( diff > charges ) {
-                contained_ammo.charges += charges;
-                return 0;
-            } else {
-                contained_ammo.charges = container.ammo_capacity();
-                return charges - diff;
-            }
-        }
-        return charges;
-    };
+    item copy_item( it );
 
-    visit_items( [ & ]( item * item ) {
-        if( charges > 0 && item->is_ammo_container() &&
-            item_type == item->contents.first_ammo().typeId() ) {
-            charges = add_to_container( *item );
-            item->handle_pickup_ownership( *this );
+    weapon.fill_with( copy_item );
+    for( item &worn_it : worn ) {
+        if( copy_item.count() > 0 ) {
+            worn_it.fill_with( copy_item );
+        } else {
+            break;
         }
-        return VisitResponse::NEXT;
-    } );
+    }
 
-    return charges;
+    return copy_item.count();
 }
 
 item_pocket *Character::best_pocket( const item &it, const item *avoid )

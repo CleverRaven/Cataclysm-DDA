@@ -97,6 +97,8 @@ class item_pocket
         // combined volume of contained items
         units::volume contains_volume() const;
         units::volume remaining_volume() const;
+        // how many more of @it can this pocket hold?
+        int remaining_capacity_for_item( const item &it ) const;
         units::volume volume_capacity() const;
         // combined weight of contained items
         units::mass contains_weight() const;

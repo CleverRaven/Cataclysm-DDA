@@ -8016,6 +8016,17 @@ void item::fill_with( item &liquid, int amount )
     if( can_contain( liquid_copy ) ) {
         put_in( liquid_copy, item_pocket::pocket_type::CONTAINER );
         liquid.mod_charges( -amount );
+    } else if( can_contain_partial( liquid_copy ) ) {
+        item_pocket *pocket = best_pocket( liquid_copy );
+        while( pocket != nullptr && amount > 0 ) {
+            liquid_copy.charges = 1;
+            pocket = best_pocket( liquid_copy );
+            liquid_copy.charges =
+                std::max( amount, pocket->remaining_capacity_for_item( liquid_copy ) );
+            pocket->insert_item( liquid_copy );
+            amount -= liquid_copy.charges;
+        }
+        liquid.charges = amount;
     } else {
         debugmsg( "tried to put a liquid in a container that cannot contain it" );
     }
