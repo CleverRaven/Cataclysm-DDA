@@ -170,8 +170,7 @@ class player : public Character
 
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color( int bp ) const;
-        /** Returns the player's modified base movement cost */
-        int  run_cost( int base_cost, bool diag = false ) const;
+
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
 
@@ -195,17 +194,7 @@ class player : public Character
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
-        /** Handles bionic deactivation effects of the entered bionic, returns if anything
-         *  deactivated */
-        bool deactivate_bionic( int b, bool eff_only = false ) override;
-        /** Remove all bionics */
-        void clear_bionics();
-        /** Returns the size of my_bionics[] */
-        int num_bionics() const;
-        /** Returns amount of Storage CBMs in the corpse **/
-        std::pair<int, int> amount_of_storage_bionics() const;
-        /** Returns the bionic at a given index in my_bionics[] */
-        bionic &bionic_at_index( int i );
+
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet( int ch );
 
@@ -234,12 +223,6 @@ class player : public Character
          * with ranged weapons, e.g. with infrared vision.
          */
         std::vector<Creature *> get_targetable_creatures( int range ) const;
-        /**
-         * Check whether the this player can see the other creature with infrared. This implies
-         * this player can see infrared and the target is visible with infrared (is warm).
-         * And of course a line of sight exists.
-         */
-        bool sees_with_infrared( const Creature &critter ) const;
 
         Attitude attitude_to( const Creature &other ) const override;
 
@@ -584,9 +567,6 @@ class player : public Character
          */
         std::string weapname( unsigned int truncate = 0 ) const;
 
-        float power_rating() const override;
-        float speed_rating() const override;
-
         void process_items();
         /**
          * Remove charges from a specific item (given by its item position).
@@ -611,20 +591,6 @@ class player : public Character
         * @return true if player has an active bionic capable of powering armor, false otherwise.
         */
         bool can_interface_armor() const;
-
-        // Put corpse+inventory on map at the place where this is.
-        void place_corpse();
-        // Put corpse+inventory on defined om tile
-        void place_corpse( const tripoint &om_target );
-
-        /** Returns the item in the player's inventory with the highest of the specified quality*/
-        item &item_with_best_of_quality( const quality_id &qid );
-
-        /**
-        * Prompts user about crushing item at item_location loc, for harvesting of frozen liquids
-        * @param loc Location for item to crush
-        */
-        bool crush_frozen_liquid( item_location loc );
 
         bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**
@@ -815,8 +781,6 @@ class player : public Character
         int scent;
         int cash;
         int movecounter;
-        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
-        bool death_drops;
 
         bool reach_attacking = false;
         bool manual_examine = false;
@@ -875,8 +839,6 @@ class player : public Character
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
-        std::set<tripoint> get_path_avoid() const override;
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
