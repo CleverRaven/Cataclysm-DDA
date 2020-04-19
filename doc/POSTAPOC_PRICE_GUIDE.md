@@ -1,13 +1,17 @@
 # How to give items a sensible postapoc_price value
 
 ### Pricing philosophy
-Prices were based on the philosophy that there is a decent portion of humanity unwilling to regularly brave the risks of city scavenging, that are always on the lookout for supplies to stay alive. This mean food and medicine are relatively quite valuable compared to the goods you would use to acquire them.
+Prices were based on the philosophy that there is a decent portion of humanity unwilling to regularly
+brave the risks of city scavenging, that are always on the lookout for supplies to stay alive.
+This mean food and medicine are relatively quite valuable compared to the goods you would use to acquire them.
 
-The standard unit of currency, the free merchants note, is priced to be the equivalent to one piece of meat jerky (250 cents).
+**The standard unit of currency**, the free merchants note, is priced to be the equivalent to
+**one piece of meat jerky (250 cents)**.
 
 One piece of meat jerky will stay fresh for 24 days, a decent time, and contains 347 calories.
 
-A survivor that bring back 2000 cents worth of goods back to the merchants every day is doing well enough to eke out a subsistence living.
+A survivor that bring back 2000 cents worth of goods back to the merchants every day is
+doing well enough to eke out a subsistence living.
 
 A survivor that brings back 4000 cents worth of goods every day is doing quite well for himself.
 
@@ -27,8 +31,8 @@ Rare items with some theoretical utility are worth ~(100-500).
 
 Rare items with considerable use tend to have the highest variety in prices ~(1000-15000).
 
-No item should be worth more than 150000. They might be worth more if the economy was larger but that's pretty much the most anyone will be 
-willing to spend on any one thing, no matter how nice it is.
+**No item should be worth more than 150000.** They might be worth more if the economy was larger but that's
+pretty much the most anyone will be willing to spend on any one thing, no matter how nice it is.
 
 #### Currently Implemented faction currencies
     "id": "FMCNote",
@@ -104,11 +108,14 @@ Food that has more calories, is canned, and is very nutritious might be 500.
 Food that has less calories, goes bad quickly, and is junk food, might be 50.
 
 #### Stack size
-For items that have a stack size, you need to divide the price by stack size find the price per unit of the item.
+For items that have a stack size, you need to **divide** the price by stack size find the price per unit of the item.
 
 #### IRREPLACEABLE_CONSUMABLE Flag
 Pre cataclysm consumables that can not be replaced can be given the flag:
+```
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+```
 
 This is used for things such as unreloaded ammo, medicine, and luxury consumables such as coffee and tea.
+
 In the future we can implement a feature that will allow this items to increase in price over time.
