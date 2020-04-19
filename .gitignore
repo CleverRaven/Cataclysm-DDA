@@ -154,6 +154,7 @@ cataclysm.a
 
 # clang tooling
 compile_commands.json
+.clangd
 
 # IDA database
 Cataclysm.i64

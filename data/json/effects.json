@@ -631,6 +631,13 @@
   },
   {
     "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisible" ],
+    "desc": [ "You are invisible." ],
+    "flags": [ "EFFECT_INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "took_flumed"
   },
   {
@@ -1685,6 +1692,13 @@
     "name": [ "Milked" ],
     "desc": [ "The creature has been partially or fully milked." ],
     "max_duration": "1 d"
+  },
+  {
+    "type": "effect_type",
+    "id": "sheared",
+    "name": [ "Sheared" ],
+    "desc": [ "The creature has been fully sheared." ],
+    "max_duration": "90d"
   },
   {
     "type": "effect_type",

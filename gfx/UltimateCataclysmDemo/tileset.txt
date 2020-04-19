@@ -1,6 +1,6 @@
-#Ultimate Cataclysm 25 Feb 2020 release
+#Ultimate Cataclysm 0.E release 30 March 2020
 NAME: UltimateCataclysmDemo
-VIEW: Ultica Demo
+VIEW: Ultica (Beta)
 JSON: tile_config.json
 TILESET: tiles.png
 #visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!

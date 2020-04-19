@@ -99,35 +99,52 @@ A measure of how well-suited the item is for being swung/thrust/etc. This factor
 
 ## Damage
 Weapon's relative strength is based on an approximate formula involving its damage, to-hit, techniques and few other factors.
-This strength will be expressed in "points" or dpt (damage per turn) as damage per turn is the most significant balancing factor.
 
-### Damage per turn
-Melee weapon's relative strength is measured by damage per turn (more precisely: damage per 100 moves). The damage is sum of all damage types (average of min/max where random) from the weapon alone, without including strength in the calculation.
-For bashing weapons, it is assumed the character can achieve the maximum damage, but this strength isn't added to damage (or critical damage).
+### Damage per second
+A melee's weapon damage per second (dps) is calculated past armor against a sample group of monsters with a range of dodge and armor values: a soldier zombie (low dodge, high bash and cut armor), a survivor zombie (medium dodge, some bash and cut armor), and a smoker zombie (high dodge, no armor).  This should correctly weigh accuracy, criticals, and damage without over valuing any of them.
 
-### To-hit
-While not a direct measure of damage, to-hit bonus has to be included in the calculations, as it has a significant effect on actual damage output (through hit and crit rate).
+In code, this is calculated using the item::effective_dps() function, which takes a character and a monster.  It calculates the relative accuracy of the character and weapon against the monster's defenses and determines the hit rate from a table lookup.  It also determines the number of critical hits.  Number of hits is hit rate * 10,000, and number of misses is 10,000 - number of hits.
 
-Each point of to-hit is "worth" roughly a 10% increase/decrease in damage per turn or 2.5 points of damage per turn (whichever is higher).
+For both critical and non-critical hits, average damage is calculated based on the weapon's stats and the user's skill.  Monster armor absorbs the damage, and then the damage is multiplied by the number of hits: either critical hits for the critical hit case, or total hits - critical hits for the non critical hit case.  If the weapon has the rapid strike technique, the total damage is halved, and then the average damage is recalculated, multiplied by 0.66, and absorbed by monster armor again to account for rapid strikes.
 
-### Techniques
-Rapid strike technique increases damage per turn by 0.66 / 0.5 = 132%
-Other techniques are generally too situational to be worth any points here.
+Number of moves is calculated as attack speed * ( number of misses + number of non-critical hits + number of critical hits ) for weapons without rapid strike, or attack speed * ( number of misses + number of non-critical hits / 2  + number of critical hits / 2  ) + attack speed / 2 * ( number of non-critical hits / 2  + number of critical hits / 2 ) for weapons without rapid strikes.
+
+Damage per second against a particular monster is total damage * 100 / number of moves (100 for the 100 moves/second).  Overall dps is the average of the dps against the three reference monsters.
+
+### Critical hits
+A double critical can occcur when a second hit roll is made against 1.5 * the monster's dodge.  Double critical hits have a higher chance of occurring than normal critical hits.  For each hit, the chance of achieving either a double critical hit or a normal critical hit is calculated, and then if a random number is less than the critical chance, the critical occurs.  Both double and normal critical hits have the same effect, but the chance of them occurring is different.
+
+**Note** The critical hit system is stupid and complicated and produces weird results.  Double critical hits should have a chance of occuring when the original hit roll is more than 1 standard deviation above the mean, which is simple and faster to calculate than the current system.
+
+### Other factors
+Reach is worth +20% at reach 2, +35% at reach 3.
+
+A weapon that is usuable by a known martial art is worth +50%.
 
 ### Weapon tiers
-Damage per turn should put the weapon into one of those categories:
+Relative value should put the weapon into one of those categories:
 
-<10 - Not weapons. Those items may be pressed into service, but are unlikely to be better than fists. Plastic bottles, rocks, boots.
+<2 - Not weapons. Those items may be pressed into service, but are unlikely to be better than fists. Plastic bottles, rocks, boots.
 
-11-15 - Tools not meant to strike and improvised weapons. Two-by-fours, pointy sticks, pipes, hammers.
+2-5 - Tools not meant to strike and improvised weapons. Two-by-fours, pointy sticks, pipes, hammers.
 
-16-25 - Dangerous tools or crude dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
+6-11 - Dangerous tools or crude dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
 
-26-35 - Good dedicated weapons or the most dangerous of tools. Wood and fire axes, steel spears, electric carvers, kukris, bokken, machetes, barbed wire bats.
+12-15 - Good dedicated weapons or the most dangerous of tools. Wood and fire axes, steel spears, electric carvers, kukris, bokken, machetes, barbed wire bats.
 
-36-45 - Weapons of war, well designed to kill humans. Wakizashis, katanas, broadswords, zweihanders, combat knifes, battle axes, war hammers, maces, morningstars.
+20-35 - Weapons of war, well designed to kill humans. Wakizashis, katanas, broadswords, zweihanders, combat knifes, battle axes, war hammers, maces, morningstars.
 
-46+ - Sci-fi stuff. Diamond katanas, monomolecular blades, lightsabers and chainswords.
+35+ - Sci-fi stuff. Diamond katanas, monomolecular blades, lightsabers and chainswords.
+
+Specific weapon balancing points:
+20 - combat knifes
+22 - short blades
+24 - long blades, short axes, and short flails
+26 - two handed blades, long axes, most spears
+28 - two handed axes and polearms
+30 - combat spears
+
+Improvised weapons generally have about 75% of the value of a real weapon.
 
 ## Other melee balancing factors
 ### Attack speed

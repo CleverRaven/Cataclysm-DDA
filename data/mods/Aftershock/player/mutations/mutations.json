@@ -1,0 +1,35 @@
+[
+  {
+    "type": "mutation",
+    "id": "AFS_BRUTAL_STRENGTH",
+    "name": { "str": "Brutal Strength" },
+    "description": "Genetic tampering made your body incredibly strong.  Strength + 7.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "cancels": [ "STR_UP" ],
+    "profession": true,
+    "passive_mods": { "str_mod": 7 }
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_CRYOADAPTATION",
+    "name": { "str": "Cryoadaptation" },
+    "description": "An experimental cryosleep procedure has permanently altered your body, allowing you to better tolerate cold temperatures.",
+    "bodytemp_modifiers": [ 50, 100 ],
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PrepNet",
+    "name": "PrepNet Tag",
+    "points": 0,
+    "valid": false,
+    "description": "NPC trait that makes monsters see it as a Prepnet.  It is a bug if you have it.",
+    "player_display": false,
+    "threshold": true
+  }
+]

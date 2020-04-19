@@ -2,12 +2,19 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstdlib>
 #include <set>
 #include <utility>
 
+#include "assign.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
@@ -17,15 +24,13 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
+#include "optional.h"
 #include "options.h"
-#include "rng.h"
-#include "assign.h"
-#include "bodypart.h"
-#include "damage.h"
-#include "game.h"
 #include "pathfinding.h"
-#include "units.h"
+#include "rng.h"
+#include "string_id.h"
 #include "translations.h"
+#include "units.h"
 
 namespace io
 {
@@ -162,6 +167,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";
         case MF_MILKABLE: return "MILKABLE";
+        case MF_SHEARABLE: return "SHEARABLE";
         case MF_NO_BREED: return "NO_BREED";
         case MF_PET_WONT_FOLLOW: return "PET_WONT_FOLLOW";
         case MF_DRIPS_NAPALM: return "DRIPS_NAPALM";
@@ -575,7 +581,10 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "MON_LEECH_EVOLUTION", mattack::mon_leech_evolution );
     add_hardcoded_attack( "TINDALOS_TELEPORT", mattack::tindalos_teleport );
     add_hardcoded_attack( "FLESH_TENDRIL", mattack::flesh_tendril );
+    add_hardcoded_attack( "BIO_OP_BIOJUTSU", mattack::bio_op_random_biojutsu );
     add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
+    add_hardcoded_attack( "BIO_OP_IMPALE", mattack::bio_op_impale );
+    add_hardcoded_attack( "BIO_OP_DISARM", mattack::bio_op_disarm );
     add_hardcoded_attack( "SUICIDE", mattack::suicide );
     add_hardcoded_attack( "KAMIKAZE", mattack::kamikaze );
     add_hardcoded_attack( "GRENADIER", mattack::grenadier );

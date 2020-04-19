@@ -278,6 +278,14 @@
   },
   {
     "type": "skill",
+    "ident": "lockpick",
+    "name": { "str": "lock picking" },
+    "description": "Your skill in picking all sorts of locks which require physical keys - from simple pin tumbler locks to intricate disc tumbler locks.  Skill increases chance and decreases time required to successfully pick the lock.",
+    "companion_survival_rank_factor": 1,
+    "display_category": "display_interaction"
+  },
+  {
+    "type": "skill",
     "ident": "weapon",
     "name": { "str": "weapon" },
     "description": "seeing this is a bug",

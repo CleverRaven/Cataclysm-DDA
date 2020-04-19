@@ -283,6 +283,18 @@
   },
   {
     "type": "ammunition_type",
+    "id": "jp8",
+    "name": "jp8",
+    "default": "jp8"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "avgas",
+    "name": "avgas",
+    "default": "avgas"
+  },
+  {
+    "type": "ammunition_type",
     "id": "diesel",
     "name": "diesel",
     "default": "diesel"
@@ -400,12 +412,6 @@
     "id": "signal_flare",
     "name": "signal flare",
     "default": "signal_flare"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "mininuke_mod",
-    "name": "modified mininuke",
-    "default": "mininuke_mod"
   },
   {
     "type": "ammunition_type",

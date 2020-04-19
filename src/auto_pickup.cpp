@@ -1,18 +1,20 @@
 #include "auto_pickup.h"
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <functional>
-#include <map>
 #include <memory>
 #include <utility>
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
 #include "input.h"
+#include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
@@ -20,12 +22,12 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
+#include "type_id.h"
+#include "ui_manager.h"
 
 using namespace auto_pickup;
 
@@ -45,29 +47,38 @@ void user_interface::show()
     }
 
     const int iHeaderHeight = 4;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
-
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-
+    int iContentHeight = 0;
     const int iTotalCols = 2;
 
-    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
-                                FULL_SCREEN_WIDTH * 3 / 4,
-                                point( iOffsetX + 19 / 2, 7 + iOffsetY + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+    catacurses::window w_border;
+    catacurses::window w_header;
+    catacurses::window w;
 
-    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                  point( iOffsetX, iOffsetY ) );
-    catacurses::window w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                  point( 1 + iOffsetX, 1 + iOffsetY ) );
-    catacurses::window w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                           point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
+    ui_adaptor ui;
 
-    /**
-     * All of the stuff in this lambda needs to be drawn (1) initially, and
-     * (2) after closing the HELP_KEYBINDINGS window (since it mangles the screen)
-    */
-    const auto initial_draw = [&]() {
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+
+        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                       point( iOffsetX, iOffsetY ) );
+        w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
+                                       point( 1 + iOffsetX, 1 + iOffsetY ) );
+        w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
+                                point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
+
+        ui.position_from_window( w_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
+
+    size_t iTab = 0;
+    int iLine = 0;
+    int iColumn = 1;
+    int iStartPos = 0;
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         // Redraw the border
         draw_border( w_border, BORDER_COLOR, title );
         // |-
@@ -110,43 +121,7 @@ void user_interface::show()
         mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
         mvwprintz( w_header, point( 8, 3 ), c_white, _( "Rules" ) );
         mvwprintz( w_header, point( 52, 3 ), c_white, _( "I/E" ) );
-        wrefresh( w_header );
-    };
 
-    initial_draw();
-    size_t iTab = 0;
-    int iLine = 0;
-    int iColumn = 1;
-    int iStartPos = 0;
-    bStuffChanged = false;
-    input_context ctxt( "AUTO_PICKUP" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "QUIT" );
-    if( tabs.size() > 1 ) {
-        ctxt.register_action( "NEXT_TAB" );
-        ctxt.register_action( "PREV_TAB" );
-    }
-    ctxt.register_action( "ADD_RULE" );
-    ctxt.register_action( "REMOVE_RULE" );
-    ctxt.register_action( "COPY_RULE" );
-    ctxt.register_action( "ENABLE_RULE" );
-    ctxt.register_action( "DISABLE_RULE" );
-    ctxt.register_action( "MOVE_RULE_UP" );
-    ctxt.register_action( "MOVE_RULE_DOWN" );
-    ctxt.register_action( "TEST_RULE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-
-    const bool allow_swapping = tabs.size() == 2;
-    if( allow_swapping ) {
-        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
-    }
-
-    if( is_autopickup ) {
-        ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
-    }
-
-    while( true ) {
         rule_list &cur_rules = tabs[iTab].new_rules;
         int locx = 17;
         for( size_t i = 0; i < tabs.size(); i++ ) {
@@ -175,8 +150,6 @@ void user_interface::show()
                 }
             }
         }
-
-        const bool currentPageNonEmpty = !cur_rules.empty();
 
         draw_scrollbar( w_border, iLine, iContentHeight, cur_rules.size(), point( 0, 5 ) );
         wrefresh( w_border );
@@ -209,6 +182,42 @@ void user_interface::show()
         }
 
         wrefresh( w );
+    } );
+
+    bStuffChanged = false;
+    input_context ctxt( "AUTO_PICKUP" );
+    ctxt.register_cardinal();
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    if( tabs.size() > 1 ) {
+        ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
+    }
+    ctxt.register_action( "ADD_RULE" );
+    ctxt.register_action( "REMOVE_RULE" );
+    ctxt.register_action( "COPY_RULE" );
+    ctxt.register_action( "ENABLE_RULE" );
+    ctxt.register_action( "DISABLE_RULE" );
+    ctxt.register_action( "MOVE_RULE_UP" );
+    ctxt.register_action( "MOVE_RULE_DOWN" );
+    ctxt.register_action( "TEST_RULE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    const bool allow_swapping = tabs.size() == 2;
+    if( allow_swapping ) {
+        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
+    }
+
+    if( is_autopickup ) {
+        ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
+    }
+
+    while( true ) {
+        rule_list &cur_rules = tabs[iTab].new_rules;
+
+        const bool currentPageNonEmpty = !cur_rules.empty();
+
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
 
@@ -268,27 +277,43 @@ void user_interface::show()
                 cur_rules.push_back( rule( "", true, false ) );
                 iLine = cur_rules.size() - 1;
             }
+            ui_manager::redraw();
 
             if( iColumn == 1 || action == "ADD_RULE" ) {
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                fold_and_print( w_help, point( 1, 1 ), 999, c_white,
-                                _(
-                                    "* is used as a Wildcard.  A few Examples:\n"
-                                    "\n"
-                                    "wooden arrow    matches the itemname exactly\n"
-                                    "wooden ar*      matches items beginning with wood ar\n"
-                                    "*rrow           matches items ending with rrow\n"
-                                    "*avy fle*fi*arrow     multiple * are allowed\n"
-                                    "heAVY*woOD*arrOW      case insensitive search\n"
-                                    "\n"
-                                    "Pickup based on item materials:\n"
-                                    "m:kevlar        matches items made of kevlar\n"
-                                    "M:copper        matches items made purely of copper\n"
-                                    "M:steel,iron    multiple materials allowed (OR search)" )
-                              );
+                ui_adaptor help_ui;
+                catacurses::window w_help;
+                const auto init_help_window = [&]( ui_adaptor & help_ui ) {
+                    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+                    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+                    w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
+                                                 FULL_SCREEN_WIDTH * 3 / 4,
+                                                 point( iOffsetX + 19 / 2, 7 + iOffsetY + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+                    help_ui.position_from_window( w_help );
+                };
+                init_help_window( help_ui );
+                help_ui.on_screen_resize( init_help_window );
 
-                draw_border( w_help );
-                wrefresh( w_help );
+                help_ui.on_redraw( [&]( const ui_adaptor & ) {
+                    // NOLINTNEXTLINE(cata-use-named-point-constants)
+                    fold_and_print( w_help, point( 1, 1 ), 999, c_white,
+                                    _(
+                                        "* is used as a Wildcard.  A few Examples:\n"
+                                        "\n"
+                                        "wooden arrow    matches the itemname exactly\n"
+                                        "wooden ar*      matches items beginning with wood ar\n"
+                                        "*rrow           matches items ending with rrow\n"
+                                        "*avy fle*fi*arrow     multiple * are allowed\n"
+                                        "heAVY*woOD*arrOW      case insensitive search\n"
+                                        "\n"
+                                        "Pickup based on item materials:\n"
+                                        "m:kevlar        matches items made of Kevlar\n"
+                                        "M:copper        matches items made purely of copper\n"
+                                        "M:steel,iron    multiple materials allowed (OR search)" )
+                                  );
+
+                    draw_border( w_help );
+                    wrefresh( w_help );
+                } );
                 const std::string r = string_input_popup()
                                       .title( _( "Pickup Rule:" ) )
                                       .width( 30 )
@@ -344,9 +369,6 @@ void user_interface::show()
             // TODO: Now that NPCs use this function, it could be used for them too
             get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            // de-mangle parts of the screen
-            initial_draw();
         }
     }
 
@@ -406,36 +428,51 @@ void rule::test_pattern() const
         vMatchingItems.push_back( sItemName );
     }
 
-    const int iOffsetX = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    const int iOffsetY = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
-                               0 );
-
     int iStartPos = 0;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 8;
-    const int iContentWidth = FULL_SCREEN_WIDTH - 30;
+    int iContentHeight = 0;
+    int iContentWidth = 0;
 
-    const catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth,
-            point( iOffsetX, iOffsetY ) );
-    const catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight,
-            iContentWidth - 2,
-            point( 1 + iOffsetX, 1 + iOffsetY ) );
+    catacurses::window w_test_rule_border;
+    catacurses::window w_test_rule_content;
+
+    ui_adaptor ui;
+
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int iOffsetX = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+        const int iOffsetY = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+                                   0 );
+        iContentHeight = FULL_SCREEN_HEIGHT - 8;
+        iContentWidth = FULL_SCREEN_WIDTH - 30;
+
+        w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth,
+                             point( iOffsetX, iOffsetY ) );
+        w_test_rule_content = catacurses::newwin( iContentHeight,
+                              iContentWidth - 2,
+                              point( 1 + iOffsetX, 1 + iOffsetY ) );
+
+        ui.position_from_window( w_test_rule_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     int nmatch = vMatchingItems.size();
     const std::string buf = string_format( ngettext( "%1$d item matches: %2$s",
                                            "%1$d items match: %2$s",
                                            nmatch ), nmatch, sRule );
-    draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
-    center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
-                  _( "Won't display content or suffix matches" ) );
-    wrefresh( w_test_rule_border );
 
     int iLine = 0;
 
     input_context ctxt( "AUTO_PICKUP_TEST" );
     ctxt.register_updown();
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    while( true ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
+        center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
+                      _( "Won't display content or suffix matches" ) );
+        wrefresh( w_test_rule_border );
+
         // Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
             for( int j = 0; j < 79; j++ ) {
@@ -466,6 +503,10 @@ void rule::test_pattern() const
         }
 
         wrefresh( w_test_rule_content );
+    } );
+
+    while( true ) {
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
@@ -478,7 +519,7 @@ void rule::test_pattern() const
             if( iLine < 0 ) {
                 iLine = vMatchingItems.size() - 1;
             }
-        } else {
+        } else if( action == "QUIT" ) {
             break;
         }
     }
@@ -510,11 +551,11 @@ void player_settings::add_rule( const item *it )
 void player_settings::remove_rule( const item *it )
 {
     const std::string sRule = it->tname( 1, false );
-    for( auto it = character_rules.begin();
-         it != character_rules.end(); ++it ) {
-        if( sRule.length() == it->sRule.length() &&
-            ci_find_substr( sRule, it->sRule ) != -1 ) {
-            character_rules.erase( it );
+    for( rule_list::iterator candidate = character_rules.begin();
+         candidate != character_rules.end(); ++candidate ) {
+        if( sRule.length() == candidate->sRule.length() &&
+            ci_find_substr( sRule, candidate->sRule ) != -1 ) {
+            character_rules.erase( candidate );
             invalidate();
             break;
         }

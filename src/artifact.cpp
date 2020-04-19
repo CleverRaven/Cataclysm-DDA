@@ -1,28 +1,30 @@
 #include "artifact.h"
 
-#include <cstdlib>
-#include <array>
 #include <algorithm>
+#include <array>
+#include <cstdint>
+#include <cstdlib>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>
-#include <unordered_map>
 #include <vector>
 
 #include "assign.h"
+#include "bodypart.h"
 #include "cata_utility.h"
+#include "color.h"
+#include "damage.h"
+#include "debug.h"
 #include "item_factory.h"
+#include "iuse.h"
 #include "json.h"
+#include "optional.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "bodypart.h"
-#include "color.h"
-#include "damage.h"
-#include "iuse.h"
-#include "optional.h"
-#include "units.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 template<typename V, typename B>
@@ -750,8 +752,7 @@ std::string new_artifact()
         bad_effects = fill_bad_passive();
         while( one_in( 2 ) && !good_effects.empty() && !bad_effects.empty() &&
                num_good < 3 && num_bad < 3 &&
-               ( ( num_good > 2 && one_in( num_good + 1 ) ) || num_bad < 1 ||
-                 one_in( num_bad + 1 ) || value > 1 ) ) {
+               ( num_bad < 1 || one_in( num_bad + 1 ) || value > 1 ) ) {
             if( value < 1 && one_in( 3 ) ) {
                 // Good
                 passive_tmp = random_entry_removed( good_effects );
@@ -908,7 +909,7 @@ std::string new_artifact()
         while( !good_effects.empty() && !bad_effects.empty() &&
                num_good < 3 && num_bad < 3 &&
                ( num_good < 1 || one_in( num_good * 2 ) || value > 1 ||
-                 ( num_bad < 3 && !one_in( 3 - num_bad ) ) ) ) {
+                 !one_in( 3 - num_bad ) ) ) {
             if( value < 1 && one_in( 2 ) ) {
                 // Good effect
                 passive_tmp = random_entry_removed( good_effects );

@@ -1,17 +1,18 @@
 #pragma once
-#ifndef TEXT_SNIPPETS_H
-#define TEXT_SNIPPETS_H
+#ifndef CATA_SRC_TEXT_SNIPPETS_H
+#define CATA_SRC_TEXT_SNIPPETS_H
 
+#include <map>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "optional.h"
-#include "type_id.h"
 #include "translations.h"
+#include "type_id.h"
 
-class JsonObject;
 class JsonArray;
+class JsonObject;
 
 class snippet_library
 {
@@ -113,4 +114,4 @@ class snippet_library
 
 extern snippet_library SNIPPET;
 
-#endif
+#endif // CATA_SRC_TEXT_SNIPPETS_H

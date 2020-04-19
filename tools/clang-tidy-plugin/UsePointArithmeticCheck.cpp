@@ -1,11 +1,35 @@
 #include "UsePointArithmeticCheck.h"
 
+#include <clang/AST/ASTContext.h>
+#include <clang/AST/Decl.h>
+#include <clang/AST/DeclCXX.h>
+#include <clang/AST/Expr.h>
+#include <clang/AST/ExprCXX.h>
+#include <clang/AST/Stmt.h>
+#include <clang/AST/Type.h>
+#include <clang/ASTMatchers/ASTMatchFinder.h>
+#include <clang/ASTMatchers/ASTMatchers.h>
+#include <clang/ASTMatchers/ASTMatchersInternal.h>
+#include <clang/Basic/Diagnostic.h>
+#include <clang/Basic/LLVM.h>
+#include <clang/Basic/SourceLocation.h>
+#include <clang/Lex/Lexer.h>
+#include <llvm/ADT/APInt.h>
+#include <llvm/Support/Casting.h>
+#include <algorithm>
+#include <cassert>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
 #include <vector>
 
-#include "clang/ASTMatchers/ASTMatchFinder.h"
-#include "clang/Frontend/CompilerInstance.h"
-
 #include "Utils.h"
+#include "clang/AST/OperationKinds.h"
+#include "clang/Basic/OperatorKinds.h"
 
 using namespace clang::ast_matchers;
 

@@ -1,33 +1,34 @@
-#include <climits>
-#include <sstream>
 #include <algorithm>
-#include <list>
+#include <climits>
+#include <map>
 #include <memory>
 #include <set>
+#include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catch/catch.hpp"
 #include "game.h"
+#include "item.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "player_helpers.h"
-#include "recipe_dictionary.h"
-#include "calendar.h"
-#include "cata_utility.h"
-#include "inventory.h"
-#include "item.h"
-#include "optional.h"
 #include "player_activity.h"
+#include "player_helpers.h"
+#include "point.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "string_id.h"
-#include "material.h"
 #include "type_id.h"
-#include "point.h"
+#include "value_ptr.h"
+
+class inventory;
 
 TEST_CASE( "recipe_subset" )
 {
@@ -185,7 +186,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
             AND_WHEN( "he gets rid of the book" ) {
                 dummy.i_rem( &craftbook );
 
-                THEN( "he cant brew the recipe anymore" ) {
+                THEN( "he can't brew the recipe anymore" ) {
                     CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r ) );
                 }
             }
@@ -212,7 +213,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
             AND_WHEN( "he gets rid of the tablet" ) {
                 dummy.i_rem( &eink );
 
-                THEN( "he cant make the recipe anymore" ) {
+                THEN( "he can't make the recipe anymore" ) {
                     CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r2 ) );
                 }
             }
@@ -377,7 +378,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.emplace_back( "soldering_iron", -1, 20 );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
-                actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                int turns = actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                CAPTURE( turns );
                 CHECK( get_remaining_charges( "hotplate" ) == 10 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
             }
@@ -398,10 +400,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         WHEN( "UPS-modded tools have enough charges" ) {
             item hotplate( "hotplate", -1, 0 );
-            hotplate.contents.emplace_back( "battery_ups" );
+            hotplate.put_in( item( "battery_ups" ) );
             tools.push_back( hotplate );
             item soldering_iron( "soldering_iron", -1, 0 );
-            soldering_iron.contents.emplace_back( "battery_ups" );
+            soldering_iron.put_in( item( "battery_ups" ) );
             tools.push_back( soldering_iron );
             tools.emplace_back( "UPS_off", -1, 500 );
 
@@ -415,10 +417,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         WHEN( "UPS-modded tools do not have enough charges" ) {
             item hotplate( "hotplate", -1, 0 );
-            hotplate.contents.emplace_back( "battery_ups" );
+            hotplate.put_in( item( "battery_ups" ) );
             tools.push_back( hotplate );
             item soldering_iron( "soldering_iron", -1, 0 );
-            soldering_iron.contents.emplace_back( "battery_ups" );
+            soldering_iron.put_in( item( "battery_ups" ) );
             tools.push_back( soldering_iron );
             tools.emplace_back( "UPS_off", -1, 10 );
 
@@ -436,7 +438,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         std::vector<item> tools;
         tools.emplace_back( "hotplate", -1, 20 );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.contents.emplace_back( "water", -1, 2 );
+        plastic_bottle.put_in( item( "water", -1, 2 ) );
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
 
@@ -447,12 +449,12 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         std::vector<item> tools;
         tools.emplace_back( "hotplate", -1, 20 );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.contents.emplace_back( "water", -1, 2 );
+        plastic_bottle.put_in( item( "water", -1, 2 ) );
         tools.push_back( plastic_bottle );
         item jar( "jar_glass" );
         // If it's not watertight the water will spill.
         REQUIRE( jar.is_watertight_container() );
-        jar.contents.emplace_back( "water", -1, 2 );
+        jar.put_in( item( "water", -1, 2 ) );
         tools.push_back( jar );
 
         prep_craft( recipe_id( "water_clean" ), tools, false );
@@ -494,13 +496,13 @@ static void verify_inventory( const std::vector<std::string> &has,
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
-        const bool has = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
-        REQUIRE( has );
+        const bool has_item = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
+        REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
-        const bool has = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
-        REQUIRE( has );
+        const bool hasnt_item = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
+        REQUIRE( hasnt_item );
     }
 }
 

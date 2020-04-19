@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONDEATH_H
-#define MONDEATH_H
+#ifndef CATA_SRC_MONDEATH_H
+#define CATA_SRC_MONDEATH_H
 
 class monster;
 
@@ -87,4 +87,4 @@ void gameover( monster &z );
 
 void make_mon_corpse( monster &z, int damageLvl );
 
-#endif
+#endif // CATA_SRC_MONDEATH_H

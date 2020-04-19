@@ -11,7 +11,7 @@ BinomialMatcher::BinomialMatcher( const int num_samples, const double p,
     // Binomial expectation is np, variance is np(1-p).
     // So we want | obs - np | <= max_deviation * sqrt( np(1-p) )
     expected_ = num_samples_ * p_;
-    margin_ = max_deviation_ * sqrt( num_samples_ * p_ * ( 1 - p_ ) );
+    margin_ = max_deviation_ * std::sqrt( num_samples_ * p_ * ( 1 - p_ ) );
 }
 
 bool BinomialMatcher::match( const int &obs ) const
