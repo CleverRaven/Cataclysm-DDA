@@ -10,7 +10,7 @@
     "material": [ "superalloy" ],
     "volume": "500 ml",
     "bashing": 8,
-    "cutting": 20,
+    "cutting": 16,
     "flags": [ "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   },
