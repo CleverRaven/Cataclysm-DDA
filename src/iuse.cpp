@@ -208,6 +208,7 @@ static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
 static const efftype_id effect_took_flumed( "took_flumed" );
 static const efftype_id effect_took_prozac( "took_prozac" );
@@ -847,6 +848,13 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
+    return it->type->charges_to_use();
+}
+
+int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( m_good, _( "You no longer need to worry about asthma attacks, at least for a while." ) );
+    p->add_effect( effect_took_antiasthmatic, 1_days, num_bp, true );
     return it->type->charges_to_use();
 }
 
