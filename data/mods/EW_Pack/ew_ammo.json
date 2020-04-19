@@ -51,7 +51,7 @@
     "type": "AMMO",
     "id": "20_dread",
     "price": 300,
-    "name": { "str": ".20 DREAD Pellet", "str_pl": ".20 DREAD Pellets" },
+    "name": { "str": ".20 DREAD Pellet" },
     "symbol": "=",
     "color": "light_gray",
     "description": "These metal pellets are propelled with the help of electromagnets, therefore they do not produce sound, flash or heat signature.",

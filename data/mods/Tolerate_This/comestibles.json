@@ -211,7 +211,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gffruit_pancakes",
-    "name": { "str": "gluten free fruit pancake", "str_pl": "gluten free fruit pancakes" },
+    "name": { "str": "gluten free fruit pancake" },
     "weight": "354 g",
     "color": "brown",
     "spoils_in": 240,
@@ -230,7 +230,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lffruit_pancakes",
-    "name": { "str": "lactose free fruit pancake", "str_pl": "lactose free fruit pancakes" },
+    "name": { "str": "lactose free fruit pancake" },
     "weight": "354 g",
     "color": "brown",
     "spoils_in": 240,
@@ -249,7 +249,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gflffruit_pancakes",
-    "name": { "str": "gluten free lactose free fruit pancake", "str_pl": "gluten free lactose free fruit pancakes" },
+    "name": { "str": "gluten free lactose free fruit pancake" },
     "weight": "354 g",
     "color": "brown",
     "spoils_in": 240,
@@ -268,7 +268,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gfchoc_pancakes",
-    "name": { "str": "gluten free chocolate pancake", "str_pl": "gluten free chocolate pancakes" },
+    "name": { "str": "gluten free chocolate pancake" },
     "weight": "354 g",
     "color": "brown",
     "spoils_in": 240,
@@ -286,7 +286,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gffrenchtoast",
-    "name": { "str": "gluten free French toast", "str_pl": "gluten free French toasts" },
+    "name": { "str": "gluten free French toast" },
     "weight": "246 g",
     "color": "brown",
     "spoils_in": 240,
@@ -305,7 +305,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gflffrenchtoast",
-    "name": { "str": "gluten free lactose free French toast", "str_pl": "gluten free lactose free French toasts" },
+    "name": { "str": "gluten free lactose free French toast" },
     "weight": "246 g",
     "color": "brown",
     "spoils_in": 240,
@@ -569,7 +569,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gfsweetbread",
-    "name": { "str": "gluten free sweetbread", "str_pl": "gluten free sweetbreads" },
+    "name": { "str": "gluten free sweetbread" },
     "weight": "150 g",
     "color": "brown",
     "spoils_in": 48,
