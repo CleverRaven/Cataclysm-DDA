@@ -566,10 +566,6 @@
         "////////////////////////////////////////////////",
         "////////////////////////////////////////////////"
       ],
-        "place_monsters": [
-        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 5, 30 ], "y": [ 6, 23 ], "density": 0.3 },
-        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 5, 30 ], "y": [ 6, 18 ], "density": 0.3 }
-      ],
       "palettes": [ "office_palette" ],
       "place_nested": [
         { "chunks": [ [ "roof_16x16_help", 3000 ], [ "null", 10 ] ], "x": [ 4, 8 ], "y": [ 30, 38 ] },
@@ -610,7 +606,11 @@
           "y": [ 6, 15 ]
         }
       ]
-    }
+    },
+    "place_monsters": [
+      { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 5, 30 ], "y": [ 6, 23 ], "density": 0.3 },
+      { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 5, 30 ], "y": [ 6, 18 ], "density": 0.3 }
+    ]
   },
   {
     "type": "mapgen",
