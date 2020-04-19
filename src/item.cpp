@@ -3272,7 +3272,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "Critical hit chance %d%% - %d%%" ),
+                                      string_format( _( "Critical hit chance <neutral>%d%% - %d%%</neutral>" ),
                                               static_cast<int>( g->u.crit_chance( 0, 100, *this ) *
                                                       100 ),
                                               static_cast<int>( g->u.crit_chance( 100, 0, *this ) *
@@ -3280,27 +3280,27 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d bashing (%d on a critical hit)" ),
+                                      string_format( _( "<neutral>%d</neutral> bashing (<neutral>%d</neutral> on a critical hit)" ),
                                               static_cast<int>( non_crit.type_damage( DT_BASH ) ),
                                               static_cast<int>( crit.type_damage( DT_BASH ) ) ) ) );
         }
         if( ( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d cutting (%d on a critical hit)" ),
+                                      string_format( _( "<neutral>%d</neutral> cutting (<neutral>%d</neutral> on a critical hit)" ),
                                               static_cast<int>( non_crit.type_damage( DT_CUT ) ),
                                               static_cast<int>( crit.type_damage( DT_CUT ) ) ) ) );
         }
         if( ( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d piercing (%d on a critical hit)" ),
+                                      string_format( _( "<neutral>%d</neutral> piercing (<neutral>%d</neutral> on a critical hit)" ),
                                               static_cast<int>( non_crit.type_damage( DT_STAB ) ),
                                               static_cast<int>( crit.type_damage( DT_STAB ) ) ) ) );
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d moves per attack" ), attack_cost ) ) );
+                                      string_format( _( "<neutral>%d</neutral> moves per attack" ), attack_cost ) ) );
         }
         insert_separation_line( info );
     }
