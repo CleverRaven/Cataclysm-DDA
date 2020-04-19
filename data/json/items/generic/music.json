@@ -71,7 +71,7 @@
     "type": "GENERIC",
     "id": "mixer_music",
     "name": { "str": "mixer" },
-    "description": "A device with faders, switches, and knobs that mixes input signal and sends it to two output XLR cables. (left and right)",
+    "description": "A device with faders, switches, and knobs that mixes input signal and sends it to two output XLR cables.  (left and right)",
     "symbol": "□",
     "color": "light_gray",
     "volume": "8 L",
