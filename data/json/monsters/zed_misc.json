@@ -857,7 +857,7 @@
   {
     "id": "mon_shia",
     "type": "MONSTER",
-    "name": { "str": "Shia LaBeouf", "str_pl": "Shia LaBeouf" },
+    "name": { "str_sp": "Shia LaBeouf" },
     "description": "Living in the woods,\nkilling for sport,\neating all the bodies,\nactual cannibal Shia LaBeouf.",
     "default_faction": "zombie",
     "bodytype": "human",

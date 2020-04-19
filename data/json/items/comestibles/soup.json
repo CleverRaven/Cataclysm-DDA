@@ -26,7 +26,7 @@
     "type": "COMESTIBLE",
     "id": "broth_bone",
     "name": "bone broth",
-    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "human %s", "str_pl": "human %s" } } ],
+    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "human %s" } } ],
     "weight": "267 g",
     "color": "yellow",
     "spoils_in": "6 days 16 hours",
@@ -77,7 +77,7 @@
     "name": "meat soup",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "sap soup" },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "weight": "253 g",
     "color": "red",

@@ -21,7 +21,7 @@
     "id": "splinter",
     "symbol": "/",
     "color": "brown",
-    "name": { "str": "splintered wood", "str_pl": "splintered wood" },
+    "name": { "str_sp": "splintered wood" },
     "description": "A splintered piece of wood, could be used as a skewer or for kindling.",
     "category": "other",
     "material": "wood",

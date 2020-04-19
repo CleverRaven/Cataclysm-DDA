@@ -350,7 +350,7 @@
   {
     "type": "COMESTIBLE",
     "id": "test_pine_nuts",
-    "name": { "str": "TEST pine nuts", "str_pl": "TEST pine nuts" },
+    "name": { "str_sp": "TEST pine nuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": 1080,

@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "bagh_nakha",
-    "name": { "str": "tiger claws", "str_pl": "tiger claws" },
+    "name": { "str_sp": "tiger claws" },
     "description": "Also called bagh nakha or iron paw, this is a small claw-like bladed weapon from India designed to be concealed under and against the palm.",
     "weight": "92 g",
     "to_hit": 3,

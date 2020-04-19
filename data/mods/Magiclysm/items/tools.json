@@ -43,7 +43,7 @@
     "id": "fireproof_mortar",
     "symbol": "%",
     "color": "light_red",
-    "name": { "str": "fireproof mortar", "str_pl": "fireproof mortar" },
+    "name": { "str_sp": "fireproof mortar" },
     "description": "Some alchemical mortar, ready to be used in building projects expecting temperatures on par with dragonbreath.",
     "category": "spare_parts",
     "container": "bag_canvas",
