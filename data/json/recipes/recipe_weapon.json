@@ -94,6 +94,20 @@
   },
   {
     "type": "recipe",
+    "result": "knife_churl",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "5 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ "swage", -1 ] ],
+    "components": [ [ "fur", 1 ], [ "leather", 1 ] ]
+  },
+  {
+    "type": "recipe",
     "result": "pointy_stick",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -214,6 +228,19 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 20 ] ], [ [ "rope_superior_short", 2, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bullwhip_razor",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "4 h",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -577,6 +604,17 @@
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "bowling_pin", 1 ] ], [ [ "spike", 2 ] ], [ [ "duct_tape", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "plunger_weapon",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ "plunger_toilet", 1 ], [ "spike", 1 ] ]
   },
   {
     "type": "recipe",
@@ -1921,6 +1959,28 @@
     "autolearn": true,
     "tools": [  ],
     "components": [ [ [ "glass_shard", 1 ] ], [ [ "rag", 1 ], [ "duct_tape", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bone_knife",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skill_required": [ "survival", 1 ],
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ "bone", 1 ], "bone_human", 1 ]
+  },
+  {
+    "type": "recipe",
+    "result": "sharp_toothbrush",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": "30 sec",
+    "autolearn": true,
+    "components": [ [ "toothbrush_plain", 1 ], [ "hairbrush", 1 ], [ "comb_pocket", 1 ], [ "plastic_chunk", 1 ] ]
   },
   {
     "type": "recipe",

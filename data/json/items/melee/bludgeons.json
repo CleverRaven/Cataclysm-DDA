@@ -243,6 +243,25 @@
     "category": "weapons"
   },
   {
+    "id:": "plunger_weapon",
+    "name": "brain cleaner",
+    "type": "TOOL",
+    "description": "A barbaric war pick made by driving a metal spike into a toilet plunger. World War IV will be fought with sticks and stones...",
+    "symbol": "/",
+    "color": "red",
+    "weight": "1138",
+    "volume": "2500 ml",
+    "price": "0",
+    "//": "This isn't making a weapon so much as it is ruining a plumbing tool. The sale price has gone down.",
+    "price_postapoc": "90",
+    "to_hit": 0,
+    "bashing": 7,
+    "cutting": 8,
+    "material": [ "wood", "plastic", "steel" ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "SPEAR", "FRAGILE_MELEE", "NONCONDUCTIVE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "bowling_axe",
     "name": { "str": "The 7-10 Split", "str_pl": "7-10 Splits" },
@@ -361,6 +380,18 @@
     "cutting": 6,
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
+  },
+    {
+    "type": "recipe",
+    "result": "bone_knife",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skill_required": [ "survival", 1 ],
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ "bone", 1 ], "bone_human", 1 ]
   },
   {
     "type": "GENERIC",
@@ -870,16 +901,17 @@
     "id": "sharp_toothbrush",
     "symbol": ",",
     "color": "light_blue",
-    "name": { "str": "sharpened toothbrush", "str_pl": "sharpened toothbrushes" },
-    "description": "A personal hygiene item turned into a shank.",
+    "name": "plastic shank",
+    "name_plural": "plastic shanks",
+    "description": "An oblong plastic trinket with the far end ground down into a stabbing point.",
     "category": "weapons",
     "price": 400,
+    "price_postapoc": 0,
     "material": [ "plastic" ],
     "weight": "49 g",
     "volume": "250 ml",
-    "bashing": 2,
-    "cutting": 1,
-    "price_postapoc": 10,
+    "bashing": 1,
+    "cutting": 3,
     "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ]
   },
   {
