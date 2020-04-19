@@ -911,7 +911,7 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
-    "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma.",
+    "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
     "price": 100,
     "price_postapoc": 25,
     "fun": 1
