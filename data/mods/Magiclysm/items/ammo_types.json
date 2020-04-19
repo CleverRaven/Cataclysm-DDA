@@ -22,5 +22,17 @@
     "id": "arrow_orichalcum",
     "name": "orichalcum arrow",
     "default": "arrow_odin"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "alumentum",
+    "name": "alumentum",
+    "default": "alumentum"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mercury",
+    "name": "mercury",
+    "default": "mercury"
   }
 ]

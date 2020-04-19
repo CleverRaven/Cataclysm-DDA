@@ -281,11 +281,6 @@
   },
   {
     "type": "item_action",
-    "id": "ATOMIC_CAFF",
-    "name": { "str": "Drink" }
-  },
-  {
-    "type": "item_action",
     "id": "AUTOCLAVE",
     "name": { "str": "Sterilize" }
   },
@@ -316,8 +311,8 @@
   },
   {
     "type": "item_action",
-    "id": "CAFF",
-    "name": { "str": "Consume" }
+    "id": "TOW_ATTACH",
+    "name": { "str": "Attach" }
   },
   {
     "type": "item_action",
@@ -753,6 +748,11 @@
     "type": "item_action",
     "id": "PORTABLE_GAME",
     "name": { "ctxt": "PORTABLE_GAME", "str": "Play" }
+  },
+  {
+    "type": "item_action",
+    "id": "FITNESS_CHECK",
+    "name": "Check health metrics"
   },
   {
     "type": "item_action",

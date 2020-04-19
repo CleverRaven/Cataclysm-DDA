@@ -18,6 +18,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "SHEAR",
+    "name": { "str": "shearing" }
+  },
+  {
+    "type": "tool_quality",
     "id": "CHURN",
     "name": { "str": "churn" }
   },
@@ -256,5 +261,10 @@
     "type": "tool_quality",
     "id": "PRESSURIZATION",
     "name": { "str": "pressurizing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "LOCKPICK",
+    "name": { "str": "lockpicking" }
   }
 ]

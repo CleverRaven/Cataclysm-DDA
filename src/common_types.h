@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COMMON_TYPES_H
-#define COMMON_TYPES_H
+#ifndef CATA_SRC_COMMON_TYPES_H
+#define CATA_SRC_COMMON_TYPES_H
 
 #include <limits>
 #include <type_traits>
@@ -46,4 +46,4 @@ struct numeric_interval {
     }
 };
 
-#endif // COMMON_TYPES_Hs
+#endif // CATA_SRC_COMMON_TYPES_H

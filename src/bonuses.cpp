@@ -1,32 +1,32 @@
 #include "bonuses.h"
 
+#include <algorithm>
 #include <string>
 #include <utility>
-#include <algorithm>
-#include <type_traits>
 
 #include "character.h"
 #include "damage.h"
 #include "json.h"
-#include "translations.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 static bool needs_damage_type( affected_stat as )
 {
-    return as == AFFECTED_DAMAGE || as == AFFECTED_ARMOR ||
-           as == AFFECTED_ARMOR_PENETRATION;
+    return as == affected_stat::DAMAGE ||
+           as == affected_stat::ARMOR ||
+           as == affected_stat::ARMOR_PENETRATION;
 }
 
 static const std::map<std::string, affected_stat> affected_stat_map = {{
-        std::make_pair( "hit", AFFECTED_HIT ),
-        std::make_pair( "dodge", AFFECTED_DODGE ),
-        std::make_pair( "block", AFFECTED_BLOCK ),
-        std::make_pair( "speed", AFFECTED_SPEED ),
-        std::make_pair( "movecost", AFFECTED_MOVE_COST ),
-        std::make_pair( "damage", AFFECTED_DAMAGE ),
-        std::make_pair( "armor", AFFECTED_ARMOR ),
-        std::make_pair( "arpen", AFFECTED_ARMOR_PENETRATION ),
-        std::make_pair( "target_armor_multiplier", AFFECTED_TARGET_ARMOR_MULTIPLIER )
+        std::make_pair( "hit", affected_stat::HIT ),
+        std::make_pair( "dodge", affected_stat::DODGE ),
+        std::make_pair( "block", affected_stat::BLOCK ),
+        std::make_pair( "speed", affected_stat::SPEED ),
+        std::make_pair( "movecost", affected_stat::MOVE_COST ),
+        std::make_pair( "damage", affected_stat::DAMAGE ),
+        std::make_pair( "armor", affected_stat::ARMOR ),
+        std::make_pair( "arpen", affected_stat::ARMOR_PENETRATION ),
+        std::make_pair( "target_armor_multiplier", affected_stat::TARGET_ARMOR_MULTIPLIER )
     }
 };
 
@@ -55,19 +55,19 @@ static affected_stat affected_stat_from_string( const std::string &s )
         return iter->second;
     }
 
-    return AFFECTED_NULL;
+    return affected_stat::NONE;
 }
 
 static const std::map<affected_stat, std::string> affected_stat_map_translation = {{
-        std::make_pair( AFFECTED_HIT, translate_marker( "Accuracy" ) ),
-        std::make_pair( AFFECTED_DODGE, translate_marker( "Dodge" ) ),
-        std::make_pair( AFFECTED_BLOCK, translate_marker( "Block" ) ),
-        std::make_pair( AFFECTED_SPEED, translate_marker( "Speed" ) ),
-        std::make_pair( AFFECTED_MOVE_COST, translate_marker( "Move cost" ) ),
-        std::make_pair( AFFECTED_DAMAGE, translate_marker( "damage" ) ),
-        std::make_pair( AFFECTED_ARMOR, translate_marker( "Armor" ) ),
-        std::make_pair( AFFECTED_ARMOR_PENETRATION, translate_marker( "Armor penetration" ) ),
-        std::make_pair( AFFECTED_TARGET_ARMOR_MULTIPLIER, translate_marker( "Target armor multiplier" ) ),
+        std::make_pair( affected_stat::HIT, translate_marker( "Accuracy" ) ),
+        std::make_pair( affected_stat::DODGE, translate_marker( "Dodge" ) ),
+        std::make_pair( affected_stat::BLOCK, translate_marker( "Block" ) ),
+        std::make_pair( affected_stat::SPEED, translate_marker( "Speed" ) ),
+        std::make_pair( affected_stat::MOVE_COST, translate_marker( "Move cost" ) ),
+        std::make_pair( affected_stat::DAMAGE, translate_marker( "damage" ) ),
+        std::make_pair( affected_stat::ARMOR, translate_marker( "Armor" ) ),
+        std::make_pair( affected_stat::ARMOR_PENETRATION, translate_marker( "Armor penetration" ) ),
+        std::make_pair( affected_stat::TARGET_ARMOR_MULTIPLIER, translate_marker( "Target armor multiplier" ) ),
     }
 };
 
@@ -93,57 +93,43 @@ static std::string string_from_scaling_stat( const scaling_stat &s )
 
 bonus_container::bonus_container() = default;
 
-void effect_scaling::load( JsonArray &jarr )
+effect_scaling::effect_scaling( const JsonObject &obj )
 {
-    if( jarr.test_string() ) {
-        stat = scaling_stat_from_string( jarr.next_string() );
+    if( obj.has_string( "scaling-stat" ) ) {
+        stat = scaling_stat_from_string( obj.get_string( "scaling-stat" ) );
     } else {
         stat = STAT_NULL;
     }
 
-    scale = jarr.next_float();
+    scale = obj.get_float( "scale" );
 }
 
 void bonus_container::load( const JsonObject &jo )
 {
-    if( jo.has_array( "flat_bonuses" ) ) {
-        JsonArray jarr = jo.get_array( "flat_bonuses" );
-        load( jarr, false );
-    }
-
-    if( jo.has_array( "mult_bonuses" ) ) {
-        JsonArray jarr = jo.get_array( "mult_bonuses" );
-        load( jarr, true );
-    }
+    load( jo.get_array( "flat_bonuses" ), false );
+    load( jo.get_array( "mult_bonuses" ), true );
 }
 
-void bonus_container::load( JsonArray &jarr, bool mult )
+void bonus_container::load( const JsonArray &jarr, const bool mult )
 {
-    while( jarr.has_more() ) {
-        JsonArray qualifiers = jarr.next_array();
-
-        damage_type dt = DT_NULL;
-
-        const std::string affected_stat_string = qualifiers.next_string();
-        const affected_stat as = affected_stat_from_string( affected_stat_string );
-        if( as == AFFECTED_NULL ) {
-            jarr.throw_error( "Invalid affected stat" );
+    for( const JsonObject &qualifiers : jarr ) {
+        const affected_stat as = affected_stat_from_string( qualifiers.get_string( "stat" ) );
+        if( as == affected_stat::NONE ) {
+            qualifiers.throw_error( "Invalid affected stat", "stat" );
         }
 
+        damage_type dt = DT_NULL;
         if( needs_damage_type( as ) ) {
-            const std::string damage_string = qualifiers.next_string();
-            dt = dt_by_name( damage_string );
+            dt = dt_by_name( qualifiers.get_string( "type" ) );
             if( dt == DT_NULL ) {
-                jarr.throw_error( "Invalid damage type" );
+                qualifiers.throw_error( "Invalid damage type", "type" );
             }
         }
 
-        effect_scaling es;
-        es.load( qualifiers );
-        affected_type at( as, dt );
-        // Are we changing multipliers or flats?
+        const affected_type at( as, dt );
+
         auto &selected = mult ? bonuses_mult : bonuses_flat;
-        selected[at].push_back( es );
+        selected[at].emplace_back( qualifiers );
     }
 }
 

@@ -16,7 +16,8 @@
     "description": "A standard alternator used to power vehicle electrical systems.",
     "weight": "4000 g",
     "volume": "2500 ml",
-    "price": 9000
+    "price": 9000,
+    "price_postapoc": 500
   },
   {
     "id": "alternator_motorbike",
@@ -26,7 +27,8 @@
     "description": "A compact lightweight alternator used to power small vehicle electrical systems.",
     "weight": "1100 g",
     "volume": "1 L",
-    "price": 8000
+    "price": 8000,
+    "price_postapoc": 300
   },
   {
     "id": "alternator_bicycle",
@@ -36,7 +38,8 @@
     "description": "A very lightweight alternator used to power a bicycle's headlights.",
     "weight": "1100 g",
     "volume": "1 L",
-    "price": 8000
+    "price": 8000,
+    "price_postapoc": 250
   },
   {
     "id": "alternator_truck",
@@ -46,7 +49,8 @@
     "description": "A larger and more powerful alternator used to power vehicle electrical systems.",
     "weight": "5800 g",
     "volume": "3 L",
-    "price": 12000
+    "price": 12000,
+    "price_postapoc": 1000
   },
   {
     "id": "generator_7500w",
@@ -56,6 +60,7 @@
     "description": "A bulky but efficient electrical generator designed to be attached to an engine.",
     "weight": "48000 g",
     "volume": "7500 ml",
-    "price": 30000
+    "price": 30000,
+    "price_postapoc": 4500
   }
 ]

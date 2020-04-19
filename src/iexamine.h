@@ -1,6 +1,6 @@
 #pragma once
-#ifndef IEXAMINE_H
-#define IEXAMINE_H
+#ifndef CATA_SRC_IEXAMINE_H
+#define CATA_SRC_IEXAMINE_H
 
 #include <list>
 #include <string>
@@ -48,7 +48,6 @@ void pit( player &p, const tripoint &examp );
 void pit_covered( player &p, const tripoint &examp );
 void slot_machine( player &p, const tripoint &examp );
 void safe( player &p, const tripoint &examp );
-void gunsafe_ml( player &p, const tripoint &examp );
 void gunsafe_el( player &p, const tripoint &examp );
 void harvest_furn_nectar( player &p, const tripoint &examp );
 void harvest_furn( player &p, const tripoint &examp );
@@ -140,4 +139,4 @@ void practice_survival_while_foraging( player *p );
 using iexamine_function = void ( * )( player &, const tripoint & );
 iexamine_function iexamine_function_from_string( const std::string &function_name );
 
-#endif
+#endif // CATA_SRC_IEXAMINE_H

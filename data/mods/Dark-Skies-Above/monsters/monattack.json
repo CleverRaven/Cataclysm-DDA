@@ -1,0 +1,109 @@
+[
+  {
+    "id": "pneumatic_bite",
+    "type": "monster_attack",
+    "attack_type": "bite",
+    "cooldown": 40,
+    "accuracy": 6,
+    "effects": [ { "id": "grabbed", "duration": 1000, "bp": "TORSO" } ],
+    "body_parts": [ [ "ARM_L", 3 ], [ "ARM_R", 3 ] ],
+    "no_infection_chance": 100,
+    "damage_max_instance": [
+      { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
+      { "damage_type": "bash", "amount": 15, "armor_multiplier": 0.5 }
+    ],
+    "hit_dmg_u": "The %1$s grabs your arm and bites down hard!!",
+    "hit_dmg_npc": "The %1$s grabs <npcname> and bites down hard!!",
+    "no_dmg_msg_u": "The %1$s grabs your arm in its mouth, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s grabs <npcname>, but fails to penetrate the armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "tool_slash",
+    "cooldown": 20,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 8 } ],
+    "body_parts": [
+      [ "FOOT_L", 2 ],
+      [ "FOOT_R", 2 ],
+      [ "LEG_L", 3 ],
+      [ "LEG_R", 3 ],
+      [ "HAND_L", 2 ],
+      [ "HAND_R", 2 ],
+      [ "HEAD", 3 ],
+      [ "EYES", 2 ],
+      [ "MOUTH", 1 ],
+      [ "ARM_L", 3 ],
+      [ "ARM_R", 3 ],
+      [ "TORSO", 4 ]
+    ],
+    "hit_dmg_u": "The %1$s slashes you with an integrated tool!",
+    "hit_dmg_npc": "The %1$s slashes <npcname>!",
+    "no_dmg_msg_u": "The %1$s attempts to cut you, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries to cut <npcname>, but fails to penetrate your armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "heavyslash",
+    "cooldown": 20,
+    "move_cost": 200,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.2 } ],
+    "body_parts": [
+      [ "FOOT_L", 2 ],
+      [ "FOOT_R", 2 ],
+      [ "LEG_L", 3 ],
+      [ "LEG_R", 3 ],
+      [ "HAND_L", 2 ],
+      [ "HAND_R", 2 ],
+      [ "HEAD", 3 ],
+      [ "EYES", 2 ],
+      [ "MOUTH", 1 ],
+      [ "ARM_L", 3 ],
+      [ "ARM_R", 3 ],
+      [ "TORSO", 4 ]
+    ],
+    "hit_dmg_u": "The %1$s hits you with a heavy sword-slash!!",
+    "hit_dmg_npc": "The %1$s heavily slashes <npcname>!!",
+    "no_dmg_msg_u": "The %1$s attempts to cut you, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries to cut <npcname>, but fails to penetrate your armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "knockdown",
+    "effects": [ { "id": "downed", "duration": 3 } ],
+    "cooldown": 20,
+    "move_cost": 200,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 4 } ],
+    "body_parts": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "hit_dmg_u": "The %1$s sweeps your legs from under you!",
+    "hit_dmg_npc": "The %1$s knocks <npcname> to the ground!",
+    "no_dmg_msg_u": "The %1$s tries to sweep out your leg, but can't get through the armor.",
+    "no_dmg_msg_npc": "The %1$s tries to sweep <npcname> to the ground, but can't get through the armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "shieldbash",
+    "effects": [ { "id": "stunned", "duration": 3 } ],
+    "cooldown": 35,
+    "move_cost": 200,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 6 } ],
+    "body_parts": [
+      [ "LEG_L", 3 ],
+      [ "LEG_R", 3 ],
+      [ "HEAD", 3 ],
+      [ "EYES", 2 ],
+      [ "MOUTH", 1 ],
+      [ "ARM_L", 3 ],
+      [ "ARM_R", 3 ],
+      [ "TORSO", 4 ]
+    ],
+    "hit_dmg_u": "The %1$s suddenly slams you with their shield, stunning you!",
+    "hit_dmg_npc": "The %1$s stuns <npcname> with a shield bash!",
+    "no_dmg_msg_u": "The %1$s tries to shield bash you, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries bash <npcname>, but fails to penetrate the armor."
+  }
+]

@@ -1,17 +1,38 @@
 #include "player_activity.h"
 
 #include <algorithm>
+#include <memory>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
-#include "construction.h"
-#include "map.h"
-#include "game.h"
-#include "player.h"
-#include "sounds.h"
 #include "avatar.h"
+#include "calendar.h"
+#include "construction.h"
+#include "game.h"
+#include "item.h"
 #include "itype.h"
+#include "map.h"
+#include "player.h"
+#include "rng.h"
 #include "skill.h"
+#include "sounds.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "units.h"
+#include "value_ptr.h"
+
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_FISH( "ACT_FISH" );
+static const activity_id ACT_ATM( "ACT_ATM" );
+static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -22,6 +43,29 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     position( pos ), name( name_in ),
     placement( tripoint_min ), auto_resume( false )
 {
+}
+
+player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
+    actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+{
+}
+
+void player_activity::migrate_item_position( Character &guy )
+{
+    const bool simple_action_replace =
+        type == ACT_FIRSTAID || type == ACT_GAME ||
+        type == ACT_PICKAXE || type == ACT_START_FIRE ||
+        type == ACT_HAND_CRANK || type == ACT_VIBE ||
+        type == ACT_OXYTORCH || type == ACT_FISH ||
+        type == ACT_ATM;
+
+    if( simple_action_replace ) {
+        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+    } else if( type == ACT_GUNMOD_ADD ) {
+        // this activity has two indices; "position" = gun and "values[0]" = mod
+        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+        targets.push_back( item_location( guy, &guy.i_at( values[0] ) ) );
+    }
 }
 
 void player_activity::set_to_null()
@@ -126,11 +170,37 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                     get_verb().translated(), extra_info );
 }
 
+void player_activity::start( Character &who )
+{
+    if( actor ) {
+        actor->start( *this, who );
+    }
+    if( rooted() ) {
+        who.rooted_message();
+    }
+}
+
 void player_activity::do_turn( player &p )
 {
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
+    }
+    if( calendar::once_every( 30_minutes ) ) {
+        no_food_nearby_for_auto_consume = false;
+        no_drink_nearby_for_auto_consume = false;
+    }
+    if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
+        if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
+            if( !find_auto_consume( p, true ) ) {
+                no_food_nearby_for_auto_consume = true;
+            }
+        }
+        if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
+            if( !find_auto_consume( p, false ) ) {
+                no_drink_nearby_for_auto_consume = true;
+            }
+        }
     }
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
@@ -160,14 +230,19 @@ void player_activity::do_turn( player &p )
     }
     const bool travel_activity = id() == "ACT_TRAVELLING";
     // This might finish the activity (set it to null)
-    type->call_do_turn( this, &p );
+    if( actor ) {
+        actor->do_turn( *this, p );
+    } else {
+        // Use the legacy turn function
+        type->call_do_turn( this, &p );
+    }
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
     // it just sets a destination, clears the activity, then moves afterwards
     // so set stamina -1 if that is the case
     // to simulate that the next step will surely use up some stamina anyway
-    // this is to ensure that resting will occur when travelling overburdened
+    // this is to ensure that resting will occur when traveling overburdened
     const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
     if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
@@ -187,9 +262,13 @@ void player_activity::do_turn( player &p )
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
-        if( !type->call_finish( this, &p ) ) {
-            // "Finish" is never a misnomer for any activity without a finish function
-            set_to_null();
+        if( actor ) {
+            actor->finish( *this, p );
+        } else {
+            if( !type->call_finish( this, &p ) ) {
+                // "Finish" is never a misnomer for any activity without a finish function
+                set_to_null();
+            }
         }
     }
     if( !*this ) {

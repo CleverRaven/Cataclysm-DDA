@@ -1,24 +1,23 @@
 #pragma once
-#ifndef MONGROUP_H
-#define MONGROUP_H
+#ifndef CATA_SRC_MONGROUP_H
+#define CATA_SRC_MONGROUP_H
 
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "io_tags.h"
 #include "monster.h"
-#include "string_id.h"
-#include "type_id.h"
 #include "point.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonObject;
+class JsonOut;
 // from overmap.h
 class overmap;
-class JsonObject;
-class JsonIn;
-class JsonOut;
 struct MonsterGroupEntry;
 
 using FreqDef = std::vector<MonsterGroupEntry>;
@@ -194,4 +193,4 @@ class MonsterGroupManager
         static t_string_set monster_categories_whitelist;
 };
 
-#endif
+#endif // CATA_SRC_MONGROUP_H

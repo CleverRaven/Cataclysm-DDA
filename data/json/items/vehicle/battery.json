@@ -8,6 +8,7 @@
     "weight": "18000 g",
     "volume": "6250 ml",
     "price": 4000,
+    "price_postapoc": 500,
     "material": [ "plastic" ],
     "symbol": ":",
     "color": "light_cyan",
@@ -25,6 +26,7 @@
     "weight": "4000 g",
     "volume": "1250 ml",
     "price": 2000,
+    "price_postapoc": 250,
     "capacity": 500,
     "//": "12Ah @ 12VDC. Could supply ~140 watts for an hour"
   },
@@ -37,6 +39,7 @@
     "weight": "1500 g",
     "volume": "750 ml",
     "price": 20000,
+    "price_postapoc": 100,
     "capacity": 150,
     "//": "~2.4Ah @ 12VDC. Could supply ~140 watts 10 minutes or so"
   },
@@ -53,7 +56,8 @@
     "volume": "2250 ml",
     "bashing": 1,
     "category": "veh_parts",
-    "price": 1000
+    "price": 1000,
+    "price_postapoc": 100
   },
   {
     "id": "large_storage_battery",
@@ -64,7 +68,7 @@
     "weight": "400 kg",
     "volume": "50 L",
     "price": 400000,
-    "price_postapoc": 50000,
+    "price_postapoc": 2500,
     "bashing": 40,
     "capacity": 80000
   },
@@ -77,7 +81,7 @@
     "weight": "35000 g",
     "volume": "6250 ml",
     "price": 50000,
-    "price_postapoc": 8000,
+    "price_postapoc": 750,
     "bashing": 14,
     "capacity": 7000
   },
@@ -90,7 +94,7 @@
     "weight": "2500 g",
     "volume": "500 ml",
     "price": 5000,
-    "price_postapoc": 1000,
+    "price_postapoc": 500,
     "bashing": 7,
     "capacity": 500
   },
@@ -103,7 +107,7 @@
     "weight": "200000 g",
     "volume": "25 L",
     "price": 200000,
-    "price_postapoc": 24000,
+    "price_postapoc": 1500,
     "to_hit": -2,
     "bashing": 20,
     "material": [ "plastic", "steel" ],

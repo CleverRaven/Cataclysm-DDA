@@ -189,6 +189,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cave_underground",
+    "name": "cave",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cave_rat",
     "name": "rat cave",
     "sym": "C",

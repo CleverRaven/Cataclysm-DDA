@@ -8,6 +8,7 @@
     "weight": "300 g",
     "volume": "250 ml",
     "price": 1000,
+    "price_postapoc": 10,
     "material": "steel",
     "symbol": ";",
     "color": "light_gray"
@@ -21,6 +22,7 @@
     "weight": "20 g",
     "volume": "10 ml",
     "price": 25,
+    "price_postapoc": 10,
     "material": "plastic",
     "symbol": ";",
     "color": "light_gray"
@@ -33,6 +35,7 @@
     "weight": "113 g",
     "volume": "250 ml",
     "price": 400,
+    "price_postapoc": 10,
     "to_hit": -1,
     "cutting": 6,
     "material": [ "aluminum", "plastic" ],

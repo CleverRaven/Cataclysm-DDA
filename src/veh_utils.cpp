@@ -52,8 +52,8 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
     //   5:  3 xp /h
     //   6:  2 xp /h
     //  7+:  1 xp /h
-    return std::ceil( static_cast<double>( vp.install_moves ) / to_moves<int>( 1_minutes * pow( lvl,
-                      2 ) ) );
+    return std::ceil( static_cast<double>( vp.install_moves ) /
+                      to_moves<int>( 1_minutes * std::pow( lvl, 2 ) ) );
 }
 
 vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_repairable )
@@ -124,7 +124,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
-    // allow NPCs to use welding rigs they cant see ( on the other side of a vehicle )
+    // allow NPCs to use welding rigs they can't see ( on the other side of a vehicle )
     // as they have the handicap of not being able to use the veh interaction menu
     // or able to drag a welding cart etc.
     map_inv.form_from_map( who.pos(), PICKUP_RANGE, &who_c, false, !who.is_npc() );

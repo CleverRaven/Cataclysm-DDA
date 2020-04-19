@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TILERAY_H
-#define TILERAY_H
+#ifndef CATA_SRC_TILERAY_H
+#define CATA_SRC_TILERAY_H
 
 #include "point.h"
 
@@ -58,4 +58,4 @@ class tileray
         bool end();      // do we reach the end of (dx,dy) defined ray?
 };
 
-#endif
+#endif // CATA_SRC_TILERAY_H
