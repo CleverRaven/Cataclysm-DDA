@@ -110,7 +110,6 @@ ignorable = {
 # all of their translatable strings are in the following form:
 #   "name" member
 #   "description" member
-#   "name_plural" member
 #   "text" member
 #   "sound" member
 #   "messages" member containing an array of translatable strings
@@ -359,19 +358,10 @@ def extract_gun(item):
     outfile = get_outfile("gun")
     if "name" in item:
         item_name = item.get("name")
-        if "name_plural" in item:
-            if type(item_name) is not str:
-                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
-            # legacy format
-            if item["name_plural"] != "none":
-                writestr(outfile, item_name, item["name_plural"])
-            else:
-                writestr(outfile, item_name)
+        if item["type"] in needs_plural:
+            writestr(outfile, item_name, new_pl_fmt=True)
         else:
-            if item["type"] in needs_plural:
-                writestr(outfile, item_name, new_pl_fmt=True)
-            else:
-                writestr(outfile, item_name)
+            writestr(outfile, item_name)
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
@@ -395,19 +385,10 @@ def extract_gunmod(item):
     outfile = get_outfile("gunmod")
     if "name" in item:
         item_name = item.get("name")
-        if "name_plural" in item:
-            if type(item_name) is not str:
-                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
-            # legacy format
-            if item["name_plural"] != "none":
-                writestr(outfile, item_name, item["name_plural"])
-            else:
-                writestr(outfile, item_name)
+        if item["type"] in needs_plural:
+            writestr(outfile, item_name, new_pl_fmt=True)
         else:
-            if item["type"] in needs_plural:
-                writestr(outfile, item_name, new_pl_fmt=True)
-            else:
-                writestr(outfile, item_name)
+            writestr(outfile, item_name)
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
@@ -1013,19 +994,10 @@ def extract(item, infilename):
     if name and name == "none":
         return
     if name:
-        if "name_plural" in item:
-            if type(name) is not str:
-                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
-            # legacy format
-            if item["name_plural"] != "none":
-                writestr(outfile, name, item["name_plural"], **kwargs)
-            else:
-                writestr(outfile, name, **kwargs)
+        if object_type in needs_plural:
+            writestr(outfile, name, new_pl_fmt=True, **kwargs)
         else:
-            if object_type in needs_plural:
-                writestr(outfile, name, new_pl_fmt=True, **kwargs)
-            else:
-                writestr(outfile, name, **kwargs)
+            writestr(outfile, name, **kwargs)
         wrote = True
     if "name_suffix" in item:
         writestr(outfile, item["name_suffix"], **kwargs)
