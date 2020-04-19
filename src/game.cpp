@@ -224,6 +224,7 @@ static const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
+static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -232,6 +233,7 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
+static const trait_id trait_THICKSKIN( "THICKSKIN" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -4329,7 +4331,7 @@ void game::monmove()
 void game::overmap_npc_move()
 {
     std::vector<npc *> travelling_npcs;
-    static constexpr int move_search_radius = 120;
+    static constexpr int move_search_radius = 600;
     for( auto &elem : overmap_buffer.get_npcs_near_player( move_search_radius ) ) {
         if( !elem ) {
             continue;
@@ -4404,7 +4406,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     add_msg( _( "%s was stunned!" ), targ->name() );
                     add_msg( _( "%s slammed into an obstacle!" ), targ->name() );
-                    targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
+                    targ->apply_damage( nullptr, bodypart_id( "torso" ), dam_mult * force_remaining );
                     targ->check_dead_state();
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
@@ -5126,7 +5128,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         if( critter.type->size <= MS_SMALL ) {
             critter.die_in_explosion( nullptr );
         } else {
-            critter.apply_damage( nullptr, bp_torso, bash_dmg );
+            critter.apply_damage( nullptr, bodypart_id( "torso" ), bash_dmg );
             critter.check_dead_state();
         }
         if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
@@ -8636,6 +8638,11 @@ void game::wield( item_location &loc )
     loc.remove_item();
     if( !u.wield( to_wield ) ) {
         switch( location_type ) {
+            case item_location::type::container:
+                // this will not cause things to spill, as it is inside another item
+                loc = loc.obtain( g->u );
+                wield( loc );
+                break;
             case item_location::type::character:
                 if( worn_index != INT_MIN ) {
                     auto it = u.worn.begin();
@@ -9237,10 +9244,10 @@ point game::place_player( const tripoint &dest_loc )
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
         ( !u.in_vehicle && !g->m.veh_at( dest_loc ) ) && ( !u.has_trait( trait_PARKOUR ) ||
-                one_in( 4 ) ) ) {
+                one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         if( u.is_mounted() ) {
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
-            u.mounted_creature->apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
+            u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 10 ) );
         } else {
             body_part bp = random_body_part();
             if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
@@ -9920,7 +9927,7 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
             // Multiply zed damage by 6 because no body parts
             const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_torso ) ) * 6 );
             // TODO: Pass the "flinger" here - it's not the flung critter that deals damage
-            critter.apply_damage( c, bp_torso, zed_damage );
+            critter.apply_damage( c, bodypart_id( "torso" ), zed_damage );
             critter.check_dead_state();
             if( !critter.is_dead() ) {
                 thru = false;
@@ -10153,6 +10160,14 @@ void game::vertical_move( int movez, bool force )
     }
 
     if( !u.move_effects( false ) ) {
+        return;
+    }
+
+    if( m.has_flag( "UNSTABLE", u.pos() ) ) {
+        u.moves -= 500;
+    }
+
+    if( movez == 1 && slip_down() ) {
         return;
     }
 
@@ -10562,7 +10577,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     rope_ladder = true;
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
-                    u.apply_damage( nullptr, bp_torso, 5 );
+                    u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
                     u.mod_stored_nutr( 10 );
                     u.mod_thirst( 10 );
                 } else {
@@ -12019,4 +12034,24 @@ void game::shift_destination_preview( const point &delta )
     for( tripoint &p : destination_preview ) {
         p += delta;
     }
+}
+
+bool game::slip_down( bool check_for_traps )
+{
+    ///\EFFECT_DEX decreases chances of slipping while climbing
+    int climb = u.dex_cur;
+    if( u.has_trait( trait_BADKNEES ) ) {
+        climb = climb / 2;
+    }
+    if( one_in( climb ) ) {
+        add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
+        if( climb <= 1 ) {
+            add_msg( m_bad, _( "Climbing is impossible in your current state." ) );
+        }
+        if( check_for_traps ) {
+            m.creature_on_trap( u );
+        }
+        return true;
+    }
+    return false;
 }

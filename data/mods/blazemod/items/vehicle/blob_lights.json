@@ -1,0 +1,18 @@
+[
+  {
+    "id": "glowie",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "gelectrode",
+    "//": "No Snake, eating it will not refill your batteries.",
+    "description": "A strange biological anomaly, this blob seems capable of emitting light when electricity is provided to it, from small lamps up to headlights.  Unfortunately there is no place to insert a battery, so you'll have to hook it up to a vehicle's power grid.  It seems pliable enough to pull apart…",
+    "weight": "5132 g",
+    "volume": "5 L",
+    "price": 500,
+    "to_hit": -3,
+    "bashing": 9,
+    "material": [ "flesh" ],
+    "symbol": "]",
+    "color": "cyan"
+  }
+]

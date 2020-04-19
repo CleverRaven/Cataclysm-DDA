@@ -102,34 +102,6 @@
     "components": [ [ [ "hard_plate", 10 ] ], [ [ "chain", 8 ] ] ]
   },
   {
-    "result": "turretframe",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 5 ] ],
-    "time": 9000,
-    "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "pipe", 8 ], [ "rebar", 4 ] ],
-      [ [ "wire", 20 ] ],
-      [ [ "scrap", 21 ], [ "steel_chunk", 9 ], [ "steel_lump", 1 ] ],
-      [ [ "spring", 4 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "small_storage_battery", 1 ], [ "UPS_off", 1 ] ],
-      [ [ "e_scrap", 8 ] ],
-      [ [ "solar_cell", 12 ] ],
-      [ [ "cable", 40 ] ],
-      [ [ "power_supply", 2 ] ],
-      [ [ "motor", 1 ], [ "motor_small", 2 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 2 ] ]
-    ]
-  },
-  {
     "result": "space_anomaly",
     "type": "recipe",
     "category": "CC_OTHER",

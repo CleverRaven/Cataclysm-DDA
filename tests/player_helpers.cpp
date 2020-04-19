@@ -93,6 +93,9 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_dex_bonus( 0 );
     dummy.set_int_bonus( 0 );
     dummy.set_per_bonus( 0 );
+    dummy.reset_bonuses();
+    dummy.set_speed_base( 100 );
+    dummy.set_speed_bonus( 0 );
 
     dummy.cash = 0;
 

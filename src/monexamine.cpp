@@ -673,7 +673,7 @@ void monexamine::play_with( monster &z )
 
 void monexamine::kill_zslave( monster &z )
 {
-    z.apply_damage( &g->u, bp_torso, 100 ); // damage the monster (and its corpse)
+    z.apply_damage( &g->u, bodypart_id( "torso" ), 100 ); // damage the monster (and its corpse)
     z.die( &g->u ); // and make sure it's really dead
 
     g->u.moves -= 150;

@@ -290,18 +290,11 @@
     "id": "THICKSKIN",
     "name": { "str": "Thick-Skinned" },
     "points": 1,
-    "description": "Your skin is tough.  Cutting damage is slightly reduced for you.  Slightly decreases wet penalties.",
+    "description": "Your skin is tough.  Cutting and bash damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
     "starting_trait": true,
     "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR" ],
     "cancels": [ "THINSKIN" ],
-    "wet_protection": [
-      { "part": "LEG_L", "neutral": 2 },
-      { "part": "LEG_R", "neutral": 2 },
-      { "part": "ARM_L", "neutral": 2 },
-      { "part": "ARM_R", "neutral": 2 },
-      { "part": "TORSO", "neutral": 4 }
-    ],
-    "armor": [ { "parts": "ALL", "cut": 1 } ]
+    "armor": [ { "parts": "ALL", "cut": 1, "bash": 1 } ]
   },
   {
     "type": "mutation",
@@ -947,10 +940,10 @@
     "id": "THINSKIN",
     "name": { "str": "Thin-Skinned" },
     "points": -1,
-    "description": "Your skin is fragile.  Cutting damage is slightly increased for you.",
+    "description": "Your skin is fragile.  Cutting and bash damage is slightly increased for you.",
     "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
-    "armor": [ { "parts": "ALL", "cut": -1 } ]
+    "armor": [ { "parts": "ALL", "cut": -1, "bash": -1 } ]
   },
   {
     "type": "mutation",

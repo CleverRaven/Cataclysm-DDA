@@ -198,3 +198,122 @@ You can assign a spell as a special attack for a monster.
 * spell_id: the id for the spell being cast.
 * spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
 * cooldown: how often the monster can cast this spell
+
+### Enchantments
+| Identifier                  | Description
+|---                          |---
+| id                          | Unique ID. Must be one continuous word, use underscores if necessary.
+| has                         | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
+| condition                   | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain
+| hit_you_effect              | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
+| hit_me_effect               | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
+| intermittent_activation     | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.
+| values                      | Anything that is a number that can be modified.  The id field is required, and "add" and "multiply" are optional.  A "multiply" value of -1 is -100% and a multiply of 2.5 is +250%.  Add is always before multiply. See allowed id below.
+
+
+
+```C++
+  {
+    "type": "enchantment",
+    "id": "MEP_INK_GLAND_SPRAY",
+    "hit_me_effect": [
+      {
+        "id": "generic_blinding_spray_1",
+        "hit_self": false,
+        "once_in": 15,
+        "message": "Your ink glands spray some ink into %2$s's eyes.",
+        "npc_message": "%1$s's ink glands spay some ink into %2$s's eyes."
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_INVISIBILITY",
+    "condition": "ALWAYS",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]
+    "has": "WIELD",
+    "hit_you_effect": [ { "id": "AEA_FIREBALL" } ],
+    "hit_me_effect": [ { "id": "AEA_HEAL" } ],
+    "values": [ { "value": "STRENGTH", "multiply": 1.1, "add": -5 } ],
+    "intermittent_activation": {
+      "effects": [ 
+        {
+          "frequency": "1 hour",
+          "spell_effects": [
+            { "id": "AEA_ADRENALINE" }
+          ]
+        }
+      ]
+    }
+  }
+
+```
+	### Allowed id for values
+The allowed values are as follows:
+
+- Effects for the character that has the enchantment:
+* STRENGTH
+* DEXTERITY
+* PERCEPTION
+* INTELLIGENCE
+* SPEED
+* ATTACK_COST
+* ATTACK_SPEED
+* MOVE_COST
+* METABOLISM
+* MAX_MANA
+* REGEN_MANA
+* BIONIC_POWER
+* MAX_STAMINA
+* REGEN_STAMINA
+* MAX_HP
+* REGEN_HP
+* THIRST
+* FATIGUE
+* PAIN
+* BONUS_DODGE
+* BONUS_BLOCK
+* BONUS_DAMAGE
+* ATTACK_NOISE
+* SPELL_NOISE
+* SHOUT_NOISE
+* FOOTSTEP_NOISE
+* SIGHT_RANGE
+* CARRY_WEIGHT
+* CARRY_VOLUME
+* SOCIAL_LIE
+* SOCIAL_PERSUADE
+* SOCIAL_INTIMIDATE
+* ARMOR_BASH
+* ARMOR_CUT
+* ARMOR_STAB
+* ARMOR_HEAT
+* ARMOR_COLD
+* ARMOR_ELEC
+* ARMOR_ACID
+* ARMOR_BIO
+
+- Effects for the item that has the enchantment:
+* ITEM_DAMAGE_BASH
+* ITEM_DAMAGE_CUT
+* ITEM_DAMAGE_STAB
+* ITEM_DAMAGE_HEAT
+* ITEM_DAMAGE_COLD
+* ITEM_DAMAGE_ELEC
+* ITEM_DAMAGE_ACID
+* ITEM_DAMAGE_BIO
+* ITEM_DAMAGE_AP
+* ITEM_ARMOR_BASH
+* ITEM_ARMOR_CUT
+* ITEM_ARMOR_STAB
+* ITEM_ARMOR_HEAT
+* ITEM_ARMOR_COLD
+* ITEM_ARMOR_ELEC
+* ITEM_ARMOR_ACID
+* ITEM_ARMOR_BIO
+* ITEM_WEIGHT
+* ITEM_ENCUMBRANCE
+* ITEM_VOLUME
+* ITEM_COVERAGE
+* ITEM_ATTACK_SPEED
+* ITEM_WET_PROTECTION
