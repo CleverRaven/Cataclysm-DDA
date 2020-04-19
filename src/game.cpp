@@ -9208,11 +9208,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( dest_loc != u.pos() ) {
-        mtype_id mount_type;
-        if( u.is_mounted() ) {
-            mount_type = u.mounted_creature->type->id;
-        }
-        g->events().send<event_type::avatar_moves>( mount_type );
+        cata_event_dispatch::avatar_moves( u, m, dest_loc );
     }
 
     tripoint oldpos = u.pos();
@@ -12089,3 +12085,16 @@ bool game::slip_down( bool check_for_traps )
     }
     return false;
 }
+
+namespace cata_event_dispatch
+{
+void avatar_moves( const avatar &u, const map &m, const tripoint &p )
+{
+    mtype_id mount_type;
+    if( u.is_mounted() ) {
+        mount_type = u.mounted_creature->type->id;
+    }
+    g->events().send<event_type::avatar_moves>( mount_type, m.ter( p ).id(),
+            u.get_movement_mode(), u.is_underwater() );
+}
+} // namespace cata_event_dispatch

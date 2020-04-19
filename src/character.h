@@ -97,18 +97,16 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
-enum character_movemode : unsigned char {
+enum character_movemode : int {
     CMM_WALK = 0,
-    CMM_RUN = 1,
-    CMM_CROUCH = 2,
+    CMM_RUN,
+    CMM_CROUCH,
     CMM_COUNT
 };
 
-static const std::array< std::string, CMM_COUNT > character_movemode_str = { {
-        "walk",
-        "run",
-        "crouch"
-    }
+template<>
+struct enum_traits<character_movemode> {
+    static constexpr auto last = character_movemode::CMM_COUNT;
 };
 
 enum fatigue_levels {
@@ -569,6 +567,7 @@ class Character : public Creature, public visitable<Character>
         bool move_effects( bool attacking ) override;
         /** Check against the character's current movement mode */
         bool movement_mode_is( character_movemode mode ) const;
+        character_movemode get_movement_mode() const;
 
         virtual void set_movement_mode( character_movemode mode ) = 0;
 

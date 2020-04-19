@@ -279,6 +279,10 @@ struct map_data_common_t {
 
         bool transparent = false;
 
+        const std::set<std::string> &get_flags() const {
+            return flags;
+        }
+
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) > 0;
         }

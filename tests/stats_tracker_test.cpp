@@ -79,19 +79,98 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
     SECTION( "movement" ) {
         const mtype_id no_monster;
         const mtype_id horse( "mon_horse" );
-        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster );
-        const cata::event ride = cata::event::make<event_type::avatar_moves>( horse );
-        const string_id<score> score_moves( "score_moves" );
-        const string_id<score> score_walked( "score_walked" );
+        const ter_id t_null( "t_null" );
+        const ter_id t_water_dp( "t_water_dp" );
 
-        CHECK( score_walked->value( s ) == cata_variant( 0 ) );
-        CHECK( score_moves->value( s ) == cata_variant( 0 ) );
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+                                 character_movemode::CMM_WALK,  false );
+        const cata::event ride = cata::event::make<event_type::avatar_moves>( horse, t_null,
+                                 character_movemode::CMM_WALK,
+                                 false );
+        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+                                character_movemode::CMM_RUN, false );
+        const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+                                   character_movemode::CMM_CROUCH, false );
+        const cata::event swim = cata::event::make<event_type::avatar_moves>( no_monster, t_water_dp,
+                                 character_movemode::CMM_WALK, false );
+        const cata::event swim_underwater = cata::event::make<event_type::avatar_moves>( no_monster,
+                                            t_water_dp, character_movemode::CMM_WALK, true );
+
+        const string_id<score> score_moves( "score_moves" );
+        const string_id<score> score_walked( "score_distance_walked" );
+        const string_id<score> score_mounted( "score_distance_mounted" );
+        const string_id<score> score_ran( "score_distance_ran" );
+        const string_id<score> score_crouched( "score_distance_crouched" );
+        const string_id<score> score_swam( "score_distance_swam" );
+        const string_id<score> score_swam_underwater( "score_distance_swam_underwater" );
+
+        CHECK( score_moves->value( s ).get<int>() == 0 );
+        CHECK( score_walked->value( s ).get<int>() == 0 );
+        CHECK( score_mounted->value( s ).get<int>() == 0 );
+        CHECK( score_ran->value( s ).get<int>() == 0 );
+        CHECK( score_crouched->value( s ).get<int>() == 0 );
+        CHECK( score_swam->value( s ).get<int>() == 0 );
+        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+
         b.send( walk );
-        CHECK( score_walked->value( s ) == cata_variant( 1 ) );
-        CHECK( score_moves->value( s ) == cata_variant( 1 ) );
+
+        CHECK( score_moves->value( s ).get<int>() == 1 );
+        CHECK( score_walked->value( s ).get<int>() == 1 );
+        CHECK( score_mounted->value( s ).get<int>() == 0 );
+        CHECK( score_ran->value( s ).get<int>() == 0 );
+        CHECK( score_crouched->value( s ).get<int>() == 0 );
+        CHECK( score_swam->value( s ).get<int>() == 0 );
+        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+
         b.send( ride );
-        CHECK( score_walked->value( s ) == cata_variant( 1 ) );
-        CHECK( score_moves->value( s ) == cata_variant( 2 ) );
+
+        CHECK( score_moves->value( s ).get<int>() == 2 );
+        CHECK( score_walked->value( s ).get<int>() == 1 );
+        CHECK( score_mounted->value( s ).get<int>() == 1 );
+        CHECK( score_ran->value( s ).get<int>() == 0 );
+        CHECK( score_crouched->value( s ).get<int>() == 0 );
+        CHECK( score_swam->value( s ).get<int>() == 0 );
+        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+
+        b.send( run );
+
+        CHECK( score_moves->value( s ).get<int>() == 3 );
+        CHECK( score_walked->value( s ).get<int>() == 1 );
+        CHECK( score_mounted->value( s ).get<int>() == 1 );
+        CHECK( score_ran->value( s ).get<int>() == 1 );
+        CHECK( score_crouched->value( s ).get<int>() == 0 );
+        CHECK( score_swam->value( s ).get<int>() == 0 );
+        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+
+        b.send( crouch );
+
+        CHECK( score_moves->value( s ).get<int>() == 4 );
+        CHECK( score_walked->value( s ).get<int>() == 1 );
+        CHECK( score_mounted->value( s ).get<int>() == 1 );
+        CHECK( score_ran->value( s ).get<int>() == 1 );
+        CHECK( score_crouched->value( s ).get<int>() == 1 );
+        CHECK( score_swam->value( s ).get<int>() == 0 );
+        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+
+        b.send( swim );
+
+        CHECK( score_moves->value( s ).get<int>() == 5 );
+        CHECK( score_walked->value( s ).get<int>() == 1 );
+        CHECK( score_mounted->value( s ).get<int>() == 1 );
+        CHECK( score_ran->value( s ).get<int>() == 1 );
+        CHECK( score_crouched->value( s ).get<int>() == 1 );
+        CHECK( score_swam->value( s ).get<int>() == 1 );
+        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+
+        b.send( swim_underwater );
+
+        CHECK( score_moves->value( s ).get<int>() == 6 );
+        CHECK( score_walked->value( s ).get<int>() == 1 );
+        CHECK( score_mounted->value( s ).get<int>() == 1 );
+        CHECK( score_ran->value( s ).get<int>() == 1 );
+        CHECK( score_crouched->value( s ).get<int>() == 1 );
+        CHECK( score_swam->value( s ).get<int>() == 2 );
+        CHECK( score_swam_underwater->value( s ).get<int>() == 1 );
     }
 
     SECTION( "kills" ) {
@@ -158,24 +237,114 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
     SECTION( "movement" ) {
         const mtype_id no_monster;
         const mtype_id horse( "mon_horse" );
-        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster );
-        const cata::event ride = cata::event::make<event_type::avatar_moves>( horse );
+        const ter_id t_null( "t_null" );
+        const ter_id t_water_dp( "t_water_dp" );
+
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+                                 character_movemode::CMM_WALK, false );
+        const cata::event ride = cata::event::make<event_type::avatar_moves>( horse, t_null,
+                                 character_movemode::CMM_WALK,
+                                 false );
+        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+                                character_movemode::CMM_RUN, false );
+        const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+                                   character_movemode::CMM_CROUCH, false );
+        const cata::event swim = cata::event::make<event_type::avatar_moves>( no_monster, t_water_dp,
+                                 character_movemode::CMM_WALK, false );
+        const cata::event swim_underwater = cata::event::make<event_type::avatar_moves>( no_monster,
+                                            t_water_dp, character_movemode::CMM_WALK, true );
+
         const string_id<event_statistic> stat_moves( "num_moves" );
-        const string_id<event_statistic> stat_walked( "num_moves_not_mounted" );
+        const string_id<event_statistic> stat_walked( "num_moves_walked" );
+        const string_id<event_statistic> stat_mounted( "num_moves_mounted" );
+        const string_id<event_statistic> stat_ran( "num_moves_ran" );
+        const string_id<event_statistic> stat_crouched( "num_moves_crouched" );
+        const string_id<event_statistic> stat_swam( "num_moves_swam" );
+        const string_id<event_statistic> stat_swam_underwater( "num_moves_swam_underwater" );
 
         watch_stat moves_watcher;
-        watch_stat walks_watcher;
-        s.add_watcher( stat_moves, &moves_watcher );
-        s.add_watcher( stat_walked, &walks_watcher );
+        watch_stat walked_watcher;
+        watch_stat mounted_watcher;
+        watch_stat ran_watcher;
+        watch_stat crouched_watcher;
+        watch_stat swam_watcher;
+        watch_stat swam_underwater_watcher;
 
-        CHECK( walks_watcher.value == cata_variant() );
+        s.add_watcher( stat_moves, &moves_watcher );
+        s.add_watcher( stat_walked, &walked_watcher );
+        s.add_watcher( stat_mounted, &mounted_watcher );
+        s.add_watcher( stat_ran, &ran_watcher );
+        s.add_watcher( stat_crouched, &crouched_watcher );
+        s.add_watcher( stat_swam, &swam_watcher );
+        s.add_watcher( stat_swam_underwater, &swam_underwater_watcher );
+
         CHECK( moves_watcher.value == cata_variant() );
+        CHECK( walked_watcher.value == cata_variant() );
+        CHECK( mounted_watcher.value == cata_variant() );
+        CHECK( ran_watcher.value == cata_variant() );
+        CHECK( crouched_watcher.value == cata_variant() );
+        CHECK( swam_watcher.value == cata_variant() );
+        CHECK( swam_underwater_watcher.value == cata_variant() );
+
         b.send( walk );
-        CHECK( walks_watcher.value == cata_variant( 1 ) );
+
         CHECK( moves_watcher.value == cata_variant( 1 ) );
+        CHECK( walked_watcher.value == cata_variant( 1 ) );
+        CHECK( mounted_watcher.value == cata_variant() );
+        CHECK( ran_watcher.value == cata_variant() );
+        CHECK( crouched_watcher.value == cata_variant() );
+        CHECK( swam_watcher.value == cata_variant() );
+        CHECK( swam_underwater_watcher.value == cata_variant() );
+
         b.send( ride );
-        CHECK( walks_watcher.value == cata_variant( 1 ) );
+
         CHECK( moves_watcher.value == cata_variant( 2 ) );
+        CHECK( walked_watcher.value == cata_variant( 1 ) );
+        CHECK( mounted_watcher.value == cata_variant( 1 ) );
+        CHECK( ran_watcher.value == cata_variant() );
+        CHECK( crouched_watcher.value == cata_variant() );
+        CHECK( swam_watcher.value == cata_variant() );
+        CHECK( swam_underwater_watcher.value == cata_variant() );
+
+        b.send( run );
+
+        CHECK( moves_watcher.value == cata_variant( 3 ) );
+        CHECK( walked_watcher.value == cata_variant( 1 ) );
+        CHECK( mounted_watcher.value == cata_variant( 1 ) );
+        CHECK( ran_watcher.value == cata_variant( 1 ) );
+        CHECK( crouched_watcher.value == cata_variant() );
+        CHECK( swam_watcher.value == cata_variant() );
+        CHECK( swam_underwater_watcher.value == cata_variant() );
+
+        b.send( crouch );
+
+        CHECK( moves_watcher.value == cata_variant( 4 ) );
+        CHECK( walked_watcher.value == cata_variant( 1 ) );
+        CHECK( mounted_watcher.value == cata_variant( 1 ) );
+        CHECK( ran_watcher.value == cata_variant( 1 ) );
+        CHECK( crouched_watcher.value == cata_variant( 1 ) );
+        CHECK( swam_watcher.value == cata_variant() );
+        CHECK( swam_underwater_watcher.value == cata_variant() );
+
+        b.send( swim );
+
+        CHECK( moves_watcher.value == cata_variant( 5 ) );
+        CHECK( walked_watcher.value == cata_variant( 1 ) );
+        CHECK( mounted_watcher.value == cata_variant( 1 ) );
+        CHECK( ran_watcher.value == cata_variant( 1 ) );
+        CHECK( crouched_watcher.value == cata_variant( 1 ) );
+        CHECK( swam_watcher.value == cata_variant( 1 ) );
+        CHECK( swam_underwater_watcher.value == cata_variant() );
+
+        b.send( swim_underwater );
+
+        CHECK( moves_watcher.value == cata_variant( 6 ) );
+        CHECK( walked_watcher.value == cata_variant( 1 ) );
+        CHECK( mounted_watcher.value == cata_variant( 1 ) );
+        CHECK( ran_watcher.value == cata_variant( 1 ) );
+        CHECK( crouched_watcher.value == cata_variant( 1 ) );
+        CHECK( swam_watcher.value == cata_variant( 2 ) );
+        CHECK( swam_underwater_watcher.value == cata_variant( 1 ) );
     }
 
     SECTION( "kills" ) {
@@ -292,6 +461,75 @@ TEST_CASE( "achievments_tracker", "[stats]" )
                    "<color_c_light_gray>Rude awakening</color>\n"
                    "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
                    "  <color_c_green>1/1 Number of monsters killed</color>\n" );
+        }
+    }
+
+    SECTION( "movement" ) {
+        const mtype_id no_monster;
+        const ter_id t_null( "t_null" );
+        const ter_id t_shrub_raspberry( "t_shrub_raspberry" );
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+                                 character_movemode::CMM_WALK, false );
+        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+                                character_movemode::CMM_RUN, false );
+        const cata::event sharp_move = cata::event::make<event_type::avatar_moves>( no_monster,
+                                       t_shrub_raspberry, character_movemode::CMM_WALK, false );
+
+        SECTION( "achievement_marathon" ) {
+            string_id<achievement> a_marathon( "achievement_marathon" );
+
+            GIVEN( "a new game" ) {
+                const character_id u_id = g->u.getID();
+                b.send<event_type::game_start>( u_id );
+                CHECK( achievements_completed.empty() );
+
+                WHEN( "the avatar runs the required distance" ) {
+                    for( int i = 0; i < 42196; i++ ) {
+                        b.send( run );
+                    }
+                    THEN( "the achivement should be achieved" ) {
+                        CHECK( achievements_completed.count( a_marathon ) > 0 );
+                    }
+                }
+            }
+        }
+
+        SECTION( "achievement_walk_1000_miles" ) {
+            string_id<achievement> a_proclaimers( "achievement_walk_1000_miles" );
+
+            GIVEN( "a new game" ) {
+                const character_id u_id = g->u.getID();
+                b.send<event_type::game_start>( u_id );
+                CHECK( achievements_completed.empty() );
+
+                WHEN( "the avatar walks the required distance" ) {
+                    for( int i = 0; i < 1609340; i++ ) {
+                        b.send( walk );
+                    }
+                    THEN( "the achivement should be achieved" ) {
+                        CHECK( achievements_completed.count( a_proclaimers ) > 0 );
+                    }
+                }
+            }
+        }
+
+        SECTION( "achievement_traverse_sharp_terrain" ) {
+            string_id<achievement> a_traverse_sharp_terrain( "achievement_traverse_sharp_terrain" );
+
+            GIVEN( "a new game" ) {
+                const character_id u_id = g->u.getID();
+                b.send<event_type::game_start>( u_id );
+                CHECK( achievements_completed.empty() );
+
+                WHEN( "the avatar traverses the required number of sharp terrain" ) {
+                    for( int i = 0; i < 100; i++ ) {
+                        b.send( sharp_move );
+                    }
+                    THEN( "the achivement should be achieved" ) {
+                        CHECK( achievements_completed.count( a_traverse_sharp_terrain ) > 0 );
+                    }
+                }
+            }
         }
     }
 }

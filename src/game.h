@@ -1090,4 +1090,13 @@ int get_heat_radiation( const tripoint &location, bool direct );
 // Returns temperature modifier from hot air fields of given location
 int get_convection_temperature( const tripoint &location );
 
+namespace cata_event_dispatch
+{
+// Constructs and dispatches an avatar movement event with the necessary parameters
+// @param u The avatar moving
+// @param m The map the avatar is moving on
+// @param p The point the avatar is moving to on map m
+void avatar_moves( const avatar &u, const map &m, const tripoint &p );
+} // namespace cata_event_dispatch
+
 #endif // CATA_SRC_GAME_H

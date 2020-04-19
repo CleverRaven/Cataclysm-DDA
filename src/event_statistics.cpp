@@ -187,6 +187,11 @@ struct value_constraint {
             equals_ = cata_variant::make<cata_variant_type::int_>( equals_int );
         }
 
+        bool equals_bool;
+        if( jo.read( "equals", equals_bool, false ) ) {
+            equals_ = cata_variant::make<cata_variant_type::bool_>( equals_bool );
+        }
+
         std::string equals_string;
         if( jo.read( "equals", equals_string, false ) ) {
             equals_string_ = equals_string;
