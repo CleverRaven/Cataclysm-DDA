@@ -7806,12 +7806,9 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
             removed_items.push_back( contained );
         }
     }
+
     for( item *removed : removed_items ) {
         this->remove_item( *removed );
-    }
-
-    for( item *remove : removed_items ) {
-        remove_item( *remove );
     }
 
     if( quantity != old_quantity ) {
@@ -9720,32 +9717,6 @@ const cata::value_ptr<islot_comestible> &item::get_comestible() const
         return type->comestible;
     }
 }
-
-item &item::get_consumable_from( const Character &eater )
-{
-    if( eater.can_consume_as_is( *this ) ) {
-        return *this;
-    }
-
-    item *edible = nullptr;
-    visit_items( [&edible, &eater]( item * potential ) {
-        if( eater.can_consume_as_is( *potential ) ) {
-            edible = potential;
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::NEXT;
-    } );
-
-    if( edible == nullptr ) {
-        static item null_comestible;
-        // Since it's not const.
-        null_comestible = item();
-        return null_comestible;
-    }
-
-    return *edible;
-}
-
 
 bool item::has_clothing_mod() const
 {

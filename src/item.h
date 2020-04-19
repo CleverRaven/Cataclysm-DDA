@@ -2005,12 +2005,6 @@ class item : public visitable<item>
         int get_min_str() const;
 
         const cata::value_ptr<islot_comestible> &get_comestible() const;
-        /**
-         * Returns a reference to the item itself (if it's consumable),
-         * the first of its contents (if it's consumable) or null item otherwise.
-         * WARNING: consumable does not necessarily guarantee the comestible type.
-         */
-        item &get_consumable_from( const Character &eater );
 
         /**
          * Get the stored recipe for in progress crafts.

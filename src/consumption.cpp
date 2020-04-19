@@ -1619,10 +1619,6 @@ bool Character::can_consume( const item &it ) const
 
 item &Character::get_consumable_from( item &it ) const
 {
-    if( can_consume_as_is( it ) ) {
-        return it;
-    }
-
     item *ret = nullptr;
     it.visit_items( [&]( item * it ) {
         if( can_consume_as_is( *it ) ) {

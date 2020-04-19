@@ -2129,7 +2129,8 @@ bool player::consume_item( item &target )
         return false;
     }
 
-    item &comest = target.get_consumable_from( *this );
+    // to try to reduce unecessary churn, this was left for now
+    item &comest = target;
 
     if( comest.is_null() || target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
@@ -2158,42 +2159,14 @@ bool player::consume_item( item &target )
 bool player::consume( item_location loc )
 {
     item &target = *loc;
-    const bool wielding = is_wielding( target );
-    const bool worn = is_worn( target );
+    bool wielding = is_wielding( target );
+    bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
 
     if( consume_item( target ) ) {
 
-        const bool was_in_container = !can_consume_as_is( target );
-        i_rem( &loc->get_consumable_from( *this ) );
+        i_rem( loc.get_item() );
 
-        //Restack and sort so that we don't lie about target's invlet
-        if( inv_item ) {
-            inv.restack( *this );
-        }
-
-        if( was_in_container && wielding ) {
-            add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
-        } else if( was_in_container && worn ) {
-            add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
-        } else if( was_in_container && !is_npc() ) {
-            bool drop_it = false;
-            if( get_option<std::string>( "DROP_EMPTY" ) == "no" ) {
-                drop_it = false;
-            } else if( get_option<std::string>( "DROP_EMPTY" ) == "watertight" ) {
-                drop_it = !target.is_watertight_container();
-            } else if( get_option<std::string>( "DROP_EMPTY" ) == "all" ) {
-                drop_it = true;
-            }
-            if( drop_it ) {
-                add_msg( _( "You drop the empty %s." ), target.tname() );
-                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { inv.remove_item( &target ) } );
-            } else {
-                int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
-                char letter = target.invlet ? target.invlet : ' ';
-                add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ) );
-            }
-        }
     } else if( inv_item ) {
         if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
             i_rem( &target );
