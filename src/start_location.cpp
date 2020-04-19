@@ -405,7 +405,7 @@ void start_location::handle_heli_crash( player &u ) const
                 const auto maxHp = u.get_hp_max( part );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
-                u.apply_damage( nullptr, bp_part, dmg );
+                u.apply_damage( nullptr, convert_bp( bp_part ).id(), dmg );
                 break;
             }
             // No damage
