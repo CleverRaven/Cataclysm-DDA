@@ -176,7 +176,7 @@
     "id": "e1776",
     "copy-from": "smg_base",
     "type": "GUN",
-    "name": { "str": "Eagle 1776", "str_pl": "Eagle 1776" },
+    "name": { "str_sp": "Eagle 1776" },
     "description": "You see before you a marvel of American engineering: a powerful .44 Magnum submachine gun, made from fine parts assembled in America, including an integral grenade launcher.  Eagle 1776: From the arsenal of freedom!",
     "price": 580000,
     "material": [ "steel", "plastic" ],

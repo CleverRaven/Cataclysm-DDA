@@ -44,7 +44,7 @@
     "//": "uncontained so it can bleed to the ground.",
     "symbol": "~",
     "color": "yellow",
-    "name": { "str": "honey", "str_pl": "honey" },
+    "name": { "str_sp": "honey" },
     "description": "Honey, that stuff bees make.",
     "price": 800,
     "material": "honey",

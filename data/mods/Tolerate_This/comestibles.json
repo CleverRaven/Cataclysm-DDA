@@ -852,7 +852,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rice_milk",
-    "name": { "str": "rice milk", "str_pl": "rice milk" },
+    "name": { "str_sp": "rice milk" },
     "weight": "263 g",
     "color": "white",
     "spoils_in": 24,
@@ -874,7 +874,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coconut_water",
-    "name": { "str": "coconut water", "str_pl": "coconut water" },
+    "name": { "str_sp": "coconut water" },
     "weight": "263 g",
     "color": "white",
     "spoils_in": 24,
@@ -896,7 +896,7 @@
   {
     "type": "COMESTIBLE",
     "id": "jar_cream_coconut",
-    "name": { "str": "jarred coconut milk", "str_pl": "jarred coconut milk" },
+    "name": { "str_sp": "jarred coconut milk" },
     "weight": "258 g",
     "color": "white",
     "spoils_in": 24,
@@ -915,7 +915,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rice_flour",
-    "name": { "str": "rice flour", "str_pl": "rice flour" },
+    "name": { "str_sp": "rice flour" },
     "weight": "45 g",
     "color": "white",
     "container": "box_small",

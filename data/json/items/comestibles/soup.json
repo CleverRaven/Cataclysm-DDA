@@ -272,7 +272,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_dumplings",
-    "name": { "str": "chicken and dumplings", "str_pl": "chicken and dumplings" },
+    "name": { "str_sp": "chicken and dumplings" },
     "weight": "263 g",
     "color": "light_gray",
     "spoils_in": "6 days 16 hours",
