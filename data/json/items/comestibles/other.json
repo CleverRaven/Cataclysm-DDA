@@ -455,8 +455,8 @@
     "name": { "str": "Foodplace's delicious food™", "str_pl": "Foodplace's delicious food™" },
     "weight": "500 g",
     "color": "magenta",
-    "container": "cardboard",
     "comestible_type": "FOOD",
+    "container": "box_small",
     "symbol": "f",
     "calories": 500,
     "description": "The best-seller from Foodplace, delicious food™, is made with real foodstuff and is guaranteed 100% edible!",
@@ -464,9 +464,9 @@
     "price_postapoc": 1000,
     "material": "foodplace_foodstuff",
     "volume": "500 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 4,
+    "flags": [ "EDIBLE_FROZEN", "IRREPLACEABLE_CONSUMABLE" ],
     "addiction_potential": 1,
+    "charges": 4,
     "fun": 2
   },
   {
