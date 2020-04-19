@@ -69,7 +69,10 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
+
 static const activity_id ACT_PULP( "ACT_PULP" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 
 static const ammotype ammo_reactor_slurry( "reactor_slurry" );
 static const ammotype ammo_plutonium( "plutonium" );
@@ -115,6 +118,8 @@ static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const quality_id qual_CUT( "CUT" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -795,7 +800,6 @@ void npc::move()
             print_action( "address_player %s", action );
         }
     }
-
     if( action == npc_undecided && is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
         rl_dist( pos(), g->u.pos() ) > follow_distance() ) {
         action = npc_follow_player;
@@ -1080,15 +1084,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_heal_player:
-            update_path( patient->pos() );
-            if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
-                heal_player( *patient );
-            } else if( !path.empty() ) {
-                say( _( "Hold still %s, I'm coming to help you." ), patient->disp_name() );
-                move_to_next();
-            } else {
-                move_pause();
-            }
+            heal_player( *patient );
             break;
 
         case npc_follow_player:
@@ -1702,7 +1698,9 @@ healing_options npc::patient_assessment( const Character &c )
 {
     healing_options try_to_fix;
     try_to_fix.clear_all();
-
+    if( getID() == c.getID() ) {
+        try_to_fix.self = true;
+    }
     for( int i = 0; i < num_hp_parts; i++ ) {
         const hp_part part = static_cast<hp_part>( i );
         const body_part bp_wounded = hp_to_bp( part );
@@ -1739,6 +1737,53 @@ healing_options npc::patient_assessment( const Character &c )
     return try_to_fix;
 }
 
+// check if possible to cast in NPC AI before reaching this function.
+void npc::npc_cast_spell( spell &sp, const tripoint &target )
+{
+    if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
+        !weapon.has_flag( flag_MAGIC_FOCUS ) ) {
+        itype_id dropped = weapon.typeId();
+        if( can_unwield( weapon ).success() ) {
+            if( !stow_item( weapon ) ) {
+                for( item &elem : g->m.i_at( pos() ) ) {
+                    if( elem.typeId() == dropped ) {
+                        retrieve_loc = item_location( map_cursor( pos() ), &elem );
+                        break;
+                    }
+                }
+            }
+        } else {
+            return;
+        }
+    }
+    player_activity cast_spell( ACT_SPELLCASTING, sp.casting_time( *this ) );
+    // [0] this is used as a spell level override for items casting spells
+    cast_spell.values.emplace_back( -1 );
+    // [1] if this value is 1, the spell never fails
+    cast_spell.values.emplace_back( 0 );
+    // [2] this value overrides the mana cost if set to 0
+    cast_spell.values.emplace_back( 1 );
+    cast_spell.placement = g->m.getabs( target );
+    cast_spell.name = sp.id().c_str();
+    if( magic.casting_ignore ) {
+        const std::vector<distraction_type> ignored_distractions = {
+            distraction_type::noise,
+            distraction_type::pain,
+            distraction_type::attacked,
+            distraction_type::hostile_spotted_near,
+            distraction_type::hostile_spotted_far,
+            distraction_type::talked_to,
+            distraction_type::asthma,
+            distraction_type::motion_alarm,
+            distraction_type::weather_change
+        };
+        for( const distraction_type ignored : ignored_distractions ) {
+            cast_spell.ignore_distraction( ignored );
+        }
+    }
+    assign_activity( cast_spell, false );
+}
+
 npc_action npc::address_needs( float danger )
 {
     // rng because NPCs are not meant to be hypervigilant hawks that notice everything
@@ -1746,23 +1791,24 @@ npc_action npc::address_needs( float danger )
     // no sometimes they are just looking the other way, sometimes they hestitate.
     // ( also we can get huge performance boosts )
     if( one_in( 3 ) ) {
+        const bool has_spells = !magic.get_spells().empty();
         healing_options try_to_fix_me = patient_assessment( *this );
-        if( try_to_fix_me.any_true() ) {
+        if( try_to_fix_me.any_afflictions_true() ) {
             if( !use_bionic_by_id( bio_nanobots ) ) {
                 ai_cache.can_heal = has_healing_options( try_to_fix_me );
-                if( ai_cache.can_heal.any_true() ) {
+                if( ai_cache.can_heal.any_heal_options_true() ) {
                     return npc_heal;
                 }
             }
         } else {
             deactivate_bionic_by_id( bio_nanobots );
         }
-        if( get_skill_level( skill_firstaid ) > 0 ) {
+        if( get_skill_level( skill_firstaid ) > 0 || has_spells ) {
             if( is_player_ally() ) {
                 healing_options try_to_fix_other = patient_assessment( g->u );
-                if( try_to_fix_other.any_true() ) {
+                if( try_to_fix_other.any_afflictions_true() ) {
                     ai_cache.can_heal = has_healing_options( try_to_fix_other );
-                    if( ai_cache.can_heal.any_true() ) {
+                    if( ai_cache.can_heal.any_heal_options_true() ) {
                         ai_cache.ally = g->shared_from( g->u );
                         return npc_heal_player;
                     }
@@ -1773,9 +1819,9 @@ npc_action npc::address_needs( float danger )
                     continue;
                 }
                 healing_options try_to_fix_other = patient_assessment( guy );
-                if( try_to_fix_other.any_true() ) {
+                if( try_to_fix_other.any_afflictions_true() ) {
                     ai_cache.can_heal = has_healing_options( try_to_fix_other );
-                    if( ai_cache.can_heal.any_true() ) {
+                    if( ai_cache.can_heal.any_heal_options_true() ) {
                         ai_cache.ally = g->shared_from( guy );
                         return npc_heal_player;
                     }
@@ -2727,7 +2773,22 @@ void npc::find_item()
         see_item_say_smth( "lsd", "<yes_to_lsd>" );
         return;
     }
+    if( retrieve_loc ) {
+        const int dist_to_item = rl_dist( retrieve_loc.position(), pos() );
+        if( const cata::optional<tripoint> dest = nearest_passable( retrieve_loc.position(), pos() ) ) {
+            update_path( *dest );
+        }
+        if( path.empty() && dist_to_item > 1 ) {
+            // Item not reachable, let's just totally give up for now
+            fetching_item = false;
+        }
 
+        if( fetching_item && rl_dist( retrieve_loc.position(), pos() ) > 1 && is_walking_with() ) {
+            say( _( "Hold on, I want to pick up that %s." ), retrieve_loc->tname() );
+        }
+        fetching_item = true;
+        return;
+    }
     if( is_player_ally() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
         // Grabbing stuff not allowed by our "owner"
         return;
@@ -2908,29 +2969,30 @@ void npc::pick_up_item()
     if( is_hallucination() ) {
         return;
     }
-
-    if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
+    if( retrieve_loc ) {
+        wanted_item_pos = retrieve_loc.position();
+    }
+    if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() && !retrieve_loc ) {
         add_msg( m_debug, "%s::pick_up_item(); Canceling on player's request", name );
         fetching_item = false;
         moves -= 1;
         return;
     }
-
     const cata::optional<vpart_reference> vp = g->m.veh_at( wanted_item_pos ).part_with_feature(
                 VPFLAG_CARGO, false );
     const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
-
-    if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
-          !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
-        ( is_player_ally() && g->check_zone( zone_type_id( "NO_NPC_PICKUP" ), wanted_item_pos ) ) ) {
-        // Items we wanted no longer exist and we can see it
-        // Or player who is leading us doesn't want us to pick it up
-        fetching_item = false;
-        move_pause();
-        add_msg( m_debug, "Canceling pickup - no items or new zone" );
-        return;
+    if( !retrieve_loc ) {
+        if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
+              !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
+            ( is_player_ally() && g->check_zone( zone_type_id( "NO_NPC_PICKUP" ), wanted_item_pos ) ) ) {
+            // Items we wanted no longer exist and we can see it
+            // Or player who is leading us doesn't want us to pick it up
+            fetching_item = false;
+            move_pause();
+            add_msg( m_debug, "Canceling pickup - no items or new zone" );
+            return;
+        }
     }
-
     add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name,
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
     if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
@@ -2951,9 +3013,18 @@ void npc::pick_up_item()
         move_pause();
         return;
     }
-
     // We're adjacent to the item; grab it!
-
+    if( retrieve_loc ) {
+        item *it = retrieve_loc.get_item();
+        if( it ) {
+            wield( *it );
+            g->m.i_rem( wanted_item_pos, it );
+            retrieve_loc = item_location();
+            fetching_item = false;
+            moves -= 100;
+            return;
+        }
+    }
     auto picked_up = pick_up_item_map( wanted_item_pos );
     if( picked_up.empty() && has_cargo ) {
         picked_up = pick_up_item_vehicle( vp->vehicle(), vp->part_index() );
@@ -3584,15 +3655,26 @@ void npc::activate_item( int item_index )
 void npc::heal_player( player &patient )
 {
     int dist = rl_dist( pos(), patient.pos() );
-
-    if( dist > 1 ) {
-        // We need to move to the player
+    // find what our effective distance to heal is
+    // spells can be more than 1.
+    int required_dist = 1;
+    const bool spell_heal = ai_cache.can_heal.bandage &&
+                            !ai_cache.can_heal.healing_spell_to_use.is_null();
+    if( spell_heal ) {
+        spell &sp = magic.get_spell( ai_cache.can_heal.healing_spell_to_use );
+        required_dist = sp.range();
+    }
+    if( dist > required_dist ) {
         update_path( patient.pos() );
+        say( _( "Hold still %s, I'm coming to help you." ), patient.disp_name() );
         move_to_next();
         return;
     }
-
-    // Close enough to heal!
+    // we must be close enough now.
+    if( spell_heal ) {
+        npc_cast_spell( magic.get_spell( ai_cache.can_heal.healing_spell_to_use ), patient.pos() );
+        return;
+    }
     bool u_see = g->u.sees( *this ) || g->u.sees( patient );
     if( u_see ) {
         add_msg( _( "%1$s heals %2$s." ), disp_name(), patient.disp_name() );
@@ -3641,10 +3723,28 @@ void npc::heal_self()
             return;
         }
     }
-
+    if( ai_cache.can_heal.bandage && !ai_cache.can_heal.healing_spell_to_use.is_null() ) {
+        for( spell *sp : magic.get_spells() ) {
+            if( !sp ) {
+                debugmsg( "nonvalid spell pointer!" );
+                continue;
+            }
+            if( sp->id() != ai_cache.can_heal.healing_spell_to_use ) {
+                continue;
+            }
+            if( !sp->can_cast( *this ) || !sp->is_self_healing_spell() ) {
+                continue;
+            }
+            if( sp->energy_source() == hp_energy && !has_quality( qual_CUT ) ) {
+                continue;
+            }
+            warn_about( "heal_self", 1_turns );
+            npc_cast_spell( *sp, pos() );
+            return;
+        }
+    }
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
-        debugmsg( "%s tried to heal self but has no healing item", disp_name() );
         return;
     }
 

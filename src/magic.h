@@ -325,7 +325,9 @@ class spell
         bool is_max_level() const;
         // what is the max level of the spell
         int get_max_level() const;
-
+        bool is_standard_attack_spell() const;
+        bool is_healing_spell() const;
+        bool is_self_healing_spell() const;
         // what is the intensity of the field the spell generates ( 0 if no field )
         int field_intensity() const;
         // how much damage does the spell do

@@ -4736,6 +4736,20 @@ static void blood_magic( player *p, int cost )
         }
     };
     int max_hp_part = 0;
+    if( p->is_npc() ) {
+        for( int i = 0; i < num_hp_parts; i++ ) {
+            if( p->hp_cur[max_hp_part] < p->hp_cur[i] ) {
+                max_hp_part = i;
+            }
+        }
+        p->hp_cur[max_hp_part] -= cost;
+        p->mod_pain( std::max( 1, cost / 3 ) );
+        if( g->u.sees( *p ) ) {
+            add_msg( m_info, _( "%s cuts their %s to release magical power!" ), p->disp_name(),
+                     body_part_hp_bar_ui_text( part[max_hp_part] ) );
+        }
+        return;
+    }
     std::vector<uilist_entry> uile;
     for( int i = 0; i < num_hp_parts; i++ ) {
         uilist_entry entry( i, p->hp_cur[i] > cost, i + 49, body_part_hp_bar_ui_text( part[i] ) );
@@ -4779,41 +4793,46 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     target_handler th;
     tripoint target = p->pos();
     bool target_is_valid = false;
-    if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( target_none ) &&
-        !spell_being_cast.has_flag( RANDOM_TARGET ) ) {
-        do {
-            std::vector<tripoint> trajectory = th.target_ui( spell_being_cast, no_fail, no_mana );
-            if( !trajectory.empty() ) {
-                target = trajectory.back();
-                target_is_valid = spell_being_cast.is_valid_target( *p, target );
-                if( !( spell_being_cast.is_valid_target( target_ground ) || p->sees( target ) ) ) {
+    if( !p->is_npc() ) {
+        if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( target_none ) &&
+            !spell_being_cast.has_flag( RANDOM_TARGET ) ) {
+            do {
+                std::vector<tripoint> trajectory = th.target_ui( spell_being_cast, no_fail, no_mana );
+                if( !trajectory.empty() ) {
+                    target = trajectory.back();
+                    target_is_valid = spell_being_cast.is_valid_target( *p, target );
+                    if( !( spell_being_cast.is_valid_target( target_ground ) || p->sees( target ) ) ) {
+                        target_is_valid = false;
+                    }
+                } else {
                     target_is_valid = false;
                 }
-            } else {
-                target_is_valid = false;
-            }
-            if( !target_is_valid ) {
-                if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
-                    return;
+                if( !target_is_valid ) {
+                    if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
+                        return;
+                    }
                 }
+            } while( !target_is_valid );
+        } else if( spell_being_cast.has_flag( RANDOM_TARGET ) ) {
+            const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *p, p->pos() );
+            if( !target_ ) {
+                p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                      _( "Your spell can't find a suitable target." ) );
+                return;
             }
-        } while( !target_is_valid );
-    } else if( spell_being_cast.has_flag( RANDOM_TARGET ) ) {
-        const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *p, p->pos() );
-        if( !target_ ) {
-            p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                                  _( "Your spell can't find a suitable target." ) );
-            return;
+            target = *target_;
         }
-        target = *target_;
+    } else {
+        target = g->m.getlocal( act->placement );
     }
 
     // no turning back now. it's all said and done.
     bool success = no_fail || rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *p );
     int exp_gained = spell_being_cast.casting_exp( *p );
     if( !success ) {
-        p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                              _( "You lose your concentration!" ) );
+        p->add_msg_player_or_npc( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                  _( "You lose your concentration!" ),
+                                  _( "<npcname> loses their concentration!" ) );
         if( !spell_being_cast.is_max_level() && level_override == -1 ) {
             // still get some experience for trying
             spell_being_cast.gain_exp( exp_gained / 5 );
@@ -4824,7 +4843,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
 
     if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
-        sounds::sound( p->pos(), p->get_shout_volume() / 2, sounds::sound_t::speech, _( "cast a spell" ),
+        sounds::sound( p->pos(), p->get_shout_volume() / 2, sounds::sound_t::speech,
+                       string_format( _( "%s casting a spell" ), p->disp_name() ),
                        false );
     }
 

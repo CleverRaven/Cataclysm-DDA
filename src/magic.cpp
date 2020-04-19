@@ -657,7 +657,7 @@ bool spell::can_cast( const Character &guy ) const
         case mana_energy:
             return guy.magic.available_mana() >= energy_cost( guy );
         case stamina_energy:
-            return guy.get_stamina() >= energy_cost( guy );
+            return guy.get_stamina() >= energy_cost( guy ) && !guy.is_npc();
         case hp_energy: {
             for( int i = 0; i < num_hp_parts; i++ ) {
                 if( energy_cost( guy ) < guy.hp_cur[i] ) {
@@ -1012,6 +1012,22 @@ int spell::get_level() const
 {
     // you aren't at the next level unless you have the requisite xp, so floor
     return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
+}
+
+bool spell::is_standard_attack_spell() const
+{
+    return effect() == "target_attack" || effect() == "projectile_attack" ||
+           effect() == "cone_attack" || effect() == "line_attack";
+}
+
+bool spell::is_healing_spell() const
+{
+    return damage() < 0 && is_standard_attack_spell();
+}
+
+bool spell::is_self_healing_spell() const
+{
+    return is_healing_spell() && is_valid_target( valid_target::target_self );
 }
 
 int spell::get_max_level() const

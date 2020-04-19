@@ -90,6 +90,7 @@ struct dealt_projectile_attack;
 
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
@@ -314,6 +315,7 @@ static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_GNV_EFFECT( "GNV_EFFECT" );
 static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
 static const std::string flag_IR_EFFECT( "IR_EFFECT" );
+static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
 static const std::string flag_ONLY_ONE( "ONLY_ONE" );
 static const std::string flag_OUTER( "OUTER" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -332,6 +334,8 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
+
+static const quality_id qual_CUT( "CUT" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );

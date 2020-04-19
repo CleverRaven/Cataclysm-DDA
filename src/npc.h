@@ -537,9 +537,14 @@ struct healing_options {
     bool bleed = false;
     bool bite = false;
     bool infect = false;
+    bool self_healing_spell = false;
+    bool other_healing_spell = false;
+    bool self = false;
+    spell_id healing_spell_to_use = spell_id::NULL_ID();
     void clear_all();
     void set_all();
-    bool any_true();
+    bool any_afflictions_true();
+    bool any_heal_options_true();
     bool all_false();
 };
 
@@ -942,16 +947,18 @@ class npc : public player
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         int time_to_read( const item &book, const player &reader ) const;
         void do_npc_read();
-        void stow_item( item &it );
+        bool stow_item( item &it );
         bool wield( item &it ) override;
         void drop( const drop_locations &what, const tripoint &target,
                    bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
+        spell *has_castable_healing_spell( const bool self );
         healing_options patient_assessment( const Character &c );
         healing_options has_healing_options();
         healing_options has_healing_options( healing_options try_to_fix );
         item &get_healing_item( healing_options try_to_fix, bool first_best = false );
+        void npc_cast_spell( spell &sp, const tripoint &target );
         bool has_painkiller();
         bool took_painkiller() const;
         void use_painkiller();
@@ -1298,6 +1305,8 @@ class npc : public player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
+        item_location
+        retrieve_loc; // dropped weapons to be retrieved ( when casting spells that need hands )
         tripoint chair_pos = no_goal_point; // This is the spot the NPC wants to move to to sit and relax.
         cata::optional<tripoint> base_location; // our faction base location in OMT coords.
         /**

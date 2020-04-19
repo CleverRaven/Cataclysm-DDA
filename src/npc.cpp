@@ -119,6 +119,8 @@ static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static const std::string flag_NPC_SAFE( "NPC_SAFE" );
+static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
+static const quality_id qual_CUT( "CUT" );
 
 class monfaction;
 
@@ -1096,7 +1098,8 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
     return worn.empty() && wear_item( it, false );
 }
 
-void npc::stow_item( item &it )
+// return true if it was worn, stashed or holstered succesfully, false if dropped.
+bool npc::stow_item( item &it )
 {
     if( wear_item( weapon, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
@@ -1107,7 +1110,7 @@ void npc::stow_item( item &it )
         moves -= 15;
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
-        return;
+        return true;
     }
     for( auto &e : worn ) {
         if( e.can_holster( it ) ) {
@@ -1118,7 +1121,7 @@ void npc::stow_item( item &it )
             }
             auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
             ptr->store( *this, e, it );
-            return;
+            return true;
         }
     }
     if( volume_carried() + weapon.volume() <= volume_capacity() ) {
@@ -1127,12 +1130,14 @@ void npc::stow_item( item &it )
         }
         i_add( remove_weapon() );
         moves -= 15;
+        return true;
     } else { // No room for weapon, so we drop it
         if( g->u.sees( pos() ) ) {
             add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
         }
         g->m.add_item_or_charges( pos(), remove_weapon() );
     }
+    return false;
 }
 
 bool npc::wield( item &it )
@@ -1793,16 +1798,25 @@ void healing_options::clear_all()
     bleed = false;
     bite = false;
     infect = false;
+    self_healing_spell = false;
+    other_healing_spell = false;
+    self = false;
+    healing_spell_to_use = spell_id::NULL_ID();
 }
 
 bool healing_options::all_false()
 {
-    return !any_true();
+    return !any_afflictions_true();
 }
 
-bool healing_options::any_true()
+bool healing_options::any_afflictions_true()
 {
     return bandage || bleed || bite || infect || disinfect;
+}
+
+bool healing_options::any_heal_options_true()
+{
+    return bandage || bleed || bite || infect || disinfect || self_healing_spell || other_healing_spell;
 }
 
 void healing_options::set_all()
@@ -1812,6 +1826,33 @@ void healing_options::set_all()
     bite = true;
     infect = true;
     disinfect = true;
+}
+
+spell *npc::has_castable_healing_spell( const bool self )
+{
+    for( spell *sp : magic.get_spells() ) {
+        if( !sp ) {
+            debugmsg( "nonvalid spell pointer!" );
+            continue;
+        }
+        if( !sp->can_cast( *this ) || !sp->is_healing_spell() ) {
+            continue;
+        }
+        if( self && !sp->is_self_healing_spell() ) {
+            continue;
+        }
+        if( sp->energy_source() == hp_energy && !has_quality( qual_CUT ) ) {
+            continue;
+        }
+        if( is_armed() && !sp->has_flag( spell_flag::NO_HANDS ) &&
+            !weapon.has_flag( flag_MAGIC_FOCUS ) ) {
+            if( !can_unwield( weapon ).success() ) {
+                continue;
+            }
+        }
+        return sp;
+    }
+    return nullptr;
 }
 
 bool npc::has_healing_item( healing_options try_to_fix )
@@ -1831,7 +1872,16 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     healing_options can_fix;
     can_fix.clear_all();
     healing_options *fix_p = &can_fix;
-
+    const bool for_self = try_to_fix.self;
+    if( try_to_fix.bandage ) {
+        spell *sp = has_castable_healing_spell( for_self );
+        if( sp ) {
+            fix_p->healing_spell_to_use = sp->id();
+            fix_p->self_healing_spell = true;
+            fix_p->bandage = true;
+            return can_fix;
+        }
+    }
     visit_items( [&fix_p, try_to_fix]( item * node ) {
         const auto use = node->type->get_use( "heal" );
         if( use == nullptr ) {
