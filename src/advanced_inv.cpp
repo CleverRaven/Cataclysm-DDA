@@ -984,6 +984,31 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             }
+            // If moving to vehicle, silently filter buckets
+            // Moving them would cause tons of annoying prompts or spills
+            const bool filter_buckets = dpane.in_vehicle();
+            bool filtered_any_bucket = false;
+            // Push item_locations and item counts for all items at placement
+            for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
+                if( spane.is_filtered( *it ) ) {
+                    continue;
+                }
+                if( filter_buckets && it->is_bucket_nonempty() ) {
+                    filtered_any_bucket = true;
+                    continue;
+                }
+                if( spane.in_vehicle() ) {
+                    target_items.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                } else {
+                    target_items.emplace_back( map_cursor( sarea.pos ), &*it );
+                }
+                // quantity of 0 means move all
+                quantities.push_back( 0 );
+            }
+
+            if( filtered_any_bucket ) {
+                add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
+            }
 
             g->u.assign_activity( player_activity( move_items_activity_actor(
                     target_items,
