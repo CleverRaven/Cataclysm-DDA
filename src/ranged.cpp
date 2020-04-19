@@ -212,6 +212,9 @@ class target_ui
         // Returns 'false' if cursor position did not change
         bool set_cursor_pos( player &pc, const tripoint &new_pos );
 
+        // Calculates distance from 'src'. For consistency, prefer using this over rl_dist.
+        int dist_fn( const tripoint &p );
+
         // Set creature (or tile) under cursor as player's last target
         void set_last_target( player &pc );
 
@@ -264,13 +267,18 @@ class target_ui
         // Generate flavor text for 'Fire!' key
         std::string uitext_fire();
 
+        void draw_window_title();
+
         // Draw list of available controls at the bottom of the window.
         // Returns how much lines it took.
         int draw_controls_list();
 
-        // TODO: finish breaking down drawing
-        void draw_normal_ui_old( player &pc );
-        void draw_spell_ui_old( player &pc );
+        void panel_cursor_info( int &text_y );
+        void panel_gun_info( int &text_y );
+        void panel_recoil( player &pc, int &text_y );
+        void panel_spell_info( player &pc, int &text_y );
+        void panel_target_info( player &pc, int &text_y );
+        void panel_fire_mode_aim( player &pc, int &text_y );
 
         // On-selected-as-target checks that act as if they are on-hit checks.
         // `harmful` is `false` if using a non-damaging spell
@@ -1070,27 +1078,6 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     return dealt_attack;
 }
 
-static std::string print_recoil( const player &p )
-{
-    if( p.weapon.is_gun() ) {
-        const int val = p.recoil_total();
-        const int min_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
-        const int recoil_range = MAX_RECOIL - min_recoil;
-        std::string level;
-        if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
-            level = pgettext( "amount of backward momentum", "<color_red>High</color>" );
-        } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
-            level = pgettext( "amount of backward momentum", "<color_yellow>Medium</color>" );
-        } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
-            level = pgettext( "amount of backward momentum", "<color_light_green>Low</color>" );
-        } else {
-            level = pgettext( "amount of backward momentum", "<color_cyan>None</color>" );
-        }
-        return string_format( _( "Recoil: %s" ), level );
-    }
-    return std::string();
-}
-
 static void do_aim( player &p, const item &relevant, const double min_recoil )
 {
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
@@ -1486,186 +1473,6 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
     }
 }
 
-// TODO: You ARE the redundant drawing code now, mwa-ha-ha!
-void target_ui::draw_normal_ui_old( player &pc )
-{
-    int line_number = 1;
-    Creature *critter = g->critter_at( dst, true );
-    const int relative_elevation = dst.z - pc.pos().z;
-    if( dst != src ) {
-        // Print to target window
-        mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
-                   rl_dist( src, dst ), range, relative_elevation, targets.size() );
-
-    } else {
-        mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
-                   relative_elevation, targets.size() );
-    }
-
-    // Skip blank lines if we're short on space.
-    if( !compact ) {
-        line_number++;
-    }
-    // Assumes that relevant == null means firing turrets (maybe even multiple at once),
-    // so printing their firing mode / ammo / ... of one of them is misleading.
-    if( relevant && ( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) ) {
-        auto m = relevant->gun_current_mode();
-        std::string str;
-        nc_color col = c_light_gray;
-        if( relevant != m.target ) {
-            str = string_format( _( "Firing mode: <color_cyan>%s %s (%d)</color>" ),
-                                 m->tname(), m.tname(), m.qty );
-
-            print_colored_text( w_target, point( 1, line_number++ ), col, col, str );
-        } else {
-            str = string_format( _( "Firing mode: <color_cyan> %s (%d)</color>" ),
-                                 m.tname(), m.qty );
-            print_colored_text( w_target, point( 1, line_number++ ), col, col, str );
-        }
-
-        const itype *cur = ammo ? ammo : m->ammo_data();
-        if( cur ) {
-            auto str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
-                                      colorize( cur->nname( std::max( m->ammo_remaining(), 1 ) ), cur->color ),
-                                      m->ammo_remaining(), m->ammo_capacity() );
-
-            print_colored_text( w_target, point( 1, line_number++ ), col, col, str );
-        }
-
-        print_colored_text( w_target, point( 1, line_number++ ), col, col, string_format( _( "%s" ),
-                            print_recoil( g->u ) ) );
-
-        // Skip blank lines if we're short on space.
-        if( !compact ) {
-            line_number++;
-        }
-    }
-
-    if( critter && critter != &pc && pc.sees( *critter ) ) {
-        // The 12 is 2 for the border and 10 for aim bars.
-        // Just print the monster name if we're short on space.
-        int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
-        line_number = critter->print_info( w_target, line_number, available_lines, 1 );
-    }
-
-    // Assumes that relevant == null means firing turrets (maybe even multiple at once),
-    // so printing their firing mode / ammo / ... of one of them is misleading.
-    if( relevant && mode == TARGET_MODE_FIRE && src != dst ) {
-        // These 2 lines here keep the good ol' code working during the trying times of refactoring
-        double saved_pc_recoil = pc.recoil;
-        pc.recoil = predicted_recoil;
-
-        double predicted_recoil = pc.recoil;
-        int predicted_delay = 0;
-        if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
-            do {
-                const double aim_amount = pc.aim_per_move( *relevant, predicted_recoil );
-                if( aim_amount > 0 ) {
-                    predicted_delay++;
-                    predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
-                }
-            } while( predicted_recoil > aim_mode->threshold &&
-                     predicted_recoil - sight_dispersion > 0 );
-        } else {
-            predicted_recoil = pc.recoil;
-        }
-
-        const double target_size = critter != nullptr ? critter->ranged_target_size() :
-                                   occupied_tile_fraction( MS_MEDIUM );
-
-        line_number = print_aim( pc, w_target, line_number, ctxt, &*relevant->gun_current_mode(),
-                                 target_size, dst, predicted_recoil );
-
-        if( aim_mode->has_threshold ) {
-            mvwprintw( w_target, point( 1, line_number++ ), _( "%s Delay: %i" ), aim_mode->name,
-                       predicted_delay );
-        }
-
-        // End of old code compatibility
-        pc.recoil = saved_pc_recoil;
-    } else if( mode == TARGET_MODE_TURRET ) {
-        list_turrets_in_range( veh, *vturrets, w_target, line_number, dst );
-    } else if( mode == TARGET_MODE_THROW && relevant ) {
-        draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, false );
-    } else if( mode == TARGET_MODE_THROW_BLIND && relevant ) {
-        draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, true );
-    }
-}
-
-void target_ui::draw_spell_ui_old( player &pc )
-{
-    spell &casting = *this->casting; // TODO: make code use pointer
-
-    int line_number = 1;
-    Creature *critter = g->critter_at( dst, true );
-    const int relative_elevation = dst.z - pc.pos().z;
-    mvwprintz( w_target, point( 1, line_number++ ), c_light_green, _( "Casting: %s (Level %u)" ),
-               casting.name(),
-               casting.get_level() );
-    if( !no_mana || casting.energy_source() == none_energy ) {
-        if( casting.energy_source() == hp_energy ) {
-            line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2,
-                                           c_light_gray,
-                                           _( "Cost: %s %s" ), casting.energy_cost_string( pc ), casting.energy_string() );
-        } else {
-            line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2,
-                                           c_light_gray,
-                                           _( "Cost: %s %s (Current: %s)" ), casting.energy_cost_string( pc ), casting.energy_string(),
-                                           casting.energy_cur_string( pc ) );
-        }
-    }
-    nc_color clr = c_light_gray;
-    if( !no_fail ) {
-        print_colored_text( w_target, point( 1, line_number++ ), clr, clr,
-                            casting.colorized_fail_percent( pc ) );
-    } else {
-        print_colored_text( w_target, point( 1, line_number++ ), clr, clr,
-                            colorize( _( "0.0 % Failure Chance" ),
-                                      c_light_green ) );
-    }
-    if( dst != src ) {
-        // Print to target window
-        mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
-                   rl_dist( src, dst ), range, relative_elevation, targets.size() );
-
-    } else {
-        mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
-                   relative_elevation, targets.size() );
-    }
-
-    if( casting.aoe() > 0 ) {
-        nc_color color = c_light_gray;
-        if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ||
-            casting.effect() == "area_pull" || casting.effect() == "area_push" ||
-            casting.effect() == "ter_transform" ) {
-            line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
-                                           _( "Effective Spell Radius: %s%s" ), casting.aoe_string(),
-                                           casting.in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
-        } else if( casting.effect() == "cone_attack" ) {
-            line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
-                                           _( "Cone Arc: %s degrees" ), casting.aoe_string() );
-        } else if( casting.effect() == "line_attack" ) {
-            line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
-                                           _( "Line width: %s" ), casting.aoe_string() );
-        }
-    }
-    mvwprintz( w_target, point( 1, line_number++ ), c_light_red, _( "Damage: %s" ),
-               casting.damage_string() );
-    line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, clr,
-                                   casting.description() );
-    // Skip blank lines if we're short on space.
-    if( !compact ) {
-        line_number++;
-    }
-
-    if( critter && critter != &pc && pc.sees( *critter ) ) {
-        // The 12 is 2 for the border and 10 for aim bars.
-        // Just print the monster name if we're short on space.
-        int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
-        critter->print_info( w_target, line_number, available_lines, 1 );
-    }
-}
-
 static projectile make_gun_projectile( const item &gun )
 {
     projectile proj;
@@ -2055,7 +1862,7 @@ target_handler::trajectory target_ui::run( player &pc )
 
     // Create window
     compact = TERMY < 41;
-    tiny = TERMY < 31;
+    tiny = TERMY < 32;
     int top = 0;
     width = 55;
     if( tiny ) {
@@ -2063,10 +1870,10 @@ target_handler::trajectory target_ui::run( player &pc )
         height = TERMY;
     } else if( compact ) {
         // Cover up more low-value ui elements if we're tight on space.
-        height = 25;
+        height = 28;
     } else {
         // Go all out
-        height = 31;
+        height = 32;
     }
     w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
 
@@ -2335,10 +2142,6 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
                 valid_pos = new_traj[0];
             }
         } else if( trigdist ) {
-            const auto dist_fn = [this]( const tripoint & p ) {
-                return static_cast<int>( std::round( trig_dist( this->src, p ) ) );
-            };
-
             if( dist_fn( valid_pos ) > range ) {
                 // Find the farthest point that is still in range
                 for( size_t i = new_traj.size(); i > 0; i-- ) {
@@ -2429,6 +2232,11 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
     grey_out_firing_controls = ( dst == src );
 
     return true;
+}
+
+int target_ui::dist_fn( const tripoint &p )
+{
+    return static_cast<int>( std::round( trig_dist( src, p ) ) );
 }
 
 void target_ui::set_last_target( player &pc )
@@ -2692,21 +2500,36 @@ void target_ui::draw_ui_window( player &pc )
     }
 
     draw_border( w_target );
+    draw_window_title();
+    draw_controls_list();
 
-    // Draw title
-    mvwprintz( w_target, point( 2, 0 ), c_white, "< " );
-    trim_and_print( w_target, point( 4, 0 ), getmaxx( w_target ) - 7, c_red, uitext_title() );
-    wprintz( w_target, c_white, " >" );
+    int text_y = 1; // Skip top border
 
-    // Draw controls
-    int occupied_lines = draw_controls_list();
+    panel_cursor_info( text_y );
+    text_y += compact ? 0 : 1;
 
-    // Draw old stuff (TODO: refactor this)
-    num_instruction_lines = height - 1 - occupied_lines; // TODO: is there an off-by-one error?
-    if( mode == TARGET_MODE_SPELL ) {
-        draw_spell_ui_old( pc );
-    } else {
-        draw_normal_ui_old( pc );
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+        panel_gun_info( text_y );
+        panel_recoil( pc, text_y );
+        text_y += compact ? 0 : 1;
+    } else if( mode == TARGET_MODE_SPELL ) {
+        panel_spell_info( pc, text_y );
+        text_y += compact ? 0 : 1;
+    }
+
+    panel_target_info( pc, text_y );
+    text_y += compact ? 0 : 1;
+
+    if( src != dst ) {
+        // TODO: these are old, consider refactoring
+        if( mode == TARGET_MODE_FIRE ) {
+            panel_fire_mode_aim( pc, text_y );
+        } else if( mode == TARGET_MODE_TURRET ) {
+            list_turrets_in_range( veh, *vturrets, w_target, text_y, dst );
+        } else if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
+            bool blind = ( mode == TARGET_MODE_THROW_BLIND );
+            draw_throw_aim( pc, w_target, text_y, ctxt, *relevant, dst, blind );
+        }
     }
 
     wrefresh( w_target );
@@ -2738,6 +2561,13 @@ std::string target_ui::uitext_fire()
     } else {
         return to_translation( "[Hotkey] to fire", "to fire" ).translated();
     }
+}
+
+void target_ui::draw_window_title()
+{
+    mvwprintz( w_target, point( 2, 0 ), c_white, "< " );
+    trim_and_print( w_target, point( 4, 0 ), getmaxx( w_target ) - 7, c_red, uitext_title() );
+    wprintz( w_target, c_white, " >" );
 }
 
 int target_ui::draw_controls_list()
@@ -2791,6 +2621,173 @@ int target_ui::draw_controls_list()
 
     mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "Move cursor with directional keys" ) );
     return height - text_y;
+}
+
+void target_ui::panel_cursor_info( int &text_y )
+{
+    int dz = dst.z - src.z;
+    std::string label_range;
+    if( dst != src ) {
+        label_range = string_format( "%d/%d", dist_fn( dst ), range );
+    } else {
+        label_range = string_format( "%d", range );
+    };
+    mvwprintw( w_target, point( 1, text_y++ ), _( "Range: %s Elevation: %d Targets: %d" ), label_range,
+               dz, targets.size() );
+}
+
+void target_ui::panel_gun_info( int &text_y )
+{
+    gun_mode m = relevant->gun_current_mode();
+    std::string mode_name = m.tname();
+    std::string gunmod_name = "";
+    if( m.target != relevant ) {
+        // Gun mode comes from a gunmod, not base gun. Add gunmod's name
+        gunmod_name = m->tname() + " ";
+    }
+    std::string str = string_format( _( "Firing mode: <color_cyan>%s%s (%d)</color>" ),
+                                     gunmod_name, mode_name, m.qty
+                                   );
+    nc_color clr = c_light_gray;
+    print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
+
+    if( ammo ) {
+        str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
+                             colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ), m->ammo_remaining(),
+                             m->ammo_capacity() );
+        print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
+    } else {
+        // Skip ammo line.
+        text_y++;
+    }
+}
+
+void target_ui::panel_recoil( player &pc, int &text_y )
+{
+    const int val = pc.recoil_total();
+    const int min_recoil = pc.effective_dispersion( relevant->sight_dispersion() );
+    const int recoil_range = MAX_RECOIL - min_recoil;
+    std::string str;
+    if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
+        str = pgettext( "amount of backward momentum", "<color_red>High</color>" );
+    } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
+        str = pgettext( "amount of backward momentum", "<color_yellow>Medium</color>" );
+    } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
+        str = pgettext( "amount of backward momentum", "<color_light_green>Low</color>" );
+    } else {
+        str = pgettext( "amount of backward momentum", "<color_cyan>None</color>" );
+    }
+    str = string_format( _( "Recoil: %s" ), str );
+    nc_color clr = c_light_gray;
+    print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
+}
+
+void target_ui::panel_spell_info( player &pc, int &text_y )
+{
+    nc_color clr = c_light_gray;
+
+    mvwprintz( w_target, point( 1, text_y++ ), c_light_green, _( "Casting: %s (Level %u)" ),
+               casting->name(),
+               casting->get_level() );
+    if( !no_mana || casting->energy_source() == none_energy ) {
+        if( casting->energy_source() == hp_energy ) {
+            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2,
+                                      clr,
+                                      _( "Cost: %s %s" ), casting->energy_cost_string( pc ), casting->energy_string() );
+        } else {
+            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2,
+                                      clr,
+                                      _( "Cost: %s %s (Current: %s)" ), casting->energy_cost_string( pc ), casting->energy_string(),
+                                      casting->energy_cur_string( pc ) );
+        }
+    }
+
+    std::string fail_str;
+    if( no_fail ) {
+        fail_str = colorize( _( "0.0 % Failure Chance" ), c_light_green );
+    } else {
+        fail_str = casting->colorized_fail_percent( pc );
+    }
+    print_colored_text( w_target, point( 1, text_y++ ), clr, clr, fail_str );
+
+    if( casting->aoe() > 0 ) {
+        nc_color color = c_light_gray;
+        const std::string fx = casting->effect();
+        const std::string aoes = casting->aoe_string();
+        if( fx == "projectile_attack" || fx == "target_attack" ||
+            fx == "area_pull" || fx == "area_push" ||
+            fx == "ter_transform" ) {
+            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                      _( "Effective Spell Radius: %s%s" ), aoes,
+                                      casting->in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
+        } else if( fx == "cone_attack" ) {
+            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                      _( "Cone Arc: %s degrees" ), aoes );
+        } else if( fx == "line_attack" ) {
+            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                      _( "Line width: %s" ), aoes );
+        }
+    }
+
+    mvwprintz( w_target, point( 1, text_y++ ), c_light_red, _( "Damage: %s" ),
+               casting->damage_string() );
+
+    text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, clr,
+                              casting->description() );
+}
+
+void target_ui::panel_target_info( player &pc, int &text_y )
+{
+    int max_lines = 4;
+    if( dst_critter && pc.sees( *dst_critter ) ) {
+        // FIXME: print_info doesn't really care about line limit
+        //        and can always occupy up to 4 of them (or even more?).
+        //        To make things consistent, we ask it for 2 lines
+        //        and somewhat reliably get 4.
+        int fix_for_print_info = max_lines - 2;
+        dst_critter->print_info( w_target, text_y, fix_for_print_info, 1 );
+    } else {
+        // Fill with blank lines to prevent other panels from jumping around
+        // when the cursor moves.
+        // TODO: print info about tile?
+    }
+    text_y += max_lines;
+}
+
+void target_ui::panel_fire_mode_aim( player &pc, int &text_y )
+{
+    // These 2 lines here keep the good ol' code working during the trying times of refactoring
+    double saved_pc_recoil = pc.recoil;
+    pc.recoil = predicted_recoil;
+
+    double predicted_recoil = pc.recoil;
+    int predicted_delay = 0;
+    if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
+        do {
+            const double aim_amount = pc.aim_per_move( *relevant, predicted_recoil );
+            if( aim_amount > 0 ) {
+                predicted_delay++;
+                predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
+            }
+        } while( predicted_recoil > aim_mode->threshold &&
+                 predicted_recoil - sight_dispersion > 0 );
+    } else {
+        predicted_recoil = pc.recoil;
+    }
+
+    const double target_size = dst_critter ? dst_critter->ranged_target_size() :
+                               occupied_tile_fraction( MS_MEDIUM );
+
+    text_y = print_aim( pc, w_target, text_y, ctxt, &*relevant->gun_current_mode(),
+                        target_size, dst, predicted_recoil );
+
+    if( aim_mode->has_threshold ) {
+        mvwprintw( w_target, point( 1, text_y++ ), _( "%s Delay: %i" ), aim_mode->name,
+                   predicted_delay );
+    }
+
+    // End of old code compatibility
+    pc.recoil = saved_pc_recoil;
 }
 
 void target_ui::on_target_accepted( player &pc, bool harmful )
