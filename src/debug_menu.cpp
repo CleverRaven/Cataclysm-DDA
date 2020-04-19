@@ -1399,31 +1399,31 @@ void debug()
             smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), u.hp_cur[hp_leg_l] );
             smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), u.hp_cur[hp_leg_r] );
             smenu.query();
-            body_part part;
+            bodypart_id part;
             int dbg_damage;
             switch( smenu.ret ) {
                 case 0:
-                    part = bp_torso;
+                    part = bodypart_id( "torso" );
                     break;
                 case 1:
-                    part = bp_head;
+                    part = bodypart_id( "head" );
                     break;
                 case 2:
-                    part = bp_arm_l;
+                    part = bodypart_id( "arm_l" );
                     break;
                 case 3:
-                    part = bp_arm_r;
+                    part = bodypart_id( "arm_r" );
                     break;
                 case 4:
-                    part = bp_leg_l;
+                    part = bodypart_id( "leg_l" );
                     break;
                 case 5:
-                    part = bp_leg_r;
+                    part = bodypart_id( "leg_r" );
                     break;
                 default:
                     break;
             }
-            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %d" ), part ) ) {
+            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 u.apply_damage( nullptr, part, dbg_damage );
                 u.die( nullptr );
             }

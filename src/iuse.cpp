@@ -1032,7 +1032,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
         p->mod_pain( rng( 32, 64 ) );
         p->add_effect( effect_poison, 1_hours );
-        p->apply_damage( nullptr, bp_torso, rng( 4, 12 ) );
+        p->apply_damage( nullptr, bodypart_id( "torso" ), rng( 4, 12 ) );
         p->vomit();
     }
     return it->type->charges_to_use();
@@ -1950,7 +1950,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
             if( g->u.sees( critter ) ) {
                 p->add_msg_if_player( _( "The %s is frozen!" ), critter.name() );
             }
-            critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
+            critter.apply_damage( p, bodypart_id( "torso" ), rng( 20, 60 ) );
             critter.set_speed_base( critter.get_speed_base() / 2 );
         }
     }
@@ -5397,7 +5397,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_HURTALL:
                 for( monster &critter : g->all_monsters() ) {
-                    critter.apply_damage( nullptr, bp_torso, rng( 0, 5 ) );
+                    critter.apply_damage( nullptr, bodypart_id( "torso" ), rng( 0, 5 ) );
                 }
                 break;
 
@@ -7942,8 +7942,8 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
                 } else {
                     add_msg( m_bad, _( "Ouch, the cuffs shock you!" ) );
 
-                    p->apply_damage( nullptr, bp_arm_l, rng( 0, 2 ) );
-                    p->apply_damage( nullptr, bp_arm_r, rng( 0, 2 ) );
+                    p->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 0, 2 ) );
+                    p->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 0, 2 ) );
                     p->mod_pain( rng( 2, 5 ) );
 
                 }

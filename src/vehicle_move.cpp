@@ -761,7 +761,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                                   critter->get_armor_cut( bp_torso ) :
                                   critter->get_armor_bash( bp_torso );
                 dam = std::max( 0, dam - armor );
-                critter->apply_damage( driver, bp_torso, dam );
+                critter->apply_damage( driver, bodypart_id( "torso" ), dam );
                 add_msg( m_debug, "Critter collision damage: %d", dam );
             }
 
@@ -1745,7 +1745,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "<npcname> takes %d damage by the power of the "
                                                "impact!" ),  dmg );
             } else {
-                pet->apply_damage( nullptr, bp_torso, dmg );
+                pet->apply_damage( nullptr, bodypart_id( "torso" ), dmg );
             }
         }
 
