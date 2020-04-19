@@ -580,7 +580,7 @@
   {
     "id": "MISSION_LAST_DELIVERY",
     "type": "mission_definition",
-    "name": { "str": "Reach The Mansion And Finnish This Delivery" },
+    "name": { "str": "Reach The Mansion And Finish This Delivery" },
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "mansion_c3_north",
     "difficulty": 1,
