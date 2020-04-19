@@ -11,6 +11,8 @@
 #include "math_defines.h"
 #include "point.h"
 
+extern bool trigdist;
+
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )
 {
@@ -146,8 +148,6 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 // t and t2 decide which Bresenham line is used.
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
-
-extern bool trigdist;
 
 inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
