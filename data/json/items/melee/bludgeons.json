@@ -548,7 +548,6 @@
     "name": { "str": "L-stick (on)", "str_pl": "L-sticks (on)" },
     "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries.",
     "material": [ "superalloy", "steel" ],
-    "to_hit": 3,
     "revert_to": "l-stick",
     "power_draw": 5000,
     "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
