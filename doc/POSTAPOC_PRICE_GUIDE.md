@@ -53,7 +53,7 @@ No item should be worth more than 150000. They might be worth more if the econom
 
   {
     "id": "antibiotics",
-    "name": { "str": "antibiotics", "str_pl": "antibiotics" },
+    "name": { "str_sp": "antibiotics" },
     "description": "A strong antibacterial medication designed to prevent or stop the spread of infection.  It's the safest way to cure any infections you might have.  One dose lasts twelve hours.",
     "price_postapoc": 40000,
     "charges": 15,
