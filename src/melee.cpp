@@ -498,6 +498,11 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             technique_id = tec_none;
             d.mult_damage( 0.1 );
         }
+        // polearms and pikes (but not spears) do less damage to adjacent targets
+        if( cur_weapon.reach_range( *this ) > 1 && !reach_attacking &&
+            cur_weapon.has_flag( "POLEARM" ) ) {
+            d.mult_damage( 0.7 );
+        }
 
         const ma_technique &technique = technique_id.obj();
 
@@ -2202,6 +2207,10 @@ double player::melee_value( const item &weap ) const
     // value reach weapons more
     if( reach > 1.0f ) {
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
+    }
+    // value polearms less to account for the trickiness of keeping the right range
+    if( weapon.has_flag( "POLEARM" ) ) {
+        my_value *= 0.8;
     }
 
     // value style weapons more

@@ -818,7 +818,6 @@ class player : public Character
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops;
 
-        bool reach_attacking = false;
         bool manual_examine = false;
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;

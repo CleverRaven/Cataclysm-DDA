@@ -4877,7 +4877,7 @@ damage_instance item::base_damage_thrown() const
     return type->thrown_damage;
 }
 
-int item::reach_range( const player &p ) const
+int item::reach_range( const Character &guy ) const
 {
     int res = 1;
 
@@ -4888,7 +4888,7 @@ int item::reach_range( const player &p ) const
     // for guns consider any attached gunmods
     if( is_gun() && !is_gunmod() ) {
         for( const std::pair<const gun_mode_id, gun_mode> &m : gun_all_modes() ) {
-            if( p.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
+            if( guy.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
                 continue;
             }
             if( m.second.melee() ) {
