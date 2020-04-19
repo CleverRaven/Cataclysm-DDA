@@ -29,7 +29,7 @@
     "volume": "1250 ml",
     "weight": "900 g",
     "bashing": 5,
-    "cutting": 18,
+    "cutting": 9,
     "to_hit": -1,
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
