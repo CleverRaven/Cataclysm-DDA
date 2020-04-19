@@ -55,7 +55,7 @@
   {
     "id": "bow_sling",
     "type": "ARMOR",
-    "name": { "str": "bow sling", "str_pl": "bow slings" },
+    "name": { "str": "bow sling" },
     "description": "A somewhat complicated set of straps and fabric to keep your bow close to hand and (mostly) out of harms way.  Activate to holster/draw your bow.",
     "weight": "320 g",
     "volume": "500 ml",

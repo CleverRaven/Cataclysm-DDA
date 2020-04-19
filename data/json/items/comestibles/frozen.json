@@ -28,7 +28,7 @@
     "type": "COMESTIBLE",
     "copy-from": "milkshake",
     "id": "milkshake_fastfood",
-    "name": { "str": "fast food milkshake", "str_pl": "fast food milkshakes" },
+    "name": { "str": "fast food milkshake" },
     "description": "A milkshake made by freezing a premade mix.  Tastes better due to how much sugar is in it, but is bad for your health.",
     "calories": 175,
     "fun": 23,

@@ -63,7 +63,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sweet_sausage",
-    "name": { "str": "sweet sausage", "str_pl": "sweet sausages" },
+    "name": { "str": "sweet sausage" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } } ],
     "weight": "148 g",
     "color": "brown",

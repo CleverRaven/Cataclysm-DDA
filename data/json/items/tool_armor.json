@@ -2651,7 +2651,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "saxophone",
-    "name": { "str": "saxophone", "str_pl": "saxophones" },
+    "name": { "str": "saxophone" },
     "category": "tools",
     "weight": "2000 g",
     "color": "yellow",

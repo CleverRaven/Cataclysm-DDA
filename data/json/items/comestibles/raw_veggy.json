@@ -404,7 +404,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hops",
-    "name": { "str": "hops flower", "str_pl": "hops flowers" },
+    "name": { "str": "hops flower" },
     "weight": "92 g",
     "color": "light_green",
     "comestible_type": "FOOD",

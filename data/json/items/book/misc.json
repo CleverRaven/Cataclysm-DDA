@@ -1638,7 +1638,7 @@
   {
     "type": "BOOK",
     "id": "collector_book",
-    "name": { "str": "collector's edition book", "str_pl": "collector's edition books" },
+    "name": { "str": "collector's edition book" },
     "description": "A unique, valuable book that has been kept as a collector's item.",
     "snippet_category": [
       { "id": "fancy1", "text": "This is a high-quality leather bound copy of Charles Dickens' \"A Tale of Two Cities\"." },

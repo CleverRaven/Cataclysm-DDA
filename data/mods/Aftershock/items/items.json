@@ -10,7 +10,7 @@
   {
     "type": "GENERIC",
     "id": "crypto_coin",
-    "name": { "str": "Crypto coin", "str_pl": "Crypto coins" },
+    "name": { "str": "Crypto coin" },
     "description": "PrepNet had been heavily involved in avoiding taxes by using untraceable internet currencies.  These however are physical coins with random numbers sequences embossed on them and RFID chips inside.",
     "price": 12000,
     "price_postapoc": 15000,

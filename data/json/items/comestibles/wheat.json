@@ -287,7 +287,7 @@
   {
     "type": "COMESTIBLE",
     "id": "frenchtoast",
-    "name": { "str": "French toast", "str_pl": "French toasts" },
+    "name": { "str": "French toast" },
     "weight": "42 g",
     "color": "brown",
     "spoils_in": "10 days",

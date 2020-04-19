@@ -685,7 +685,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_pod",
-    "name": { "str": "Kentucky coffee pod", "str_pl": "Kentucky coffee pods" },
+    "name": { "str": "Kentucky coffee pod" },
     "category": "other",
     "weight": "26 g",
     "color": "light_green",

@@ -544,7 +544,7 @@
   {
     "type": "COMESTIBLE",
     "id": "human_brain_embalmed",
-    "name": { "str": "embalmed human brain", "str_pl": "embalmed human brains" },
+    "name": { "str": "embalmed human brain" },
     "weight": "56 g",
     "color": "pink",
     "looks_like": "offal",

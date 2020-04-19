@@ -975,7 +975,7 @@
     "type": "COMESTIBLE",
     "id": "choc_pancakes",
     "copy-from": "pancakes",
-    "name": { "str": "chocolate pancake", "str_pl": "chocolate pancakes" },
+    "name": { "str": "chocolate pancake" },
     "weight": "78 g",
     "healthy": 0,
     "calories": 219,
