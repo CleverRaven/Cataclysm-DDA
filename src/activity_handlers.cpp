@@ -223,6 +223,7 @@ static const species_id HUMAN( "HUMAN" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
 static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
+static const std::string trait_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
 
