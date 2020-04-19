@@ -173,6 +173,9 @@ class target_ui
         input_context ctxt;
         // Number of free instruction lines
         int num_instruction_lines;
+        // If true, aiming and firing controls will be drawn using grey color
+        // to indicate invalid dst (e.g. shooting yourself)
+        bool grey_out_firing_controls = true;
 
         /* These members are relevant for TARGET_MODE_FIRE */
         // Weapon sight dispersion
@@ -251,6 +254,19 @@ class target_ui
 
         // Draw terrain with UI-specific overlays
         void draw_terrain( player &pc );
+
+        // Draw aiming window
+        void draw_ui_window( player &pc );
+
+        // Generate ui window title
+        std::string uitext_title();
+
+        // Generate flavor text for 'Fire!' key
+        std::string uitext_fire();
+
+        // Draw list of available controls at the bottom of the window.
+        // Returns how much lines it took.
+        int draw_controls_list();
 
         // TODO: finish breaking down drawing
         void draw_normal_ui_old( player &pc );
@@ -1075,119 +1091,6 @@ static std::string print_recoil( const player &p )
     return std::string();
 }
 
-// Draws the static portions of the targeting menu,
-// returns the number of lines used to draw instructions.
-static int draw_targeting_window( const catacurses::window &w_target, const std::string &name,
-                                  target_mode mode, input_context &ctxt,
-                                  const std::vector<aim_type> &aim_types, bool tiny,
-                                  bool grey_out_firing_controls = false )
-{
-    draw_border( w_target );
-    // Draw the "title" of the window.
-    mvwprintz( w_target, point( 2, 0 ), c_white, "< " );
-    std::string title;
-
-    switch( mode ) {
-        case TARGET_MODE_FIRE:
-        case TARGET_MODE_TURRET_MANUAL:
-            title = string_format( _( "Firing %s" ), name );
-            break;
-
-        case TARGET_MODE_THROW:
-            title = string_format( _( "Throwing %s" ), name );
-            break;
-
-        case TARGET_MODE_THROW_BLIND:
-            title = string_format( _( "Blind throwing %s" ), name );
-            break;
-
-        default:
-            title = _( "Set target" );
-    }
-
-    trim_and_print( w_target, point( 4, 0 ), getmaxx( w_target ) - 7, c_red, title );
-    wprintz( w_target, c_white, " >" );
-
-    // Draw the help contents at the bottom of the window, leaving room for monster description
-    // and aiming status to be drawn dynamically.
-    // The - 2 accounts for the window border.
-    // If tiny is set we're critically low on space, let the final line overwrite the border.
-    int text_y = getmaxy( w_target ) - ( tiny ? 1 : 2 );
-    if( is_mouse_enabled() ) {
-        // Reserve a line for mouse instructions.
-        --text_y;
-    }
-
-    // Reserve lines for aiming and firing instructions.
-    if( mode == TARGET_MODE_FIRE ) {
-        text_y -= ( 3 + aim_types.size() );
-    } else {
-        text_y -= 2;
-    }
-
-    // The -1 is the -2 from above, but adjusted since this is a total, not an index.
-    int lines_used = getmaxy( w_target ) - 1 - text_y;
-    mvwprintz( w_target, point( 1, text_y++ ), c_white,
-               _( "Move cursor to target with directional keys" ) );
-
-    const auto front_or = [&]( const std::string & s, const char fallback ) {
-        const auto keys = ctxt.keys_bound_to( s );
-        return keys.empty() ? fallback : keys.front();
-    };
-
-    nc_color fire_color = grey_out_firing_controls ? c_light_gray : c_white;
-
-    std::string label_fire;
-    if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
-        label_fire = to_translation( "[Hotkey] to throw", "to throw" ).translated();
-    } else if( mode == TARGET_MODE_REACH ) {
-        label_fire = to_translation( "[Hotkey] to attack", "to attack" ).translated();
-    } else if( mode == TARGET_MODE_SPELL ) {
-        label_fire = to_translation( "[Hotkey] to cast the spell", "to cast" ).translated();
-    } else {
-        label_fire = to_translation( "[Hotkey] to fire", "to fire" ).translated();
-    }
-
-    auto label_cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
-    int text_x = utf8_width( label_cycle ) + 2; // '2' for border + space at the end
-    mvwprintz( w_target, point( 1, text_y ), c_white, label_cycle );
-    mvwprintz( w_target, point( text_x, text_y++ ), fire_color, "[%c] %s.", front_or( "FIRE", ' ' ),
-               label_fire );
-
-    mvwprintz( w_target, point( 1, text_y++ ), c_white,
-               _( "[%c] target self; [%c] toggle snap-to-target" ),
-               front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
-
-    if( mode == TARGET_MODE_FIRE ) {
-        mvwprintz( w_target, point( 1, text_y++ ), fire_color, _( "[%c] to steady your aim.  (10 moves)" ),
-                   front_or( "AIM", ' ' ) );
-        std::string aim_and_fire;
-        for( const auto &e : aim_types ) {
-            if( e.has_threshold ) {
-                aim_and_fire += string_format( "[%s] ", front_or( e.action, ' ' ) );
-            }
-        }
-        mvwprintz( w_target, point( 1, text_y++ ), fire_color, _( "%sto aim and fire" ), aim_and_fire );
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch aiming modes." ),
-                   front_or( "SWITCH_AIM", ' ' ) );
-    }
-
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch firing modes." ),
-                   front_or( "SWITCH_MODE", ' ' ) );
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to reload/switch ammo." ),
-                   front_or( "SWITCH_AMMO", ' ' ) );
-    }
-
-    if( is_mouse_enabled() ) {
-        const char *label_mouse = "Mouse: LMB: Target, Wheel: Cycle,";
-        int text_x = utf8_width( label_mouse ) + 2; // '2' for border + space at the end
-        mvwprintz( w_target, point( 1, text_y ), c_white, label_mouse );
-        mvwprintz( w_target, point( text_x, text_y ), fire_color, _( "RMB: Fire" ) );
-    }
-    return lines_used;
-}
-
 static void do_aim( player &p, const item &relevant, const double min_recoil )
 {
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
@@ -1586,13 +1489,6 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 // TODO: You ARE the redundant drawing code now, mwa-ha-ha!
 void target_ui::draw_normal_ui_old( player &pc )
 {
-    // Clear the target window.
-    for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
-        // Clear width excluding borders.
-        for( int j = 1; j <= getmaxx( w_target ) - 2; j++ ) {
-            mvwputch( w_target, point( j, i ), c_white, ' ' );
-        }
-    }
     int line_number = 1;
     Creature *critter = g->critter_at( dst, true );
     const int relative_elevation = dst.z - pc.pos().z;
@@ -1694,23 +1590,12 @@ void target_ui::draw_normal_ui_old( player &pc )
     } else if( mode == TARGET_MODE_THROW_BLIND && relevant ) {
         draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, true );
     }
-
-    draw_targeting_window( w_target, relevant ? relevant->tname() : _( "turrets" ),
-                           mode, ctxt, aim_types, tiny, src == dst );
-    wrefresh( w_target );
 }
 
 void target_ui::draw_spell_ui_old( player &pc )
 {
     spell &casting = *this->casting; // TODO: make code use pointer
 
-    // Clear the target window.
-    for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
-        // Clear width excluding borders.
-        for( int j = 1; j <= getmaxx( w_target ) - 2; j++ ) {
-            mvwputch( w_target, point( j, i ), c_white, ' ' );
-        }
-    }
     int line_number = 1;
     Creature *critter = g->critter_at( dst, true );
     const int relative_elevation = dst.z - pc.pos().z;
@@ -1779,10 +1664,6 @@ void target_ui::draw_spell_ui_old( player &pc )
         int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
         critter->print_info( w_target, line_number, available_lines, 1 );
     }
-
-    draw_targeting_window( w_target, casting.name(),
-                           TARGET_MODE_SPELL, ctxt, aim_types, tiny );
-    wrefresh( w_target );
 }
 
 static projectile make_gun_projectile( const item &gun )
@@ -2261,15 +2142,6 @@ target_handler::trajectory target_ui::run( player &pc )
         }
     }
 
-    // Initialize drawing (TODO: update this)
-    if( mode == TARGET_MODE_SPELL ) {
-        num_instruction_lines = draw_targeting_window( w_target, casting->name(),
-                                mode, ctxt, aim_types, tiny );
-    } else {
-        num_instruction_lines = draw_targeting_window( w_target,
-                                relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny, src == dst );
-    }
-
     enum class ExitCode {
         Abort,
         Fire,
@@ -2553,6 +2425,9 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
         recalc_aim_turning_penalty( pc );
     }
 
+    // Update UI colors
+    grey_out_firing_controls = ( dst == src );
+
     return true;
 }
 
@@ -2761,14 +2636,8 @@ bool target_ui::action_aim_and_shoot( player &pc, const std::string &action )
 void target_ui::draw( player &pc )
 {
     draw_terrain( pc );
-
-    if( mode == TARGET_MODE_SPELL ) {
-        draw_spell_ui_old( pc );
-    } else {
-        draw_normal_ui_old( pc );
-    }
-
     g->draw_panels();
+    draw_ui_window( pc );
     catacurses::refresh();
 }
 
@@ -2811,6 +2680,117 @@ void target_ui::draw_terrain( player &pc )
     }
 
     wrefresh( g->w_terrain );
+}
+
+void target_ui::draw_ui_window( player &pc )
+{
+    // Clear target window and make it non-transparent.
+    for( int y = 0; y < height; y++ ) {
+        for( int x = 0; x < width; x++ ) {
+            mvwputch( w_target, point( x, y ), c_white, ' ' );
+        }
+    }
+
+    draw_border( w_target );
+
+    // Draw title
+    mvwprintz( w_target, point( 2, 0 ), c_white, "< " );
+    trim_and_print( w_target, point( 4, 0 ), getmaxx( w_target ) - 7, c_red, uitext_title() );
+    wprintz( w_target, c_white, " >" );
+
+    // Draw controls
+    int occupied_lines = draw_controls_list();
+
+    // Draw old stuff (TODO: refactor this)
+    num_instruction_lines = height - 1 - occupied_lines; // TODO: is there an off-by-one error?
+    if( mode == TARGET_MODE_SPELL ) {
+        draw_spell_ui_old( pc );
+    } else {
+        draw_normal_ui_old( pc );
+    }
+
+    wrefresh( w_target );
+}
+
+std::string target_ui::uitext_title()
+{
+    switch( mode ) {
+        case TARGET_MODE_FIRE:
+        case TARGET_MODE_TURRET_MANUAL:
+            return string_format( _( "Firing %s" ), relevant->tname() );
+        case TARGET_MODE_THROW:
+            return string_format( _( "Throwing %s" ), relevant->tname() );
+        case TARGET_MODE_THROW_BLIND:
+            return string_format( _( "Blind throwing %s" ), relevant->tname() );
+        default:
+            return _( "Set target" );
+    }
+}
+
+std::string target_ui::uitext_fire()
+{
+    if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
+        return to_translation( "[Hotkey] to throw", "to throw" ).translated();
+    } else if( mode == TARGET_MODE_REACH ) {
+        return to_translation( "[Hotkey] to attack", "to attack" ).translated();
+    } else if( mode == TARGET_MODE_SPELL ) {
+        return to_translation( "[Hotkey] to cast the spell", "to cast" ).translated();
+    } else {
+        return to_translation( "[Hotkey] to fire", "to fire" ).translated();
+    }
+}
+
+int target_ui::draw_controls_list()
+{
+    // Get first key bound to given action OR ' ' if there are none.
+    const auto bound_key = [this]( const std::string & s ) {
+        const auto keys = ctxt.keys_bound_to( s );
+        return keys.empty() ? ' ' : keys.front();
+    };
+
+    nc_color fire_color = grey_out_firing_controls ? c_light_gray : c_white;
+
+    // Since this list is of variable length and positioned
+    // at the bottom, we draw everything in reverse order
+    int text_y = height - ( tiny ? 1 : 2 ); // If we're short on space, draw over bottom border
+    if( is_mouse_enabled() ) {
+        const char *label_mouse = "Mouse: LMB: Target, Wheel: Cycle,";
+        int text_x = utf8_width( label_mouse ) + 2; // '2' for border + space at the end
+        mvwprintz( w_target, point( 1, text_y ), c_white, label_mouse );
+        mvwprintz( w_target, point( text_x, text_y-- ), fire_color, _( "RMB: Fire" ) );
+    }
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+        mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "[%c] to reload/switch ammo." ),
+                   bound_key( "SWITCH_AMMO" ) );
+        mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "[%c] to switch firing modes." ),
+                   bound_key( "SWITCH_MODE" ) );
+    }
+    if( mode == TARGET_MODE_FIRE ) {
+        std::string aim_and_fire;
+        for( const auto &e : aim_types ) {
+            if( e.has_threshold ) {
+                aim_and_fire += string_format( "[%c] ", bound_key( e.action ) );
+            }
+        }
+
+        mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "[%c] to switch aiming modes." ),
+                   bound_key( "SWITCH_AIM" ) );
+        mvwprintz( w_target, point( 1, text_y-- ), fire_color, _( "%sto aim and fire" ), aim_and_fire );
+        mvwprintz( w_target, point( 1, text_y-- ), fire_color, _( "[%c] to steady your aim.  (10 moves)" ),
+                   bound_key( "AIM" ) );
+    }
+    mvwprintz( w_target, point( 1, text_y-- ), c_white,
+               _( "[%c] target self; [%c] toggle snap-to-target" ), bound_key( "CENTER" ),
+               bound_key( "TOGGLE_SNAP_TO_TARGET" ) );
+
+    auto label_cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
+    int text_x = utf8_width( label_cycle ) + 2; // '2' for border + space at the end
+    mvwprintz( w_target, point( 1, text_y ), c_white, label_cycle );
+    mvwprintz( w_target, point( text_x, text_y-- ), fire_color, "[%c] %s.", bound_key( "FIRE" ),
+               uitext_fire() );
+
+    mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "Move cursor with directional keys" ) );
+    return height - text_y;
 }
 
 void target_ui::on_target_accepted( player &pc, bool harmful )
