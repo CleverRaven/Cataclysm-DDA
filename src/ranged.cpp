@@ -246,6 +246,12 @@ class target_ui
         // Aim and shoot. Returns 'false' if ran out of moves
         bool action_aim_and_shoot( player &pc, const std::string &action );
 
+        // Drawing routines
+        void draw( player &pc );
+
+        // Draw terrain with UI-specific overlays
+        void draw_terrain( player &pc );
+
         // TODO: finish breaking down drawing
         void draw_normal_ui_old( player &pc );
         void draw_spell_ui_old( player &pc );
@@ -1580,7 +1586,6 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 // TODO: You ARE the redundant drawing code now, mwa-ha-ha!
 void target_ui::draw_normal_ui_old( player &pc )
 {
-    tripoint center = pc.pos() + pc.view_offset;
     // Clear the target window.
     for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
         // Clear width excluding borders.
@@ -1588,22 +1593,10 @@ void target_ui::draw_normal_ui_old( player &pc )
             mvwputch( w_target, point( j, i ), c_white, ' ' );
         }
     }
-    g->draw_ter( center, true );
     int line_number = 1;
     Creature *critter = g->critter_at( dst, true );
     const int relative_elevation = dst.z - pc.pos().z;
     if( dst != src ) {
-        // Only draw those tiles which are on current z-level
-        auto ret_this_zlevel = ret;
-        ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
-        [&center]( const tripoint & pt ) {
-            return pt.z != center.z;
-        } ), ret_this_zlevel.end() );
-        // Only draw a highlighted trajectory if we can see the endpoint.
-        // Provides feedback to the player, and avoids leaking information
-        // about tiles they can't see.
-        g->draw_line( dst, center, ret_this_zlevel );
-
         // Print to target window
         mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
                    rl_dist( src, dst ), range, relative_elevation, targets.size() );
@@ -1657,9 +1650,6 @@ void target_ui::draw_normal_ui_old( player &pc )
         // Just print the monster name if we're short on space.
         int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
         line_number = critter->print_info( w_target, line_number, available_lines, 1 );
-    } else {
-        mvwputch( g->w_terrain, -center.xy() + dst.xy() + point( POSX, POSY ),
-                  c_red, '*' );
     }
 
     // Assumes that relevant == null means firing turrets (maybe even multiple at once),
@@ -1705,28 +1695,15 @@ void target_ui::draw_normal_ui_old( player &pc )
         draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, true );
     }
 
-    wrefresh( g->w_terrain );
-    g->draw_panels();
     draw_targeting_window( w_target, relevant ? relevant->tname() : _( "turrets" ),
                            mode, ctxt, aim_types, tiny, src == dst );
     wrefresh( w_target );
-
-    catacurses::refresh();
-
-    if( critter != nullptr ) {
-        g->draw_critter( *critter, center );
-    } else if( g->m.pl_sees( dst, -1 ) ) {
-        g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
-    } else {
-        mvwputch( g->w_terrain, point( POSX, POSY ), c_black, 'X' );
-    }
 }
 
 void target_ui::draw_spell_ui_old( player &pc )
 {
     spell &casting = *this->casting; // TODO: make code use pointer
 
-    tripoint center = pc.pos() + pc.view_offset;
     // Clear the target window.
     for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
         // Clear width excluding borders.
@@ -1734,7 +1711,6 @@ void target_ui::draw_spell_ui_old( player &pc )
             mvwputch( w_target, point( j, i ), c_white, ' ' );
         }
     }
-    g->draw_ter( center, true );
     int line_number = 1;
     Creature *critter = g->critter_at( dst, true );
     const int relative_elevation = dst.z - pc.pos().z;
@@ -1763,17 +1739,6 @@ void target_ui::draw_spell_ui_old( player &pc )
                                       c_light_green ) );
     }
     if( dst != src ) {
-        // Only draw those tiles which are on current z-level
-        auto ret_this_zlevel = ret;
-        ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
-        [&center]( const tripoint & pt ) {
-            return pt.z != center.z;
-        } ), ret_this_zlevel.end() );
-        // Only draw a highlighted trajectory if we can see the endpoint.
-        // Provides feedback to the player, and avoids leaking information
-        // about tiles they can't see.
-        g->draw_line( dst, center, ret_this_zlevel );
-
         // Print to target window
         mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
                    rl_dist( src, dst ), range, relative_elevation, targets.size() );
@@ -1781,11 +1746,6 @@ void target_ui::draw_spell_ui_old( player &pc )
     } else {
         mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
                    relative_elevation, targets.size() );
-    }
-
-    g->draw_cursor( dst );
-    for( const tripoint &area : spell_aoe ) {
-        g->m.drawsq( g->w_terrain, pc, area, true, true, center );
     }
 
     if( casting.aoe() > 0 ) {
@@ -1820,18 +1780,9 @@ void target_ui::draw_spell_ui_old( player &pc )
         critter->print_info( w_target, line_number, available_lines, 1 );
     }
 
-    wrefresh( g->w_terrain );
     draw_targeting_window( w_target, casting.name(),
                            TARGET_MODE_SPELL, ctxt, aim_types, tiny );
     wrefresh( w_target );
-
-    catacurses::refresh();
-
-    if( critter != nullptr ) {
-        g->draw_critter( *critter, center );
-    } else if( g->m.pl_sees( dst, -1 ) ) {
-        g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
-    }
 }
 
 static projectile make_gun_projectile( const item &gun )
@@ -2333,11 +2284,7 @@ target_handler::trajectory target_ui::run( player &pc )
     for( ;; action.clear() ) {
         // Old drawing
         if( !skip_redraw ) {
-            if( mode == TARGET_MODE_SPELL ) {
-                draw_spell_ui_old( pc );
-            } else {
-                draw_normal_ui_old( pc );
-            }
+            draw( pc );
         }
         skip_redraw = false;
 
@@ -2809,6 +2756,61 @@ bool target_ui::action_aim_and_shoot( player &pc, const std::string &action )
         // We've run out of moves
         return false;
     }
+}
+
+void target_ui::draw( player &pc )
+{
+    draw_terrain( pc );
+
+    if( mode == TARGET_MODE_SPELL ) {
+        draw_spell_ui_old( pc );
+    } else {
+        draw_normal_ui_old( pc );
+    }
+
+    g->draw_panels();
+    catacurses::refresh();
+}
+
+void target_ui::draw_terrain( player &pc )
+{
+    tripoint center = pc.pos() + pc.view_offset;
+    g->draw_ter( center, true );
+
+    // Draw trajectory
+    if( dst != src ) {
+        // But only points on this Z-level
+        std::vector<tripoint> this_z = ret;
+        this_z.erase( std::remove_if( this_z.begin(), this_z.end(),
+        [&center]( const tripoint & p ) {
+            return p.z != center.z;
+        } ), this_z.end() );
+
+        // Draw a highlighted trajectory only if we can see the endpoint.
+        // Provides feedback to the player, but avoids leaking information
+        // about tiles they can't see.
+        // FIXME: TILES version of this function helpfully draws a cursor at 'this_z.back()'.
+        //        This creates a fake cursor if 'dst' is on a z-level we cannot see.
+        g->draw_line( dst, center, this_z );
+    }
+
+    // Since draw_line does nothing if destination is not visible,
+    // cursor also disappears. Draw it explicitly.
+    if( dst.z == center.z ) {
+        g->draw_cursor( dst );
+    }
+
+    // Draw spell AOE
+    if( mode == TARGET_MODE_SPELL ) {
+        for( const tripoint &tile : spell_aoe ) {
+            if( tile.z != center.z ) {
+                continue;
+            }
+            g->m.drawsq( g->w_terrain, pc, tile, true, true, center );
+        }
+    }
+
+    wrefresh( g->w_terrain );
 }
 
 void target_ui::on_target_accepted( player &pc, bool harmful )
