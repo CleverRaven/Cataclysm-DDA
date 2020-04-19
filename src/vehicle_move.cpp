@@ -948,7 +948,7 @@ bool vehicle::has_harnessed_animal() const
     return false;
 }
 
-void vehicle::autodrive( int x, int y )
+void vehicle::autodrive( const point &p )
 {
     if( !is_towed() && !magic ) {
         for( size_t e = 0; e < parts.size(); e++ ) {
@@ -962,7 +962,7 @@ void vehicle::autodrive( int x, int y )
             }
         }
     }
-    int turn_delta = 15 * x;
+    int turn_delta = 15 * p.x;
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0 ) {
         float eff = steering_effectiveness();
@@ -979,12 +979,12 @@ void vehicle::autodrive( int x, int y )
         }
         turn( turn_delta );
     }
-    if( y != 0 ) {
+    if( p.y != 0 ) {
         int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
         if( cruise_on ) {
-            cruise_thrust( -y * thr_amount );
+            cruise_thrust( -p.y * thr_amount );
         } else {
-            thrust( -y );
+            thrust( -p.y );
         }
     }
     // TODO: Actually check if we're on land on water (or disable water-skidding)

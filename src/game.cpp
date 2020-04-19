@@ -1235,7 +1235,7 @@ bool game::cleanup_at_end()
 
         int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
         std::string sLastWords = string_input_popup()
-                                 .window( w_rip, iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1 )
+                                 .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
                                  .max_length( iMaxWidth - 4 - 1 )
                                  .query_string();
         death_screen();
@@ -10746,7 +10746,7 @@ point game::update_map( int &x, int &y )
 
     // Shift NPCs
     for( auto it = active_npc.begin(); it != active_npc.end(); ) {
-        ( *it )->shift( shift.x, shift.y );
+        ( *it )->shift( shift );
         if( ( *it )->posx() < 0 - SEEX * 2 || ( *it )->posy() < 0 - SEEX * 2 ||
             ( *it )->posx() > SEEX * ( MAPSIZE + 2 ) || ( *it )->posy() > SEEY * ( MAPSIZE + 2 ) ) {
             //Remove the npc from the active list. It remains in the overmap list.
@@ -11145,7 +11145,7 @@ void game::perhaps_add_random_npc()
     tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
     // adds the npc to the correct overmap.
     tripoint submap_spawn = omt_to_sm_copy( spawn_point );
-    tmp->spawn_at_sm( submap_spawn.x, submap_spawn.y, 0 );
+    tmp->spawn_at_sm( tripoint( submap_spawn.xy(), 0 ) );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->mission = NPC_MISSION_NULL;
