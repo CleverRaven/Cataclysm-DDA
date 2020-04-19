@@ -224,11 +224,7 @@
     "name": "currywurst",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "cheapskate %s" } },
-      {
-        "type": "COMPONENT_ID",
-        "condition": "mutant",
-        "name": { "str_sp": "bloodcurdling %s" }
-      }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "bloodcurdling %s" } }
     ],
     "weight": "85 g",
     "color": "red",
@@ -764,9 +760,7 @@
     "type": "COMESTIBLE",
     "id": "deluxe_rice",
     "name": { "str_sp": "meat fried rice" },
-    "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant fried rice" } }
-    ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant fried rice" } } ],
     "weight": "187 g",
     "color": "yellow",
     "spoils_in": "15 days",
@@ -788,13 +782,7 @@
     "type": "COMESTIBLE",
     "id": "deluxe_beansnrice",
     "name": { "str_sp": "deluxe beans and rice" },
-    "conditional_names": [
-      {
-        "type": "COMPONENT_ID",
-        "condition": "mutant",
-        "name": { "str_sp": "\"deluxe\" beans and rice" }
-      }
-    ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" beans and rice" } } ],
     "weight": "312 g",
     "color": "brown",
     "spoils_in": "15 days",
@@ -883,13 +871,7 @@
     "type": "COMESTIBLE",
     "id": "deluxe_eggs",
     "name": { "str_sp": "deluxe scrambled eggs" },
-    "conditional_names": [
-      {
-        "type": "COMPONENT_ID",
-        "condition": "mutant",
-        "name": { "str_sp": "\"deluxe\" scrambled eggs" }
-      }
-    ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" scrambled eggs" } } ],
     "weight": "198 g",
     "color": "yellow",
     "spoils_in": "2 days",
