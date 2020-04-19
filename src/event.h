@@ -578,6 +578,14 @@ class event
             return it->second;
         }
 
+        cata_variant get_variant_or_void( const std::string &key ) const {
+            auto it = data_.find( key );
+            if( it == data_.end() ) {
+                return cata_variant();
+            }
+            return it->second;
+        }
+
         template<cata_variant_type Type>
         auto get( const std::string &key ) const {
             return get_variant( key ).get<Type>();

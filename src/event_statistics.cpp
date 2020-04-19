@@ -658,7 +658,7 @@ struct event_statistic_unique_value : event_statistic::impl {
         void event_added( const cata::event &e, stats_tracker &stats ) override {
             ++count;
             if( count == 1 ) {
-                value = e.get_variant( stat->field_ );
+                value = e.get_variant_or_void( stat->field_ );
             } else if( count == 2 ) {
                 value = cata_variant();
             } else {
