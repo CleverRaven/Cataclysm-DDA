@@ -2582,8 +2582,8 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
     /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = std::pow( 1.5, p->get_skill_level( skill_lockpick ) ) *
                     ( std::pow( 1.3, p->get_skill_level( skill_mechanics ) ) +
-                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000 ) +
-                    p->dex_cur / 4;
+                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
+                    p->dex_cur / 4.0;
     int lock_roll = rng( 1, 120 );
     if( pick_roll >= lock_roll ) {
         p->practice( skill_lockpick, lock_roll );
