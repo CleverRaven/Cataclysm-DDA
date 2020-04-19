@@ -12,7 +12,12 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" }
     ],
-    "spells": [ { "id": "lightning_bolt", "level": 6 }, { "id": "light_healing", "level": 6 }, { "id": "windrun", "level": 6 }, { "id": "druidic_healing", "level": 6 } ]
+    "spells": [
+      { "id": "lightning_bolt", "level": 6 },
+      { "id": "light_healing", "level": 6 },
+      { "id": "windrun", "level": 6 },
+      { "id": "druidic_healing", "level": 6 }
+    ]
   },
   {
     "type": "npc_class",
