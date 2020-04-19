@@ -14,7 +14,7 @@
     "material": "demon_chitin",
     "symbol": ")",
     "color": "red",
-    "pocket_data": [{ "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" }],
+    "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
     "//": "I went ahead and gave this a level of 2 for when magical mutagens become a thing as I figured dragonblood for instance should need different tools than making alpha mutagen.",
     "watertight": true,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ] ],
