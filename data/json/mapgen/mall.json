@@ -980,7 +980,7 @@
         "........................"
       ],
       "terrain": { ".": "t_flat_roof", " ": "t_open_air", "2": "t_gutter_north" },
-      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 13, 23 ], "density": 0.3 } ]
+      "place_monsters": [ { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 3, 23 ], "y": [ 13, 23 ], "density": 0.3 } ]
     }
   },
   {
@@ -1158,7 +1158,7 @@
         ],
         "P": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ]
       },
-      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 17, 23 ], "y": [ 5, 23 ], "density": 0.4 } ]
+      "place_monsters": [ { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 17, 23 ], "y": [ 5, 23 ], "density": 0.4 } ]
     }
   },
   {
@@ -2597,7 +2597,7 @@
         "........................"
       ],
       "terrain": { ".": "t_flat_roof", " ": "t_open_air", "2": "t_gutter_north" },
-      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
+      "place_monsters": [ { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
       "place_items": [ { "item": "roof_trash", "x": [ 0, 23 ], "y": [ 1, 23 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   },
@@ -3575,7 +3575,7 @@
       ],
       "terrain": { ".": "t_flat_roof" },
       "place_items": [ { "item": "roof_trash", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 3 ] } ],
-      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ]
+      "place_monsters": [ { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ]
     }
   },
   {
@@ -3724,7 +3724,7 @@
         "........................"
       ],
       "terrain": { ".": "t_flat_roof", "o": "t_glass_roof" },
-      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
+      "place_monsters": [ { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
       "place_items": [ { "item": "roof_trash", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   },
@@ -7503,7 +7503,7 @@
         "........................"
       ],
       "terrain": { ".": "t_flat_roof", "o": "t_glass_roof" },
-      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
+      "place_monsters": [ { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
       "place_items": [ { "item": "roof_trash", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   },
