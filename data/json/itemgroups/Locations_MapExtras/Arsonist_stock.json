@@ -7,7 +7,9 @@
       { "item": "molotov", "count": 50 },
       { "item": "pipebomb", "count": 50 },
       { "item": "fuse", "count": 20 },
-      { "item": "FMCNote", "count": 15 },
+      { "item": "FMCNote", "count": 3 },
+      { "item": "nail", "count": 5 },
+      { "item": "rebar_rail", "count": 5 },
       { "item": "textbook_anarch", "count": 1 },
       { "item": "fertilizer_commercial", "count": 1 }
     ]
