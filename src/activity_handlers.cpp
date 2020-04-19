@@ -3488,7 +3488,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const int difficulty = act->values.front();
 
     const std::vector<body_part> bps = get_occupied_bodyparts( bid );
-    const std::vector<trait_id> &trait_to_rem = bid->canceled_mutations;
 
     const time_duration half_op_duration = difficulty * 10_minutes;
     const time_duration message_freq = difficulty * 2_minutes;
@@ -3569,7 +3568,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
             if( bid.is_valid() ) {
                 p->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
-                                    act->str_values[installer_name], trait_to_rem, p->pos() );
+                                    act->str_values[installer_name], bid->canceled_mutations, p->pos() );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
                 p->remove_effect( effect_under_op );
