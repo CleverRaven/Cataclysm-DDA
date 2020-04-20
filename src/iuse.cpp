@@ -2121,7 +2121,9 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->moves -= to_moves<int>( 2_seconds );
+    int factor = 1;
+
+    p->assign_activity( player_activity( purify_water_activity_actor( to_moves<int>( 2_minutes * liquid.charges * factor ) ) ) );
 
     liquid.convert( "water_clean" ).poison = 0;
     return liquid.charges;

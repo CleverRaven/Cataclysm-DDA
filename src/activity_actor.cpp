@@ -315,6 +315,11 @@ void purify_water_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves;
 }
 
+void purify_water_activity_actor::finish( player_activity &act, Character & )
+{
+    act.set_to_null();
+}
+
 void purify_water_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
