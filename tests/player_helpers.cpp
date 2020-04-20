@@ -52,9 +52,8 @@ void clear_character( player &dummy, bool debug_storage )
 {
     dummy.normalize(); // In particular this clears martial arts style
 
-    // Remove first worn item until there are none left.
-    std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    // delete all worn items.
+    dummy.worn.clear();
     dummy.inv.clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
