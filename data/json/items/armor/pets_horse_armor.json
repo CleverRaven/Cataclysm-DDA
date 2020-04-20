@@ -159,7 +159,6 @@
     "covers": [ "HANDS" ],
     "coverage": 50,
     "encumbrance": 30,
-    "storage": "30 L",
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]

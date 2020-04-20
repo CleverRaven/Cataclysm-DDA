@@ -619,7 +619,6 @@
     "price_postapoc": 2000,
     "bashing": 2,
     "ammo": "9mm",
-    "magazine_well": "65 ml",
     "min_cycle_recoil": 450,
     "magazines": [ [ "9mm", [ "kpf9mag" ] ] ]
   },

@@ -1259,7 +1259,15 @@
     "material": "stone",
     "symbol": ";",
     "color": "dark_gray",
-    "container_data": { "contains": "1500 ml", "watertight": true },
+    "pocket_data": [
+      {
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -2382,19 +2390,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 7,
-    "storage": "2500 ml",
     "warmth": 15,
     "material_thickness": 4,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2416,19 +2414,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 15,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 9,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2450,19 +2438,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 25,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 5,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2484,19 +2462,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 12,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 6,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2518,19 +2486,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 20,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 7,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2552,19 +2510,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 15,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 6,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {

@@ -94,7 +94,6 @@
     "encumbrance": 7,
     "material_thickness": 2,
     "material": [ "leather", "kevlar" ],
-    "use_action": { "type": "holster", "max_volume": 13, "draw_cost": 150, "skills": [ "smg", "shotgun", "rifle" ] },
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ]
   },
   {
@@ -369,7 +368,6 @@
     ],
     "material_thickness": 3,
     "environmental_protection": 10,
-    "use_action": { "type": "holster", "max_volume": 15, "draw_cost": 155, "skills": [ "smg", "shotgun", "rifle", "launcher" ] },
     "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW" ]
   }
 ]

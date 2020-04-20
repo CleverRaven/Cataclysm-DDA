@@ -1156,13 +1156,16 @@
     "volume": "1531 ml",
     "bashing": 3,
     "looks_like": "cane",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1531 ml", "max_contains_weight": "2 kg", "moves": 80 } ],
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath sword",
-      "holster_msg": "You sheath your %s",
-      "flags": [ "SHEATH_SWORD" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1531 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "flag_restriction": [ "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ]
   },
   {

@@ -806,7 +806,6 @@
     "ammo": "plutonium",
     "use_action": "RM13ARMOR_OFF",
     "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "storage": "8 L",
     "warmth": 30,
     "environmental_protection": 15,
     "encumbrance": 30,
@@ -909,7 +908,6 @@
     "material": [ "carbide" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "storage": "8 L",
     "ammo": "plutonium",
     "max_charges": 2500,
     "initial_charges": 1000,
@@ -1771,7 +1769,6 @@
     "weight": "3390 g",
     "color": "brown",
     "covers": [ "TORSO" ],
-    "storage": "500 ml",
     "symbol": "[",
     "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "price": 50000,
@@ -1788,19 +1785,11 @@
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "1 kg",
-        "moves": 3
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       }
     ],
-    "use_action": [
-      {
-        "type": "holster",
-        "holster_prompt": "Sheath blade",
-        "holster_msg": "You sheath your %s",
-        "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-      },
-      "CROWBAR",
-      "HAMMER"
-    ],
+    "use_action": [ { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" }, "CROWBAR", "HAMMER" ],
     "qualities": [
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],

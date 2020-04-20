@@ -130,7 +130,6 @@
     "material": [ "steel", "plastic", "aluminum" ],
     "color": "dark_gray",
     "ammo": "32",
-    "magazine_well": "41 ml",
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 135,

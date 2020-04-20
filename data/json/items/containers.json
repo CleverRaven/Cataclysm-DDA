@@ -115,13 +115,10 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "rigid": false,
     "material": "cotton",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
-    "color": "brown",
-    "contains": "15 L",
-    "seals": true
+    "color": "brown"
   },
   {
     "id": "bag_canvas_small",
@@ -153,7 +150,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "resealable": false,
+        "sealed_data": { "spoil_multiplier": 1.0 },
         "max_contains_volume": "6 L",
         "max_contains_weight": "10 kg",
         "moves": 400
@@ -187,7 +184,6 @@
     ],
     "symbol": ")",
     "color": "light_gray",
-    "contains": "250 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -228,7 +224,6 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -1,
-    "rigid": false,
     "material": "plastic",
     "symbol": ")",
     "color": "light_gray",
@@ -313,7 +308,7 @@
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "spoil_multiplier": 0.5,
-        "sealed_data": { "spoilage_multiplier": 0.0 },
+        "sealed_data": { "spoil_multiplier": 0.0 },
         "moves": 400
       }
     ],
@@ -322,8 +317,7 @@
     "to_hit": 1,
     "material": "plastic",
     "symbol": ")",
-    "color": "brown",
-    "unseals_into": "condiment_bottle_unsealed"
+    "color": "brown"
   },
   {
     "id": "condiment_bottle_unsealed",
@@ -453,8 +447,7 @@
     "price_postapoc": 0,
     "material": "cardboard",
     "symbol": ")",
-    "color": "brown",
-    "contains": "1 L"
+    "color": "brown"
   },
   {
     "id": "box_medium",
@@ -545,7 +538,6 @@
     "material": [ "cotton", "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
-    "contains": "2 L",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -555,7 +547,7 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "storage": "1 L", "material_thickness": 1 },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 1 },
     "flags": [ "BELTED" ]
   },
   {
@@ -579,13 +571,11 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "resealable": false,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg",
-        "sealed_data": { "spoilage_multiplier": 0.0 }
+        "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "unseals_into": "can_drink_unsealed"
+    ]
   },
   {
     "id": "can_drink_unsealed",
@@ -595,7 +585,6 @@
     "description": "An aluminum can, like what soda comes in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
     "color": "light_blue",
-    "unseals_into": "null",
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
@@ -617,13 +606,11 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "open_container": true,
-        "resealable": false,
+        "sealed_data": { "spoil_multiplier": 1.0 },
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg"
       }
-    ],
-    "unseals_into": "carton_unsealed"
+    ]
   },
   {
     "id": "carton_unsealed",
@@ -633,7 +620,6 @@
     "description": "A half gallon carton constructed of a paper, aluminum and plastic laminate.  This one is open and its contents will spoil.",
     "symbol": ")",
     "color": "light_blue",
-    "unseals_into": "null",
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -653,13 +639,11 @@
       {
         "pocket_type": "CONTAINER",
         "open_container": true,
-        "resealable": false,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "sealed_data": { "spoilage_multiplier": 0.0 }
+        "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "unseals_into": "bag_plastic"
+    ]
   },
   {
     "id": "can_food",
@@ -675,20 +659,17 @@
     "material": "steel",
     "symbol": ")",
     "color": "blue",
-    "contains": "250 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "resealable": false,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "unseals_into": "can_food_unsealed"
+    ]
   },
   {
     "id": "can_food_unsealed",
@@ -698,8 +679,6 @@
     "description": "A small tin can, like what tuna comes in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
     "color": "blue",
-    "preserves": false,
-    "unseals_into": "null",
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
@@ -717,14 +696,12 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "resealable": false,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "volume": "503 ml",
-    "unseals_into": "can_medium_unsealed"
+    "volume": "503 ml"
   },
   {
     "id": "can_medium_unsealed",
@@ -733,7 +710,6 @@
     "name": { "str": "medium opened tin can" },
     "description": "A medium tin can, like what soup comes in.  This one is opened and can't be easily sealed.",
     "looks_like": "can_food_unsealed",
-    "unseals_into": "null",
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
@@ -759,7 +735,6 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "contains": "1500 ml",
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -877,20 +852,17 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": "250 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "resealable": false,
         "open_container": true,
-        "sealed_data": { "spoilage_multiplier": 0.0 },
+        "sealed_data": { "spoil_multiplier": 0.0 },
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg"
       }
-    ],
-    "unseals_into": "cup_plastic_unsealed"
+    ]
   },
   {
     "id": "cup_plastic_unsealed",
@@ -900,7 +872,6 @@
     "description": "A small, vacuum formed cup, essentially trash.",
     "symbol": ")",
     "color": "light_cyan",
-    "unseals_into": "null",
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -975,14 +946,10 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "resealable": false,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg"
       }
     ],
-    "contains": "250ml",
-    "seals": false,
-    "watertight": true,
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -1005,7 +972,7 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "resealable": false,
+        "sealed_data": { "spoil_multiplier": 1.1 },
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g"
       }
@@ -1099,8 +1066,6 @@
     "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly to preserve contents from rot.",
     "symbol": ")",
     "color": "light_cyan",
-    "seals": false,
-    "preserves": true,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1108,10 +1073,9 @@
         "watertight": true,
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
-        "sealed_data": { "spoilage_multiplier": 0.0 }
+        "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "unseals_into": "jar_3l_glass"
+    ]
   },
   {
     "id": "jar_glass",
@@ -1135,7 +1099,6 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "unseals_into": "null",
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
   },
   {
@@ -1146,8 +1109,6 @@
     "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly and will preserve the contents from rot (assuming it was sterile before sealing).",
     "symbol": ")",
     "color": "light_cyan",
-    "seals": false,
-    "preserves": true,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1155,10 +1116,9 @@
         "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "sealed_data": { "spoilage_multiplier": 0.0 }
+        "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "unseals_into": "jar_glass"
+    ]
   },
   {
     "id": "jerrycan",
@@ -1323,7 +1283,6 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 1,
-    "rigid": false,
     "material": "gutskin",
     "symbol": ")",
     "color": "brown",
@@ -1419,7 +1378,6 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 1,
-    "rigid": false,
     "material": "gutskin",
     "symbol": ")",
     "color": "brown",
@@ -1498,9 +1456,6 @@
     "symbol": ")",
     "color": "brown",
     "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "100 L", "max_contains_weight": "200 kg" } ],
-    "contains": "100 L",
-    "seals": true,
-    "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -1611,13 +1566,11 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "resealable": false,
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
-        "sealed_data": { "spoilage_multiplier": 0.0 }
+        "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "unseals_into": "can_food_big_unsealed"
+    ]
   },
   {
     "id": "can_food_big_unsealed",
@@ -1627,8 +1580,6 @@
     "description": "A large tin can, like what beans come in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
     "color": "blue",
-    "preserves": false,
-    "unseals_into": "null",
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {

@@ -221,8 +221,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "test_jack_small",
@@ -371,7 +370,7 @@
   },
   {
     "id": "test_jug_plastic",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "container",
     "name": "TEST gallon jug",
     "description": "A standard plastic jug used for milk and household cleaning chemicals.",
@@ -382,13 +381,11 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": "3750 ml",
-    "seals": true,
-    "watertight": true
+    "pocket_data": [ { "max_contains_volume": "3750 ml", "max_contains_weight": "5 kg", "watertight": true, "rigid": true } ]
   },
   {
     "id": "test_waterskin",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "container",
     "name": "TEST small waterskin",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
@@ -397,14 +394,11 @@
     "price": 2000,
     "to_hit": -1,
     "bashing": 1,
-    "rigid": false,
     "material": "leather",
     "symbol": ")",
     "color": "brown",
-    "contains": "1500 ml",
-    "seals": true,
-    "watertight": true,
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
+    "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "watertight": true } ],
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -416,7 +410,6 @@
     "volume": "2 L",
     "price": 3900,
     "price_postapoc": 16000,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",

@@ -25,7 +25,7 @@
         "moves": 150
       }
     ],
-    "use_action": { "type": "holster", "skills": [ "smg", "shotgun", "rifle", "launcher" ] },
+    "use_action": { "type": "holster" },
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ]
   },
   {
@@ -55,7 +55,7 @@
         "moves": 150
       }
     ],
-    "use_action": { "type": "holster", "skills": [ "pistol" ] }
+    "use_action": { "type": "holster" }
   },
   {
     "id": "bow_sling",
@@ -84,7 +84,7 @@
         "moves": 50
       }
     ],
-    "use_action": { "type": "holster", "skills": [ "archery" ] }
+    "use_action": { "type": "holster" }
   },
   {
     "id": "holster",
@@ -112,7 +112,7 @@
         "moves": 50
       }
     ],
-    "use_action": { "type": "holster", "skills": [ "pistol", "smg", "shotgun" ] },
+    "use_action": { "type": "holster" },
     "flags": [ "WAIST", "OVERSIZE" ]
   },
   {
@@ -132,7 +132,7 @@
         "moves": 80
       }
     ],
-    "use_action": { "type": "holster", "skills": [ "pistol", "shotgun" ] }
+    "use_action": { "type": "holster" }
   },
   {
     "id": "bholster",
@@ -156,7 +156,7 @@
         "moves": 210
       }
     ],
-    "use_action": { "type": "holster", "skills": [ "pistol" ] },
+    "use_action": { "type": "holster" },
     "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
@@ -175,7 +175,6 @@
     "covers": [ "TORSO" ],
     "coverage": 20,
     "encumbrance": 2,
-    "storage": "3 L",
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -186,7 +185,7 @@
         "moves": 50
       }
     ],
-    "use_action": { "type": "holster", "skills": [ "smg", "shotgun", "rifle" ] },
+    "use_action": { "type": "holster" },
     "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ]
   },
   {
@@ -198,7 +197,6 @@
     "volume": "250 ml",
     "price": 9000,
     "price_postapoc": 750,
-    "rigid": false,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "quiver_large",
@@ -216,7 +214,7 @@
         "moves": 50
       }
     ],
-    "use_action": { "type": "holster", "skills": [ "pistol", "smg", "shotgun", "rifle" ] },
+    "use_action": { "type": "holster" },
     "flags": [ "WAIST", "OVERSIZE" ]
   }
 ]

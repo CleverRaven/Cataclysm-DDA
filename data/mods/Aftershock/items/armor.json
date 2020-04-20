@@ -133,7 +133,6 @@
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 95,
     "encumbrance": 25,
-    "storage": "8 L",
     "warmth": 35,
     "material_thickness": 9,
     "valid_mods": [ "steel_padded" ],

@@ -178,7 +178,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": "2 L", "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -212,7 +212,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": "750 ml", "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -804,7 +804,7 @@
     "symbol": ")",
     "color": "light_gray",
     "looks_like": "pot_canning",
-    "container_data": { "contains": "2 L", "seals": true, "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -930,7 +930,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
-    "container_data": { "contains": "500 ml", "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
