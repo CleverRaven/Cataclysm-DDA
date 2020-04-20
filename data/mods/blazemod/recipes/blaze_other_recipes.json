@@ -114,5 +114,24 @@
     "using": [ [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "cargo_rack", 1 ] ], [ [ "teleporter", 1 ] ], [ [ "portal", 1 ] ], [ [ "plut_cell", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "vehicle_shelving",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 4 ],
+    "difficulty": 4,
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "rope_natural", 4 ], [ "welding_standard", 15 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [ [ [ "cargo_rack", 4 ] ], [ [ "pipe", 16 ] ], [ [ "sheet_metal", 4 ] ], [ [ "hinge", 10 ] ] ]
   }
 ]
