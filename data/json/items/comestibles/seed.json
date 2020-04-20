@@ -21,7 +21,7 @@
     "abstract": "seed_fruit",
     "type": "COMESTIBLE",
     "copy-from": "seed",
-    "name": "fruit seeds",
+    "name": { "str_sp": "fruit seeds" },
     "primary_material": "dried_vegetable",
     "material": "fruit"
   },

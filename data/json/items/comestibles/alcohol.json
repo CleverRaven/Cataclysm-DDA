@@ -1178,7 +1178,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_hobo",
-    "name": "fancy hobo",
+    "name": { "str_sp": "fancy hobo" },
     "weight": "50 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -1206,7 +1206,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_kalimotxo",
-    "name": "kalimotxo",
+    "name": { "str_sp": "kalimotxo" },
     "weight": "250 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -1234,7 +1234,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_beeknees",
-    "name": { "str": "bee's knees" },
+    "name": { "str_sp": "bee's knees" },
     "weight": "248 g",
     "color": "yellow",
     "addiction_type": "alcohol",

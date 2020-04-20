@@ -470,7 +470,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_pesto",
-    "name": "pesto",
+    "name": { "str_sp": "pesto" },
     "weight": "65 g",
     "color": "light_green",
     "spoils_in": 144,
@@ -694,7 +694,7 @@
   {
     "type": "COMESTIBLE",
     "id": "salsify_baked",
-    "name": "roasted salsify",
+    "name": { "str": "roasted salsify", "str_pl": "roasted salsifies" },
     "copy-from": "salsify_raw",
     "spoils_in": "2 days",
     "healthy": 2,
