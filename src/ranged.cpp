@@ -221,6 +221,12 @@ class target_ui
         // Returns 'false' if cursor position did not change
         bool set_cursor_pos( player &pc, const tripoint &new_pos );
 
+        // Updates 'targets' and tries to find something to aim at.
+        // Validates pc.last_target and pc.last_target_pos.
+        // Sets 'new_dst' as the initial aiming point.
+        // Returns 'true' if we can proceed with aim-and-shoot.
+        bool init_targeting( player &pc, tripoint &new_dst );
+
         // Update 'status' variable
         void update_status();
 
@@ -819,21 +825,20 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     for( item *mod : gun.gunmods() ) {
         mod->set_var( "shot_counter", mod->get_var( "shot_counter", 0 ) + curshot );
     }
-    // apply delayed recoil
-    recoil += delay;
-    if( is_mech_weapon ) {
-        // mechs can handle recoil far better. they are built around their main gun.
-        recoil = recoil / 2;
-    }
-    // Reset aim for bows and other reload-and-shoot weapons.
     if( gun.has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        // Reset aim for bows and other reload-and-shoot weapons.
         recoil = MAX_RECOIL;
+    } else {
+        // apply delayed recoil
+        recoil += delay;
+        if( is_mech_weapon ) {
+            // mechs can handle recoil far better. they are built around their main gun.
+            // TODO: shouldn't this affect only recoil accumulated during this function?
+            recoil = recoil / 2;
+        }
+        // Cap
+        recoil = std::min( MAX_RECOIL, recoil );
     }
-    // Cap
-    recoil = std::min( MAX_RECOIL, recoil );
-
-    // Reset last target pos
-    last_target_pos = cata::nullopt;
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_attack( *this, *gun.type );
@@ -1094,6 +1099,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
     // Reset last target pos
     last_target_pos = cata::nullopt;
+    recoil = MAX_RECOIL;
 
     return dealt_attack;
 }
@@ -1405,73 +1411,6 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
                                         *thresholds_it } );
     }
     return aim_types;
-}
-
-static void update_targets( player &pc, int range, std::vector<Creature *> &targets, int &idx,
-                            const tripoint &src, tripoint &dst )
-{
-    targets = pc.get_targetable_creatures( range );
-
-    // Convert and check last_target_pos is a valid aim point
-    cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
-    if( pc.last_target_pos ) {
-        local_last_tgt_pos = g->m.getlocal( *pc.last_target_pos );
-        if( rl_dist( src, *local_last_tgt_pos ) > range ) {
-            local_last_tgt_pos = cata::nullopt;
-        }
-    }
-
-    if( targets.empty() ) {
-        idx = -1;
-
-        if( pc.last_target_pos ) {
-
-            if( local_last_tgt_pos ) {
-                dst = *local_last_tgt_pos;
-            }
-            if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock() ) ) &&
-                pc.has_activity( ACT_AIM ) ) {
-                //We lost our target. Stop auto aiming.
-                pc.cancel_activity();
-            }
-
-        } else {
-            const std::vector<tripoint> adjacent = closest_tripoints_first( dst, range );
-            const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
-            [&pc]( const tripoint & pt ) {
-                return g->m.tr_at( pt ).id == tr_practice_target && pc.sees( pt );
-            } );
-
-            if( target_spot != adjacent.end() ) {
-                dst = *target_spot;
-            }
-        }
-        return;
-    }
-
-    std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
-    } );
-
-    // TODO: last_target should be member of target_handler
-    const auto iter = std::find( targets.begin(), targets.end(), pc.last_target.lock().get() );
-
-    if( iter != targets.end() ) {
-        idx = std::distance( targets.begin(), iter );
-        dst = targets[idx]->pos();
-        pc.last_target_pos = cata::nullopt;
-    } else {
-        idx = 0;
-        // No remembered target creature, if we have a remembered aim point, use that.
-        if( local_last_tgt_pos ) {
-            dst = *local_last_tgt_pos;
-        } else {
-            // If we don't have an aim point either, pick the nearest target.
-            dst = targets[0]->pos();
-            pc.recoil = MAX_RECOIL;
-        }
-        pc.last_target.reset();
-    }
 }
 
 static projectile make_gun_projectile( const item &gun )
@@ -1947,9 +1886,11 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 
     // Initialize cursor position
     src = pc.pos();
-    tripoint initial_dst = pc.pos();
-    int _target_idx = 0;
-    update_targets( pc, range, targets, _target_idx, src, initial_dst );
+    tripoint initial_dst = src;
+    if( !init_targeting( pc, initial_dst ) ) {
+        // We've lost our target
+        action.clear();
+    }
     set_cursor_pos( pc, initial_dst );
 
     ExitCode loop_exit_code;
@@ -2238,6 +2179,80 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
     return true;
 }
 
+bool target_ui::init_targeting( player &pc, tripoint &new_dst )
+{
+    // Get targets in range and sort them by distance (targets[0] is the closest)
+    // FIXME: get_targetable_creatures does not consider some of the visible creatures
+    //        as targets (e.g. those behind fences), but you can still see and shoot them
+    targets = pc.get_targetable_creatures( range );
+    std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
+        return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
+    } );
+
+    // Determine if we had a target and it is still visible
+    const auto old_target = std::find( targets.begin(), targets.end(), pc.last_target.lock().get() );
+    if( old_target == targets.end() ) {
+        // No luck
+        pc.last_target.reset();
+    } else {
+        // There it is!
+        new_dst = ( *old_target )->pos();
+        pc.last_target_pos = g->m.getabs( new_dst );
+        std::cout << "Using old target" << std::endl;
+        return true;
+    }
+
+    // Check if we were aiming at a tile or a (now missing) creature in a tile
+    // and still can aim at that tile.
+    cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
+    if( pc.last_target_pos ) {
+        tripoint local = g->m.getlocal( *pc.last_target_pos );
+        if( dist_fn( local ) > range ) {
+            // No luck
+            pc.last_target_pos = cata::nullopt;
+        } else {
+            local_last_tgt_pos = local;
+        }
+    }
+    if( mode == TARGET_MODE_FIRE && pc.recoil == MAX_RECOIL ) {
+        // We've either moved away, used a bow or a gun with MASSIVE recoil. It doesn't really matter
+        // where we were aiming at, might as well start from scratch.
+        pc.last_target_pos = cata::nullopt;
+        local_last_tgt_pos = cata::nullopt;
+    }
+    if( local_last_tgt_pos ) {
+        new_dst = *local_last_tgt_pos;
+        std::cout << "Using old aim point" << std::endl;
+        return false;
+    }
+
+    // Try to find at least something
+    if( targets.empty() ) {
+        // The closest practice target
+        const std::vector<tripoint> nearby = closest_tripoints_first( src, range );
+        const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
+        [&pc]( const tripoint & pt ) {
+            return g->m.tr_at( pt ).id == tr_practice_target && pc.sees( pt );
+        } );
+
+        if( target_spot != nearby.end() ) {
+            new_dst = *target_spot;
+            std::cout << "Using nearby practice target" << std::endl;
+            return false;
+        }
+    } else {
+        // The closest living target
+        new_dst = targets[0]->pos();
+        std::cout << "Using closest living target" << std::endl;
+        return false;
+    }
+
+    // We've got nothing.
+    new_dst = src;
+    std::cout << "No target found" << std::endl;
+    return false;
+}
+
 void target_ui::update_status()
 {
     if( mode == TARGET_MODE_TURRET && turrets_in_range.empty() ) {
@@ -2359,9 +2374,6 @@ void target_ui::recalc_aim_turning_penalty( player &pc )
         curr_recoil_pos = g->m.getlocal( *pc.last_target_pos );
     } else {
         curr_recoil_pos = src;
-        // TODO: last_target and last_target_pos are both set to null when target dies,
-        //       making automatic weapons not as efficient against groups of enemies as they should be
-        //       (since you need to re-aim your gun from zero for every Zed).
     }
 
     if( curr_recoil_pos == dst ) {
