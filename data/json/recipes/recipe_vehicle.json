@@ -391,6 +391,19 @@
   },
   {
     "type": "recipe",
+    "result": "fold_boat_board",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "2x4", 7 ] ], [ [ "nail", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "plastic_boat_hull",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -400,6 +413,18 @@
     "autolearn": true,
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fold_plastic_boat_hull",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "5 m",
+    "autolearn": true,
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 60 ] ] ]
   },
   {
     "type": "recipe",

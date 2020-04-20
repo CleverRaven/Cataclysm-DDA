@@ -1451,6 +1451,30 @@
   },
   {
     "type": "vehicle_part",
+    "id": "fold_boat_board",
+    "name": { "str": "folding wooden boat hull" },
+    "description": "A wooden board that keeps the water out of your boat. Made to be folded when not in use",
+    "symbol": "o",
+    "looks_like": "t_wall_log",
+    "color": "brown",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 50,
+    "durability": 40,
+    "item": "fold_boat_board",
+    "location": "under",
+	"folded_volume": 8,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "FLOATS", "FOLDABLE" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+    "damage_reduction": { "all": 10 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "plastic_boat_hull",
     "name": { "str": "plastic boat hull" },
     "description": "A rigid plastic sheet that keeps water out of your boat.",
@@ -1469,6 +1493,30 @@
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "FLOATS" ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 4, 8 ] } ],
+    "damage_reduction": { "all": 12, "stab": 4, "cut": 4 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fold_plastic_boat_hull",
+    "name": { "str": "folding plastic boat hull" },
+    "description": "A rigid plastic sheet that keeps water out of your boat.",
+    "symbol": "o",
+    "color": "brown",
+    "looks_like": "boat_board",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 50,
+    "durability": 120,
+    "item": "fold_plastic_boat_hull",
+    "location": "under",
+	"folded_volume": 6,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "FLOATS", "FOLDABLE" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 4, 8 ] } ],
     "damage_reduction": { "all": 12, "stab": 4, "cut": 4 }
   },
