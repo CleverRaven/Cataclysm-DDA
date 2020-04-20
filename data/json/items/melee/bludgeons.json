@@ -179,7 +179,7 @@
     "weight": "450 g",
     "volume": "350 ml",
     "bashing": 13,
-    "to_hit": -1,
+    "to_hit": 1,
     "category": "weapons"
   },
   {
@@ -662,7 +662,7 @@
     "weight": "400 g",
     "volume": "350 ml",
     "bashing": 12,
-    "to_hit": -1,
+    "to_hit": 1,
     "price_postapoc": 50,
     "category": "weapons"
   },
