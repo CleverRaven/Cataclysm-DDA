@@ -6,6 +6,7 @@
     "name": "protein drink",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent green drink" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "sapient green drink" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
     ],
     "description": "A thin slurry of refined protein mixed with water.  While quite nutritious, it is not particularly tasty.",
@@ -36,6 +37,11 @@
         "type": "FLAG",
         "condition": "CANNIBALISM",
         "name": { "str": "soylent green powder", "str_pl": "soylent green powder" }
+      },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "sapient green powder", "str_pl": "sapient green powder" }
       },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
     ],
@@ -83,6 +89,7 @@
     "name": "protein shake",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent green shake" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "sapient green shake" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
@@ -102,6 +109,7 @@
     "name": "fortified protein shake",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "fortified soylent green shake" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "fortified sapient green shake" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",

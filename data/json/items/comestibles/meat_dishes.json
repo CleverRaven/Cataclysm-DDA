@@ -5,6 +5,7 @@
     "name": "raw sausage",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "raw Mannwurst" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "raw killbasa" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "sinister %s", "str_pl": "sinister %s" } }
     ],
     "weight": "148 g",
@@ -32,6 +33,7 @@
     "name": "smoked sausage",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "smoked Mannwurst" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "smoked killbasa" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "sinister %s", "str_pl": "sinister %s" } }
     ],
     "copy-from": "sausage_raw",
@@ -49,6 +51,7 @@
     "name": "cooked sausage",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "cooked Mannwurst" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "cooked killbasa" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "sinister %s", "str_pl": "sinister %s" } }
     ],
     "copy-from": "sausage_raw",
@@ -86,6 +89,7 @@
     "name": { "str": "bratwurst" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "Mannbrat" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "frankenfurter" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "baleful %s", "str_pl": "baleful %s" } }
     ],
     "weight": "100 g",
@@ -225,6 +229,11 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "cheapskate %s", "str_pl": "cheapskate %s" } },
       {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "confusing %s", "str_pl": "confusing %s" }
+      },
+      {
         "type": "COMPONENT_ID",
         "condition": "mutant",
         "name": { "str": "bloodcurdling %s", "str_pl": "bloodcurdling %s" }
@@ -254,7 +263,12 @@
     "name": { "str": "aspic" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "abomination %s", "str_pl": "abomination %s" } },
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "amoral %s", "str_pl": "amoral %s" } }
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "amoral %s", "str_pl": "amoral %s" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "Orwell's %s", "str_pl": "Orwell's %s" }
+      }
     ],
     "weight": "154 g",
     "color": "red",
@@ -372,6 +386,7 @@
     "name": { "str": "bologna", "str_pl": "bologna" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "brat %s", "str_pl": "brat %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "Tumnis %s", "str_pl": "Tumnis %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "bleak %s", "str_pl": "bleak %s" } }
     ],
     "weight": "56 g",
@@ -474,6 +489,11 @@
     "name": { "str": "sausage gravy", "str_pl": "sausage gravies" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "Mannwurst gravy", "str_pl": "Mannwurst gravies" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "killbasa gravy", "str_pl": "killbasa gravies" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "ghastly %s", "str_pl": "ghastly %s" } }
     ],
     "weight": "60 g",
@@ -498,6 +518,7 @@
     "name": { "str": "pemmican", "str_pl": "pemmican" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "prepper %s", "str_pl": "prepper %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "Orley %s", "str_pl": "Orley %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "pernicious %s", "str_pl": "pernicious %s" } }
     ],
     "weight": "106 g",
@@ -522,6 +543,7 @@
     "name": "hamburger helper",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "hobo helper" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "halfling helper" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "heinous %s", "str_pl": "heinous %s" } }
     ],
     "weight": "170 g",
@@ -568,6 +590,11 @@
     "name": { "str": "chili con carne", "str_pl": "chilis con carne" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "chili con cabron", "str_pl": "chilis con cabron" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "chili con Sindar", "str_pl": "chilis con Sindar" }
+      },
       {
         "type": "COMPONENT_ID",
         "condition": "mutant",
@@ -818,6 +845,7 @@
     "name": "meat pie",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "prick pie" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "talking animal pie" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "malignant %s", "str_pl": "malignant %s" } }
     ],
     "weight": "189 g",
@@ -845,6 +873,7 @@
     "name": "meat pizza",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "poser pizza" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "protesting pizza" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "miserable %s", "str_pl": "miserable %s" } }
     ],
     "weight": "230 g",
@@ -913,6 +942,7 @@
     "name": "canned meat",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent slice" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "sapient slice" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -931,6 +961,7 @@
     "name": "salted meat slice",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "salted simpleton slice" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "salted sapient slice" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -952,6 +983,7 @@
     "name": { "str": "spaghetti bolognese", "str_pl": "spaghetti bolognese" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "scoundrel spaghetti" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "speaking spaghetti" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "gnarly %s", "str_pl": "gnarly %s" } }
     ],
     "weight": "150 g",
@@ -977,6 +1009,7 @@
     "name": "lasagne",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "Luigi %s", "str_pl": "Luigi %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "Lab %s", "str_pl": "Lab %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "monster %s", "str_pl": "monster %s" } }
     ],
     "weight": "255 g",
@@ -1017,6 +1050,7 @@
     "name": "cheeseburger",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "chump %s", "str_pl": "chump %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "elf %s", "str_pl": "elf %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "chilling %s", "str_pl": "chilling %s" } }
     ],
     "weight": "133 g",
@@ -1042,6 +1076,7 @@
     "name": "hamburger",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "bobburger" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "Moreauburger" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "horrible %s", "str_pl": "horrible %s" } }
     ],
     "weight": "99 g",
@@ -1066,6 +1101,11 @@
     "name": "sloppy joe",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "manwich", "str_pl": "manwiches" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "manfriendwich", "str_pl": "manfriendwiches" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "suspicious %s", "str_pl": "suspicious %s" } }
     ],
     "weight": "113 g",
@@ -1090,6 +1130,11 @@
     "name": "taco",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "tio %s", "str_pl": "tio %s" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "talking %s", "str_pl": "talking %s" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "terrifying %s", "str_pl": "terrifying %s" } }
     ],
     "weight": "102 g",
@@ -1114,6 +1159,7 @@
     "name": "pickled meat",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "pickled punk" },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "pickled anthro" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -1133,6 +1179,11 @@
     "name": "dehydrated meat",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "%s, human", "str_pl": "%s, human" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "%s, demihuman", "str_pl": "%s, demihuman" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -1154,6 +1205,11 @@
     "name": "rehydrated meat",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "%s, human", "str_pl": "%s, human" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "%s, demihuman", "str_pl": "%s, demihuman" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -1168,7 +1224,14 @@
     "type": "COMESTIBLE",
     "id": "haggis",
     "name": { "str": "haggis", "str_pl": "haggises" },
-    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "human %s", "str_pl": "human %s" } } ],
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "human %s", "str_pl": "human %s" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "%s, demihuman", "str_pl": "%s, demihuman" }
+      }
+    ],
     "//": "That's whisky without an 'e' because we're talking about Scotch whisky.",
     "weight": "156 g",
     "color": "brown",

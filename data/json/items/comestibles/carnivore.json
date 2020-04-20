@@ -336,6 +336,7 @@
     "name": { "str": "meat jerky", "str_pl": "meat jerky" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "jerk jerky", "str_pl": "jerk jerky" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "talking animal jerky", "str_pl": "talking animal jerky" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "monster jerky", "str_pl": "monster jerky" } }
     ],
     "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
@@ -378,6 +379,7 @@
     "name": "smoked meat",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "smoked sucker", "str_pl": "smoked sucker" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "smoked Narnian", "str_pl": "smoked Narnian" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
     ],
     "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
@@ -724,6 +726,14 @@
     "name": { "str": "human bone" },
     "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
     "flags": [ "CANNIBALISM" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "bone_demihuman",
+    "copy-from": "bone",
+    "name": { "str": "demihuman bone" },
+    "description": "A bone from a demihuman being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "type": "COMESTIBLE",
