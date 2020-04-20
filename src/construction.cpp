@@ -1591,11 +1591,11 @@ void check_constructions()
     }
 }
 
-int construction::print_time( const catacurses::window &w, int ypos, int xpos, int width,
+int construction::print_time( const catacurses::window &w, const point &p, int width,
                               nc_color col ) const
 {
     std::string text = get_time_string();
-    return fold_and_print( w, point( xpos, ypos ), width, col, text );
+    return fold_and_print( w, p, width, col, text );
 }
 
 float construction::time_scale() const

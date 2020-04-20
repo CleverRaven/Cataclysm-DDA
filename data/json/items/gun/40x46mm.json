@@ -86,7 +86,7 @@
     "copy-from": "launcher_base",
     "looks_like": "m79",
     "type": "GUN",
-    "name": { "str": "Milkor MGL", "str_pl": "Milkor MGL" },
+    "name": { "str_sp": "Milkor MGL" },
     "description": "The Milkor Multi-Grenade Launcher is designed to compensate for the drawback of single-shot grenade launchers by allowing sustained heavy firepower.  However, it is still slow to reload and must be used with careful planning.",
     "weight": "5300 g",
     "volume": "2250 ml",

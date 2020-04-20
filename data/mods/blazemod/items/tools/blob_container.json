@@ -2,11 +2,10 @@
   {
     "id": "gloople_tank",
     "type": "CONTAINER",
-    "name": "gelatinous capsule",
-    "name_plural": "gelatinous capsules",
+    "name": { "str": "gelatinous capsule" },
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
-    "weight": "6662 g",
-    "volume": "5 L",
+    "weight": "1 kg",
+    "volume": "10 L",
     "price": 100,
     "to_hit": -2,
     "material": [ "flesh" ],
@@ -19,20 +18,19 @@
   {
     "id": "gloople_tank_large",
     "type": "CONTAINER",
-    "name": "gelatinous tank",
-    "name_plural": "gelatinous tanks",
+    "name": { "str": "gelatinous tank" },
     "copy-from": "gloople_tank",
+    "weight": "6 kg",
     "volume": "60 L",
-    "contains": 240
+    "contains": "60 L"
   },
   {
     "id": "gray_tank",
     "type": "CONTAINER",
-    "name": "gray cocoon",
-    "name_plural": "gray cocoons",
+    "name": { "str": "gray cocoon" },
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
-    "weight": "19120 g",
-    "volume": "10 L",
+    "weight": "3 kg",
+    "volume": "30 L",
     "price": 100,
     "to_hit": -2,
     "material": [ "flesh" ],
@@ -45,20 +43,19 @@
   {
     "id": "gray_tank_large",
     "type": "CONTAINER",
-    "name": "gray tank",
-    "name_plural": "gray tanks",
+    "name": { "str": "gray tank" },
     "copy-from": "gray_tank",
+    "weight": "10 kg",
     "volume": "100 L",
-    "contains": 400
+    "contains": "100 L"
   },
   {
     "id": "oozle_tank",
     "type": "CONTAINER",
-    "name": "oozing pod",
-    "name_plural": "oozing pods",
+    "name": { "str": "oozing pod" },
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
-    "weight": "16262 g",
-    "volume": "7500 ml",
+    "weight": "2 kg",
+    "volume": "20 L",
     "price": 100,
     "to_hit": -2,
     "material": [ "flesh" ],
@@ -71,10 +68,10 @@
   {
     "id": "oozle_tank_large",
     "type": "CONTAINER",
-    "name": "oozing tank",
-    "name_plural": "oozing tanks",
+    "name": { "str": "oozing tank" },
     "copy-from": "oozle_tank",
+    "weight": "8 kg",
     "volume": "80 L",
-    "contains": 320
+    "contains": "80 L"
   }
 ]

@@ -75,6 +75,9 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.activity.set_to_null();
     dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
+    dummy.reset_bonuses();
+    dummy.set_speed_base( 100 );
+    dummy.set_speed_bonus( 0 );
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -93,11 +96,14 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_dex_bonus( 0 );
     dummy.set_int_bonus( 0 );
     dummy.set_per_bonus( 0 );
+    dummy.reset_bonuses();
+    dummy.set_speed_base( 100 );
+    dummy.set_speed_bonus( 0 );
 
     dummy.cash = 0;
 
     const tripoint spot( 60, 60, 0 );
-    g->place_player( spot );
+    dummy.setpos( spot );
 }
 
 void clear_avatar()

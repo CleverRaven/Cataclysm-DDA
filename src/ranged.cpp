@@ -2402,7 +2402,7 @@ void target_ui::recalc_aim_turning_penalty( player &pc )
         const double recoil_per_degree = MAX_RECOIL / 180.0;
         const double angle_curr = coord_to_angle( src, curr_recoil_pos );
         const double angle_desired = coord_to_angle( src, dst );
-        const double phi = fmod( std::abs( angle_curr - angle_desired ), 360.0 );
+        const double phi = std::fmod( std::abs( angle_curr - angle_desired ), 360.0 );
         const double angle = phi > 180.0 ? 360.0 - phi : phi;
         predicted_recoil = std::min( MAX_RECOIL, curr_recoil + angle * recoil_per_degree );
     }

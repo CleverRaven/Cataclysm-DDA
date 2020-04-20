@@ -1265,20 +1265,20 @@ static void insert_separation_line( std::vector<iteminfo> &info )
 }
 
 /*
- * 0 based lookup table of accuracy - monster defense converted into number of hits per 1000
+ * 0 based lookup table of accuracy - monster defense converted into number of hits per 10000
  * attacks
  * data painstakingly looked up at http://onlinestatbook.com/2/calculators/normal_dist.html
  */
 static const double hits_by_accuracy[41] = {
-    0.0,    0.1,   0.2,   0.3,   0.7, // -20 to -16
-    1.3,    2.6,   4.7,   8.2,  13.9, // -15 to -11
-    22.8,   35.9,  54.8,  80.8, 115.1, // -10 to -6
-    158.7, 211.9, 274.3, 344.6, 420.7, // -5 to -1
-    500,  // 0
-    579.3, 655.4, 725.7, 788.1, 841.3, // 1 to 5
-    884.9, 919.2, 945.2, 964.1, 977.2, // 6 to 10
-    986.1, 991.8, 995.3, 997.4, 998.7, // 11 to 15
-    999.3, 999.7, 999.8, 999.9, 1000.0 // 16 to 20
+    0,    1,   2,   3,   7, // -20 to -16
+    13,   26,  47,   82,  139, // -15 to -11
+    228,   359,  548,  808, 1151, // -10 to -6
+    1587, 2119, 2743, 3446, 4207, // -5 to -1
+    5000,  // 0
+    5793, 6554, 7257, 7881, 8413, // 1 to 5
+    8849, 9192, 9452, 9641, 9772, // 6 to 10
+    9861, 9918, 9953, 9974, 9987, // 11 to 15
+    9993, 9997, 9998, 9999, 10000 // 16 to 20
 };
 
 double item::effective_dps( const player &guy, monster &mon ) const
@@ -1287,60 +1287,85 @@ double item::effective_dps( const player &guy, monster &mon ) const
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
     base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bp_torso ) / 100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
-    constexpr double hit_trials = 1000.0;
-    // a hit occurs when a normal distribution with a mean value of base_hit * 5 and a
-    // standard deviation of 25, minus 5 * monster defense, is greater than 0
-    // to shorten the lookup table, divide everything by 5 and simplify
-    // hit occurs when normal( acc - monster_defense, 5 ) > 0
+    constexpr double hit_trials = 10000.0;
     const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
                                    -20 ) + 20;
-    double num_hits = hits_by_accuracy[ rng_mean ];
+    double num_all_hits = hits_by_accuracy[ rng_mean ];
+    /* critical hits have two chances to occur: triple critical hits happen much less frequently,
+     * and double critical hits can only occur if a hit roll is more than 1.5 * monster dodge.
+     * Not the hit roll used to determine the attack, another one.
+     * the way the math works, some percentage of the total hits are eligible to be double
+     * critical hits, and the rest are eligible to be triple critical hits, but in each case,
+     * only some small percent of them actually become critical hits.
+     */
+    const int rng_high_mean = std::max( std::min( static_cast<int>( base_hit - 1.5 * mon_dodge ),
+                                        20 ), -20 ) + 20;
+    double num_high_hits = hits_by_accuracy[ rng_high_mean ] * num_all_hits / hit_trials;
+    double double_crit_chance = guy.crit_chance( 4, 0, *this );
+    double crit_chance = guy.crit_chance( 0, 0, *this );
+    double num_low_hits = std::max( 0.0, num_all_hits - num_high_hits );
+
     double moves_per_attack = guy.attack_speed( *this );
     // attacks that miss do no damage but take time
-    double total_moves = ( hit_trials - num_hits ) * moves_per_attack;
+    double total_moves = ( hit_trials - num_all_hits ) * moves_per_attack;
     double total_damage = 0.0;
-    double num_crits = std::min( hit_trials * guy.crit_chance( base_hit * 5.0,
-                                 mon_dodge * 5.0, *this ), num_hits );
+    double num_crits = std::min( num_low_hits * crit_chance + num_high_hits * double_crit_chance,
+                                 num_all_hits );
     // critical hits are counted separately
-    num_hits -= num_crits;
-
+    double num_hits = num_all_hits - num_crits;
     // sum average damage past armor and return the number of moves required to achieve
     // that damage
-    const auto calc_effective_damage = [ &, moves_per_attack]( int num_hits, bool crit,
-    const player & guy, monster & mon ) {
+    const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
+    const bool crit, const player & guy, monster & mon ) {
+        monster temp_mon = mon;
+        double subtotal_damage = 0;
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this );
         damage_instance dealt_damage = base_damage;
-        mon.absorb_hit( bp_torso, dealt_damage );
-        double damage_per_hit = 0;
+        temp_mon.absorb_hit( bp_torso, dealt_damage );
+        dealt_damage_instance dealt_dams;
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
-            damage_per_hit += dmg_unit.amount + dmg_unit.damage_multiplier;
+            int cur_damage = 0;
+            int total_pain = 0;
+            temp_mon.deal_damage_handle_type( dmg_unit, bp_torso, cur_damage, total_pain );
+            if( cur_damage > 0 ) {
+                dealt_dams.dealt_dams[ dmg_unit.type ] += cur_damage;
+            }
         }
-        double subtotal_damage = damage_per_hit * num_hits;
-        double subtotal_moves = moves_per_attack * num_hits;
+        double damage_per_hit = dealt_dams.total_damage();
+        subtotal_damage = damage_per_hit * num_strikes;
+        double subtotal_moves = moves_per_attack * num_strikes;
 
         if( has_technique( rapid_strike ) ) {
-            damage_instance dealt_rs_damage = base_damage;
+            monster temp_rs_mon = mon;
+            damage_instance rs_base_damage;
+            guy.roll_all_damage( crit, rs_base_damage, true, *this );
+            damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
             }
-            mon.absorb_hit( bp_torso, dealt_rs_damage );
-            double rs_damage_per_hit = 0;
+            temp_rs_mon.absorb_hit( bp_torso, dealt_rs_damage );
+            dealt_damage_instance rs_dealt_dams;
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
-                rs_damage_per_hit += dmg_unit.amount + dmg_unit.damage_multiplier;
+                int cur_damage = 0;
+                int total_pain = 0;
+                temp_rs_mon.deal_damage_handle_type( dmg_unit, bp_torso, cur_damage, total_pain );
+                if( cur_damage > 0 ) {
+                    rs_dealt_dams.dealt_dams[ dmg_unit.type ] += cur_damage;
+                }
             }
-            // assume half of hits turn into rapid strikes
+            double rs_damage_per_hit = rs_dealt_dams.total_damage();
             subtotal_moves *= 0.5;
             subtotal_damage *= 0.5;
-            subtotal_moves += moves_per_attack * num_hits * 0.33;
-            subtotal_damage += rs_damage_per_hit * num_hits * 0.5;
+            subtotal_moves += moves_per_attack * num_strikes * 0.33;
+            subtotal_damage += rs_damage_per_hit * num_strikes * 0.5;
         }
         return std::make_pair( subtotal_moves, subtotal_damage );
     };
+    std::pair<double, double> crit_summary = calc_effective_damage( num_crits, true, guy, mon );
+    total_moves += crit_summary.first;
+    total_damage += crit_summary.second;
     std::pair<double, double> summary = calc_effective_damage( num_hits, false, guy, mon );
-    total_moves += summary.first;
-    total_damage += summary.second;
-    summary = calc_effective_damage( num_crits, true, guy, mon );
     total_moves += summary.first;
     total_damage += summary.second;
     return total_damage * to_moves<double>( 1_seconds ) / total_moves;
@@ -1359,19 +1384,34 @@ static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monster
     { to_translation( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
 };
 
-std::map<std::string, double> item::dps( const player &guy ) const
+std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
+        const player &guy ) const
 {
     std::map<std::string, double> results;
     for( const std::pair<translation, dps_comp_data> &comp_mon : dps_comp_monsters ) {
+        if( ( comp_mon.second.display != for_display ) &&
+            ( comp_mon.second.evaluate != for_calc ) ) {
+            continue;
+        }
         monster test_mon = monster( comp_mon.second.mon_id );
         results[ comp_mon.first.translated() ] = effective_dps( guy, test_mon );
     }
     return results;
 }
 
-std::map<std::string, double> item::dps() const
+std::map<std::string, double> item::dps( const bool for_display, const bool for_calc ) const
 {
-    return dps( g->u );
+    return dps( for_display, for_calc, g->u );
+}
+
+double item::average_dps( const player &guy ) const
+{
+    double dmg_count = 0.0;
+    const std::map<std::string, double> &dps_data = dps( false, true, guy );
+    for( const std::pair<std::string, double> &dps_entry : dps_data ) {
+        dmg_count += dps_entry.second;
+    }
+    return dmg_count / dps_data.size();
 }
 
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -1638,8 +1678,8 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         const double multiplier = g->u.vitamin_rate( v.first ) / 1_days * 100;
         const int min_value = min_nutr.get_vitamin( v.first );
         const int max_value = v.second;
-        const int min_rda = lround( min_value * multiplier );
-        const int max_rda = lround( max_value * multiplier );
+        const int min_rda = std::lround( min_value * multiplier );
+        const int max_rda = std::lround( max_value * multiplier );
         const std::string format = min_rda == max_rda ? "%s (%i%%)" : "%s (%i-%i%%)";
         return string_format( format, v.first->name(), min_value, max_value );
     };
@@ -3167,16 +3207,15 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       iteminfo::lower_is_better, attack_time() ) );
             info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
-            const std::map<std::string, double> &dps_data = dps();
-            for( const std::pair<translation, dps_comp_data> &ref_data : dps_comp_monsters ) {
-                const auto dps_entry = dps_data.find( ref_data.first.translated() );
-                if( ( dps_entry == dps_data.end() ) || !ref_data.second.display ) {
-                    continue;
-                }
-                info.emplace_back( "BASE", space + dps_entry->first + ": ", "",
+            const std::map<std::string, double> &dps_data = dps( true, false );
+            std::string sep;
+            for( const std::pair<std::string, double> &dps_entry : dps_data ) {
+                info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
                                    iteminfo::no_newline | iteminfo::is_decimal,
-                                   dps_entry->second );
+                                   dps_entry.second );
+                sep = space;
             }
+            info.emplace_back( "BASE", "" );
         }
     }
 
@@ -3233,7 +3272,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "Critical hit chance %d%% - %d%%" ),
+                                      string_format( _( "Critical hit chance <neutral>%d%% - %d%%</neutral>" ),
                                               static_cast<int>( g->u.crit_chance( 0, 100, *this ) *
                                                       100 ),
                                               static_cast<int>( g->u.crit_chance( 100, 0, *this ) *
@@ -3241,27 +3280,27 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d bashing (%d on a critical hit)" ),
+                                      string_format( _( "<neutral>%d</neutral> bashing (<neutral>%d</neutral> on a critical hit)" ),
                                               static_cast<int>( non_crit.type_damage( DT_BASH ) ),
                                               static_cast<int>( crit.type_damage( DT_BASH ) ) ) ) );
         }
         if( ( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d cutting (%d on a critical hit)" ),
+                                      string_format( _( "<neutral>%d</neutral> cutting (<neutral>%d</neutral> on a critical hit)" ),
                                               static_cast<int>( non_crit.type_damage( DT_CUT ) ),
                                               static_cast<int>( crit.type_damage( DT_CUT ) ) ) ) );
         }
         if( ( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d piercing (%d on a critical hit)" ),
+                                      string_format( _( "<neutral>%d</neutral> piercing (<neutral>%d</neutral> on a critical hit)" ),
                                               static_cast<int>( non_crit.type_damage( DT_STAB ) ),
                                               static_cast<int>( crit.type_damage( DT_STAB ) ) ) ) );
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d moves per attack" ), attack_cost ) ) );
+                                      string_format( _( "<neutral>%d</neutral> moves per attack" ), attack_cost ) ) );
         }
         insert_separation_line( info );
     }
@@ -4838,7 +4877,7 @@ damage_instance item::base_damage_thrown() const
     return type->thrown_damage;
 }
 
-int item::reach_range( const player &p ) const
+int item::reach_range( const Character &guy ) const
 {
     int res = 1;
 
@@ -4849,7 +4888,7 @@ int item::reach_range( const player &p ) const
     // for guns consider any attached gunmods
     if( is_gun() && !is_gunmod() ) {
         for( const std::pair<const gun_mode_id, gun_mode> &m : gun_all_modes() ) {
-            if( p.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
+            if( guy.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
                 continue;
             }
             if( m.second.melee() ) {
@@ -4861,7 +4900,7 @@ int item::reach_range( const player &p ) const
     return res;
 }
 
-int item::current_reach_range( const player &p ) const
+int item::current_reach_range( const Character &guy ) const
 {
     int res = 1;
 
@@ -4871,7 +4910,7 @@ int item::current_reach_range( const player &p ) const
 
     if( is_gun() && !is_gunmod() ) {
         gun_mode gun = gun_current_mode();
-        if( !( gun.flags.count( "NPC_AVOID" ) && p.is_npc() ) && gun.melee() ) {
+        if( !( guy.is_npc() && gun.flags.count( "NPC_AVOID" ) ) && gun.melee() ) {
             res = std::max( res, gun.qty );
         }
     }
@@ -5188,7 +5227,7 @@ static int calc_hourly_rotpoints_at_temp( const int temp )
     } else if( temp < dropoff ) {
         return ( temp - temperatures::freezing ) * dstep;
     } else {
-        return lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
+        return std::lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
     }
 }
 
@@ -5289,7 +5328,7 @@ units::volume item::get_storage() const
     }
     units::volume storage = t->storage;
     float mod = get_clothing_mod_val( clothing_mod_type_storage );
-    storage += lround( mod ) * units::legacy_volume_factor;
+    storage += std::lround( mod ) * units::legacy_volume_factor;
 
     return storage;
 }
@@ -5608,7 +5647,7 @@ int item::bash_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround( ( resist * eff_thickness ) + mod );
+    return std::lround( ( resist * eff_thickness ) + mod );
 }
 
 int item::cut_resist( bool to_self ) const
@@ -5637,7 +5676,7 @@ int item::cut_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround( ( resist * eff_thickness ) + mod );
+    return std::lround( ( resist * eff_thickness ) + mod );
 }
 
 #if defined(_MSC_VER)
@@ -5681,7 +5720,7 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return lround( resist + mod );
+    return std::lround( resist + mod );
 }
 
 int item::fire_resist( bool to_self, int base_env_resist ) const
@@ -5712,7 +5751,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return lround( resist + mod );
+    return std::lround( resist + mod );
 }
 
 int item::chip_resistance( bool worst ) const
@@ -8146,8 +8185,8 @@ void item::set_item_specific_energy( const float new_specific_energy )
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
-    temperature = lround( 100000 * new_item_temperature );
-    specific_energy = lround( 100000 * new_specific_energy );
+    temperature = std::lround( 100000 * new_item_temperature );
+    specific_energy = std::lround( 100000 * new_specific_energy );
     reset_temp_check();
 }
 
@@ -8181,8 +8220,8 @@ void item::set_item_temperature( float new_temperature )
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
     float freeze_percentage = 0;
 
-    temperature = lround( 100000 * new_temperature );
-    specific_energy = lround( 100000 * new_specific_energy );
+    temperature = std::lround( 100000 * new_temperature );
+    specific_energy = std::lround( 100000 * new_specific_energy );
 
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
@@ -8951,8 +8990,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
-    temperature = lround( 100000 * new_item_temperature );
-    specific_energy = lround( 100000 * new_specific_energy );
+    temperature = std::lround( 100000 * new_item_temperature );
+    specific_energy = std::lround( 100000 * new_specific_energy );
 
     last_temp_check = time;
 }
@@ -8972,7 +9011,7 @@ void item::heat_up()
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
     temperature = 333.15 * 100000;
-    specific_energy = lround( 100000 * get_specific_energy_from_temperature( 333.15 ) );
+    specific_energy = std::lround( 100000 * get_specific_energy_from_temperature( 333.15 ) );
 
     reset_temp_check();
 }
@@ -8986,7 +9025,7 @@ void item::cold_up()
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
     temperature = 276.15 * 100000;
-    specific_energy = lround( 100000 * get_specific_energy_from_temperature( 276.15 ) );
+    specific_energy = std::lround( 100000 * get_specific_energy_from_temperature( 276.15 ) );
 
     reset_temp_check();
 }

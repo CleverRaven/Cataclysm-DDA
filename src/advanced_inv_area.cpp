@@ -46,11 +46,11 @@ int advanced_inv_area::get_item_count() const
     }
 }
 
-advanced_inv_area::advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
+advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint off,
                                       const std::string &name, const std::string &shortname,
                                       std::string minimapname, std::string actionname,
                                       aim_location relative_location ) :
-    id( id ), hscreen( hscreenx, hscreeny ),
+    id( id ), hscreen( h ),
     off( off ), name( name ), shortname( shortname ),
     canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
     weight( 0_gram ), max_size( 0 ), minimapname( minimapname ), actionname( actionname ),

@@ -177,7 +177,7 @@ void Character::suffer_water_damage( const mutation_branch &mdata )
                                          drench_capacity[bp];
         const int dmg = mdata.weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
-            apply_damage( nullptr, bp, dmg );
+            apply_damage( nullptr, convert_bp( bp ).id(), dmg );
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                    _( "<npcname>'s %s is damaged by the water." ),
                                    body_part_name( bp ) );
@@ -252,7 +252,7 @@ void Character::suffer_while_underwater()
             mod_power_level( -25_kJ );
         } else {
             add_msg_if_player( m_bad, _( "You're drowning!" ) );
-            apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
+            apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
         }
     }
     if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
@@ -1131,7 +1131,7 @@ void Character::suffer_from_radiation()
             }
             reactor_plut -= power_gen;
             while( power_gen >= 250 ) {
-                apply_damage( nullptr, bp_torso, 1 );
+                apply_damage( nullptr, bodypart_id( "torso" ), 1 );
                 mod_pain( 1 );
                 add_msg_if_player( m_bad,
                                    _( "Your chest burns as your power systems overload!" ) );
@@ -1809,7 +1809,7 @@ void Character::apply_wetness_morale( int temperature )
 
         if( bp_morale < 0 ) {
             // Damp, hot clothing on hot skin feels bad
-            scaled_temperature = fabs( scaled_temperature );
+            scaled_temperature = std::fabs( scaled_temperature );
         }
 
         // For an unmutated human swimming in deep water, this will add up to:

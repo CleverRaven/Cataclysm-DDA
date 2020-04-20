@@ -15,7 +15,7 @@
   {
     "type": "COMESTIBLE",
     "id": "starch",
-    "name": { "str": "starch", "str_pl": "starch" },
+    "name": { "str_sp": "starch" },
     "weight": "180 g",
     "color": "light_gray",
     "spoils_in": "1 day 6 hours",
@@ -35,7 +35,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_cooked",
-    "name": { "str": "cooked dandelion greens", "str_pl": "cooked dandelion greens" },
+    "name": { "str_sp": "cooked dandelion greens" },
     "copy-from": "raw_dandelion",
     "spoils_in": "2 days",
     "healthy": 2,
@@ -48,7 +48,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_fried",
-    "name": { "str": "fried dandelions", "str_pl": "fried dandelions" },
+    "name": { "str_sp": "fried dandelions" },
     "copy-from": "raw_dandelion",
     "color": "yellow",
     "spoils_in": "3 days",
@@ -61,7 +61,7 @@
   {
     "type": "COMESTIBLE",
     "id": "burdock_cooked",
-    "name": { "str": "cooked burdock greens", "str_pl": "cooked burdock greens" },
+    "name": { "str_sp": "cooked burdock greens" },
     "copy-from": "raw_burdock",
     "spoils_in": "2 days",
     "healthy": 2,
@@ -74,7 +74,7 @@
   {
     "type": "COMESTIBLE",
     "id": "burdock_fried",
-    "name": { "str": "fried burdocks", "str_pl": "fried burdocks" },
+    "name": { "str_sp": "fried burdocks" },
     "color": "green",
     "spoils_in": "3 days",
     "comestible_type": "FOOD",
@@ -119,7 +119,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_wild_cooked",
-    "name": { "str": "cooked wild vegetables", "str_pl": "cooked wild vegetables" },
+    "name": { "str_sp": "cooked wild vegetables" },
     "copy-from": "veggy",
     "spoils_in": "2 days 2 hours",
     "description": "Cooked wild edible plants.  An interesting mix of flavors.",
@@ -149,7 +149,7 @@
   {
     "type": "COMESTIBLE",
     "id": "buckwheat_cooked",
-    "name": { "str": "cooked buckwheat", "str_pl": "cooked buckwheat" },
+    "name": { "str_sp": "cooked buckwheat" },
     "copy-from": "buckwheat",
     "spoils_in": "20 days",
     "healthy": 2,
@@ -162,7 +162,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_corn",
-    "name": { "str": "corn", "str_pl": "corn" },
+    "name": { "str_sp": "corn" },
     "comestible_type": "FOOD",
     "weight": "178 g",
     "color": "yellow",
@@ -182,8 +182,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "hominy",
+    "name": { "str_sp": "hominy" },
+    "comestible_type": "FOOD",
+    "weight": "178 g",
+    "color": "yellow",
+    "symbol": "%",
+    "material": "veggy",
+    "vitamins": [ [ "vitA", 6 ], [ "vitC", 3 ], [ "iron", 3 ] ],
+    "spoils_in": "2 days",
+    "container": "bowl_plastic",
+    "calories": 120,
+    "volume": "250 ml",
+    "description": "Corn kernels which have been cooked in an alkaline solution and then rinsed, making them better suited for eating or cooking.",
+    "price": 200,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "cornmeal",
-    "name": { "str": "cornmeal", "str_pl": "cornmeal" },
+    "name": { "str_sp": "cornmeal" },
     "weight": "19 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -205,7 +223,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_veggy_beans",
-    "name": { "str": "vegetarian baked beans", "str_pl": "vegetarian baked beans" },
+    "name": { "str_sp": "vegetarian baked beans" },
     "weight": "270 g",
     "color": "brown",
     "spoils_in": "15 days",
@@ -226,7 +244,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_rice",
-    "name": { "str": "dried rice", "str_pl": "dried rice" },
+    "name": { "str_sp": "dried rice" },
     "weight": "40 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -250,7 +268,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rice_cooked",
-    "name": { "str": "cooked rice", "str_pl": "cooked rice" },
+    "name": { "str_sp": "cooked rice" },
     "copy-from": "dry_rice",
     "weight": "62 g",
     "color": "light_gray",
@@ -269,7 +287,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_veggy_rice",
-    "name": { "str": "fried rice", "str_pl": "fried rice" },
+    "name": { "str_sp": "fried rice" },
     "weight": "135 g",
     "color": "yellow",
     "spoils_in": "15 days",
@@ -289,7 +307,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beansnrice",
-    "name": { "str": "beans and rice", "str_pl": "beans and rice" },
+    "name": { "str_sp": "beans and rice" },
     "weight": "70 g",
     "color": "light_gray",
     "spoils_in": "10 days",
@@ -309,7 +327,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tofu_rice",
-    "name": { "str": "tofu fried rice", "str_pl": "tofu fried rice" },
+    "name": { "str_sp": "tofu fried rice" },
     "weight": "135 g",
     "color": "yellow",
     "spoils_in": "15 days",
@@ -329,7 +347,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tofu_stirfry",
-    "name": { "str": "tofu stirfry", "str_pl": "tofu stirfry" },
+    "name": { "str_sp": "tofu stirfry" },
     "weight": "135 g",
     "color": "yellow",
     "spoils_in": "4 days",
@@ -350,7 +368,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_veggy_beansnrice",
-    "name": { "str": "deluxe vegetarian beans and rice", "str_pl": "deluxe vegetarian beans and rice" },
+    "name": { "str_sp": "deluxe vegetarian beans and rice" },
     "weight": "140 g",
     "color": "brown",
     "spoils_in": "15 days",
@@ -452,7 +470,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_pesto",
-    "name": "pesto",
+    "name": { "str_sp": "pesto" },
     "weight": "65 g",
     "color": "light_green",
     "spoils_in": 144,
@@ -513,7 +531,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_pesto",
-    "name": { "str": "spaghetti al pesto", "str_pl": "spaghetti al pesto" },
+    "name": { "str_sp": "spaghetti al pesto" },
     "weight": "80 g",
     "color": "green",
     "spoils_in": "2 days",
@@ -549,7 +567,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauerkraut_onions",
-    "name": { "str": "sauerkraut w/ sautee'd onions", "str_pl": "sauerkraut w/ sautee'd onions" },
+    "name": { "str_sp": "sauerkraut w/ sautee'd onions" },
     "weight": "424 g",
     "color": "light_gray",
     "spoils_in": "5 days",
@@ -676,7 +694,7 @@
   {
     "type": "COMESTIBLE",
     "id": "salsify_baked",
-    "name": "roasted salsify",
+    "name": { "str": "roasted salsify", "str_pl": "roasted salsifies" },
     "copy-from": "salsify_raw",
     "spoils_in": "2 days",
     "healthy": 2,
@@ -690,7 +708,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_rice",
-    "name": { "str": "sushi rice", "str_pl": "sushi rice" },
+    "name": { "str_sp": "sushi rice" },
     "weight": "55 g",
     "color": "white",
     "spoils_in": "3 days",
@@ -711,7 +729,7 @@
   {
     "type": "COMESTIBLE",
     "id": "onigiri",
-    "name": { "str": "onigiri", "str_pl": "onigiri" },
+    "name": { "str_sp": "onigiri" },
     "weight": "99 g",
     "color": "white",
     "spoils_in": "1 day 12 hours",
@@ -732,7 +750,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_veggyroll",
-    "name": { "str": "vegetable hosomaki", "str_pl": "vegetable hosomaki" },
+    "name": { "str_sp": "vegetable hosomaki" },
     "weight": "312 g",
     "color": "green",
     "spoils_in": "1 day 12 hours",
@@ -765,7 +783,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauerkraut",
-    "name": { "str": "sauerkraut", "str_pl": "sauerkraut" },
+    "name": { "str_sp": "sauerkraut" },
     "weight": "255 g",
     "color": "green",
     "spoils_in": "30 days",
@@ -806,7 +824,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fiddlehead_boiled",
-    "name": { "str": "boiled fiddleheads", "str_pl": "boiled fiddleheads" },
+    "name": { "str_sp": "boiled fiddleheads" },
     "weight": "50 g",
     "flags": [ "FREEZERBURN", "EATEN_HOT" ],
     "color": "light_green",
@@ -826,7 +844,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fiddlehead_sauteed",
-    "name": { "str": "sauteed fiddleheads", "str_pl": "sauteed fiddleheads" },
+    "name": { "str_sp": "sauteed fiddleheads" },
     "weight": "100 g",
     "flags": [ "FREEZERBURN", "EATEN_HOT" ],
     "color": "light_green",

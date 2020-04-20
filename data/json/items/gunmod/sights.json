@@ -79,7 +79,7 @@
   {
     "id": "improve_sights",
     "type": "GUNMOD",
-    "name": { "str": "iron sights", "str_pl": "iron sights" },
+    "name": { "str_sp": "iron sights" },
     "description": "A basic set of iron sights",
     "weight": "60 g",
     "volume": "250 ml",
