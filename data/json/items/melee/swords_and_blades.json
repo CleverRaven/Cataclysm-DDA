@@ -268,7 +268,7 @@
   {
     "id": "knife_churl",
     "type": "TOOL",
-    "name": "baselard",
+    "name": { "str": "baselard" },
     "description": "A medieval dagger forged from rough iron. It is not the sharpest tool in the shed, but it is certainly one of the largest.",
     "weight": "420 g",
     "volume": "250 ml",
@@ -324,7 +324,7 @@
   },
   {
     "id": "machete_gimmick",
-    "name": "machete multitool",
+    "name": { "str": "machete multitool" },
     "type": "TOOL",
     "description": "A thin, wobbly steel blade with sawteeth on one side and a flat chisel tip for digging. A jack of many trades and a master of none.",
     "symbol": "/",

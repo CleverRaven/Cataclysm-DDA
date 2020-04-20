@@ -614,7 +614,6 @@
     "time": "30 s",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "//": "In the absence of walls or floors being valid ways to grind a sharp point onto an object, sandpaper/files not being fully implemented, and this being a prison shank, just pick up a rock and rub it on the toothbrush.",
     "components": [ [ "plunger_toilet", 1 ], [ "spike", 1 ] ]
   },
   {
@@ -1982,6 +1981,7 @@
     "time": "30 sec",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "//": "In the absence of walls or floors being valid ways to grind a sharp point onto an object, sandpaper/files not being fully implemented, and this being a prison shank, just pick up a rock and rub it on the toothbrush.",
     "components": [ [ "toothbrush_plain", 1 ], [ "hairbrush", 1 ], [ "comb_pocket", 1 ], [ "plastic_chunk", 1 ] ]
   },
   {

@@ -244,7 +244,7 @@
   },
   {
     "id:": "plunger_weapon",
-    "name": "brain cleaner",
+    "name": { "str": "brain cleaner" },
     "type": "TOOL",
     "description": "A barbaric war pick made by driving a metal spike into a toilet plunger. World War IV will be fought with sticks and stones...",
     "symbol": "/",

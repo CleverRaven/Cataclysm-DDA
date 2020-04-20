@@ -17,7 +17,7 @@
   },
   {  
     "id:": "bullwhip_razor",
-    "name": "scourge",
+    "name": { "str: ""scourge" },
     "type": "TOOL",
     "description": "The \"cat 'o nine tails\", a handle with nine short leather whips each sporting a razor-sharp metal tip. This ancient instrument of torture causes massive bleeding but is an ineffecient weapon by design.",
     "symbol": "/",
