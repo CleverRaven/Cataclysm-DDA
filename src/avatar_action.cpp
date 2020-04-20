@@ -901,7 +901,7 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
     bool reload_requested;
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, weapon, reload_requested );
+    target_handler::trajectory trajectory = target_handler::mode_fire( you, *weapon, reload_requested );
 
     //may be changed in target_ui
     gun = weapon->gun_current_mode();
@@ -983,7 +983,7 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
 
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, you.pos() );
-    target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, &turret );
+    target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
 
     if( !trajectory.empty() ) {
         // Recenter our view
@@ -1177,7 +1177,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, you.pos() );
 
-    target_handler::trajectory trajectory = target_handler::mode_throw( you, &you.weapon,
+    target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
                                             blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.

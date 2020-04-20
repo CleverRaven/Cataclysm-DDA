@@ -1289,7 +1289,7 @@ static void reach_attack( player &u )
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, u.pos() );
 
-    target_handler::trajectory traj = target_handler::mode_reach( u, &u.weapon );
+    target_handler::trajectory traj = target_handler::mode_reach( u, u.weapon );
 
     if( !traj.empty() ) {
         u.reach_attack( traj.back() );

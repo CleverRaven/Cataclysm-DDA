@@ -116,6 +116,8 @@ enum target_mode : int {
 class target_ui
 {
     public:
+        /* None of the public members (except ammo and range) should be modified during execution */
+
         // Interface mode
         target_mode mode = TARGET_MODE_FIRE;
         // Weapon being fired/thrown
@@ -143,7 +145,9 @@ class target_ui
             Timeout,
             Reload
         };
+
         // Initialize UI and run the event loop.
+        // Uses public members to determine UI contents
         // If exit_code != nullptr, exit code will be written into provided address
         target_handler::trajectory run( player &pc, ExitCode *exit_code = nullptr );
 
@@ -158,8 +162,8 @@ class target_ui
         // Ui status (affects which UI controls are temporarily disabled)
         Status status;
 
-        // Current trajectory (TODO: better name)
-        std::vector<tripoint> ret;
+        // Current trajectory
+        std::vector<tripoint> traj;
         // Aiming source (player's position)
         tripoint src;
         // Aiming destination (cursor position)
@@ -179,18 +183,12 @@ class target_ui
 
         // Compact layout - slightly smaller then normal
         bool compact;
-        // Tiny layout - smallest possible
+        // Tiny layout - uses whole sidebar
         bool tiny;
-        // Window width
-        int height;
-        // Window height
-        int width;
         // Window
         catacurses::window w_target;
         // Input context
         input_context ctxt;
-        // Number of free instruction lines
-        int num_instruction_lines;
 
         /* These members are relevant for TARGET_MODE_FIRE */
         // Weapon sight dispersion
@@ -206,16 +204,9 @@ class target_ui
         // relative to the current one.
         double predicted_recoil;
 
-        /* These members are relevant for TARGET_MODE_SPELL */
         // For AOE spells, list of tiles affected by the spell
+        // relevant for TARGET_MODE_SPELL
         std::set<tripoint> spell_aoe;
-        // Spell casting effect
-        std::string spell_fx;
-
-        // Returns new cursor position or current cursor position
-        // based on user input
-        // TODO: betters docs/name?
-        tripoint get_desired_cursor_pos( const std::string &action );
 
         // Handle input related to cursor movement.
         // Returns 'true' if action was recognized and processed.
@@ -303,13 +294,13 @@ class target_ui
         void on_target_accepted( player &pc, bool harmful );
 };
 
-target_handler::trajectory target_handler::mode_fire( player &pc, item *weapon,
+target_handler::trajectory target_handler::mode_fire( player &pc, item &weapon,
         bool &reload_requested )
 {
     target_ui ui = target_ui();
     ui.mode = TARGET_MODE_FIRE;
-    ui.relevant = weapon;
-    gun_mode gun = weapon->gun_current_mode();
+    ui.relevant = &weapon;
+    gun_mode gun = weapon.gun_current_mode();
     ui.range = gun.target->gun_range( &pc );
     ui.ammo = gun->ammo_data();
 
@@ -319,49 +310,49 @@ target_handler::trajectory target_handler::mode_fire( player &pc, item *weapon,
     return result;
 }
 
-target_handler::trajectory target_handler::mode_throw( player &pc, item *relevant,
+target_handler::trajectory target_handler::mode_throw( player &pc, item &relevant,
         bool blind_throwing )
 {
     target_ui ui = target_ui();
     ui.mode = blind_throwing ? TARGET_MODE_THROW_BLIND : TARGET_MODE_THROW;
-    ui.relevant = relevant;
-    ui.range = pc.throw_range( *relevant );
+    ui.relevant = &relevant;
+    ui.range = pc.throw_range( relevant );
 
     return ui.run( pc );
 }
 
-target_handler::trajectory target_handler::mode_reach( player &pc, item *weapon )
+target_handler::trajectory target_handler::mode_reach( player &pc, item &weapon )
 {
     target_ui ui = target_ui();
     ui.mode = TARGET_MODE_REACH;
-    ui.relevant = weapon;
-    ui.range = weapon->current_reach_range( pc );
+    ui.relevant = &weapon;
+    ui.range = weapon.current_reach_range( pc );
 
     return ui.run( pc );
 }
 
-target_handler::trajectory target_handler::mode_turret_manual( player &pc, turret_data *turret )
+target_handler::trajectory target_handler::mode_turret_manual( player &pc, turret_data &turret )
 {
     target_ui ui = target_ui();
     ui.mode = TARGET_MODE_TURRET_MANUAL;
-    ui.turret = turret;
-    ui.relevant = &*turret->base();
-    ui.range = turret->range();
-    ui.ammo = turret->ammo_data();
+    ui.turret = &turret;
+    ui.relevant = &*turret.base();
+    ui.range = turret.range();
+    ui.ammo = turret.ammo_data();
 
     return ui.run( pc );
 }
 
-target_handler::trajectory target_handler::mode_turrets( player &pc, vehicle *veh,
-        const std::vector<vehicle_part *> *turrets )
+target_handler::trajectory target_handler::mode_turrets( player &pc, vehicle &veh,
+        const std::vector<vehicle_part *> &turrets )
 {
     // Find radius of a circle centered at u encompassing all points turrets can aim at
     // FIXME: this calculation is fine for square distances, but results in an underestimation
     //        when used with real circles
     int range_total = 0;
-    for( vehicle_part *t : *turrets ) {
-        int range = veh->turret_query( *t ).range();
-        tripoint pos = veh->global_part_pos3( *t );
+    for( vehicle_part *t : turrets ) {
+        int range = veh.turret_query( *t ).range();
+        tripoint pos = veh.global_part_pos3( *t );
 
         int res = 0;
         res = std::max( res, rl_dist( g->u.pos(), pos + point( range, 0 ) ) );
@@ -373,20 +364,20 @@ target_handler::trajectory target_handler::mode_turrets( player &pc, vehicle *ve
 
     target_ui ui = target_ui();
     ui.mode = TARGET_MODE_TURRET;
-    ui.veh = veh;
-    ui.vturrets = turrets;
+    ui.veh = &veh;
+    ui.vturrets = &turrets;
     ui.range = range_total;
 
     return ui.run( pc );
 }
 
-target_handler::trajectory target_handler::mode_spell( player &pc, spell *casting, bool no_fail,
+target_handler::trajectory target_handler::mode_spell( player &pc, spell &casting, bool no_fail,
         bool no_mana )
 {
     target_ui ui = target_ui();
     ui.mode = TARGET_MODE_SPELL;
-    ui.casting = casting;
-    ui.range = casting->range();
+    ui.casting = &casting;
+    ui.range = casting.range();
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
@@ -396,7 +387,7 @@ target_handler::trajectory target_handler::mode_spell( player &pc, spell *castin
 target_handler::trajectory target_handler::mode_spell( player &pc, spell_id sp, bool no_fail,
         bool no_mana )
 {
-    return mode_spell( pc, &g->u.magic.get_spell( sp ), no_fail, no_mana );
+    return mode_spell( pc, g->u.magic.get_spell( sp ), no_fail, no_mana );
 }
 
 bool targeting_data::is_valid() const
@@ -1870,12 +1861,9 @@ double player::gun_value( const item &weap, int ammo ) const
 
 target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 {
-    if( mode == TARGET_MODE_SPELL ) {
-        if( !no_mana && !casting->can_cast( pc ) ) {
-            pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
-                                  casting->energy_string() );
-        }
-        spell_fx = casting->effect();
+    if( mode == TARGET_MODE_SPELL && !no_mana && !casting->can_cast( pc ) ) {
+        pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
+                              casting->energy_string() );
     }
 
     // Load settings
@@ -1886,7 +1874,8 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     compact = TERMY < 41;
     tiny = TERMY < 32;
     int top = 0;
-    width = 55;
+    int width = 55;
+    int height;
     if( tiny ) {
         // If we're extremely short on space, use the whole sidebar.
         height = TERMY;
@@ -1972,7 +1961,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     }
 
     ExitCode loop_exit_code;
-    std::string timed_out_activity;
+    std::string timed_out_action;
 
     bool skip_redraw = false;
     const tripoint saved_view_offset = pc.view_offset;
@@ -2038,7 +2027,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             // Aiming can be stopped / aborted at any time.
 
             if( !action_aim( pc ) ) {
-                timed_out_activity = "AIM";
+                timed_out_action = "AIM";
                 loop_exit_code = ExitCode::Timeout;
                 break;
             }
@@ -2056,7 +2045,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             if( action_aim_and_shoot( pc, action ) ) {
                 loop_exit_code = ExitCode::Fire;
             } else {
-                timed_out_activity = action;
+                timed_out_action = action;
                 loop_exit_code = ExitCode::Timeout;
             }
             break;
@@ -2067,7 +2056,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 
     switch( loop_exit_code ) {
         case ExitCode::Abort: {
-            ret.clear();
+            traj.clear();
             break;
         }
         case ExitCode::Fire: {
@@ -2079,14 +2068,14 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             // automatically re-enter the aiming UI on the next turn.
             // pc.activity.str_values[0] remembers which action, AIM or *_SHOT,
             // we didn't have the time to finish.
-            ret.clear();
+            traj.clear();
             pc.assign_activity( ACT_AIM, 0, 0 );
-            pc.activity.str_values.push_back( timed_out_activity );
+            pc.activity.str_values.push_back( timed_out_action );
             break;
         }
         case ExitCode::Reload: {
             // Calling function will handle reloading for us
-            ret.clear();
+            traj.clear();
             break;
         }
     }
@@ -2094,7 +2083,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     if( exit_code ) {
         *exit_code = loop_exit_code;
     }
-    return ret;
+    return traj;
 }
 
 bool target_ui::handle_cursor_movement( player &pc, const std::string &action, bool &skip_redraw )
@@ -2198,10 +2187,10 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
     } else if( new_pos == valid_pos ) {
         // We can reuse new_traj
         dst = valid_pos;
-        ret = new_traj;
+        traj = new_traj;
     } else {
         dst = valid_pos;
-        ret = g->m.find_clear_path( src, dst );
+        traj = g->m.find_clear_path( src, dst );
     }
 
     if( snap_to_target ) {
@@ -2233,21 +2222,20 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
         dst_critter = nullptr;
     }
 
-    // Update tiles affected by AOE spells
-    if( spell_fx == "target_attack" || spell_fx == "projectile_attack" ||
-        spell_fx == "ter_transform" ) {
-        spell_aoe = spell_effect::spell_effect_blast( *casting, src, dst, casting->aoe(), true );
-    } else if( spell_fx == "cone_attack" ) {
-        spell_aoe = spell_effect::spell_effect_cone( *casting, src, dst, casting->aoe(), true );
-    } else if( spell_fx == "line_attack" ) {
-        spell_aoe = spell_effect::spell_effect_line( *casting, src, dst, casting->aoe(), true );
-    } else {
-        spell_aoe.clear();
-    }
-
-    // Update predicted 'recoil'
+    // Update mode-specific stuff
     if( mode == TARGET_MODE_FIRE ) {
         recalc_aim_turning_penalty( pc );
+    } else if( mode == TARGET_MODE_SPELL ) {
+        const std::string fx = casting->effect();
+        if( fx == "target_attack" || fx == "projectile_attack" || fx == "ter_transform" ) {
+            spell_aoe = spell_effect::spell_effect_blast( *casting, src, dst, casting->aoe(), true );
+        } else if( fx == "cone_attack" ) {
+            spell_aoe = spell_effect::spell_effect_cone( *casting, src, dst, casting->aoe(), true );
+        } else if( fx == "line_attack" ) {
+            spell_aoe = spell_effect::spell_effect_line( *casting, src, dst, casting->aoe(), true );
+        } else {
+            spell_aoe.clear();
+        }
     }
 
     // Update UI controls & colors
@@ -2504,7 +2492,7 @@ void target_ui::draw_terrain( player &pc )
     // Draw trajectory
     if( dst != src ) {
         // But only points on this Z-level
-        std::vector<tripoint> this_z = ret;
+        std::vector<tripoint> this_z = traj;
         this_z.erase( std::remove_if( this_z.begin(), this_z.end(),
         [&center]( const tripoint & p ) {
             return p.z != center.z;
@@ -2540,6 +2528,8 @@ void target_ui::draw_terrain( player &pc )
 void target_ui::draw_ui_window( player &pc )
 {
     // Clear target window and make it non-transparent.
+    int width = getmaxx( w_target );
+    int height = getmaxy( w_target );
     for( int y = 0; y < height; y++ ) {
         for( int x = 0; x < width; x++ ) {
             mvwputch( w_target, point( x, y ), c_white, ' ' );
@@ -2627,6 +2617,7 @@ int target_ui::draw_controls_list()
 
     nc_color move_color = ( status != Status::OutOfAmmo ? c_white : c_light_gray );
     nc_color fire_color = ( status == Status::Good ? c_white : c_light_gray );
+    int height = getmaxy( w_target );
 
     // Since this list is of variable length and positioned
     // at the bottom, we draw everything in reverse order
