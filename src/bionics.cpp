@@ -58,7 +58,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
@@ -989,19 +988,13 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         invalidate_crafting_inventory();
     }
 
-    return true;
-}
-
-bool player::deactivate_bionic( int b, bool eff_only )
-{
-    const bionic &bio = ( *my_bionics )[b];
-    bool success = Character::deactivate_bionic( b, eff_only );
     // Compatibility with old saves without the toolset hammerspace
-    if( success && !eff_only && bio.id == bio_tools && !has_bionic( bionic_TOOLS_EXTEND ) ) {
+    if( !eff_only && bio.id == bio_tools && !has_bionic( bionic_TOOLS_EXTEND ) ) {
         // E X T E N D    T O O L S
         add_bionic( bionic_TOOLS_EXTEND );
     }
-    return success;
+
+    return true;
 }
 
 bool Character::burn_fuel( int b, bool start )
@@ -2456,12 +2449,12 @@ void Character::remove_bionic( const bionic_id &b )
     }
 }
 
-int player::num_bionics() const
+int Character::num_bionics() const
 {
     return my_bionics->size();
 }
 
-std::pair<int, int> player::amount_of_storage_bionics() const
+std::pair<int, int> Character::amount_of_storage_bionics() const
 {
     units::energy lvl = get_max_power_level();
 
@@ -2494,12 +2487,12 @@ std::pair<int, int> player::amount_of_storage_bionics() const
     return results;
 }
 
-bionic &player::bionic_at_index( int i )
+bionic &Character::bionic_at_index( int i )
 {
     return ( *my_bionics )[i];
 }
 
-void player::clear_bionics()
+void Character::clear_bionics()
 {
     my_bionics->clear();
 }

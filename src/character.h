@@ -276,7 +276,8 @@ class Character : public Creature, public visitable<Character>
         field_type_id gibType() const override;
         bool is_warm() const override;
         bool in_species( const species_id &spec ) const override;
-
+        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        bool death_drops;
         const std::string &symbol() const override;
 
         enum class comfort_level {
@@ -987,6 +988,8 @@ class Character : public Creature, public visitable<Character>
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
         bool activate_bionic( int b, bool eff_only = false );
         std::vector<bionic_id> get_bionics() const;
+        /** Returns amount of Storage CBMs in the corpse **/
+        std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
@@ -1020,8 +1023,13 @@ class Character : public Creature, public visitable<Character>
         void process_bionic( int b );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
-        virtual bool deactivate_bionic( int b, bool eff_only = false );
-
+        bool deactivate_bionic( int b, bool eff_only = false );
+        /** Returns the size of my_bionics[] */
+        int num_bionics() const;
+        /** Returns the bionic at a given index in my_bionics[] */
+        bionic &bionic_at_index( int i );
+        /** Remove all bionics */
+        void clear_bionics();
         int get_used_bionics_slots( body_part bp ) const;
         int get_total_bionics_slots( body_part bp ) const;
         int get_free_bionics_slots( body_part bp ) const;
@@ -1803,6 +1811,50 @@ class Character : public Creature, public visitable<Character>
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling() const;
 
+        /** Prompts user about crushing item at item_location loc, for harvesting of frozen liquids
+        * @param loc Location for item to crush */
+        bool crush_frozen_liquid( item_location loc );
+
+        float power_rating() const override;
+        float speed_rating() const override;
+
+        /** Returns the item in the player's inventory with the highest of the specified quality*/
+        item &item_with_best_of_quality( const quality_id &qid );
+        /**
+         * Check whether the this player can see the other creature with infrared. This implies
+         * this player can see infrared and the target is visible with infrared (is warm).
+         * And of course a line of sight exists.
+        */
+        bool sees_with_infrared( const Creature &critter ) const;
+        // Put corpse+inventory on map at the place where this is.
+        void place_corpse();
+        // Put corpse+inventory on defined om tile
+        void place_corpse( const tripoint &om_target );
+
+        /** Returns the player's modified base movement cost */
+        int  run_cost( int base_cost, bool diag = false ) const;
+        const pathfinding_settings &get_pathfinding_settings() const override;
+        std::set<tripoint> get_path_avoid() const override;
+        /**
+         * Get all hostile creatures currently visible to this player.
+         */
+        std::vector<Creature *> get_hostile_creatures( int range ) const;
+
+        /**
+         * Returns all creatures that this player can see and that are in the given
+         * range. This player object itself is never included.
+         * The player character (g->u) is checked and might be included (if applicable).
+         * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
+         * are included.
+         */
+        std::vector<Creature *> get_visible_creatures( int range ) const;
+        /**
+         * As above, but includes all creatures the player can detect well enough to target
+         * with ranged weapons, e.g. with infrared vision.
+         */
+        std::vector<Creature *> get_targetable_creatures( int range ) const;
+        /** Returns an enumeration of visible mutations with colors */
+        std::string visible_mutations( int visibility_cap ) const;
         player_activity get_destination_activity() const;
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
@@ -2123,6 +2175,13 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_artifacts();
         void suffer_from_stimulants( int current_stim );
         void suffer_without_sleep( int sleep_deprivation );
+        /**
+         * Check whether the other creature is in range and can be seen by this creature.
+         * @param critter Creature to check for visibility
+         * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
+         * are included.
+         */
+        bool is_visible_in_range( const Creature &critter, int range ) const;
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
