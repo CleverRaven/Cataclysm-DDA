@@ -5,9 +5,12 @@
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
 #include "catch/catch.hpp"
+#include "character_oracle.h"
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
+#include "monster_oracle.h"
+#include "mtype.h"
 #include "npc.h"
 #include "player.h"
 #include "map_helpers.h"
@@ -174,5 +177,23 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
         test_npc.consume( loc );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
+    }
+}
+
+TEST_CASE( "check_monster_behavior_tree", "[monster][behavior]" )
+{
+    behavior::tree monster_goals;
+    monster_goals.add( &string_id<behavior::node_t>( "monster_special" ).obj() );
+    monster &test_monster = spawn_test_monster( "mon_zombie", { 5, 5, 0 } );
+    for( const std::string &special_name : test_monster.type->special_attacks_names ) {
+        test_monster.reset_special( special_name );
+    }
+    behavior::monster_oracle_t oracle( &test_monster );
+    CHECK( monster_goals.tick( &oracle ) == "idle" );
+    SECTION( "Special Attack" ) {
+        test_monster.set_special( "bite", 0 );
+        CHECK( monster_goals.tick( &oracle ) == "do_special" );
+        test_monster.set_special( "bite", 1 );
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
     }
 }

@@ -19,6 +19,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_oracle.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "compatibility.h"

@@ -13,6 +13,7 @@
 #include <unordered_map>
 
 #include "avatar.h"
+#include "behavior.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "creature_tracker.h"
@@ -30,6 +31,7 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
+#include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
 #include "pathfinding.h"
@@ -629,10 +631,14 @@ void monster::move()
         return;
     }
 
+    behavior::monster_oracle_t oracle( this );
+    behavior::tree goals;
+    goals.add( type->get_goals() );
+    std::string action = goals.tick( &oracle );
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if( !is_hallucination() && ( has_flag( MF_ABSORBS ) || has_flag( MF_ABSORBS_SPLITS ) ) &&
-        !g->m.has_flag( TFLAG_SEALED, pos() ) && g->m.has_items( pos() ) ) {
+    // TODO: Stick this in a map and dispatch to it via the action string.
+    if( action == "consume_items" ) {
         if( g->u.sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name() );

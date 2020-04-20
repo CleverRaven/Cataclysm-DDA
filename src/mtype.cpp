@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 
+#include "behavior_strategy.h"
 #include "creature.h"
 #include "field_type.h"
 #include "item.h"
@@ -234,4 +235,19 @@ std::string mtype::get_footsteps() const
         return s.obj().get_footsteps();
     }
     return _( "footsteps." );
+}
+
+void mtype::set_strategy()
+{
+    goals.set_strategy( behavior::strategy_map[ "sequential_until_done" ] );
+}
+
+void mtype::add_goal( const std::string &goal_id )
+{
+    goals.add_child( &string_id<behavior::node_t>( goal_id ).obj() );
+}
+
+const behavior::node_t *mtype::get_goals() const
+{
+    return &goals;
 }

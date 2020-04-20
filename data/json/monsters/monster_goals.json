@@ -1,0 +1,27 @@
+[
+  {
+    "type": "behavior",
+    "id": "monster_goals",
+    "strategy": "sequential_until_done",
+    "children": [ "absorb_items", "monster_special" ]
+  },
+  {
+    "type": "behavior",
+    "id": "absorb_items",
+    "strategy": "sequential",
+    "predicate": "monster_not_hallucination",
+    "children": [ "do_absorb" ]
+  },
+  {
+    "type": "behavior",
+    "id": "do_absorb",
+    "predicate": "monster_items_available",
+    "goal": "consume_items"
+  },
+  {
+    "type": "behavior",
+    "id": "monster_special",
+    "predicate": "monster_has_special",
+    "goal": "do_special"
+  }
+]

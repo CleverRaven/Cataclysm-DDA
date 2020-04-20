@@ -31,7 +31,10 @@ std::unordered_map<std::string, std::function<status_t( const oracle_t * )>> pre
         { "npc_can_make_fire", make_function( &character_oracle_t::can_make_fire ) },
         { "npc_can_take_shelter", make_function( &character_oracle_t::can_take_shelter ) },
         { "npc_has_water", make_function( &character_oracle_t::has_water ) },
-        { "npc_has_food", make_function( &character_oracle_t::has_food ) }
+        { "npc_has_food", make_function( &character_oracle_t::has_food ) },
+        { "monster_has_special", static_cast<status_t ( oracle_t::* )() const>( &monster_oracle_t::has_special ) },
+        { "monster_not_hallucination", static_cast<status_t ( oracle_t::* )() const>( &monster_oracle_t::not_hallucination ) },
+        { "monster_items_available", static_cast<status_t ( oracle_t::* )() const>( &monster_oracle_t::items_available ) }
     }
 };
 
