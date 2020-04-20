@@ -624,7 +624,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lotus_tea",
-    "name": { "str": "lotus tea", "str_pl": "lotus tea" },
+    "name": { "str_sp": "lotus tea" },
     "copy-from": "tea",
     "color": "green",
     "spoils_in": "10 days",
@@ -904,7 +904,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spurge_tea",
-    "name": { "str": "spurge tea", "str_pl": "spurge tea" },
+    "name": { "str_sp": "spurge tea" },
     "copy-from": "tea",
     "color": "green",
     "use_action": "ANTIASTHMATIC",
