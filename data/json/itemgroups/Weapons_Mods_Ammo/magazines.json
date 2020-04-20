@@ -25,8 +25,14 @@
       [ "m2010mag", 10 ],
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
+      [ "stanag5", 2 ],
+      [ "stanag10", 5 ],
+      [ "stanag20", 10 ],
       [ "stanag30", 20 ],
-      [ "stanag50", 5 ],
+      [ "stanag40", 2 ],
+      [ "stanag50", 2 ],
+      [ "stanag60", 3 ],
+      [ "stanag100", 2 ],
       [ "hk417mag_20rd", 30 ],
       [ "hk417mag_10rd", 20 ],
       [ "p320mag_17rd_9x19mm", 60 ]
@@ -217,10 +223,19 @@
       [ "marlin_tubeloader", 5 ],
       [ "ruger1022mag", 100 ],
       [ "ruger5", 50 ],
+      [ "ruger10", 30 ],
       [ "stanag10", 30 ],
+      [ "ruger20", 15 ],
       [ "ruger30", 20 ],
+      [ "ruger90", 3 ],
+      [ "ruger100", 5 ],
+      [ "stanag5", 5 ],
+      [ "stanag10", 5 ],
+      [ "stanag20", 5 ],
       [ "stanag30", 10 ],
-      [ "ar10mag_20rd", 30 ]
+      [ "stanag40", 3 ],
+      [ "ar10mag_20rd", 30 ],
+      [ "akmag30", 25 ]
     ]
   },
   {
@@ -234,14 +249,26 @@
     "id": "mags_rifle_rare",
     "//": "Aftermarket or otherwise uncommon rifle magazines excluding milspec.",
     "items": [
-      [ "akmbigmag", 5 ],
-      [ "akmmag", 25 ],
+      [ "akmag10", 40 ],
+      [ "akmag20", 40 ],
+      [ "akmag40", 40 ],
+      [ "akdrum75", 30 ],
       [ "falmag", 100 ],
       [ "falbigmag", 50 ],
       [ "g3mag", 80 ],
       [ "g3bigmag", 40 ],
       [ "m1918bigmag", 40 ],
-      [ "ruger1022bigmag", 70 ]
+      [ "ruger1022bigmag", 70 ],
+      [ "stanag60drum", 10 ],
+      [ "stanag90", 10 ],
+      [ "stanag100drum", 15 ],
+      [ "stanag150", 10 ],
+      [ "augmag_10rd", 5 ],
+      [ "augmag_30rd", 15 ],
+      [ "augmag_42rd", 5 ],
+      [ "augmag_100rd", 2 ],
+      [ "g36mag_30rd", 15 ],
+      [ "g36mag_100rd", 3 ]
     ]
   },
   {
@@ -281,7 +308,7 @@
     "type": "item_group",
     "id": "mags_other_makeshift",
     "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "nailmag", 20 ], [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
+    "items": [ [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
   },
   {
     "type": "item_group",

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef VEHICLE_H
-#define VEHICLE_H
+#ifndef CATA_SRC_VEHICLE_H
+#define CATA_SRC_VEHICLE_H
 
 #include <array>
 #include <climits>
@@ -1071,8 +1071,10 @@ class vehicle
         std::vector<itype_id> get_printable_fuel_types() const;
 
         // Vehicle fuel indicators (all of them)
-        void print_fuel_indicators( const catacurses::window &win, int y, int x, int start_index = 0,
-                                    bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false );
+        void print_fuel_indicators(
+            const catacurses::window &win, const point &, int start_index = 0,
+            bool fullsize = false, bool verbose = false, bool desc = false,
+            bool isHorizontal = false );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, int dir, const point &pivot );
@@ -1410,7 +1412,7 @@ class vehicle
         /**
          * vehicle is driving itself
          */
-        void autodrive( int x, int y );
+        void autodrive( const point & );
         /**
          * can the helicopter descend/ascend here?
          */
@@ -1903,4 +1905,4 @@ class vehicle
         unsigned char vehicle_noise = 0;
 };
 
-#endif
+#endif // CATA_SRC_VEHICLE_H

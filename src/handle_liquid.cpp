@@ -352,6 +352,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                         case item_location::type::vehicle:
                             g->m.veh_at( target.item_loc.position() )->vehicle().make_active( target.item_loc );
                             break;
+                        case item_location::type::container:
                         case item_location::type::character:
                         case item_location::type::invalid:
                             break;

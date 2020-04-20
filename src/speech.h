@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SPEECH_H
-#define SPEECH_H
+#ifndef CATA_SRC_SPEECH_H
+#define CATA_SRC_SPEECH_H
 
 #include "translations.h"
 
@@ -17,4 +17,4 @@ void load_speech( const JsonObject &jo );
 void reset_speech();
 const SpeechBubble &get_speech( const std::string &label );
 
-#endif
+#endif // CATA_SRC_SPEECH_H

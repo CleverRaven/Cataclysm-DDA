@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONGROUP_H
-#define MONGROUP_H
+#ifndef CATA_SRC_MONGROUP_H
+#define CATA_SRC_MONGROUP_H
 
 #include <map>
 #include <set>
@@ -193,4 +193,4 @@ class MonsterGroupManager
         static t_string_set monster_categories_whitelist;
 };
 
-#endif
+#endif // CATA_SRC_MONGROUP_H

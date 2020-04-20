@@ -1,6 +1,6 @@
 #pragma once
-#ifndef STRING_INPUT_POPUP_H
-#define STRING_INPUT_POPUP_H
+#ifndef CATA_SRC_STRING_INPUT_POPUP_H
+#define CATA_SRC_STRING_INPUT_POPUP_H
 
 #include <cstddef>
 #include <cstdint>
@@ -174,7 +174,7 @@ class string_input_popup // NOLINT(cata-xy)
          * This method only has effect before the default window is initialized.
          * After that calls to this method are just ignored.
          */
-        string_input_popup &window( const catacurses::window &w, int startx, int starty, int endx );
+        string_input_popup &window( const catacurses::window &w, const point &start, int endx );
         /**
          * Set / get the input context that is used to gather user input.
          * The class will create its own context if none is set here.
@@ -266,4 +266,4 @@ class string_input_popup // NOLINT(cata-xy)
         std::map<long, std::function<bool()>> callbacks;
 };
 
-#endif
+#endif // CATA_SRC_STRING_INPUT_POPUP_H

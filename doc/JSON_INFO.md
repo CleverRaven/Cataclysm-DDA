@@ -452,6 +452,7 @@ This section describes each json file and their contents. Each json has their ow
 | coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
 | power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
+| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
 
 ```C++
 {
@@ -1239,7 +1240,9 @@ an `event_statistic`.  For example:
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
 "cut_dmg_bonus": 3, // Bonus to unarmed cut damage (default: 0)
+"pierce_dmg_bonus": 3, // Bonus to unarmed pierce damage (default: 0.0)
 "bash_dmg_bonus": 3, // Bonus to unarmed bash damage (default: 0)
+"butchering_quality": 4, // Butchering quality of this mutations (default: 0)
 "rand_cut_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed cut damage between min and max.
 "rand_bash_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed bash damage between min and max.
 "bodytemp_modifiers" : [100, 150], // Range of additional bodytemp units (these units are described in 'weather.h'. First value is used if the person is already overheated, second one if it's not.
@@ -1320,6 +1323,11 @@ an `event_statistic`.  For example:
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
 "mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transfomr into
+               "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
+               "active": false , // Will the target mutation start powered ( turn ON ).
+               "moves": 100 // how many moves this costs. (default: 0)
+}
 ```
 
 ### Vehicle Groups

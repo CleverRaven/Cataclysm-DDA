@@ -207,15 +207,15 @@ std::string window_panel::get_name() const
 }
 
 void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                                     const tripoint &global_omt, const int start_y_input, const int start_x_input, const int width,
-                                     const int height )
+                                     const tripoint &global_omt, const point &start_input,
+                                     const int width, const int height )
 {
     const int cursx = global_omt.x;
     const int cursy = global_omt.y;
     const tripoint targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
-    const int start_y = start_y_input + ( height / 2 ) - 2;
-    const int start_x = start_x_input + ( width / 2 ) - 2;
+    const int start_y = start_input.y + ( height / 2 ) - 2;
+    const int start_x = start_input.x + ( width / 2 ) - 2;
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
@@ -410,7 +410,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
 {
     const tripoint curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, 0, 0, 5, 5 );
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 5, 5 );
 }
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
@@ -543,10 +543,12 @@ static std::pair<int, int> temp_delta( const avatar &u )
     int current_bp_extreme = 0;
     int conv_bp_extreme = 0;
     for( int i = 0; i < num_bp; i++ ) {
-        if( abs( u.temp_cur[i] - BODYTEMP_NORM ) > abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
+        if( std::abs( u.temp_cur[i] - BODYTEMP_NORM ) >
+            std::abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
             current_bp_extreme = i;
         }
-        if( abs( u.temp_conv[i] - BODYTEMP_NORM ) > abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
+        if( std::abs( u.temp_conv[i] - BODYTEMP_NORM ) >
+            std::abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
             conv_bp_extreme = i;
         }
     }
@@ -846,7 +848,7 @@ static nc_color safe_color()
 
 static int get_int_digits( const int &digits )
 {
-    int temp = abs( digits );
+    int temp = std::abs( digits );
     if( digits > 0 ) {
         return static_cast<int>( log10( static_cast<double>( temp ) ) ) + 1;
     } else if( digits < 0 ) {
@@ -1368,7 +1370,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     if( minimap ) {
         const int offset = getmaxx( w ) - 6;
         const tripoint curs = u.global_omt_location();
-        overmap_ui::draw_overmap_chunk( w, u, curs, -1, offset, 5, 5 );
+        overmap_ui::draw_overmap_chunk( w, u, curs, point( offset, -1 ), 5, 5 );
     }
     wrefresh( w );
 }
@@ -1648,7 +1650,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // vehicle display
     if( veh ) {
-        veh->print_fuel_indicators( w, 2, 39 );
+        veh->print_fuel_indicators( w, point( 39, 2 ) );
         mvwprintz( w, point( 35, 4 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
@@ -1762,7 +1764,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, 0, 0 );
+        veh->print_fuel_indicators( w, point_zero );
         mvwprintz( w, point( 6, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
@@ -1794,7 +1796,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, 0, 1 );
+        veh->print_fuel_indicators( w, point_east );
         mvwprintz( w, point( 7, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();

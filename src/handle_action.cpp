@@ -604,17 +604,17 @@ static void handbrake()
     vehicle *const veh = &vp->vehicle();
     add_msg( _( "You pull a handbrake." ) );
     veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < abs( veh->velocity ) ) {
+    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
         veh->skidding = true;
         add_msg( m_warning, _( "You lose control of %s." ), veh->name );
         veh->turn( veh->last_turn > 0 ? 60 : -60 );
     } else {
-        int braking_power = abs( veh->velocity ) / 2 + 10 * 100;
-        if( abs( veh->velocity ) < braking_power ) {
+        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
+        if( std::abs( veh->velocity ) < braking_power ) {
             veh->stop();
         } else {
             int sgn = veh->velocity > 0 ? 1 : -1;
-            veh->velocity = sgn * ( abs( veh->velocity ) - braking_power );
+            veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
         }
     }
     g->u.moves = 0;
@@ -2298,7 +2298,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_SCORES:
-                show_scores_ui( stats(), get_kill_tracker() );
+                show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
                 break;
 
             case ACTION_FACTIONS:

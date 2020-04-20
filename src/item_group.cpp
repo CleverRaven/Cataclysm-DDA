@@ -282,7 +282,7 @@ void Item_modifier::modify( item &new_item ) const
         int charges_min = charges.first == -1 ? 0 : charges.first;
         int charges_max = charges.second == -1 ? max_capacity : charges.second;
 
-        if( charges_max != -1 ) {
+        if( charges_min == -1 && charges_max != -1 ) {
             charges_min = 0;
         }
 

@@ -1,5 +1,5 @@
-#ifndef CATA_ACHIEVEMENT_H
-#define CATA_ACHIEVEMENT_H
+#ifndef CATA_SRC_ACHIEVEMENT_H
+#define CATA_SRC_ACHIEVEMENT_H
 
 #include <list>
 #include <string>
@@ -14,7 +14,8 @@
 
 class JsonObject;
 struct achievement_requirement;
-class achievement_tracker;
+class achievements_tracker;
+class requirement_watcher;
 class stats_tracker;
 
 class achievement
@@ -63,6 +64,31 @@ struct achievement_state {
     void deserialize( JsonIn & );
 };
 
+class achievement_tracker
+{
+    public:
+        // Non-movable because requirement_watcher stores a pointer to us
+        achievement_tracker( const achievement_tracker & ) = delete;
+        achievement_tracker &operator=( const achievement_tracker & ) = delete;
+
+        achievement_tracker( const achievement &a, achievements_tracker &tracker,
+                             stats_tracker &stats );
+
+        void set_requirement( requirement_watcher *watcher, bool is_satisfied );
+
+        std::string ui_text( const achievement_state * ) const;
+    private:
+        const achievement *achievement_;
+        achievements_tracker *tracker_;
+        std::vector<std::unique_ptr<requirement_watcher>> watchers_;
+
+        // sorted_watchers_ maintains two sets of watchers, categorised by
+        // whether they watch a satisfied or unsatisfied requirement.  This
+        // allows us to check whether the achievment is met on each new stat
+        // value in O(1) time.
+        std::array<std::unordered_set<requirement_watcher *>, 2> sorted_watchers_;
+};
+
 class achievements_tracker : public event_subscriber
 {
     public:
@@ -79,6 +105,9 @@ class achievements_tracker : public event_subscriber
 
         void report_achievement( const achievement *, achievement_completion );
 
+        achievement_completion is_completed( const string_id<achievement> & ) const;
+        std::string ui_text_for( const achievement * ) const;
+
         void clear();
         void notify( const cata::event & ) override;
 
@@ -89,9 +118,9 @@ class achievements_tracker : public event_subscriber
 
         stats_tracker *stats_ = nullptr;
         std::function<void( const achievement * )> achievement_attained_callback_;
-        std::list<achievement_tracker> watchers_;
+        std::unordered_map<string_id<achievement>, achievement_tracker> watchers_;
         std::unordered_set<string_id<achievement>> initial_achievements_;
         std::unordered_map<string_id<achievement>, achievement_state> achievements_status_;
 };
 
-#endif // CATA_ACHIEVEMENT_H
+#endif // CATA_SRC_ACHIEVEMENT_H

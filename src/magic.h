@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAGIC_H
-#define MAGIC_H
+#ifndef CATA_SRC_MAGIC_H
+#define CATA_SRC_MAGIC_H
 
 #include <functional>
 #include <map>
@@ -26,7 +26,7 @@ class JsonIn;
 class JsonObject;
 class JsonOut;
 class nc_color;
-class player;
+class Character;
 class spell;
 class time_duration;
 namespace cata
@@ -316,9 +316,9 @@ class spell
         void gain_exp( int nxp );
         void set_exp( int nxp );
         // how much xp you get if you successfully cast the spell
-        int casting_exp( const player &p ) const;
+        int casting_exp( const Character &guy ) const;
         // modifier for gaining exp
-        float exp_modifier( const player &p ) const;
+        float exp_modifier( const Character &guy ) const;
         // level up!
         void gain_level();
         // is the spell at max level?
@@ -337,21 +337,21 @@ class spell
         // distance spell can be cast
         int range() const;
         // how much energy does the spell cost
-        int energy_cost( const player &p ) const;
+        int energy_cost( const Character &guy ) const;
         // how long does this spell's effect last
         int duration() const;
         time_duration duration_turns() const;
         // how often does the spell fail
         // based on difficulty, level of spell, spellcraft skill, intelligence
-        float spell_fail( const player &p ) const;
-        std::string colorized_fail_percent( const player &p ) const;
+        float spell_fail( const Character &guy ) const;
+        std::string colorized_fail_percent( const Character &guy ) const;
         // how long does it take to cast the spell
-        int casting_time( const player &p ) const;
+        int casting_time( const Character &guy ) const;
 
-        // can the player cast this spell?
-        bool can_cast( const player &p ) const;
-        // can the player learn this spell?
-        bool can_learn( const player &p ) const;
+        // can the Character cast this spell?
+        bool can_cast( const Character &guy ) const;
+        // can the Character learn this spell?
+        bool can_learn( const Character &guy ) const;
         // is this spell valid
         bool is_valid() const;
         // is the bodypart affected by the effect
@@ -384,9 +384,9 @@ class spell
         // energy source as a string (translated)
         std::string energy_string() const;
         // energy cost returned as a string
-        std::string energy_cost_string( const player &p ) const;
-        // current energy the player has available as a string
-        std::string energy_cur_string( const player &p ) const;
+        std::string energy_cost_string( const Character &guy ) const;
+        // current energy the Character has available as a string
+        std::string energy_cur_string( const Character &guy ) const;
         // prints out a list of valid targets separated by commas
         std::string enumerate_targets() const;
         // returns the name string of all list of all targeted monster id
@@ -413,7 +413,7 @@ class spell
         // makes a spell sound at the location
         void make_sound( const tripoint &target ) const;
         void make_sound( const tripoint &target, int loudness ) const;
-        // heals the critter at the location, returns amount healed (player heals each body part)
+        // heals the critter at the location, returns amount healed (Character heals each body part)
         int heal( const tripoint &target ) const;
 
         // casts the spell effect. returns true if successful
@@ -442,7 +442,7 @@ class known_magic
         std::map<spell_id, spell> spellbook;
         // invlets assigned to spell_id
         std::map<spell_id, int> invlets;
-        // the base mana a player would start with
+        // the base mana a Character would start with
         int mana_base = 0;
         // current mana
         int mana = 0;
@@ -452,40 +452,40 @@ class known_magic
 
         known_magic();
 
-        void learn_spell( const std::string &sp, player &p, bool force = false );
-        void learn_spell( const spell_id &sp, player &p, bool force = false );
-        void learn_spell( const spell_type *sp, player &p, bool force = false );
+        void learn_spell( const std::string &sp, Character &guy, bool force = false );
+        void learn_spell( const spell_id &sp, Character &guy, bool force = false );
+        void learn_spell( const spell_type *sp, Character &guy, bool force = false );
         void forget_spell( const std::string &sp );
         void forget_spell( const spell_id &sp );
-        // time in moves for the player to memorize the spell
-        int time_to_learn_spell( const player &p, const spell_id &sp ) const;
-        int time_to_learn_spell( const player &p, const std::string &str ) const;
-        bool can_learn_spell( const player &p, const spell_id &sp ) const;
+        // time in moves for the Character to memorize the spell
+        int time_to_learn_spell( const Character &guy, const spell_id &sp ) const;
+        int time_to_learn_spell( const Character &guy, const std::string &str ) const;
+        bool can_learn_spell( const Character &guy, const spell_id &sp ) const;
         bool knows_spell( const std::string &sp ) const;
         bool knows_spell( const spell_id &sp ) const;
-        // does the player know a spell?
+        // does the Character know a spell?
         bool knows_spell() const;
-        // spells known by player
+        // spells known by Character
         std::vector<spell_id> spells() const;
         // gets the spell associated with the spell_id to be edited
         spell &get_spell( const spell_id &sp );
-        // opens up a ui that the player can choose a spell from
+        // opens up a ui that the Character can choose a spell from
         // returns the index of the spell in the vector of spells
-        int select_spell( const player &p );
+        int select_spell( const Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
         // how much mana is available to use to cast spells
         int available_mana() const;
         // max mana vailable
-        int max_mana( const player &p ) const;
-        void mod_mana( const player &p, int add_mana );
+        int max_mana( const Character &guy ) const;
+        void mod_mana( const Character &guy, int add_mana );
         void set_mana( int new_mana );
-        void update_mana( const player &p, float turns );
-        // does the player have enough energy to cast this spell?
+        void update_mana( const Character &guy, float turns );
+        // does the Character have enough energy to cast this spell?
         // not specific to mana
-        bool has_enough_energy( const player &p, spell &sp ) const;
+        bool has_enough_energy( const Character &guy, spell &sp ) const;
 
-        void on_mutation_gain( const trait_id &mid, player &p );
+        void on_mutation_gain( const trait_id &mid, Character &guy );
         void on_mutation_loss( const trait_id &mid );
 
         void serialize( JsonOut &json ) const;
@@ -609,4 +609,4 @@ struct area_expander {
     void sort_descending();
 };
 
-#endif
+#endif // CATA_SRC_MAGIC_H

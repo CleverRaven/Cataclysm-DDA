@@ -1,6 +1,6 @@
 #pragma once
-#ifndef RECT_RANGE_H
-#define RECT_RANGE_H
+#ifndef CATA_SRC_RECT_RANGE_H
+#define CATA_SRC_RECT_RANGE_H
 
 // This is a template parameter, it's usually SDL_Rect, but that way the class
 // can be used without include any SDL header.
@@ -59,4 +59,4 @@ class rect_range
         }
 };
 
-#endif
+#endif // CATA_SRC_RECT_RANGE_H

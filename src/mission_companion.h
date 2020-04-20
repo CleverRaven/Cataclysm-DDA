@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MISSION_COMPANION_H
-#define MISSION_COMPANION_H
+#ifndef CATA_SRC_MISSION_COMPANION_H
+#define CATA_SRC_MISSION_COMPANION_H
 
 #include <map>
 #include <string>
@@ -150,4 +150,4 @@ void companion_return( npc &comp );
 void loot_building( const tripoint &site );
 
 } // namespace talk_function
-#endif
+#endif // CATA_SRC_MISSION_COMPANION_H

@@ -235,7 +235,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
         standard_npc who( "helper" );
 
         who.set_attitude( NPCATT_FOLLOW );
-        who.spawn_at_sm( 0, 0, 0 );
+        who.spawn_at_sm( tripoint_zero );
 
         g->load_npcs();
 
@@ -378,7 +378,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.emplace_back( "soldering_iron", -1, 20 );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
-                actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                int turns = actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                CAPTURE( turns );
                 CHECK( get_remaining_charges( "hotplate" ) == 10 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
             }

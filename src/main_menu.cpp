@@ -820,19 +820,19 @@ bool main_menu::new_character_tab()
                         debugmsg( "Error: %s", err.what() );
                         continue;
                     }
-                    character_type play_type = PLTYPE_CUSTOM;
+                    character_type play_type = character_type::CUSTOM;
                     switch( sel2 ) {
                         case 0:
-                            play_type = PLTYPE_CUSTOM;
+                            play_type = character_type::CUSTOM;
                             break;
                         case 2:
-                            play_type = PLTYPE_RANDOM;
+                            play_type = character_type::RANDOM;
                             break;
                         case 3:
-                            play_type = PLTYPE_NOW;
+                            play_type = character_type::NOW;
                             break;
                         case 4:
-                            play_type = PLTYPE_FULL_RANDOM;
+                            play_type = character_type::FULL_RANDOM;
                             break;
                     }
                     if( !g->u.create( play_type ) ) {
@@ -906,7 +906,7 @@ bool main_menu::new_character_tab()
                     debugmsg( "Error: %s", err.what() );
                     continue;
                 }
-                if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
+                if( !g->u.create( character_type::TEMPLATE, templates[sel3] ) ) {
                     load_char_templates();
                     MAPBUFFER.reset();
                     overmap_buffer.clear();

@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "afs_material_1",
     "copy-from": "afs_scrap_1",
-    "name": "composite alloy",
+    "name": { "str": "composite alloy" },
     "description": "Miscellaneous scrap pieces made from a composite alloy.",
     "looks_like": "scrap"
   },
@@ -11,7 +11,7 @@
     "type": "GENERIC",
     "id": "afs_material_2",
     "copy-from": "afs_scrap_2",
-    "name": "vacuum cast carbide",
+    "name": { "str": "vacuum cast carbide" },
     "description": "Malleable carbide cast by forges on high earth orbit.",
     "looks_like": "scrap"
   },
@@ -19,7 +19,7 @@
     "type": "GENERIC",
     "id": "afs_material_3",
     "copy-from": "afs_scrap_1",
-    "name": "nanoprinted alloy",
+    "name": { "str": "nanoprinted alloy" },
     "description": "A meta material fabricated by precisely layering different elements at an atomic scale.",
     "looks_like": "scrap"
   },
@@ -27,7 +27,7 @@
     "type": "GENERIC",
     "id": "afs_material_4",
     "copy-from": "afs_scrap_4",
-    "name": "crystal forged neutrite",
+    "name": { "str": "crystal forged neutrite" },
     "description": "Great forges within the Earth's core wrought hydrogen into flaming metal and poured it within lattices of super conductive lanthanum.  Locked in magnetic equilibrium, it was left to cool into a dark unbreakable metal",
     "looks_like": "scrap"
   },
@@ -35,7 +35,7 @@
     "type": "GENERIC",
     "id": "afs_material_5",
     "copy-from": "afs_scrap_5",
-    "name": "phase uneven matter",
+    "name": { "str": "phase uneven matter" },
     "description": "Matter condensed from the liminal spaces between dimmensions.",
     "looks_like": "scrap"
   }

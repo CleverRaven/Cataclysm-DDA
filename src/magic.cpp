@@ -38,7 +38,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "output.h"
-#include "player.h"
+#include "character.h"
 #include "pldata.h"
 #include "point.h"
 #include "rng.h"
@@ -504,7 +504,7 @@ std::string spell::damage_string() const
         if( dmg >= 0 ) {
             return string_format( "%d", dmg );
         } else {
-            return string_format( "+%d", abs( dmg ) );
+            return string_format( "+%d", std::abs( dmg ) );
         }
     }
 }
@@ -603,29 +603,29 @@ bool spell::is_max_level() const
     return get_level() >= type->max_level;
 }
 
-bool spell::can_learn( const player &p ) const
+bool spell::can_learn( const Character &guy ) const
 {
     if( type->spell_class == trait_NONE ) {
         return true;
     }
-    return p.has_trait( type->spell_class );
+    return guy.has_trait( type->spell_class );
 }
 
-int spell::energy_cost( const player &p ) const
+int spell::energy_cost( const Character &guy ) const
 {
     int cost;
     if( type->base_energy_cost < type->final_energy_cost ) {
         cost = std::min( type->final_energy_cost,
-                         static_cast<int>( round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
+                         static_cast<int>( std::round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else if( type->base_energy_cost > type->final_energy_cost ) {
         cost = std::max( type->final_energy_cost,
-                         static_cast<int>( round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
+                         static_cast<int>( std::round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else {
         cost = type->base_energy_cost;
     }
     if( !has_flag( spell_flag::NO_HANDS ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
-        const int hands_encumb = std::max( 0, p.encumb( bp_hand_l ) + p.encumb( bp_hand_r ) - 10 );
+        const int hands_encumb = std::max( 0, guy.encumb( bp_hand_l ) + guy.encumb( bp_hand_r ) - 10 );
         switch( type->energy_source ) {
             default:
                 cost += 10 * hands_encumb;
@@ -651,25 +651,25 @@ bool spell::is_spell_class( const trait_id &mid ) const
     return mid == type->spell_class;
 }
 
-bool spell::can_cast( const player &p ) const
+bool spell::can_cast( const Character &guy ) const
 {
     switch( type->energy_source ) {
         case mana_energy:
-            return p.magic.available_mana() >= energy_cost( p );
+            return guy.magic.available_mana() >= energy_cost( guy );
         case stamina_energy:
-            return p.get_stamina() >= energy_cost( p );
+            return guy.get_stamina() >= energy_cost( guy );
         case hp_energy: {
             for( int i = 0; i < num_hp_parts; i++ ) {
-                if( energy_cost( p ) < p.hp_cur[i] ) {
+                if( energy_cost( guy ) < guy.hp_cur[i] ) {
                     return true;
                 }
             }
             return false;
         }
         case bionic_energy:
-            return p.get_power_level() >= units::from_kilojoule( energy_cost( p ) );
+            return guy.get_power_level() >= units::from_kilojoule( energy_cost( guy ) );
         case fatigue_energy:
-            return p.get_fatigue() < EXHAUSTED;
+            return guy.get_fatigue() < EXHAUSTED;
         case none_energy:
         default:
             return true;
@@ -681,27 +681,29 @@ int spell::get_difficulty() const
     return type->difficulty;
 }
 
-int spell::casting_time( const player &p ) const
+int spell::casting_time( const Character &guy ) const
 {
     // casting time in moves
     int casting_time = 0;
     if( type->base_casting_time < type->final_casting_time ) {
         casting_time = std::min( type->final_casting_time,
-                                 static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
+                                 static_cast<int>( std::round( type->base_casting_time + type->casting_time_increment *
+                                         get_level() ) ) );
     } else if( type->base_casting_time > type->final_casting_time ) {
         casting_time = std::max( type->final_casting_time,
-                                 static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
+                                 static_cast<int>( std::round( type->base_casting_time + type->casting_time_increment *
+                                         get_level() ) ) );
     } else {
         casting_time = type->base_casting_time;
     }
     if( !has_flag( spell_flag::NO_LEGS ) ) {
         // the first 20 points of encumbrance combined is ignored
-        const int legs_encumb = std::max( 0, p.encumb( bp_leg_l ) + p.encumb( bp_leg_r ) - 20 );
+        const int legs_encumb = std::max( 0, guy.encumb( bp_leg_l ) + guy.encumb( bp_leg_r ) - 20 );
         casting_time += legs_encumb * 3;
     }
     if( has_flag( spell_flag::SOMATIC ) ) {
         // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
+        const int arms_encumb = std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
         casting_time += arms_encumb * 2;
     }
     return casting_time;
@@ -720,46 +722,46 @@ std::string spell::message() const
     return type->message.translated();
 }
 
-float spell::spell_fail( const player &p ) const
+float spell::spell_fail( const Character &guy ) const
 {
     // formula is based on the following:
     // exponential curve
     // effective skill of 0 or less is 100% failure
     // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
-    const float effective_skill = 2 * ( get_level() - get_difficulty() ) + p.get_int() +
-                                  p.get_skill_level( skill() );
+    const float effective_skill = 2 * ( get_level() - get_difficulty() ) + guy.get_int() +
+                                  guy.get_skill_level( skill() );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
     } else if( effective_skill < 0.0f ) {
         return 1.0f;
     }
-    float fail_chance = pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    if( has_flag( spell_flag::SOMATIC ) && !p.has_trait_flag( "SUBTLE_SPELL" ) ) {
+    float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
+    if( has_flag( spell_flag::SOMATIC ) && !guy.has_trait_flag( "SUBTLE_SPELL" ) ) {
         // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
+        const int arms_encumb = std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
-    if( has_flag( spell_flag::VERBAL ) && !p.has_trait_flag( "SILENT_SPELL" ) ) {
+    if( has_flag( spell_flag::VERBAL ) && !guy.has_trait_flag( "SILENT_SPELL" ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
-        const int mouth_encumb = std::max( 0, p.encumb( bp_mouth ) - 5 );
+        const int mouth_encumb = std::max( 0, guy.encumb( bp_mouth ) - 5 );
         fail_chance += mouth_encumb / 100.0f;
     }
     // concentration spells work better than you'd expect with a higher focus pool
     if( has_flag( spell_flag::CONCENTRATE ) ) {
-        if( p.focus_pool <= 0 ) {
+        if( guy.focus_pool <= 0 ) {
             return 0.0f;
         }
-        fail_chance /= p.focus_pool / 100.0f;
+        fail_chance /= guy.focus_pool / 100.0f;
     }
     return clamp( fail_chance, 0.0f, 1.0f );
 }
 
-std::string spell::colorized_fail_percent( const player &p ) const
+std::string spell::colorized_fail_percent( const Character &guy ) const
 {
-    const float fail_fl = spell_fail( p ) * 100.0f;
+    const float fail_fl = spell_fail( guy ) * 100.0f;
     std::string fail_str;
     fail_fl == 100.0f ? fail_str = _( "Too Difficult!" ) : fail_str = string_format( "%.1f %% %s",
                                    fail_fl, _( "Failure Chance" ) );
@@ -813,49 +815,49 @@ std::string spell::energy_string() const
     }
 }
 
-std::string spell::energy_cost_string( const player &p ) const
+std::string spell::energy_cost_string( const Character &guy ) const
 {
     if( energy_source() == none_energy ) {
         return _( "none" );
     }
     if( energy_source() == bionic_energy || energy_source() == mana_energy ) {
-        return colorize( to_string( energy_cost( p ) ), c_light_blue );
+        return colorize( to_string( energy_cost( guy ) ), c_light_blue );
     }
     if( energy_source() == hp_energy ) {
-        auto pair = get_hp_bar( energy_cost( p ), p.get_hp_max() / num_hp_parts );
+        auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() / num_hp_parts );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == stamina_energy ) {
-        auto pair = get_hp_bar( energy_cost( p ), p.get_stamina_max() );
+        auto pair = get_hp_bar( energy_cost( guy ), guy.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == fatigue_energy ) {
-        return colorize( to_string( energy_cost( p ) ), c_cyan );
+        return colorize( to_string( energy_cost( guy ) ), c_cyan );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
 }
 
-std::string spell::energy_cur_string( const player &p ) const
+std::string spell::energy_cur_string( const Character &guy ) const
 {
     if( energy_source() == none_energy ) {
         return _( "infinite" );
     }
     if( energy_source() == bionic_energy ) {
-        return colorize( to_string( units::to_kilojoule( p.get_power_level() ) ), c_light_blue );
+        return colorize( to_string( units::to_kilojoule( guy.get_power_level() ) ), c_light_blue );
     }
     if( energy_source() == mana_energy ) {
-        return colorize( to_string( p.magic.available_mana() ), c_light_blue );
+        return colorize( to_string( guy.magic.available_mana() ), c_light_blue );
     }
     if( energy_source() == stamina_energy ) {
-        auto pair = get_hp_bar( p.get_stamina(), p.get_stamina_max() );
+        auto pair = get_hp_bar( guy.get_stamina(), guy.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == hp_energy ) {
         return "";
     }
     if( energy_source() == fatigue_energy ) {
-        const std::pair<std::string, nc_color> pair = p.get_fatigue_description();
+        const std::pair<std::string, nc_color> pair = guy.get_fatigue_description();
         return colorize( pair.first, pair.second );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
@@ -895,7 +897,7 @@ void spell::create_field( const tripoint &at ) const
 void spell::make_sound( const tripoint &target ) const
 {
     if( !has_flag( spell_flag::SILENT ) ) {
-        int loudness = abs( damage() ) / 3;
+        int loudness = std::abs( damage() ) / 3;
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }
@@ -1009,7 +1011,7 @@ constexpr float c = -62.5;
 int spell::get_level() const
 {
     // you aren't at the next level unless you have the requisite xp, so floor
-    return std::max( static_cast<int>( floor( log( experience + a ) / b + c ) ), 0 );
+    return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
 
 int spell::get_max_level() const
@@ -1026,7 +1028,7 @@ static int exp_for_level( int level )
     if( level == 0 ) {
         return 0;
     }
-    return ceil( exp( ( level - c ) * b ) ) - a;
+    return std::ceil( std::exp( ( level - c ) * b ) ) - a;
 }
 
 int spell::exp_to_next_level() const
@@ -1042,24 +1044,24 @@ std::string spell::exp_progress() const
     const int denominator = next_level_xp - this_level_xp;
     const float progress = static_cast<float>( xp() - this_level_xp ) / std::max( 1.0f,
                            static_cast<float>( denominator ) );
-    return string_format( "%i%%", clamp( static_cast<int>( round( progress * 100 ) ), 0, 99 ) );
+    return string_format( "%i%%", clamp( static_cast<int>( std::round( progress * 100 ) ), 0, 99 ) );
 }
 
-float spell::exp_modifier( const player &p ) const
+float spell::exp_modifier( const Character &guy ) const
 {
-    const float int_modifier = ( p.get_int() - 8.0f ) / 8.0f;
+    const float int_modifier = ( guy.get_int() - 8.0f ) / 8.0f;
     const float difficulty_modifier = get_difficulty() / 20.0f;
-    const float spellcraft_modifier = p.get_skill_level( skill() ) / 10.0f;
+    const float spellcraft_modifier = guy.get_skill_level( skill() ) / 10.0f;
 
     return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
 }
 
-int spell::casting_exp( const player &p ) const
+int spell::casting_exp( const Character &guy ) const
 {
     // the amount of xp you would get with no modifiers
     const int base_casting_xp = 75;
 
-    return round( p.adjust_for_focus( base_casting_xp * exp_modifier( p ) ) );
+    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
 }
 
 std::string spell::enumerate_targets() const
@@ -1140,7 +1142,7 @@ int spell::heal( const tripoint &target ) const
     if( mon ) {
         return mon->heal( -damage() );
     }
-    player *const p = g->critter_at<player>( target );
+    Character *const p = g->critter_at<Character>( target );
     if( p ) {
         p->healall( -damage() );
         return -damage();
@@ -1157,7 +1159,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
 {
     if( has_flag( spell_flag::WONDER ) ) {
         const auto iter = type->additional_spells.begin();
-        for( int num_spells = abs( damage() ); num_spells > 0; num_spells-- ) {
+        for( int num_spells = std::abs( damage() ); num_spells > 0; num_spells-- ) {
             if( type->additional_spells.empty() ) {
                 debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", type->id.c_str() );
                 return;
@@ -1281,23 +1283,23 @@ bool known_magic::knows_spell() const
     return !spellbook.empty();
 }
 
-void known_magic::learn_spell( const std::string &sp, player &p, bool force )
+void known_magic::learn_spell( const std::string &sp, Character &guy, bool force )
 {
-    learn_spell( spell_id( sp ), p, force );
+    learn_spell( spell_id( sp ), guy, force );
 }
 
-void known_magic::learn_spell( const spell_id &sp, player &p, bool force )
+void known_magic::learn_spell( const spell_id &sp, Character &guy, bool force )
 {
-    learn_spell( &sp.obj(), p, force );
+    learn_spell( &sp.obj(), guy, force );
 }
 
-void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
+void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force )
 {
     if( !sp->is_valid() ) {
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    if( p.magic.knows_spell( sp->id ) ) {
+    if( guy.magic.knows_spell( sp->id ) ) {
         // you already know the spell
         return;
     }
@@ -1307,7 +1309,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
         return;
     }
     if( !force && sp->spell_class != trait_NONE ) {
-        if( can_learn_spell( p, sp->id ) && !p.has_trait( sp->spell_class ) ) {
+        if( can_learn_spell( guy, sp->id ) && !guy.has_trait( sp->spell_class ) ) {
             std::string trait_cancel;
             for( const trait_id &cancel : sp->spell_class->cancels ) {
                 if( cancel == sp->spell_class->cancels.back() &&
@@ -1328,19 +1330,19 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
             if( query_yn(
                     _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
                     sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
-                p.set_mutation( sp->spell_class );
-                p.on_mutation_gain( sp->spell_class );
-                p.add_msg_if_player( sp->spell_class.obj().desc() );
+                guy.set_mutation( sp->spell_class );
+                guy.on_mutation_gain( sp->spell_class );
+                guy.add_msg_if_player( sp->spell_class.obj().desc() );
             } else {
                 return;
             }
         }
     }
-    if( force || can_learn_spell( p, sp->id ) ) {
+    if( force || can_learn_spell( guy, sp->id ) ) {
         spellbook.emplace( sp->id, temp_spell );
-        p.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name );
+        guy.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name );
     } else {
-        p.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
+        guy.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
     }
 }
 
@@ -1359,13 +1361,13 @@ void known_magic::forget_spell( const spell_id &sp )
     spellbook.erase( sp );
 }
 
-bool known_magic::can_learn_spell( const player &p, const spell_id &sp ) const
+bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const
 {
     const spell_type &sp_t = sp.obj();
     if( sp_t.spell_class == trait_NONE ) {
         return true;
     }
-    return !p.has_opposite_trait( sp_t.spell_class );
+    return !guy.has_opposite_trait( sp_t.spell_class );
 }
 
 spell &known_magic::get_spell( const spell_id &sp )
@@ -1396,27 +1398,27 @@ void known_magic::set_mana( int new_mana )
     mana = new_mana;
 }
 
-void known_magic::mod_mana( const player &p, int add_mana )
+void known_magic::mod_mana( const Character &guy, int add_mana )
 {
-    set_mana( clamp( mana + add_mana, 0, max_mana( p ) ) );
+    set_mana( clamp( mana + add_mana, 0, max_mana( guy ) ) );
 }
 
-int known_magic::max_mana( const player &p ) const
+int known_magic::max_mana( const Character &guy ) const
 {
-    const float int_bonus = ( ( 0.2f + p.get_int() * 0.1f ) - 1.0f ) * mana_base;
+    const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
     const float unaugmented_mana = std::max( 0.0f,
-                                   ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
-                                   p.mutation_value( "mana_modifier" ) - units::to_kilojoule( p.get_power_level() ) );
-    return p.calculate_by_enchantment( unaugmented_mana, enchantment::mod::MAX_MANA, true );
+                                   ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
+                                   guy.mutation_value( "mana_modifier" ) - units::to_kilojoule( guy.get_power_level() ) );
+    return guy.calculate_by_enchantment( unaugmented_mana, enchantment::mod::MAX_MANA, true );
 }
 
-void known_magic::update_mana( const player &p, float turns )
+void known_magic::update_mana( const Character &guy, float turns )
 {
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, std::floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
-                             p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
+    mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( max_mana( guy ) *
+                               guy.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -1428,26 +1430,26 @@ std::vector<spell_id> known_magic::spells() const
     return spell_ids;
 }
 
-// does the player have enough energy (of the type of the spell) to cast the spell?
-bool known_magic::has_enough_energy( const player &p, spell &sp ) const
+// does the Character have enough energy (of the type of the spell) to cast the spell?
+bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
 {
-    int cost = sp.energy_cost( p );
+    int cost = sp.energy_cost( guy );
     switch( sp.energy_source() ) {
         case mana_energy:
             return available_mana() >= cost;
         case bionic_energy:
-            return p.get_power_level() >= units::from_kilojoule( cost );
+            return guy.get_power_level() >= units::from_kilojoule( cost );
         case stamina_energy:
-            return p.get_stamina() >= cost;
+            return guy.get_stamina() >= cost;
         case hp_energy:
             for( int i = 0; i < num_hp_parts; i++ ) {
-                if( p.hp_cur[i] > cost ) {
+                if( guy.hp_cur[i] > cost ) {
                     return true;
                 }
             }
             return false;
         case fatigue_energy:
-            return p.get_fatigue() < EXHAUSTED;
+            return guy.get_fatigue() < EXHAUSTED;
         case none_energy:
             return true;
         default:
@@ -1455,16 +1457,16 @@ bool known_magic::has_enough_energy( const player &p, spell &sp ) const
     }
 }
 
-int known_magic::time_to_learn_spell( const player &p, const std::string &str ) const
+int known_magic::time_to_learn_spell( const Character &guy, const std::string &str ) const
 {
-    return time_to_learn_spell( p, spell_id( str ) );
+    return time_to_learn_spell( guy, spell_id( str ) );
 }
 
-int known_magic::time_to_learn_spell( const player &p, const spell_id &sp ) const
+int known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const
 {
     const int base_time = to_moves<int>( 30_minutes );
-    return base_time * ( 1.0 + sp->difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
-                         ( p.get_skill_level( sp->skill ) / 10.0 ) );
+    return base_time * ( 1.0 + sp->difficulty / ( 1.0 + ( guy.get_int() - 8.0 ) / 8.0 ) +
+                         ( guy.get_skill_level( sp->skill ) / 10.0 ) );
 }
 
 int known_magic::get_spellname_max_width()
@@ -1534,24 +1536,24 @@ class spellcasting_callback : public uilist_callback
         }
 };
 
-static bool casting_time_encumbered( const spell &sp, const player &p )
+static bool casting_time_encumbered( const spell &sp, const Character &guy )
 {
     int encumb = 0;
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, p.encumb( bp_leg_l ) + p.encumb( bp_leg_r ) - 20 );
+        encumb += std::max( 0, guy.encumb( bp_leg_l ) + guy.encumb( bp_leg_r ) - 20 );
     }
     if( sp.has_flag( spell_flag::SOMATIC ) ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
+        encumb += std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
     }
     return encumb > 0;
 }
 
-static bool energy_cost_encumbered( const spell &sp, const player &p )
+static bool energy_cost_encumbered( const spell &sp, const Character &guy )
 {
     if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
-        return std::max( 0, p.encumb( bp_hand_l ) + p.encumb( bp_hand_r ) - 10 ) > 0;
+        return std::max( 0, guy.encumb( bp_hand_l ) + guy.encumb( bp_hand_r ) - 10 ) > 0;
     }
     return false;
 }
@@ -1771,7 +1773,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     return 0;
 }
 
-int known_magic::select_spell( const player &p )
+int known_magic::select_spell( const Character &guy )
 {
     // max width of spell names
     const int max_spell_name_length = get_spellname_max_width();
@@ -1791,7 +1793,7 @@ int known_magic::select_spell( const player &p )
     std::set<int> used_invlets{ cb.reserved_invlets };
 
     for( size_t i = 0; i < known_spells.size(); i++ ) {
-        spell_menu.addentry( static_cast<int>( i ), known_spells[i]->can_cast( p ),
+        spell_menu.addentry( static_cast<int>( i ), known_spells[i]->can_cast( guy ),
                              get_invlet( known_spells[i]->id(), used_invlets ), known_spells[i]->name() );
     }
 
@@ -1802,10 +1804,10 @@ int known_magic::select_spell( const player &p )
     return spell_menu.ret;
 }
 
-void known_magic::on_mutation_gain( const trait_id &mid, player &p )
+void known_magic::on_mutation_gain( const trait_id &mid, Character &guy )
 {
     for( const std::pair<const spell_id, int> &sp : mid->spells_learned ) {
-        learn_spell( sp.first, p, true );
+        learn_spell( sp.first, guy, true );
         spell &temp_sp = get_spell( sp.first );
         for( int level = 0; level < sp.second; level++ ) {
             temp_sp.gain_level();

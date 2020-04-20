@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CONSTRUCTION_H
-#define CONSTRUCTION_H
+#ifndef CATA_SRC_CONSTRUCTION_H
+#define CATA_SRC_CONSTRUCTION_H
 
 #include <algorithm>
 #include <functional>
@@ -94,7 +94,7 @@ struct construction {
 
         // NPC assistance adjusted
         int adjusted_time() const;
-        int print_time( const catacurses::window &w, int ypos, int xpos, int width, nc_color col ) const;
+        int print_time( const catacurses::window &w, const point &, int width, nc_color col ) const;
         std::vector<std::string> get_folded_time_string( int width ) const;
         // Result of construction scaling option
         float time_scale() const;
@@ -126,4 +126,4 @@ void finalize_constructions();
 void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
                                       std::map<furn_id, int>> &changed_ids,
                                       build_reqs &total_reqs );
-#endif
+#endif // CATA_SRC_CONSTRUCTION_H

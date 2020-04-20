@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TYPE_ID_H
-#define TYPE_ID_H
+#ifndef CATA_SRC_TYPE_ID_H
+#define CATA_SRC_TYPE_ID_H
 
 #include "int_id.h"
 #include "string_id.h"
@@ -170,4 +170,4 @@ struct construction;
 using construction_id = int_id<construction>;
 using construction_str_id = string_id<construction>;
 
-#endif // TYPE_ID_H
+#endif // CATA_SRC_TYPE_ID_H

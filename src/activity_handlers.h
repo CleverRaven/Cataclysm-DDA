@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ACTIVITY_HANDLERS_H
-#define ACTIVITY_HANDLERS_H
+#ifndef CATA_SRC_ACTIVITY_HANDLERS_H
+#define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
 #include <list>
@@ -37,7 +37,7 @@ enum butcher_type : int {
     DISSECT         // dissect a corpse for CBMs
 };
 
-enum do_activity_reason : int {
+enum class do_activity_reason : int {
     CAN_DO_CONSTRUCTION,    // Can do construction.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
     CAN_DO_PREREQ,          // for constructions - can't build the main construction, but can build the pre-req
@@ -121,20 +121,6 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
 
 namespace activity_handlers
 {
-
-enum hack_result {
-    HACK_UNABLE,
-    HACK_FAIL,
-    HACK_NOTHING,
-    HACK_SUCCESS
-};
-
-enum hack_type {
-    HACK_SAFE,
-    HACK_DOOR,
-    HACK_GAS,
-    HACK_NULL
-};
 
 bool resume_for_multi_activities( player &p );
 /** activity_do_turn functions: */
@@ -226,6 +212,7 @@ void churn_finish( player_activity *act, player *p );
 void plant_seed_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
+void lockpicking_finish( player_activity *act, player *p );
 void open_gate_finish( player_activity *act, player * );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
@@ -264,7 +251,6 @@ void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void mind_splicer_finish( player_activity *act, player *p );
-void hacking_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );
 void study_spell_finish( player_activity *act, player *p );
 
@@ -276,4 +262,4 @@ finish_functions;
 
 } // namespace activity_handlers
 
-#endif
+#endif // CATA_SRC_ACTIVITY_HANDLERS_H

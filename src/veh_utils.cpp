@@ -52,8 +52,8 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
     //   5:  3 xp /h
     //   6:  2 xp /h
     //  7+:  1 xp /h
-    return std::ceil( static_cast<double>( vp.install_moves ) / to_moves<int>( 1_minutes * pow( lvl,
-                      2 ) ) );
+    return std::ceil( static_cast<double>( vp.install_moves ) /
+                      to_moves<int>( 1_minutes * std::pow( lvl, 2 ) ) );
 }
 
 vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_repairable )

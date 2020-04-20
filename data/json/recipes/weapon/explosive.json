@@ -87,18 +87,27 @@
   },
   {
     "type": "recipe",
-    "result": "fertilizer_bomb",
+    "result": "improvised_demolition_charge",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "cooking",
-    "skills_required": [ "survival", 2 ],
+    "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "5 m",
     "autolearn": true,
-    "book_learn": [ [ "adv_chemistry", 2 ], [ "textbook_chemistry", 2 ], [ "recipe_labchem", 3 ], [ "atomic_survival", 2 ] ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "using": [ [ "volatile_explosive", 1 ], [ "stable_explosive", 17 ] ],
-    "components": [ [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ], [ [ "fuse", 1 ] ] ]
+    "using": [ [ "volatile_explosive", 5 ], [ "stable_explosive", 145 ] ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_demolition_charge",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "using": [ [ "volatile_explosive", 150 ] ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "result": "flashbang",
@@ -209,21 +218,8 @@
     "time": "30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "rag", 1 ] ],
-      [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ],
-      [
-        [ "gasoline", 500 ],
-        [ "diesel", 500 ],
-        [ "biodiesel", 500 ],
-        [ "chem_ethanol", 500 ],
-        [ "chem_methanol", 500 ],
-        [ "ether", 500 ],
-        [ "denat_alcohol", 500 ],
-        [ "lamp_oil", 500 ],
-        [ "motor_oil", 500 ]
-      ]
-    ]
+    "using": [ [ "accelerant_liquid", 500 ] ],
+    "components": [ [ [ "rag", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ] ]
   },
   {
     "result": "nail_bomb",
