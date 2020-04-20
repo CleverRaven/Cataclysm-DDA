@@ -329,7 +329,7 @@
   {
     "type": "GENERIC",
     "id": "naginata",
-    "name": { "str": "naginata", "str_pl": "naginata" },
+    "name": { "str_sp": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  Occasionally used by samurai in early periods, or by their wives in defense of the household.",
     "weight": "1700 g",
     "to_hit": 2,
@@ -348,7 +348,7 @@
   {
     "type": "GENERIC",
     "id": "naginata_inferior",
-    "name": { "str": "naginata", "str_pl": "naginata" },
+    "name": { "str_sp": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  This one has a bit of wiggle to its blade and feels a bit shoddily made.",
     "weight": "1700 g",
     "color": "light_gray",
@@ -367,7 +367,7 @@
   {
     "type": "GENERIC",
     "id": "naginata_fake",
-    "name": { "str": "naginata", "str_pl": "naginata" },
+    "name": { "str_sp": "naginata" },
     "description": "This is a dull, slightly floppy replica of a Japanese polearm with a curved blade.  With a little difficulty, you could use it administer a solid slap from a distance.",
     "weight": "1400 g",
     "color": "light_gray",
@@ -385,7 +385,7 @@
   {
     "type": "GENERIC",
     "id": "spear_survivor",
-    "name": { "str": "survivor naginata", "str_pl": "survivor naginata" },
+    "name": { "str_sp": "survivor naginata" },
     "description": "This sturdy steel shaft with a sword blade at the end is good for both slashing and stabbing.",
     "weight": "1700 g",
     "to_hit": 2,
@@ -545,7 +545,7 @@
   {
     "id": "ji",
     "type": "GENERIC",
-    "name": { "str": "ji", "str_pl": "ji" },
+    "name": { "str_sp": "ji" },
     "//": "Couldn't find a good way to pluralize the transliteration.",
     "description": "This is a bronze polearm that originated in the Shang dynasty of China, if not earlier.  It combines a spear head with the perpendicular blade of the earlier ge or dagger-axe.",
     "weight": "3175 g",

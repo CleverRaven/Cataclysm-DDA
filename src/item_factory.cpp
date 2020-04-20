@@ -2232,12 +2232,44 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
+    // NOTE: please also change `needs_plural` in `lang/extract_json_string.py`
+    // when changing this list
+    static const std::set<std::string> needs_plural = {
+        "AMMO",
+        "ARMOR",
+        "BATTERY",
+        "BIONIC_ITEM",
+        "BOOK",
+        "COMESTIBLE",
+        "CONTAINER",
+        "ENGINE",
+        "GENERIC",
+        "GUN",
+        "GUNMOD",
+        "MAGAZINE",
+        "PET_ARMOR",
+        "TOOL",
+        "TOOLMOD",
+        "TOOL_ARMOR",
+        "WHEEL",
+    };
     if( jo.has_member( "name_plural" ) ) {
+        if( needs_plural.find( jo.get_string( "type" ) ) == needs_plural.end() ) {
+            try {
+                jo.throw_error( "name_plural not allowed for this object type", "name_plural" );
+            } catch( const JsonError &e ) {
+                debugmsg( "\n%s", e.what() );
+            }
+        }
         // legacy format
         // NOLINTNEXTLINE(cata-json-translation-input)
         def.name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
     } else {
-        def.name = translation( translation::plural_tag() );
+        if( needs_plural.find( jo.get_string( "type" ) ) != needs_plural.end() ) {
+            def.name = translation( translation::plural_tag() );
+        } else {
+            def.name = translation();
+        }
         if( !jo.read( "name", def.name ) ) {
             jo.throw_error( "name unspecified for item type" );
         }

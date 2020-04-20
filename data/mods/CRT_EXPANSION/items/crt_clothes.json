@@ -14,7 +14,7 @@
     "id": "crt_pants",
     "copy-from": "pants_army",
     "type": "ARMOR",
-    "name": { "str": "C.R.I.T trousers", "str_pl": "C.R.I.T trousers" },
+    "name": { "str_sp": "C.R.I.T trousers" },
     "description": "C.R.I.T standard-issue trousers.  Durable, lightweight and has ample storage.  Super-flex neoprene keeps one warm in moderately cold weather.",
     "color": "light_gray",
     "material": [ "neoprene", "kevlar" ],
@@ -25,7 +25,7 @@
   {
     "id": "crt_dress_pants",
     "type": "ARMOR",
-    "name": { "str": "C.R.I.T trousers", "str_pl": "C.R.I.T trousers" },
+    "name": { "str_sp": "C.R.I.T trousers" },
     "description": "C.R.I.T dress pants.  A minimalist sleek design makes the pants lightweight and it offers ok pockets.  Super-flex neoprene keeps one warm in moderately cold weather.",
     "color": "light_gray",
     "symbol": "[",

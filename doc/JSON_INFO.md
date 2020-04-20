@@ -354,6 +354,12 @@ Some json strings are extracted for translation, for example item names, descrip
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
+or, if the plural form is the same as the singular form:
+
+```JSON
+"name": { "ctxt": "foo", "str_sp": "foo" }
+```
+
 You can also add comments for translators by adding a "//~" entry like below. The
 order of the entries does not matter.
 
@@ -1470,7 +1476,7 @@ See also VEHICLE_JSON.md
 "name": {
     "ctxt": "clothing",           // Optional translation context. Useful when a string has multiple meanings that need to be translated differently in other languages.
     "str": "pair of socks",       // The name appearing in the examine box.  Can be more than one word separated by spaces
-    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified.
+    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified. "str_sp" can be used if the singular and plural forms are the same
 },
 "conditional_names": [ {          // Optional list of names that will be applied in specified conditions (see Conditional Naming section for more details).
     "type": "COMPONENT_ID",       // The condition type.
@@ -1707,7 +1713,7 @@ The `conditional_names` field allows defining alternate names for items that wil
     {
       "type": "COMPONENT_ID",
       "condition": "mutant",
-      "name": { "str": "sinister %s", "str_pl": "sinister %s" }
+      "name": { "str_sp": "sinister %s" }
     }
   ]
 }
@@ -1724,7 +1730,7 @@ So, in the above example, if the sausage is made from mutant humanoid meat, and 
 1. First, the item name is entirely replaced with "Mannwurst" if singular, or "Mannwursts" if plural.
 2. Next, it is replaced by "sinister %s", but %s is replaced with the name as it was before this step, resulting in "sinister Mannwurst" or "sinister Mannwursts".
 
-NB: If `"str_pl": "sinister %s"` wasn't specified, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
+NB: If `"str": "sinister %s"` was specified instead of `"str_sp": "sinister %s"`, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
 
 
 #### Color Key

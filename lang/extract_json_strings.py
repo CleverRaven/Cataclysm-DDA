@@ -167,10 +167,15 @@ automatically_convertible = {
 }
 
 # for these objects a plural form is needed
+# NOTE: please also change `needs_plural` in `src/item_factory.cpp`
+# when changing this list
 needs_plural = {
+    "AMMO",
     "ARMOR",
+    "BATTERY",
     "BIONIC_ITEM",
     "BOOK",
+    "COMESTIBLE",
     "CONTAINER",
     "ENGINE",
     "GENERIC",
@@ -891,12 +896,20 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
         if new_pl_fmt:
             if "str_pl" in string:
                 str_pl = string["str_pl"]
+            elif "str_sp" in string:
+                str_pl = string["str_sp"]
             else:
                 # no "str_pl" entry in json, assuming regular plural form as in item_factory.cpp etc
                 str_pl = "{}s".format(string["str"])
-        elif "str_pl" in string:
-            str_pl = string["str_pl"]
-        writestr(filename, string["str"], str_pl, ctxt, format_strings, comment)
+        elif "str_pl" in string or "str_sp" in string:
+            raise WrongJSONItem("ERROR: 'str_pl' and 'str_sp' not supported here", string)
+        if "str" in string:
+            str_singular = string["str"]
+        elif "str_sp" in string:
+            str_singular = string["str_sp"]
+        else:
+            raise WrongJSONItem("ERROR: 'str' or 'str_sp' not found", string)
+        writestr(filename, str_singular, str_pl, ctxt, format_strings, comment)
         return
     elif type(string) is not str and plural is not None:
         raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", plural)

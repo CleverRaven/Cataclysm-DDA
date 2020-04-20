@@ -20,7 +20,7 @@
   },
   {
     "id": "butchering_kit",
-    "name": { "str": "butchering kit", "str_pl": "butchering kits" },
+    "name": { "str": "butchering kit" },
     "type": "TOOL",
     "description": "This is a kit containing all the specialized knives you need to debone, skin, and prepare cuts of meat from an animal.",
     "copy-from": "base_kitchen_knife",
@@ -313,7 +313,7 @@
     "id": "flask_yeast",
     "type": "GENERIC",
     "category": "food",
-    "name": { "str": "sealed yeast culture", "str_pl": "sealed yeast culture" },
+    "name": { "str_sp": "sealed yeast culture" },
     "description": "A sealed flask holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
     "weight": "52 g",
     "volume": "250 ml",

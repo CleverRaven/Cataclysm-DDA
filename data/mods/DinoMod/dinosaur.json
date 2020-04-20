@@ -8,7 +8,7 @@
   {
     "type": "MONSTER",
     "id": "mon_compsognathus",
-    "name": { "str": "Compsognathus", "str_pl": "Compsognathus" },
+    "name": { "str_sp": "Compsognathus" },
     "species": "DINOSAUR",
     "default_faction": "compsognathus",
     "symbol": "D",
@@ -57,7 +57,7 @@
   {
     "type": "MONSTER",
     "id": "mon_gallimimus",
-    "name": { "str": "Gallimimus", "str_pl": "Gallimimus" },
+    "name": { "str_sp": "Gallimimus" },
     "species": "DINOSAUR",
     "default_faction": "gallimimus",
     "symbol": "D",
@@ -101,7 +101,7 @@
   {
     "type": "MONSTER",
     "id": "mon_pachycephalosaurus",
-    "name": { "str": "Pachycephalosaurus", "str_pl": "Pachycephalosaurus" },
+    "name": { "str_sp": "Pachycephalosaurus" },
     "species": "DINOSAUR",
     "default_faction": "pachycephalosaurus",
     "symbol": "D",
@@ -144,7 +144,7 @@
   {
     "type": "MONSTER",
     "id": "mon_spinosaurus",
-    "name": { "str": "Spinosaurus", "str_pl": "Spinosaurus" },
+    "name": { "str_sp": "Spinosaurus" },
     "species": "DINOSAUR",
     "default_faction": "spinosaurus",
     "symbol": "D",
@@ -190,7 +190,7 @@
   {
     "type": "MONSTER",
     "id": "mon_tyrannosaurus",
-    "name": { "str": "Tyrannosaurus rex", "str_pl": "Tyrannosaurus rex" },
+    "name": { "str_sp": "Tyrannosaurus rex" },
     "species": "DINOSAUR",
     "default_faction": "t-rex",
     "symbol": "D",
@@ -224,7 +224,7 @@
   {
     "type": "MONSTER",
     "id": "mon_triceratops",
-    "name": { "str": "Triceratops", "str_pl": "Triceratops" },
+    "name": { "str_sp": "Triceratops" },
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
@@ -270,7 +270,7 @@
   {
     "type": "MONSTER",
     "id": "mon_stegosaurus",
-    "name": { "str": "Stegosaurus", "str_pl": "Stegosaurus" },
+    "name": { "str_sp": "Stegosaurus" },
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
@@ -303,7 +303,7 @@
   {
     "type": "MONSTER",
     "id": "mon_ankylosaurus",
-    "name": { "str": "Ankylosaurus", "str_pl": "Ankylosaurus" },
+    "name": { "str_sp": "Ankylosaurus" },
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
@@ -336,7 +336,7 @@
   {
     "type": "MONSTER",
     "id": "mon_allosaurus",
-    "name": { "str": "Allosaurus", "str_pl": "Allosaurus" },
+    "name": { "str_sp": "Allosaurus" },
     "species": "DINOSAUR",
     "default_faction": "allosaurus",
     "symbol": "D",
@@ -437,7 +437,7 @@
   {
     "type": "MONSTER",
     "id": "mon_deinonychus",
-    "name": { "str": "Deinonychus", "str_pl": "Deinonychus" },
+    "name": { "str_sp": "Deinonychus" },
     "species": "DINOSAUR",
     "default_faction": "deinonychus",
     "symbol": "D",
@@ -507,7 +507,7 @@
   {
     "type": "MONSTER",
     "id": "mon_parasaurolophus",
-    "name": { "str": "Parasaurolophus", "str_pl": "Parasaurolophus" },
+    "name": { "str_sp": "Parasaurolophus" },
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
@@ -540,7 +540,7 @@
   {
     "type": "MONSTER",
     "id": "mon_dimorphodon",
-    "name": { "str": "Dimorphodon", "str_pl": "Dimorphodon" },
+    "name": { "str_sp": "Dimorphodon" },
     "species": "DINOSAUR",
     "default_faction": "dimorphodon",
     "symbol": "D",
@@ -574,7 +574,7 @@
   {
     "type": "MONSTER",
     "id": "mon_dilophosaurus",
-    "name": { "str": "Dilophosaurus", "str_pl": "Dilophosaurus" },
+    "name": { "str_sp": "Dilophosaurus" },
     "species": "DINOSAUR",
     "default_faction": "dilophosaurus",
     "symbol": "D",
