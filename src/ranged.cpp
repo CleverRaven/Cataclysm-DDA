@@ -148,6 +148,16 @@ class target_ui
         target_handler::trajectory run( player &pc, ExitCode *exit_code = nullptr );
 
     private:
+        enum class Status {
+            Good, // All UI elements are enabled
+            BadTarget, // Bad 'dst' selected; forbid aiming/firing
+            OutOfAmmo, // Selected gun mode is out of ammo; forbid moving cursor,aiming and firing
+            OutOfRange // Selected target is out of range of current gun mode; forbid aiming/firing
+        };
+
+        // Ui status (affects which UI controls are temporarily disabled)
+        Status status;
+
         // Current trajectory (TODO: better name)
         std::vector<tripoint> ret;
         // Aiming source (player's position)
@@ -181,9 +191,6 @@ class target_ui
         input_context ctxt;
         // Number of free instruction lines
         int num_instruction_lines;
-        // If true, aiming and firing controls will be drawn using grey color
-        // to indicate invalid dst (e.g. shooting yourself)
-        bool grey_out_firing_controls = true;
 
         /* These members are relevant for TARGET_MODE_FIRE */
         // Weapon sight dispersion
@@ -219,6 +226,9 @@ class target_ui
         // selects closest position in range.
         // Returns 'false' if cursor position did not change
         bool set_cursor_pos( player &pc, const tripoint &new_pos );
+
+        // Update 'status' variable
+        void update_status();
 
         // Calculates distance from 'src'. For consistency, prefer using this over rl_dist.
         int dist_fn( const tripoint &p );
@@ -2009,8 +2019,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
                 aim_mode = aim_types.begin();
             }
         } else if( action == "FIRE" ) {
-            if( src == dst ) {
-                // TODO: consider allowing aiming spells/turrets at yourself
+            if( status != Status::Good ) {
                 continue;
             }
             bool can_skip_confirm = ( mode == TARGET_MODE_SPELL && casting->damage() <= 0 );
@@ -2021,7 +2030,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             loop_exit_code = ExitCode::Fire;
             break;
         } else if( action == "AIM" ) {
-            if( src == dst ) {
+            if( status != Status::Good ) {
                 continue;
             }
 
@@ -2034,7 +2043,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
                 break;
             }
         } else if( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) {
-            if( src == dst ) {
+            if( status != Status::Good ) {
                 continue;
             }
 
@@ -2134,6 +2143,10 @@ bool target_ui::handle_cursor_movement( player &pc, const std::string &action, b
 bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
 {
     if( dst == new_pos ) {
+        return false;
+    }
+    if( status == Status::OutOfAmmo && new_pos != src ) {
+        // range == 0, no sense in moving cursor
         return false;
     }
 
@@ -2237,10 +2250,33 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
         recalc_aim_turning_penalty( pc );
     }
 
-    // Update UI colors
-    grey_out_firing_controls = ( dst == src );
+    // Update UI controls & colors
+    update_status();
 
     return true;
+}
+
+void target_ui::update_status()
+{
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+        if( range == 0 ) {
+            // Selected gun mode is empty
+            status = Status::OutOfAmmo;
+            return;
+        }
+    }
+    if( src == dst ) {
+        // TODO: consider allowing targeting yourself with spells/turrets
+        status = Status::BadTarget;
+    } else if( dist_fn( dst ) > range ) {
+        // We're out of range. This can happen if we switch from long-ranged
+        // gun mode to short-ranged. We can, of course, move the cursor into range automatically,
+        // but that would be rude. Instead, wait for directional keys/etc. and *then* move the cursor.
+        status = Status::OutOfRange;
+        // TODO: add check when none of the vehicle turrets are in range
+    } else {
+        status = Status::Good;
+    }
 }
 
 int target_ui::dist_fn( const tripoint &p )
@@ -2318,8 +2354,8 @@ void target_ui::set_view_offset( player &pc, const tripoint &new_offset )
 
 void target_ui::recalc_aim_turning_penalty( player &pc )
 {
-    if( dst == src ) {
-        // Can't aim at yourself
+    if( status != Status::Good ) {
+        // We don't care about invalid situations
         predicted_recoil = MAX_RECOIL;
         return;
     }
@@ -2380,6 +2416,7 @@ void target_ui::action_switch_mode( player &pc )
         ammo = relevant->gun_current_mode().target->ammo_data();
         range = relevant->gun_current_mode().target->gun_range( &pc );
     }
+    update_status();
 }
 
 bool target_ui::action_switch_ammo()
@@ -2398,6 +2435,7 @@ bool target_ui::action_switch_ammo()
         // reloading annihilates our aim anyway
         return false;
     }
+    update_status();
     return true;
 }
 
@@ -2529,7 +2567,7 @@ void target_ui::draw_ui_window( player &pc )
     panel_target_info( pc, text_y );
     text_y += compact ? 0 : 1;
 
-    if( src != dst ) {
+    if( status == Status::Good ) {
         // TODO: these are old, consider refactoring
         if( mode == TARGET_MODE_FIRE ) {
             panel_fire_mode_aim( pc, text_y );
@@ -2587,7 +2625,8 @@ int target_ui::draw_controls_list()
         return keys.empty() ? ' ' : keys.front();
     };
 
-    nc_color fire_color = grey_out_firing_controls ? c_light_gray : c_white;
+    nc_color move_color = ( status != Status::OutOfAmmo ? c_white : c_light_gray );
+    nc_color fire_color = ( status == Status::Good ? c_white : c_light_gray );
 
     // Since this list is of variable length and positioned
     // at the bottom, we draw everything in reverse order
@@ -2595,7 +2634,7 @@ int target_ui::draw_controls_list()
     if( is_mouse_enabled() ) {
         const char *label_mouse = "Mouse: LMB: Target, Wheel: Cycle,";
         int text_x = utf8_width( label_mouse ) + 2; // '2' for border + space at the end
-        mvwprintz( w_target, point( 1, text_y ), c_white, label_mouse );
+        mvwprintz( w_target, point( 1, text_y ), move_color, label_mouse );
         mvwprintz( w_target, point( text_x, text_y-- ), fire_color, _( "RMB: Fire" ) );
     }
     if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
@@ -2624,11 +2663,11 @@ int target_ui::draw_controls_list()
 
     auto label_cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
     int text_x = utf8_width( label_cycle ) + 2; // '2' for border + space at the end
-    mvwprintz( w_target, point( 1, text_y ), c_white, label_cycle );
+    mvwprintz( w_target, point( 1, text_y ), move_color, label_cycle );
     mvwprintz( w_target, point( text_x, text_y-- ), fire_color, "[%c] %s.", bound_key( "FIRE" ),
                uitext_fire() );
 
-    mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "Move cursor with directional keys" ) );
+    mvwprintz( w_target, point( 1, text_y-- ), move_color, _( "Move cursor with directional keys" ) );
     return height - text_y;
 }
 
@@ -2636,13 +2675,18 @@ void target_ui::panel_cursor_info( int &text_y )
 {
     int dz = dst.z - src.z;
     std::string label_range;
-    if( dst != src ) {
-        label_range = string_format( "%d/%d", dist_fn( dst ), range );
+    if( src == dst ) {
+        label_range = string_format( "Range: %d", range );
     } else {
-        label_range = string_format( "%d", range );
-    };
-    mvwprintw( w_target, point( 1, text_y++ ), _( "Range: %s Elevation: %d Targets: %d" ), label_range,
-               dz, targets.size() );
+        label_range = string_format( "Range: %d/%d", dist_fn( dst ), range );
+    }
+    if( status == Status::OutOfRange ) {
+        label_range = colorize( label_range, c_red );
+    }
+    label_range = string_format( _( "%s Elevation: %d Targets: %d" ), label_range, dz,
+                                 targets.size() );
+    nc_color clr = c_light_gray;
+    print_colored_text( w_target, point( 1, text_y++ ), clr, clr, label_range );
 }
 
 void target_ui::panel_gun_info( int &text_y )
@@ -2660,13 +2704,15 @@ void target_ui::panel_gun_info( int &text_y )
     nc_color clr = c_light_gray;
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
 
-    if( ammo ) {
+    if( status == Status::OutOfAmmo ) {
+        mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
+    } else if( ammo ) {
         str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
                              colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ), m->ammo_remaining(),
                              m->ammo_capacity() );
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     } else {
-        // Skip ammo line.
+        // Weapon doesn't use ammunition
         text_y++;
     }
 }
