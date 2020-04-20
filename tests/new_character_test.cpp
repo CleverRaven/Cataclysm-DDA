@@ -1,25 +1,27 @@
+#include <array>
+#include <cstddef>
+#include <functional>
+#include <list>
+#include <memory>
 #include <set>
 #include <sstream>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <array>
-#include <functional>
-#include <list>
-#include <memory>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
-#include "profession.h"
-#include "scenario.h"
-#include "string_id.h"
 #include "optional.h"
 #include "pldata.h"
+#include "profession.h"
 #include "ret_val.h"
+#include "scenario.h"
+#include "string_id.h"
 #include "type_id.h"
 
 static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
@@ -49,7 +51,7 @@ static std::vector<trait_id> next_subset( const std::vector<trait_id> &set )
 
 static bool try_set_traits( const std::vector<trait_id> &traits )
 {
-    g->u.empty_traits();
+    g->u.clear_mutations();
     g->u.add_traits(); // mandatory prof/scen traits
     for( const trait_id &tr : traits ) {
         if( g->u.has_conflicting_trait( tr ) || !g->scen->traitquery( tr ) ) {

@@ -7,6 +7,7 @@
     "weight": "500 g",
     "volume": "1 L",
     "price": 1300,
+    "price_postapoc": 500,
     "to_hit": 2,
     "bashing": 14,
     "cutting": 1,
@@ -26,9 +27,11 @@
     "weight": "23 g",
     "volume": "5 ml",
     "price": 0,
+    "price_postapoc": 0,
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
+    "qualities": [ [ "LOCKPICK", 3 ] ],
     "use_action": { "type": "picklock", "pick_quality": 3 }
   },
   {
@@ -39,6 +42,7 @@
     "weight": "500 g",
     "volume": "750 ml",
     "price": 5000,
+    "price_postapoc": 500,
     "to_hit": 2,
     "bashing": 14,
     "cutting": 3,
@@ -58,6 +62,7 @@
     "weight": "1250 g",
     "volume": "1 L",
     "price": 0,
+    "price_postapoc": 10,
     "to_hit": 2,
     "bashing": 12,
     "cutting": 1,
@@ -77,9 +82,11 @@
     "weight": "544 g",
     "volume": "100 ml",
     "price": 20000,
+    "price_postapoc": 1000,
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
+    "qualities": [ [ "LOCKPICK", 5 ] ],
     "use_action": { "type": "picklock", "pick_quality": 5 }
   },
   {
@@ -89,11 +96,13 @@
     "description": "this a pseudo item",
     "volume": "0 ml",
     "price": 0,
+    "price_postapoc": 0,
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
+    "qualities": [ [ "LOCKPICK", 40 ] ],
     "use_action": { "type": "picklock", "pick_quality": 40 }
   }
 ]

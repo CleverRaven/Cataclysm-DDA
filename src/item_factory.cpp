@@ -1,12 +1,12 @@
 #include "item_factory.h"
 
-#include <cstdlib>
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cmath>
-#include <memory>
-#include <array>
+#include <cstdlib>
 #include <iterator>
+#include <memory>
 #include <stdexcept>
 #include <type_traits>
 
@@ -14,39 +14,42 @@
 #include "ammo.h"
 #include "artifact.h"
 #include "assign.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
+#include "damage.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
+#include "explosion.h"
+#include "flat_set.h"
+#include "game_constants.h"
 #include "init.h"
 #include "item.h"
-#include "item_category.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "iuse_actor.h"
 #include "json.h"
 #include "material.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
+#include "relic.h"
 #include "requirements.h"
+#include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vitamin.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "color.h"
-#include "damage.h"
-#include "explosion.h"
-#include "game_constants.h"
-#include "optional.h"
-#include "recipe.h"
-#include "string_id.h"
-#include "units.h"
-#include "cata_utility.h"
-#include "flat_set.h"
 
 class player;
 struct tripoint;
@@ -62,8 +65,6 @@ static item_category_id calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
-
-extern const double MAX_RECOIL;
 
 static const int ascii_art_width = 42;
 
@@ -144,18 +145,6 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
-    static const auto handle_legacy_ranged = []( common_ranged_data & ranged ) {
-        if( ranged.legacy_damage != 0 ) {
-            ranged.damage.add( damage_instance::physical( 0, 0, ranged.legacy_damage, ranged.legacy_pierce ) );
-            ranged.legacy_damage = 0;
-            ranged.legacy_pierce = 0;
-        }
-    };
-
-    if( obj.gunmod ) {
-        handle_legacy_ranged( *obj.gunmod );
-    }
-
     if( obj.mod ) {
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
         obj.use_methods.emplace( func, usage_from_string( func ) );
@@ -216,8 +205,6 @@ void Item_factory::finalize_pre( itype &obj )
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
     if( obj.ammo ) {
-        handle_legacy_ranged( *obj.ammo );
-
         if( obj.ammo->loudness < 0 ) {
             obj.ammo->loudness = obj.ammo->range * 2;
             for( const damage_unit &du : obj.ammo->damage ) {
@@ -348,7 +335,6 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
 
-        handle_legacy_ranged( *obj.gun );
         // TODO: add explicit action field to gun definitions
         const auto defmode_name = [&]() {
             if( obj.gun->clip == 1 ) {
@@ -885,6 +871,7 @@ void Item_factory::init()
     add_iuse( "PLANTBLECH", &iuse::plantblech );
     add_iuse( "POISON", &iuse::poison );
     add_iuse( "PORTABLE_GAME", &iuse::portable_game );
+    add_iuse( "FITNESS_CHECK", &iuse::fitness_check );
     add_iuse( "PORTAL", &iuse::portal );
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
@@ -1494,20 +1481,15 @@ void Item_factory::load( islot_ammo &slot, const JsonObject &jo, const std::stri
     assign( jo, "drop", slot.drop, strict );
     assign( jo, "drop_chance", slot.drop_chance, strict, 0.0f, 1.0f );
     assign( jo, "drop_active", slot.drop_active, strict );
-    if( jo.has_object( "damage" ) ) {
-        assign( jo, "damage", slot.damage, strict );
-    } else {
-        assign( jo, "damage", slot.legacy_damage, strict, 0 );
-    }
-
-    assign( jo, "pierce", slot.legacy_pierce, strict, 0 );
+    // Damage instance assign reader handles pierce and prop_damage
+    assign( jo, "damage", slot.damage, strict );
     assign( jo, "range", slot.range, strict, 0 );
     assign( jo, "dispersion", slot.dispersion, strict, 0 );
     assign( jo, "recoil", slot.recoil, strict, 0 );
     assign( jo, "count", slot.def_charges, strict, 1 );
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
-    assign( jo, "prop_damage", slot.prop_damage, strict );
+    assign( jo, "critical_multiplier", slot.critical_multiplier, strict );
     assign( jo, "show_stats", slot.force_stat_display, strict );
 }
 
@@ -1597,13 +1579,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
         slot.ammo.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
     assign( jo, "range", slot.range, strict );
-    if( jo.has_object( "ranged_damage" ) || jo.has_array( "ranged_damage" ) ) {
-        assign( jo, "ranged_damage", slot.damage, strict );
-    } else {
-        assign( jo, "ranged_damage", slot.legacy_damage, strict );
-    }
-
-    assign( jo, "pierce", slot.legacy_pierce, strict, 0 );
+    // Damage instance assign reader handles pierce
+    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20, -20 ) );
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, static_cast<int>( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
@@ -1995,11 +1972,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
 {
     bool strict = src == "dda";
 
-    if( jo.has_object( "damage_modifier" ) ) {
-        assign( jo, "damage_modifier", slot.damage );
-    } else {
-        assign( jo, "damage_modifier", slot.legacy_damage );
-    }
+    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20,
+            -20 ) );
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );

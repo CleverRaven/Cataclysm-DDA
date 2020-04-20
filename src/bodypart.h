@@ -1,17 +1,16 @@
 #pragma once
-#ifndef BODYPART_H
-#define BODYPART_H
+#ifndef CATA_SRC_BODYPART_H
+#define CATA_SRC_BODYPART_H
 
-#include <cstddef>
 #include <array>
 #include <bitset>
+#include <cstddef>
 #include <initializer_list>
 #include <string>
 
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
-#include "type_id.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
@@ -239,4 +238,4 @@ std::string get_body_part_id( body_part bp );
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
 
-#endif
+#endif // CATA_SRC_BODYPART_H

@@ -1,17 +1,24 @@
 #pragma once
-#ifndef ITEM_CONTENTS_H
-#define ITEM_CONTENTS_H
+#ifndef CATA_SRC_ITEM_CONTENTS_H
+#define CATA_SRC_ITEM_CONTENTS_H
 
-#include "point.h"
+#include <cstddef>
+#include <functional>
+#include <list>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "visitable.h"
 
-#include <list>
-
 class Character;
+class JsonIn;
+class JsonOut;
 class item;
+struct tripoint;
 
 using itype_id = std::string;
 
@@ -28,6 +35,11 @@ class item_contents
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top() const;
+
+        // returns a list of pointers to all items inside recursively
+        std::list<item *> all_items_ptr();
+        // returns a list of pointers to all items inside recursively
+        std::list<const item *> all_items_ptr() const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
@@ -96,4 +108,4 @@ class item_contents
         std::list<item> items;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_CONTENTS_H

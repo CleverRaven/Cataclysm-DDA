@@ -1,42 +1,43 @@
 #include "lightmap.h" // IWYU pragma: associated
 #include "shadowcasting.h" // IWYU pragma: associated
 
-#include <cstdint>
-#include <cstdlib>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include <memory>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "colony.h"
+#include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
-#include "math_defines.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
+#include "player.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "submap.h"
+#include "tileray.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "calendar.h"
-#include "field.h"
-#include "item.h"
-#include "line.h"
-#include "optional.h"
-#include "player.h"
-#include "string_formatter.h"
-#include "tileray.h"
-#include "type_id.h"
-#include "colony.h"
-#include "item_stack.h"
-#include "point.h"
 
 static const bionic_id bio_night( "bio_night" );
 
@@ -1443,8 +1444,8 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
 void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                            const tripoint &s, const tripoint &e, float luminance )
 {
-    int ax = abs( e.x - s.x ) * 2;
-    int ay = abs( e.y - s.y ) * 2;
+    int ax = std::abs( e.x - s.x ) * 2;
+    int ay = std::abs( e.y - s.y ) * 2;
     int dx = ( s.x < e.x ) ? 1 : -1;
     int dy = ( s.y < e.y ) ? 1 : -1;
     int x = s.x;

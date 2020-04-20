@@ -1,30 +1,37 @@
 #include "visitable.h"
 
-#include <climits>
 #include <algorithm>
+#include <climits>
+#include <limits>
 #include <map>
 #include <memory>
 #include <unordered_map>
 #include <utility>
-#include <limits>
 
+#include "active_item_cache.h"
 #include "bionics.h"
+#include "mutation.h"
 #include "character.h"
+#include "colony.h"
 #include "debug.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "map.h"
 #include "map_selector.h"
+#include "memory_fast.h"
+#include "monster.h"
+#include "mtype.h"
+#include "pimpl.h"
 #include "player.h"
+#include "point.h"
 #include "submap.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "active_item_cache.h"
-#include "pimpl.h"
-#include "colony.h"
-#include "point.h"
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 
@@ -272,12 +279,8 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
     }
 
     if( qual == qual_BUTCHER ) {
-        if( self->has_trait( trait_CLAWS_ST ) ) {
-            res = std::max( res, 8 );
-        } else if( self->has_trait( trait_TALONS ) || self->has_trait( trait_MANDIBLES ) ||
-                   self->has_trait( trait_CLAWS ) || self->has_trait( trait_CLAWS_RETRACT ) ||
-                   self->has_trait( trait_CLAWS_RAT ) ) {
-            res = std::max( res, 4 );
+        for( const trait_id &mut : self->get_mutations() ) {
+            res = std::max( res, mut->butchering_quality );
         }
     }
 

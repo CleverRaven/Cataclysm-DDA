@@ -35,18 +35,6 @@
   },
   {
     "type": "scenario",
-    "ident": "summer_advanced_start",
-    "copy-from": "summer_advanced_start",
-    "extend": { "professions": [ "wasteland_cyborg" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "ambushed",
-    "copy-from": "ambushed",
-    "extend": { "professions": [ "wasteland_cyborg" ] }
-  },
-  {
-    "type": "scenario",
     "ident": "cyberpunk",
     "copy-from": "cyberpunk",
     "add_professions": true,

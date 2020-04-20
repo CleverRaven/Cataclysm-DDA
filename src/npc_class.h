@@ -1,6 +1,6 @@
 #pragma once
-#ifndef NPC_CLASS_H
-#define NPC_CLASS_H
+#ifndef CATA_SRC_NPC_CLASS_H
+#define CATA_SRC_NPC_CLASS_H
 
 #include <functional>
 #include <map>
@@ -132,4 +132,4 @@ extern npc_class_id NC_BARTENDER;
 extern npc_class_id NC_JUNK_SHOPKEEP;
 extern npc_class_id NC_HALLU;
 
-#endif
+#endif // CATA_SRC_NPC_CLASS_H

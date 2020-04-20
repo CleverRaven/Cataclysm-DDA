@@ -41,6 +41,11 @@
     "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
   },
   {
+    "id": "NAPALM_TBG7V",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 }
+  },
+  {
     "id": "PYROPHORIC",
     "type": "ammo_effect",
     "aoe": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "radius": 3 },
@@ -115,17 +120,87 @@
   {
     "id": "EXPLOSIVE_RAUFOSS",
     "type": "ammo_effect",
-    "explosion": {
-      "power": 2.4,
-      "distance_factor": 0.6,
-      "fire": true,
-      "shrapnel": { "casing_mass": 28, "fragment_mass": 1.4, "recovery": 0, "drop": "null" }
-    }
+    "explosion": { "power": 2.4, "shrapnel": { "casing_mass": 28, "fragment_mass": 14 } }
   },
   {
     "id": "FRAG",
     "type": "ammo_effect",
     "explosion": { "power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.05 } }
+  },
+  {
+    "id": "FRAG_20x66",
+    "type": "ammo_effect",
+    "explosion": { "power": 40, "shrapnel": { "casing_mass": 15, "fragment_mass": 0.15 } }
+  },
+  {
+    "id": "EXPLOSIVE_20x66",
+    "type": "ammo_effect",
+    "explosion": { "power": 60 }
+  },
+  {
+    "id": "EXPLOSIVE_HESHOT",
+    "type": "ammo_effect",
+    "explosion": { "power": 60 }
+  },
+  {
+    "id": "EXPLOSIVE_m430a1",
+    "type": "ammo_effect",
+    "explosion": { "power": 72, "shrapnel": { "casing_mass": 250, "fragment_mass": 0.15 } }
+  },
+  {
+    "id": "EXPLOSIVE_m433",
+    "type": "ammo_effect",
+    "explosion": { "power": 42, "shrapnel": { "casing_mass": 198, "fragment_mass": 0.15 } }
+  },
+  {
+    "id": "EXPLOSIVE_HOMEMADE",
+    "type": "ammo_effect",
+    "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.3 } }
+  },
+  {
+    "id": "EXPLOSIVE_66mmHEAT",
+    "type": "ammo_effect",
+    "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.3 } }
+  },
+  {
+    "id": "EXPLOSIVE_OG7V",
+    "type": "ammo_effect",
+    "explosion": { "power": 266, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.15 } }
+  },
+  {
+    "id": "EXPLOSIVE_PG7VL",
+    "type": "ammo_effect",
+    "explosion": { "power": 598, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.3 } }
+  },
+  {
+    "id": "EXPLOSIVE_PG7VR",
+    "type": "ammo_effect",
+    "explosion": { "power": 1995, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.3 } }
+  },
+  {
+    "id": "EXPLOSIVE_TBG7V",
+    "type": "ammo_effect",
+    "explosion": { "power": 66, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.3 } }
+  },
+  {
+    "id": "EXPLOSIVE_84x246HE",
+    "type": "ammo_effect",
+    "explosion": { "power": 665, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.15 } }
+  },
+  {
+    "id": "EXPLOSIVE_84x246HEDP",
+    "type": "ammo_effect",
+    "explosion": { "power": 798, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.3 } }
+  },
+  {
+    "id": "EXPLOSIVE_ATGMHEAT",
+    "type": "ammo_effect",
+    "explosion": { "power": 5985, "shrapnel": { "casing_mass": 18000, "fragment_mass": 1.0 } }
+  },
+  {
+    "id": "EXPLOSIVE_120mmHEAT",
+    "type": "ammo_effect",
+    "explosion": { "power": 7980, "shrapnel": { "casing_mass": 8725, "fragment_mass": 1.0 } }
   },
   {
     "id": "MININUKE_MOD",
@@ -191,5 +266,10 @@
     "id": "DRAW_LASER_BEAM",
     "type": "ammo_effect",
     "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
+  },
+  {
+    "id": "NO_PENETRATE_OBSTACLES",
+    "type": "ammo_effect",
+    "//": "Don't act penetrate obstacles such as fences or reinforced glass"
   }
 ]

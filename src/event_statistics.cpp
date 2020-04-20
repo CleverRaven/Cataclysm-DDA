@@ -1,9 +1,20 @@
 #include "event_statistics.h"
 
+#include <algorithm>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <utility>
+
+#include "cata_variant.h"
+#include "debug.h"
 #include "event.h"
 #include "event_field_transformations.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "optional.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
 
 // event_transformation and event_statistic are both objects defined in json
 // and managed via generic_factory.
@@ -539,10 +550,14 @@ struct event_statistic_unique_value : event_statistic::impl {
 
     struct state : stats_tracker_state, event_multiset_watcher {
         state( const event_statistic_unique_value *s, stats_tracker &stats ) :
-            stat( s ),
-            count( stats.get_events( s->type_ ).count() ),
-            value( s->value( stats ) ) {
+            stat( s ) {
+            init( stats );
             stats.add_watcher( stat->type_, this );
+        }
+
+        void init( stats_tracker &stats ) {
+            count = stats.get_events( stat->type_ ).count();
+            value = stat->value( stats );
         }
 
         void event_added( const cata::event &e, stats_tracker &stats ) override {
@@ -558,7 +573,7 @@ struct event_statistic_unique_value : event_statistic::impl {
         }
 
         void events_reset( const event_multiset &, stats_tracker &stats ) override {
-            *this = state( stat, stats );
+            init( stats );
             stats.stat_value_changed( stat->id_, value );
         }
 
@@ -599,6 +614,8 @@ void event_statistic::load( const JsonObject &jo, const std::string & )
 {
     std::string type;
     mandatory( jo, was_loaded, "stat_type", type );
+
+    optional( jo, was_loaded, "description", description_ );
 
     if( type == "count" ) {
         impl_ = std::make_unique<event_statistic_count>( id, event_source( jo ) );

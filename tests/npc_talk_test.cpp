@@ -1,34 +1,35 @@
 #include <cstdio>
-#include <string>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "basecamp.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
+#include "character_id.h"
 #include "coordinate_conversions.h"
 #include "dialogue.h"
 #include "effect.h"
 #include "faction.h"
 #include "game.h"
-#include "item_category.h"
-#include "map.h"
-#include "mission.h"
-#include "npc.h"
-#include "overmapbuffer.h"
-#include "player.h"
-#include "player_helpers.h"
-#include "character.h"
 #include "inventory.h"
 #include "item.h"
-#include "pimpl.h"
-#include "string_id.h"
-#include "npctalk.h"
-#include "mapdata.h"
-#include "material.h"
-#include "type_id.h"
-#include "point.h"
+#include "item_category.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "mission.h"
+#include "npc.h"
+#include "npctalk.h"
+#include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "string_id.h"
+#include "stringmaker.h"
+#include "type_id.h"
 
 static const efftype_id effect_gave_quest_item( "gave_quest_item" );
 static const efftype_id effect_currently_busy( "currently_busy" );
@@ -72,6 +73,7 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
             printf( "response: %s\n", response.text.c_str() );
         }
     }
+    CAPTURE( d.responses );
     REQUIRE( d.responses.size() == expected_count );
 }
 
@@ -343,8 +345,8 @@ TEST_CASE( "npc_talk_rules", "[npc_talk]" )
     d.add_topic( "TALK_TEST_NPC_RULES" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    talker_npc.rules.engagement = ENGAGE_ALL;
-    talker_npc.rules.aim = AIM_SPRAY;
+    talker_npc.rules.engagement = combat_engagement::ALL;
+    talker_npc.rules.aim = aim_rule::SPRAY;
     talker_npc.rules.set_flag( ally_rule::use_silent );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );

@@ -1,13 +1,16 @@
 #pragma once
-#ifndef FIELD_TYPE_H
-#define FIELD_TYPE_H
+#ifndef CATA_SRC_FIELD_TYPE_H
+#define CATA_SRC_FIELD_TYPE_H
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
-#include <algorithm>
-#include <vector>
-#include <memory>
+#include <set>
 #include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
@@ -16,11 +19,11 @@
 #include "effect.h"
 #include "enums.h"
 #include "mapdata.h"
-#include "type_id.h"
-#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 class JsonObject;
+template <typename E> struct enum_traits;
 
 enum phase_id : int;
 enum body_part : int;
@@ -316,4 +319,4 @@ extern field_type_id fd_null,
        fd_tindalos_rift
        ;
 
-#endif
+#endif // CATA_SRC_FIELD_TYPE_H

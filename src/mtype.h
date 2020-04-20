@@ -1,18 +1,19 @@
 #pragma once
-#ifndef MTYPE_H
-#define MTYPE_H
+#ifndef CATA_SRC_MTYPE_H
+#define CATA_SRC_MTYPE_H
 
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
+#include "calendar.h"
 #include "color.h"
-#include "optional.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
+#include "optional.h"
 #include "pathfinding.h"
 #include "translations.h"
 #include "type_id.h"
@@ -20,9 +21,9 @@
 
 class Creature;
 class monster;
-template <typename E> struct enum_traits;
 struct dealt_projectile_attack;
 struct species_type;
+template <typename E> struct enum_traits;
 
 enum body_part : int;
 enum m_size : int;
@@ -391,4 +392,4 @@ struct mtype {
 
 mon_effect_data load_mon_effect_data( const JsonObject &e );
 
-#endif
+#endif // CATA_SRC_MTYPE_H

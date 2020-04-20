@@ -1,41 +1,42 @@
 #pragma once
-#ifndef OVERMAP_H
-#define OVERMAP_H
+#ifndef CATA_SRC_OVERMAP_H
+#define CATA_SRC_OVERMAP_H
 
-#include <cstdlib>
 #include <algorithm>
 #include <array>
 #include <climits>
+#include <cstdlib>
 #include <functional>
 #include <iosfwd>
+#include <iterator>
 #include <map>
-#include <memory>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <iterator>
 #include <utility>
+#include <vector>
 
 #include "basecamp.h"
-#include "game_constants.h"
-#include "omdata.h"
-#include "overmap_types.h" // IWYU pragma: keep
-#include "regional_settings.h"
 #include "enums.h"
+#include "game_constants.h"
+#include "memory_fast.h"
 #include "mongroup.h"
+#include "monster.h"
+#include "omdata.h"
 #include "optional.h"
-#include "type_id.h"
+#include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
+#include "regional_settings.h"
 #include "rng.h"
 #include "string_id.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonObject;
+class JsonOut;
+class character_id;
+class map_extra;
 class npc;
 class overmap_connection;
-class JsonIn;
-class JsonOut;
-class monster;
-class JsonObject;
-class map_extra;
 
 namespace pf
 {
@@ -73,7 +74,7 @@ struct om_vehicle {
     std::string name;
 };
 
-enum radio_type {
+enum class radio_type : int {
     MESSAGE_BROADCAST,
     WEATHER_RADIO
 };
@@ -91,7 +92,7 @@ struct radio_tower {
     std::string message;
     int frequency;
     radio_tower( const point &p, int S = -1, const std::string &M = "",
-                 radio_type T = MESSAGE_BROADCAST ) :
+                 radio_type T = radio_type::MESSAGE_BROADCAST ) :
         pos( p ), strength( S ), type( T ), message( M ) {
         frequency = rng( 0, INT_MAX );
     }
@@ -527,4 +528,4 @@ int oter_get_rotation( const oter_id &oter );
 * Return the directional suffix or "" if there isn't one.
 */
 std::string oter_get_rotation_string( const oter_id &oter );
-#endif
+#endif // CATA_SRC_OVERMAP_H

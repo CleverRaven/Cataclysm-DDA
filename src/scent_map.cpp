@@ -1,17 +1,19 @@
 #include "scent_map.h"
 
-#include <cstdlib>
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+#include <cstdlib>
 
 #include "assign.h"
 #include "calendar.h"
 #include "color.h"
+#include "cursesdef.h"
+#include "debug.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "map.h"
 #include "output.h"
-#include "cursesdef.h"
+#include "string_id.h"
 
 static constexpr int SCENT_RADIUS = 40;
 

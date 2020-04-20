@@ -1,33 +1,35 @@
 #pragma once
-#ifndef BASECAMP_H
-#define BASECAMP_H
+#ifndef CATA_SRC_BASECAMP_H
+#define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
 #include <list>
-#include <memory>
-#include <vector>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
+#include <vector>
 
+#include "craft_command.h"
 #include "inventory.h"
+#include "map.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
+#include "requirements.h"
 #include "translations.h"
-#include "memory_fast.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonOut;
+class character_id;
 class npc;
 class time_duration;
 
 enum class farm_ops;
 class item;
-class map;
 class mission_data;
 class recipe;
-class requirements_data;
-class tinymap;
 
 struct expansion_data {
     std::string type;
@@ -378,4 +380,4 @@ class basecamp_action_components
         std::unique_ptr<tinymap> map_; // Used for by-radio crafting
 };
 
-#endif
+#endif // CATA_SRC_BASECAMP_H

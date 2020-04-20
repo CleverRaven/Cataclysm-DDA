@@ -1,59 +1,58 @@
 #include "pickup.h"
 
+#include <algorithm>
 #include <climits>
 #include <cstddef>
-#include <map>
-#include <string>
-#include <vector>
-#include <algorithm>
 #include <functional>
-#include <memory>
-#include <utility>
 #include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "colony.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "input.h"
-#include "item_search.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_search.h"
+#include "item_stack.h"
+#include "line.h"
 #include "map.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
 #include "player.h"
+#include "player_activity.h"
+#include "point.h"
+#include "popup.h"
+#include "ret_val.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "character.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
-#include "int_id.h"
-#include "item.h"
-#include "line.h"
-#include "optional.h"
-#include "player_activity.h"
-#include "ret_val.h"
-#include "units.h"
-#include "type_id.h"
-#include "clzones.h"
-#include "colony.h"
-#include "faction.h"
-#include "item_stack.h"
-#include "map_selector.h"
-#include "pimpl.h"
-#include "point.h"
-#include "popup.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -244,7 +243,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         }
     }
     if( newit.invlet != '\0' &&
-        u.invlet_to_position( newit.invlet ) != INT_MIN ) {
+        u.invlet_to_item( newit.invlet ) != nullptr ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
         // add a new invlet, otherwise keep the (usable) invlet.
         newit.invlet = '\0';
@@ -482,7 +481,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Recursively pick up adjacent items if that option is on.
         if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && g->u.pos() == p ) {
             //Autopickup adjacent
-            direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
+            direction adjacentDir[8] = {direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST};
             for( auto &elem : adjacentDir ) {
 
                 tripoint apos = tripoint( direction_XY( elem ), 0 );

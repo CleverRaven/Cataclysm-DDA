@@ -1,25 +1,31 @@
 #include "init.h"
 
-#include <cstddef>
 #include <cassert>
-#include <fstream>
-#include <sstream> // for throwing errors
-#include <string>
-#include <vector>
+#include <cstddef>
 #include <exception>
+#include <fstream>
 #include <iterator>
 #include <memory>
+#include <sstream> // for throwing errors
 #include <stdexcept>
+#include <string>
+#include <vector>
 
+#include "achievement.h"
 #include "activity_type.h"
 #include "ammo.h"
+#include "ammo_effect.h"
 #include "anatomy.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "bodypart.h"
+#include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
+#include "construction_category.h"
 #include "crafting_gui.h"
 #include "creature.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "disease.h"
@@ -28,22 +34,25 @@
 #include "event_statistics.h"
 #include "faction.h"
 #include "fault.h"
+#include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
 #include "gates.h"
 #include "harvest.h"
 #include "item_action.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "json.h"
 #include "loading_ui.h"
-#include "mapdata.h"
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "magic_ter_furn_transform.h"
 #include "map_extras.h"
+#include "mapdata.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
-#include "magic.h"
-#include "magic_ter_furn_transform.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -54,6 +63,7 @@
 #include "npc_class.h"
 #include "omdata.h"
 #include "overlay_ordering.h"
+#include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "profession.h"
@@ -63,27 +73,22 @@
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
+#include "scent_map.h"
 #include "sdltiles.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
-#include "scent_map.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
-#include "bodypart.h"
-#include "translations.h"
-#include "type_id.h"
-#include "construction_category.h"
-#include "overmap.h"
-#include "clothing_mod.h"
-#include "ammo_effect.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -392,6 +397,7 @@ void DynamicDataLoader::initialize()
     add( "event_transformation", &event_transformation::load_transformation );
     add( "event_statistic", &event_statistic::load_statistic );
     add( "score", &score::load_score );
+    add( "achievement", &achievement::load_achievement );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -540,6 +546,7 @@ void DynamicDataLoader::unload_data()
     event_transformation::reset();
     event_statistic::reset();
     score::reset();
+    achievement::reset();
     scent_type::reset();
 
     // TODO:
@@ -700,6 +707,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency },
+            { _( "Achivements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
         }

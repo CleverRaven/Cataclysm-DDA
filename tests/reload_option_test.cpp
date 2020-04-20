@@ -1,10 +1,7 @@
-#include <list>
-#include <utility>
-
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "item.h"
 #include "item_location.h"
-#include "avatar.h"
 
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {

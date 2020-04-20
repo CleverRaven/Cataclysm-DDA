@@ -58,9 +58,8 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "diesel",
-    "damage": 5,
+    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 4 },
     "range": 4,
-    "pierce": 5,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
       "energy": 35.8,
@@ -78,7 +77,7 @@
     "weight": "1 g",
     "volume": "200ml",
     "price": 50,
-    "price_postapoc": 2000,
+    "price_postapoc": 1000,
     "looks_like": "diesel",
     "count": 250,
     "stack_size": 200,
@@ -107,7 +106,7 @@
     "weight": "1 g",
     "volume": "200ml",
     "price": 50,
-    "price_postapoc": 2000,
+    "price_postapoc": 1000,
     "count": 250,
     "stack_size": 200,
     "phase": "liquid",
@@ -157,9 +156,8 @@
     "symbol": "=",
     "color": "light_red",
     "ammo_type": "gasoline",
-    "damage": 5,
+    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "pierce": 5,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
       "energy": 34.2,
@@ -191,8 +189,7 @@
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     },
     "range": 6,
-    "damage": 2,
-    "pierce": 2,
+    "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
   },
   {
@@ -219,8 +216,7 @@
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     },
     "range": 6,
-    "damage": 2,
-    "pierce": 2,
+    "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
   },
   {
@@ -232,6 +228,7 @@
     "weight": "1 g",
     "volume": "200ml",
     "price": 8000,
+    "price_postapoc": 1000,
     "count": 250,
     "stack_size": 200,
     "phase": "liquid",
@@ -240,9 +237,8 @@
     "symbol": "=",
     "color": "light_red",
     "ammo_type": "flammable",
-    "damage": 15,
+    "damage": { "damage_type": "stab", "amount": 15, "armor_penetration": 30 },
     "range": 6,
-    "pierce": 30,
     "effects": [ "FLAME", "STREAM_BIG", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
@@ -252,10 +248,10 @@
     "copy-from": "gasoline",
     "description": "A flammable gel composed of gasoline and dissolved shavings of polystyrene, roughly similar in properties to napalm b.  It's meant to be used with a flamethrower.",
     "price": 400,
+    "price_postapoc": 500,
     "ammo_type": "flammable",
-    "damage": 10,
-    "range": 3,
-    "pierce": 10
+    "damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 10 },
+    "range": 3
   },
   {
     "id": "flamethrower_fuel",
@@ -264,6 +260,7 @@
     "copy-from": "gasoline",
     "description": "A mixture of gasoline and diesel oil in equal parts.  Its combustion properties make it unfit for applications where you would use any of them separately, but it can be used to feed a flamethrower.",
     "price": 400,
+    "price_postapoc": 500,
     "ammo_type": "flammable",
     "range": 0
   }

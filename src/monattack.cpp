@@ -1,13 +1,13 @@
 #include "monattack.h"
 
+#include <algorithm>
+#include <array>
 #include <cassert>
 #include <climits>
-#include <cstdlib>
-#include <algorithm>
 #include <cmath>
-#include <map>
-#include <array>
+#include <cstdlib>
 #include <list>
+#include <map>
 #include <memory>
 #include <ostream>
 #include <set>
@@ -18,21 +18,38 @@
 #include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "colony.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
-#include "timed_event.h"
-#include "field.h"
+#include "enums.h"
+#include "event.h"
+#include "event_bus.h"
+#include "explosion.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
 #include "gun_mode.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "material.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mondefense.h"
@@ -40,38 +57,27 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "npc.h"
 #include "name.h"
+#include "npc.h"
+#include "optional.h"
 #include "output.h"
+#include "pathfinding.h"
+#include "player.h"
+#include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
 #include "speech.h"
-#include "text_snippets.h"
-#include "translations.h"
-#include "ui.h"
-#include "weighted_list.h"
-#include "calendar.h"
-#include "creature.h"
-#include "damage.h"
-#include "enums.h"
-#include "explosion.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "item.h"
-#include "item_stack.h"
-#include "iuse.h"
-#include "optional.h"
-#include "pathfinding.h"
-#include "player.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "tileray.h"
+#include "timed_event.h"
+#include "translations.h"
 #include "type_id.h"
-#include "colony.h"
-#include "flat_set.h"
-#include "material.h"
-#include "point.h"
+#include "ui.h"
 #include "units.h"
+#include "value_ptr.h"
+#include "weighted_list.h"
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
@@ -469,7 +475,7 @@ bool mattack::shriek_stun( monster *z )
     int cone_angle = 20;
     for( const tripoint &cone : g->m.points_in_radius( z->pos(), 4 ) ) {
         int tile_angle = coord_to_angle( z->pos(), cone );
-        int diff = abs( target_angle - tile_angle );
+        int diff = std::abs( target_angle - tile_angle );
         // Skip the target, because it's outside cone or it's the source
         if( diff + cone_angle > 360 || diff > cone_angle || cone == z->pos() ) {
             continue;
@@ -588,7 +594,7 @@ bool mattack::acid( monster *z )
             tripoint dest = hitp + tripoint( i, j, 0 );
             if( g->m.passable( dest ) &&
                 g->m.clear_path( dest, hitp, 6, 1, 100 ) &&
-                ( ( one_in( abs( j ) ) && one_in( abs( i ) ) ) || ( i == 0 && j == 0 ) ) ) {
+                ( ( one_in( std::abs( j ) ) && one_in( std::abs( i ) ) ) || ( i == 0 && j == 0 ) ) ) {
                 g->m.add_field( dest, fd_acid, 2 );
             }
         }
@@ -962,7 +968,7 @@ bool mattack::resurrect( monster *z )
     if( corpses.empty() ) { // No nearby corpses
         if( found_eligible_corpse ) {
             // There was a corpse, but we haven't charged enough.
-            if( sees_necromancer && x_in_y( 1, sqrt( lowest_raise_score / 30.0 ) ) ) {
+            if( sees_necromancer && x_in_y( 1, std::sqrt( lowest_raise_score / 30.0 ) ) ) {
                 add_msg( m_info, _( "The %s gesticulates wildly." ), z->name() );
             }
             while( z->moves >= 0 ) {
@@ -1521,8 +1527,8 @@ bool mattack::vine( monster *z )
             return true;
         }
 
-        if( monster *const z = g->critter_at<monster>( dest ) ) {
-            if( z->type->id == mon_creeper_vine ) {
+        if( monster *const neighbor = g->critter_at<monster>( dest ) ) {
+            if( neighbor->type->id == mon_creeper_vine ) {
                 vine_neighbors++;
             }
         }
@@ -2153,7 +2159,7 @@ bool mattack::dermatik( monster *z )
     if( player_swat > dodge_roll ) {
         target->add_msg_if_player( _( "The %s lands on you, but you swat it off." ), z->name() );
         if( z->get_hp() >= z->get_hp_max() / 2 ) {
-            z->apply_damage( &g->u, bp_torso, 1 );
+            z->apply_damage( &g->u, bodypart_id( "torso" ), 1 );
             z->check_dead_state();
         }
         if( player_swat > dodge_roll * 1.5 ) {
@@ -4608,7 +4614,7 @@ bool mattack::thrown_by_judo( monster *z )
             const int max_damage = 20 + foe->get_skill_level( skill_unarmed );
             // Deal moderate damage
             const auto damage = rng( min_damage, max_damage );
-            z->apply_damage( foe, bp_torso, damage );
+            z->apply_damage( foe, bodypart_id( "torso" ), damage );
             z->check_dead_state();
         } else {
             // Still avoids the major hit!
@@ -5041,6 +5047,50 @@ bool mattack::flesh_tendril( monster *z )
     return false;
 }
 
+bool mattack::bio_op_random_biojutsu( monster *z )
+{
+    int choice;
+    int redo;
+
+    if( !z->can_act() ) {
+        return false;
+    }
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        !is_adjacent( z, target, false ) ||
+        !z->sees( *target ) ) {
+        return false;
+    }
+
+    player *foe = dynamic_cast< player * >( target );
+
+    do {
+        choice = rng( 1, 3 );
+        redo = false;
+
+        // ignore disarm if the target isn't a "player" or isn't armed
+        if( choice == 3 && foe != nullptr && !foe->is_armed() ) {
+            redo = true;
+        }
+
+    } while( redo );
+
+    switch( choice ) {
+        case 1:
+            bio_op_takedown( z );
+            break;
+        case 2:
+            bio_op_impale( z );
+            break;
+        case 3:
+            bio_op_disarm( z );
+            break;
+    }
+
+    return true;
+}
+
 bool mattack::bio_op_takedown( monster *z )
 {
     if( !z->can_act() ) {
@@ -5136,6 +5186,153 @@ bool mattack::bio_op_takedown( monster *z )
     return true;
 }
 
+bool mattack::bio_op_impale( monster *z )
+{
+    if( !z->can_act() ) {
+        return false;
+    }
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        !is_adjacent( z, target, false ) ||
+        !z->sees( *target ) ) {
+        return false;
+    }
+
+    const bool seen = g->u.sees( *z );
+    player *foe = dynamic_cast< player * >( target );
+    if( seen ) {
+        add_msg( _( "The %1$s mechanically lunges at %2$s!" ), z->name(),
+                 target->disp_name() );
+    }
+    z->moves -= 100;
+
+    if( target->uncanny_dodge() ) {
+        return true;
+    }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    if( dodge_check( z, target ) ) {
+        target->add_msg_player_or_npc( _( "You dodge it!" ),
+                                       _( "<npcname> dodges it!" ) );
+        target->on_dodge( z, z->type->melee_skill * 2 );
+        return true;
+    }
+
+    // Yes, it has the CQC bionic.
+    int dam = rng( 8, 24 );
+    bool do_bleed = false;
+    int t_dam;
+
+    if( one_in( 4 ) ) {
+        dam = rng( 12, 36 ); // 50% damage buff for the crit.
+        do_bleed = true;
+    }
+
+    if( foe == nullptr ) {
+        // Handle mons earlier - less to check for
+        target->deal_damage( z, bp_torso, damage_instance( DT_STAB, dam ) );
+        if( do_bleed ) {
+            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
+        }
+        if( seen ) {
+            add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );
+        }
+        target->check_dead_state();
+        return true;
+    }
+
+    body_part hit = target->get_random_body_part()->token;
+
+    t_dam = foe->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
+
+    target->add_msg_player_or_npc( _( "The %1$s tries to impale your %s…" ),
+                                   _( "The %1$s tries to impale <npcname>'s %s…" ),
+                                   z->name(), body_part_name_accusative( hit ) );
+
+    if( t_dam > 0 ) {
+        target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
+
+        if( do_bleed ) {
+            target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), true );
+        }
+    } else {
+        target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
+                                       _( "but fails to penetrate <npcname>'s armor!" ) );
+    }
+
+    target->on_hit( z, hit, z->type->melee_skill );
+    foe->check_dead_state();
+
+    return true;
+}
+
+bool mattack::bio_op_disarm( monster *z )
+{
+    if( !z->can_act() ) {
+        return false;
+    }
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        !is_adjacent( z, target, false ) ||
+        !z->sees( *target ) ) {
+        return false;
+    }
+
+    const bool seen = g->u.sees( *z );
+    player *foe = dynamic_cast< player * >( target );
+
+    // disarm doesn't work on creatures or unarmed targets
+    if( foe == nullptr || ( foe != nullptr && !foe->is_armed() ) ) {
+        return false;
+    }
+
+    if( seen ) {
+        add_msg( _( "The %1$s mechanically reaches for %2$s!" ), z->name(),
+                 target->disp_name() );
+    }
+    z->moves -= 100;
+
+    if( target->uncanny_dodge() ) {
+        return true;
+    }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    if( dodge_check( z, target ) ) {
+        target->add_msg_player_or_npc( _( "You dodge it!" ),
+                                       _( "<npcname> dodges it!" ) );
+        target->on_dodge( z, z->type->melee_skill * 2 );
+        return true;
+    }
+
+    int mon_stat = z->type->melee_dice * z->type->melee_sides;
+    int my_roll = dice( 3, 2 * mon_stat );
+    my_roll += dice( 3, z->type->melee_skill );
+
+    /** @EFFECT_STR increases chance to avoid disarm, primary stat */
+    /** @EFFECT_DEX increases chance to avoid disarm, secondary stat */
+    /** @EFFECT_PER increases chance to avoid disarm, secondary stat */
+    /** @EFFECT_MELEE increases chance to avoid disarm */
+    int their_roll = dice( 3, 2 * foe->get_str() + foe->get_dex() );
+    their_roll += dice( 3, foe->get_per() );
+    their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
+
+    item &it = foe->weapon;
+
+    target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
+
+    if( my_roll >= their_roll && !it.has_flag( "NO_UNWIELD" ) ) {
+        target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
+        const tripoint tp = foe->pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+        g->m.add_item_or_charges( tp, foe->i_rem( &it ) );
+    } else {
+        target->add_msg_if_player( m_good, _( "but you break its grip!" ) );
+    }
+
+    return true;
+}
+
 bool mattack::suicide( monster *z )
 {
     Creature *target = z->attack_target();
@@ -5226,14 +5423,14 @@ bool mattack::kamikaze( monster *z )
     }
     // Extra check here to avoid sqrt if not needed
     if( exp_actor->explosion.power > -1 ) {
-        int tmp = static_cast<int>( sqrt( static_cast<double>( exp_actor->explosion.power / 4 ) ) );
+        int tmp = static_cast<int>( std::sqrt( static_cast<double>( exp_actor->explosion.power / 4 ) ) );
         if( tmp > radius ) {
             radius = tmp;
         }
     }
     if( exp_actor->explosion.shrapnel.casing_mass > 0 ) {
         // Actual factor is 2 * radius, but figure most pieces of shrapnel will miss
-        int tmp = static_cast<int>( sqrt( exp_actor->explosion.power ) );
+        int tmp = static_cast<int>( std::sqrt( exp_actor->explosion.power ) );
         if( tmp > radius ) {
             radius = tmp;
         }
@@ -5571,5 +5768,5 @@ bool mattack::dodge_check( monster *z, Creature *target )
 {
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
     float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
-    return rng( 0, 10000 ) < 10000 / ( 1 + 99 * exp( -.6 * dodge ) );
+    return rng( 0, 10000 ) < 10000 / ( 1 + 99 * std::exp( -.6 * dodge ) );
 }

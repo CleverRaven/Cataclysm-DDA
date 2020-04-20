@@ -3,45 +3,47 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
+#include "colony.h"
+#include "debug.h"
 #include "game.h"
 #include "ime.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
+#include "item_stack.h"
+#include "line.h"
 #include "map.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "character.h"
-#include "debug.h"
-#include "inventory.h"
-#include "line.h"
-#include "optional.h"
 #include "visitable.h"
-#include "colony.h"
-#include "item_stack.h"
-#include "point.h"
+#include "vpart_position.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
-#include <set>
-#include <string>
-#include <vector>
-#include <map>
-#include <limits>
-#include <numeric>
 #include <algorithm>
 #include <iterator>
+#include <limits>
+#include <map>
+#include <numeric>
+#include <set>
+#include <string>
 #include <type_traits>
+#include <vector>
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;
@@ -1498,7 +1500,7 @@ void inventory_selector::refresh_window() const
 void inventory_selector::set_filter()
 {
     string_input_popup spopup;
-    spopup.window( w_inv, 4, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4 )
+    spopup.window( w_inv, point( 4, getmaxy( w_inv ) - 1 ), ( getmaxx( w_inv ) / 2 ) - 4 )
     .max_length( 256 )
     .text( filter );
 

@@ -1,11 +1,17 @@
 #include "item_contents.h"
 
+#include <algorithm>
+#include <memory>
+
 #include "character.h"
+#include "enums.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+
+struct tripoint;
 
 bool item_contents::empty() const
 {
@@ -42,7 +48,7 @@ void item_contents::handle_liquid_or_spill( Character &guy )
             liquid_handler::handle_all_liquid( liquid, 1 );
         } else {
             item i_copy( *iter );
-            items.erase( iter );
+            iter = items.erase( iter );
             guy.i_add_or_drop( i_copy );
         }
     }
@@ -134,6 +140,28 @@ std::list<const item *> item_contents::all_items_top() const
     std::list<const item *> ret;
     for( const item &it : items ) {
         ret.push_back( &it );
+    }
+    return ret;
+}
+
+std::list<item *> item_contents::all_items_ptr()
+{
+    std::list<item *> ret;
+    for( item &it : items ) {
+        ret.push_back( &it );
+        std::list<item *> inside = it.contents.all_items_ptr();
+        ret.insert( ret.end(), inside.begin(), inside.end() );
+    }
+    return ret;
+}
+
+std::list<const item *> item_contents::all_items_ptr() const
+{
+    std::list<const item *> ret;
+    for( const item &it : items ) {
+        ret.push_back( &it );
+        std::list<const item *> inside = it.contents.all_items_ptr();
+        ret.insert( ret.end(), inside.begin(), inside.end() );
     }
     return ret;
 }

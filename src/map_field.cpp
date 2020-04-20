@@ -1,64 +1,64 @@
-#include <array>
-#include <cmath>
-#include <cstddef>
 #include <algorithm>
-#include <queue>
-#include <tuple>
-#include <iterator>
-#include <list>
-#include <memory>
-#include <utility>
-#include <vector>
 #include <array>
 #include <bitset>
+#include <cstddef>
+#include <list>
+#include <memory>
+#include <queue>
+#include <set>
 #include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 
-#include "field.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "colony.h"
 #include "coordinate_conversions.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
 #include "emit.h"
 #include "enums.h"
+#include "field.h"
+#include "field_type.h"
 #include "fire.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_contents.h"
 #include "itype.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "material.h"
 #include "messages.h"
+#include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
 #include "overmapbuffer.h"
+#include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "rng.h"
-#include "scent_map.h"
+#include "scent_block.h"
+#include "string_id.h"
 #include "submap.h"
+#include "teleport.h"
 #include "translations.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "bodypart.h"
-#include "creature.h"
-#include "damage.h"
-#include "int_id.h"
-#include "item.h"
-#include "line.h"
-#include "optional.h"
-#include "player.h"
-#include "pldata.h"
-#include "string_id.h"
-#include "units.h"
-#include "type_id.h"
-#include "basecamp.h"
-#include "colony.h"
-#include "game_constants.h"
-#include "point.h"
-#include "scent_block.h"
-#include "mongroup.h"
-#include "teleport.h"
 
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
@@ -1141,7 +1141,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                     p->check_dead_state();
                                 } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
-                                    mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
+                                    mon->apply_damage( nullptr, bodypart_id( "torso" ), 6 - mon->get_armor_bash( bp_torso ) );
                                     if( g->u.sees( newp ) ) {
                                         add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                     }
@@ -1996,7 +1996,7 @@ void map::monster_in_field( monster &z )
     }
 
     if( dam > 0 ) {
-        z.apply_damage( nullptr, bp_torso, dam, true );
+        z.apply_damage( nullptr, bodypart_id( "torso" ), dam, true );
         z.check_dead_state();
     }
 }

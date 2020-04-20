@@ -45,3 +45,25 @@ Line breaks occur after open brackets, close brackets, or entries.
 ## Formatting tool
 
 The formatting tool can be invoked via the Makefile, directly as `tools/format/json_formatter.cgi` (built via (`make json_formatter`), or via cgi at http://dev.narc.ro/cataclysm/format.html
+
+If you're using the Visual Studio solution, you can configure Visual Studio with
+commands to format all of the JSON in the project.
+
+1. Build the JsonFormatter project by either building the entire solution or
+   just that project. This will create a `tools/format/json_formatter.exe`
+   binary.
+2. Add a new external tool entry ( `Tools` > `External Tools..` > `Add` ) and
+   configure it as follows: 
+   * Title: `Lint All JSON` 
+   * Command: `C:\windows\system32\windowspowershell\v1.0\powershell.exe`
+   * Arguments: `-file $(SolutionDir)\style-json.ps1`
+   * Initial Directory: `$(SolutionDir)`
+   * Use Output window: *checked*
+
+At this point, you can use the menu ( `Tools` > `Lint All JSON` ) to invoke the
+command and can look in the Output Window for the output of running it.
+Additionally, you can configure a keybinding for this command by navigating to
+`Tools` > `Options` > `Environment` > `Keyboard`, searching for commands
+containing `Tools.ExternalCommand` and pick the one that corresponds to the
+position of your command in the list (e.g. `Tools.ExternalCommand1` if it's the
+top item in the list) and then assign shortcut keys to it.

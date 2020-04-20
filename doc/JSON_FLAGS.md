@@ -148,7 +148,6 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```laser_capacitor``` Charge
 - ```m235``` M235 TPA (66mm Incendiary Rocket)
 - ```metal_rail``` Rebar Rail
-- ```mininuke_mod``` Mininuke
 - ```money``` Cents
 - ```muscle``` Muscle
 - ```nail``` Nail
@@ -190,6 +189,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```NAPALM``` Explosion that spreads fire.
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
+- ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
 - ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilise them.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
@@ -795,10 +795,11 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```NO_UNWIELD``` Cannot unwield this item.
+- ```POLEARM``` Item is clumsy up close and does 70% of normal damage against adjacent targets.  Should be paired with REACH_ATTACK.  Simple reach piercing weapons like spears should not get this flag.
 - ```REACH_ATTACK``` Allows to perform reach attack.
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
-- ```SPEAR``` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle
+- ```SPEAR``` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle.  Should be paired with REACH_ATTACK.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```WHIP``` Has a chance of disarming the opponent.
 
@@ -1003,7 +1004,10 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```ACID_BARF``` Barfs corroding, blinding acid.
 - ```ACID``` Spit acid.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
-- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown maneuverer.
+- ```BIO_OP_BIOJUTSU``` Attack with a random special martial art maneuver.
+- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown maneuver.
+- ```BIO_OP_DISARM``` Attack with a special martial art disarm maneuver.
+- ```BIO_OP_IMPALE``` Attack with a strong martial art maneuver.
 - ```BITE``` Bite attack that can cause deep infected wounds.
 - ```BMG_TUR``` Barrett .50BMG rifle fires.
 - ```BOOMER_GLOW``` Spit glowing bile.
@@ -1089,7 +1093,6 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 #### Flags
 
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
-- ```NEED_ACTIVE_TO_MELEE``` This mutation gives bonus to unarmed melee only if it's active.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.

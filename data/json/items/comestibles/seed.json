@@ -8,6 +8,7 @@
     "volume": "250 ml",
     "weight": "1 g",
     "price": 120,
+    "price_postapoc": 25,
     "charges": 4,
     "stack_size": 100,
     "material": "veggy",
@@ -672,6 +673,7 @@
     "calories": 78,
     "description": "Some fried seeds of a sunflower, pumpkin or other plant.  Quite nutritious and tasty.",
     "price": 80,
+    "price_postapoc": 50,
     "material": "veggy",
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
@@ -695,6 +697,7 @@
     "calories": 9,
     "description": "Coffee pods taken from a Kentucky coffeetree.  If washed thoroughly and roasted, you could use them to make a dark and bitter brew much like coffee.",
     "price": 100,
+    "price_postapoc": 50,
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
@@ -745,6 +748,22 @@
     "name": { "str": "chamomile seeds", "str_pl": "chamomile seeds" },
     "description": "Some chamomile seeds.",
     "seed_data": { "plant_name": "chamomile", "fruit": "chamomile", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_popcorn",
+    "copy-from": "seed",
+    "name": { "str": "popcorn seeds", "str_pl": "popcorn seeds" },
+    "description": "Some popcorn seeds.",
+    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_horseradish",
+    "copy-from": "seed",
+    "name": { "str": "horseradish seeds", "str_pl": "horseradish seeds" },
+    "description": "Some horseradish seeds.",
+    "seed_data": { "plant_name": "horseradish", "fruit": "horseradish_root", "byproducts": [ "horseradish_greens" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",

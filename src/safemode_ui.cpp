@@ -1,15 +1,18 @@
 #include "safemode_ui.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <fstream>
-#include <string>
-#include <algorithm>
 #include <map>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "color.h"
+#include "compatibility.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -20,13 +23,11 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "compatibility.h"
-#include "cursesdef.h"
 
 safemode &get_safemode()
 {

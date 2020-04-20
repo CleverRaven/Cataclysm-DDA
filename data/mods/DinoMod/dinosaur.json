@@ -99,6 +99,48 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_pachycephalosaurus",
+    "name": { "str": "Pachycephalosaurus", "str_pl": "Pachycephalosaurus" },
+    "species": "DINOSAUR",
+    "default_faction": "pachycephalosaurus",
+    "symbol": "D",
+    "color": "light_green_yellow",
+    "volume": "450000 ml",
+    "weight": "450 kg",
+    "material": "flesh",
+    "aggression": -40,
+    "morale": -10,
+    "speed": 150,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 1,
+    "hp": 40,
+    "death_function": [ "NORMAL" ],
+    "description": "A feathered bipedal dinosaur, standing as tall as a human.  It looks like a reptilian ostrich with a round hard-looking domed head.",
+    "reproduction": { "baby_egg": "egg_pachycephalosaurus", "baby_count": 3, "baby_timer": 12 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PET_MOUNTABLE",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "WARM"
+    ],
+    "harvest": "dino_feather_leather",
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_spinosaurus",
     "name": { "str": "Spinosaurus", "str_pl": "Spinosaurus" },
     "species": "DINOSAUR",
@@ -205,7 +247,18 @@
     "reproduction": { "baby_egg": "egg_triceratops", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PET_MOUNTABLE",
+      "CATTLEFODDER",
+      "BASHES",
+      "WARM"
+    ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
@@ -483,6 +536,40 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_dimorphodon",
+    "name": { "str": "Dimorphodon", "str_pl": "Dimorphodon" },
+    "species": "DINOSAUR",
+    "default_faction": "dimorphodon",
+    "symbol": "D",
+    "color": "light_gray_yellow",
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "material": "flesh",
+    "aggression": -80,
+    "morale": -8,
+    "speed": 110,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_cut": 0,
+    "dodge": 3,
+    "armor_bash": 3,
+    "armor_cut": 1,
+    "vision_day": 50,
+    "hp": 30,
+    "death_function": [ "NORMAL" ],
+    "description": "A feathered flying reptile over three feet long, with short wings and a big colorful beak.",
+    "reproduction": { "baby_egg": "egg_dimorphodon", "baby_count": 3, "baby_timer": 24 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED" ],
+    "harvest": "animal_noskin",
+    "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
+    "placate_triggers": [ "MEAT" ],
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_dilophosaurus",
     "name": { "str": "Dilophosaurus", "str_pl": "Dilophosaurus" },
     "species": "DINOSAUR",
@@ -551,6 +638,13 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light green and yellow hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_gallimimus" }
+  },
+  {
+    "id": "mon_pachycephalosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light green and yellow hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_pachycephalosaurus" }
   },
   {
     "id": "mon_spinosaurus_hatchling",
@@ -630,6 +724,13 @@
     "upgrades": { "age_grow": 30, "into": "mon_parasaurolophus" }
   },
   {
+    "id": "mon_dimorphodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
+  },
+  {
     "id": "mon_dilophosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -643,6 +744,7 @@
     "monsters": [
       { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_pachycephalosaurus", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_tyrannosaurus", "freq": 1, "cost_multiplier": 40 },
       { "monster": "mon_triceratops", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
@@ -654,6 +756,7 @@
       { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utahraptor", "freq": 5, "cost_multiplier": 30 },
       { "monster": "mon_parasaurolophus", "freq": 3, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_dilophosaurus", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
     ]
   },
@@ -678,6 +781,12 @@
       { "monster": "mon_utahraptor", "freq": 5, "cost_multiplier": 30 },
       { "monster": "mon_dilophosaurus", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_FLY",
+    "default": "mon_null",
+    "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
   },
   {
     "type": "monstergroup",
@@ -711,6 +820,13 @@
         "freq": 20,
         "cost_multiplier": 0,
         "pack_size": [ 4, 8 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_pachycephalosaurus",
+        "freq": 10,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -789,6 +905,13 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_PARK_ANIMAL",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_CAVE",
     "default": "mon_null",
     "is_animal": true,
@@ -806,6 +929,7 @@
       { "monster": "mon_deinonychus", "freq": 100, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
       { "monster": "mon_utahraptor", "freq": 100, "cost_multiplier": 30 },
       { "monster": "mon_parasaurolophus", "freq": 80, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_dimorphodon", "freq": 500, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_dilophosaurus", "freq": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
     ]
   }

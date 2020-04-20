@@ -1,42 +1,61 @@
 #include "veh_interact.h"
 
-#include <cstdlib>
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <cstdlib>
 #include <functional>
+#include <iostream>
 #include <iterator>
 #include <list>
-#include <numeric>
-#include <string>
-#include <array>
 #include <memory>
+#include <numeric>
 #include <set>
+#include <string>
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "crafting.h"
+#include "character_id.h"
 #include "debug.h"
+#include "enums.h"
+#include "faction.h"
 #include "fault.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "handle_liquid.h"
+#include "item.h"
+#include "item_contents.h"
 #include "itype.h"
-#include "math_defines.h"
 #include "map.h"
 #include "map_selector.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
+#include "monster.h"
 #include "npc.h"
+#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "point.h"
+#include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
+#include "tileray.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "veh_utils.h"
@@ -44,20 +63,6 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "calendar.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "optional.h"
-#include "requirements.h"
-#include "tileray.h"
-#include "units.h"
-#include "item.h"
-#include "string_id.h"
-#include "colony.h"
-#include "flat_set.h"
-#include "mapdata.h"
-#include "point.h"
-#include "material.h"
 
 static const itype_id fuel_type_battery( "battery" );
 
@@ -70,8 +75,6 @@ static const quality_id qual_SELF_JACK( "SELF_JACK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
-
-class player;
 
 static inline std::string status_color( bool status )
 {
@@ -87,7 +90,7 @@ static double jack_quality( const vehicle &veh )
 {
     const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(),
             JACK_LIMIT );
-    return ceil( mass / TOOL_LIFT_FACTOR );
+    return std::ceil( mass / TOOL_LIFT_FACTOR );
 }
 
 /** Can part currently be reloaded with anything? */
@@ -604,7 +607,7 @@ task_reason veh_interact::cant_do( char mode )
             return UNKNOWN_TASK;
     }
 
-    if( abs( veh->velocity ) > 100 || g->u.controlling_vehicle ) {
+    if( std::abs( veh->velocity ) > 100 || g->u.controlling_vehicle ) {
         return MOVING_VEHICLE;
     }
     if( !valid_target ) {
@@ -1372,7 +1375,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     };
     headers["BATTERY"] = [epower_w]( const catacurses::window & w, int y ) {
         std::string batt;
-        if( abs( epower_w ) < 10000 ) {
+        if( std::abs( epower_w ) < 10000 ) {
             batt = string_format( _( "Batteries: %s%+4d W</color>" ),
                                   health_color( epower_w >= 0 ), epower_w );
         } else {
@@ -1742,7 +1745,8 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         use_str = g->u.can_lift( *veh );
     } else {
         qual = qual_LIFT;
-        lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
+        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
+                         TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
         use_str = g->u.can_lift( base );
@@ -2463,7 +2467,7 @@ void veh_interact::display_stats() const
     i = std::max( i, 2 * stats_h );
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
-    veh->print_fuel_indicators( w_stats, y[i], x[i], fuel_index, true,
+    veh->print_fuel_indicators( w_stats, point( x[i], y[i] ), fuel_index, true,
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ),
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ) );
 

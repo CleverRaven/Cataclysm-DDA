@@ -1,6 +1,6 @@
 #pragma once
-#ifndef UI_MANAGER_H
-#define UI_MANAGER_H
+#ifndef CATA_SRC_UI_MANAGER_H
+#define CATA_SRC_UI_MANAGER_H
 
 #include <functional>
 
@@ -52,10 +52,17 @@ class ui_adaptor
         // initialization is not possible or wanted.
         void mark_resize() const;
 
+        // Invalidate this UI so it gets redrawn the next time screen is refreshed,
+        // unless an upper UI completely occludes this UI. May also cause upper UIs
+        // to redraw.
+        void invalidate_ui() const;
+
         static void invalidate( const rectangle &rect );
         static void redraw();
         static void screen_resized();
     private:
+        static void invalidation_consistency_and_optimization();
+
         // pixel dimensions in tiles, console cell dimensions in curses
         rectangle dimensions;
         redraw_callback_t redraw_cb;
@@ -87,4 +94,4 @@ void redraw();
 void screen_resized();
 } // namespace ui_manager
 
-#endif
+#endif // CATA_SRC_UI_MANAGER_H

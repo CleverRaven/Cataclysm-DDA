@@ -1,88 +1,96 @@
 #include "map.h"
 
-#include <climits>
 #include <algorithm>
 #include <cassert>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <limits>
+#include <ostream>
 #include <queue>
+#include <type_traits>
 #include <unordered_map>
 
+#include "active_item_cache.h"
 #include "ammo.h"
 #include "ammo_effect.h"
 #include "artifact.h"
 #include "avatar.h"
+#include "basecamp.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "colony.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
+#include "color.h"
+#include "construction.h"
+#include "coordinate_conversions.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "drawing_primitives.h"
-#include "emit.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
+#include "item_location.h"
+#include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map_iterator.h"
+#include "map_memory.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "submap.h"
+#include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "active_item_cache.h"
-#include "basecamp.h"
-#include "bodypart.h"
-#include "character.h"
-#include "color.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "damage.h"
-#include "field.h"
-#include "item_location.h"
-#include "itype.h"
-#include "iuse.h"
-#include "map_memory.h"
-#include "math_defines.h"
-#include "optional.h"
-#include "tileray.h"
 #include "weighted_list.h"
-#include "enums.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "construction.h"
-#include "flat_set.h"
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -441,7 +449,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     if( dp == tripoint_zero ) {
         debugmsg( "Empty displacement vector" );
         return &veh;
-    } else if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) {
+    } else if( std::abs( dp.x ) > 1 || std::abs( dp.y ) > 1 || std::abs( dp.z ) > 1 ) {
         debugmsg( "Invalid displacement vector: %d, %d, %d", dp.x, dp.y, dp.z );
         return &veh;
     }
@@ -769,7 +777,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m1 = to_kilogram( veh.total_mass() );
         // Collision is perfectly inelastic for simplicity
         // Assume veh2 is standing still
-        dmg = abs( veh.vertical_velocity / 100 ) * m1 / 10;
+        dmg = std::abs( veh.vertical_velocity / 100 ) * m1 / 10;
         veh.vertical_velocity = 0;
     }
 
@@ -1720,7 +1728,8 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     assert( to.z > std::numeric_limits<int>::min() );
     // Note: no need to check inbounds here, because maptile_at will do that
     // If oob tile is supplied, the maptile_at will be an unpassable "null" tile
-    if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ) {
+    if( std::abs( from.x - to.x ) > 1 || std::abs( from.y - to.y ) > 1 ||
+        std::abs( from.z - to.z ) > 1 ) {
         return false;
     }
 
@@ -1765,7 +1774,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     if( !up_ter.has_flag( TFLAG_NO_FLOOR ) && !up_ter.has_flag( TFLAG_GOES_DOWN ) && !up_is_ledge ) {
         // Can't move from up to down
-        if( abs( from.x - to.x ) == 1 || abs( from.y - to.y ) == 1 ) {
+        if( std::abs( from.x - to.x ) == 1 || std::abs( from.y - to.y ) == 1 ) {
             // Break the move into two - vertical then horizontal
             tripoint midpoint( down_p.xy(), up_p.z );
             return valid_move( down_p, midpoint, bash, flying ) &&
@@ -2034,7 +2043,7 @@ void map::drop_furniture( const tripoint &p )
             pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
         } else if( mon != nullptr ) {
             // TODO: Monster's armor and size - don't crush hulks with chairs
-            mon->apply_damage( nullptr, bp_torso, rng( dmg, dmg * 2 ) );
+            mon->apply_damage( nullptr, bodypart_id( "torso" ), rng( dmg, dmg * 2 ) );
         }
     }
 
@@ -2418,16 +2427,16 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
     int xmov = 0;
     int ymov = 0;
     switch( dir ) {
-        case NORTH:
+        case direction::NORTH:
             ymov = -1;
             break;
-        case SOUTH:
+        case direction::SOUTH:
             ymov = 1;
             break;
-        case WEST:
+        case direction::WEST:
             xmov = -1;
             break;
-        case EAST:
+        case direction::EAST:
             xmov = 1;
             break;
         default:
@@ -2437,10 +2446,10 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
     int y2 = p.y;
     bool result = true;
     bool loop = true;
-    while( ( loop ) && ( ( dir == NORTH && y2 >= 0 ) ||
-                         ( dir == SOUTH && y2 < max.y ) ||
-                         ( dir == WEST  && x2 >= 0 ) ||
-                         ( dir == EAST  && x2 < max.x ) ) ) {
+    while( ( loop ) && ( ( dir == direction::NORTH && y2 >= 0 ) ||
+                         ( dir == direction::SOUTH && y2 < max.y ) ||
+                         ( dir == direction::WEST  && x2 >= 0 ) ||
+                         ( dir == direction::EAST  && x2 < max.x ) ) ) {
         if( no_furn && has_furn( point( x2, y2 ) ) ) {
             loop = false;
             result = false;
@@ -3415,7 +3424,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     // TODO: Make bashing count fully, but other types much less
     float initial_damage = 0.0;
     for( damage_unit dam : proj.impact ) {
-        initial_damage += dam.amount / 3;
+        initial_damage += dam.amount;
         initial_damage += dam.res_pen;
     }
     if( initial_damage < 0 ) {
@@ -4620,9 +4629,9 @@ bool map::could_see_items( const tripoint &p, const tripoint &from ) const
     if( container ) {
         // can see inside of containers if adjacent or
         // on top of the container
-        return ( abs( p.x - from.x ) <= 1 &&
-                 abs( p.y - from.y ) <= 1 &&
-                 abs( p.z - from.z ) <= 1 );
+        return ( std::abs( p.x - from.x ) <= 1 &&
+                 std::abs( p.y - from.y ) <= 1 &&
+                 std::abs( p.z - from.z ) <= 1 );
     }
     return true;
 }
@@ -6435,7 +6444,7 @@ void map::shift( const point &sp )
         return; // Skip this?
     }
 
-    if( abs( sp.x ) > 1 || abs( sp.y ) > 1 ) {
+    if( std::abs( sp.x ) > 1 || std::abs( sp.y ) > 1 ) {
         debugmsg( "map::shift called with a shift of more than one submap" );
     }
 

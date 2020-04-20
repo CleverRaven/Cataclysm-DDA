@@ -5,99 +5,113 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
-#include <climits>
-#include <cctype>
-#include <cstddef>
 #include <algorithm>
-#include <limits>
-#include <numeric>
-#include <sstream>
 #include <array>
+#include <bitset>
+#include <climits>
+#include <cstdint>
+#include <cstdlib>
 #include <iterator>
+#include <limits>
 #include <list>
 #include <map>
 #include <memory>
+#include <numeric>
 #include <set>
+#include <sstream>
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <bitset>
 
+#include "active_item_cache.h"
 #include "activity_actor.h"
-#include "auto_pickup.h"
 #include "assign.h"
+#include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_io.h"
+#include "cata_variant.h"
+#include "character.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "clone_ptr.h"
+#include "clzones.h"
+#include "colony.h"
+#include "compatibility.h"
+#include "computer.h"
+#include "construction.h"
+#include "craft_command.h"
+#include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "effect.h"
+#include "enum_conversions.h"
+#include "event.h"
+#include "faction.h"
+#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "inventory.h"
-#include "cata_io.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_location.h"
+#include "itype.h"
 #include "json.h"
 #include "kill_tracker.h"
+#include "lru_cache.h"
+#include "magic.h"
+#include "magic_teleporter_list.h"
+#include "map_memory.h"
+#include "mapdata.h"
+#include "mattack_common.h"
+#include "memory_fast.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "optional.h"
 #include "options.h"
+#include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point.h"
 #include "profession.h"
+#include "ranged.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
+#include "stats_tracker.h"
+#include "stomach.h"
+#include "string_id.h"
 #include "submap.h"
+#include "text_snippets.h"
+#include "tileray.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-#include "vpart_range.h"
-#include "creature_tracker.h"
-#include "overmapbuffer.h"
-#include "active_item_cache.h"
-#include "bodypart.h"
-#include "character.h"
-#include "clzones.h"
-#include "creature.h"
-#include "faction.h"
-#include "game_constants.h"
-#include "item_location.h"
-#include "itype.h"
-#include "map_memory.h"
-#include "mapdata.h"
-#include "mattack_common.h"
-#include "morale_types.h"
-#include "pimpl.h"
-#include "recipe.h"
-#include "text_snippets.h"
-#include "tileray.h"
-#include "visitable.h"
-#include "string_id.h"
-#include "colony.h"
-#include "computer.h"
-#include "construction.h"
-#include "field.h"
-#include "flat_set.h"
-#include "int_id.h"
-#include "lru_cache.h"
-#include "magic_teleporter_list.h"
-#include "point.h"
-#include "requirements.h"
-#include "stats_tracker.h"
 #include "vpart_position.h"
-#include "ranged.h"
+#include "vpart_range.h"
 
-struct oter_type_t;
 struct mutation_branch;
+struct oter_type_t;
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 
@@ -381,6 +395,10 @@ void Character::load( const JsonObject &data )
     data.read( "per_bonus", per_bonus );
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
+
+    data.read( "base_age", init_age );
+    data.read( "base_height", init_height );
+
     // needs
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
@@ -482,12 +500,12 @@ void Character::load( const JsonObject &data )
     if( savegame_loading_version <= 23 ) {
         std::unordered_set<trait_id> old_my_mutations;
         data.read( "mutations", old_my_mutations );
-        for( const auto &mut : old_my_mutations ) {
+        for( const trait_id &mut : old_my_mutations ) {
             my_mutations[mut]; // Creates a new entry with default values
         }
         std::map<trait_id, char> trait_keys;
         data.read( "mutation_keys", trait_keys );
-        for( const auto &k : trait_keys ) {
+        for( const std::pair<trait_id, char> &k : trait_keys ) {
             my_mutations[k.first].key = k.second;
         }
         std::set<trait_id> active_muts;
@@ -499,14 +517,14 @@ void Character::load( const JsonObject &data )
         data.read( "mutations", my_mutations );
     }
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
-        const auto &mid = it->first;
+        const trait_id &mid = it->first;
         if( mid.is_valid() ) {
             on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
-            my_mutations.erase( it++ );
+            it = my_mutations.erase( it );
         }
     }
     size_class = calculate_size( *this );
@@ -534,6 +552,14 @@ void Character::load( const JsonObject &data )
     if( data.has_member( "inv" ) ) {
         JsonIn *invin = data.get_raw( "inv" );
         inv.json_load_items( *invin );
+    }
+    // this is after inventory is loaded to make it more obvious that
+    // it needs to be changed again when Character::i_at is removed for nested containers
+    if( savegame_loading_version < 28 ) {
+        activity.migrate_item_position( *this );
+        destination_activity.migrate_item_position( *this );
+        stashed_outbounds_activity.migrate_item_position( *this );
+        stashed_outbounds_backlog.migrate_item_position( *this );
     }
 
     weapon = item( "null", 0 );
@@ -628,6 +654,9 @@ void Character::store( JsonOut &json ) const
     json.member( "dex_bonus", dex_bonus );
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
+
+    json.member( "base_age", init_age );
+    json.member( "base_height", init_height );
 
     // health
     json.member( "healthy", healthy );
@@ -947,10 +976,10 @@ void avatar::store( JsonOut &json ) const
     json.member( "focus_pool", focus_pool );
 
     // stats through kills
-    json.member( "str_upgrade", abs( str_upgrade ) );
-    json.member( "dex_upgrade", abs( dex_upgrade ) );
-    json.member( "int_upgrade", abs( int_upgrade ) );
-    json.member( "per_upgrade", abs( per_upgrade ) );
+    json.member( "str_upgrade", std::abs( str_upgrade ) );
+    json.member( "dex_upgrade", std::abs( dex_upgrade ) );
+    json.member( "int_upgrade", std::abs( int_upgrade ) );
+    json.member( "per_upgrade", std::abs( per_upgrade ) );
 
     // targeting
     if( activity.id() == ACT_AIM ) {
@@ -2267,11 +2296,6 @@ void item::io( Archive &archive )
         gun_set_mode( gun_mode_id( mode ) );
     }
 
-    // Sealed item migration: items with "unseals_into" set should always have contents
-    if( contents.empty() && is_non_resealable_container() ) {
-        convert( type->container->unseals_into );
-    }
-
     // Books without any chapters don't need to store a remaining-chapters
     // counter, it will always be 0 and it prevents proper stacking.
     if( get_chapters() == 0 ) {
@@ -2324,6 +2348,11 @@ void item::deserialize( JsonIn &jsin )
         contents = item_contents( items );
     } else {
         data.read( "contents", contents );
+    }
+
+    // Sealed item migration: items with "unseals_into" set should always have contents
+    if( contents.empty() && is_non_resealable_container() ) {
+        convert( type->container->unseals_into );
     }
 }
 

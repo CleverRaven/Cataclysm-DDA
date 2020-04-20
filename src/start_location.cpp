@@ -1,28 +1,32 @@
 #include "start_location.h"
 
-#include <climits>
 #include <algorithm>
+#include <climits>
 #include <memory>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "field.h"
+#include "enum_conversions.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
+#include "generic_factory.h"
+#include "int_id.h"
+#include "json.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "output.h"
-#include "map_iterator.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "calendar.h"
-#include "game_constants.h"
 #include "pldata.h"
-#include "rng.h"
 #include "point.h"
-#include "generic_factory.h"
+#include "rng.h"
+#include "string_id.h"
 
 class item;
 
@@ -401,7 +405,7 @@ void start_location::handle_heli_crash( player &u ) const
                 const auto maxHp = u.get_hp_max( part );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
-                u.apply_damage( nullptr, bp_part, dmg );
+                u.apply_damage( nullptr, convert_bp( bp_part ).id(), dmg );
                 break;
             }
             // No damage

@@ -1,23 +1,24 @@
 #include "messages.h"
 
 #include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
+#include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "ime.h"
 #include "input.h"
 #include "json.h"
 #include "optional.h"
 #include "output.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "catacharset.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -25,9 +26,9 @@
 #include "options.h"
 #endif
 
+#include <algorithm>
 #include <deque>
 #include <iterator>
-#include <algorithm>
 #include <memory>
 
 // sidebar messages flow direction
@@ -510,7 +511,8 @@ void Messages::dialog::init()
     w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, point( w_fh_x, w_fh_y ) );
 
     // Initialize filter input
-    filter.window( w_filter_help, border_width + 2, w_fh_height - 1, w_fh_width - border_width - 2 );
+    filter.window( w_filter_help, point( border_width + 2, w_fh_height - 1 ),
+                   w_fh_width - border_width - 2 );
     filtering = false;
 
     // Initialize folded messages

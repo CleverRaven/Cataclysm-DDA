@@ -11,7 +11,8 @@
     "material": [ "plastic" ],
     "volume": "4 L",
     "category": "veh_parts",
-    "price": 10000
+    "price": 10000,
+    "price_postapoc": 1250
   },
   {
     "type": "GENERIC",
@@ -25,7 +26,8 @@
     "material": [ "plastic" ],
     "volume": "2 L",
     "category": "veh_parts",
-    "price": 10000
+    "price": 10000,
+    "price_postapoc": 750
   },
   {
     "type": "GENERIC",
@@ -40,7 +42,8 @@
     "volume": "3 L",
     "bashing": 2,
     "category": "veh_parts",
-    "price": 40000
+    "price": 40000,
+    "price_postapoc": 500
   },
   {
     "type": "GENERIC",
@@ -54,7 +57,8 @@
     "volume": "500 ml",
     "bashing": 1,
     "category": "veh_parts",
-    "price": 80000
+    "price": 80000,
+    "price_postapoc": 750
   },
   {
     "id": "reins_tackle",
@@ -65,6 +69,7 @@
     "weight": "500 g",
     "volume": "1200 ml",
     "price": 30000,
+    "price_postapoc": 1000,
     "bashing": 1,
     "to_hit": -2,
     "material": [ "leather" ],
@@ -85,7 +90,8 @@
     "volume": "10 L",
     "bashing": 1,
     "category": "veh_parts",
-    "price": 8000
+    "price": 8000,
+    "price_postapoc": 250
   },
   {
     "type": "GENERIC",
@@ -97,7 +103,8 @@
     "to_hit": -4,
     "material": [ "plastic" ],
     "volume": "1500 ml",
-    "price": 4000
+    "price": 4000,
+    "price_postapoc": 250
   },
   {
     "type": "GENERIC",
@@ -109,6 +116,7 @@
     "volume": "3750 ml",
     "bashing": 1,
     "price": 200000,
+    "price_postapoc": 1500,
     "copy-from": "vehicle_controls"
   },
   {
@@ -122,6 +130,7 @@
     "volume": "5 L",
     "bashing": 1,
     "price": 20000,
+    "price_postapoc": 1000,
     "copy-from": "vehicle_controls"
   },
   {
@@ -134,6 +143,7 @@
     "symbol": "&",
     "volume": "9 L",
     "price": 500000,
+    "price_postapoc": 3000,
     "copy-from": "vehicle_controls"
   }
 ]

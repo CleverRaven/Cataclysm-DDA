@@ -1,33 +1,29 @@
 #if defined(TILES)
 
-#include "sdltiles.h" // IWYU pragma: associated
 #include "cursesdef.h" // IWYU pragma: associated
+#include "sdltiles.h" // IWYU pragma: associated
 
-#include <cstdint>
-#include <climits>
 #include <algorithm>
-#include <cassert>
-#include <cstring>
-#include <fstream>
-#include <limits>
-#include <memory>
-#include <stdexcept>
-#include <vector>
 #include <array>
+#include <cassert>
+#include <climits>
 #include <cmath>
+#include <cstdint>
+#include <cstring>
 #include <exception>
+#include <fstream>
 #include <iterator>
+#include <limits>
 #include <map>
+#include <memory>
 #include <set>
+#include <stdexcept>
 #include <type_traits>
-#include <tuple>
-
-#include "platform_win.h"
+#include <vector>
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_syswm.h>
 #else
-#   include <SDL_image.h>
 #ifdef _WIN32
 #   include <SDL_syswm.h>
 #endif
@@ -35,6 +31,7 @@
 
 #include "avatar.h"
 #include "cata_tiles.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
@@ -46,18 +43,17 @@
 #include "game_ui.h"
 #include "get_version.h"
 #include "input.h"
+#include "json.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "sdlsound.h"
-#include "sdl_wrappers.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "wcwidth.h"
-#include "json.h"
-#include "optional.h"
 #include "point.h"
+#include "sdl_wrappers.h"
+#include "sdlsound.h"
+#include "string_formatter.h"
 #include "ui_manager.h"
+#include "wcwidth.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -78,12 +74,12 @@
 #if defined(__ANDROID__)
 #include <jni.h>
 
-#include "worldfactory.h"
 #include "action.h"
+#include "inventory.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "inventory.h"
+#include "worldfactory.h"
 #endif
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -478,6 +474,9 @@ static void WinCreate()
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
 #endif
 
+#if defined(SDL_HINT_RENDER_BATCHING)
+    SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
+#endif
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
@@ -1152,9 +1151,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 alignment_offset = 0;
-                if( ft.alignment == TEXT_ALIGNMENT_CENTER ) {
+                if( ft.alignment == text_alignment::center ) {
                     alignment_offset = full_text_length / 2;
-                } else if( ft.alignment == TEXT_ALIGNMENT_RIGHT ) {
+                } else if( ft.alignment == text_alignment::right ) {
                     alignment_offset = full_text_length - 1;
                 }
             }
@@ -3778,8 +3777,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     if( tile_iso && use_tiles ) {
         const float win_mid_x = win_min.x + win_size.x / 2.0f;
         const float win_mid_y = -win_min.y + win_size.y / 2.0f;
-        const int screen_col = round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
-        const int screen_row = round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
+        const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
+        const int screen_row = std::round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
         p = view_offset + selected;
     } else {

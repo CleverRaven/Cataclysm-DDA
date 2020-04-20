@@ -54,7 +54,8 @@ ADD_DEFINITIONS(-DCMAKE)
 
 if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
-    FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
+    FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
+        "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
     MESSAGE(STATUS "${PROJECT_NAME} build version is : ${GIT_VERSION}\n")
     ADD_DEFINITIONS(-DGIT_VERSION)
 ELSE (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
@@ -240,9 +241,10 @@ ELSE()
     IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
         SET(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     ENDIF()
+    SET(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char")
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} ${CATA_OTHER_FLAGS}")
     SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
 

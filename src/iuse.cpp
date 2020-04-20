@@ -1,40 +1,58 @@
 ﻿#include "iuse.h"
 
-#include <climits>
 #include <algorithm>
+#include <array>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <set>
-#include <sstream>
-#include <vector>
-#include <array>
 #include <exception>
 #include <functional>
 #include <iterator>
 #include <list>
 #include <map>
-#include <utility>
+#include <set>
+#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "action.h"
 #include "artifact.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "character_martial_arts.h"
+#include "colony.h"
+#include "color.h"
 #include "coordinate_conversions.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "timed_event.h"
 #include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "inventory.h"
+#include "inventory_ui.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "iteminfo_query.h"
+#include "itype.h"
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
 #include "line.h"
@@ -43,63 +61,52 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "memorial_logger.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "omdata.h"
+#include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "point.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "speech.h"
+#include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
+#include "teleport.h"
 #include "text_snippets.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "ui.h"
+#include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "veh_type.h"
 #include "weather.h"
-#include "bodypart.h"
-#include "character.h"
-#include "color.h"
-#include "creature.h"
-#include "damage.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "inventory_ui.h"
-#include "item.h"
-#include "item_location.h"
-#include "itype.h"
-#include "monster.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "recipe.h"
-#include "ret_val.h"
-#include "stomach.h"
-#include "string_id.h"
 #include "weather_gen.h"
-#include "type_id.h"
-#include "options.h"
-#include "flat_set.h"
-#include "handle_liquid.h"
-#include "item_group.h"
-#include "omdata.h"
-#include "point.h"
-#include "teleport.h"
 
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
@@ -433,9 +440,9 @@ static int alcohol( player &p, const item &it, const int strength )
                    36_seconds, 1_minutes, 1_minutes ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p.stomach.mod_nutr( -( abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
+        p.stomach.mod_nutr( -( std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
-        p.mod_stim( abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
+        p.mod_stim( std::abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
         duration -= alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
@@ -527,7 +534,8 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
             weed_msg( *p );
         }
     }
-    if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
+    if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level(
+                add_type::CIG ) + 1 ) ) {
         p->add_msg_if_player( m_bad, _( "Ugh, too much smoke… you feel nasty." ) );
     }
 
@@ -554,7 +562,8 @@ int iuse::ecig( player *p, item *it, bool, const tripoint & )
     p->mod_thirst( 1 );
     p->mod_hunger( -1 );
     p->add_effect( effect_cig, 10_minutes );
-    if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
+    if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level(
+                add_type::CIG ) + 1 ) ) {
         p->add_msg_if_player( m_bad, _( "Ugh, too much nicotine… you feel nasty." ) );
     }
     return it->type->charges_to_use();
@@ -1023,7 +1032,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
         p->mod_pain( rng( 32, 64 ) );
         p->add_effect( effect_poison, 1_hours );
-        p->apply_damage( nullptr, bp_torso, rng( 4, 12 ) );
+        p->apply_damage( nullptr, bodypart_id( "torso" ), rng( 4, 12 ) );
         p->vomit();
     }
     return it->type->charges_to_use();
@@ -1232,7 +1241,7 @@ static void spawn_spores( const player &p )
 static void marloss_common( player &p, item &it, const trait_id &current_color )
 {
     static const std::map<trait_id, add_type> mycus_colors = {{
-            { trait_MARLOSS_BLUE, ADD_MARLOSS_B }, { trait_MARLOSS_YELLOW, ADD_MARLOSS_Y }, { trait_MARLOSS, ADD_MARLOSS_R }
+            { trait_MARLOSS_BLUE, add_type::MARLOSS_B }, { trait_MARLOSS_YELLOW, add_type::MARLOSS_Y }, { trait_MARLOSS, add_type::MARLOSS_R }
         }
     };
 
@@ -1474,12 +1483,12 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->add_msg_if_player( m_good,
                               _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         fungal_effects fe( *g, g->m );
-        for( const tripoint &pos : g->m.points_in_radius( p->pos(), 3 ) ) {
-            fe.marlossify( pos );
+        for( const tripoint &nearby_pos : g->m.points_in_radius( p->pos(), 3 ) ) {
+            fe.marlossify( nearby_pos );
         }
-        p->rem_addiction( ADD_MARLOSS_R );
-        p->rem_addiction( ADD_MARLOSS_B );
-        p->rem_addiction( ADD_MARLOSS_Y );
+        p->rem_addiction( add_type::MARLOSS_R );
+        p->rem_addiction( add_type::MARLOSS_B );
+        p->rem_addiction( add_type::MARLOSS_Y );
     } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
@@ -1763,8 +1772,8 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
-    p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                        p->get_item_position( it ), it->tname() );
+    p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
@@ -1941,7 +1950,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
             if( g->u.sees( critter ) ) {
                 p->add_msg_if_player( _( "The %s is frozen!" ), critter.name() );
             }
-            critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
+            critter.apply_damage( p, bodypart_id( "torso" ), rng( 20, 60 ) );
             critter.set_speed_base( critter.get_speed_base() / 2 );
         }
     }
@@ -2162,9 +2171,9 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
         const auto tref = overmap_buffer.find_radio_station( it->frequency );
         if( tref ) {
             const auto selected_tower = tref.tower;
-            if( selected_tower->type == MESSAGE_BROADCAST ) {
+            if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
                 message = selected_tower->message;
-            } else if( selected_tower->type == WEATHER_RADIO ) {
+            } else if( selected_tower->type == radio_type::WEATHER_RADIO ) {
                 message = weather_forecast( tref.abs_sm_pos );
             }
 
@@ -3314,7 +3323,8 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         break;
     }
 
-    p->assign_activity( ACT_PICKAXE, moves, -1, p->get_item_position( it ) );
+    p->assign_activity( ACT_PICKAXE, moves, -1 );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
@@ -4413,7 +4423,8 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
                                 p->get_item_position( it ), "gaming" );
             return it->type->charges_to_use();
         }
-        p->assign_activity( ACT_GAME, moves, -1, p->get_item_position( it ), "gaming" );
+        p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
+        p->activity.targets.push_back( item_location( *p, it ) );
         std::map<std::string, std::string> game_data;
         game_data.clear();
         int game_score = 0;
@@ -4435,6 +4446,44 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
             }
         }
 
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
+{
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
+        return 0;
+    } else {
+        //What else should block using f-band?
+        const int bpm = p->heartrate_bpm();
+        p->add_msg_if_player( _( "You check your health metrics on your %s." ), it->tname() );
+        //Maybe should pick better words
+        p->add_msg_if_player( _( "Your %s displays your heart's BPM:  %i." ), it->tname(), bpm );
+        if( bpm > 179 ) {
+            p->add_msg_if_player( _( "Your %s shows warning:  'Slow down!  "
+                                     "Your pulse is getting too high, champion!'" ), it->tname() );
+        }
+        const std::string exercise = p->activity_level_str();
+        if( exercise == "NO_EXERCISE" ) {
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
+                                     "'You are not really active today.  Try going for a walk!'." ), it->tname() );
+        } else if( exercise == "LIGHT_EXERCISE" ) {
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
+                                     "'Good start!  Keep it up and move more.'" ), it->tname() );
+        } else if( exercise == "MODERATE_EXERCISE" ) {
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
+                                     "'Doing good!  Don't stop, push the limit!'" ), it->tname() );
+        } else if( exercise == "ACTIVE_EXERCISE" ) {
+            //Ad will most likely need to go
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  'Great job!  "
+                                     "Take a break from workout and refresh with a bottle of sport drink!'" ), it->tname() );
+        } else {
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
+                                     "'You are too active!  Avoid overexertion for your safety and health.'" ), it->tname() );
+        }
+        //TODO add whatever else makes sense (sleep quality, health level approximation?)
     }
     return it->type->charges_to_use();
 }
@@ -4461,8 +4510,8 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
         if( it->ammo_capacity() > it->ammo_remaining() ) {
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
-            p->assign_activity( ACT_HAND_CRANK, moves, -1, p->get_item_position( it ),
-                                "hand-cranking" );
+            p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
+            p->activity.targets.push_back( item_location( *p, it ) );
         } else {
             p->add_msg_if_player( _( "You could use the %s to charge its %s, but it's already charged." ),
                                   it->tname(), magazine->tname() );
@@ -4506,8 +4555,8 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
                                   it->tname() );
         }
-        p->assign_activity( ACT_VIBE, moves, -1, p->get_item_position( it ),
-                            "de-stressing" );
+        p->assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
+        p->activity.targets.push_back( item_location( *p, it ) );
     }
     return it->type->charges_to_use();
 }
@@ -4924,8 +4973,8 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     }
 
     // placing ter here makes resuming tasks work better
-    p->assign_activity( ACT_OXYTORCH, moves, static_cast<int>( ter ),
-                        p->get_item_position( it ) );
+    p->assign_activity( ACT_OXYTORCH, moves, static_cast<int>( ter ) );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = pnt;
     p->activity.values.push_back( charges );
 
@@ -5348,7 +5397,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_HURTALL:
                 for( monster &critter : g->all_monsters() ) {
-                    critter.apply_damage( nullptr, bp_torso, rng( 0, 5 ) );
+                    critter.apply_damage( nullptr, bodypart_id( "torso" ), rng( 0, 5 ) );
                 }
                 break;
 
@@ -5660,7 +5709,7 @@ int iuse::towel_common( player *p, item *it, bool t )
         }
 
         // dry off from being wet
-    } else if( abs( p->has_morale( MORALE_WET ) ) ) {
+    } else if( std::abs( p->has_morale( MORALE_WET ) ) ) {
         p->rem_morale( MORALE_WET );
         p->body_wetness.fill( 0 );
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
@@ -7893,8 +7942,8 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
                 } else {
                     add_msg( m_bad, _( "Ouch, the cuffs shock you!" ) );
 
-                    p->apply_damage( nullptr, bp_arm_l, rng( 0, 2 ) );
-                    p->apply_damage( nullptr, bp_arm_r, rng( 0, 2 ) );
+                    p->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 0, 2 ) );
+                    p->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 0, 2 ) );
                     p->mod_pain( rng( 2, 5 ) );
 
                 }
@@ -8538,7 +8587,6 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             } else {
                 meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
                                            g->weather.get_temperature( pos ) ) ) );
-                meal.reset_temp_check();
             }
 
             it->active = false;
@@ -8731,8 +8779,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     return 0;
                 }
 
-                for( auto it : reqs->get_components() ) {
-                    p->consume_items( it, 1, filter );
+                for( auto component : reqs->get_components() ) {
+                    p->consume_items( component, 1, filter );
                 }
 
                 it->set_var( "RECIPE", meal->ident().str() );
@@ -9266,7 +9314,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     if( it->typeId() == "weather_reader" ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
-            vehwindspeed = abs( vp->vehicle().velocity / 100 ); // For mph
+            vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */

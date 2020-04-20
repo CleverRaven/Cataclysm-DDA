@@ -1,63 +1,66 @@
 #include "mission_companion.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <cassert>
-#include <vector>
 #include <array>
+#include <cassert>
+#include <cstdlib>
 #include <list>
 #include <map>
+#include <memory>
+#include <set>
 #include <unordered_map>
 #include <utility>
-#include <set>
+#include <vector>
 
 #include "avatar.h"
+#include "basecamp.h"
 #include "calendar.h"
+#include "catacharset.h"
+#include "colony.h"
+#include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
-#include "faction_camp.h"
-#include "input.h"
-#include "item_group.h"
-#include "itype.h"
-#include "line.h"
-#include "mapbuffer.h"
-#include "mapdata.h"
-#include "messages.h"
-#include "mtype.h"
-#include "map_iterator.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
-#include "rng.h"
-#include "translations.h"
-#include "basecamp.h"
-#include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "enums.h"
 #include "faction.h"
+#include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
+#include "input.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_stack.h"
+#include "itype.h"
+#include "line.h"
 #include "map.h"
+#include "map_iterator.h"
+#include "mapbuffer.h"
+#include "mapdata.h"
+#include "material.h"
+#include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
-#include "pimpl.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "pldata.h"
+#include "point.h"
+#include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "weighted_list.h"
-#include "material.h"
-#include "colony.h"
-#include "point.h"
+#include "value_ptr.h"
 #include "weather.h"
+#include "weighted_list.h"
 
 static const efftype_id effect_riding( "riding" );
 
@@ -333,7 +336,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
             } else if( calendar::turn >= elem->companion_mission_time ) {
                 entry = entry + "  " + elem->name + _( " [COMPLETE]\n" );
             } else {
-                entry = entry + "  " + elem->name + " [" + to_string( abs( to_hours<int>
+                entry = entry + "  " + elem->name + " [" + to_string( std::abs( to_hours<int>
                         ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours]\n" );
             }
         }
@@ -1003,8 +1006,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
                           false );
     tinymap bay;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    for( const tripoint &p : bay.points_on_zlevel() ) {
-        if( bay.ter( p ) == t_dirtmound ) {
+    for( const tripoint &plot : bay.points_on_zlevel() ) {
+        if( bay.ter( plot ) == t_dirtmound ) {
             empty_plots++;
         }
     }
@@ -1030,8 +1033,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
     }
 
     //Plant the actual seeds
-    for( const tripoint &p : bay.points_on_zlevel() ) {
-        if( bay.ter( p ) == t_dirtmound && limiting_number > 0 ) {
+    for( const tripoint &plot : bay.points_on_zlevel() ) {
+        if( bay.ter( plot ) == t_dirtmound && limiting_number > 0 ) {
             std::list<item> used_seed;
             if( item::count_by_charges( seed_id ) ) {
                 used_seed = g->u.use_charges( seed_id, 1 );
@@ -1039,8 +1042,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
                 used_seed = g->u.use_amount( seed_id, 1 );
             }
             used_seed.front().set_age( 0_turns );
-            bay.add_item_or_charges( p, used_seed.front() );
-            bay.set( p, t_dirt, f_plant_seed );
+            bay.add_item_or_charges( plot, used_seed.front() );
+            bay.set( plot, t_dirt, f_plant_seed );
             limiting_number--;
         }
     }
@@ -1061,9 +1064,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    for( const tripoint &p : bay.points_on_zlevel() ) {
-        map_stack items = bay.i_at( p );
-        if( bay.furn( p ) == furn_str_id( "f_plant_harvest" ) && !items.empty() ) {
+    for( const tripoint &plot : bay.points_on_zlevel() ) {
+        map_stack items = bay.i_at( plot );
+        if( bay.furn( plot ) == furn_str_id( "f_plant_harvest" ) && !items.empty() ) {
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.is_seed();
@@ -1107,10 +1110,10 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         skillLevel += 2;
     }
 
-    for( const tripoint &p : bay.points_on_zlevel() ) {
-        if( bay.furn( p ) == furn_str_id( "f_plant_harvest" ) ) {
+    for( const tripoint &plot : bay.points_on_zlevel() ) {
+        if( bay.furn( plot ) == furn_str_id( "f_plant_harvest" ) ) {
             // Can't use item_stack::only_item() since there might be fertilizer
-            map_stack items = bay.i_at( p );
+            map_stack items = bay.i_at( plot );
             map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.is_seed();
             } );
@@ -1120,9 +1123,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                 tmp = item( seed_data.fruit_id, calendar::turn );
                 if( tmp.typeId() == plant_types[plant_index] ) {
                     number_plots++;
-                    bay.i_clear( p );
-                    bay.furn_set( p, f_null );
-                    bay.ter_set( p, t_dirtmound );
+                    bay.i_clear( plot );
+                    bay.furn_set( plot, f_null );
+                    bay.ter_set( plot, t_dirtmound );
                     int plantCount = rng( skillLevel / 2, skillLevel );
                     if( plantCount >= 9 ) {
                         plantCount = 9;

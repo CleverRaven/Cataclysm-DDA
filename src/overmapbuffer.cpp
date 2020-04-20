@@ -1,20 +1,25 @@
 #include "overmapbuffer.h"
 
-#include <climits>
 #include <algorithm>
 #include <cassert>
-#include <cstdlib>
+#include <climits>
 #include <iterator>
 #include <list>
 #include <map>
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "character_id.h"
+#include "color.h"
+#include "common_types.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "mongroup.h"
@@ -22,20 +27,14 @@
 #include "npc.h"
 #include "optional.h"
 #include "overmap.h"
-#include "map_iterator.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
-#include "string_formatter.h"
-#include "vehicle.h"
-#include "calendar.h"
-#include "common_types.h"
-#include "game_constants.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
+#include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
-#include "int_id.h"
-#include "color.h"
+#include "vehicle.h"
 
 class map_extra;
 
@@ -176,7 +175,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             point max = om_to_sm_copy( loc + point_south_east ) - point_south_east;
             npc_sm.x = clamp( npc_sm.x, min.x, max.x );
             npc_sm.y = clamp( npc_sm.y, min.y, max.y );
-            np.spawn_at_sm( npc_sm.x, npc_sm.y, np.posz() );
+            np.spawn_at_sm( tripoint( npc_sm, np.posz() ) );
             new_overmap.npcs.push_back( ptr );
             continue;
         }
