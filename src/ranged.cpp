@@ -1897,7 +1897,6 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     std::string timed_out_action;
     bool skip_redraw = false;
     for( ;; action.clear() ) {
-        // Old drawing
         if( !skip_redraw ) {
             draw( pc );
         }
@@ -2818,7 +2817,7 @@ void target_ui::panel_target_info( player &pc, int &text_y )
 
 void target_ui::panel_fire_mode_aim( player &pc, int &text_y )
 {
-    // These 2 lines here keep the good ol' code working during the trying times of refactoring
+    // TODO: saving & restoring pc.recoil may actually be unnecessary
     double saved_pc_recoil = pc.recoil;
     pc.recoil = predicted_recoil;
 
@@ -2848,7 +2847,6 @@ void target_ui::panel_fire_mode_aim( player &pc, int &text_y )
                    predicted_delay );
     }
 
-    // End of old code compatibility
     pc.recoil = saved_pc_recoil;
 }
 
