@@ -208,6 +208,9 @@ class target_ui
         // relevant for TARGET_MODE_SPELL
         std::set<tripoint> spell_aoe;
 
+        // List of vehicle turrets in range (out of those listed in 'vturrets')
+        std::vector<vehicle_part *> turrets_in_range;
+
         // Handle input related to cursor movement.
         // Returns 'true' if action was recognized and processed.
         // 'skip_redraw' is set to 'true' if there is no need to redraw the UI.
@@ -238,6 +241,9 @@ class target_ui
 
         // Set new view offset. Updates map cache if necessary
         void set_view_offset( player &pc, const tripoint &new_offset );
+
+        // Updates 'turrets_in_range'
+        void update_turrets_in_range();
 
         // Recalculate 'recoil' penalty. This should be called if
         // player's 'recoil' value has been modified
@@ -288,6 +294,7 @@ class target_ui
         void panel_spell_info( player &pc, int &text_y );
         void panel_target_info( player &pc, int &text_y );
         void panel_fire_mode_aim( player &pc, int &text_y );
+        void panel_turret_list( int &text_y );
 
         // On-selected-as-target checks that act as if they are on-hit checks.
         // `harmful` is `false` if using a non-damaging spell
@@ -1327,25 +1334,6 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
                                 range, target_size, predicted_recoil );
 }
 
-static int list_turrets_in_range( vehicle *veh, const std::vector<vehicle_part *> &turrets,
-                                  const catacurses::window &w, int line_number, const tripoint &target )
-{
-    std::vector<std::string> in_range;
-    for( vehicle_part *t : turrets ) {
-        if( veh->turret_query( *t ).in_range( target ) ) {
-            in_range.push_back( string_format( "*  %s", t->name() ) );
-        }
-    }
-
-    mvwprintw( w, point( 1, line_number++ ), _( "Turrets in range: %d" ), in_range.size() );
-    for( const std::string &text : in_range ) {
-        nc_color col = c_white;
-        print_colored_text( w, point( 1, line_number++ ), col, c_white, text );
-    }
-
-    return line_number;
-}
-
 static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number,
                            input_context &ctxt,
                            const item &weapon, const tripoint &target_pos, bool is_blind_throw )
@@ -2236,6 +2224,8 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
         } else {
             spell_aoe.clear();
         }
+    } else if( mode == TARGET_MODE_TURRET ) {
+        update_turrets_in_range();
     }
 
     // Update UI controls & colors
@@ -2246,14 +2236,13 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
 
 void target_ui::update_status()
 {
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-        if( range == 0 ) {
-            // Selected gun mode is empty
-            status = Status::OutOfAmmo;
-            return;
-        }
-    }
-    if( src == dst ) {
+    if( mode == TARGET_MODE_TURRET && turrets_in_range.empty() ) {
+        // None of the turrets are in range
+        status = Status::OutOfRange;
+    } else if( ( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) && range == 0 ) {
+        // Selected gun mode is empty
+        status = Status::OutOfAmmo;
+    } else if( src == dst ) {
         // TODO: consider allowing targeting yourself with spells/turrets
         status = Status::BadTarget;
     } else if( dist_fn( dst ) > range ) {
@@ -2261,7 +2250,6 @@ void target_ui::update_status()
         // gun mode to short-ranged. We can, of course, move the cursor into range automatically,
         // but that would be rude. Instead, wait for directional keys/etc. and *then* move the cursor.
         status = Status::OutOfRange;
-        // TODO: add check when none of the vehicle turrets are in range
     } else {
         status = Status::Good;
     }
@@ -2338,6 +2326,16 @@ void target_ui::set_view_offset( player &pc, const tripoint &new_offset )
         g->refresh_all();
     }
     pc.view_offset = new_offset;
+}
+
+void target_ui::update_turrets_in_range()
+{
+    turrets_in_range.clear();
+    for( vehicle_part *t : *vturrets ) {
+        if( veh->turret_query( *t ).in_range( dst ) ) {
+            turrets_in_range.push_back( t );
+        }
+    }
 }
 
 void target_ui::recalc_aim_turning_penalty( player &pc )
@@ -2557,12 +2555,12 @@ void target_ui::draw_ui_window( player &pc )
     panel_target_info( pc, text_y );
     text_y += compact ? 0 : 1;
 
-    if( status == Status::Good ) {
+    if( mode == TARGET_MODE_TURRET ) {
+        panel_turret_list( text_y );
+    } else if( status == Status::Good ) {
         // TODO: these are old, consider refactoring
         if( mode == TARGET_MODE_FIRE ) {
             panel_fire_mode_aim( pc, text_y );
-        } else if( mode == TARGET_MODE_TURRET ) {
-            list_turrets_in_range( veh, *vturrets, w_target, text_y, dst );
         } else if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
             bool blind = ( mode == TARGET_MODE_THROW_BLIND );
             draw_throw_aim( pc, w_target, text_y, ctxt, *relevant, dst, blind );
@@ -2671,7 +2669,9 @@ void target_ui::panel_cursor_info( int &text_y )
     } else {
         label_range = string_format( "Range: %d/%d", dist_fn( dst ), range );
     }
-    if( status == Status::OutOfRange ) {
+    if( status == Status::OutOfRange && mode != TARGET_MODE_TURRET ) {
+        // Since each turret has its own range, highlighting cursor
+        // range with red is misleading
         label_range = colorize( label_range, c_red );
     }
     label_range = string_format( _( "%s Elevation: %d Targets: %d" ), label_range, dz,
@@ -2834,6 +2834,18 @@ void target_ui::panel_fire_mode_aim( player &pc, int &text_y )
 
     // End of old code compatibility
     pc.recoil = saved_pc_recoil;
+}
+
+void target_ui::panel_turret_list( int &text_y )
+{
+    mvwprintw( w_target, point( 1, text_y++ ), "Turrets in range: %d/%d", turrets_in_range.size(),
+               vturrets->size() );
+
+    for( vehicle_part *t : turrets_in_range ) {
+        std::string str = string_format( "* %s", t->name() );
+        nc_color clr = c_white;
+        print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
+    }
 }
 
 void target_ui::on_target_accepted( player &pc, bool harmful )
