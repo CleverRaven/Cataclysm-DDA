@@ -3036,11 +3036,10 @@ bool player::takeoff( item &it, std::list<item> *res )
 
     item takeoff_copy( it );
     worn.erase( iter );
+    takeoff_copy.on_takeoff( *this );
     if( res == nullptr ) {
-        iter->on_takeoff( *this );
         i_add( takeoff_copy, true, &it );
     } else {
-        iter->on_takeoff( *this );
         res->push_back( takeoff_copy );
     }
 
