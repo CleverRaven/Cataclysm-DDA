@@ -29,7 +29,7 @@
   {
     "type": "GENERIC",
     "id": "headphones_circumaural",
-    "name": { "str": "headphones" },
+    "name": { "str_sp": "headphones" },
     "description": "Typical headphones that cover your ears.  A well-known brand that is very high quality, with a detachable 1/8\" cable.  Comes with a 1/8\" to 1/4\" adaptor.",
     "symbol": "Ω",
     "volume": "400 ml",

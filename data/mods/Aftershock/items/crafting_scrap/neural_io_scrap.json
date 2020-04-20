@@ -35,7 +35,7 @@
     "type": "GENERIC",
     "id": "afs_neural_io_5",
     "copy-from": "afs_scrap_5",
-    "name": { "str": "neurosynaptic interface matrix" },
+    "name": { "str": "neurosynaptic interface matrix", "str_pl": "neurosynaptic interface matrices" },
     "description": "A membrane of artificial neurons envelops the cerebral cortex, melding machine and human intellect into a gestalt much greater than its individual parts.",
     "looks_like": "scrap"
   }

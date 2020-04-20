@@ -427,7 +427,7 @@
   {
     "id": "protect_env",
     "type": "ARMOR",
-    "name": "aura of protection",
+    "name": { "str": "aura of protection", "str_pl": "auras of protection" },
     "description": "An all-encompassing, invisible layer of magical aura that protects you from the environment.",
     "weight": "1 g",
     "volume": "1 ml",
