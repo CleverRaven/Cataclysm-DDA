@@ -266,5 +266,10 @@
     "id": "DRAW_LASER_BEAM",
     "type": "ammo_effect",
     "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
+  },
+  {
+    "id": "NO_PENETRATE_OBSTACLES",
+    "type": "ammo_effect",
+    "//": "Don't act penetrate obstacles such as fences or reinforced glass"
   }
 ]

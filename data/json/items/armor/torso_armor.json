@@ -224,6 +224,14 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "jacket_leather_bone",
+    "type": "ARMOR",
+    "name": { "str": "occult bone armor" },
+    "description": "A black jacket made from thick leather and covered with intricately carved bones.  You've never seen patterns like those before, each time you look at them you spot a new one as if they were changing on their own.",
+    "copy-from": "jacket_leather_mod",
+    "material": [ "leather", "bone" ]
+  },
+  {
     "id": "lame_foil",
     "repairs_like": "armor_larmor",
     "type": "ARMOR",

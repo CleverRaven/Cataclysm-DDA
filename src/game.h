@@ -53,7 +53,6 @@ class game;
 
 extern std::unique_ptr<game> g;
 
-extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
 extern int fov_3d_z_range;
@@ -230,7 +229,14 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+    private:
+        cata::optional<tripoint> zone_start;
+        cata::optional<tripoint> zone_end;
+        bool zone_blink = false;
+        bool zone_cursor = false;
+        bool is_looking = false;
 
+    public:
         // when force_redraw is true, redraw all panel instead of just animated panels
         // mostly used after UI updates
         void draw_panels( bool force_draw = false );
@@ -553,7 +559,7 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
-        look_around_result look_around( catacurses::window w_info, tripoint &center,
+        look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
@@ -1071,6 +1077,13 @@ class game
 
         // called on map shifting
         void shift_destination_preview( const point &delta );
+
+        /**
+        Checks if player is able to successfully climb to/from some terrain and not slip down
+        @param check_for_traps Used if needed to call trap function on player's location after slipping down
+        @return whether player has slipped down
+        */
+        bool slip_down( bool check_for_traps = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

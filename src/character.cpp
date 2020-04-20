@@ -238,6 +238,7 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
+static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
@@ -284,6 +285,7 @@ static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
+static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
@@ -1546,6 +1548,8 @@ void Character::process_turn()
     }
 
     Creature::process_turn();
+
+    enchantment_cache.activate_passive( *this );
 }
 
 void Character::recalc_hp()
@@ -4400,7 +4404,7 @@ void Character::regen( int rate_multiplier )
             if( damage_bandaged[i] <= 0 ) {
                 damage_bandaged[i] = 0;
                 remove_effect( effect_bandaged, bp );
-                add_msg_if_player( _( "Bandaged wounds on your %s was healed." ), body_part_name( bp ) );
+                add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
         if( damage_disinfected[i] > 0 ) {
@@ -4408,7 +4412,7 @@ void Character::regen( int rate_multiplier )
             if( damage_disinfected[i] <= 0 ) {
                 damage_disinfected[i] = 0;
                 remove_effect( effect_disinfected, bp );
-                add_msg_if_player( _( "Disinfected wounds on your %s was healed." ), body_part_name( bp ) );
+                add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
 
@@ -4416,12 +4420,12 @@ void Character::regen( int rate_multiplier )
         if( has_effect( effect_bandaged, bp ) && ( hp_cur[i] == hp_max[i] ) ) {
             damage_bandaged[i] = 0;
             remove_effect( effect_bandaged, bp );
-            add_msg_if_player( _( "Bandaged wounds on your %s was healed." ), body_part_name( bp ) );
+            add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
         if( has_effect( effect_disinfected, bp ) && ( hp_cur[i] == hp_max[i] ) ) {
             damage_disinfected[i] = 0;
             remove_effect( effect_disinfected, bp );
-            add_msg_if_player( _( "Disinfected wounds on your %s was healed." ), body_part_name( bp ) );
+            add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
         }
     }
 
@@ -6309,8 +6313,6 @@ bool Character::is_invisible() const
 {
     return (
                has_effect_with_flag( flag_EFFECT_INVISIBLE ) ||
-               has_active_bionic( str_bio_cloak ) ||
-               has_active_bionic( str_bio_night ) ||
                is_wearing_active_optcloak() ||
                has_trait( trait_DEBUG_CLOAK ) ||
                has_artifact_with( AEP_INVISIBLE )
@@ -7608,7 +7610,7 @@ void Character::cough( bool harmful, int loudness )
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
         mod_stamina( -malus );
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
-            apply_damage( nullptr, bp_torso, 1 );
+            apply_damage( nullptr, bodypart_id( "torso" ), 1 );
         }
     }
 
@@ -7959,6 +7961,20 @@ void Character::recalculate_enchantment_cache()
             }
         }
     }
+
+    for( const bionic &bio : *my_bionics ) {
+        const bionic_id &bid = bio.id;
+        if( bid->toggled && !bio.powered ) {
+            continue;
+        }
+
+        for( const enchantment_id &ench_id : bid->enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this ) ) {
+                enchantment_cache.force_add( ench );
+            }
+        }
+    }
 }
 
 double Character::calculate_by_enchantment( double modify, enchantment::mod value,
@@ -8283,15 +8299,15 @@ void Character::on_hit( Creature *source, body_part /*bp_hit*/,
     Where damage to character is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void Character::apply_damage( Creature *source, body_part hurt, int dam, const bool bypass_med )
+void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const bool bypass_med )
 {
     if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) ) {
         // don't do any more damage if we're already dead
         // Or if we're debugging and don't want to die
         return;
     }
-
-    hp_part hurtpart = bp_to_hp( hurt );
+    body_part enum_bp = hurt->token;
+    hp_part hurtpart = bp_to_hp( enum_bp );
     if( hurtpart == num_hp_parts ) {
         debugmsg( "Wacky body part hurt!" );
         hurtpart = hp_torso;
@@ -8311,8 +8327,9 @@ void Character::apply_damage( Creature *source, body_part hurt, int dam, const b
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
         i_rem( &weapon );
     }
-    if( has_effect( effect_mending, hurt ) && ( source == nullptr || !source->is_hallucination() ) ) {
-        effect &e = get_effect( effect_mending, hurt );
+    if( has_effect( effect_mending, enum_bp ) && ( source == nullptr ||
+            !source->is_hallucination() ) ) {
+        effect &e = get_effect( effect_mending, enum_bp );
         float remove_mend = dam / 20.0f;
         e.mod_duration( -e.get_max_duration() * remove_mend );
     }
@@ -8324,11 +8341,11 @@ void Character::apply_damage( Creature *source, body_part hurt, int dam, const b
     if( !bypass_med ) {
         // remove healing effects if damaged
         int remove_med = roll_remainder( dam / 5.0f );
-        if( remove_med > 0 && has_effect( effect_bandaged, hurt ) ) {
-            remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt );
+        if( remove_med > 0 && has_effect( effect_bandaged, enum_bp ) ) {
+            remove_med -= reduce_healing_effect( effect_bandaged, remove_med, enum_bp );
         }
-        if( remove_med > 0 && has_effect( effect_disinfected, hurt ) ) {
-            reduce_healing_effect( effect_disinfected, remove_med, hurt );
+        if( remove_med > 0 && has_effect( effect_disinfected, enum_bp ) ) {
+            reduce_healing_effect( effect_disinfected, remove_med, enum_bp );
         }
     }
 }
@@ -9132,9 +9149,8 @@ void Character::assign_activity( const player_activity &act, bool allow_resume )
         activity = act;
     }
 
-    if( activity.rooted() ) {
-        rooted_message();
-    }
+    activity.start( *this );
+
     if( is_npc() ) {
         cancel_stashed_activity();
         npc *guy = dynamic_cast<npc *>( this );
@@ -9794,4 +9810,89 @@ int Character::heartrate_bpm() const
     const int max_heartbeat = average_heartbeat * 3.5;
     heartbeat = clamp( heartbeat, average_heartbeat, max_heartbeat );
     return heartbeat;
+}
+
+void Character::on_worn_item_washed( const item &it )
+{
+    if( is_worn( it ) ) {
+        morale->on_worn_item_washed( it );
+    }
+}
+
+void Character::on_item_wear( const item &it )
+{
+    morale->on_item_wear( it );
+}
+
+void Character::on_item_takeoff( const item &it )
+{
+    morale->on_item_takeoff( it );
+}
+
+void Character::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
+{
+    // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
+    // See @ref get_perceived_pain()
+    if( eid == effect_adrenaline ) {
+        // Note that calling this does no harm if it wasn't changed.
+        on_stat_change( "perceived_pain", get_perceived_pain() );
+    }
+
+    morale->on_effect_int_change( eid, intensity, bp );
+}
+
+void Character::on_mutation_gain( const trait_id &mid )
+{
+    morale->on_mutation_gain( mid );
+    magic.on_mutation_gain( mid, *this );
+    update_type_of_scent( mid );
+    recalculate_enchantment_cache(); // mutations can have enchantments
+}
+
+void Character::on_mutation_loss( const trait_id &mid )
+{
+    morale->on_mutation_loss( mid );
+    magic.on_mutation_loss( mid );
+    update_type_of_scent( mid, false );
+    recalculate_enchantment_cache(); // mutations can have enchantments
+}
+
+void Character::on_stat_change( const std::string &stat, int value )
+{
+    morale->on_stat_change( stat, value );
+}
+
+bool Character::has_opposite_trait( const trait_id &flag ) const
+{
+    for( const trait_id &i : flag->cancels ) {
+        if( has_trait( i ) ) {
+            return true;
+        }
+    }
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        for( const trait_id &canceled_trait : mut.first->cancels ) {
+            if( canceled_trait == flag ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int Character::adjust_for_focus( int amount ) const
+{
+    int effective_focus = focus_pool;
+    if( has_trait( trait_FASTLEARNER ) ) {
+        effective_focus += 15;
+    }
+    if( has_active_bionic( bio_memory ) ) {
+        effective_focus += 10;
+    }
+    if( has_trait( trait_SLOWLEARNER ) ) {
+        effective_focus -= 15;
+    }
+    effective_focus += ( get_int_base() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
+                       get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
+    double tmp = amount * ( effective_focus / 100.0 );
+    return roll_remainder( tmp );
 }

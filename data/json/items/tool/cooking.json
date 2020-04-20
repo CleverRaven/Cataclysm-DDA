@@ -19,6 +19,19 @@
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
+    "id": "butchering_kit",
+    "name": { "str": "butchering kit", "str_pl": "butchering kits" },
+    "type": "TOOL",
+    "description": "This is a kit containing all the specialized knives you need to debone, skin, and prepare cuts of meat from an animal.",
+    "copy-from": "base_kitchen_knife",
+    "looks_like": "knife_butcher",
+    "weight": "1170 g",
+    "volume": "800 ml",
+    "price": 8000,
+    "price_postapoc": 150,
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
+  },
+  {
     "id": "butter_churn",
     "type": "TOOL",
     "name": { "str": "pseudo butter churn" },

@@ -655,6 +655,7 @@ class Character : public Creature, public visitable<Character>
         std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam );
+        bool reach_attacking = false;
 
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks( Creature &t ) const;
@@ -697,7 +698,7 @@ class Character : public Creature, public visitable<Character>
         void did_hit( Creature &target );
 
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
-        void apply_damage( Creature *source, body_part hurt, int dam,
+        void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, body_part bp,
@@ -1738,18 +1739,26 @@ class Character : public Creature, public visitable<Character>
         void update_stamina( int turns );
 
     protected:
-        void on_stat_change( const std::string &, int ) override {}
         void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
-        virtual void on_mutation_gain( const trait_id & ) {}
-        virtual void on_mutation_loss( const trait_id & ) {}
     public:
-        virtual void on_item_wear( const item & ) {}
-        virtual void on_item_takeoff( const item & ) {}
-        virtual void on_worn_item_washed( const item & ) {}
-
+        /** Called when an item is worn */
+        void on_item_wear( const item &it );
+        /** Called when an item is taken off */
+        void on_item_takeoff( const item &it );
+        /** Called when an item is washed */
+        void on_worn_item_washed( const item &it );
+        /** Called when effect intensity has been changed */
+        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
+        /** Called when a mutation is gained */
+        void on_mutation_gain( const trait_id &mid );
+        /** Called when a mutation is lost */
+        void on_mutation_loss( const trait_id &mid );
+        /** Called when a stat is changed */
+        void on_stat_change( const std::string &stat, int value ) override;
         /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
         tripoint adjacent_tile() const;
-
+        /** Returns true if the player has a trait which cancels the entered trait */
+        bool has_opposite_trait( const trait_id &flag ) const;
         /** Removes "sleep" and "lying_down" */
         void wake_up();
         // how loud a character can shout. based on mutations and clothing
@@ -1766,6 +1775,7 @@ class Character : public Creature, public visitable<Character>
 
         std::map<std::string, int> mutation_category_level;
 
+        int adjust_for_focus( int amount ) const;
         void update_type_of_scent( bool init = false );
         void update_type_of_scent( const trait_id &mut, bool gain = true );
         void set_type_of_scent( const scenttype_id &id );

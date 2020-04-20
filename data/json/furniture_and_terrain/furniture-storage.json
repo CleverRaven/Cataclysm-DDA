@@ -294,7 +294,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "examine_action": "gunsafe_ml",
+    "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 40,
       "str_max": 200,

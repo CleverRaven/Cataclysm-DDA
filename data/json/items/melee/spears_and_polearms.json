@@ -73,7 +73,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "FRAGILE_MELEE", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "spear_spike",
@@ -278,7 +278,7 @@
     "description": "This is a versatile polearm with an axe blade, a spike, and other fun things attached to a long stick.",
     "price": 50000,
     "material": [ "wood", "steel" ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": "3175 g",
     "volume": "3750 ml",
@@ -296,7 +296,7 @@
     "description": "This is a dull, cheaply made replica of a polearm with an axe blade, a spike, and other fun things attached to a long stick.",
     "price": 5000,
     "material": [ "wood", "aluminum" ],
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "weight": "1644 g",
     "volume": "3750 ml",
@@ -316,7 +316,7 @@
     "price": 50000,
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2100 g",
     "volume": "2500 ml",
@@ -338,7 +338,7 @@
     "bashing": 7,
     "cutting": 45,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "price": 80000,
     "price_postapoc": 9500
   },
@@ -356,7 +356,7 @@
     "bashing": 29,
     "cutting": 11,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "price": 8000,
     "price_postapoc": 1500
   },
@@ -374,7 +374,7 @@
     "bashing": 12,
     "cutting": 2,
     "to_hit": 1,
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "price": 8000,
     "price_postapoc": 500
   },
@@ -477,7 +477,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "POLEARM", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike_inferior",
@@ -498,7 +498,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "POLEARM", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "type": "GENERIC",
@@ -516,7 +516,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "spear_dory",

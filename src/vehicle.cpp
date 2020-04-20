@@ -799,7 +799,7 @@ void vehicle::stop_autodriving()
     }
     if( velocity > 0 ) {
         if( is_patrolling || is_following ) {
-            autodrive( 0, 10 );
+            autodrive( point( 0, 10 ) );
         } else {
             pldrive( point( 0, 10 ) );
         }
@@ -872,7 +872,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
         if( velocity > 0 ) {
             follow_protocol ||
-            is_patrolling ? autodrive( 0, 10 ) : pldrive( point( 0, 10 ) );
+            is_patrolling ? autodrive( point( 0, 10 ) ) : pldrive( point( 0, 10 ) );
         }
         stop_autodriving();
         return;
@@ -914,7 +914,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
     }
     follow_protocol ||
-    is_patrolling ? autodrive( turn_x, accel_y ) : pldrive( point( turn_x, accel_y ) );
+    is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( point( turn_x, accel_y ) );
 }
 
 double vehicle::get_angle_from_targ( const tripoint &targ )
@@ -5751,10 +5751,10 @@ void vehicle::do_towing_move()
         towed_veh->velocity = reverse ? -velocity : velocity;
     }
     if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
-        towed_veh->autodrive( turn_x, accel_y );
+        towed_veh->autodrive( point( turn_x, accel_y ) );
     } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
         accel_y = 10;
-        towed_veh->autodrive( turn_x, accel_y );
+        towed_veh->autodrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
         std::vector<tripoint> lineto = line_to( g->m.getlocal( towed_tow_point ),

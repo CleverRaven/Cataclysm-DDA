@@ -179,8 +179,6 @@ class player : public Character
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
          */
         bool has_conflicting_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which cancels the entered trait */
-        bool has_opposite_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which upgrades into the entered trait */
         bool has_lower_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which is an upgrade of the entered trait */
@@ -574,8 +572,6 @@ class player : public Character
         int kcal_speed_penalty();
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
-
-        int adjust_for_focus( int amount ) const;
         /** This handles giving xp for a skill */
         void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
@@ -822,7 +818,6 @@ class player : public Character
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops;
 
-        bool reach_attacking = false;
         bool manual_examine = false;
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
@@ -872,36 +867,6 @@ class player : public Character
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-
-        /**
-         * Called when a mutation is gained
-         */
-        void on_mutation_gain( const trait_id &mid ) override;
-        /**
-         * Called when a mutation is lost
-         */
-        void on_mutation_loss( const trait_id &mid ) override;
-        /**
-         * Called when a stat is changed
-         */
-        void on_stat_change( const std::string &stat, int value ) override;
-        /**
-         * Called when an item is worn
-         */
-        void on_item_wear( const item &it ) override;
-        /**
-         * Called when an item is taken off
-         */
-        void on_item_takeoff( const item &it ) override;
-        /**
-         * Called when an item is washed
-         */
-        void on_worn_item_washed( const item &it ) override;
-        /**
-         * Called when effect intensity has been changed
-         */
-        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
-
         // formats and prints encumbrance info to specified window
         void print_encumbrance( const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;

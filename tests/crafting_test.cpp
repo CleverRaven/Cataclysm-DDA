@@ -235,7 +235,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
         standard_npc who( "helper" );
 
         who.set_attitude( NPCATT_FOLLOW );
-        who.spawn_at_sm( 0, 0, 0 );
+        who.spawn_at_sm( tripoint_zero );
 
         g->load_npcs();
 
