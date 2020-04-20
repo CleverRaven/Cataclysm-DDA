@@ -1923,13 +1923,6 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
     ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
-    // Initialize cursor position
-    src = pc.pos();
-    tripoint initial_dst = pc.pos();
-    int _target_idx = 0;
-    update_targets( pc, range, targets, _target_idx, src, initial_dst );
-    set_cursor_pos( pc, initial_dst );
-
     // Handle multi-turn aiming
     std::string action;
     if( mode == TARGET_MODE_FIRE ) {
@@ -1943,16 +1936,25 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
                 // So, skip retrieving input and go straight to the action.
                 action = act_data;
             }
+            // Load state of snap-to-target mode to keep it consistent between turns
+            snap_to_target = pc.activity.str_values[1] == "snap";
             // Clear the activity, we'll re-set it later if we need to.
             pc.cancel_activity();
         }
     }
 
+    const tripoint saved_view_offset = pc.view_offset;
+
+    // Initialize cursor position
+    src = pc.pos();
+    tripoint initial_dst = pc.pos();
+    int _target_idx = 0;
+    update_targets( pc, range, targets, _target_idx, src, initial_dst );
+    set_cursor_pos( pc, initial_dst );
+
     ExitCode loop_exit_code;
     std::string timed_out_action;
-
     bool skip_redraw = false;
-    const tripoint saved_view_offset = pc.view_offset;
     for( ;; action.clear() ) {
         // Old drawing
         if( !skip_redraw ) {
@@ -2056,9 +2058,11 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             // automatically re-enter the aiming UI on the next turn.
             // pc.activity.str_values[0] remembers which action, AIM or *_SHOT,
             // we didn't have the time to finish.
+            // pc.activity.str_values[1] remembers state of snap-to-target mode
             traj.clear();
             pc.assign_activity( ACT_AIM, 0, 0 );
             pc.activity.str_values.push_back( timed_out_action );
+            pc.activity.str_values.push_back( snap_to_target ? "snap" : "nosnap" );
             break;
         }
         case ExitCode::Reload: {
