@@ -102,13 +102,13 @@
     "components": [ [ [ "hard_plate", 10 ] ], [ [ "chain", 8 ] ] ]
   },
   {
-    "result": "space_anomaly",
+    "result": "stablilized_portal",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "electronics",
     "difficulty": 8,
-    "skills_required": [ [ "mechanics", 3 ], [ "electronics", 3 ] ],
+    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 8 ] ],
     "time": 144000,
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
