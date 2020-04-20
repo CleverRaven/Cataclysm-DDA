@@ -211,6 +211,9 @@ class target_ui
         // List of vehicle turrets in range (out of those listed in 'vturrets')
         std::vector<vehicle_part *> turrets_in_range;
 
+        // Create window and set up input context
+        void init_window_and_input( player &pc );
+
         // Handle input related to cursor movement.
         // Returns 'true' if action was recognized and processed.
         // 'skip_redraw' is set to 'true' if there is no need to redraw the UI.
@@ -1791,6 +1794,8 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     if( mode == TARGET_MODE_SPELL && !no_mana && !casting->can_cast( pc ) ) {
         pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                               casting->energy_string() );
+    } else if( mode == TARGET_MODE_FIRE ) {
+        sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
     }
 
     // Load settings
@@ -1798,69 +1803,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
     // Create window
-    compact = TERMY < 41;
-    tiny = TERMY < 32;
-    int top = 0;
-    int width = 55;
-    int height;
-    if( tiny ) {
-        // If we're extremely short on space, use the whole sidebar.
-        height = TERMY;
-    } else if( compact ) {
-        // Cover up more low-value ui elements if we're tight on space.
-        height = 28;
-    } else {
-        // Go all out
-        height = 32;
-    }
-    w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
-
-    ctxt = input_context( "TARGET" );
-    ctxt.set_iso( true );
-    // "ANY_INPUT" should be added before any real help strings
-    // Or strings will be written on window border.
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_directions();
-    ctxt.register_action( "COORDINATE" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "FIRE" );
-    ctxt.register_action( "NEXT_TARGET" );
-    ctxt.register_action( "PREV_TARGET" );
-    ctxt.register_action( "CENTER" );
-    ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "zoom_out" );
-    ctxt.register_action( "zoom_in" );
-    if( allow_zlevel_shift ) {
-        ctxt.register_action( "LEVEL_UP" );
-        ctxt.register_action( "LEVEL_DOWN" );
-    }
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-        ctxt.register_action( "SWITCH_MODE" );
-        ctxt.register_action( "SWITCH_AMMO" );
-    }
-    if( mode == TARGET_MODE_FIRE ) {
-        ctxt.register_action( "AIM" );
-        ctxt.register_action( "SWITCH_AIM" );
-    }
-
-    if( mode == TARGET_MODE_FIRE ) {
-        sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
-
-        aim_types = pc.get_aim_types( *relevant );
-        for( aim_type &type : aim_types ) {
-            if( type.has_threshold ) {
-                ctxt.register_action( type.action );
-            }
-        }
-
-        aim_mode = aim_types.begin();
-    }
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    init_window_and_input( pc );
 
     // Handle multi-turn aiming
     std::string action;
@@ -1893,6 +1836,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     }
     set_cursor_pos( pc, initial_dst );
 
+    // Event loop!
     ExitCode loop_exit_code;
     std::string timed_out_action;
     bool skip_redraw = false;
@@ -2016,6 +1960,70 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
         *exit_code = loop_exit_code;
     }
     return traj;
+}
+
+void target_ui::init_window_and_input( player &pc )
+{
+    compact = TERMY < 41;
+    tiny = TERMY < 32;
+    int top = 0;
+    int width = 55;
+    int height;
+    if( tiny ) {
+        // If we're extremely short on space, use the whole sidebar.
+        height = TERMY;
+    } else if( compact ) {
+        // Cover up more low-value ui elements if we're tight on space.
+        height = 28;
+    } else {
+        // Go all out
+        height = 32;
+    }
+    w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
+
+    ctxt = input_context( "TARGET" );
+    ctxt.set_iso( true );
+    // "ANY_INPUT" should be added before any real help strings
+    // Or strings will be written on window border.
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_directions();
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "FIRE" );
+    ctxt.register_action( "NEXT_TARGET" );
+    ctxt.register_action( "PREV_TARGET" );
+    ctxt.register_action( "CENTER" );
+    ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "zoom_in" );
+    if( allow_zlevel_shift ) {
+        ctxt.register_action( "LEVEL_UP" );
+        ctxt.register_action( "LEVEL_DOWN" );
+    }
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+        ctxt.register_action( "SWITCH_MODE" );
+        ctxt.register_action( "SWITCH_AMMO" );
+    }
+    if( mode == TARGET_MODE_FIRE ) {
+        ctxt.register_action( "AIM" );
+        ctxt.register_action( "SWITCH_AIM" );
+    }
+
+    if( mode == TARGET_MODE_FIRE ) {
+        aim_types = pc.get_aim_types( *relevant );
+        for( aim_type &type : aim_types ) {
+            if( type.has_threshold ) {
+                ctxt.register_action( type.action );
+            }
+        }
+        aim_mode = aim_types.begin();
+    }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 }
 
 bool target_ui::handle_cursor_movement( player &pc, const std::string &action, bool &skip_redraw )
