@@ -599,6 +599,9 @@ TEST_CASE( "body mass effect on speed", "[bmi][speed]" )
 {
     avatar dummy;
 
+    // Practically dead
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 0.1f ) == -90 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 1.0f ) == -87 );
     // Skeletal (<14)
     CHECK( kcal_speed_penalty_at_bmi( dummy, 8.0f ) == -67 );
     CHECK( kcal_speed_penalty_at_bmi( dummy, 9.0f ) == -64 );
