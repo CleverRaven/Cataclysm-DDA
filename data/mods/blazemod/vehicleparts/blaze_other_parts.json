@@ -137,22 +137,30 @@
     }
   },
   {
-    "abstract": "rack_blaze",
     "type": "vehicle_part",
-    "item": "metal_tank_little",
-    "location": "under",
-    "symbol": "O",
+    "id": "cargo_rack_extended",
+    "name": "cargo shelving",
+    "symbol": "=",
+    "looks_like": "box",
+    "color": "light_gray",
     "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "description": "This part is obsolete.  It should not be installed in a vehicle, and if it is installed, you can safely uninstall it.",
-    "durability": 150,
+    "broken_color": "dark_gray",
+    "durability": 250,
+    "size": 4000,
+    "item": "vehicle_shelving",
+    "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "120 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "120 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "damage_modifier": 80
+    "flags": [ "OBSTACLE", "CARGO", "COVERED" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 16 ] },
+      { "item": "steel_chunk", "count": [ 6, 16 ] },
+      { "item": "scrap", "count": [ 6, 16 ] }
+    ],
+    "damage_reduction": { "all": 28 }
   },
   {
     "id": "solar_array",
