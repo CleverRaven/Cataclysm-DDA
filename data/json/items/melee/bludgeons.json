@@ -381,18 +381,6 @@
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
   },
-    {
-    "type": "recipe",
-    "result": "bone_knife",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_PIERCING",
-    "skill_used": "fabrication",
-    "skill_required": [ "survival", 1 ],
-    "time": "2 m",
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ "bone", 1 ], "bone_human", 1 ]
-  },
   {
     "type": "GENERIC",
     "id": "golf_club",
@@ -901,8 +889,7 @@
     "id": "sharp_toothbrush",
     "symbol": ",",
     "color": "light_blue",
-    "name": "plastic shank",
-    "name_plural": "plastic shanks",
+    "name": { "str": "plastic shank", "str_pl": "plastic shanks" },
     "description": "An oblong plastic trinket with the far end ground down into a stabbing point.",
     "category": "weapons",
     "price": 400,

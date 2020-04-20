@@ -247,6 +247,25 @@
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
+    "id": "bone_knife",
+    "name": "bone shiv",
+    "type": "TOOL",
+    "description": "A femur or other bone, at least 30 cm long, which has been broken at one end and sharpened into a cutting tool. Its jagged edge is wicked but fragile.",
+    "symbol": "/",
+    "color": "white",
+    "weight": 169,
+    "//": "literally 75% of a bone.",
+    "volume": "188 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "bashing": 1,
+    "cutting": 6,
+    "material": "bone",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
+  },
+  {
     "id": "knife_churl",
     "type": "TOOL",
     "name": "baselard",
