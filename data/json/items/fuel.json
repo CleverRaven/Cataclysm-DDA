@@ -70,8 +70,7 @@
   {
     "id": "jp8",
     "type": "AMMO",
-    "name": "JP8 fuel",
-    "name_plural": "JP8 fuel",
+    "name": { "str_sp": "JP8 fuel" },
     "description": "A kerosene-based fuel used mainly by US military vehicles as a replacement for diesel and jet fuel, to simplify logistics.",
     "category": "fuel",
     "weight": "1 g",
@@ -99,8 +98,7 @@
   {
     "id": "avgas",
     "type": "AMMO",
-    "name": "avgas fuel",
-    "name_plural": "avgas fuel",
+    "name": { "str_sp": "avgas fuel" },
     "description": "A specialized type of petroleum-based fuel used to power aircraft.",
     "category": "fuel",
     "weight": "1 g",
