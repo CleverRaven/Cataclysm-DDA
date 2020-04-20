@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CREATURE_H
-#define CREATURE_H
+#ifndef CATA_SRC_CREATURE_H
+#define CATA_SRC_CREATURE_H
 
 #include <climits>
 #include <map>
@@ -262,7 +262,7 @@ class Creature
                                               body_part bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage( Creature *source, body_part bp, int amount,
+        virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
                                    bool bypass_med = false ) = 0;
 
         /**
@@ -840,4 +840,4 @@ class Creature
         int pain;
 };
 
-#endif
+#endif // CATA_SRC_CREATURE_H

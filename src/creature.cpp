@@ -222,8 +222,8 @@ bool Creature::sees( const Creature &critter ) const
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
                ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
-                 !( abs( posx() - critter.posx() ) <= 1 && abs( posy() - critter.posy() ) <= 1 &&
-                    abs( posz() - critter.posz() ) <= 1 ) ) ) {
+                 !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
+                    std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
     if( ch != nullptr ) {
@@ -421,7 +421,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         bool maybe_boo = false;
         if( angle_iff ) {
             int tangle = coord_to_angle( pos(), m->pos() );
-            int diff = abs( u_angle - tangle );
+            int diff = std::abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
@@ -633,27 +633,28 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     double damage_mult = 1.0;
 
+    const float crit_multiplier = proj.critical_multiplier;
     const int max_damage = proj.impact.total_damage();
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
-    } else if( goodhit < accuracy_headshot && max_damage > 0.4 * get_hp_max( hp_head ) ) {
+    } else if( goodhit < accuracy_headshot && max_damage * crit_multiplier > get_hp_max( hp_head ) ) {
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
-        damage_mult *= rng_float( 1.95, 2.05 );
+        damage_mult *= rng_float( 0.95, 1.05 );
+        damage_mult *= crit_multiplier;
         bp_hit = bp_head; // headshot hits the head, of course
-
-    } else if( goodhit < accuracy_critical && max_damage > 0.4 * get_hp_max( hp_torso ) ) {
+    } else if( goodhit < accuracy_critical && max_damage * crit_multiplier > get_hp_max( hp_torso ) ) {
         message = _( "Critical!" );
         gmtSCTcolor = m_critical;
-        damage_mult *= rng_float( 1.5, 2.0 );
-
+        damage_mult *= rng_float( 0.75, 1.0 );
+        damage_mult *= crit_multiplier;
     } else if( goodhit < accuracy_goodhit ) {
         message = _( "Good hit!" );
         gmtSCTcolor = m_good;
-        damage_mult *= rng_float( 1, 1.5 );
-
+        damage_mult *= rng_float( 0.5, 0.75 );
+        damage_mult *= std::sqrt( 2.0 * crit_multiplier );
     } else if( goodhit < accuracy_standard ) {
         damage_mult *= rng_float( 0.5, 1 );
 
@@ -842,7 +843,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
 
     mod_pain( total_pain );
 
-    apply_damage( source, bp, total_damage );
+    apply_damage( source, convert_bp( bp ).id(), total_damage );
     return dealt_dams;
 }
 void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,

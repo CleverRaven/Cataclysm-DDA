@@ -207,15 +207,15 @@ std::string window_panel::get_name() const
 }
 
 void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                                     const tripoint &global_omt, const int start_y_input, const int start_x_input, const int width,
-                                     const int height )
+                                     const tripoint &global_omt, const point &start_input,
+                                     const int width, const int height )
 {
     const int cursx = global_omt.x;
     const int cursy = global_omt.y;
     const tripoint targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
-    const int start_y = start_y_input + ( height / 2 ) - 2;
-    const int start_x = start_x_input + ( width / 2 ) - 2;
+    const int start_y = start_input.y + ( height / 2 ) - 2;
+    const int start_x = start_input.x + ( width / 2 ) - 2;
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
@@ -349,7 +349,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
                        ( targ.x - cursx ) : 4;
 
-        if( cursx == targ.x || fabs( slope ) > 3.5 ) {  // Vertical slope
+        if( cursx == targ.x || std::fabs( slope ) > 3.5 ) {  // Vertical slope
             if( targ.y > cursy ) {
                 mvwputch( w_minimap, point( 3 + start_x, 6 + start_y ), c_red, '*' );
             } else {
@@ -358,7 +358,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         } else {
             int arrowx = -1;
             int arrowy = -1;
-            if( fabs( slope ) >= 1. ) {  // y diff is bigger!
+            if( std::fabs( slope ) >= 1. ) {  // y diff is bigger!
                 arrowy = ( targ.y > cursy ? 6 : 0 );
                 arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
@@ -410,7 +410,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
 {
     const tripoint curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, 0, 0, 5, 5 );
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 5, 5 );
 }
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
@@ -543,10 +543,12 @@ static std::pair<int, int> temp_delta( const avatar &u )
     int current_bp_extreme = 0;
     int conv_bp_extreme = 0;
     for( int i = 0; i < num_bp; i++ ) {
-        if( abs( u.temp_cur[i] - BODYTEMP_NORM ) > abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
+        if( std::abs( u.temp_cur[i] - BODYTEMP_NORM ) >
+            std::abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
             current_bp_extreme = i;
         }
-        if( abs( u.temp_conv[i] - BODYTEMP_NORM ) > abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
+        if( std::abs( u.temp_conv[i] - BODYTEMP_NORM ) >
+            std::abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
             conv_bp_extreme = i;
         }
     }
@@ -846,11 +848,11 @@ static nc_color safe_color()
 
 static int get_int_digits( const int &digits )
 {
-    int temp = abs( digits );
+    int temp = std::abs( digits );
     if( digits > 0 ) {
-        return static_cast<int>( log10( static_cast<double>( temp ) ) ) + 1;
+        return static_cast<int>( std::log10( static_cast<double>( temp ) ) ) + 1;
     } else if( digits < 0 ) {
-        return static_cast<int>( log10( static_cast<double>( temp ) ) ) + 2;
+        return static_cast<int>( std::log10( static_cast<double>( temp ) ) ) + 2;
     }
     return 1;
 }
@@ -1368,7 +1370,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     if( minimap ) {
         const int offset = getmaxx( w ) - 6;
         const tripoint curs = u.global_omt_location();
-        overmap_ui::draw_overmap_chunk( w, u, curs, -1, offset, 5, 5 );
+        overmap_ui::draw_overmap_chunk( w, u, curs, point( offset, -1 ), 5, 5 );
     }
     wrefresh( w );
 }
@@ -1648,7 +1650,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // vehicle display
     if( veh ) {
-        veh->print_fuel_indicators( w, 2, 39 );
+        veh->print_fuel_indicators( w, point( 39, 2 ) );
         mvwprintz( w, point( 35, 4 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
@@ -1762,7 +1764,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, 0, 0 );
+        veh->print_fuel_indicators( w, point_zero );
         mvwprintz( w, point( 6, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
@@ -1794,7 +1796,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, 0, 1 );
+        veh->print_fuel_indicators( w, point_east );
         mvwprintz( w, point( 7, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
@@ -2247,9 +2249,8 @@ void panel_manager::deserialize( JsonIn &jsin )
     jsin.end_array();
 }
 
-void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t index )
+void panel_manager::show_adm()
 {
-
     input_context ctxt( "PANEL_MGMT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -2260,184 +2261,168 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     ctxt.register_action( "MOVE_PANEL" );
     ctxt.register_action( "TOGGLE_PANEL" );
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
     const std::vector<int> column_widths = { 17, 37, 17 };
-    size_t max_index = 0;
-    int counter = 0;
-    bool selected = false;
-    size_t source_index = 0;
-    size_t target_index = 0;
 
-    bool redraw = true;
+    size_t current_col = 0;
+    size_t current_row = 0;
+    bool swapping = false;
+    size_t source_row = 0;
+    size_t source_index = 0;
+
+    bool recalc = true;
     bool exit = false;
     // map of row the panel is on vs index
     // panels not renderable due to game configuration will not be in this map
     std::map<size_t, size_t> row_indices;
+
+    g->show_panel_adm = true;
+    g->invalidate_main_ui_adaptor();
+
+    catacurses::window w;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w = catacurses::newwin( 20, 75,
+                                point( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 ) );
+
+        ui.position_from_window( w );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        auto &panels = layouts[current_layout_id];
+
+        werase( w );
+        decorate_panel( _( "SIDEBAR OPTIONS" ), w );
+
+        for( std::pair<size_t, size_t> row_indx : row_indices ) {
+            std::string name = _( panels[row_indx.second].get_name() );
+            if( swapping && source_index == row_indx.second ) {
+                mvwprintz( w, point( 5, current_row + 1 ), c_yellow, name );
+            } else {
+                int offset = 0;
+                if( !swapping ) {
+                    offset = 0;
+                } else if( current_row > source_row && row_indx.first > source_row &&
+                           row_indx.first <= current_row ) {
+                    offset = -1;
+                } else if( current_row < source_row && row_indx.first < source_row &&
+                           row_indx.first >= current_row ) {
+                    offset = 1;
+                }
+                const nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
+                mvwprintz( w, point( 4, row_indx.first + 1 + offset ), toggle_color, name );
+            }
+        }
+        size_t i = 1;
+        for( const auto &layout : layouts ) {
+            mvwprintz( w, point( column_widths[0] + column_widths[1] + 4, i ),
+                       current_layout_id == layout.first ? c_light_blue : c_white, _( layout.first ) );
+            i++;
+        }
+        int col_offset = 0;
+        for( i = 0; i < current_col; i++ ) {
+            col_offset += column_widths[i];
+        }
+        mvwprintz( w, point( 1 + ( col_offset ), current_row + 1 ), c_yellow, ">>" );
+        mvwvline( w, point( column_widths[0], 1 ), 0, 18 );
+        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 18 );
+
+        col_offset = column_widths[0] + 2;
+        int col_width = column_widths[1] - 4;
+        mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
+                   col_width ) + ":" );
+        mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
+        mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
+                   col_width ) + ":" );
+        mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
+        mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
+                   col_width ) + ":" );
+        mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
+
+        wrefresh( w );
+    } );
+
     while( !exit ) {
         auto &panels = layouts[current_layout_id];
 
-        if( redraw ) {
-            redraw = false;
-            werase( w );
-            decorate_panel( _( "SIDEBAR OPTIONS" ), w );
-            // clear the panel list
-            for( int i = 1; i <= 18; i++ ) {
-                for( int j = 1; j <= column_widths[0]; j++ ) {
-                    mvwputch( w, point( j, i ), c_black, ' ' );
-                }
-            }
-            // the row that the panel name is printed on
-            int row = 1;
+        if( recalc ) {
+            recalc = false;
+
             row_indices.clear();
-            for( size_t i = 0; i < panels.size(); i++ ) {
+            for( size_t i = 0, row = 0; i < panels.size(); i++ ) {
                 if( panels[i].render() ) {
-                    row_indices.emplace( row - 1, i );
+                    row_indices.emplace( row, i );
                     row++;
-                } else if( !panels[i].render && column == 0 ) {
-                    if( selected && index == i ) {
-                        row++;
-                    }
                 }
             }
-
-            max_index = column == 0 ? row_indices.size() : layouts.size();
-            int vertical_offset = 0;
-            int selected_offset = 0;
-            size_t modified_index = row_indices[index - 1];
-
-            for( std::pair<size_t, size_t> row_indx : row_indices ) {
-                nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
-                std::string name = _( panels[row_indx.second].get_name() );
-                if( !selected ) {
-                    mvwprintz( w, point( 4, row_indx.first + 1 ), toggle_color, name );
-                } else {
-                    if( modified_index < row_indx.second ) {
-                        vertical_offset = 2;
-                    } else if( modified_index == row_indx.second && row_indx.second < source_index ) {
-                        vertical_offset = 2;
-                    } else {
-                        vertical_offset = 1;
-                    }
-                    mvwprintz( w, point( 4, row_indx.first + vertical_offset ), toggle_color, name );
-                    if( source_index == row_indx.second ) {
-                        if( modified_index < source_index ) {
-                            selected_offset = 0;
-                        } else {
-                            selected_offset = 1;
-                        }
-                        mvwprintz( w, point( 5, index + selected_offset ), c_yellow, name );
-                    }
-                }
-            }
-            size_t i = 1;
-            for( const auto &layout : layouts ) {
-                mvwprintz( w, point( column_widths[0] + column_widths[1] + 4, i ),
-                           current_layout_id == layout.first ? c_light_blue : c_white, _( layout.first ) );
-                i++;
-            }
-            int col_offset = 0;
-            for( i = 0; i < column; i++ ) {
-                col_offset += column_widths[i];
-            }
-            mvwprintz( w, point( 1 + ( col_offset ), index + selected_offset ), c_yellow, ">>" );
-            mvwvline( w, point( column_widths[0], 1 ), 0, 18 );
-            mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 18 );
-
-            col_offset = column_widths[0] + 2;
-            int col_width = column_widths[1] - 4;
-            mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
-                       col_width ) + ":" );
-            mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
-            mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
-                       col_width ) + ":" );
-            mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
-            mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
-                       col_width ) + ":" );
-            mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
         }
-        wrefresh( w );
+
+        const size_t num_rows = current_col == 0 ? row_indices.size() : layouts.size();
+        current_row = clamp<size_t>( current_row, 0, num_rows - 1 );
+
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
         if( action == "UP" ) {
-            if( index > 1 ) {
-                index -= 1;
-            } else if( index == 1 ) {
-                index = max_index;
+            if( current_row > 0 ) {
+                current_row -= 1;
+            } else {
+                current_row = num_rows - 1;
             }
-            redraw = true;
         } else if( action == "DOWN" ) {
-            if( index < max_index ) {
-                index += 1;
-            } else if( index == max_index ) {
-                index = 1;
+            if( current_row + 1 < num_rows ) {
+                current_row += 1;
+            } else {
+                current_row = 0;
             }
-            redraw = true;
-        } else if( action == "MOVE_PANEL" && column == 0 ) {
-            counter += 1;
-            // source window from the swap
-            if( counter == 1 ) {
+        } else if( action == "MOVE_PANEL" && current_col == 0 ) {
+            swapping = !swapping;
+            if( swapping ) {
+                // source window from the swap
                 // saving win1 index
-                source_index = row_indices[index - 1];
-                selected = true;
-            }
-            // dest window for the swap
-            if( counter == 2 ) {
+                source_row = current_row;
+                source_index = row_indices[current_row];
+            } else {
+                // dest window for the swap
                 // saving win2 index
-                target_index = row_indices[index - 1];
+                const size_t target_index = row_indices[current_row];
 
                 int distance = target_index - source_index;
                 size_t step_dir = distance > 0 ? 1 : -1;
                 for( size_t i = source_index; i != target_index; i += step_dir ) {
                     std::swap( panels[i], panels[i + step_dir] );
                 }
-                werase( w );
-                wrefresh( g->w_terrain );
-                g->draw_panels( column, index, true );
-                return;
+                g->invalidate_main_ui_adaptor();
+                recalc = true;
             }
-            redraw = true;
-        } else if( action == "MOVE_PANEL" && column == 2 ) {
-            auto iter = layouts.begin();
-            for( size_t i = 1; i < index; i++ ) {
-                iter++;
-            }
+        } else if( !swapping && action == "MOVE_PANEL" && current_col == 2 ) {
+            auto iter = std::next( layouts.begin(), current_row );
             current_layout_id = iter->first;
             int width = panel_manager::get_manager().get_current_layout().begin()->get_width();
             update_offsets( width );
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
-            werase( w );
-            wrefresh( g->w_terrain );
-            g->draw_panels( column, index, true );
             // tell the game that the main screen might have a different size now.
-            g->init_ui( true );
-            return;
-        } else if( action == "RIGHT" || action == "LEFT" ) {
+            g->init_ui( false );
+            g->invalidate_main_ui_adaptor();
+            recalc = true;
+        } else if( !swapping && ( action == "RIGHT" || action == "LEFT" ) ) {
             // there are only two columns
-            if( column == 0 ) {
-                column = 2;
-                if( index > layouts.size() ) {
-                    index = layouts.size();
-                }
+            if( current_col == 0 ) {
+                current_col = 2;
             } else {
-                column = 0;
-                if( index > get_current_layout().size() ) {
-                    index = get_current_layout().size();
-                }
+                current_col = 0;
             }
-            redraw = true;
-        }
-        if( action == "TOGGLE_PANEL" && column == 0 ) {
-            panels[row_indices[index - 1]].toggle = !panels[row_indices[index - 1]].toggle;
-            wrefresh( g->w_terrain );
-            g->draw_panels( column, index, true );
-            return;
+        } else if( !swapping && action == "TOGGLE_PANEL" && current_col == 0 ) {
+            panels[row_indices[current_row]].toggle = !panels[row_indices[current_row]].toggle;
+            g->invalidate_main_ui_adaptor();
         } else if( action == "QUIT" ) {
             exit = true;
-            g->show_panel_adm = false;
             save();
         }
     }
+
+    g->show_panel_adm = false;
+    g->invalidate_main_ui_adaptor();
 }

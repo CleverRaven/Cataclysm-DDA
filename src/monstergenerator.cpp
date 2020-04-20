@@ -581,7 +581,10 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "MON_LEECH_EVOLUTION", mattack::mon_leech_evolution );
     add_hardcoded_attack( "TINDALOS_TELEPORT", mattack::tindalos_teleport );
     add_hardcoded_attack( "FLESH_TENDRIL", mattack::flesh_tendril );
+    add_hardcoded_attack( "BIO_OP_BIOJUTSU", mattack::bio_op_random_biojutsu );
     add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
+    add_hardcoded_attack( "BIO_OP_IMPALE", mattack::bio_op_impale );
+    add_hardcoded_attack( "BIO_OP_DISARM", mattack::bio_op_disarm );
     add_hardcoded_attack( "SUICIDE", mattack::suicide );
     add_hardcoded_attack( "KAMIKAZE", mattack::kamikaze );
     add_hardcoded_attack( "GRENADIER", mattack::grenadier );
@@ -656,14 +659,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     MonsterGenerator &gen = MonsterGenerator::generator();
 
-    if( jo.has_string( "name_plural" ) && jo.has_string( "name" ) ) {
-        // Legacy format
-        // NOLINTNEXTLINE(cata-json-translation-input)
-        name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
-    } else {
-        name.make_plural();
-        mandatory( jo, was_loaded, "name", name );
-    }
+    name.make_plural();
+    mandatory( jo, was_loaded, "name", name );
+
     optional( jo, was_loaded, "description", description );
 
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );

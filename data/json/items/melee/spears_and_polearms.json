@@ -73,7 +73,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "spear_spike",
@@ -278,7 +278,7 @@
     "description": "This is a versatile polearm with an axe blade, a spike, and other fun things attached to a long stick.",
     "price": 50000,
     "material": [ "wood", "steel" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": "3175 g",
     "volume": "3750 ml",
@@ -297,7 +297,7 @@
     "description": "This is a dull, cheaply made replica of a polearm with an axe blade, a spike, and other fun things attached to a long stick.",
     "price": 5000,
     "material": [ "wood", "aluminum" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "weight": "1644 g",
     "volume": "3750 ml",
@@ -317,7 +317,7 @@
     "price": 50000,
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2100 g",
     "volume": "2500 ml",
@@ -329,7 +329,7 @@
   {
     "type": "GENERIC",
     "id": "naginata",
-    "name": { "str": "naginata", "str_pl": "naginata" },
+    "name": { "str_sp": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  Occasionally used by samurai in early periods, or by their wives in defense of the household.",
     "weight": "1700 g",
     "to_hit": 2,
@@ -341,14 +341,14 @@
     "bashing": 6,
     "cutting": 37,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "price": 80000,
     "price_postapoc": 9500
   },
   {
     "type": "GENERIC",
     "id": "naginata_inferior",
-    "name": { "str": "naginata", "str_pl": "naginata" },
+    "name": { "str_sp": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  This one has a bit of wiggle to its blade and feels a bit shoddily made.",
     "weight": "1700 g",
     "color": "light_gray",
@@ -360,14 +360,14 @@
     "cutting": 21,
     "to_hit": 2,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "price": 8000,
     "price_postapoc": 1500
   },
   {
     "type": "GENERIC",
     "id": "naginata_fake",
-    "name": { "str": "naginata", "str_pl": "naginata" },
+    "name": { "str_sp": "naginata" },
     "description": "This is a dull, slightly floppy replica of a Japanese polearm with a curved blade.  With a little difficulty, you could use it administer a solid slap from a distance.",
     "weight": "1400 g",
     "color": "light_gray",
@@ -378,14 +378,14 @@
     "bashing": 13,
     "cutting": 1,
     "to_hit": -1,
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "price": 8000,
     "price_postapoc": 500
   },
   {
     "type": "GENERIC",
     "id": "spear_survivor",
-    "name": { "str": "survivor naginata", "str_pl": "survivor naginata" },
+    "name": { "str_sp": "survivor naginata" },
     "description": "This sturdy steel shaft with a sword blade at the end is good for both slashing and stabbing.",
     "weight": "1700 g",
     "to_hit": 2,
@@ -396,7 +396,7 @@
     "volume": "2250 ml",
     "bashing": 2,
     "cutting": 24,
-    "flags": [ "STAB", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "flags": [ "STAB", "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": 8000,
     "price_postapoc": 4500,
@@ -460,7 +460,7 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike_fake",
@@ -481,7 +481,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike_inferior",
@@ -502,7 +502,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_2" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "type": "GENERIC",
@@ -521,7 +521,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "spear_dory",
@@ -545,7 +545,7 @@
   {
     "id": "ji",
     "type": "GENERIC",
-    "name": { "str": "ji", "str_pl": "ji" },
+    "name": { "str_sp": "ji" },
     "//": "Couldn't find a good way to pluralize the transliteration.",
     "description": "This is a bronze polearm that originated in the Shang dynasty of China, if not earlier.  It combines a spear head with the perpendicular blade of the earlier ge or dagger-axe.",
     "weight": "3175 g",
@@ -559,7 +559,7 @@
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "spear_stone",

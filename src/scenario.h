@@ -1,12 +1,13 @@
 #pragma once
-#ifndef SCENARIO_H
-#define SCENARIO_H
+#ifndef CATA_SRC_SCENARIO_H
+#define CATA_SRC_SCENARIO_H
 
 #include <algorithm>
 #include <set>
 #include <string>
 #include <vector>
 
+#include "pldata.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -14,7 +15,6 @@
 class JsonObject;
 class profession;
 
-enum add_type : int;
 template<typename T>
 class generic_factory;
 
@@ -125,4 +125,4 @@ struct scen_blacklist {
 
 void reset_scenarios_blacklist();
 
-#endif
+#endif // CATA_SRC_SCENARIO_H

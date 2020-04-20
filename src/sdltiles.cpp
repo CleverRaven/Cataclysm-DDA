@@ -1151,9 +1151,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 alignment_offset = 0;
-                if( ft.alignment == TEXT_ALIGNMENT_CENTER ) {
+                if( ft.alignment == text_alignment::center ) {
                     alignment_offset = full_text_length / 2;
-                } else if( ft.alignment == TEXT_ALIGNMENT_RIGHT ) {
+                } else if( ft.alignment == text_alignment::right ) {
                     alignment_offset = full_text_length - 1;
                 }
             }
@@ -2383,7 +2383,7 @@ void update_finger_repeat_delay()
 {
     float delta_x = finger_curr_x - finger_down_x;
     float delta_y = finger_curr_y - finger_down_y;
-    float dist = ( float )sqrtf( delta_x * delta_x + delta_y * delta_y );
+    float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
     float longest_window_edge = std::max( WindowWidth, WindowHeight );
     float t = clmp( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) ) /
                     std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
@@ -2420,7 +2420,7 @@ void handle_finger_input( uint32_t ticks )
 
     float delta_x = finger_curr_x - finger_down_x;
     float delta_y = finger_curr_y - finger_down_y;
-    float dist = ( float )sqrtf( delta_x * delta_x + delta_y * delta_y ); // in pixel space
+    float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y ); // in pixel space
     bool handle_diagonals = touch_input_context.is_action_registered( "LEFTUP" );
     bool is_default_mode = touch_input_context.get_category() == "DEFAULTMODE";
     if( dist > ( get_option<float>( "ANDROID_DEADZONE_RANGE" )*std::max( WindowWidth,
@@ -3052,7 +3052,7 @@ static void CheckMessages()
                         // If we've moved too far from joystick center, offset joystick center automatically
                         float delta_x = finger_curr_x - finger_down_x;
                         float delta_y = finger_curr_y - finger_down_y;
-                        float dist = ( float )sqrtf( delta_x * delta_x + delta_y * delta_y );
+                        float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
                         float max_dist = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) +
                                            get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * std::max( WindowWidth, WindowHeight );
                         if( dist > max_dist ) {
@@ -3120,11 +3120,11 @@ static void CheckMessages()
                             if( is_default_mode ) {
                                 float x1 = ( finger_curr_x - finger_down_x );
                                 float y1 = ( finger_curr_y - finger_down_y );
-                                float d1 = ( float )( sqrtf( x1 * x1 + y1 * y1 ) );
+                                float d1 = std::sqrt( x1 * x1 + y1 * y1 );
 
                                 float x2 = ( second_finger_curr_x - second_finger_down_x );
                                 float y2 = ( second_finger_curr_y - second_finger_down_y );
-                                float d2 = ( float )( sqrtf( x2 * x2 + y2 * y2 ) );
+                                float d2 = std::sqrt( x2 * x2 + y2 * y2 );
 
                                 float longest_window_edge = std::max( WindowWidth, WindowHeight );
 
@@ -3159,11 +3159,11 @@ static void CheckMessages()
                                         // both fingers heading in opposite direction, check for zoom gesture
                                         float down_x = finger_down_x - second_finger_down_x;
                                         float down_y = finger_down_y - second_finger_down_y;
-                                        float down_dist = ( float )sqrtf( down_x * down_x + down_y * down_y );
+                                        float down_dist = std::sqrt( down_x * down_x + down_y * down_y );
 
                                         float curr_x = finger_curr_x - second_finger_curr_x;
                                         float curr_y = finger_curr_y - second_finger_curr_y;
-                                        float curr_dist = ( float )sqrtf( curr_x * curr_x + curr_y * curr_y );
+                                        float curr_dist = std::sqrt( curr_x * curr_x + curr_y * curr_y );
 
                                         const float zoom_ratio = 0.9f;
                                         if( curr_dist < down_dist * zoom_ratio ) {
@@ -3777,8 +3777,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     if( tile_iso && use_tiles ) {
         const float win_mid_x = win_min.x + win_size.x / 2.0f;
         const float win_mid_y = -win_min.y + win_size.y / 2.0f;
-        const int screen_col = round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
-        const int screen_row = round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
+        const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
+        const int screen_row = std::round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
         p = view_offset + selected;
     } else {

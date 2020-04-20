@@ -7,6 +7,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_shelter_vandalized",
+    "name": "Shelter (Vandalized)",
+    "terrain": [ "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_refugee_center",
     "name": "Refugee Center",
     "terrain": [ "evac_center_7" ]

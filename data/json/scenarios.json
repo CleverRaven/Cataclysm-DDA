@@ -5,7 +5,7 @@
     "name": "Evacuee",
     "points": 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
-    "allowed_locs": [ "sloc_shelter" ],
+    "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ]
   },
@@ -172,12 +172,12 @@
     "type": "scenario",
     "ident": "medieval",
     "name": "Challenge - Medieval Peasant",
-    "points": -6,
+    "points": -8,
     "description": "Som nigromancie hath brought yow hidder!  Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_forest", "sloc_field" ],
     "professions": [ "churl" ],
-    "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH" ],
+    "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "WAYFARER", "SPIRITUAL" ],
     "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
@@ -442,7 +442,7 @@
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
-    "professions": [ "soldier", "specops", "bio_soldier", "bio_sniper", "bionic_spy", "national_guard", "politician" ],
+    "professions": [ "soldier", "specops", "bio_soldier", "bio_sniper", "bionic_spy", "national_guard", "politician", "mili_pilot" ],
     "map_extra": "mx_helicopter",
     "flags": [ "HELI_CRASH", "LONE_START" ]
   },
@@ -476,7 +476,7 @@
     "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
     "start_name": "Military Base Warehouse",
     "allowed_locs": [ "sloc_military_base_warehouse" ],
-    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic" ],
+    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic", "mili_pilot" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {

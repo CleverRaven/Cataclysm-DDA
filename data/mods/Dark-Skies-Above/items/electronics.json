@@ -4,7 +4,7 @@
     "id": "broken_dks_emissary",
     "symbol": ",",
     "color": "green",
-    "name": "broken emissary",
+    "name": { "str": "broken emissary", "str_pl": "broken emissaries" },
     "category": "other",
     "description": "The massive body of a collapsed emissary.  Still a bit intimidating, perhaps knowing the damage it can cause.  Could be gutted for parts.",
     "price": 1000,
@@ -18,7 +18,7 @@
     "id": "broken_dks_emissary_war",
     "symbol": ",",
     "color": "green",
-    "name": "broken emissary of war",
+    "name": { "str": "broken emissary of war", "str_pl": "broken emissaries of war" },
     "category": "other",
     "description": "The massive body of a collapsed emissary of war.  Still a bit intimidating, perhaps knowing the damage it can cause.  Could be gutted for parts.",
     "price": 1000,
@@ -32,7 +32,7 @@
     "id": "broken_dks_emissary_flame",
     "symbol": ",",
     "color": "green",
-    "name": "broken emissary of flame",
+    "name": { "str": "broken emissary of flame", "str_pl": "broken emissaries of flame" },
     "category": "other",
     "description": "The massive body of a collapsed emissary of flame.  Still a bit intimidating, perhaps knowing the damage it can cause.  Could be gutted for parts.",
     "price": 1000,
@@ -40,5 +40,19 @@
     "volume": "875000 ml",
     "weight": "200 kg",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_dks_glowdrone",
+    "copy-from": "broken_eyebot",
+    "name": { "str": "broken surveillance drone" },
+    "description": "A broken drone.  Much less threatening now that it isn't shining its light everywhere.  Could be gutted for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_dks_scidrone",
+    "copy-from": "broken_eyebot",
+    "name": { "str": "broken seeker drone" },
+    "description": "A broken drone.  Much less threatening now that it isn't prodding you with its tools.  Could be gutted for parts."
   }
 ]

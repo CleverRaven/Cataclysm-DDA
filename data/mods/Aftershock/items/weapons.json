@@ -194,7 +194,7 @@
     "type": "GUN",
     "symbol": "(",
     "color": "green",
-    "name": { "str": "Tankbot Main Gun", "str_pl": "Tankbot Main Gun" },
+    "name": { "str_sp": "Tankbot Main Gun" },
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
     "price": 99999999,
     "material": "steel",

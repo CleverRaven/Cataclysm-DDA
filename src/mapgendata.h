@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAPGENDATA_H
-#define MAPGENDATA_H
+#ifndef CATA_SRC_MAPGENDATA_H
+#define CATA_SRC_MAPGENDATA_H
 
 #include "type_id.h"
 #include "calendar.h"
@@ -138,4 +138,4 @@ class mapgendata
         bool is_groundcover( const ter_id &iid ) const;
 };
 
-#endif
+#endif // CATA_SRC_MAPGENDATA_H

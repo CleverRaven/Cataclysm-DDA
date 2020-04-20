@@ -162,6 +162,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "shelter_vandal",
+    "copy-from": "shelter"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter_1_vandal",
+    "copy-from": "shelter_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter_2_vandal",
+    "copy-from": "shelter_2"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "shelter_under",
     "name": "evac shelter",
     "sym": "+",

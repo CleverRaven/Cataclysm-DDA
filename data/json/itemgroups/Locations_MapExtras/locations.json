@@ -946,7 +946,9 @@
     "type": "item_group",
     "items": [
       [ "awl_bone", 50 ],
+      { "item": "loom_frame", "prob": 10 },
       [ "primitive_knife", 50 ],
+      { "item": "shed_stick", "prob": 10 },
       [ "primitive_axe", 50 ],
       [ "primitive_shovel", 50 ],
       [ "primitive_hammer", 50 ],
@@ -1385,7 +1387,7 @@
     "items": [
       [ "helmet_riot", 25 ],
       [ "mask_gas", 25 ],
-      [ "modularveststeel", 20 ],
+      [ "armor_riot", 20 ],
       [ "gloves_tactical", 10 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 20 ],

@@ -496,7 +496,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
-        get_power_level() > units::from_kilojoule( abs( comest.get_comestible_fun() ) ) &&
+        get_power_level() > units::from_kilojoule( std::abs( comest.get_comestible_fun() ) ) &&
         fun < 0 ) {
         fun = 0;
     }
@@ -957,7 +957,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        mod_power_level( units::from_kilojoule( -abs( food.get_comestible_fun() ) ) );
+        mod_power_level( units::from_kilojoule( -std::abs( food.get_comestible_fun() ) ) );
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !has_trait( trait_M_IMMUNE ) ) {
@@ -1033,7 +1033,7 @@ void Character::modify_stimulation( const islot_comestible &comest )
 {
     const int current_stim = get_stim();
     if( comest.stim != 0 &&
-        ( abs( current_stim ) < ( abs( comest.stim ) * 3 ) ||
+        ( std::abs( current_stim ) < ( std::abs( comest.stim ) * 3 ) ||
           sgn( current_stim ) != sgn( comest.stim ) ) ) {
         if( comest.stim < 0 ) {
             set_stim( std::max( comest.stim * 3, current_stim + comest.stim ) );
@@ -1042,8 +1042,8 @@ void Character::modify_stimulation( const islot_comestible &comest )
         }
     }
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
-        ( ( comest.add == ADD_CAFFEINE ) || ( comest.add == ADD_SPEED ) || ( comest.add == ADD_COKE ) ||
-          ( comest.add == ADD_CRACK ) ) ) {
+        ( ( comest.add == add_type::CAFFEINE ) || ( comest.add == add_type::SPEED ) ||
+          ( comest.add == add_type::COKE ) || ( comest.add == add_type::CRACK ) ) ) {
         int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
         std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
@@ -1102,7 +1102,8 @@ void Character::modify_morale( item &food, const int nutr )
 
     // Morale bonus for eating unspoiled food with chair/table nearby
     // Does not apply to non-ingested consumables like bandages or drugs
-    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) && !food.has_flag( "NO_INGEST" ) ) {
+    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) && !food.has_flag( "NO_INGEST" ) &&
+        food.get_comestible()->comesttype != "MED" ) {
         if( g->m.has_nearby_chair( pos(), 1 ) && g->m.has_nearby_table( pos(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( MORALE_ATE_WITHOUT_TABLE );
@@ -1356,17 +1357,17 @@ bool Character::consume_effects( item &food )
 hint_rating Character::rate_action_eat( const item &it ) const
 {
     if( !can_consume( it ) ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     const auto rating = will_eat( it );
     if( rating.success() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
-    return HINT_IFFY;
+    return hint_rating::iffy;
 }
 
 bool Character::can_feed_reactor_with( const item &it ) const

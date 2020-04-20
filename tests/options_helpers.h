@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_TEST_OPTIONS_HELPERS_H
-#define CATA_TEST_OPTIONS_HELPERS_H
+#ifndef CATA_TESTS_OPTIONS_HELPERS_H
+#define CATA_TESTS_OPTIONS_HELPERS_H
 
 #include <string>
 
@@ -18,4 +18,4 @@ class override_option
         std::string old_value_;
 };
 
-#endif
+#endif // CATA_TESTS_OPTIONS_HELPERS_H

@@ -12,7 +12,8 @@
     "volume": "250 ml",
     "cutting": 10,
     "flags": [ "SPEAR" ],
-    "price": 3000
+    "price": 3000,
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -59,7 +60,8 @@
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
-    "price": 500
+    "price": 500,
+    "price_postapoc": 0
   },
   {
     "id": "incendiary",
@@ -70,6 +72,7 @@
     "weight": "2 g",
     "volume": "500 ml",
     "price": 10000,
+    "price_postapoc": 100,
     "container": "bag_plastic",
     "material": [ "powder" ],
     "symbol": "=",
@@ -87,6 +90,7 @@
     "weight": "20000 g",
     "volume": "300000 ml",
     "price": 1000,
+    "price_postapoc": 500,
     "material": [ "cotton", "steel" ],
     "symbol": "0",
     "color": "white",
@@ -102,6 +106,7 @@
     "weight": "6 kg",
     "volume": "300000 ml",
     "price": 1000,
+    "price_postapoc": 750,
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
@@ -111,11 +116,12 @@
     "id": "fuse",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str": "fuse", "str_pl": "fuse" },
+    "name": { "str_sp": "fuse" },
     "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
     "weight": "6 g",
     "volume": "80 ml",
     "price": 500,
+    "price_postapoc": 500,
     "container": "bag_plastic",
     "material": [ "cotton" ],
     "symbol": ",",
@@ -148,6 +154,7 @@
     "weight": "140 g",
     "volume": "500 ml",
     "price": 100,
+    "price_postapoc": 10,
     "material": "plastic",
     "symbol": "=",
     "color": "dark_gray",
@@ -162,6 +169,7 @@
     "weight": "2500 g",
     "volume": "1533 ml",
     "price": 60000,
+    "price_postapoc": 100,
     "material": "ceramic",
     "symbol": ",",
     "color": "dark_gray"
@@ -175,6 +183,7 @@
     "weight": "1 kg",
     "volume": "600 ml",
     "price": 60000,
+    "price_postapoc": 100,
     "material": "ceramic",
     "symbol": ",",
     "color": "dark_gray"
@@ -188,6 +197,7 @@
     "category": "spare_parts",
     "description": "A collapsible buttstock designed for the M320 grenade launcher.  When combined with this stock, the M320 can be used as a standalone weapon",
     "price": 10000,
+    "price_postapoc": 250,
     "material": [ "plastic", "steel" ],
     "weight": "600 g",
     "volume": "250 ml",
@@ -206,6 +216,7 @@
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
-    "price": 1000
+    "price": 1000,
+    "price_postapoc": 0
   }
 ]

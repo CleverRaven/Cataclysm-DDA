@@ -354,6 +354,12 @@ Some json strings are extracted for translation, for example item names, descrip
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
+or, if the plural form is the same as the singular form:
+
+```JSON
+"name": { "ctxt": "foo", "str_sp": "foo" }
+```
+
 You can also add comments for translators by adding a "//~" entry like below. The
 order of the entries does not matter.
 
@@ -452,6 +458,7 @@ This section describes each json file and their contents. Each json has their ow
 | coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
 | power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
+| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
 
 ```C++
 {
@@ -1239,7 +1246,9 @@ an `event_statistic`.  For example:
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
 "cut_dmg_bonus": 3, // Bonus to unarmed cut damage (default: 0)
+"pierce_dmg_bonus": 3, // Bonus to unarmed pierce damage (default: 0.0)
 "bash_dmg_bonus": 3, // Bonus to unarmed bash damage (default: 0)
+"butchering_quality": 4, // Butchering quality of this mutations (default: 0)
 "rand_cut_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed cut damage between min and max.
 "rand_bash_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed bash damage between min and max.
 "bodytemp_modifiers" : [100, 150], // Range of additional bodytemp units (these units are described in 'weather.h'. First value is used if the person is already overheated, second one if it's not.
@@ -1320,6 +1329,11 @@ an `event_statistic`.  For example:
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
 "mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transfomr into
+               "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
+               "active": false , // Will the target mutation start powered ( turn ON ).
+               "moves": 100 // how many moves this costs. (default: 0)
+}
 ```
 
 ### Vehicle Groups
@@ -1349,6 +1363,9 @@ Vehicle components when installed on a vehicle.
 "broken_color": "light_gray", // Color used when part is broken
 "damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this part hits something, as a percentage. Higher = more damage to creature struck
 "durability": 200,            // How much damage the part can take before breaking
+"description": "A wheel."     // A description of this vehicle part when installing it
+"size": 2000                  // If vehicle part has flag "FLUIDTANK" then capacity in mLs, else divide by 4 for volume on space
+"cargo_weight_modifier": 100  // Special function to multiplicatively modify item weight on space. Divide by 100 for ratio.
 "wheel_width": 9,             /* (Optional, default = 0)
                                * SPECIAL: A part may have at most ONE of the following fields:
                                *    wheel_width = base wheel width in inches
@@ -1459,7 +1476,7 @@ See also VEHICLE_JSON.md
 "name": {
     "ctxt": "clothing",           // Optional translation context. Useful when a string has multiple meanings that need to be translated differently in other languages.
     "str": "pair of socks",       // The name appearing in the examine box.  Can be more than one word separated by spaces
-    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified.
+    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified. "str_sp" can be used if the singular and plural forms are the same
 },
 "conditional_names": [ {          // Optional list of names that will be applied in specified conditions (see Conditional Naming section for more details).
     "type": "COMPONENT_ID",       // The condition type.
@@ -1696,7 +1713,7 @@ The `conditional_names` field allows defining alternate names for items that wil
     {
       "type": "COMPONENT_ID",
       "condition": "mutant",
-      "name": { "str": "sinister %s", "str_pl": "sinister %s" }
+      "name": { "str_sp": "sinister %s" }
     }
   ]
 }
@@ -1713,7 +1730,7 @@ So, in the above example, if the sausage is made from mutant humanoid meat, and 
 1. First, the item name is entirely replaced with "Mannwurst" if singular, or "Mannwursts" if plural.
 2. Next, it is replaced by "sinister %s", but %s is replaced with the name as it was before this step, resulting in "sinister Mannwurst" or "sinister Mannwursts".
 
-NB: If `"str_pl": "sinister %s"` wasn't specified, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
+NB: If `"str": "sinister %s"` was specified instead of `"str_sp": "sinister %s"`, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
 
 
 #### Color Key

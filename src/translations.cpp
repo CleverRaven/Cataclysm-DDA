@@ -438,16 +438,22 @@ void translation::deserialize( JsonIn &jsin )
 {
 #ifndef CATA_IN_TOOL
     bool check_style = false;
-    std::function<void( const std::string &msg, int offset )> throw_error;
+    std::function<void( const std::string &msg, int offset )> log_error;
+    bool auto_plural = false;
+    bool is_str_sp = false;
 #endif
     if( jsin.test_string() ) {
 #ifndef CATA_IN_TOOL
         if( test_mode ) {
             const int origin = jsin.tell();
             check_style = true;
-            throw_error = [&jsin, origin]( const std::string & msg, const int offset ) {
-                jsin.seek( origin );
-                jsin.error( msg, offset );
+            log_error = [&jsin, origin]( const std::string & msg, const int offset ) {
+                try {
+                    jsin.seek( origin );
+                    jsin.error( msg, offset );
+                } catch( const JsonError &e ) {
+                    debugmsg( "\n%s", e.what() );
+                }
             };
         }
 #endif
@@ -456,6 +462,7 @@ void translation::deserialize( JsonIn &jsin )
         // if plural form is enabled
         if( raw_pl ) {
             raw_pl = raw + "s";
+            auto_plural = true;
         }
         needs_translation = true;
     } else {
@@ -465,75 +472,111 @@ void translation::deserialize( JsonIn &jsin )
         } else {
             ctxt = cata::nullopt;
         }
-        raw = jsobj.get_string( "str" );
-        // if plural form is enabled
-        if( raw_pl ) {
-            if( jsobj.has_string( "str_pl" ) ) {
-                raw_pl = jsobj.get_string( "str_pl" );
+        if( jsobj.has_member( "str_sp" ) ) {
+            // same singular and plural forms
+            raw = jsobj.get_string( "str_sp" );
+            is_str_sp = true;
+            // if plural form is enabled
+            if( raw_pl ) {
+                raw_pl = raw;
             } else {
-                raw_pl = raw + "s";
+                try {
+                    jsobj.throw_error( "str_sp not supported here", "str_sp" );
+                } catch( const JsonError &e ) {
+                    debugmsg( "\n%s", e.what() );
+                }
             }
-        } else if( jsobj.has_string( "str_pl" ) ) {
-            jsobj.throw_error( "str_pl not supported here", "str_pl" );
+        } else {
+            raw = jsobj.get_string( "str" );
+            // if plural form is enabled
+            if( raw_pl ) {
+                if( jsobj.has_string( "str_pl" ) ) {
+                    raw_pl = jsobj.get_string( "str_pl" );
+                } else {
+                    raw_pl = raw + "s";
+                    auto_plural = true;
+                }
+            } else if( jsobj.has_string( "str_pl" ) ) {
+                try {
+                    jsobj.throw_error( "str_pl not supported here", "str_pl" );
+                } catch( const JsonError &e ) {
+                    debugmsg( "\n%s", e.what() );
+                }
+            }
         }
         needs_translation = true;
 #ifndef CATA_IN_TOOL
         if( test_mode ) {
             check_style = !jsobj.has_member( "//NOLINT(cata-text-style)" );
             // Copying jsobj to avoid use-after-free
-            throw_error = [jsobj]( const std::string & msg, const int offset ) {
-                jsobj.get_raw( "str" )->error( msg, offset );
+            log_error = [jsobj]( const std::string & msg, const int offset ) {
+                try {
+                    if( jsobj.has_member( "str" ) ) {
+                        jsobj.get_raw( "str" )->error( msg, offset );
+                    } else {
+                        jsobj.get_raw( "str_sp" )->error( msg, offset );
+                    }
+                } catch( const JsonError &e ) {
+                    debugmsg( "\n%s", e.what() );
+                }
             };
         }
 #endif
     }
 #ifndef CATA_IN_TOOL
     // Check text style in translatable json strings.
-    // Strings with plural forms are (for now) only simple names, and thus do
-    // not require styling.
-    if( test_mode && !raw_pl && check_style ) {
-
-        const auto text_style_callback =
-            [&throw_error]
-            ( const text_style_fix type, const std::string & msg,
-              const std::u32string::const_iterator & beg, const std::u32string::const_iterator & /*end*/,
-              const std::u32string::const_iterator & /*at*/,
-              const std::u32string::const_iterator & from, const std::u32string::const_iterator & to,
-              const std::string & fix
-        ) {
-            std::string err;
-            switch( type ) {
-                case text_style_fix::removal:
-                    err = msg + "\n"
-                          + "    Suggested fix: remove \"" + utf32_to_utf8( std::u32string( from, to ) ) + "\"\n"
-                          + "    At the following position (marked with caret)";
-                    break;
-                case text_style_fix::insertion:
-                    err = msg + "\n"
-                          + "    Suggested fix: insert \"" + fix + "\"\n"
-                          + "    At the following position (marked with caret)";
-                    break;
-                case text_style_fix::replacement:
-                    err = msg + "\n"
-                          + "    Suggested fix: replace \"" + utf32_to_utf8( std::u32string( from, to ) )
-                          + "\" with \"" + fix + "\"\n"
-                          + "    At the following position (marked with caret)";
-                    break;
-            }
-            try {
+    if( test_mode && check_style ) {
+        if( raw_pl && !auto_plural && raw_pl.value() == raw + "s" ) {
+            log_error( "\"str_pl\" is not necessary here since the "
+                       "plural form can be automatically generated.",
+                       1 + raw.length() );
+        }
+        if( !is_str_sp && raw_pl && !auto_plural && raw == raw_pl.value() ) {
+            log_error( "Please use \"str_sp\" instead of \"str\" and \"str_pl\" "
+                       "for text with identical singular and plural forms",
+                       1 + raw.length() );
+        }
+        if( !raw_pl ) {
+            // Check for punctuation and spacing. Strings with plural forms are
+            // curently simple names, for which these checks are not necessary.
+            const auto text_style_callback =
+                [&log_error]
+                ( const text_style_fix type, const std::string & msg,
+                  const std::u32string::const_iterator & beg, const std::u32string::const_iterator & /*end*/,
+                  const std::u32string::const_iterator & /*at*/,
+                  const std::u32string::const_iterator & from, const std::u32string::const_iterator & to,
+                  const std::string & fix
+            ) {
+                std::string err;
+                switch( type ) {
+                    case text_style_fix::removal:
+                        err = msg + "\n"
+                              + "    Suggested fix: remove \"" + utf32_to_utf8( std::u32string( from, to ) ) + "\"\n"
+                              + "    At the following position (marked with caret)";
+                        break;
+                    case text_style_fix::insertion:
+                        err = msg + "\n"
+                              + "    Suggested fix: insert \"" + fix + "\"\n"
+                              + "    At the following position (marked with caret)";
+                        break;
+                    case text_style_fix::replacement:
+                        err = msg + "\n"
+                              + "    Suggested fix: replace \"" + utf32_to_utf8( std::u32string( from, to ) )
+                              + "\" with \"" + fix + "\"\n"
+                              + "    At the following position (marked with caret)";
+                        break;
+                }
                 const std::string str_before = utf32_to_utf8( std::u32string( beg, to ) );
                 // +1 for the starting quotation mark
                 // TODO: properly handle escape sequences inside strings, instead
                 // of using `length()` here.
-                throw_error( err, 1 + str_before.length() );
-            } catch( const JsonError &e ) {
-                debugmsg( "\n%s", e.what() );
-            }
-        };
+                log_error( err, 1 + str_before.length() );
+            };
 
-        const std::u32string raw32 = utf8_to_utf32( raw );
-        text_style_check<std::u32string::const_iterator>( raw32.cbegin(), raw32.cend(),
-                fix_end_of_string_spaces::yes, escape_unicode::no, text_style_callback );
+            const std::u32string raw32 = utf8_to_utf32( raw );
+            text_style_check<std::u32string::const_iterator>( raw32.cbegin(), raw32.cend(),
+                    fix_end_of_string_spaces::yes, escape_unicode::no, text_style_callback );
+        }
     }
 #endif
 }

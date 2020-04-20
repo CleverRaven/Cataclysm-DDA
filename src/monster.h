@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONSTER_H
-#define MONSTER_H
+#ifndef CATA_SRC_MONSTER_H
+#define CATA_SRC_MONSTER_H
 
 #include <bitset>
 #include <climits>
@@ -314,7 +314,7 @@ class monster : public Creature
                                      bool print_messages = true ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
-        void apply_damage( Creature *source, body_part bp, int dam,
+        void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
@@ -568,4 +568,4 @@ class monster : public Creature
         void process_one_effect( effect &it, bool is_new ) override;
 };
 
-#endif
+#endif // CATA_SRC_MONSTER_H

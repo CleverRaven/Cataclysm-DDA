@@ -1,6 +1,6 @@
 #pragma once
-#ifndef BIONICS_H
-#define BIONICS_H
+#ifndef CATA_SRC_BIONICS_H
+#define CATA_SRC_BIONICS_H
 
 #include <cstddef>
 #include <map>
@@ -109,6 +109,9 @@ struct bionic_data {
     /**Amount of cut protection offered by this bionic*/
     std::map<body_part, size_t> cut_protec;
 
+    /** bionic enchantments */
+    std::vector<enchantment_id> enchantments;
+
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
@@ -213,4 +216,4 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty );
 std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,
         const trait_id &tid );
 
-#endif
+#endif // CATA_SRC_BIONICS_H

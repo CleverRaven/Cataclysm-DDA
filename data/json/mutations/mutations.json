@@ -290,18 +290,11 @@
     "id": "THICKSKIN",
     "name": { "str": "Thick-Skinned" },
     "points": 1,
-    "description": "Your skin is tough.  Cutting damage is slightly reduced for you.  Slightly decreases wet penalties.",
+    "description": "Your skin is tough.  Cutting and bash damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
     "starting_trait": true,
     "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR" ],
     "cancels": [ "THINSKIN" ],
-    "wet_protection": [
-      { "part": "LEG_L", "neutral": 2 },
-      { "part": "LEG_R", "neutral": 2 },
-      { "part": "ARM_L", "neutral": 2 },
-      { "part": "ARM_R", "neutral": 2 },
-      { "part": "TORSO", "neutral": 4 }
-    ],
-    "armor": [ { "parts": "ALL", "cut": 1 } ]
+    "armor": [ { "parts": "ALL", "cut": 1, "bash": 1 } ]
   },
   {
     "type": "mutation",
@@ -947,10 +940,10 @@
     "id": "THINSKIN",
     "name": { "str": "Thin-Skinned" },
     "points": -1,
-    "description": "Your skin is fragile.  Cutting damage is slightly increased for you.",
+    "description": "Your skin is fragile.  Cutting and bash damage is slightly increased for you.",
     "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
-    "armor": [ { "parts": "ALL", "cut": -1 } ]
+    "armor": [ { "parts": "ALL", "cut": -1, "bash": -1 } ]
   },
   {
     "type": "mutation",
@@ -1086,8 +1079,9 @@
     "id": "TRIGGERHAPPY",
     "name": { "str": "Trigger Happy" },
     "points": -1,
-    "description": "On rare occasion, you will go full-auto when you intended to fire a single shot.  This has no effect when firing semi-automatic firearms.",
-    "starting_trait": true,
+    "description": "Unimplemented.  To be removed after 0.F. to preserve save compatibility.",
+    "starting_trait": false,
+    "player_display": false,
     "valid": false
   },
   {
@@ -2262,6 +2256,7 @@
     "points": 2,
     "visibility": 8,
     "ugliness": 4,
+    "pierce_dmg_bonus": 2,
     "description": "Your skin is covered in small, woody thorns.  Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive minor damage.  Your punches may also deal extra damage.",
     "prereqs": [ "BARK" ],
     "category": [ "PLANT" ]
@@ -2449,6 +2444,7 @@
     "name": { "str": "Long Fingernails" },
     "points": 1,
     "visibility": 1,
+    "pierce_dmg_bonus": 0.5,
     "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
     "types": [ "CLAWS" ],
     "changes_to": [ "CLAWS", "TALONS" ],
@@ -2463,6 +2459,8 @@
     "visibility": 3,
     "ugliness": 2,
     "cut_dmg_bonus": 3,
+    "pierce_dmg_bonus": 3,
+    "butchering_quality": 4,
     "description": "You have claws on the ends of your fingers.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
@@ -2478,6 +2476,7 @@
     "visibility": 3,
     "ugliness": 4,
     "cut_dmg_bonus": 1,
+    "butchering_quality": 4,
     "flags": [ "UNARMED_BONUS" ],
     "description": "Your claws have grown tougher and slightly gnarled.",
     "types": [ "CLAWS" ],
@@ -2496,6 +2495,8 @@
     "valid": false,
     "purifiable": false,
     "cut_dmg_bonus": 1,
+    "pierce_dmg_bonus": 3,
+    "butchering_quality": 8,
     "flags": [ "UNARMED_BONUS" ],
     "description": "Your paws are bone, muscle, and claw with a thin layer of skin and fur.  They might as well be made of stainless steel.",
     "types": [ "CLAWS" ],
@@ -2510,15 +2511,26 @@
     "id": "CLAWS_RETRACT",
     "name": { "str": "Retractable Claws" },
     "points": 2,
-    "ugliness": 1,
-    "cut_dmg_bonus": 3,
-    "flags": [ "NEED_ACTIVE_TO_MELEE" ],
     "description": "You have claws on the ends of your fingers, and can extend or retract them as desired.  Gloves will still get in the way, though.",
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "category": [ "FELINE" ],
-    "active": true,
+    "transform": { "target": "CLAWS_RETRACT_active", "msg_transform": "You extend your claws.", "active": false, "moves": 10 },
+    "cost": 0
+  },
+  {
+    "type": "mutation",
+    "id": "CLAWS_RETRACT_active",
+    "name": { "str": "Extended Claws" },
+    "copy-from": "CLAWS_RETRACT",
+    "valid": false,
+    "ugliness": 1,
+    "cut_dmg_bonus": 3,
+    "pierce_dmg_bonus": 3,
+    "butchering_quality": 4,
+    "description": "Sharp claws are exten from the end of your fingers.",
+    "transform": { "target": "CLAWS_RETRACT", "msg_transform": "You retract your claws.", "active": false, "moves": 10 },
     "cost": 0
   },
   {
@@ -2554,6 +2566,7 @@
     "visibility": 4,
     "ugliness": 3,
     "cut_dmg_bonus": 3,
+    "butchering_quality": 4,
     "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
     "restricts_gear": [ "HAND_L", "HAND_R" ],
@@ -3632,6 +3645,7 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 6,
+    "butchering_quality": 4,
     "mixed_effect": true,
     "description": "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and provide a slicing unarmed attack, but prevent wearing mouthwear.  Slightly reduces wet effects.",
     "types": [ "TEETH", "MUZZLE" ],
@@ -6097,7 +6111,7 @@
     "id": "PROF_HELI_PILOT",
     "name": "Helicopter Pilot",
     "points": 0,
-    "description": "You are a commercial helicopter pilot, there are no paying passengers anymore, yet still you dream of taking your bird for a spin.",
+    "description": "You are a trained pilot, you wonder if you will ever have the chance to fly again.",
     "valid": false,
     "purifiable": false,
     "profession": true

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_CONTENTS_H
-#define ITEM_CONTENTS_H
+#ifndef CATA_SRC_ITEM_CONTENTS_H
+#define CATA_SRC_ITEM_CONTENTS_H
 
 #include <cstddef>
 #include <functional>
@@ -35,6 +35,11 @@ class item_contents
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top() const;
+
+        // returns a list of pointers to all items inside recursively
+        std::list<item *> all_items_ptr();
+        // returns a list of pointers to all items inside recursively
+        std::list<const item *> all_items_ptr() const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
@@ -103,4 +108,4 @@ class item_contents
         std::list<item> items;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_CONTENTS_H

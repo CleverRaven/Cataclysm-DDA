@@ -110,6 +110,7 @@ static const bionic_id bio_syringe( "bio_syringe" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
@@ -131,6 +132,8 @@ static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMALL2( "SMALL2" );
+
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -1060,13 +1063,20 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         t_door_metal_pickable,
         t_door_bar_locked
     };
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+    const std::set<furn_id> allowed_furn_id {
+        f_gunsafe_ml
+    };
+
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
+    &allowed_furn_id]( const tripoint & pnt ) {
         if( pnt == g->u.pos() ) {
             return false;
         }
-        const ter_id type = g->m.ter( pnt );
-        const bool is_allowed_terrain = allowed_ter_id.find( type ) != allowed_ter_id.end();
-        return is_allowed_terrain;
+        const ter_id ter = g->m.ter( pnt );
+        const furn_id furn = g->m.furn( pnt );
+        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end() ||
+                                allowed_furn_id.find( furn ) != allowed_furn_id.end();
+        return is_allowed;
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -1081,7 +1091,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
             p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
         } else if( g->critter_at<npc>( pnt ) ) {
             p.add_msg_if_player( m_info,
-                                 _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
+                                 _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
         } else if( type == t_door_c ) {
             p.add_msg_if_player( m_info, _( "That door isn't locked." ) );
         } else {
@@ -1090,70 +1100,17 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    ter_id new_type;
-    std::string open_message;
-    if( type == t_chaingate_l ) {
-        new_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the chain-link gate opens." );
-    } else if( type == t_door_locked || type == t_door_locked_alarm ||
-               type == t_door_locked_interior ) {
-        new_type = t_door_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( type == t_door_locked_peep ) {
-        new_type = t_door_c_peep;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( type == t_door_metal_pickable ) {
-        new_type = t_door_metal_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( type == t_door_bar_locked ) {
-        new_type = t_door_bar_o;
-        //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open…" );
-    } else {
-        return 0;
-    }
-    p.practice( skill_mechanics, 1 );
-
     /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_MECHANICS speeds up door lock picking */
-    p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
-                         - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
+    /** @EFFECT_LOCKPICK speeds up door lock picking */
+    const int duration = std::max( 0,
+                                   to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( qual_LOCKPICK ) ) ) -
+                                   ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 2300 );
+    p.practice( skill_lockpick, std::pow( 2, p.get_skill_level( skill_lockpick ) ) + 1 );
 
-    bool destroy = false;
+    p.assign_activity( activity_id( "ACT_LOCKPICK" ), duration, -1, p.get_item_position( &it ) );
+    p.activity.targets.push_back( item_location( p, &it ) );
+    p.activity.placement = pnt;
 
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
-                      p.dex_cur ) - it.damage_level( 4 ) / 2 ) * pick_quality;
-    int door_roll = dice( 4, 30 );
-    if( pick_roll >= door_roll ) {
-        p.practice( skill_mechanics, 1 );
-        p.add_msg_if_player( m_good, open_message );
-        g->m.ter_set( pnt, new_type );
-    } else if( door_roll > ( 1.5 * pick_roll ) ) {
-        if( it.inc_damage() ) {
-            p.add_msg_if_player( m_bad,
-                                 _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
-            destroy = true;
-        } else {
-            p.add_msg_if_player( m_bad,
-                                 _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
-        }
-    } else {
-        p.add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
-    }
-    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
-                       "alarm" );
-        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                 p.global_sm_location() );
-        }
-    }
-    if( destroy ) {
-        p.i_rem( &it );
-        return 0;
-    }
     return it.type->charges_to_use();
 }
 
@@ -1446,7 +1403,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     const int moves_base = moves_cost_by_fuel( pos );
     const double moves_per_turn = to_moves<double>( 1_turns );
     const int min_moves = std::min<int>(
-                              moves_base, sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
+                              moves_base, std::sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
@@ -1552,7 +1509,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
     // There must be some historical significance to these items.
     if( !it.is_salvageable() ) {
         add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
-        if( p.rate_action_disassemble( it ) != HINT_CANT ) {
+        if( p.rate_action_disassemble( it ) != hint_rating::cant ) {
             add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
         }
         return false;
@@ -2944,7 +2901,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     item mag( belt );
     mag.ammo_unset();
 
-    if( p.rate_action_reload( mag ) != HINT_GOOD ) {
+    if( p.rate_action_reload( mag ) != hint_rating::good ) {
         p.add_msg_if_player( _( "Insufficient ammunition to assemble %s" ), mag.tname() );
         return 0;
     }
@@ -3704,7 +3661,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     if( ( patient.hp_cur[healed] >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
         patient.heal( healed, dam );
     } else if( ( patient.hp_cur[healed] >= 1 ) && ( dam < 0 ) ) {
-        const body_part bp = player::hp_to_bp( healed );
+        const bodypart_id bp = convert_bp( player::hp_to_bp( healed ) ).id();
         patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 

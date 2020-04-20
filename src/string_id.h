@@ -1,6 +1,6 @@
 #pragma once
-#ifndef STRING_ID_H
-#define STRING_ID_H
+#ifndef CATA_SRC_STRING_ID_H
+#define CATA_SRC_STRING_ID_H
 
 #include <string>
 #include <type_traits>
@@ -208,4 +208,4 @@ struct hash< string_id<T> > {
 };
 } // namespace std
 
-#endif
+#endif // CATA_SRC_STRING_ID_H

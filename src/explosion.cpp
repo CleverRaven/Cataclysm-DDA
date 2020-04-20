@@ -136,7 +136,7 @@ static float mass_to_area( const float mass )
     // Density of steel in g/cm^3
     constexpr float steel_density = 7.85;
     float fragment_volume = ( mass / 1000.0 ) / steel_density;
-    float fragment_radius = cbrt( ( fragment_volume * 3.0 ) / ( 4.0 * M_PI ) );
+    float fragment_radius = std::cbrt( ( fragment_volume * 3.0 ) / ( 4.0 * M_PI ) );
     return fragment_radius * fragment_radius * M_PI;
 }
 
@@ -309,7 +309,7 @@ static void do_blast( const tripoint &p, const float power,
             // TODO: player's fault?
             const double dmg = std::max( force - critter->get_armor_bash( bp_torso ) / 2.0, 0.0 );
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
-            critter->apply_damage( nullptr, bp_torso, actual_dmg );
+            critter->apply_damage( nullptr, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
             add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
             continue;
@@ -478,14 +478,14 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
 }
 
 void explosion( const tripoint &p, float power, float factor, bool fire,
-                int casing_mass, float fragment_mass )
+                int casing_mass, float frag_mass )
 {
     explosion_data data;
     data.power = power;
     data.distance_factor = factor;
     data.fire = fire;
     data.shrapnel.casing_mass = casing_mass;
-    data.shrapnel.fragment_mass = fragment_mass;
+    data.shrapnel.fragment_mass = frag_mass;
     explosion( p, data );
 }
 
@@ -707,7 +707,7 @@ void emp_blast( const tripoint &p )
                     add_msg( _( "The EMP blast fries the %s!" ), critter.name() );
                 }
                 int dam = dice( 10, 10 );
-                critter.apply_damage( nullptr, bp_torso, dam );
+                critter.apply_damage( nullptr, bodypart_id( "torso" ), dam );
                 critter.check_dead_state();
                 if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
@@ -723,7 +723,7 @@ void emp_blast( const tripoint &p )
                          critter.name() );
                 add_msg( m_good, _( "It takes %d damage." ), dam );
                 critter.add_effect( effect_emp, 1_minutes );
-                critter.apply_damage( nullptr, bp_torso, dam );
+                critter.apply_damage( nullptr, bodypart_id( "torso" ), dam );
                 critter.check_dead_state();
             }
         } else if( sight ) {
@@ -868,7 +868,8 @@ fragment_cloud shrapnel_calc( const fragment_cloud &initial,
     // SWAG coefficient of drag.
     constexpr float Cd = 0.5;
     fragment_cloud new_cloud;
-    new_cloud.velocity = initial.velocity * exp( -cloud.velocity * ( ( Cd * fragment_area * distance ) /
+    new_cloud.velocity = initial.velocity * std::exp( -cloud.velocity * ( (
+                             Cd * fragment_area * distance ) /
                          ( 2.0 * fragment_mass ) ) );
     // Two effects, the accumulated proportion of blocked fragments,
     // and the inverse-square dilution of fragments with distance.

@@ -1,0 +1,80 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "cable_xlr",
+    "name": { "str": "XLR cable" },
+    "description": "A balanced cable used for sending audio signal.  The connectors have three prongs.",
+    "symbol": "o",
+    "color": "dark_gray",
+    "volume": "325 ml",
+    "weight": "45 g"
+  },
+  {
+    "type": "GENERIC",
+    "id": "cable_instrument",
+    "name": { "str": "speaker cable" },
+    "description": "This audio cable connects one speaker to a powered head, or one speaker to another.",
+    "symbol": "o",
+    "color": "dark_gray",
+    "volume": "400 ml",
+    "weight": "90 g"
+  },
+  {
+    "type": "GENERIC",
+    "id": "cable_instrument",
+    "name": { "str": "instrument cable" },
+    "description": "Known as an instrument cable because it is usually used to connect a guitar to a powered amp, it is an unbalanced cable with 1/4\" male connectors on each side.",
+    "copy-from": "cable_xlr"
+  },
+  {
+    "type": "GENERIC",
+    "id": "headphones_circumaural",
+    "name": { "str_sp": "headphones" },
+    "description": "Typical headphones that cover your ears.  A well-known brand that is very high quality, with a detachable 1/8\" cable.  Comes with a 1/8\" to 1/4\" adaptor.",
+    "symbol": "Ω",
+    "volume": "400 ml",
+    "weight": "100 g"
+  },
+  {
+    "type": "GENERIC",
+    "id": "microphone_xlr_generic",
+    "name": { "str": "XLR microphone" },
+    "description": "A typical microphone used to record or amplify voice.  Comes with a clip.  Has a 3-pin XLR connector on the bottom in order to connect to am amp.",
+    "symbol": "i",
+    "color": "dark_gray",
+    "volume": "550 ml",
+    "weight": "265 g"
+  },
+  {
+    "type": "GENERIC",
+    "id": "mic_stand_tall",
+    "name": { "str": "microphone stand" },
+    "description": "A lightweight telescoping boom stand made of aluminum and painted black.  About 6' tall when full extended, or 3' when closed fully.  Has threads for a mic clip on one end.",
+    "symbol": "Γ",
+    "color": "dark_gray",
+    "volume": "2200 ml",
+    "material": [ "aluminum" ],
+    "weight": "1542 g"
+  },
+  {
+    "type": "GENERIC",
+    "id": "guitar_stand",
+    "name": { "str": "guitar stand" },
+    "description": "A small, oddly shaped piece of aluminum hardware with three legs.  When placed on the ground, this can support one guitar in an upright position.",
+    "material": [ "aluminum" ],
+    "symbol": "y",
+    "color": "dark_gray",
+    "volume": "800 ml",
+    "weight": "500 g"
+  },
+  {
+    "type": "GENERIC",
+    "id": "mixer_music",
+    "name": { "str": "mixer" },
+    "description": "A device with faders, switches, and knobs that mixes input signal and sends it to two output XLR cables.  (left and right)",
+    "symbol": "□",
+    "color": "light_gray",
+    "volume": "8 L",
+    "weight": "40 kg"
+  }
+]

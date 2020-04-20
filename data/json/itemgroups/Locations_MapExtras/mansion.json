@@ -1022,7 +1022,8 @@
       [ "yoghurt", 12 ],
       [ "vitamins", 10 ],
       [ "aspirin", 15 ],
-      { "group": "corpse_mansion", "prob": 1 }
+      { "group": "corpse_mansion", "prob": 1 },
+      [ "fitness_band", 3 ]
     ]
   },
   {
@@ -1103,7 +1104,8 @@
       [ "vitamins", 10 ],
       [ "aspirin", 10 ],
       [ "karate_gi", 10 ],
-      [ "judo_gi", 5 ]
+      [ "judo_gi", 5 ],
+      [ "fitness_band", 5 ]
     ]
   },
   {

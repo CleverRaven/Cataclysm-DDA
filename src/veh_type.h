@@ -1,6 +1,6 @@
 #pragma once
-#ifndef VEH_TYPE_H
-#define VEH_TYPE_H
+#ifndef CATA_SRC_VEH_TYPE_H
+#define CATA_SRC_VEH_TYPE_H
 
 #include <array>
 #include <bitset>
@@ -410,4 +410,4 @@ struct vehicle_prototype {
     static std::vector<vproto_id> get_all();
 };
 
-#endif
+#endif // CATA_SRC_VEH_TYPE_H
