@@ -2106,7 +2106,7 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    auto obj = g->inv_map_splice( []( const item & e ) {
+    item_location obj = g->inv_map_splice( []( const item & e ) {
         return !e.contents.empty() && e.contents.front().typeId() == "water";
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 

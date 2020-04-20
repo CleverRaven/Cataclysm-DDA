@@ -864,5 +864,14 @@
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
+  },
+  {
+    "id": "ACT_PURIFY_WATER",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "purifying the water",
+    "rooted": true,
+    "based_on": "time",
+    "auto_needs": true
   }
 ]

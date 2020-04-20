@@ -309,6 +309,32 @@ std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( Js
     return migration_cancel_activity_actor().clone();
 }
 
+void purify_water_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void purify_water_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> purify_water_activity_actor::deserialize( JsonIn &jsin )
+{
+    purify_water_activity_actor actor( 1 );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
