@@ -532,6 +532,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
     g->u.clear_mutations();
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
+        g->u.worn.push_back( item( "backpack" ) );
         item &iodine = g->u.i_add( item( "iodine" ) );
         g->u.empty_skills();
 

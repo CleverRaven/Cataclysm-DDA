@@ -342,6 +342,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
 TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "some sweet junk food" ) {
         item &necco = dummy.i_add( item( "neccowafers" ) );
@@ -394,6 +395,7 @@ TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
 TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     item &caff_gum = dummy.i_add( item( "caff_gum" ) );
 
@@ -458,6 +460,7 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
 TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
     int penalty = -75;
 
     GIVEN( "character is vegetarian" ) {
@@ -542,6 +545,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "character is a saprophage, preferring rotted food" ) {
         dummy.clear_morale();
@@ -577,6 +581,7 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
 TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     item &honeycomb = dummy.i_add( item( "honeycomb" ) );
     REQUIRE( honeycomb.has_flag( flag_URSINE_HONEY ) );

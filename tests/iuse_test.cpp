@@ -287,6 +287,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     // Baseline fatigue level before caffeinating
     int fatigue_before = 200;
@@ -299,14 +300,16 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_rad() == 0 );
 
     SECTION( "coffee reduces fatigue, but does not give stimulant effect" ) {
-        item &coffee = dummy.i_add( item( "coffee", 0, item::default_charges_tag{} ) );
+        item &coffee_container = dummy.i_add( item( "coffee", 0, item::default_charges_tag{} ).in_its_container() );
+        item &coffee = coffee_container.contents.only_item();
         dummy.consume_item( coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
     }
 
     SECTION( "atomic caffeine greatly reduces fatigue, and increases stimulant effect" ) {
-        item &atomic_coffee = dummy.i_add( item( "atomic_coffee", 0, item::default_charges_tag{} ) );
+        item &atomic_coffee_container = dummy.i_add( item( "atomic_coffee", 0, item::default_charges_tag{} ).in_its_container() );
+        item &atomic_coffee = atomic_coffee_container.contents.only_item();
         dummy.consume_item( atomic_coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
