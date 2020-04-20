@@ -1463,7 +1463,7 @@
     "durability": 40,
     "item": "fold_boat_board",
     "location": "under",
-	"folded_volume": 8,
+    "folded_volume": 8,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
@@ -1510,7 +1510,7 @@
     "durability": 120,
     "item": "fold_plastic_boat_hull",
     "location": "under",
-	"folded_volume": 6,
+    "folded_volume": 6,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
