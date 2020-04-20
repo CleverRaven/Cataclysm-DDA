@@ -5,8 +5,8 @@
     "name": "gelatinous capsule",
     "name_plural": "gelatinous capsules",
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
-    "weight": "6662 g",
-    "volume": "5 L",
+    "weight": "1 kg",
+    "volume": "10 L",
     "price": 100,
     "to_hit": -2,
     "material": [ "flesh" ],
@@ -22,8 +22,9 @@
     "name": "gelatinous tank",
     "name_plural": "gelatinous tanks",
     "copy-from": "gloople_tank",
+    "weight": "6 kg",
     "volume": "60 L",
-    "contains": 240
+    "contains": "60 L"
   },
   {
     "id": "gray_tank",
@@ -31,8 +32,8 @@
     "name": "gray cocoon",
     "name_plural": "gray cocoons",
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
-    "weight": "19120 g",
-    "volume": "10 L",
+    "weight": "3 kg",
+    "volume": "30 L",
     "price": 100,
     "to_hit": -2,
     "material": [ "flesh" ],
@@ -48,8 +49,9 @@
     "name": "gray tank",
     "name_plural": "gray tanks",
     "copy-from": "gray_tank",
+    "weight": "10 kg",
     "volume": "100 L",
-    "contains": 400
+    "contains": "100 L"
   },
   {
     "id": "oozle_tank",
@@ -57,8 +59,8 @@
     "name": "oozing pod",
     "name_plural": "oozing pods",
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
-    "weight": "16262 g",
-    "volume": "7500 ml",
+    "weight": "2 kg",
+    "volume": "20 L",
     "price": 100,
     "to_hit": -2,
     "material": [ "flesh" ],
@@ -74,7 +76,8 @@
     "name": "oozing tank",
     "name_plural": "oozing tanks",
     "copy-from": "oozle_tank",
+    "weight": "8 kg",
     "volume": "80 L",
-    "contains": 320
+    "contains": "80 L"
   }
 ]
