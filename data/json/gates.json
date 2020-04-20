@@ -1,8 +1,8 @@
 [
   {
     "type": "gate",
-    "handle": "t_gates_mech_control",
-    "other_handles": [ "t_gates_control_concrete", "t_gates_control_brick" ],
+    "id": "t_gates_mech_control",
+    "alias": [ "t_gates_control_concrete", "t_gates_control_brick" ],
     "door": "t_door_metal_locked",
     "floor": "t_floor",
     "walls": [
@@ -28,8 +28,8 @@
   },
   {
     "type": "gate",
-    "handle": "t_gates_mech_control_lab",
-    "other_handles": [ "t_gates_control_concrete_lab", "t_gates_control_brick_lab" ],
+    "id": "t_gates_mech_control_lab",
+    "alias": [ "t_gates_control_concrete_lab", "t_gates_control_brick_lab" ],
     "door": "t_door_metal_locked",
     "floor": "t_thconc_floor",
     "walls": [
@@ -55,7 +55,7 @@
   },
   {
     "type": "gate",
-    "handle": "t_barndoor",
+    "id": "t_barndoor",
     "door": "t_door_metal_locked",
     "floor": "t_dirtfloor",
     "walls": "t_wall_wood",
@@ -70,7 +70,7 @@
   },
   {
     "type": "gate",
-    "handle": "t_palisade_pulley",
+    "id": "t_palisade_pulley",
     "door": "t_palisade_gate",
     "floor": "t_palisade_gate_o",
     "walls": "t_palisade",
@@ -85,7 +85,7 @@
   },
   {
     "type": "gate",
-    "handle": "t_gates_control_metal",
+    "id": "t_gates_control_metal",
     "door": "t_door_metal_locked",
     "floor": "t_metal_floor",
     "walls": "t_wall_metal",

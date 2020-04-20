@@ -1,0 +1,55 @@
+[
+  {
+    "id": "dks_mon_flamesword",
+    "copy-from": "v29",
+    "type": "GUN",
+    "name": "fake flamesword",
+    "description": "a fake gun used by the consecrator.  it's a bug if you find this in the wild",
+    "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 30 },
+    "range": 9,
+    "loudness": 1,
+    "ammo_effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
+  },
+  {
+    "id": "dks_mon_devastator",
+    "copy-from": "v29",
+    "type": "GUN",
+    "symbol": "/",
+    "color": "red",
+    "name": { "str": "fake firecannon" },
+    "ranged_damage": { "damage_type": "heat", "amount": 20, "armor_penetration": 30 },
+    "description": "Fires an explosive bolt of firey energy.  If you're seeing this, it's a bug.",
+    "skill": "launcher",
+    "range": 15,
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "NAPALM", "PLASMA", "INCENDIARY" ]
+  },
+  {
+    "id": "dks_mon_radgun",
+    "copy-from": "v29",
+    "type": "GUN",
+    "symbol": "/",
+    "color": "red",
+    "name": { "str": "fake smokegun" },
+    "ranged_damage": { "damage_type": "bash", "amount": 1 },
+    "description": "Shoots dangerous radioactive gas.  If you're seeing this, it's a bug.",
+    "skill": "launcher",
+    "range": 10,
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "DKS_NUKEGAS", "DKS_TOXGAS_BIG", "SMOKE", "DKS_TOXTRAIL" ]
+  },
+  {
+    "id": "dks_mon_gasgun",
+    "copy-from": "v29",
+    "type": "GUN",
+    "symbol": "/",
+    "color": "red",
+    "name": { "str": "fake riotgun" },
+    "ranged_damage": { "damage_type": "bash", "amount": 1 },
+    "description": "Shoots pacification gas.  If you're seeing this, it's a bug.",
+    "skill": "launcher",
+    "range": 25,
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "DKS_RELAXGAS", "DKS_RELAXTRAIL" ]
+  }
+]

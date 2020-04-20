@@ -4,14 +4,14 @@
 #include <cmath>
 
 #include "creature.h"
-#include "field.h"
+#include "field_type.h"
 #include "item.h"
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
 #include "translations.h"
-#include "mapdata.h"
-#include "cata_string_consts.h"
+
+static const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {

@@ -107,5 +107,52 @@
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_detatched7_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "            ||||        ",
+        "    |||||||||Fg|||||||  ",
+        "    |1..........WJJZU|  ",
+        "    |................|  ",
+        "    |.......<........|  ",
+        "    |................|  ",
+        "    |................|  ",
+        "    |................|  ",
+        "    ||||2.....||||||||  ",
+        "       |......|         ",
+        "       |......|         ",
+        "       |......|         ",
+        "       ||||||||         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 70 ],
+            [ "room_6x6_guns_E", 10 ],
+            [ "room_6x6_office_E", 40 ],
+            [ "room_6x6_brewer_E", 20 ],
+            [ "room_6x6_junk_E", 50 ]
+          ]
+        },
+        "2": { "chunks": [ [ "null", 80 ], [ "home_office_4x4_N", 20 ], [ "home_office_4x4_S", 20 ] ] }
+      }
+    }
   }
 ]

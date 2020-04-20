@@ -1,0 +1,77 @@
+[
+  {
+    "id": "gloople_tank",
+    "type": "CONTAINER",
+    "name": { "str": "gelatinous capsule" },
+    "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
+    "weight": "1 kg",
+    "volume": "10 L",
+    "price": 100,
+    "to_hit": -2,
+    "material": [ "flesh" ],
+    "symbol": ";",
+    "color": "light_green",
+    "contains": "10 L",
+    "seals": true,
+    "watertight": true
+  },
+  {
+    "id": "gloople_tank_large",
+    "type": "CONTAINER",
+    "name": { "str": "gelatinous tank" },
+    "copy-from": "gloople_tank",
+    "weight": "6 kg",
+    "volume": "60 L",
+    "contains": "60 L"
+  },
+  {
+    "id": "gray_tank",
+    "type": "CONTAINER",
+    "name": { "str": "gray cocoon" },
+    "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
+    "weight": "3 kg",
+    "volume": "30 L",
+    "price": 100,
+    "to_hit": -2,
+    "material": [ "flesh" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "contains": "30 L",
+    "seals": true,
+    "watertight": true
+  },
+  {
+    "id": "gray_tank_large",
+    "type": "CONTAINER",
+    "name": { "str": "gray tank" },
+    "copy-from": "gray_tank",
+    "weight": "10 kg",
+    "volume": "100 L",
+    "contains": "100 L"
+  },
+  {
+    "id": "oozle_tank",
+    "type": "CONTAINER",
+    "name": { "str": "oozing pod" },
+    "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
+    "weight": "2 kg",
+    "volume": "20 L",
+    "price": 100,
+    "to_hit": -2,
+    "material": [ "flesh" ],
+    "symbol": ";",
+    "color": "green",
+    "contains": "20 L",
+    "seals": true,
+    "watertight": true
+  },
+  {
+    "id": "oozle_tank_large",
+    "type": "CONTAINER",
+    "name": { "str": "oozing tank" },
+    "copy-from": "oozle_tank",
+    "weight": "8 kg",
+    "volume": "80 L",
+    "contains": "80 L"
+  }
+]

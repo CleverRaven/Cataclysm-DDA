@@ -1,0 +1,325 @@
+[
+  {
+    "id": "gloopleboard_horizontal",
+    "type": "vehicle_part",
+    "name": "gel panel",
+    "item": "gloople",
+    "location": "center",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "light_green",
+    "broken_color": "light_green",
+    "durability": 250,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "glooplegrow" } ],
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "FULL_BOARD" ]
+  },
+  {
+    "id": "gloopleboard_ne",
+    "type": "vehicle_part",
+    "copy-from": "gloopleboard_horizontal",
+    "symbol": "u"
+  },
+  {
+    "id": "gloopleboard_nw",
+    "type": "vehicle_part",
+    "copy-from": "gloopleboard_horizontal",
+    "symbol": "y"
+  },
+  {
+    "id": "gloopleboard_se",
+    "type": "vehicle_part",
+    "copy-from": "gloopleboard_horizontal",
+    "symbol": "n"
+  },
+  {
+    "id": "gloopleboard_sw",
+    "type": "vehicle_part",
+    "copy-from": "gloopleboard_horizontal",
+    "symbol": "b"
+  },
+  {
+    "id": "gloopleboard_vertical",
+    "type": "vehicle_part",
+    "copy-from": "gloopleboard_horizontal",
+    "symbol": "j"
+  },
+  {
+    "id": "grayboard_horizontal",
+    "type": "vehicle_part",
+    "name": "gray wall",
+    "item": "gray",
+    "location": "center",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "durability": 1000,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "graygrow" } ],
+    "description": "A living blob, formed into a vehicle wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "FULL_BOARD" ]
+  },
+  {
+    "id": "grayboard_ne",
+    "type": "vehicle_part",
+    "copy-from": "grayboard_horizontal",
+    "symbol": "u"
+  },
+  {
+    "id": "grayboard_nw",
+    "type": "vehicle_part",
+    "copy-from": "grayboard_horizontal",
+    "symbol": "y"
+  },
+  {
+    "id": "grayboard_se",
+    "type": "vehicle_part",
+    "copy-from": "grayboard_horizontal",
+    "symbol": "n"
+  },
+  {
+    "id": "grayboard_sw",
+    "type": "vehicle_part",
+    "copy-from": "grayboard_horizontal",
+    "symbol": "b"
+  },
+  {
+    "id": "grayboard_vertical",
+    "type": "vehicle_part",
+    "copy-from": "grayboard_horizontal",
+    "symbol": "j"
+  },
+  {
+    "id": "halfgloopleboard_horizontal",
+    "type": "vehicle_part",
+    "name": "gel quarterpanel",
+    "item": "gloople",
+    "location": "center",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "light_green",
+    "broken_color": "light_green",
+    "durability": 250,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "glooplegrow" } ],
+    "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "FOLDABLE", "HALF_BOARD" ]
+  },
+  {
+    "id": "halfgloopleboard_horizontal_2",
+    "type": "vehicle_part",
+    "copy-from": "halfgloopleboard_horizontal",
+    "symbol": "="
+  },
+  {
+    "id": "halfgloopleboard_ne",
+    "type": "vehicle_part",
+    "copy-from": "halfgloopleboard_horizontal",
+    "symbol": "u"
+  },
+  {
+    "id": "halfgloopleboard_nw",
+    "type": "vehicle_part",
+    "copy-from": "halfgloopleboard_horizontal",
+    "symbol": "y"
+  },
+  {
+    "id": "halfgloopleboard_se",
+    "type": "vehicle_part",
+    "copy-from": "halfgloopleboard_horizontal",
+    "symbol": "n"
+  },
+  {
+    "id": "halfgloopleboard_sw",
+    "type": "vehicle_part",
+    "copy-from": "halfgloopleboard_horizontal",
+    "symbol": "b"
+  },
+  {
+    "id": "halfgloopleboard_vertical",
+    "type": "vehicle_part",
+    "copy-from": "halfgloopleboard_horizontal",
+    "symbol": "j"
+  },
+  {
+    "id": "halfgloopleboard_vertical_2",
+    "type": "vehicle_part",
+    "copy-from": "halfgloopleboard_horizontal",
+    "symbol": "H"
+  },
+  {
+    "id": "halfgrayboard_horizontal",
+    "type": "vehicle_part",
+    "name": "gray barricade",
+    "item": "gray",
+    "location": "center",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "durability": 1000,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "graygrow" } ],
+    "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "FOLDABLE", "HALF_BOARD" ]
+  },
+  {
+    "id": "halfgrayboard_horizontal_2",
+    "type": "vehicle_part",
+    "copy-from": "halfgrayboard_horizontal",
+    "symbol": "="
+  },
+  {
+    "id": "halfgrayboard_ne",
+    "type": "vehicle_part",
+    "copy-from": "halfgrayboard_horizontal",
+    "symbol": "u"
+  },
+  {
+    "id": "halfgrayboard_nw",
+    "type": "vehicle_part",
+    "copy-from": "halfgrayboard_horizontal",
+    "symbol": "y"
+  },
+  {
+    "id": "halfgrayboard_se",
+    "type": "vehicle_part",
+    "copy-from": "halfgrayboard_horizontal",
+    "symbol": "n"
+  },
+  {
+    "id": "halfgrayboard_sw",
+    "type": "vehicle_part",
+    "copy-from": "halfgrayboard_horizontal",
+    "symbol": "b"
+  },
+  {
+    "id": "halfgrayboard_vertical",
+    "type": "vehicle_part",
+    "copy-from": "halfgrayboard_horizontal",
+    "symbol": "j"
+  },
+  {
+    "id": "halfgrayboard_vertical_2",
+    "type": "vehicle_part",
+    "copy-from": "halfgrayboard_horizontal",
+    "symbol": "H"
+  },
+  {
+    "id": "halfoozleboard_horizontal",
+    "type": "vehicle_part",
+    "name": "ooze screen",
+    "item": "oozle",
+    "location": "center",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "green",
+    "broken_color": "green",
+    "durability": 500,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "oozlegrow" } ],
+    "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "FOLDABLE", "HALF_BOARD" ]
+  },
+  {
+    "id": "halfoozleboard_horizontal_2",
+    "type": "vehicle_part",
+    "copy-from": "halfoozleboard_horizontal",
+    "symbol": "="
+  },
+  {
+    "id": "halfoozleboard_ne",
+    "type": "vehicle_part",
+    "copy-from": "halfoozleboard_horizontal",
+    "symbol": "u"
+  },
+  {
+    "id": "halfoozleboard_nw",
+    "type": "vehicle_part",
+    "copy-from": "halfoozleboard_horizontal",
+    "symbol": "y"
+  },
+  {
+    "id": "halfoozleboard_se",
+    "type": "vehicle_part",
+    "copy-from": "halfoozleboard_horizontal",
+    "symbol": "n"
+  },
+  {
+    "id": "halfoozleboard_sw",
+    "type": "vehicle_part",
+    "copy-from": "halfoozleboard_horizontal",
+    "symbol": "b"
+  },
+  {
+    "id": "halfoozleboard_vertical",
+    "type": "vehicle_part",
+    "copy-from": "halfoozleboard_horizontal",
+    "symbol": "j"
+  },
+  {
+    "id": "halfoozleboard_vertical_2",
+    "type": "vehicle_part",
+    "copy-from": "halfoozleboard_horizontal",
+    "symbol": "H"
+  },
+  {
+    "id": "oozleboard_horizontal",
+    "type": "vehicle_part",
+    "name": "ooze barrier",
+    "item": "oozle",
+    "location": "center",
+    "symbol": "h",
+    "broken_symbol": "#",
+    "color": "green",
+    "broken_color": "green",
+    "durability": 500,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "oozlegrow" } ],
+    "description": "A living blob, formed into a vehicle wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "FULL_BOARD" ]
+  },
+  {
+    "id": "oozleboard_ne",
+    "type": "vehicle_part",
+    "copy-from": "oozleboard_horizontal",
+    "symbol": "u"
+  },
+  {
+    "id": "oozleboard_nw",
+    "type": "vehicle_part",
+    "copy-from": "oozleboard_horizontal",
+    "symbol": "y"
+  },
+  {
+    "id": "oozleboard_se",
+    "type": "vehicle_part",
+    "copy-from": "oozleboard_horizontal",
+    "symbol": "n"
+  },
+  {
+    "id": "oozleboard_sw",
+    "type": "vehicle_part",
+    "copy-from": "oozleboard_horizontal",
+    "symbol": "b"
+  },
+  {
+    "id": "oozleboard_vertical",
+    "type": "vehicle_part",
+    "copy-from": "oozleboard_horizontal",
+    "symbol": "j"
+  }
+]

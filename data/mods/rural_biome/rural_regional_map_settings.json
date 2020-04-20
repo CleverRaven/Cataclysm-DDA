@@ -10,6 +10,9 @@
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 2, "t_dirt": 1 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
         "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
+        "t_region_grass": { "t_grass": 1 },
+        "t_region_soil": { "t_dirt": 1 },
         "t_region_shrub": {
           "t_underbrush": 60,
           "t_shrub": 15,
@@ -104,7 +107,15 @@
         "t_region_tree_evergreen": { "t_tree_pine": 32, "t_tree_juniper": 16, "t_tree_deadpine": 2 }
       },
       "furniture": {
-        "f_region_flower": { "f_black_eyed_susan": 1, "f_flower_spurge": 1, "f_chamomile": 1, "f_dandelion": 1, "f_datura": 1, "f_dahlia": 1 },
+        "f_region_flower": {
+          "f_black_eyed_susan": 1,
+          "f_flower_spurge": 1,
+          "f_chamomile": 1,
+          "f_dandelion": 1,
+          "f_burdock": 1,
+          "f_datura": 1,
+          "f_dahlia": 1
+        },
         "f_region_flower_decorative": {
           "f_lily": 4,
           "f_flower_tulip": 4,
@@ -115,7 +126,15 @@
           "f_chicory": 1,
           "f_sunflower": 1
         },
-        "f_region_weed": { "f_dandelion": 6, "f_flower_spurge": 4, "f_chamomile": 4, "f_datura": 3, "f_dahlia": 1, "f_mutpoppy": 1 },
+        "f_region_weed": {
+          "f_dandelion": 6,
+          "f_burdock": 6,
+          "f_flower_spurge": 4,
+          "f_chamomile": 4,
+          "f_datura": 3,
+          "f_dahlia": 1,
+          "f_mutpoppy": 1
+        },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1 }
       }
     },
@@ -172,6 +191,7 @@
         "f_bluebell": 3.5,
         "f_dahlia": 3.5,
         "f_datura": 0.2,
+        "f_burdock": 14.0,
         "f_dandelion": 14.0
       },
       "boosted_other_percent": 50.0
@@ -179,6 +199,7 @@
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
+      "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [
         { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
@@ -324,7 +345,8 @@
       "trail_width_offset_min": 1,
       "trail_width_offset_max": 3,
       "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 }
+      "trail_terrain": { "t_dirt": 1 },
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
       "forest": {
@@ -444,15 +466,12 @@
       "shop_sigma": 50,
       "park_radius": 60,
       "park_sigma": 80,
-      "house_basement_chance": 5,
       "houses": {
         "house_w_1": 50,
         "house_two_story_basement": 50,
-        "house": 50,
         "house_prepper": 20,
         "house_prepper2": 10,
         "house_fortified": 20,
-        "house_base": 333,
         "house_w_2": 50,
         "house_w_3": 50,
         "house_w_4": 50,
@@ -521,7 +540,6 @@
         "motel_city": 5,
         "trailerpark_city": 15
       },
-      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25, "basement_bionic": 50 },
       "parks": {
         "s_gas": 200,
         "s_gas_1": 200,

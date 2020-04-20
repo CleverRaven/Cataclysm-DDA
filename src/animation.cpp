@@ -52,6 +52,7 @@ class basic_animation
             .on_top( true )
             .show();
 
+            catacurses::refresh();
             refresh_display();
         }
 
@@ -117,7 +118,8 @@ tripoint relative_view_pos( const game &g, const tripoint &p ) noexcept
     return p - g.ter_view_p + point( POSX, POSY );
 }
 
-void draw_explosion_curses( game &g, const tripoint &center, const int r, const nc_color &col )
+void draw_explosion_curses( const game &g, const tripoint &center, const int r,
+                            const nc_color &col )
 {
     if( !is_radius_visible( center, r ) ) {
         return;
@@ -166,7 +168,7 @@ constexpr explosion_neighbors operator ^ ( explosion_neighbors lhs, explosion_ne
     return static_cast<explosion_neighbors>( static_cast< int >( lhs ) ^ static_cast< int >( rhs ) );
 }
 
-void draw_custom_explosion_curses( game &g,
+void draw_custom_explosion_curses( const game &g,
                                    const std::list< std::map<tripoint, explosion_tile> > &layers )
 {
     // calculate screen offset relative to player + view offset position
@@ -437,13 +439,9 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 #if defined(TILES)
 /* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/
 // need to have a version where there is no player defined, possibly. That way shrapnel works as intended
-void game::draw_bullet( const tripoint &t, const int i, const std::vector<tripoint> &trajectory,
-                        const char bullet )
+void game::draw_bullet( const tripoint &t, const int /*i*/,
+                        const std::vector<tripoint> &/*trajectory*/, const char bullet )
 {
-    // TODO: signature and impl could be changed to eliminate these params
-    ( void )i;
-    ( void )trajectory;
-
     if( !use_tiles ) {
         draw_bullet_curses( m, t, bullet, nullptr );
         return;
@@ -513,7 +511,7 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, const bool dead )
 
 namespace
 {
-void draw_hit_player_curses( const game &g, const player &p, const int dam )
+void draw_hit_player_curses( const game &g, const Character &p, const int dam )
 {
     const tripoint q = relative_view_pos( g.u, p.pos() );
     if( q.z == 0 ) {
@@ -525,7 +523,7 @@ void draw_hit_player_curses( const game &g, const player &p, const int dam )
 } //namespace
 
 #if defined(TILES)
-void game::draw_hit_player( const player &p, const int dam )
+void game::draw_hit_player( const Character &p, const int dam )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -548,7 +546,7 @@ void game::draw_hit_player( const player &p, const int dam )
     bullet_animation().progress();
 }
 #else
-void game::draw_hit_player( const player &p, const int dam )
+void game::draw_hit_player( const Character &p, const int dam )
 {
     draw_hit_player_curses( *this, p, dam );
 }
@@ -557,11 +555,9 @@ void game::draw_hit_player( const player &p, const int dam )
 /* Line drawing code, not really an animation but should be separated anyway */
 namespace
 {
-void draw_line_curses( game &g, const tripoint &pos, const tripoint &center,
+void draw_line_curses( game &g, const tripoint &/*pos*/, const tripoint &center,
                        const std::vector<tripoint> &ret )
 {
-    ( void )pos;
-
     for( const tripoint &p : ret ) {
         const auto critter = g.critter_at( p, true );
 
@@ -624,10 +620,8 @@ void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
     tilecontext->init_draw_line( p, points, "line_trail", false );
 }
 #else
-void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
+void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points )
 {
-    ( void )p;
-
     draw_line_curses( *this, points );
 }
 #endif
@@ -717,7 +711,7 @@ void game::draw_weather( const weather_printable &w )
 
 namespace
 {
-void draw_sct_curses( game &g )
+void draw_sct_curses( const game &g )
 {
     const tripoint off = relative_view_pos( g.u, tripoint_zero );
 

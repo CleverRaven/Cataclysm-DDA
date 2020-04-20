@@ -1,6 +1,6 @@
 #pragma once
-#ifndef UISTATE_H
-#define UISTATE_H
+#ifndef CATA_SRC_UISTATE_H
+#define CATA_SRC_UISTATE_H
 
 #include <list>
 #include <map>
@@ -8,11 +8,76 @@
 #include <vector>
 
 #include "enums.h"
+#include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
 
 class item;
 
+struct advanced_inv_pane_save_state {
+    public:
+        int sort_idx = 1;
+        std::string filter;
+        int area_idx = 11;
+        int selected_idx = 0;
+
+        bool in_vehicle = false;
+
+        template<typename JsonStream>
+        void serialize( JsonStream &json, const std::string &prefix ) const {
+            json.member( prefix + "sort_idx", sort_idx );
+            json.member( prefix + "filter", filter );
+            json.member( prefix + "area_idx", area_idx );
+            json.member( prefix + "selected_idx", selected_idx );
+            json.member( prefix + "in_vehicle", in_vehicle );
+        }
+
+        void deserialize( const JsonObject &jo, const std::string &prefix ) {
+            jo.read( prefix + "sort_idx", sort_idx );
+            jo.read( prefix + "filter", filter );
+            jo.read( prefix + "area_idx", area_idx );
+            jo.read( prefix + "selected_idx", selected_idx );
+            jo.read( prefix + "in_vehicle", in_vehicle );
+        }
+};
+
+struct advanced_inv_save_state {
+    public:
+        int exit_code = 0;
+        int re_enter_move_all = 0;
+        int aim_all_location = 1;
+
+        bool active_left = true;
+        int last_popup_dest = 0;
+
+        int saved_area = 11;
+        int saved_area_right = 0;
+        advanced_inv_pane_save_state pane;
+        advanced_inv_pane_save_state pane_right;
+
+        template<typename JsonStream>
+        void serialize( JsonStream &json, const std::string &prefix ) const {
+            json.member( prefix + "active_left", active_left );
+            json.member( prefix + "last_popup_dest", last_popup_dest );
+
+            json.member( prefix + "saved_area", saved_area );
+            json.member( prefix + "saved_area_right", saved_area_right );
+            pane.serialize( json, prefix + "pane_" );
+            pane_right.serialize( json, prefix + "pane_right_" );
+        }
+
+        void deserialize( JsonObject &jo, const std::string &prefix ) {
+            jo.read( prefix + "active_left", active_left );
+            jo.read( prefix + "last_popup_dest", last_popup_dest );
+
+            jo.read( prefix + "saved_area", saved_area );
+            jo.read( prefix + "saved_area_right", saved_area_right );
+            pane.area_idx = saved_area;
+            pane_right.area_idx = saved_area_right;
+            pane.deserialize( jo, prefix + "pane_" );
+            pane_right.deserialize( jo, prefix + "pane_right_" );
+        }
+};
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -26,7 +91,7 @@ class uistatedata
     private:
         // not needed for compilation, but keeps syntax plugins happy
         using itype_id = std::string;
-        enum side { left  = 0, right = 1, NUM_PANES = 2 };
+        enum side { left = 0, right = 1, NUM_PANES = 2 };
     public:
         int ags_pay_gas_selected_pump = 0;
 
@@ -34,24 +99,14 @@ class uistatedata
         int wishmutate_selected = 0;
         int wishmonster_selected = 0;
         int iexamine_atm_selected = 0;
-        std::array<int, 2> adv_inv_sort = {{1, 1}};
-        std::array<int, 2> adv_inv_area = {{5, 0}};
-        std::array<int, 2> adv_inv_index = {{0, 0}};
-        std::array<bool, 2> adv_inv_in_vehicle = {{false, false}};
-        std::array<std::string, 2> adv_inv_filter = {{"", ""}};
-        std::array<int, 2> adv_inv_default_areas = {{11, 0}}; //left: All, right: Inventory
-        int adv_inv_src = left;
-        int adv_inv_dest = right;
-        int adv_inv_last_popup_dest = 0;
+
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
-        int adv_inv_exit_code = 0;
         itype_id adv_inv_container_type = "null";
         itype_id adv_inv_container_content_type = "null";
-        int adv_inv_re_enter_move_all = 0;
-        int adv_inv_aim_all_location = 1;
-        std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
         bool adv_inv_container_in_vehicle = false;
+
+        advanced_inv_save_state transfer_save;
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
@@ -61,11 +116,6 @@ class uistatedata
         bool overmap_show_city_labels = true;
         bool overmap_show_hordes = true;
         bool overmap_show_forest_trails = true;
-
-        bool debug_ranged;
-        tripoint adv_inv_last_coords = {-999, -999, -999};
-        int last_inv_start = -2;
-        int last_inv_sel = -2;
 
         // V Menu Stuff
         int list_item_sort = 0;
@@ -80,7 +130,8 @@ class uistatedata
 
         // construction menu selections
         std::string construction_filter;
-        std::string last_construction;
+        cata::optional<std::string> last_construction;
+        construction_category_id construction_tab = construction_category_id::NULL_ID();
 
         // overmap editor selections
         const oter_t *place_terrain = nullptr;
@@ -123,17 +174,10 @@ class uistatedata
             const unsigned int input_history_save_max = 25;
             json.start_object();
 
+            transfer_save.serialize( json, "transfer_save_" );
+
             /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
-            serialize_array( json, "adv_inv_sort", adv_inv_sort );
-            serialize_array( json, "adv_inv_area", adv_inv_area );
-            serialize_array( json, "adv_inv_index", adv_inv_index );
-            serialize_array( json, "adv_inv_in_vehicle", adv_inv_in_vehicle );
-            serialize_array( json, "adv_inv_filter", adv_inv_filter );
-            serialize_array( json, "adv_inv_default_areas", adv_inv_default_areas );
             // non array stuffs
-            json.member( "adv_inv_src", adv_inv_src );
-            json.member( "adv_inv_dest", adv_inv_dest );
-            json.member( "adv_inv_last_popup_dest", adv_inv_last_popup_dest );
             json.member( "adv_inv_container_location", adv_inv_container_location );
             json.member( "adv_inv_container_index", adv_inv_container_index );
             json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
@@ -180,54 +224,9 @@ class uistatedata
         template<typename JsonStream>
         void deserialize( JsonStream &jsin ) {
             auto jo = jsin.get_object();
-            /**** here ****/
-            if( jo.has_array( "adv_inv_sort" ) ) {
-                auto tmp = jo.get_int_array( "adv_inv_sort" );
-                std::move( tmp.begin(), tmp.end(), adv_inv_sort.begin() );
-            } else {
-                jo.read( "adv_inv_leftsort", adv_inv_sort[left] );
-                jo.read( "adv_inv_rightsort", adv_inv_sort[right] );
-            }
-            // pane area selected
-            if( jo.has_array( "adv_inv_area" ) ) {
-                auto tmp = jo.get_int_array( "adv_inv_area" );
-                std::move( tmp.begin(), tmp.end(), adv_inv_area.begin() );
-            } else {
-                jo.read( "adv_inv_leftarea", adv_inv_area[left] );
-                jo.read( "adv_inv_rightarea", adv_inv_area[right] );
-            }
-            // pane current index
-            if( jo.has_array( "adv_inv_index" ) ) {
-                auto tmp = jo.get_int_array( "adv_inv_index" );
-                std::move( tmp.begin(), tmp.end(), adv_inv_index.begin() );
-            } else {
-                jo.read( "adv_inv_leftindex", adv_inv_index[left] );
-                jo.read( "adv_inv_rightindex", adv_inv_index[right] );
-            }
-            // viewing vehicle cargo
-            if( jo.has_array( "adv_inv_in_vehicle" ) ) {
-                const JsonArray ja = jo.get_array( "adv_inv_in_vehicle" );
-                for( size_t i = 0; i < adv_inv_in_vehicle.size() && i < ja.size(); ++i ) {
-                    adv_inv_in_vehicle[i] = ja.get_bool( i );
-                }
-            }
-            // filter strings
-            if( jo.has_array( "adv_inv_filter" ) ) {
-                auto tmp = jo.get_string_array( "adv_inv_filter" );
-                std::move( tmp.begin(), tmp.end(), adv_inv_filter.begin() );
-            } else {
-                jo.read( "adv_inv_leftfilter", adv_inv_filter[left] );
-                jo.read( "adv_inv_rightfilter", adv_inv_filter[right] );
-            }
-            // default areas
-            if( jo.has_array( "adv_inv_deafult_areas" ) ) {
-                auto tmp = jo.get_int_array( "adv_inv_deafult_areas" );
-                std::move( tmp.begin(), tmp.end(), adv_inv_default_areas.begin() );
-            }
+
+            transfer_save.deserialize( jo, "transfer_save_" );
             // the rest
-            jo.read( "adv_inv_src", adv_inv_src );
-            jo.read( "adv_inv_dest", adv_inv_dest );
-            jo.read( "adv_inv_last_popup_dest", adv_inv_last_popup_dest );
             jo.read( "adv_inv_container_location", adv_inv_container_location );
             jo.read( "adv_inv_container_index", adv_inv_container_index );
             jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
@@ -276,4 +275,4 @@ class uistatedata
 };
 extern uistatedata uistate;
 
-#endif
+#endif // CATA_SRC_UISTATE_H

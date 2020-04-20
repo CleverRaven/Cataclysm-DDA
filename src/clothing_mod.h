@@ -1,18 +1,17 @@
 #pragma once
-#ifndef CLOTHING_MOD_H
-#define CLOTHING_MOD_H
+#ifndef CATA_SRC_CLOTHING_MOD_H
+#define CATA_SRC_CLOTHING_MOD_H
 
+#include <algorithm>
+#include <array>
 #include <cstddef>
 #include <string>
 #include <vector>
-#include <array>
 
 #include "type_id.h"
 
 class JsonObject;
-class player;
 class item;
-
 template<typename T> struct enum_traits;
 
 enum clothing_mod_type : int {
@@ -33,8 +32,8 @@ struct enum_traits<clothing_mod_type> {
 };
 
 struct mod_value {
-    clothing_mod_type type;
-    float value;
+    clothing_mod_type type = clothing_mod_type::num_clothing_mod_types;
+    float value = 0.0f;
     bool round_up = false;
     bool thickness_propotion = false;
     bool coverage_propotion = false;
@@ -53,7 +52,7 @@ struct clothing_mod {
     std::string implement_prompt;
     std::string destroy_prompt;
     std::vector< mod_value > mod_values;
-    bool restricted;
+    bool restricted = false;
 
     static size_t count();
 };
@@ -83,4 +82,4 @@ std::string string_from_clothing_mod_type( clothing_mod_type type );
 
 } // namespace clothing_mods
 
-#endif
+#endif // CATA_SRC_CLOTHING_MOD_H

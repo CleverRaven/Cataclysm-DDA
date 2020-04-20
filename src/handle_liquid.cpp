@@ -1,10 +1,11 @@
 #include "handle_liquid.h"
 
+#include <algorithm>
 #include <climits>
 #include <cstddef>
-#include <algorithm>
 #include <functional>
 #include <iterator>
+#include <list>
 #include <memory>
 #include <ostream>
 #include <set>
@@ -13,26 +14,28 @@
 
 #include "action.h"
 #include "avatar.h"
-#include "game.h"
-#include "game_inventory.h"
-#include "iexamine.h"
-#include "item.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "messages.h"
-#include "monster.h"
-#include "translations.h"
-#include "ui.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "cata_utility.h"
 #include "colony.h"
 #include "debug.h"
 #include "enums.h"
+#include "game.h"
+#include "game_inventory.h"
+#include "iexamine.h"
+#include "item.h"
+#include "item_contents.h"
 #include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "monster.h"
 #include "optional.h"
 #include "player_activity.h"
 #include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
+#include "ui.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -121,7 +124,7 @@ bool handle_liquid_from_ground( map_stack::iterator on_ground,
     return true;
 }
 
-bool handle_liquid_from_container( std::list<item>::iterator in_container,
+bool handle_liquid_from_container( item *in_container,
                                    item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
@@ -131,16 +134,23 @@ bool handle_liquid_from_container( std::list<item>::iterator in_container,
         container.on_contents_changed();
     }
 
-    if( in_container->charges > 0 ) {
-        return false;
-    }
-    container.contents.erase( in_container );
-    return true;
+    return in_container->charges <= 0;
 }
 
 bool handle_liquid_from_container( item &container, int radius )
 {
-    return handle_liquid_from_container( container.contents.begin(), container, radius );
+    std::vector<item *> remove;
+    bool handled = false;
+    for( item *contained : container.contents.all_items_top() ) {
+        if( handle_liquid_from_container( contained, container, radius ) ) {
+            remove.push_back( contained );
+            handled = true;
+        }
+    }
+    for( item *contained : remove ) {
+        container.remove_item( *contained );
+    }
+    return handled;
 }
 
 static bool get_liquid_target( item &liquid, item *const source, const int radius,
@@ -178,7 +188,12 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     std::vector<std::function<void()>> actions;
 
     if( g->u.can_consume( liquid ) && !source_mon ) {
-        menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        if( g->u.can_consume_for_bionic( liquid ) ) {
+            menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
+        } else {
+            menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        }
+
         actions.emplace_back( [&]() {
             target.dest_opt = LD_CONSUME;
         } );
@@ -337,6 +352,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                         case item_location::type::vehicle:
                             g->m.veh_at( target.item_loc.position() )->vehicle().make_active( target.item_loc );
                             break;
+                        case item_location::type::container:
                         case item_location::type::character:
                         case item_location::type::invalid:
                             break;

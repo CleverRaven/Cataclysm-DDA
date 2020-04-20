@@ -2,15 +2,19 @@
 
 #include <algorithm> //std::min
 #include <cstddef>
+#include <memory>
+#include <unordered_map>
 
-#include "mutation.h"
+#include "enums.h"
 #include "game.h"
 #include "input.h"
+#include "inventory.h"
+#include "mutation.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "translations.h"
 #include "string_id.h"
-#include "enums.h"
+#include "translations.h"
+#include "ui_manager.h"
 
 // '!' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -26,7 +30,7 @@ static void draw_exam_window( const catacurses::window &win, const int border_y 
 
 const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
 {
-    return string_format( comment, string_format( "<color_yellow>%s</color>", keys ) );
+    return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
 };
 
 static void show_mutations_titlebar( const catacurses::window &window,
@@ -36,7 +40,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
     std::string desc;
     if( menu_mode == "reassigning" ) {
         desc += std::string( _( "Reassigning." ) ) + "  " +
-                _( "Select a mutation to reassign or press <color_yellow>SPACE</color> to cancel. " );
+                _( "Select a mutation to reassign or press [<color_yellow>SPACE</color>] to cancel. " );
     }
     if( menu_mode == "activating" ) {
         desc += colorize( _( "Activating" ),
@@ -51,7 +55,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
     if( menu_mode != "reassigning" ) {
         desc += shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
     }
-    desc += shortcut_desc( _( "%s to assign the hotkeys." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+    desc += shortcut_desc( _( "%s to change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
     wrefresh( window );
@@ -66,8 +70,8 @@ void player::power_mutations()
 
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
-    for( auto &mut : my_mutations ) {
-        if( !mut.first->activated ) {
+    for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        if( !mut.first->activated && ! mut.first->transform ) {
             passive.push_back( mut.first );
         } else {
             active.push_back( mut.first );
@@ -142,6 +146,9 @@ void player::power_mutations()
     bool redraw = true;
     std::string menu_mode = "activating";
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         // offset for display: mutation with index i is drawn at y=list_start_y+i
         // drawing the mutation starts with mutation[scroll_position]
@@ -171,8 +178,8 @@ void player::power_mutations()
                 mvwprintz( wBio, point( 2, list_start_y ), c_light_gray, _( "None" ) );
             } else {
                 for( size_t i = scroll_position; i < passive.size(); i++ ) {
-                    const auto &md = passive[i].obj();
-                    const auto &td = my_mutations[passive[i]];
+                    const mutation_branch &md = passive[i].obj();
+                    const trait_data &td = my_mutations[passive[i]];
                     if( list_start_y + static_cast<int>( i ) ==
                         ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) ) {
                         break;
@@ -186,8 +193,8 @@ void player::power_mutations()
                 mvwprintz( wBio, point( second_column, list_start_y ), c_light_gray, _( "None" ) );
             } else {
                 for( size_t i = scroll_position; i < active.size(); i++ ) {
-                    const auto &md = active[i].obj();
-                    const auto &td = my_mutations[active[i]];
+                    const mutation_branch &md = active[i].obj();
+                    const trait_data &td = my_mutations[active[i]];
                     if( list_start_y + static_cast<int>( i ) ==
                         ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) ) {
                         break;
@@ -250,7 +257,7 @@ void player::power_mutations()
                        mutation_chars.get_allowed_chars() );
                 continue;
             }
-            const auto other_mut_id = trait_by_invlet( newch );
+            const trait_id other_mut_id = trait_by_invlet( newch );
             if( !other_mut_id.is_null() ) {
                 std::swap( my_mutations[mut_id].key, my_mutations[other_mut_id].key );
             } else {
@@ -283,10 +290,15 @@ void player::power_mutations()
                 break;
             }
             const auto &mut_data = mut_id.obj();
+            const cata::value_ptr<mut_transform> &trans = mut_data.transform;
             if( menu_mode == "activating" ) {
-                if( mut_data.activated ) {
+                if( mut_data.activated || trans ) {
                     if( my_mutations[mut_id].powered ) {
-                        add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
+                        if( trans && !trans->msg_transform.empty() ) {
+                            add_msg_if_player( m_neutral, trans->msg_transform );
+                        } else {
+                            add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
+                        }
 
                         deactivate_mutation( mut_id );
                         // Action done, leave screen
@@ -296,7 +308,12 @@ void player::power_mutations()
                                ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
 
                         g->draw();
-                        add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
+                        if( trans && !trans->msg_transform.empty() ) {
+                            add_msg_if_player( m_neutral, trans->msg_transform );
+                        } else {
+                            add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
+                        }
+
                         activate_mutation( mut_id );
                         // Action done, leave screen
                         break;

@@ -3,8 +3,7 @@
     "id": "pistol_magnum_ball",
     "type": "AMMO",
     "copy-from": "44fmj",
-    "name": "magnum ammo, ball",
-    "name_plural": "magnum ammo, ball",
+    "name": { "str_sp": "magnum ammo, ball" },
     "ammo_type": "ammo_pistol_magnum",
     "casing": "pistol_magnum_casing",
     "description": "Magnum ammuniton, developed from early handgun hunting efforts and popularized by law enforcement usage.  It is more powerful than common pistol ammo.  'Ball' is an old term for full metal jacketed bullets which offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead."
@@ -13,8 +12,7 @@
     "id": "pistol_magnum_jhp",
     "type": "AMMO",
     "copy-from": "pistol_magnum_ball",
-    "name": "magnum ammo, JHP",
-    "name-plural": "magnum ammo, JHP",
+    "name": { "str_sp": "magnum ammo, JHP" },
     "description": "Magnum ammunition, developed from early handgun hunting efforts and popularized by law enforcement usage.  It is more powerful than common pistol ammo.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
     "relative": { "damage": 3, "pierce": -6 }
   },
@@ -22,8 +20,7 @@
     "id": "reloaded_pistol_magnum_ball",
     "type": "AMMO",
     "copy-from": "pistol_magnum_ball",
-    "name": "magnum ammo, ball (reloaded)",
-    "name-plural": "magnum ammo, ball (reloaded)",
+    "name": { "str_sp": "magnum ammo, ball (reloaded)" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] }
   },
@@ -31,8 +28,7 @@
     "id": "reloaded_pistol_magnum_jhp",
     "type": "AMMO",
     "copy-from": "pistol_magnum_jhp",
-    "name": "magnum ammo, JHP (reloaded)",
-    "name-plural": "magnum ammo, JHP (reloaded)",
+    "name": { "str_sp": "magnum ammo, JHP (reloaded)" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] }
   },
@@ -40,8 +36,7 @@
     "id": "bp_pistol_magnum_ball",
     "copy-from": "pistol_magnum_ball",
     "type": "AMMO",
-    "name": "magnum ammo, ball (black powder)",
-    "name-plural": "magnum ammo, ball (black powder)",
+    "name": { "str_sp": "magnum ammo, ball (black powder)" },
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -50,8 +45,7 @@
     "id": "bp_pistol_magnum_jhp",
     "copy-from": "pistol_magnum_jhp",
     "type": "AMMO",
-    "name": "magnum ammo, JHP (black powder)",
-    "name-plural": "magnum ammo, JHP (black powder)",
+    "name": { "str_sp": "magnum ammo, JHP (black powder)" },
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

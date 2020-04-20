@@ -106,5 +106,41 @@
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_detatched2_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "      ||||||||||||||||  ",
+        "      |1.........<%ZJ|  ",
+        "      |...........+.W|  ",
+        "      |...........%%%|  ",
+        "      |...........U.g|  ",
+        "      |.............F|  ",
+        "      |..............|  ",
+        "      |..............|  ",
+        "      |..............|  ",
+        "      ||||||||||||||||  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": { "1": { "chunks": [ [ "null", 60 ], [ "8x8_gym_E", 10 ], [ "room_8x8_hobby_E", 30 ] ] } }
+    }
   }
 ]

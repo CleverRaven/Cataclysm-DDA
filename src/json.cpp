@@ -1,30 +1,30 @@
 #include "json.h"
 
+#include <algorithm>
+#include <bitset>
+#include <cmath> // pow
 #include <cstdint>
 #include <cstdio>
-#include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
+#include <exception>
+#include <iterator>
+#include <limits>
 #include <locale> // ensure user's locale doesn't interfere with output
 #include <set>
 #include <sstream>
 #include <string>
-#include <vector>
-#include <bitset>
-#include <iterator>
-#include <algorithm>
-#include <exception>
 #include <utility>
-#include <limits>
+#include <vector>
 
 #include "cata_utility.h"
+#include "debug.h"
+#include "string_formatter.h"
 
 extern bool test_mode;
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
-
-#define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
 
 static bool is_whitespace( char ch )
 {
@@ -181,15 +181,6 @@ int JsonObject::verify_position( const std::string &name,
 bool JsonObject::has_member( const std::string &name ) const
 {
     return positions.count( name ) > 0;
-}
-
-std::set<std::string> JsonObject::get_member_names() const
-{
-    std::set<std::string> ret;
-    for( auto &elem : positions ) {
-        ret.insert( elem.first );
-    }
-    return ret;
 }
 
 std::string JsonObject::line_number() const
@@ -1038,15 +1029,27 @@ std::string JsonIn::get_string()
 // These functions get -INT_MIN and -INT64_MIN while very carefully avoiding any overflow.
 constexpr static uint64_t neg_INT_MIN()
 {
-    int x = std::numeric_limits<int>::min() + std::numeric_limits<int>::max();
-    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int>::max() ) + ( -x ) :
-           static_cast<uint64_t>( std::numeric_limits<int>::max() ) - x;
+    static_assert( sizeof( int ) <= sizeof( int64_t ),
+                   "neg_INT_MIN() assumed sizeof( int ) <= sizeof( int64_t )" );
+    constexpr int x = std::numeric_limits<int>::min() + std::numeric_limits<int>::max();
+    static_assert( x >= 0 || x + std::numeric_limits<int>::max() >= 0,
+                   "neg_INT_MIN assumed INT_MIN + INT_MAX >= -INT_MAX" );
+    if( x < 0 ) {
+        return static_cast<uint64_t>( std::numeric_limits<int>::max() ) + static_cast<uint64_t>( -x );
+    } else {
+        return static_cast<uint64_t>( std::numeric_limits<int>::max() ) - static_cast<uint64_t>( x );
+    }
 }
 constexpr static uint64_t neg_INT64_MIN()
 {
-    int x = std::numeric_limits<int64_t>::min() + std::numeric_limits<int64_t>::max();
-    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) + ( -x ) :
-           static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - x;
+    constexpr int64_t x = std::numeric_limits<int64_t>::min() + std::numeric_limits<int64_t>::max();
+    static_assert( x >= 0 || x + std::numeric_limits<int64_t>::max() >= 0,
+                   "neg_INT64_MIN assumed INT64_MIN + INT64_MAX >= -INT64_MAX" );
+    if( x < 0 ) {
+        return static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) + static_cast<uint64_t>( -x );
+    } else {
+        return static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - static_cast<uint64_t>( x );
+    }
 }
 
 number_sci_notation JsonIn::get_any_int()
@@ -1068,6 +1071,8 @@ number_sci_notation JsonIn::get_any_int()
 
 int JsonIn::get_int()
 {
+    static_assert( sizeof( int ) <= sizeof( int64_t ),
+                   "JsonIn::get_int() assumed sizeof( int ) <= sizeof( int64_t )" );
     number_sci_notation n = get_any_int();
     if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
         error( "Found a number greater than " + std::to_string( std::numeric_limits<int>::max() ) +
@@ -1076,7 +1081,20 @@ int JsonIn::get_int()
         error( "Found a number less than " + std::to_string( std::numeric_limits<int>::min() ) +
                " which is unsupported in this context." );
     }
-    return static_cast<int>( n.number ) * ( n.negative ? -1 : 1 );
+    if( n.negative ) {
+        static_assert( neg_INT_MIN() <= static_cast<uint64_t>( std::numeric_limits<int>::max() )
+                       || neg_INT_MIN() - static_cast<uint64_t>( std::numeric_limits<int>::max() )
+                       <= static_cast<uint64_t>( std::numeric_limits<int>::max() ),
+                       "JsonIn::get_int() assumed -INT_MIN - INT_MAX <= INT_MAX" );
+        if( n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
+            const uint64_t x = n.number - static_cast<uint64_t>( std::numeric_limits<int>::max() );
+            return -std::numeric_limits<int>::max() - static_cast<int>( x );
+        } else {
+            return -static_cast<int>( n.number );
+        }
+    } else {
+        return static_cast<int>( n.number );
+    }
 }
 
 unsigned int JsonIn::get_uint()
@@ -1103,7 +1121,20 @@ int64_t JsonIn::get_int64()
         error( "Integers less than "
                + std::to_string( std::numeric_limits<int64_t>::min() ) + " not supported." );
     }
-    return static_cast<int64_t>( n.number ) * ( n.negative ? -1LL : 1LL );
+    if( n.negative ) {
+        static_assert( neg_INT64_MIN() <= static_cast<uint64_t>( std::numeric_limits<int64_t>::max() )
+                       || neg_INT64_MIN() - static_cast<uint64_t>( std::numeric_limits<int64_t>::max() )
+                       <= static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ),
+                       "JsonIn::get_int64() assumed -INT64_MIN - INT64_MAX <= INT64_MAX" );
+        if( n.number > static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) ) {
+            const uint64_t x = n.number - static_cast<uint64_t>( std::numeric_limits<int64_t>::max() );
+            return -std::numeric_limits<int64_t>::max() - static_cast<int64_t>( x );
+        } else {
+            return -static_cast<int64_t>( n.number );
+        }
+    } else {
+        return static_cast<int64_t>( n.number );
+    }
 }
 
 uint64_t JsonIn::get_uint64()
@@ -1744,7 +1775,7 @@ void JsonOut::end_pretty()
         indent_level -= 1;
         // Wrap after ending top level array and object.
         // Also wrap in the special case of exiting an array containing an object.
-        if( indent_level < 2 || need_wrap.back() ) {
+        if( indent_level < 1 || need_wrap.back() ) {
             stream->put( '\n' );
             write_indent();
         } else {

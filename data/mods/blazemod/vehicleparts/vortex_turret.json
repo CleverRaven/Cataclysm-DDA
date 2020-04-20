@@ -1,0 +1,55 @@
+[
+  {
+    "id": "vortexaccelerator",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "vortex accelerator",
+    "item": "vortexaccelerator",
+    "color": "pink",
+    "broken_color": "pink",
+    "size": 1000,
+    "folded_volume": 10,
+    "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
+    "id": "vortexbolter",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "vortex bolter",
+    "item": "vortexbolter",
+    "color": "pink",
+    "broken_color": "pink",
+    "size": 10,
+    "folded_volume": 10,
+    "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
+    "id": "vortexcannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "vortex cannon",
+    "item": "vortexcannon",
+    "color": "pink",
+    "broken_color": "pink",
+    "size": 10,
+    "folded_volume": 20,
+    "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
+    "id": "vortexrifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "vortex rifle",
+    "item": "vortexrifle",
+    "color": "pink",
+    "broken_color": "pink",
+    "difficulty": 4,
+    "size": 40,
+    "folded_volume": 10,
+    "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  }
+]

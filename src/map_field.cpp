@@ -1,65 +1,93 @@
-#include <array>
-#include <cmath>
-#include <cstddef>
 #include <algorithm>
-#include <queue>
-#include <tuple>
-#include <iterator>
-#include <list>
-#include <memory>
-#include <utility>
-#include <vector>
 #include <array>
 #include <bitset>
+#include <cstddef>
+#include <list>
+#include <memory>
+#include <queue>
+#include <set>
 #include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 
-#include "field.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "colony.h"
 #include "coordinate_conversions.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
 #include "emit.h"
 #include "enums.h"
+#include "field.h"
+#include "field_type.h"
 #include "fire.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_contents.h"
 #include "itype.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "material.h"
 #include "messages.h"
+#include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
 #include "overmapbuffer.h"
+#include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "rng.h"
-#include "scent_map.h"
+#include "scent_block.h"
+#include "string_id.h"
 #include "submap.h"
+#include "teleport.h"
 #include "translations.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "bodypart.h"
-#include "creature.h"
-#include "damage.h"
-#include "int_id.h"
-#include "item.h"
-#include "line.h"
-#include "optional.h"
-#include "player.h"
-#include "pldata.h"
-#include "string_id.h"
-#include "units.h"
-#include "type_id.h"
-#include "basecamp.h"
-#include "colony.h"
-#include "game_constants.h"
-#include "point.h"
-#include "scent_block.h"
-#include "mongroup.h"
-#include "teleport.h"
-#include "cata_string_consts.h"
+
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
+
+static const bionic_id bio_heatsink( "bio_heatsink" );
+
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_stung( "stung" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_teargas( "teargas" );
+static const efftype_id effect_webbed( "webbed" );
+
+static const std::string flag_FUNGUS( "FUNGUS" );
+static const std::string flag_GAS_PROOF( "GAS_PROOF" );
+
+static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
+static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
+static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
+static const trait_id trait_M_SKIN2( "M_SKIN2" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
@@ -78,7 +106,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
                 continue;
             }
             const float eff = bp.second;
-            const int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
+            const int n = std::floor( eff * ( by_weight / item::find_type( id )->weight ) );
 
             if( n <= 0 ) {
                 continue;
@@ -383,7 +411,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             const tripoint &p = thep;
             // Get a reference to the field variable from the submap;
             // contains all the pointers to the real field effects.
-            field &curfield = current_submap->fld[locx][locy];
+            field &curfield = current_submap->get_field( { static_cast<int>( locx ), static_cast<int>( locy ) } );
             for( auto it = curfield.begin(); it != curfield.end(); ) {
                 // Iterating through all field effects in the submap's field.
                 field_entry &cur = it->second;
@@ -522,11 +550,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if( destroyed ) {
                                 // If we decided the item was destroyed by fire, remove it.
                                 // But remember its contents, except for irremovable mods, if any
-                                std::copy( fuel->contents.begin(), fuel->contents.end(),
-                                           std::back_inserter( new_content ) );
-                                new_content.erase( std::remove_if( new_content.begin(), new_content.end(), [&]( const item & i ) {
-                                    return i.is_irremovable();
-                                } ), new_content.end() );
+                                const std::list<item *> content_list = fuel->contents.all_items_top();
+                                for( item *it : content_list ) {
+                                    if( !it->is_irremovable() ) {
+                                        new_content.push_back( item( *it ) );
+                                    }
+                                }
                                 fuel = items_here.erase( fuel );
                                 consumed++;
                             } else {
@@ -1112,7 +1141,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                     p->check_dead_state();
                                 } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
-                                    mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
+                                    mon->apply_damage( nullptr, bodypart_id( "torso" ), 6 - mon->get_armor_bash( bp_torso ) );
                                     if( g->u.sees( newp ) ) {
                                         add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                     }
@@ -1719,6 +1748,10 @@ void map::monster_in_field( monster &z )
         // Digging monsters are immune to fields
         return;
     }
+    if( veh_at( z.pos() ) ) {
+        // FIXME: Immune when in a vehicle for now.
+        return;
+    }
     field &curfield = get_field( z.pos() );
 
     int dam = 0;
@@ -1963,7 +1996,7 @@ void map::monster_in_field( monster &z )
     }
 
     if( dam > 0 ) {
-        z.apply_damage( nullptr, bp_torso, dam, true );
+        z.apply_damage( nullptr, bodypart_id( "torso" ), dam, true );
         z.check_dead_state();
     }
 }
@@ -2046,7 +2079,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
 
         int increment = std::max<int>( 1, amount / gas_front.size() );
 
-        while( amount > 0 && !gas_front.empty() ) {
+        while( !gas_front.empty() ) {
             gas_blast gp = random_entry_removed( gas_front );
             closed.insert( gp.second );
             const int cur_intensity = get_field_intensity( gp.second, type );

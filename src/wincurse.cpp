@@ -1,7 +1,8 @@
 #if !defined(TILES) && defined(_WIN32)
 #define UNICODE 1
+#ifndef CMAKE
 #define _UNICODE 1
-
+#endif
 #include "cursesport.h" // IWYU pragma: associated
 
 #include <cstdlib>
@@ -24,6 +25,7 @@
 #include "font_loader.h"
 #include "platform_win.h"
 #include "mmsystem.h"
+#include "ui_manager.h"
 #include "wcwidth.h"
 
 //***********************************
@@ -79,7 +81,7 @@ static std::wstring widen( const std::string &s )
 static bool WinCreate()
 {
     // Get current process handle
-    WindowINST = GetModuleHandle( 0 );
+    WindowINST = GetModuleHandle( nullptr );
     std::string title = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
 
     // Register window class
@@ -92,7 +94,7 @@ static bool WinCreate()
     // Get first resource
     WindowClassType.hIcon         = LoadIcon( WindowINST, MAKEINTRESOURCE( 0 ) );
     WindowClassType.hIconSm       = LoadIcon( WindowINST, MAKEINTRESOURCE( 0 ) );
-    WindowClassType.hCursor       = LoadCursor( NULL, IDC_ARROW );
+    WindowClassType.hCursor       = LoadCursor( nullptr, IDC_ARROW );
     WindowClassType.lpszClassName = szWindowClass;
     if( !RegisterClassExW( &WindowClassType ) ) {
         return false;
@@ -119,35 +121,32 @@ static bool WinCreate()
                                     WindowX, WindowY,
                                     WndRect.right - WndRect.left,
                                     WndRect.bottom - WndRect.top,
-                                    0, 0, WindowINST, NULL );
-    if( WindowHandle == 0 ) {
-        return false;
-    }
+                                    nullptr, nullptr, WindowINST, nullptr );
+    return WindowHandle != nullptr;
 
-    return true;
 }
 
 // Unregisters, releases the DC if needed, and destroys the window.
 static void WinDestroy()
 {
-    if( ( WindowDC != NULL ) && ( ReleaseDC( WindowHandle, WindowDC ) == 0 ) ) {
-        WindowDC = 0;
+    if( ( WindowDC != nullptr ) && ( ReleaseDC( WindowHandle, WindowDC ) == 0 ) ) {
+        WindowDC = nullptr;
     }
-    if( ( !WindowHandle == 0 ) && ( !( DestroyWindow( WindowHandle ) ) ) ) {
-        WindowHandle = 0;
+    if( WindowHandle != nullptr && ( !( DestroyWindow( WindowHandle ) ) ) ) {
+        WindowHandle = nullptr;
     }
     if( !( UnregisterClassW( szWindowClass, WindowINST ) ) ) {
-        WindowINST = 0;
+        WindowINST = nullptr;
     }
 }
 
 // Creates a backbuffer to prevent flickering
 static void create_backbuffer()
 {
-    if( WindowDC != NULL ) {
+    if( WindowDC != nullptr ) {
         ReleaseDC( WindowHandle, WindowDC );
     }
-    if( backbuffer != NULL ) {
+    if( backbuffer != nullptr ) {
         ReleaseDC( WindowHandle, backbuffer );
     }
     WindowDC   = GetDC( WindowHandle );
@@ -163,7 +162,8 @@ static void create_backbuffer()
     bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
     bmi.bmiHeader.biClrUsed      = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
     bmi.bmiHeader.biClrImportant = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
-    backbit = CreateDIBSection( 0, &bmi, DIB_RGB_COLORS, reinterpret_cast<void **>( &dcbits ), NULL,
+    backbit = CreateDIBSection( nullptr, &bmi, DIB_RGB_COLORS, reinterpret_cast<void **>( &dcbits ),
+                                nullptr,
                                 0 );
     DeleteObject( SelectObject( backbuffer, backbit ) ); //load the buffer into DC
 }
@@ -189,6 +189,7 @@ bool handle_resize( int, int )
             throw std::runtime_error( "SetDIBColorTable failed" );
         }
         catacurses::refresh();
+        ui_manager::screen_resized();
     }
 
     return true;
@@ -372,7 +373,10 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
 
         case WM_PAINT:
             BitBlt( WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0, SRCCOPY );
-            ValidateRect( WindowHandle, NULL );
+            ui_manager::invalidate( rectangle( point_zero, point( getmaxx( catacurses::stdscr ),
+                                               getmaxy( catacurses::stdscr ) ) ) );
+            ui_manager::redraw();
+            ValidateRect( WindowHandle, nullptr );
             return 0;
 
         case WM_DESTROY:
@@ -466,7 +470,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                     }
                     if( tmp ) {
                         const std::wstring utf16 = widen( cell.ch );
-                        ExtTextOutW( backbuffer, drawx, drawy, 0, NULL, utf16.c_str(), utf16.length(), NULL );
+                        ExtTextOutW( backbuffer, drawx, drawy, 0, nullptr, utf16.c_str(), utf16.length(), nullptr );
                     }
                 } else {
                     switch( static_cast<unsigned char>( win->line[j].chars[i].ch[0] ) ) {
@@ -533,7 +537,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     // We drew the window, mark it as so
     win->draw = false;
     if( update.top != -1 ) {
-        RedrawWindow( WindowHandle, &update, NULL, RDW_INVALIDATE | RDW_UPDATENOW );
+        RedrawWindow( WindowHandle, &update, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
     }
 }
 
@@ -541,7 +545,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 static void CheckMessages()
 {
     MSG msg;
-    while( PeekMessage( &msg, 0, 0, 0, PM_REMOVE ) ) {
+    while( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) ) {
         TranslateMessage( &msg );
         DispatchMessage( &msg );
     }
@@ -608,7 +612,7 @@ void catacurses::init_interface()
         for( HANDLE findFont = FindFirstFileW( L".\\*", &findData ); findFont != INVALID_HANDLE_VALUE; ) {
             // Skip folders
             if( !( findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) ) {
-                AddFontResourceExW( findData.cFileName, FR_PRIVATE, NULL );
+                AddFontResourceExW( findData.cFileName, FR_PRIVATE, nullptr );
             }
             if( !FindNextFileW( findFont, &findData ) ) {
                 FindClose( findFont );
@@ -657,7 +661,7 @@ input_event input_manager::get_input_event()
     uint64_t Frequency;
     QueryPerformanceFrequency( reinterpret_cast<PLARGE_INTEGER>( &Frequency ) );
     wrefresh( catacurses::stdscr );
-    InvalidateRect( WindowHandle, NULL, true );
+    InvalidateRect( WindowHandle, nullptr, true );
     lastchar = ERR;
     if( inputdelay < 0 ) {
         for( ; lastchar == ERR; Sleep( 1 ) ) {
@@ -723,7 +727,7 @@ void catacurses::endwin()
     DeleteObject( font );
     WinDestroy();
     // Unload it
-    RemoveFontResourceExA( "data\\termfont", FR_PRIVATE, NULL );
+    RemoveFontResourceExA( "data\\font", FR_PRIVATE, nullptr );
 }
 
 template<>

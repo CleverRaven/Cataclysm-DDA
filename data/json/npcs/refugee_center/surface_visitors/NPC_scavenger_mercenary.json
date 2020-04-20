@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_SCAVENGER_MERC",
-    "name": "Mercenary",
+    "name": { "str": "Mercenary" },
     "job_description": "Fighting for the all-mighty dollar.",
     "common": false,
     "traits": [
@@ -45,7 +45,8 @@
     "id": "NC_SCAVENGER_MERC_worn",
     "subtype": "collection",
     "items": [
-      { "item": "modularvestkevlar", "contents-group": "army_mags_m4" },
+      { "item": "ballistic_vest_esapi" },
+      { "item": "legpouch_large", "contents-group": "army_mags_m4" },
       { "item": "boxer_briefs" },
       { "item": "pants_army" },
       { "item": "duster" },

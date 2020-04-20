@@ -3,7 +3,7 @@
     "id": "shot_double",
     "copy-from": "shotgun_d",
     "type": "GUN",
-    "name": "double-barrel shotgun",
+    "name": { "str": "double-barrel shotgun" },
     "ammo": "ammo_shot",
     "description": "An old-fashioned double barreled shotgun, with a trigger for each barrel.  Follow up shots are incredibly quick with this, but reloading is a bit slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds."
   },
@@ -11,7 +11,7 @@
     "id": "shot_pipe_double",
     "copy-from": "pipe_double_shotgun",
     "type": "GUN",
-    "name": "double-barrel pipe shotgun",
+    "name": { "str": "double-barrel pipe shotgun" },
     "ammo": "ammo_shot",
     "description": "A crudely handmade double barreled shotgun, with a trigger for each barrel.  Follow up shots are incredibly quick with this, but reloading is slow, as there are no extractors or ejectors.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds."
   },
@@ -21,7 +21,7 @@
     "type": "GUN",
     "name": "sporting shotgun",
     "ammo": "ammo_shot",
-    "description": "A tube magazine fed shotgun, a simple and long-popular design among law enforcement, civilians and in some military applications.  Though reloading is slow and the recoil can be stout, shotgun ammo comes in many varieties and are suitable for anything from large game to small birds.",
+    "description": "A simple, popular design, sporting shotguns are used by law enforcement, civilians and occasionally militaries.  Its internal magazine is small by modern standards, and reloading can be quite slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
     "clip_size": 6
   },
   {
@@ -30,7 +30,14 @@
     "type": "GUN",
     "name": "tactical shotgun",
     "ammo": "ammo_shot",
-    "description": "A detachable magazine fed shotgun, mostly oriented towards overly enthusiastic civilians.  Featuring rails and a menancing black finish and furniture, this sort of shotgun doesn't really look like it has a sporting use.  Though such systems tend to not work well overall, the box magazine feed reduces the lengthy reloading times associated with shotguns.  These can be tuned to run somewhat reliably for competition use.",
+    "description": "A detachable magazine fed shotgun, mostly oriented towards overly enthusiastic civilians.  Featuring rails and a menacing black appearance, this sort of shotgun doesn't really look like it has a sporting use.  The magazines reduce lengthy reloading times associated with shotguns.  Though known for being somewhat finicky, these can be tuned to run with some reliability.",
     "magazines": [ [ "ammo_shot", [ "shot_mag" ] ] ]
+  },
+  {
+    "id": "bio_shotgun_gun",
+    "copy-from": "bio_shotgun_gun",
+    "type": "GUN",
+    "name": { "str": "bionic shotgun" },
+    "ammo": "ammo_shot"
   }
 ]

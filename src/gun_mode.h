@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GUN_MODE_H
-#define GUN_MODE_H
+#ifndef CATA_SRC_GUN_MODE_H
+#define CATA_SRC_GUN_MODE_H
 
 #include <set>
 #include <string>
@@ -61,4 +61,4 @@ class gun_mode
         }
 };
 
-#endif
+#endif // CATA_SRC_GUN_MODE_H

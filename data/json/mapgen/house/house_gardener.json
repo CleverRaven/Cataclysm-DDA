@@ -90,5 +90,62 @@
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_gardener_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |||||||                ",
+        " |2....|                ",
+        " |.....|||||||||||||||  ",
+        " |.......g..1........|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |ZW.JJJ.............|  ",
+        " |%%+%%%.............|  ",
+        " |9....%<............|  ",
+        " |t.88S%.z...........|  ",
+        " |||||||Fzz..........|  ",
+        "       |||||||||||||||  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 80 ], [ "room_9x9_recroom_W", 40 ], [ "room_9x9_cellar_W", 20 ], [ "room_9x9_weed_W", 5 ] ] },
+        "2": {
+          "chunks": [
+            [ "null", 90 ],
+            [ "5x5_holdout_S", 2 ],
+            [ "5x5_sauna_S", 10 ],
+            [ "5x5_gym_S", 20 ],
+            [ "5x5_gym_W", 20 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        }
+      }
+    }
   }
 ]

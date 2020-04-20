@@ -90,13 +90,13 @@
     "id": "CLIMATE_CONTROL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This piece of clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
+    "info": "This clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
   },
   {
     "id": "COLLAR",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This piece of clothing has a <info>wide collar</info> that can keep your mouth warm if it is unencumbered."
+    "info": "This clothing has a <info>wide collar</info> that can keep your mouth warm if it is unencumbered."
   },
   {
     "id": "DEAF",
@@ -160,7 +160,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
-    "info": "This piece of clothing is <info>fancy</info>.",
+    "info": "This clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
   },
   {
@@ -237,7 +237,7 @@
     "id": "HOOD",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This piece of clothing has a <info>hood</info> to keep your head warm if your head is unencumbered."
+    "info": "This clothing has a <info>hood</info> to keep your head warm if your head is unencumbered."
   },
   {
     "id": "HYGROMETER",
@@ -308,7 +308,7 @@
     "id": "UNDERSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Can be worn comfortably by mutants with Tiny or Unassuming.  Too small for anyone else."
+    "//": "This clothing can be worn comfortably by mutants with Tiny or Unassuming.  Too small for anyone else."
   },
   {
     "id": "PARTIAL_DEAF",
@@ -331,6 +331,12 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Increases warmth for hands if the player's hands are cold and the player is wielding nothing.",
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
+  },
+  {
+    "id": "POLEARM",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
   },
   {
     "id": "POWERED",
@@ -376,7 +382,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Prevents the covered body-part(s) from getting wet in the rain.",
-    "info": "This piece of clothing is designed to keep you <info>dry</info> in the rain."
+    "info": "This clothing is designed to keep you <info>dry</info> in the rain."
   },
   {
     "id": "RESTRICT_HANDS",
