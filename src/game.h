@@ -240,9 +240,6 @@ class game
         // when force_redraw is true, redraw all panel instead of just animated panels
         // mostly used after UI updates
         void draw_panels( bool force_draw = false );
-        // when force_redraw is true, redraw all panel instead of just animated panels
-        // mostly used after UI updates
-        void draw_panels( size_t column, size_t index, bool force_draw = false );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.
@@ -594,7 +591,6 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
-        void toggle_panel_adm();
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -974,9 +970,6 @@ class game
         catacurses::window w_minimap;
         catacurses::window w_pixel_minimap;
         //only a pointer, can refer to w_messages_short or w_messages_long
-
-        catacurses::window w_panel_adm_ptr;
-        catacurses::window w_panel_adm;
 
         catacurses::window w_blackspace;
 

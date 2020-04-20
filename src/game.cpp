@@ -557,9 +557,6 @@ void game::init_ui( const bool resized )
     w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, point( _x, _y ) );
     werase( w_minimap );
 
-    w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 20, 75, point( ( TERMX / 2 ) - 38,
-                                    ( TERMY / 2 ) - 10 ) );
-    werase( w_panel_adm );
     // need to init in order to avoid crash. gets updated by the panel code.
     w_pixel_minimap = catacurses::newwin( 1, 1, point_zero );
     liveview.init();
@@ -593,11 +590,6 @@ void game::toggle_pixel_minimap()
     init_ui();
     refresh_all();
 #endif // TILES
-}
-
-void game::toggle_panel_adm()
-{
-    show_panel_adm = !show_panel_adm;
 }
 
 void game::reload_tileset()
@@ -3303,11 +3295,6 @@ void game::draw()
 
 void game::draw_panels( bool force_draw )
 {
-    draw_panels( 0, 1, force_draw );
-}
-
-void game::draw_panels( size_t column, size_t index, bool force_draw )
-{
     static int previous_turn = -1;
     const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const bool draw_this_turn = current_turn > previous_turn || force_draw;
@@ -3360,9 +3347,6 @@ void game::draw_panels( size_t column, size_t index, bool force_draw )
                 y += h;
             }
         }
-    }
-    if( show_panel_adm ) {
-        mgr.draw_adm( w_panel_adm, column, index );
     }
     previous_turn = current_turn;
 }
