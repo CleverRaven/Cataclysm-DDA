@@ -625,6 +625,7 @@ void Character::load( const JsonObject &data )
     }
     data.read( "stomach", stomach );
     data.read( "guts", guts );
+    data.read( "automoveroute", auto_move_route );
 }
 
 /**
@@ -751,6 +752,7 @@ void Character::store( JsonOut &json ) const
     }
     json.member( "stomach", stomach );
     json.member( "guts", guts );
+    json.member( "automoveroute", auto_move_route );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -799,8 +801,6 @@ void player::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-
-    json.member( "automoveroute", auto_move_route );
 
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
@@ -883,8 +883,6 @@ void player::load( const JsonObject &data )
         const std::string t = pmap.get_string( "trap" );
         known_traps.insert( trap_map::value_type( p, t ) );
     }
-
-    data.read( "automoveroute", auto_move_route );
 
     // Add the earplugs.
     if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
