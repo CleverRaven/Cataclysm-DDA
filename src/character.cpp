@@ -4213,7 +4213,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         } else if( recently_ate && contains >= cap * 3 / 8 ) {
             hunger_string = _( "Full" );
             hunger_color = c_green;
-        } else if( !just_ate && ( recently_ate || contains > 0_ml ) && contains < cap * 3 / 8 ) {
+        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
             hunger_string.clear();
         } else {
             if( get_bmi() > character_weight_category::overweight ) {
