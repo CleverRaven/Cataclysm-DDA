@@ -99,7 +99,7 @@
     "copy-from": "chem_ethanol",
     "type": "COMESTIBLE",
     "name": "superior potion starter",
-    "description": "Pure ethanol saturated with magical energy. The sheer power concentrated within causes the surface of the potion to ripple continuously."
+    "description": "Pure ethanol saturated with magical energy.  The sheer power concentrated within causes the surface of the potion to ripple continuously."
   },
   {
     "id": "adrenal_gland_large",
