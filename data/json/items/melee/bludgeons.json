@@ -886,7 +886,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "sharp_toothbrush",
+    "id": { "str": "sharp_toothbrush" },
     "symbol": ",",
     "color": "light_blue",
     "name": { "str": "plastic shank", "str_pl": "plastic shanks" },
