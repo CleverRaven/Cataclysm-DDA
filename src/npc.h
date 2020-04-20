@@ -953,7 +953,7 @@ class npc : public player
                    bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
-        spell *has_castable_healing_spell( const bool self );
+        spell *has_castable_healing_spell( bool self );
         healing_options patient_assessment( const Character &c );
         healing_options has_healing_options();
         healing_options has_healing_options( healing_options try_to_fix );
