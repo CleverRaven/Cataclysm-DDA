@@ -349,7 +349,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
                        ( targ.x - cursx ) : 4;
 
-        if( cursx == targ.x || fabs( slope ) > 3.5 ) {  // Vertical slope
+        if( cursx == targ.x || std::fabs( slope ) > 3.5 ) {  // Vertical slope
             if( targ.y > cursy ) {
                 mvwputch( w_minimap, point( 3 + start_x, 6 + start_y ), c_red, '*' );
             } else {
@@ -358,7 +358,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         } else {
             int arrowx = -1;
             int arrowy = -1;
-            if( fabs( slope ) >= 1. ) {  // y diff is bigger!
+            if( std::fabs( slope ) >= 1. ) {  // y diff is bigger!
                 arrowy = ( targ.y > cursy ? 6 : 0 );
                 arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
@@ -850,9 +850,9 @@ static int get_int_digits( const int &digits )
 {
     int temp = std::abs( digits );
     if( digits > 0 ) {
-        return static_cast<int>( log10( static_cast<double>( temp ) ) ) + 1;
+        return static_cast<int>( std::log10( static_cast<double>( temp ) ) ) + 1;
     } else if( digits < 0 ) {
-        return static_cast<int>( log10( static_cast<double>( temp ) ) ) + 2;
+        return static_cast<int>( std::log10( static_cast<double>( temp ) ) ) + 2;
     }
     return 1;
 }

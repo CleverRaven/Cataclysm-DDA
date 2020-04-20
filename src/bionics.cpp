@@ -451,7 +451,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                            g->is_sheltered( g->u.pos() ) );
         // thirst units = 5 mL
-        int water_available = lround( humidity * 3.0 / 100.0 );
+        int water_available = std::lround( humidity * 3.0 / 100.0 );
         if( water_available == 0 ) {
             bio.powered = false;
             add_msg_if_player( m_bad, _( "There is not enough humidity in the air for your %s to function." ),
@@ -1519,7 +1519,7 @@ void Character::process_bionic( int b )
             int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                                g->is_sheltered( g->u.pos() ) );
             // in thirst units = 5 mL water
-            int water_available = lround( humidity * 3.0 / 100.0 );
+            int water_available = std::lround( humidity * 3.0 / 100.0 );
             // At 50% relative humidity or more, the player will draw 10 mL
             // At 16% relative humidity or less, the bionic will give up
             if( water_available == 0 ) {

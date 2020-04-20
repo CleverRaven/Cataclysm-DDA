@@ -1468,9 +1468,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
         static const double recoil_per_deg = MAX_RECOIL / 180;
 
-        const double phi = fmod( std::abs( coord_to_angle( pc.pos(), dst ) -
-                                           coord_to_angle( pc.pos(), recoil_pos ) ),
-                                 360.0 );
+        const double phi = std::fmod( std::abs( coord_to_angle( pc.pos(), dst ) -
+                                                coord_to_angle( pc.pos(), recoil_pos ) ),
+                                      360.0 );
         const double angle = phi > 180.0 ? 360.0 - phi : phi;
 
         return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );

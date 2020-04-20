@@ -1224,7 +1224,7 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             double raddir = ( ( g->weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
             windvec = windvec.normalized();
             windvec.y = -cos( raddir );
-            windvec.x = sin( raddir );
+            windvec.x = std::sin( raddir );
             rl_vec2d fv = face_vec();
             double dot = windvec.dot_product( fv );
             if( dot <= 0 ) {
@@ -3798,7 +3798,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );
     // Even a vehicle with engines off will make noise traveling at high speeds
-    noise = std::max( noise, static_cast<double>( fabs( velocity / 500.0 ) ) );
+    noise = std::max( noise, static_cast<double>( std::fabs( velocity / 500.0 ) ) );
     int lvl = 0;
     if( one_in( 4 ) && rng( 0, 30 ) < noise ) {
         while( noise > sounds[lvl].second ) {
