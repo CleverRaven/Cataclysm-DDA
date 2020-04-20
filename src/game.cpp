@@ -955,7 +955,7 @@ void game::load_npcs()
         if( temp->is_active() ) {
             continue;
         }
-        if( ( temp->has_companion_mission() ) && ( temp->mission != NPC_MISSION_TRAVELLING ) ) {
+        if( temp->has_companion_mission() ) {
             continue;
         }
 
