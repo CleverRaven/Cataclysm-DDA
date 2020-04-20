@@ -598,7 +598,7 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "VEGETARIAN" ],
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "flags": [ "STRICT_HUMANITARIAN" ]
   },
   {
     "type": "mutation",
