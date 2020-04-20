@@ -1418,7 +1418,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto. Can only be installed on a part with ```TURRET``` flag.
 - ```TURRET_MOUNT``` Parts with this flag are suitable for installing turrets.
 - ```TURRET``` Is a weapon turret. Can only be installed on a part with ```TURRET_MOUNT``` flag.
-- ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.
+- ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage. Item is new and typically undamaged.
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```VISION```
