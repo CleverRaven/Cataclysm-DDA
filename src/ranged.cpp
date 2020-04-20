@@ -103,23 +103,23 @@ int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
-enum target_mode : int {
-    TARGET_MODE_FIRE,
-    TARGET_MODE_THROW,
-    TARGET_MODE_TURRET,
-    TARGET_MODE_TURRET_MANUAL,
-    TARGET_MODE_REACH,
-    TARGET_MODE_THROW_BLIND,
-    TARGET_MODE_SPELL
-};
-
 class target_ui
 {
     public:
         /* None of the public members (except ammo and range) should be modified during execution */
 
+        enum class TargetMode {
+            Fire,
+            Throw,
+            ThrowBlind,
+            Turrets,
+            TurretManual,
+            Reach,
+            Spell
+        };
+
         // Interface mode
-        target_mode mode = TARGET_MODE_FIRE;
+        TargetMode mode = TargetMode::Fire;
         // Weapon being fired/thrown
         item *relevant = nullptr;
         // Cached selection range from player's position
@@ -190,7 +190,7 @@ class target_ui
         // Input context
         input_context ctxt;
 
-        /* These members are relevant for TARGET_MODE_FIRE */
+        /* These members are relevant for TargetMode::Fire */
         // Weapon sight dispersion
         int sight_dispersion = 0;
         // List of available weapon aim types
@@ -205,7 +205,7 @@ class target_ui
         double predicted_recoil;
 
         // For AOE spells, list of tiles affected by the spell
-        // relevant for TARGET_MODE_SPELL
+        // relevant for TargetMode::Spell
         std::set<tripoint> spell_aoe;
 
         // List of vehicle turrets in range (out of those listed in 'vturrets')
@@ -256,12 +256,12 @@ class target_ui
 
         // Recalculate 'recoil' penalty. This should be called if
         // player's 'recoil' value has been modified
-        // Relevant for TARGET_MODE_FIRE
+        // Relevant for TargetMode::Fire
         void recalc_aim_turning_penalty( player &pc );
 
         // Apply penalty to player's 'recoil' value based on
         // how much they moved their aim point.
-        // Relevant for TARGET_MODE_FIRE
+        // Relevant for TargetMode::Fire
         void apply_aim_turning_penalty( player &pc );
 
         // Switch firing mode.
@@ -314,7 +314,7 @@ target_handler::trajectory target_handler::mode_fire( player &pc, item &weapon,
         bool &reload_requested )
 {
     target_ui ui = target_ui();
-    ui.mode = TARGET_MODE_FIRE;
+    ui.mode = target_ui::TargetMode::Fire;
     ui.relevant = &weapon;
     gun_mode gun = weapon.gun_current_mode();
     ui.range = gun.target->gun_range( &pc );
@@ -330,7 +330,7 @@ target_handler::trajectory target_handler::mode_throw( player &pc, item &relevan
         bool blind_throwing )
 {
     target_ui ui = target_ui();
-    ui.mode = blind_throwing ? TARGET_MODE_THROW_BLIND : TARGET_MODE_THROW;
+    ui.mode = blind_throwing ? target_ui::TargetMode::ThrowBlind : target_ui::TargetMode::Throw;
     ui.relevant = &relevant;
     ui.range = pc.throw_range( relevant );
 
@@ -340,7 +340,7 @@ target_handler::trajectory target_handler::mode_throw( player &pc, item &relevan
 target_handler::trajectory target_handler::mode_reach( player &pc, item &weapon )
 {
     target_ui ui = target_ui();
-    ui.mode = TARGET_MODE_REACH;
+    ui.mode = target_ui::TargetMode::Reach;
     ui.relevant = &weapon;
     ui.range = weapon.current_reach_range( pc );
 
@@ -350,7 +350,7 @@ target_handler::trajectory target_handler::mode_reach( player &pc, item &weapon 
 target_handler::trajectory target_handler::mode_turret_manual( player &pc, turret_data &turret )
 {
     target_ui ui = target_ui();
-    ui.mode = TARGET_MODE_TURRET_MANUAL;
+    ui.mode = target_ui::TargetMode::TurretManual;
     ui.turret = &turret;
     ui.relevant = &*turret.base();
     ui.range = turret.range();
@@ -379,7 +379,7 @@ target_handler::trajectory target_handler::mode_turrets( player &pc, vehicle &ve
     }
 
     target_ui ui = target_ui();
-    ui.mode = TARGET_MODE_TURRET;
+    ui.mode = target_ui::TargetMode::Turrets;
     ui.veh = &veh;
     ui.vturrets = &turrets;
     ui.range = range_total;
@@ -391,7 +391,7 @@ target_handler::trajectory target_handler::mode_spell( player &pc, spell &castin
         bool no_mana )
 {
     target_ui ui = target_ui();
-    ui.mode = TARGET_MODE_SPELL;
+    ui.mode = target_ui::TargetMode::Spell;
     ui.casting = &casting;
     ui.range = casting.range();
     ui.no_fail = no_fail;
@@ -1202,7 +1202,7 @@ static std::string get_colored_bar( const double val, const int width, const std
 }
 
 static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number,
-                                target_mode mode, input_context &ctxt, const item &ranged_weapon,
+                                target_ui::TargetMode mode, input_context &ctxt, const item &ranged_weapon,
                                 const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
                                 double range, double target_size, int recoil = 0 )
 {
@@ -1212,7 +1212,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     nc_color col = c_dark_gray;
 
     std::vector<aim_type> aim_types;
-    if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
+    if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
         aim_types = get_default_aim_type();
     } else {
         aim_types = p.get_aim_types( ranged_weapon );
@@ -1246,7 +1246,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
 
         int moves_to_fire;
-        if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
+        if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
             moves_to_fire = throw_cost( p, ranged_weapon );
         } else {
             moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( p,
@@ -1338,7 +1338,8 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
     const double range = rl_dist( p.pos(), pos );
     line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( p, w, line_number, TARGET_MODE_FIRE, ctxt, *weapon, dispersion,
+    return print_ranged_chance( p, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
+                                dispersion,
                                 confidence_config,
                                 range, target_size, predicted_recoil );
 }
@@ -1370,8 +1371,9 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const auto &confidence_config = target != nullptr ?
                                     confidence_config_critter : confidence_config_object;
 
-    const target_mode throwing_target_mode = is_blind_throw ? TARGET_MODE_THROW_BLIND :
-            TARGET_MODE_THROW;
+    const target_ui::TargetMode throwing_target_mode = is_blind_throw ?
+            target_ui::TargetMode::ThrowBlind :
+            target_ui::TargetMode::Throw;
     return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, weapon, dispersion,
                                 confidence_config,
                                 range, target_size );
@@ -1791,10 +1793,10 @@ double player::gun_value( const item &weap, int ammo ) const
 
 target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 {
-    if( mode == TARGET_MODE_SPELL && !no_mana && !casting->can_cast( pc ) ) {
+    if( mode == TargetMode::Spell && !no_mana && !casting->can_cast( pc ) ) {
         pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                               casting->energy_string() );
-    } else if( mode == TARGET_MODE_FIRE ) {
+    } else if( mode == TargetMode::Fire ) {
         sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
     }
 
@@ -1807,7 +1809,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 
     // Handle multi-turn aiming
     std::string action;
-    if( mode == TARGET_MODE_FIRE ) {
+    if( mode == TargetMode::Fire ) {
         if( pc.activity.id() == ACT_AIM ) {
             // We were in this UI during previous turn...
             std::string act_data = pc.activity.str_values[0];
@@ -1853,7 +1855,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
         }
 
         // If an aiming mode is selected, use "*_SHOT" instead of "FIRE"
-        if( mode == TARGET_MODE_FIRE && action == "FIRE" && aim_mode->has_threshold ) {
+        if( mode == TargetMode::Fire && action == "FIRE" && aim_mode->has_threshold ) {
             action = aim_mode->action;
         }
 
@@ -1885,7 +1887,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             if( status != Status::Good ) {
                 continue;
             }
-            bool can_skip_confirm = ( mode == TARGET_MODE_SPELL && casting->damage() <= 0 );
+            bool can_skip_confirm = ( mode == TargetMode::Spell && casting->damage() <= 0 );
             if( !can_skip_confirm && !confirm_non_enemy_target() ) {
                 continue;
             }
@@ -2003,16 +2005,16 @@ void target_ui::init_window_and_input( player &pc )
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         ctxt.register_action( "SWITCH_MODE" );
         ctxt.register_action( "SWITCH_AMMO" );
     }
-    if( mode == TARGET_MODE_FIRE ) {
+    if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
         ctxt.register_action( "SWITCH_AIM" );
     }
 
-    if( mode == TARGET_MODE_FIRE ) {
+    if( mode == TargetMode::Fire ) {
         aim_types = pc.get_aim_types( *relevant );
         for( aim_type &type : aim_types ) {
             if( type.has_threshold ) {
@@ -2163,9 +2165,9 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
     }
 
     // Update mode-specific stuff
-    if( mode == TARGET_MODE_FIRE ) {
+    if( mode == TargetMode::Fire ) {
         recalc_aim_turning_penalty( pc );
-    } else if( mode == TARGET_MODE_SPELL ) {
+    } else if( mode == TargetMode::Spell ) {
         const std::string fx = casting->effect();
         if( fx == "target_attack" || fx == "projectile_attack" || fx == "ter_transform" ) {
             spell_aoe = spell_effect::spell_effect_blast( *casting, src, dst, casting->aoe(), true );
@@ -2176,7 +2178,7 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
         } else {
             spell_aoe.clear();
         }
-    } else if( mode == TARGET_MODE_TURRET ) {
+    } else if( mode == TargetMode::Turrets ) {
         update_turrets_in_range();
     }
 
@@ -2221,7 +2223,7 @@ bool target_ui::init_targeting( player &pc, tripoint &new_dst )
             local_last_tgt_pos = local;
         }
     }
-    if( mode == TARGET_MODE_FIRE && pc.recoil == MAX_RECOIL ) {
+    if( mode == TargetMode::Fire && pc.recoil == MAX_RECOIL ) {
         // We've either moved away, used a bow or a gun with MASSIVE recoil. It doesn't really matter
         // where we were aiming at, might as well start from scratch.
         pc.last_target_pos = cata::nullopt;
@@ -2262,10 +2264,10 @@ bool target_ui::init_targeting( player &pc, tripoint &new_dst )
 
 void target_ui::update_status()
 {
-    if( mode == TARGET_MODE_TURRET && turrets_in_range.empty() ) {
+    if( mode == TargetMode::Turrets && turrets_in_range.empty() ) {
         // None of the turrets are in range
         status = Status::OutOfRange;
-    } else if( ( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) && range == 0 ) {
+    } else if( ( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) && range == 0 ) {
         // Selected gun mode is empty
         status = Status::OutOfAmmo;
     } else if( src == dst ) {
@@ -2412,7 +2414,7 @@ void target_ui::action_switch_mode( player &pc )
     if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
         relevant->gun_cycle_mode();
     }
-    if( mode == TARGET_MODE_TURRET_MANUAL ) {
+    if( mode == TargetMode::TurretManual ) {
         itype_id ammo_current = turret->ammo_current();
         if( ammo_current == "null" ) {
             ammo = nullptr;
@@ -2430,7 +2432,7 @@ void target_ui::action_switch_mode( player &pc )
 
 bool target_ui::action_switch_ammo()
 {
-    if( mode == TARGET_MODE_TURRET_MANUAL ) {
+    if( mode == TargetMode::TurretManual ) {
         // For turrets that use vehicle tanks & can fire multiple liquids
         if( turret->ammo_options().size() > 1 ) {
             const auto opts = turret->ammo_options();
@@ -2534,7 +2536,7 @@ void target_ui::draw_terrain( player &pc )
     }
 
     // Draw spell AOE
-    if( mode == TARGET_MODE_SPELL ) {
+    if( mode == TargetMode::Spell ) {
         for( const tripoint &tile : spell_aoe ) {
             if( tile.z != center.z ) {
                 continue;
@@ -2566,11 +2568,11 @@ void target_ui::draw_ui_window( player &pc )
     panel_cursor_info( text_y );
     text_y += compact ? 0 : 1;
 
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         panel_gun_info( text_y );
         panel_recoil( pc, text_y );
         text_y += compact ? 0 : 1;
-    } else if( mode == TARGET_MODE_SPELL ) {
+    } else if( mode == TargetMode::Spell ) {
         panel_spell_info( pc, text_y );
         text_y += compact ? 0 : 1;
     }
@@ -2578,14 +2580,14 @@ void target_ui::draw_ui_window( player &pc )
     panel_target_info( pc, text_y );
     text_y += compact ? 0 : 1;
 
-    if( mode == TARGET_MODE_TURRET ) {
+    if( mode == TargetMode::Turrets ) {
         panel_turret_list( text_y );
     } else if( status == Status::Good ) {
         // TODO: these are old, consider refactoring
-        if( mode == TARGET_MODE_FIRE ) {
+        if( mode == TargetMode::Fire ) {
             panel_fire_mode_aim( pc, text_y );
-        } else if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
-            bool blind = ( mode == TARGET_MODE_THROW_BLIND );
+        } else if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
+            bool blind = ( mode == TargetMode::ThrowBlind );
             draw_throw_aim( pc, w_target, text_y, ctxt, *relevant, dst, blind );
         }
     }
@@ -2596,12 +2598,12 @@ void target_ui::draw_ui_window( player &pc )
 std::string target_ui::uitext_title()
 {
     switch( mode ) {
-        case TARGET_MODE_FIRE:
-        case TARGET_MODE_TURRET_MANUAL:
+        case TargetMode::Fire:
+        case TargetMode::TurretManual:
             return string_format( _( "Firing %s" ), relevant->tname() );
-        case TARGET_MODE_THROW:
+        case TargetMode::Throw:
             return string_format( _( "Throwing %s" ), relevant->tname() );
-        case TARGET_MODE_THROW_BLIND:
+        case TargetMode::ThrowBlind:
             return string_format( _( "Blind throwing %s" ), relevant->tname() );
         default:
             return _( "Set target" );
@@ -2610,11 +2612,11 @@ std::string target_ui::uitext_title()
 
 std::string target_ui::uitext_fire()
 {
-    if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
+    if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
         return to_translation( "[Hotkey] to throw", "to throw" ).translated();
-    } else if( mode == TARGET_MODE_REACH ) {
+    } else if( mode == TargetMode::Reach ) {
         return to_translation( "[Hotkey] to attack", "to attack" ).translated();
-    } else if( mode == TARGET_MODE_SPELL ) {
+    } else if( mode == TargetMode::Spell ) {
         return to_translation( "[Hotkey] to cast the spell", "to cast" ).translated();
     } else {
         return to_translation( "[Hotkey] to fire", "to fire" ).translated();
@@ -2649,13 +2651,13 @@ int target_ui::draw_controls_list()
         mvwprintz( w_target, point( 1, text_y ), move_color, label_mouse );
         mvwprintz( w_target, point( text_x, text_y-- ), fire_color, _( "RMB: Fire" ) );
     }
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "[%c] to reload/switch ammo." ),
                    bound_key( "SWITCH_AMMO" ) );
         mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "[%c] to switch firing modes." ),
                    bound_key( "SWITCH_MODE" ) );
     }
-    if( mode == TARGET_MODE_FIRE ) {
+    if( mode == TargetMode::Fire ) {
         std::string aim_and_fire;
         for( const auto &e : aim_types ) {
             if( e.has_threshold ) {
@@ -2692,7 +2694,7 @@ void target_ui::panel_cursor_info( int &text_y )
     } else {
         label_range = string_format( "Range: %d/%d", dist_fn( dst ), range );
     }
-    if( status == Status::OutOfRange && mode != TARGET_MODE_TURRET ) {
+    if( status == Status::OutOfRange && mode != TargetMode::Turrets ) {
         // Since each turret has its own range, highlighting cursor
         // range with red is misleading
         label_range = colorize( label_range, c_red );
