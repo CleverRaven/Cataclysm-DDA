@@ -737,7 +737,11 @@
     "name": { "str": "meat nachos", "str_pl": "meat nachos" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "niño nachos", "str_pl": "niño nachos" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "nibelung nachos", "str_pl": "nibelung nachos" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "nibelung nachos", "str_pl": "nibelung nachos" }
+      },
       {
         "type": "COMPONENT_ID",
         "condition": "mutant",

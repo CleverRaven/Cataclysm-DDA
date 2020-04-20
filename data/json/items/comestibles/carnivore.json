@@ -336,7 +336,11 @@
     "name": { "str": "meat jerky", "str_pl": "meat jerky" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "jerk jerky", "str_pl": "jerk jerky" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "talking animal jerky", "str_pl": "talking animal jerky" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "talking animal jerky", "str_pl": "talking animal jerky" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "monster jerky", "str_pl": "monster jerky" } }
     ],
     "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
@@ -379,7 +383,11 @@
     "name": "smoked meat",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "smoked sucker", "str_pl": "smoked sucker" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "smoked Narnian", "str_pl": "smoked Narnian" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "smoked Narnian", "str_pl": "smoked Narnian" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
     ],
     "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
@@ -870,7 +878,8 @@
     "copy-from": "raw_leather",
     "name": "raw demihuman skin",
     "description": "A carefully folded raw skin harvested from a demihuman.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
-    "material": "hflesh"
+    "material": "hflesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1022,7 +1031,8 @@
     "type": "COMESTIBLE",
     "name": "demihuman stomach",
     "description": "The stomach of an intelligent demihuman.  It is surprisingly durable.",
-    "material": "hflesh"
+    "material": "hflesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "id": "demihuman_stomach_large",
@@ -1030,7 +1040,8 @@
     "type": "COMESTIBLE",
     "name": "large demihuman stomach",
     "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
-    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 },
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "id": "demihuman_fat",
@@ -1039,7 +1050,8 @@
     "name": "chunk of demihuman fat",
     "name_plural": "chunks of demihuman fat",
     "description": "Freshly harvested from a human body.",
-    "material": "hflesh"
+    "material": "hflesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1049,14 +1061,16 @@
     "description": "A smooth white block of cleaned and rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "price": 500,
     "//": "*May* have been commercially traded.",
-    "material": "hflesh"
+    "material": "hflesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "type": "COMESTIBLE",
     "id": "demihuman_lard",
     "name": "demihuman lard",
     "copy-from": "human_tallow",
-    "description": "A smooth white block of dry-rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+    "description": "A smooth white block of dry-rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "id": "demihuman_flesh",
@@ -1066,7 +1080,8 @@
     "name": "demihuman flesh",
     "name_plural": "demihuman fleshes",
     "description": "Freshly butchered from a demihuman body.",
-    "material": "hflesh"
+    "material": "hflesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "id": "demihuman_cooked",
@@ -1078,7 +1093,7 @@
     "parasites": 0,
     "healthy": 0,
     "fun": 0,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT", "STRICT_HUMANITARIANISM" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1087,6 +1102,7 @@
     "name": "boiled human stomach",
     "calories": 120,
     "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
-    "material": "hflesh"
+    "material": "hflesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   }
 ]
