@@ -2323,7 +2323,6 @@ bool game::handle_action()
 
             case ACTION_OPTIONS:
                 get_options().show( true );
-                g->init_ui( true );
                 break;
 
             case ACTION_AUTOPICKUP:
