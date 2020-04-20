@@ -254,28 +254,28 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 s" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 s" }
     },
-    "flags": [ "FOLDABLE", "AISLE" ]
+    "flags": [ "INITIAL_PART", "FOLDABLE", "AISLE" ]
   },
   {
-    "id": "space_anomaly",
+    "id": "stabilized_cargo_portal",
     "type": "vehicle_part",
-    "name": "cargo dimension",
+    "name": "pocket dimension cargo",
     "//": "Keep away from Svarog detectors!",
-    "item": "space_anomaly",
+    "item": "stablilized_portal",
     "location": "center",
     "symbol": "O",
     "broken_symbol": "O",
     "color": "magenta",
     "broken_color": "magenta",
     "durability": 400,
-    "size": 40000,
+    "size": 6000,
     "cargo_weight_modifier": 0,
-    "breaks_into": [  ],
+    "breaks_into": [ { "item": "cargo_rack", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "CARGO", "COVERED", "UNMOUNT_ON_DAMAGE" ]
+    "flags": [ "CARGO", "COVERED" ]
   }
 ]

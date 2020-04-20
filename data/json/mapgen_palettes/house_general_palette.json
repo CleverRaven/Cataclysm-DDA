@@ -64,7 +64,10 @@
       "7": "f_cupboard",
       "8": "f_counter",
       "9": "f_shower",
-      "@": "f_bed"
+      "@": "f_bed",
+      "Ø": "f_pinball_machine",
+      "Æ": "f_arcade_machine",
+      "ʭ": "f_ladder"
     },
     "terrain": {
       "j": "t_region_groundcover_urban",
