@@ -1574,7 +1574,7 @@ void Character::expose_to_disease( const diseasetype_id dis_type )
 
 void Character::process_turn()
 {
-    migrate_items_to_storage();
+    migrate_items_to_storage( false );
 
     for( bionic &i : *my_bionics ) {
         if( i.incapacitated_time > 0_turns ) {
@@ -2210,7 +2210,7 @@ item_pocket *Character::best_pocket( const item &it, const item *avoid )
     return ret;
 }
 
-item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
+item *Character::try_add( item it, const item *avoid )
 {
     itype_id item_type_id = it.typeId();
     last_item = item_type_id;
@@ -2227,10 +2227,11 @@ item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
     }
     item_pocket *pocket = best_pocket( it, avoid );
     if( pocket == nullptr ) {
-        if( !wield( it ) ) {
-            return g->m.add_item_or_charges( pos(), it );
+        if( has_weapon() ) {
+            return nullptr;
         } else {
-            return weapon;
+            wield( it );
+            return &weapon;
         }
     } else {
         pocket->add( it );
@@ -2240,7 +2241,17 @@ item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
         }
         ret.on_pickup( *this );
         cached_info.erase( "reloadables" );
-        return ret;
+        return &ret;
+    }
+}
+
+item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
+{
+    item *added = try_add( it, avoid );
+    if( added == nullptr && !wield( it ) ) {
+        return g->m.add_item_or_charges( pos(), it );
+    } else {
+        return *added;
     }
 }
 
@@ -9380,10 +9391,18 @@ void Character::fall_asleep( const time_duration &duration )
     add_effect( effect_sleep, duration );
 }
 
-void Character::migrate_items_to_storage()
+void Character::migrate_items_to_storage( bool disintegrate )
 {
     inv.visit_items( [&]( const item * it ) {
-        i_add( *it );
+        if( disintegrate ) {
+            if( try_add( *it ) == nullptr ) {
+                debugmsg( "ERROR: Could not put %s into inventory.  Check if the profession has enough space.",
+                          it->tname() );
+                return VisitResponse::ABORT;
+            }
+        } else {
+            i_add( *it );
+        }
         return VisitResponse::SKIP;
     } );
     inv.clear();

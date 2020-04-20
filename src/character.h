@@ -881,7 +881,7 @@ class Character : public Creature, public visitable<Character>
         item_pocket *best_pocket( const item &it, const item *avoid );
     protected:
         /** used for profession spawning and save migration for nested containers. remove after 0.F */
-        void migrate_items_to_storage();
+        void migrate_items_to_storage( bool disintegrate );
 
         void do_skill_rust();
         /** Applies stat mods to character. */
@@ -1255,8 +1255,13 @@ class Character : public Creature, public visitable<Character>
          * @return Remaining charges which could not be stored on the character.
          */
         int i_add_to_container( const item &it, bool unloading );
-        /** @avoid is the item to not put @it into */
+        /**
+         * Adds the item to the character's worn items or wields it, or prompts if the Character cannot pick it up.
+         * @avoid is the item to not put @it into
+         */
         item &i_add( item it, bool should_stack = true, const item *avoid = nullptr );
+        /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
+        item *try_add( item it, const item *avoid = nullptr );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
