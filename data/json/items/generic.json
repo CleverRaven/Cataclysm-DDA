@@ -1847,7 +1847,7 @@
     "type": "GENERIC",
     "id": "spurge",
     "name": { "str": "spurge flowers", "str_pl": "spurge flowers" },
-    "description": "A handful of yellow-green flowers. Can be brewed into a tea that prevents asthma.",
+    "description": "A handful of yellow-green flowers.  Can be brewed into a tea that prevents asthma attacks.",
     "weight": "50 g",
     "color": "white",
     "symbol": ",",
