@@ -137,7 +137,15 @@ class target_ui
         // Spell does not require mana
         bool no_mana = false;
 
-        target_handler::trajectory run( player &pc );
+        enum class ExitCode {
+            Abort,
+            Fire,
+            Timeout,
+            Reload
+        };
+        // Initialize UI and run the event loop.
+        // If exit_code != nullptr, exit code will be written into provided address
+        target_handler::trajectory run( player &pc, ExitCode *exit_code = nullptr );
 
     private:
         // Current trajectory (TODO: better name)
@@ -285,7 +293,8 @@ class target_ui
         void on_target_accepted( player &pc, bool harmful );
 };
 
-target_handler::trajectory target_handler::mode_fire( player &pc, item *weapon )
+target_handler::trajectory target_handler::mode_fire( player &pc, item *weapon,
+        bool &reload_requested )
 {
     target_ui ui = target_ui();
     ui.mode = TARGET_MODE_FIRE;
@@ -294,7 +303,10 @@ target_handler::trajectory target_handler::mode_fire( player &pc, item *weapon )
     ui.range = gun.target->gun_range( &pc );
     ui.ammo = gun->ammo_data();
 
-    return ui.run( pc );
+    target_ui::ExitCode exit_code;
+    trajectory result = ui.run( pc, &exit_code );
+    reload_requested = exit_code == target_ui::ExitCode::Reload;
+    return result;
 }
 
 target_handler::trajectory target_handler::mode_throw( player &pc, item *relevant,
@@ -1846,7 +1858,7 @@ double player::gun_value( const item &weap, int ammo ) const
     return std::max( 0.0, gun_value );
 }
 
-target_handler::trajectory target_ui::run( player &pc )
+target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 {
     if( mode == TARGET_MODE_SPELL ) {
         if( !no_mana && !casting->can_cast( pc ) ) {
@@ -1949,13 +1961,7 @@ target_handler::trajectory target_ui::run( player &pc )
         }
     }
 
-    enum class ExitCode {
-        Abort,
-        Fire,
-        Timeout,
-        Reload
-    };
-    ExitCode exit_code;
+    ExitCode loop_exit_code;
     std::string timed_out_activity;
 
     bool skip_redraw = false;
@@ -1988,13 +1994,13 @@ target_handler::trajectory target_ui::run( player &pc )
         } else if( action == "zoom_out" ) {
             g->zoom_out();
         } else if( action == "QUIT" ) {
-            exit_code = ExitCode::Abort;
+            loop_exit_code = ExitCode::Abort;
             break;
         } else if( action == "SWITCH_MODE" ) {
             action_switch_mode( pc );
         } else if( action == "SWITCH_AMMO" ) {
             if( !action_switch_ammo() ) {
-                exit_code = ExitCode::Reload;
+                loop_exit_code = ExitCode::Reload;
                 break;
             }
         } else if( action == "SWITCH_AIM" ) {
@@ -2012,7 +2018,7 @@ target_handler::trajectory target_ui::run( player &pc )
                 continue;
             }
             set_last_target( pc );
-            exit_code = ExitCode::Fire;
+            loop_exit_code = ExitCode::Fire;
             break;
         } else if( action == "AIM" ) {
             if( src == dst ) {
@@ -2024,7 +2030,7 @@ target_handler::trajectory target_ui::run( player &pc )
 
             if( !action_aim( pc ) ) {
                 timed_out_activity = "AIM";
-                exit_code = ExitCode::Timeout;
+                loop_exit_code = ExitCode::Timeout;
                 break;
             }
         } else if( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) {
@@ -2039,10 +2045,10 @@ target_handler::trajectory target_ui::run( player &pc )
             }
 
             if( action_aim_and_shoot( pc, action ) ) {
-                exit_code = ExitCode::Fire;
+                loop_exit_code = ExitCode::Fire;
             } else {
                 timed_out_activity = action;
-                exit_code = ExitCode::Timeout;
+                loop_exit_code = ExitCode::Timeout;
             }
             break;
         }
@@ -2050,7 +2056,7 @@ target_handler::trajectory target_ui::run( player &pc )
 
     set_view_offset( pc, saved_view_offset );
 
-    switch( exit_code ) {
+    switch( loop_exit_code ) {
         case ExitCode::Abort: {
             ret.clear();
             break;
@@ -2070,12 +2076,15 @@ target_handler::trajectory target_ui::run( player &pc )
             break;
         }
         case ExitCode::Reload: {
-            // TODO: make this work
+            // Calling function will handle reloading for us
             ret.clear();
             break;
         }
     }
 
+    if( exit_code ) {
+        *exit_code = loop_exit_code;
+    }
     return ret;
 }
 

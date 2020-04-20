@@ -900,7 +900,8 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
 
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, weapon );
+    bool reload_requested;
+    target_handler::trajectory trajectory = target_handler::mode_fire( you, weapon, reload_requested );
 
     //may be changed in target_ui
     gun = weapon->gun_current_mode();
@@ -915,6 +916,11 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
             you.moves = previous_moves;
         }
         g->reenter_fullscreen();
+
+        if( reload_requested ) {
+            // Reload the gun / select different arrows
+            g->reload_wielded( true );
+        }
         return;
     }
     // Recenter our view

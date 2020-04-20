@@ -8503,14 +8503,14 @@ void game::reload_item()
     reload( item_loc );
 }
 
-void game::reload_wielded()
+void game::reload_wielded( bool prompt )
 {
     if( u.weapon.is_null() || !u.weapon.is_reloadable() ) {
         add_msg( _( "You aren't holding something you can reload." ) );
         return;
     }
     item_location item_loc = item_location( u, &u.weapon );
-    reload( item_loc );
+    reload( item_loc, prompt );
 }
 
 void game::reload_weapon( bool try_everything )
