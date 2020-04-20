@@ -169,8 +169,8 @@ class target_ui
         // Aiming destination (cursor position)
         // Use set_cursor_pos() to modify
         tripoint dst;
-        // Creature currently under cursor
-        // nullptr if aiming at empty tile or yourself
+        // Creature currently under cursor. nullptr if aiming at empty tile,
+        // yourself or a creature you cannot see
         Creature *dst_critter = nullptr;
         // List of visible hostile targets
         std::vector<Creature *> targets;
@@ -301,7 +301,7 @@ class target_ui
         void panel_gun_info( int &text_y );
         void panel_recoil( player &pc, int &text_y );
         void panel_spell_info( player &pc, int &text_y );
-        void panel_target_info( player &pc, int &text_y );
+        void panel_target_info( int &text_y );
         void panel_fire_mode_aim( player &pc, int &text_y );
         void panel_turret_list( int &text_y );
 
@@ -2159,7 +2159,12 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
 
     // Cache creature under cursor
     if( src != dst ) {
-        dst_critter = g->critter_at( dst, true );
+        Creature *cr = g->critter_at( dst, true );
+        if( cr && ( pc.sees( *cr ) || pc.sees_with_infrared( *cr ) ) ) {
+            dst_critter = cr;
+        } else {
+            dst_critter = nullptr;
+        }
     } else {
         dst_critter = nullptr;
     }
@@ -2577,7 +2582,7 @@ void target_ui::draw_ui_window( player &pc )
         text_y += compact ? 0 : 1;
     }
 
-    panel_target_info( pc, text_y );
+    panel_target_info( text_y );
     text_y += compact ? 0 : 1;
 
     if( mode == TargetMode::Turrets ) {
@@ -2807,10 +2812,10 @@ void target_ui::panel_spell_info( player &pc, int &text_y )
                               casting->description() );
 }
 
-void target_ui::panel_target_info( player &pc, int &text_y )
+void target_ui::panel_target_info( int &text_y )
 {
     int max_lines = 4;
-    if( dst_critter && pc.sees( *dst_critter ) ) {
+    if( dst_critter ) {
         // FIXME: print_info doesn't really care about line limit
         //        and can always occupy up to 4 of them (or even more?).
         //        To make things consistent, we ask it for 2 lines
