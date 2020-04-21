@@ -107,10 +107,6 @@ struct mongroup {
         , radius( prad )
         , population( ppop ) {
     }
-    mongroup( const mongroup_id &ptype, int pposx, int pposy, int pposz,
-              unsigned int prad, unsigned int ppop )
-        : mongroup( ptype, tripoint( pposx, pposy, pposz ), prad, ppop )
-    {}
     mongroup( const std::string &ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
