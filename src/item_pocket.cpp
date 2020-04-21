@@ -469,7 +469,7 @@ bool item_pocket::resealable() const
 
 bool item_pocket::seal()
 {
-    if( resealable() ) {
+    if( resealable() || empty() ) {
         return false;
     }
     _sealed = true;

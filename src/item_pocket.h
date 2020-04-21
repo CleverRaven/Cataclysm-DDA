@@ -222,7 +222,7 @@ class item_pocket
         const pocket_data *data = nullptr;
         // the items inside the pocket
         std::list<item> contents;
-        bool _sealed = true;
+        bool _sealed = false;
 };
 
 /**

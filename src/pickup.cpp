@@ -249,6 +249,10 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         newit.invlet = '\0';
     }
 
+    if( u.try_add( *loc, nullptr ) != nullptr ) {
+        return true;
+    }
+
     // Handle charges, quantity == 0 means move all
     if( quantity != 0 && newit.count_by_charges() ) {
         leftovers.charges = newit.charges - quantity;
@@ -288,7 +292,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         } else {
             option = CANCEL;
         }
-    } else if( !u.can_pickVolume( newit ) ) {
+    } else if( !u.can_stash( newit ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
                                          newit.display_name() );

@@ -2226,23 +2226,36 @@ item *Character::try_add( item it, const item *avoid )
         }
     }
     item_pocket *pocket = best_pocket( it, avoid );
+    item *ret = nullptr;
     if( pocket == nullptr ) {
         if( has_weapon() ) {
-            return nullptr;
+            if( avoid != nullptr && is_wielding( *avoid ) ) {
+                return nullptr;
+            }
+            item_pocket *weapon_pocket = weapon.best_pocket( it );
+            if( weapon_pocket != nullptr ) {
+                weapon_pocket->add( it );
+                ret = &weapon_pocket->back();
+                return ret;
+            } else {
+                return nullptr;
+            }
         } else {
             wield( it );
-            return &weapon;
+            ret = &weapon;
         }
     } else {
         pocket->add( it );
-        item &ret = pocket->back();
-        if( keep_invlet ) {
-            ret.invlet = it.invlet;
-        }
-        ret.on_pickup( *this );
-        cached_info.erase( "reloadables" );
-        return &ret;
+        ret = &pocket->back();
+        ret = &pocket->back();
     }
+
+    if( keep_invlet ) {
+        ret->invlet = it.invlet;
+    }
+    ret->on_pickup( *this );
+    cached_info.erase( "reloadables" );
+    return ret;
 }
 
 item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
@@ -7469,7 +7482,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 
     opts.emplace_back( dispose_option{
         bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
-        can_pickVolume( *obj ), '1',
+        can_stash( *obj ), '1',
         item_handling_cost( *obj ),
         [this, bucket, &obj] {
             if( bucket && !obj->contents.spill_open_pockets( *this ) )
