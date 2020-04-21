@@ -1498,6 +1498,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     }
 
     coeff_air_changed = true;
+    coeff_air_dirty = true;
 }
 
 void vehicle::use_autoclave( int p )
