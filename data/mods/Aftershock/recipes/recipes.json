@@ -139,7 +139,7 @@
   {
     "type": "recipe",
     "result": "survivor_belt",
-	"id_suffix": "form_afs",
+    "id_suffix": "form_afs",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
