@@ -135,7 +135,7 @@
     "time": 1000,
     "autolearn": true,
     "components": [ [ [ "survivor_belt", 1 ] ] ]
-  }, 
+  },
   {
     "type": "recipe",
     "result": "survivor_belt",
@@ -146,7 +146,7 @@
     "time": 1000,
     "autolearn": true,
     "components": [ [ [ "afs_survivor_belt", 1 ] ] ]
-  }, 
+  },
   {
     "type": "recipe",
     "result": "afs_basin",
