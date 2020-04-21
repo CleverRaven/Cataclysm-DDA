@@ -472,7 +472,6 @@ int player::kcal_speed_penalty()
         }
     };
     if( get_kcal_percent() > 0.95f ) {
-        // TODO: get speed penalties for being too fat, too
         return 0;
     } else {
         return std::round( multi_lerp( starv_thresholds, get_bmi() ) );
@@ -507,7 +506,7 @@ void player::recalc_speed_bonus()
     if( get_thirst() > 40 ) {
         mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
     }
-    // fat or underweight, you get slower. cumulative with hunger
+    // when underweight, you get slower. cumulative with hunger
     mod_speed_bonus( kcal_speed_penalty() );
 
     for( const auto &maps : *effects ) {
