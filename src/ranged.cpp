@@ -224,11 +224,17 @@ class target_ui
         // Returns 'false' if cursor position did not change
         bool set_cursor_pos( player &pc, const tripoint &new_pos );
 
-        // Updates 'targets' and tries to find something to aim at.
+        // Called when range/ammo changes (or may have changed)
+        void on_range_ammo_changed( player &pc );
+
+        // Updates 'targets' for current range
+        void update_target_list( player &pc );
+
+        // Tries to find something to aim at.
         // Validates pc.last_target and pc.last_target_pos.
         // Sets 'new_dst' as the initial aiming point.
         // Returns 'true' if we can proceed with aim-and-shoot.
-        bool init_targeting( player &pc, tripoint &new_dst );
+        bool choose_initial_target( player &pc, tripoint &new_dst );
 
         // Update 'status' variable
         void update_status();
@@ -268,7 +274,7 @@ class target_ui
         void action_switch_mode( player &pc );
 
         // Switch ammo. Returns 'false' if requires a reloading UI.
-        bool action_switch_ammo();
+        bool action_switch_ammo( player &pc );
 
         // Aim for 10 turns. Returns 'false' if ran out of moves
         bool action_aim( player &pc );
@@ -1832,8 +1838,9 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     // Initialize cursor position
     src = pc.pos();
     tripoint initial_dst = src;
-    if( !init_targeting( pc, initial_dst ) ) {
-        // We've lost our target
+    update_target_list( pc );
+    if( !choose_initial_target( pc, initial_dst ) ) {
+        // We've lost our target from previous turn
         action.clear();
     }
     set_cursor_pos( pc, initial_dst );
@@ -1874,7 +1881,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
         } else if( action == "SWITCH_MODE" ) {
             action_switch_mode( pc );
         } else if( action == "SWITCH_AMMO" ) {
-            if( !action_switch_ammo() ) {
+            if( !action_switch_ammo( pc ) ) {
                 loop_exit_code = ExitCode::Reload;
                 break;
             }
@@ -2193,8 +2200,19 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
     return true;
 }
 
-bool target_ui::init_targeting( player &pc, tripoint &new_dst )
+void target_ui::on_range_ammo_changed( player &pc )
 {
+    update_status();
+    update_target_list( pc );
+}
+
+void target_ui::update_target_list( player &pc )
+{
+    if( range == 0 ) {
+        targets.clear();
+        return;
+    }
+
     // Get targets in range and sort them by distance (targets[0] is the closest)
     // FIXME: get_targetable_creatures does not consider some of the visible creatures
     //        as targets (e.g. those behind fences), but you can still see and shoot them
@@ -2202,7 +2220,10 @@ bool target_ui::init_targeting( player &pc, tripoint &new_dst )
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
         return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
     } );
+}
 
+bool target_ui::choose_initial_target( player &pc, tripoint &new_dst )
+{
     // Determine if we had a target and it is still visible
     const auto old_target = std::find( targets.begin(), targets.end(), pc.last_target.lock().get() );
     if( old_target == targets.end() ) {
@@ -2432,10 +2453,10 @@ void target_ui::action_switch_mode( player &pc )
         ammo = relevant->gun_current_mode().target->ammo_data();
         range = relevant->gun_current_mode().target->gun_range( &pc );
     }
-    update_status();
+    on_range_ammo_changed( pc );
 }
 
-bool target_ui::action_switch_ammo()
+bool target_ui::action_switch_ammo( player &pc )
 {
     if( mode == TargetMode::TurretManual ) {
         // For turrets that use vehicle tanks & can fire multiple liquids
@@ -2451,7 +2472,7 @@ bool target_ui::action_switch_ammo()
         // reloading annihilates our aim anyway
         return false;
     }
-    update_status();
+    on_range_ammo_changed( pc );
     return true;
 }
 
