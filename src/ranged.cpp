@@ -2368,14 +2368,14 @@ void target_ui::cycle_targets( player &pc, int direction )
 
 void target_ui::set_view_offset( player &pc, const tripoint &new_offset )
 {
-    // TODO: player's sprite disappears when shifting view back into player's z level
-    if( pc.view_offset.z != new_offset.z ) {
+    bool changed_z = pc.view_offset.z != new_offset.z;
+    pc.view_offset = new_offset;
+    if( changed_z ) {
         // We need to do a bunch of redrawing and cache updates since we're
         // looking at a different z-level.
         g->m.invalidate_map_cache( new_offset.z );
         g->refresh_all();
     }
-    pc.view_offset = new_offset;
 }
 
 void target_ui::update_turrets_in_range()
