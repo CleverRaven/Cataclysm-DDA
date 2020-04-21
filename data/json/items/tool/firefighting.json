@@ -134,7 +134,7 @@
     "cutting": 6,
     "to_hit": 2,
     "qualities": [ [ "COOK", 1 ] ]
-  },  
+  },
   {
     "id": "ny_hook",
     "type": "TOOL",
