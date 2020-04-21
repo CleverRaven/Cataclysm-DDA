@@ -607,17 +607,6 @@
   },
   {
     "type": "recipe",
-    "result": "plunger_weapon",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_PIERCING",
-    "skill_used": "fabrication",
-    "time": "30 s",
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ "plunger_toilet", 1 ], [ "spike", 1 ] ]
-  },
-  {
-    "type": "recipe",
     "result": "revolver_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
