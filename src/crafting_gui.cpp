@@ -126,6 +126,8 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
+int print_items( const recipe &r, const catacurses::window &w, const point &pos,
+                 nc_color col, int batch );
 static int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos,
                         nc_color col, int batch )
 {

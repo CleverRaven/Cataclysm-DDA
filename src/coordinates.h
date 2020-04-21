@@ -75,6 +75,8 @@ struct real_coords {
     }
 
     // specifically for the subjective position returned by overmap::draw
+    void fromomap( const point &rel_om, const point &rel_om_pos );
+    void fromomap( int rel_omx, int rel_omy, const point &rel_om_pos );
     void fromomap( int rel_omx, int rel_omy, int rel_om_posx, int rel_om_posy ) {
         const int ax = rel_omx * OMAPX + rel_om_posx;
         const int ay = rel_omy * OMAPY + rel_om_posy;

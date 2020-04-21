@@ -21,7 +21,9 @@ void teleport_overmap();
 
 void spawn_nested_mapgen();
 void character_edit_menu();
-void wishitem( player *p = nullptr, int x = -1, int y = -1, int z = -1 );
+void wishitem( player *p = nullptr );
+void wishitem( player *p, const tripoint & );
+void wishitem( player *p, int x, int y, int z );
 void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( player *p );
 void wishskill( player *p );

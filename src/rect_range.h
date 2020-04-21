@@ -13,6 +13,7 @@ class rect_range
         point count;
 
     public:
+        rect_range( const int w, const int h, const point &c );
         rect_range( const int w, const int h, const int xc, const int yc ) : width( w ), height( h ),
             count( xc, yc ) {
         }
