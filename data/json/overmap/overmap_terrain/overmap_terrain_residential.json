@@ -42,7 +42,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -75,7 +74,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_prepper2_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -99,7 +97,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_fortified_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -123,7 +120,6 @@
   {
     "type": "overmap_terrain",
     "id": "duplex_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -142,7 +138,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_duplex2_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -161,7 +156,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_duplex3_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -180,7 +174,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_duplex4_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -199,7 +192,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_duplex5_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -218,7 +210,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_duplex6_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -237,7 +228,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_duplex7_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -256,7 +246,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_duplex8_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -275,7 +264,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_duplex9_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -294,7 +282,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_duplex10_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -313,7 +300,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_duplex11_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -331,7 +317,6 @@
   {
     "type": "overmap_terrain",
     "id": "rural_house1_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -349,7 +334,6 @@
   {
     "type": "overmap_terrain",
     "id": "rural_house2_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -598,7 +582,6 @@
   {
     "type": "overmap_terrain",
     "id": "trailerparksmall0_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "trailer park roof",
@@ -617,7 +600,6 @@
   {
     "type": "overmap_terrain",
     "id": "trailerparksmall1_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "trailer park roof",
@@ -636,7 +618,6 @@
   {
     "type": "overmap_terrain",
     "id": "trailerparksmall2_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "trailer park roof",
@@ -655,7 +636,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_01_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -674,7 +654,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_02_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -693,7 +672,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_03_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -712,7 +690,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_04_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -764,7 +741,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_08_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -788,7 +764,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_09_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -807,7 +782,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_10_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -831,7 +805,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_w_2_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -855,7 +828,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_w_3_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -879,7 +851,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_w_4_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -903,7 +874,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_w_5_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -936,7 +906,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_w_6_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -992,7 +961,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_2story_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "sym": "^",
@@ -1012,7 +980,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_inner_garden_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1031,7 +998,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_w_1_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1055,7 +1021,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_11_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1079,7 +1044,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_12_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1103,7 +1067,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_13_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1127,7 +1090,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_14_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1151,7 +1113,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_15_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1175,7 +1136,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_16_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1199,7 +1159,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_17_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1223,7 +1182,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_18_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1242,7 +1200,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_19_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1266,7 +1223,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_20_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1285,7 +1241,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_21_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1304,7 +1259,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_22_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1328,7 +1282,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_23_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1347,7 +1300,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_24_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1366,7 +1318,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_25_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1385,7 +1336,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_26_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1409,7 +1359,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_27_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1433,7 +1382,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_28_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1457,7 +1405,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_29_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1481,7 +1428,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_30_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1500,7 +1446,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_31_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1519,7 +1464,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_32_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1561,7 +1505,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_toolshed_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1594,7 +1537,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_suicide_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1631,7 +1573,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_rv_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1655,7 +1596,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_porch_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1679,7 +1619,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_patio_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1712,7 +1651,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_modern_1_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1736,7 +1674,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_dogs_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1755,7 +1692,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_gardener_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1779,7 +1715,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_garage_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1803,7 +1738,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_garage2_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1827,7 +1761,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_garage3_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1851,7 +1784,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_garage4_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1875,7 +1807,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_garage5_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1899,7 +1830,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_garage6_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1923,7 +1853,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_garage7_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1947,7 +1876,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_garage8_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -1976,7 +1904,6 @@
   {
     "type": "overmap_terrain",
     "id": "garden_house_1_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2000,7 +1927,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched1_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2024,7 +1950,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched2_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2048,7 +1973,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched3_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2072,7 +1996,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched4_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2096,7 +2019,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched5_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2120,7 +2042,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched6_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2144,7 +2065,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched7_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2168,7 +2088,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched8_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2192,7 +2111,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched9_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2216,7 +2134,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_detatched10_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2240,7 +2157,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_crack1_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
@@ -2273,7 +2189,6 @@
   {
     "type": "overmap_terrain",
     "id": "house_crack3_roof",
-    "mondensity": 0.2,
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
     "name": "house",
     "copy-from": "generic_city_building",
