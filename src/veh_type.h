@@ -274,7 +274,7 @@ class vpart_info
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */

@@ -99,6 +99,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "wireless_charger",
+    "name": { "str": "wireless charger" },
+    "description": "A small disc that recharges batteries placed on top of it.  It could easily be wired into a vehicle with power.  It will slowly charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  The system can only be installed onto existing storage compartments.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "to_hit": -1,
+    "bashing": 4,
+    "price": 1500,
+    "price_postapoc": 100,
+    "copy-from": "recharge_station"
+  },
+  {
+    "type": "GENERIC",
     "id": "washing_machine",
     "name": { "str": "washing machine" },
     "description": "A very small washing machine designed for use in vehicles.",
