@@ -9478,8 +9478,8 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
             // is not changed, the item is still fresh.
             it->last_rot_check = calendar::turn;
         }
-        if( it->process_internal( carrier, pos, activate, type->insulation_factor * insulation, preserves,
-                                  seals, flag ) ) {
+        if( it->process_internal( carrier, pos, activate, type->insulation_factor * insulation, seals,
+                                  flag ) ) {
             removed_items.push_back( it );
         }
         return VisitResponse::NEXT;
@@ -9491,7 +9491,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
 }
 
 bool item::process_internal( player *carrier, const tripoint &pos, bool activate,
-                             float insulation, const bool preserves, const bool seals, const temperature_flag flag )
+                             float insulation, const bool seals, const temperature_flag flag )
 {
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         if( !has_var( "ethereal" ) ) {

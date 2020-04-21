@@ -771,7 +771,7 @@ class item : public visitable<item>
          * Update rot for things that perish
          * All items that rot also have temperature
          * @param insulation Amount of insulation item has from surroundings
-		 * @param seals Wether the item is in sealed  container
+         * @param seals Wether the item is in sealed  container
          * @param pos The current position
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
