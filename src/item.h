@@ -774,7 +774,8 @@ class item : public visitable<item>
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
          */
-        bool process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
+        bool process_temperature_rot( float insulation, const bool preserves, const bool insulates,
+                                      const tripoint &pos, player *carrier,
                                       temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
@@ -2082,6 +2083,7 @@ class item : public visitable<item>
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
         bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+                               const bool preserves = false, const bool seals = false,
                                temperature_flag flag = temperature_flag::TEMP_NORMAL );
         /**
          * Calculate the thermal energy and temperature change of the item
