@@ -243,25 +243,6 @@
     "category": "weapons"
   },
   {
-    "id:": "plunger_weapon",
-    "name": { "str": "brain cleaner" },
-    "type": "TOOL",
-    "description": "A barbaric war pick made by driving a metal spike into a toilet plunger. World War IV will be fought with sticks and stones...",
-    "symbol": "/",
-    "color": "red",
-    "weight": "1138",
-    "volume": "2500 ml",
-    "price": "0",
-    "//": "This isn't making a weapon so much as it is ruining a plumbing tool. The sale price has gone down.",
-    "price_postapoc": "90",
-    "to_hit": 0,
-    "bashing": 7,
-    "cutting": 8,
-    "material": [ "wood", "plastic", "steel" ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "FRAGILE_MELEE", "NONCONDUCTIVE" ]
-  },
-  {
     "type": "GENERIC",
     "id": "bowling_axe",
     "name": { "str": "The 7-10 Split", "str_pl": "7-10 Splits" },
@@ -899,6 +880,7 @@
     "volume": "250 ml",
     "bashing": 1,
     "cutting": 3,
+    "to_hit": -3,
     "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ]
   },
   {
