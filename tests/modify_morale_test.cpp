@@ -50,6 +50,7 @@ static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
     std::pair<int, int> fun;
 
     GIVEN( "food with positive fun" ) {
@@ -81,6 +82,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     avatar dummy;
     const tripoint avatar_pos( 60, 60, 0 );
     dummy.setpos( avatar_pos );
+    dummy.worn.push_back( item( "backpack" ) );
 
     // Morale bonus only applies to unspoiled food that is not junk
     item &bread = dummy.i_add( item( "sourdough_bread" ) );
@@ -268,6 +270,7 @@ TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     item &human = dummy.i_add( item( "bone_human" ) );
     REQUIRE( human.has_flag( flag_CANNIBALISM ) );
@@ -481,7 +484,8 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_LACTOSE ) );
 
         THEN( "they get a morale penalty for drinking milk" ) {
-            item &milk = dummy.i_add( item( "milk" ) );
+            item &milk_container = dummy.i_add( item( "milk" ).in_its_container() );
+            item &milk = milk_container.contents.only_item();
             REQUIRE( milk.has_flag( "ALLERGEN_MILK" ) );
             dummy.clear_morale();
             dummy.modify_morale( milk );
