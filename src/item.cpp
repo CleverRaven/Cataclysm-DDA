@@ -8780,7 +8780,7 @@ bool item::process_temperature_rot( float insulation, const bool preserves, cons
 
             // Calculate item rot
             if( process_rot && time - last_rot_check > smallest_interval ) {
-                calc_rot( time, env_temperature, preserved );
+                calc_rot( time, env_temperature, preserves);
 
                 if( has_rotten_away() && carrier == nullptr && !seals ) {
                     // No need to track item that will be gone
@@ -8795,7 +8795,7 @@ bool item::process_temperature_rot( float insulation, const bool preserves, cons
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
         if( process_rot ) {
-            calc_rot( now, temp, preserved );
+            calc_rot( now, temp, preserves);
 
             if( has_rotten_away() && carrier == nullptr && !seals ) {
                 return true;
