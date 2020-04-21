@@ -799,6 +799,10 @@ class Character : public Creature, public visitable<Character>
         void heal( hp_part healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
+
+        /** used for profession spawning and save migration for nested containers. remove after 0.F */
+        void migrate_items_to_storage( bool disintegrate );
+
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -880,8 +884,6 @@ class Character : public Creature, public visitable<Character>
           */
         item_pocket *best_pocket( const item &it, const item *avoid );
     protected:
-        /** used for profession spawning and save migration for nested containers. remove after 0.F */
-        void migrate_items_to_storage( bool disintegrate );
 
         void do_skill_rust();
         /** Applies stat mods to character. */

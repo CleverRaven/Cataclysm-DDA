@@ -143,34 +143,34 @@ TEST_CASE( "starting_items", "[slow]" )
                 }
                 for( int i = 0; i < 2; i++ ) {
                     g->u.worn.clear();
+                    g->u.remove_weapon();
+                    g->u.inv.clear();
                     g->u.reset_encumbrance();
                     g->u.male = i == 0;
-                    std::list<item> items = prof->items( g->u.male, traits );
-                    for( const item &it : items ) {
-                        const std::list<const item *> it_contents = it.contents.all_items_top();
-                        for( const item *top_content_item : it_contents ) {
-                            items.push_back( *top_content_item );
-                        }
-                    }
 
-                    for( const item &it : items ) {
-                        const bool is_food =  !it.is_seed() && it.is_food() &&
-                                              !g->u.can_eat( it ).success() && control.can_eat( it ).success();
-                        const bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
-                        // Seeds don't count- they're for growing things, not eating
-                        if( is_food || is_armor ) {
-                            failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );
-                        }
+                    g->u.add_profession_items();
+                    int item_visit_count = 0;
+                    const auto visitable_counter = [&item_visit_count]( const item * ) {
+                        item_visit_count++;
+                        return VisitResponse::NEXT;
+                    };
+                    g->u.visit_items( visitable_counter );
+                    g->u.inv.visit_items( visitable_counter );
+                    const int item_inv_count = item_visit_count;
 
-                        const bool is_holster = it.is_armor() && it.type->get_use( "holster" );
-                        if( is_holster ) {
-                            const item *holstered_it = it.contents.all_items_top( item_pocket::pocket_type::CONTAINER ).front();
-                            const bool empty_holster = it.contents.empty();
-                            if( !empty_holster && !it.can_holster( *holstered_it, true ) ) {
-                                failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), "Couldn't put item back to holster" } );
-                            }
-                        }
+                    item_visit_count = 0;
+                    g->u.migrate_items_to_storage( true );
+                    g->u.visit_items( visitable_counter );
+
+                    if( item_visit_count != item_inv_count ) {
+                        failure cur_fail;
+                        cur_fail.prof = g->u.prof->ident();
+                        cur_fail.mut = g->u.get_mutations();
+                        cur_fail.reason = string_format( "does not have enough space to store all items." );
+
+                        failures.insert( cur_fail );
                     }
+                    REQUIRE( item_visit_count == item_inv_count );
                 } // all genders
             } // all profs
         } // all scens

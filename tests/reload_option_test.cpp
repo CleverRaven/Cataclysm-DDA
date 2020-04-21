@@ -6,6 +6,7 @@
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     item &gun = dummy.i_add( item( "sw_619", 0, 0 ) );
     item &ammo = dummy.i_add( item( "38_special", 0, gun.ammo_capacity() ) );
@@ -34,6 +35,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     item &magazine = dummy.i_add( item( "glockmag", 0, 0 ) );
     item &ammo = dummy.i_add( item( "9mm", 0, magazine.ammo_capacity() ) );
@@ -53,6 +55,7 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     item &belt = dummy.i_add( item( "belt308", 0, 0 ) );
     item &ammo = dummy.i_add( item( "308", 0, belt.ammo_capacity() ) );
@@ -77,6 +80,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     item &water = dummy.i_add( item( "water_clean", 0, 2 ) );
     item &bottle = dummy.i_add( item( "bottle_plastic" ) );

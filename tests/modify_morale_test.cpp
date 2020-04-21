@@ -196,6 +196,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
 TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "some food that tastes better when hot" ) {
         item &bread = dummy.i_add( item( "sourdough_bread" ) );

@@ -54,6 +54,7 @@ void clear_character( player &dummy, bool debug_storage )
 
     // delete all worn items.
     dummy.worn.clear();
+    dummy.reset_encumbrance();
     dummy.inv.clear();
     dummy.remove_weapon();
     dummy.clear_mutations();

@@ -592,6 +592,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     };
     g->u.cash = 1000;
     g->u.int_cur = 8;
+    g->u.worn.push_back( item( "backpack" ) );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect
