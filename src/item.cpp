@@ -5247,7 +5247,7 @@ int get_hourly_rotpoints_at_temp( const int temp )
     return rot_chart[temp];
 }
 
-void item::calc_rot( time_point time, int temp )
+void item::calc_rot( time_point time, int temp, bool preserved )
 {
     // Avoid needlessly calculating already rotten things.  Corpses should
     // always rot away and food rots away at twice the shelf life.  If the food
@@ -5258,7 +5258,7 @@ void item::calc_rot( time_point time, int temp )
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) ) {
+    if( item_tags.count( "FROZEN" ) || preserved ) {
         last_rot_check = time;
         return;
     }
@@ -8780,7 +8780,7 @@ bool item::process_temperature_rot( float insulation, const bool preserves, cons
 
             // Calculate item rot
             if( process_rot && time - last_rot_check > smallest_interval ) {
-                calc_rot( time, env_temperature );
+                calc_rot( time, env_temperature, preserved );
 
                 if( has_rotten_away() && carrier == nullptr && !seals ) {
                     // No need to track item that will be gone
@@ -8795,7 +8795,7 @@ bool item::process_temperature_rot( float insulation, const bool preserves, cons
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
         if( process_rot ) {
-            calc_rot( now, temp );
+            calc_rot( now, temp, preserved );
 
             if( has_rotten_away() && carrier == nullptr && !seals ) {
                 return true;

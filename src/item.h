@@ -755,8 +755,9 @@ class item : public visitable<item>
          * If you need to calc rot of item call process_temperature_rot instead.
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
+		 * @param temp wether the item is in container that preserves its contents
          */
-        void calc_rot( time_point time, int temp );
+        void calc_rot( time_point time, int temp, bool preserved );
 
         /**
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
@@ -773,6 +774,7 @@ class item : public visitable<item>
          * @param pos The current position
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
+		 * @return true if the item is fully rotten and is ready to be removed
          */
         bool process_temperature_rot( float insulation, const bool preserves, const bool insulates,
                                       const tripoint &pos, player *carrier,
@@ -841,7 +843,7 @@ class item : public visitable<item>
         /**
          * Whether the item has enough rot that it should get removed.
          * Regular shelf life perishable foods rot away completely at 2x shelf life. Corpses last 10 days
-         * @return true if the item has enough rot and should be removed, false otherwise.
+         * @return true if the item has enough rot to be removed, false otherwise.
          */
         bool has_rotten_away() const;
 
