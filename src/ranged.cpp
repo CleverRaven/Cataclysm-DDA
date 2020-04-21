@@ -1886,6 +1886,9 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
                 break;
             }
         } else if( action == "SWITCH_AIM" ) {
+            if( status != Status::Good ) {
+                continue;
+            }
             aim_mode++;
             if( aim_mode == aim_types.end() ) {
                 aim_mode = aim_types.begin();
@@ -2686,7 +2689,7 @@ int target_ui::draw_controls_list()
             }
         }
 
-        mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "[%c] to switch aiming modes." ),
+        mvwprintz( w_target, point( 1, text_y-- ), fire_color, _( "[%c] to switch aiming modes." ),
                    bound_key( "SWITCH_AIM" ) );
         mvwprintz( w_target, point( 1, text_y-- ), fire_color, _( "%sto aim and fire" ), aim_and_fire );
         mvwprintz( w_target, point( 1, text_y-- ), fire_color, _( "[%c] to steady your aim.  (10 moves)" ),
