@@ -12,9 +12,9 @@
 
 class cata_variant;
 class event_multiset;
-
 enum class event_type : int;
 class JsonObject;
+enum class monotonically : int;
 class stats_tracker;
 class stats_tracker_state;
 
@@ -48,8 +48,9 @@ class event_transformation
         string_id<event_transformation> id;
         bool was_loaded = false;
 
-        class impl;
+        monotonically monotonicity() const;
 
+        class impl;
     private:
         cata::clone_ptr<impl> impl_;
 };
@@ -74,8 +75,9 @@ class event_statistic
             return description_;
         }
 
-        class impl;
+        monotonically monotonicity() const;
 
+        class impl;
     private:
         std::string description_;
         cata::clone_ptr<impl> impl_;

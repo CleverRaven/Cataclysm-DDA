@@ -17,6 +17,7 @@ class JsonIn;
 class JsonOut;
 class event_statistic;
 class event_transformation;
+enum class monotonically : int;
 class score;
 class stats_tracker;
 
