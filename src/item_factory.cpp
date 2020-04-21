@@ -865,7 +865,6 @@ void Item_factory::init()
     add_iuse( "OXYTORCH", &iuse::oxytorch );
     add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
-    add_iuse( "PANACEA", &iuse::panacea );
     add_iuse( "PHEROMONE", &iuse::pheromone );
     add_iuse( "PICKAXE", &iuse::pickaxe );
     add_iuse( "PLANTBLECH", &iuse::plantblech );

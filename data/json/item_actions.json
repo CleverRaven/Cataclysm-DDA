@@ -1101,11 +1101,6 @@
   },
   {
     "type": "item_action",
-    "id": "PANACEA",
-    "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
     "id": "weigh_self",
     "name": { "str": "Use Scale" }
   },

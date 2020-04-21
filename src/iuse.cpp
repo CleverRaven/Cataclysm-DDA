@@ -9755,16 +9755,6 @@ int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::panacea( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You take some %s." ), it->tname() );
-    if( !p->has_effect( effect_panacea ) ) {
-        p->add_msg_if_player( m_good, _( "You feel AMAZING!" ) );
-    }
-    p->add_effect( effect_panacea, 1_minutes );
-    return it->type->charges_to_use();
-}
-
 int iuse::craft( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {

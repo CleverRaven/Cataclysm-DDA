@@ -73,7 +73,6 @@
     "category": "food",
     "weight": "150 g",
     "color": "white",
-    "use_action": "ROYAL_JELLY",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,

@@ -1482,7 +1482,11 @@
     "symbol": "!",
     "color": "red",
     "healthy": 25,
-    "use_action": "PANACEA",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You feel AMAZING!",
+      "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" } ]
+    },
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
