@@ -2968,6 +2968,21 @@
     "flags": [ "NO_REPAIR" ]
   },
   {
+    "id": "premium_survival_kit",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "survival kit" },
+    "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.  Disassemble to get its contents.",
+    "weight": "1612 g",
+    "volume": "1 L",
+    "price": 15000,
+    "material": "aluminum",
+    "symbol": "!",
+    "color": "green",
+    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
     "id": "plastic_six_dice",
     "type": "GENERIC",
     "category": "other",

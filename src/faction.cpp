@@ -892,7 +892,7 @@ void faction_manager::display() const
             } else {
                 selection--;
             }
-        } else if( action == "CONFIRM" ) {
+        } else if( action == "CONFIRM" && guy ) {
             if( guy->has_companion_mission() ) {
                 guy->reset_companion_mission();
                 popup( _( "%s returns from their mission" ), guy->disp_name() );

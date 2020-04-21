@@ -8,6 +8,7 @@
 
 #include "cata_variant.h"
 #include "debug.h"
+#include "enums.h"
 #include "event.h"
 #include "event_field_transformations.h"
 #include "generic_factory.h"
@@ -144,6 +145,7 @@ class event_transformation::impl
         virtual event_multiset initialize( stats_tracker & ) const = 0;
         virtual std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const = 0;
         virtual void check( const std::string &/*name*/ ) const {}
+        virtual monotonically monotonicity() const = 0;
         virtual std::unique_ptr<impl> clone() const = 0;
 };
 
@@ -154,6 +156,7 @@ class event_statistic::impl
         virtual cata_variant value( stats_tracker & ) const = 0;
         virtual std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const = 0;
         virtual void check( const std::string &/*name*/ ) const {}
+        virtual monotonically monotonicity() const = 0;
         virtual std::unique_ptr<impl> clone() const = 0;
 };
 
@@ -202,6 +205,11 @@ struct value_constraint {
             debugmsg( "constraint for event_transformation %s refers to invalid statistic %s",
                       name, equals_statistic_->str() );
         }
+    }
+
+    bool is_constant() const {
+        return !equals_statistic_ ||
+               ( *equals_statistic_ )->monotonicity() == monotonically::constant;
     }
 };
 
@@ -275,6 +283,14 @@ struct event_source {
             stats.add_watcher( type, watcher );
         } else {
             stats.add_watcher( transformation, watcher );
+        }
+    }
+
+    monotonically monotonicity() const {
+        if( transformation.is_empty() ) {
+            return monotonically::increasing;
+        } else {
+            return transformation->monotonicity();
         }
     }
 };
@@ -398,6 +414,15 @@ struct event_transformation_impl : public event_transformation::impl {
         }
     }
 
+    monotonically monotonicity() const override {
+        for( const std::pair<std::string, value_constraint> &constraint : constraints_ ) {
+            if( !constraint.second.is_constant() ) {
+                return monotonically::unknown;
+            }
+        }
+        return monotonically::increasing;
+    }
+
     std::unique_ptr<impl> clone() const override {
         return std::make_unique<event_transformation_impl>( *this );
     }
@@ -433,6 +458,11 @@ void event_transformation::load( const JsonObject &jo, const std::string & )
 void event_transformation::check() const
 {
     impl_->check( id.str() );
+}
+
+monotonically event_transformation::monotonicity() const
+{
+    return impl_->monotonicity();
 }
 
 struct event_statistic_count : event_statistic::impl {
@@ -472,6 +502,10 @@ struct event_statistic_count : event_statistic::impl {
 
     std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
         return std::make_unique<state>( this, stats );
+    }
+
+    monotonically monotonicity() const override {
+        return source.monotonicity();
     }
 
     std::unique_ptr<impl> clone() const override {
@@ -517,6 +551,10 @@ struct event_statistic_total : event_statistic::impl {
 
     std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
         return std::make_unique<state>( this, stats );
+    }
+
+    monotonically monotonicity() const override {
+        return source.monotonicity();
     }
 
     std::unique_ptr<impl> clone() const override {
@@ -595,6 +633,14 @@ struct event_statistic_unique_value : event_statistic::impl {
         }
     }
 
+    monotonically monotonicity() const override {
+        if( type_ == event_type::game_start ) {
+            return monotonically::constant;
+        } else {
+            return monotonically::unknown;
+        }
+    }
+
     std::unique_ptr<impl> clone() const override {
         return std::make_unique<event_statistic_unique_value>( *this );
     }
@@ -640,9 +686,20 @@ void event_statistic::check() const
     impl_->check( id.str() );
 }
 
+monotonically event_statistic::monotonicity() const
+{
+    return impl_->monotonicity();
+}
+
 std::string score::description( stats_tracker &stats ) const
 {
-    return string_format( description_.translated(), value( stats ).get_string() );
+    std::string value_string = value( stats ).get_string();
+    if( description_.empty() ) {
+        //~ Default format for scores.  %1$s is statistic description; %2$s is value.
+        return string_format( _( "%1$s: %2$s" ), this->stat_->description(), value_string );
+    } else {
+        return string_format( description_.translated(), value_string );
+    }
 }
 
 cata_variant score::value( stats_tracker &stats ) const
@@ -652,7 +709,7 @@ cata_variant score::value( stats_tracker &stats ) const
 
 void score::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "description", description_ );
+    optional( jo, was_loaded, "description", description_ );
     mandatory( jo, was_loaded, "statistic", stat_ );
 }
 

@@ -484,11 +484,11 @@ void mapgen_spider_pit( mapgendata &dat )
             m->ter_set( point( x, y ), t_slope_down );
         } else {
             m->ter_set( point( x, y ), dat.groundcover() );
-            mtrap_set( m, x, y, tr_sinkhole );
+            mtrap_set( m, point( x, y ), tr_sinkhole );
         }
         for( int x1 = x - 3; x1 <= x + 3; x1++ ) {
             for( int y1 = y - 3; y1 <= y + 3; y1++ ) {
-                madd_field( m, x1, y1, fd_web, rng( 2, 3 ) );
+                madd_field( m, point( x1, y1 ), fd_web, rng( 2, 3 ) );
                 if( m->ter( point( x1, y1 ) ) != t_slope_down ) {
                     m->ter_set( point( x1, y1 ), t_dirt );
                 }
@@ -1935,7 +1935,7 @@ void mapgen_cave_rat( mapgendata &dat )
                 for( int cy = cavey - 1; cy <= cavey + 1; cy++ ) {
                     m->ter_set( point( cx, cy ), t_rock_floor );
                     if( one_in( 10 ) ) {
-                        madd_field( m, cx, cy, fd_blood, rng( 1, 3 ) );
+                        madd_field( m, point( cx, cy ), fd_blood, rng( 1, 3 ) );
                     }
                     if( one_in( 20 ) ) {
                         m->add_spawn( mon_sewer_rat, 1, { cx, cy, m->get_abs_sub().z } );
@@ -1955,7 +1955,7 @@ void mapgen_cave_rat( mapgendata &dat )
                     for( int cy = i.y - 1; cy <= i.y + 1; cy++ ) {
                         m->ter_set( point( cx, cy ), t_rock_floor );
                         if( one_in( 10 ) ) {
-                            madd_field( m, cx, cy, fd_blood, rng( 1, 3 ) );
+                            madd_field( m, point( cx, cy ), fd_blood, rng( 1, 3 ) );
                         }
                         if( one_in( 20 ) ) {
                             m->add_spawn( mon_sewer_rat, 1, { cx, cy, m->get_abs_sub().z } );
@@ -3410,21 +3410,21 @@ void mapgen_lake_shore( mapgendata &dat )
     m->translate( t_null, t_water_sh );
 }
 
-void mremove_trap( map *m, int x, int y )
+void mremove_trap( map *m, const point &p )
 {
-    tripoint actual_location( x, y, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z );
     m->remove_trap( actual_location );
 }
 
-void mtrap_set( map *m, int x, int y, trap_id type )
+void mtrap_set( map *m, const point &p, trap_id type )
 {
-    tripoint actual_location( x, y, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z );
     m->trap_set( actual_location, type );
 }
 
-void madd_field( map *m, int x, int y, field_type_id type, int intensity )
+void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
-    tripoint actual_location( x, y, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z );
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 

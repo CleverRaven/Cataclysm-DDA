@@ -27,6 +27,7 @@ const time_point calendar::before_time_starts = time_point::from_turn( -1 );
 const time_point calendar::turn_zero = time_point::from_turn( 0 );
 
 time_point calendar::start_of_cataclysm = calendar::turn_zero;
+time_point calendar::start_of_game = calendar::turn_zero;
 time_point calendar::turn = calendar::turn_zero;
 season_type calendar::initial_season = SPRING;
 
@@ -552,7 +553,7 @@ std::string to_string( const time_point &p )
         //~ 1 is the year, 2 is the day (of the *year*), 3 is the time of the day in its usual format
         return string_format( _( "Year %1$d, day %2$d %3$s" ), year, day, time );
     } else {
-        const int day = day_of_season<int>( p );
+        const int day = day_of_season<int>( p ) + 1;
         //~ 1 is the year, 2 is the season name, 3 is the day (of the season), 4 is the time of the day in its usual format
         return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
                               calendar::name_season( season_of_year( p ) ), day, time );

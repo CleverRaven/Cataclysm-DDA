@@ -120,6 +120,7 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_frostbite( "frostbite" );
@@ -393,7 +394,7 @@ Character::Character() :
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 
     move_mode = CMM_WALK;
-
+    next_expected_position = cata::nullopt;
     temp_cur.fill( BODYTEMP_NORM );
     frostbite_timer.fill( 0 );
     temp_conv.fill( BODYTEMP_NORM );
@@ -3032,7 +3033,7 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     // then get mutations
-    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
         mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
@@ -3770,11 +3771,11 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
                                    const trait_id &mut,
                                    const body_part_set &oversize )
 {
-    for( const std::pair<body_part, int> &enc : mut->encumbrance_always ) {
+    for( const std::pair<const body_part, int> &enc : mut->encumbrance_always ) {
         vals[enc.first].encumbrance += enc.second;
     }
 
-    for( const std::pair<body_part, int> &enc : mut->encumbrance_covered ) {
+    for( const std::pair<const body_part, int> &enc : mut->encumbrance_covered ) {
         if( !oversize.test( enc.first ) ) {
             vals[enc.first].encumbrance += enc.second;
         }
@@ -10246,4 +10247,345 @@ std::vector<Creature *> Character::get_hostile_creatures( int range ) const
         dist_to_creature <= range && critter.attitude_to( *this ) == A_HOSTILE
         && sees( critter );
     } );
+}
+
+bool Character::knows_trap( const tripoint &pos ) const
+{
+    const tripoint p = g->m.getabs( pos );
+    return known_traps.count( p ) > 0;
+}
+
+void Character::add_known_trap( const tripoint &pos, const trap &t )
+{
+    const tripoint p = g->m.getabs( pos );
+    if( t.is_null() ) {
+        known_traps.erase( p );
+    } else {
+        // TODO: known_traps should map to a trap_str_id
+        known_traps[p] = t.id.str();
+    }
+}
+
+bool Character::can_hear( const tripoint &source, const int volume ) const
+{
+    if( is_deaf() ) {
+        return false;
+    }
+
+    // source is in-ear and at our square, we can hear it
+    if( source == pos() && volume == 0 ) {
+        return true;
+    }
+    const int dist = rl_dist( source, pos() );
+    const float volume_multiplier = hearing_ability();
+    return ( volume - weather::sound_attn( g->weather.weather ) ) * volume_multiplier >= dist;
+}
+
+float Character::hearing_ability() const
+{
+    float volume_multiplier = 1.0;
+
+    // Mutation/Bionic volume modifiers
+    if( has_active_bionic( bio_ears ) && !has_active_bionic( bio_earplugs ) ) {
+        volume_multiplier *= 3.5;
+    }
+    if( has_trait( trait_PER_SLIME ) ) {
+        // Random hearing :-/
+        // (when it's working at all, see player.cpp)
+        // changed from 0.5 to fix Mac compiling error
+        volume_multiplier *= ( rng( 1, 2 ) );
+    }
+
+    volume_multiplier *= Character::mutation_value( "hearing_modifier" );
+
+    if( has_effect( effect_deaf ) ) {
+        // Scale linearly up to 30 minutes
+        volume_multiplier *= ( 30_minutes - get_effect_dur( effect_deaf ) ) / 30_minutes;
+    }
+
+    if( has_effect( effect_earphones ) ) {
+        volume_multiplier *= .25;
+    }
+
+    return volume_multiplier;
+}
+
+std::vector<std::string> Character::short_description_parts() const
+{
+    std::vector<std::string> result;
+
+    if( is_armed() ) {
+        result.push_back( _( "Wielding: " ) + weapon.tname() );
+    }
+    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(),
+    []( const item & it ) {
+        return it.tname();
+    } );
+    if( !worn_str.empty() ) {
+        result.push_back( _( "Wearing: " ) + worn_str );
+    }
+    const int visibility_cap = 0; // no cap
+    const auto trait_str = visible_mutations( visibility_cap );
+    if( !trait_str.empty() ) {
+        result.push_back( _( "Traits: " ) + trait_str );
+    }
+    return result;
+}
+
+std::string Character::short_description() const
+{
+    return join( short_description_parts(), ";   " );
+}
+
+int Character::print_info( const catacurses::window &w, int vStart, int, int column ) const
+{
+    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
+    return vStart;
+}
+
+void Character::shift_destination( const point &shift )
+{
+    if( next_expected_position ) {
+        *next_expected_position += shift;
+    }
+
+    for( auto &elem : auto_move_route ) {
+        elem += shift;
+    }
+}
+
+bool Character::has_weapon() const
+{
+    return !unarmed_attack();
+}
+
+int Character::get_hp() const
+{
+    return get_hp( num_hp_parts );
+}
+
+int Character::get_hp( hp_part bp ) const
+{
+    if( bp < num_hp_parts ) {
+        return hp_cur[bp];
+    }
+    int hp_total = 0;
+    for( int i = 0; i < num_hp_parts; ++i ) {
+        hp_total += hp_cur[i];
+    }
+    return hp_total;
+}
+
+int Character::get_hp_max() const
+{
+    return get_hp_max( num_hp_parts );
+}
+
+int Character::get_hp_max( hp_part bp ) const
+{
+    if( bp < num_hp_parts ) {
+        return hp_max[bp];
+    }
+    int hp_total = 0;
+    for( int i = 0; i < num_hp_parts; ++i ) {
+        hp_total += hp_max[i];
+    }
+    return hp_total;
+}
+
+Creature::Attitude Character::attitude_to( const Creature &other ) const
+{
+    const auto m = dynamic_cast<const monster *>( &other );
+    if( m != nullptr ) {
+        if( m->friendly != 0 ) {
+            return A_FRIENDLY;
+        }
+        switch( m->attitude( const_cast<Character *>( this ) ) ) {
+            // player probably does not want to harm them, but doesn't care much at all.
+            case MATT_FOLLOW:
+            case MATT_FPASSIVE:
+            case MATT_IGNORE:
+            case MATT_FLEE:
+                return A_NEUTRAL;
+            // player does not want to harm those.
+            case MATT_FRIEND:
+            case MATT_ZLAVE:
+                // Don't want to harm your zlave!
+                return A_FRIENDLY;
+            case MATT_ATTACK:
+                return A_HOSTILE;
+            case MATT_NULL:
+            case NUM_MONSTER_ATTITUDES:
+                break;
+        }
+
+        return A_NEUTRAL;
+    }
+
+    const auto p = dynamic_cast<const npc *>( &other );
+    if( p != nullptr ) {
+        if( p->is_enemy() ) {
+            return A_HOSTILE;
+        } else if( p->is_player_ally() ) {
+            return A_FRIENDLY;
+        } else {
+            return A_NEUTRAL;
+        }
+    } else if( &other == this ) {
+        return A_FRIENDLY;
+    }
+
+    return A_NEUTRAL;
+}
+
+bool Character::sees( const tripoint &t, bool, int ) const
+{
+    const int wanted_range = rl_dist( pos(), t );
+    bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
+                   Creature::sees( t );
+    // Clairvoyance is now pretty cheap, so we can check it early
+    if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
+        return true;
+    }
+    // Only check if we need to override if we already came to the opposite conclusion.
+    if( can_see && wanted_range < 15 && wanted_range > sight_range( 1 ) &&
+        has_active_bionic( str_bio_night ) ) {
+        can_see = false;
+    }
+    if( can_see && wanted_range > unimpaired_range() ) {
+        can_see = false;
+    }
+
+    return can_see;
+}
+
+bool Character::sees( const Creature &critter ) const
+{
+    // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
+    const int dist = rl_dist( pos(), critter.pos() );
+    if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
+        return true;
+    }
+
+    return Creature::sees( critter );
+}
+
+nc_color Character::bodytemp_color( int bp ) const
+{
+    nc_color color = c_light_gray; // default
+    if( bp == bp_eyes ) {
+        color = c_light_gray;    // Eyes don't count towards warmth
+    } else if( temp_conv[bp]  > BODYTEMP_SCORCHING ) {
+        color = c_red;
+    } else if( temp_conv[bp]  > BODYTEMP_VERY_HOT ) {
+        color = c_light_red;
+    } else if( temp_conv[bp]  > BODYTEMP_HOT ) {
+        color = c_yellow;
+    } else if( temp_conv[bp]  > BODYTEMP_COLD ) {
+        color = c_green;
+    } else if( temp_conv[bp]  > BODYTEMP_VERY_COLD ) {
+        color = c_light_blue;
+    } else if( temp_conv[bp]  > BODYTEMP_FREEZING ) {
+        color = c_cyan;
+    } else if( temp_conv[bp] <= BODYTEMP_FREEZING ) {
+        color = c_blue;
+    }
+    return color;
+}
+
+void Character::set_destination( const std::vector<tripoint> &route,
+                                 const player_activity &new_destination_activity )
+{
+    auto_move_route = route;
+    set_destination_activity( new_destination_activity );
+    destination_point.emplace( g->m.getabs( route.back() ) );
+}
+
+void Character::clear_destination()
+{
+    auto_move_route.clear();
+    clear_destination_activity();
+    destination_point = cata::nullopt;
+    next_expected_position = cata::nullopt;
+}
+
+bool Character::has_distant_destination() const
+{
+    return has_destination() && !get_destination_activity().is_null() &&
+           get_destination_activity().id() == "ACT_TRAVELLING" && !omt_path.empty();
+}
+
+bool Character::is_auto_moving() const
+{
+    return destination_point.has_value();
+}
+
+bool Character::has_destination() const
+{
+    return !auto_move_route.empty();
+}
+
+bool Character::has_destination_activity() const
+{
+    return !get_destination_activity().is_null() && destination_point &&
+           position == g->m.getlocal( *destination_point );
+}
+
+void Character::start_destination_activity()
+{
+    if( !has_destination_activity() ) {
+        debugmsg( "Tried to start invalid destination activity" );
+        return;
+    }
+
+    assign_activity( get_destination_activity() );
+    clear_destination();
+}
+
+std::vector<tripoint> &Character::get_auto_move_route()
+{
+    return auto_move_route;
+}
+
+action_id Character::get_next_auto_move_direction()
+{
+    if( !has_destination() ) {
+        return ACTION_NULL;
+    }
+
+    if( next_expected_position ) {
+        if( pos() != *next_expected_position ) {
+            // We're off course, possibly stumbling or stuck, cancel auto move
+            return ACTION_NULL;
+        }
+    }
+
+    next_expected_position.emplace( auto_move_route.front() );
+    auto_move_route.erase( auto_move_route.begin() );
+
+    tripoint dp = *next_expected_position - pos();
+
+    // Make sure the direction is just one step and that
+    // all diagonal moves have 0 z component
+    if( std::abs( dp.x ) > 1 || std::abs( dp.y ) > 1 || std::abs( dp.z ) > 1 ||
+        ( std::abs( dp.z ) != 0 && ( std::abs( dp.x ) != 0 || std::abs( dp.y ) != 0 ) ) ) {
+        // Should never happen, but check just in case
+        return ACTION_NULL;
+    }
+    return get_movement_action_from_delta( dp, iso_rotate::yes );
+}
+
+bool Character::defer_move( const tripoint &next )
+{
+    // next must be adjacent to current pos
+    if( square_dist( next, pos() ) != 1 ) {
+        return false;
+    }
+    // next must be adjacent to subsequent move in any preexisting automove route
+    if( has_destination() && square_dist( auto_move_route.front(), next ) != 1 ) {
+        return false;
+    }
+    auto_move_route.insert( auto_move_route.begin(), next );
+    next_expected_position = pos();
+    return true;
 }
