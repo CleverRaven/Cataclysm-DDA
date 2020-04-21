@@ -1141,7 +1141,7 @@
     "name": "Rubber",
     "//1": "this is sythetic rubber, which is much different than natural, but called rubber for ease of use",
     "density": 8,
-    "specific_heat_liquid": 0.40,
+    "specific_heat_liquid": 0.4,
     "specific_heat_solid": 0.13,
     "latent_heat": 165,
     "bash_resist": 5,
