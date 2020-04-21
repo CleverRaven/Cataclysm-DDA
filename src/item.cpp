@@ -5247,7 +5247,7 @@ int get_hourly_rotpoints_at_temp( const int temp )
     return rot_chart[temp];
 }
 
-void item::calc_rot( time_point time, int temp, bool preserved )
+void item::calc_rot( time_point time, int temp )
 {
     // Avoid needlessly calculating already rotten things.  Corpses should
     // always rot away and food rots away at twice the shelf life.  If the food
@@ -5258,7 +5258,7 @@ void item::calc_rot( time_point time, int temp, bool preserved )
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) || preserved ) {
+    if( item_tags.count( "FROZEN" ) ) {
         last_rot_check = time;
         return;
     }
@@ -8495,7 +8495,7 @@ bool item::has_rotten_away() const
 bool item::has_rotten_away( const tripoint &pnt )
 {
     if( goes_bad() ) {
-        return process_temperature_rot( 1, false, false, pnt, nullptr );
+        return process_temperature_rot( 1, false, pnt, nullptr );
     } else if( type->container && type->container->preserves ) {
         // Containers like tin cans preserves all items inside, they do not rot at all.
         return false;
@@ -8503,7 +8503,7 @@ bool item::has_rotten_away( const tripoint &pnt )
         // Items inside rot but do not vanish as the container seals them in.
         for( item *c : contents.all_items_top() ) {
             if( c->goes_bad() ) {
-                c->process_temperature_rot( 1, false, true, pnt, nullptr );
+                c->process_temperature_rot( 1, true, pnt, nullptr );
             }
         }
         return false;
@@ -8648,7 +8648,7 @@ void item::apply_freezerburn()
     }
 }
 
-bool item::process_temperature_rot( float insulation, const bool preserves, const bool seals,
+bool item::process_temperature_rot( float insulation, const bool seals,
                                     const tripoint &pos,
                                     player *carrier, const temperature_flag flag )
 {
@@ -8701,10 +8701,6 @@ bool item::process_temperature_rot( float insulation, const bool preserves, cons
     time_point time;
     item_internal::scoped_goes_bad_cache _cache( this );
     const bool process_rot = goes_bad();
-
-    if( process_rot && preserves ) {
-        last_rot_check = now;
-    }
 
     if( process_rot ) {
         time = std::min( last_rot_check, last_temp_check );
@@ -8780,7 +8776,7 @@ bool item::process_temperature_rot( float insulation, const bool preserves, cons
 
             // Calculate item rot
             if( process_rot && time - last_rot_check > smallest_interval ) {
-                calc_rot( time, env_temperature, preserves);
+                calc_rot( time, env_temperature );
 
                 if( has_rotten_away() && carrier == nullptr && !seals ) {
                     // No need to track item that will be gone
@@ -8795,7 +8791,7 @@ bool item::process_temperature_rot( float insulation, const bool preserves, cons
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
         if( process_rot ) {
-            calc_rot( now, temp, preserves);
+            calc_rot( now, temp );
 
             if( has_rotten_away() && carrier == nullptr && !seals ) {
                 return true;
@@ -9477,6 +9473,11 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
     const bool seals = type->container && type->container->seals;
     std::vector<item *> removed_items;
     visit_items( [&]( item * it ) {
+        if( preserves ) {
+            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
+            // is not changed, the item is still fresh.
+            it->last_rot_check = calendar::turn;
+        }
         if( it->process_internal( carrier, pos, activate, type->insulation_factor * insulation, preserves,
                                   seals, flag ) ) {
             removed_items.push_back( it );
@@ -9572,8 +9573,8 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
     }
     // All foods that go bad have temperature
     if( has_temperature() &&
-        process_temperature_rot( insulation, preserves, seals, pos, carrier, flag ) ) {
-		if( is_comestible() ) {
+        process_temperature_rot( insulation, seals, pos, carrier, flag ) ) {
+        if( is_comestible() ) {
             g->m.rotten_item_spawn( *this, pos );
         }
         return true;
