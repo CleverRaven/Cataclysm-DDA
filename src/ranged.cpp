@@ -2507,18 +2507,13 @@ bool target_ui::action_aim_and_shoot( player &pc, const std::string &action )
         do_aim( pc, relevant ? *relevant : null_item_reference(), min_recoil );
     } while( pc.moves > 0 && pc.recoil > aim_threshold && pc.recoil - sight_dispersion > min_recoil );
 
-    if( pc.recoil <= aim_threshold ||
-        pc.recoil - sight_dispersion == min_recoil ||
-        // if no critter is at dst then sight dispersion does not apply,
-        // so it would lock into an infinite loop
-        ( !g->critter_at( dst ) && pc.recoil == min_recoil ) ) {
-        // If we made it under the aim threshold, go ahead and fire.
-        // Also fire if we're at our best aim level already.
-        return true;
-    } else {
-        // We've run out of moves
-        return false;
-    }
+    // If we made it under the aim threshold, go ahead and fire.
+    // Also fire if we're at our best aim level already.
+    // If no critter is at dst then sight dispersion does not apply,
+    // so it would lock into an infinite loop.
+    bool done_aiming = pc.recoil <= aim_threshold || pc.recoil - sight_dispersion == min_recoil ||
+                       ( !g->critter_at( dst ) && pc.recoil == min_recoil );
+    return done_aiming;
 }
 
 void target_ui::draw( player &pc )
@@ -2731,7 +2726,7 @@ void target_ui::panel_gun_info( int &text_y )
 {
     gun_mode m = relevant->gun_current_mode();
     std::string mode_name = m.tname();
-    std::string gunmod_name = "";
+    std::string gunmod_name;
     if( m.target != relevant ) {
         // Gun mode comes from a gunmod, not base gun. Add gunmod's name
         gunmod_name = m->tname() + " ";
