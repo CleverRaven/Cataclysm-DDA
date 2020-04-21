@@ -8999,8 +8999,9 @@ bool game::walk_move( const tripoint &dest_loc )
             u.burn_move_stamina( 0.50 * ( previous_moves - u.moves ) );
         }
     }
-    // Max out recoil
+    // Max out recoil & reset aim point
     u.recoil = MAX_RECOIL;
+    u.last_target_pos = cata::nullopt;
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
