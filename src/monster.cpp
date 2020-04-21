@@ -629,11 +629,6 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         damage_info = _( "It is nearly dead!" );
         col = c_red;
     }
-    /*
-    // This is unused code that allows the player to see the exact amount of monster HP, to be implemented later!
-    if( true ) ) {
-        damage_info = string_format( _( "It has %d/%d HP." ), cur_hp, max_hp );
-    }*/
 
     return std::make_pair( damage_info, col );
 }
@@ -642,38 +637,66 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
-    mvwprintz( w, point( column, vStart ), basic_symbol_color(), name() );
-    wprintw( w, " " );
-    const auto att = get_attitude();
-    wprintz( w, att.second, att.first );
-
-    if( debug_mode ) {
-        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
-    }
-
-    if( sees( g->u ) ) {
-        mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
-    }
+    mvwprintz( w, point( column, vStart ), c_light_gray, _( "Entity: " ) );
+    mvwprintz( w, point( column + 8, vStart ), c_white, name() );
 
     std::string effects = get_effect_status();
-    if( !effects.empty() ) {
-        trim_and_print( w, point( column, ++vStart ), getmaxx( w ) - 2, h_white, effects );
-    }
+    size_t used_space = utf8_width( "Entity: " ) + utf8_width( name() ) + 3;
+    trim_and_print( w, point( used_space, vStart ), getmaxx( w ) - used_space - 2,
+                    h_white, effects );
 
-    const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, point( column, ++vStart ), hp_desc.second, hp_desc.first );
+    nc_color color = c_white;
+    std::string sText;
+    get_HP_Bar( color, sText );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Health: " ) );
+    mvwprintz( w, point( column + 8, vStart ), color, sText );
+
+    std::string senses_str = "--";
+    if( sees( g->u ) ) {
+        senses_str = _( "It knows you're there" );
+    } else {
+        senses_str = _( "It hasn't detected you" );
+    }
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Senses: " ) );
+    mvwprintz( w, point( column + 8, vStart ), sees( g->u ) ? c_red : c_green, senses_str );
+
+    std::pair<std::string, nc_color> att = get_attitude();
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Stance: " ) );
+    mvwprintz( w, point( column + 8, vStart ), att.second, att.first );
+
+    int threatlvl = type->difficulty;
+    nc_color threatlvl_color = c_white;
+    if( threatlvl >= 20 ) {
+        threatlvl_color = c_red;
+    } else if( threatlvl >= 10 ) {
+        threatlvl_color = c_yellow;
+    } else if( threatlvl >= 0 ) {
+        threatlvl_color = c_blue;
+    }
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Threat: " ) );
+    mvwprintz( w, point( column + 8, vStart ), threatlvl_color, to_string( threatlvl ) );
+
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Aspect: " ) );
+    std::vector<std::string> line1 = foldstring( type->get_description(), getmaxx( w ) - 9 - column );
+
+    int offset = utf8_width( line1[0] );
+    std::string test = type->get_description().substr( offset );
+    std::vector<std::string> lines = foldstring( test, getmaxx( w ) - 2 - column );
+
+    mvwprintz( w, point( column + 8, vStart ), c_dark_gray, line1[0] );
+
+    int numlines = lines.size();
+    for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
+        mvwprintz( w, point( column, ++vStart ), c_dark_gray, lines[i] );
+    }
+    ++vStart;
+
     if( has_effect( effect_ridden ) && mounted_player ) {
-        mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider : %s" ), mounted_player->disp_name() );
     }
 
     if( size_bonus > 0 ) {
         wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
-    }
-
-    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
-    int numlines = lines.size();
-    for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
     }
 
     return vStart;

@@ -2218,21 +2218,49 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
-    mvwprintz( w, point( column, line++ ), c_white, _( "NPC: " ) );
-    wprintz( w, basic_symbol_color(), name );
+    mvwprintz( w, point( column, line ), c_light_gray, _( "Entity: " ) );
+    trim_and_print( w, point( column + 8, line ), iWidth - 8, c_white, name );
+
+    mvwprintz( w, point( column, ++line ), c_light_gray, _( "Health: " ) );
+    mvwprintz( w, point( column + 8, line ),
+               get_hp_bar( hp_percentage(), 200 ).second,
+               get_hp_bar( hp_percentage(), 100 ).first );
 
     if( sees( g->u ) ) {
-        mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Senses: " ) );
+        mvwprintz( w, point( column + 8, line ), c_yellow, _( "Aware of your presence" ) );
+    }else {
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Senses: " ) );
+        mvwprintz( w, point( column + 8, line ), c_green, _( "Unaware of you" ) );
     }
 
+    Attitude att = attitude_to( g->u );
+    const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
+    mvwprintz( w, point( column, ++line ), c_light_gray, _( "Stance: " ) );
+    mvwprintz( w, point( column + 8, line ), res.second, res.first.translated() );
+
     if( is_armed() ) {
-        trim_and_print( w, point( column, line++ ), iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wield : " ) );
+        trim_and_print( w, point( column + 8, line ), iWidth, c_red, weapon.tname() );
     }
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( const std::string & str_in,
     nc_color color ) {
-        const std::vector<std::string> folded = foldstring( str_in, iWidth );
-        for( auto it = folded.begin(); it < folded.end() && line < last_line; ++it, ++line ) {
+        // function to build a list of worn apparel, first line is shorter due to label taking space.
+        // build 1st line
+        const std::vector<std::string> shortlist = foldstring( str_in, iWidth - 8 );
+        // calc how much we could cram into the first line
+        int offset = utf8_width( shortlist[0] );
+        // substract that from initial string
+        std::string test = str_in.substr( offset );
+        // build new vector of strings without the portion we've already put on 1st line
+        const std::vector<std::string> longlist = foldstring( test, iWidth );
+
+        // print 1st line, from shortlist with label offset
+        mvwprintz( w, point( column + 8, line++ ), color, shortlist[0] );
+
+        // print the rest from longlist
+        for( auto it = longlist.begin(); it < longlist.end() && line < last_line; ++it, ++line ) {
             trim_and_print( w, point( column, line ), iWidth, color, *it );
         }
     };
@@ -2241,8 +2269,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         return it.tname();
     } );
     if( !worn_str.empty() ) {
-        const std::string wearing = _( "Wearing: " ) + worn_str;
-        enumerate_print( wearing, c_light_blue );
+        const std::string wearing = worn_str;
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Outfit: " ) );
+        enumerate_print( wearing, c_dark_gray );
     }
 
     // as of now, visibility of mutations is between 0 and 10
