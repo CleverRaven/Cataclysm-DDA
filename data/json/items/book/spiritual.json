@@ -118,6 +118,23 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_satanic",
+    "type": "BOOK",
+    "name": { "str": "The Satanic Bible", "str_pl": "copies of The Satanic Bible" },
+    "description": "A collection of essays, observations, and rituals published by Anton LaVey in 1969.",
+    "weight": "130 g",
+    "volume": "250 ml",
+    "price": 550,
+    "price_postapoc": 50,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "dark_gray",
+    "intelligence": 8,
+    "time": "10 m",
+    "fun": 1,
+    "flags": [ "INSPIRATIONAL" ]
+  },
+  {
     "id": "holybook_scientology",
     "type": "BOOK",
     "name": { "str": "Dianetics", "str_pl": "copies of Dianetics" },
