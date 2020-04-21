@@ -3410,21 +3410,21 @@ void mapgen_lake_shore( mapgendata &dat )
     m->translate( t_null, t_water_sh );
 }
 
-void mremove_trap( map *m, int x, int y )
+void mremove_trap( map *m, const point &p )
 {
-    tripoint actual_location( x, y, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z );
     m->remove_trap( actual_location );
 }
 
-void mtrap_set( map *m, int x, int y, trap_id type )
+void mtrap_set( map *m, const point &p, trap_id type )
 {
-    tripoint actual_location( x, y, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z );
     m->trap_set( actual_location, type );
 }
 
-void madd_field( map *m, int x, int y, field_type_id type, int intensity )
+void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
-    tripoint actual_location( x, y, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z );
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 

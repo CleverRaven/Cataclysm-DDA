@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_RECT_RANGE_H
 #define CATA_SRC_RECT_RANGE_H
 
+#include "point.h"
+
 // This is a template parameter, it's usually SDL_Rect, but that way the class
 // can be used without include any SDL header.
 template<typename RectType>
@@ -13,9 +15,8 @@ class rect_range
         point count;
 
     public:
-        rect_range( const int w, const int h, const point &c );
-        rect_range( const int w, const int h, const int xc, const int yc ) : width( w ), height( h ),
-            count( xc, yc ) {
+        rect_range( const int w, const int h, const point &c ) : width( w ), height( h ),
+            count( c ) {
         }
 
         class iterator

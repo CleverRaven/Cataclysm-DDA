@@ -126,18 +126,16 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
-int print_items( const recipe &r, const catacurses::window &w, const point &pos,
-                 nc_color col, int batch );
-static int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos,
+static int print_items( const recipe &r, const catacurses::window &w, point pos,
                         nc_color col, int batch )
 {
     if( !r.has_byproducts() ) {
         return 0;
     }
 
-    const int oldy = ypos;
+    const int oldy = pos.y;
 
-    mvwprintz( w, point( xpos, ypos++ ), col, _( "Byproducts:" ) );
+    mvwprintz( w, point( pos.x, pos.y++ ), col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
         const auto t = item::find_type( bp.first );
         int amount = bp.second * batch;
@@ -149,10 +147,10 @@ static int print_items( const recipe &r, const catacurses::window &w, int ypos, 
             desc = string_format( "> %d %s", amount,
                                   t->nname( static_cast<unsigned int>( amount ) ) );
         }
-        mvwprintz( w, point( xpos, ypos++ ), col, desc );
+        mvwprintz( w, point( pos.x, pos.y++ ), col, desc );
     }
 
-    return ypos - oldy;
+    return pos.y - oldy;
 }
 
 const recipe *select_crafting_recipe( int &batch_size )

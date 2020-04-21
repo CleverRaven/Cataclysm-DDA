@@ -115,10 +115,9 @@ struct mongroup {
     bool is_safe() const;
     bool empty() const;
     void clear();
-    void set_target( const point & );
-    void set_target( int x, int y ) {
-        target.x = x;
-        target.y = y;
+    void set_target( const point &p ) {
+        target.x = p.x;
+        target.y = p.y;
     }
     void wander( const overmap & );
     void inc_interest( int inc ) {
