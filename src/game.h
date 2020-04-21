@@ -235,6 +235,9 @@ class game
         bool zone_blink = false;
         bool zone_cursor = false;
         bool is_looking = false;
+        cata::optional<tripoint> trail_start;
+        cata::optional<tripoint> trail_end;
+        bool trail_end_x = false;
 
     public:
         // when force_redraw is true, redraw all panel instead of just animated panels
