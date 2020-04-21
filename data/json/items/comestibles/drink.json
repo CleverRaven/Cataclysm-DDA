@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_cider",
-    "name": { "str": "apple cider", "str_pl": "apple cider" },
+    "name": { "str_sp": "apple cider" },
     "weight": "263 g",
     "color": "brown",
     "spoils_in": "6 days",
@@ -72,7 +72,7 @@
   {
     "type": "COMESTIBLE",
     "id": "atomic_coffee",
-    "name": { "str": "atomic coffee", "str_pl": "atomic coffee" },
+    "name": { "str_sp": "atomic coffee" },
     "copy-from": "coffee",
     "addiction_type": "caffeine",
     "fatigue_mod": 90,
@@ -90,7 +90,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bee_balm_tea",
-    "name": { "str": "bee balm tea", "str_pl": "bee balm tea" },
+    "name": { "str_sp": "bee balm tea" },
     "copy-from": "tea",
     "color": "green",
     "use_action": "FLUMED",
@@ -128,7 +128,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chai_tea",
-    "name": { "str": "chai tea", "str_pl": "chai tea" },
+    "name": { "str_sp": "chai tea" },
     "weight": "259 g",
     "color": "brown",
     "spoils_in": "12 hours",
@@ -152,7 +152,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chamomile_tea",
-    "name": { "str": "chamomile tea", "str_pl": "chamomile tea" },
+    "name": { "str_sp": "chamomile tea" },
     "copy-from": "tea",
     "color": "green",
     "use_action": "SLEEP",
@@ -188,7 +188,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee",
-    "name": { "str": "coffee", "str_pl": "coffee" },
+    "name": { "str_sp": "coffee" },
     "weight": "250 g",
     "color": "brown",
     "addiction_type": "caffeine",
@@ -212,7 +212,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_substitute",
-    "name": { "str": "coffee substitute", "str_pl": "coffee substitute" },
+    "name": { "str_sp": "coffee substitute" },
     "weight": "250 g",
     "color": "brown",
     "container": "bottle_plastic",
@@ -233,7 +233,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chicory_coffee",
-    "name": { "str": "chicory brew", "str_pl": "chicory brew" },
+    "name": { "str_sp": "chicory brew" },
     "weight": "252 g",
     "color": "brown",
     "comestible_type": "DRINK",
@@ -377,7 +377,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_tea",
-    "name": { "str": "dandelion tea", "str_pl": "dandelion tea" },
+    "name": { "str_sp": "dandelion tea" },
     "weight": "252 g",
     "color": "yellow",
     "comestible_type": "DRINK",
@@ -397,7 +397,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelionburdock_tea",
-    "name": { "str": "dandelion and burdock tea", "str_pl": "dandelion and burdock tea" },
+    "name": { "str_sp": "dandelion and burdock tea" },
     "weight": "252 g",
     "color": "yellow",
     "comestible_type": "DRINK",
@@ -484,7 +484,7 @@
   {
     "type": "COMESTIBLE",
     "id": "herbal_tea",
-    "name": { "str": "herbal tea", "str_pl": "herbal tea" },
+    "name": { "str_sp": "herbal tea" },
     "weight": "250 g",
     "color": "green",
     "container": "bottle_plastic",
@@ -507,7 +507,7 @@
     "id": "hot_chocolate",
     "type": "COMESTIBLE",
     "category": "food",
-    "name": { "str": "hot chocolate", "str_pl": "hot chocolate" },
+    "name": { "str_sp": "hot chocolate" },
     "description": "Also known as hot cocoa, this heated chocolate beverage is perfect for a cold winter day.",
     "weight": "289 g",
     "volume": "250 ml",
@@ -579,7 +579,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonade",
-    "name": { "str": "lemonade", "str_pl": "lemonade" },
+    "name": { "str_sp": "lemonade" },
     "weight": "260 g",
     "color": "yellow",
     "container": "bottle_plastic",
@@ -625,7 +625,7 @@
     "id": "mex_chocolate",
     "type": "COMESTIBLE",
     "category": "food",
-    "name": { "str": "Mexican hot chocolate", "str_pl": "Mexican hot chocolate" },
+    "name": { "str_sp": "Mexican hot chocolate" },
     "description": "This semi-bitter chocolate drink made from cocoa, cinnamon, and chilies, traces its history to the Maya and Aztecs.  Perfect for a cold winter day.",
     "weight": "263 g",
     "volume": "250 ml",
@@ -647,7 +647,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk",
-    "name": { "str": "milk", "str_pl": "milk" },
+    "name": { "str_sp": "milk" },
     "weight": "258 g",
     "color": "white",
     "spoils_in": "1 d",
@@ -671,7 +671,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_reconstituted",
-    "name": { "str": "reconstituted milk", "str_pl": "reconstituted milk" },
+    "name": { "str_sp": "reconstituted milk" },
     "copy-from": "milk",
     "description": "Baby cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly."
   },
@@ -778,7 +778,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pine_tea",
-    "name": { "str": "pine needle tea", "str_pl": "pine needle tea" },
+    "name": { "str_sp": "pine needle tea" },
     "weight": "268 g",
     "color": "light_green",
     "comestible_type": "DRINK",
@@ -822,7 +822,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rootbeer",
-    "name": { "str": "root beer", "str_pl": "root beer" },
+    "name": { "str_sp": "root beer" },
     "weight": "260 g",
     "color": "brown",
     "container": "can_drink",
@@ -910,7 +910,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sweet_water",
-    "name": { "str": "sweet water", "str_pl": "sweet water" },
+    "name": { "str_sp": "sweet water" },
     "weight": "260 g",
     "color": "light_cyan",
     "container": "bottle_plastic",
@@ -997,7 +997,7 @@
     "id": "water_clean",
     "copy-from": "water",
     "type": "COMESTIBLE",
-    "name": { "str": "clean water", "str_pl": "clean water" },
+    "name": { "str_sp": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
     "color": "light_cyan",
     "use_action": [  ]
@@ -1006,7 +1006,7 @@
     "id": "water_mineral",
     "copy-from": "water",
     "type": "COMESTIBLE",
-    "name": { "str": "mineral water", "str_pl": "mineral water" },
+    "name": { "str_sp": "mineral water" },
     "description": "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
     "container": "bottle_plastic",
     "proportional": { "quench": 1.2 },

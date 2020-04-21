@@ -928,11 +928,11 @@ bool avatar::has_identified( const std::string &item_id ) const
 hint_rating avatar::rate_action_read( const item &it ) const
 {
     if( !it.is_book() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     std::vector<std::string> dummy;
-    return get_book_reader( it, dummy ) == nullptr ? HINT_IFFY : HINT_GOOD;
+    return get_book_reader( it, dummy ) == nullptr ? hint_rating::iffy : hint_rating::good;
 }
 
 void avatar::wake_up()
@@ -1248,9 +1248,6 @@ void avatar::reset_stats()
             mod_dodge_bonus( 4 );
         }
     }
-
-    // Hit-related effects
-    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit );
 
     // Apply static martial arts buffs
     martial_arts_data.ma_static_effects( *this );

@@ -18,6 +18,7 @@
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bionics.h"
 #include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -145,13 +146,13 @@ static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
-static const activity_id ACT_HACKING( "ACT_HACKING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
@@ -219,10 +220,13 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_lockpick( "lockpick" );
+static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 
@@ -241,6 +245,7 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
+static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -376,6 +381,7 @@ activity_handlers::finish_functions = {
     { ACT_OXYTORCH, oxytorch_finish },
     { ACT_PULP, pulp_finish },
     { ACT_CRACKING, cracking_finish },
+    { ACT_LOCKPICK, lockpicking_finish },
     { ACT_OPEN_GATE, open_gate_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
@@ -418,7 +424,6 @@ activity_handlers::finish_functions = {
     { ACT_UNLOAD_MAG, unload_mag_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_MIND_SPLICER, mind_splicer_finish },
-    { ACT_HACKING, hacking_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
     { ACT_STUDY_SPELL, study_spell_finish }
 };
@@ -2532,6 +2537,90 @@ void activity_handlers::cracking_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::lockpicking_finish( player_activity *act, player *p )
+{
+    item_location &loc = act->targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "lockpick item location lost" );
+        return;
+    }
+
+    const ter_id ter_type = g->m.ter( act->placement );
+    const furn_id furn_type = g->m.furn( act->placement );
+    ter_id new_ter_type;
+    furn_id new_furn_type;
+    std::string open_message;
+    if( ter_type == t_chaingate_l ) {
+        new_ter_type = t_chaingate_c;
+        open_message = _( "With a satisfying click, the chain-link gate opens." );
+    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
+               ter_type == t_door_locked_interior ) {
+        new_ter_type = t_door_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_locked_peep ) {
+        new_ter_type = t_door_c_peep;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_metal_pickable ) {
+        new_ter_type = t_door_metal_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_bar_locked ) {
+        new_ter_type = t_door_bar_o;
+        //Bar doors auto-open (and lock if closed again) so show a different message)
+        open_message = _( "The door swings open…" );
+    } else if( furn_type == f_gunsafe_ml ) {
+        new_furn_type = f_safe_o;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else {
+        act->set_to_null();
+    }
+
+    bool destroy = false;
+
+    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    int pick_roll = std::pow( 1.5, p->get_skill_level( skill_lockpick ) ) *
+                    ( std::pow( 1.3, p->get_skill_level( skill_mechanics ) ) +
+                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
+                    p->dex_cur / 4.0;
+    int lock_roll = rng( 1, 120 );
+    if( pick_roll >= lock_roll ) {
+        p->practice( skill_lockpick, lock_roll );
+        g->m.has_furn( act->placement ) ?
+        g->m.furn_set( act->placement, new_furn_type ) :
+        static_cast<void>( g->m.ter_set( act->placement, new_ter_type ) );
+        p->add_msg_if_player( m_good, open_message );
+    } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
+        p->add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
+        g->m.furn_set( act->placement, furn_str_id( "f_gunsafe_mj" ) );
+    } else if( lock_roll > ( 1.5 * pick_roll ) ) {
+        if( it->inc_damage() ) {
+            p->add_msg_if_player( m_bad,
+                                  _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
+            destroy = true;
+        } else {
+            p->add_msg_if_player( m_bad,
+                                  _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
+        }
+    } else {
+        p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
+    }
+    if( ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
+        sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                       "alarm" );
+        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                 p->global_sm_location() );
+        }
+    }
+    if( destroy ) {
+        p->i_rem( it );
+    }
+
+    act->set_to_null();
+}
+
 void activity_handlers::open_gate_finish( player_activity *act, player * )
 {
     // Don't use reference and don't inline, because act can change
@@ -3379,33 +3468,26 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     - values[1]: success
     - values[2]: max_power_level
     - values[3]: pl_skill
-    - values[4] and above: occupied body_parts
     - str_values[0]: install/uninstall
-    - str_values[1]: deprecated
-    - str_values[2]: bionic_id
-    - str_values[3]: deprecated
-    - str_values[4]: upgraded cbm bionic_id
-    - str_values[5]: installer name
-    - str_values[6]: bool autodoc
-    - str_values[7] and above: traits removed by the cbm
+    - str_values[1]: bionic_id
+    - str_values[2]: installer_name
+    - str_values[3]: bool autodoc
     */
     enum operation_values_ids {
         operation_type = 0,
-        cbm_name = 1,
-        cbm_id = 2,
-        upgraded_cbm_name = 3,
-        upgraded_cbm_id = 4,
-        installer_name = 5,
-        is_autodoc = 6,
-        trait_first = 7
+        cbm_id = 1,
+        installer_name = 2,
+        is_autodoc = 3
     };
     const bionic_id bid( act->str_values[cbm_id] );
-    const bionic_id upbid( act->str_values[upgraded_cbm_id] );
+    const bionic_id upbid = bid->upgraded_bionic;
     const bool autodoc = act->str_values[is_autodoc] == "true";
     const bool u_see = g->u.sees( p->pos() ) && ( !g->u.has_effect( effect_narcosis ) ||
                        g->u.has_bionic( bio_painkiller ) || g->u.has_trait( trait_NOPAIN ) );
 
     const int difficulty = act->values.front();
+
+    const std::vector<body_part> bps = get_occupied_bodyparts( bid );
 
     const time_duration half_op_duration = difficulty * 10_minutes;
     const time_duration message_freq = difficulty * 2_minutes;
@@ -3426,36 +3508,36 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                           _( "The Autodoc's failure damages you greatly." ),
                                           _( "The Autodoc's failure damages <npcname> greatly." ) );
             }
-            if( act->values.size() > 4 ) {
-                for( size_t i = 4; i < act->values.size(); i++ ) {
-                    p->make_bleed( body_part( act->values[i] ), 1_turns, difficulty, true );
-                    p->apply_damage( nullptr, body_part( act->values[i] ), 20 * difficulty );
+            if( !bps.empty() ) {
+                for( const body_part bp : bps ) {
+                    const bodypart_id bpid = convert_bp( bp ).id();
+                    p->make_bleed( bp, 1_turns, difficulty, true );
+                    p->apply_damage( nullptr, bpid, 20 * difficulty );
 
                     if( u_see ) {
                         p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
-                                                  _( "<npcname>'s %s is ripped open." ),
-                                                  body_part_name_accusative( body_part( act->values[i] ) ) );
+                                                  _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp ) );
                     }
 
-                    if( body_part( act->values[i] ) == bp_eyes ) {
+                    if( bp == bp_eyes ) {
                         p->add_effect( effect_blind, 1_hours, num_bp );
                     }
                 }
             } else {
                 p->make_bleed( num_bp, 1_turns, difficulty, true );
-                p->apply_damage( nullptr, num_bp, 20 * difficulty );
+                p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
     }
 
     if( time_left > half_op_duration ) {
-        if( act->values.size() > 4 ) {
-            for( size_t i = 4; i < act->values.size(); i++ ) {
+        if( !bps.empty() ) {
+            for( const body_part bp : bps ) {
                 if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
                                               _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
-                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                                              body_part_name_accusative( bp ) );
                 }
             }
         } else {
@@ -3475,8 +3557,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 p->perform_uninstall( bid, act->values[0], act->values[1],
                                       units::from_millijoule( act->values[2] ), act->values[3] );
             } else {
-                debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
-                          act->str_values[cbm_id] );
+                debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ), bid.c_str() );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
@@ -3486,28 +3567,22 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
 
             if( bid.is_valid() ) {
-                std::vector<trait_id> trait_to_rem;
-                if( act->str_values.size() > trait_first + 1 ) {
-                    for( size_t i = trait_first; i < act->str_values.size(); i++ ) {
-                        trait_to_rem.emplace_back( trait_id( act->str_values[i] ) );
-                    }
-                }
                 p->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
-                                    act->str_values[installer_name], trait_to_rem, p->pos() );
+                                    act->str_values[installer_name], bid->canceled_mutations, p->pos() );
             } else {
-                debugmsg( _( "%s is no a valid bionic_id" ), act->str_values[cbm_id] );
+                debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
                 p->remove_effect( effect_under_op );
                 act->set_to_null();
             }
         }
     } else if( act->values[1] > 0 ) {
-        if( act->values.size() > 4 ) {
-            for( size_t i = 4; i < act->values.size(); i++ ) {
+        if( !bps.empty() ) {
+            for( const body_part bp : bps ) {
                 if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),
                                               _( "The Autodoc is stitching <npcname>'s %s back up." ),
-                                              body_part_name_accusative( body_part( act->values[i] ) ) );
+                                              body_part_name_accusative( bp ) );
                 }
             }
         } else {
@@ -3549,7 +3624,7 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::operation_finish( player_activity *act, player *p )
 {
-    if( act->str_values[6] == "true" ) {
+    if( act->str_values[3] == "true" ) {
         if( act->values[1] > 0 ) {
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
@@ -4516,7 +4591,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         //A near success
         p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ), z->name() );
         //damage it a little
-        z->apply_damage( p, bp_torso, rng( 1, 10 ) );
+        z->apply_damage( p, bodypart_id( "torso" ), rng( 1, 10 ) );
         if( z->is_dead() ) {
             p->practice( skill_id( "computer" ), 10 );
             // Do not do the other effects if the robot died
@@ -4593,139 +4668,6 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         q.pop();
     }
     p->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
-    act->set_to_null();
-}
-
-static int hack_level( const player &p )
-{
-    ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    // odds go up with int>8, down with int<8
-    // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking card readers
-    return p.get_skill_level( skill_computer ) + p.int_cur / 2 - 8;
-}
-
-static hack_result hack_attempt( player &p )
-{
-    if( p.has_trait( trait_ILLITERATE ) ) {
-        return HACK_UNABLE;
-    }
-    const bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
-                                   query_yn( _( "Use electrohack?" ) );
-    const bool using_fingerhack = !using_electrohack && p.has_bionic( bio_fingerhack ) &&
-                                  p.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
-
-    if( !( using_electrohack || using_fingerhack ) ) {
-        return HACK_UNABLE;
-    }
-
-    p.practice( skill_computer, 20 );
-    if( using_fingerhack ) {
-        p.mod_power_level( -25_kJ );
-    } else {
-        p.use_charges( "electrohack", 25 );
-    }
-
-    // only skilled supergenius never cause short circuits, but the odds are low for people
-    // with moderate skills
-    const int hack_stddev = 5;
-    int success = std::ceil( normal_roll( hack_level( p ), hack_stddev ) );
-    if( success < 0 ) {
-        add_msg( _( "You cause a short circuit!" ) );
-        if( using_fingerhack ) {
-            p.mod_power_level( -25_kJ );
-        } else {
-            p.use_charges( "electrohack", 25 );
-        }
-
-        if( success <= -5 ) {
-            if( using_electrohack ) {
-                add_msg( m_bad, _( "Your electrohack is ruined!" ) );
-                p.use_amount( "electrohack", 1 );
-            } else {
-                add_msg( m_bad, _( "Your power is drained!" ) );
-                p.mod_power_level( units::from_kilojoule( -rng( 25,
-                                   units::to_kilojoule( p.get_power_level() ) ) ) );
-            }
-        }
-        return HACK_FAIL;
-    } else if( success < 6 ) {
-        return HACK_NOTHING;
-    } else {
-        return HACK_SUCCESS;
-    }
-}
-
-static hack_type get_hack_type( tripoint examp )
-{
-    hack_type type = HACK_NULL;
-    const furn_t &xfurn_t = g->m.furn( examp ).obj();
-    const ter_t &xter_t = g->m.ter( examp ).obj();
-    if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
-        type = HACK_GAS;
-    } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
-        type = HACK_DOOR;
-    } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
-        type = HACK_SAFE;
-    }
-    return type;
-
-}
-
-void activity_handlers::hacking_finish( player_activity *act, player *p )
-{
-    tripoint examp = act->placement;
-    hack_type type = get_hack_type( examp );
-    switch( hack_attempt( *p ) ) {
-        case HACK_UNABLE:
-            p->add_msg_if_player( _( "You cannot hack this." ) );
-            break;
-        case HACK_FAIL:
-            // currently all things that can be hacked have equivalent alarm failure states.
-            // this may not always be the case with new hackable things.
-            g->events().send<event_type::triggers_alarm>( p->getID() );
-            sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
-                           "alarm" );
-            if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                     p->global_sm_location() );
-            }
-            break;
-        case HACK_NOTHING:
-            p->add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
-            break;
-        case HACK_SUCCESS:
-            if( type == HACK_GAS ) {
-                int tankGasUnits;
-                const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankGasUnits );
-                if( !pTank_ ) {
-                    break;
-                }
-                const tripoint pTank = *pTank_;
-                const cata::optional<tripoint> pGasPump = iexamine::getGasPumpByNumber( examp,
-                        uistate.ags_pay_gas_selected_pump );
-                if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankGasUnits ) ) {
-                    p->add_msg_if_player( _( "You hack the terminal and route all available fuel to your pump!" ) );
-                    sounds::sound( examp, 6, sounds::sound_t::activity,
-                                   _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ), true, "tool", "gaspump" );
-                } else {
-                    p->add_msg_if_player( _( "Nothing happens." ) );
-                }
-            } else if( type == HACK_SAFE ) {
-                p->add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
-                g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
-            } else if( type == HACK_DOOR ) {
-                p->add_msg_if_player( _( "You activate the panel!" ) );
-                p->add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
-                g->m.ter_set( examp, t_card_reader_broken );
-                for( const tripoint &tmp : g->m.points_in_radius( ( examp ), 3 ) ) {
-                    if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                        g->m.ter_set( tmp, t_door_metal_c );
-                    }
-                }
-            }
-            break;
-    }
     act->set_to_null();
 }
 

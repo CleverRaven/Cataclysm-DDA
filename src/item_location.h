@@ -27,7 +27,8 @@ class item_location
             invalid = 0,
             character = 1,
             map = 2,
-            vehicle = 3
+            vehicle = 3,
+            container = 4
         };
 
         item_location();
@@ -37,6 +38,7 @@ class item_location
         item_location( Character &ch, item *which );
         item_location( const map_cursor &mc, item *which );
         item_location( const vehicle_cursor &vc, item *which );
+        item_location( const item_location &container, item *which );
 
         void serialize( JsonOut &js ) const;
         void deserialize( JsonIn &js );
@@ -84,6 +86,9 @@ class item_location
         const item *get_item() const;
 
         void set_should_stack( bool should_stack ) const;
+
+        /** returns the parent item, or an invalid location if it has no parent */
+        item_location parent_item() const;
 
     private:
         class impl;

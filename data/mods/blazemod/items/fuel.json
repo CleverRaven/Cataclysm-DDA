@@ -1,0 +1,42 @@
+[
+  {
+    "id": "bfeedfuel",
+    "type": "AMMO",
+    "category": "fuel",
+    "name": { "str": "liquified blob feed", "str_pl": "bfeedfuel" },
+    "description": "Liquified blob feed, useful for fueling certain blob based vehicle parts",
+    "weight": "1 g",
+    "volume": "200ml",
+    "price": 40,
+    "price_postapoc": 800,
+    "phase": "liquid",
+    "container": "jerrycan",
+    "material": "hydrocarbons",
+    "fuel": { "energy": 35 },
+    "symbol": "=",
+    "color": "red",
+    "count": 250,
+    "stack_size": 200,
+    "ammo_type": "bfeed",
+    "range": 4,
+    "damage": 5,
+    "pierce": 5
+  },
+  {
+    "id": "bfeed",
+    "type": "AMMO",
+    "category": "fuel",
+    "name": { "str_sp": "blob feed" },
+    "description": "An amalgam of various types of organic material, contains everything the blob needs to be healthy.  You think…",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "to_hit": -3,
+    "bashing": 8,
+    "material": "flesh",
+    "fuel": { "energy": 1 },
+    "symbol": "*",
+    "color": "red",
+    "count": 25,
+    "ammo_type": "bfeed"
+  }
+]

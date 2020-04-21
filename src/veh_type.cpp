@@ -737,7 +737,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
         msg += string_format(
-                   _( "Has level <color_cyan>%1$d %2$s quality</color>" ), qual.second, qual.first.obj().name );
+                   _( "Has level <color_cyan>%1$d %2$s</color> quality" ), qual.second, qual.first.obj().name );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
             msg += string_format( _( " and is rated at <color_cyan>%1$d %2$s</color>" ),
                                   static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),

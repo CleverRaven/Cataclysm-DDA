@@ -17,7 +17,7 @@
     "id": "fake_burrowing",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "teeth and claws", "str_pl": "teeth and claws" },
+    "name": { "str_sp": "teeth and claws" },
     "flags": "TRADER_AVOID",
     "use_action": [ "BURROW" ],
     "qualities": [ [ "DIG", 3 ] ]
@@ -50,15 +50,19 @@
     "id": "fake_goggles",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "bionic goggles", "str_pl": "bionic goggles" },
+    "name": { "str_sp": "bionic goggles" },
     "qualities": [ [ "GLARE", 2 ] ]
   },
   {
     "id": "bio_scalpel",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "autonomous surgical scalpels", "str_pl": "autonomous surgical scalpels" },
-    "flags": [ "TRADER_AVOID" ],
+    "name": { "str_sp": "autonomous surgical scalpels" },
+    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts and can also be used as a high-quality butchering tool.",
+    "to_hit": 2,
+    "cutting": 8,
+    "techniques": "PRECISE",
+    "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
   },
   {
@@ -131,7 +135,7 @@
     "id": "fake_milling_item",
     "copy-from": "fake_item",
     "type": "GENERIC",
-    "name": { "str": "semi ground grains", "str_pl": "semi ground grains" },
+    "name": { "str_sp": "semi ground grains" },
     "description": "A paste of half-finished milled grains, not yet flour.",
     "flags": [ "TRADER_AVOID", "FAKE_MILL" ]
   },
@@ -139,7 +143,7 @@
     "id": "fake_smoke_plume",
     "copy-from": "fake_item",
     "type": "GENERIC",
-    "name": { "str": "smoldering embers", "str_pl": "smoldering embers" },
+    "name": { "str_sp": "smoldering embers" },
     "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
     "emits": [ "emit_small_smoke_plume" ],
     "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]

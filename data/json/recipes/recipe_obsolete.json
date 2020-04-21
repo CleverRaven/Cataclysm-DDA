@@ -2381,8 +2381,48 @@
   },
   {
     "type": "recipe",
+    "result": "taint_tornado",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "drink_sewerbrew",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "plastic_chunk",
     "id_suffix": "from_cash_cards",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvestsuper",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularveststeel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvestkevlar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvesthard",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvestceramic",
     "obsolete": true
   }
 ]

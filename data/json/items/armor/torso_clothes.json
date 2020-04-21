@@ -307,7 +307,7 @@
   {
     "id": "leotard",
     "type": "ARMOR",
-    "name": { "str": "leotard", "str_pl": "leotard" },
+    "name": { "str_sp": "leotard" },
     "description": "A skin-tight spandex garment, covering the body from the groin to the shoulders.  With its deep scoop-cut back and high waist cuts, this garment is perfect for showcasing your physique on the stage.",
     "weight": "60 g",
     "volume": "500 ml",
@@ -401,7 +401,7 @@
     "id": "maid_dress",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str": "French maid clothes", "str_pl": "French maid clothes" },
+    "name": { "str_sp": "French maid clothes" },
     "description": "The French maid dress, blue with a frilly white apron.",
     "weight": "100 g",
     "volume": "250 ml",

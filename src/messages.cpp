@@ -511,7 +511,8 @@ void Messages::dialog::init()
     w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, point( w_fh_x, w_fh_y ) );
 
     // Initialize filter input
-    filter.window( w_filter_help, border_width + 2, w_fh_height - 1, w_fh_width - border_width - 2 );
+    filter.window( w_filter_help, point( border_width + 2, w_fh_height - 1 ),
+                   w_fh_width - border_width - 2 );
     filtering = false;
 
     // Initialize folded messages

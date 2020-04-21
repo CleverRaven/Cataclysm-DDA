@@ -2,19 +2,19 @@
   {
     "id": "308",
     "type": "AMMO",
-    "name": { "str": "rifle ammo, ball", "str_pl": "rifle ammo, ball" },
+    "name": { "str_sp": "rifle ammo, ball" },
     "copy-from": "rifle_ball"
   },
   {
     "id": "762_51",
     "type": "AMMO",
-    "name": { "str": "rifle ammo, ball", "str_pl": "rifle ammo, ball" },
+    "name": { "str_sp": "rifle ammo, ball" },
     "copy-from": "rifle_ball"
   },
   {
     "id": "556",
     "type": "AMMO",
-    "name": { "str": "rifle ammo, ball", "str_pl": "rifle ammo, ball" },
+    "name": { "str_sp": "rifle ammo, ball" },
     "copy-from": "rifle_ball"
   },
   {

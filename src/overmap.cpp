@@ -227,7 +227,7 @@ int city::get_distance_from( const tripoint &p ) const
 }
 
 std::map<enum radio_type, std::string> radio_type_names =
-{{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
+{{ {radio_type::MESSAGE_BROADCAST, "broadcast"}, {radio_type::WEATHER_RADIO, "weather"} }};
 
 /** @relates string_id */
 template<>
@@ -1563,8 +1563,6 @@ bool overmap::generate_sub( const int z )
                 if( one_in( 3 ) ) {
                     ter_set( p, oter_id( "cave_rat" ) );
                     requires_sub = true; // rat caves are two level
-                } else {
-                    ter_set( p, oter_id( "cave" ) );
                 }
             } else if( oter_above == "cave_rat" && z == -2 ) {
                 ter_set( p, oter_id( "cave_rat" ) );
@@ -1764,14 +1762,15 @@ bool overmap::generate_sub( const int z )
         requires_sub = true;
     }
     for( auto &i : ant_points ) {
-        if( ter( { i.pos, z } ) != "empty_rock" ) {
+        const tripoint p_loc = tripoint( i.pos, z );
+        if( ter( p_loc ) != "empty_rock" ) {
             continue;
         }
-        mongroup_id ant_group( ter( i.pos + tripoint_above ) == "anthill" ?
+        mongroup_id ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
                                "GROUP_ANT" : "GROUP_ANT_ACID" );
         add_mon_group( mongroup( ant_group, tripoint( i.pos.x * 2, i.pos.y * 2, z ),
                                  ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
-        build_anthill( tripoint( i.pos, z ), i.size );
+        build_anthill( p_loc, i.size );
     }
 
     return requires_sub;
@@ -4281,7 +4280,7 @@ void overmap::place_radios()
                                                        _( "Head West.  All survivors, head West.  Help is waiting." ) ) );
                         break;
                     case 2:
-                        radios.push_back( radio_tower( pos_sm, strength(), "", WEATHER_RADIO ) );
+                        radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
                         break;
                 }
             } else if( ter( pos_omt ) == "lmoe" ) {

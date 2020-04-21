@@ -71,7 +71,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips2",
-    "name": { "str": "potato chips", "str_pl": "potato chips" },
+    "name": { "str_sp": "potato chips" },
     "copy-from": "chips",
     "description": "Some plain, salted potato chips.",
     "fun": 3
@@ -79,7 +79,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips3",
-    "name": { "str": "potato chips", "str_pl": "potato chips" },
+    "name": { "str_sp": "potato chips" },
     "copy-from": "chips",
     "description": "Oh man, you love these chips!  Score!",
     "//": "Favorite flavor varies.",
@@ -88,7 +88,7 @@
   {
     "type": "COMESTIBLE",
     "id": "kernels",
-    "name": { "str": "popcorn kernels", "str_pl": "popcorn kernels" },
+    "name": { "str_sp": "popcorn kernels" },
     "weight": "32 g",
     "color": "brown",
     "container": "bag_plastic",
@@ -107,7 +107,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn",
-    "name": { "str": "popcorn", "str_pl": "popcorn" },
+    "name": { "str_sp": "popcorn" },
     "weight": "8 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -130,7 +130,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn2",
-    "name": { "str": "salted popcorn", "str_pl": "salted popcorn" },
+    "name": { "str_sp": "salted popcorn" },
     "copy-from": "popcorn",
     "quench": -3,
     "healthy": -1,
@@ -141,9 +141,10 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn3",
-    "name": { "str": "buttered popcorn", "str_pl": "buttered popcorn" },
+    "name": { "str_sp": "buttered popcorn" },
     "copy-from": "popcorn",
     "healthy": -1,
+    "calories": 50,
     "description": "Popcorn with a light covering of butter for extra flavor.",
     "material": "junk",
     "fun": 10
@@ -151,7 +152,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pretzels",
-    "name": { "str": "pretzels", "str_pl": "pretzels" },
+    "name": { "str_sp": "pretzels" },
     "weight": "62 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -214,7 +215,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marshmallow",
-    "name": { "str": "marshmallows", "str_pl": "marshmallows" },
+    "name": { "str_sp": "marshmallows" },
     "weight": "53 g",
     "color": "white",
     "spoils_in": "90 days",
@@ -233,7 +234,7 @@
   {
     "type": "COMESTIBLE",
     "id": "smores",
-    "name": { "str": "s'mores", "str_pl": "s'mores" },
+    "name": { "str_sp": "s'mores" },
     "weight": "180 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -297,7 +298,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy3",
-    "name": { "str": "chewy candy", "str_pl": "chewy candy" },
+    "name": { "str_sp": "chewy candy" },
     "weight": "46 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -318,7 +319,7 @@
   {
     "type": "COMESTIBLE",
     "id": "powder_candy",
-    "name": { "str": "powder candy sticks", "str_pl": "powder candy sticks" },
+    "name": { "str_sp": "powder candy sticks" },
     "weight": "46 g",
     "color": "red",
     "spoils_in": "360 days",
@@ -406,7 +407,7 @@
   {
     "type": "COMESTIBLE",
     "id": "syrup",
-    "name": { "str": "maple syrup", "str_pl": "maple syrup" },
+    "name": { "str_sp": "maple syrup" },
     "weight": "21 g",
     "color": "brown",
     "container": "bottle_glass",
@@ -428,7 +429,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beet_syrup",
-    "name": { "str": "sugar beet syrup", "str_pl": "sugar beet syrup" },
+    "name": { "str_sp": "sugar beet syrup" },
     "weight": "15 g",
     "color": "brown",
     "container": "bottle_glass",
@@ -511,7 +512,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fries",
-    "name": { "str": "fast-food French fries", "str_pl": "fast-food French fries" },
+    "name": { "str_sp": "fast-food French fries" },
     "weight": "71 g",
     "color": "yellow",
     "container": "box_small",
@@ -532,7 +533,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fresh_fries",
-    "name": { "str": "French fries", "str_pl": "French fries" },
+    "name": { "str_sp": "French fries" },
     "copy-from": "fries",
     "spoils_in": "3 days",
     "description": "Deep-fried potatoes with a touch of salt.  Crunchy and delicious.",
@@ -562,7 +563,7 @@
   {
     "type": "COMESTIBLE",
     "id": "neccowafers",
-    "name": { "str": "Necco wafers", "str_pl": "Necco wafers" },
+    "name": { "str_sp": "Necco wafers" },
     "weight": "60 g",
     "color": "magenta",
     "spoils_in": "180 days",
@@ -605,7 +606,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sugar_fried",
-    "name": { "str": "caramel", "str_pl": "caramel" },
+    "name": { "str_sp": "caramel" },
     "weight": "67 g",
     "color": "white",
     "container": "box_small",
@@ -626,7 +627,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips",
-    "name": { "str": "potato chips", "str_pl": "potato chips" },
+    "name": { "str_sp": "potato chips" },
     "weight": "28 g",
     "color": "yellow",
     "spoils_in": "30 days",
@@ -690,7 +691,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nachos",
-    "name": { "str": "tortilla chips", "str_pl": "tortilla chips" },
+    "name": { "str_sp": "tortilla chips" },
     "weight": "80 g",
     "color": "yellow",
     "spoils_in": "30 days",
@@ -711,7 +712,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nachosc",
-    "name": { "str": "cheese nachos", "str_pl": "cheese nachos" },
+    "name": { "str_sp": "cheese nachos" },
     "weight": "85 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -733,14 +734,10 @@
   {
     "type": "COMESTIBLE",
     "id": "nachosm",
-    "name": { "str": "meat nachos", "str_pl": "meat nachos" },
+    "name": { "str_sp": "meat nachos" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "niño nachos", "str_pl": "niño nachos" } },
-      {
-        "type": "COMPONENT_ID",
-        "condition": "mutant",
-        "name": { "str": "nachos con chupacabra", "str_pl": "nachos con chupacabra" }
-      }
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "niño nachos" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "nachos con chupacabra" } }
     ],
     "weight": "125 g",
     "color": "yellow",
@@ -763,18 +760,10 @@
   {
     "type": "COMESTIBLE",
     "id": "nachosmc",
-    "name": { "str": "meat nachos with cheese", "str_pl": "meat nachos with cheese" },
+    "name": { "str_sp": "meat nachos with cheese" },
     "conditional_names": [
-      {
-        "type": "FLAG",
-        "condition": "CANNIBALISM",
-        "name": { "str": "niño nachos with cheese", "str_pl": "niño nachos with cheese" }
-      },
-      {
-        "type": "COMPONENT_ID",
-        "condition": "mutant",
-        "name": { "str": "cheese and chupacabra nachos", "str_pl": "cheese and chupacabra nachos" }
-      }
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "niño nachos with cheese" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "cheese and chupacabra nachos" } }
     ],
     "weight": "22 g",
     "color": "yellow",
@@ -906,7 +895,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chilidogs",
-    "name": { "str": "chili dogs", "str_pl": "chili dogs" },
+    "name": { "str_sp": "chili dogs" },
     "weight": "318 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -928,7 +917,7 @@
   {
     "type": "COMESTIBLE",
     "id": "corndogs_frozen",
-    "name": { "str": "uncooked corn dogs", "str_pl": "uncooked corn dogs" },
+    "name": { "str_sp": "uncooked corn dogs" },
     "weight": "78 g",
     "color": "yellow",
     "spoils_in": "11 days 16 hours",
@@ -974,7 +963,7 @@
     "type": "COMESTIBLE",
     "id": "choc_pancakes",
     "copy-from": "pancakes",
-    "name": { "str": "chocolate pancake", "str_pl": "chocolate pancakes" },
+    "name": { "str": "chocolate pancake" },
     "weight": "78 g",
     "healthy": 0,
     "calories": 219,
@@ -1031,7 +1020,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cheese_fries",
-    "name": { "str": "cheese fries", "str_pl": "cheese fries" },
+    "name": { "str_sp": "cheese fries" },
     "weight": "101 g",
     "color": "yellow",
     "spoils_in": "3 days",

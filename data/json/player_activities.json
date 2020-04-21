@@ -541,6 +541,14 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_LOCKPICK",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "picking lock",
+    "rooted": true,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_REPAIR_ITEM",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

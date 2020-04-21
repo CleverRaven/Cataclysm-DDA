@@ -26,8 +26,6 @@ class JsonObject;
 class avatar;
 class player;
 
-enum add_type : int;
-
 class profession
 {
     public:

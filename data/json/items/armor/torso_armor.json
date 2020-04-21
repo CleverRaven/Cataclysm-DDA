@@ -46,7 +46,7 @@
   {
     "id": "armor_lorica",
     "type": "ARMOR",
-    "name": { "str": "lorica segmentata", "str_pl": "lorica segmentata" },
+    "name": { "str_sp": "lorica segmentata" },
     "description": "An ancient Roman laminar armor, made of overlapping metal strips connected to internal leather straps.",
     "weight": "5286 g",
     "volume": "6 L",
@@ -222,6 +222,14 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "jacket_leather_bone",
+    "type": "ARMOR",
+    "name": { "str": "occult bone armor" },
+    "description": "A black jacket made from thick leather and covered with intricately carved bones.  You've never seen patterns like those before, each time you look at them you spot a new one as if they were changing on their own.",
+    "copy-from": "jacket_leather_mod",
+    "material": [ "leather", "bone" ]
   },
   {
     "id": "lame_foil",

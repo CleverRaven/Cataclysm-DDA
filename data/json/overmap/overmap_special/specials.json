@@ -221,8 +221,8 @@
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land", "swamp" ],
-    "city_distance": [ 10, 200 ],
-    "city_sizes": [ 1, 3 ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 1, 8 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -1124,12 +1124,57 @@
   },
   {
     "type": "overmap_special",
+    "id": "Evac Shelter Vandalized",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_vandal_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 5, 10 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 1, 3 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Vandalized 2",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_1_vandal_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 5, 10 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 1, 3 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Vandalized 3",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_2_vandal_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_2_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 5, 10 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 1, 3 ],
+    "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Cave",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cave" } ],
-    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cave" }, { "point": [ 0, 0, -1 ], "overmap": "cave_underground" } ],
+    "locations": [ "forest" ],
     "city_sizes": [ 0, 12 ],
+    "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 30 ],
-    "rotate": false,
     "flags": [ "WILDERNESS" ]
   },
   {
@@ -1497,8 +1542,8 @@
       { "point": [ 4, 9, 0 ], "terrain": "road" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 1, 5 ],
-    "city_sizes": [ 1, 12 ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 1, -1 ],
     "occurrences": [ 33, 100 ],
     "flags": [ "UNIQUE" ]
   },

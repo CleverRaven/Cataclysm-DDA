@@ -11,6 +11,8 @@
 #include "math_defines.h"
 #include "point.h"
 
+extern bool trigdist;
+
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )
 {
@@ -32,7 +34,7 @@ constexpr double ARCMIN( double v )
 inline double iso_tangent( double distance, double vertex )
 {
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
-    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( ARCMIN( vertex ) ) ) );
+    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - std::cos( ARCMIN( vertex ) ) ) );
 }
 
 //! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
@@ -50,7 +52,7 @@ inline constexpr unsigned make_xyz_unit( const int x, const int y, const int z )
 // This more general version of this function gives correct values for larger inputs.
 unsigned make_xyz( const tripoint & );
 
-enum direction : unsigned {
+enum class direction : unsigned {
     ABOVENORTHWEST = make_xyz_unit( -1, -1, -1 ),
     NORTHWEST      = make_xyz_unit( -1, -1,  0 ),
     BELOWNORTHWEST = make_xyz_unit( -1, -1,  1 ),
@@ -82,6 +84,42 @@ enum direction : unsigned {
     BELOWSOUTHEAST = make_xyz_unit( 1,  1,  1 ),
 };
 
+template< class T >
+constexpr inline direction operator%( const direction &lhs, const T &rhs )
+{
+    return static_cast<direction>( static_cast<T>( lhs ) % rhs );
+}
+
+template< class T >
+constexpr inline T operator+( const direction &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) + rhs;
+}
+
+template< class T >
+constexpr inline bool operator==( const direction &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) == rhs;
+}
+
+template< class T >
+constexpr inline bool operator==( const T &lhs, const direction &rhs )
+{
+    return operator==( rhs, lhs );
+}
+
+template< class T >
+constexpr inline bool operator!=( const T &lhs, const direction &rhs )
+{
+    return !operator==( rhs, lhs );
+}
+
+template< class T >
+constexpr inline bool operator!=( const direction &lhs, const T &rhs )
+{
+    return !operator==( lhs, rhs );
+}
+
 direction direction_from( const point &p ) noexcept;
 direction direction_from( const tripoint &p ) noexcept;
 direction direction_from( const point &p1, const point &p2 ) noexcept;
@@ -110,8 +148,6 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 // t and t2 decide which Bresenham line is used.
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
-
-extern bool trigdist;
 
 inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {

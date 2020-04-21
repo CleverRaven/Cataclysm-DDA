@@ -80,6 +80,7 @@ void game::serialize( std::ostream &fout )
     // basic game state information.
     json.member( "turn", calendar::turn );
     json.member( "calendar_start", calendar::start_of_cataclysm );
+    json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
@@ -193,6 +194,10 @@ void game::unserialize( std::istream &fin )
 
         calendar::turn = tmpturn;
         calendar::start_of_cataclysm = tmpcalstart;
+
+        if( !data.read( "game_start", calendar::start_of_game ) ) {
+            calendar::start_of_game = calendar::start_of_cataclysm;
+        }
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
@@ -1019,7 +1024,7 @@ void overmap::unserialize( std::istream &fin )
                         const std::string radio_name = jsin.get_string();
                         const auto mapping =
                             find_if( radio_type_names.begin(), radio_type_names.end(),
-                        [radio_name]( const std::pair<int, std::string> &p ) {
+                        [radio_name]( const std::pair<radio_type, std::string> &p ) {
                             return p.second == radio_name;
                         } );
                         if( mapping != radio_type_names.end() ) {

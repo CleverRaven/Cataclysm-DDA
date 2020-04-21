@@ -44,8 +44,8 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     do {
         int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );
-        new_pos.x = origin.x + rdistance * cos( rangle );
-        new_pos.y = origin.y + rdistance * sin( rangle );
+        new_pos.x = origin.x + rdistance * std::cos( rangle );
+        new_pos.y = origin.y + rdistance * std::sin( rangle );
         tries++;
     } while( g->m.impassable( new_pos ) && tries < 20 );
     //handles teleporting into solids.
@@ -56,7 +56,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
             }
             return false;
         }
-        critter.apply_damage( nullptr, bp_torso, 9999 );
+        critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
         if( c_is_u ) {
             g->events().send<event_type::teleports_into_wall>( p->getID(), g->m.obstacle_name( new_pos ) );
             add_msg( m_bad, _( "You die after teleporting into a solid." ) );
@@ -95,7 +95,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
                 }
             }
             //Splatter real nice.
-            poor_soul->apply_damage( nullptr, bp_torso, 9999 );
+            poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
             poor_soul->check_dead_state();
         }
     }

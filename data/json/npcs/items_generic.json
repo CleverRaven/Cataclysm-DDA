@@ -285,7 +285,7 @@
       [ "vest", 10 ],
       [ "vest_leather", 5 ],
       [ "kevlar", 10 ],
-      [ "modularvest", 5 ],
+      [ "ballistic_vest_esapi", 5 ],
       [ "waistcoat", 5 ],
       [ "flotation_vest", 10 ],
       [ "chainmail_vest", 5 ]
@@ -793,7 +793,7 @@
       [ "minispeargun", 1 ],
       [ "mintpatties", 3 ],
       [ "misc_repairkit", 5 ],
-      [ "modularvest", 1 ],
+      [ "ballistic_vest_empty", 1 ],
       [ "molasses", 3 ],
       [ "money_bundle", 10 ],
       [ "moonshine", 5 ],

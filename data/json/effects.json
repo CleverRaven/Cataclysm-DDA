@@ -631,6 +631,13 @@
   },
   {
     "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisible" ],
+    "desc": [ "You are invisible." ],
+    "flags": [ "EFFECT_INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "took_flumed"
   },
   {
@@ -1748,12 +1755,10 @@
   {
     "type": "effect_type",
     "id": "irradiated",
-    "name": [ "Irradiated" ],
-    "desc": [ "You suffer symptoms of a radiation sickness that weakens your body." ],
+    "//": "No name or desc. Hidden from player, encourages use of radiation detection equipment",
     "max_intensity": 2000,
     "int_dur_factor": "10 s",
-    "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] },
-    "miss_messages": [ [ "Radiation weakens you.", 1 ] ]
+    "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] }
   },
   {
     "type": "effect_type",

@@ -183,24 +183,6 @@
     "time": "20 m"
   },
   {
-    "id": "recipe_mininuke_launch",
-    "type": "BOOK",
-    "name": { "str": "238-NK: Practicality Enhancement", "str_pl": "copies of 238-NK: Practicality Enhancement" },
-    "description": "The authors of this thoroughly researched and documented proposal make a very persuasive case for the adoption of spring-driven nuclear shells.  It's stamped \"DENIED\".",
-    "weight": "854 g",
-    "volume": "1500 ml",
-    "price": 30000,
-    "price_postapoc": 5000000,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_green",
-    "skill": "fabrication",
-    "required_level": 4,
-    "max_level": 5,
-    "intelligence": 9,
-    "time": "10 m"
-  },
-  {
     "id": "textbook_armeast",
     "type": "BOOK",
     "name": { "str": "The Art of Japanese Armormaking", "str_pl": "copies of The Art of Japanese Armormaking" },

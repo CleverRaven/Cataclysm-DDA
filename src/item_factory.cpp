@@ -66,8 +66,6 @@ static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
-extern const double MAX_RECOIL;
-
 static const int ascii_art_width = 42;
 
 bool item_is_blacklisted( const std::string &id )
@@ -1491,7 +1489,6 @@ void Item_factory::load( islot_ammo &slot, const JsonObject &jo, const std::stri
     assign( jo, "count", slot.def_charges, strict, 1 );
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
-    assign( jo, "prop_damage", slot.prop_damage, strict );
     assign( jo, "critical_multiplier", slot.critical_multiplier, strict );
     assign( jo, "show_stats", slot.force_stat_display, strict );
 }
@@ -2235,15 +2232,34 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
-    if( jo.has_member( "name_plural" ) ) {
-        // legacy format
-        // NOLINTNEXTLINE(cata-json-translation-input)
-        def.name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
-    } else {
+    // NOTE: please also change `needs_plural` in `lang/extract_json_string.py`
+    // when changing this list
+    static const std::set<std::string> needs_plural = {
+        "AMMO",
+        "ARMOR",
+        "BATTERY",
+        "BIONIC_ITEM",
+        "BOOK",
+        "COMESTIBLE",
+        "CONTAINER",
+        "ENGINE",
+        "GENERIC",
+        "GUN",
+        "GUNMOD",
+        "MAGAZINE",
+        "PET_ARMOR",
+        "TOOL",
+        "TOOLMOD",
+        "TOOL_ARMOR",
+        "WHEEL",
+    };
+    if( needs_plural.find( jo.get_string( "type" ) ) != needs_plural.end() ) {
         def.name = translation( translation::plural_tag() );
-        if( !jo.read( "name", def.name ) ) {
-            jo.throw_error( "name unspecified for item type" );
-        }
+    } else {
+        def.name = translation();
+    }
+    if( !jo.read( "name", def.name ) ) {
+        jo.throw_error( "name unspecified for item type" );
     }
 
     if( jo.has_member( "description" ) ) {

@@ -39,6 +39,6 @@
     "range": 80,
     "dispersion": 30,
     "recoil": 225,
-    "effects": [ "COOKOFF", "EXPLOSIVE", "TRAIL" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_66mmHEAT", "TRAIL" ]
   }
 ]

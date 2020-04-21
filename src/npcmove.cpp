@@ -365,21 +365,21 @@ void npc::assess_danger()
             return false;
         }
         switch( rules.engagement ) {
-            case ENGAGE_NONE:
+            case combat_engagement::NONE:
                 return false;
-            case ENGAGE_CLOSE:
+            case combat_engagement::CLOSE:
                 // Either close to player or close enough that we can reach it and close to us
                 return ( dist <= max_range && scaled_dist <= def_radius * 0.5 ) ||
                        too_close( c.pos(), g->u.pos(), def_radius );
-            case ENGAGE_WEAK:
+            case combat_engagement::WEAK:
                 return c.get_hp() <= average_damage_dealt();
-            case ENGAGE_HIT:
+            case combat_engagement::HIT:
                 return c.has_effect( effect_hit_by_player );
-            case ENGAGE_NO_MOVE:
+            case combat_engagement::NO_MOVE:
                 return dist <= max_range;
-            case ENGAGE_FREE_FIRE:
+            case combat_engagement::FREE_FIRE:
                 return dist <= max_range;
-            case ENGAGE_ALL:
+            case combat_engagement::ALL:
                 return true;
         }
 
@@ -406,7 +406,7 @@ void npc::assess_danger()
             }
         }
     }
-    if( is_player_ally() && rules.engagement == ENGAGE_FREE_FIRE ) {
+    if( is_player_ally() && rules.engagement == combat_engagement::FREE_FIRE ) {
         def_radius = std::max( 6, max_range );
     }
     // find our Character friends and enemies
@@ -1288,10 +1288,10 @@ npc_action npc::method_of_attack()
     const bool same_z = tar.z == pos().z;
 
     // TODO: Change the in_vehicle check to actual "are we driving" check
-    const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE ||
-                           rules.engagement == ENGAGE_FREE_FIRE;
+    const bool dont_move = in_vehicle || rules.engagement == combat_engagement::NO_MOVE ||
+                           rules.engagement == combat_engagement::FREE_FIRE;
     // NPCs engage in free fire can move to avoid allies, but not if they're in a vehicle
-    const bool dont_move_ff = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
+    const bool dont_move_ff = in_vehicle || rules.engagement == combat_engagement::NO_MOVE;
 
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
@@ -1972,13 +1972,13 @@ double npc::confidence_mult() const
     }
 
     switch( rules.aim ) {
-        case AIM_WHEN_CONVENIENT:
+        case aim_rule::WHEN_CONVENIENT:
             return emergency() ? 1.5f : 1.0f;
-        case AIM_SPRAY:
+        case aim_rule::SPRAY:
             return 2.0f;
-        case AIM_PRECISE:
+        case aim_rule::PRECISE:
             return emergency() ? 1.0f : 0.75f;
-        case AIM_STRICTLY_PRECISE:
+        case aim_rule::STRICTLY_PRECISE:
             return 0.5f;
     }
 

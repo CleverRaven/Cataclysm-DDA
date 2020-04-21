@@ -1838,7 +1838,7 @@ void basecamp::job_assignment_ui()
                 selection--;
             }
         } else if( action == "CONFIRM" ) {
-            if( !stationed_npcs.empty() ) {
+            if( cur_npc ) {
                 while( true ) {
                     uilist smenu;
                     smenu.text = _( "Assign job priority ( 0 to disable )" );
