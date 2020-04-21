@@ -106,8 +106,7 @@
       ],
       "terrain": {  },
       "furniture": {  },
-      "palettes": [ "campus_common" ],
-      "place_monsters": [ { "monster": "GROUP_ROOF_ANIMAL", "x": [ 3, 23 ], "y": [ 40, 61 ], "chance": 2 } ]
+      "palettes": [ "campus_common" ]
     }
   }
 ]
