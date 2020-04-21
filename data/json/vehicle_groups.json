@@ -54,6 +54,7 @@
       [ "humvee", 150 ],
       [ "humvee_gl", 50 ],
       [ "icecream_truck", 50 ],
+      [ "food_truck", 50 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 100 ],
       [ "4x4_car", 500 ]
@@ -236,6 +237,7 @@
       [ "motorcycle_sidecart", 300 ],
       [ "shopping_cart", 1000 ],
       [ "icecream_truck", 50 ],
+      [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
       [ "4x4_car", 200 ]

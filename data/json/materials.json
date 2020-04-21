@@ -668,6 +668,12 @@
   },
   {
     "type": "material",
+    "ident": "foodplace_foodstuff",
+    "name": "Foodplace'delicious foodstuff",
+    "copy-from": "junk"
+  },
+  {
+    "type": "material",
     "ident": "kevlar",
     "name": "Kevlar",
     "density": 10,
