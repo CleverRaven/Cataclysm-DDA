@@ -7603,18 +7603,38 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 {
     const int iInfoHeight = 15;
     const int width = 45;
-    const int offsetX = TERMX - VIEW_OFFSET_X - width; //VIEW_OFFSET_X;
-    const int iMaxRows = TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 - 1;
+    int offsetX = 0;
+    int iMaxRows = 0;
 
-    catacurses::window w_monsters = catacurses::newwin( iMaxRows, width - 2, point( offsetX + 1,
-                                    VIEW_OFFSET_Y + 1 ) );
-    catacurses::window w_monsters_border = catacurses::newwin( iMaxRows + 1, width, point( offsetX,
-                                           VIEW_OFFSET_Y ) );
+    catacurses::window w_monsters;
+    catacurses::window w_monsters_border;
+    catacurses::window w_monster_info;
+    catacurses::window w_monster_info_border;
 
-    catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 2, width - 2,
-                                        point( offsetX + 1, TERMY - iInfoHeight - VIEW_OFFSET_Y + 1 ) );
-    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width, point( offsetX,
-            TERMY - iInfoHeight - VIEW_OFFSET_Y ) );
+    Creature *cCurMon = nullptr;
+    tripoint iActivePos;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        offsetX = TERMX - VIEW_OFFSET_X - width;
+        iMaxRows = TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 - 1;
+
+        w_monsters = catacurses::newwin( iMaxRows, width - 2, point( offsetX + 1,
+                                         VIEW_OFFSET_Y + 1 ) );
+        w_monsters_border = catacurses::newwin( iMaxRows + 1, width, point( offsetX,
+                                                VIEW_OFFSET_Y ) );
+        w_monster_info = catacurses::newwin( iInfoHeight - 2, width - 2,
+                                             point( offsetX + 1, TERMY - iInfoHeight - VIEW_OFFSET_Y + 1 ) );
+        w_monster_info_border = catacurses::newwin( iInfoHeight, width, point( offsetX,
+                                TERMY - iInfoHeight - VIEW_OFFSET_Y ) );
+
+        if( cCurMon ) {
+            centerlistview( iActivePos, width );
+        }
+
+        ui.position( point( offsetX, VIEW_OFFSET_Y ), point( width, TERMY  - VIEW_OFFSET_Y * 2 ) );
+    } );
+    ui.mark_resize();
 
     const int max_gun_range = u.weapon.gun_range( &u );
 
@@ -7622,16 +7642,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     u.view_offset = tripoint_zero;
 
     int iActive = 0; // monster index that we're looking at
-    int iStartPos = 0;
-    cata::optional<tripoint> iLastActivePos;
-    Creature *cCurMon = nullptr;
-
-    draw_custom_border( w_monsters_border, true, true, true, true, true, true, LINE_XOXO, LINE_XOXO );
-    draw_custom_border( w_monster_info_border, true, true, true, true, LINE_XXXO, LINE_XOXX, true,
-                        true );
-
-    mvwprintz( w_monsters_border, point( 2, 0 ), c_light_green, "<Tab> " );
-    wprintz( w_monsters_border, c_white, _( "Monsters" ) );
 
     std::string action;
     input_context ctxt( "LIST_MONSTERS" );
@@ -7659,50 +7669,13 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         }
     }
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_custom_border( w_monsters_border, true, true, true, true, true, true, LINE_XOXO, LINE_XOXO );
+        draw_custom_border( w_monster_info_border, true, true, true, true, LINE_XXXO, LINE_XOXX, true,
+                            true );
 
-    do {
-        if( action == "HELP_KEYBINDINGS" ) {
-            draw_ter();
-            wrefresh( w_terrain );
-        } else if( action == "UP" ) {
-            iActive--;
-            if( iActive < 0 ) {
-                iActive = static_cast<int>( monster_list.size() ) - 1;
-            }
-        } else if( action == "DOWN" ) {
-            iActive++;
-            if( iActive >= static_cast<int>( monster_list.size() ) ) {
-                iActive = 0;
-            }
-        } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
-            u.view_offset = stored_view_offset;
-            return game::vmenu_ret::CHANGE_TAB;
-        } else if( action == "SAFEMODE_BLACKLIST_REMOVE" ) {
-            const auto m = dynamic_cast<monster *>( cCurMon );
-            const std::string monName = ( m != nullptr ) ? m->name() : "human";
-
-            if( get_safemode().has_rule( monName, Creature::A_ANY ) ) {
-                get_safemode().remove_rule( monName, Creature::A_ANY );
-            }
-        } else if( action == "SAFEMODE_BLACKLIST_ADD" ) {
-            if( !get_safemode().empty() ) {
-                const auto m = dynamic_cast<monster *>( cCurMon );
-                const std::string monName = ( m != nullptr ) ? m->name() : "human";
-
-                get_safemode().add_rule( monName, Creature::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ),
-                                         RULE_BLACKLISTED );
-            }
-        } else if( action == "look" ) {
-            iLastActivePos = look_around();
-        } else if( action == "fire" ) {
-            if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
-                u.last_target = shared_from( *cCurMon );
-                u.view_offset = stored_view_offset;
-                return game::vmenu_ret::FIRE;
-            }
-        }
+        mvwprintz( w_monsters_border, point( 2, 0 ), c_light_green, "<Tab> " );
+        wprintz( w_monsters_border, c_white, _( "Monsters" ) );
 
         if( monster_list.empty() ) {
             mvwprintz( w_monsters, point( 2, iMaxRows / 3 ), c_white,
@@ -7727,6 +7700,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     break;
                 }
             }
+            int iStartPos = 0;
             // use selected row get the start row
             calcStartPos( iStartPos, iSelPos, iMaxRows - 1, iMenuSize );
 
@@ -7825,10 +7799,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                        iActive + 1 );
             wprintz( w_monsters_border, c_white, " / %*d ", numw, static_cast<int>( monster_list.size() ) );
 
-            cCurMon = monster_list[iActive];
-
             werase( w_monster_info );
-            cCurMon->print_info( w_monster_info, 1, iInfoHeight - 3, 1 );
+            if( cCurMon ) {
+                cCurMon->print_info( w_monster_info, 1, iInfoHeight - 3, 1 );
+            }
 
             draw_custom_border( w_monster_info_border, true, true, true, true, LINE_XXXO, LINE_XOXX, true,
                                 true );
@@ -7838,19 +7812,13 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 wprintz( w_monster_info_border, c_light_green, ctxt.press_x( "look" ) );
                 wprintz( w_monster_info_border, c_light_gray, " %s", _( "to look around" ) );
 
-                if( rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
+                if( cCurMon && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                     wprintw( w_monster_info_border, " " );
                     wprintz( w_monster_info_border, c_light_green, ctxt.press_x( "fire" ) );
                     wprintz( w_monster_info_border, c_light_gray, " %s", _( "to shoot" ) );
                 }
                 wprintw( w_monster_info_border, " >" );
             }
-
-            // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
-            tripoint iActivePos = cCurMon->pos() - u.pos();
-            iLastActivePos.emplace( iActivePos );
-            centerlistview( iActivePos, width );
-            draw_trail_to_square( iActivePos, false );
 
             draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ),
                             point_south );
@@ -7860,12 +7828,74 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         wrefresh( w_monster_info_border );
         wrefresh( w_monsters );
         wrefresh( w_monster_info );
-        catacurses::refresh();
+    } );
+
+    do {
+        if( action == "UP" ) {
+            iActive--;
+            if( iActive < 0 ) {
+                iActive = static_cast<int>( monster_list.size() ) - 1;
+            }
+        } else if( action == "DOWN" ) {
+            iActive++;
+            if( iActive >= static_cast<int>( monster_list.size() ) ) {
+                iActive = 0;
+            }
+        } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+            u.view_offset = stored_view_offset;
+            trail_start = trail_end = cata::nullopt;
+            invalidate_main_ui_adaptor();
+            return game::vmenu_ret::CHANGE_TAB;
+        } else if( action == "SAFEMODE_BLACKLIST_REMOVE" ) {
+            const auto m = dynamic_cast<monster *>( cCurMon );
+            const std::string monName = ( m != nullptr ) ? m->name() : "human";
+
+            if( get_safemode().has_rule( monName, Creature::A_ANY ) ) {
+                get_safemode().remove_rule( monName, Creature::A_ANY );
+            }
+        } else if( action == "SAFEMODE_BLACKLIST_ADD" ) {
+            if( !get_safemode().empty() ) {
+                const auto m = dynamic_cast<monster *>( cCurMon );
+                const std::string monName = ( m != nullptr ) ? m->name() : "human";
+
+                get_safemode().add_rule( monName, Creature::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ),
+                                         RULE_BLACKLISTED );
+            }
+        } else if( action == "look" ) {
+            look_around();
+        } else if( action == "fire" ) {
+            if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
+                u.last_target = shared_from( *cCurMon );
+                u.view_offset = stored_view_offset;
+                trail_start = trail_end = cata::nullopt;
+                invalidate_main_ui_adaptor();
+                return game::vmenu_ret::FIRE;
+            }
+        }
+
+        if( iActive >= 0 && static_cast<size_t>( iActive ) < monster_list.size() ) {
+            cCurMon = monster_list[iActive];
+            iActivePos = cCurMon->pos() - u.pos();
+            centerlistview( iActivePos, width );
+            trail_start = u.pos();
+            trail_end = cCurMon->pos();
+            trail_end_x = false;
+        } else {
+            cCurMon = nullptr;
+            iActivePos = tripoint_zero;
+            u.view_offset = stored_view_offset;
+            trail_start = trail_end = cata::nullopt;
+        }
+        invalidate_main_ui_adaptor();
+
+        ui_manager::redraw();
 
         action = ctxt.handle_input();
     } while( action != "QUIT" );
 
     u.view_offset = stored_view_offset;
+    trail_start = trail_end = cata::nullopt;
+    invalidate_main_ui_adaptor();
 
     return game::vmenu_ret::QUIT;
 }
