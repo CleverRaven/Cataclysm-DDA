@@ -774,7 +774,7 @@ class item : public visitable<item>
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
          */
-        void process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
+        bool process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
                                       temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
@@ -837,10 +837,12 @@ class item : public visitable<item>
             return get_relative_rot() > 1.0;
         }
 
-        /** at twice regular shelf life perishable foods rot away completely. Corpses last longer */
-        bool has_rotten_away() const {
-            return is_food() && get_relative_rot() > 2.0;
-        }
+        /**
+         * Whether the item has enough rot that it should get removed.
+         * Regular shelf life perishable foods rot away completely at 2x shelf life. Corpses last 10 days
+         * @return true if the item has enough rot and should be removed, false otherwise.
+         */
+        bool has_rotten_away() const;
 
         /** remove frozen tag and if it takes freezerburn, applies mushy/rotten */
         void apply_freezerburn();
