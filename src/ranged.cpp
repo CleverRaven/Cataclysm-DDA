@@ -2233,7 +2233,6 @@ bool target_ui::choose_initial_target( player &pc, tripoint &new_dst )
         // There it is!
         new_dst = ( *old_target )->pos();
         pc.last_target_pos = g->m.getabs( new_dst );
-        std::cout << "Using old target" << std::endl;
         return true;
     }
 
@@ -2257,7 +2256,6 @@ bool target_ui::choose_initial_target( player &pc, tripoint &new_dst )
     }
     if( local_last_tgt_pos ) {
         new_dst = *local_last_tgt_pos;
-        std::cout << "Using old aim point" << std::endl;
         return false;
     }
 
@@ -2272,19 +2270,16 @@ bool target_ui::choose_initial_target( player &pc, tripoint &new_dst )
 
         if( target_spot != nearby.end() ) {
             new_dst = *target_spot;
-            std::cout << "Using nearby practice target" << std::endl;
             return false;
         }
     } else {
         // The closest living target
         new_dst = targets[0]->pos();
-        std::cout << "Using closest living target" << std::endl;
         return false;
     }
 
     // We've got nothing.
     new_dst = src;
-    std::cout << "No target found" << std::endl;
     return false;
 }
 
