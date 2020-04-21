@@ -10685,7 +10685,7 @@ point game::update_map( int &x, int &y )
         }
     }
 
-    scent.shift( shift_ms.x, shift_ms.y );
+    scent.shift( shift_ms );
 
     // Also ensure the player is on current z-level
     // get_levz() should later be removed, when there is no longer such a thing
