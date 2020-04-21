@@ -64,9 +64,22 @@
     "color": "dark_gray",
     "qualities": [ [ "SHEAR", 3 ] ],
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "charges_per_use": 25
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "horse_tack",
