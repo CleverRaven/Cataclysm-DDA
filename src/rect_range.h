@@ -10,12 +10,11 @@ class rect_range
     private:
         int width;
         int height;
-        int xcount;
-        int ycount;
+        point count;
 
     public:
         rect_range( const int w, const int h, const int xc, const int yc ) : width( w ), height( h ),
-            xcount( xc ), ycount( yc ) {
+            count( xc, yc ) {
         }
 
         class iterator
@@ -36,7 +35,7 @@ class rect_range
                     return !operator==( rhs );
                 }
                 RectType operator*() const {
-                    return { ( index % range->xcount ) *range->width, ( index / range->xcount ) *range->height, range->width, range->height };
+                    return { ( index % range->count.x ) *range->width, ( index / range->count.x ) *range->height, range->width, range->height };
                 }
 
                 iterator operator+( const int offset ) const {
@@ -55,7 +54,7 @@ class rect_range
             return iterator( this, 0 );
         }
         iterator end() const {
-            return iterator( this, xcount * ycount );
+            return iterator( this, count.x * count.y );
         }
 };
 
