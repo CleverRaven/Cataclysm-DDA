@@ -1112,7 +1112,6 @@
   {
     "type": "effect_type",
     "id": "cureall",
-    "//": "This is the royal jelly effect, it should cure pretty much everything.",
     "removes_effects": [
       "fungus",
       "dermatik",

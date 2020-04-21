@@ -836,11 +836,6 @@
   },
   {
     "type": "item_action",
-    "id": "ROYAL_JELLY",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
     "id": "SEED",
     "name": { "str": "Consume" }
   },

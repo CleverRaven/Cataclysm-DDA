@@ -28,7 +28,6 @@ class iuse
         // FOOD AND DRUGS (ADMINISTRATION)
         int sewage( player *, item *, bool, const tripoint & );
         int honeycomb( player *, item *, bool, const tripoint & );
-        int royal_jelly( player *, item *, bool, const tripoint & );
         int alcohol_weak( player *, item *, bool, const tripoint & );
         int alcohol_medium( player *, item *, bool, const tripoint & );
         int alcohol_strong( player *, item *, bool, const tripoint & );

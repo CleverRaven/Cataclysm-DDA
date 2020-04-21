@@ -155,7 +155,7 @@
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [
-      [ [ "dayquil", 2 ], [ "royal_jelly", 1 ] ],
+      [ [ "dayquil", 2 ] ],
       [ [ "aspirin", 40 ] ],
       [ [ "caffeine", 20 ], [ "adderall", 5 ], [ "energy_drink", 2 ] ]
     ]

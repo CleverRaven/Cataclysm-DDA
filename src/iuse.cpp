@@ -409,12 +409,6 @@ int iuse::honeycomb( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::royal_jelly( player *p, item *it, bool, const tripoint & )
-{
-    p->add_effect( effect_cureall, 1_turns );
-    return it->type->charges_to_use();
-}
-
 int iuse::xanax( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
