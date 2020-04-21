@@ -181,10 +181,8 @@ class target_ui
         // or temporarily in this window
         bool snap_to_target;
 
-        // Compact layout - slightly smaller then normal
+        // Compact layout
         bool compact;
-        // Tiny layout - uses whole sidebar
-        bool tiny;
         // Window
         catacurses::window w_target;
         // Input context
@@ -1977,7 +1975,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 void target_ui::init_window_and_input( player &pc )
 {
     compact = TERMY < 41;
-    tiny = TERMY < 32;
+    bool tiny = TERMY < 32;
     int top = 0;
     int width = 55;
     int height;
@@ -2668,7 +2666,7 @@ int target_ui::draw_controls_list()
 
     // Since this list is of variable length and positioned
     // at the bottom, we draw everything in reverse order
-    int text_y = height - ( tiny ? 1 : 2 ); // If we're short on space, draw over bottom border
+    int text_y = height - ( compact ? 1 : 2 ); // If we're short on space, draw over bottom border
     if( is_mouse_enabled() ) {
         const char *label_mouse = "Mouse: LMB: Target, Wheel: Cycle,";
         int text_x = utf8_width( label_mouse ) + 2; // '2' for border + space at the end
