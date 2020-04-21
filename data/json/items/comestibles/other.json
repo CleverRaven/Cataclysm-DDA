@@ -452,7 +452,7 @@
   {
     "type": "COMESTIBLE",
     "id": "foodplace_food",
-    "name": { "str": "Foodplace's delicious food™", "str_pl": "Foodplace's delicious food™" },
+    "name": { "str_sp": "Foodplace's delicious food™" },
     "weight": "500 g",
     "color": "magenta",
     "comestible_type": "FOOD",
