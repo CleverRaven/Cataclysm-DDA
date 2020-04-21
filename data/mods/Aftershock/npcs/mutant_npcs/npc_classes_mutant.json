@@ -400,8 +400,7 @@
       { "group": "trait_mutant_npc_common" },
       { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_raptor" },
-      { "distribution": [ { "group": "trait_group_raptor_nonthres" }, { "group": "trait_group_raptor_postthres" } ] }
-    ]
+      { "distribution": [ { "group": "trait_group_raptor_nonthres" }, { "group": "trait_group_raptor_postthres" } ] },
       { "group": "trait_group_raptor" },
       { "distribution": [ { "group": "trait_group_raptor_nonthres" }, { "group": "trait_group_raptor_postthres" } ] }
     ]
