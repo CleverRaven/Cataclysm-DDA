@@ -661,9 +661,15 @@ construction_id construction_menu( const bool blueprint )
                                             ctxt.get_desc( "RIGHT" ) ) );
             notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] to search." ),
                                             ctxt.get_desc( "FILTER" ) ) );
-            notes.push_back( string_format(
-                                 _( "Press [<color_yellow>%s</color>] to toggle unavailable constructions." ),
-                                 ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
+            if( !hide_unconstructable ) {
+                notes.push_back( string_format(
+                                     _( "Press [<color_yellow>%s</color>] to hide unavailable constructions." ),
+                                     ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
+            } else {
+                notes.push_back( string_format(
+                                     _( "Press [<color_red>%s</color>] to show unavailable constructions." ),
+                                     ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
+            }
             notes.push_back( string_format(
                                  _( "Press [<color_yellow>%s</color>] to view and edit keybindings." ),
                                  ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
