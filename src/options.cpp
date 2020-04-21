@@ -1229,6 +1229,13 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
+    add( "PREVENT_SAVE_SCUM", "general", translate_marker( "Prevent save scumming on death" ),
+         translate_marker( "If true, your character will be deleted immediately on death. Only enable if you wish to stay true to one life one death." ),
+         false
+       );
+
+    add_empty_line();
+
     add( "AUTOSAVE", "general", translate_marker( "Autosave" ),
          translate_marker( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or real-time minutes, whichever is larger." ),
          true

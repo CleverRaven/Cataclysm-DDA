@@ -1061,6 +1061,16 @@ bool game::cleanup_at_end()
         int iNameLine = 0;
         int iInfoLine = 0;
 
+        bool bPreventSaveScum = get_option<bool>( "PREVENT_SAVE_SCUM" );
+        std::vector<std::string> characters = list_active_characters();
+        std::vector<std::string>::iterator curchar = std::find( characters.begin(),
+                characters.end(), u.name );
+
+        if( curchar != characters.end() && bPreventSaveScum == true ) {
+            characters.erase( curchar );
+            move_save_to_graveyard();
+        }
+
         if( u.has_amount( "holybook_bible1", 1 ) || u.has_amount( "holybook_bible2", 1 ) ||
             u.has_amount( "holybook_bible3", 1 ) ) {
             if( !( u.has_trait( trait_id( "CANNIBAL" ) ) || u.has_trait( trait_id( "PSYCHOPATH" ) ) ) ) {
@@ -1234,14 +1244,15 @@ bool game::cleanup_at_end()
         const bool is_suicide = uquit == QUIT_SUICIDE;
         events().send<event_type::game_over>( is_suicide, sLastWords );
         // Struck the save_player_data here to forestall Weirdness
-        move_save_to_graveyard();
+        if( bPreventSaveScum == false ) {
+            move_save_to_graveyard();
+        }
+
         write_memorial_file( sLastWords );
         memorial().clear();
-        std::vector<std::string> characters = list_active_characters();
+
         // remove current player from the active characters list, as they are dead
-        std::vector<std::string>::iterator curchar = std::find( characters.begin(),
-                characters.end(), u.name );
-        if( curchar != characters.end() ) {
+        if( curchar != characters.end() && bPreventSaveScum == false ) {
             characters.erase( curchar );
         }
 
