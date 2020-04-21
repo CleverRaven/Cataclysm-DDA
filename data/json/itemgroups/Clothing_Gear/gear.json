@@ -141,7 +141,9 @@
       [ "watercannon", 10 ],
       [ "l-stick", 1 ],
       [ "solarpack", 2 ],
-      [ "bag_body_bag", 5 ]
+      [ "bag_body_bag", 5 ],
+      [ "pike_pole", 10],
+      [ "ny_hook", 10 ]
     ]
   },
   {
