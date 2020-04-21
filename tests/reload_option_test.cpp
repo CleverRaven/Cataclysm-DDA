@@ -82,17 +82,15 @@ TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
     avatar dummy;
     dummy.worn.push_back( item( "backpack" ) );
 
-    item &water = dummy.i_add( item( "water_clean", 0, 2 ) );
     item &bottle = dummy.i_add( item( "bottle_plastic" ) );
-    item_location water_location( dummy, &water );
+    item &water = dummy.i_add( item( "water_clean", 0, 2 ) );
+    item_location bottle_location( dummy, &bottle );
+    item_location water_location( bottle_location, &water );
 
     const item::reload_option bottle_option( &dummy, &bottle, &bottle, water_location );
     CHECK( bottle_option.qty() == bottle.get_remaining_capacity_for_liquid( water, true ) );
 
-    // Add water to bottle?
-    bottle.fill_with( water, 2 );
     item &canteen = dummy.i_add( item( "2lcanteen" ) );
-    item_location bottle_location( dummy, &bottle );
 
     const item::reload_option canteen_option( &dummy, &canteen, &canteen,
             bottle_location );
