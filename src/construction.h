@@ -94,7 +94,7 @@ struct construction {
 
         // NPC assistance adjusted
         int adjusted_time() const;
-        int print_time( const catacurses::window &w, int ypos, int xpos, int width, nc_color col ) const;
+        int print_time( const catacurses::window &w, const point &, int width, nc_color col ) const;
         std::vector<std::string> get_folded_time_string( int width ) const;
         // Result of construction scaling option
         float time_scale() const;

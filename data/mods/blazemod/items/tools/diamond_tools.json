@@ -25,8 +25,7 @@
   {
     "id": "spiral_matrix",
     "type": "TOOL",
-    "name": "diamond matrix",
-    "name_plural": "diamond matrices",
+    "name": { "str": "diamond matrix", "str_pl": "diamond matrices" },
     "description": "A sparkling diamond with a dazzling spiral pattern.  Small pieces of glittering crystal form on the edges as you hold it.",
     "weight": "250 g",
     "volume": "250 ml",

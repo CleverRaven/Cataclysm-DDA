@@ -513,7 +513,7 @@
   {
     "id": "dks_mon_stray_wretch",
     "type": "MONSTER",
-    "name": { "str": "stray wretch" },
+    "name": { "str": "stray wretch", "str_pl": "stray wretches" },
     "description": "This blur of jagged, crystal-fused limbs and hair might have been a housepet at some point, but now it leaps and skitters around like something out of a nightmare.  It is likely that one day the very crystal that arms it will weigh overtake its body and weigh it to the ground, given its slow expansion across its body.",
     "default_faction": "stray",
     "looks_like": "mon_dog_skeleton",
@@ -567,7 +567,7 @@
   {
     "id": "dks_mon_crystal_baby",
     "type": "MONSTER",
-    "name": { "str": "germinating crystal mass" },
+    "name": { "str": "germinating crystal mass", "str_pl": "germinating crystal masses" },
     "description": "A human-sized mound of shimmering blue-purple crystals growing on the base of what looks like a mound of foul smelling garbage and organic leftovers.  Long, thin tendrils appear to grow out of the mound, and are subtly rooting down into the ground below it, boring through dirt and concrete alike.  It crackles weakly with electrical energy.  If you look closely, it almost looks like something wet and meaty is squirming just inside the inner shell of crystals…",
     "default_faction": "stray",
     "bodytype": "blob",
@@ -594,7 +594,7 @@
   {
     "id": "dks_mon_crystal_shriek",
     "type": "MONSTER",
-    "name": { "str": "resonant crystal mass" },
+    "name": { "str": "resonant crystal mass", "str_pl": "resonant crystal masses" },
     "description": "A set of rail thin crystals growing haphazardly from a mound of rock and composted organic matter, fastened in place by thick strands of bizzare alien material.  The buzzing of natural energy playing among the tines seems culminate into an almost musical sound.  While pleasant at a distance, this can devolve to a deafening high pitched whine when it feels threatened.",
     "default_faction": "stray",
     "bodytype": "blob",
@@ -623,7 +623,7 @@
   {
     "id": "dks_mon_crystal_whip",
     "type": "MONSTER",
-    "name": { "str": "flailing crystal mass" },
+    "name": { "str": "flailing crystal mass", "str_pl": "flailing crystal masses" },
     "description": "A tall, singular crystal, growing out of a sizable pile of debris that has sprouted a multitude of thin, whiplike tendrils that constantly snake around it like feelers.  It frequently grabs nearby objects and drags them into the pile beneath it, as if hoarding.",
     "default_faction": "stray",
     "bodytype": "blob",
@@ -655,7 +655,7 @@
   {
     "id": "dks_mon_crystal_zap",
     "type": "MONSTER",
-    "name": { "str": "energized crystal mass" },
+    "name": { "str": "energized crystal mass", "str_pl": "energized crystal masses" },
     "description": "A crooked, fiercely glowing blue-purple crystal that visibly discharges electricity into the surrounding environment without any particular intent.",
     "default_faction": "stray",
     "bodytype": "blob",

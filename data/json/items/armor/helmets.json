@@ -369,6 +369,24 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ]
   },
   {
+    "id": "helmet_skull",
+    "type": "ARMOR",
+    "name": { "str": "large wolf skull" },
+    "description": "The top part of an unusually large wolf skull equiped with leather straps to secure it on your head.  Every inch of it has been carved with a maze of fine intertwined symbols that make your eyes water.",
+    "weight": "1 kg",
+    "volume": "3 L",
+    "price": 1400,
+    "price_postapoc": 200,
+    "material": [ "leather", "bone" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "HEAD" ],
+    "coverage": 85,
+    "encumbrance": 26,
+    "material_thickness": 3,
+    "flags": [ "WATER_FRIENDLY" ]
+  },
+  {
     "id": "helmet_liner",
     "repairs_like": "balclava",
     "type": "ARMOR",

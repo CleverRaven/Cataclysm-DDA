@@ -558,117 +558,6 @@ void player::recalc_speed_bonus()
     }
 }
 
-int player::run_cost( int base_cost, bool diag ) const
-{
-    float movecost = static_cast<float>( base_cost );
-    if( diag ) {
-        movecost *= 0.7071f; // because everything here assumes 100 is base
-    }
-    const bool flatground = movecost < 105;
-    // The "FLAT" tag includes soft surfaces, so not a good fit.
-    const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
-    const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS", pos() );
-
-    if( !is_mounted() ) {
-        if( movecost > 100 ) {
-            movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
-            if( movecost < 100 ) {
-                movecost = 100;
-            }
-        }
-        if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
-            if( movecost > 75 ) {
-                movecost =
-                    75; // Mycal characters are faster on their home territory, even through things like shrubs
-            }
-        }
-        if( is_limb_hindered( hp_leg_l ) ) {
-            movecost += 25;
-        }
-
-        if( is_limb_hindered( hp_leg_r ) ) {
-            movecost += 25;
-        }
-        movecost *= Character::mutation_value( "movecost_modifier" );
-        if( flatground ) {
-            movecost *= Character::mutation_value( "movecost_flatground_modifier" );
-        }
-        if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
-            movecost *= .9f;
-        }
-        if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == CMM_RUN ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 0.95f;
-            }
-        } else if( has_bionic( bio_jointservo ) ) {
-            movecost *= 1.1f;
-        }
-
-        if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
-            movecost *= 1.1f;
-        }
-        if( worn_with_flag( "FIN" ) ) {
-            movecost *= 1.5f;
-        }
-        if( worn_with_flag( "ROLLER_INLINE" ) ) {
-            if( on_road ) {
-                movecost *= 0.5f;
-            } else {
-                movecost *= 1.5f;
-            }
-        }
-        // Quad skates might be more stable than inlines,
-        // but that also translates into a slower speed when on good surfaces.
-        if( worn_with_flag( "ROLLER_QUAD" ) ) {
-            if( on_road ) {
-                movecost *= 0.7f;
-            } else {
-                movecost *= 1.3f;
-            }
-        }
-        // Skates with only one wheel (roller shoes) are fairly less stable
-        // and fairly slower as well
-        if( worn_with_flag( "ROLLER_ONE" ) ) {
-            if( on_road ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 1.1f;
-            }
-        }
-
-        movecost +=
-            ( ( encumb( bp_foot_l ) + encumb( bp_foot_r ) ) * 2.5 +
-              ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) * 1.5 ) / 10;
-
-        // ROOTS3 does slow you down as your roots are probing around for nutrients,
-        // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
-        // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-        const bool mutfeet = has_trait( trait_LEG_TENTACLES ) || has_trait( trait_PADDED_FEET ) ||
-                             has_trait( trait_HOOVES ) || has_trait( trait_TOUGH_FEET ) || has_trait( trait_ROOTS2 );
-        if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
-            movecost += 8;
-        }
-        if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
-            movecost += 8;
-        }
-
-        if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
-            movecost += 10 * footwear_factor();
-        }
-
-        movecost = calculate_by_enchantment( movecost, enchantment::mod::MOVE_COST );
-        movecost /= stamina_move_cost_modifier();
-    }
-
-    if( diag ) {
-        movecost *= M_SQRT2;
-    }
-
-    return static_cast<int>( movecost );
-}
-
 float player::stability_roll() const
 {
     /** @EFFECT_STR improves player stability roll */
@@ -1475,10 +1364,10 @@ void player::knock_back_to( const tripoint &to )
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
             critter->knock_back_from( pos() ); // Chain reaction!
-            critter->apply_damage( this, bp_torso, ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         } else if( ( str_max - 6 ) / 4 == critter->type->size ) {
-            critter->apply_damage( this, bp_torso, ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         }
         critter->check_dead_state();
@@ -1508,7 +1397,7 @@ void player::knock_back_to( const tripoint &to )
 
         // It's some kind of wall.
         // TODO: who knocked us back? Maybe that creature should be the source of the damage?
-        apply_damage( nullptr, bp_torso, 3 );
+        apply_damage( nullptr, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                g->m.obstacle_name( to ) );
@@ -1737,14 +1626,14 @@ void player::process_one_effect( effect &it, bool is_new )
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
                 }
-                apply_damage( nullptr, bp_torso, val, true );
+                apply_damage( nullptr, bodypart_id( "torso" ), val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
-                apply_damage( nullptr, bp, val, true );
+                apply_damage( nullptr, convert_bp( bp ).id(), val, true );
             }
         }
     }
@@ -4868,23 +4757,6 @@ float player::hearing_ability() const
     return volume_multiplier;
 }
 
-std::string player::visible_mutations( const int visibility_cap ) const
-{
-    const std::vector<trait_id> &my_muts = get_mutations();
-    const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),
-    [visibility_cap ]( const trait_id & pr ) -> std::string {
-        const auto &mut_branch = pr.obj();
-        // Finally some use for visibility trait of mutations
-        if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
-        {
-            return colorize( mut_branch.name(), mut_branch.get_display_color() );
-        }
-
-        return std::string();
-    } );
-    return trait_str;
-}
-
 std::vector<std::string> player::short_description_parts() const
 {
     std::vector<std::string> result;
@@ -4918,240 +4790,8 @@ int player::print_info( const catacurses::window &w, int vStart, int, int column
     return vStart;
 }
 
-bool player::is_visible_in_range( const Creature &critter, const int range ) const
-{
-    return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
-}
-
-std::vector<Creature *> player::get_visible_creatures( const int range ) const
-{
-    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
-        rl_dist( pos(), critter.pos() ) <= range && sees( critter );
-    } );
-}
-
-std::vector<Creature *> player::get_targetable_creatures( const int range ) const
-{
-    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        bool can_see = sees( critter ) || sees_with_infrared( critter );
-        if( can_see )   //handles the case where we can see something with glass in the way or a mutation lets us see through walls
-        {
-            std::vector<tripoint> path = g->m.find_clear_path( pos(), critter.pos() );
-            for( const tripoint &point : path ) {
-                if( g->m.impassable( point ) ) {
-                    can_see = false;
-                    break;
-                }
-            }
-        }
-        bool in_range = std::round( rl_dist_exact( pos(), critter.pos() ) ) <= range;
-        // TODO: get rid of fake npcs (pos() check)
-        bool valid_target = this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY;
-        return valid_target && in_range && can_see;
-    } );
-}
-
-std::vector<Creature *> player::get_hostile_creatures( int range ) const
-{
-    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        // Fixes circular distance range for ranged attacks
-        float dist_to_creature = std::round( rl_dist_exact( pos(), critter.pos() ) );
-        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
-        dist_to_creature <= range && critter.attitude_to( *this ) == A_HOSTILE
-        && sees( critter );
-    } );
-}
-
-void player::place_corpse()
-{
-    //If the character/NPC is on a distant mission, don't drop their their gear when they die since they still have a local pos
-    if( !death_drops ) {
-        return;
-    }
-    std::vector<item *> tmp = inv_dump();
-    item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
-    body.set_item_temperature( 310.15 );
-    for( auto itm : tmp ) {
-        g->m.add_item_or_charges( pos(), *itm );
-    }
-    for( const bionic &bio : *my_bionics ) {
-        if( item::type_is_defined( bio.id.str() ) ) {
-            item cbm( bio.id.str(), calendar::turn );
-            cbm.set_flag( "FILTHY" );
-            cbm.set_flag( "NO_STERILE" );
-            cbm.set_flag( "NO_PACKED" );
-            cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
-            body.put_in( cbm );
-        }
-    }
-
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( item( "bio_power_storage" ) );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( item( "bio_power_storage_mkII" ) );
-    }
-    g->m.add_item_or_charges( pos(), body );
-}
-
-void player::place_corpse( const tripoint &om_target )
-{
-    tinymap bay;
-    bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
-    int finX = rng( 1, SEEX * 2 - 2 );
-    int finY = rng( 1, SEEX * 2 - 2 );
-    // This makes no sense at all. It may find a random tile without furniture, but
-    // if the first try to find one fails, it will go through all tiles of the map
-    // and essentially select the last one that has no furniture.
-    // Q: Why check for furniture? (Check for passable or can-place-items seems more useful.)
-    // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
-    // Q: Why use furn_str_id instead of f_null?
-    // TODO: fix it, see above.
-    if( bay.furn( point( finX, finY ) ) != furn_str_id( "f_null" ) ) {
-        for( const tripoint &p : bay.points_on_zlevel() ) {
-            if( bay.furn( p ) == furn_str_id( "f_null" ) ) {
-                finX = p.x;
-                finY = p.y;
-            }
-        }
-    }
-
-    std::vector<item *> tmp = inv_dump();
-    item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
-    for( auto itm : tmp ) {
-        bay.add_item_or_charges( point( finX, finY ), *itm );
-    }
-    for( const bionic &bio : *my_bionics ) {
-        if( item::type_is_defined( bio.id.str() ) ) {
-            body.put_in( item( bio.id.str(), calendar::turn ) );
-        }
-    }
-
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( item( "bio_power_storage" ) );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( item( "bio_power_storage_mkII" ) );
-    }
-    bay.add_item_or_charges( point( finX, finY ), body );
-}
-
-bool player::sees_with_infrared( const Creature &critter ) const
-{
-    if( !vision_mode_cache[IR_VISION] || !critter.is_warm() ) {
-        return false;
-    }
-
-    if( is_player() || critter.is_player() ) {
-        // Players should not use map::sees
-        // Likewise, players should not be "looked at" with map::sees, not to break symmetry
-        return g->m.pl_line_of_sight( critter.pos(),
-                                      sight_range( current_daylight_level( calendar::turn ) ) );
-    }
-
-    return g->m.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
-}
-
-float player::power_rating() const
-{
-    int dmg = std::max( { weapon.damage_melee( DT_BASH ),
-                          weapon.damage_melee( DT_CUT ),
-                          weapon.damage_melee( DT_STAB )
-                        } );
-
-    int ret = 2;
-    // Small guns can be easily hidden from view
-    if( weapon.volume() <= 250_ml ) {
-        ret = 2;
-    } else if( weapon.is_gun() ) {
-        ret = 4;
-    } else if( dmg > 12 ) {
-        ret = 3; // Melee weapon or weapon-y tool
-    }
-    if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
-        ret += 1;
-    }
-    if( is_wearing_power_armor( nullptr ) ) {
-        ret = 5; // No mercy!
-    }
-    return ret;
-}
-
-float player::speed_rating() const
-{
-    float ret = get_speed() / 100.0f;
-    ret *= 100.0f / run_cost( 100, false );
-    // Adjustment for player being able to run, but not doing so at the moment
-    if( move_mode != CMM_RUN ) {
-        ret *= 1.0f + ( static_cast<float>( get_stamina() ) / static_cast<float>( get_stamina_max() ) );
-    }
-    return ret;
-}
-
-item &player::item_with_best_of_quality( const quality_id &qid )
-{
-    int maxq = max_quality( qid );
-    auto items_with_quality = items_with( [qid]( const item & it ) {
-        return it.has_quality( qid );
-    } );
-    for( item *it : items_with_quality ) {
-        if( it->get_quality( qid ) == maxq ) {
-            return *it;
-        }
-    }
-    return null_item_reference();
-}
-
-bool player::crush_frozen_liquid( item_location loc )
-{
-    if( has_quality( quality_id( "HAMMER" ) ) ) {
-        item hammering_item = item_with_best_of_quality( quality_id( "HAMMER" ) );
-        //~ %1$s: item to be crushed, %2$s: hammer name
-        if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
-                         "<color_red>Be wary of fragile items nearby!</color>" ),
-                      loc.get_item()->display_name(), hammering_item.tname() ) ) {
-
-            //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
-            if( one_in( 1 + dex_cur / 4 ) ) {
-                add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
-                                   hammering_item.tname() );
-                int smashskill = str_cur + hammering_item.damage_melee( DT_BASH );
-                g->m.bash( loc.position(), smashskill );
-            }
-            add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
-            return true;
-        }
-    } else {
-        popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
-    }
-    return false;
-}
-
 bool player::query_yn( const std::string &mes ) const
 {
     return ::query_yn( mes );
 }
 
-const pathfinding_settings &player::get_pathfinding_settings() const
-{
-    return *path_settings;
-}
-
-std::set<tripoint> player::get_path_avoid() const
-{
-    std::set<tripoint> ret;
-    for( npc &guy : g->all_npcs() ) {
-        if( sees( guy ) ) {
-            ret.insert( guy.pos() );
-        }
-    }
-
-    // TODO: Add known traps in a way that doesn't destroy performance
-
-    return ret;
-}

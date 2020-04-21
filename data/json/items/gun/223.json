@@ -114,7 +114,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "MAS 223", "str_pl": "MAS 223" },
+    "name": { "str_sp": "MAS 223" },
     "description": "A bullpup assault rifle that was used by French armed forces only until recently.  While the FAMAS was famous for its high fire rate, the MAS .223 is a semi-auto only variation imported to the US in the late eighties.  It retains the integral bipod, though.",
     "weight": "3800 g",
     "volume": "4162 ml",

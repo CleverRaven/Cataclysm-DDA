@@ -89,7 +89,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blueberries",
-    "name": { "str": "blueberries", "str_pl": "blueberries" },
+    "name": { "str_sp": "blueberries" },
     "weight": "156 g",
     "color": "blue",
     "spoils_in": "2 days 12 hours",
@@ -111,7 +111,7 @@
   {
     "type": "COMESTIBLE",
     "id": "strawberries",
-    "name": { "str": "strawberries", "str_pl": "strawberries" },
+    "name": { "str_sp": "strawberries" },
     "weight": "144 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -133,7 +133,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cranberries",
-    "name": { "str": "cranberries", "str_pl": "cranberries" },
+    "name": { "str_sp": "cranberries" },
     "weight": "116 g",
     "color": "red",
     "spoils_in": 640,
@@ -155,7 +155,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raspberries",
-    "name": { "str": "raspberries", "str_pl": "raspberries" },
+    "name": { "str_sp": "raspberries" },
     "weight": "148 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -177,7 +177,7 @@
   {
     "type": "COMESTIBLE",
     "id": "huckleberries",
-    "name": { "str": "huckleberries", "str_pl": "huckleberries" },
+    "name": { "str_sp": "huckleberries" },
     "weight": "150 g",
     "color": "blue",
     "spoils_in": "2 days 12 hours",
@@ -199,7 +199,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mulberries",
-    "name": { "str": "mulberries", "str_pl": "mulberries" },
+    "name": { "str_sp": "mulberries" },
     "weight": "148 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -221,7 +221,7 @@
   {
     "type": "COMESTIBLE",
     "id": "elderberries",
-    "name": { "str": "elderberries", "str_pl": "elderberries" },
+    "name": { "str_sp": "elderberries" },
     "weight": "153 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -243,7 +243,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rose_hips",
-    "name": { "str": "rose hips", "str_pl": "rose hips" },
+    "name": { "str_sp": "rose hips" },
     "weight": "134 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -331,7 +331,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cherries",
-    "name": { "str": "cherries", "str_pl": "cherries" },
+    "name": { "str_sp": "cherries" },
     "weight": "146 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -375,7 +375,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grapes",
-    "name": { "str": "grapes", "str_pl": "grapes" },
+    "name": { "str_sp": "grapes" },
     "weight": "97 g",
     "color": "light_green",
     "spoils_in": "5 days",
@@ -514,7 +514,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blackberries",
-    "name": { "str": "blackberries", "str_pl": "blackberries" },
+    "name": { "str_sp": "blackberries" },
     "weight": "166 g",
     "color": "blue",
     "spoils_in": "2 days 12 hours",
@@ -628,7 +628,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apricot",
-    "name": { "str": "apricots", "str_pl": "apricots" },
+    "name": { "str_sp": "apricots" },
     "//": "a handful of apricots is about 4.6 apricots",
     "weight": "164 g",
     "color": "yellow",

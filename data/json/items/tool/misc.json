@@ -673,7 +673,7 @@
   {
     "id": "survivor_scope",
     "type": "TOOL",
-    "name": { "str": "survivor telescope", "str_pl": "survivor telescopes" },
+    "name": { "str": "survivor telescope" },
     "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "weight": "500 g",
     "volume": "250 ml",

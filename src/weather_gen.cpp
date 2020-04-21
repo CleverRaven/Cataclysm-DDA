@@ -57,7 +57,7 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     const double year_fraction( time_past_new_year( t ) /
                                 calendar::year_length() ); // [0,1)
 
-    result.cyf = cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
+    result.cyf = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
     // We add one-eighth to line up `cyf` so that 1 is at
     // midwinter and -1 at midsummer. (Cataclsym DDA years
     // start when spring starts. Gregorian years start when
@@ -79,7 +79,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     // -1 in midwinter, +1 in midsummer
     const season_type season = common.season;
     const double dayFraction = time_past_midnight( t ) / 1_days;
-    const double dayv = cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
+    const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
     // -1 at coldest_hour, +1 twelve hours later
 
     // manually specified seasonal temp variation from region_settings.json
@@ -273,10 +273,10 @@ int weather_generator::get_water_temperature() const
     }
 
     // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
-    int annual_mean_water_temperature = 54.5 + 20.7 * sin( tau * ( day - season_length * 0.5 ) /
+    int annual_mean_water_temperature = 54.5 + 20.7 * std::sin( tau * ( day - season_length * 0.5 ) /
                                         ( season_length * 4.0 ) );
     // Temperature varies between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
-    int daily_water_temperature_varaition = 2.0 + 2.0 * sin( tau * ( hour - 6.0 ) / 24.0 );
+    int daily_water_temperature_varaition = 2.0 + 2.0 * std::sin( tau * ( hour - 6.0 ) / 24.0 );
 
     water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
 

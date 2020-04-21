@@ -73,6 +73,12 @@
   },
   {
     "type": "vehicle_group",
+    "id": "boats_narrow",
+    "//": "1 tile wide boats for storage sheds",
+    "vehicles": [ [ "canoe", 2000 ], [ "kayak", 1500 ], [ "kayak_racing", 500 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "city_pileup",
     "vehicles": [
       [ "car", 7000 ],

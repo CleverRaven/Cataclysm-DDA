@@ -1345,7 +1345,7 @@
     "id": "mon_dog_gpyrenees",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": { "str": "Great Pyrenees", "str_pl": "Great Pyrenees" },
+    "name": { "str_sp": "Great Pyrenees" },
     "//": "Rare, location specific only",
     "description": "A large and powerful breed, the Great Pyrenees has a beautiful, thick white coat.  Originally bred to deter wolves and other predators, now faced with protecting livestock from shambling hordes of undead.",
     "volume": "52500 ml",
@@ -1755,7 +1755,7 @@
   {
     "id": "mon_moose",
     "type": "MONSTER",
-    "name": { "str": "moose", "str_pl": "moose" },
+    "name": { "str_sp": "moose" },
     "description": "The Eastern moose, the largest living species of deer.  While they aren't aggressive unless angered, the mating season can make the bulls quite ill-tempered.",
     "default_faction": "herbivore",
     "bodytype": "horse",
@@ -2137,7 +2137,7 @@
   {
     "id": "mon_sheep",
     "type": "MONSTER",
-    "name": { "str": "sheep", "str_pl": "sheep" },
+    "name": { "str_sp": "sheep" },
     "description": "A timid, hooved grazing mammal, and one of the first animals ever domesticated.  Its body is covered in a thick layer of wool, and the males have long, spiralling horns.",
     "default_faction": "herbivore",
     "bodytype": "dog",
