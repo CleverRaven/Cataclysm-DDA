@@ -7419,7 +7419,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             info_data.handle_scrolling = true;
 
             draw_item_info( [&]() -> catacurses::window {
-                return catacurses::newwin( TERMY - VIEW_OFFSET_Y * 2, width - 5, point( 0, 0 ) );
+                return catacurses::newwin( TERMY - VIEW_OFFSET_Y * 2, width - 5, point_zero );
             }, info_data );
         } else if( action == "PRIORITY_INCREASE" ) {
             filter_type = item_filter_type::HIGH_PRIORITY;
