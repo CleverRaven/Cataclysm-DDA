@@ -9573,9 +9573,7 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
     // All foods that go bad have temperature
     if( has_temperature() &&
         process_temperature_rot( insulation, seals, pos, carrier, flag ) ) {
-        if( is_comestible() ) {
-            g->m.rotten_item_spawn( *this, pos );
-        }
+        g->m.rotten_item_spawn( *this, pos );
         return true;
     }
 
