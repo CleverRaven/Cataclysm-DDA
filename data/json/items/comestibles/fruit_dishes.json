@@ -258,7 +258,7 @@
     "spoils_in": "7 days 12 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "quench": 0,
+    "quench": -1,
     "healthy": 2,
     "calories": 130,
     "description": "A festive autumnal bread with a golden color in either rolls or sliced loaves of bread.",
