@@ -7685,6 +7685,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             wprintz( w_monsters_border, c_white, _( "Monsters" ) );
 
             if( monster_list.empty() ) {
+                werase( w_monsters );
                 mvwprintz( w_monsters, point( 2, iMaxRows / 3 ), c_white,
                            _( "You don't see any monsters around you!" ) );
             } else {
@@ -7842,7 +7843,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         if( action == "UP" ) {
             iActive--;
             if( iActive < 0 ) {
-                iActive = static_cast<int>( monster_list.size() ) - 1;
+                if( monster_list.empty() ) {
+                    iActive = 0;
+                } else {
+                    iActive = static_cast<int>( monster_list.size() ) - 1;
+                }
             }
         } else if( action == "DOWN" ) {
             iActive++;
