@@ -1462,9 +1462,11 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( !ma.weapons.empty() ) {
             std::vector<std::string> weapons;
-            // Removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list, assuming these are consecutive.
             std::transform( ma.weapons.begin(), ma.weapons.end(),
                             std::back_inserter( weapons ), []( const std::string & wid )-> std::string { return item::nname( wid ); } );
+            // Sorting alphabetically makes it easier to find a specific weapon
+            std::sort( weapons.begin(), weapons.end() );
+            // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
             auto last = std::unique( weapons.begin(), weapons.end() );
             weapons.erase( last, weapons.end() );
 
