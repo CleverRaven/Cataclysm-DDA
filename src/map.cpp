@@ -6737,7 +6737,7 @@ void map::remove_rotten_items( Container &items, const tripoint &pnt )
 {
     const tripoint abs_pnt = getabs( pnt );
     for( auto it = items.begin(); it != items.end(); ) {
-        if( it->has_rotten_away( abs_pnt ) ) {
+        if( it->has_rotten_away( pnt ) ) {
             if( it->is_comestible() ) {
                 rotten_item_spawn( *it, pnt );
             }
