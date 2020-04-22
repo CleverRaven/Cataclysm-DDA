@@ -95,7 +95,7 @@
       { "item": "baldric", "prob": 4 },
       { "item": "nodachi", "prob": 1 },
       { "item": "nodachi_inferior", "prob": 2 },
-      { "item": "knife_churl", "prob": 2 },
+      { "item": "knife_baselard", "prob": 2 },
       { "item": "gambeson", "prob": 3 },
       { "item": "tunic", "prob": 1 },
       { "item": "armor_lamellar", "prob": 2 },
@@ -255,7 +255,7 @@
       { "item": "sword_xiphos", "prob": 4 },
       { "item": "khopesh", "prob": 4 },
       { "item": "spear_dory", "prob": 3 },
-      { "item": "knife_churl", "prob": 3 }
+      { "item": "knife_baselard", "prob": 3 }
     ]
   },
   {
