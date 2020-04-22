@@ -1573,7 +1573,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 1:
             if( !has_trait( trait_NOPAIN ) ) {
                 add_msg_if_player( m_bad, _( "It really hurts!" ) );
-                mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+                mod_pain( rng( 10, 30 ) );
             }
             break;
 
@@ -1586,7 +1586,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
                         continue;
                     }
                     bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
-                    apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
+                    apply_damage( this, bp, rng( 2, 6 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                            body_part_name_accusative( enum_bp ) );
                 }
@@ -2281,7 +2281,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             case 1:
                 if( !( has_trait( trait_NOPAIN ) ) ) {
                     add_msg_if_player( m_bad, _( "It really hurts!" ) );
-                    mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+                    mod_pain( rng( 10, 30 ) );
                 }
                 drop_cbm = true;
                 break;
