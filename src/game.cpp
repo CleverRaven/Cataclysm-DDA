@@ -8117,8 +8117,11 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "too small to yield a full-sized hide and will instead produce "
                                           "scraps that can be used in other ways." ),
                                        msgFactor ) );
-    smenu.addentry_col( QUARTER, enough_light, 'k', _( "Quarter corpse" ),
-                        enough_light ? cut_time( QUARTER ) : cannot_see,
+    smenu.addentry_col( QUARTER, enough_light &&
+                        (corpses[corpse]->has_flag( "FIELD DRESS" ) || corpses[corpse]->has_flag( "FIELD_DRESS_FAILED" ) ),
+                         'k', _( "Quarter corpse" ), enough_light ?
+                         ( (corpses[corpse]->has_flag( "FIELD DRESS" ) || corpses[corpse]->has_flag( "FIELD_DRESS_FAILED" ) ) ?
+                        cut_time( QUARTER ) : colorize( _( "needs field dress" ), c_red ) ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "By quartering a previously field dressed corpse you will "
                                           "acquire four parts with reduced weight and volume.  It "
