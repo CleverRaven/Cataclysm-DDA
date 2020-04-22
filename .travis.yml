@@ -53,14 +53,9 @@ jobs:
   include:
     # Initial test stage, if this fails everything else is canceled.
     - stage: Test
-      # Clang is consistently the fastest to build, so use it for the initial test.
-      env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
-      name: "Clang 3.8 Make build with curses, style check and RL_Classes test"
-      compiler: clang
-      addons: &clang38
-        apt:
-          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: [*apt_sources]
+      # GCC 5.4 is default on Xenial
+      env: COMPILER=g++
+      name: "GCC 5.4 Make build with Curses"
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
@@ -88,6 +83,15 @@ jobs:
         apt:
           packages: ["clang-8", "libc6-dbg", "libc6-dbg:i386"]
           sources: [*apt_sources, llvm-toolchain-xenial-8]
+
+      # Clang is consistently the fastest to build, so use it for the initial test. (demoted due to dependency breakage)
+    - env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
+      name: "Clang 3.8 Make build with curses, style check and RL_Classes test"
+      compiler: clang
+      addons: &clang38
+        apt:
+          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          sources: [*apt_sources]
 
     - stage: "Platforms and Tidy"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
@@ -119,12 +123,7 @@ jobs:
 
     # Finally check the compiler variants
     - stage: compilers
-      # GCC 5.4 is default on Xenial
-      env: COMPILER=g++
-      name: "GCC 5.4 Make build with Curses"
-      if: type != pull_request
-
-    - env: COMPILER=g++-6 CODE_COVERAGE=true
+      env: COMPILER=g++-6 CODE_COVERAGE=true
       name: "GCC 6 Make build with Curses and Code Coverage"
       if: type != pull_request
       compiler: gcc
