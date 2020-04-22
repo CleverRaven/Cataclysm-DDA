@@ -249,10 +249,6 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         newit.invlet = '\0';
     }
 
-    if( u.try_add( *loc, nullptr ) != nullptr ) {
-        return true;
-    }
-
     // Handle charges, quantity == 0 means move all
     if( quantity != 0 && newit.count_by_charges() ) {
         leftovers.charges = newit.charges - quantity;
