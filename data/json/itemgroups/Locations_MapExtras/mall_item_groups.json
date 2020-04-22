@@ -89,6 +89,7 @@
     "ammo": 75,
     "magazine": 100,
     "items": [
+      [ "bat_nerf", 100 ],
       [ "portable_game", 60 ],
       [ "bat", 60 ],
       [ "backpack", 40 ],
