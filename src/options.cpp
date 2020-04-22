@@ -1229,9 +1229,9 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add( "PREVENT_SAVE_SCUM", "general", translate_marker( "Prevent save scumming on death" ),
-         translate_marker( "If true, your character will be deleted immediately on death." ),
-         true
+    add( "PREVENT_SAVE_SCUM", "general", translate_marker( "Delete character before memorial" ),
+         translate_marker( "If true, your character will be deleted before the memorial appears.  Turn this on if you want to enforce permadeath." ),
+         false
        );
 
     add_empty_line();
