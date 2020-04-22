@@ -1810,6 +1810,8 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 
     // Create window
     init_window_and_input( pc );
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     // Handle multi-turn aiming
     std::string action;
@@ -2031,9 +2033,6 @@ void target_ui::init_window_and_input( player &pc )
         }
         aim_mode = aim_types.begin();
     }
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 }
 
 bool target_ui::handle_cursor_movement( player &pc, const std::string &action, bool &skip_redraw )
