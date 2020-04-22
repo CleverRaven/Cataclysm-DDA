@@ -276,7 +276,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                     for( JsonArray cur : jneeds.get_array( "skills" ) ) {
                         skills_blueprint[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
                     }
-                    for( const std::pair<skill_id, int> &p : skills_blueprint ) {
+                    for( const std::pair<const skill_id, int> &p : skills_blueprint ) {
                         const auto it = required_skills.find( p.first );
                         if( it == required_skills.end() ) {
                             required_skills.emplace( p );
@@ -669,7 +669,7 @@ void recipe::check_blueprint_requirements()
 
         jsout.member( "skills" );
         jsout.start_array( /*wrap=*/!total_reqs.skills.empty() );
-        for( const std::pair<skill_id, int> &p : total_reqs.skills ) {
+        for( const std::pair<const skill_id, int> &p : total_reqs.skills ) {
             jsout.start_array();
             jsout.write( p.first );
             jsout.write( p.second );
