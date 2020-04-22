@@ -104,7 +104,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ "swage", -1 ] ],
-    "components": [ [ "fur", 1 ], [ "leather", 1 ] ]
+    "components": [ [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -240,7 +240,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
+    "components": [ [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -1970,7 +1970,7 @@
     "time": "30 sec",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "GRIND", "level": 1 } ],
-    "components": [ [ "toothbrush_plain", 1 ], [ "hairbrush", 1 ], [ "comb_pocket", 1 ], [ "plastic_chunk", 1 ] ]
+    "components": [ [ [ "toothbrush_plain", 1 ], [ "hairbrush", 1 ], [ "comb_pocket", 1 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
