@@ -6360,7 +6360,7 @@ float Character::active_light() const
     lumination = static_cast<float>( maxlum );
 
     float mut_lum = 0.0f;
-    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.powered ) {
             float curr_lum = 0.0f;
             for( const auto elem : mut.first->lumination ) {
@@ -7953,7 +7953,7 @@ void Character::recalculate_enchantment_cache()
     }
 
     // get from traits/ mutations
-    for( const std::pair<trait_id, trait_data> &mut_map : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut_map : my_mutations ) {
         const mutation_branch &mut = mut_map.first.obj();
 
         // only add the passive or powered active mutations
