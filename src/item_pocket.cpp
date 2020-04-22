@@ -114,9 +114,10 @@ void item_pocket::restack()
                 ++inner_iter;
                 continue;
             }
-            if( outer_iter->stacks_with( *inner_iter, true ) ) {
+            if( !outer_iter->count_by_charges() && outer_iter->stacks_with( *inner_iter, true ) ) {
                 outer_iter->charges += inner_iter->charges;
                 inner_iter = contents.erase( inner_iter );
+                outer_iter = contents.begin();
             } else {
                 ++inner_iter;
             }
@@ -169,7 +170,7 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 
 bool item_pocket::stacks_with( const item_pocket &rhs ) const
 {
-    return std::equal( contents.begin(), contents.end(),
+    return empty() || rhs.empty() || std::equal( contents.begin(), contents.end(),
                        rhs.contents.begin(), rhs.contents.end(),
     []( const item & a, const item & b ) {
         return a.charges == b.charges && a.stacks_with( b );
@@ -438,6 +439,7 @@ bool item_pocket::use_amount( const itype_id &it, int &quantity, std::list<item>
             ++a;
         }
     }
+    restack();
     return used_item;
 }
 
@@ -935,12 +937,14 @@ void item_pocket::on_pickup( Character &guy )
 {
     if( will_spill() ) {
         handle_liquid_or_spill( guy );
+        restack();
     }
 }
 
 void item_pocket::on_contents_changed()
 {
     _sealed = false;
+    restack();
 }
 
 bool item_pocket::spill_contents( const tripoint &pos )
@@ -1044,6 +1048,7 @@ bool item_pocket::watertight() const
 void item_pocket::add( const item &it )
 {
     contents.push_back( it );
+    restack();
 }
 
 void item_pocket::fill_with( item contained )
