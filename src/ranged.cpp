@@ -2878,7 +2878,7 @@ void target_ui::panel_fire_mode_aim( player &pc, int &text_y )
 
 void target_ui::panel_turret_list( int &text_y )
 {
-    mvwprintw( w_target, point( 1, text_y++ ), "Turrets in range: %d/%d", turrets_in_range.size(),
+    mvwprintw( w_target, point( 1, text_y++ ), _( "Turrets in range: %d/%d" ), turrets_in_range.size(),
                vturrets->size() );
 
     for( vehicle_part *t : turrets_in_range ) {
