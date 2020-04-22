@@ -178,7 +178,7 @@
     "id": "dks_mon_wisp",
     "type": "MONSTER",
     "name": { "str": "wisp", "str_pl": "wisp" },
-    "description": "A small, fist sized critter that looks like a floating slug with bioluminescent markings, capable of limited flight through utilization of membrenous, winglike protrustions and the secretion of a faint white mist. It is most commonly found around zipping around flowers, fruits, and other sugary substances in small, communal groups.  It regards you with curiosity.",
+    "description": "A small, fist sized critter that looks like a floating slug with bioluminescent markings, capable of limited flight through utilization of membrenous, winglike protrustions and the secretion of a faint white mist. It is most commonly found around zipping around flowers, fruits, and other sugary substances in small, communal groups.  It regards you with curiosity, occasionally flashing its markings at you as if trying to communicate.",
     "bodytype": "blob",
     "default_faction": "alien_herbivore",
     "categories": [ "ALIEN" ],
