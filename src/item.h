@@ -755,7 +755,6 @@ class item : public visitable<item>
          * If you need to calc rot of item call process_temperature_rot instead.
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
-         * @param temp wether the item is in container that preserves its contents
          */
         void calc_rot( time_point time, int temp );
 
