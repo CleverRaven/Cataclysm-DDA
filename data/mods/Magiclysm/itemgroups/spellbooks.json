@@ -116,7 +116,8 @@
       [ "spell_scroll_invisibility", 10 ],
       [ "spell_scroll_obfuscated_body", 10 ],
       [ "spell_scroll_lava_bomb", 5 ],
-      [ "spell_scroll_druidic_healing", 20 ]
+      [ "spell_scroll_druidic_healing", 20 ],
+      [ "spell_scroll_overcharge_eyes", 50 ]
     ]
   },
   {
