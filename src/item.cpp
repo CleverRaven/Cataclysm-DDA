@@ -8708,7 +8708,6 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
         const weather_generator &wgen = g->weather.get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        const tripoint &local = g->m.getlocal( pos );
         int local_mod = g->new_game ? 0 : g->m.get_temperature( pos );
 
         int enviroment_mod;
