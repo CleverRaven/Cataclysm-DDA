@@ -331,7 +331,8 @@
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 10 ],
       [ "mess_tin", 10 ],
-      [ "survival_kit", 30 ]
+      [ "survival_kit", 30 ],
+      [ "premium_survival_kit", 3 ]
     ]
   }
 ]

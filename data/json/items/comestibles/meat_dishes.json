@@ -108,7 +108,7 @@
   {
     "type": "COMESTIBLE",
     "id": "royal_beef",
-    "name": "royal beef",
+    "name": { "str_sp": "royal beef" },
     "weight": "446 g",
     "color": "white",
     "spoils_in": "3 days 8 hours",
@@ -197,7 +197,7 @@
   {
     "type": "COMESTIBLE",
     "id": "glazed_tenderloin",
-    "name": "glazed tenderloins",
+    "name": { "str_sp": "glazed tenderloins" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "grisly %s" } } ],
     "weight": "205 g",
     "color": "brown",
@@ -437,7 +437,7 @@
     "type": "COMESTIBLE",
     "id": "debug_nutrition",
     "copy-from": "can_spam",
-    "name": "holy SPAM of debugging",
+    "name": { "str": "holy SPAM of debugging", "str_pl": "holy SPAMs of debugging" },
     "calories": 2100,
     "description": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
     "//": "This is used for the all_nutrient_starve_test.",

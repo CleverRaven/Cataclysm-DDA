@@ -551,7 +551,10 @@
       { "level": 1, "name": "melee" },
       { "level": 1, "name": "throw" },
       { "level": 2, "name": "archery" },
-      { "level": 2, "name": "survival" }
+      { "level": 3, "name": "survival" },
+      { "level": 1, "name": "cooking" },
+      { "level": 1, "name": "fabrication" },
+      { "level": 1, "name": "tailor" }
     ],
     "traits": [ "PROF_CHURL" ]
   },

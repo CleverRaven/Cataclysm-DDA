@@ -3707,10 +3707,9 @@ void rescale_tileset( int size )
     game_ui::init_ui();
 }
 
-window_dimensions get_window_dimensions( const catacurses::window &win )
+static window_dimensions get_window_dimensions( const catacurses::window &win,
+        const point &pos, const point &size )
 {
-    cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
-
     window_dimensions dim;
     if( use_tiles && g && win == g->w_terrain ) {
         // tiles might have different dimensions than standard font
@@ -3731,9 +3730,15 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     // multiplied by the user's specified scaling factor regardless of whether tiles are in use
     dim.scaled_font_size *= get_scaling_factor();
 
-    dim.window_pos_cell = pwin->pos;
-    dim.window_size_cell.x = pwin->width;
-    dim.window_size_cell.y = pwin->height;
+    if( win ) {
+        cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
+        dim.window_pos_cell = pwin->pos;
+        dim.window_size_cell.x = pwin->width;
+        dim.window_size_cell.y = pwin->height;
+    } else {
+        dim.window_pos_cell = pos;
+        dim.window_size_cell = size;
+    }
 
     // the window position is *always* in standard font dimensions!
     dim.window_pos_pixel = point( dim.window_pos_cell.x * fontwidth,
@@ -3743,6 +3748,16 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
 
     return dim;
+}
+
+window_dimensions get_window_dimensions( const catacurses::window &win )
+{
+    return get_window_dimensions( win, point_zero, point_zero );
+}
+
+window_dimensions get_window_dimensions( const point &pos, const point &size )
+{
+    return get_window_dimensions( {}, pos, size );
 }
 
 cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )

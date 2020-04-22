@@ -36,7 +36,7 @@
     "id": "50match",
     "copy-from": "50bmg",
     "type": "AMMO",
-    "name": { "str": ".50 BMG Match" },
+    "name": { "str": ".50 BMG Match", "str_pl": ".50 BMG Matches" },
     "description": ".50 BMG FMJ lead core ammunition manufactured with tighter tolerances for long-range competition shooting or other precision rifle use.",
     "count": 10,
     "relative": { "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": -4 } },

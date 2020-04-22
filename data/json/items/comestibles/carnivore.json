@@ -3,7 +3,7 @@
     "abstract": "flesh",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": "meat/fish",
+    "name": { "str_sp": "meat/fish" },
     "material": "flesh",
     "symbol": "%",
     "color": "red",

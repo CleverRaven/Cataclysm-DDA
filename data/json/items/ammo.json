@@ -240,7 +240,7 @@
     "category": "spare_parts",
     "price": 250,
     "price_postapoc": 0,
-    "name": { "str": "plutonium slurry" },
+    "name": { "str_sp": "plutonium slurry" },
     "symbol": "=",
     "color": "green",
     "description": "Highly radioactive slurry.  It is probably best to get far away from this.",

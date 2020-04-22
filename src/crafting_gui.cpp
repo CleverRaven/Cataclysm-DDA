@@ -126,16 +126,16 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
-static int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos,
+static int print_items( const recipe &r, const catacurses::window &w, point pos,
                         nc_color col, int batch )
 {
     if( !r.has_byproducts() ) {
         return 0;
     }
 
-    const int oldy = ypos;
+    const int oldy = pos.y;
 
-    mvwprintz( w, point( xpos, ypos++ ), col, _( "Byproducts:" ) );
+    mvwprintz( w, point( pos.x, pos.y++ ), col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
         const auto t = item::find_type( bp.first );
         int amount = bp.second * batch;
@@ -147,10 +147,10 @@ static int print_items( const recipe &r, const catacurses::window &w, int ypos, 
             desc = string_format( "> %d %s", amount,
                                   t->nname( static_cast<unsigned int>( amount ) ) );
         }
-        mvwprintz( w, point( xpos, ypos++ ), col, desc );
+        mvwprintz( w, point( pos.x, pos.y++ ), col, desc );
     }
 
-    return ypos - oldy;
+    return pos.y - oldy;
 }
 
 const recipe *select_crafting_recipe( int &batch_size )
@@ -539,7 +539,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 _( "<color_red>Cannot be crafted because the same item is needed "
                                    "for multiple components</color>" ) );
                 }
-                ypos += print_items( *current[line], w_data, ypos, xpos, col, batch ? line + 1 : 1 );
+                ypos += print_items( *current[line], w_data, point( xpos, ypos ), col, batch ? line + 1 : 1 );
             }
 
             //color needs to be preserved in case part of the previous page was cut off
