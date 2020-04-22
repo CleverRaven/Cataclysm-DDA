@@ -530,7 +530,7 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
     //To see if it spawns a random additional CBM
     if( check_butcher_cbm( roll ) ) {
         //The CBM works
-        const auto spawned = g->m.put_items_from_loc( group, pos, age );
+        const std::vector<item *> spawned = g->m.put_items_from_loc( group, pos, age );
         for( item *it : spawned ) {
             for( const std::string &flg : flags ) {
                 it->set_flag( flg );
@@ -1536,7 +1536,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         map_stack::iterator on_ground;
         monster *source_mon = nullptr;
         item liquid;
-        const auto source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
+        const liquid_source_type source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
         int part_num = -1;
         int veh_charges = 0;
         switch( source_type ) {
@@ -1693,8 +1693,8 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
         return;
     }
 
-    const auto use_fun = used_tool->get_use( iuse_name_string );
-    const auto *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+    const use_function *use_fun = used_tool->get_use( iuse_name_string );
+    const heal_actor *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
     if( actor == nullptr ) {
         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
         act->set_to_null();
@@ -1763,8 +1763,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     ///\EFFECT_PER slightly increases forage success chance
     ///\EFFECT_SURVIVAL increases forage success chance
     if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
-        const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
-        for( const auto &it : dropped ) {
+        const std::vector<item *> dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
+        for( item *it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname() );
             found_something = true;
             if( it->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
@@ -1778,8 +1778,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     }
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
-        const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
-        for( const auto &it : dropped ) {
+        const std::vector<item *> dropped = g->m.put_items_from_loc( "trash_forest", p->pos(),
+                                            calendar::turn );
+        for( item * const &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname() );
             found_something = true;
         }
@@ -1853,7 +1854,7 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
     static const std::string salvage_string = "salvage";
     item &main_tool = p->i_at( act->index );
-    auto items = g->m.i_at( p->pos() );
+    map_stack items = g->m.i_at( p->pos() );
     item *salvage_tool = main_tool.get_usable_item( salvage_string );
     if( salvage_tool == nullptr ) {
         debugmsg( "Lost tool used for long salvage" );
@@ -1861,17 +1862,17 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
         return;
     }
 
-    const auto use_fun = salvage_tool->get_use( salvage_string );
-    const auto actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
+    const use_function *use_fun = salvage_tool->get_use( salvage_string );
+    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
     if( actor == nullptr ) {
         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
         act->set_to_null();
         return;
     }
 
-    for( auto &item : items ) {
-        if( actor->valid_to_cut_up( item ) ) {
-            item_location item_loc( map_cursor( p->pos() ), &item );
+    for( item &it : items ) {
+        if( actor->valid_to_cut_up( it ) ) {
+            item_location item_loc( map_cursor( p->pos() ), &it );
             actor->cut_up( *p, *salvage_tool, item_loc );
             return;
         }
@@ -1884,13 +1885,13 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    auto items = g->m.i_at( p->pos() );
+    map_stack items = g->m.i_at( p->pos() );
     const std::string corpse_name = act->str_values[0];
     item *body = nullptr;
 
-    for( auto &item : items ) {
-        if( item.display_name() == corpse_name ) {
-            body = &item;
+    for( item &it : items ) {
+        if( it.display_name() == corpse_name ) {
+            body = &it;
         }
     }
 
@@ -2022,8 +2023,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     int moves = 0;
     // use this to collect how many corpse are pulped
     int &num_corpses = act->index;
-    auto corpse_pile = g->m.i_at( pos );
-    for( auto &corpse : corpse_pile ) {
+    map_stack corpse_pile = g->m.i_at( pos );
+    for( item &corpse : corpse_pile ) {
         const mtype *corpse_mtype = corpse.get_mtype();
         if( !corpse.is_corpse() || !corpse_mtype->has_flag( MF_REVIVES ) ||
             ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
@@ -2170,8 +2171,9 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
         return;
     }
 
-    const auto use_fun = used_tool->get_use( iuse_name_string );
-    const auto *actor = dynamic_cast<const firestarter_actor *>( use_fun->get_actor_ptr() );
+    const use_function *use_fun = used_tool->get_use( iuse_name_string );
+    const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>
+                                     ( use_fun->get_actor_ptr() );
     if( actor == nullptr ) {
         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
         act->set_to_null();
@@ -2207,7 +2209,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
         }
     }
 
-    const auto usef = firestarter.type->get_use( "firestarter" );
+    const use_function *usef = firestarter.type->get_use( "firestarter" );
     if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
         add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
         p->cancel_activity();
@@ -2215,7 +2217,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
     }
 
     p->mod_moves( -p->moves );
-    const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+    const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
     const float light = actor->light_mod( p->pos() );
     act->moves_left -= light * 100;
     if( light < 0.1 ) {
@@ -2273,9 +2275,9 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         return;
     }
 
-    const auto &ma_id = matype_id( act->name );
+    const matype_id &ma_id = matype_id( act->name );
     if( ma_id.is_valid() ) {
-        const auto &mastyle = ma_id.obj();
+        const martialart &mastyle = ma_id.obj();
         // Trained martial arts,
         g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
         p->martial_arts_data.learn_style( mastyle.id, p->is_avatar() );
@@ -2737,9 +2739,10 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         return;
     }
 
-    const auto use_fun = used_tool->get_use( iuse_name_string );
+    const use_function *use_fun = used_tool->get_use( iuse_name_string );
     // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
-    const auto *actor = dynamic_cast<const repair_item_actor *>( use_fun->get_actor_ptr() );
+    const repair_item_actor *actor = dynamic_cast<const repair_item_actor *>
+                                     ( use_fun->get_actor_ptr() );
     if( actor == nullptr ) {
         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
         act->set_to_null();
@@ -2752,7 +2755,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
-        const auto attempt = actor->repair( *p, *used_tool, fix_location );
+        const repair_item_actor::attempt_hint attempt = actor->repair( *p, *used_tool, fix_location );
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position() );
@@ -2801,7 +2804,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     // target selection and validation.
     while( act->targets.size() < 2 ) {
         g->draw();
-        auto item_loc = game_menus::inv::repair( *p, actor, &main_tool );
+        item_location item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
         if( item_loc == item_location::nowhere ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
@@ -2818,12 +2821,12 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     if( repeat == REPEAT_INIT ) {
         const int level = p->get_skill_level( actor->used_skill );
-        auto action_type = actor->default_action( fix, level );
+        repair_item_actor::repair_type action_type = actor->default_action( fix, level );
         if( action_type == repair_item_actor::RT_NOTHING ) {
             p->add_msg_if_player( _( "You won't learn anything more by doing that." ) );
         }
 
-        const auto chance = actor->repair_chance( *p, fix, action_type );
+        const std::pair<float, float> chance = actor->repair_chance( *p, fix, action_type );
         if( chance.first <= 0.0f ) {
             action_type = repair_item_actor::RT_PRACTICE;
         }
@@ -2996,7 +2999,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
             // Remove irremovable mods prior to destroying the gun
-            for( auto mod : gun.gunmods() ) {
+            for( item *mod : gun.gunmods() ) {
                 if( mod->is_irremovable() ) {
                     p->remove_item( *mod );
                 }
@@ -3144,16 +3147,17 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
         tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !g->m.passable( centre_sub ) ) {
-            auto candidates = g->m.points_in_radius( centre_sub, 2 );
-            for( const auto &elem : candidates ) {
+            tripoint_range candidates = g->m.points_in_radius( centre_sub, 2 );
+            for( const tripoint &elem : candidates ) {
                 if( g->m.passable( elem ) ) {
                     centre_sub = elem;
                     break;
                 }
             }
         }
-        const auto route_to = g->m.route( p->pos(), centre_sub, p->get_pathfinding_settings(),
-                                          p->get_path_avoid() );
+        const std::vector<tripoint> route_to = g->m.route( p->pos(), centre_sub,
+                                               p->get_pathfinding_settings(),
+                                               p->get_path_avoid() );
         if( !route_to.empty() ) {
             const activity_id act_travel = ACT_TRAVELLING;
             p->set_destination( route_to, player_activity( act_travel ) );
@@ -3201,7 +3205,7 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
             p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
         }
     }
-    for( auto &elem : g->m.i_at( p->pos() ) ) {
+    for( item &elem : g->m.i_at( p->pos() ) ) {
         if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
             elem.set_var( "activity_var", p->name );
         }
@@ -3226,7 +3230,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         fish_chance += survival_skill / 2;
     } else {
         // if they are visible however, it implies a larger population
-        for( auto elem : fishables ) {
+        for( monster *elem : fishables ) {
             fish_chance += elem->fish_population;
         }
         fish_chance += survival_skill;
@@ -4089,12 +4093,12 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
             }
         }
     } else {
-        for( const auto elem : g->m.points_in_radius( pos, 1 ) ) {
+        for( const tripoint &elem : g->m.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
             tripoint direc = elem - pos;
             tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
             std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
-            for( const auto elem : rough_tree_line ) {
+            for( const tripoint &elem : rough_tree_line ) {
                 if( g->critter_at( elem ) ) {
                     cantuse = true;
                     break;
@@ -4108,7 +4112,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 
     const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
-    for( auto &elem : tree ) {
+    for( const tripoint &elem : tree ) {
         g->m.batter( elem, 300, 5 );
         g->m.ter_set( elem, t_trunk );
     }
@@ -4275,7 +4279,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         std::vector<item *> dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
         g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
         g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
-        for( const auto &it : dropped ) {
+        for( item * const &it : dropped ) {
             if( it->is_armor() ) {
                 it->item_tags.insert( "FILTHY" );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
@@ -4436,7 +4440,7 @@ static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
     while( it != tiles.end() ) {
         auto current = it++;
 
-        const auto &tile_loc = g->m.getlocal( *current );
+        const tripoint &tile_loc = g->m.getlocal( *current );
 
         if( cleanup( tile_loc ) ) {
             tiles.erase( current );
@@ -4450,19 +4454,20 @@ static void perform_zone_activity_turn( player *p,
                                         const std::function<void ( player &p, const tripoint & )> &tile_action,
                                         const std::string &finished_msg )
 {
-    const auto &mgr = zone_manager::get_manager();
-    const auto abspos = g->m.getabs( p->pos() );
-    auto unsorted_tiles = mgr.get_near( ztype, abspos );
+    const zone_manager &mgr = zone_manager::get_manager();
+    const tripoint abspos = g->m.getabs( p->pos() );
+    std::unordered_set<tripoint> unsorted_tiles = mgr.get_near( ztype, abspos );
 
     cleanup_tiles( unsorted_tiles, tile_filter );
 
     // sort remaining tiles by distance
-    const auto &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
+    const std::vector<tripoint> &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
 
-    for( auto &tile : tiles ) {
-        const auto &tile_loc = g->m.getlocal( tile );
+    for( const tripoint &tile : tiles ) {
+        const tripoint &tile_loc = g->m.getlocal( tile );
 
-        auto route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(), p->get_path_avoid() );
+        std::vector<tripoint> route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(),
+                                      p->get_path_avoid() );
         if( route.size() > 1 ) {
             route.pop_back();
 
@@ -4684,7 +4689,7 @@ static void blood_magic( player *p, int cost )
         if( p->hp_cur[max_hp_part] < p->hp_cur[i] ) {
             max_hp_part = i;
         }
-        const auto &hp = get_hp_bar( p->hp_cur[i], p->hp_max[i] );
+        const std::pair<std::string, nc_color> &hp = get_hp_bar( p->hp_cur[i], p->hp_max[i] );
         entry.ctxt = colorize( hp.first, hp.second );
         uile.emplace_back( entry );
     }
