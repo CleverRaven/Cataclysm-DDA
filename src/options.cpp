@@ -1231,7 +1231,7 @@ void options_manager::add_options_general()
 
     add( "PREVENT_SAVE_SCUM", "general", translate_marker( "Prevent save scumming on death" ),
          translate_marker( "If true, your character will be deleted immediately on death." ),
-         false
+         true
        );
 
     add_empty_line();
