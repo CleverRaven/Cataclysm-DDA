@@ -18,7 +18,7 @@
       [ [ "milk", 2 ], [ "raw_milk", 2 ] ],
       [ [ "pumpkin", 2 ] ],
       [ [ "sugar", 4 ] ],
-      [ [ "egg", 2 ] ],
+      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "salt", 2 ] ]
     ]
