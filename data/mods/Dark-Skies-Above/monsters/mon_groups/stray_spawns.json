@@ -2,7 +2,7 @@
   {
     "type": "monstergroup",
     "name": "DKS_GROUP_STRAY_UPGRADE",
-    "default": "dks_mon_crystal_baby",
+    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_eater", "freq": 150, "cost_multiplier": 10 },
       { "monster": "dks_mon_stray_heavy", "freq": 100, "cost_multiplier": 12 },
