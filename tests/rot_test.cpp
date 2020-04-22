@@ -85,8 +85,6 @@ TEST_CASE( "Items rot away" )
 
         item test_item( "meat_cooked" );
 
-        set_map_temperature( 65 ); // 18,3 C
-
         // Process item once to set all of its values.
         test_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_HEATER );
 
@@ -95,7 +93,7 @@ TEST_CASE( "Items rot away" )
         test_item.mod_rot( 2_days );
 
         CHECK( test_item.process_temperature_rot( 1, false, tripoint_zero, nullptr,
-                temperature_flag::TEMP_NORMAL ) );
+                temperature_flag::TEMP_HEATER ) );
         INFO( "Rot: " << to_turns<int>( test_item.get_rot() ) );
     }
 }
