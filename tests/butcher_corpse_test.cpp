@@ -28,16 +28,29 @@
 
 TEST_CASE( "quarter" )
 {
-    static const mtype_id mon_spider_web( "mon_spider_web" );
     static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
     static const activity_id ACT_QUARTER( "ACT_QUARTER" );
     player &dummy = g->u;
-    item corpse = item::make_corpse( mon_spider_web );
-    for( const harvest_entry &entry : corpse.get_mtype()->harvest.obj()) {
+    
+    // Check field dress and quartering does not work on giant web spider
+    static const mtype_id mon_spider_web( "mon_spider_web" );
+    item spider = item::make_corpse( mon_spider_web );
+    for ( const harvest_entry &entry : spider.get_mtype()->harvest.obj()) {
         activity_handlers::butcher_finish( &player_activity( activity_id ( ACT_FIELD_DRESS ) ), &dummy );
         activity_handlers::butcher_finish( &player_activity( activity_id( ACT_QUARTER ) ), &dummy );
-        CHECK( !(corpse.has_flag( "F_DRESS" ) || 
-        corpse.has_flag( "F_DRESS_FAILED" ) ||
-        corpse.has_flag( "QUARTERED" )));
+        CHECK( !(spider.has_flag( "F_DRESS" ) || 
+        spider.has_flag( "F_DRESS_FAILED" ) ||
+        spider.has_flag( "QUARTERED" )));
+    }
+
+    // Check field dress and quartering does work on wolf
+    static const mtype_id mon_wolf( "mon_wolf" );
+    item wolf = item::make_corpse( mon_wolf );
+    for ( const harvest_entry &entry : wolf.get_mtype()->harvest.obj()) {
+        activity_handlers::butcher_finish( &player_activity( activity_id ( ACT_FIELD_DRESS ) ), &dummy );
+        activity_handlers::butcher_finish( &player_activity( activity_id( ACT_QUARTER ) ), &dummy );
+        CHECK( (wolf.has_flag( "F_DRESS" ) || 
+        wolf.has_flag( "F_DRESS_FAILED" )) &&
+        wolf.has_flag( "QUARTERED" ));
     }
 }
