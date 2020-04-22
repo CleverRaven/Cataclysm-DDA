@@ -1573,7 +1573,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 1:
             if( !has_trait( trait_NOPAIN ) ) {
                 add_msg_if_player( m_bad, _( "It really hurts!" ) );
-                mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+                mod_pain( rng( 10, 30 ) );
             }
             break;
 
@@ -1581,12 +1581,12 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_op, enum_bp ) ) {
+                if( has_effect( effect_under_op, enum_bp ) && enum_bp != num_bp ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
                     bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
-                    apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
+                    apply_damage( this, bp, rng( 2, 6 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                            body_part_name_accusative( enum_bp ) );
                 }
@@ -1930,6 +1930,9 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     } else {
         activity.str_values.push_back( "false" );
     }
+    for( const std::pair<const body_part, size_t> &elem : b_id->occupied_bodyparts ) {
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
+    }
 
     return true;
 }
@@ -2196,6 +2199,9 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     } else {
         activity.str_values.push_back( "false" );
     }
+    for( const std::pair<const body_part, size_t> &elem : bioid->occupied_bodyparts ) {
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
+    }
 
     return true;
 }
@@ -2275,7 +2281,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             case 1:
                 if( !( has_trait( trait_NOPAIN ) ) ) {
                     add_msg_if_player( m_bad, _( "It really hurts!" ) );
-                    mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+                    mod_pain( rng( 10, 30 ) );
                 }
                 drop_cbm = true;
                 break;
@@ -2284,7 +2290,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             case 3:
                 for( const bodypart_id &bp : get_all_body_parts() ) {
                     const body_part enum_bp = bp->token;
-                    if( has_effect( effect_under_op, enum_bp ) ) {
+                    if( has_effect( effect_under_op, enum_bp ) && enum_bp != num_bp ) {
                         if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                             continue;
                         }
