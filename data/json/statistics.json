@@ -31,14 +31,14 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_kills",
-    "description": "Number of monsters killed"
+    "description": "monsters killed"
   },
   {
     "id": "num_avatar_zombie_kills",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_zombie_kills",
-    "description": "Number of zombies killed"
+    "description": "zombies killed"
   },
   {
     "id": "avatar_takes_damage",
@@ -51,7 +51,8 @@
     "type": "event_statistic",
     "stat_type": "total",
     "field": "damage",
-    "event_transformation": "avatar_takes_damage"
+    "event_transformation": "avatar_takes_damage",
+    "description": "damage taken"
   },
   {
     "id": "avatar_heals_damage",
@@ -64,7 +65,8 @@
     "type": "event_statistic",
     "stat_type": "total",
     "field": "damage",
-    "event_transformation": "avatar_heals_damage"
+    "event_transformation": "avatar_heals_damage",
+    "description": "damage healed"
   },
   {
     "id": "avatar_headshots",
@@ -76,13 +78,15 @@
     "id": "avatar_num_headshots",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_headshots"
+    "event_transformation": "avatar_headshots",
+    "description": "headshots"
   },
   {
     "id": "num_moves",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_type": "avatar_moves"
+    "event_type": "avatar_moves",
+    "description": "squares moved"
   },
   {
     "id": "moves_with_terrain_flags",

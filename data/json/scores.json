@@ -7,61 +7,51 @@
   {
     "id": "score_moves",
     "type": "score",
-    "description": "Distance moved: %s squares",
     "statistic": "num_moves"
   },
   {
     "id": "score_distance_walked",
     "type": "score",
-    "description": "Walked: %s squares",
     "statistic": "num_moves_walked"
   },
   {
     "id": "score_distance_mounted",
     "type": "score",
-    "description": "Rode mount: %s squares",
     "statistic": "num_moves_mounted"
   },
   {
     "id": "score_distance_ran",
     "type": "score",
-    "description": "Ran: %s squares",
     "statistic": "num_moves_ran"
   },
   {
     "id": "score_distance_crouched",
     "type": "score",
-    "description": "Crouched: %s squares",
     "statistic": "num_moves_crouched"
   },
   {
     "id": "score_distance_swam",
     "type": "score",
-    "description": "Swam: %s squares",
     "statistic": "num_moves_swam"
   },
   {
     "id": "score_distance_swam_underwater",
     "type": "score",
-    "description": "Swam underwater: %s squares",
     "statistic": "num_moves_swam_underwater"
   },
   {
     "id": "score_damage_taken",
     "type": "score",
-    "description": "Damage taken: %s damage",
     "statistic": "avatar_damage_taken"
   },
   {
     "id": "score_damage_healed",
     "type": "score",
-    "description": "Damage healed: %s damage",
     "statistic": "avatar_damage_healed"
   },
   {
     "id": "score_headshots",
     "type": "score",
-    "description": { "ctxt": "score description", "str": "Headshots: %s" },
     "statistic": "avatar_num_headshots"
   }
 ]

@@ -839,7 +839,7 @@ std::string score::description( stats_tracker &stats ) const
     std::string value_string = value( stats ).get_string();
     if( description_.empty() ) {
         //~ Default format for scores.  %1$s is statistic description; %2$s is value.
-        return string_format( _( "%1$s: %2$s" ), this->stat_->description(), value_string );
+        return string_format( _( "%2$s %1$s" ), this->stat_->description(), value_string );
     } else {
         return string_format( description_.translated(), value_string );
     }
