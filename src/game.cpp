@@ -5871,44 +5871,50 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
 }
 
 void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
-                               const std::string &area_name, int column,
-                               int &line )
+                               const std::string &area_name, int column, int &line )
 {
     const int max_width = getmaxx( w_look ) - column - 1;
 
+    // Print OMT type and terrain type on first line.
     std::string tile = m.tername( lp );
-    mvwprintz( w_look, point( column, line ), c_light_gray, _( "Place : " ) );
-    trim_and_print( w_look, point( column + 8, line ), max_width - 8, c_white, area_name );
+    trim_and_print( w_look, point( column, line ), max_width, c_white, area_name );
+    trim_and_print( w_look, point( column + utf8_width( area_name ) + 1, line ), max_width,
+                    c_light_gray, tile );
 
-    mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Tile  : " ) );
-    trim_and_print( w_look, point( column + 8, line ), max_width - 8, c_light_gray, tile );
-
+    // Furniture on second line if any.
     if( m.has_furn( lp ) ) {
-        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Decor : " ) );
-        mvwprintz( w_look, point( column + 8, line ), c_light_blue, m.furnname( lp ) );
+        mvwprintz( w_look, point( column, ++line ), c_light_blue, m.furnname( lp ) );
     }
 
-    std::pair<std::string, nc_color> ll = get_light_level( std::max( 1.0,
-                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
-    mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Light : " ) );
-    mvwprintz( w_look, point( column + 8, line ), ll.second, ll.first );
+    // Cover percentage from terrain and furniture next.
+    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover: %d%%" ),
+                    m.coverage( lp ) );
+    // Terrain and furniture flags next.
+    mvwprintz( w_look, point( column, ++line ), c_light_gray, "%s", m.features( lp ) );
 
-    mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Move  : " ) );
+    // Move cost from terrain and furntiure and vehicle parts.
+    // Vehicle part information is printed in a different function.
     if( m.impassable( lp ) ) {
-        mvwprintz( w_look, point( column + 8, line ), c_light_red, "Impassable" );
+        mvwprintz( w_look, point( column, ++line ), c_light_red, _( "Impassable" ) );
     } else {
-        mvwprintz( w_look, point( column + 8, line ), c_light_gray, "%d", m.move_cost( lp ) * 50 );
+        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Move cost: %d" ),
+                   m.move_cost( lp ) * 50 );
     }
 
+    // Next print the string on any SIGN flagged furniture if any.
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Sign  : " ) );
-        trim_and_print( w_look, point( column + 8, line ), max_width - 8, c_cyan,
-                        u.has_trait( trait_ILLITERATE ) ? _( "???" ) : "%s", signage );
+        std::string sign_string = u.has_trait( trait_ILLITERATE ) ? "???" : signage;
+        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Sign: %s" ), sign_string );
     }
 
+    // Print light level on the selected tile.
+    std::pair<std::string, nc_color> ll = get_light_level( std::max( 1.0,
+                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
+    mvwprintz( w_look, point( column, ++line ), ll.second, ll.first );
+
+    // Print the terrain and any furntiure on the tile below and whether it is walkable.
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
-        // Print info about stuff below
         tripoint below( lp.xy(), lp.z - 1 );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
@@ -5917,19 +5923,13 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
         if( !m.has_floor_or_support( lp ) ) {
             fold_and_print( w_look, point( column, ++line ), max_width, c_dark_gray,
-                            _( "Below : %s; No support" ),
-                            tile_below );
+                            _( "Below: %s; No support" ), tile_below );
         } else {
-            fold_and_print( w_look, point( column, ++line ), max_width, c_dark_gray,
-                            _( "Below : %s; Walkable" ),
+            fold_and_print( w_look, point( column, ++line ), max_width, c_dark_gray, _( "Below: %s; Walkable" ),
                             tile_below );
         }
     }
 
-    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover : %d%% \n" ),
-                    m.coverage( lp ) );
-    mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Type  : " ) );
-    trim_and_print( w_look, point( column + 8, line ), max_width - 8, c_light_gray, m.features( lp ) );
     ++line;
 }
 
@@ -5988,8 +5988,11 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
                                const int column, int &line, const int last_line )
 {
     if( veh ) {
-        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Auto  : " ) );
-        mvwprintz( w_look, point( column + 8, line ), c_white, "%s", veh->name );
+        // Print the name of the vehicle.
+        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Vehicle: " ) );
+        mvwprintz( w_look, point( column + utf8_width( _( "Vehicle: " ) ), line ), c_white, "%s",
+                   veh->name );
+        // Then the list of parts on that tile.
         line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
     }
 }
@@ -6072,7 +6075,7 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
         fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                        m.ter( lp ) == t_grave_new ? _( "Graff : %s" ) : _( "Note  : %s" ),
+                        m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "inscription: %s" ),
                         m.graffiti_at( lp ) );
     }
 }

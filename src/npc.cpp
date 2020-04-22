@@ -2218,37 +2218,35 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
-    mvwprintz( w, point( column, line ), c_light_gray, _( "Entity: " ) );
-    trim_and_print( w, point( column + 8, line ), iWidth - 8, c_white, name );
 
-    mvwprintz( w, point( column, ++line ), c_light_gray, _( "Health: " ) );
-    mvwprintz( w, point( column + 8, line ),
-               get_hp_bar( hp_percentage(), 200 ).second,
-               get_hp_bar( hp_percentage(), 100 ).first );
+    // Print health bar and NPC name on the first line.
+    std::pair<std::string, nc_color> bar = get_hp_bar( hp_percentage(), 100 );
+    mvwprintz( w, point( column, line ), bar.second, bar.first );
+    trim_and_print( w, point( column + bar.first.length() + 1, line ), iWidth, c_white, name );
 
-    if( sees( g->u ) ) {
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Senses: " ) );
-        mvwprintz( w, point( column + 8, line ), c_yellow, _( "Aware of your presence" ) );
-    }else {
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Senses: " ) );
-        mvwprintz( w, point( column + 8, line ), c_green, _( "Unaware of you" ) );
-    }
-
+    // Hostility indicator in the second line.
     Attitude att = attitude_to( g->u );
     const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
-    mvwprintz( w, point( column, ++line ), c_light_gray, _( "Stance: " ) );
-    mvwprintz( w, point( column + 8, line ), res.second, res.first.translated() );
+    mvwprintz( w, point( column, ++line ), res.second, res.first.translated() );
 
+    // Awareness indicator on the third line.
+    std::string senses_str = sees( g->u ) ? _( "Aware of your presence" ) :
+                             _( "Unaware of you" );
+    mvwprintz( w, point( column, ++line ), sees( g->u ) ? c_yellow : c_green, senses_str );
+
+    // Print what item the NPC is holding if any on the fourth line.
     if( is_armed() ) {
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wield : " ) );
-        trim_and_print( w, point( column + 8, line ), iWidth, c_red, weapon.tname() );
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wielding: " ) );
+        trim_and_print( w, point( column + utf8_width( _( "Wielding: " ) ), line ), iWidth, c_red,
+                        weapon.tname() );
     }
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( const std::string & str_in,
     nc_color color ) {
         // function to build a list of worn apparel, first line is shorter due to label taking space.
         // build 1st line
-        const std::vector<std::string> shortlist = foldstring( str_in, iWidth - 8 );
+        const std::vector<std::string> shortlist = foldstring( str_in,
+                iWidth - utf8_width( _( "Wearing: " ) ) );
         // calc how much we could cram into the first line
         int offset = utf8_width( shortlist[0] );
         // substract that from initial string
@@ -2257,7 +2255,8 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         const std::vector<std::string> longlist = foldstring( test, iWidth );
 
         // print 1st line, from shortlist with label offset
-        mvwprintz( w, point( column + 8, line++ ), color, shortlist[0] );
+        mvwprintz( w, point( column + utf8_width( _( "Wearing: " ) ), line++ ), color,
+                   shortlist[0] );
 
         // print the rest from longlist
         for( auto it = longlist.begin(); it < longlist.end() && line < last_line; ++it, ++line ) {
@@ -2270,7 +2269,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     } );
     if( !worn_str.empty() ) {
         const std::string wearing = worn_str;
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Outfit: " ) );
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wearing: " ) );
         enumerate_print( wearing, c_dark_gray );
     }
 

@@ -636,70 +636,46 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
 {
     const int vEnd = vStart + vLines;
+    const int max_width = getmaxx( w ) - column - 1;
 
-    mvwprintz( w, point( column, vStart ), c_light_gray, _( "Entity: " ) );
-    mvwprintz( w, point( column + 8, vStart ), c_white, name() );
-
-    std::string effects = get_effect_status();
-    size_t used_space = utf8_width( "Entity: " ) + utf8_width( name() ) + 3;
-    trim_and_print( w, point( used_space, vStart ), getmaxx( w ) - used_space - 2,
-                    h_white, effects );
-
+    // Print health bar, monster name, then statuses on the first line.
     nc_color color = c_white;
-    std::string sText;
-    get_HP_Bar( color, sText );
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Health: " ) );
-    mvwprintz( w, point( column + 8, vStart ), color, sText );
+    std::string bar_str;
+    get_HP_Bar( color, bar_str );
+    mvwprintz( w, point( column, vStart ), color, bar_str );
 
-    std::string senses_str = "--";
-    if( sees( g->u ) ) {
-        senses_str = _( "It knows you're there" );
-    } else {
-        senses_str = _( "It hasn't detected you" );
-    }
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Senses: " ) );
-    mvwprintz( w, point( column + 8, vStart ), sees( g->u ) ? c_red : c_green, senses_str );
+    mvwprintz( w, point( column + utf8_width( bar_str ) + 1, vStart ), c_white, name() );
+    trim_and_print( w, point( utf8_width( bar_str ) + utf8_width( name() ) + 1, vStart ),
+                    max_width - utf8_width( bar_str ) - utf8_width( name() ) - 1, h_white, get_effect_status() );
 
+    // Hostility indicator on the second line.
     std::pair<std::string, nc_color> att = get_attitude();
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Stance: " ) );
-    mvwprintz( w, point( column + 8, vStart ), att.second, att.first );
+    mvwprintz( w, point( column, ++vStart ), att.second, att.first );
 
-    int threatlvl = type->difficulty;
-    nc_color threatlvl_color = c_white;
-    if( threatlvl >= 20 ) {
-        threatlvl_color = c_red;
-    } else if( threatlvl >= 10 ) {
-        threatlvl_color = c_yellow;
-    } else if( threatlvl >= 0 ) {
-        threatlvl_color = c_blue;
-    }
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Threat: " ) );
-    mvwprintz( w, point( column + 8, vStart ), threatlvl_color, to_string( threatlvl ) );
+    // Awareness indicator in the third line.
+    std::string senses_str = sees( g->u ) ? _( "It knows you're there" ) :
+                             _( "It hasn't detected you" );
+    mvwprintz( w, point( column, ++vStart ), sees( g->u ) ? c_red : c_green, senses_str );
 
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Aspect: " ) );
-    std::vector<std::string> line1 = foldstring( type->get_description(), getmaxx( w ) - 9 - column );
-
-    int offset = utf8_width( line1[0] );
-    std::string test = type->get_description().substr( offset );
-    std::vector<std::string> lines = foldstring( test, getmaxx( w ) - 2 - column );
-
-    mvwprintz( w, point( column + 8, vStart ), c_dark_gray, line1[0] );
-
+    // Monster description on following lines.
+    std::vector<std::string> lines = foldstring( type->get_description(), max_width );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, point( column, ++vStart ), c_dark_gray, lines[i] );
+        mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
     }
-    ++vStart;
 
+    // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {
-        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider : %s" ), mounted_player->disp_name() );
+        mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider : %s" ), mounted_player->disp_name() );
     }
 
+    // Show monster size on the last line
     if( size_bonus > 0 ) {
-        wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
+        mvwprintz( w, point( column, ++vStart ), c_light_gray, _( " It is %s." ),
+                   size_names.at( get_size() ) );
     }
 
-    return vStart;
+    return ++vStart;
 }
 
 std::string monster::extended_description() const
