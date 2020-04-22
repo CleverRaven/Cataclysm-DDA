@@ -183,6 +183,8 @@ class target_ui
 
         // Compact layout
         bool compact;
+        // Tiny layout - when extremely whort on space
+        bool tiny;
         // Window
         catacurses::window w_target;
         // Input context
@@ -305,7 +307,7 @@ class target_ui
         void panel_gun_info( int &text_y );
         void panel_recoil( player &pc, int &text_y );
         void panel_spell_info( player &pc, int &text_y );
-        void panel_target_info( int &text_y );
+        void panel_target_info( int &text_y, bool fill_with_blank_if_no_target );
         void panel_fire_mode_aim( player &pc, int &text_y );
         void panel_turret_list( int &text_y );
 
@@ -1977,11 +1979,12 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 void target_ui::init_window_and_input( player &pc )
 {
     compact = TERMY < 41;
-    bool tiny = TERMY < 32;
+    bool use_whole_sidebar = TERMY < 32;
+    tiny = TERMY < 28;
     int top = 0;
     int width = 55;
     int height;
-    if( tiny ) {
+    if( use_whole_sidebar ) {
         // If we're extremely short on space, use the whole sidebar.
         height = TERMY;
     } else if( compact ) {
@@ -2593,7 +2596,8 @@ void target_ui::draw_ui_window( player &pc )
         text_y += compact ? 0 : 1;
     }
 
-    panel_target_info( text_y );
+    bool fill_with_blank_if_no_target = !tiny;
+    panel_target_info( text_y, fill_with_blank_if_no_target );
     text_y += compact ? 0 : 1;
 
     if( mode == TargetMode::Turrets ) {
@@ -2823,7 +2827,7 @@ void target_ui::panel_spell_info( player &pc, int &text_y )
                               casting->description() );
 }
 
-void target_ui::panel_target_info( int &text_y )
+void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_target )
 {
     int max_lines = 4;
     if( dst_critter ) {
@@ -2833,12 +2837,13 @@ void target_ui::panel_target_info( int &text_y )
         //        and somewhat reliably get 4.
         int fix_for_print_info = max_lines - 2;
         dst_critter->print_info( w_target, text_y, fix_for_print_info, 1 );
-    } else {
+        text_y += max_lines;
+    } else if( fill_with_blank_if_no_target ) {
         // Fill with blank lines to prevent other panels from jumping around
         // when the cursor moves.
+        text_y += max_lines;
         // TODO: print info about tile?
     }
-    text_y += max_lines;
 }
 
 void target_ui::panel_fire_mode_aim( player &pc, int &text_y )
