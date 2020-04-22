@@ -30,7 +30,7 @@
     "cancels": [ "LIGHTWEIGHT" ]
   },
   {
-    "type": "muation",
+    "type": "mutation",
     "id": "LIGHTWEIGHT",
     "copy-from": "LIGHTWEIGHT",
     "extend": { "cancels": [ "DRUNKEN" ] }
