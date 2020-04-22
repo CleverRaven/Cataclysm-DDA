@@ -155,7 +155,7 @@
     "volume": "500 ml",
     "price": 100,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": "rubber",
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"

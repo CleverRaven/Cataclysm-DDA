@@ -92,7 +92,7 @@
     "description": "A thin plastic covering adapted for dogs to protect from acid rain and other caustic sources.  You could put this on a friendly dog.",
     "price": 10000,
     "price_postapoc": 1000,
-    "material": [ "neoprene", "plastic" ],
+    "material": [ "neoprene", "plastic", "rubber" ],
     "weight": "1960 g",
     "material_thickness": 0,
     "environmental_protection": 10,

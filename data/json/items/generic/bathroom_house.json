@@ -129,7 +129,7 @@
     "weight": "590 g",
     "volume": "2100 ml",
     "//": "the volume is pretty bulky, but this is an old fashioned model.",
-    "material": [ "wood", "plastic" ],
+    "material": [ "wood", "rubber" ],
     "bashing": 5,
     "to_hit": -1
   },

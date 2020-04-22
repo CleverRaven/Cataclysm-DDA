@@ -231,7 +231,7 @@
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": 1,
-    "material": [ "neoprene", "cotton" ],
+    "material": [ "neoprene", "cotton", "rubber" ],
     "symbol": "[",
     "looks_like": "gloves_tactical",
     "color": "dark_gray",
