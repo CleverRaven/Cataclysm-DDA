@@ -114,8 +114,7 @@ void item_pocket::restack()
                 ++inner_iter;
                 continue;
             }
-            if( !outer_iter->count_by_charges() && outer_iter->stacks_with( *inner_iter, true ) ) {
-                outer_iter->charges += inner_iter->charges;
+            if( outer_iter->combine( *inner_iter ) ) {
                 inner_iter = contents.erase( inner_iter );
                 outer_iter = contents.begin();
             } else {
@@ -171,7 +170,7 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 bool item_pocket::stacks_with( const item_pocket &rhs ) const
 {
     return empty() || rhs.empty() || std::equal( contents.begin(), contents.end(),
-                       rhs.contents.begin(), rhs.contents.end(),
+            rhs.contents.begin(), rhs.contents.end(),
     []( const item & a, const item & b ) {
         return a.charges == b.charges && a.stacks_with( b );
     } );

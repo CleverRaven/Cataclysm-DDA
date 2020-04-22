@@ -510,6 +510,8 @@ class item : public visitable<item>
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false ) const;
+        /** combines two items together if possible. returns false if it fails. */
+        bool combine( const item &rhs );
         /**
          * Merge charges of the other item into this item.
          * @return true if the items have been merged, otherwise false.
@@ -2090,7 +2092,7 @@ class item : public visitable<item>
         /**
          * Get the thermal energy of the item in Joules.
          */
-        float get_item_thermal_energy();
+        float get_item_thermal_energy() const;
 
         /** Calculates item specific energy (J/g) from temperature (K)*/
         float get_specific_energy_from_temperature( float new_temperature );

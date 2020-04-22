@@ -854,6 +854,31 @@ bool item::display_stacked_with( const item &rhs, bool check_components ) const
     return !count_by_charges() && stacks_with( rhs, check_components );
 }
 
+bool item::combine( const item &rhs )
+{
+    if( !contents.empty() || !rhs.contents.empty() ) {
+        return false;
+    }
+    if( !count_by_charges() ) {
+        return false;
+    }
+    if( !stacks_with( rhs, true ) ) {
+        return false;
+    }
+    if( is_comestible() ) {
+        const float lhs_energy = get_item_thermal_energy();
+        const float rhs_energy = rhs.get_item_thermal_energy();
+        const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
+                weight() ) + to_gram( rhs.weight() ) );
+        set_item_specific_energy( combined_specific_energy );
+        //use maximum rot between the two
+        set_relative_rot( std::max( get_relative_rot(),
+                                    rhs.get_relative_rot() ) );
+    }
+    charges += rhs.charges;
+    return true;
+}
+
 bool item::stacks_with( const item &rhs, bool check_components ) const
 {
     if( type != rhs.type ) {
@@ -8736,7 +8761,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     last_temp_check = time;
 }
 
-float item::get_item_thermal_energy()
+float item::get_item_thermal_energy() const
 {
     const float mass = to_gram( weight() ); // g
     return 0.00001 * specific_energy * mass;
