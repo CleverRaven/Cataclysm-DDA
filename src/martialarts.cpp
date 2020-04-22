@@ -1461,11 +1461,16 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         }
 
         if( !ma.weapons.empty() ) {
+            std::vector<std::string> weapons;
+            // Removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list, assuming these are consecutive.
+            std::transform( ma.weapons.begin(), ma.weapons.end(),
+                            std::back_inserter( weapons ), []( const std::string & wid )-> std::string { return item::nname( wid ); } );
+            auto last = std::unique( weapons.begin(), weapons.end() );
+            weapons.erase( last, weapons.end() );
+
             buffer += ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>",
-                                ma.weapons.size() ) + std::string( " " );
-            buffer += enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string & wid ) {
-                return item::nname( wid );
-            } );
+                                weapons.size() ) + std::string( " " );
+            buffer += enumerate_as_string( weapons );
         }
 
         catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
