@@ -416,7 +416,7 @@ struct event_transformation_impl : public event_transformation::impl {
                       result.end() );
 
         for( cata::event::data_type &data : result ) {
-            for( const std::string drop_field_name : drop_fields_ ) {
+            for( const std::string &drop_field_name : drop_fields_ ) {
                 data.erase( drop_field_name );
             }
         }
@@ -463,7 +463,7 @@ struct event_transformation_impl : public event_transformation::impl {
             }
         }
 
-        for( const std::string drop_field_name : drop_fields_ ) {
+        for( const std::string &drop_field_name : drop_fields_ ) {
             if( input_fields.find( drop_field_name ) == input_fields.end() ) {
                 debugmsg( "event_transformation %s lists field %s to be dropped, but no field "
                           "with that name exists in the input", name, drop_field_name );
@@ -517,7 +517,7 @@ struct event_transformation_impl : public event_transformation::impl {
             result.emplace( p.first, p.second.type( result ) );
         }
 
-        for( const std::string drop_field_name : drop_fields_ ) {
+        for( const std::string &drop_field_name : drop_fields_ ) {
             result.erase( drop_field_name );
         }
 
