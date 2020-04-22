@@ -531,7 +531,13 @@ bool avatar::create( character_type type, const std::string &tempname )
     for( mtype_id elem : prof->pets() ) {
         starting_pets.push_back( elem );
     }
-    starting_vehicle = prof->vehicle();
+
+    if( g->scen->vehicle() != vproto_id::NULL_ID() ) {
+        starting_vehicle = g->scen->vehicle();
+    } else {
+        starting_vehicle = prof->vehicle();
+    }
+
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
@@ -1935,6 +1941,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
     catacurses::window w_sorting;
     catacurses::window w_profession;
     catacurses::window w_location;
+    catacurses::window w_vehicle;
     catacurses::window w_flags;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - 10;
@@ -1943,9 +1950,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
         w_sorting = catacurses::newwin( 2, ( TERMX / 2 ) - 1, point( TERMX / 2, 5 ) );
         w_profession = catacurses::newwin( 4, ( TERMX / 2 ) - 1, point( TERMX / 2, 7 ) );
         w_location = catacurses::newwin( 3, ( TERMX / 2 ) - 1, point( TERMX / 2, 11 ) );
-        // 9 = 2 + 4 + 3, so we use rest of space for flags
-        w_flags = catacurses::newwin( iContentHeight - 9, ( TERMX / 2 ) - 1,
-                                      point( TERMX / 2, 14 ) );
+        w_vehicle = catacurses::newwin( 3, ( TERMX / 2 ) - 1, point( TERMX / 2, 14 ) );
+        // 11 = 2 + 4 + 3 + 3, so we use rest of space for flags
+        w_flags = catacurses::newwin( iContentHeight - 14, ( TERMX / 2 ) - 1,
+                                      point( TERMX / 2, 17 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -2069,6 +2077,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
         werase( w_sorting );
         werase( w_profession );
         werase( w_location );
+        werase( w_vehicle );
         werase( w_flags );
 
         if( cur_id_is_valid ) {
@@ -2099,6 +2108,12 @@ tab_direction set_scenario( avatar &u, points_left &points,
                                     sorted_scens[cur_id]->start_name(),
                                     sorted_scens[cur_id]->start_location_count(),
                                     sorted_scens[cur_id]->start_location_targets_count() ) );
+
+            mvwprintz( w_vehicle, point_zero, COL_HEADER, _( "Scenario Vehicle:" ) );
+            wprintz( w_vehicle, c_light_gray, ( "\n" ) );
+            if( sorted_scens[cur_id]->vehicle() ) {
+                wprintz( w_vehicle, c_light_gray, sorted_scens[cur_id]->vehicle()->name );
+            }
 
             mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
@@ -2153,6 +2168,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
         wrefresh( w_sorting );
         wrefresh( w_profession );
         wrefresh( w_location );
+        wrefresh( w_vehicle );
         wrefresh( w_flags );
     } );
 
@@ -2286,6 +2302,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     catacurses::window w_name;
     catacurses::window w_gender;
     catacurses::window w_location;
+    catacurses::window w_vehicle;
     catacurses::window w_stats;
     catacurses::window w_traits;
     catacurses::window w_scenario;
@@ -2299,6 +2316,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w_name = catacurses::newwin( 3, 42, point( 2, 5 ) );
         w_gender = catacurses::newwin( 2, 33, point( 46, 5 ) );
         w_location = catacurses::newwin( 2, 60, point( 100, 5 ) );
+        w_vehicle = catacurses::newwin( 2, 60, point( 160, 5 ) );
         w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
         w_traits = catacurses::newwin( TERMY - 10, 24, point( 22, 9 ) );
         w_scenario = catacurses::newwin( 1, TERMX - 47, point( 46, 9 ) );
@@ -2525,6 +2543,17 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                                   you.start_location.obj().targets_count() ) );
         wrefresh( w_location );
 
+        werase( w_vehicle );
+        mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting Vehicle: " ) );
+        const vproto_id scen_veh = g->scen->vehicle();
+        const vproto_id prof_veh = you.prof->vehicle();
+        if( scen_veh ) {
+            wprintz( w_vehicle, c_light_green, scen_veh->name );
+        } else if( prof_veh ) {
+            wprintz( w_vehicle, c_light_green, prof_veh->name );
+        }
+        wrefresh( w_vehicle );
+
         werase( w_scenario );
         mvwprintz( w_scenario, point_zero, COL_HEADER, _( "Scenario: " ) );
         wprintz( w_scenario, c_light_gray, g->scen->gender_appropriate_name( you.male ) );
@@ -2648,13 +2677,13 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 you.save_template( *name, points );
             }
         } else if( action == "RANDOMIZE_CHAR_DESCRIPTION" ) {
+            you.male = one_in( 2 );
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
                 you.pick_name();
                 no_name_entered = you.name.empty();
             }
             you.set_base_age( rng( 16, 55 ) );
             you.set_base_height( rng( 145, 200 ) );
-            you.male = one_in( 2 );
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
         } else if( action == "CHOOSE_LOCATION" ) {

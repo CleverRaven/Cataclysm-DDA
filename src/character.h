@@ -1581,10 +1581,12 @@ class Character : public Creature, public visitable<Character>
         player_activity stashed_outbounds_backlog;
         player_activity activity;
         std::list<player_activity> backlog;
+        cata::optional<tripoint> destination_point;
         inventory inv;
         itype_id last_item;
         item weapon;
 
+        int scent;
         pimpl<bionic_collection> my_bionics;
         character_martial_arts martial_arts_data;
 
@@ -1598,6 +1600,13 @@ class Character : public Creature, public visitable<Character>
         int slow_rad;
 
         int focus_pool;
+        int cash;
+        std::set<character_id> follower_ids;
+        weak_ptr_fast<Creature> last_target;
+        cata::optional<tripoint> last_target_pos;
+        // Save favorite ammo location
+        item_location ammo_location;
+        std::set<tripoint> camps;
         /* crafting inventory cached time */
         time_point cached_time;
 
@@ -2059,6 +2068,50 @@ class Character : public Creature, public visitable<Character>
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
         void apply_wetness_morale( int temperature );
         int heartrate_bpm() const;
+        std::vector<std::string> short_description_parts() const;
+        std::string short_description() const;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
+        // Checks whether a player can hear a sound at a given volume and location.
+        bool can_hear( const tripoint &source, int volume ) const;
+        // Returns a multiplier indicating the keenness of a player's hearing.
+        float hearing_ability() const;
+
+        using trap_map = std::map<tripoint, std::string>;
+        bool knows_trap( const tripoint &pos ) const;
+        void add_known_trap( const tripoint &pos, const trap &t );
+        /** Define color for displaying the body temperature */
+        nc_color bodytemp_color( int bp ) const;
+
+        // see Creature::sees
+        bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
+        // see Creature::sees
+        bool sees( const Creature &critter ) const override;
+        Attitude attitude_to( const Creature &other ) const override;
+
+        int get_hp( hp_part bp ) const override;
+        int get_hp() const override;
+        int get_hp_max( hp_part bp ) const override;
+        int get_hp_max() const override;
+        bool has_weapon() const override;
+        void shift_destination( const point &shift );
+        // Auto move methods
+        void set_destination( const std::vector<tripoint> &route,
+                              const player_activity &new_destination_activity = player_activity() );
+        void clear_destination();
+        bool has_distant_destination() const;
+
+        // true if the player is auto moving, or if the player is going to finish
+        // auto moving but the destination is not yet reset, such as in avatar_action::move
+        bool is_auto_moving() const;
+        // true if there are further moves in the auto move route
+        bool has_destination() const;
+        // true if player has destination activity AND is standing on destination tile
+        bool has_destination_activity() const;
+        // starts destination activity and cleans up to ensure it is called only once
+        void start_destination_activity();
+        std::vector<tripoint> &get_auto_move_route();
+        action_id get_next_auto_move_direction();
+        bool defer_move( const tripoint &next );
 
     protected:
         Character();
@@ -2102,9 +2155,14 @@ class Character : public Creature, public visitable<Character>
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;
 
+        trap_map known_traps;
         std::array<encumbrance_data, num_bp> encumbrance_cache;
         mutable std::map<std::string, double> cached_info;
-
+        bool bio_soporific_powered_at_last_sleep_check;
+        /** last time we checked for sleep */
+        time_point last_sleep_check = calendar::turn_zero;
+        /** warnings from a faction about bad behavior */
+        std::map<faction_id, std::pair<int, time_point>> warning_record;
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
          * key into @ref mutation_data), the value describes the status of the mutation.
@@ -2210,6 +2268,9 @@ class Character : public Creature, public visitable<Character>
 
         int radiation;
 
+        std::vector<tripoint> auto_move_route;
+        // Used to make sure auto move is canceled if we stumble off course
+        cata::optional<tripoint> next_expected_position;
         scenttype_id type_of_scent;
 
         struct weighted_int_list<std::string> melee_miss_reasons;

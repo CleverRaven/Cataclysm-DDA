@@ -625,6 +625,14 @@ void Character::load( const JsonObject &data )
     }
     data.read( "stomach", stomach );
     data.read( "guts", guts );
+    data.read( "automoveroute", auto_move_route );
+
+    known_traps.clear();
+    for( JsonObject pmap : data.get_array( "known_traps" ) ) {
+        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
+        const std::string t = pmap.get_string( "trap" );
+        known_traps.insert( trap_map::value_type( p, t ) );
+    }
 }
 
 /**
@@ -751,6 +759,18 @@ void Character::store( JsonOut &json ) const
     }
     json.member( "stomach", stomach );
     json.member( "guts", guts );
+    json.member( "automoveroute", auto_move_route );
+    json.member( "known_traps" );
+    json.start_array();
+    for( const auto &elem : known_traps ) {
+        json.start_object();
+        json.member( "x", elem.first.x );
+        json.member( "y", elem.first.y );
+        json.member( "z", elem.first.z );
+        json.member( "trap", elem.second );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -788,19 +808,6 @@ void player::store( JsonOut &json ) const
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
-    json.member( "known_traps" );
-    json.start_array();
-    for( const auto &elem : known_traps ) {
-        json.start_object();
-        json.member( "x", elem.first.x );
-        json.member( "y", elem.first.y );
-        json.member( "z", elem.first.z );
-        json.member( "trap", elem.second );
-        json.end_object();
-    }
-    json.end_array();
-
-    json.member( "automoveroute", auto_move_route );
 
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
@@ -877,14 +884,6 @@ void player::load( const JsonObject &data )
 
     data.read( "addictions", addictions );
     data.read( "followers", follower_ids );
-    known_traps.clear();
-    for( JsonObject pmap : data.get_array( "known_traps" ) ) {
-        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        const std::string t = pmap.get_string( "trap" );
-        known_traps.insert( trap_map::value_type( p, t ) );
-    }
-
-    data.read( "automoveroute", auto_move_route );
 
     // Add the earplugs.
     if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
