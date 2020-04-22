@@ -15,7 +15,7 @@
     "cutting": 3,
     "category": "weapons"
   },
-  {  
+  {
     "id:": "bullwhip_razor",
     "name": { "str": "scourge" },
     "type": "TOOL",
@@ -31,7 +31,7 @@
     "bashing": 0,
     "cutting": 10,
     "material": [ "leather", "steel" ],
-    "flags": [ "REACHATTACK", "WHIP", "NONCONDUCTIVE" ]    
+    "flags": [ "REACHATTACK", "WHIP", "NONCONDUCTIVE" ]
   },
   {
     "id": "lobotomizer",
