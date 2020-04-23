@@ -70,6 +70,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "bat_nerf",
+    "name": { "str": "foam rubber bat" },
+    "description": "A baseball bat made out of foam rubber with a plastic handle.  Light, well-balanced, and easy to wield, but almost completely ineffective.",
+    "weight": "225 g",
+    "to_hit": 2,
+    "color": "yellow",
+    "symbol": "/",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic" ],
+    "flags": [ "FRAGILE_MELEE" ],
+    "volume": "2250 ml",
+    "price": "25 USD"
+  },
+  {
+    "type": "GENERIC",
     "id": "baton",
     "category": "weapons",
     "name": { "str": "expandable baton" },

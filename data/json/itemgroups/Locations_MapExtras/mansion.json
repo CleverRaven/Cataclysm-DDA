@@ -660,6 +660,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "items": [
+      [ "bat_nerf", 100 ],
       [ "marble", 60 ],
       [ "talking_doll", 50 ],
       [ "basketball", 50 ],
