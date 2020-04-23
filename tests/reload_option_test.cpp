@@ -76,25 +76,26 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 
     CHECK( gun_option.qty() == 1 );
 }
-/*
+
 TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
 {
     avatar dummy;
     dummy.worn.push_back( item( "backpack" ) );
 
     item &bottle = dummy.i_add( item( "bottle_plastic" ) );
-    item &water = dummy.i_add( item( "water_clean", 0, 2 ) );
-    item_location bottle_location( dummy, &bottle );
-    item_location water_location( bottle_location, &water );
+    item water( "water_clean", 0, 2 );
+    // add an extra bottle with water
+    item_location water_bottle( dummy, &dummy.i_add( bottle ) );
+    water_bottle->put_in( water, item_pocket::pocket_type::CONTAINER );
 
-    const item::reload_option bottle_option( &dummy, &bottle, &bottle, water_location );
+    const item::reload_option bottle_option( &dummy, &bottle, &bottle, water_bottle );
     CHECK( bottle_option.qty() == bottle.get_remaining_capacity_for_liquid( water, true ) );
 
     item &canteen = dummy.i_add( item( "2lcanteen" ) );
 
     const item::reload_option canteen_option( &dummy, &canteen, &canteen,
-            bottle_location );
+            water_bottle );
 
     CHECK( canteen_option.qty() == 2 );
 }
-*/
+
