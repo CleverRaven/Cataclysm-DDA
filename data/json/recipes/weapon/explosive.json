@@ -405,6 +405,7 @@
     "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
+    "result": "tool_small_bootleg_fragmentation_device",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
