@@ -53,5 +53,15 @@
     "id": "score_headshots",
     "type": "score",
     "statistic": "avatar_num_headshots"
+  },
+  {
+    "id": "score_min_move_z",
+    "type": "score",
+    "statistic": "min_move_z"
+  },
+  {
+    "id": "score_max_move_z",
+    "type": "score",
+    "statistic": "max_move_z"
   }
 ]

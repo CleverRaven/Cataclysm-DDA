@@ -31,5 +31,27 @@
     "type": "achievement",
     "description": "Every rose has its thorn",
     "requirements": [ { "event_statistic": "num_moves_sharp_terrain", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_swim_merit_badge",
+    "type": "achievement",
+    "description": "Swimming merit badge",
+    "requirements": [
+      { "event_statistic": "num_moves_swam", "is": ">=", "target": 10000 },
+      { "event_statistic": "num_moves_swam_underwater", "is": ">=", "target": 1000 },
+      { "event_statistic": "min_move_underwater_z", "is": "<=", "target": -5 }
+    ]
+  },
+  {
+    "id": "achievement_reach_max_z_level",
+    "type": "achievement",
+    "description": "Ain't no mountain high enough",
+    "requirements": [ { "event_statistic": "max_move_z", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_reach_min_z_level",
+    "type": "achievement",
+    "description": "Ain't no valley low enough",
+    "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -10 } ]
   }
 ]

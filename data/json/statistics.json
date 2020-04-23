@@ -190,5 +190,29 @@
     "stat_type": "count",
     "event_transformation": "moves_sharp_terrain",
     "description": "moves through sharp terrain"
+  },
+  {
+    "id": "min_move_z",
+    "type": "event_statistic",
+    "stat_type": "minimum",
+    "field": "z",
+    "event_type": "avatar_moves",
+    "description": "minimum z level reached"
+  },
+  {
+    "id": "max_move_z",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "z",
+    "event_type": "avatar_moves",
+    "description": "maximum z level reached"
+  },
+  {
+    "id": "min_move_underwater_z",
+    "type": "event_statistic",
+    "stat_type": "minimum",
+    "field": "z",
+    "event_transformation": "moves_swam_underwater",
+    "description": "minimum z level reached underwater"
   }
 ]
