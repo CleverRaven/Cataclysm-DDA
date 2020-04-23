@@ -391,7 +391,7 @@
     "sound_description": "bzzzzzzt!",
     "sound_ambient": true,
     "effect": "cone_attack",
-    "extra_effects": [ { "id": "overcharge_burn", "self": true } ],
+    "extra_effects": [ { "id": "overcharge_burn", "hit_self": true } ],
     "min_damage": 90,
     "damage_increment": 5.0,
     "max_damage": 200,
