@@ -238,12 +238,15 @@ def extract_construction(item):
 def extract_material(item):
     outfile = get_outfile("material")
     writestr(outfile, item["name"])
-    writestr(outfile, item["bash_dmg_verb"])
-    writestr(outfile, item["cut_dmg_verb"])
-    writestr(outfile, item["dmg_adj"][0])
-    writestr(outfile, item["dmg_adj"][1])
-    writestr(outfile, item["dmg_adj"][2])
-    writestr(outfile, item["dmg_adj"][3])
+    if "bash_dmg_verb" in item:
+        writestr(outfile, item["bash_dmg_verb"])
+    if "cut_dmg_verb" in item:
+        writestr(outfile, item["cut_dmg_verb"])
+    if "dmg_adj" in item:
+        writestr(outfile, item["dmg_adj"][0])
+        writestr(outfile, item["dmg_adj"][1])
+        writestr(outfile, item["dmg_adj"][2])
+        writestr(outfile, item["dmg_adj"][3])
 
 def extract_martial_art(item):
     outfile = get_outfile("martial_art")
