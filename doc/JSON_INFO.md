@@ -1232,8 +1232,8 @@ an `event_statistic`.  For example:
 },
 ```
 
-Currently the `"is"` field must be `">="` or `"<="` and the `"target"` must be
-an integer, but these restrictions might loosen in the future.
+The `"is"` field must be `">="`, `"<="` or `"anything"`.  When it is not
+`"anything"` the `"target"` must be present, and must be an integer.
 
 Another optional field is
 
@@ -1247,10 +1247,24 @@ or `"cataclysm"`.  The `"target"` describes an amount of time since that
 reference point.
 
 Note that achievements can only be captured when a statistic listed in their
-requirements changes.  So, if you want an achievement such as "survived a
-certain amount of time" which effectively only has a time constraint then you
-must still place some requirement alongside it; pick some statistic which is
-likely to change often, and a vacuous or weak constraint on it.
+requirements changes.  So, if you want an achievement which would normally be
+triggered by reaching some time threshold (such as "survived a certain amount
+of time") then you must place some requirement alongside it to trigger it after
+that time has passed.  Pick some statistic which is likely to change often, and
+add an `"anything"` constraint on it.  For example:
+
+```C++
+{
+  "id": "achievement_survive_one_day",
+  "type": "achievement",
+  "description": "The first day of the rest of their unlives",
+  "time_constraint": { "since": "game_start", "is": ">=", "target": "1 day" },
+  "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
+},
+```
+
+This is a simple "survive a day" but is triggered by waking up, so it will be
+completed when you wake up for the first time after 24 hours into the game.
 
 ### Skills
 
