@@ -845,7 +845,8 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 
 int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( m_good, _( "You no longer need to worry about asthma attacks, at least for a while." ) );
+    p->add_msg_if_player( m_good,
+                          _( "You no longer need to worry about asthma attacks, at least for a while." ) );
     p->add_effect( effect_took_antiasthmatic, 1_days, num_bp, true );
     return it->type->charges_to_use();
 }
