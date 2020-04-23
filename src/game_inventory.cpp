@@ -875,7 +875,7 @@ item_location game_menus::inv::use( avatar &you )
 class gunmod_inventory_preset : public inventory_selector_preset
 {
     public:
-        gunmod_inventory_preset( const Character &guy, const item &gunmod ) : p( p ), gunmod( gunmod ) {
+        gunmod_inventory_preset( const Character &guy, const item &gunmod ) : guy( guy ), gunmod( gunmod ) {
             append_cell( [ this ]( const item_location & loc ) {
                 const auto odds = get_odds( loc );
 
@@ -902,9 +902,9 @@ class gunmod_inventory_preset : public inventory_selector_preset
                 return ret.str();
             }
 
-            if( !p.meets_requirements( gunmod, *loc ) ) {
+            if( !guy.meets_requirements( gunmod, *loc ) ) {
                 return string_format( _( "requires at least %s" ),
-                                      p.enumerate_unmet_requirements( gunmod, *loc ) );
+                                      guy.enumerate_unmet_requirements( gunmod, *loc ) );
             }
 
             if( get_odds( loc ).first <= 0 ) {
@@ -928,11 +928,11 @@ class gunmod_inventory_preset : public inventory_selector_preset
     protected:
         /** @return Odds for successful installation (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> get_odds( const item_location &gun ) const {
-            return p.gunmod_installation_odds( *gun, gunmod );
+            return guy.gunmod_installation_odds( *gun, gunmod );
         }
 
     private:
-        const player &p;
+        const Character &guy;
         const item &gunmod;
 };
 
