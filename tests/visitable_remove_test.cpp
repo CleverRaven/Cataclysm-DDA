@@ -48,6 +48,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
     player &p = g->u;
     p.worn.clear();
+    p.worn.push_back( item( "backpack" ) );
     p.inv.clear();
     p.remove_weapon();
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
@@ -145,7 +146,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         }
 
         WHEN( "one of the bottles is wielded" ) {
-            p.wield( p.i_at( 0 ) );
+            p.wield( p.worn.front().contents.legacy_front() );
             REQUIRE( p.weapon.typeId() == container_id );
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count );
@@ -217,11 +218,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             }
         }
 
-        WHEN( "a hip flask containing water is worn" ) {
+        WHEN( "a hip flask containing water is wielded" ) {
             item obj( worn_id );
             item liquid( liquid_id, calendar::turn );
             obj.fill_with( liquid );
-            p.wear_item( obj );
+            p.wield( obj );
 
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count + 1 );
@@ -246,7 +247,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     } );
                     REQUIRE( found.size() == 1 );
                     AND_THEN( "the hip flask is still worn" ) {
-                        REQUIRE( p.is_worn( *found[0] ) );
+                        REQUIRE( p.is_wielding( *found[0] ) );
 
                         AND_THEN( "the hip flask contains water" ) {
                             REQUIRE( found[0]->contents.num_item_stacks() == 1 );
@@ -282,7 +283,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                         } );
                         REQUIRE( found.size() == 1 );
                         AND_THEN( "the hip flask is worn" ) {
-                            REQUIRE( p.is_worn( *found[0] ) );
+                            REQUIRE( p.is_wielding( *found[0] ) );
 
                             AND_THEN( "the hip flask is empty" ) {
                                 REQUIRE( found[0]->contents.empty() );
