@@ -17,6 +17,7 @@
 
 #include "advanced_inv.h"
 #include "ammo.h"
+#include "ascii_art.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -3681,8 +3682,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
     if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
-        for( const std::string &line : type->ascii_picture ) {
-            info.push_back( iteminfo( "DESCRIPTION", line ) );
+        const ascii_art_id art = type->picture_id;
+        if( art.is_valid() ) {
+            for( const std::string &line : art->picture ) {
+                info.push_back( iteminfo( "DESCRIPTION", line ) );
+            }
         }
     }
 }
