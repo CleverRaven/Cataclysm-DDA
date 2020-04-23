@@ -622,6 +622,20 @@
     "fun": 5
   },
   {
+    "type": "COMESTIBLE",
+    "id": "lotus_tea",
+    "name": { "str_sp": "lotus tea" },
+    "copy-from": "tea",
+    "color": "green",
+    "spoils_in": "10 days",
+    "quench": 34,
+    "healthy": 1,
+    "description": "A healthy beverage made from lotus flowers steeped in boiling water.",
+    "price": 100,
+    "price_postapoc": 25,
+    "fun": 1
+  },
+  {
     "id": "mex_chocolate",
     "type": "COMESTIBLE",
     "category": "food",
@@ -886,6 +900,21 @@
     "flags": [ "EATEN_COLD" ],
     "fun": -1,
     "vitamins": [ [ "vitC", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "spurge_tea",
+    "name": { "str_sp": "spurge tea" },
+    "copy-from": "tea",
+    "color": "green",
+    "use_action": "ANTIASTHMATIC",
+    "spoils_in": "10 days",
+    "quench": 34,
+    "healthy": 1,
+    "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
+    "price": 100,
+    "price_postapoc": 25,
+    "fun": 1
   },
   {
     "type": "COMESTIBLE",

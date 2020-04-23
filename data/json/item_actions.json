@@ -256,6 +256,11 @@
   },
   {
     "type": "item_action",
+    "id": "ANTIASTHMATIC",
+    "name": { "str": "Take" }
+  },
+  {
+    "type": "item_action",
     "id": "ANTIBIOTIC",
     "name": { "str": "Take" }
   },
