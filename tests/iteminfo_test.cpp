@@ -179,14 +179,14 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
         test_info_equals(
             item( "pointy_stick" ), q,
             "--\n"
-            "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>4</color>"
-            "  Pierce: <color_c_yellow>8</color>"
-            "  To-hit bonus: <color_c_yellow>+1</color>\n"
+            "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>5</color>"
+            "  Pierce: <color_c_yellow>9</color>"
+            "  To-hit bonus: <color_c_yellow>-1</color>\n"
             "Moves per attack: <color_c_yellow>100</color>\n"
             "Typical damage per second:\n"
-            "  Best: <color_c_yellow>11.33</color>"
-            "  Vs. Agile: <color_c_yellow>5.93</color>"
-            "  Vs. Armored: <color_c_yellow>1.24</color>" );
+            "  Best: <color_c_yellow>12.47</color>"
+            "  Vs. Agile: <color_c_yellow>6.53</color>"
+            "  Vs. Armored: <color_c_yellow>1.28</color>" );
     }
 
     SECTION( "no damage" ) {
