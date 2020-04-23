@@ -5620,6 +5620,23 @@ void Character::update_bodytemp()
                      body_part_name( bp ) );
         }
 
+        // Note: Numbers are based off of BODYTEMP at the top of weather.h
+        // If torso is BODYTEMP_COLD which is 34C, the early stages of hypothermia begin
+        // constant shivering will prevent the player from falling asleep.
+        // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
+        // AND you have frostbite, then that also prevents you from sleeping
+        if( in_sleep_state() ) {
+            int curr_temperature = temp_cur[bp];
+            if( bp == bp_torso && curr_temperature <= BODYTEMP_COLD ) {
+                add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
+                wake_up();
+            } else if( bp != bp_torso && curr_temperature <= BODYTEMP_VERY_COLD &&
+                       has_effect( effect_frostbite ) ) {
+                add_msg( m_warning, _( "You are too cold.  Your frostbite prevents you from sleeping." ) );
+                wake_up();
+            }
+        }
+
         // Warn the player that wind is going to be a problem.
         // But only if it can be a problem, no need to spam player with "wind chills your scorching body"
         if( temp_conv[bp] <= BODYTEMP_COLD && windchill < -10 && one_in( 200 ) ) {
