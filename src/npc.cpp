@@ -2241,36 +2241,16 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
                         weapon.tname() );
     }
 
-    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( const std::string & str_in,
-    nc_color color ) {
-        // function to build a list of worn apparel, first line is shorter due to label taking space.
-        // build 1st line
-        const std::vector<std::string> shortlist = foldstring( str_in,
-                iWidth - utf8_width( _( "Wearing: " ) ) );
-        // calc how much we could cram into the first line
-        int offset = utf8_width( shortlist[0] );
-        // substract that from initial string
-        std::string test = str_in.substr( offset );
-        // build new vector of strings without the portion we've already put on 1st line
-        const std::vector<std::string> longlist = foldstring( test, iWidth );
-
-        // print 1st line, from shortlist with label offset
-        mvwprintz( w, point( column + utf8_width( _( "Wearing: " ) ), line++ ), color,
-                   shortlist[0] );
-
-        // print the rest from longlist
-        for( auto it = longlist.begin(); it < longlist.end() && line < last_line; ++it, ++line ) {
-            trim_and_print( w, point( column, line ), iWidth, color, *it );
-        }
-    };
-
+    // Worn gear list on following lines.
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
         return it.tname();
     } );
     if( !worn_str.empty() ) {
-        const std::string wearing = worn_str;
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wearing: " ) );
-        enumerate_print( wearing, c_dark_gray );
+        std::vector<std::string> worn_lines = foldstring( _( "Wearing: " ) + worn_str, iWidth );
+        int worn_numlines = worn_lines.size();
+        for( int i = 0; i < worn_numlines && line <= last_line; i++ ) {
+            trim_and_print( w, point( column, ++line ), iWidth, c_dark_gray, worn_lines[i] );
+        }
     }
 
     // as of now, visibility of mutations is between 0 and 10
@@ -2288,10 +2268,13 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         visibility_cap = std::round( dist * dist / 20.0 / ( per - 1 ) );
     }
 
-    const auto trait_str = visible_mutations( visibility_cap );
+    const std::string trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
-        const std::string mutations = _( "Traits: " ) + trait_str;
-        enumerate_print( mutations, c_green );
+        std::vector<std::string> trait_lines = foldstring( _( "Traits: " ) + trait_str, iWidth );
+        int trait_numlines = trait_lines.size();
+        for( int i = 0; i < trait_numlines && line <= last_line; i++ ) {
+            trim_and_print( w, point( column, ++line ), iWidth, c_dark_gray, trait_lines[i] );
+        }
     }
 
     return line;
