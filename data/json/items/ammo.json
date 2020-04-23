@@ -4,6 +4,7 @@
     "id": "battery",
     "category": "spare_parts",
     "price": 12000,
+    "price_postapoc": 2,
     "name": { "str": "battery", "str_pl": "batteries" },
     "symbol": "=",
     "color": "yellow",
