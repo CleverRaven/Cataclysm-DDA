@@ -660,7 +660,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
     int numlines = lines.size();
-    for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
+    for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
         mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
     }
 

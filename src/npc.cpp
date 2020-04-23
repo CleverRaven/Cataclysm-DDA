@@ -2248,7 +2248,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     if( !worn_str.empty() ) {
         std::vector<std::string> worn_lines = foldstring( _( "Wearing: " ) + worn_str, iWidth );
         int worn_numlines = worn_lines.size();
-        for( int i = 0; i < worn_numlines && line <= last_line; i++ ) {
+        for( int i = 0; i < worn_numlines && line < last_line; i++ ) {
             trim_and_print( w, point( column, ++line ), iWidth, c_dark_gray, worn_lines[i] );
         }
     }
@@ -2272,7 +2272,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     if( !trait_str.empty() ) {
         std::vector<std::string> trait_lines = foldstring( _( "Traits: " ) + trait_str, iWidth );
         int trait_numlines = trait_lines.size();
-        for( int i = 0; i < trait_numlines && line <= last_line; i++ ) {
+        for( int i = 0; i < trait_numlines && line < last_line; i++ ) {
             trim_and_print( w, point( column, ++line ), iWidth, c_dark_gray, trait_lines[i] );
         }
     }
