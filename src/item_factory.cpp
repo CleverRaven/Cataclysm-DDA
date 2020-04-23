@@ -140,17 +140,17 @@ void Item_factory::finalize_pre( itype &obj )
     for( const auto &q : obj.qualities ) {
         for( const auto &u : q.first.obj().usages ) {
             if( q.second >= u.first ) {
-                obj.use_methods.emplace( u.second, usage_from_string( u.second ) );
+                emplace_usage( obj.use_methods, u.second );
             }
         }
     }
 
     if( obj.mod ) {
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
-        obj.use_methods.emplace( func, usage_from_string( func ) );
+        emplace_usage( obj.use_methods, func );
     } else if( obj.gun ) {
         const std::string func = "detach_gunmods";
-        obj.use_methods.emplace( func, usage_from_string( func ) );
+        emplace_usage( obj.use_methods, func );
     }
 
     if( get_option<bool>( "NO_FAULTS" ) ) {
@@ -2822,7 +2822,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
         for( const JsonValue entry : jo.get_array( member ) ) {
             if( entry.test_string() ) {
                 std::string type = entry.get_string();
-                use_methods.emplace( type, usage_from_string( type ) );
+                emplace_usage( use_methods, type );
             } else if( entry.test_object() ) {
                 auto obj = entry.get_object();
                 use_methods.insert( usage_from_object( obj ) );
@@ -2834,7 +2834,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
     } else {
         if( jo.has_string( member ) ) {
             std::string type = jo.get_string( member );
-            use_methods.emplace( type, usage_from_string( type ) );
+            emplace_usage( use_methods, type );
         } else if( jo.has_object( member ) ) {
             auto obj = jo.get_object( member );
             use_methods.insert( usage_from_object( obj ) );
@@ -2842,6 +2842,16 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
 
+    }
+}
+
+// Helper to safely look up and store iuse actions.
+void Item_factory::emplace_usage( std::map<std::string, use_function> &container,
+                                  const std::string &iuse_id )
+{
+    use_function fun = usage_from_string( iuse_id );
+    if( fun ) {
+        container.emplace( iuse_id, fun );
     }
 }
 
