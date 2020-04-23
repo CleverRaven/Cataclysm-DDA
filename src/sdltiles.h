@@ -39,6 +39,9 @@ struct window_dimensions {
     point window_size_pixel;
 };
 window_dimensions get_window_dimensions( const catacurses::window &win );
+// Get dimensional info of an imaginary normal catacurses::window with the given
+// position and size. Unlike real catacurses::window, size can be zero.
+window_dimensions get_window_dimensions( const point &pos, const point &size );
 
 #endif // TILES
 

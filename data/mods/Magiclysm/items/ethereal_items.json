@@ -425,6 +425,33 @@
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
   },
   {
+    "id": "burn_scar",
+    "type": "effect_type",
+    "desc": [ "This burn really hurts!" ],
+    "max_duration": "10 second",
+    "rating": "bad",
+    "base_mods": { "pain_amount": [ 20 ] }
+  },
+  {
+    "id": "ench_overcharge_burn_scar",
+    "type": "enchantment",
+    "ench_effects": [ { "effect": "burn_scar", "intensity": 1 } ]
+  },
+  {
+    "id": "overcharge_burn_scar",
+    "type": "ARMOR",
+    "name": { "str": "overcharge burn" },
+    "description": "Ouch, this really smarts!  It'll go away soon, maybe?",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "~",
+    "color": "light_red",
+    "covers": [ "EYES", "MOUTH" ],
+    "encumbrance": 18,
+    "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
+    "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ]
+  },
+  {
     "id": "protect_env",
     "type": "ARMOR",
     "name": { "str": "aura of protection", "str_pl": "auras of protection" },

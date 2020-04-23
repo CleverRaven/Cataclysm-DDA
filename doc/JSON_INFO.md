@@ -1187,7 +1187,8 @@ given field for that unique event:
 
 Regardless of `stat_type`, each `event_statistic` can also have:
 ```C++
-"description": "Number of things" // Intended for use in describing achievement requirements.
+// Intended for use in describing scores and achievement requirements.
+"description": "Number of things"
 ```
 
 #### `score`
@@ -1198,6 +1199,9 @@ of scores.  The `description` specifies a string which is expected to contain a
 
 Note that even though most statistics yield an integer, you should still use
 `%s`.
+
+If the underlying statistic has a description, then the score description is
+optional.  It defaults to "<statistic description>: <value>".
 
 ```C++
 "id": "score_headshots",
@@ -1227,6 +1231,26 @@ an `event_statistic`.  For example:
   ]
 },
 ```
+
+Currently the `"is"` field must be `">="` or `"<="` and the `"target"` must be
+an integer, but these restrictions might loosen in the future.
+
+Another optional field is
+
+```C++
+"time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
+```
+
+This allows putting a time limit (either a lower or upper bound) on when the
+achievement can be claimed.  The `"since"` field can be either `"game_start"`
+or `"cataclysm"`.  The `"target"` describes an amount of time since that
+reference point.
+
+Note that achievements can only be captured when a statistic listed in their
+requirements changes.  So, if you want an achievement such as "survived a
+certain amount of time" which effectively only has a time constraint then you
+must still place some requirement alongside it; pick some statistic which is
+likely to change often, and a vacuous or weak constraint on it.
 
 ### Skills
 

@@ -1384,7 +1384,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     // Check all the flags of the part to see if they require other flags
     // If other flags are required check if those flags are present
-    for( const std::string flag : part.get_flags() ) {
+    for( const std::string &flag : part.get_flags() ) {
         if( !json_flag::get( flag ).requires_flag().empty() ) {
             bool anchor_found = false;
             for( const auto &elem : parts_in_square ) {

@@ -1111,8 +1111,13 @@
   },
   {
     "type": "effect_type",
+    "id": "took_antiasthmatic",
+    "name": [ "Took antiasthmatic drugs" ],
+    "desc": [ "You have taken an antiasthmatic drug recently." ]
+  },
+  {
+    "type": "effect_type",
     "id": "cureall",
-    "//": "This is the royal jelly effect, it should cure pretty much everything.",
     "removes_effects": [
       "fungus",
       "dermatik",

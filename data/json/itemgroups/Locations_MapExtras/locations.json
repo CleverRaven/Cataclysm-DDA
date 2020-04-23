@@ -2152,6 +2152,7 @@
       [ "cotton_ball", 50 ],
       [ "1st_aid", 35 ],
       [ "survival_kit", 35 ],
+      [ "premium_survival_kit", 8 ],
       [ "saline", 10 ],
       [ "vitamins", 75 ],
       [ "gummy_vitamins", 25 ],

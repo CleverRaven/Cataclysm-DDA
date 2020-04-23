@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "standard_domestic_palette",
-    "//": "Intended as a palette for non-nested houses.  Symbols still open for use: 0 ! $ % & _ = ~ ? / , and some symbols that conflict with json (like brackets).",
+    "//": "Intended as a palette for non-nested houses.  Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "toilets": { "t": {  } },
     "furniture": {
       "a": "f_fireplace",
@@ -70,12 +70,13 @@
       "ʭ": "f_ladder"
     },
     "terrain": {
+      "a": "t_thconc_floor",
       "j": "t_region_groundcover_urban",
       "p": "t_region_groundcover_urban",
       "u": "t_region_groundcover_urban",
       "X": "t_region_groundcover_urban",
       ".": "t_region_groundcover_urban",
-      "+": [ [ "t_door_c", 10 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 3 ] ],
+      "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked", 10 ], "t_door_c" ],
       "^": "t_gutter_downspout",
       "|": "t_wall_w",
@@ -171,13 +172,14 @@
         { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
       ],
+      "V": { "item": "home_display_case", "chance": 50 },
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
       "2": { "item": "SUS_cookware", "chance": 100 },
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
       "4": { "item": "SUS_junk_drawer", "chance": 100 },
       "5": { "item": "SUS_kitchen_sink", "chance": 100 },
-      "6": { "item": "SUS_pantry", "chance": 25 },
+      "6": [ { "item": "SUS_pantry", "chance": 25 }, { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] } ],
       "7": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
       "8": [
         { "item": "SUS_hair_drawer", "chance": 50 },
@@ -202,7 +204,14 @@
     "type": "palette",
     "id": "standard_domestic_basement_palette",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
-    "terrain": { "^": "t_rock", "#": "t_concrete_wall", ".": "t_thconc_floor" },
+    "terrain": {
+      "^": "t_rock",
+      "#": "t_concrete_wall",
+      ".": "t_thconc_floor",
+      "c": "t_thconc_floor",
+      "u": "t_thconc_floor",
+      "X": "t_thconc_floor"
+    },
     "furniture": { "c": "f_exercise", "u": "f_ergometer", "X": "f_punching_bag" },
     "monsters": {
       "!": [ { "monster": "GROUP_ROACH", "chance": 70 }, { "monster": "GROUP_ZOMBIE", "chance": 100 } ],

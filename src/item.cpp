@@ -1408,7 +1408,7 @@ double item::average_dps( const player &guy ) const
 {
     double dmg_count = 0.0;
     const std::map<std::string, double> &dps_data = dps( false, true, guy );
-    for( const std::pair<std::string, double> &dps_entry : dps_data ) {
+    for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
         dmg_count += dps_entry.second;
     }
     return dmg_count / dps_data.size();
@@ -3108,7 +3108,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< body_part, size_t > &element : bid->env_protec ) {
+        for( const std::pair< const body_part, size_t > &element : bid->env_protec ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3118,7 +3118,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< body_part, size_t > &element : bid->bash_protec ) {
+        for( const std::pair< const body_part, size_t > &element : bid->bash_protec ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3128,7 +3128,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< body_part, size_t > &element : bid->cut_protec ) {
+        for( const std::pair< const body_part, size_t > &element : bid->cut_protec ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3209,7 +3209,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
             const std::map<std::string, double> &dps_data = dps( true, false );
             std::string sep;
-            for( const std::pair<std::string, double> &dps_entry : dps_data ) {
+            for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
                 info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
                                    iteminfo::no_newline | iteminfo::is_decimal,
                                    dps_entry.second );
@@ -8708,8 +8708,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
         const weather_generator &wgen = g->weather.get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        const tripoint &local = g->m.getlocal( pos );
-        int local_mod = g->new_game ? 0 : g->m.get_temperature( local );
+        int local_mod = g->new_game ? 0 : g->m.get_temperature( pos );
 
         int enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.

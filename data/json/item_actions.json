@@ -256,6 +256,11 @@
   },
   {
     "type": "item_action",
+    "id": "ANTIASTHMATIC",
+    "name": { "str": "Take" }
+  },
+  {
+    "type": "item_action",
     "id": "ANTIBIOTIC",
     "name": { "str": "Take" }
   },
@@ -836,11 +841,6 @@
   },
   {
     "type": "item_action",
-    "id": "ROYAL_JELLY",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
     "id": "SEED",
     "name": { "str": "Consume" }
   },
@@ -1102,11 +1102,6 @@
   {
     "type": "item_action",
     "id": "STRONG_ANTIBIOTIC",
-    "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
-    "id": "PANACEA",
     "name": { "str": "Take" }
   },
   {

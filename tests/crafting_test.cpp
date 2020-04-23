@@ -125,7 +125,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
     GIVEN( "a recipe that can be automatically learned" ) {
         WHEN( "the player has lower skill" ) {
-            for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+            for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
                 dummy.set_skill_level( skl.first, skl.second - 1 );
             }
 
@@ -135,7 +135,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
         }
         WHEN( "the player has just the skill that's required" ) {
             dummy.set_skill_level( r->skill_used, r->difficulty );
-            for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+            for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
                 dummy.set_skill_level( skl.first, skl.second );
             }
 
@@ -144,7 +144,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
                 AND_WHEN( "his skill rusts" ) {
                     dummy.set_skill_level( r->skill_used, 0 );
-                    for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+                    for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
                         dummy.set_skill_level( skl.first, 0 );
                     }
 
@@ -168,7 +168,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
             dummy.set_skill_level( r->skill_used, 2 );
             // Secondary skills are just set to be what the autolearn requires
             // but the primary is not
-            for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+            for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
                 dummy.set_skill_level( skl.first, skl.second );
             }
 
@@ -288,7 +288,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     const recipe &r = rid.obj();
 
     // Ensure adequate skill for all "required" skills
-    for( const std::pair<skill_id, int> &skl : r.required_skills ) {
+    for( const std::pair<const skill_id, int> &skl : r.required_skills ) {
         g->u.set_skill_level( skl.first, skl.second );
     }
     // and just in case "used" skill difficulty is higher, set that too
