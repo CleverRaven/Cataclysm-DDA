@@ -2084,7 +2084,7 @@ class item : public visitable<item>
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
         bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                               const bool seals = false, temperature_flag flag = temperature_flag::TEMP_NORMAL );
+                               bool seals = false, temperature_flag flag = temperature_flag::TEMP_NORMAL );
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
