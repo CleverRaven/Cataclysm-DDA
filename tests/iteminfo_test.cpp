@@ -186,7 +186,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "Typical damage per second:\n"
             "Best: <color_c_yellow>6.87</color>"
             "  Vs. Agile: <color_c_yellow>3.20</color>"
-            "  Vs. Armored: <color_c_yellow>0.12</color>" );
+            "  Vs. Armored: <color_c_yellow>0.12</color>\n" );
     }
 
     SECTION( "melee and ranged damaged" ) {
