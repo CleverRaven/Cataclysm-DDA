@@ -536,8 +536,11 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     }
     cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
     cached_crafting_inventory += inv;
-    cached_crafting_inventory += weapon;
-    cached_crafting_inventory += worn;
+
+    for( const item *it : all_items_ptr() ) {
+        cached_crafting_inventory.add_item( *it );
+    }
+
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&

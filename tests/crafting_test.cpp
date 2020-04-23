@@ -157,8 +157,8 @@ TEST_CASE( "available_recipes", "[recipes]" )
     }
 
     GIVEN( "an appropriate book" ) {
+        dummy.worn.push_back( item( "backpack" ) );
         item &craftbook = dummy.i_add( item( "manual_electronics" ) );
-
         REQUIRE( craftbook.is_book() );
         REQUIRE_FALSE( craftbook.type->book->recipes.empty() );
         REQUIRE_FALSE( dummy.knows_recipe( r ) );
@@ -174,10 +174,14 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
             AND_WHEN( "he searches for the recipe in the book" ) {
                 THEN( "he finds it!" ) {
-                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( r ) );
+                    // update the crafting inventory cache
+                    dummy.moves++;
+                    CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r ) );
                 }
                 THEN( "it's easier in the book" ) {
-                    CHECK( dummy.get_recipes_from_books( dummy.inv ).get_custom_difficulty( r ) == 2 );
+                    // update the crafting inventory cache
+                    dummy.moves++;
+                    CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).get_custom_difficulty( r ) == 2 );
                 }
                 THEN( "he still hasn't the recipe memorized" ) {
                     CHECK_FALSE( dummy.knows_recipe( r ) );
@@ -187,7 +191,9 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 dummy.i_rem( &craftbook );
 
                 THEN( "he can't brew the recipe anymore" ) {
-                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r ) );
+                    // update the crafting inventory cache
+                    dummy.moves++;
+                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r ) );
                 }
             }
         }
@@ -195,6 +201,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
     GIVEN( "an eink pc with a sushi recipe" ) {
         const recipe *r2 = &recipe_id( "sushi_rice" ).obj();
+        dummy.worn.push_back( item( "backpack" ) );
         item &eink = dummy.i_add( item( "eink_tablet_pc" ) );
         eink.set_var( "EIPC_RECIPES", ",sushi_rice," );
         REQUIRE_FALSE( dummy.knows_recipe( r2 ) );
@@ -204,7 +211,9 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
             AND_WHEN( "he searches for the recipe in the tablet" ) {
                 THEN( "he finds it!" ) {
-                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( r2 ) );
+                    // update the crafting inventory cache
+                    dummy.moves++;
+                    CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r2 ) );
                 }
                 THEN( "he still hasn't the recipe memorized" ) {
                     CHECK_FALSE( dummy.knows_recipe( r2 ) );
@@ -214,7 +223,9 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 dummy.i_rem( &eink );
 
                 THEN( "he can't make the recipe anymore" ) {
-                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r2 ) );
+                    // update the crafting inventory cache
+                    dummy.moves++;
+                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r2 ) );
                 }
             }
         }
@@ -244,7 +255,9 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
         const auto helpers( dummy.get_crafting_helpers() );
 
         REQUIRE( std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() );
-        REQUIRE_FALSE( dummy.get_available_recipes( dummy.inv, &helpers ).contains( r ) );
+        // update the crafting inventory cache
+        dummy.moves++;
+        REQUIRE_FALSE( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
         REQUIRE_FALSE( who.knows_recipe( r ) );
 
         WHEN( "you have the required skill" ) {
@@ -254,7 +267,9 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
                 who.learn_recipe( r );
 
                 THEN( "he helps you" ) {
-                    CHECK( dummy.get_available_recipes( dummy.inv, &helpers ).contains( r ) );
+                    // update the crafting inventory cache
+                    dummy.moves++;
+                    CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
                 }
             }
             AND_WHEN( "he has the cookbook in his inventory" ) {
@@ -264,7 +279,9 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
                 REQUIRE_FALSE( cookbook.type->book->recipes.empty() );
 
                 THEN( "he shows it to you" ) {
-                    CHECK( dummy.get_available_recipes( dummy.inv, &helpers ).contains( r ) );
+                    // update the crafting inventory cache
+                    dummy.moves++;
+                    CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
                 }
             }
         }
