@@ -1,7 +1,7 @@
 #Note that despite github calling these "owners", a better term would be "alerts"
 #Everything in the cataclysm repository remains under a creative commons license, nobody owns the mods.
 #In fact, the code "owners" designation is meant to encourage third party
-#individuals to contribute to the mod, with the maintainers notified for reviews.
+#individuals to contribute to the mod, with the curators notified for reviews.
 
 /data/mods/Aftershock/ @Malecypse @John-Candlebury
 /data/mods/DinoMod/ @ephemeralstoryteller @damien @LyleSY
