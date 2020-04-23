@@ -176,11 +176,11 @@ static std::string melee_cost_text( int moves )
 }
 static std::string melee_stamina_cost_text( int cost )
 {
-    return string_format( _( "Melee Stamina cost: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
 }
 static std::string mouth_stamina_cost_text( int cost )
 {
-    return string_format( _( "Stamina regen: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
 }
 static std::string ranged_cost_text( double disp )
 {
