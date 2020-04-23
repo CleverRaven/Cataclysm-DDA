@@ -2,10 +2,11 @@
   {
     "type": "monstergroup",
     "name": "DKS_GROUP_STRAY_UPGRADE",
-    "default": "dks_mon_stray_heavy",
+    "default": "dks_mon_stray",
     "monsters": [
       { "monster": "dks_mon_stray_eater", "freq": 150, "cost_multiplier": 10 },
-      { "monster": "dks_mon_stray_fast", "freq": 100, "cost_multiplier": 10 }
+      { "monster": "dks_mon_stray_heavy", "freq": 100, "cost_multiplier": 12 },
+      { "monster": "dks_mon_stray_fast", "freq": 100, "cost_multiplier": 5 }
     ]
   },
   {
@@ -13,10 +14,10 @@
     "name": "MON_CRYSTAL_UPGRADE",
     "default": "dks_mon_crystal_wall",
     "monsters": [
-      { "monster": "dks_mon_crystal_shriek", "freq": 15, "cost_multiplier": 5 },
-      { "monster": "dks_mon_crystal_whip", "freq": 15, "cost_multiplier": 5 },
-      { "monster": "dks_mon_crystal_zap", "freq": 15, "cost_multiplier": 7 },
-      { "monster": "dks_mon_crystal_hive", "freq": 10, "cost_multiplier": 10 }
+      { "monster": "dks_mon_crystal_shriek", "freq": 25, "cost_multiplier": 5 },
+      { "monster": "dks_mon_crystal_whip", "freq": 25, "cost_multiplier": 5 },
+      { "monster": "dks_mon_crystal_zap", "freq": 25, "cost_multiplier": 7 },
+      { "monster": "dks_mon_crystal_hive", "freq": 15, "cost_multiplier": 10 }
     ]
   },
   {
@@ -36,8 +37,8 @@
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 4, "pack_size": [ 3, 5 ] },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 16, "pack_size": [ 2, 5 ] },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 24, "pack_size": [ 5, 9 ] },
-      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 7, "pack_size": [ 4, 6 ], "starts": 2160 },
-      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 13, "pack_size": [ 7, 9 ], "starts": 2160 }
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 5, "pack_size": [ 4, 6 ], "starts": 1440 },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 10, "pack_size": [ 7, 9 ], "starts": 2160 }
     ]
   },
   {
