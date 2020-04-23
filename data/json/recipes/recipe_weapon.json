@@ -103,7 +103,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ "swage", -1 ] ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
