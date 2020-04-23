@@ -880,7 +880,11 @@
       { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
       { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_tyrannosaurus", "freq": 1, "cost_multiplier": 40 },
-      { "monster": "mon_allosaurus", "freq": 2, "cost_multiplier": 30 }
+      { "monster": "mon_allosaurus", "freq": 2, "cost_multiplier": 30 },
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 72 },
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 168 },
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 672 },
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 2160 }
     ]
   },
   {
