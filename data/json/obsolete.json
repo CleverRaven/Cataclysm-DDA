@@ -506,6 +506,62 @@
     "obsolete": true
   },
   {
+    "result": "tool_black_powder_charge",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "id": "tool_black_powder_charge",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "black gunpowder charge" },
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Should explode in a few minutes…",
+    "weight": "6500 g",
+    "volume": "4 L",
+    "price": 20000,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "use_action": {
+      "target": "tool_black_powder_charge_act",
+      "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
+      "target_charges": 20,
+      "active": true,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "tool_black_powder_charge_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active black gunpowder charge" },
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, whose fuse has been lit, its final countdown starting.",
+    "weight": "6500 g",
+    "volume": "4 L",
+    "price": 0,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "light_red",
+    "initial_charges": 20,
+    "max_charges": 20,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Kshhh.",
+      "no_deactivate_msg": "You've already lit the fuse - run!",
+      "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } }
+    }
+  },
+  {
     "id": "bio_scent_vision",
     "type": "bionic",
     "name": { "str": "Scent Vision" },

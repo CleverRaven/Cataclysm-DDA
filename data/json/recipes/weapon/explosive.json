@@ -396,17 +396,46 @@
     ]
   },
   {
-    "result": "tool_black_powder_charge",
+    "result": "tool_small_bootleg_fragmentation_device",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "25 m",
+    "difficulty": 5,
+    "time": "15 m",
+    "reversible": true,
+    "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "using": [ [ "military_explosive", 250 ], [ "explosives_casting_standard", 1 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "scrap", 20 ] ], [ [ "delay_fuze", 1 ] ] ]
+  },
+  {
+    "result": "tool_small_improvised_fragmentation_device",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "using": [ [ "stable_explosive", 245 ], [ "volatile_explosive", 5 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "scrap", 20 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "tool_small_primitive_fragmentation_device",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "chem_black_powder", 4120 ] ], [ [ "scrap", 20 ] ], [ [ "string_6", 1 ] ] ]
+    "using": [ [ "volatile_explosive", 250 ] ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "scrap", 20 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "result": "tool_rdx_charge",
