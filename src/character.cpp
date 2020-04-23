@@ -343,6 +343,28 @@ static const std::string flag_USE_UPS( "USE_UPS" );
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<character_movemode>( character_movemode data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case character_movemode::CMM_WALK: return "walk";
+        case character_movemode::CMM_RUN: return "run";
+        case character_movemode::CMM_CROUCH: return "crouch";
+            // *INDENT-ON*
+        case character_movemode::CMM_COUNT:
+            break;
+    }
+    debugmsg( "Invalid character_movemode" );
+    abort();
+}
+
+} // namespace io
+
+
 // *INDENT-OFF*
 Character::Character() :
 
@@ -1511,6 +1533,11 @@ bool Character::move_effects( bool attacking )
         }
     }
     return true;
+}
+
+character_movemode Character::get_movement_mode() const
+{
+    return move_mode;
 }
 
 bool Character::movement_mode_is( const character_movemode mode ) const
@@ -3063,7 +3090,7 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     if( move_mode != CMM_WALK ) {
-        rval.push_back( character_movemode_str[ move_mode ] );
+        rval.push_back( io::enum_to_string( move_mode ) );
     }
     return rval;
 }
