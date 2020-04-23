@@ -3,14 +3,14 @@
     "id": "shot_buck",
     "copy-from": "shot_00",
     "type": "AMMO",
-    "name": { "str": "shotshell, buckshot", "str_pl": "shotshell, buckshot" },
+    "name": { "str_sp": "shotshell, buckshot" },
     "ammo_type": "ammo_shot"
   },
   {
     "id": "shot_bean",
     "copy-from": "shot_buck",
     "type": "AMMO",
-    "name": { "str": "shotshell, beanbag", "str_pl": "shotshell, beanbag" },
+    "name": { "str_sp": "shotshell, beanbag" },
     "description": "A beanbag round for shotguns, not deadly but designed to disable.",
     "proportional": { "price": 0.5, "price_postapoc": 0.5, "count": 0.5, "damage": 0.1, "recoil": 0.4, "loudness": 0.6 },
     "extend": { "effects": [ "BEANBAG", "NOGIB" ] }
@@ -19,7 +19,7 @@
     "id": "shot_fowl",
     "copy-from": "shot_buck",
     "type": "AMMO",
-    "name": { "str": "shotshell, birdshot", "str_pl": "shotshell, birdshot" },
+    "name": { "str_sp": "shotshell, birdshot" },
     "description": "A shotshell filled with numerous small pellets.  Designed for hunting birds and other small game, its applications in combat are very limited.",
     "price_postapoc": 2400,
     "proportional": { "price": 0.2, "damage": 0.3, "recoil": 0.6, "loudness": 0.8 },
@@ -29,7 +29,7 @@
     "id": "shot_foster",
     "copy-from": "shot_buck",
     "type": "AMMO",
-    "name": { "str": "shotshell, slug", "str_pl": "shotshell, slug" },
+    "name": { "str_sp": "shotshell, slug" },
     "description": "A shotshell with a single projectile, shaped somewhat like a shuttlecock.  Slugs are used with shotguns to give them extra range, allowing them to stand in for a rifle.  Extremely damaging but rather inaccurate.",
     "dispersion": 100,
     "relative": { "range": 12, "pierce": 6 },
@@ -40,7 +40,7 @@
     "id": "shot_pyro",
     "copy-from": "shot_buck",
     "type": "AMMO",
-    "name": { "str": "shotshell, pyrotechnical", "str_pl": "shotshell, pyrotechnical" },
+    "name": { "str_sp": "shotshell, pyrotechnical" },
     "description": "A novelty shotgun shell filled with a simple pyrotechnical charge.  The payload is light and won't wound very well, but the flash and sparks will certainly be impressive, in addition to being an extreme fire hazard.",
     "proportional": { "price": 2, "price_postapoc": 2, "damage": 0.2, "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2, "range": 0.5 },
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
@@ -49,7 +49,7 @@
     "id": "reloaded_shot_junk",
     "copy-from": "shot_buck",
     "type": "AMMO",
-    "name": { "str": "shotshell, junk", "str_pl": "shotshell, junk" },
+    "name": { "str_sp": "shotshell, junk" },
     "description": "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
     "proportional": { "price": 0.4, "damage": 0.6, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -58,7 +58,7 @@
   {
     "id": "reloaded_shot_buck",
     "copy-from": "shot_buck",
-    "name": { "str": "shotshell, buckshot (reloaded)", "str_pl": "shotshell, buckshot (reloaded)" },
+    "name": { "str_sp": "shotshell, buckshot (reloaded)" },
     "type": "AMMO",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -67,7 +67,7 @@
   {
     "id": "reloaded_shot_fowl",
     "copy-from": "shot_fowl",
-    "name": { "str": "shotshell, birdshot (reloaded)", "str_pl": "shotshell, birdshot (reloaded)" },
+    "name": { "str_sp": "shotshell, birdshot (reloaded)" },
     "type": "AMMO",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -76,7 +76,7 @@
   {
     "id": "reloaded_shot_foster",
     "copy-from": "shot_foster",
-    "name": { "str": "shotshell, slug (reloaded)", "str_pl": "shotshell, slug (reloaded)" },
+    "name": { "str_sp": "shotshell, slug (reloaded)" },
     "type": "AMMO",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -85,7 +85,7 @@
   {
     "id": "reloaded_shot_pyro",
     "copy-from": "shot_pyro",
-    "name": { "str": "shotshell, pyrotechnical (reloaded)", "str_pl": "shotshell, pyrotechnical (reloaded)" },
+    "name": { "str_sp": "shotshell, pyrotechnical (reloaded)" },
     "type": "AMMO",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -94,7 +94,7 @@
   {
     "id": "reloaded_shot_dart",
     "copy-from": "shot_buck",
-    "name": { "str": "shotshell, flechette (reloaded)", "str_pl": "shotshell, flechette (reloaded)" },
+    "name": { "str_sp": "shotshell, flechette (reloaded)" },
     "//": "intentionally reload only",
     "type": "AMMO",
     "description": "A shotgun shell filled with tiny steel darts, definitely not a factory loading.  Flechettes won't pattern as well as normal shot, and they'll likely do less damage.  However, they may fare better against armor than other shotgun loads.",
@@ -105,7 +105,7 @@
   {
     "id": "bp_shot_buck",
     "copy-from": "shot_buck",
-    "name": { "str": "shotshell, buckshot (black powder)", "str_pl": "shotshell, buckshot (black powder)" },
+    "name": { "str_sp": "shotshell, buckshot (black powder)" },
     "type": "AMMO",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -114,7 +114,7 @@
   {
     "id": "bp_shot_fowl",
     "copy-from": "shot_fowl",
-    "name": { "str": "shotshell, birdshot (black powder)", "str_pl": "shotshell, birdshot (black powder)" },
+    "name": { "str_sp": "shotshell, birdshot (black powder)" },
     "type": "AMMO",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -123,7 +123,7 @@
   {
     "id": "bp_shot_foster",
     "copy-from": "shot_foster",
-    "name": { "str": "shotshell, slug (black powder)", "str_pl": "shotshell, slug (black powder)" },
+    "name": { "str_sp": "shotshell, slug (black powder)" },
     "type": "AMMO",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -132,7 +132,7 @@
   {
     "id": "bp_shot_pyro",
     "copy-from": "shot_pyro",
-    "name": { "str": "shotshell, pyrotechnical (black powder)", "str_pl": "shotshell, pyrotechnical (black powder)" },
+    "name": { "str_sp": "shotshell, pyrotechnical (black powder)" },
     "type": "AMMO",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -141,7 +141,7 @@
   {
     "id": "bp_shot_dart",
     "copy-from": "reloaded_shot_dart",
-    "name": { "str": "shotshell, flechette (black powder)", "str_pl": "shotshell, flechette (black powder)" },
+    "name": { "str_sp": "shotshell, flechette (black powder)" },
     "type": "AMMO",
     "proportional": { "price": 0.86, "damage": 0.88, "dispersion": 1.09 },
     "extend": { "effects": [ "MUZZLE_SMOKE", "BLACKPOWDER" ] }
@@ -150,7 +150,7 @@
     "id": "bp_shot_junk",
     "copy-from": "reloaded_shot_junk",
     "type": "AMMO",
-    "name": { "str": "shotshell, junk (black powder)", "str_pl": "shotshell, junk (black powder)" },
+    "name": { "str_sp": "shotshell, junk (black powder)" },
     "proportional": { "price": 0.6, "damage": 0.8 },
     "extend": { "effects": [ "MUZZLE_SMOKE" ] }
   }

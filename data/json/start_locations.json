@@ -7,6 +7,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_shelter_vandalized",
+    "name": "Shelter (Vandalized)",
+    "terrain": [ "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_refugee_center",
     "name": "Refugee Center",
     "terrain": [ "evac_center_7" ]
@@ -386,6 +392,12 @@
     "id": "sloc_cabin_lake",
     "name": "Lake Cabin",
     "terrain": [ "cabin_lake" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_gas_station",
+    "name": "Gas Station",
+    "terrain": [ "s_gas_rural" ]
   },
   {
     "type": "start_location",

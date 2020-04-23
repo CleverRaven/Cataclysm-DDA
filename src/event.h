@@ -168,8 +168,11 @@ struct event_spec<event_type::angers_amigara_horrors> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::avatar_moves> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
             { "mount", cata_variant_type::mtype_id },
+            { "terrain", cata_variant_type::ter_id },
+            { "movement_mode", cata_variant_type::character_movemode },
+            { "underwater", cata_variant_type::bool_ },
         }
     };
 };
@@ -558,7 +561,8 @@ class event
                    > ()( calendar::turn, std::forward<Args>( args )... );
         }
 
-        static std::map<std::string, cata_variant_type> get_fields( event_type );
+        using fields_type = std::unordered_map<std::string, cata_variant_type>;
+        static fields_type get_fields( event_type );
 
         event_type type() const {
             return type_;
@@ -573,6 +577,14 @@ class event
                 debugmsg( "No such key %s in event of type %s", key,
                           io::enum_to_string( type_ ) );
                 abort();
+            }
+            return it->second;
+        }
+
+        cata_variant get_variant_or_void( const std::string &key ) const {
+            auto it = data_.find( key );
+            if( it == data_.end() ) {
+                return cata_variant();
             }
             return it->second;
         }

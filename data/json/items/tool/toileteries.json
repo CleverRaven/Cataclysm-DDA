@@ -188,14 +188,14 @@
     "type": "TOOL",
     "name": { "str": "washing kit" },
     "description": "A combination kit of a washboard and a scrubbing tool.  Everything you need to clean items after the apocalypse.",
-    "weight": "80 g",
-    "volume": "250 ml",
+    "weight": "100 g",
+    "volume": "275 ml",
     "price": 0,
     "price_postapoc": 50,
-    "material": "plastic",
+    "material": [ "wood", "plastic" ],
     "symbol": "%",
     "color": "yellow",
     "use_action": "WASH_ALL_ITEMS",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_SALVAGE" ]
   }
 ]

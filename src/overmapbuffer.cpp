@@ -175,7 +175,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             point max = om_to_sm_copy( loc + point_south_east ) - point_south_east;
             npc_sm.x = clamp( npc_sm.x, min.x, max.x );
             npc_sm.y = clamp( npc_sm.y, min.y, max.y );
-            np.spawn_at_sm( npc_sm.x, npc_sm.y, np.posz() );
+            np.spawn_at_sm( tripoint( npc_sm, np.posz() ) );
             new_overmap.npcs.push_back( ptr );
             continue;
         }

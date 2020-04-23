@@ -110,7 +110,6 @@ ignorable = {
 # all of their translatable strings are in the following form:
 #   "name" member
 #   "description" member
-#   "name_plural" member
 #   "text" member
 #   "sound" member
 #   "messages" member containing an array of translatable strings
@@ -167,10 +166,15 @@ automatically_convertible = {
 }
 
 # for these objects a plural form is needed
+# NOTE: please also change `needs_plural` in `src/item_factory.cpp`
+# when changing this list
 needs_plural = {
+    "AMMO",
     "ARMOR",
+    "BATTERY",
     "BIONIC_ITEM",
     "BOOK",
+    "COMESTIBLE",
     "CONTAINER",
     "ENGINE",
     "GENERIC",
@@ -354,19 +358,10 @@ def extract_gun(item):
     outfile = get_outfile("gun")
     if "name" in item:
         item_name = item.get("name")
-        if "name_plural" in item:
-            if type(item_name) is not str:
-                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
-            # legacy format
-            if item["name_plural"] != "none":
-                writestr(outfile, item_name, item["name_plural"])
-            else:
-                writestr(outfile, item_name)
+        if item["type"] in needs_plural:
+            writestr(outfile, item_name, pl_fmt=True)
         else:
-            if item["type"] in needs_plural:
-                writestr(outfile, item_name, new_pl_fmt=True)
-            else:
-                writestr(outfile, item_name)
+            writestr(outfile, item_name)
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
@@ -390,19 +385,10 @@ def extract_gunmod(item):
     outfile = get_outfile("gunmod")
     if "name" in item:
         item_name = item.get("name")
-        if "name_plural" in item:
-            if type(item_name) is not str:
-                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
-            # legacy format
-            if item["name_plural"] != "none":
-                writestr(outfile, item_name, item["name_plural"])
-            else:
-                writestr(outfile, item_name)
+        if item["type"] in needs_plural:
+            writestr(outfile, item_name, pl_fmt=True)
         else:
-            if item["type"] in needs_plural:
-                writestr(outfile, item_name, new_pl_fmt=True)
-            else:
-                writestr(outfile, item_name)
+            writestr(outfile, item_name)
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
@@ -874,38 +860,50 @@ def gettextify(string, context=None, plural=None):
         else:
             return "_(%r)\n" % string
 
-def writestr(filename, string, plural=None, context=None, format_strings=False, comment=None, new_pl_fmt=False):
+def writestr(filename, string, context=None, format_strings=False, comment=None, pl_fmt=False):
     "Wrap the string and write to the file."
-    if type(string) is list and plural is None:
+    if type(string) is list:
         for entry in string:
-            writestr(filename, entry, None, context, format_strings, comment)
+            writestr(filename, entry, context, format_strings, comment, pl_fmt)
         return
-    elif type(string) is dict and plural is None:
+    elif type(string) is dict:
         if "//~" in string:
             if comment is None:
                 comment = string["//~"]
             else:
                 comment = "{}\n{}".format(comment, string["//~"])
-        ctxt = string.get( "ctxt" )
+        context = string.get( "ctxt" )
         str_pl = None
-        if new_pl_fmt:
+        if pl_fmt:
             if "str_pl" in string:
                 str_pl = string["str_pl"]
+            elif "str_sp" in string:
+                str_pl = string["str_sp"]
             else:
-                # no "str_pl" entry in json, assuming regular plural form as in item_factory.cpp etc
+                # no "str_pl" entry in json, assuming regular plural form as in translations.cpp
                 str_pl = "{}s".format(string["str"])
-        elif "str_pl" in string:
-            str_pl = string["str_pl"]
-        writestr(filename, string["str"], str_pl, ctxt, format_strings, comment)
-        return
-    elif type(string) is not str and plural is not None:
-        raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", plural)
-
-    # don't write empty strings
-    if not string: return
-    if new_pl_fmt:
-        # no "str_pl" entry in json, assuming regular plural form as in item_factory.cpp etc
-        plural = "{}s".format(string)
+        elif "str_pl" in string or "str_sp" in string:
+            raise WrongJSONItem("ERROR: 'str_pl' and 'str_sp' not supported here", string)
+        if "str" in string:
+            str_singular = string["str"]
+        elif "str_sp" in string:
+            str_singular = string["str_sp"]
+        else:
+            raise WrongJSONItem("ERROR: 'str' or 'str_sp' not found", string)
+    elif type(string) is str:
+        if len(string) == 0:
+            # empty string has special meaning for gettext, skip it
+            return
+        str_singular = string
+        if pl_fmt:
+            # no "str_pl" entry in json, assuming regular plural form as in translations.cpp
+            str_pl = "{}s".format(string)
+        else:
+            str_pl = None
+    elif string is None:
+        return;
+    else:
+        raise WrongJSONItem("ERROR: value is not a string, dict, list, or None", string)
 
     with open(filename, 'a', encoding="utf-8", newline='\n') as fs:
         # Append developers comment
@@ -913,9 +911,9 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
             tlcomment(fs, comment)
         # most of the strings from json don't use string formatting.
         # we must tell xgettext this explicitly
-        if not format_strings and "%" in string:
+        if not format_strings and ("%" in str_singular or (str_pl is not None and "%" in str_pl)):
             fs.write("# xgettext:no-python-format\n")
-        fs.write(gettextify(string,context=context,plural=plural))
+        fs.write(gettextify(str_singular,context=context,plural=str_pl))
 
 def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")
@@ -1000,19 +998,10 @@ def extract(item, infilename):
     if name and name == "none":
         return
     if name:
-        if "name_plural" in item:
-            if type(name) is not str:
-                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
-            # legacy format
-            if item["name_plural"] != "none":
-                writestr(outfile, name, item["name_plural"], **kwargs)
-            else:
-                writestr(outfile, name, **kwargs)
+        if object_type in needs_plural:
+            writestr(outfile, name, pl_fmt=True, **kwargs)
         else:
-            if object_type in needs_plural:
-                writestr(outfile, name, new_pl_fmt=True, **kwargs)
-            else:
-                writestr(outfile, name, **kwargs)
+            writestr(outfile, name, **kwargs)
         wrote = True
     if "name_suffix" in item:
         writestr(outfile, item["name_suffix"], **kwargs)
@@ -1029,7 +1018,7 @@ def extract(item, infilename):
     if "conditional_names" in item:
         for cname in item["conditional_names"]:
             c = "Conditional name for {} when {} matches {}".format(name, cname["type"], cname["condition"])
-            writestr(outfile, cname["name"], comment=c, format_strings=True, new_pl_fmt=True, **kwargs)
+            writestr(outfile, cname["name"], comment=c, format_strings=True, pl_fmt=True, **kwargs)
             wrote = True
     if "description" in item:
         if name:

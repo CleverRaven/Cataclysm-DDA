@@ -700,7 +700,7 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
             }
         }
         error( "invalid quantity string: unknown unit" );
-        // above always throws
+        // above always throws but lambdas cannot be marked [[noreturn]]
         throw;
     };
 

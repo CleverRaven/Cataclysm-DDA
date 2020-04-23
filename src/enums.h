@@ -282,4 +282,21 @@ struct game_message_params {
     game_message_flags flags;
 };
 
+enum class monotonically : int {
+    constant,
+    increasing,
+    decreasing,
+    unknown,
+};
+
+constexpr bool is_increasing( monotonically m )
+{
+    return m == monotonically::constant || m == monotonically::increasing;
+}
+
+constexpr bool is_decreasing( monotonically m )
+{
+    return m == monotonically::constant || m == monotonically::decreasing;
+}
+
 #endif // CATA_SRC_ENUMS_H

@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pine_nuts",
-    "name": { "str": "pine nuts", "str_pl": "pine nuts" },
+    "name": { "str_sp": "pine nuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": 1080,
@@ -25,7 +25,7 @@
   {
     "type": "COMESTIBLE",
     "id": "juniper",
-    "name": { "str": "junipers", "str_pl": "junipers" },
+    "name": { "str_sp": "junipers" },
     "weight": "122 g",
     "color": "blue",
     "comestible_type": "FOOD",
@@ -44,7 +44,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pistachio_unshelled",
-    "name": { "str": "shelled pistachios", "str_pl": "shelled pistachios" },
+    "name": { "str_sp": "shelled pistachios" },
     "weight": "30 g",
     "color": "green",
     "spoils_in": "90 days",
@@ -67,7 +67,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pistachio_roasted",
-    "name": { "str": "roasted pistachios", "str_pl": "roasted pistachios" },
+    "name": { "str_sp": "roasted pistachios" },
     "copy-from": "pistachio_unshelled",
     "healthy": 2,
     "description": "A handful of roasted nuts from a pistachio tree.",
@@ -78,7 +78,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_unshelled",
-    "name": { "str": "shelled almonds", "str_pl": "shelled almonds" },
+    "name": { "str_sp": "shelled almonds" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "300 days",
@@ -101,7 +101,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_pulp",
-    "name": { "str": "almond pulp", "str_pl": "almond pulp" },
+    "name": { "str_sp": "almond pulp" },
     "looks_like": "granola",
     "weight": "30 g",
     "color": "brown",
@@ -120,7 +120,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_roasted",
-    "name": { "str": "roasted almonds", "str_pl": "roasted almonds" },
+    "name": { "str_sp": "roasted almonds" },
     "copy-from": "almond_unshelled",
     "healthy": 2,
     "description": "A handful of roasted nuts from an almond tree.",
@@ -132,7 +132,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cashews",
-    "name": { "str": "cashews", "str_pl": "cashews" },
+    "name": { "str_sp": "cashews" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "240 days",
@@ -155,7 +155,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pecan_unshelled",
-    "name": { "str": "shelled pecans", "str_pl": "shelled pecans" },
+    "name": { "str_sp": "shelled pecans" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -178,7 +178,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pecan_roasted",
-    "name": { "str": "roasted pecans", "str_pl": "roasted pecans" },
+    "name": { "str_sp": "roasted pecans" },
     "copy-from": "pecan_unshelled",
     "description": "A handful of roasted nuts from a pecan tree.",
     "price": 150,
@@ -188,7 +188,7 @@
   {
     "type": "COMESTIBLE",
     "id": "peanut_unshelled",
-    "name": { "str": "shelled peanuts", "str_pl": "shelled peanuts" },
+    "name": { "str_sp": "shelled peanuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "240 days",
@@ -211,7 +211,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beech_nuts",
-    "name": { "str": "beech nuts", "str_pl": "beech nuts" },
+    "name": { "str_sp": "beech nuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -232,7 +232,7 @@
   {
     "type": "COMESTIBLE",
     "id": "walnut_unshelled",
-    "name": { "str": "shelled walnuts", "str_pl": "shelled walnuts" },
+    "name": { "str_sp": "shelled walnuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -254,7 +254,7 @@
   {
     "type": "COMESTIBLE",
     "id": "walnut_roasted",
-    "name": { "str": "roasted walnuts", "str_pl": "roasted walnuts" },
+    "name": { "str_sp": "roasted walnuts" },
     "copy-from": "walnut_unshelled",
     "healthy": 1,
     "description": "A handful of roasted nuts from a walnut tree.",
@@ -265,7 +265,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chestnut_unshelled",
-    "name": { "str": "shelled chestnuts", "str_pl": "shelled chestnuts" },
+    "name": { "str_sp": "shelled chestnuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -287,7 +287,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chestnut_roasted",
-    "name": { "str": "roasted chestnuts", "str_pl": "roasted chestnuts" },
+    "name": { "str_sp": "roasted chestnuts" },
     "copy-from": "chestnut_unshelled",
     "healthy": 1,
     "description": "A handful of roasted nuts from a chestnut tree.",
@@ -298,7 +298,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hazelnut_unshelled",
-    "name": { "str": "shelled hazelnuts", "str_pl": "shelled hazelnuts" },
+    "name": { "str_sp": "shelled hazelnuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "150 days",
@@ -320,7 +320,7 @@
   {
     "type": "COMESTIBLE",
     "id": "edamame_roasted",
-    "name": { "str": "roasted edamame", "str_pl": "roasted edamame" },
+    "name": { "str_sp": "roasted edamame" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "240 days",
@@ -342,7 +342,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soy_nuts",
-    "name": { "str": "roasted soy nuts", "str_pl": "roasted soy nuts" },
+    "name": { "str_sp": "roasted soy nuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "240 days",
@@ -364,7 +364,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hazelnut_roasted",
-    "name": { "str": "roasted hazelnuts", "str_pl": "roasted hazelnuts" },
+    "name": { "str_sp": "roasted hazelnuts" },
     "copy-from": "hazelnut_unshelled",
     "healthy": 1,
     "description": "A handful of roasted nuts from a hazelnut tree.",
@@ -375,7 +375,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hickory_nut_unshelled",
-    "name": { "str": "shelled hickory nuts", "str_pl": "shelled hickory nuts" },
+    "name": { "str_sp": "shelled hickory nuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -397,7 +397,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hickory_nut_roasted",
-    "name": { "str": "roasted hickory nuts", "str_pl": "roasted hickory nuts" },
+    "name": { "str_sp": "roasted hickory nuts" },
     "copy-from": "hickory_nut_unshelled",
     "healthy": 1,
     "description": "A handful of roasted nuts from a hickory tree.",
@@ -432,14 +432,13 @@
   {
     "type": "COMESTIBLE",
     "id": "acorns",
-    "name": { "str": "acorns", "str_pl": "acorns" },
+    "name": { "str_sp": "acorns" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "240 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -5,
-    "//": "no vitamins here",
     "healthy": -5,
     "calories": 114,
     "description": "A handful of acorns, still in their shells.  Squirrels like them, but they're not very good for you to eat in this state.",
@@ -449,13 +448,13 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 4,
-    "//2": "no vitamins here",
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
     "fun": -20
   },
   {
     "type": "COMESTIBLE",
     "id": "acorn_roasted",
-    "name": { "str": "roasted acorns", "str_pl": "roasted acorns" },
+    "name": { "str_sp": "roasted acorns" },
     "copy-from": "acorns",
     "healthy": 1,
     "description": "A handful roasted nuts from an oak tree.",
@@ -467,19 +466,19 @@
   {
     "type": "COMESTIBLE",
     "id": "acorns_cooked",
-    "name": { "str": "cooked acorn meal", "str_pl": "cooked acorn meal" },
+    "name": { "str_sp": "cooked acorn meal" },
     "weight": "22 g",
     "color": "brown",
     "spoils_in": "30 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
-    "calories": 110,
+    "calories": 114,
     "description": "A serving of acorns that have been hulled, chopped, and boiled in water before being thoroughly toasted until dry.  Filling and nutritious.",
     "price": 90,
     "price_postapoc": 300,
     "material": "nut",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
     "volume": "250 ml"
   }
 ]

@@ -8,7 +8,14 @@
 
 #include "cata_variant.h"
 
-using EventFieldTransformation = std::vector<cata_variant>( * )( const cata_variant & );
-extern const std::unordered_map<std::string, EventFieldTransformation> event_field_transformations;
+struct event_field_transformation {
+    using function_type = std::vector<cata_variant>( * )( const cata_variant & );
+    function_type function;
+    cata_variant_type return_type;
+    std::vector<cata_variant_type> argument_types;
+};
+
+extern const std::unordered_map<std::string, event_field_transformation>
+event_field_transformations;
 
 #endif // CATA_SRC_EVENT_FIELD_TRANSFORMATIONS_H

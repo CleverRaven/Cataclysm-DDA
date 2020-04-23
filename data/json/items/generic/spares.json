@@ -3,7 +3,7 @@
     "abstract": "spare_part",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "spare parts", "str_pl": "spare parts" },
+    "name": { "str_sp": "spare parts" },
     "description": "Items with are not themselves useful but are instead requirements for crafting or repairs",
     "symbol": ";",
     "color": "dark_gray"
@@ -37,7 +37,7 @@
     "copy-from": "spare_part",
     "type": "GENERIC",
     "name": { "str": "air filter" },
-    "description": "A plastic box containing crêped paper used to filter the air supply for combustion engines or other industrial equipment.",
+    "description": "A plastic box containing creped paper used to filter the air supply for combustion engines or other industrial equipment.",
     "material": [ "plastic", "paper" ],
     "weight": "360 g",
     "volume": "500 ml",

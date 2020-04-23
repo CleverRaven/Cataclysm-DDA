@@ -185,7 +185,7 @@
     "id": "hand_axe",
     "type": "TOOL",
     "name": { "str": "stone hand axe" },
-    "description": "This is a broad piece of sharpened stone, with enough left untouched to hold safely.  The Swiss Army knife of the lower paleolithic.",
+    "description": "This is a broad piece of stone with an edge narrow enough to roughly chop wood.",
     "weight": "453 g",
     "volume": "500 ml",
     "price": 0,
@@ -196,7 +196,7 @@
     "material": "stone",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ], [ "SAW_W", 1 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
     "flags": [ "SHEATH_AXE" ]
   },
   {
@@ -212,7 +212,7 @@
     "id": "primitive_adze",
     "type": "TOOL",
     "name": { "str": "stone adze" },
-    "description": "This is a stone adze, somewhat useful for cutting through wood objects.",
+    "description": "This is a stone adze, somewhat useful for smoothing wood objects.",
     "weight": "1300 g",
     "volume": "1 L",
     "price": 1000,
@@ -229,7 +229,7 @@
     "id": "primitive_axe",
     "type": "TOOL",
     "name": { "str": "stone axe" },
-    "description": "This is a sharpened stone affixed to a stick.  It works passably well as an axe but really can't compare to a proper axe.",
+    "description": "This is a stone with a narrow edge affixed to a stick.  It can chop wood, but requires much more effort than a modern axe.",
     "weight": "3154 g",
     "volume": "3500 ml",
     "price": 0,
@@ -239,7 +239,7 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -70 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ]
   },
   {

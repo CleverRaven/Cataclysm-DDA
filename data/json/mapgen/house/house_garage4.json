@@ -106,7 +106,7 @@
         "                        ",
         "                        ",
         " |||||||||||||||||||||| ",
-        " |....................| ",
+        " |2..........1........| ",
         " |....................| ",
         " |....................| ",
         " |....................| ",
@@ -118,7 +118,26 @@
         " |||||||||||||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ]
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 60 ],
+            [ "5x5_holdout_E", 2 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        },
+        "2": { "chunks": [ [ "null", 80 ], [ "room_9x9_cellar_E", 20 ], [ "room_9x9_weed_E", 5 ], [ "room_9x9_recroom_E", 20 ] ] }
+      }
     }
   }
 ]

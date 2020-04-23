@@ -2,8 +2,7 @@
   {
     "type": "GENERIC",
     "id": "v_curtain_item",
-    "name": "vehicle curtain",
-    "name_plural": "vehicle curtains",
+    "name": { "str": "vehicle curtain" },
     "description": "A rod, a few metal rings, and a large piece of cloth with some strings attached for securely fastening the edges.",
     "weight": 2200,
     "to_hit": -4,

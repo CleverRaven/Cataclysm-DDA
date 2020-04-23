@@ -300,7 +300,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                             string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_melee_hit_base() ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
-                                           -abs( you.ranged_dex_mod() ) ) );
+                                           -std::abs( you.ranged_dex_mod() ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
                             string_format( _( "Throwing penalty per target's dodge: <color_white>%+d</color>" ),
                                            you.throw_dispersion_per_dodge( false ) ) );

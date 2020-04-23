@@ -659,14 +659,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     MonsterGenerator &gen = MonsterGenerator::generator();
 
-    if( jo.has_string( "name_plural" ) && jo.has_string( "name" ) ) {
-        // Legacy format
-        // NOLINTNEXTLINE(cata-json-translation-input)
-        name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
-    } else {
-        name.make_plural();
-        mandatory( jo, was_loaded, "name", name );
-    }
+    name.make_plural();
+    mandatory( jo, was_loaded, "name", name );
+
     optional( jo, was_loaded, "description", description );
 
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
@@ -1186,7 +1181,7 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
 
-        for( const std::pair<emit_id, time_duration> &e : mon.emit_fields ) {
+        for( const std::pair<const emit_id, time_duration> &e : mon.emit_fields ) {
             const emit_id emid = e.first;
             if( !emid.is_valid() ) {
                 debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), emid.c_str() );
