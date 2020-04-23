@@ -776,7 +776,7 @@ class item : public visitable<item>
          * @param flag to specify special temperature situations
          * @return true if the item is fully rotten and is ready to be removed
          */
-        bool process_temperature_rot( float insulation, const bool seals, const tripoint &pos,
+        bool process_temperature_rot( float insulation, bool seals, const tripoint &pos,
                                       player *carrier, temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
