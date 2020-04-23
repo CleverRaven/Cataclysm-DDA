@@ -190,7 +190,28 @@
     ]
   },
   {
-    "result": "makeshift_grenade",
+    "result": "bootleg_grenade",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": false,
+    "book_learn": [ [ "manual_launcher", 4 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "military_explosive", 24 ], [ "explosives_casting_standard", 1 ] ],
+    "components": [
+      [ [ "delay_fuze", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "nail", 30 ], [ "scrap", 2 ] ]
+    ]
+  },
+  {
+    "result": "improvised_grenade",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -200,13 +221,33 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 18 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "volatile_explosive", 1 ], [ "stable_explosive", 23 ] ],
     "components": [
-      [ [ "pilot_light", 1 ] ],
+      [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "bb", 100 ], [ "nail", 30 ] ]
+      [ [ "nail", 30 ], [ "scrap", 2 ] ]
+    ]
+  },
+  {
+    "result": "primitive_grenade",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 2,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "volatile_explosive", 24 ] ],
+    "components": [
+      [ [ "fuse", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "nail", 30 ], [ "scrap", 2 ] ]
     ]
   },
   {
