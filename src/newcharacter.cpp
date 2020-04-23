@@ -2426,6 +2426,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
         std::vector<trait_id> current_traits = points.limit == points_left::TRANSFER ? you.get_mutations() :
                                                you.get_base_traits();
+        std::sort( current_traits.begin(), current_traits.end(), trait_display_sort );
         if( current_traits.empty() ) {
             wprintz( w_traits, c_light_red, _( "None!" ) );
         } else {
