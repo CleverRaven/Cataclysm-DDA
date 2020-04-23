@@ -2,6 +2,7 @@
   {
     "type": "snippet",
     "category": "flier",
+    "//": "Missing flier_ 27, 29, 30",
     "text": [
       {
         "id": "flier_1",
@@ -108,20 +109,8 @@
         "text": "This is an advertisement for Rivtech brand ammunition.  It shows a picture of an armored steel plate with a gaping hole blasted through the middle.  Sitting beside the plate is a block of brightly colored caseless ammunition.  The caption reads:  \"Rivtech 8x40mm caseless.  Nothing else comes close.\""
       },
       {
-        "id": "flier_27",
-        "text": "This is an advertisement for Leadworks LLC's Home Frontier Starter Pack.  It shows a picture of a young suburban parent, equipped with rifle and revolver, keeping a steely eye on the neighborhood from the front porch.  Similarly-armed parents are visible in front of every house on the street.  Young children are at play and older ones tend a large vegetable garden.  The caption reads: \"A well-armed community is a SAFE community.  Leadworks, LLC.\""
-      },
-      {
         "id": "flier_28",
         "text": "This is a propaganda poster showing the Northrop Dispatch's military variant.  It depicts the iconic dark green, arachnoid dispatch, standing before a fence and facing away from the camera as blurring machines rush forward from its back towards black silhouettes menacing on the horizon.  It reads: \"WE ARE HERE TO PROTECT YOU.\""
-      },
-      {
-        "id": "flier_29",
-        "text": "This is an advertisement for Leadworks LLC handguns.  It shows a picture of a bionic police officer assisting a young couple, who were being attacked by a gang of ruffians.  The caption reads: \"You don't have to void your warranty or wear out your thumb to achieve felon-stopping firepower.  The L39B, tried and true by our fine cyborgs in blue, is available in .45 ACP for that extra punch, and we offer semiautomatic (but equally robust!) versions for the civilian market.  Leadworks, LLC.\""
-      },
-      {
-        "id": "flier_30",
-        "text": "This is an advertisement for Leadworks LLC modular weapons.  It shows a picture of an overworked-yet-grateful police sergeant assembling a sleek rifle, with similar-looking weapons racked neatly behind her.  The caption reads: \"Leadworks is proud to offer the L523 modular weapon system.  No more must armorers stock and maintain stacks and stacks of rifles, carbines, and squad support weapons, juggling multiple incompatible ammunition types!  Just procure a base unit for every trooper, and use our lightweight and portable conversion kits to swap from house-to-house CQB carbine to rooftop-patrol DSR, safely and cleanly!\""
       },
       {
         "id": "flier_31",

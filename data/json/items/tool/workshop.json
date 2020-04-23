@@ -645,7 +645,7 @@
   {
     "id": "pliers",
     "type": "TOOL",
-    "name": { "str": "pliers", "str_pl": "pliers" },
+    "name": { "str_sp": "pliers" },
     "description": "This is a basic pair of slip-joint pliers, able to handle basic mechanical work.  Anything too complex will require a wrench.",
     "weight": "807 g",
     "volume": "250 ml",

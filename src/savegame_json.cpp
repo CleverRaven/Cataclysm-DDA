@@ -505,7 +505,7 @@ void Character::load( const JsonObject &data )
         }
         std::map<trait_id, char> trait_keys;
         data.read( "mutation_keys", trait_keys );
-        for( const std::pair<trait_id, char> &k : trait_keys ) {
+        for( const std::pair<const trait_id, char> &k : trait_keys ) {
             my_mutations[k.first].key = k.second;
         }
         std::set<trait_id> active_muts;
@@ -565,14 +565,7 @@ void Character::load( const JsonObject &data )
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
-    std::string tmove_mode;
-    data.read( "move_mode", tmove_mode );
-    for( int i = 0; i < CMM_COUNT; ++i ) {
-        if( tmove_mode == character_movemode_str[i] ) {
-            move_mode = static_cast<character_movemode>( i );
-            break;
-        }
-    }
+    data.read( "move_mode", move_mode );
 
     if( has_effect( effect_riding ) ) {
         int temp_id;
@@ -625,6 +618,14 @@ void Character::load( const JsonObject &data )
     }
     data.read( "stomach", stomach );
     data.read( "guts", guts );
+    data.read( "automoveroute", auto_move_route );
+
+    known_traps.clear();
+    for( JsonObject pmap : data.get_array( "known_traps" ) ) {
+        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
+        const std::string t = pmap.get_string( "trap" );
+        known_traps.insert( trap_map::value_type( p, t ) );
+    }
 }
 
 /**
@@ -713,7 +714,7 @@ void Character::store( JsonOut &json ) const
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
 
-    json.member( "move_mode", character_movemode_str[ move_mode ] );
+    json.member_as_string( "move_mode",  move_mode );
 
     // storing the mount
     if( is_mounted() ) {
@@ -751,6 +752,18 @@ void Character::store( JsonOut &json ) const
     }
     json.member( "stomach", stomach );
     json.member( "guts", guts );
+    json.member( "automoveroute", auto_move_route );
+    json.member( "known_traps" );
+    json.start_array();
+    for( const auto &elem : known_traps ) {
+        json.start_object();
+        json.member( "x", elem.first.x );
+        json.member( "y", elem.first.y );
+        json.member( "z", elem.first.z );
+        json.member( "trap", elem.second );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -788,19 +801,6 @@ void player::store( JsonOut &json ) const
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
-    json.member( "known_traps" );
-    json.start_array();
-    for( const auto &elem : known_traps ) {
-        json.start_object();
-        json.member( "x", elem.first.x );
-        json.member( "y", elem.first.y );
-        json.member( "z", elem.first.z );
-        json.member( "trap", elem.second );
-        json.end_object();
-    }
-    json.end_array();
-
-    json.member( "automoveroute", auto_move_route );
 
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
@@ -877,14 +877,6 @@ void player::load( const JsonObject &data )
 
     data.read( "addictions", addictions );
     data.read( "followers", follower_ids );
-    known_traps.clear();
-    for( JsonObject pmap : data.get_array( "known_traps" ) ) {
-        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        const std::string t = pmap.get_string( "trap" );
-        known_traps.insert( trap_map::value_type( p, t ) );
-    }
-
-    data.read( "automoveroute", auto_move_route );
 
     // Add the earplugs.
     if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {

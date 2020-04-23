@@ -3624,7 +3624,7 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::operation_finish( player_activity *act, player *p )
 {
-    if( act->str_values[6] == "true" ) {
+    if( act->str_values[3] == "true" ) {
         if( act->values[1] > 0 ) {
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );

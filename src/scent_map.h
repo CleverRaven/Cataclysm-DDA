@@ -63,7 +63,7 @@ class scent_map
         void update( const tripoint &center, map &m );
         void reset();
         void decay();
-        void shift( int sm_shift_x, int sm_shift_y );
+        void shift( const point &sm_shift );
 
         /**
          * Get the scent value at the given position.

@@ -820,7 +820,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
     // Check some preconditions to quickly leave the function.
     size_t liquid_items = 0;
-    for( const advanced_inv_listitem elem : spane.items ) {
+    for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item *elemit : elem.items ) {
             if( elemit->made_of_from_type( LIQUID ) && !elemit->is_frozen_liquid() ) {
                 liquid_items++;

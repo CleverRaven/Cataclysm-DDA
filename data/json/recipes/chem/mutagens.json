@@ -623,11 +623,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "record_patient", 9 ], [ "recipe_maiar", 8 ], [ "recipe_labchem", 7 ] ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "royal_jelly", 4 ], [ "mutagen", 2 ] ],
-      [ [ "bleach", 3 ], [ "oxy_powder", 300 ] ],
-      [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ]
-    ],
+    "components": [ [ [ "mutagen", 2 ] ], [ [ "bleach", 3 ], [ "oxy_powder", 300 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ] ],
     "flags": [ "SECRET" ]
   },
   {

@@ -41,7 +41,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Beretta ARX-160", "str_pl": "Beretta ARX-160" },
+    "name": { "str_sp": "Beretta ARX-160" },
     "//": "Total unloaded weight of gun 3000 grams.  Current weight of folding stock 200 grams.",
     "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.  This version is chambered for 7.62x39mm.",
     "weight": "3450 g",

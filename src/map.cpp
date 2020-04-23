@@ -553,7 +553,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     int coll_turn = 0;
     if( impulse > 0 ) {
         coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
-        const int volume = std::min<int>( 100, sqrtf( impulse ) );
+        const int volume = std::min<int>( 100, std::sqrt( impulse ) );
         // TODO: Center the sound at weighted (by impulse) average of collisions
         sounds::sound( veh.global_pos3(), volume, sounds::sound_t::combat, _( "crash!" ),
                        false, "smash_success", "hit_vehicle" );
@@ -6735,9 +6735,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt )
 {
-    const tripoint abs_pnt = getabs( pnt );
     for( auto it = items.begin(); it != items.end(); ) {
-        if( it->has_rotten_away( abs_pnt ) ) {
+        if( it->has_rotten_away( pnt ) ) {
             if( it->is_comestible() ) {
                 rotten_item_spawn( *it, pnt );
             }
