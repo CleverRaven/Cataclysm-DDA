@@ -1236,6 +1236,7 @@ void player::hardcoded_effects( effect &it )
 
         // A bit of a hack: check if we are about to wake up for any reason, including regular timing out of sleep
         if( dur == 1_turns || woke_up ) {
+            g->events().send<event_type::character_wakes_up>( getID() );
             if( calendar::turn - start > 2_hours ) {
                 print_health();
             }
