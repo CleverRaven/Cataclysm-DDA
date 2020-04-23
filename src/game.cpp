@@ -10476,6 +10476,8 @@ void game::vertical_move( int movez, bool force )
     refresh_all();
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
+
+    cata_event_dispatch::avatar_moves( u, m, u.pos() );
 }
 
 void game::start_hauling( const tripoint &pos )
@@ -12097,6 +12099,6 @@ void avatar_moves( const avatar &u, const map &m, const tripoint &p )
         mount_type = u.mounted_creature->type->id;
     }
     g->events().send<event_type::avatar_moves>( mount_type, m.ter( p ).id(),
-            u.get_movement_mode(), u.is_underwater() );
+            u.get_movement_mode(), u.is_underwater(), p.z );
 }
 } // namespace cata_event_dispatch

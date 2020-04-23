@@ -70,6 +70,62 @@ TEST_CASE( "stats_tracker_total_events", "[stats]" )
     CHECK( s.get_events( event_type::character_takes_damage ).total( "damage", damage_to_any ) == 35 );
 }
 
+TEST_CASE( "stats_tracker_minimum_events", "[stats]" )
+{
+    stats_tracker s;
+    event_bus b;
+    b.subscribe( &s );
+
+    const cata::event::data_type min_z_any {};
+    const mtype_id no_monster;
+    const ter_id t_null( "t_null" );
+    constexpr event_type am = event_type::avatar_moves;
+
+    CHECK( s.get_events( am ).minimum( "z" ) == 0 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, false, 0 );
+    CHECK( s.get_events( am ).minimum( "z" ) == 0 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, false, -1 );
+    CHECK( s.get_events( am ).minimum( "z" ) == -1 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, false, 1 );
+    CHECK( s.get_events( am ).minimum( "z" ) == -1 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, false, -3 );
+    CHECK( s.get_events( am ).minimum( "z" ) == -3 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, true, -1 );
+    CHECK( s.get_events( am ).minimum( "z" ) == -3 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, true, 1 );
+    CHECK( s.get_events( am ).minimum( "z" ) == -3 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, true, -5 );
+    CHECK( s.get_events( am ).minimum( "z" ) == -5 );
+}
+
+TEST_CASE( "stats_tracker_maximum_events", "[stats]" )
+{
+    stats_tracker s;
+    event_bus b;
+    b.subscribe( &s );
+
+    const cata::event::data_type max_z_any {};
+    const mtype_id no_monster;
+    const ter_id t_null( "t_null" );
+    constexpr event_type am = event_type::avatar_moves;
+
+    CHECK( s.get_events( am ).maximum( "z" ) == 0 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, false, 0 );
+    CHECK( s.get_events( am ).maximum( "z" ) == 0 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, false, 1 );
+    CHECK( s.get_events( am ).maximum( "z" ) == 1 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, false, 1 );
+    CHECK( s.get_events( am ).maximum( "z" ) == 1 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, false, 3 );
+    CHECK( s.get_events( am ).maximum( "z" ) == 3 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, true, 1 );
+    CHECK( s.get_events( am ).maximum( "z" ) == 3 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, true, 1 );
+    CHECK( s.get_events( am ).maximum( "z" ) == 3 );
+    b.send<am>( no_monster, t_null, character_movemode::CMM_WALK, true, 5 );
+    CHECK( s.get_events( am ).maximum( "z" ) == 5 );
+}
+
 TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
 {
     stats_tracker s;
@@ -83,18 +139,18 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         const ter_id t_water_dp( "t_water_dp" );
 
         const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
-                                 character_movemode::CMM_WALK,  false );
+                                 character_movemode::CMM_WALK,  false, 0 );
         const cata::event ride = cata::event::make<event_type::avatar_moves>( horse, t_null,
                                  character_movemode::CMM_WALK,
-                                 false );
+                                 false, 0 );
         const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
-                                character_movemode::CMM_RUN, false );
+                                character_movemode::CMM_RUN, false, 0 );
         const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
-                                   character_movemode::CMM_CROUCH, false );
+                                   character_movemode::CMM_CROUCH, false, 0 );
         const cata::event swim = cata::event::make<event_type::avatar_moves>( no_monster, t_water_dp,
-                                 character_movemode::CMM_WALK, false );
+                                 character_movemode::CMM_WALK, false, 0 );
         const cata::event swim_underwater = cata::event::make<event_type::avatar_moves>( no_monster,
-                                            t_water_dp, character_movemode::CMM_WALK, true );
+                                            t_water_dp, character_movemode::CMM_WALK, true, 0 );
 
         const string_id<score> score_moves( "score_moves" );
         const string_id<score> score_walked( "score_distance_walked" );
@@ -241,18 +297,18 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
         const ter_id t_water_dp( "t_water_dp" );
 
         const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
-                                 character_movemode::CMM_WALK, false );
+                                 character_movemode::CMM_WALK, false, 0 );
         const cata::event ride = cata::event::make<event_type::avatar_moves>( horse, t_null,
                                  character_movemode::CMM_WALK,
-                                 false );
+                                 false, 0 );
         const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
-                                character_movemode::CMM_RUN, false );
+                                character_movemode::CMM_RUN, false, 0 );
         const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
-                                   character_movemode::CMM_CROUCH, false );
+                                   character_movemode::CMM_CROUCH, false, 0 );
         const cata::event swim = cata::event::make<event_type::avatar_moves>( no_monster, t_water_dp,
-                                 character_movemode::CMM_WALK, false );
+                                 character_movemode::CMM_WALK, false, 0 );
         const cata::event swim_underwater = cata::event::make<event_type::avatar_moves>( no_monster,
-                                            t_water_dp, character_movemode::CMM_WALK, true );
+                                            t_water_dp, character_movemode::CMM_WALK, true, 0 );
 
         const string_id<event_statistic> stat_moves( "num_moves" );
         const string_id<event_statistic> stat_walked( "num_moves_walked" );
@@ -467,13 +523,24 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     SECTION( "movement" ) {
         const mtype_id no_monster;
         const ter_id t_null( "t_null" );
+        const ter_id t_water_dp( "t_water_dp" );
         const ter_id t_shrub_raspberry( "t_shrub_raspberry" );
         const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
-                                 character_movemode::CMM_WALK, false );
+                                 character_movemode::CMM_WALK, false, 0 );
         const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
-                                character_movemode::CMM_RUN, false );
+                                character_movemode::CMM_RUN, false, 0 );
         const cata::event sharp_move = cata::event::make<event_type::avatar_moves>( no_monster,
-                                       t_shrub_raspberry, character_movemode::CMM_WALK, false );
+                                       t_shrub_raspberry, character_movemode::CMM_WALK, false, 0 );
+        const cata::event swim = cata::event::make<event_type::avatar_moves>( no_monster, t_water_dp,
+                                 character_movemode::CMM_WALK, false, 0 );
+        const cata::event swim_underwater = cata::event::make<event_type::avatar_moves>( no_monster,
+                                            t_water_dp, character_movemode::CMM_WALK, true, 0 );
+        const cata::event swim_underwater_deep = cata::event::make<event_type::avatar_moves>( no_monster,
+                t_water_dp, character_movemode::CMM_WALK, true, -5 );
+        const cata::event walk_max_z = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+                                       character_movemode::CMM_WALK, false, OVERMAP_HEIGHT );
+        const cata::event walk_min_z = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+                                       character_movemode::CMM_WALK, false, -OVERMAP_DEPTH );
 
         SECTION( "achievement_marathon" ) {
             string_id<achievement> a_marathon( "achievement_marathon" );
@@ -527,6 +594,63 @@ TEST_CASE( "achievments_tracker", "[stats]" )
                     }
                     THEN( "the achivement should be achieved" ) {
                         CHECK( achievements_completed.count( a_traverse_sharp_terrain ) > 0 );
+                    }
+                }
+            }
+        }
+
+        SECTION( "achievement_swim_merit_badge" ) {
+            string_id<achievement> a_swim_merit_badge( "achievement_swim_merit_badge" );
+
+            GIVEN( "a new game" ) {
+                const character_id u_id = g->u.getID();
+                b.send<event_type::game_start>( u_id );
+                CHECK( achievements_completed.empty() );
+
+                WHEN( "the avatar does the required actions" ) {
+                    for( int i = 0; i < 10000; i++ ) {
+                        b.send( swim );
+                    }
+                    for( int i = 0; i < 1000; i++ ) {
+                        b.send( swim_underwater );
+                    }
+                    b.send( swim_underwater_deep );
+                    THEN( "the achivement should be achieved" ) {
+                        CHECK( achievements_completed.count( a_swim_merit_badge ) > 0 );
+                    }
+                }
+            }
+        }
+
+        SECTION( "achievement_reach_max_z_level" ) {
+            string_id<achievement> a_reach_max_z_level( "achievement_reach_max_z_level" );
+
+            GIVEN( "a new game" ) {
+                const character_id u_id = g->u.getID();
+                b.send<event_type::game_start>( u_id );
+                CHECK( achievements_completed.empty() );
+
+                WHEN( "the avatar does the required actions" ) {
+                    b.send( walk_max_z );
+                    THEN( "the achivement should be achieved" ) {
+                        CHECK( achievements_completed.count( a_reach_max_z_level ) > 0 );
+                    }
+                }
+            }
+        }
+
+        SECTION( "achievement_reach_min_z_level" ) {
+            string_id<achievement> a_reach_min_z_level( "achievement_reach_min_z_level" );
+
+            GIVEN( "a new game" ) {
+                const character_id u_id = g->u.getID();
+                b.send<event_type::game_start>( u_id );
+                CHECK( achievements_completed.empty() );
+
+                WHEN( "the avatar does the required actions" ) {
+                    b.send( walk_min_z );
+                    THEN( "the achivement should be achieved" ) {
+                        CHECK( achievements_completed.count( a_reach_min_z_level ) > 0 );
                     }
                 }
             }

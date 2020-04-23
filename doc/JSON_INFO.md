@@ -1178,6 +1178,18 @@ The sum of the numeric value in the specified field across all events:
 "field" : "damage"
 ```
 
+The maximum of the numeric value in the specified field across all events:
+```C++
+"stat_type" : "maximum"
+"field" : "damage"
+```
+
+The minimum of the numeric value in the specified field across all events:
+```C++
+"stat_type" : "minimum"
+"field" : "damage"
+```
+
 Assume there is only a single event to consider, and take the value of the
 given field for that unique event:
 ```C++
