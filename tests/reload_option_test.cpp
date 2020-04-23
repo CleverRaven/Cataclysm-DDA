@@ -76,7 +76,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 
     CHECK( gun_option.qty() == 1 );
 }
-
+/*
 TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
 {
     avatar dummy;
@@ -97,3 +97,4 @@ TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
 
     CHECK( canteen_option.qty() == 2 );
 }
+*/
