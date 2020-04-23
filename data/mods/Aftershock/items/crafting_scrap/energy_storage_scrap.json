@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "afs_energy_storage_1",
     "copy-from": "afs_scrap_1",
-    "name": { "str": "nanowire battery" },
+    "name": { "str": "nanowire battery", "str_pl": "nanowire batteries" },
     "description": "A small battery component with a very high energy density.",
     "looks_like": "scrap"
   },

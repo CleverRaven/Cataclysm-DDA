@@ -568,9 +568,15 @@ class item : public visitable<item>
         /**
          * calculate effective dps against a stock set of monsters.  by default, assume g->u
          * is wielding
-         */
-        std::map<std::string, double> dps( const player &guy ) const;
-        std::map<std::string, double> dps() const;
+        * for_display - include monsters intended for display purposes
+         * for_calc - include monsters intended for evaluation purposes
+         * for_display and for_calc are inclusive
+               */
+        std::map<std::string, double> dps( bool for_display, bool for_calc, const player &guy ) const;
+        std::map<std::string, double> dps( bool for_display, bool for_calc ) const;
+        /** return the average dps of the weapon against evaluation monsters */
+        double average_dps( const player &guy ) const;
+
         /**
          * Whether the character needs both hands to wield this item.
          */
@@ -594,7 +600,7 @@ class item : public visitable<item>
         /*@}*/
 
         /** Max range weapon usable for melee attack accounting for player/NPC abilities */
-        int reach_range( const player &p ) const;
+        int reach_range( const Character &guy ) const;
 
         /**
          * Sets time until activation for an item that will self-activate in the future.
@@ -2234,13 +2240,13 @@ bool item_ptr_compare_by_charges( const item *left, const item *right );
  *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
  *  will eventually be rewritten to eliminate the need for this hack.
  */
-enum hint_rating {
+enum class hint_rating : int {
     /** Item should display as gray */
-    HINT_CANT = 0,
+    cant = 0,
     /** Item should display as red */
-    HINT_IFFY = 1,
+    iffy = 1,
     /** Item should display as green */
-    HINT_GOOD = -999
+    good = -999
 };
 
 /**

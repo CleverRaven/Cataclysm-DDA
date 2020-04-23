@@ -17,7 +17,7 @@
     "range": 60,
     "dispersion": 75,
     "recoil": 450,
-    "effects": [ "COOKOFF", "EXPLOSIVE", "TRAIL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_PG7VL", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -34,10 +34,10 @@
     "weight": "4500 g",
     "ammo_type": "RPG-7",
     "damage": { "damage_type": "stab", "amount": 3250, "armor_penetration": 1450 },
-    "range": 30,
+    "range": 60,
     "dispersion": 75,
     "recoil": 450,
-    "effects": [ "COOKOFF", "EXPLOSIVE", "TRAIL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_PG7VR", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -54,10 +54,10 @@
     "weight": "4500 g",
     "ammo_type": "RPG-7",
     "damage": { "damage_type": "stab", "amount": 150, "armor_penetration": 10 },
-    "range": 30,
+    "range": 60,
     "dispersion": 50,
     "recoil": 450,
-    "effects": [ "COOKOFF", "TRAIL", "NEVER_MISFIRES", "NAPALM_BIG" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_TBG7V", "TRAIL", "NEVER_MISFIRES", "NAPALM_TBG7V" ]
   },
   {
     "type": "AMMO",
@@ -74,9 +74,9 @@
     "weight": "2000 g",
     "ammo_type": "RPG-7",
     "damage": { "damage_type": "stab", "amount": 80, "armor_penetration": 10 },
-    "range": 45,
+    "range": 60,
     "dispersion": 50,
     "recoil": 350,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "FRAG" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "EXPLOSIVE_OG7V" ]
   }
 ]

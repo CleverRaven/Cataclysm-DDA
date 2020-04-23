@@ -80,6 +80,23 @@
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
+    "result": "butchering_kit",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "reversible": true,
+    "time": "30 s",
+    "autolearn": true,
+    "components": [
+      [ [ "knife_butcher", 1 ] ],
+      [ [ "knife_carving", 1 ] ],
+      [ [ "knife_meat_cleaver", 1 ] ],
+      [ [ "leather", 2 ], [ "rag", 2 ] ],
+      [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
+    ]
+  },
+  {
     "result": "shears",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -592,19 +609,8 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "components": [
-      [ [ "rag", 1 ] ],
-      [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ],
-      [
-        [ "lamp_oil", 50 ],
-        [ "motor_oil", 50 ],
-        [ "chem_ethanol", 100 ],
-        [ "denat_alcohol", 100 ],
-        [ "gasoline", 250 ],
-        [ "diesel", 250 ],
-        [ "biodiesel", 250 ]
-      ]
-    ],
+    "using": [ [ "flammable_liquid", 100 ] ],
+    "components": [ [ [ "rag", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

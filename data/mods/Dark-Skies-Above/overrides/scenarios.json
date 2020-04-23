@@ -293,6 +293,6 @@
     "copy-from": "heli_crash",
     "name": "Helicopter Crash",
     "description": "While being evacuated from a hot zone, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
-    "professions": [ "soldier", "specops", "national_guard", "politician" ]
+    "professions": [ "soldier", "specops", "national_guard", "politician", "mili_pilot" ]
   }
 ]

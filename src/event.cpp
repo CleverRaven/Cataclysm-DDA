@@ -138,7 +138,7 @@ DEFINE_EVENT_FIELDS( teleports_into_wall )
 } // namespace event_detail
 
 template<event_type Type>
-static void get_fields_if_match( event_type type, std::map<std::string, cata_variant_type> &out )
+static void get_fields_if_match( event_type type, event::fields_type &out )
 {
     if( Type == type ) {
         out = { event_detail::event_spec<Type>::fields.begin(),
@@ -148,10 +148,10 @@ static void get_fields_if_match( event_type type, std::map<std::string, cata_var
 }
 
 template<int... I>
-static std::map<std::string, cata_variant_type>
+static event::fields_type
 get_fields_helper( event_type type, std::integer_sequence<int, I...> )
 {
-    std::map<std::string, cata_variant_type> result;
+    event::fields_type result;
     bool discard[] = {
         ( get_fields_if_match<static_cast<event_type>( I )>( type, result ), true )...
     };
@@ -159,7 +159,7 @@ get_fields_helper( event_type type, std::integer_sequence<int, I...> )
     return result;
 }
 
-std::map<std::string, cata_variant_type> event::get_fields( event_type type )
+event::fields_type event::get_fields( event_type type )
 {
     return get_fields_helper(
                type, std::make_integer_sequence<int, static_cast<int>( event_type::num_event_types )> {} );

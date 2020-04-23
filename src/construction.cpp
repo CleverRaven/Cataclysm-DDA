@@ -540,13 +540,17 @@ construction_id construction_menu( const bool blueprint )
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
+        cata::optional<point> cursor_pos;
         for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
              ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
             std::string con_name = constructs[current];
             bool highlight = ( current == select );
-
-            trim_and_print( w_list, point( 0, i ), w_list_width,
+            const point print_from( 0, i );
+            if( highlight ) {
+                cursor_pos = print_from;
+            }
+            trim_and_print( w_list, print_from, w_list_width,
                             construction_color( con_name, highlight ), _( con_name ) );
         }
 
@@ -600,6 +604,11 @@ construction_id construction_menu( const bool blueprint )
 
         draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
         wrefresh( w_con );
+
+        // place the cursor at the selected construction name as expected by screen readers
+        if( cursor_pos ) {
+            wmove( w_list, cursor_pos.value() );
+        }
         wrefresh( w_list );
     } );
 
@@ -1582,11 +1591,11 @@ void check_constructions()
     }
 }
 
-int construction::print_time( const catacurses::window &w, int ypos, int xpos, int width,
+int construction::print_time( const catacurses::window &w, const point &p, int width,
                               nc_color col ) const
 {
     std::string text = get_time_string();
-    return fold_and_print( w, point( xpos, ypos ), width, col, text );
+    return fold_and_print( w, p, width, col, text );
 }
 
 float construction::time_scale() const

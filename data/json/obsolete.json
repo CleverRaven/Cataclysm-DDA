@@ -85,6 +85,60 @@
     "difficulty": 3
   },
   {
+    "id": "fertilizer_bomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "fertilizer bomb" },
+    "description": "This is a volatile homemade explosive.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "weight": "1133 g",
+    "volume": "750 ml",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "plastic", "powder" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 125 },
+    "use_action": {
+      "target": "fertilizer_bomb_act",
+      "msg": "You light the %s.",
+      "target_charges": 10,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "fertilizer_bomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "fertilizer bomb (lit)", "str_pl": "fertilizer bombs (lit)" },
+    "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
+    "weight": "1133 g",
+    "volume": "750 ml",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "plastic", "powder" ],
+    "symbol": "*",
+    "color": "red",
+    "initial_charges": 10,
+    "max_charges": 10,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 125 },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { "power": 175 }
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "bio_blaster",
     "type": "bionic",
     "name": { "str": "Fusion Blaster Arm" },
@@ -164,6 +218,11 @@
     ],
     "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
     "flags": [ "NO_UNLOAD" ]
+  },
+  {
+    "type": "recipe",
+    "result": "fertilizer_bomb",
+    "obsolete": true
   },
   {
     "id": "ftk93",
@@ -456,5 +515,108 @@
     "act_cost": "2 J",
     "react_cost": "2 J",
     "time": 1
+  },
+  {
+    "type": "recipe",
+    "result": "tihar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helsing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pneumatic_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_launcher",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebar_rifle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_rail_rifle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "coilgun",
+    "obsolete": true
+  },
+  {
+    "result": "nailrifle",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "nailmag",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_mod",
+    "obsolete": true
+  },
+  {
+    "id": "mounted_mininuke_launcher",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted mininuke launcher" },
+    "item": "mininuke_launcher",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
+  },
+  {
+    "id": "mounted_heavy_rail_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted heavy rail rifle" },
+    "item": "heavy_rail_rifle",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 30 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_rebar_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted ferromagnetic rail rifle" },
+    "item": "rebar_rifle",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_coilgun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted coilgun" },
+    "item": "coilgun",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   }
 ]

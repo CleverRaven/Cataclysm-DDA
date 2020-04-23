@@ -117,7 +117,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_curved",     &mapgen_river_curved },
             { "parking_lot",      &mapgen_parking_lot },
             { "spider_pit", mapgen_spider_pit },
-            { "cave", &mapgen_cave },
             { "cave_rat", &mapgen_cave_rat },
             { "cavern", &mapgen_cavern },
             { "open_air", &mapgen_open_air },
@@ -485,11 +484,11 @@ void mapgen_spider_pit( mapgendata &dat )
             m->ter_set( point( x, y ), t_slope_down );
         } else {
             m->ter_set( point( x, y ), dat.groundcover() );
-            mtrap_set( m, x, y, tr_sinkhole );
+            mtrap_set( m, point( x, y ), tr_sinkhole );
         }
         for( int x1 = x - 3; x1 <= x + 3; x1++ ) {
             for( int y1 = y - 3; y1 <= y + 3; y1++ ) {
-                madd_field( m, x1, y1, fd_web, rng( 2, 3 ) );
+                madd_field( m, point( x1, y1 ), fd_web, rng( 2, 3 ) );
                 if( m->ter( point( x1, y1 ) ) != t_slope_down ) {
                     m->ter_set( point( x1, y1 ), t_dirt );
                 }
@@ -1901,112 +1900,6 @@ void mapgen_parking_lot( mapgendata &dat )
     }
 }
 
-void mapgen_cave( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    if( dat.above() == "cave" ) {
-        // We're underground! // FIXME: y u no use z-level
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                bool floorHere = ( rng( 0, 6 ) < i || SEEX * 2 - rng( 1, 7 ) > i ||
-                                   rng( 0, 6 ) < j || SEEY * 2 - rng( 1, 7 ) > j );
-                if( floorHere ) {
-                    m->ter_set( point( i, j ), t_rock_floor );
-                } else {
-                    m->ter_set( point( i, j ), t_rock );
-                }
-            }
-        }
-        square( m, t_slope_up, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
-        switch( rng( 1, 10 ) ) {
-            case 1:
-                // natural refuse, chance of minerals
-                m->place_items( "cave_minerals", 50, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                                dat.when() );
-                m->place_items( "monparts", 80, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-                break;
-            case 2:
-                // trash, minerals less likely
-                m->place_items( "cave_minerals", 25, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                                dat.when() );
-                m->place_items( "trash", 70, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-                break;
-            case 3:
-                // bat corpses
-                m->place_items( "cave_minerals", 50, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                                dat.when() );
-                for( int i = rng( 1, 12 ); i > 0; i-- ) {
-                    m->add_item_or_charges( point( rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ) ),
-                                            item::make_corpse( mon_bat ) );
-                }
-                break;
-            case 4:
-                // ant food, chance of 80
-                m->place_items( "cave_minerals", 25, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                                dat.when() );
-                m->place_items( "ant_food", 85, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-                break;
-            case 5: {
-                // hermitage
-                int origx = rng( SEEX - 1, SEEX ),
-                    origy = rng( SEEY - 1, SEEY ),
-                    hermx = rng( SEEX - 6, SEEX + 5 ),
-                    hermy = rng( SEEX - 6, SEEY + 5 );
-                std::vector<point> bloodline = line_to( point( origx, origy ), point( hermx, hermy ), 0 );
-                for( auto &ii : bloodline ) {
-                    madd_field( m, ii.x, ii.y, fd_blood, 2 );
-                }
-                m->add_item_or_charges( point( hermx, hermy ), item::make_corpse() );
-                // This seems verbose.  Maybe a function to spawn from a list of item groups?
-                m->place_items( "stash_food", 50, point( hermx - 1, hermy - 1 ), point( hermx + 1, hermy + 1 ),
-                                true, dat.when() );
-                m->place_items( "gear_survival", 50, point( hermx - 1, hermy - 1 ), point( hermx + 1, hermy + 1 ),
-                                true, dat.when() );
-                m->place_items( "survival_armor", 50, point( hermx - 1, hermy - 1 ), point( hermx + 1, hermy + 1 ),
-                                true, dat.when() );
-                m->place_items( "weapons", 40, point( hermx - 1, hermy - 1 ), point( hermx + 1, hermy + 1 ), true,
-                                dat.when() );
-                m->place_items( "magazines", 40, point( hermx - 1, hermy - 1 ), point( hermx + 1, hermy + 1 ), true,
-                                dat.when() );
-                m->place_items( "rare", 30, point( hermx - 1, hermy - 1 ), point( hermx + 1, hermy + 1 ), true,
-                                dat.when() );
-                break;
-            }
-            default:
-                // nothing except maybe minerals, default occurs half the time
-                m->place_items( "cave_minerals", 50, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                                dat.when() );
-                break;
-        }
-        m->place_spawns( GROUP_CAVE, 2, point( 6, 6 ), point( 18, 18 ), 1.0 );
-    } else { // We're above ground!
-        // First, draw a forest
-        mapgendata forest_mapgen_dat( dat, oter_str_id( "forest" ).id() );
-        mapgen_forest( forest_mapgen_dat );
-        // Clear the center with some rocks
-        square( m, t_rock, point( SEEX - 6, SEEY - 6 ), point( SEEX + 5, SEEY + 5 ) );
-        int pathx = 0;
-        int pathy = 0;
-        if( one_in( 2 ) ) {
-            pathx = rng( SEEX - 6, SEEX + 5 );
-            pathy = ( one_in( 2 ) ? SEEY - 8 : SEEY + 7 );
-        } else {
-            pathx = ( one_in( 2 ) ? SEEX - 8 : SEEX + 7 );
-            pathy = rng( SEEY - 6, SEEY + 5 );
-        }
-        std::vector<point> pathline = line_to( point( pathx, pathy ), point( SEEX - 1, SEEY - 1 ), 0 );
-        for( auto &ii : pathline ) {
-            square( m, t_dirt, ii,
-                    ii + point_south_east );
-        }
-        while( !one_in( 8 ) ) {
-            m->ter_set( point( rng( SEEX - 6, SEEX + 5 ), rng( SEEY - 6, SEEY + 5 ) ), t_dirt );
-        }
-        square( m, t_slope_down, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
-    }
-
-}
-
 void mapgen_cave_rat( mapgendata &dat )
 {
     map *const m = &dat.m;
@@ -2042,7 +1935,7 @@ void mapgen_cave_rat( mapgendata &dat )
                 for( int cy = cavey - 1; cy <= cavey + 1; cy++ ) {
                     m->ter_set( point( cx, cy ), t_rock_floor );
                     if( one_in( 10 ) ) {
-                        madd_field( m, cx, cy, fd_blood, rng( 1, 3 ) );
+                        madd_field( m, point( cx, cy ), fd_blood, rng( 1, 3 ) );
                     }
                     if( one_in( 20 ) ) {
                         m->add_spawn( mon_sewer_rat, 1, { cx, cy, m->get_abs_sub().z } );
@@ -2062,7 +1955,7 @@ void mapgen_cave_rat( mapgendata &dat )
                     for( int cy = i.y - 1; cy <= i.y + 1; cy++ ) {
                         m->ter_set( point( cx, cy ), t_rock_floor );
                         if( one_in( 10 ) ) {
-                            madd_field( m, cx, cy, fd_blood, rng( 1, 3 ) );
+                            madd_field( m, point( cx, cy ), fd_blood, rng( 1, 3 ) );
                         }
                         if( one_in( 20 ) ) {
                             m->add_spawn( mon_sewer_rat, 1, { cx, cy, m->get_abs_sub().z } );
@@ -3517,21 +3410,21 @@ void mapgen_lake_shore( mapgendata &dat )
     m->translate( t_null, t_water_sh );
 }
 
-void mremove_trap( map *m, int x, int y )
+void mremove_trap( map *m, const point &p )
 {
-    tripoint actual_location( x, y, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z );
     m->remove_trap( actual_location );
 }
 
-void mtrap_set( map *m, int x, int y, trap_id type )
+void mtrap_set( map *m, const point &p, trap_id type )
 {
-    tripoint actual_location( x, y, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z );
     m->trap_set( actual_location, type );
 }
 
-void madd_field( map *m, int x, int y, field_type_id type, int intensity )
+void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
-    tripoint actual_location( x, y, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z );
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 

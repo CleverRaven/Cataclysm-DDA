@@ -24,11 +24,7 @@ bool eat_here( avatar &you );
 
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
-bool move( avatar &you, map &m, int dx, int dy, int dz = 0 );
-inline bool move( avatar &you, map &m, const tripoint &d )
-{
-    return move( you, m, d.x, d.y, d.z );
-}
+bool move( avatar &you, map &m, const tripoint &d );
 inline bool move( avatar &you, map &m, const point &d )
 {
     return move( you, m, tripoint( d, 0 ) );

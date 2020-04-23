@@ -8,7 +8,7 @@
     "description": "A large chunk of log, cut from a tree.  (a)ctivate a wood axe or wood saw to cut it into planks.",
     "category": "other",
     "price": 10000,
-    "price_postapoc": 100,
+    "price_postapoc": 10,
     "material": "wood",
     "weight": "9071 g",
     "volume": "10 L",
@@ -21,7 +21,7 @@
     "id": "splinter",
     "symbol": "/",
     "color": "brown",
-    "name": { "str": "splintered wood", "str_pl": "splintered wood" },
+    "name": { "str_sp": "splintered wood" },
     "description": "A splintered piece of wood, could be used as a skewer or for kindling.",
     "category": "other",
     "material": "wood",
@@ -82,7 +82,7 @@
     "bashing": 25,
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ],
     "price": 4000,
-    "price_postapoc": 8000,
+    "price_postapoc": 50,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -100,7 +100,7 @@
     "volume": "4400 ml",
     "bashing": 10,
     "price": 1000,
-    "price_postapoc": 0,
+    "price_postapoc": 10,
     "flags": [ "FIREWOOD" ]
   },
   {
@@ -118,7 +118,7 @@
     "material": [ "wood" ],
     "bashing": 16,
     "price": 40000,
-    "price_postapoc": 0,
+    "price_postapoc": 50,
     "flags": [ "FIREWOOD" ]
   },
   {
@@ -138,7 +138,7 @@
     "volume": "3 L",
     "bashing": 8,
     "price": 8000,
-    "price_postapoc": 0,
+    "price_postapoc": 10,
     "flags": [ "FIREWOOD" ]
   },
   {
@@ -157,7 +157,7 @@
     "volume": "6250 ml",
     "bashing": 8,
     "price": 20000,
-    "price_postapoc": 0,
+    "price_postapoc": 10,
     "flags": [ "FIREWOOD" ]
   }
 ]

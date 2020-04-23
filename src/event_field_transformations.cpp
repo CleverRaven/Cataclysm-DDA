@@ -17,6 +17,9 @@ static std::vector<cata_variant> species_of_monster( const cata_variant &v )
     return result;
 }
 
-const std::unordered_map<std::string, EventFieldTransformation> event_field_transformations = {
-    { "species_of_monster", species_of_monster },
+const std::unordered_map<std::string, event_field_transformation> event_field_transformations = {
+    {
+        "species_of_monster",
+        { species_of_monster, cata_variant_type::species_id, { cata_variant_type::mtype_id } }
+    },
 };

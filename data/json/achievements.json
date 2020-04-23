@@ -1,0 +1,15 @@
+[
+  {
+    "id": "achievement_kill_zombie",
+    "type": "achievement",
+    "description": "One down, billions to go\u2026",
+    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_kill_in_first_minute",
+    "type": "achievement",
+    "description": "Rude awakening",
+    "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" },
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 1 } ]
+  }
+]

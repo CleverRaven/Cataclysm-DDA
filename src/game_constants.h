@@ -126,6 +126,10 @@ constexpr double accuracy_goodhit  = 0.5;
 constexpr double accuracy_standard = 0.8;
 constexpr double accuracy_grazing  = 1.0;
 
+// The maximum level recoil will ever reach.
+// This corresponds to the level of accuracy of a "snap" or "hip" shot.
+constexpr double MAX_RECOIL = 3000;
+
 // Minimum item damage output of relevant type to allow using with relevant weapon skill.
 #define MELEE_STAT 5
 

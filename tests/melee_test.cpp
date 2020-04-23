@@ -44,7 +44,7 @@ static std::string full_attack_details( const player &dude )
     std::stringstream ss;
     ss << "Details for " << dude.disp_name() << std::endl;
     ss << "get_hit() == " << dude.get_hit() << std::endl;
-    ss << "get_hit_base() == " << dude.get_hit_base() << std::endl;
+    ss << "get_melee_hit_base() == " << dude.get_melee_hit_base() << std::endl;
     ss << "get_hit_weapon() == " << dude.get_hit_weapon( dude.weapon ) << std::endl;
     return ss.str();
 }

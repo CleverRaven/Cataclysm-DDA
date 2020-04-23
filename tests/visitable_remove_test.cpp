@@ -392,7 +392,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 REQUIRE( count_items( sel, liquid_id ) == count - our );
             }
             THEN( "the correct number of items were removed" ) {
-                REQUIRE( del.size() == our );
+                REQUIRE( static_cast<int>( del.size() ) == our );
 
                 AND_THEN( "the removed items were all bottles" ) {
                     CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {

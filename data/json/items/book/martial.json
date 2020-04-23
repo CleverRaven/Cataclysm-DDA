@@ -3,7 +3,7 @@
     "id": "manual_aikido",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Spirit of Aikido", "str_pl": "The Spirit of Aikido" },
+    "name": { "str_sp": "The Spirit of Aikido" },
     "price_postapoc": 2000,
     "description": "A complete guide to Aikido.",
     "book_data": { "martial_art": "style_aikido" }
@@ -12,7 +12,7 @@
     "id": "manual_boxing",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Practical Pugilism", "str_pl": "Practical Pugilism" },
+    "name": { "str_sp": "Practical Pugilism" },
     "price_postapoc": 2000,
     "description": "A complete guide to boxing.  Let's get ready to rough-up some ruffians!",
     "book_data": { "martial_art": "style_boxing" }
@@ -21,7 +21,7 @@
     "id": "manual_capoeira",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Capoeira 100", "str_pl": "Capoeira 100" },
+    "name": { "str_sp": "Capoeira 100" },
     "price_postapoc": 2000,
     "description": "A complete guide to Capoeira.",
     "book_data": { "martial_art": "style_capoeira" }
@@ -30,7 +30,7 @@
     "id": "manual_centipede",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Centipede Lu Feng", "str_pl": "The Centipede Lu Feng" },
+    "name": { "str_sp": "The Centipede Lu Feng" },
     "price_postapoc": 2000,
     "description": "A complete guide to Centipede Kung Fu.",
     "book_data": { "martial_art": "style_centipede" }
@@ -39,7 +39,7 @@
     "id": "manual_crane",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Red Crane", "str_pl": "The Red Crane" },
+    "name": { "str_sp": "The Red Crane" },
     "price_postapoc": 2000,
     "description": "A complete guide to Crane Kung Fu.",
     "book_data": { "martial_art": "style_crane" }
@@ -48,7 +48,7 @@
     "id": "manual_dragon",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Jade Dragon", "str_pl": "The Jade Dragon" },
+    "name": { "str_sp": "The Jade Dragon" },
     "price_postapoc": 2000,
     "description": "A complete guide to Dragon Kung Fu.",
     "book_data": { "martial_art": "style_dragon" }
@@ -57,7 +57,7 @@
     "id": "manual_eskrima",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Practical Eskrima", "str_pl": "Practical Eskrima" },
+    "name": { "str_sp": "Practical Eskrima" },
     "price_postapoc": 3000,
     "description": "A complete guide to Eskrima.",
     "book_data": { "martial_art": "style_eskrima" }
@@ -66,7 +66,7 @@
     "id": "manual_fencing",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Modern Swordsman", "str_pl": "The Modern Swordsman" },
+    "name": { "str_sp": "The Modern Swordsman" },
     "price_postapoc": 3000,
     "description": "A complete guide to Fencing.",
     "book_data": { "martial_art": "style_fencing" }
@@ -75,7 +75,7 @@
     "id": "manual_judo",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Kodokan Judo", "str_pl": "Kodokan Judo" },
+    "name": { "str_sp": "Kodokan Judo" },
     "price_postapoc": 2000,
     "description": "A complete guide to Judo.",
     "book_data": { "martial_art": "style_judo" }
@@ -84,7 +84,7 @@
     "id": "manual_karate",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Shotokan Karate Handbook", "str_pl": "The Shotokan Karate Handbook" },
+    "name": { "str_sp": "The Shotokan Karate Handbook" },
     "price_postapoc": 2000,
     "description": "A complete guide to Shotokan Karate.",
     "book_data": { "martial_art": "style_karate" }
@@ -93,7 +93,7 @@
     "id": "manual_krav_maga",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Complete Krav Maga", "str_pl": "Complete Krav Maga" },
+    "name": { "str_sp": "Complete Krav Maga" },
     "price_postapoc": 2000,
     "description": "A complete guide to Krav Maga.",
     "book_data": { "martial_art": "style_krav_maga" }
@@ -102,7 +102,7 @@
     "id": "manual_leopard",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Deaf Leopard", "str_pl": "The Deaf Leopard" },
+    "name": { "str_sp": "The Deaf Leopard" },
     "price_postapoc": 2000,
     "description": "A complete guide to Leopard Kung Fu.",
     "book_data": { "martial_art": "style_leopard" }
@@ -111,7 +111,7 @@
     "id": "manual_lizard",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Lizard Kuo Chui", "str_pl": "The Lizard Kuo Chui" },
+    "name": { "str_sp": "The Lizard Kuo Chui" },
     "price_postapoc": 2000,
     "description": "A complete guide to Lizard Kung Fu.",
     "book_data": { "martial_art": "style_lizard" }
@@ -120,7 +120,7 @@
     "id": "manual_muay_thai",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Ultimate Muay Thai", "str_pl": "Ultimate Muay Thai" },
+    "name": { "str_sp": "Ultimate Muay Thai" },
     "price_postapoc": 2000,
     "description": "A complete guide to Muay Thai.",
     "book_data": { "martial_art": "style_muay_thai" }
@@ -129,7 +129,7 @@
     "id": "manual_ninjutsu",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Essence of Ninjutsu", "str_pl": "Essence of Ninjutsu" },
+    "name": { "str_sp": "Essence of Ninjutsu" },
     "price_postapoc": 3000,
     "description": "A complete guide to Ninjutsu.",
     "book_data": { "martial_art": "style_ninjutsu" }
@@ -138,7 +138,7 @@
     "id": "manual_niten",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Book of Five Rings", "str_pl": "The Book of Five Rings" },
+    "name": { "str_sp": "The Book of Five Rings" },
     "price_postapoc": 3000,
     "description": "A primer on Miyamoto Musashi's style of combat and philosophy, Niten Ichi-Ryu.",
     "book_data": { "martial_art": "style_niten" }
@@ -147,7 +147,7 @@
     "id": "manual_pankration",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Modern Pankratiast", "str_pl": "The Modern Pankratiast" },
+    "name": { "str_sp": "The Modern Pankratiast" },
     "price_postapoc": 2000,
     "description": "A complete guide to Pankration.",
     "book_data": { "martial_art": "style_pankration" }
@@ -156,7 +156,7 @@
     "id": "manual_scorpion",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Scorpion Sun Chien", "str_pl": "The Scorpion Sun Chien" },
+    "name": { "str_sp": "The Scorpion Sun Chien" },
     "price_postapoc": 2000,
     "description": "A complete guide to Scorpion Kung Fu.",
     "book_data": { "martial_art": "style_scorpion" }
@@ -165,7 +165,7 @@
     "id": "manual_silat",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Indonesian Warrior", "str_pl": "The Indonesian Warrior" },
+    "name": { "str_sp": "The Indonesian Warrior" },
     "price_postapoc": 3000,
     "description": "A complete guide to Pentjak Silat.",
     "book_data": { "martial_art": "style_silat" }
@@ -174,7 +174,7 @@
     "id": "manual_snake",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Black Snake", "str_pl": "The Black Snake" },
+    "name": { "str_sp": "The Black Snake" },
     "price_postapoc": 2000,
     "description": "A complete guide to Snake Kung Fu.",
     "book_data": { "martial_art": "style_snake" }
@@ -183,7 +183,7 @@
     "id": "manual_taekwondo",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Official Taekwondo Training Manual", "str_pl": "Official Taekwondo Training Manual" },
+    "name": { "str_sp": "Official Taekwondo Training Manual" },
     "price_postapoc": 2000,
     "description": "A complete guide to Taekwondo.",
     "book_data": { "martial_art": "style_taekwondo" }
@@ -192,7 +192,7 @@
     "id": "manual_tai_chi",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Becoming One with the Tao", "str_pl": "Becoming One with the Tao" },
+    "name": { "str_sp": "Becoming One with the Tao" },
     "price_postapoc": 2000,
     "description": "A complete guide to T'ai Chi Ch'uan.",
     "book_data": { "martial_art": "style_tai_chi" }
@@ -201,7 +201,7 @@
     "id": "manual_tiger",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The White Tiger", "str_pl": "The White Tiger" },
+    "name": { "str_sp": "The White Tiger" },
     "price_postapoc": 2000,
     "description": "A complete guide to Tiger Kung Fu.",
     "book_data": { "martial_art": "style_tiger" }
@@ -210,7 +210,7 @@
     "id": "manual_toad",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Toad Lo Mang", "str_pl": "The Toad Lo Mang" },
+    "name": { "str_sp": "The Toad Lo Mang" },
     "price_postapoc": 2000,
     "description": "A complete guide to Toad Kung Fu.",
     "book_data": { "martial_art": "style_toad" }
@@ -219,7 +219,7 @@
     "id": "manual_venom_snake",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Viper Wei Pai", "str_pl": "The Viper Wei Pai" },
+    "name": { "str_sp": "The Viper Wei Pai" },
     "price_postapoc": 2000,
     "description": "A complete guide to Viper Kung Fu.",
     "book_data": { "martial_art": "style_venom_snake" }
@@ -228,7 +228,7 @@
     "id": "manual_zui_quan",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Zui Quan and You", "str_pl": "Zui Quan and You" },
+    "name": { "str_sp": "Zui Quan and You" },
     "price_postapoc": 2000,
     "description": "A complete guide to Zui Quan.",
     "book_data": { "martial_art": "style_zui_quan" }
@@ -237,7 +237,7 @@
     "id": "manual_sojutsu",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "The Way of the Spear", "str_pl": "The Way of the Spear" },
+    "name": { "str_sp": "The Way of the Spear" },
     "price_postapoc": 3000,
     "description": "A complete guide to Sōjutsu.",
     "book_data": { "martial_art": "style_sojutsu" }
@@ -246,7 +246,7 @@
     "id": "manual_wingchun",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Beautiful Springtime", "str_pl": "Beautiful Springtime" },
+    "name": { "str_sp": "Beautiful Springtime" },
     "price_postapoc": 2000,
     "description": "A complete guide to Wing Chun Kung-fu.",
     "book_data": { "martial_art": "style_wingchun" }
@@ -255,7 +255,7 @@
     "id": "manual_medievalpole",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Fior Di Battaglia", "str_pl": "Fior Di Battaglia" },
+    "name": { "str_sp": "Fior Di Battaglia" },
     "price_postapoc": 3000,
     "description": "A completely translated medieval guide teaching various techniques with polearms, there is a chapter about the many variations of common polearms… there are even pictures!",
     "book_data": { "martial_art": "style_medievalpole" }
@@ -264,7 +264,7 @@
     "id": "manual_swordsmanship",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "Historic European Swordfighting", "str_pl": "Historic European Swordfighting" },
+    "name": { "str_sp": "Historic European Swordfighting" },
     "price_postapoc": 3000,
     "description": "A complete guide to medieval swordsmanship.  Compares the German and Italian traditions for longsword and side sword, in and out of armor, with and without shield.",
     "book_data": { "martial_art": "style_swordsmanship" }

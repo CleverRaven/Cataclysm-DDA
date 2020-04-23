@@ -30,7 +30,8 @@
     "id": "num_avatar_kills",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_kills"
+    "event_transformation": "avatar_kills",
+    "description": "Number of monsters killed"
   },
   {
     "id": "num_avatar_zombie_kills",
@@ -42,14 +43,7 @@
   {
     "id": "score_kills",
     "type": "score",
-    "description": "Number of monsters killed: %s",
     "statistic": "num_avatar_kills"
-  },
-  {
-    "id": "achievement_kill_zombie",
-    "type": "achievement",
-    "description": "One down, billions to go\u2026",
-    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 } ]
   },
   {
     "id": "moves_not_mounted",

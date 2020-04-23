@@ -12,8 +12,7 @@ import cpp
 
 from FunctionCall call, Function fcn
 where
-  call.getTarget() = fcn and
-  fcn.isTopLevel() and
+  call.getTarget() = fcn and fcn.isTopLevel() and not exists ( call.getNameQualifier() ) and
   ( fcn.hasGlobalName("abs") or fcn.hasGlobalName("fabs") or fcn.hasGlobalName("fabsf") or fcn.hasGlobalName("fabsl") or
     fcn.hasGlobalName("fmod") or fcn.hasGlobalName("fmodf") or fcn.hasGlobalName("fmodl") or
     fcn.hasGlobalName("remainder") or fcn.hasGlobalName("remainderf") or fcn.hasGlobalName("remainderl") or

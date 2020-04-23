@@ -170,6 +170,16 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                     get_verb().translated(), extra_info );
 }
 
+void player_activity::start( Character &who )
+{
+    if( actor ) {
+        actor->start( *this, who );
+    }
+    if( rooted() ) {
+        who.rooted_message();
+    }
+}
+
 void player_activity::do_turn( player &p )
 {
     // Should happen before activity or it may fail du to 0 moves
