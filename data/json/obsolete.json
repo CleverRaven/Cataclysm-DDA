@@ -558,10 +558,11 @@
     "obsolete": true
   },
   {
-    "result": "pipebomb"
+    "result": "pipebomb",
     "type": "recipe",
     "obsolete": true
   },
+  {
     "result": "tool_black_powder_charge",
     "type": "recipe",
     "obsolete": true
