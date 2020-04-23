@@ -13,6 +13,13 @@
     "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 1 } ]
   },
   {
+    "id": "achievement_survive_one_day",
+    "type": "achievement",
+    "description": "The first day of the rest of their unlives",
+    "time_constraint": { "since": "game_start", "is": ">=", "target": "1 day" },
+    "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
+  },
+  {
     "id": "achievement_marathon",
     "type": "achievement",
     "description": "Pheidippides was a hack",

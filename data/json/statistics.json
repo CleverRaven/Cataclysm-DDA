@@ -7,6 +7,20 @@
     "field": "avatar_id"
   },
   {
+    "id": "avatar_wakes_up",
+    "type": "event_transformation",
+    "event_type": "character_wakes_up",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_avatar_wake_ups",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_wakes_up",
+    "description": "times woken up"
+  },
+  {
     "id": "avatar_kills",
     "type": "event_transformation",
     "event_type": "character_kills_monster",
