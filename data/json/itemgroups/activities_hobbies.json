@@ -7,6 +7,7 @@
       [ "cotton_ball", 50 ],
       [ "aspirin", 85 ],
       [ "bat", 60 ],
+      [ "bat_nerf", 60 ],
       [ "boxing_gloves", 35 ],
       [ "pool_cue", 30 ],
       [ "bat_metal", 60 ],
@@ -331,7 +332,8 @@
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 10 ],
       [ "mess_tin", 10 ],
-      [ "survival_kit", 30 ]
+      [ "survival_kit", 30 ],
+      [ "premium_survival_kit", 3 ]
     ]
   }
 ]

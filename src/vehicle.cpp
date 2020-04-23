@@ -799,7 +799,7 @@ void vehicle::stop_autodriving()
     }
     if( velocity > 0 ) {
         if( is_patrolling || is_following ) {
-            autodrive( 0, 10 );
+            autodrive( point( 0, 10 ) );
         } else {
             pldrive( point( 0, 10 ) );
         }
@@ -872,7 +872,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
         if( velocity > 0 ) {
             follow_protocol ||
-            is_patrolling ? autodrive( 0, 10 ) : pldrive( point( 0, 10 ) );
+            is_patrolling ? autodrive( point( 0, 10 ) ) : pldrive( point( 0, 10 ) );
         }
         stop_autodriving();
         return;
@@ -914,7 +914,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
     }
     follow_protocol ||
-    is_patrolling ? autodrive( turn_x, accel_y ) : pldrive( point( turn_x, accel_y ) );
+    is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( point( turn_x, accel_y ) );
 }
 
 double vehicle::get_angle_from_targ( const tripoint &targ )
@@ -1223,8 +1223,8 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             rl_vec2d windvec;
             double raddir = ( ( g->weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
             windvec = windvec.normalized();
-            windvec.y = -cos( raddir );
-            windvec.x = sin( raddir );
+            windvec.y = -std::cos( raddir );
+            windvec.x = std::sin( raddir );
             rl_vec2d fv = face_vec();
             double dot = windvec.dot_product( fv );
             if( dot <= 0 ) {
@@ -1384,7 +1384,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     // Check all the flags of the part to see if they require other flags
     // If other flags are required check if those flags are present
-    for( const std::string flag : part.get_flags() ) {
+    for( const std::string &flag : part.get_flags() ) {
         if( !json_flag::get( flag ).requires_flag().empty() ) {
             bool anchor_found = false;
             for( const auto &elem : parts_in_square ) {
@@ -3798,7 +3798,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );
     // Even a vehicle with engines off will make noise traveling at high speeds
-    noise = std::max( noise, static_cast<double>( fabs( velocity / 500.0 ) ) );
+    noise = std::max( noise, static_cast<double>( std::fabs( velocity / 500.0 ) ) );
     int lvl = 0;
     if( one_in( 4 ) && rng( 0, 30 ) < noise ) {
         while( noise > sounds[lvl].second ) {
@@ -5751,10 +5751,10 @@ void vehicle::do_towing_move()
         towed_veh->velocity = reverse ? -velocity : velocity;
     }
     if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
-        towed_veh->autodrive( turn_x, accel_y );
+        towed_veh->autodrive( point( turn_x, accel_y ) );
     } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
         accel_y = 10;
-        towed_veh->autodrive( turn_x, accel_y );
+        towed_veh->autodrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
         std::vector<tripoint> lineto = line_to( g->m.getlocal( towed_tow_point ),

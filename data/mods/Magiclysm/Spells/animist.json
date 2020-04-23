@@ -182,7 +182,7 @@
     "max_duration": 2,
     "duration_increment": 1,
     "difficulty": 0,
-    "max_level": 1,
+    "max_level": 0,
     "spell_class": "ANIMIST",
     "energy_source": "MANA",
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]

@@ -61,7 +61,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_peach",
-    "name": { "str": "peaches in syrup", "str_pl": "peaches in syrup" },
+    "name": { "str_sp": "peaches in syrup" },
     "weight": "277 g",
     "color": "yellow",
     "spoils_in": "1 day 6 hours",
@@ -103,7 +103,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonade_powder",
-    "name": { "str": "lemonade drink mix", "str_pl": "lemonade drink mix" },
+    "name": { "str_sp": "lemonade drink mix" },
     "weight": "19 g",
     "color": "yellow",
     "container": "bottle_plastic_small",
@@ -168,7 +168,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_fruit",
-    "name": { "str": "dehydrated fruit", "str_pl": "dehydrated fruit" },
+    "name": { "str_sp": "dehydrated fruit" },
     "weight": "75 g",
     "color": "magenta",
     "spoils_in": "360 days",
@@ -190,7 +190,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_fruit",
-    "name": { "str": "rehydrated fruit", "str_pl": "rehydrated fruit" },
+    "name": { "str_sp": "rehydrated fruit" },
     "weight": "150 g",
     "color": "pink",
     "spoils_in": "18 hours",
@@ -230,7 +230,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_canned",
-    "name": { "str": "canned fruit", "str_pl": "canned fruit" },
+    "name": { "str_sp": "canned fruit" },
     "weight": "170 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",

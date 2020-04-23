@@ -1281,7 +1281,7 @@
     "id": "mon_milbot_deluxe",
     "type": "MONSTER",
     "copy-from": "mon_milbot_gaurdian",
-    "name": { "str": "robote deluxe", "str_pl": "robote deluxe" },
+    "name": { "str_sp": "robote deluxe" },
     "//": "the extra E makes it European.",
     "description": "A diamond-studded gold-plated robot armed with a pair of integrated 9mm firearms.  An opulent luxury-bot suitable for those who wish to survive the apocalypse in style.",
     "color": "yellow",

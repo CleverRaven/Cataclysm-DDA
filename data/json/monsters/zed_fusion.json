@@ -109,7 +109,7 @@
   {
     "id": "mon_zombie_gasbag_immobile",
     "type": "MONSTER",
-    "name": { "str": "gangrenous flesh", "str_pl": "gangrenous flesh" },
+    "name": { "str_sp": "gangrenous flesh" },
     "description": "Immobile from grievous wounds, its gray skin has bloated to near rupture with putrid gas.  Between lumps of unrecognizable gore, a human head lamely follows your walking with empty, black eyes.",
     "default_faction": "zombie",
     "bodytype": "human",

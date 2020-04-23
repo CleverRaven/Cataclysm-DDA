@@ -3,7 +3,7 @@
     "id": "mag_animecon",
     "copy-from": "mag_tailor",
     "type": "BOOK",
-    "name": { "str": "Boston AnimeCon magazine", "str_pl": "Boston AnimeCon magazines" },
+    "name": { "str": "Boston AnimeCon magazine" },
     "description": "A short magazine printed as an advertisement for the now canceled Boston AnimeCon.  A few costume ideas are intermixed with miscellaneous information about the event."
   },
   {

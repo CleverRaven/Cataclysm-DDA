@@ -59,7 +59,7 @@ jobs:
       compiler: clang
       addons: &clang38
         apt:
-          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          packages: ["clang-3.8"]
           sources: [*apt_sources]
 
     # Then build different configurations and targets in parallel.
@@ -86,7 +86,7 @@ jobs:
       compiler: clang
       addons: &clang8
         apt:
-          packages: ["clang-8", "libc6-dbg", "libc6-dbg:i386"]
+          packages: ["clang-8"]
           sources: [*apt_sources, llvm-toolchain-xenial-8]
 
     - stage: "Platforms and Tidy"
@@ -155,7 +155,7 @@ jobs:
       compiler: clang
       addons: &clang39
         apt:
-          packages: ["clang-3.9", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          packages: ["clang-3.9"]
           sources: *apt_sources
 
     - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
@@ -164,7 +164,7 @@ jobs:
       compiler: clang
       addons: &clang40
         apt:
-          packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          packages: ["clang-4.0"]
           # Luckily the Trusty install Just Works on Xenial
           sources: [*apt_sources, llvm-toolchain-trusty-4.0]
 
@@ -177,7 +177,7 @@ jobs:
       compiler: clang
       addons: &clang50
         apt:
-          packages: ["clang-5.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          packages: ["clang-5.0"]
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
 
     - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
@@ -186,7 +186,7 @@ jobs:
       compiler: clang
       addons: &clang60
         apt:
-          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libpulse-dev", "libpulse0=1:8.0-0ubuntu3.10", "libpulse-mainloop-glib0=1:8.0-0ubuntu3.10"]
+          packages: ["clang-6.0", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libpulse-dev", "libpulse0=1:8.0-0ubuntu3.10", "libpulse-mainloop-glib0=1:8.0-0ubuntu3.10"]
           sources: [*apt_sources, llvm-toolchain-xenial-6.0]
 
     - env: CLANG=clang++-7
@@ -195,7 +195,7 @@ jobs:
       compiler: clang
       addons: &clang7
         apt:
-          packages: ["clang-7", "libc6-dbg", "libc6-dbg:i386"]
+          packages: ["clang-7"]
           sources: [*apt_sources, llvm-toolchain-xenial-7]
 
 before_script:

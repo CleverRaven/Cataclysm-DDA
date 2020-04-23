@@ -2,7 +2,7 @@
   {
     "id": "gas_chloramine",
     "type": "AMMO",
-    "name": { "str": "sprayable toxic gas", "str_pl": "sprayable toxic gas" },
+    "name": { "str_sp": "sprayable toxic gas" },
     "description": "A hazardous mixture made from household cleaners, improvised for use in a chemical thrower.  Best be used with some kind of mask or mouth protection.",
     "weight": "3 g",
     "volume": "250 ml",
@@ -21,7 +21,7 @@
   {
     "id": "gas_fungicidal",
     "type": "AMMO",
-    "name": { "str": "sprayable fungicide", "str_pl": "sprayable fungicide" },
+    "name": { "str_sp": "sprayable fungicide" },
     "description": "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the chemical thrower.  Best be used with some kind of mask or mouth protection.",
     "weight": "3 g",
     "volume": "250 ml",
@@ -40,7 +40,7 @@
   {
     "id": "gas_insecticidal",
     "type": "AMMO",
-    "name": { "str": "sprayable insecticide", "str_pl": "sprayable insecticide" },
+    "name": { "str_sp": "sprayable insecticide" },
     "description": "Strong sprayable insecticide ammo for the chemical thrower.  Best be used with some kind of mask or mouth protection.",
     "weight": "3 g",
     "volume": "250 ml",

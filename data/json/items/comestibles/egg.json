@@ -255,7 +255,7 @@
   {
     "type": "COMESTIBLE",
     "id": "scrambled_eggs",
-    "name": { "str": "scrambled eggs", "str_pl": "scrambled eggs" },
+    "name": { "str_sp": "scrambled eggs" },
     "copy-from": "egg_chicken",
     "color": "yellow",
     "spoils_in": "2 days",

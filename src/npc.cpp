@@ -697,7 +697,7 @@ void npc::setpos( const tripoint &pos )
 void npc::travel_overmap( const tripoint &pos )
 {
     const point pos_om_old = sm_to_om_copy( submap_coords );
-    spawn_at_sm( pos.x, pos.y, pos.z );
+    spawn_at_sm( pos );
     const point pos_om_new = sm_to_om_copy( submap_coords );
     if( global_omt_location() == goal ) {
         reach_omt_destination();
@@ -715,9 +715,9 @@ void npc::travel_overmap( const tripoint &pos )
     }
 }
 
-void npc::spawn_at_sm( int x, int y, int z )
+void npc::spawn_at_sm( const tripoint &p )
 {
-    spawn_at_precise( point( x, y ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), z ) );
+    spawn_at_precise( p.xy(), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), p.z ) );
 }
 
 void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
@@ -1368,8 +1368,8 @@ float npc::vehicle_danger( int radius ) const
 
             int ax = wrapped_veh.v->global_pos3().x;
             int ay = wrapped_veh.v->global_pos3().y;
-            int bx = int( ax + cos( facing * M_PI / 180.0 ) * radius );
-            int by = int( ay + sin( facing * M_PI / 180.0 ) * radius );
+            int bx = int( ax + std::cos( facing * M_PI / 180.0 ) * radius );
+            int by = int( ay + std::sin( facing * M_PI / 180.0 ) * radius );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
@@ -2363,16 +2363,15 @@ static void maybe_shift( tripoint &pos, int dx, int dy )
     }
 }
 
-void npc::shift( int sx, int sy )
+void npc::shift( const point &s )
 {
-    const int shiftx = sx * SEEX;
-    const int shifty = sy * SEEY;
+    const point shift = sm_to_ms_copy( s );
 
-    setpos( pos() - point( shiftx, shifty ) );
+    setpos( pos() - shift );
 
-    maybe_shift( wanted_item_pos, -shiftx, -shifty );
-    maybe_shift( last_player_seen_pos, -shiftx, -shifty );
-    maybe_shift( pulp_location, -shiftx, -shifty );
+    maybe_shift( wanted_item_pos, -shift.x, -shift.y );
+    maybe_shift( last_player_seen_pos, -shift.x, -shift.y );
+    maybe_shift( pulp_location, -shift.x, -shift.y );
     path.clear();
 }
 

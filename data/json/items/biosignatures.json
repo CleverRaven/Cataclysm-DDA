@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_bird",
-    "name": { "str": "bird litter", "str_pl": "bird litter" },
+    "name": { "str_sp": "bird litter" },
     "category": "chems",
     "weight": "40 g",
     "color": "brown",

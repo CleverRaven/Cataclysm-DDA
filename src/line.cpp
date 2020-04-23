@@ -14,6 +14,8 @@
 #include "output.h"
 #include "enums.h"
 
+bool trigdist;
+
 void bresenham( const point &p1, const point &p2, int t,
                 const std::function<bool( const point & )> &interact )
 {
@@ -606,16 +608,16 @@ rl_vec3d rl_vec3d::normalized() const
 rl_vec2d rl_vec2d::rotated( float angle ) const
 {
     return rl_vec2d(
-               x * cos( angle ) - y * sin( angle ),
-               x * sin( angle ) + y * cos( angle )
+               x * std::cos( angle ) - y * std::sin( angle ),
+               x * std::sin( angle ) + y * std::cos( angle )
            );
 }
 
 rl_vec3d rl_vec3d::rotated( float angle ) const
 {
     return rl_vec3d(
-               x * cos( angle ) - y * sin( angle ),
-               x * sin( angle ) + y * cos( angle )
+               x * std::cos( angle ) - y * std::sin( angle ),
+               x * std::sin( angle ) + y * std::cos( angle )
            );
 }
 
@@ -754,8 +756,8 @@ void calc_ray_end( int angle, const int range, const tripoint &p, tripoint &out 
     const double rad = DEGREES( angle );
     out.z = p.z;
     if( trigdist ) {
-        out.x = p.x + range * cos( rad );
-        out.y = p.y + range * sin( rad );
+        out.x = p.x + range * std::cos( rad );
+        out.y = p.y + range * std::sin( rad );
     } else {
         int mult = 0;
         if( angle >= 135 && angle <= 315 ) {
@@ -766,9 +768,9 @@ void calc_ray_end( int angle, const int range, const tripoint &p, tripoint &out 
 
         if( angle <= 45 || ( 135 <= angle && angle <= 215 ) || 315 < angle ) {
             out.x = p.x + range * mult;
-            out.y = p.y + range * tan( rad ) * mult;
+            out.y = p.y + range * std::tan( rad ) * mult;
         } else {
-            out.x = p.x + range * 1 / tan( rad ) * mult;
+            out.x = p.x + range * 1 / std::tan( rad ) * mult;
             out.y = p.y + range * mult;
         }
     }
