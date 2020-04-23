@@ -153,7 +153,6 @@ static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_crushed( "crushed" );
-static const efftype_id effect_cureall( "cureall" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dazed( "dazed" );
 static const efftype_id effect_dermatik( "dermatik" );
@@ -185,7 +184,6 @@ static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_music( "music" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
-static const efftype_id effect_panacea( "panacea" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
@@ -406,12 +404,6 @@ int iuse::sewage( player *p, item *it, bool, const tripoint & )
 int iuse::honeycomb( player *p, item *it, bool, const tripoint & )
 {
     g->m.spawn_item( p->pos(), "wax", 2 );
-    return it->type->charges_to_use();
-}
-
-int iuse::royal_jelly( player *p, item *it, bool, const tripoint & )
-{
-    p->add_effect( effect_cureall, 1_turns );
     return it->type->charges_to_use();
 }
 
@@ -9758,16 +9750,6 @@ int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
     }
     p->add_effect( effect_strong_antibiotic, 12_hours );
     p->add_effect( effect_strong_antibiotic_visible, rng( 9_hours, 15_hours ) );
-    return it->type->charges_to_use();
-}
-
-int iuse::panacea( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You take some %s." ), it->tname() );
-    if( !p->has_effect( effect_panacea ) ) {
-        p->add_msg_if_player( m_good, _( "You feel AMAZING!" ) );
-    }
-    p->add_effect( effect_panacea, 1_minutes );
     return it->type->charges_to_use();
 }
 
