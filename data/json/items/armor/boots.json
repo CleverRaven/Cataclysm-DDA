@@ -30,7 +30,7 @@
     "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 1,
-    "material": [ "leather" ],
+    "material": [ "leather", "rubber" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
     "color": "dark_gray",
