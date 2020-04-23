@@ -604,7 +604,9 @@ void Character::suffer_from_schizophrenia()
 
 void Character::suffer_from_asthma( const int current_stim )
 {
-    if( has_effect( effect_adrenaline ) || has_effect( effect_datura ) || has_effect( effect_took_antiasthmatic) ) {
+    if( has_effect( effect_adrenaline ) ||
+        has_effect( effect_datura ) ||
+        has_effect( effect_took_antiasthmatic) ) {
         return;
     }
     if( !one_in( ( to_turns<int>( 6_hours ) - current_stim * 300 ) *
