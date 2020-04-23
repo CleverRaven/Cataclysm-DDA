@@ -128,10 +128,7 @@
     "type": "trait_group",
     "id": "trait_group_DRUNKEN",
     "subtype": "distribution",
-    "traits": [
-      { "collection": [ { "trait": "DRUNKEN", "prob": 50 }, { "trait": "TOLERANCE", "prob": 50 } ] },
-      { "trait": "LIGHTWEIGHT" }
-    ]
+    "traits": [ { "trait": "TOLERANCE" }, { "trait": "LIGHTWEIGHT" } ]
   },
   {
     "type": "trait_group",
