@@ -2,7 +2,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus",
-    "name": { "str": "Z-Rex" },
+    "name": { "str": "Z-Rex", "str_pl": "Z-Rexes" },
     "species": "ZOMBIE",
     "default_faction": "zombie",
     "symbol": "D",
