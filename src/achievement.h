@@ -22,6 +22,7 @@ class stats_tracker;
 enum class achievement_comparison {
     less_equal,
     greater_equal,
+    anything,
     last,
 };
 
@@ -72,6 +73,7 @@ class achievement
                 };
 
                 void deserialize( JsonIn & );
+                void check( const string_id<achievement> & ) const;
 
                 time_point target() const;
                 achievement_completion completed() const;
