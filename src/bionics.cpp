@@ -2047,7 +2047,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     return false;
 }
 
-bool Character::can_install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::can_install_bionics( const itype &type, Character &installer, bool autodoc,
                                      int skill_level )
 {
     if( !type.bionic ) {
@@ -2131,7 +2131,7 @@ float Character::env_surgery_bonus( int radius )
     return bonus;
 }
 
-bool Character::install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::install_bionics( const itype &type, Character &installer, bool autodoc,
                                  int skill_level )
 {
     if( !type.bionic ) {

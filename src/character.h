@@ -69,12 +69,17 @@ struct mutation_branch;
 struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
+class basecamp;
+class recipe_subset;
+
 template <typename E> struct enum_traits;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
 #define MAX_CLAIRVOYANCE 40
+
+static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -278,6 +283,7 @@ class Character : public Creature, public visitable<Character>
         bool in_species( const species_id &spec ) const override;
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops;
+        itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
         const std::string &symbol() const override;
 
         enum class comfort_level {
@@ -1056,11 +1062,40 @@ class Character : public Creature, public visitable<Character>
                               const skill_id &least_important_skill,
                               int skill_level = -1 );
         /**Is the installation possible*/
-        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+        bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
         std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
+        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+                        bool empty = true ) const;
+        /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
+        void gunmod_add( item &gun, item &mod );
+        /** Starts activity to install toolmod */
+        void toolmod_add( item_location tool, item_location mod );
+        /** Returns list of rc items in player inventory. **/
+        std::list<item *> get_radio_items();
+        bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
+        std::vector<const item *> get_eligible_containers_for_crafting() const;
+        void consume_tools( const comp_selection<tool_comp> &tool, int batch );
+        void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
+                            basecamp *bcp = nullptr );
+        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
+                            const std::string &hotkeys = DEFAULT_HOTKEYS );
+        const requirement_data *select_requirements(
+            const std::vector<const requirement_data *> &, int batch, const inventory &,
+            const std::function<bool( const item & )> &filter ) const;
+        /**
+         * Attempt to mend an item (fix any current faults)
+         * @param obj Object to mend
+         * @param interactive if true prompts player when multiple faults, otherwise mends the first
+         */
+        void mend_item( item_location &&obj, bool interactive = true );
+        /** Returns true if the entered trait may be purified away
+         *  Defaults to true
+         */
+        bool purifiable( const trait_id &flag ) const;
         /** Initialize all the values needed to start the operation player_activity */
-        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+        bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
         void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
@@ -1625,7 +1660,173 @@ class Character : public Creature, public visitable<Character>
         int mounted_creature_id;
         // for vehicle work
         int activity_vehicle_part_index = -1;
+        bool disassemble();
+        bool disassemble( item_location target, bool interactive = true );
+        void disassemble_all( bool one_pass ); // Disassemble all items on the tile
+        void complete_disassemble();
+        void complete_disassemble( item_location &target, const recipe &dis );
+        // Checks crafting inventory for books providing the requested recipe.
+        // Then checks nearby NPCs who could provide it too.
+        // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
+        int has_recipe( const recipe *r, const inventory &crafting_inv,
+                        const std::vector<npc *> &helpers ) const;
+        bool knows_recipe( const recipe *rec ) const;
+        void learn_recipe( const recipe *rec );
+        bool has_recipe_requirements( const recipe &rec ) const;
+        bool can_decomp_learn( const recipe &rec ) const;
+        /** Returns all recipes that are known from the books (either in inventory or nearby). */
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        /**
+          * Returns all available recipes (from books and npc companions)
+          * @param crafting_inv Current available items to craft
+          * @param helpers List of NPCs that could help with crafting.
+          */
+        recipe_subset get_available_recipes( const inventory &crafting_inv,
+                                             const std::vector<npc *> *helpers = nullptr ) const;
+        /** Returns all known recipes. */
+        const recipe_subset &get_learned_recipes() const;
+        /**
+         * Calculate a value representing the success of the player at crafting the given recipe,
+         * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
+         * @param making the recipe for which to calculate
+         * @return a value >= 0.0 with >= 1.0 representing unequivocal success
+         */
+        double crafting_success_roll( const recipe &making ) const;
 
+        /** Returns nearby NPCs ready and willing to help with crafting. */
+        std::vector<npc *> get_crafting_helpers() const;
+        comp_selection<item_comp>
+        select_item_component( const std::vector<item_comp> &components,
+                               int batch, inventory &map_inv, bool can_cancel = false,
+                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
+        comp_selection<tool_comp>
+        select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
+                               const std::string &hotkeys = DEFAULT_HOTKEYS,
+                               bool can_cancel = false, bool player_inv = true,
+        std::function<int( int )> charges_required_modifier = []( int i ) {
+            return i;
+        } );
+        std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
+                                       const std::function<bool( const item & )> &filter = return_true<item> );
+        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+                                       const std::function<bool( const item & )> &filter = return_true<item>,
+                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+        std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
+                                       const std::function<bool( const item & )> &filter = return_true<item> );
+
+        /**
+         * Check if the player meets the requirements to continue the in progress craft and if
+         * unable to continue print messages explaining the reason.
+         * If the craft is missing components due to messing up, prompt to consume new ones to
+         * allow the craft to be continued.
+         * @param craft the currently in progress craft
+         * @return if the craft can be continued
+         */
+        bool can_continue_craft( item &craft );
+        /**
+         * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
+         * @param it Item to calculate reload cost for
+         * @param ammo either ammo or magazine to use when reloading the item
+         * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
+         */
+        int item_reload_cost( const item &it, const item &ammo, int qty ) const;
+        /** Get the formatted name of the currently wielded item (if any)
+         *  truncated to a number of characters. 0 means it is not truncated
+         */
+        std::string weapname( unsigned int truncate = 0 ) const;
+
+        /**
+         * Check player capable of wielding an item.
+         * @param it Thing to be wielded
+         */
+        ret_val<bool> can_wield( const item &it ) const;
+
+        bool unwield();
+        /**
+         * Try to wield a contained item consuming moves proportional to weapon skill and volume.
+         * @param container Container containing the item to be wielded
+         * @param internal_item reference to contained item to wield.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         */
+        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY );
+        /**
+         * Stores an item inside another consuming moves proportional to weapon skill and volume
+         * @param container Container in which to store the item
+         * @param put Item to add to the container
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         */
+        void store( item &container, item &put, bool penalties = true,
+                    int base_cost = INVENTORY_HANDLING_PENALTY );
+        /** Returns melee skill level, to be used to throttle dodge practice. **/
+        float get_melee() const override;
+
+        /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
+        bool uncanny_dodge() override;
+
+        /**
+         * Checks both the neighborhoods of from and to for climbable surfaces,
+         * returns move cost of climbing from `from` to `to`.
+         * 0 means climbing is not possible.
+         * Return value can depend on the orientation of the terrain.
+         */
+        int climbing_cost( const tripoint &from, const tripoint &to ) const;
+        void environmental_revert_effect();
+        /** This handles giving xp for a skill */
+        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
+        /** This handles warning the player that there current activity will not give them xp */
+        void handle_skill_warning( const skill_id &id, bool force_warning = false );
+
+        hint_rating rate_action_reload( const item &it ) const;
+        hint_rating rate_action_disassemble( const item &it );
+
+        void on_worn_item_transform( const item &old_it, const item &new_it );
+        float lighting_craft_speed_multiplier( const recipe &rec ) const;
+        /** Removes gunmod after first unloading any contained ammo and returns true on success */
+        bool gunmod_remove( item &gun, item &mod );
+        /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
+        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
+
+        /**
+         * Select suitable ammo with which to reload the item
+         * @param base Item to select ammo for
+         * @param prompt force display of the menu even if only one choice
+         * @param empty allow selection of empty magazines
+         */
+        item::reload_option select_ammo( const item &base, bool prompt = false,
+                                         bool empty = true ) const;
+
+        /** Select ammo from the provided options */
+        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
+
+        int exceeds_recipe_requirements( const recipe &rec ) const;
+        /**
+         * Check if the player can disassemble an item using the current crafting inventory
+         * @param obj Object to check for disassembly
+         * @param inv current crafting inventory
+         */
+        ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
+        /**
+        * Check whether player has a bionic power armor interface.
+        * @return true if player has an active bionic capable of powering armor, false otherwise.
+        */
+        bool can_interface_armor() const;
+        /** Returns a value from 1.0 to 5.0 that acts as a multiplier
+         * for the time taken to perform tasks that require detail vision,
+         * above 4.0 means these activities cannot be performed.
+         * takes pos as a parameter so that remote spots can be judged
+         * if they will potentially have enough light when player gets there */
+        float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
+        /**
+         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+         * @param it Thing to be reloaded
+         * @param ammo if set also check item currently compatible with this specific ammo or magazine
+         * @note items currently loaded with a detachable magazine are considered reloadable
+         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
+         */
+        bool can_reload( const item &it, const itype_id &ammo = std::string() ) const;
         // Hauling items on the ground
         void start_hauling();
         void stop_hauling();
@@ -2282,6 +2483,13 @@ class Character : public Creature, public visitable<Character>
     protected:
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
+
+        /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
+        mutable pimpl<recipe_subset> learned_recipes;
+
+        /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
+        mutable decltype( _skills ) valid_autolearn_skills;
+
 
     public:
         // TODO: make these private

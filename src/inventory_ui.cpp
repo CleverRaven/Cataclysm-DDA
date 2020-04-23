@@ -838,12 +838,13 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
     return res;
 }
 
-int inventory_column::reassign_custom_invlets( const player &p, int min_invlet, int max_invlet )
+int inventory_column::reassign_custom_invlets( const Character &guy, int min_invlet,
+        int max_invlet )
 {
     int cur_invlet = min_invlet;
     for( auto &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
-        if( elem.is_selectable() && !p.has_item( *elem.any_item() ) ) {
+        if( elem.is_selectable() && !guy.has_item( *elem.any_item() ) ) {
             elem.custom_invlet = cur_invlet <= max_invlet ? cur_invlet++ : '\0';
         }
     }
@@ -1080,10 +1081,10 @@ const item_category *inventory_selector::naturalize_category( const item_categor
         return iter != categories.end() ? &*iter : nullptr;
     };
 
-    const int dist = rl_dist( u.pos(), pos );
+    const int dist = rl_dist( guy.pos(), pos );
 
     if( dist != 0 ) {
-        const std::string suffix = direction_suffix( u.pos(), pos );
+        const std::string suffix = direction_suffix( guy.pos(), pos );
         const item_category_id id = item_category_id( string_format( "%s_%s", category.get_id().c_str(),
                                     suffix.c_str() ) );
 
@@ -1213,9 +1214,9 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
-        for( const tripoint &pos : closest_tripoints_first( u.pos(), radius ) ) {
+        for( const tripoint &pos : closest_tripoints_first( guy.pos(), radius ) ) {
             // can not reach this -> can not access its contents
-            if( u.pos() != pos && !g->m.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
+            if( guy.pos() != pos && !g->m.clear_path( guy.pos(), pos, rl_dist( guy.pos(), pos ), 1, 100 ) ) {
                 continue;
             }
             add_map_items( pos );
@@ -1295,7 +1296,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
     int custom_invlet = '0';
     for( auto &elem : columns ) {
         elem->prepare_paging();
-        custom_invlet = elem->reassign_custom_invlets( u, custom_invlet, '9' );
+        custom_invlet = elem->reassign_custom_invlets( guy, custom_invlet, '9' );
     }
 
     refresh_active_column();
@@ -1438,8 +1439,8 @@ inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
 
 inventory_selector::stats inventory_selector::get_raw_stats() const
 {
-    return get_weight_and_volume_stats( u.weight_carried(), u.weight_capacity(),
-                                        u.volume_carried(), u.volume_capacity() );
+    return get_weight_and_volume_stats( guy.weight_carried(), guy.weight_capacity(),
+                                        guy.volume_carried(), guy.volume_capacity() );
 }
 
 std::vector<std::string> inventory_selector::get_stats() const
@@ -1639,8 +1640,8 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
     }
 }
 
-inventory_selector::inventory_selector( player &u, const inventory_selector_preset &preset )
-    : u( u )
+inventory_selector::inventory_selector( Character &guy, const inventory_selector_preset &preset )
+    : guy( guy )
     , preset( preset )
     , ctxt( "INVENTORY" )
     , active_column_index( 0 )
@@ -1870,10 +1871,10 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-inventory_multiselector::inventory_multiselector( player &p,
+inventory_multiselector::inventory_multiselector( Character &guy,
         const inventory_selector_preset &preset,
         const std::string &selection_column_title ) :
-    inventory_selector( p, preset ),
+    inventory_selector( guy, preset ),
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {
     ctxt.register_action( "RIGHT", to_translation( "Mark/unmark selected item" ) );
@@ -1899,8 +1900,8 @@ void inventory_multiselector::on_entry_add( const inventory_entry &entry )
     }
 }
 
-inventory_compare_selector::inventory_compare_selector( player &p ) :
-    inventory_multiselector( p, default_preset, _( "ITEMS TO COMPARE" ) ) {}
+inventory_compare_selector::inventory_compare_selector( Character &guy ) :
+    inventory_multiselector( guy, default_preset, _( "ITEMS TO COMPARE" ) ) {}
 
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
@@ -1973,12 +1974,12 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
 }
 
 inventory_iuse_selector::inventory_iuse_selector(
-    player &p,
+    Character &guy,
     const std::string &selector_title,
     const inventory_selector_preset &preset,
     const GetStats &get_st
 ) :
-    inventory_multiselector( p, preset, selector_title ),
+    inventory_multiselector( guy, preset, selector_title ),
     get_stats( get_st ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {}
@@ -2043,7 +2044,7 @@ drop_locations inventory_iuse_selector::execute()
     drop_locations dropped_pos_and_qty;
 
     for( const std::pair<const item *const, int> &use_pair : to_use ) {
-        item_location loc( u, const_cast<item *>( use_pair.first ) );
+        item_location loc( guy, const_cast<item *>( use_pair.first ) );
         dropped_pos_and_qty.push_back( std::make_pair( loc, use_pair.second ) );
     }
 
@@ -2076,9 +2077,9 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
     return stats{{ stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} }};
 }
 
-inventory_drop_selector::inventory_drop_selector( player &p,
+inventory_drop_selector::inventory_drop_selector( Character &guy,
         const inventory_selector_preset &preset ) :
-    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
+    inventory_multiselector( guy, preset, _( "ITEMS TO DROP" ) ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {
 #if defined(__ANDROID__)
@@ -2198,7 +2199,7 @@ drop_locations inventory_drop_selector::execute()
     drop_locations dropped_pos_and_qty;
 
     for( const std::pair<const item *const, int> &drop_pair : dropping ) {
-        item_location loc( u, const_cast<item *>( drop_pair.first ) );
+        item_location loc( guy, const_cast<item *>( drop_pair.first ) );
         dropped_pos_and_qty.push_back( std::make_pair( loc, drop_pair.second ) );
     }
 
@@ -2226,8 +2227,8 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
 inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 {
     return get_weight_and_volume_stats(
-               u.weight_carried_with_tweaks( { dropping } ),
-               u.weight_capacity(),
-               u.volume_carried_with_tweaks( { dropping } ),
-               u.volume_capacity_reduced_by( 0_ml, dropping ) );
+               guy.weight_carried_with_tweaks( { dropping } ),
+               guy.weight_capacity(),
+               guy.volume_carried_with_tweaks( { dropping } ),
+               guy.volume_capacity_reduced_by( 0_ml, dropping ) );
 }

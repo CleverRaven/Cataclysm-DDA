@@ -297,7 +297,7 @@ class inventory_column
         /** Resets width to original (unchanged). */
         void reset_width();
         /** Returns next custom inventory letter. */
-        int reassign_custom_invlets( const player &p, int min_invlet, int max_invlet );
+        int reassign_custom_invlets( const Character &guy, int min_invlet, int max_invlet );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**
@@ -424,7 +424,7 @@ class selection_column : public inventory_column
 class inventory_selector
 {
     public:
-        inventory_selector( player &u, const inventory_selector_preset &preset = default_preset );
+        inventory_selector( Character &guy, const inventory_selector_preset &preset = default_preset );
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
@@ -462,7 +462,7 @@ class inventory_selector
         bool keep_open = false;
 
     protected:
-        player &u;
+        Character &guy;
         const inventory_selector_preset &preset;
 
         /**
@@ -631,9 +631,9 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 class inventory_pick_selector : public inventory_selector
 {
     public:
-        inventory_pick_selector( player &p,
+        inventory_pick_selector( Character &guy,
                                  const inventory_selector_preset &preset = default_preset ) :
-            inventory_selector( p, preset ) {}
+            inventory_selector( guy, preset ) {}
 
         item_location execute();
 };
@@ -641,7 +641,7 @@ class inventory_pick_selector : public inventory_selector
 class inventory_multiselector : public inventory_selector
 {
     public:
-        inventory_multiselector( player &p, const inventory_selector_preset &preset = default_preset,
+        inventory_multiselector( Character &guy, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
     protected:
         void rearrange_columns( size_t client_width ) override;
@@ -654,7 +654,7 @@ class inventory_multiselector : public inventory_selector
 class inventory_compare_selector : public inventory_multiselector
 {
     public:
-        inventory_compare_selector( player &p );
+        inventory_compare_selector( Character &guy );
         std::pair<const item *, const item *> execute();
 
     protected:
@@ -669,7 +669,7 @@ class inventory_iuse_selector : public inventory_multiselector
 {
     public:
         using GetStats = std::function<stats( const std::map<const item *, int> & )>;
-        inventory_iuse_selector( player &p,
+        inventory_iuse_selector( Character &guy,
                                  const std::string &selector_title,
                                  const inventory_selector_preset &preset = default_preset,
                                  const GetStats & = {} );
@@ -688,7 +688,7 @@ class inventory_iuse_selector : public inventory_multiselector
 class inventory_drop_selector : public inventory_multiselector
 {
     public:
-        inventory_drop_selector( player &p,
+        inventory_drop_selector( Character &guy,
                                  const inventory_selector_preset &preset = default_preset );
         drop_locations execute();
 

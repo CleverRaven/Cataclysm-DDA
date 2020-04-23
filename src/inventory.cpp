@@ -26,7 +26,7 @@
 #include "damage.h"
 #include "enums.h"
 #include "optional.h"
-#include "player.h"
+#include "character.h"
 #include "rng.h"
 #include "material.h"
 #include "type_id.h"
@@ -324,7 +324,7 @@ void inventory::push_back( item newit )
 extern void remove_stale_inventory_quick_shortcuts();
 #endif
 
-void inventory::restack( player &p )
+void inventory::restack( Character &guy )
 {
     // tasks that the old restack seemed to do:
     // 1. reassign inventory letters
@@ -338,10 +338,10 @@ void inventory::restack( player &p )
         std::list<item> &stack = *iter;
         item &topmost = stack.front();
 
-        const item *invlet_item = p.invlet_to_item( topmost.invlet );
+        const item *invlet_item = guy.invlet_to_item( topmost.invlet );
         if( !inv_chars.valid( topmost.invlet ) || ( invlet_item != nullptr &&
                 position_by_item( invlet_item ) != idx ) ) {
-            assign_empty_invlet( topmost, p );
+            assign_empty_invlet( topmost, guy );
             for( auto &stack_iter : stack ) {
                 stack_iter.invlet = topmost.invlet;
             }

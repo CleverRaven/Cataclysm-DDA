@@ -1432,14 +1432,14 @@ std::vector<const requirement_data *> deduped_requirement_data::feasible_alterna
 }
 
 const requirement_data *deduped_requirement_data::select_alternative(
-    player &crafter, const std::function<bool( const item & )> &filter, int batch,
+    Character &crafter, const std::function<bool( const item & )> &filter, int batch,
     craft_flags flags ) const
 {
     return select_alternative( crafter, crafter.crafting_inventory(), filter, batch, flags );
 }
 
 const requirement_data *deduped_requirement_data::select_alternative(
-    player &crafter, const inventory &inv, const std::function<bool( const item & )> &filter,
+    Character &crafter, const inventory &inv, const std::function<bool( const item & )> &filter,
     int batch, craft_flags flags ) const
 {
     const std::vector<const requirement_data *> all_reqs =

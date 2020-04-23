@@ -1731,7 +1731,7 @@ void game::autopilot_vehicles()
     }
 }
 
-void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
+void game::catch_a_monster( monster *fish, const tripoint &pos, Character *guy,
                             const time_duration &catch_duration ) // catching function
 {
     //spawn the corpse, rotten by a part of the duration
@@ -1742,7 +1742,7 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
     }
     //quietly kill the caught
     fish->no_corpse_quiet = true;
-    fish->die( p );
+    fish->die( guy );
 }
 
 static bool cancel_auto_move( player &p, const std::string &text )
@@ -11266,10 +11266,10 @@ void game::autosave()
     quicksave();    //Driving checks are handled by quicksave()
 }
 
-void game::process_artifact( item &it, player &p )
+void game::process_artifact( item &it, Character &guy )
 {
-    const bool worn = p.is_worn( it );
-    const bool wielded = ( &it == &p.weapon );
+    const bool worn = guy.is_worn( it );
+    const bool wielded = ( &it == &guy.weapon );
     std::vector<art_effect_passive> effects = it.type->artifact->effects_carried;
     if( worn ) {
         const std::vector<art_effect_passive> &ew = it.type->artifact->effects_worn;
@@ -11297,7 +11297,7 @@ void game::process_artifact( item &it, player &p )
                         break;
                     case ARTC_SOLAR:
                         if( calendar::once_every( 10_minutes ) &&
-                            is_in_sunlight( p.pos() ) ) {
+                            is_in_sunlight( guy.pos() ) ) {
                             it.charges++;
                         }
                         break;
@@ -11307,14 +11307,14 @@ void game::process_artifact( item &it, player &p )
                     case ARTC_PAIN:
                         if( calendar::once_every( 1_minutes ) ) {
                             add_msg( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
-                            p.mod_pain_noresist( 3 * rng( 1, 3 ) );
+                            guy.mod_pain_noresist( 3 * rng( 1, 3 ) );
                             it.charges++;
                         }
                         break;
                     case ARTC_HP:
                         if( calendar::once_every( 1_minutes ) ) {
                             add_msg( m_bad, _( "You feel your body decaying." ) );
-                            p.hurtall( 1, nullptr );
+                            guy.hurtall( 1, nullptr );
                             it.charges++;
                         }
                         break;
@@ -11329,7 +11329,7 @@ void game::process_artifact( item &it, player &p )
                     // Portals are energetic enough to charge the item.
                     // Tears in reality are consumed too, but can't charge it.
                     case ARTC_PORTAL:
-                        for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
+                        for( const tripoint &dest : m.points_in_radius( guy.pos(), 1 ) ) {
                             m.remove_field( dest, fd_fatigue );
                             if( m.tr_at( dest ).loadid == tr_portal ) {
                                 add_msg( m_good, _( "The portal collapses!" ) );
@@ -11347,38 +11347,38 @@ void game::process_artifact( item &it, player &p )
     for( const art_effect_passive &i : effects ) {
         switch( i ) {
             case AEP_STR_UP:
-                p.mod_str_bonus( +4 );
+                guy.mod_str_bonus( +4 );
                 break;
             case AEP_DEX_UP:
-                p.mod_dex_bonus( +4 );
+                guy.mod_dex_bonus( +4 );
                 break;
             case AEP_PER_UP:
-                p.mod_per_bonus( +4 );
+                guy.mod_per_bonus( +4 );
                 break;
             case AEP_INT_UP:
-                p.mod_int_bonus( +4 );
+                guy.mod_int_bonus( +4 );
                 break;
             case AEP_ALL_UP:
-                p.mod_str_bonus( +2 );
-                p.mod_dex_bonus( +2 );
-                p.mod_per_bonus( +2 );
-                p.mod_int_bonus( +2 );
+                guy.mod_str_bonus( +2 );
+                guy.mod_dex_bonus( +2 );
+                guy.mod_per_bonus( +2 );
+                guy.mod_int_bonus( +2 );
                 break;
             case AEP_SPEED_UP:
                 // Handled in player::current_speed()
                 break;
 
             case AEP_PBLUE:
-                if( p.get_rad() > 0 ) {
-                    p.mod_rad( -1 );
+                if( guy.get_rad() > 0 ) {
+                    guy.mod_rad( -1 );
                 }
                 break;
 
             case AEP_SMOKE:
                 if( one_in( 10 ) ) {
-                    tripoint pt( p.posx() + rng( -1, 1 ),
-                                 p.posy() + rng( -1, 1 ),
-                                 p.posz() );
+                    tripoint pt( guy.posx() + rng( -1, 1 ),
+                                 guy.posy() + rng( -1, 1 ),
+                                 guy.posz() );
                     m.add_field( pt, fd_smoke, rng( 1, 3 ) );
                 }
                 break;
@@ -11387,31 +11387,31 @@ void game::process_artifact( item &it, player &p )
                 break; // Handled in player::hit()
 
             case AEP_EXTINGUISH:
-                for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
+                for( const tripoint &dest : m.points_in_radius( guy.pos(), 1 ) ) {
                     m.mod_field_age( dest, fd_fire, -1_turns );
                 }
                 break;
 
             case AEP_FUN:
                 //Bonus fluctuates, wavering between 0 and 30-ish - usually around 12
-                p.add_morale( MORALE_FEELING_GOOD, rng( 1, 2 ) * rng( 2, 3 ), 0, 3_turns, 0_turns, false );
+                guy.add_morale( MORALE_FEELING_GOOD, rng( 1, 2 ) * rng( 2, 3 ), 0, 3_turns, 0_turns, false );
                 break;
 
             case AEP_HUNGER:
                 if( one_in( 100 ) ) {
-                    p.mod_hunger( 1 );
+                    guy.mod_hunger( 1 );
                 }
                 break;
 
             case AEP_THIRST:
                 if( one_in( 120 ) ) {
-                    p.mod_thirst( 1 );
+                    guy.mod_thirst( 1 );
                 }
                 break;
 
             case AEP_EVIL:
                 if( one_in( 150 ) ) { // Once every 15 minutes, on average
-                    p.add_effect( effect_evil, 30_minutes );
+                    guy.add_effect( effect_evil, 30_minutes );
                     if( it.is_armor() ) {
                         if( !worn ) {
                             add_msg( _( "You have an urge to wear the %s." ),
@@ -11429,31 +11429,31 @@ void game::process_artifact( item &it, player &p )
 
             case AEP_RADIOACTIVE:
                 if( one_in( 4 ) ) {
-                    p.irradiate( 1.0f );
+                    guy.irradiate( 1.0f );
                 }
                 break;
 
             case AEP_STR_DOWN:
-                p.mod_str_bonus( -3 );
+                guy.mod_str_bonus( -3 );
                 break;
 
             case AEP_DEX_DOWN:
-                p.mod_dex_bonus( -3 );
+                guy.mod_dex_bonus( -3 );
                 break;
 
             case AEP_PER_DOWN:
-                p.mod_per_bonus( -3 );
+                guy.mod_per_bonus( -3 );
                 break;
 
             case AEP_INT_DOWN:
-                p.mod_int_bonus( -3 );
+                guy.mod_int_bonus( -3 );
                 break;
 
             case AEP_ALL_DOWN:
-                p.mod_str_bonus( -2 );
-                p.mod_dex_bonus( -2 );
-                p.mod_per_bonus( -2 );
-                p.mod_int_bonus( -2 );
+                guy.mod_str_bonus( -2 );
+                guy.mod_dex_bonus( -2 );
+                guy.mod_per_bonus( -2 );
+                guy.mod_int_bonus( -2 );
                 break;
 
             case AEP_SPEED_DOWN:
@@ -11465,10 +11465,10 @@ void game::process_artifact( item &it, player &p )
         }
     }
     // Recalculate, as it might have changed (by mod_*_bonus above)
-    p.str_cur = p.get_str();
-    p.int_cur = p.get_int();
-    p.dex_cur = p.get_dex();
-    p.per_cur = p.get_per();
+    guy.str_cur = guy.get_str();
+    guy.int_cur = guy.get_int();
+    guy.dex_cur = guy.get_dex();
+    guy.per_cur = guy.get_per();
 }
 //Check if an artifact's extra charge requirements are currently met
 bool check_art_charge_req( item &it )

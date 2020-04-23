@@ -504,7 +504,7 @@ class game
         /** process vehicles that are following the player */
         void autopilot_vehicles();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
-        void catch_a_monster( monster *fish, const tripoint &pos, player *p,
+        void catch_a_monster( monster *fish, const tripoint &pos, Character *guy,
                               const time_duration &catch_duration );
         /**
          * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
@@ -540,7 +540,7 @@ class game
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
-        void process_artifact( item &it, player &p );
+        void process_artifact( item &it, Character &guy );
         void add_artifact_messages( const std::vector<art_effect_passive> &effects );
         void add_artifact_dreams( );
 

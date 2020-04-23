@@ -27,7 +27,6 @@ class JsonIn;
 class JsonOut;
 class map;
 class npc;
-class player;
 struct tripoint;
 
 using invstack = std::list<std::list<item> >;
@@ -125,7 +124,7 @@ class inventory : public visitable<inventory>
          * game pointer is not necessary, but if supplied, will ensure no overlap with
          * the player's worn items / weapon
          */
-        void restack( player &p );
+        void restack( Character &guy );
         void form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl = nullptr,
                              bool assign_invlet = true );
         void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,

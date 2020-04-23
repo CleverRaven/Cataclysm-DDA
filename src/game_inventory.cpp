@@ -127,12 +127,12 @@ static item_location_filter convert_filter( const item_filter &filter )
     };
 }
 
-static item_location inv_internal( player &u, const inventory_selector_preset &preset,
+static item_location inv_internal( Character &guy, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message,
                                    const std::string &hint = std::string() )
 {
-    inventory_pick_selector inv_s( u, preset );
+    inventory_pick_selector inv_s( guy, preset );
 
     inv_s.set_title( title );
     inv_s.set_hint( hint );
@@ -149,22 +149,22 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         ACT_CONSUME_DRINK_MENU,
         ACT_CONSUME_MEDS_MENU };
 
-    if( u.has_activity( consuming ) && u.activity.values.size() >= 2 ) {
-        init_pair.first = u.activity.values[0];
-        init_pair.second = u.activity.values[1];
+    if( guy.has_activity( consuming ) && guy.activity.values.size() >= 2 ) {
+        init_pair.first = guy.activity.values[0];
+        init_pair.second = guy.activity.values[1];
         init_selection = true;
     }
-    if( u.has_activity( consuming ) && !u.activity.str_values.empty() ) {
-        init_filter = u.activity.str_values[0];
+    if( guy.has_activity( consuming ) && !guy.activity.str_values.empty() ) {
+        init_filter = guy.activity.str_values[0];
         has_init_filter = true;
     }
 
     bool need_refresh = true;
     do {
-        u.inv.restack( u );
+        guy.inv.restack( guy );
 
         inv_s.clear_items();
-        inv_s.add_character_items( u );
+        inv_s.add_character_items( guy );
         inv_s.add_nearby_items( radius );
 
         if( init_selection || has_init_filter ) {
@@ -196,13 +196,13 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             continue;
         }
 
-        if( u.has_activity( consuming ) ) {
-            u.activity.values.clear();
+        if( guy.has_activity( consuming ) ) {
+            guy.activity.values.clear();
             init_pair = inv_s.get_selection_position();
-            u.activity.values.push_back( init_pair.first );
-            u.activity.values.push_back( init_pair.second );
-            u.activity.str_values.clear();
-            u.activity.str_values.emplace_back( inv_s.get_filter() );
+            guy.activity.values.push_back( init_pair.first );
+            guy.activity.values.push_back( init_pair.second );
+            guy.activity.str_values.clear();
+            guy.activity.str_values.emplace_back( inv_s.get_filter() );
         }
 
         return location;
@@ -404,15 +404,15 @@ item_location game_menus::inv::container_for( avatar &you, const item &liquid, i
 class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
-        pickup_inventory_preset( const player &p ) : p( p ) {}
+        pickup_inventory_preset( const Character &guy ) : guy( guy ) {}
 
         std::string get_denial( const item_location &loc ) const override {
-            if( !p.has_item( *loc ) ) {
+            if( !guy.has_item( *loc ) ) {
                 if( loc->made_of_from_type( LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
-                } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
+                } else if( !guy.can_pickVolume( *loc ) && guy.is_armed() ) {
                     return _( "Too big to pick up" );
-                } else if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+                } else if( !guy.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up" );
                 }
             }
@@ -421,14 +421,14 @@ class pickup_inventory_preset : public inventory_selector_preset
         }
 
     private:
-        const player &p;
+        const Character &guy;
 };
 
 class disassemble_inventory_preset : public pickup_inventory_preset
 {
     public:
-        disassemble_inventory_preset( const player &p, const inventory &inv ) :
-            pickup_inventory_preset( p ), p( p ), inv( inv ) {
+        disassemble_inventory_preset( const Character &guy, const inventory &inv ) :
+            pickup_inventory_preset( guy ), guy( guy ), inv( inv ) {
 
             check_components = true;
 
@@ -455,7 +455,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const auto ret = p.can_disassemble( *loc, inv );
+            const auto ret = guy.can_disassemble( *loc, inv );
             if( !ret.success() ) {
                 return ret.str();
             }
@@ -468,13 +468,13 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
     private:
-        const player &p;
+        const Character &guy;
         const inventory &inv;
 };
 
-item_location game_menus::inv::disassemble( player &p )
+item_location game_menus::inv::disassemble( Character &guy )
 {
-    return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
+    return inv_internal( guy, disassemble_inventory_preset( guy, guy.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
                          _( "You don't have any items you could disassemble." ) );
 }
@@ -875,7 +875,7 @@ item_location game_menus::inv::use( avatar &you )
 class gunmod_inventory_preset : public inventory_selector_preset
 {
     public:
-        gunmod_inventory_preset( const player &p, const item &gunmod ) : p( p ), gunmod( gunmod ) {
+        gunmod_inventory_preset( const Character &guy, const item &gunmod ) : p( p ), gunmod( gunmod ) {
             append_cell( [ this ]( const item_location & loc ) {
                 const auto odds = get_odds( loc );
 
@@ -936,9 +936,9 @@ class gunmod_inventory_preset : public inventory_selector_preset
         const item &gunmod;
 };
 
-item_location game_menus::inv::gun_to_modify( player &p, const item &gunmod )
+item_location game_menus::inv::gun_to_modify( Character &guy, const item &gunmod )
 {
-    return inv_internal( p, gunmod_inventory_preset( p, gunmod ),
+    return inv_internal( guy, gunmod_inventory_preset( guy, gunmod ),
                          _( "Select gun to modify" ), -1,
                          _( "You don't have any guns to modify." ) );
 }
@@ -1143,7 +1143,7 @@ item_location game_menus::inv::steal( avatar &you, player &victim )
 class weapon_inventory_preset: public inventory_selector_preset
 {
     public:
-        weapon_inventory_preset( const player &p ) : p( p ) {
+        weapon_inventory_preset( const Character &guy ) : guy( guy ) {
             append_cell( [ this ]( const item_location & loc ) {
                 if( !loc->is_gun() ) {
                     return std::string();
@@ -1197,14 +1197,14 @@ class weapon_inventory_preset: public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 if( deals_melee_damage( *loc ) ) {
-                    return string_format( "<color_yellow>%d</color>", this->p.attack_speed( *loc ) );
+                    return string_format( "<color_yellow>%d</color>", this->guy.attack_speed( *loc ) );
                 }
                 return std::string();
             }, _( "MOVES" ) );
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const auto ret = p.can_wield( *loc );
+            const auto ret = guy.can_wield( *loc );
 
             if( !ret.success() ) {
                 return trim_punctuation_marks( ret.str() );
@@ -1223,7 +1223,7 @@ class weapon_inventory_preset: public inventory_selector_preset
                    display_zeroes ? string_format( "<color_yellow>%g</color>", damage ) : std::string();
         }
 
-        const player &p;
+        const Character &guy;
 };
 
 item_location game_menus::inv::wield( avatar &you )
@@ -1235,8 +1235,8 @@ item_location game_menus::inv::wield( avatar &you )
 class holster_inventory_preset: public weapon_inventory_preset
 {
     public:
-        holster_inventory_preset( const player &p, const holster_actor &actor ) :
-            weapon_inventory_preset( p ), actor( actor ) {
+        holster_inventory_preset( const Character &guy, const holster_actor &actor ) :
+            weapon_inventory_preset( guy ), actor( actor ) {
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1247,7 +1247,7 @@ class holster_inventory_preset: public weapon_inventory_preset
         const holster_actor &actor;
 };
 
-item_location game_menus::inv::holster( player &p, item &holster )
+item_location game_menus::inv::holster( Character &guy, item &holster )
 {
     const std::string holster_name = holster.tname( 1, false );
     const auto actor = dynamic_cast<const holster_actor *>
@@ -1266,7 +1266,7 @@ item_location game_menus::inv::holster( player &p, item &holster )
     const std::string hint = string_format( _( "Choose an item to put into your %s" ),
                                             holster_name );
 
-    return inv_internal( p, holster_inventory_preset( p, *actor ), title, 1,
+    return inv_internal( guy, holster_inventory_preset( guy, *actor ), title, 1,
                          string_format( _( "You have no items you could put into your %s." ),
                                         holster_name ),
                          hint );
@@ -1275,8 +1275,9 @@ item_location game_menus::inv::holster( player &p, item &holster )
 class saw_barrel_inventory_preset: public weapon_inventory_preset
 {
     public:
-        saw_barrel_inventory_preset( const player &p, const item &tool, const saw_barrel_actor &actor ) :
-            weapon_inventory_preset( p ), p( p ), tool( tool ), actor( actor ) {
+        saw_barrel_inventory_preset( const Character &guy, const item &tool,
+                                     const saw_barrel_actor &actor ) :
+            weapon_inventory_preset( guy ), guy( guy ), tool( tool ), actor( actor ) {
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1284,7 +1285,7 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const auto ret = actor.can_use_on( p, tool, *loc );
+            const auto ret = actor.can_use_on( guy, tool, *loc );
 
             if( !ret.success() ) {
                 return trim_punctuation_marks( ret.str() );
@@ -1294,7 +1295,7 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         }
 
     private:
-        const player &p;
+        const Character &guy;
         const item &tool;
         const saw_barrel_actor &actor;
 };
@@ -1319,9 +1320,9 @@ class salvage_inventory_preset: public inventory_selector_preset
         const salvage_actor *actor;
 };
 
-item_location game_menus::inv::salvage( player &p, const salvage_actor *actor )
+item_location game_menus::inv::salvage( Character &guy, const salvage_actor *actor )
 {
-    return inv_internal( p, salvage_inventory_preset( actor ),
+    return inv_internal( guy, salvage_inventory_preset( actor ),
                          _( "Cut up what?" ), 1,
                          _( "You have nothing to cut up." ) );
 }
@@ -1352,7 +1353,7 @@ item_location game_menus::inv::repair( player &p, const repair_item_actor *actor
                                         main_tool->type_name( 1 ) ) );
 }
 
-item_location game_menus::inv::saw_barrel( player &p, item &tool )
+item_location game_menus::inv::saw_barrel( Character &guy, item &tool )
 {
     const auto actor = dynamic_cast<const saw_barrel_actor *>
                        ( tool.type->get_use( "saw_barrel" )->get_actor_ptr() );
@@ -1362,7 +1363,7 @@ item_location game_menus::inv::saw_barrel( player &p, item &tool )
         return item_location();
     }
 
-    return inv_internal( p, saw_barrel_inventory_preset( p, tool, *actor ),
+    return inv_internal( guy, saw_barrel_inventory_preset( guy, tool, *actor ),
                          _( "Saw barrel" ), 1,
                          _( "You don't have any guns." ),
                          string_format( _( "Choose a weapon to use your %s on" ),
@@ -1920,8 +1921,8 @@ item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
 class bionic_sterilize_preset : public inventory_selector_preset
 {
     public:
-        bionic_sterilize_preset( player &pl ) :
-            p( pl ) {
+        bionic_sterilize_preset( Character &guy ) :
+            guy( guy ) {
 
             append_cell( []( const item_location & ) {
                 return to_string( 90_minutes );
@@ -1944,7 +1945,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
             if( loc.get_item()->has_flag( flag_NO_PACKED ) ) {
                 return  _( "You should put this CBM in an autoclave pouch to keep it sterile." );
             }
-            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
+            if( !reqs.can_make_with_inventory( guy.crafting_inventory(), is_crafting_component ) ) {
                 return _( "You need at least 2L of water." );
             }
 
@@ -1952,14 +1953,14 @@ class bionic_sterilize_preset : public inventory_selector_preset
         }
 
     protected:
-        player &p;
+        Character &guy;
 };
 
-static item_location autoclave_internal( player &u,
+static item_location autoclave_internal( Character &guy,
         const inventory_selector_preset &preset,
         int radius )
 {
-    inventory_pick_selector inv_s( u, preset );
+    inventory_pick_selector inv_s( guy, preset );
     inv_s.set_title( _( "Sterilization" ) );
     inv_s.set_hint( _( "<color_yellow>Select one CBM to sterilize</color>" ) );
     inv_s.set_display_stats( false );
@@ -1968,10 +1969,10 @@ static item_location autoclave_internal( player &u,
     bool init_selection = false;
     bool need_refresh = true;
     do {
-        u.inv.restack( u );
+        guy.inv.restack( guy );
 
         inv_s.clear_items();
-        inv_s.add_character_items( u );
+        inv_s.add_character_items( guy );
         inv_s.add_nearby_items( radius );
 
         if( init_selection ) {
@@ -1997,7 +1998,7 @@ static item_location autoclave_internal( player &u,
     } while( true );
 
 }
-item_location game_menus::inv::sterilize_cbm( player &p )
+item_location game_menus::inv::sterilize_cbm( Character &guy )
 {
-    return autoclave_internal( p, bionic_sterilize_preset( p ), 6 );
+    return autoclave_internal( guy, bionic_sterilize_preset( guy ), 6 );
 }

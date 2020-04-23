@@ -67,7 +67,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "pldata.h"
 #include "point.h"
 #include "projectile.h"
@@ -1133,14 +1132,14 @@ static std::string get_freshness_description( const item &food_item )
     }
 }
 
-item::sizing item::get_sizing( const Character &p, bool wearable ) const
+item::sizing item::get_sizing( const Character &guy, bool wearable ) const
 {
     if( wearable ) {
-        const bool small = p.has_trait( trait_SMALL2 ) ||
-                           p.has_trait( trait_SMALL_OK );
+        const bool small = guy.has_trait( trait_SMALL2 ) ||
+                           guy.has_trait( trait_SMALL_OK );
 
-        const bool big = p.has_trait( trait_HUGE ) ||
-                         p.has_trait( trait_HUGE_OK );
+        const bool big = guy.has_trait( trait_HUGE ) ||
+                         guy.has_trait( trait_HUGE_OK );
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumberance per each. One day we
@@ -1190,7 +1189,7 @@ static int get_base_env_resist( const item &it )
 
 }
 
-bool item::is_owned_by( const Character &c, bool available_to_take ) const
+bool item::is_owned_by( const Character &guy, bool available_to_take ) const
 {
     // owner.is_null() implies faction_id( "no_faction" ) which shouldn't happen, or no owner at all.
     // either way, certain situations this means the thing is available to take.
@@ -1198,23 +1197,23 @@ bool item::is_owned_by( const Character &c, bool available_to_take ) const
     if( get_owner().is_null() ) {
         return available_to_take;
     }
-    if( !c.get_faction() ) {
-        debugmsg( "Character %s has no faction", c.disp_name() );
+    if( !guy.get_faction() ) {
+        debugmsg( "Character %s has no faction", guy.disp_name() );
         return false;
     }
-    return c.get_faction()->id == get_owner();
+    return guy.get_faction()->id == get_owner();
 }
 
-bool item::is_old_owner( const Character &c, bool available_to_take ) const
+bool item::is_old_owner( const Character &guy, bool available_to_take ) const
 {
     if( get_old_owner().is_null() ) {
         return available_to_take;
     }
-    if( !c.get_faction() ) {
-        debugmsg( "Character %s has no faction.", c.disp_name() );
+    if( !guy.get_faction() ) {
+        debugmsg( "Character %s has no faction.", guy.disp_name() );
         return false;
     }
-    return c.get_faction()->id == get_old_owner();
+    return guy.get_faction()->id == get_old_owner();
 }
 
 std::string item::get_owner_name() const
@@ -1226,13 +1225,13 @@ std::string item::get_owner_name() const
     return g->faction_manager_ptr->get( get_owner() )->name;
 }
 
-void item::set_owner( const Character &c )
+void item::set_owner( const Character &guy )
 {
-    if( !c.get_faction() ) {
-        debugmsg( "item::set_owner() Character %s has no valid faction", c.disp_name() );
+    if( !guy.get_faction() ) {
+        debugmsg( "item::set_owner() Character %s has no valid faction", guy.disp_name() );
         return;
     }
-    owner = c.get_faction()->id;
+    owner = guy.get_faction()->id;
 }
 
 faction_id item::get_owner() const
@@ -1281,7 +1280,7 @@ static const double hits_by_accuracy[41] = {
     9993, 9997, 9998, 9999, 10000 // 16 to 20
 };
 
-double item::effective_dps( const player &guy, monster &mon ) const
+double item::effective_dps( const Character &guy, monster &mon ) const
 {
     const float mon_dodge = mon.get_dodge();
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
@@ -1316,7 +1315,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
     // sum average damage past armor and return the number of moves required to achieve
     // that damage
     const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
-    const bool crit, const player & guy, monster & mon ) {
+    const bool crit, const Character & guy, monster & mon ) {
         monster temp_mon = mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
@@ -1385,7 +1384,7 @@ static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monster
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
-        const player &guy ) const
+        const Character &guy ) const
 {
     std::map<std::string, double> results;
     for( const std::pair<translation, dps_comp_data> &comp_mon : dps_comp_monsters ) {
@@ -1404,7 +1403,7 @@ std::map<std::string, double> item::dps( const bool for_display, const bool for_
     return dps( for_display, for_calc, g->u );
 }
 
-double item::average_dps( const player &guy ) const
+double item::average_dps( const Character &guy ) const
 {
     double dmg_count = 0.0;
     const std::map<std::string, double> &dps_data = dps( false, true, guy );
@@ -3976,15 +3975,15 @@ nc_color item::color_in_inventory() const
     return ret;
 }
 
-void item::on_wear( Character &p )
+void item::on_wear( Character &guy )
 {
     if( is_sided() && get_side() == side::BOTH ) {
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
-            if( ( covers( bp_leg_l ) && p.is_limb_broken( hp_leg_r ) &&
-                  !p.worn_with_flag( flag_SPLINT, bp_leg_r ) ) ||
-                ( covers( bp_arm_l ) && p.is_limb_broken( hp_arm_r ) &&
-                  !p.worn_with_flag( flag_SPLINT, bp_arm_r ) ) ) {
+            if( ( covers( bp_leg_l ) && guy.is_limb_broken( hp_leg_r ) &&
+                  !guy.worn_with_flag( flag_SPLINT, bp_leg_r ) ) ||
+                ( covers( bp_arm_l ) && guy.is_limb_broken( hp_arm_r ) &&
+                  !guy.worn_with_flag( flag_SPLINT, bp_arm_r ) ) ) {
                 set_side( side::RIGHT );
             }
         } else {
@@ -3992,13 +3991,13 @@ void item::on_wear( Character &p )
             int lhs = 0;
             int rhs = 0;
             set_side( side::LEFT );
-            const auto left_enc = p.get_encumbrance( *this );
+            const auto left_enc = guy.get_encumbrance( *this );
             for( const body_part bp : all_body_parts ) {
                 lhs += left_enc[bp].encumbrance;
             }
 
             set_side( side::RIGHT );
-            const auto right_enc = p.get_encumbrance( *this );
+            const auto right_enc = guy.get_encumbrance( *this );
             for( const body_part bp : all_body_parts ) {
                 rhs += right_enc[bp].encumbrance;
             }
@@ -4008,29 +4007,29 @@ void item::on_wear( Character &p )
     }
 
     // TODO: artifacts currently only work with the player character
-    if( &p == &g->u && type->artifact ) {
+    if( &guy == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
     // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
-        handle_pickup_ownership( p );
+        handle_pickup_ownership( guy );
     }
-    p.on_item_wear( *this );
+    guy.on_item_wear( *this );
 }
 
-void item::on_takeoff( Character &p )
+void item::on_takeoff( Character &guy )
 {
-    p.on_item_takeoff( *this );
+    guy.on_item_takeoff( *this );
 
     if( is_sided() ) {
         set_side( side::BOTH );
     }
 }
 
-void item::on_wield( player &p, int mv )
+void item::on_wield( Character &guy, int mv )
 {
     // TODO: artifacts currently only work with the player character
-    if( &p == &g->u && type->artifact ) {
+    if( &guy == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_wielded );
     }
 
@@ -4038,13 +4037,13 @@ void item::on_wield( player &p, int mv )
     if( has_flag( flag_SLOW_WIELD ) && !is_gunmod() ) {
         float d = 32.0; // arbitrary linear scaling factor
         if( is_gun() ) {
-            d /= std::max( p.get_skill_level( gun_skill() ), 1 );
+            d /= std::max( guy.get_skill_level( gun_skill() ), 1 );
         } else if( is_melee() ) {
-            d /= std::max( p.get_skill_level( melee_skill() ), 1 );
+            d /= std::max( guy.get_skill_level( melee_skill() ), 1 );
         }
 
         int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
-        p.moves -= penalty;
+        guy.moves -= penalty;
         mv += penalty;
     }
 
@@ -4052,12 +4051,12 @@ void item::on_wield( player &p, int mv )
     if( has_flag( flag_NEEDS_UNFOLD ) && !is_gunmod() ) {
         int penalty = 50; // 200-300 for guns, 50-150 for melee, 50 as fallback
         if( is_gun() ) {
-            penalty = std::max( 0, 300 - p.get_skill_level( gun_skill() ) * 10 );
+            penalty = std::max( 0, 300 - guy.get_skill_level( gun_skill() ) * 10 );
         } else if( is_melee() ) {
-            penalty = std::max( 0, 150 - p.get_skill_level( melee_skill() ) * 10 );
+            penalty = std::max( 0, 150 - guy.get_skill_level( melee_skill() ) * 10 );
         }
 
-        p.moves -= penalty;
+        guy.moves -= penalty;
         mv += penalty;
     }
 
@@ -4076,28 +4075,28 @@ void item::on_wield( player &p, int mv )
     }
     // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
-        handle_pickup_ownership( p );
+        handle_pickup_ownership( guy );
     }
-    p.add_msg_if_player( m_neutral, msg, tname() );
+    guy.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( !p.martial_arts_data.selected_is_none() ) {
-        p.martial_arts_data.martialart_use_message( p );
+    if( !guy.martial_arts_data.selected_is_none() ) {
+        guy.martial_arts_data.martialart_use_message( guy );
     }
 
     // Update encumbrance in case we were wearing it
-    p.flag_encumbrance();
+    guy.flag_encumbrance();
 }
 
-void item::handle_pickup_ownership( Character &c )
+void item::handle_pickup_ownership( Character &guy )
 {
-    if( is_owned_by( c ) ) {
+    if( is_owned_by( guy ) ) {
         return;
     }
     // Add ownership to item if unowned
     if( owner.is_null() ) {
-        set_owner( c );
+        set_owner( guy );
     } else {
-        if( !is_owned_by( c ) && &c == &g->u ) {
+        if( !is_owned_by( guy ) && &guy == &g->u ) {
             std::vector<npc *> witnesses;
             for( npc &elem : g->all_npcs() ) {
                 if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
@@ -4121,30 +4120,30 @@ void item::handle_pickup_ownership( Character &c )
                     random_entry( witnesses )->witness_thievery( &*this );
                 }
             }
-            set_owner( c );
+            set_owner( guy );
         }
     }
 }
 
-void item::on_pickup( Character &p )
+void item::on_pickup( Character &guy )
 {
     // Fake characters are used to determine pickup weight and volume
-    if( p.is_fake() ) {
+    if( guy.is_fake() ) {
         return;
     }
     // TODO: artifacts currently only work with the player character
-    if( &p == &g->u && type->artifact ) {
+    if( &guy == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
     }
     // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
-        handle_pickup_ownership( p );
+        handle_pickup_ownership( guy );
     }
     if( is_bucket_nonempty() ) {
-        contents.spill_contents( p.pos() );
+        contents.spill_contents( guy.pos() );
     }
 
-    p.flag_encumbrance();
+    guy.flag_encumbrance();
 }
 
 void item::on_contents_changed()
@@ -5365,36 +5364,36 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-int item::get_encumber( const Character &p ) const
+int item::get_encumber( const Character &guy ) const
 {
 
     units::volume contents_volume( 0_ml );
 
     contents_volume += contents.item_size_modifier();
 
-    if( p.is_worn( *this ) ) {
+    if( guy.is_worn( *this ) ) {
         const islot_armor *t = find_armor_data();
 
         if( t != nullptr && t->max_encumber != 0 ) {
             units::volume char_storage( 0_ml );
 
-            for( const item &e : p.worn ) {
+            for( const item &e : guy.worn ) {
                 char_storage += e.get_storage();
             }
 
             if( char_storage != 0_ml ) {
                 // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
                 contents_volume += units::from_milliliter( static_cast<int64_t>( t->storage.value() ) *
-                                   p.inv.volume().value() / char_storage.value() );
+                                   guy.inv.volume().value() / char_storage.value() );
             }
         }
     }
 
-    return get_encumber_when_containing( p, contents_volume );
+    return get_encumber_when_containing( guy, contents_volume );
 }
 
 int item::get_encumber_when_containing(
-    const Character &p, const units::volume &contents_volume ) const
+    const Character &guy, const units::volume &contents_volume ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
@@ -5427,7 +5426,7 @@ int item::get_encumber_when_containing(
     }
 
     // TODO: Should probably have sizing affect coverage
-    const sizing sizing_level = get_sizing( p, encumber != 0 );
+    const sizing sizing_level = get_sizing( guy, encumber != 0 );
     switch( sizing_level ) {
         case sizing::small_sized_human_char:
         case sizing::small_sized_big_char:
@@ -6648,38 +6647,39 @@ int item::get_chapters() const
     return type->book->chapters;
 }
 
-int item::get_remaining_chapters( const player &u ) const
+int item::get_remaining_chapters( const Character &guy ) const
 {
-    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
+    const std::string var = string_format( "remaining-chapters-%d", guy.getID().get_value() );
     return get_var( var, get_chapters() );
 }
 
-void item::mark_chapter_as_read( const player &u )
+void item::mark_chapter_as_read( const Character &guy )
 {
-    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
+    const std::string var = string_format( "remaining-chapters-%d", guy.getID().get_value() );
     if( type->book && type->book->chapters == 0 ) {
         // books without chapters will always have remaining chapters == 0, so we don't need to store them
         erase_var( var );
         return;
     }
-    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
+    const int remain = std::max( 0, get_remaining_chapters( guy ) - 1 );
     set_var( var, remain );
 }
 
-std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const player &u ) const
+std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
+            const Character &guy ) const
 {
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
         // NPCs don't need to identify books
         // TODO: remove this cast
-        if( const avatar *a = dynamic_cast<const avatar *>( &u ) ) {
+        if( const avatar *a = dynamic_cast<const avatar *>( &guy ) ) {
             if( !a->has_identified( typeId() ) ) {
                 return recipe_entries;
             }
         }
 
         for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
-            if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+            if( guy.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
                 recipe_entries.push_back( std::make_pair( elem.recipe, elem.skill_level ) );
             }
         }
@@ -6696,7 +6696,7 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const p
             std::string new_recipe = recipes.substr( first_string_index,
                                      next_string_index - first_string_index );
             const recipe *r = &recipe_id( new_recipe ).obj();
-            if( u.get_skill_level( r->skill_used ) >= r->difficulty ) {
+            if( guy.get_skill_level( r->skill_used ) >= r->difficulty ) {
                 recipe_entries.push_back( std::make_pair( r, r->difficulty ) );
             }
             first_string_index = next_string_index + 1;
@@ -6869,7 +6869,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
     return ret;
 }
 
-int item::gun_recoil( const player &p, bool bipod ) const
+int item::gun_recoil( const Character &guy, bool bipod ) const
 {
     if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
         return 0;
@@ -6877,7 +6877,7 @@ int item::gun_recoil( const player &p, bool bipod ) const
 
     ///\EFFECT_STR improves the handling of heavier weapons
     // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.str_cur * 333_gram ) / 333.0_gram;
+    double wt = std::min( type->weight, guy.str_cur * 333_gram ) / 333.0_gram;
 
     double handling = type->gun->handling;
     for( const item *mod : gunmods() ) {
@@ -6920,19 +6920,19 @@ int item::gun_range( bool with_ammo ) const
     return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
 }
 
-int item::gun_range( const player *p ) const
+int item::gun_range( const Character *guy ) const
 {
     int ret = gun_range( true );
-    if( p == nullptr ) {
+    if( guy == nullptr ) {
         return ret;
     }
-    if( !p->meets_requirements( *this ) ) {
+    if( !guy->meets_requirements( *this ) ) {
         return 0;
     }
 
     // Reduce bow range until player has twice minimm required strength
     if( has_flag( flag_STR_DRAW ) ) {
-        ret += std::max( 0.0, ( p->get_str() - get_min_str() ) * 0.5 );
+        ret += std::max( 0.0, ( guy->get_str() - get_min_str() ) * 0.5 );
     }
 
     return std::max( 0, ret );
@@ -7563,7 +7563,7 @@ item::reload_option::reload_option( const reload_option & ) = default;
 
 item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
 
-item::reload_option::reload_option( const player *who, const item *target, const item *parent,
+item::reload_option::reload_option( const Character *who, const item *target, const item *parent,
                                     const item_location &ammo ) :
     who( who ), target( target ), ammo( ammo ), parent( parent )
 {
@@ -7646,7 +7646,7 @@ void item::casings_handle( const std::function<bool( item & )> &func )
     contents.casings_handle( func );
 }
 
-bool item::reload( player &u, item_location loc, int qty )
+bool item::reload( Character &guy, item_location loc, int qty )
 {
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
@@ -7679,15 +7679,15 @@ bool item::reload( player &u, item_location loc, int qty )
 
     qty = std::min( qty, limit );
 
-    casings_handle( [&u]( item & e ) {
-        return u.i_add_or_drop( e );
+    casings_handle( [&guy]( item & e ) {
+        return guy.i_add_or_drop( e );
     } );
 
     if( is_magazine() ) {
         qty = std::min( qty, ammo->charges );
 
         if( is_ammo_belt() && type->magazine->linkage ) {
-            if( !u.use_charges_if_avail( *type->magazine->linkage, qty ) ) {
+            if( !guy.use_charges_if_avail( *type->magazine->linkage, qty ) ) {
                 debugmsg( "insufficient linkages available when reloading ammo belt" );
             }
         }
@@ -7722,9 +7722,9 @@ bool item::reload( player &u, item_location loc, int qty )
                                                 magazine_current()->tname(), tname() );
 
             // eject magazine to player inventory and try to dispose of it from there
-            item &mag = u.i_add( *magazine_current() );
-            if( !u.dispose_item( item_location( u, &mag ), prompt ) ) {
-                u.remove_item( mag ); // user canceled so delete the clone
+            item &mag = guy.i_add( *magazine_current() );
+            if( !guy.dispose_item( item_location( guy, &mag ), prompt ) ) {
+                guy.remove_item( mag ); // user canceled so delete the clone
                 return false;
             }
             remove_item( *magazine_current() );
@@ -7758,7 +7758,7 @@ bool item::reload( player &u, item_location loc, int qty )
     if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
         if( container != nullptr ) {
             remove_item( container->contents.front() );
-            u.inv.restack( u ); // emptied containers do not stack with non-empty ones
+            guy.inv.restack( guy ); // emptied containers do not stack with non-empty ones
         } else {
             loc.remove_item();
         }
@@ -8015,14 +8015,14 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
     return remaining_capacity;
 }
 
-int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &guy,
         std::string *err ) const
 {
-    const bool allow_bucket = this == &p.weapon || !p.has_item( *this );
+    const bool allow_bucket = this == &guy.weapon || !guy.has_item( *this );
     int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
-    if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
-        const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(),
+    if( res > 0 && !type->rigid && guy.inv.has_item( *this ) ) {
+        const units::volume volume_to_expand = std::max( guy.volume_capacity() - guy.volume_carried(),
                                                0_ml );
 
         res = std::min( liquid.charges_per_volume( volume_to_expand ), res );
@@ -8536,7 +8536,7 @@ bool item_compare_by_charges( const item &left, const item &right )
 }
 
 static const std::string USED_BY_IDS( "USED_BY_IDS" );
-bool item::already_used_by_player( const player &p ) const
+bool item::already_used_by_player( const Character &guy ) const
 {
     const auto it = item_vars.find( USED_BY_IDS );
     if( it == item_vars.end() ) {
@@ -8545,11 +8545,11 @@ bool item::already_used_by_player( const player &p ) const
     // USED_BY_IDS always starts *and* ends with a ';', the search string
     // ';<id>;' matches at most one part of USED_BY_IDS, and only when exactly that
     // id has been added.
-    const std::string needle = string_format( ";%d;", p.getID().get_value() );
+    const std::string needle = string_format( ";%d;", guy.getID().get_value() );
     return it->second.find( needle ) != std::string::npos;
 }
 
-void item::mark_as_used_by_player( const player &p )
+void item::mark_as_used_by_player( const Character &guy )
 {
     std::string &used_by_ids = item_vars[ USED_BY_IDS ];
     if( used_by_ids.empty() ) {
@@ -8557,7 +8557,7 @@ void item::mark_as_used_by_player( const player &p )
         used_by_ids = ";";
     }
     // and always end with a ';'
-    used_by_ids += string_format( "%d;", p.getID().get_value() );
+    used_by_ids += string_format( "%d;", guy.getID().get_value() );
 }
 
 bool item::can_holster( const item &obj, bool ignore ) const
@@ -8645,7 +8645,7 @@ void item::apply_freezerburn()
 }
 
 void item::process_temperature_rot( float insulation, const tripoint &pos,
-                                    player *carrier, const temperature_flag flag )
+                                    Character *carrier, const temperature_flag flag )
 {
     const time_point now = calendar::turn;
 
@@ -9017,7 +9017,7 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
+void item::process_artifact( Character *carrier, const tripoint & /*pos*/ )
 {
     if( !is_artifact() ) {
         return;
@@ -9055,7 +9055,7 @@ void item::process_relic( Character *carrier )
     carrier->per_cur = carrier->get_per();
 }
 
-bool item::process_corpse( player *carrier, const tripoint &pos )
+bool item::process_corpse( Character *carrier, const tripoint &pos )
 {
     // some corpses rez over time
     if( corpse == nullptr || damage() >= max_damage() ) {
@@ -9089,7 +9089,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
+bool item::process_fake_mill( Character * /*carrier*/, const tripoint &pos )
 {
     if( g->m.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
         g->m.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
@@ -9104,7 +9104,7 @@ bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
     return false;
 }
 
-bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
+bool item::process_fake_smoke( Character * /*carrier*/, const tripoint &pos )
 {
     if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
         g->m.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
@@ -9120,7 +9120,7 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
     return false;
 }
 
-bool item::process_litcig( player *carrier, const tripoint &pos )
+bool item::process_litcig( Character *carrier, const tripoint &pos )
 {
     if( !one_in( 10 ) ) {
         return false;
@@ -9195,7 +9195,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_extinguish( player *carrier, const tripoint &pos )
+bool item::process_extinguish( Character *carrier, const tripoint &pos )
 {
     // checks for water
     bool extinguish = false;
@@ -9276,7 +9276,7 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     return false;
 }
 
-cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &pos ) const
+cata::optional<tripoint> item::get_cable_target( Character *guy, const tripoint &pos ) const
 {
     const std::string &state = get_var( "state" );
     if( state != "pay_out_cable" && state != "cable_charger_link" ) {
@@ -9285,7 +9285,7 @@ cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &p
     const optional_vpart_position vp_pos = g->m.veh_at( pos );
     if( vp_pos ) {
         const cata::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
-        if( seat && p == seat->vehicle().get_passenger( seat->part_index() ) ) {
+        if( seat && guy == seat->vehicle().get_passenger( seat->part_index() ) ) {
             return pos;
         }
     }
@@ -9298,7 +9298,7 @@ cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &p
     return g->m.getlocal( source );
 }
 
-bool item::process_cable( player *carrier, const tripoint &pos )
+bool item::process_cable( Character *carrier, const tripoint &pos )
 {
     if( carrier == nullptr ) {
         reset_cable( carrier );
@@ -9354,7 +9354,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     return false;
 }
 
-void item::reset_cable( player *p )
+void item::reset_cable( Character *p )
 {
     int max_charges = type->maximum_charges();
 
@@ -9371,7 +9371,7 @@ void item::reset_cable( player *p )
     }
 }
 
-bool item::process_UPS( player *carrier, const tripoint & /*pos*/ )
+bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
 {
     if( carrier == nullptr ) {
         erase_var( "cable" );
@@ -9389,7 +9389,7 @@ bool item::process_UPS( player *carrier, const tripoint & /*pos*/ )
     return false;
 }
 
-bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
+bool item::process_wet( Character * /*carrier*/, const tripoint & /*pos*/ )
 {
     if( item_counter == 0 ) {
         if( is_tool() && type->tool->revert_to ) {
@@ -9402,7 +9402,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
     return true;
 }
 
-bool item::process_tool( player *carrier, const tripoint &pos )
+bool item::process_tool( Character *carrier, const tripoint &pos )
 {
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
@@ -9445,7 +9445,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_blackpowder_fouling( player *carrier )
+bool item::process_blackpowder_fouling( Character *carrier )
 {
     if( damage() < max_damage() && one_in( 2000 ) ) {
         inc_damage( DT_ACID );
@@ -9456,7 +9456,7 @@ bool item::process_blackpowder_fouling( player *carrier )
     return false;
 }
 
-bool item::process( player *carrier, const tripoint &pos, bool activate, float insulation,
+bool item::process( Character *carrier, const tripoint &pos, bool activate, float insulation,
                     temperature_flag flag )
 {
     const bool preserves = type->container && type->container->preserves;
@@ -9478,7 +9478,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
     return !removed_items.empty();
 }
 
-bool item::process_internal( player *carrier, const tripoint &pos, bool activate,
+bool item::process_internal( Character *carrier, const tripoint &pos, bool activate,
                              float insulation, const temperature_flag flag )
 {
     if( has_flag( flag_ETHEREAL_ITEM ) ) {

@@ -24,7 +24,7 @@ class inventory;
 class item;
 class nc_color;
 class player;
-
+class Character;
 // Denotes the id of an item type
 using itype_id = std::string;
 
@@ -438,11 +438,11 @@ class deduped_requirement_data
             int batch = 1, craft_flags = craft_flags::none ) const;
 
         const requirement_data *select_alternative(
-            player &, const std::function<bool( const item & )> &filter, int batch = 1,
+            Character &, const std::function<bool( const item & )> &filter, int batch = 1,
             craft_flags = craft_flags::none ) const;
 
         const requirement_data *select_alternative(
-            player &, const inventory &, const std::function<bool( const item & )> &filter,
+            Character &, const inventory &, const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none ) const;
 
         bool can_make_with_inventory(

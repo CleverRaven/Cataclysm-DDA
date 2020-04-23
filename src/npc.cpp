@@ -1926,12 +1926,12 @@ bool npc::has_faction_relationship( const player &p, const npc_factions::relatio
     return my_fac->has_relationship( p_fac->id, flag );
 }
 
-bool npc::is_ally( const player &p ) const
+bool npc::is_ally( const Character &guy ) const
 {
-    if( p.getID() == getID() ) {
+    if( guy.getID() == getID() ) {
         return true;
     }
-    if( p.is_player() ) {
+    if( guy.is_player() ) {
         if( my_fac && my_fac->id == faction_id( "your_followers" ) ) {
             return true;
         }
@@ -1945,15 +1945,15 @@ bool npc::is_ally( const player &p ) const
             }
         }
     } else {
-        const npc &guy = dynamic_cast<const npc &>( p );
-        if( my_fac && guy.get_faction() && my_fac->id == guy.get_faction()->id ) {
+        const npc &npc_character = dynamic_cast<const npc &>( guy );
+        if( my_fac && npc_character.get_faction() && my_fac->id == npc_character.get_faction()->id ) {
             return true;
         }
         if( faction_api_version < 2 ) {
-            if( is_ally( g->u ) && guy.is_ally( g->u ) ) {
+            if( is_ally( g->u ) && npc_character.is_ally( g->u ) ) {
                 return true;
             } else if( get_attitude_group( get_attitude() ) ==
-                       guy.get_attitude_group( guy.get_attitude() ) ) {
+                       npc_character.get_attitude_group( npc_character.get_attitude() ) ) {
                 return true;
             }
         }
@@ -1986,10 +1986,10 @@ bool npc::is_walking_with() const
     return attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD || attitude == NPCATT_WAIT;
 }
 
-bool npc::is_obeying( const player &p ) const
+bool npc::is_obeying( const Character &guy ) const
 {
-    return ( p.is_player() && is_walking_with() && is_player_ally() ) ||
-           ( is_ally( p ) && is_stationary( true ) );
+    return ( guy.is_player() && is_walking_with() && is_player_ally() ) ||
+           ( is_ally( guy ) && is_stationary( true ) );
 }
 
 bool npc::is_following() const

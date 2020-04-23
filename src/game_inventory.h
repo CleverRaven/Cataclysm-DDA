@@ -20,6 +20,7 @@ class optional;
 class avatar;
 class item;
 class player;
+class Character;
 class repair_item_actor;
 class salvage_actor;
 
@@ -83,9 +84,9 @@ item_location consume_meds( player &p );
 /** Choosing a container for liquid. */
 item_location container_for( avatar &you, const item &liquid, int radius = 0 );
 /** Item disassembling menu. */
-item_location disassemble( player &p );
+item_location disassemble( Character &guy );
 /** Gunmod installation menu. */
-item_location gun_to_modify( player &p, const item &gunmod );
+item_location gun_to_modify( Character &guy, const item &gunmod );
 /** Book reading menu. */
 item_location read( player &pl );
 /** Menu for stealing stuff. */
@@ -95,15 +96,15 @@ item_location use( avatar &you );
 /** Item wielding/unwielding menu. */
 item_location wield( avatar &you );
 /** Item wielding/unwielding menu. */
-item_location holster( player &p, item &holster );
+item_location holster( Character &guy, item &holster );
 /** Choosing a gun to saw down it's barrel. */
-item_location saw_barrel( player &p, item &tool );
+item_location saw_barrel( Character &guy, item &tool );
 /** Choose item to wear. */
 item_location wear( player &p );
 /** Choose item to take off. */
 item_location take_off( avatar &you );
 /** Item cut up menu. */
-item_location salvage( player &p, const salvage_actor *actor );
+item_location salvage( Character &guy, const salvage_actor *actor );
 /** Repair menu. */
 item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
@@ -111,7 +112,7 @@ item_location install_bionic( player &p, player &patient, bool surgeon = false )
 /** Bionic uninstall menu. */
 item_location uninstall_bionic( player &p, player &patient );
 /**Autoclave sterilize menu*/
-item_location sterilize_cbm( player &p );
+item_location sterilize_cbm( Character &guy );
 /*@}*/
 
 } // namespace inv

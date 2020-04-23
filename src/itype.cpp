@@ -5,7 +5,7 @@
 
 #include "debug.h"
 #include "item.h"
-#include "player.h"
+#include "character.h"
 #include "ret_val.h"
 #include "translations.h"
 
@@ -71,13 +71,13 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
-int itype::tick( player &p, item &it, const tripoint &pos ) const
+int itype::tick( Character &guy, item &it, const tripoint &pos ) const
 {
     // Note: can go higher than current charge count
     // Maybe should move charge decrementing here?
     int charges_to_use = 0;
     for( auto &method : use_methods ) {
-        const int val = method.second.call( p, it, true, pos );
+        const int val = method.second.call( guy, it, true, pos );
         if( charges_to_use < 0 || val < 0 ) {
             charges_to_use = -1;
         } else {
@@ -88,15 +88,16 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos ) const
+int itype::invoke( Character &guy, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
     }
-    return invoke( p, it, pos, use_methods.begin()->first );
+    return invoke( guy, it, pos, use_methods.begin()->first );
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
+int itype::invoke( Character &guy, item &it, const tripoint &pos,
+                   const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
@@ -105,14 +106,14 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
         return 0;
     }
 
-    const auto ret = use->can_call( p, it, false, pos );
+    const auto ret = use->can_call( guy, it, false, pos );
 
     if( !ret.success() ) {
-        p.add_msg_if_player( m_info, ret.str() );
+        guy.add_msg_if_player( m_info, ret.str() );
         return 0;
     }
 
-    return use->call( p, it, false, pos );
+    return use->call( guy, it, false, pos );
 }
 
 std::string gun_type_type::name() const

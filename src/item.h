@@ -44,7 +44,6 @@ class item;
 class iteminfo_query;
 class material_type;
 class nc_color;
-class player;
 class recipe;
 class relic;
 struct islot_comestible;
@@ -451,10 +450,10 @@ class item : public visitable<item>
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const player *who, const item *target, const item *parent,
+                reload_option( const Character *who, const item *target, const item *parent,
                                const item_location &ammo );
 
-                const player *who = nullptr;
+                const Character *who = nullptr;
                 const item *target = nullptr;
                 item_location ammo;
 
@@ -481,7 +480,7 @@ class item : public visitable<item>
          * @param loc Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
-        bool reload( player &u, item_location loc, int qty );
+        bool reload( Character &guy, item_location loc, int qty );
 
         template<typename Archive>
         void io( Archive & );
@@ -564,7 +563,7 @@ class item : public visitable<item>
         * Calculate the item's effective damage per second past armor when wielded by a
          * character against a monster.
          */
-        double effective_dps( const player &guy, monster &mon ) const;
+        double effective_dps( const Character &guy, monster &mon ) const;
         /**
          * calculate effective dps against a stock set of monsters.  by default, assume g->u
          * is wielding
@@ -572,10 +571,10 @@ class item : public visitable<item>
          * for_calc - include monsters intended for evaluation purposes
          * for_display and for_calc are inclusive
                */
-        std::map<std::string, double> dps( bool for_display, bool for_calc, const player &guy ) const;
+        std::map<std::string, double> dps( bool for_display, bool for_calc, const Character &guy ) const;
         std::map<std::string, double> dps( bool for_display, bool for_calc ) const;
         /** return the average dps of the weapon against evaluation monsters */
-        double average_dps( const player &guy ) const;
+        double average_dps( const Character &guy ) const;
 
         /**
          * Whether the character needs both hands to wield this item.
@@ -691,7 +690,7 @@ class item : public visitable<item>
          */
         int get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
                                                std::string *err = nullptr ) const;
-        int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+        int get_remaining_capacity_for_liquid( const item &liquid, const Character &guy,
                                                std::string *err = nullptr ) const;
         /**
          * It returns the total capacity (volume) of the container for liquids.
@@ -774,7 +773,7 @@ class item : public visitable<item>
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
          */
-        void process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
+        void process_temperature_rot( float insulation, const tripoint &pos, Character *carrier,
                                       temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
@@ -1061,12 +1060,12 @@ class item : public visitable<item>
          * Check whether the item has been marked (by calling mark_as_used_by_player)
          * as used by this specific player.
          */
-        bool already_used_by_player( const player &p ) const;
+        bool already_used_by_player( const Character &guy ) const;
         /**
          * Marks the item as being used by this specific player, it remains unmarked
          * for other players. The player is identified by its id.
          */
-        void mark_as_used_by_player( const player &p );
+        void mark_as_used_by_player( const Character &guy );
         /** Marks the item as filthy, so characters with squeamish trait can't wear it.
         */
         bool is_filthy() const;
@@ -1085,18 +1084,18 @@ class item : public visitable<item>
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        bool process( Character *carrier, const tripoint &pos, bool activate, float insulation = 1,
                       temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
          */
-        cata::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
+        cata::optional<tripoint> get_cable_target( Character *guy, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
-        void reset_cable( player *p );
+        void reset_cable( Character *guy );
 
         /**
          * Whether the item should be processed (by calling @ref process).
@@ -1112,7 +1111,7 @@ class item : public visitable<item>
          * @param carrier The character carrying the artifact, can be null.
          * @param pos The location of the artifact (should be the player location if carried).
          */
-        void process_artifact( player *carrier, const tripoint &pos );
+        void process_artifact( Character *carrier, const tripoint &pos );
         void process_relic( Character *carrier );
 
         bool destroyed_at_zero_charges() const;
@@ -1278,25 +1277,25 @@ class item : public visitable<item>
          * Callback when a character starts wearing the item. The item is already in the worn
          * items vector and is called from there.
          */
-        void on_wear( Character &p );
+        void on_wear( Character &guy );
         /**
          * Callback when a character takes off an item. The item is still in the worn items
          * vector but will be removed immediately after the function returns
          */
-        void on_takeoff( Character &p );
+        void on_takeoff( Character &guy );
         /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
          * @param p player that has started wielding item
          * @param mv number of moves *already* spent wielding the weapon
          */
-        void on_wield( player &p, int mv = 0 );
+        void on_wield( Character &guy, int mv = 0 );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory
          * from worn vector or weapon slot. The item is considered already carried.
          */
-        void on_pickup( Character &p );
+        void on_pickup( Character &guy );
         /**
          * Callback when contents of the item are affected in any way other than just processing.
          */
@@ -1629,16 +1628,16 @@ class item : public visitable<item>
          * This is a per-character setting, different characters may have different number of
          * unread chapters.
          */
-        int get_remaining_chapters( const player &u ) const;
+        int get_remaining_chapters( const Character &guy ) const;
         /**
          * Mark one chapter of the book as read by the given player. May do nothing if the book has
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
-        void mark_chapter_as_read( const player &u );
+        void mark_chapter_as_read( const Character &guy );
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
-        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &guy ) const;
         /*@}*/
 
         /**
@@ -1832,7 +1831,7 @@ class item : public visitable<item>
          * @param p The player that uses the weapon, their strength might affect this.
          * It's optional and can be null.
          */
-        int gun_range( const player *p ) const;
+        int gun_range( const Character *guy ) const;
         /**
          * Summed range value of a gun, including values from mods. Returns 0 on non-gun items.
          */
@@ -1844,7 +1843,7 @@ class item : public visitable<item>
          *  @param bipod whether any bipods should be considered
          *  @return effective recoil (per shot) or zero if gun uses ammo and none is loaded
          */
-        int gun_recoil( const player &p, bool bipod = false ) const;
+        int gun_recoil( const Character &guy, bool bipod = false ) const;
 
         /**
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
@@ -1986,7 +1985,7 @@ class item : public visitable<item>
         void legacy_fast_forward_time();
         time_point birthday() const;
         void set_birthday( const time_point &bday );
-        void handle_pickup_ownership( Character &c );
+        void handle_pickup_ownership( Character &guy );
         int get_gun_ups_drain() const;
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
@@ -1998,14 +1997,14 @@ class item : public visitable<item>
         inline void set_owner( const faction_id &new_owner ) {
             owner = new_owner;
         }
-        void set_owner( const Character &c );
+        void set_owner( const Character &guy );
         inline void remove_owner() const {
             owner = faction_id::NULL_ID();
         }
         faction_id get_owner() const;
         faction_id get_old_owner() const;
-        bool is_owned_by( const Character &c, bool available_to_take = false ) const;
-        bool is_old_owner( const Character &c, bool available_to_take = false ) const;
+        bool is_owned_by( const Character &guy, bool available_to_take = false ) const;
+        bool is_old_owner( const Character &guy, bool available_to_take = false ) const;
         std::string get_owner_name() const;
         int get_min_str() const;
 
@@ -2032,7 +2031,7 @@ class item : public visitable<item>
          * Causes a debugmsg if called on non-craft.
          * @param crafter the crafting player
          */
-        void set_next_failure_point( const player &crafter );
+        void set_next_failure_point( const Character &crafter );
 
         /**
          * Handle failure during crafting.
@@ -2040,7 +2039,7 @@ class item : public visitable<item>
          * @param crafter the crafting player.
          * @return whether the craft being worked on should be entirely destroyed
          */
-        bool handle_craft_failure( player &crafter );
+        bool handle_craft_failure( Character &crafter );
 
         /**
          * Returns requirement data representing what is needed to resume work on an in progress craft.
@@ -2079,7 +2078,7 @@ class item : public visitable<item>
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
-        bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        bool process_internal( Character *carrier, const tripoint &pos, bool activate, float insulation = 1,
                                temperature_flag flag = temperature_flag::TEMP_NORMAL );
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -2120,17 +2119,17 @@ class item : public visitable<item>
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_corpse( player *carrier, const tripoint &pos );
-        bool process_wet( player *carrier, const tripoint &pos );
-        bool process_litcig( player *carrier, const tripoint &pos );
-        bool process_extinguish( player *carrier, const tripoint &pos );
+        bool process_corpse( Character *carrier, const tripoint &pos );
+        bool process_wet( Character *carrier, const tripoint &pos );
+        bool process_litcig( Character *carrier, const tripoint &pos );
+        bool process_extinguish( Character *carrier, const tripoint &pos );
         // Place conditions that should remove fake smoke item in this sub-function
-        bool process_fake_smoke( player *carrier, const tripoint &pos );
-        bool process_fake_mill( player *carrier, const tripoint &pos );
-        bool process_cable( player *carrier, const tripoint &pos );
-        bool process_UPS( player *carrier, const tripoint &pos );
-        bool process_blackpowder_fouling( player *carrier );
-        bool process_tool( player *carrier, const tripoint &pos );
+        bool process_fake_smoke( Character *carrier, const tripoint &pos );
+        bool process_fake_mill( Character *carrier, const tripoint &pos );
+        bool process_cable( Character *carrier, const tripoint &pos );
+        bool process_UPS( Character *carrier, const tripoint &pos );
+        bool process_blackpowder_fouling( Character *carrier );
+        bool process_tool( Character *carrier, const tripoint &pos );
 
     public:
         static const int INFINITE_CHARGES;

@@ -52,6 +52,7 @@
 #include "vitamin.h"
 
 class player;
+class Character;
 struct tripoint;
 
 using t_string_set = std::set<std::string>;
@@ -672,9 +673,9 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        int use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        int use( Character &guy, item &it, bool a, const tripoint &pos ) const override {
             iuse tmp;
-            return ( tmp.*cpp_function )( &p, &it, a, pos );
+            return ( tmp.*cpp_function )( &guy, &it, a, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
             return std::make_unique<iuse_function_wrapper>( *this );
