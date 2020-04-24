@@ -1022,7 +1022,7 @@
     "volume": "1500 ml",
     "price": 10000,
     "price_postapoc": 250,
-    "material": [ "cotton", "leather" ],
+    "material": [ "cotton", "rubber" ],
     "symbol": "[",
     "looks_like": "shoes_bowling",
     "color": "light_blue",
