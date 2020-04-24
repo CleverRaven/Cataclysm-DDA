@@ -1967,7 +1967,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
-    "time": "30 sec",
+    "time": "30 s",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "components": [ [ [ "toothbrush_plain", 1 ], [ "hairbrush", 1 ], [ "comb_pocket", 1 ], [ "plastic_chunk", 1 ] ] ]
