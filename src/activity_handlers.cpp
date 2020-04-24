@@ -244,8 +244,6 @@ static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const bionic_id bio_ears( "bio_ears" );
-static const bionic_id bio_fingerhack( "bio_fingerhack" );
-static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -2543,6 +2541,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
     item *it = loc.get_item();
     if( it == nullptr ) {
         debugmsg( "lockpick item location lost" );
+        p->cancel_activity();
         return;
     }
 
@@ -2614,7 +2613,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
                                  p->global_sm_location() );
         }
     }
-    if( destroy ) {
+    if( destroy || it->has_flag( "PSEUDO" ) ) {
         p->i_rem( it );
     }
 
