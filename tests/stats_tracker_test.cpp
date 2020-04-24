@@ -465,6 +465,27 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     } );
     b.subscribe( &a );
 
+    SECTION( "time" ) {
+        calendar::turn = calendar::start_of_game;
+        const character_id u_id = g->u.getID();
+
+        const cata::event avatar_wakes_up =
+            cata::event::make<event_type::character_wakes_up>( u_id );
+
+        string_id<achievement> a_survive_one_day( "achievement_survive_one_day" );
+
+        b.send<event_type::game_start>( u_id );
+
+        // Waking up before the time in question should do nothing
+        b.send( avatar_wakes_up );
+        CHECK( !achievements_completed.count( a_survive_one_day ) );
+
+        // Waking up after a day has passed should get the achievement
+        calendar::turn += 2_days;
+        b.send( avatar_wakes_up );
+        CHECK( achievements_completed.count( a_survive_one_day ) );
+    }
+
     SECTION( "kills" ) {
         time_duration time_since_game_start = GENERATE( 30_seconds, 10_minutes );
         CAPTURE( time_since_game_start );
