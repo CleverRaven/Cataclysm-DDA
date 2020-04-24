@@ -2584,7 +2584,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
                       it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
                     p->dex_cur / 4.0;
     int lock_roll = rng( 1, 120 );
-    if( pick_roll >= lock_roll ) {
+    if( ( pick_roll >= lock_roll ) || it->has_flag( "PSEUDO" ) ) {
         p->practice( skill_lockpick, lock_roll );
         g->m.has_furn( act->placement ) ?
         g->m.furn_set( act->placement, new_furn_type ) :
