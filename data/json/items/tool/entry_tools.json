@@ -103,6 +103,7 @@
     "max_charges": 1,
     "charges_per_use": 1,
     "qualities": [ [ "LOCKPICK", 40 ] ],
+    "flags": [ "PSEUDO" ],
     "use_action": { "type": "picklock", "pick_quality": 40 }
   }
 ]
