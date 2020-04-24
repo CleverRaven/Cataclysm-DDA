@@ -857,7 +857,7 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": "1400 g",
     "volume": "3 L",
-    "bashing": 19,
+    "bashing": 26,
     "category": "weapons",
     "to_hit": 3,
     "price_postapoc": 1000
@@ -959,7 +959,7 @@
     "price": 8000,
     "to_hit": 3,
     "price_postapoc": 4500,
-    "bashing": 25,
+    "bashing": 29,
     "material": [ "wood", "iron" ],
     "symbol": "/",
     "color": "brown",
