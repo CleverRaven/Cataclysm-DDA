@@ -116,7 +116,7 @@
   {
     "id": "candle_lit",
     "type": "TOOL",
-    "name": { "str": "candle", "str_pl": "candles" },
+    "name": { "str": "candle" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
     "weight": "225 g",
     "volume": "250 ml",
@@ -378,7 +378,6 @@
     "price": 950,
     "price_postapoc": 200,
     "bashing": 8,
-    "to_hit": 2,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",
@@ -557,7 +556,7 @@
   {
     "id": "reading_light",
     "type": "TOOL",
-    "name": { "str": "reading light", "str_pl": "reading lights" },
+    "name": { "str": "reading light" },
     "description": "A little clip-on LED light, meant for reading books in the dark.",
     "weight": "90 g",
     "volume": "100 ml",

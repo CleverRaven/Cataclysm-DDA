@@ -41,6 +41,13 @@ static int max_healthy_at_bmi( player &dummy, float bmi )
     return dummy.get_max_healthy();
 }
 
+// Return the player's `kcal_speed_penalty` value at the given body mass index
+static int kcal_speed_penalty_at_bmi( player &dummy, float bmi )
+{
+    set_player_bmi( dummy, bmi );
+    return dummy.kcal_speed_penalty();
+}
+
 // Return the player's `get_weight_string` at the given body mass index
 static std::string weight_string_at_bmi( player &dummy, float bmi )
 {
@@ -586,5 +593,62 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
         CHECK( 3955 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
         CHECK( 4848 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
     }
+}
+
+TEST_CASE( "body mass effect on speed", "[bmi][speed]" )
+{
+    avatar dummy;
+
+    // Practically dead
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 0.1f ) == -90 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 1.0f ) == -87 );
+    // Skeletal (<14)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 8.0f ) == -67 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 9.0f ) == -64 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 10.0f ) == -61 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 11.0f ) == -59 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 12.0f ) == -56 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 13.0f ) == -53 );
+    // Emaciated (14)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 14.0f ) == -50 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 14.5f ) == -44 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 15.0f ) == -38 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 15.5f ) == -31 );
+    // Underweight (16)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 16.0f ) == -25 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 16.5f ) == -20 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 17.0f ) == -15 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 17.5f ) == -10 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 18.0f ) == -5 );
+    // Normal (18.5)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 18.5f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 19.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 20.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 21.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 22.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 23.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 24.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 25.0f ) == 0 );
+    // Overweight (25)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 26.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 27.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 28.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 29.0f ) == 0 );
+    // Obese (30)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 30.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 31.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 32.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 33.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 34.0f ) == 0 );
+    // Very obese (35)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 35.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 36.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 37.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 38.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 39.0f ) == 0 );
+    // Morbidly obese (40)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 40.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 41.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 42.0f ) == 0 );
 }
 

@@ -46,7 +46,7 @@
   {
     "id": "armor_lorica",
     "type": "ARMOR",
-    "name": { "str": "lorica segmentata", "str_pl": "lorica segmentata" },
+    "name": { "str_sp": "lorica segmentata" },
     "description": "An ancient Roman laminar armor, made of overlapping metal strips connected to internal leather straps.",
     "weight": "5286 g",
     "volume": "6 L",

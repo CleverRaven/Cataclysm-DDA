@@ -1,6 +1,7 @@
 #include "achievement.h"
 
 #include "avatar.h"
+#include "enums.h"
 #include "event_statistics.h"
 #include "generic_factory.h"
 #include "stats_tracker.h"
@@ -42,10 +43,12 @@ generic_factory<achievement> achievement_factory( "achievement" );
 
 } // namespace
 
-enum class achievement_comparison {
-    greater_equal,
-    last,
-};
+/** @relates string_id */
+template<>
+const achievement &string_id<achievement>::obj() const
+{
+    return achievement_factory.obj( *this );
+}
 
 namespace io
 {
@@ -55,7 +58,9 @@ std::string enum_to_string<achievement_comparison>( achievement_comparison data 
 {
     switch( data ) {
         // *INDENT-OFF*
+        case achievement_comparison::less_equal: return "<=";
         case achievement_comparison::greater_equal: return ">=";
+        case achievement_comparison::anything: return "anything";
         // *INDENT-ON*
         case achievement_comparison::last:
             break;
@@ -64,25 +69,71 @@ std::string enum_to_string<achievement_comparison>( achievement_comparison data 
     abort();
 }
 
+template<>
+std::string enum_to_string<achievement::time_bound::epoch>( achievement::time_bound::epoch data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case achievement::time_bound::epoch::cataclysm: return "cataclysm";
+        case achievement::time_bound::epoch::game_start: return "game_start";
+        // *INDENT-ON*
+        case achievement::time_bound::epoch::last:
+            break;
+    }
+    debugmsg( "Invalid epoch" );
+    abort();
+}
+
 } // namespace io
 
-template<>
-struct enum_traits<achievement_comparison> {
-    static constexpr achievement_comparison last = achievement_comparison::last;
-};
+static nc_color color_from_completion( achievement_completion comp )
+{
+    switch( comp ) {
+        case achievement_completion::pending:
+            return c_yellow;
+        case achievement_completion::completed:
+            return c_light_green;
+        case achievement_completion::failed:
+            return c_light_gray;
+        case achievement_completion::last:
+            break;
+    }
+    debugmsg( "Invalid achievement_completion" );
+    abort();
+}
 
 struct achievement_requirement {
     string_id<event_statistic> statistic;
     achievement_comparison comparison;
     int target;
+    bool becomes_false;
 
     void deserialize( JsonIn &jin ) {
         const JsonObject &jo = jin.get_object();
         if( !( jo.read( "event_statistic", statistic ) &&
                jo.read( "is", comparison ) &&
-               jo.read( "target", target ) ) ) {
+               ( comparison == achievement_comparison::anything ||
+                 jo.read( "target", target ) ) ) ) {
             jo.throw_error( "Mandatory field missing for achievement requirement" );
         }
+    }
+
+    void finalize() {
+        switch( comparison ) {
+            case achievement_comparison::less_equal:
+                becomes_false = is_increasing( statistic->monotonicity() );
+                return;
+            case achievement_comparison::greater_equal:
+                becomes_false = is_decreasing( statistic->monotonicity() );
+                return;
+            case achievement_comparison::anything:
+                becomes_false = true;
+                return;
+            case achievement_comparison::last:
+                break;
+        }
+        debugmsg( "Invalid achievement_comparison" );
+        abort();
     }
 
     void check( const string_id<achievement> &id ) const {
@@ -94,8 +145,12 @@ struct achievement_requirement {
     bool satisifed_by( const cata_variant &v ) const {
         int value = v.get<int>();
         switch( comparison ) {
+            case achievement_comparison::less_equal:
+                return value <= target;
             case achievement_comparison::greater_equal:
                 return value >= target;
+            case achievement_comparison::anything:
+                return true;
             case achievement_comparison::last:
                 break;
         }
@@ -104,10 +159,136 @@ struct achievement_requirement {
     }
 };
 
+static time_point epoch_to_time_point( achievement::time_bound::epoch e )
+{
+    switch( e ) {
+        case achievement::time_bound::epoch::cataclysm:
+            return calendar::start_of_cataclysm;
+        case achievement::time_bound::epoch::game_start:
+            return calendar::start_of_game;
+        case achievement::time_bound::epoch::last:
+            break;
+    }
+    debugmsg( "Invalid epoch" );
+    abort();
+}
+
+void achievement::time_bound::deserialize( JsonIn &jin )
+{
+    const JsonObject &jo = jin.get_object();
+    if( !( jo.read( "since", epoch_ ) &&
+           jo.read( "is", comparison_ ) &&
+           jo.read( "target", period_ ) ) ) {
+        jo.throw_error( "Mandatory field missing for achievement time_constaint" );
+    }
+}
+
+void achievement::time_bound::check( const string_id<achievement> &id ) const
+{
+    if( comparison_ == achievement_comparison::anything ) {
+        debugmsg( "Achievement %s has unconstrained \"anything\" time_constraint.  "
+                  "Please change it to a consequential comparison.", id.str() );
+    }
+}
+
+time_point achievement::time_bound::target() const
+{
+    return epoch_to_time_point( epoch_ ) + period_;
+}
+
+achievement_completion achievement::time_bound::completed() const
+{
+    time_point now = calendar::turn;
+    switch( comparison_ ) {
+        case achievement_comparison::less_equal:
+            if( now <= target() ) {
+                return achievement_completion::completed;
+            } else {
+                return achievement_completion::failed;
+            }
+        case achievement_comparison::greater_equal:
+            if( now >= target() ) {
+                return achievement_completion::completed;
+            } else {
+                return achievement_completion::pending;
+            }
+        case achievement_comparison::anything:
+            return achievement_completion::completed;
+        case achievement_comparison::last:
+            break;
+    }
+    debugmsg( "Invalid achievement_comparison" );
+    abort();
+}
+
+std::string achievement::time_bound::ui_text() const
+{
+    time_point now = calendar::turn;
+    achievement_completion comp = completed();
+
+    nc_color c = color_from_completion( comp );
+
+    auto translate_epoch = []( epoch e ) {
+        switch( e ) {
+            case epoch::cataclysm:
+                return _( "time of cataclysm" );
+            case epoch::game_start:
+                return _( "start of game" );
+            case epoch::last:
+                break;
+        }
+        debugmsg( "Invalid epoch" );
+        abort();
+    };
+
+    std::string message = [&]() {
+        switch( comp ) {
+            case achievement_completion::pending:
+                return string_format( _( "At least %s from %s (%s remaining)" ),
+                                      to_string( period_ ), translate_epoch( epoch_ ),
+                                      to_string( target() - now ) );
+            case achievement_completion::completed:
+                switch( comparison_ ) {
+                    case achievement_comparison::less_equal:
+                        return string_format( _( "Within %s of %s (%s remaining)" ),
+                                              to_string( period_ ), translate_epoch( epoch_ ),
+                                              to_string( target() - now ) );
+                    case achievement_comparison::greater_equal:
+                        return string_format( _( "At least %s from %s (passed)" ),
+                                              to_string( period_ ), translate_epoch( epoch_ ) );
+                    case achievement_comparison::anything:
+                        return std::string();
+                    case achievement_comparison::last:
+                        break;
+                }
+                debugmsg( "Invalid achievement_comparison" );
+                abort();
+            case achievement_completion::failed:
+                return string_format( _( "Within %s of %s (passed)" ),
+                                      to_string( period_ ), translate_epoch( epoch_ ) );
+            case achievement_completion::last:
+                break;
+        }
+        debugmsg( "Invalid achievement_completion" );
+        abort();
+    }
+    ();
+
+    return colorize( message, c );
+}
 
 void achievement::load_achievement( const JsonObject &jo, const std::string &src )
 {
     achievement_factory.load( jo, src );
+}
+
+void achievement::finalize()
+{
+    for( achievement &a : const_cast<std::vector<achievement>&>( achievement::get_all() ) ) {
+        for( achievement_requirement &req : a.requirements_ ) {
+            req.finalize();
+        }
+    }
 }
 
 void achievement::check_consistency()
@@ -128,6 +309,7 @@ void achievement::reset()
 void achievement::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "description", description_ );
+    optional( jo, was_loaded, "time_constraint", time_constraint_ );
     mandatory( jo, was_loaded, "requirements", requirements_ );
 }
 
@@ -135,6 +317,9 @@ void achievement::check() const
 {
     for( const achievement_requirement &req : requirements_ ) {
         req.check( id );
+    }
+    if( time_constraint_ ) {
+        time_constraint_->check( id );
     }
 }
 
@@ -149,6 +334,10 @@ class requirement_watcher : stat_watcher
             stats.add_watcher( req.statistic, this );
         }
 
+        const achievement_requirement &requirement() const {
+            return *requirement_;
+        }
+
         void new_value( const cata_variant &new_value, stats_tracker & ) override;
 
         bool is_satisfied( stats_tracker &stats ) {
@@ -159,7 +348,12 @@ class requirement_watcher : stat_watcher
             bool is_satisfied = requirement_->satisifed_by( current_value_ );
             nc_color c = is_satisfied ? c_green : c_yellow;
             int current = current_value_.get<int>();
-            std::string result = string_format( _( "%s/%s " ), current, requirement_->target );
+            std::string result;
+            if( requirement_->comparison == achievement_comparison::anything ) {
+                result = string_format( _( "Triggered by " ) );
+            } else {
+                result = string_format( _( "%s/%s " ), current, requirement_->target );
+            }
             result += requirement_->statistic->description();
             return colorize( result, c );
         }
@@ -184,6 +378,7 @@ std::string enum_to_string<achievement_completion>( achievement_completion data 
         // *INDENT-OFF*
         case achievement_completion::pending: return "pending";
         case achievement_completion::completed: return "completed";
+        case achievement_completion::failed: return "failed";
         // *INDENT-ON*
         case achievement_completion::last:
             break;
@@ -226,41 +421,54 @@ achievement_tracker::achievement_tracker( const achievement &a, achievements_tra
 
 void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is_satisfied )
 {
-    if( !sorted_watchers_[is_satisfied].insert( watcher ).second ) {
-        // No change
-        return;
+    if( sorted_watchers_[is_satisfied].insert( watcher ).second ) {
+        // Remove from other; check for completion.
+        sorted_watchers_[!is_satisfied].erase( watcher );
+        assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
     }
 
-    // Remove from other; check for completion.
-    sorted_watchers_[!is_satisfied].erase( watcher );
-    assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
+    achievement_completion time_comp = achievement_->time_constraint() ?
+                                       achievement_->time_constraint()->completed() : achievement_completion::completed;
 
-    if( sorted_watchers_[false].empty() ) {
+    if( sorted_watchers_[false].empty() && time_comp == achievement_completion::completed ) {
         tracker_->report_achievement( achievement_, achievement_completion::completed );
+    }
+
+    if( time_comp == achievement_completion::failed ||
+        ( !is_satisfied && watcher->requirement().becomes_false ) ) {
+        tracker_->report_achievement( achievement_, achievement_completion::failed );
     }
 }
 
 std::string achievement_tracker::ui_text( const achievement_state *state ) const
 {
-    auto color_from_completion = []( achievement_completion comp ) {
-        switch( comp ) {
-            case achievement_completion::pending:
-                return c_yellow;
-            case achievement_completion::completed:
-                return c_light_green;
-            case achievement_completion::last:
-                break;
-        }
-        debugmsg( "Invalid achievement_completion" );
-        abort();
-    };
-
+    // Determine overall achievement status
     achievement_completion comp = state ? state->completion : achievement_completion::pending;
+    if( comp == achievement_completion::pending && achievement_->time_constraint() &&
+        achievement_->time_constraint()->completed() == achievement_completion::failed ) {
+        comp = achievement_completion::failed;
+    }
+
+    // First: the achievement description
     nc_color c = color_from_completion( comp );
     std::string result = colorize( achievement_->description(), c ) + "\n";
+
+    if( comp == achievement_completion::completed ) {
+        std::string message = string_format(
+                                  _( "Completed %s" ), to_string( state->last_state_change ) );
+        result += "  " + colorize( message, c ) + "\n";
+    } else {
+        // Next: the time constraint
+        if( achievement_->time_constraint() ) {
+            result += "  " + achievement_->time_constraint()->ui_text() + "\n";
+        }
+    }
+
+    // Next: the requirements
     for( const std::unique_ptr<requirement_watcher> &watcher : watchers_ ) {
         result += "  " + watcher->ui_text() + "\n";
     }
+
     return result;
 }
 

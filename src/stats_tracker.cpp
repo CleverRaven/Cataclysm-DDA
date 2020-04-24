@@ -66,6 +66,38 @@ int event_multiset::total( const std::string &field, const cata::event::data_typ
     return total;
 }
 
+int event_multiset::minimum( const std::string &field ) const
+{
+    int minimum = 0;
+    for( const auto &pair : counts_ ) {
+        auto it = pair.first.find( field );
+        if( it == pair.first.end() ) {
+            continue;
+        }
+        const int potential = it->second.get<cata_variant_type::int_>();
+        if( potential < minimum ) {
+            minimum = potential;
+        }
+    }
+    return minimum;
+}
+
+int event_multiset::maximum( const std::string &field ) const
+{
+    int maximum = 0;
+    for( const auto &pair : counts_ ) {
+        auto it = pair.first.find( field );
+        if( it == pair.first.end() ) {
+            continue;
+        }
+        const int potential = it->second.get<cata_variant_type::int_>();
+        if( potential > maximum ) {
+            maximum = potential;
+        }
+    }
+    return maximum;
+}
+
 void event_multiset::add( const cata::event &e )
 {
     counts_[e.data()]++;

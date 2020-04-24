@@ -1,0 +1,232 @@
+[
+  {
+    "id": "avatar_id",
+    "type": "event_statistic",
+    "stat_type": "unique_value",
+    "event_type": "game_start",
+    "field": "avatar_id"
+  },
+  {
+    "id": "avatar_wakes_up",
+    "type": "event_transformation",
+    "event_type": "character_wakes_up",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_avatar_wake_ups",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_wakes_up",
+    "description": "times woken up"
+  },
+  {
+    "id": "avatar_kills",
+    "type": "event_transformation",
+    "event_type": "character_kills_monster",
+    "value_constraints": { "killer": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "killer" ]
+  },
+  {
+    "id": "avatar_species_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_kills",
+    "new_fields": { "species": { "species_of_monster": "victim_type" } },
+    "drop_fields": [ "victim_type" ]
+  },
+  {
+    "id": "avatar_zombie_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": "ZOMBIE" } }
+  },
+  {
+    "id": "num_avatar_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_kills",
+    "description": "monsters killed"
+  },
+  {
+    "id": "num_avatar_zombie_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_zombie_kills",
+    "description": "zombies killed"
+  },
+  {
+    "id": "avatar_takes_damage",
+    "type": "event_transformation",
+    "event_type": "character_takes_damage",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
+  },
+  {
+    "id": "avatar_damage_taken",
+    "type": "event_statistic",
+    "stat_type": "total",
+    "field": "damage",
+    "event_transformation": "avatar_takes_damage",
+    "description": "damage taken"
+  },
+  {
+    "id": "avatar_heals_damage",
+    "type": "event_transformation",
+    "event_type": "character_heals_damage",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
+  },
+  {
+    "id": "avatar_damage_healed",
+    "type": "event_statistic",
+    "stat_type": "total",
+    "field": "damage",
+    "event_transformation": "avatar_heals_damage",
+    "description": "damage healed"
+  },
+  {
+    "id": "avatar_headshots",
+    "type": "event_transformation",
+    "event_type": "character_gets_headshot",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
+  },
+  {
+    "id": "avatar_num_headshots",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_headshots",
+    "description": "headshots"
+  },
+  {
+    "id": "num_moves",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_type": "avatar_moves",
+    "description": "squares moved"
+  },
+  {
+    "id": "moves_with_terrain_flags",
+    "type": "event_transformation",
+    "event_type": "avatar_moves",
+    "new_fields": { "terrain_flag": { "flags_of_terrain": "terrain" } }
+  },
+  {
+    "id": "moves_expand_pre_move_mode",
+    "type": "event_transformation",
+    "event_type": "avatar_moves",
+    "new_fields": { "swimming": { "is_swimming_terrain": "terrain" }, "mounted": { "is_mounted": "mount" } }
+  },
+  {
+    "id": "moves_walked",
+    "type": "event_transformation",
+    "event_transformation": "moves_expand_pre_move_mode",
+    "value_constraints": { "movement_mode": { "equals": "walk" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+  },
+  {
+    "id": "moves_mounted",
+    "type": "event_transformation",
+    "event_transformation": "moves_expand_pre_move_mode",
+    "value_constraints": { "mounted": { "equals": true } }
+  },
+  {
+    "id": "moves_ran",
+    "type": "event_transformation",
+    "event_transformation": "moves_expand_pre_move_mode",
+    "value_constraints": { "movement_mode": { "equals": "run" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+  },
+  {
+    "id": "moves_crouched",
+    "type": "event_transformation",
+    "event_transformation": "moves_expand_pre_move_mode",
+    "value_constraints": { "movement_mode": { "equals": "crouch" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+  },
+  {
+    "id": "moves_swam",
+    "type": "event_transformation",
+    "event_transformation": "moves_expand_pre_move_mode",
+    "value_constraints": { "mounted": { "equals": false }, "swimming": { "equals": true } }
+  },
+  {
+    "id": "moves_swam_underwater",
+    "type": "event_transformation",
+    "event_transformation": "moves_swam",
+    "value_constraints": { "underwater": { "equals": true } }
+  },
+  {
+    "id": "moves_sharp_terrain",
+    "type": "event_transformation",
+    "event_transformation": "moves_with_terrain_flags",
+    "value_constraints": { "terrain_flag": { "equals": "SHARP" } }
+  },
+  {
+    "id": "num_moves_walked",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_walked",
+    "description": "squares walked"
+  },
+  {
+    "id": "num_moves_mounted",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_mounted",
+    "description": "squares rode a mount"
+  },
+  {
+    "id": "num_moves_ran",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_ran",
+    "description": "squares ran"
+  },
+  {
+    "id": "num_moves_crouched",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_crouched",
+    "description": "squares crouched"
+  },
+  {
+    "id": "num_moves_swam",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_swam",
+    "description": "squares swam"
+  },
+  {
+    "id": "num_moves_swam_underwater",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_swam_underwater",
+    "description": "squares swam underwater"
+  },
+  {
+    "id": "num_moves_sharp_terrain",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_sharp_terrain",
+    "description": "moves through sharp terrain"
+  },
+  {
+    "id": "min_move_z",
+    "type": "event_statistic",
+    "stat_type": "minimum",
+    "field": "z",
+    "event_type": "avatar_moves",
+    "description": "minimum z level reached"
+  },
+  {
+    "id": "max_move_z",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "z",
+    "event_type": "avatar_moves",
+    "description": "maximum z level reached"
+  },
+  {
+    "id": "min_move_underwater_z",
+    "type": "event_statistic",
+    "stat_type": "minimum",
+    "field": "z",
+    "event_transformation": "moves_swam_underwater",
+    "description": "minimum z level reached underwater"
+  }
+]

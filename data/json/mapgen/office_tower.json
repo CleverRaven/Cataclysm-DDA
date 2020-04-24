@@ -605,6 +605,10 @@
           "x": [ 24, 40 ],
           "y": [ 6, 15 ]
         }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 5, 23 ], "y": [ 6, 23 ], "density": 0.3 },
+        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 5, 23 ], "y": [ 6, 18 ], "density": 0.3 }
       ]
     }
   },

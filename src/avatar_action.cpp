@@ -90,7 +90,7 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
+bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
         if( you.has_active_mutation( trait_SHELL2 ) ) {
@@ -100,14 +100,14 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     }
     const bool is_riding = you.is_mounted();
     tripoint dest_loc;
-    if( dz == 0 && you.has_effect( effect_stunned ) ) {
+    if( d.z == 0 && you.has_effect( effect_stunned ) ) {
         dest_loc.x = rng( you.posx() - 1, you.posx() + 1 );
         dest_loc.y = rng( you.posy() - 1, you.posy() + 1 );
         dest_loc.z = you.posz();
     } else {
-        dest_loc.x = you.posx() + dx;
-        dest_loc.y = you.posy() + dy;
-        dest_loc.z = you.posz() + dz;
+        dest_loc.x = you.posx() + d.x;
+        dest_loc.y = you.posy() + d.y;
+        dest_loc.z = you.posz() + d.z;
     }
 
     if( dest_loc == you.pos() ) {
@@ -215,7 +215,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         }
     }
 
-    if( dz == 0 && ramp_move( you, m, dest_loc ) ) {
+    if( d.z == 0 && ramp_move( you, m, dest_loc ) ) {
         // TODO: Make it work nice with automove (if it doesn't do so already?)
         return false;
     }
@@ -562,6 +562,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
     you.setpos( p );
     g->update_map( you );
+
+    cata_event_dispatch::avatar_moves( you, m, p );
+
     if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos(), &you );
     }

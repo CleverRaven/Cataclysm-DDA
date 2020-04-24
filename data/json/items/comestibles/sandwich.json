@@ -116,7 +116,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_fairy",
-    "name": { "str": "fairy bread", "str_pl": "fairy bread" },
+    "name": { "str_sp": "fairy bread" },
     "weight": "114 g",
     "color": "brown",
     "spoils_in": "3 days",

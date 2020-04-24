@@ -252,7 +252,7 @@
     "id": "alumentum",
     "category": "spare_parts",
     "price": 900,
-    "name": { "str": "alumentum", "str_pl": "alumentum" },
+    "name": { "str_sp": "alumentum" },
     "symbol": "=",
     "color": "light_blue",
     "description": "Alumentum is magically processed coal or charcoal.  It burns as hot as magnesium, and for a significantly longer period of time.  One of the very few magical materials that is still produced in any quantity today due to its usefulness.",

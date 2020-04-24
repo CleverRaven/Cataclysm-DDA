@@ -126,16 +126,16 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
-static int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos,
+static int print_items( const recipe &r, const catacurses::window &w, point pos,
                         nc_color col, int batch )
 {
     if( !r.has_byproducts() ) {
         return 0;
     }
 
-    const int oldy = ypos;
+    const int oldy = pos.y;
 
-    mvwprintz( w, point( xpos, ypos++ ), col, _( "Byproducts:" ) );
+    mvwprintz( w, point( pos.x, pos.y++ ), col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
         const auto t = item::find_type( bp.first );
         int amount = bp.second * batch;
@@ -147,10 +147,10 @@ static int print_items( const recipe &r, const catacurses::window &w, int ypos, 
             desc = string_format( "> %d %s", amount,
                                   t->nname( static_cast<unsigned int>( amount ) ) );
         }
-        mvwprintz( w, point( xpos, ypos++ ), col, desc );
+        mvwprintz( w, point( pos.x, pos.y++ ), col, desc );
     }
 
-    return ypos - oldy;
+    return pos.y - oldy;
 }
 
 const recipe *select_crafting_recipe( int &batch_size )
@@ -488,23 +488,14 @@ const recipe *select_crafting_recipe( int &batch_size )
             const int xpos = 30;
 
             if( display_mode == 0 ) {
-                auto player_skill = g->u.get_skill_level( current[line]->skill_used );
-                std::string difficulty_color =
-                    current[line]->difficulty > player_skill ? "yellow" : "green";
-                std::string primary_skill_level = string_format( "(%s/%s)", player_skill,
-                                                  current[line]->difficulty );
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
-                    string_format( _( "Primary skill: <color_cyan>%s</color> <color_%s>%s</color>" ),
-                                   ( !current[line]->skill_used ? _( "N/A" ) :
-                                     current[line]->skill_used.obj().name() ),
-                                   difficulty_color,
-                                   ( !current[line]->skill_used ? "" : primary_skill_level )
-                                 ) );
+                    string_format( _( "Primary skill: %s" ),
+                                   current[line]->primary_skill_string( &g->u, false ) ) );
 
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                         _( "Other skills: %s" ),
-                                        current[line]->required_skills_string( &g->u ) );
+                                        current[line]->required_skills_string( &g->u, false, false ) );
 
                 const int expected_turns = g->u.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
@@ -539,7 +530,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 _( "<color_red>Cannot be crafted because the same item is needed "
                                    "for multiple components</color>" ) );
                 }
-                ypos += print_items( *current[line], w_data, ypos, xpos, col, batch ? line + 1 : 1 );
+                ypos += print_items( *current[line], w_data, point( xpos, ypos ), col, batch ? line + 1 : 1 );
             }
 
             //color needs to be preserved in case part of the previous page was cut off

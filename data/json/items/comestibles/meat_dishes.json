@@ -66,8 +66,8 @@
   {
     "type": "COMESTIBLE",
     "id": "sweet_sausage",
-    "name": { "str": "sweet sausage", "str_pl": "sweet sausages" },
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "sinister %s", "str_pl": "sinister %s" } } ],
+    "name": { "str": "sweet sausage" },
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } } ],
     "weight": "148 g",
     "color": "brown",
     "spoils_in": "2 days",
@@ -112,11 +112,10 @@
   {
     "type": "COMESTIBLE",
     "id": "royal_beef",
-    "name": "royal beef",
+    "name": { "str_sp": "royal beef" },
     "weight": "446 g",
     "color": "white",
     "spoils_in": "3 days 8 hours",
-    "use_action": "ROYAL_JELLY",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 10,
@@ -179,7 +178,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cracklins",
-    "name": { "str": "cracklins", "str_pl": "cracklins" },
+    "name": { "str_sp": "cracklins" },
     "weight": "42 g",
     "color": "brown",
     "spoils_in": "7 days",
@@ -201,8 +200,8 @@
   {
     "type": "COMESTIBLE",
     "id": "glazed_tenderloin",
-    "name": "glazed tenderloins",
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "grisly %s", "str_pl": "grisly %s" } } ],
+    "name": { "str_sp": "glazed tenderloins" },
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "grisly %s" } } ],
     "weight": "205 g",
     "color": "brown",
     "spoils_in": "2 days 8 hours",
@@ -288,7 +287,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_fish",
-    "name": { "str": "dehydrated fish", "str_pl": "dehydrated fish" },
+    "name": { "str_sp": "dehydrated fish" },
     "copy-from": "fish_cooked",
     "primary_material": "cured_meat",
     "weight": "85 g",
@@ -304,7 +303,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_fish",
-    "name": { "str": "rehydrated fish", "str_pl": "rehydrated fish" },
+    "name": { "str_sp": "rehydrated fish" },
     "copy-from": "fish_cooked",
     "color": "white",
     "description": "Reconstituted fish flakes, which are much more enjoyable to eat now that they have been rehydrated.",
@@ -314,7 +313,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_pickled",
-    "name": { "str": "pickled fish", "str_pl": "pickled fish" },
+    "name": { "str_sp": "pickled fish" },
     "copy-from": "fish_cooked",
     "color": "white",
     "spoils_in": "4 days",
@@ -328,7 +327,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_canned",
-    "name": { "str": "canned fish", "str_pl": "canned fish" },
+    "name": { "str_sp": "canned fish" },
     "copy-from": "fish_cooked",
     "color": "light_gray",
     "spoils_in": "1 day 16 hours",
@@ -342,7 +341,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fish_fried",
-    "name": { "str": "batter fried fish", "str_pl": "batter fried fish" },
+    "name": { "str_sp": "batter fried fish" },
     "weight": "201 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -363,7 +362,7 @@
     "type": "COMESTIBLE",
     "id": "lunchmeat",
     "name": "lunch meat",
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "loathsome %s", "str_pl": "loathsome %s" } } ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "loathsome %s" } } ],
     "weight": "56 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -383,7 +382,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bologna",
-    "name": { "str": "bologna", "str_pl": "bologna" },
+    "name": { "str_sp": "bologna" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "brat %s", "str_pl": "brat %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "Tumnis %s", "str_pl": "Tumnis %s" } },
@@ -432,7 +431,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_spam",
-    "name": { "str": "SPAM", "str_pl": "SPAM" },
+    "name": { "str_sp": "SPAM" },
     "//": "SPAM comes in cans of six 2 oz slices.  Each charge is one slice.",
     "weight": "56 g",
     "color": "pink",
@@ -456,7 +455,7 @@
     "type": "COMESTIBLE",
     "id": "debug_nutrition",
     "copy-from": "can_spam",
-    "name": "holy SPAM of debugging",
+    "name": { "str": "holy SPAM of debugging", "str_pl": "holy SPAMs of debugging" },
     "calories": 2100,
     "description": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
     "//": "This is used for the all_nutrient_starve_test.",
@@ -515,7 +514,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pemmican",
-    "name": { "str": "pemmican", "str_pl": "pemmican" },
+    "name": { "str_sp": "pemmican" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "prepper %s", "str_pl": "prepper %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "Orley %s", "str_pl": "Orley %s" } },
@@ -622,7 +621,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pork_beans",
-    "name": { "str": "pork and beans", "str_pl": "pork and beans" },
+    "name": { "str_sp": "pork and beans" },
     "weight": "267 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -644,7 +643,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_tuna",
-    "name": { "str": "canned tuna fish", "str_pl": "canned tuna fish" },
+    "name": { "str_sp": "canned tuna fish" },
     "weight": "154 g",
     "color": "light_gray",
     "spoils_in": "1 day",
@@ -663,7 +662,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_salmon",
-    "name": { "str": "canned salmon", "str_pl": "canned salmon" },
+    "name": { "str_sp": "canned salmon" },
     "weight": "200 g",
     "color": "pink",
     "spoils_in": "1 day",
@@ -702,7 +701,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_herring",
-    "name": { "str": "pickled herring", "str_pl": "pickled herring" },
+    "name": { "str_sp": "pickled herring" },
     "weight": "232 g",
     "color": "white",
     "spoils_in": "4 days",
@@ -768,8 +767,8 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_beans",
-    "name": { "str": "baked beans", "str_pl": "baked beans" },
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "ork and beans", "str_pl": "ork and beans" } } ],
+    "name": { "str_sp": "baked beans" },
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "ork and beans" } } ],
     "weight": "293 g",
     "color": "brown",
     "spoils_in": "15 days",
@@ -790,10 +789,8 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_rice",
-    "name": { "str": "meat fried rice", "str_pl": "meat fried rice" },
-    "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant fried rice", "str_pl": "mutant fried rice" } }
-    ],
+    "name": { "str_sp": "meat fried rice" },
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant fried rice" } } ],
     "weight": "187 g",
     "color": "yellow",
     "spoils_in": "15 days",
@@ -814,14 +811,8 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_beansnrice",
-    "name": { "str": "deluxe beans and rice", "str_pl": "deluxe beans and rice" },
-    "conditional_names": [
-      {
-        "type": "COMPONENT_ID",
-        "condition": "mutant",
-        "name": { "str": "\"deluxe\" beans and rice", "str_pl": "\"deluxe\" beans and rice" }
-      }
-    ],
+    "name": { "str_sp": "deluxe beans and rice" },
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" beans and rice" } } ],
     "weight": "312 g",
     "color": "brown",
     "spoils_in": "15 days",
@@ -911,14 +902,8 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_eggs",
-    "name": { "str": "deluxe scrambled eggs", "str_pl": "deluxe scrambled eggs" },
-    "conditional_names": [
-      {
-        "type": "COMPONENT_ID",
-        "condition": "mutant",
-        "name": { "str": "\"deluxe\" scrambled eggs", "str_pl": "\"deluxe\" scrambled eggs" }
-      }
-    ],
+    "name": { "str_sp": "deluxe scrambled eggs" },
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" scrambled eggs" } } ],
     "weight": "198 g",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -980,7 +965,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_bolognese",
-    "name": { "str": "spaghetti bolognese", "str_pl": "spaghetti bolognese" },
+    "name": { "str_sp": "spaghetti bolognese" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "scoundrel spaghetti" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "speaking spaghetti" },
@@ -1034,7 +1019,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fried_spam",
-    "name": { "str": "fried SPAM", "str_pl": "fried SPAM" },
+    "name": { "str_sp": "fried SPAM" },
     "copy-from": "can_spam",
     "color": "red",
     "quench": -6,
@@ -1253,7 +1238,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_fishroll",
-    "name": { "str": "fish makizushi", "str_pl": "fish makizushi" },
+    "name": { "str_sp": "fish makizushi" },
     "weight": "159 g",
     "color": "green",
     "spoils_in": "12 hours",
@@ -1273,8 +1258,8 @@
   {
     "type": "COMESTIBLE",
     "id": "sushi_meatroll",
-    "name": { "str": "meat temaki", "str_pl": "meat temaki" },
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "troubling %s", "str_pl": "troubling %s" } } ],
+    "name": { "str_sp": "meat temaki" },
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "troubling %s" } } ],
     "weight": "273 g",
     "color": "green",
     "spoils_in": "1 day",
@@ -1294,7 +1279,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sashimi",
-    "name": { "str": "sashimi", "str_pl": "sashimi" },
+    "name": { "str_sp": "sashimi" },
     "copy-from": "fish_cooked",
     "color": "white",
     "spoils_in": "12 hours",
@@ -1328,7 +1313,7 @@
     "type": "COMESTIBLE",
     "id": "pelmeni",
     "name": "pelmeni",
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perilous %s", "str_pl": "perilous %s" } } ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perilous %s" } } ],
     "weight": "151 g",
     "color": "light_red",
     "spoils_in": "2 days",

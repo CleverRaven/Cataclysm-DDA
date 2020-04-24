@@ -4,7 +4,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "AF2011A1 .38 Super", "str_pl": "AF2011A1 .38 Super" },
+    "name": { "str_sp": "AF2011A1 .38 Super" },
     "description": "A double-barrel semi-automatic pistol of Italian origin, firing two bullets per shot, a derivative of the M1911 pistol.",
     "weight": "2041 g",
     "volume": "716 ml",

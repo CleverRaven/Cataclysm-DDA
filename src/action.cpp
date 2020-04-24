@@ -594,12 +594,12 @@ bool can_butcher_at( const tripoint &p )
     // TODO: unify this with game::butcher
     const int factor = g->u.max_quality( qual_BUTCHER );
     const int factorD = g->u.max_quality( qual_CUT_FINE );
-    auto items = g->m.i_at( p );
+    map_stack items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
     const inventory &crafting_inv = g->u.crafting_inventory();
-    for( auto &items_it : items ) {
+    for( item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
@@ -951,7 +951,7 @@ action_id handle_action_menu()
         }
 
         int width = 0;
-        for( auto &cur_entry : entries ) {
+        for( uilist_entry &cur_entry : entries ) {
             width = std::max( width, utf8_width( cur_entry.txt ) );
         }
         //border=2, selectors=3, after=3 for balance.
@@ -1007,7 +1007,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_DEBUG );
 
     int width = 0;
-    for( auto &entry : entries ) {
+    for( uilist_entry &entry : entries ) {
         width = std::max( width, utf8_width( entry.txt ) );
     }
     //border=2, selectors=3, after=3 for balance.

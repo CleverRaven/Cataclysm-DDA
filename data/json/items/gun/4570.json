@@ -70,7 +70,7 @@
     "copy-from": "gun_base",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "1874 Sharps", "str_pl": "1874 Sharps" },
+    "name": { "str_sp": "1874 Sharps" },
     "description": "A reproduction of an antique single-shot .45-70 rifle once used to hunt buffalo and other large game in the late 19th Century.  Highly accurate and powerful for the time, this one is made to handle modern smokeless ammunition.",
     "weight": "5000 g",
     "volume": "3250 ml",
