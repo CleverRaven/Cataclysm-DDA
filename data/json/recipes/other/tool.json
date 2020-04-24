@@ -661,5 +661,18 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+  },
+  {
+    "result": "hose",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "id_suffix": "hose_from_plastic",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "autolearn": true,
+    "time": "45 m",
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ], [ [ "wire", -1 ], [ "cable", -1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "duct_tape", 60 ], [ "medical_tape", 60 ] ] ]
   }
 ]
