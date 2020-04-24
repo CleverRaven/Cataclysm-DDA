@@ -195,7 +195,7 @@
     "id": "indoor_volleyball",
     "symbol": "*",
     "color": "white",
-    "name": { "str": "volleyball", "str_pl": "volleyballs" },
+    "name": { "str": "volleyball" },
     "category": "other",
     "description": "A standard regulation volleyball.",
     "price": 1000,
