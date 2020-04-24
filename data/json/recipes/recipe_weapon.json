@@ -716,7 +716,7 @@
       [ "scots_cookbook", 6 ],
       [ "textbook_armschina", 6 ]
     ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }  ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
   },
   {
