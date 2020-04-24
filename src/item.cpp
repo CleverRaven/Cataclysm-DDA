@@ -659,6 +659,9 @@ item &item::ammo_unset()
     } else if( magazine_integral() ) {
         curammo = nullptr;
         charges = 0;
+        if( is_gun() ) {
+            contents.clear_items();
+        }
     } else if( magazine_current() ) {
         magazine_current()->ammo_unset();
     }
