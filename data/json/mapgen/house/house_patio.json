@@ -69,6 +69,7 @@
             [ "greenhouse_6x6_vegetable", 25 ],
             [ "pond_6x6", 20 ],
             [ "shed_6x6_junk", 25 ],
+            [ "shed_6x6_bike", 20 ],
             [ "shed_6x6_woodworker", 20 ]
           ],
           "x": 1,
@@ -112,6 +113,54 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_patio_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "         |||||||||||||| ",
+        "         |F.1.........| ",
+        "         |............| ",
+        "         |g...........| ",
+        "         |............| ",
+        "         |z...........| ",
+        "         |U...........| ",
+        "         |z...........| ",
+        "         |............| ",
+        "         |............| ",
+        "         |............| ",
+        "         |........A...| ",
+        "         |............| ",
+        "         |<...JJWZ....| ",
+        "         |||||||||||||| ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 80 ],
+            [ "room_10x10_woodworker_W", 30 ],
+            [ "room_10x10_recording_studio_W", 30 ],
+            [ "room_10x10_guns_W", 10 ],
+            [ "room_10x10_woodworker_S", 30 ],
+            [ "room_10x10_recording_studio_S", 30 ],
+            [ "room_10x10_guns_S", 5 ]
+          ]
+        }
+      }
     }
   }
 ]

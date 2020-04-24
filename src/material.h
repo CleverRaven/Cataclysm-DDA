@@ -1,17 +1,17 @@
 #pragma once
-#ifndef MATERIAL_H
-#define MATERIAL_H
+#ifndef CATA_SRC_MATERIAL_H
+#define CATA_SRC_MATERIAL_H
 
+#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <set>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "fire.h"
 #include "optional.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class material_type;
@@ -45,7 +45,7 @@ class material_type
         float _specific_heat_liquid = 4.186;
         float _specific_heat_solid = 2.108;
         float _latent_heat = 334;
-        int _freeze_point = 32; // Farenheit
+        int _freeze_point = 32; // Fahrenheit
         bool _edible = false;
         bool _rotting = false;
         bool _soft = false;
@@ -125,4 +125,4 @@ std::set<material_id> get_rotting();
 
 } // namespace materials
 
-#endif
+#endif // CATA_SRC_MATERIAL_H

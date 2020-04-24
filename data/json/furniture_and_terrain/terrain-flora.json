@@ -1253,6 +1253,7 @@
     "symbol": "#",
     "color": "light_green",
     "move_cost": 6,
+    "coverage": 40,
     "flags": [ "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
     "examine_action": "shrub_wildveggies",
     "bash": {
@@ -1273,6 +1274,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
+    "coverage": 40,
     "flags": [
       "TRANSPARENT",
       "DIGGABLE",
@@ -1303,6 +1305,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
+    "coverage": 40,
     "flags": [
       "TRANSPARENT",
       "DIGGABLE",
@@ -1333,6 +1336,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
+    "coverage": 40,
     "flags": [
       "TRANSPARENT",
       "DIGGABLE",
@@ -1363,6 +1367,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
+    "coverage": 40,
     "flags": [
       "TRANSPARENT",
       "DIGGABLE",
@@ -1963,7 +1968,7 @@
     "symbol": ".",
     "color": "light_green",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {

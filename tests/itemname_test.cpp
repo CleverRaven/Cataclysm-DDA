@@ -3,15 +3,15 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "flat_set.h"
 #include "game.h"
 #include "item.h"
-#include "flat_set.h"
 #include "type_id.h"
 
-TEST_CASE( "item_name_check", "[item][iteminfo]" )
+TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 {
     GIVEN( "player is a normal size" ) {
-        g->u.empty_traits();
+        g->u.clear_mutations();
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
@@ -46,7 +46,7 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
     }
 
     GIVEN( "player is a huge size" ) {
-        g->u.empty_traits();
+        g->u.clear_mutations();
         g->u.toggle_trait( trait_id( "HUGE_OK" ) );
 
         WHEN( "the item is a normal size" ) {
@@ -82,7 +82,7 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
     }
 
     GIVEN( "player is a small size" ) {
-        g->u.empty_traits();
+        g->u.clear_mutations();
         g->u.toggle_trait( trait_id( "SMALL_OK" ) );
 
         WHEN( "the item is a normal size" ) {
@@ -114,6 +114,6 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
                 CHECK( name == "<color_c_light_green>||\u00A0</color>tunic" );
             }
         }
-
     }
 }
+

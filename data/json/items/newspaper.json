@@ -5,14 +5,14 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "flyer",
-    "name_plural": "flyers",
+    "name": { "str": "flyer" },
     "snippet_category": "flier",
     "description": "A scrap of paper.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
-    "volume": 0
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -20,15 +20,15 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "survivor's note",
-    "name_plural": "survivor's notes",
+    "name": { "str": "survivor's note" },
     "snippet_category": "note",
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
@@ -36,15 +36,16 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "character sheet",
+    "name": { "str": "character sheet" },
     "snippet_category": "charsheet",
     "description": "A Dungeons & Dragons character sheet.",
     "looks_like": "survnote",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
-    "volume": 0
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -52,15 +53,15 @@
     "category": "other",
     "symbol": ",",
     "color": "dark_gray",
-    "name": "score card",
-    "name_plural": "score cards",
+    "name": { "str": "score card" },
     "snippet_category": "scores",
     "description": "A colorfully printed score card.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
@@ -68,14 +69,14 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "newspaper page",
-    "name_plural": "newspaper pages",
+    "name": { "str": "newspaper page" },
     "snippet_category": "newest_news",
     "description": "A single sheet of newspaper broadsheet.  It is possibly one of the last issues printed before New England was overwhelmed.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
@@ -83,14 +84,14 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "newspaper page",
-    "name_plural": "newspaper pages",
+    "name": { "str": "newspaper page" },
     "snippet_category": "many_years_old_news",
     "description": "A single sheet of newspaper broadsheet.  It seems to date from several years ago, and you've NO idea how it lasted this long.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
@@ -98,14 +99,14 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "newspaper page",
-    "name_plural": "newspaper pages",
+    "name": { "str": "newspaper page" },
     "snippet_category": "years_old_news",
     "description": "A single sheet of newspaper broadsheet.  It seems to date from a few years ago--amazing it has lasted this long.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
@@ -113,14 +114,14 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "newspaper page",
-    "name_plural": "newspaper pages",
+    "name": { "str": "newspaper page" },
     "snippet_category": "one_year_old_news",
     "description": "A single sheet of newspaper broadsheet.  It was printed more than a year ago.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
@@ -128,14 +129,14 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "newspaper page",
-    "name_plural": "newspaper pages",
+    "name": { "str": "newspaper page" },
     "snippet_category": "months_old_news",
     "description": "A single sheet of newspaper broadsheet.  It was printed in the months leading up to the Cataclysm.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
@@ -143,14 +144,14 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "newspaper page",
-    "name_plural": "newspaper pages",
+    "name": { "str": "newspaper page" },
     "snippet_category": "weeks_old_news",
     "description": "A single sheet of newspaper broadsheet.  It was printed in the weeks leading up to the Cataclysm.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
@@ -158,14 +159,14 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "vault leaflet",
-    "name_plural": "vault leaflets",
+    "name": { "str": "vault leaflet" },
     "snippet_category": "necropolis_intro",
     "description": "A folded glossy handout that appears to be an introduction to living in a massive underground complex.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "1 g",
-    "volume": 0
+    "volume": "1 ml"
   },
   {
     "type": "GENERIC",
@@ -173,21 +174,22 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": "note",
+    "name": { "str": "note" },
     "snippet_category": "death_note",
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
     "price": 0,
+    "price_postapoc": 0,
     "looks_like": "survnote",
     "material": "paper",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
-    "volume": 0
+    "volume": "10 ml"
   },
   {
     "type": "GENERIC",
     "id": "evac_pamphlet",
     "category": "books",
-    "name": "FEMA evacuation pamphlet",
+    "name": { "str": "FEMA evacuation pamphlet" },
     "description": "Welcome to your Emergency Survival Shelter.  We hope your stay here will be short and comfortable.  Provided are an emergency blanket, high visibility jacket, gas mask, and food and water rations for one day, as well as an emergency lighter and flashlight.  There are further supplies in the communal cabinets should the facility be over its intended capacity.  These resources are checked and updated by FEMA on a regular basis, but if you find some items missing, please contact a FEMA supervisor at your earliest convenience.\n\nPlease wait in the shelter until an official evacuation transport arrives to take you to your homes or, in the event of a major disaster, to the nearest evacuation gathering point.\n\nIn the event that you have been evacuated under violent circumstances, FEMA recommends taking cover in the shelter's basement until help arrives.  Remember: if you leave the shelter, we cannot find you to take you to safety.",
     "weight": "5 g",
     "volume": "15 ml",
@@ -195,6 +197,6 @@
     "looks_like": "newest_newspaper",
     "color": "white",
     "symbol": "?",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

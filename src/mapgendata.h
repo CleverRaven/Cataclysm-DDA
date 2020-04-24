@@ -1,11 +1,12 @@
 #pragma once
-#ifndef MAPGENDATA_H
-#define MAPGENDATA_H
+#ifndef CATA_SRC_MAPGENDATA_H
+#define CATA_SRC_MAPGENDATA_H
 
 #include "type_id.h"
 #include "calendar.h"
 #include "weighted_list.h"
 
+struct point;
 struct tripoint;
 class mission;
 struct regional_settings;
@@ -133,10 +134,9 @@ class mapgendata
         }
         const oter_id &neighbor_at( om_direction::type dir ) const;
         void fill_groundcover();
-        void square_groundcover( int x1, int y1, int x2, int y2 );
+        void square_groundcover( const point &p1, const point &p2 );
         ter_id groundcover();
         bool is_groundcover( const ter_id &iid ) const;
-        bool has_basement() const;
 };
 
-#endif
+#endif // CATA_SRC_MAPGENDATA_H

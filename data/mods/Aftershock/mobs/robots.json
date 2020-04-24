@@ -2,7 +2,7 @@
   {
     "id": "afs_mon_migoturret",
     "type": "MONSTER",
-    "name": "brain blaster",
+    "name": { "str": "brain blaster" },
     "description": "The mi-go have set up some defenses here.  This horrifying techo-organic amalgamation appears to use brains in jars as their operating system.  On the plus side it looks like it can be headshot.",
     "default_faction": "mi-go",
     "species": [ "ROBOT" ],
@@ -37,7 +37,7 @@
   {
     "id": "mon_chickenbot",
     "type": "MONSTER",
-    "name": "chicken walker",
+    "name": { "str": "chicken walker" },
     "description": "The Northrop ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
@@ -69,7 +69,7 @@
   {
     "id": "mon_tankbot",
     "type": "MONSTER",
-    "name": "Beagle Mini-Tank UGV",
+    "name": { "str": "Beagle Mini-Tank UGV" },
     "description": "The Northrop Beagle is a refrigerator-sized urban warfare UGV.  Sporting an anti-tank missile launcher, 40mm grenade launcher, and numerous anti-infantry weapons, it's designed for high-risk urban fighting.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
@@ -111,7 +111,7 @@
   {
     "id": "mon_tripod",
     "type": "MONSTER",
-    "name": "tripod",
+    "name": { "str": "tripod" },
     "description": "The Honda Crop King.  Originally designed for agriculture, it has a trio of spiked retractable cables and where it used to mount pesticide sprayer the PrepNet Phyle have modified it to have a flamethrower for their war against the Mycus.",
     "default_faction": "PrepNet",
     "species": [ "ROBOT" ],
@@ -123,7 +123,7 @@
     "material": [ "steel" ],
     "symbol": "R",
     "color": "white",
-    "aggression": 100,
+    "aggression": 0,
     "morale": 100,
     "melee_skill": 10,
     "melee_dice": 3,
@@ -133,15 +133,34 @@
     "armor_cut": 8,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_tripod",
-    "special_attacks": [ [ "FLAMETHROWER", 10 ] ],
+    "starting_ammo": { "napalm": 10000 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "gun_type": "rm451_flamethrower",
+        "ammo_type": "napalm",
+        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
+        "fake_dex": 10,
+        "no_ammo_sound": "hiss!",
+        "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "require_targeting_player": true,
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_volume": 10
+      }
+    ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS", "FIREPROOF" ]
   },
   {
     "id": "afs_mon_sentinel_lx",
     "type": "MONSTER",
-    "name": "Wraitheon Sentinel-lx",
+    "name": { "str": "Wraitheon Sentinel-lx" },
     "description": "Its exterior plates sable and gold, this luxurious variant of a Wraitheon drone was once kept as a bodyguard by society's wealthiest.  Still and with it's wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
@@ -190,5 +209,28 @@
       "PATH_AVOID_DANGER_2",
       "HIT_AND_RUN"
     ]
+  },
+  {
+    "id": "mon_bloodhound_drone",
+    "copy-from": "base_drone",
+    "type": "MONSTER",
+    "name": { "str": "bloodhound drone" },
+    "description": "A small spiked quadcopter robot equipped with a high-power spotlight.  This automated seeker drone was originally designed harry and harrass fugitives while maintaining visual contact for other pursuers.",
+    "diff": 2,
+    "default_faction": "science",
+    "speed": 190,
+    "color": "light_gray",
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
+    "luminance": 60,
+    "melee_cut": 12,
+    "armor_bash": 2,
+    "armor_cut": 8,
+    "revert_to_itype": "bot_bloodhound_drone",
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ], [ "turret_searchlight", 1 ] ] },
+    "death_function": [ "BROKEN" ],
+    "extend": { "flags": [ "HIT_AND_RUN" ] }
   }
 ]

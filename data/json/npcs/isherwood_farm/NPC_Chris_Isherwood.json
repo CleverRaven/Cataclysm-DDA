@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_CHRIS",
-    "name": "Chris Isherwood",
+    "name": { "str": "Chris Isherwood" },
     "job_description": "I'm Jesse and Carlos' son, part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -106,7 +106,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CHRIS_THEORIES",
-    "dynamic_line": "In one of my longer trips looking for Barry, I saw something out in a field. I didn't get close but I swear unbelievable monsters were coming out of it.  It kinda shimmered, almost like it wasn't quite there.  I've been tracking those monsters for a while…",
+    "dynamic_line": "In one of my longer trips looking for Barry, I saw something out in a field.  I didn't get close but I swear unbelievable monsters were coming out of it.  It kinda shimmered, almost like it wasn't quite there.  I've been tracking those monsters for a while…",
     "responses": [
       { "text": "What did you find?", "topic": "TALK_ISHERWOOD_CHRIS_MIGO_BASE" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
@@ -161,7 +161,7 @@
   {
     "id": "MISSION_ISHERWOOD_CHRIS_1",
     "type": "mission_definition",
-    "name": "Free Barry from the mysterious structure",
+    "name": { "str": "Free Barry from the mysterious structure" },
     "goal": "MGOAL_TALK_TO_NPC",
     "difficulty": 5,
     "value": 50000,

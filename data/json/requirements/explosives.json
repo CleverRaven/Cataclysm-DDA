@@ -1,0 +1,73 @@
+[
+  {
+    "id": "flammable_liquid",
+    "type": "requirement",
+    "//": "This should contain all flammable liquids useful for things like molotovs, 1 mL.",
+    "components": [
+      [
+        [ "gasoline", 1 ],
+        [ "diesel", 1 ],
+        [ "biodiesel", 1 ],
+        [ "chem_ethanol", 1 ],
+        [ "chem_methanol", 1 ],
+        [ "ether", 1 ],
+        [ "denat_alcohol", 1 ],
+        [ "lamp_oil", 1 ],
+        [ "motor_oil", 1 ],
+        [ "jp8", 1 ],
+        [ "avgas", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "accelerant_liquid",
+    "type": "requirement",
+    "//": "This should contain all flammable liquids with a flash point below 30 degrees centigrade, 1 mL.",
+    "components": [
+      [
+        [ "gasoline", 1 ],
+        [ "chem_ethanol", 1 ],
+        [ "chem_methanol", 1 ],
+        [ "ether", 1 ],
+        [ "denat_alcohol", 1 ],
+        [ "avgas", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "fuel_liquid",
+    "type": "requirement",
+    "//": "This should contain all flammable liquids with a flash point above 30 degrees centigrade, 1 mL.",
+    "components": [ [ [ "diesel", 1 ], [ "biodiesel", 1 ], [ "lamp_oil", 1 ], [ "jp8", 1 ], [ "motor_oil", 1 ] ] ]
+  },
+  {
+    "id": "volatile_explosive",
+    "type": "requirement",
+    "//": "This should contain all the explosives you can set off with only a fuse, 10g tnt equivalent.",
+    "components": [
+      [
+        [ "chem_black_powder", 18 ],
+        [ "gunpowder", 9 ],
+        [ "chem_match_head_powder", 37 ],
+        [ "gunpowder_pistol", 9 ],
+        [ "gunpowder_shotgun", 9 ],
+        [ "gunpowder_magnum_pistol", 8 ],
+        [ "gunpowder_artillery", 9 ],
+        [ "gunpowder_rifle", 7 ],
+        [ "chem_hmtd", 14 ]
+      ]
+    ]
+  },
+  {
+    "id": "stable_explosive",
+    "type": "requirement",
+    "//": "This should contain all the explosives you need to set off with an explosive primer, but can be used without casting in a crucible. 10g tnt equivalent.",
+    "components": [ [ [ "chem_ammonium_nitrate", 24 ], [ "chem_ammonium_nitrate_pellets", 24 ], [ "chem_anfo", 14 ], [ "chem_rdx", 6 ] ] ]
+  },
+  {
+    "id": "military_explosive",
+    "type": "requirement",
+    "//": "This should contain all the explosives you need to set off with an explosive primer or a fuze, and also need casting in a crucible. 10g tnt equivalent.",
+    "components": [ [ [ "chem_compositionb", 8 ] ] ]
+  }
+]

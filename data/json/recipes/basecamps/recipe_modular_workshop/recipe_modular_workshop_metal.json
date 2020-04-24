@@ -12,7 +12,21 @@
     "blueprint_requires": [ { "id": "fbmw_0" } ],
     "blueprint_provides": [ { "id": "fbmw_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmw_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 7 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 180 ], [ "toolset", 1350 ], [ "welder", 900 ], [ "welder_crude", 1350 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 230 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "nail", 560 ] ],
+          [ [ "steel_plate", 36 ] ],
+          [ [ "wood_panel", 25 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,7 +41,29 @@
     "blueprint_requires": [ { "id": "fbmw_northeast", "amount": 3 } ],
     "blueprint_provides": [ { "id": "fbmw_north" } ],
     "blueprint_excludes": [ { "id": "fbmw_north" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 10 h 40 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
+        "qualities": [
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 113 ] ],
+          [ [ "nail", 274 ] ],
+          [ [ "wood_panel", 11 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 36 ] ],
+          [ [ "sheet_metal", 6 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "steel_plate", 24 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -42,7 +78,31 @@
     "blueprint_requires": [ { "id": "fbmw_north" } ],
     "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 1 h 15 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 80 ], [ "welder", 400 ], [ "welder_crude", 600 ], [ "toolset", 600 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 269 ] ],
+          [ [ "nail", 666 ] ],
+          [ [ "wood_panel", 31 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 24 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "steel_plate", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -57,7 +117,29 @@
     "blueprint_requires": [ { "id": "fbmw_east" } ],
     "blueprint_provides": [ { "id": "fbmw_center" } ],
     "blueprint_excludes": [ { "id": "fbmw_center" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 6 h 45 m",
+      "skills": [ [ "fabrication", 4 ], [ "tailor", 3 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ], [ "welder_crude", 600 ] ] ],
+        "qualities": [
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 146 ] ],
+          [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "nail", 332 ] ],
+          [ [ "pipe", 12 ] ],
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "steel_plate", 16 ] ],
+          [ [ "wood_panel", 15 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -74,7 +156,31 @@
     "blueprint_excludes": [ { "id": "fbmw_north", "amount": 2 } ],
     "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
     "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 6 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ], [ "welder_crude", 600 ] ] ],
+        "qualities": [
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 120 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
+          [ [ "nail", 300 ] ],
+          [ [ "pipe", 40 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "sheet_metal", 8 ] ],
+          [ [ "sheet_metal_small", 8 ] ],
+          [ [ "steel_plate", 12 ] ],
+          [ [ "water", 2 ], [ "water_clean", 2 ] ],
+          [ [ "wood_panel", 15 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -89,7 +195,32 @@
     "blueprint_requires": [ { "id": "fbmw_north", "amount": 2 } ],
     "blueprint_provides": [ { "id": "fbmw_northwest" }, { "id": "blacksmith_recipes_5" } ],
     "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 6 h 48 m",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 0 ] ],
+      "inline": {
+        "tools": [
+          [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ],
+          [ [ "oxy_torch", 220 ], [ "welder", 1100 ], [ "welder_crude", 1650 ], [ "toolset", 1650 ] ]
+        ],
+        "qualities": [
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 136 ] ],
+          [ [ "nail", 326 ] ],
+          [ [ "wood_panel", 11 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 60 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "steel_plate", 44 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -106,6 +237,24 @@
     "blueprint_excludes": [ { "id": "fbmw_northsoutheast" }, { "id": "fbmw_south" } ],
     "blueprint_resources": [ "wrench", "pliers", "fake_drop_hammer" ],
     "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 4 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 200 ], [ "welder", 1000 ], [ "welder_crude", 1500 ], [ "toolset", 1500 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "metal_tank", 2 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "anvil", 1 ] ],
+          [ [ "chain", 4 ] ],
+          [ [ "pipe", 3 ] ],
+          [ [ "steel_plate", 40 ] ],
+          [ [ "wood_panel", 44 ] ],
+          [ [ "2x4", 352 ] ],
+          [ [ "nail", 880 ] ]
+        ]
+      }
+    }
   }
 ]

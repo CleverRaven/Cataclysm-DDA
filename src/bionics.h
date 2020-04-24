@@ -1,26 +1,28 @@
 #pragma once
-#ifndef BIONICS_H
-#define BIONICS_H
+#ifndef CATA_SRC_BIONICS_H
+#define CATA_SRC_BIONICS_H
 
 #include <cstddef>
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
-#include "string_id.h"
+#include "flat_set.h"
+#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
-class player;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
+class player;
+
 using itype_id = std::string;
 
 struct bionic_data {
@@ -78,9 +80,9 @@ struct bionic_data {
     */
     bool included = false;
     /**Factor modifiying weight capacity*/
-    float weight_capacity_modifier;
+    float weight_capacity_modifier = 0.0f;
     /**Bonus to weight capacity*/
-    units::mass weight_capacity_bonus;
+    units::mass weight_capacity_bonus = 0_gram;
     /**Map of stats and their corresponding bonuses passively granted by a bionic*/
     std::map<Character::stat, int> stat_bonus;
     /**This bionic draws power through a cable*/
@@ -88,11 +90,11 @@ struct bionic_data {
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
     /**How much fuel this bionic can hold*/
-    int fuel_capacity;
+    int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/
-    float fuel_efficiency;
+    float fuel_efficiency = 0.0f;
     /**Fraction of fuel energy passively converted to bionic power*/
-    float passive_fuel_efficiency;
+    float passive_fuel_efficiency = 0.0f;
     /**Fraction of coverage diminishing fuel_efficiency*/
     cata::optional<float> coverage_power_gen_penalty;
     /**If true this bionic emits heat when producing power*/
@@ -101,6 +103,15 @@ struct bionic_data {
     emit_id power_gen_emission = emit_id::NULL_ID();
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
+
+    /**Amount of bash protection offered by this bionic*/
+    std::map<body_part, size_t> bash_protec;
+    /**Amount of cut protection offered by this bionic*/
+    std::map<body_part, size_t> cut_protec;
+
+    /** bionic enchantments */
+    std::vector<enchantment_id> enchantments;
+
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
@@ -200,6 +211,9 @@ char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
 
-int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty );
+int bionic_manip_cos( float adjusted_skill, int bionic_difficulty );
 
-#endif
+std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,
+        const trait_id &tid );
+
+#endif // CATA_SRC_BIONICS_H

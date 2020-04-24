@@ -1,14 +1,21 @@
 #pragma once
-#ifndef CATA_EVENT_H
-#define CATA_EVENT_H
+#ifndef CATA_SRC_EVENT_H
+#define CATA_SRC_EVENT_H
 
+#include <array>
+#include <cstddef>
+#include <cstdlib>
+#include <functional>
 #include <map>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "enum_conversions.h"
-#include "type_id.h"
+#include "debug.h"
+
+template <typename E> struct enum_traits;
 
 using itype_id = std::string;
 
@@ -110,8 +117,6 @@ struct hash<event_type> {
 namespace cata
 {
 
-class event;
-
 namespace event_detail
 {
 
@@ -163,8 +168,11 @@ struct event_spec<event_type::angers_amigara_horrors> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::avatar_moves> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
             { "mount", cata_variant_type::mtype_id },
+            { "terrain", cata_variant_type::ter_id },
+            { "movement_mode", cata_variant_type::character_movemode },
+            { "underwater", cata_variant_type::bool_ },
         }
     };
 };
@@ -553,7 +561,8 @@ class event
                    > ()( calendar::turn, std::forward<Args>( args )... );
         }
 
-        static std::map<std::string, cata_variant_type> get_fields( event_type );
+        using fields_type = std::unordered_map<std::string, cata_variant_type>;
+        static fields_type get_fields( event_type );
 
         event_type type() const {
             return type_;
@@ -568,6 +577,14 @@ class event
                 debugmsg( "No such key %s in event of type %s", key,
                           io::enum_to_string( type_ ) );
                 abort();
+            }
+            return it->second;
+        }
+
+        cata_variant get_variant_or_void( const std::string &key ) const {
+            auto it = data_.find( key );
+            if( it == data_.end() ) {
+                return cata_variant();
             }
             return it->second;
         }
@@ -615,4 +632,4 @@ struct make_event_helper<Type, std::index_sequence<I...>> {
 
 } // namespace cata
 
-#endif // CATA_EVENT_H
+#endif // CATA_SRC_EVENT_H

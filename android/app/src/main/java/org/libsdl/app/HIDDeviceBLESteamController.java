@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothGattService;
+import android.hardware.usb.UsbDevice;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -165,13 +166,13 @@ class HIDDeviceBLESteamController extends BluetoothGattCallback implements HIDDe
         mHandler = new Handler(Looper.getMainLooper());
 
         mGatt = connectGatt();
-        final HIDDeviceBLESteamController finalThis = this;
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finalThis.checkConnectionForChromebookIssue();
-            }
-        }, CHROMEBOOK_CONNECTION_CHECK_INTERVAL);
+        // final HIDDeviceBLESteamController finalThis = this;
+        // mHandler.postDelayed(new Runnable() {
+        //     @Override
+        //     public void run() {
+        //         finalThis.checkConnectionForChromebookIssue();
+        //     }
+        // }, CHROMEBOOK_CONNECTION_CHECK_INTERVAL);
     }
 
     public String getIdentifier() {
@@ -469,7 +470,7 @@ class HIDDeviceBLESteamController extends BluetoothGattCallback implements HIDDe
             // Only register controller with the native side once it has been fully configured
             if (!isRegistered()) {
                 Log.v(TAG, "Registering Steam Controller with ID: " + getId());
-                mManager.HIDDeviceConnected(getId(), getIdentifier(), getVendorId(), getProductId(), getSerialNumber(), getVersion(), getManufacturerName(), getProductName(), 0);
+                mManager.HIDDeviceConnected(getId(), getIdentifier(), getVendorId(), getProductId(), getSerialNumber(), getVersion(), getManufacturerName(), getProductName(), 0, 0, 0, 0);
                 setRegistered();
             }
         }
@@ -562,6 +563,11 @@ class HIDDeviceBLESteamController extends BluetoothGattCallback implements HIDDe
     public String getProductName() {
         return "Steam Controller";
     }
+
+	@Override
+    public UsbDevice getDevice() {
+		return null;
+	}
 
     @Override
     public boolean open() {

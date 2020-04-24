@@ -1,23 +1,21 @@
 #pragma once
-#ifndef REGIONAL_SETTINGS_H
-#define REGIONAL_SETTINGS_H
+#ifndef CATA_SRC_REGIONAL_SETTINGS_H
+#define CATA_SRC_REGIONAL_SETTINGS_H
 
 #include <map>
-#include <memory>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <set>
 
 #include "enums.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "omdata.h"
-#include "weather_gen.h"
-#include "weighted_list.h"
-#include "int_id.h"
 #include "string_id.h"
 #include "type_id.h"
-#include "memory_fast.h"
+#include "weather_gen.h"
+#include "weighted_list.h"
 
 class JsonObject;
 
@@ -46,18 +44,12 @@ struct city_settings {
     // We'll spread this out to the rest of the town.
     int park_sigma = 100 - park_radius;
 
-    int house_basement_chance = 5; // one_in(n) chance a house has a basement
     building_bin houses;
-    building_bin basements;
     building_bin shops;
     building_bin parks;
 
     overmap_special_id pick_house() const {
         return houses.pick()->id;
-    }
-
-    overmap_special_id pick_basement() const {
-        return basements.pick()->id;
     }
 
     overmap_special_id pick_shop() const {
@@ -165,6 +157,7 @@ struct forest_trail_settings {
     bool clear_trail_terrain = false;
     std::map<std::string, int> unfinalized_trail_terrain;
     weighted_int_list<ter_id> trail_terrain;
+    building_bin trailheads;
 
     void finalize();
     forest_trail_settings() = default;
@@ -199,6 +192,7 @@ struct shore_extendable_overmap_terrain_alias {
 struct overmap_lake_settings {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
+    int lake_depth = -5;
     std::vector<std::string> unfinalized_shore_extendable_overmap_terrain;
     std::vector<oter_id> shore_extendable_overmap_terrain;
     std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
@@ -228,14 +222,14 @@ struct region_terrain_and_furniture_settings {
 };
 
 /*
- * Spationally relevant overmap and mapgen variables grouped into a set of suggested defaults;
- * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
+ * Spatially relevant overmap and mapgen variables grouped into a set of suggested defaults;
+ * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smooth fashion
  */
 struct regional_settings {
     std::string id;           //
     oter_str_id default_oter; // 'field'
-    double river_scale;
-    weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
+    double river_scale = 1;
+    weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     city_settings     city_spec;      // put what where in a city of what kind
@@ -265,4 +259,4 @@ void reset_region_settings();
 void load_region_overlay( const JsonObject &jo );
 void apply_region_overlay( const JsonObject &jo, regional_settings &region );
 
-#endif
+#endif // CATA_SRC_REGIONAL_SETTINGS_H

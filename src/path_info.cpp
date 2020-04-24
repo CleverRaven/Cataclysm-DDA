@@ -2,7 +2,6 @@
 
 #include <clocale>
 #include <cstdlib>
-#include <utility>
 
 #include "enums.h"
 #include "filesystem.h"
@@ -224,6 +223,10 @@ std::string PATH_INFO::fontdata()
 std::string PATH_INFO::fontdir()
 {
     return datadir_value + "font/";
+}
+std::string PATH_INFO::user_font()
+{
+    return user_dir_value + "font/";
 }
 std::string PATH_INFO::fontlist()
 {

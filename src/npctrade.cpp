@@ -1,36 +1,41 @@
 #include "npctrade.h"
 
-#include <climits>
-#include <cstdlib>
 #include <algorithm>
-#include <string>
-#include <vector>
+#include <cstdlib>
 #include <list>
 #include <memory>
+#include <ostream>
 #include <set>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
-#include "debug.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "faction.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
+#include "item.h"
+#include "item_category.h"
+#include "item_contents.h"
 #include "map_selector.h"
 #include "npc.h"
 #include "output.h"
+#include "player.h"
+#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "translations.h"
-#include "vehicle_selector.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "player.h"
 #include "string_input_popup.h"
-#include "units.h"
-#include "visitable.h"
+#include "translations.h"
 #include "type_id.h"
-#include "faction.h"
-#include "pimpl.h"
+#include "ui_manager.h"
+#include "units.h"
+#include "vehicle_selector.h"
+#include "visitable.h"
 
 static const skill_id skill_barter( "barter" );
 
@@ -91,7 +96,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         const int price = it.price( true );
         int val = np.value( it );
         if( np.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( np, i->front(), val, i->size() );
+            result.emplace_back( np, i->front(), val, static_cast<int>( i->size() ) );
         }
     }
 
@@ -176,19 +181,37 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &seller.weapon ), 1 );
     }
 
-    for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
-        buy_helper( cursor, check_item );
+    //nearby items owned by the NPC will only show up in
+    //the trade window if the NPC is also a shopkeeper
+    if( np.mission == NPC_MISSION_SHOPKEEP ) {
+        for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
+            buy_helper( cursor, check_item );
+        }
     }
+
     for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
         buy_helper( cursor, check_item );
     }
+
+    const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
+
+        // Sort items by category first, if we can.
+        if( a.loc->get_category() != b.loc->get_category() ) {
+            return a.loc->get_category() < b.loc->get_category();
+        }
+
+        // If categories are equal, sort by name.
+        return a.loc->display_name() < b.loc->display_name();
+    };
+
+    std::sort( result.begin(), result.end(), cmp );
 
     return result;
 }
 
 void item_pricing::set_values( int ip_count )
 {
-    item *i_p = loc.get_item();
+    const item *i_p = loc.get_item();
     is_container = i_p->is_container() || i_p->is_ammo_container();
     vol = i_p->volume();
     weight = i_p->weight();
@@ -204,7 +227,7 @@ void item_pricing::set_values( int ip_count )
 
 // Adjusts the pricing of an item, *unless* it is the currency of the
 // faction we're trading with, as that should always be worth face value.
-void item_pricing::adjust_values( const double adjust, faction *fac )
+void item_pricing::adjust_values( const double adjust, const faction *fac )
 {
     if( !fac || fac->currency != loc.get_item()->typeId() ) {
         price *= adjust;
@@ -319,10 +342,12 @@ void trading_window::update_win( npc &np, const std::string &deal )
                 const int &owner_sells = they ? ip.u_has : ip.npc_has;
                 const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
                 std::string itname = it->display_name();
-                if( ip.loc.where() != item_location::type::character ) {
-                    itname = itname + " " + ip.loc.describe( &g->u );
+
+                if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
+                    itname = itname + " (" + ip.loc.describe( &g->u ) + ")";
                     color = c_light_blue;
                 }
+
                 if( ip.charges > 0 && owner_sells_charge > 0 ) {
                     itname += string_format( _( ": trading %d" ), owner_sells_charge );
                 } else {
@@ -370,6 +395,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
 void trading_window::show_item_data( npc &np, size_t offset,
                                      std::vector<item_pricing> &target_list )
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     update = true;
     catacurses::window w_tmp = catacurses::newwin( 3, 21, point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
                                1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
@@ -424,6 +452,9 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         volume_left = 5'000_liter;
         weight_left = 5'000_kilogram;
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         update_win( np, deal );
@@ -645,5 +676,5 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 // Will the NPC accept the trade that's currently on offer?
 bool trading_window::npc_will_accept_trade( const npc &np ) const
 {
-    return np.is_player_ally() || your_balance + np.max_credit_extended() > 0;
+    return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() > 0;
 }

@@ -2,36 +2,38 @@
 
 #include "pixel_minimap.h"
 
+#include <algorithm>
+#include <array>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <functional>
+#include <iterator>
+#include <memory>
+#include <utility>
+#include <vector>
+
 #include "avatar.h"
-#include "coordinate_conversions.h"
-#include "game.h"
-#include "map.h"
-#include "mapdata.h"
-#include "monster.h"
-#include "sdl_utils.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "coordinate_conversions.h"
 #include "creature.h"
+#include "debug.h"
+#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "lightmap.h"
+#include "map.h"
+#include "mapdata.h"
 #include "math_defines.h"
+#include "monster.h"
 #include "optional.h"
-
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <bitset>
-#include <cmath>
-#include <iterator>
-#include <memory>
-#include <set>
-#include <cstdlib>
-#include <utility>
-#include <vector>
+#include "pixel_minimap_projectors.h"
+#include "sdl_utils.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 extern void set_displaybuffer_rendertarget();
 

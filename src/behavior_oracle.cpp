@@ -1,23 +1,27 @@
 #include "behavior_oracle.h"
 
-#include <functional>
 #include <array>
+#include <functional>
 #include <list>
+#include <memory>
 
 #include "behavior.h"
 #include "bodypart.h"
-#include "itype.h"
-#include "player.h"
-#include "weather.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
-#include "optional.h"
+#include "itype.h"
+#include "player.h"
 #include "ret_val.h"
+#include "value_ptr.h"
+#include "weather.h"
 
-using namespace behavior;
+static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 
-status_t oracle_t::return_running() const
+namespace behavior
+{
+
+status_t return_running( const oracle_t * )
 {
     return running;
 }
@@ -76,7 +80,7 @@ status_t character_oracle_t::can_make_fire() const
     bool fuel = false;
     for( const auto &i : subject->inv.const_slice() ) {
         const item &candidate = i->front();
-        if( candidate.has_flag( "FIRESTARTER" ) ) {
+        if( candidate.has_flag( flag_FIRESTARTER ) ) {
             tool = true;
             if( fuel ) {
                 return running;
@@ -129,8 +133,6 @@ make_function( status_t ( character_oracle_t::* fun )() const )
     return static_cast<status_t ( oracle_t::* )() const>( fun );
 }
 
-namespace behavior
-{
 std::unordered_map<std::string, std::function<status_t( const oracle_t * )>> predicate_map = {{
         { "npc_needs_warmth_badly", make_function( &character_oracle_t::needs_warmth_badly ) },
         { "npc_needs_water_badly", make_function( &character_oracle_t::needs_water_badly ) },

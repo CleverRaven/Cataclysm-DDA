@@ -522,6 +522,26 @@
   },
   {
     "type": "effect_type",
+    "id": "sleep_deprived",
+    "name": [ "Sleep Deprived" ],
+    "desc": [ "Your sleep debt has been steadily increasing for a while.  You should get some rest." ],
+    "rating": "bad",
+    "max_intensity": 20160,
+    "int_dur_factor": 240,
+    "base_mods": { "speed_mod": [ -5 ] },
+    "scaling_mods": { "speed_mod": [ -1 ], "int_mod": [ -0.33 ], "per_mod": [ -0.33 ], "str_mod": [ -0.17 ], "dex_mod": [ -0.17 ] },
+    "apply_message": "You feel weary, your body tired from lack of quality sleep.",
+    "remove_message": "You have finally caught up with your lost sleep, and you feel refreshed and awake for a change."
+  },
+  {
+    "type": "effect_type",
+    "id": "melatonin",
+    "name": [ "Melatonin Supplements" ],
+    "desc": [ "You took some melatonin supplements.  These will help with sleep deprivation." ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "beartrap",
     "name": [ "Stuck in beartrap" ],
     "desc": [ "You can't move until you get free!" ],
@@ -608,6 +628,13 @@
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
     "base_mods": { "vomit_chance": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisible" ],
+    "desc": [ "You are invisible." ],
+    "flags": [ "EFFECT_INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -1084,8 +1111,13 @@
   },
   {
     "type": "effect_type",
+    "id": "took_antiasthmatic",
+    "name": [ "Took antiasthmatic drugs" ],
+    "desc": [ "You have taken an antiasthmatic drug recently." ]
+  },
+  {
+    "type": "effect_type",
     "id": "cureall",
-    "//": "This is the royal jelly effect, it should cure pretty much everything.",
     "removes_effects": [
       "fungus",
       "dermatik",
@@ -1668,6 +1700,13 @@
   },
   {
     "type": "effect_type",
+    "id": "sheared",
+    "name": [ "Sheared" ],
+    "desc": [ "The creature has been fully sheared." ],
+    "max_duration": "90d"
+  },
+  {
+    "type": "effect_type",
     "id": "pkill",
     "name": [ "Painkillers" ],
     "desc": [ "You are under the influence of analgesic substances to relieve pain, but they may numb you a bit." ],
@@ -1721,12 +1760,10 @@
   {
     "type": "effect_type",
     "id": "irradiated",
-    "name": [ "Irradiated" ],
-    "desc": [ "You suffer symptoms of a radiation sickness that weakens your body." ],
+    "//": "No name or desc. Hidden from player, encourages use of radiation detection equipment",
     "max_intensity": 2000,
     "int_dur_factor": "10 s",
-    "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] },
-    "miss_messages": [ [ "Radiation weakens you.", 1 ] ]
+    "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] }
   },
   {
     "type": "effect_type",
@@ -1862,6 +1899,7 @@
     "apply_message": "The air in here smells like vinegar and mold, and hurts your lungs a bit.",
     "max_intensity": 5,
     "int_dur_factor": "5 seconds",
+    "max_duration": "30 s",
     "rating": "bad",
     "miss_messages": [ [ "You feel groggy in this sweltering, foul air.", 2 ] ],
     "harmful_cough": false,

@@ -10,29 +10,39 @@
 #include <utility>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "clone_ptr.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "iuse.h"
 #include "json.h"
 #include "output.h"
 #include "player.h"
 #include "ret_val.h"
+#include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
-#include "calendar.h"
-#include "catacharset.h"
-#include "cursesdef.h"
-#include "iuse.h"
 #include "type_id.h"
+#include "ui.h"
+
+class Character;
+
+static const std::string errstring( "ERROR" );
+
+static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_claws( "bio_claws" );
+static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
 
 struct tripoint;
 
 static item_action nullaction;
-static const std::string errstring( "ERROR" );
 
 static char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
@@ -67,18 +77,22 @@ item_action_generator::item_action_generator() = default;
 item_action_generator::~item_action_generator() = default;
 
 // Get use methods of this item and its contents
-static bool item_has_uses_recursive( const item &it )
+bool item::item_has_uses_recursive() const
 {
-    if( !it.type->use_methods.empty() ) {
+    if( !type->use_methods.empty() ) {
         return true;
     }
 
-    for( const auto &elem : it.contents ) {
-        if( item_has_uses_recursive( elem ) ) {
+    return contents.item_has_uses_recursive();
+}
+
+bool item_contents::item_has_uses_recursive() const
+{
+    for( const item &it : items ) {
+        if( it.item_has_uses_recursive() ) {
             return true;
         }
     }
-
     return false;
 }
 
@@ -102,7 +116,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 
     std::unordered_set< item_action_id > to_remove;
     for( item *i : items ) {
-        if( !item_has_uses_recursive( *i ) ) {
+        if( !i->item_has_uses_recursive() ) {
             continue;
         }
 
@@ -217,12 +231,12 @@ void game::item_action_menu()
     // HACK: A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
     std::vector<item *> pseudos;
     item toolset( "toolset", calendar::turn );
-    if( u.has_active_bionic( bionic_id( "bio_tools" ) ) ) {
+    if( u.has_active_bionic( bio_tools ) ) {
         pseudos.push_back( &toolset );
     }
-    item bio_claws( "bio_claws_weapon", calendar::turn );
-    if( u.has_active_bionic( bionic_id( "bio_claws" ) ) ) {
-        pseudos.push_back( &bio_claws );
+    item bio_claws_item( static_cast<std::string>( bio_claws_weapon ), calendar::turn );
+    if( u.has_active_bionic( bio_claws ) ) {
+        pseudos.push_back( &bio_claws_item );
     }
 
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
@@ -235,8 +249,8 @@ void game::item_action_menu()
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS" );
     for( const auto &id : item_actions ) {
-        ctxt.register_action( id.first, id.second.name.translated() );
-        kmenu.additional_actions.emplace_back( id.first, id.second.name.translated() );
+        ctxt.register_action( id.first, id.second.name );
+        kmenu.additional_actions.emplace_back( id.first, id.second.name );
     }
     actmenu_cb callback( item_actions );
     kmenu.callback = &callback;
@@ -264,7 +278,11 @@ void game::item_action_menu()
         }
 
         const auto method = elem.second->get_use( elem.first );
-        return std::make_tuple( method->get_type(), method->get_name(), ss );
+        if( method ) {
+            return std::make_tuple( method->get_type(), method->get_name(), ss );
+        } else {
+            return std::make_tuple( errstring, std::string( "NO USE FUNCTION" ), ss );
+        }
     } );
     // Sort mapped actions.
     sort_menu( menu_items.begin(), menu_items.end() );

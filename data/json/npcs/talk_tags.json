@@ -8,6 +8,7 @@
       "Arg thorazine, don't touch it!",
       "Thorazine is bad for you, you know.",
       "Thorazine is poison.",
+      "Thorazine?  I wouldn't if I were you.",
       "You don't need thorazine, it's limiting you.",
       "Thorazine…  That's what 'they' use to keep you tame.",
       "Don't.  This thorazine seriously clouds your mind.  You need to stay sharp."
@@ -51,9 +52,10 @@
       "No thanks, I really don't feel like it.",
       "Well, I would, but I don't want to right now.",
       "I have better things to do.",
-      "I'll pass, it's too much work.",
+      "I'll pass; it's too much work.",
       "Who put you in charge of what I do?",
       "Great idea!  Call me when you find SOMEONE ELSE to do it.",
+      "I'm afraid I can't help you there.",
       "Not exactly the settlin' type."
     ]
   },
@@ -138,6 +140,7 @@
       "<ill_die> if I don't drink something.",
       "Water…  Is there an oasis nearby?",
       "Did you know that lack of water kills faster than lack of rest?",
+      "I can't remember the last time I was this thirsty.",
       "I'd kill for a sip of water right now."
     ]
   },
@@ -646,6 +649,7 @@
       "Hey <name_g>, let's talk!",
       "<name_g>, we <really> need to talk!",
       "Hey, we should talk, <okay>?",
+      "Hey, can we talk for a bit?",
       "<name_g>!  Wait up!",
       "Wait up, <okay>?",
       "Let's talk, <name_g>!",
@@ -792,6 +796,7 @@
       "Fuck me!  A <swear>",
       "Watch out for that",
       "Watch out!  I see a",
+      "Run!  It's a",
       "<swear!>, a",
       "<swear!>, I'm doomed!  There's a <swear> <swear>",
       "<swear!>, here comes a <swear>",
@@ -932,7 +937,8 @@
       "You have it coming",
       "Let's dance,",
       "You and me,",
-      "I will kill you to death, "
+      "I will kill you to death,",
+      "You're going down,"
     ]
   },
   {
@@ -945,7 +951,8 @@
       "Hey <name_b>!  I'm gonna <swear> murder",
       "<swear!>!  This is the end,",
       "I can <swear> take on",
-      "Time to die,"
+      "Time to die,",
+      "Say your prayers,"
     ]
   },
   {
@@ -988,7 +995,17 @@
     "type": "snippet",
     "category": "<speech_warning>",
     "//": "NPC complaint that they heard an unknown voice.  This goes off a lot and could use more variety.",
-    "text": [ "Quiet down over there!", "Did you hear someone talking?", "Who said that?", "Who's there?", "Who goes there?" ]
+    "text": [
+      "Quiet down over there!",
+      "Did you hear someone talking?",
+      "Who said that?",
+      "Did someone say something?",
+      "What made that noise?",
+      "What was that?",
+      "Huh?  Is someone there?",
+      "Who's there?",
+      "Who goes there?"
+    ]
   },
   {
     "type": "snippet",
@@ -1000,6 +1017,7 @@
       "Did you hear that?",
       "What's that noise?",
       "Is something over there?",
+      "Sounds like something bad's going on.",
       "What was that?"
     ]
   },
@@ -1013,13 +1031,14 @@
       "What's there?  I heard",
       "Did you hear that?  Sounded like",
       "What is making that sound?  I can hear the",
-      "I could swear I heard"
+      "I could swear I heard",
+      "I could have sworn I just heard"
     ]
   },
   {
     "type": "snippet",
     "category": "<acknowledged>",
-    "//": "Generic acknowledgement of a command.  Comes up a lot and could use more variety.",
+    "//": "Generic acknowledgment of a command.  Comes up a lot and could use more variety.",
     "text": [
       "Got it!",
       "I'm on it.",
@@ -1031,6 +1050,7 @@
       "Will do.",
       "No problem.",
       "Can do.",
+      "Acknowledged.",
       "Affirmative.",
       "Roger that.",
       "Capiche.",
@@ -1046,6 +1066,7 @@
     "text": [
       "Whew… smells like skunk!",
       "Man, that smells like some good shit!",
+      "Is that marijuana you're smoking?",
       "Hey, don't bogart the joint!",
       "C'mon, <name_g>, I can smell it, pass it over.",
       "Wow, that smell takes me back.",
@@ -1078,7 +1099,7 @@
     "type": "snippet",
     "category": "<crack_smoke>",
     "//": "Complaint when the NPC is near the avatar who is smoking crack.",
-    "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "<meth_smoke>" ]
+    "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "Why are you smoking crack cocaine?", "<meth_smoke>" ]
   },
   {
     "type": "snippet",
@@ -1111,6 +1132,7 @@
     "text": [
       "I need some junk to power my internal furnace.",
       "I can't recharge my CBMs without some firewood for my internal furnace.",
+      "I need something to use as fuel for my furnace.",
       "Hey, <name_g>, can I get some waste paper or withered plants?  I need to recharge."
     ]
   },
@@ -1173,7 +1195,7 @@
       "We'd better get moving.",
       "Let's head out.",
       "Time's a-wasting.  Let's head out.",
-      "Come on. We got stuff to do.",
+      "Come on.  We got stuff to do.",
       "Let's hit the road.",
       "We'll pick this up another time.  Let's go.",
       "Let's put a pin in this chat for now.",
@@ -1195,13 +1217,14 @@
       "horrible",
       "miserable",
       "fucked-up",
+      "lousy",
       "deplorable"
     ]
   },
   {
     "type": "snippet",
     "category": "<dumb>",
-    "text": [ "stupid", "idiotic", "dumb", "dumb-ass", "moronic", "mickey mouse", "shit-for-brains", "imbecilic" ]
+    "text": [ "stupid", "idiotic", "dumb", "dumb-ass", "moronic", "mickey mouse", "shit-for-brains", "brain-dead", "imbecilic" ]
   },
   {
     "type": "snippet",
@@ -1222,7 +1245,7 @@
   {
     "type": "snippet",
     "category": "<zombies>",
-    "text": [ "zombies", "Z", "Z's", "undead", "<swear> <zombies>", "living dead", "zeds" ]
+    "text": [ "zombies", "Z", "Z's", "undead", "<swear> <zombies>", "living dead", "shamblers", "walkers", "goo-pukers", "zeds" ]
   },
   {
     "type": "snippet",
@@ -1280,6 +1303,7 @@
       "I can't outrun it!  I'm going to kill it!",
       "<swear>!  Die, you <name_b>!  I want to live!",
       "My feet failed me!  Arms, don't fail me!",
+      "Can't run!  Have to fight!",
       "If I die, I'm taking you all with me!"
     ]
   },
@@ -1292,6 +1316,8 @@
       "This place is on fire.  I'm leaving.",
       "Put the fire out!  Put it out!",
       "Fire bad!  <move>!",
+      "We need to put this fire out!",
+      "Somebody get some water!",
       "Fire, fire, FIRE!",
       "Get an extinguisher!",
       "Danger hot!"

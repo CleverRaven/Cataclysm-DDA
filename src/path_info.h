@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PATH_INFO_H
-#define PATH_INFO_H
+#ifndef CATA_SRC_PATH_INFO_H
+#define CATA_SRC_PATH_INFO_H
 
 #include <string>
 
@@ -26,6 +26,7 @@ std::string defaulttilejson();
 std::string defaulttilepng();
 std::string fontdata();
 std::string fontdir();
+std::string user_font();
 std::string fontlist();
 std::string graveyarddir();
 std::string help();
@@ -50,10 +51,8 @@ std::string savedir();
 std::string sokoban();
 std::string templatedir();
 std::string user_dir();
-std::string user_gfx();
 std::string user_keybindings();
 std::string user_moddir();
-std::string user_sound();
 std::string worldoptions();
 std::string crash();
 std::string tileset_conf();
@@ -82,4 +81,4 @@ void set_motd( const std::string &motd );
 
 } // namespace PATH_INFO
 
-#endif
+#endif // CATA_SRC_PATH_INFO_H

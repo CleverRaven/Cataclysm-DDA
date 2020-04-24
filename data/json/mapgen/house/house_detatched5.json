@@ -77,10 +77,6 @@
         { "chance": 20, "item": "clutter_yard", "x": 5, "y": 17 },
         { "chance": 20, "item": "clutter_yard", "x": 17, "y": 14 },
         { "chance": 25, "item": "textbooks", "x": 10, "y": 2 }
-      ],
-      "place_monsters": [
-        { "chance": 10, "density": 1, "monster": "GROUP_DOGS", "x": 14, "y": 15 },
-        { "chance": 8, "density": 1, "monster": "GROUP_DOGS", "x": 8, "y": 6 }
       ]
     }
   },
@@ -118,6 +114,66 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_detatched5_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "  ||||||||||||||||||||| ",
+        "  |2........1.........| ",
+        "  |...................| ",
+        "  |...................| ",
+        " ||...................| ",
+        " |z...................| ",
+        " |%...................| ",
+        " |g...................| ",
+        " |....................| ",
+        " |.....z..............| ",
+        " |<..zFz..............| ",
+        " |%%+%||||||||||||||||| ",
+        " |....|                 ",
+        " |JWZJ|                 ",
+        " ||||||                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "2": {
+          "chunks": [
+            [ "null", 70 ],
+            [ "room_6x6_guns_E", 2 ],
+            [ "room_6x6_guns_S", 2 ],
+            [ "room_6x6_junk_E", 30 ],
+            [ "room_6x6_junk_S", 30 ],
+            [ "room_6x6_office_E", 30 ],
+            [ "room_6x6_office_S", 30 ],
+            [ "room_6x6_brewer_E", 10 ],
+            [ "room_6x6_brewer_S", 10 ]
+          ]
+        },
+        "1": {
+          "chunks": [
+            [ "null", 70 ],
+            [ "room_10x10_woodworker_W", 20 ],
+            [ "room_10x10_guns_W", 7 ],
+            [ "room_10x10_pool_W", 2 ],
+            [ "room_10x10_junk_W", 30 ],
+            [ "room_10x10_recording_studio_W", 20 ]
+          ]
+        }
+      }
     }
   }
 ]

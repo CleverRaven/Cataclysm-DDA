@@ -1,8 +1,5 @@
-#include "catch/catch.hpp"
-
 #include "calendar.h"
-#include "rng.h"
-#include "stringmaker.h"
+#include "catch/catch.hpp"
 
 TEST_CASE( "moon_phases_take_28_days", "[calendar]" )
 {

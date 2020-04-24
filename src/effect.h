@@ -1,27 +1,25 @@
 #pragma once
-#ifndef EFFECT_H
-#define EFFECT_H
+#ifndef CATA_SRC_EFFECT_H
+#define CATA_SRC_EFFECT_H
 
-#include <cstddef>
-#include <unordered_map>
-#include <tuple>
-#include <vector>
-#include <string>
-#include <utility>
 #include <set>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "string_id.h"
-#include "translations.h"
 #include "hash_utils.h"
+#include "translations.h"
 #include "type_id.h"
 
 class player;
 
 enum game_message_type : int;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
 
 /** Handles the large variety of weed messages. */
@@ -39,7 +37,7 @@ class effect_type
         friend void load_effect_type( const JsonObject &jo );
         friend class effect;
     public:
-        effect_type();
+        effect_type() = default;
 
         efftype_id id;
 
@@ -83,23 +81,23 @@ class effect_type
         static void register_ma_buff_effect( const effect_type &eff );
 
     protected:
-        int max_intensity;
-        int max_effective_intensity;
-        time_duration max_duration;
+        int max_intensity = 0;
+        int max_effective_intensity = 0;
+        time_duration max_duration = 0_turns;
 
-        int dur_add_perc;
-        int int_add_val;
+        int dur_add_perc = 0;
+        int int_add_val = 0;
 
-        int int_decay_step;
-        int int_decay_tick;
-        time_duration int_dur_factor;
+        int int_decay_step = 0;
+        int int_decay_tick = 0 ;
+        time_duration int_dur_factor = 0_turns;
 
         std::set<std::string> flags;
 
-        bool main_parts_only;
+        bool main_parts_only = false;
 
         // Determines if effect should be shown in description.
-        bool show_in_info;
+        bool show_in_info = false;
 
         std::vector<trait_id> resist_traits;
         std::vector<efftype_id> resist_effects;
@@ -108,25 +106,25 @@ class effect_type
 
         std::vector<std::pair<std::string, int>> miss_msgs;
 
-        bool pain_sizing;
-        bool hurt_sizing;
-        bool harmful_cough;
+        bool pain_sizing = false;
+        bool hurt_sizing = false;
+        bool harmful_cough = false;
         // TODO: Once addictions are JSON-ized it should be trivial to convert this to a
         // "generic" addiction reduces value
-        bool pkill_addict_reduces;
+        bool pkill_addict_reduces = false;
         // This flag is hard-coded for specific IDs now
         // It needs to be set for monster::move_effects
-        bool impairs_movement;
+        bool impairs_movement = false;
 
         std::vector<translation> name;
         std::string speed_mod_name;
         std::vector<std::string> desc;
         std::vector<std::string> reduced_desc;
-        bool part_descs;
+        bool part_descs = false;
 
         std::vector<std::pair<std::string, game_message_type>> decay_msgs;
 
-        effect_rating rating;
+        effect_rating rating = effect_rating::e_neutral;
 
         std::string apply_message;
         std::string apply_memorial_log;
@@ -135,8 +133,7 @@ class effect_type
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
-        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash
-        > mod_data;
+        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
 };
 
 class effect
@@ -306,4 +303,4 @@ class effects_map : public
 {
 };
 
-#endif
+#endif // CATA_SRC_EFFECT_H
