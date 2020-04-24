@@ -2355,7 +2355,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     } else if( jo.has_object( "countdown_action" ) ) {
         auto tmp = jo.get_object( "countdown_action" );
-        def.countdown_action = usage_from_object( tmp ).second;
+        use_function fun = usage_from_object( tmp ).second;
+        if( fun ) {
+            def.countdown_action = fun;
+        }
     }
 
     if( jo.has_string( "drop_action" ) ) {
@@ -2363,7 +2366,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     } else if( jo.has_object( "drop_action" ) ) {
         auto tmp = jo.get_object( "drop_action" );
-        def.drop_action = usage_from_object( tmp ).second;
+        use_function fun = usage_from_object( tmp ).second;
+        if( fun ) {
+            def.drop_action = fun;
+        }
     }
 
     jo.read( "looks_like", def.looks_like );
@@ -2825,11 +2831,13 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 emplace_usage( use_methods, type );
             } else if( entry.test_object() ) {
                 auto obj = entry.get_object();
-                use_methods.insert( usage_from_object( obj ) );
+                std::pair<std::string, use_function> fun = usage_from_object( obj );
+                if( fun.second ) {
+                    use_methods.insert( fun );
+                }
             } else {
                 entry.throw_error( "array element is neither string nor object." );
             }
-
         }
     } else {
         if( jo.has_string( member ) ) {
@@ -2837,7 +2845,10 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             emplace_usage( use_methods, type );
         } else if( jo.has_object( member ) ) {
             auto obj = jo.get_object( member );
-            use_methods.insert( usage_from_object( obj ) );
+            std::pair<std::string, use_function> fun = usage_from_object( obj );
+            if( fun.second ) {
+                use_methods.insert( fun );
+            }
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
@@ -2870,7 +2881,7 @@ std::pair<std::string, use_function> Item_factory::usage_from_object( const Json
     use_function method = usage_from_string( type );
 
     if( !method.get_actor_ptr() ) {
-        obj.throw_error( "unknown use_action", "type" );
+        return std::make_pair( type, use_function() );
     }
 
     method.get_actor_ptr()->load( obj );
