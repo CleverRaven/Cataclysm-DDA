@@ -4,7 +4,7 @@
     "id": "f_autodoc",
     "name": "Autodoc Mk. XI",
     "symbol": "&",
-    "description": "A surgical apparatus used for installation and uninstallation of bionics.  It's only as skilled as its operator.",
+    "description": "A surgical apparatus used for installation and removal of bionics.  It's only as skilled as its operator.",
     "color": "light_cyan",
     "looks_like": "f_robotic_arm",
     "move_cost_mod": -1,
@@ -12,6 +12,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "AUTODOC" ],
     "examine_action": "autodoc",
+    "surgery_skill_multiplier": 1.0,
     "deconstruct": {
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },

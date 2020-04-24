@@ -1,0 +1,137 @@
+[
+  {
+    "result": "solar_array",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "mechanics", 3 ],
+    "time": "50 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 24 ], [ "rebar", 12 ] ],
+      [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
+      [ [ "spring", 6 ] ],
+      [ [ "solar_panel", 12 ] ]
+    ]
+  },
+  {
+    "result": "solar_array2",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "mechanics", 3 ],
+    "time": "50 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 24 ], [ "rebar", 12 ] ],
+      [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
+      [ [ "spring", 6 ] ],
+      [ [ "solar_panel_v2", 12 ] ]
+    ]
+  },
+  {
+    "result": "solar_array2r",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "mechanics", 3 ],
+    "time": "50 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 24 ], [ "rebar", 12 ] ],
+      [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
+      [ [ "spring", 6 ] ],
+      [ [ "reinforced_solar_panel_v2", 12 ] ]
+    ]
+  },
+  {
+    "result": "tread1",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "mechanics", 6 ],
+    "time": "116 h 40 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "wire", 20 ] ], [ [ "plastic_chunk", 200 ] ], [ [ "chain", 6 ] ] ]
+  },
+  {
+    "result": "tread2",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "mechanics", 7 ],
+    "time": "144 h 26 m 40 s",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 15 ], [ "steel_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "steel_plate", 10 ] ], [ [ "chain", 6 ] ] ]
+  },
+  {
+    "result": "tread3",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "mechanics", 7 ],
+    "time": "200 h",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 20 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "hard_plate", 10 ] ], [ [ "chain", 8 ] ] ]
+  },
+  {
+    "result": "stablilized_portal",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 8 ] ],
+    "time": "40 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "cargo_rack", 1 ] ], [ [ "teleporter", 1 ] ], [ [ "portal", 1 ] ], [ [ "plut_cell", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "vehicle_shelving",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 4 ],
+    "difficulty": 4,
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "rope_natural", 4 ], [ "welding_standard", 15 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [ [ [ "cargo_rack", 4 ] ], [ [ "pipe", 16 ] ], [ [ "sheet_metal", 4 ] ], [ [ "hinge", 10 ] ] ]
+  }
+]

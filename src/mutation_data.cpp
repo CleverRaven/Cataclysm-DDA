@@ -1,20 +1,21 @@
 #include "mutation.h" // IWYU pragma: associated
 
+#include <array>
 #include <map>
 #include <memory>
 #include <set>
-#include <vector>
-#include <array>
 #include <stdexcept>
+#include <vector>
 
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
-#include "json.h"
-#include "trait_group.h"
-#include "string_formatter.h"
-#include "translations.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "trait_group.h"
+#include "translations.h"
 
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
@@ -259,6 +260,20 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
     trait_factory.load( jo, src );
 }
 
+mut_transform::mut_transform() : active( false ), moves( 0 ) {}
+
+bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "target", target );
+    assign( j, "msg_transform", msg_transform );
+    assign( j, "active", active );
+    assign( j, "moves", moves );
+
+    return true;
+}
+
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -292,6 +307,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         optional( si, was_loaded, "type", ranged_mutation );
         optional( si, was_loaded, "message", raw_ranged_mutation_message );
     }
+    if( jo.has_object( "transform" ) ) {
+        transform = cata::make_value<mut_transform>();
+        transform->load( jo, "transform" );
+    }
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
@@ -323,12 +342,14 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
     optional( jo, was_loaded, "healing_resting", healing_resting, 0.0f );
+    optional( jo, was_loaded, "mending_modifier", mending_modifier, 1.0f );
     optional( jo, was_loaded, "hp_modifier", hp_modifier, 0.0f );
     optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, 0.0f );
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
     optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
     optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
     optional( jo, was_loaded, "cut_dmg_bonus", cut_dmg_bonus, 0 );
+    optional( jo, was_loaded, "pierce_dmg_bonus", pierce_dmg_bonus, 0.0f );
     optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
     optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
     optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
@@ -350,6 +371,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
     optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
+    optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
     optional( jo, was_loaded, "scent_intensity", scent_intensity, cata::nullopt );
@@ -363,6 +385,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );
+
+    optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 
     optional( jo, was_loaded, "allowed_category", allowed_category );
 
@@ -399,8 +423,9 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "leads_to", additions, trait_reader{} );
     optional( jo, was_loaded, "flags", flags, string_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
+    optional( jo, was_loaded, "enchantments", enchantments );
 
-    for( const std::string &s : jo.get_array( "no_cbm_on_bp" ) ) {
+    for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( get_body_part_token( s ) );
     }
 
@@ -422,7 +447,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     for( JsonArray ja : jo.get_array( "lumination" ) ) {
         const body_part bp = get_body_part_token( ja.next_string() );
-        lumination.emplace( bp, ja.next_float() );
+        lumination.emplace( bp, static_cast<float>( ja.next_float() ) );
+    }
+
+    for( JsonArray ja : jo.get_array( "anger_relations" ) ) {
+        const species_id spe = species_id( ja.next_string() );
+        anger_relations.emplace( spe, ja.next_int() );
+
     }
 
     for( JsonObject wp : jo.get_array( "wet_protection" ) ) {
@@ -446,7 +477,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         encumbrance_covered[get_body_part_token( part_id )] = enc;
     }
 
-    for( const std::string &line : jo.get_array( "restricts_gear" ) ) {
+    for( const std::string line : jo.get_array( "restricts_gear" ) ) {
         restricts_gear.insert( get_body_part_token( line ) );
     }
 
@@ -514,6 +545,7 @@ void mutation_branch::check_consistency()
     for( const auto &mdata : get_all() ) {
         const auto &mid = mdata.id;
         const cata::optional<scenttype_id> &s_id = mdata.scent_typeid;
+        const std::map<species_id, int> &an_id = mdata.anger_relations;
         for( const auto &style : mdata.initial_ma_styles ) {
             if( !style.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
@@ -522,6 +554,17 @@ void mutation_branch::check_consistency()
         for( const std::string &type : mdata.types ) {
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
+            }
+        }
+        if( mid->transform ) {
+            const trait_id tid = mid->transform->target;
+            if( !tid.is_valid() ) {
+                debugmsg( "mutation %s transform uses undefined target %s", mid.c_str(), tid.c_str() );
+            }
+        }
+        for( const std::pair<species_id, int> elem : an_id ) {
+            if( !elem.first.is_valid() ) {
+                debugmsg( "mutation %s refers to undefined species id %s", mid.c_str(), elem.first.c_str() );
             }
         }
         if( s_id && !s_id.value().is_valid() ) {
@@ -589,7 +632,7 @@ void dream::load( const JsonObject &jsobj )
     newdream.strength = jsobj.get_int( "strength" );
     newdream.category = jsobj.get_string( "category" );
 
-    for( const std::string &line : jsobj.get_array( "messages" ) ) {
+    for( const std::string line : jsobj.get_array( "messages" ) ) {
         newdream.raw_messages.push_back( line );
     }
 
@@ -603,7 +646,7 @@ bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
 {
-    for( const std::string &line : jsobj.get_array( "traits" ) ) {
+    for( const std::string line : jsobj.get_array( "traits" ) ) {
         trait_blacklist.insert( trait_id( line ) );
     }
 }
@@ -666,7 +709,7 @@ void mutation_branch::load_trait_group( const JsonArray &entries,
 {
     Trait_group &tg = make_group_or_throw( gid, is_collection );
 
-    for( const JsonValue &entry : entries ) {
+    for( const JsonValue entry : entries ) {
         // Backwards-compatibility with old format ["TRAIT", 100]
         if( entry.test_array() ) {
             JsonArray subarr = entry.get_array();
@@ -706,7 +749,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
         }
     }
     if( jsobj.has_member( "traits" ) ) {
-        for( const JsonValue &entry : jsobj.get_array( "traits" ) ) {
+        for( const JsonValue entry : jsobj.get_array( "traits" ) ) {
             if( entry.test_string() ) {
                 tg.add_trait_entry( trait_id( entry.get_string() ), 100 );
             } else if( entry.test_array() ) {
@@ -719,7 +762,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
         }
     }
     if( jsobj.has_member( "groups" ) ) {
-        for( const JsonValue &entry : jsobj.get_array( "groups" ) ) {
+        for( const JsonValue entry : jsobj.get_array( "groups" ) ) {
             if( entry.test_string() ) {
                 tg.add_group_entry( trait_group::Trait_group_tag( entry.get_string() ), 100 );
             } else if( entry.test_array() ) {
@@ -750,7 +793,7 @@ void mutation_branch::add_entry( Trait_group &tg, const JsonObject &obj )
 
     if( ptr ) {
         Trait_group &tg2 = dynamic_cast<Trait_group &>( *ptr );
-        for( const JsonObject &job2 : jarr ) {
+        for( const JsonObject job2 : jarr ) {
             add_entry( tg2, job2 );
         }
         tg.add_entry( std::move( ptr ) );

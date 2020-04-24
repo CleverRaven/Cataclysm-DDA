@@ -430,7 +430,7 @@
     "time": "1 m",
     "autolearn": true,
     "components": [ [ [ "socks", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "NO_RESIZE" ]
   },
   {
     "result": "thermal_gloves",

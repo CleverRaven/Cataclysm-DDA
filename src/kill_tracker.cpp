@@ -1,10 +1,20 @@
 #include "kill_tracker.h"
 
+#include <memory>
+#include <tuple>
+#include <utility>
+
 #include "avatar.h"
+#include "cata_variant.h"
+#include "character_id.h"
+#include "color.h"
+#include "event.h"
 #include "game.h"
 #include "mtype.h"
 #include "options.h"
-#include "output.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
 
 void kill_tracker::reset( const std::map<mtype_id, int> &kills_,
                           const std::vector<std::string> &npc_kills_ )
@@ -50,7 +60,7 @@ int kill_tracker::npc_kill_count() const
 int kill_tracker::kill_xp() const
 {
     int ret = 0;
-    for( const std::pair<mtype_id, int> &pair : kills ) {
+    for( const std::pair<const mtype_id, int> &pair : kills ) {
         ret += ( pair.first->difficulty + pair.first->difficulty_base ) * pair.second;
     }
     ret += npc_kills.size() * 10;
@@ -65,7 +75,7 @@ std::string kill_tracker::get_kills_text() const
     std::map<std::tuple<std::string, std::string, nc_color>, int> kill_counts;
 
     // map <name, sym, color> to kill count
-    for( const std::pair<mtype_id, int> &elem : kills ) {
+    for( const std::pair<const mtype_id, int> &elem : kills ) {
         const mtype &m = elem.first.obj();
         auto key = std::make_tuple( m.nname(), m.sym, m.color );
         kill_counts[key] += elem.second;

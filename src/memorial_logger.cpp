@@ -1,24 +1,49 @@
 #include "memorial_logger.h"
 
+#include <istream>
+#include <list>
+#include <map>
+#include <memory>
+#include <tuple>
+#include <utility>
+
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_variant.h"
+#include "character_id.h"
+#include "debug.h"
 #include "effect.h"
+#include "event.h"
 #include "event_statistics.h"
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "kill_tracker.h"
+#include "magic.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "monstergenerator.h"
+#include "mtype.h"
 #include "mutation.h"
+#include "omdata.h"
+#include "output.h"
 #include "overmapbuffer.h"
+#include "pldata.h"
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
@@ -229,7 +254,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         }
     }
 
-    for( const std::pair<std::tuple<std::string, std::string>, int> &entry : kill_counts ) {
+    for( const std::pair<const std::tuple<std::string, std::string>, int> &entry : kill_counts ) {
         file << "  " << std::get<1>( entry.first ) << " - "
              << string_format( "%4d", entry.second ) << " "
              << std::get<0>( entry.first ) << eol;
@@ -244,7 +269,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Skills
     file << _( "Skills:" ) << eol;
-    for( const std::pair<skill_id, SkillLevel> &pair : u.get_all_skills() ) {
+    for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
         const SkillLevel &lobj = pair.second;
         //~ 1. skill name, 2. skill level, 3. exercise percentage to next level
         file << indent << string_format( _( "%s: %d (%d %%)" ), pair.first->name(), lobj.level(),
@@ -276,7 +301,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Bionics
     file << _( "Bionics:" ) << eol;
-    for( const bionic_id bionic : u.get_bionics() ) {
+    for( const bionic_id &bionic : u.get_bionics() ) {
         file << indent << bionic->name << eol;
     }
     if( u.get_bionics().empty() ) {
@@ -298,7 +323,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
+        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
             file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
@@ -318,7 +343,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         }
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
+        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
             file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;

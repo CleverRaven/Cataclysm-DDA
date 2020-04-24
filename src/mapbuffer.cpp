@@ -13,12 +13,15 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "json.h"
 #include "map.h"
 #include "output.h"
+#include "popup.h"
+#include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
-#include "game_constants.h"
+#include "ui_manager.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -124,14 +127,18 @@ void mapbuffer::save( bool delete_after_save )
     const tripoint map_origin = sm_to_omt_copy( g->m.get_abs_sub() );
     const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
 
+    static_popup popup;
+
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint> saved_submaps;
     std::list<tripoint> submaps_to_delete;
     int next_report = 0;
     for( auto &elem : submaps ) {
         if( num_total_submaps > 100 && num_saved_submaps >= next_report ) {
-            popup_nowait( _( "Please wait as the map saves [%d/%d]" ),
-                          num_saved_submaps, num_total_submaps );
+            popup.message( _( "Please wait as the map saves [%d/%d]" ),
+                           num_saved_submaps, num_total_submaps );
+            ui_manager::redraw();
+            refresh_display();
             next_report += std::max( 100, num_total_submaps / 20 );
         }
 
@@ -284,13 +291,11 @@ void mapbuffer::deserialize( JsonIn &jsin )
         std::unique_ptr<submap> sm = std::make_unique<submap>();
         tripoint submap_coordinates;
         jsin.start_object();
-        bool rubpow_update = false;
+        int version = 0;
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
-                if( jsin.get_int() < 22 ) {
-                    rubpow_update = true;
-                }
+                version = jsin.get_int();
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
                 int locx = jsin.get_int();
@@ -299,7 +304,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 jsin.end_array();
                 submap_coordinates = tripoint( locx, locy, locz );
             } else {
-                sm->load( jsin, submap_member_name, rubpow_update );
+                sm->load( jsin, submap_member_name, version );
             }
         }
 

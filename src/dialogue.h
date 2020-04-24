@@ -1,27 +1,24 @@
 #pragma once
-#ifndef DIALOGUE_H
-#define DIALOGUE_H
+#ifndef CATA_SRC_DIALOGUE_H
+#define CATA_SRC_DIALOGUE_H
 
 #include <functional>
-#include <string>
-#include <vector>
 #include <set>
+#include <string>
 #include <type_traits>
-#include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "dialogue_win.h"
-#include "npc.h"
 #include "json.h"
-#include "string_id.h"
+#include "npc.h"
+#include "player.h"
 #include "translations.h"
-#include "material.h"
 #include "type_id.h"
 
+class martialart;
 class mission;
 struct dialogue;
-class martialart;
-class player;
 
 enum talk_trial_type : unsigned char {
     TALK_TRIAL_NONE, // No challenge here!
@@ -122,7 +119,7 @@ struct talk_effect_fun_t {
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
-        void set_add_mission( std::string mission_id );
+        void set_add_mission( const std::string &mission_id );
         const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
         void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
                                 const translation &name );
@@ -439,4 +436,4 @@ class json_talk_topic
 void unload_talk_topics();
 void load_talk_topic( const JsonObject &jo );
 
-#endif
+#endif // CATA_SRC_DIALOGUE_H

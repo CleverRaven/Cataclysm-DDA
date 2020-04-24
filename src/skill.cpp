@@ -1,18 +1,20 @@
 #include "skill.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <iterator>
 #include <array>
+#include <cstddef>
+#include <iterator>
 #include <memory>
 #include <utility>
 
+#include "cata_utility.h"
 #include "debug.h"
 #include "item.h"
 #include "json.h"
 #include "options.h"
 #include "recipe.h"
 #include "rng.h"
+#include "string_id.h"
 #include "translations.h"
 
 // TODO: a map, for Barry's sake make this a map.
@@ -148,7 +150,7 @@ void SkillDisplayType::load( const JsonObject &jsobj )
     skillTypes.push_back( sk );
 }
 
-const SkillDisplayType &SkillDisplayType::get_skill_type( skill_displayType_id id )
+const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayType_id &id )
 {
     for( auto &i : skillTypes ) {
         if( i._ident == id ) {
@@ -185,12 +187,14 @@ skill_id Skill::random_skill()
 // used for the pacifist trait
 bool Skill::is_combat_skill() const
 {
-    return _tags.count( "combat_skill" ) > 0;
+    static const std::string combat_skill( "combat_skill" );
+    return _tags.count( combat_skill ) > 0;
 }
 
 bool Skill::is_contextual_skill() const
 {
-    return _tags.count( "contextual_skill" ) > 0;
+    static const std::string contextual_skill( "contextual_skill" );
+    return _tags.count( contextual_skill ) > 0;
 }
 
 void SkillLevel::train( int amount, bool skip_scaling )
@@ -224,12 +228,12 @@ time_duration rustRate( int level )
 {
     // for n = [0, 7]
     //
-    // 2^15
+    // 2^18
     // -------
-    // 2^(n-1)
+    // 2^(18-n)
 
-    unsigned const n = level < 0 ? 0 : level > 7 ? 7 : level;
-    return time_duration::from_turns( 1 << ( 15 - n + 1 ) );
+    unsigned const n = clamp( level, 0, 7 );
+    return time_duration::from_turns( 1 << ( 18 - n ) );
 }
 } //namespace
 
@@ -239,10 +243,13 @@ bool SkillLevel::isRusting() const
            calendar::turn - _lastPracticed > rustRate( _level );
 }
 
-bool SkillLevel::rust( bool charged_bio_mem )
+bool SkillLevel::rust( bool charged_bio_mem, int character_rate )
 {
     const time_duration delta = calendar::turn - _lastPracticed;
-    if( _level <= 0 || delta <= 0_turns || delta % rustRate( _level ) != 0_turns ) {
+    const float char_rate = character_rate / 100.0;
+    const time_duration skill_rate = rustRate( _level );
+    if( to_turns<int>( skill_rate ) * char_rate <= 0 || delta <= 0_turns ||
+        delta % ( skill_rate * char_rate ) != 0_turns ) {
         return false;
     }
 
@@ -251,7 +258,7 @@ bool SkillLevel::rust( bool charged_bio_mem )
     }
 
     _exercise -= _level;
-    const auto &rust_type = get_option<std::string>( "SKILL_RUST" );
+    const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
             _exercise = ( 100 * _level * _level ) - 1;

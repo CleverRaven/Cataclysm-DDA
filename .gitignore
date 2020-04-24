@@ -14,11 +14,11 @@
 /cmake-build-debug/
 /config/
 /data/*.template
-/data/font/
 /data/mods/user-default-mods.json
 /dep/
 /doxygen_doc/html/*
 /doxygen_doc/latex/*
+/font/
 /graveyard/
 /memorial/
 /mods/
@@ -87,6 +87,9 @@ Thumbs.db
 cscope.*
 tags
 
+# Generated translation source
+/lang/po/en.po
+
 # Compiled binary translations
 /lang/mo/
 
@@ -151,6 +154,7 @@ cataclysm.a
 
 # clang tooling
 compile_commands.json
+.clangd
 
 # IDA database
 Cataclysm.i64

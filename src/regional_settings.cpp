@@ -2,11 +2,14 @@
 
 #include <algorithm>
 #include <map>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <utility>
 
 #include "debug.h"
+#include "enum_conversions.h"
+#include "int_id.h"
 #include "json.h"
 #include "options.h"
 #include "rng.h"
@@ -45,7 +48,7 @@ static void load_forest_biome_component(
             jo.throw_error( "types required" );
         }
     } else {
-        for( const JsonMember &member : jo.get_object( "types" ) ) {
+        for( const JsonMember member : jo.get_object( "types" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
@@ -72,7 +75,7 @@ static void load_forest_biome_terrain_dependent_furniture( const JsonObject &jo,
             jo.throw_error( "furniture required" );
         }
     } else {
-        for( const JsonMember &member : jo.get_object( "furniture" ) ) {
+        for( const JsonMember member : jo.get_object( "furniture" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
@@ -104,7 +107,7 @@ static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
             jo.throw_error( "components required" );
         }
     } else {
-        for( const JsonMember &member : jo.get_object( "components" ) ) {
+        for( const JsonMember member : jo.get_object( "components" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
@@ -123,7 +126,7 @@ static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
             jo.throw_error( "groundcover required" );
         }
     } else {
-        for( const JsonMember &member : jo.get_object( "groundcover" ) ) {
+        for( const JsonMember member : jo.get_object( "groundcover" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
@@ -136,7 +139,7 @@ static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
             jo.throw_error( "terrain_furniture required" );
         }
     } else {
-        for( const JsonMember &member : jo.get_object( "terrain_furniture" ) ) {
+        for( const JsonMember member : jo.get_object( "terrain_furniture" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
@@ -157,7 +160,7 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
             jo.throw_error( "\"forest_mapgen_settings\": { … } required for default" );
         }
     } else {
-        for( const JsonMember &member : jo.get_object( "forest_mapgen_settings" ) ) {
+        for( const JsonMember member : jo.get_object( "forest_mapgen_settings" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
@@ -212,11 +215,24 @@ static void load_forest_trail_settings( const JsonObject &jo,
                 forest_trail_settings_jo.throw_error( "trail_terrain required" );
             }
         } else {
-            for( const JsonMember &member : forest_trail_settings_jo.get_object( "trail_terrain" ) ) {
+            for( const JsonMember member : forest_trail_settings_jo.get_object( "trail_terrain" ) ) {
                 if( member.is_comment() ) {
                     continue;
                 }
                 forest_trail_settings.unfinalized_trail_terrain[member.name()] = member.get_int();
+            }
+        }
+
+        if( !forest_trail_settings_jo.has_object( "trailheads" ) ) {
+            if( !overlay ) {
+                forest_trail_settings_jo.throw_error( "trailheads required" );
+            }
+        } else {
+            for( const JsonMember member : forest_trail_settings_jo.get_object( "trailheads" ) ) {
+                if( member.is_comment() ) {
+                    continue;
+                }
+                forest_trail_settings.trailheads.add( overmap_special_id( member.name() ), member.get_int() );
             }
         }
     }
@@ -250,7 +266,7 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
                 overmap_feature_flag_settings_jo.throw_error( "blacklist required" );
             }
         } else {
-            for( const std::string &line : overmap_feature_flag_settings_jo.get_array( "blacklist" ) ) {
+            for( const std::string line : overmap_feature_flag_settings_jo.get_array( "blacklist" ) ) {
                 overmap_feature_flag_settings.blacklist.emplace( line );
             }
         }
@@ -260,7 +276,7 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
                 overmap_feature_flag_settings_jo.throw_error( "whitelist required" );
             }
         } else {
-            for( const std::string &line : overmap_feature_flag_settings_jo.get_array( "whitelist" ) ) {
+            for( const std::string line : overmap_feature_flag_settings_jo.get_array( "whitelist" ) ) {
                 overmap_feature_flag_settings.whitelist.emplace( line );
             }
         }
@@ -306,6 +322,8 @@ static void load_overmap_lake_settings( const JsonObject &jo,
                                        overmap_lake_settings.noise_threshold_lake, !overlay );
         read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_size_min",
                                     overmap_lake_settings.lake_size_min, !overlay );
+        read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_depth",
+                                    overmap_lake_settings.lake_depth, !overlay );
 
         if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain" ) ) {
             if( !overlay ) {
@@ -324,13 +342,12 @@ static void load_overmap_lake_settings( const JsonObject &jo,
                 overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain_aliases required" );
             }
         } else {
-            oter_str_id alias;
-            for( JsonObject jo :
+            for( JsonObject alias_entry :
                  overmap_lake_settings_jo.get_array( "shore_extendable_overmap_terrain_aliases" ) ) {
                 shore_extendable_overmap_terrain_alias alias;
-                jo.read( "om_terrain", alias.overmap_terrain );
-                jo.read( "alias", alias.alias );
-                alias.match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                alias_entry.read( "om_terrain", alias.overmap_terrain );
+                alias_entry.read( "alias", alias.alias );
+                alias.match_type = alias_entry.get_enum_value<ot_match_type>( "om_terrain_match_type",
                                    ot_match_type::contains );
                 overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
             }
@@ -355,11 +372,11 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
                 region_terrain_and_furniture_settings_jo.throw_error( "terrain required" );
             }
         } else {
-            for( const JsonMember &region : region_terrain_and_furniture_settings_jo.get_object( "terrain" ) ) {
+            for( const JsonMember region : region_terrain_and_furniture_settings_jo.get_object( "terrain" ) ) {
                 if( region.is_comment() ) {
                     continue;
                 }
-                for( const JsonMember &terrain : region.get_object() ) {
+                for( const JsonMember terrain : region.get_object() ) {
                     if( terrain.is_comment() ) {
                         continue;
                     }
@@ -374,12 +391,12 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
                 region_terrain_and_furniture_settings_jo.throw_error( "furniture required" );
             }
         } else {
-            for( const JsonMember &template_furniture :
+            for( const JsonMember template_furniture :
                  region_terrain_and_furniture_settings_jo.get_object( "furniture" ) ) {
                 if( template_furniture.is_comment() ) {
                     continue;
                 }
-                for( const JsonMember &furniture : template_furniture.get_object() ) {
+                for( const JsonMember furniture : template_furniture.get_object() ) {
                     if( furniture.is_comment() ) {
                         continue;
                     }
@@ -432,7 +449,7 @@ void load_region_settings( const JsonObject &jo )
         }
         tmpval = 0.0f;
         if( pjo.has_object( "other" ) ) {
-            for( const JsonMember &member : pjo.get_object( "other" ) ) {
+            for( const JsonMember member : pjo.get_object( "other" ) ) {
                 if( member.is_comment() ) {
                     continue;
                 }
@@ -450,7 +467,7 @@ void load_region_settings( const JsonObject &jo )
             }
             new_region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
             if( pjo.has_object( "boosted_other" ) ) {
-                for( const JsonMember &member : pjo.get_object( "boosted_other" ) ) {
+                for( const JsonMember member : pjo.get_object( "boosted_other" ) ) {
                     if( member.is_comment() ) {
                         continue;
                     }
@@ -471,7 +488,7 @@ void load_region_settings( const JsonObject &jo )
             jo.throw_error( "\"map_extras\": { … } required for default" );
         }
     } else {
-        for( const JsonMember &zone : jo.get_object( "map_extras" ) ) {
+        for( const JsonMember zone : jo.get_object( "map_extras" ) ) {
             if( zone.is_comment() ) {
                 continue;
             }
@@ -487,7 +504,7 @@ void load_region_settings( const JsonObject &jo )
                     zjo.throw_error( "\"extras\": { … } required for default" );
                 }
             } else {
-                for( const JsonMember &member : zjo.get_object( "extras" ) ) {
+                for( const JsonMember member : zjo.get_object( "extras" ) ) {
                     if( member.is_comment() ) {
                         continue;
                     }
@@ -517,15 +534,12 @@ void load_region_settings( const JsonObject &jo )
         if( !cjo.read( "park_sigma", new_region.city_spec.park_sigma ) && strict ) {
             jo.throw_error( "city: park_sigma required for default" );
         }
-        if( !cjo.read( "house_basement_chance", new_region.city_spec.house_basement_chance ) && strict ) {
-            jo.throw_error( "city: house_basement_chance required for default" );
-        }
         const auto load_building_types = [&jo, &cjo, strict]( const std::string & type,
         building_bin & dest ) {
             if( !cjo.has_object( type ) && strict ) {
                 jo.throw_error( "city: \"" + type + "\": { … } required for default" );
             } else {
-                for( const JsonMember &member : cjo.get_object( type ) ) {
+                for( const JsonMember member : cjo.get_object( type ) ) {
                     if( member.is_comment() ) {
                         continue;
                     }
@@ -534,7 +548,6 @@ void load_region_settings( const JsonObject &jo )
             }
         };
         load_building_types( "houses", new_region.city_spec.houses );
-        load_building_types( "basements", new_region.city_spec.basements );
         load_building_types( "shops", new_region.city_spec.shops );
         load_building_types( "parks", new_region.city_spec.parks );
     }
@@ -573,7 +586,7 @@ void load_region_overlay( const JsonObject &jo )
 {
     if( jo.has_array( "regions" ) ) {
         JsonArray regions = jo.get_array( "regions" );
-        for( const std::string &regionid : regions ) {
+        for( const std::string regionid : regions ) {
             if( regionid == "all" ) {
                 if( regions.size() != 1 ) {
                     jo.throw_error( "regions: More than one region is not allowed when \"all\" is used" );
@@ -618,7 +631,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     fieldjo.read( "default_ter", region.field_coverage.default_ter_str );
 
-    for( const JsonMember &member : fieldjo.get_object( "other" ) ) {
+    for( const JsonMember member : fieldjo.get_object( "other" ) ) {
         if( member.is_comment() ) {
             continue;
         }
@@ -644,7 +657,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
         region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
     }
 
-    for( const JsonMember &member : fieldjo.get_object( "boosted_other" ) ) {
+    for( const JsonMember member : fieldjo.get_object( "boosted_other" ) ) {
         if( member.is_comment() ) {
             continue;
         }
@@ -660,7 +673,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     load_forest_trail_settings( jo, region.forest_trail, false, true );
 
-    for( const JsonMember &zone : jo.get_object( "map_extras" ) ) {
+    for( const JsonMember zone : jo.get_object( "map_extras" ) ) {
         if( zone.is_comment() ) {
             continue;
         }
@@ -671,7 +684,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
             region.region_extras[zone.name()].chance = tmpval;
         }
 
-        for( const JsonMember &member : zonejo.get_object( "extras" ) ) {
+        for( const JsonMember member : zonejo.get_object( "extras" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
@@ -685,10 +698,9 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     cityjo.read( "shop_sigma", region.city_spec.shop_sigma );
     cityjo.read( "park_radius", region.city_spec.park_radius );
     cityjo.read( "park_sigma", region.city_spec.park_sigma );
-    cityjo.read( "house_basement_chance", region.city_spec.house_basement_chance );
 
     const auto load_building_types = [&cityjo]( const std::string & type, building_bin & dest ) {
-        for( const JsonMember &member : cityjo.get_object( type ) ) {
+        for( const JsonMember member : cityjo.get_object( type ) ) {
             if( member.is_comment() ) {
                 continue;
             }
@@ -696,7 +708,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
         }
     };
     load_building_types( "houses", region.city_spec.houses );
-    load_building_types( "basements", region.city_spec.basements );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
 
@@ -800,7 +811,7 @@ ter_furn_id groundcover_extra::pick( bool boosted ) const
 
 void forest_biome_component::finalize()
 {
-    for( const std::pair<std::string, int> &pr : unfinalized_types ) {
+    for( const std::pair<const std::string, int> &pr : unfinalized_types ) {
         ter_furn_id tf_id;
         tf_id.ter = t_null;
         tf_id.furn = f_null;
@@ -819,7 +830,7 @@ void forest_biome_component::finalize()
 
 void forest_biome_terrain_dependent_furniture::finalize()
 {
-    for( const std::pair<std::string, int> &pr : unfinalized_furniture ) {
+    for( const std::pair<const std::string, int> &pr : unfinalized_furniture ) {
         const furn_str_id fid( pr.first );
         if( !fid.is_valid() ) {
             continue;
@@ -861,7 +872,7 @@ void forest_biome::finalize()
         return a.sequence < b.sequence;
     } );
 
-    for( const std::pair<std::string, int> &pr : unfinalized_groundcover ) {
+    for( const std::pair<const std::string, int> &pr : unfinalized_groundcover ) {
         const ter_str_id tid( pr.first );
         if( !tid.is_valid() ) {
             continue;
@@ -895,6 +906,8 @@ void forest_trail_settings::finalize()
         }
         trail_terrain.add( tid.id(), pr.second );
     }
+
+    trailheads.finalize();
 }
 
 void overmap_lake_settings::finalize()
@@ -958,7 +971,7 @@ void region_terrain_and_furniture_settings::finalize()
     }
 }
 
-ter_id region_terrain_and_furniture_settings::resolve( const ter_id tid ) const
+ter_id region_terrain_and_furniture_settings::resolve( const ter_id &tid ) const
 {
     ter_id result = tid;
     auto region_list = terrain.find( result );
@@ -969,7 +982,7 @@ ter_id region_terrain_and_furniture_settings::resolve( const ter_id tid ) const
     return result;
 }
 
-furn_id region_terrain_and_furniture_settings::resolve( const furn_id fid ) const
+furn_id region_terrain_and_furniture_settings::resolve( const furn_id &fid ) const
 {
     furn_id result = fid;
     auto region_list = furniture.find( result );
@@ -1001,7 +1014,6 @@ void regional_settings::finalize()
 void city_settings::finalize()
 {
     houses.finalize();
-    basements.finalize();
     shops.finalize();
     parks.finalize();
 }
@@ -1042,11 +1054,11 @@ void building_bin::finalize()
         return;
     }
     if( unfinalized_buildings.empty() ) {
-        debugmsg( "There must be at least one house, shop, and park for each regional map setting used." );
+        debugmsg( "There must be at least one entry in this building bin." );
         return;
     }
 
-    for( const std::pair<overmap_special_id, int> &pr : unfinalized_buildings ) {
+    for( const std::pair<const overmap_special_id, int> &pr : unfinalized_buildings ) {
         overmap_special_id current_id = pr.first;
         if( !current_id.is_valid() ) {
             // First, try to convert oter to special

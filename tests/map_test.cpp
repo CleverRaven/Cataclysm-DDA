@@ -1,14 +1,15 @@
 #include <memory>
+#include <vector>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "type_id.h"
 #include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "destroy_grabbed_furniture" )
 {
@@ -77,4 +78,13 @@ TEST_CASE( "tinymap_bounds_checking" )
             }
         }
     }
+}
+
+TEST_CASE( "place_player_can_safely_move_multiple_submaps" )
+{
+    // Regression test for the situation where game::place_player would misuse
+    // map::shift if the resulting shift exceeded a single submap, leading to a
+    // broken active item cache.
+    g->place_player( tripoint_zero );
+    CHECK( g->m.check_submap_active_item_consistency().empty() );
 }

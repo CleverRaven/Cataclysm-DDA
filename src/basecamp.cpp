@@ -1,43 +1,45 @@
 #include "basecamp.h"
 
 #include <algorithm>
-#include <sstream>
 #include <map>
+#include <sstream>
 #include <string>
-#include <vector>
+#include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character_id.h"
 #include "clzones.h"
+#include "color.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "translations.h"
+#include "debug.h"
+#include "faction_camp.h"
+#include "flat_set.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "npc.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "npc.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "requirements.h"
-#include "string_input_popup.h"
-#include "faction_camp.h"
-#include "calendar.h"
-#include "color.h"
-#include "compatibility.h"
+#include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
+#include "translations.h"
 #include "type_id.h"
-#include "flat_set.h"
-#include "line.h"
 
-static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
+static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
@@ -208,8 +210,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
-    const auto tools = making.requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
-    const auto comps = making.requirements().get_folded_components_list( pane, c_white, _inv,
+    const auto tools = making.simple_requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
+    const auto comps = making.simple_requirements().get_folded_components_list( pane, c_white, _inv,
                        making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
@@ -263,7 +265,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const cata::optional<point> dir,
+bool basecamp::has_provides( const std::string &req, const cata::optional<point> &dir,
                              int level ) const
 {
     if( !dir ) {
@@ -345,7 +347,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
             basecamp_upgrade data;
             data.bldg = bldg;
             data.name = recp.blueprint_name();
-            const auto &reqs = recp.requirements();
+            const auto &reqs = recp.deduped_requirements();
             data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
             data.in_progress = in_progress;
             ret_data.emplace_back( data );
@@ -480,15 +482,37 @@ void basecamp::reset_camp_workers()
     }
 }
 
+void basecamp::add_assignee( character_id id )
+{
+    npc_ptr npc_to_add = overmap_buffer.find_npc( id );
+    if( !npc_to_add ) {
+        debugmsg( "cant find npc to assign to basecamp, on the overmap_buffer" );
+        return;
+    }
+    npc_to_add->assigned_camp = omt_pos;
+    assigned_npcs.push_back( npc_to_add );
+}
+
+void basecamp::remove_assignee( character_id id )
+{
+    npc_ptr npc_to_remove = overmap_buffer.find_npc( id );
+    if( !npc_to_remove ) {
+        debugmsg( "cant find npc to remove from basecamp, on the overmap_buffer" );
+        return;
+    }
+    npc_to_remove->assigned_camp = cata::nullopt;
+    assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), npc_to_remove ),
+                         assigned_npcs.end() );
+}
+
 void basecamp::validate_assignees()
 {
-    for( auto it2 = assigned_npcs.begin(); it2 != assigned_npcs.end(); ) {
-        auto ptr = *it2;
-        if( ptr->mission != NPC_MISSION_ASSIGNED_CAMP || ptr->global_omt_location() != omt_pos ||
-            ptr->has_companion_mission() ) {
-            it2 = assigned_npcs.erase( it2 );
+    std::vector<npc_ptr>::iterator iter = assigned_npcs.begin();
+    while( iter != assigned_npcs.end() ) {
+        if( !( *iter ) || !( *iter )->assigned_camp || *( *iter )->assigned_camp != omt_pos ) {
+            iter = assigned_npcs.erase( iter );
         } else {
-            ++it2;
+            ++iter;
         }
     }
     for( character_id elem : g->get_follower_list() ) {
@@ -499,9 +523,7 @@ void basecamp::validate_assignees()
         if( std::find( assigned_npcs.begin(), assigned_npcs.end(), npc_to_add ) != assigned_npcs.end() ) {
             continue;
         } else {
-            if( npc_to_add->global_omt_location() == omt_pos &&
-                npc_to_add->mission == NPC_MISSION_ASSIGNED_CAMP &&
-                !npc_to_add->has_companion_mission() ) {
+            if( npc_to_add->assigned_camp && *npc_to_add->assigned_camp == omt_pos ) {
                 assigned_npcs.push_back( npc_to_add );
             }
         }
@@ -589,8 +611,8 @@ void basecamp::form_crafting_inventory( map &target_map )
     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
-    if( mgr.has_near( z_camp_storage, dump_spot, 60 ) ) {
-        std::unordered_set<tripoint> src_set = mgr.get_near( z_camp_storage, dump_spot, 60 );
+    if( mgr.has_near( zone_type_camp_storage, dump_spot, 60 ) ) {
+        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_camp_storage, dump_spot, 60 );
         _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*
@@ -690,12 +712,16 @@ basecamp_action_components::basecamp_action_components(
 bool basecamp_action_components::choose_components()
 {
     const auto filter = is_crafting_component;
-    const requirement_data &req = making_.requirements();
+    const requirement_data *req =
+        making_.deduped_requirements().select_alternative( g->u, base_._inv, filter, batch_size_ );
+    if( !req ) {
+        return false;
+    }
     if( !item_selections_.empty() || !tool_selections_.empty() ) {
         debugmsg( "Reused basecamp_action_components" );
         return false;
     }
-    for( const auto &it : req.get_components() ) {
+    for( const auto &it : req->get_components() ) {
         comp_selection<item_comp> is =
             g->u.select_item_component( it, batch_size_, base_._inv, true, filter,
                                         !base_.by_radio );
@@ -705,7 +731,7 @@ bool basecamp_action_components::choose_components()
         item_selections_.push_back( is );
     }
     // this may consume pseudo-resources from fake items
-    for( const auto &it : req.get_tools() ) {
+    for( const auto &it : req->get_tools() ) {
         comp_selection<tool_comp> ts =
             g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
                                         !base_.by_radio );
@@ -726,23 +752,18 @@ void basecamp_action_components::consume_components()
         target_map = map_.get();
     }
     const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );
-    const auto &req = making_.requirements();
-    if( item_selections_.size() != req.get_components().size() ||
-        tool_selections_.size() != req.get_tools().size() ) {
-        debugmsg( "Not all selections have been made for basecamp_action_components" );
-    }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         g->u.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
-                            base_.inv_range );
+                            basecamp::inv_range );
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
-        g->u.consume_tools( *target_map, sel, batch_size_, origin, base_.inv_range, &base_ );
+        g->u.consume_tools( *target_map, sel, batch_size_, origin, basecamp::inv_range, &base_ );
     }
     // go back and consume the actual resources
     for( basecamp_resource &bcp_r : base_.resources ) {
         if( bcp_r.consumed > 0 ) {
-            target_map->use_charges( origin, base_.inv_range, bcp_r.ammo_id, bcp_r.consumed );
+            target_map->use_charges( origin, basecamp::inv_range, bcp_r.ammo_id, bcp_r.consumed );
             bcp_r.consumed = 0;
         }
     }

@@ -1,10 +1,9 @@
 #pragma once
-#ifndef BALLISTICS_H
-#define BALLISTICS_H
-
-#include "dispersion.h"
+#ifndef CATA_SRC_BALLISTICS_H
+#define CATA_SRC_BALLISTICS_H
 
 class Creature;
+class dispersion_sources;
 class vehicle;
 struct dealt_projectile_attack;
 struct projectile;
@@ -35,4 +34,4 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         const tripoint &target_arg, const dispersion_sources &dispersion,
         Creature *origin = nullptr, const vehicle *in_veh = nullptr );
 
-#endif
+#endif // CATA_SRC_BALLISTICS_H

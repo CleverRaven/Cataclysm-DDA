@@ -2,11 +2,14 @@
 
 #include "ClangTidyModule.h"
 #include "ClangTidyModuleRegistry.h"
+#include "DeterminismCheck.h"
+#include "HeaderGuardCheck.h"
 #include "JsonTranslationInputCheck.h"
 #include "NoLongCheck.h"
 #include "NoStaticGettextCheck.h"
 #include "PointInitializationCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
+#include "TestFilenameCheck.h"
 #include "TextStyleCheck.h"
 #include "TranslatorCommentsCheck.h"
 #include "UseNamedPointConstantsCheck.h"
@@ -25,12 +28,15 @@ class CataModule : public ClangTidyModule
 {
     public:
         void addCheckFactories( ClangTidyCheckFactories &CheckFactories ) override {
+            CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );
+            CheckFactories.registerCheck<CataHeaderGuardCheck>( "cata-header-guard" );
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticGettextCheck>( "cata-no-static-gettext" );
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
                 "cata-simplify-point-constructors" );
+            CheckFactories.registerCheck<TestFilenameCheck>( "cata-test-filename" );
             CheckFactories.registerCheck<TextStyleCheck>( "cata-text-style" );
             CheckFactories.registerCheck<TranslatorCommentsCheck>( "cata-translator-comments" );
             CheckFactories.registerCheck<UseNamedPointConstantsCheck>(

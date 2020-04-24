@@ -1,0 +1,16 @@
+[
+  {
+    "id": "queen",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "amorphous heart",
+    "description": "This amorphous mass seems to have finished developing; its advanced internal structures testifying to that.  It is capable of locomotion through internal hydraulic pressure, capable of moving substantial loads, and, in an astounding display of intelligence, is capable of manipulating anything it's attached to, whether blob-based or otherwise, through extended pseudopods.  You think you might be able to manipulate it, and through it, all its attached parts.  Though to do so you'll have to position yourself to be in contact with it; and it appears unnervingly willing to accommodate you…",
+    "weight": "21331 g",
+    "volume": "20 L",
+    "to_hit": -5,
+    "bashing": 10,
+    "material": [ "flesh" ],
+    "symbol": ")",
+    "color": "red"
+  }
+]

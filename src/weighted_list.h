@@ -1,6 +1,6 @@
 #pragma once
-#ifndef WEIGHTED_LIST_H
-#define WEIGHTED_LIST_H
+#ifndef CATA_SRC_WEIGHTED_LIST_H
+#define CATA_SRC_WEIGHTED_LIST_H
 
 #include "rng.h"
 
@@ -245,4 +245,4 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
 
 };
 
-#endif
+#endif // CATA_SRC_WEIGHTED_LIST_H

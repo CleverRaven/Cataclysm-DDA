@@ -1,18 +1,15 @@
 #include "live_view.h"
 
 #include <algorithm> // min & max
-#include <string>
 #include <memory>
 
-#include "catacharset.h" // center_text_pos
 #include "color.h"
+#include "cursesdef.h"
 #include "cursesport.h"
 #include "game.h"
 #include "map.h"
 #include "output.h"
-#include "string_formatter.h"
 #include "translations.h"
-#include "cursesdef.h"
 
 namespace
 {
@@ -42,7 +39,7 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     const int live_view_box_height = std::min( max_height, std::max( line_out + 2, MIN_BOX_HEIGHT ) );
 
 #if defined(TILES) || defined(_WIN32)
-    // Because of the way the status UI is done, the live view window must
+    // HACK: Because of the way the status UI is done, the live view window must
     // be tall enough to clear the entire height of the viewport below the
     // status bar. This hack allows the border around the live view box to
     // be drawn only as big as it needs to be, while still leaving the

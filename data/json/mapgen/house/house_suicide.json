@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house_suicide" ],
+    "//": "uses house_10 basement",
     "weight": 200,
     "object": {
       "fill_ter": "t_floor",

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LIGHTMAP_H
-#define LIGHTMAP_H
+#ifndef CATA_SRC_LIGHTMAP_H
+#define CATA_SRC_LIGHTMAP_H
 
 #include <cmath>
 
@@ -23,7 +23,7 @@
 #define LIGHT_TRANSPARENCY_OPEN_AIR 0.038376418216
 #define LIGHT_TRANSPARENCY_CLEAR 1
 
-#define LIGHT_RANGE(b) static_cast<int>( -log(LIGHT_AMBIENT_LOW / static_cast<float>(b)) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR) )
+#define LIGHT_RANGE(b) static_cast<int>( -std::log(LIGHT_AMBIENT_LOW / static_cast<float>(b)) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR) )
 
 enum lit_level {
     LL_DARK = 0,
@@ -35,4 +35,4 @@ enum lit_level {
     LL_BLANK // blank space, not an actual light level
 };
 
-#endif
+#endif // CATA_SRC_LIGHTMAP_H

@@ -50,7 +50,7 @@
         "#": "f_counter",
         "@": "f_locker",
         "[": "f_bookcase",
-        "]": "f_rack",
+        "]": "f_warehouse_shelf",
         "d": "f_desk",
         "h": "f_chair",
         "l": "f_stool",
@@ -189,7 +189,7 @@
       },
       "furniture": {
         "D": "f_dumpster",
-        "H": "f_rack",
+        "H": "f_warehouse_shelf",
         "P": "f_rack",
         "b": "f_rack",
         "c": "f_counter",
@@ -324,7 +324,15 @@
         "~": "t_sidewalk",
         "4": "t_gutter_downspout"
       },
-      "furniture": { "#": "f_counter", "]": "f_rack", "l": "f_stool", "r": "f_rack", "s": "f_sink", "u": "f_trashcan", "v": "f_counter" },
+      "furniture": {
+        "#": "f_counter",
+        "]": "f_rack",
+        "l": "f_stool",
+        "r": "f_warehouse_shelf",
+        "s": "f_sink",
+        "u": "f_trashcan",
+        "v": "f_counter"
+      },
       "place_vendingmachines": [ { "x": 8, "y": 2 }, { "x": 8, "y": 3 } ],
       "toilets": { "t": {  } },
       "place_items": [

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ENUMS_H
-#define ENUMS_H
+#ifndef CATA_SRC_ENUMS_H
+#define CATA_SRC_ENUMS_H
 
 template<typename T> struct enum_traits;
 
@@ -228,7 +228,8 @@ enum class distraction_type {
     noise,
     pain,
     attacked,
-    hostile_spotted,
+    hostile_spotted_far,
+    hostile_spotted_near,
     talked_to,
     asthma,
     motion_alarm,
@@ -281,4 +282,21 @@ struct game_message_params {
     game_message_flags flags;
 };
 
-#endif
+enum class monotonically : int {
+    constant,
+    increasing,
+    decreasing,
+    unknown,
+};
+
+constexpr bool is_increasing( monotonically m )
+{
+    return m == monotonically::constant || m == monotonically::increasing;
+}
+
+constexpr bool is_decreasing( monotonically m )
+{
+    return m == monotonically::constant || m == monotonically::decreasing;
+}
+
+#endif // CATA_SRC_ENUMS_H

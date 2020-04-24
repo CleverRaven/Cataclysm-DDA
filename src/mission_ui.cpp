@@ -1,22 +1,24 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 #include "avatar.h"
-#include "mission.h"
 #include "calendar.h"
+#include "color.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
-#include "input.h"
-#include "output.h"
-#include "npc.h"
-#include "color.h"
 #include "debug.h"
+#include "input.h"
+#include "mission.h"
+#include "npc.h"
+#include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui.h"
+#include "ui_manager.h"
 
 void game::list_missions()
 {
@@ -39,6 +41,10 @@ void game::list_missions()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         werase( w_missions );
         std::vector<mission *> umissions;
@@ -112,8 +118,8 @@ void game::list_missions()
             y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
                                  miss->name() + for_npc );
 
-            auto format_tokenized_description = []( const std::string description,
-            const std::vector<std::pair<int, std::string>> rewards ) {
+            auto format_tokenized_description = []( const std::string & description,
+            const std::vector<std::pair<int, std::string>> &rewards ) {
                 std::string formatted_description = description;
                 for( const auto &reward : rewards ) {
                     std::string token = "<reward_count:" + reward.second + ">";

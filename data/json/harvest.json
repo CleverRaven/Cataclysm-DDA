@@ -38,12 +38,30 @@
     ]
   },
   {
+    "id": "mutant_fish",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.38 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "shellfish",
     "type": "harvest",
     "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
     "entries": [
       { "drop": "fish", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "mutant_shellfish",
+    "type": "harvest",
+    "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
   },
@@ -506,7 +524,7 @@
   },
   {
     "id": "zombie_kevlar",
-    "//": "zombies with kevlar infused into their skin",
+    "//": "zombies with Kevlar infused into their skin",
     "type": "harvest",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
@@ -680,6 +698,33 @@
       },
       {
         "drop": "bionics_op",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "CBM_OP2",
+    "type": "harvest",
+    "entries": [
+      {
+        "drop": "bionics_op2_off",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_op2_def",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_op2_utl",
         "type": "bionic_group",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]

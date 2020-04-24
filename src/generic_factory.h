@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GENERIC_FACTORY_H
-#define GENERIC_FACTORY_H
+#ifndef CATA_SRC_GENERIC_FACTORY_H
+#define CATA_SRC_GENERIC_FACTORY_H
 
 #include <algorithm>
 #include <bitset>
@@ -45,7 +45,7 @@ can be by it to implement its interface.
 
   `T::load` should load all the members of `T`, except `id` and `was_loaded` (they are
   set by the `generic_factory` before calling `load`). Failures should be reported by
-  trowing an exception (e.g. via `JsonObject::throw_error`).
+  throwing an exception (e.g. via `JsonObject::throw_error`).
 
 ----
 
@@ -133,7 +133,7 @@ class generic_factory
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
             result = id.get_cid();
-            if( is_valid( result ) && list[result].id == id ) {
+            if( is_valid( result ) && list[result.to_i()].id == id ) {
                 return true;
             }
             const auto iter = map.find( id );
@@ -167,13 +167,13 @@ class generic_factory
         /**
          * @param type_name A string used in debug messages as the name of `T`,
          * for example "vehicle type".
-         * @param id_member_name The name of the JSON member that contains the id of the
-         * loaded object.
-         * @param alias_member_name Alternate names of the JSON member that contains the id of the
-         * loaded object.
+         * @param id_member_name The name of the JSON member that contains the id(s) of the
+         * loaded object(s).
+         * @param alias_member_name Alternate names of the JSON member that contains the id(s) of the
+         * loaded object alias(es).
          */
         generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
-                         const std::string &alias_member_name = "" )
+                         const std::string &alias_member_name = "alias" )
             : type_name( type_name ),
               id_member_name( id_member_name ),
               alias_member_name( alias_member_name ),
@@ -191,9 +191,10 @@ class generic_factory
         * @throws JsonError If `jo` is both abstract and real. (contains "abstract" and "id" members)
         */
         bool handle_inheritance( T &def, const JsonObject &jo, const std::string &src ) {
-            static const std::string copy_from( "copy-from" );
-            if( jo.has_string( copy_from ) ) {
-                const std::string source = jo.get_string( copy_from );
+            static const std::string copy_from_member_name( "copy-from" );
+            static const std::string abstract_member_name( "abstract" );
+            if( jo.has_string( copy_from_member_name ) ) {
+                const std::string source = jo.get_string( copy_from_member_name );
                 auto base = map.find( string_id<T>( source ) );
 
                 if( base != map.end() ) {
@@ -212,12 +213,13 @@ class generic_factory
                 def.was_loaded = true;
             }
 
-            if( jo.has_string( "abstract" ) ) {
-                if( jo.has_string( "id" ) ) {
-                    jo.throw_error( "cannot specify both 'abstract' and 'id'" );
+            if( jo.has_string( abstract_member_name ) ) {
+                if( jo.has_string( id_member_name ) ) {
+                    jo.throw_error( string_format( "cannot specify both '%s' and '%s'",
+                                                   abstract_member_name, id_member_name ) );
                 }
                 def.load( jo, src );
-                abstracts[jo.get_string( "abstract" )] = def;
+                abstracts[jo.get_string( abstract_member_name )] = def;
             }
             return true;
         }
@@ -234,6 +236,8 @@ class generic_factory
         void load( const JsonObject &jo, const std::string &src ) {
             bool strict = src == "dda";
 
+            static const std::string abstract_member_name( "abstract" );
+
             T def;
 
             if( !handle_inheritance( def, jo, src ) ) {
@@ -244,7 +248,7 @@ class generic_factory
                 def.load( jo, src );
                 insert( def );
 
-                if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
+                if( jo.has_member( alias_member_name ) ) {
                     std::set<string_id<T>> aliases;
                     assign( jo, alias_member_name, aliases, strict );
 
@@ -254,8 +258,24 @@ class generic_factory
                     }
                 }
 
-            } else if( !jo.has_string( "abstract" ) ) {
-                jo.throw_error( "must specify either id or abstract" );
+            } else  if( jo.has_array( id_member_name ) ) {
+                for( const auto &e : jo.get_array( id_member_name ) ) {
+                    T def;
+                    if( !handle_inheritance( def, jo, src ) ) {
+                        break;
+                    }
+                    def.id = string_id<T>( e );
+                    def.load( jo, src );
+                    insert( def );
+                }
+                if( jo.has_member( alias_member_name ) ) {
+                    jo.throw_error( string_format( "can not specify '%s' when '%s' is array",
+                                                   alias_member_name, id_member_name ) );
+                }
+
+            } else if( !jo.has_string( abstract_member_name ) ) {
+                jo.throw_error( string_format( "must specify either '%s' or '%s'",
+                                               abstract_member_name, id_member_name ) );
             }
         }
         /**
@@ -266,7 +286,7 @@ class generic_factory
         T &insert( const T &obj ) {
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
-                T &result = list[iter->second];
+                T &result = list[iter->second.to_i()];
                 result = obj;
                 result.id.set_cid( iter->second );
                 return result;
@@ -341,7 +361,7 @@ class generic_factory
                 debugmsg( "invalid %s id \"%d\"", type_name, id.to_i() );
                 return dummy_obj;
             }
-            return list[id];
+            return list[id.to_i()];
         }
         /**
          * Returns the object with the given id.
@@ -356,14 +376,14 @@ class generic_factory
                 debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
                 return dummy_obj;
             }
-            return list[i_id];
+            return list[i_id.to_i()];
         }
         /**
          * Checks whether the factory contains an object with the given id.
          * This function can be used to implement @ref int_id::is_valid().
          */
         bool is_valid( const int_id<T> &id ) const {
-            return static_cast<size_t>( id ) < list.size();
+            return static_cast<size_t>( id.to_i() ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
@@ -966,4 +986,4 @@ inline bool legacy_volume_reader( const JsonObject &jo, const std::string &membe
     return true;
 }
 
-#endif
+#endif // CATA_SRC_GENERIC_FACTORY_H

@@ -2,15 +2,18 @@
 
 #include <algorithm>
 #include <cmath>
-#include <string>
 #include <iterator>
+#include <string>
 
 #include "assign.h"
 #include "debug.h"
 #include "item.h"
 #include "item_group.h"
-#include "output.h"
 #include "json.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "text_snippets.h"
 
 // TODO: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
@@ -44,7 +47,7 @@ const harvest_id &harvest_list::id() const
 
 std::string harvest_list::message() const
 {
-    return message_;
+    return SNIPPET.expand( message_.translated() );
 }
 
 bool harvest_list::is_null() const
@@ -81,11 +84,9 @@ const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &s
         jo.throw_error( "id was not specified for harvest" );
     }
 
-    if( jo.has_string( "message" ) ) {
-        ret.message_ = jo.get_string( "message" );
-    }
+    jo.read( "message", ret.message_ );
 
-    for( const JsonObject &current_entry : jo.get_array( "entries" ) ) {
+    for( const JsonObject current_entry : jo.get_array( "entries" ) ) {
         ret.entries_.push_back( harvest_entry::load( current_entry, src ) );
     }
 

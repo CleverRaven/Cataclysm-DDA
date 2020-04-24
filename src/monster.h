@@ -1,10 +1,10 @@
 #pragma once
-#ifndef MONSTER_H
-#define MONSTER_H
+#ifndef CATA_SRC_MONSTER_H
+#define CATA_SRC_MONSTER_H
 
+#include <bitset>
 #include <climits>
 #include <cstddef>
-#include <bitset>
 #include <functional>
 #include <map>
 #include <set>
@@ -12,35 +12,34 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "character_id.h"
-#include "creature.h"
-#include "enums.h"
-#include "bodypart.h"
 #include "color.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "enums.h"
 #include "item.h"
 #include "mtype.h"
 #include "optional.h"
 #include "pldata.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
-#include "point.h"
+#include "value_ptr.h"
 
-class JsonObject;
-class JsonIn;
-class JsonOut;
-class player;
 class Character;
+class JsonIn;
+class JsonObject;
+class JsonOut;
 class effect;
+class player;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
 enum class mon_trigger;
-
-class monster;
 
 class mon_special_attack
 {
@@ -88,7 +87,7 @@ class monster : public Creature
         monster();
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
-        monster( const monster & ) ;
+        monster( const monster & );
         monster( monster && );
         ~monster() override;
         monster &operator=( const monster & );
@@ -106,6 +105,7 @@ class monster : public Creature
         void try_upgrade( bool pin_time );
         void try_reproduce();
         void try_biosignature();
+        void refill_udders();
         void spawn( const tripoint &p );
         m_size get_size() const override;
         units::mass get_weight() const override;
@@ -178,8 +178,13 @@ class monster : public Creature
          *
          * This is used in pathfinding and ONLY checks the terrain. It ignores players
          * and monsters, which might only block this tile temporarily.
+         * will_move_to() checks for impassable terrain etc
+         * can_reach_to() checks for z-level difference.
+         * can_move_to() is a wrapper for both of them.
          */
         bool can_move_to( const tripoint &p ) const;
+        bool can_reach_to( const tripoint &p ) const;
+        bool will_move_to( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -209,6 +214,10 @@ class monster : public Creature
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
                             const tripoint &nearby_destination ); // shove vehicles out of the way
+
+        // check if the given square could drown a drownable monster
+        bool is_aquatic_danger( const tripoint &at_pos );
+
         // check if a monster at a position will drown and kill it if necessary
         // returns true if the monster dies
         // chance is the one_in( chance ) that the monster will drown
@@ -218,7 +227,7 @@ class monster : public Creature
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
-        bool is_immune_field( field_type_id fid ) const override;
+        bool is_immune_field( const field_type_id &fid ) const override;
 
         /**
          * Attempt to move to p.
@@ -229,13 +238,16 @@ class monster : public Creature
          *
          * @param p Destination of movement
          * @param force If this is set to true, the movement will happen even if
-         *              there's currently something blocking the destination.
+         *              there's currently something, else than a creature, blocking the destination.
+         * @param step_on_critter If this is set to true, the movement will happen even if
+         *              there's currently a creature blocking the destination.
          *
          * @param stagger_adjustment is a multiplier for move cost to compensate for staggering.
          *
          * @return true if movement successful, false otherwise
          */
-        bool move_to( const tripoint &p, bool force = false, float stagger_adjustment = 1.0 );
+        bool move_to( const tripoint &p, bool force = false, bool step_on_critter = false,
+                      float stagger_adjustment = 1.0 );
 
         /**
          * Attack any enemies at the given location.
@@ -302,7 +314,7 @@ class monster : public Creature
                                      bool print_messages = true ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
-        void apply_damage( Creature *source, body_part bp, int dam,
+        void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
@@ -328,7 +340,7 @@ class monster : public Creature
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
         /** Returns a std::string containing effects for descriptions */
@@ -369,10 +381,6 @@ class monster : public Creature
         // Something hit us (possibly null source)
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-        // Get torso - monsters don't have body parts (yet?)
-        body_part get_random_body_part( bool main ) const override;
-        /** Returns vector containing all body parts this monster has. That is, { bp_torso } */
-        std::vector<body_part> get_all_body_parts( bool only_main = false ) const override;
 
         /** Resets a given special to its monster type cooldown value */
         void reset_special( const std::string &special_name );
@@ -424,11 +432,11 @@ class monster : public Creature
 
         using Creature::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
-        void add_msg_if_npc( game_message_type type, const std::string &msg ) const override;
+        void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
         using Creature::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
@@ -437,8 +445,15 @@ class monster : public Creature
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
-        cata::optional<item> tied_item; // item used to tie the monster
-        cata::optional<item> battery_item; // item to power mechs
+        cata::value_ptr<item> tied_item; // item used to tie the monster
+        cata::value_ptr<item> tack_item; // item representing saddle and reins and such
+        cata::value_ptr<item> armor_item; // item of armor the monster may be wearing
+        cata::value_ptr<item> storage_item; // storage item for monster carrying items
+        cata::value_ptr<item> battery_item; // item to power mechs
+        units::mass get_carried_weight();
+        units::volume get_carried_volume();
+        void move_special_item_to_inv( cata::value_ptr<item> &it );
+
         // DEFINING VALUES
         int friendly;
         int anger = 0;
@@ -535,6 +550,7 @@ class monster : public Creature
         cata::optional<time_point> baby_timer;
         bool biosignatures;
         cata::optional<time_point> biosig_timer;
+        time_point udder_timer;
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
@@ -552,4 +568,4 @@ class monster : public Creature
         void process_one_effect( effect &it, bool is_new ) override;
 };
 
-#endif
+#endif // CATA_SRC_MONSTER_H

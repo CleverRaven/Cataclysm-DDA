@@ -2,22 +2,25 @@
 
 #include <algorithm>
 #include <map>
-#include <set>
 #include <sstream>
 #include <string>
-#include <vector>
 #include <type_traits>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
-#include <unordered_map>
+#include <vector>
 
+#include "achievement.h"
 #include "avatar.h"
+#include "basecamp.h"
+#include "cata_io.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
+#include "hash_utils.h"
 #include "int_id.h"
-#include "cata_io.h"
+#include "json.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "messages.h"
@@ -25,19 +28,20 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
+#include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "scent_map.h"
-#include "translations.h"
-#include "hash_utils.h"
-#include "basecamp.h"
-#include "json.h"
-#include "omdata.h"
 #include "overmap_types.h"
+#include "popup.h"
 #include "regional_settings.h"
+#include "scent_map.h"
 #include "stats_tracker.h"
 #include "string_id.h"
+#include "translations.h"
+#include "ui_manager.h"
+
+class overmap_connection;
 
 #if defined(__ANDROID__)
 #include "input.h"
@@ -49,7 +53,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 27;
+const int savegame_version = 28;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -76,6 +80,7 @@ void game::serialize( std::ostream &fout )
     // basic game state information.
     json.member( "turn", calendar::turn );
     json.member( "calendar_start", calendar::start_of_cataclysm );
+    json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
@@ -99,6 +104,7 @@ void game::serialize( std::ostream &fout )
     // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
     json.member( "stats_tracker", *stats_tracker_ptr );
+    json.member( "achievements_tracker", *achievements_tracker_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -172,6 +178,11 @@ void game::unserialize( std::istream &fin )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
+        // 0.E stable
+        if( savegame_loading_version < 26 ) {
+            tmpturn *= 6;
+            tmpcalstart *= 6;
+        }
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
@@ -183,6 +194,10 @@ void game::unserialize( std::istream &fin )
 
         calendar::turn = tmpturn;
         calendar::start_of_cataclysm = tmpcalstart;
+
+        if( !data.read( "game_start", calendar::start_of_game ) ) {
+            calendar::start_of_game = calendar::start_of_cataclysm;
+        }
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
@@ -214,11 +229,11 @@ void game::unserialize( std::istream &fin )
             // Legacy support for when kills were stored directly in game
             std::map<mtype_id, int> kills;
             std::vector<std::string> npc_kills;
-            for( const JsonMember &member : data.get_object( "kills" ) ) {
+            for( const JsonMember member : data.get_object( "kills" ) ) {
                 kills[mtype_id( member.name() )] = member.get_int();
             }
 
-            for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
+            for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
                 npc_kills.push_back( npc_name );
             }
 
@@ -227,6 +242,7 @@ void game::unserialize( std::istream &fin )
 
         data.read( "player", u );
         data.read( "stats_tracker", *stats_tracker_ptr );
+        data.read( "achievements_tracker", *achievements_tracker_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -307,7 +323,7 @@ std::unordered_set<std::string> obsolete_terrains;
 
 void overmap::load_obsolete_terrains( const JsonObject &jo )
 {
-    for( const std::string &line : jo.get_array( "terrains" ) ) {
+    for( const std::string line : jo.get_array( "terrains" ) ) {
         obsolete_terrains.emplace( line );
     }
 }
@@ -718,6 +734,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             ter_set( pos, oter_id( old + "_north" ) );
 
         } else if( old == "hunter_shack" ||
+                   old == "magic_basement" ||
+                   old == "basement_bionic" ||
                    old == "outpost" ||
                    old == "park" ||
                    old == "pool" ||
@@ -736,7 +754,6 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
 
         } else if( old == "megastore_entrance" ) {
             const std::string megastore = "megastore";
-            const std::string megastore_entrance = "megastore_entrance";
             const auto ter_test_n = needs_conversion.find( pos + point( 0, -2 ) );
             const auto ter_test_s = needs_conversion.find( pos + point( 0,  2 ) );
             const auto ter_test_e = needs_conversion.find( pos + point( 2,  0 ) );
@@ -831,14 +848,25 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 ter_set( pos + point_south_east, oter_id( "haz_sar_b_4_west" ) );
             }
 
-        } else if( old == "house_base_north" ) {
-            ter_set( pos, oter_id( "house_north" ) );
-        } else if( old == "house_base_south" ) {
-            ter_set( pos, oter_id( "house_south" ) );
-        } else if( old == "house_base_east" ) {
-            ter_set( pos, oter_id( "house_east" ) );
-        } else if( old == "house_base_west" ) {
-            ter_set( pos, oter_id( "house_west" ) );
+        } else if( old == "house_base_north" || old == "house_north" ||
+                   old == "house_base" || old == "house" ) {
+            ter_set( pos, oter_id( "house_w_1_north" ) );
+        } else if( old == "house_base_south" || old == "house_south" ) {
+            ter_set( pos, oter_id( "house_w_1_south" ) );
+        } else if( old == "house_base_east" || old == "house_east" ) {
+            ter_set( pos, oter_id( "house_w_1_east" ) );
+        } else if( old == "house_base_west" || old == "house_west" ) {
+            ter_set( pos, oter_id( "house_w_1_west" ) );
+        } else if( old == "rural_house" || old == "rural_house_north" ) {
+            ter_set( pos, oter_id( "rural_house1_north" ) );
+        } else if( old == "rural_house_south" ) {
+            ter_set( pos, oter_id( "rural_house1_south" ) );
+        } else if( old == "rural_house_east" ) {
+            ter_set( pos, oter_id( "rural_house1_east" ) );
+        } else if( old == "rural_house_west" ) {
+            ter_set( pos, oter_id( "rural_house1_west" ) );
+        } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
+            ter_set( pos, oter_id( "field" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -996,7 +1024,7 @@ void overmap::unserialize( std::istream &fin )
                         const std::string radio_name = jsin.get_string();
                         const auto mapping =
                             find_if( radio_type_names.begin(), radio_type_names.end(),
-                        [radio_name]( const std::pair<int, std::string> &p ) {
+                        [radio_name]( const std::pair<radio_type, std::string> &p ) {
                             return p.second == radio_name;
                         } );
                         if( mapping != radio_type_names.end() ) {
@@ -1170,6 +1198,8 @@ void overmap::unserialize_view( std::istream &fin )
                     jsin.read( tmp.p.x );
                     jsin.read( tmp.p.y );
                     jsin.read( tmp.text );
+                    jsin.read( tmp.dangerous );
+                    jsin.read( tmp.danger_radius );
                     jsin.end_array();
 
                     layer[z].notes.push_back( tmp );
@@ -1258,6 +1288,8 @@ void overmap::serialize_view( std::ostream &fout ) const
             json.write( i.p.x );
             json.write( i.p.y );
             json.write( i.text );
+            json.write( i.dangerous );
+            json.write( i.danger_radius );
             json.end_array();
             fout << std::endl;
         }
@@ -1599,9 +1631,12 @@ void game::unserialize_master( std::istream &fin )
     savegame_loading_version = 0;
     chkversion( fin );
     if( savegame_loading_version < 11 ) {
-        popup_nowait(
+        std::unique_ptr<static_popup>popup = std::make_unique<static_popup>();
+        popup->message(
             _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
             savegame_loading_version, savegame_version );
+        ui_manager::redraw();
+        refresh_display();
     }
     try {
         // single-pass parsing example
@@ -1719,7 +1754,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     monsters_by_location.clear();
     jsin.start_array();
     while( !jsin.end_array() ) {
-        // @TODO: would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
+        // TODO: would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
         shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
         jsin.read( *mptr );
         add( mptr );

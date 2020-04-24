@@ -1,21 +1,20 @@
 #include <climits>
-#include <list>
 #include <memory>
 #include <set>
 #include <string>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "game.h"
+#include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "player.h"
-#include "player_helpers.h"
-#include "calendar.h"
-#include "inventory.h"
-#include "optional.h"
 #include "player_activity.h"
+#include "player_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -23,7 +22,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 
@@ -45,7 +44,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 
@@ -80,7 +79,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 
@@ -140,7 +139,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 

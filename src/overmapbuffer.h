@@ -1,42 +1,41 @@
 #pragma once
-#ifndef OVERMAPBUFFER_H
-#define OVERMAPBUFFER_H
+#ifndef CATA_SRC_OVERMAPBUFFER_H
+#define CATA_SRC_OVERMAPBUFFER_H
 
-#include <memory>
-#include <set>
-#include <unordered_map>
-#include <vector>
 #include <array>
 #include <functional>
+#include <memory>
+#include <set>
 #include <string>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "enums.h"
+#include "memory_fast.h"
 #include "omdata.h"
-#include "overmap_types.h"
 #include "optional.h"
-#include "type_id.h"
+#include "overmap.h"
+#include "overmap_types.h"
 #include "point.h"
 #include "string_id.h"
-#include "memory_fast.h"
+#include "type_id.h"
 
+class basecamp;
 class character_id;
-struct mongroup;
+class map_extra;
 class monster;
 class npc;
-struct om_vehicle;
-class overmap_special_batch;
-class overmap;
-struct radio_tower;
-struct regional_settings;
 class vehicle;
-class basecamp;
-class map_extra;
+struct mongroup;
+struct regional_settings;
 
 struct path_type {
     bool only_road = false;
     bool only_water = false;
     bool amphibious = false;
+    bool only_air = false;
+    bool avoid_danger = false;
 };
 
 struct radio_tower_reference {
@@ -146,9 +145,11 @@ class overmapbuffer
          * Uses global overmap terrain coordinates.
          */
         bool has_note( const tripoint &p );
+        bool is_marked_dangerous( const tripoint &p );
         const std::string &note( const tripoint &p );
         void add_note( const tripoint &, const std::string &message );
         void delete_note( const tripoint &p );
+        void mark_note_dangerous( const tripoint &p, int radius, bool is_dangerous );
         bool has_extra( const tripoint &p );
         const string_id<map_extra> &extra( const tripoint &p );
         void add_extra( const tripoint &p, const string_id<map_extra> &id );
@@ -529,4 +530,4 @@ class overmapbuffer
 
 extern overmapbuffer overmap_buffer;
 
-#endif
+#endif // CATA_SRC_OVERMAPBUFFER_H

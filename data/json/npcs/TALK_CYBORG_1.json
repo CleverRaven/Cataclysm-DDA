@@ -48,7 +48,7 @@
     "dynamic_line": "*buzz* Great! So what happens now?",
     "responses": [
       {
-        "text": "Come with me. We can help each other out.",
+        "text": "Come with me.  We can help each other out.",
         "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "value", 2 ] ] },
         "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": -1, "fear": 1 } }
@@ -73,7 +73,7 @@
         "success": { "topic": "TALK_CYBORG_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
         "failure": { "topic": "TALK_CYBORG_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
       },
-      { "text": "Forget it. Enjoy your freedom.", "topic": "TALK_DONE" }
+      { "text": "Forget it.  Enjoy your freedom.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -124,7 +124,7 @@
   {
     "id": "TALK_CYBORG_LEAVES",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, *beeeeep* I don't think so. Bye.",
+    "dynamic_line": "Yeah, *beeeeep* I don't think so.  Bye.",
     "responses": [ { "text": "Suit yourself.", "topic": "TALK_DONE" } ]
   }
 ]

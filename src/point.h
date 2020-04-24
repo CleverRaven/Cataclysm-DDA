@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_POINT_H
-#define CATA_POINT_H
+#ifndef CATA_SRC_POINT_H
+#define CATA_SRC_POINT_H
 
 // The CATA_NO_STL macro is used by the cata clang-tidy plugin tests so they
 // can include this header when compiling with -nostdinc++
@@ -9,8 +9,12 @@
 #include <array>
 #include <cassert>
 #include <climits>
+#include <cstdint>
+#include <cstdlib>
 #include <functional>
 #include <ostream>
+#include <string>
+#include <vector>
 
 #else
 
@@ -24,8 +28,8 @@ class ostream;
 
 #endif // CATA_NO_STL
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
 struct point {
@@ -231,6 +235,7 @@ struct rectangle {
 // Useful for example to round an arbitrary point to the nearest point on the
 // screen, or the nearest point in a particular submap.
 point clamp_half_open( const point &p, const rectangle &r );
+point clamp_inclusive( const point &p, const rectangle &r );
 
 struct box {
     tripoint p_min;
@@ -296,14 +301,24 @@ struct sphere {
 
 #ifndef CATA_NO_STL
 
+/**
+ * Following functions return points in a spiral pattern starting at center_x/center_y until it hits the radius. Clockwise fashion.
+ * Credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
+ */
+std::vector<tripoint> closest_tripoints_first( const tripoint &center, int max_dist );
+std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_dist, int max_dist );
+
+std::vector<point> closest_points_first( const point &center, int max_dist );
+std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
+
 inline point abs( const point &p )
 {
-    return point( abs( p.x ), abs( p.y ) );
+    return point( std::abs( p.x ), std::abs( p.y ) );
 }
 
 inline tripoint abs( const tripoint &p )
 {
-    return tripoint( abs( p.x ), abs( p.y ), abs( p.z ) );
+    return tripoint( std::abs( p.x ), std::abs( p.y ), std::abs( p.z ) );
 }
 
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
@@ -381,4 +396,4 @@ static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
 
 #endif // CATA_NO_STL
 
-#endif // CATA_POINT_H
+#endif // CATA_SRC_POINT_H

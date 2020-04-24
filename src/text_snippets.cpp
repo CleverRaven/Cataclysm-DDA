@@ -1,9 +1,10 @@
 #include "text_snippets.h"
 
+#include <cstddef>
 #include <random>
-#include <iterator>
 #include <utility>
 
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "rng.h"
@@ -30,7 +31,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, const
         debugmsg( "snippet_library::add_snippets_from_json called after snippet_library::migrate_hash_to_id." );
     }
     hash_to_id_migration = cata::nullopt;
-    for( const JsonValue &entry : jarr ) {
+    for( const JsonValue entry : jarr ) {
         if( entry.test_string() ) {
             translation text;
             if( !entry.read( text ) ) {
@@ -53,7 +54,11 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
     translation text;
     mandatory( jo, false, "text", text );
     if( jo.has_member( "id" ) ) {
-        const std::string id = jo.get_string( "id" );
+        snippet_id id;
+        jo.read( "id", id );
+        if( id.is_null() ) {
+            jo.throw_error( "Null snippet id specified", "id" );
+        }
         if( snippets_by_id.find( id ) != snippets_by_id.end() ) {
             jo.throw_error( "Duplicate snippet id", "id" );
         }
@@ -76,13 +81,28 @@ bool snippet_library::has_category( const std::string &category ) const
     return snippets_by_category.find( category ) != snippets_by_category.end();
 }
 
-cata::optional<translation> snippet_library::get_snippet_by_id( const std::string &id ) const
+cata::optional<translation> snippet_library::get_snippet_by_id( const snippet_id &id ) const
 {
     const auto it = snippets_by_id.find( id );
     if( it == snippets_by_id.end() ) {
         return cata::nullopt;
     }
     return it->second;
+}
+
+const translation &snippet_library::get_snippet_ref_by_id( const snippet_id &id ) const
+{
+    const auto it = snippets_by_id.find( id );
+    if( it == snippets_by_id.end() ) {
+        static const translation empty_translation;
+        return empty_translation;
+    }
+    return it->second;
+}
+
+bool snippet_library::has_snippet_with_id( const snippet_id &id ) const
+{
+    return snippets_by_id.find( id ) != snippets_by_id.end();
 }
 
 std::string snippet_library::expand( const std::string &str ) const
@@ -107,17 +127,17 @@ std::string snippet_library::expand( const std::string &str ) const
            + expand( str.substr( tag_end + 1 ) );
 }
 
-cata::optional<std::string> snippet_library::random_id_from_category( const std::string &cat ) const
+snippet_id snippet_library::random_id_from_category( const std::string &cat ) const
 {
     const auto it = snippets_by_category.find( cat );
     if( it == snippets_by_category.end() ) {
-        return cata::nullopt;
+        return snippet_id::NULL_ID();
     }
     if( !it->second.no_id.empty() ) {
         debugmsg( "ids are required, but not specified for some snippets in category %s", cat );
     }
     if( it->second.ids.empty() ) {
-        return cata::nullopt;
+        return snippet_id::NULL_ID();
     }
     return random_entry( it->second.ids );
 }
@@ -138,7 +158,9 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
         return cata::nullopt;
     }
     const size_t count = it->second.ids.size() + it->second.no_id.size();
-    std::mt19937 generator( seed );
+    // This engine is deterministcally seeded, so acceptable.
+    // NOLINTNEXTLINE(cata-determinism)
+    cata_default_random_engine generator( seed );
     std::uniform_int_distribution<size_t> dis( 0, count - 1 );
     const size_t index = dis( generator );
     if( index < it->second.ids.size() ) {
@@ -148,7 +170,7 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
     }
 }
 
-cata::optional<std::string> snippet_library::migrate_hash_to_id( const int hash )
+snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
 {
     if( !hash_to_id_migration.has_value() ) {
         hash_to_id_migration.emplace();
@@ -159,9 +181,19 @@ cata::optional<std::string> snippet_library::migrate_hash_to_id( const int hash 
             }
         }
     }
-    const auto it = hash_to_id_migration->find( hash );
+    const auto it = hash_to_id_migration->find( old_hash );
     if( it == hash_to_id_migration->end() ) {
-        return cata::nullopt;
+        return snippet_id::NULL_ID();
     }
     return it->second;
+}
+
+template<> const translation &snippet_id::obj() const
+{
+    return SNIPPET.get_snippet_ref_by_id( *this );
+}
+
+template<> bool snippet_id::is_valid() const
+{
+    return SNIPPET.has_snippet_with_id( *this );
 }

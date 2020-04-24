@@ -504,7 +504,7 @@
   {
     "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
-    "name": "Display Help",
+    "name": "Display keybindings menu",
     "bindings": [ { "input_method": "keyboard", "key": "?" } ]
   },
   {
@@ -730,6 +730,13 @@
     "category": "OVERMAP_NOTES",
     "name": "Edit Note",
     "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MARK_DANGER",
+    "category": "OVERMAP_NOTES",
+    "name": "Mark as Dangerous",
+    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
   },
   {
     "type": "keybinding",
@@ -1050,9 +1057,9 @@
   },
   {
     "type": "keybinding",
-    "id": "PICK_RANDOM_NAME",
+    "id": "RANDOMIZE_CHAR_DESCRIPTION",
     "category": "NEW_CHAR_DESCRIPTION",
-    "name": "Pick random character name",
+    "name": "Pick random character description",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
@@ -1849,7 +1856,7 @@
     "type": "keybinding",
     "name": "Commit Suicide",
     "category": "DEFAULTMODE",
-    "id": "quit",
+    "id": "SUICIDE",
     "bindings": [ { "input_method": "keyboard", "key": "Q" } ]
   },
   {
@@ -2126,13 +2133,6 @@
   },
   {
     "type": "keybinding",
-    "name": "Keybindings",
-    "category": "DEFAULTMODE",
-    "id": "open_keybindings",
-    "bindings": [ { "input_method": "keyboard", "key": "?" } ]
-  },
-  {
-    "type": "keybinding",
     "name": "Options",
     "category": "DEFAULTMODE",
     "id": "open_options"
@@ -2171,8 +2171,7 @@
     "type": "keybinding",
     "name": "Cycle move mode (run/walk/crouch)",
     "category": "DEFAULTMODE",
-    "id": "cycle_move",
-    "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
+    "id": "cycle_move"
   },
   {
     "type": "keybinding",
@@ -2196,7 +2195,8 @@
     "type": "keybinding",
     "name": "Movement Mode Menu",
     "category": "DEFAULTMODE",
-    "id": "open_movement"
+    "id": "open_movement",
+    "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
   },
   {
     "type": "keybinding",
@@ -2268,7 +2268,7 @@
     "type": "keybinding",
     "id": "fire",
     "category": "LIST_MONSTERS",
-    "name": "fire",
+    "name": { "ctxt": "verb", "str": "fire" },
     "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {
@@ -2378,6 +2378,13 @@
     "category": "HELP_KEYBINDINGS",
     "name": "Add global keybinding",
     "bindings": [ { "input_method": "keyboard", "key": "=" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXECUTE",
+    "category": "HELP_KEYBINDINGS",
+    "name": "Execute action keybinding",
+    "bindings": [ { "input_method": "keyboard", "key": "." } ]
   },
   {
     "type": "keybinding",
@@ -2793,6 +2800,31 @@
   {
     "type": "keybinding",
     "id": "YES",
+    "category": "YESNOQUIT",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YESNOQUIT",
+    "name": "No",
+    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "YESNOQUIT",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard", "key": "Q" },
+      { "input_method": "keyboard", "key": "q" },
+      { "input_method": "keyboard", "key": "ESC" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "Yes",
     "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
@@ -2857,5 +2889,26 @@
       { "input_method": "keyboard", "key": "SPACE" },
       { "input_method": "keyboard", "key": "RETURN" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CREATURE",
+    "category": "EXTENDED_DESCRIPTION",
+    "name": "Describe creature",
+    "bindings": [ { "input_method": "keyboard", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FURNITURE",
+    "category": "EXTENDED_DESCRIPTION",
+    "name": "Describe furniture",
+    "bindings": [ { "input_method": "keyboard", "key": "f" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TERRAIN",
+    "category": "EXTENDED_DESCRIPTION",
+    "name": "Describe terrain",
+    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
   }
 ]

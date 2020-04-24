@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_hydrop_generic",
     "name": "LEGACY hydroponics unit",
-    "description": "This is a deprecated hydroponics unit.  Deconstruct it to recieve your materials back.",
+    "description": "This is a deprecated hydroponics unit.  Deconstruct it to receive your materials back.",
     "symbol": "^",
     "color": "light_blue",
     "move_cost": 0,

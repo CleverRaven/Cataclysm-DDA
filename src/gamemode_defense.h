@@ -1,13 +1,16 @@
 #pragma once
-#ifndef GAMEMODE_DEFENSE_H
-#define GAMEMODE_DEFENSE_H
+#ifndef CATA_SRC_GAMEMODE_DEFENSE_H
+#define CATA_SRC_GAMEMODE_DEFENSE_H
 
+#include <string>
 #include <vector>
 
-#include "gamemode.h"
 #include "calendar.h"
-#include "point.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "gamemode.h"
 #include "omdata.h"
+#include "point.h"
 #include "type_id.h"
 
 enum action_id : int;
@@ -77,7 +80,7 @@ struct defense_game : public special_game {
 
         std::string special_wave_message( std::string name );
 
-        int current_wave;
+        int current_wave = 0;
 
         // What type of game is it?
         defense_style style;
@@ -85,41 +88,41 @@ struct defense_game : public special_game {
         defense_location location;
 
         // Total "level" of monsters in first wave
-        int initial_difficulty;
+        int initial_difficulty = 0;
         // Increased "level" of monsters per wave
-        int wave_difficulty;
+        int wave_difficulty = 0;
 
         // Cooldown / building / healing time
-        time_duration time_between_waves;
+        time_duration time_between_waves = 0_turns;
         // How many waves until we get to trade?
-        int waves_between_caravans;
+        int waves_between_caravans = 0;
 
         // How much cash do we start with?
-        int initial_cash;
+        int initial_cash = 0;
         // How much cash do we get per wave?
-        int cash_per_wave;
+        int cash_per_wave = 0;
         // How much does the above increase per wave?
-        int cash_increase;
+        int cash_increase = 0;
 
-        bool zombies;
-        bool specials;
-        bool spiders;
-        bool triffids;
-        bool robots;
-        bool subspace;
+        bool zombies = false;
+        bool specials = false;
+        bool spiders = false;
+        bool triffids = false;
+        bool robots = false;
+        bool subspace = false;
 
         // Do we need to fulfill hunger?
-        bool hunger;
+        bool hunger = false;
         // Do we need to fulfill thirst?
-        bool thirst;
+        bool thirst = false;
         // Do we need to sleep?
-        bool sleep;
+        bool sleep = false;
 
         // Do caravans offer the option of hiring a mercenary?
-        bool mercenaries;
+        bool mercenaries = false;
 
         // Allow save
-        bool allow_save;
+        bool allow_save = false;
 
         // Start defence location position on overmap
         tripoint defloc_pos;
@@ -128,4 +131,4 @@ struct defense_game : public special_game {
         overmap_special_id defloc_special;
 };
 
-#endif // GAMEMODE_DEFENSE_H
+#endif // CATA_SRC_GAMEMODE_DEFENSE_H

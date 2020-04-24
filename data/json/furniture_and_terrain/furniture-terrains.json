@@ -5,7 +5,7 @@
     "name": "tatami mat",
     "description": "A tatami is a type of mat used as a flooring material in traditional Japanese-style rooms.",
     "symbol": "#",
-    "color": [ "brown" ],
+    "color": "brown",
     "move_cost_mod": 0,
     "comfort": 2,
     "floor_bedding_warmth": -1500,

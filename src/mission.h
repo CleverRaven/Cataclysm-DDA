@@ -1,38 +1,39 @@
 #pragma once
-#ifndef MISSION_H
-#define MISSION_H
+#ifndef CATA_SRC_MISSION_H
+#define CATA_SRC_MISSION_H
 
+#include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <unordered_map>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "basecamp.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "enums.h"
-#include "npc_favor.h"
-#include "overmap.h"
-#include "item_group.h"
-#include "string_id.h"
-#include "mtype.h"
-#include "type_id.h"
 #include "game_constants.h"
+#include "npc_favor.h"
 #include "omdata.h"
 #include "optional.h"
+#include "overmap.h"
 #include "point.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 
-class avatar;
-class mission;
 class Creature;
-class JsonObject;
 class JsonArray;
 class JsonIn;
+class JsonObject;
 class JsonOut;
-class overmapbuffer;
+class avatar;
 class item;
+class mission;
 class npc;
+class overmapbuffer;
+class player;
 template<typename T> struct enum_traits;
 
 enum npc_mission : int;
@@ -204,7 +205,7 @@ struct mission_type {
     public:
         translation description;
         // The basic goal type
-        mission_goal goal;
+        mission_goal goal = mission_goal::MGOAL_NULL;
         // Difficulty; TODO: come up with a scale
         int difficulty = 0;
         // Value; determines rewards and such
@@ -248,7 +249,7 @@ struct mission_type {
 
         mission_type() = default;
 
-        mission create( character_id npc_id ) const;
+        mission create( const character_id &npc_id ) const;
 
         /**
          * Get the mission_type object of the given id. Returns null if the input is invalid!
@@ -382,7 +383,7 @@ class mission
          * Simple setters, no checking if the values is performed. */
         /*@{*/
         void set_target( const tripoint &p );
-        void set_target_npc_id( character_id npc_id );
+        void set_target_npc_id( const character_id &npc_id );
         /*@}*/
 
         /** Assigns the mission to the player. */
@@ -395,7 +396,7 @@ class mission
         /** Handles partial mission completion (kill complete, now report back!). */
         void step_complete( int step );
         /** Checks if the player has completed the matching mission and returns true if they have. */
-        bool is_complete( character_id npc_id ) const;
+        bool is_complete( const character_id &npc_id ) const;
         /** Checks if the player has failed the matching mission and returns true if they have. */
         bool has_failed() const;
         /** Checks if the mission is started, but not failed and not succeeded. */
@@ -403,7 +404,7 @@ class mission
         /** Processes this mission. */
         void process();
         /** Called when the player talks with an NPC. May resolve mission goals, e.g. MGOAL_TALK_TO_NPC. */
-        void on_talk_with_npc( character_id npc_id );
+        void on_talk_with_npc( const character_id &npc_id );
 
         // TODO: Give topics a string_id
         std::string dialogue_for_topic( const std::string &topic ) const;
@@ -412,9 +413,9 @@ class mission
          * Create a new mission of the given type and assign it to the given npc.
          * Returns the new mission.
          */
-        static mission *reserve_new( const mission_type_id &type, character_id npc_id );
+        static mission *reserve_new( const mission_type_id &type, const character_id &npc_id );
         static mission *reserve_random( mission_origin origin, const tripoint &p,
-                                        character_id npc_id );
+                                        const character_id &npc_id );
         /**
          * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
          * id exists.
@@ -473,4 +474,4 @@ struct enum_traits<mission::mission_status> {
     static constexpr mission::mission_status last = mission::mission_status::num_mission_status;
 };
 
-#endif
+#endif // CATA_SRC_MISSION_H

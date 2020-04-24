@@ -1,28 +1,30 @@
 #include "artifact.h"
 
-#include <cstdlib>
-#include <array>
 #include <algorithm>
+#include <array>
+#include <cstdint>
+#include <cstdlib>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>
-#include <unordered_map>
 #include <vector>
 
 #include "assign.h"
+#include "bodypart.h"
 #include "cata_utility.h"
+#include "color.h"
+#include "damage.h"
+#include "debug.h"
 #include "item_factory.h"
+#include "iuse.h"
 #include "json.h"
+#include "optional.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "bodypart.h"
-#include "color.h"
-#include "damage.h"
-#include "iuse.h"
-#include "optional.h"
-#include "units.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 template<typename V, typename B>
@@ -750,8 +752,7 @@ std::string new_artifact()
         bad_effects = fill_bad_passive();
         while( one_in( 2 ) && !good_effects.empty() && !bad_effects.empty() &&
                num_good < 3 && num_bad < 3 &&
-               ( ( num_good > 2 && one_in( num_good + 1 ) ) || num_bad < 1 ||
-                 one_in( num_bad + 1 ) || value > 1 ) ) {
+               ( num_bad < 1 || one_in( num_bad + 1 ) || value > 1 ) ) {
             if( value < 1 && one_in( 3 ) ) {
                 // Good
                 passive_tmp = random_entry_removed( good_effects );
@@ -908,7 +909,7 @@ std::string new_artifact()
         while( !good_effects.empty() && !bad_effects.empty() &&
                num_good < 3 && num_bad < 3 &&
                ( num_good < 1 || one_in( num_good * 2 ) || value > 1 ||
-                 ( num_bad < 3 && !one_in( 3 - num_bad ) ) ) ) {
+                 !one_in( 3 - num_bad ) ) ) {
             if( value < 1 && one_in( 2 ) ) {
                 // Good effect
                 passive_tmp = random_entry_removed( good_effects );
@@ -1165,7 +1166,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if( jo.has_array( "materials" ) ) {
-        for( const std::string &id : jo.get_array( "materials" ) ) {
+        for( const std::string id : jo.get_array( "materials" ) ) {
             materials.push_back( material_id( id ) );
         }
     }
@@ -1184,7 +1185,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
 
     // Artifacts in older saves store ammo as string.
     if( jo.has_array( "ammo" ) ) {
-        for( const std::string &id : jo.get_array( "ammo" ) ) {
+        for( const std::string id : jo.get_array( "ammo" ) ) {
             tool->ammo_id.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo" ) ) {
@@ -1223,14 +1224,14 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
     if( !jo.has_array( "dream_unmet" ) ) {
         artifact->dream_msg_unmet = artifact_dream_data[static_cast<int>( artifact->charge_req )].msg_unmet;
     } else {
-        for( const std::string &line : jo.get_array( "dream_unmet" ) ) {
+        for( const std::string line : jo.get_array( "dream_unmet" ) ) {
             artifact->dream_msg_unmet.push_back( line );
         }
     }
     if( !jo.has_array( "dream_met" ) ) {
         artifact->dream_msg_met   = artifact_dream_data[static_cast<int>( artifact->charge_req )].msg_met;
     } else {
-        for( const std::string &line : jo.get_array( "dream_met" ) ) {
+        for( const std::string line : jo.get_array( "dream_met" ) ) {
             artifact->dream_msg_met.push_back( line );
         }
     }
@@ -1273,7 +1274,7 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if( jo.has_array( "materials" ) ) {
-        for( const std::string &id : jo.get_array( "materials" ) ) {
+        for( const std::string id : jo.get_array( "materials" ) ) {
             materials.push_back( material_id( id ) );
         }
     }

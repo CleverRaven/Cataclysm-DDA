@@ -79,7 +79,7 @@
   {
     "id": "MISSION_OLD_GUARD_NEC_COMMO_1",
     "type": "mission_definition",
-    "name": "Fabricate Repeater Mod",
+    "name": { "str": "Fabricate Repeater Mod" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 250000,
@@ -105,7 +105,7 @@
   {
     "id": "MISSION_OLD_GUARD_NEC_COMMO_2",
     "type": "mission_definition",
-    "name": "Disable External Power",
+    "name": { "str": "Disable External Power" },
     "goal": "MGOAL_COMPUTER_TOGGLE",
     "difficulty": 2,
     "value": 150000,
@@ -126,7 +126,7 @@
   {
     "id": "MISSION_OLD_GUARD_NEC_COMMO_3",
     "type": "mission_definition",
-    "name": "Install Repeater Mod",
+    "name": { "str": "Install Repeater Mod" },
     "goal": "MGOAL_COMPUTER_TOGGLE",
     "difficulty": 2,
     "value": 300000,
@@ -147,7 +147,7 @@
   {
     "id": "MISSION_OLD_GUARD_NEC_COMMO_4",
     "type": "mission_definition",
-    "name": "Install Repeater Mod",
+    "name": { "str": "Install Repeater Mod" },
     "goal": "MGOAL_COMPUTER_TOGGLE",
     "difficulty": 2,
     "value": 350000,

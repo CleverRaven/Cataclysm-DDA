@@ -1,6 +1,6 @@
 #pragma once
-#ifndef WEATHER_H
-#define WEATHER_H
+#ifndef CATA_SRC_WEATHER_H
+#define CATA_SRC_WEATHER_H
 
 #include "color.h"
 #include "optional.h"
@@ -183,7 +183,9 @@ std::string print_temperature( double fahrenheit, int decimals = 0 );
 std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
-int get_local_windchill( double temperature, double humidity, double windpower );
+// Return windchill offset in degrees F, starting from given temperature, humidity and wind
+int get_local_windchill( double temperature_f, double humidity, double wind_mph );
+
 int get_local_humidity( double humidity, weather_type weather, bool sheltered = false );
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection,
@@ -240,12 +242,12 @@ class weather_manager
         // Updates the temperature and weather patten
         void update_weather();
         // The air temperature
-        int temperature;
-        bool lightning_active;
+        int temperature = 0;
+        bool lightning_active = false;
         // Weather pattern
-        weather_type weather;
-        int winddirection;
-        int windspeed;
+        weather_type weather = weather_type::WEATHER_NULL;
+        int winddirection = 0;
+        int windspeed = 0;
         // Cached weather data
         pimpl<w_point> weather_precise;
         cata::optional<int> wind_direction_override;
@@ -262,4 +264,4 @@ class weather_manager
         void clear_temp_cache();
 };
 
-#endif
+#endif // CATA_SRC_WEATHER_H
