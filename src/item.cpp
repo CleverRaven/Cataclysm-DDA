@@ -6796,13 +6796,15 @@ int item::ammo_remaining() const
         return mag->ammo_remaining();
     }
 
-    if( is_tool() || is_gun() ) {
+    if( is_tool() ) {
         // includes auxiliary gunmods
         if( has_flag( flag_USES_BIONIC_POWER ) ) {
             int power = units::to_kilojoule( g->u.get_power_level() );
             return power;
         }
         return charges;
+    } else if( is_gun() && !contents.empty() ) {
+        return contents.first_ammo().charges;
     }
 
     if( is_magazine() ) {
@@ -6934,8 +6936,7 @@ const itype *item::ammo_data() const
     }
 
     if( is_magazine() ) {
-        return !contents.empty() ? contents.all_items_top(
-                   item_pocket::pocket_type::MAGAZINE ).front()->ammo_data() : nullptr;
+        return !contents.empty() ? contents.first_ammo().ammo_data() : nullptr;
     }
 
     auto mods = is_gun() ? gunmods() : toolmods();
@@ -6946,7 +6947,10 @@ const itype *item::ammo_data() const
         }
     }
 
-    return curammo;
+    if( is_gun() && !contents.empty() ) {
+        return contents.first_ammo().ammo_data();
+    }
+    return nullptr;
 }
 
 itype_id item::ammo_current() const
@@ -7484,9 +7488,8 @@ bool item::reload( player &u, item_location ammo, int qty )
     item_location container;
     if( ammo->is_ammo_container() ) {
         container = ammo;
-        // i'm not sure what's going on here
-        ammo = item_location( ammo, ammo->contents.all_items_top(
-                                  item_pocket::pocket_type::CONTAINER ).front() );
+        // if the thing passed in isn't ammo, we get the first ammo contained
+        ammo = item_location( ammo, &ammo->contents.first_ammo() );
     }
 
     if( !is_reloadable_with( ammo->typeId() ) ) {
@@ -7562,22 +7565,25 @@ bool item::reload( player &u, item_location ammo, int qty )
     } else {
         if( ammo->has_flag( flag_SPEEDLOADER ) ) {
             // sets curammo to one of the ammo types contained
-            curammo = ammo->contents.all_items_top( item_pocket::pocket_type::MAGAZINE ).front()->type;
+            curammo = ammo->contents.first_ammo().type;
             qty = std::min( qty, ammo->ammo_remaining() );
+            put_in( *ammo, item_pocket::pocket_type::MAGAZINE );
             ammo->ammo_consume( qty, tripoint_zero );
-            charges += qty;
         } else if( ammo->ammo_type() == "plutonium" ) {
             curammo = ammo->type;
             ammo->charges -= qty;
 
             // any excess is wasted rather than overfilling the item
-            charges += qty * PLUTONIUM_CHARGES;
-            charges = std::min( charges, ammo_capacity() );
+            item plut( *ammo );
+            plut.charges = std::min( qty * PLUTONIUM_CHARGES, ammo_capacity() );
+            put_in( plut, item_pocket::pocket_type::MAGAZINE );
         } else {
             curammo = ammo->type;
             qty = std::min( qty, ammo->charges );
+            item item_copy( *ammo );
             ammo->charges -= qty;
-            charges += qty;
+            item_copy.charges = qty;
+            put_in( item_copy, item_pocket::pocket_type::MAGAZINE );
         }
     }
 

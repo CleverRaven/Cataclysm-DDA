@@ -32,6 +32,10 @@ bool item_contents::empty() const
         return true;
     }
     for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+            // item mods aren't really contents per se
+            continue;
+        }
         if( !pocket.empty() ) {
             return false;
         }

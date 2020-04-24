@@ -129,6 +129,8 @@ static void reload_a_revolver( player &dummy, item &gun, item &ammo )
         g->reload_weapon( false );
         REQUIRE( dummy.activity );
         process_activity( dummy );
+        CAPTURE( gun.typeId() );
+        CAPTURE( ammo.typeId() );
         CHECK( gun.ammo_remaining() > 0 );
         CHECK( gun.ammo_current() == ammo.type->get_id() );
     }

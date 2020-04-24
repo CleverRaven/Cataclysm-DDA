@@ -2638,7 +2638,7 @@ std::vector<item_location> Character::find_reloadables()
     std::vector<item_location> reloadables;
 
     visit_items( [this, &reloadables]( item * node ) {
-        if( node->is_holster() ) {
+        if( !node->is_gun() && !node->is_magazine() ) {
             return VisitResponse::NEXT;
         }
         bool reloadable = false;
@@ -2653,7 +2653,7 @@ std::vector<item_location> Character::find_reloadables()
         if( reloadable ) {
             reloadables.push_back( item_location( *this, node ) );
         }
-        return VisitResponse::SKIP;
+        return VisitResponse::NEXT;
     } );
     return reloadables;
 }
