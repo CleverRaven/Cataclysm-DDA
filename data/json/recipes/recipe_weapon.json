@@ -708,10 +708,15 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "mechanics", 3 ] ],
     "difficulty": 5,
-    "time": "15 m",
-    "autolearn": true,
-    "book_learn": [ [ "recipe_bows", 5 ], [ "manual_archery", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "time": "1 h",
+    "book_learn": [
+      [ "recipe_bows", 5 ],
+      [ "manual_archery", 6 ],
+      [ "book_archery", 6 ],
+      [ "scots_cookbook", 6 ],
+      [ "textbook_armschina", 6 ]
+    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }  ],
     "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
   },
   {
