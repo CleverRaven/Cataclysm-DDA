@@ -2799,14 +2799,14 @@
   },
   {
     "type": "vehicle_part",
-    "id": "wireless_charger",
-    "name": { "str": "wireless charger" },
+    "id": "battery_charger",
+    "name": { "str": "battery charger" },
     "durability": 5,
     "description": "A small, low-power consumer device for recharging batteries.  It slowly charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space.",
     "//": "Sub-milliwatt power consumption when idle; delivers 15 watts when charging.",
     "epower": 0,
     "bonus": 15,
-    "item": "wireless_charger",
+    "item": "battery_charger",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
