@@ -56,7 +56,7 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "............",
-        ".,,,,,,,,,..",
+        ".00,,,,,,,..",
         ".,,,,,,,,,!.",
         ".,,,,,,,,,!.",
         ".,,,,,,,,,!.",
@@ -77,9 +77,10 @@
         "T": "t_carpet_yellow",
         "E": "t_carpet_yellow",
         "$": "t_carpet_yellow",
-        "!": "t_carpet_yellow"
+        "!": "t_carpet_yellow",
+        "0": "t_carpet_yellow"
       },
-      "furniture": { "!": "f_rack_metal", "$": "f_rack_metal" },
+      "furniture": { "!": "f_rack_metal", "$": "f_rack_metal", "0": "f_sleep_pod" },
       "items": {
         "!": { "item": "guns_ganger", "chance": 80, "repeat": [ 1, 3 ] },
         ".": [
