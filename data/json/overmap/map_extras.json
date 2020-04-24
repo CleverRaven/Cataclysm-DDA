@@ -17,16 +17,6 @@
     "autonote": true
   },
   {
-    "id": "mx_fumarole",
-    "type": "map_extra",
-    "name": "Fumarole",
-    "description": "There is a fumarole here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_fumarole" },
-    "sym": "L",
-    "color": "red",
-    "autonote": true
-  },
-  {
     "id": "mx_collegekids",
     "type": "map_extra",
     "name": "College Kids",
@@ -153,16 +143,6 @@
     "description": "Another portal is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_portal_in" },
     "sym": "P",
-    "color": "magenta",
-    "autonote": true
-  },
-  {
-    "id": "mx_anomaly",
-    "type": "map_extra",
-    "name": "Anomaly",
-    "description": "Some anomaly is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_anomaly" },
-    "sym": "?",
     "color": "magenta",
     "autonote": true
   },
