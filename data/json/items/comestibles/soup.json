@@ -27,11 +27,11 @@
     "id": "broth_bone",
     "name": "bone broth",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "human %s", "str_pl": "human %s" } },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "human %s" } },
       {
         "type": "FLAG",
         "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str": "demihuman %s", "str_pl": "demihuman %s" }
+        "name": { "str_sp": "demihuman %s" }
       }
     ],
     "weight": "267 g",
@@ -83,9 +83,9 @@
     "id": "soup_meat",
     "name": "meat soup",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "sap soup" },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "goblin soup" },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "sap soup" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "goblin soup" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "weight": "253 g",
     "color": "red",

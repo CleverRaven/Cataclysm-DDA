@@ -335,13 +335,13 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "meat jerky" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "jerk jerky", "str_pl": "jerk jerky" } },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "jerk jerky" } },
       {
         "type": "FLAG",
         "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str": "talking animal jerky", "str_pl": "talking animal jerky" }
+        "name": { "str_sp": "talking animal jerky" }
       },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "monster jerky", "str_pl": "monster jerky" } }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "monster jerky" } }
     ],
     "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
     "primary_material": "cured_meat",
@@ -381,13 +381,13 @@
     "type": "COMESTIBLE",
     "name": "smoked meat",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "smoked sucker", "str_pl": "smoked sucker" } },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "smoked sucker" } },
       {
         "type": "FLAG",
         "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str": "smoked Narnian", "str_pl": "smoked Narnian" }
+        "name": { "str_sp": "smoked Narnian" }
       },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
     "color": "brown",
@@ -1047,7 +1047,6 @@
     "copy-from": "fat",
     "type": "COMESTIBLE",
     "name": "chunk of demihuman fat",
-    "name_plural": "chunks of demihuman fat",
     "description": "Freshly harvested from a human body.",
     "material": "flesh",
     "flags": [ "STRICT_HUMANITARIANISM" ]
@@ -1077,7 +1076,6 @@
     "type": "COMESTIBLE",
     "cooks_like": "demihuman_cooked",
     "name": "demihuman flesh",
-    "name_plural": "demihuman fleshes",
     "description": "Freshly butchered from a demihuman body.",
     "material": "flesh",
     "flags": [ "STRICT_HUMANITARIANISM" ]

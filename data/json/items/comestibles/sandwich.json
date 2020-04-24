@@ -202,7 +202,7 @@
         "condition": "STRICT_HUMANITARIANISM",
         "name": { "str": "satyr sandwich", "str_pl": "satyr sandwiches" }
       },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "weight": "233 g",
     "color": "light_gray",

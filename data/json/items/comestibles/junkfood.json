@@ -774,17 +774,17 @@
       {
         "type": "FLAG",
         "condition": "CANNIBALISM",
-        "name": { "str": "niño nachos with cheese", "str_pl": "niño nachos with cheese" }
+        "name": { "str_sp": "niño nachos with cheese" }
       },
       {
         "type": "FLAG",
         "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str": "nibelung nachos with cheese", "str_pl": "nibelung nachos with cheese" }
+        "name": { "str_sp": "nibelung nachos with cheese" }
       },
       {
         "type": "COMPONENT_ID",
         "condition": "mutant",
-        "name": { "str": "cheese and chupacabra nachos", "str_pl": "cheese and chupacabra nachos" }
+        "name": { "str_sp": "cheese and chupacabra nachos" }
       }
     ],
     "weight": "22 g",
