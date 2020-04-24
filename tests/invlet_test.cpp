@@ -748,7 +748,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
         merge_invlet_test( dummy, from ); \
     }
 
-TEST_CASE( "Inventory letter test", "[invlet]" )
+TEST_CASE( "Inventory letter test", "[invlet][!mayfail]" )
 {
     player &dummy = g->u;
     const tripoint spot( 60, 60, 0 );
@@ -788,7 +788,7 @@ static void verify_invlet_consistency( const invlet_favorites &fav )
     }
 }
 
-TEST_CASE( "invlet_favourites_can_erase", "[invlet]" )
+TEST_CASE( "invlet_favourites_can_erase", "[invlet][!mayfail]" )
 {
     invlet_favorites fav;
     fav.set( 'a', "a" );
@@ -799,7 +799,7 @@ TEST_CASE( "invlet_favourites_can_erase", "[invlet]" )
     CHECK( fav.invlets_for( "a" ).empty() );
 }
 
-TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
+TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet][!mayfail]" )
 {
     invlet_favorites fav;
     fav.set( 'a', "a" );
@@ -812,7 +812,7 @@ TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
     CHECK( fav.invlets_for( "b" ) == "a" );
 }
 
-TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[invlet]" )
+TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[invlet][!mayfail]" )
 {
     invlet_favorites fav;
     fav.set( 'a', "a" );

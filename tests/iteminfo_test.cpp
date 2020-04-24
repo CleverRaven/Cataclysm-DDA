@@ -102,7 +102,7 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
     }
 }
 
-TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
+TEST_CASE( "item rigidity", "[item][iteminfo][rigidity][!mayfail]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_RIGIDITY, iteminfo_parts::ARMOR_ENCUMBRANCE } );
 
