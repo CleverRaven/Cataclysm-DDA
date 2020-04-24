@@ -748,8 +748,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
     }
 
-    const bool humanitarian = has_trait( trait_STRICT_HUMANITARIAN );
-    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) && !has_trait_flag( flag_STRICT_HUMANITARIAN ) ) {
+    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) && !has_trait_flag( "STRICT_HUMANITARIAN" ) ) {
         add_consequence( _( "The thought of eating demihuman flesh makes you feel sick." ), CANNIBALISM );
     }
 
