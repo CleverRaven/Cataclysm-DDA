@@ -542,6 +542,7 @@ class salvage_actor : public iuse_actor
             material_id( "nomex" ),
             material_id( "nylon" ),
             material_id( "plastic" ),
+            material_id( "rubber" ),
             material_id( "wood" ),
             material_id( "wool" )
         };
