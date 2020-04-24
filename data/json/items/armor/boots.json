@@ -670,6 +670,28 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
+    "id": "flip_flops_exp",
+    "type": "ARMOR",
+    "name": { "str": "pair of expensive flip-flops", "str_pl": "pairs of flip-flops" },
+    "description": "These are upmarket \"luxury\" flip-flops.  Very difficult to run in.",
+    "weight": "170 g",
+    "volume": "250 ml",
+    "price": 10500,
+    "price_postapoc": 50,
+    "to_hit": -2,
+    "bashing": 1,
+    "material": [ "rubber", "leather" ],
+    "symbol": "[",
+    "looks_like": "flip_flops",
+    "color": "brown",
+    "covers": [ "FEET" ],
+    "coverage": 12,
+    "encumbrance": 30,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
     "id": "footrags",
     "type": "ARMOR",
     "name": { "str": "pair of foot rags", "str_pl": "pairs of foot rags" },
