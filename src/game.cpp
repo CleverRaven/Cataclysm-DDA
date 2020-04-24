@@ -260,7 +260,7 @@ bool is_valid_in_w_terrain( const point &p )
 static void achievement_attained( const achievement *a )
 {
     g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
-                            a->description() );
+                            a->name() );
 }
 
 // This is the main game set-up process.
