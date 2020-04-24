@@ -1391,7 +1391,16 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED", "BLOCK_WIND", "PICKABLE" ],
+    "flags": [
+      "FLAMMABLE_ASH",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_DOOR",
+      "LOCKED",
+      "BLOCK_WIND",
+      "PICKABLE"
+    ],
     "examine_action": "locked_object",
     "bash": {
       "str_min": 8,
@@ -1500,7 +1509,17 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED", "BLOCK_WIND", "PICKABLE" ],
+    "flags": [
+      "FLAMMABLE_ASH",
+      "ALARMED",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_DOOR",
+      "LOCKED",
+      "BLOCK_WIND",
+      "PICKABLE"
+    ],
     "examine_action": "locked_object",
     "bash": {
       "str_min": 8,
