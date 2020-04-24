@@ -317,7 +317,23 @@
     "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nail", 200 ], [ "scrap", 16 ] ], [ [ "fuse", 1 ] ], [ [ "dynamite", 1 ] ] ]
   },
   {
-    "result": "pipebomb",
+    "result": "bootleg_pipebomb",
+    "type": "recipe",
+    "id_suffix": "stable",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 5 ],
+    "difficulty": 5,
+    "time": "15 m",
+    "reversible": true,
+    "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "using": [ [ "explosives_casting_standard", 1 ], [ "military_explosive", 30 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "delay_fuze", 1 ] ] ]
+  },
+  {
+    "result": "improvised_pipebomb",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -327,7 +343,21 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 18 ] ],
+    "using": [ [ "stable_explosive", 29 ], [ "volatile_explosive", 1 ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "primitive_pipebomb",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "volatile_explosive", 30 ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
@@ -373,27 +403,6 @@
     "autolearn": true,
     "using": [ [ "volatile_explosive", 23 ] ],
     "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "fuse", 1 ] ] ]
-  },
-  {
-    "result": "pipebomb",
-    "type": "recipe",
-    "id_suffix": "stable",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "fabrication",
-    "skills_required": [ "cooking", 5 ],
-    "difficulty": 5,
-    "time": "15 m",
-    "reversible": true,
-    "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
-    "using": [ [ "explosives_casting_standard", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "fuse", 1 ] ],
-      [ [ "chem_compositionb", 225 ] ],
-      [ [ "chem_black_powder", 10 ], [ "chem_match_head_powder", 10 ], [ "gunpowder", 5 ] ]
-    ]
   },
   {
     "result": "tool_small_bootleg_fragmentation_device",
