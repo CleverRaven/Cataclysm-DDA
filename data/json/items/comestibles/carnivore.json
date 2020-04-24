@@ -1087,9 +1087,18 @@
   {
     "type": "COMESTIBLE",
     "id": "demihuman_stomach_boiled",
-    "copy-from": "small_hstomach_boiled",
-    "name": "boiled human stomach",
+    "copy-from": "hstomach_boiled",
+    "name": "boiled demihuman stomach",
     "calories": 120,
+    "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
+    "material": "flesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "small_demihuman_stomach_boiled",
+    "copy-from": "small_stomach_boiled",
+    "name": { "str": "boiled demihuman stomach" },
     "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
     "material": "flesh",
     "flags": [ "STRICT_HUMANITARIANISM" ]
