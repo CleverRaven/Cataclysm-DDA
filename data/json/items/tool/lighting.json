@@ -378,7 +378,6 @@
     "price": 950,
     "price_postapoc": 200,
     "bashing": 8,
-    "to_hit": 2,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",

@@ -289,7 +289,7 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "to_hit": -2,
+    "to_hit": -1,
     "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },

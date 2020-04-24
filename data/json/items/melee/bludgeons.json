@@ -47,7 +47,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ],
     "volume": "1750 ml",
-    "bashing": 19,
+    "bashing": 26,
     "price": 16000
   },
   {
@@ -65,7 +65,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE" ],
     "volume": "1750 ml",
-    "bashing": 20,
+    "bashing": 26,
     "price": 16000
   },
   {
@@ -90,7 +90,6 @@
     "name": { "str": "expandable baton" },
     "description": "A telescoping baton that collapses for easy storage.  Makes an excellent melee weapon.  Activate to expand.",
     "weight": "725 g",
-    "to_hit": 2,
     "color": "dark_gray",
     "price_postapoc": 750,
     "symbol": "/",
@@ -117,7 +116,7 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
     "volume": "750 ml",
-    "bashing": 12,
+    "bashing": 18,
     "price": 17500
   },
   {
@@ -212,9 +211,9 @@
     "weight": "1133 g",
     "volume": "2 L",
     "//": "MA reference I used held that a bokken crushes rather than cuts (or impales) but is otherwise just as damaging as a katana.  Nerfed by popular demand.",
-    "bashing": 25,
+    "bashing": 26,
     "cutting": 1,
-    "to_hit": 1,
+    "to_hit": 2,
     "category": "weapons"
   },
   {
@@ -232,8 +231,7 @@
     "flags": [ "SHEATH_SWORD" ],
     "weight": "680 g",
     "volume": "2 L",
-    "bashing": 10,
-    "cutting": 1,
+    "bashing": 13,
     "to_hit": 1,
     "category": "weapons"
   },
@@ -252,8 +250,7 @@
     "flags": [ "SHEATH_SWORD" ],
     "weight": "1133 g",
     "volume": "2 L",
-    "bashing": 18,
-    "cutting": 1,
+    "bashing": 26,
     "to_hit": 1,
     "category": "weapons"
   },
@@ -306,8 +303,8 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "volume": "2 L",
-    "bashing": 20,
-    "cutting": 6,
+    "bashing": 26,
+    "cutting": 8,
     "price": 20000
   },
   {
@@ -405,7 +402,8 @@
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "volume": "1250 ml",
-    "bashing": 40,
+    "bashing": 50,
+    "to_hit": 1,
     "price": 12000,
     "price_postapoc": 500,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -621,7 +619,7 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "volume": "1250 ml",
     "//": "Same total damage and slightly higher weight than a morningstar - exchanged.",
-    "bashing": 37,
+    "bashing": 40,
     "price": 100000,
     "price_postapoc": 6000,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -640,7 +638,7 @@
     "techniques": [ "SWEEP" ],
     "flags": [ "NONCONDUCTIVE" ],
     "volume": "1250 ml",
-    "bashing": 8,
+    "bashing": 15,
     "price": 10000,
     "price_postapoc": 500
   },
@@ -768,7 +766,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "volume": "1750 ml",
-    "bashing": 20,
+    "bashing": 26,
     "cutting": 4,
     "flags": [ "STAB" ],
     "price": 16000,
@@ -815,7 +813,7 @@
     "name": { "str": "PR-24 baton (extended)", "str_pl": "PR-24 batons (extended)" },
     "description": "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton used by law enforcement all over the world.  The PR designation is rumored to mean Public Relations.  Activate to retract.",
     "weight": "680 g",
-    "to_hit": 2,
+    "to_hit": 3,
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "aluminum", "plastic" ],
@@ -823,7 +821,7 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "use_action": { "menu_text": "Retract", "type": "transform", "target": "PR24-retracted", "msg": "You collapse your PR-24 baton." },
     "volume": "2 L",
-    "bashing": 13,
+    "bashing": 20,
     "price": 30000,
     "price_postapoc": 750
   },
@@ -910,7 +908,7 @@
     "flags": [ "DURABLE_MELEE" ],
     "weight": "910 g",
     "volume": "1500 ml",
-    "bashing": 22,
+    "bashing": 26,
     "to_hit": 2,
     "price_postapoc": 1250,
     "category": "weapons"
@@ -928,7 +926,7 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "weight": "1135 g",
     "volume": "1500 ml",
-    "bashing": 27,
+    "bashing": 30,
     "to_hit": 2,
     "price_postapoc": 1750,
     "category": "weapons"
@@ -945,8 +943,8 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "weight": "850 g",
     "volume": "1500 ml",
-    "bashing": 10,
-    "to_hit": 2,
+    "bashing": 26,
+    "to_hit": 1,
     "price_postapoc": 50,
     "category": "weapons"
   },
@@ -990,7 +988,7 @@
     "price": 17000,
     "to_hit": 2,
     "price_postapoc": 2500,
-    "bashing": 14,
+    "bashing": 20,
     "material": [ "plastic", "steel" ],
     "symbol": "/",
     "color": "dark_gray",
@@ -1033,7 +1031,7 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "volume": "2 L",
-    "bashing": 12,
+    "bashing": 20,
     "price": 19500
   },
   {
@@ -1050,7 +1048,7 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "volume": "2 L",
-    "bashing": 14,
+    "bashing": 20,
     "price": 19500
   },
   {
@@ -1059,7 +1057,6 @@
     "name": { "str": "war hammer" },
     "description": "A medieval hammer made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
     "weight": "1337 g",
-    "to_hit": 1,
     "price_postapoc": 6000,
     "color": "brown",
     "symbol": "/",
@@ -1068,8 +1065,8 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE", "BELT_CLIP" ],
     "volume": "1250 ml",
-    "bashing": 20,
-    "cutting": 20,
+    "bashing": 22,
+    "cutting": 23,
     "price": 16000,
     "qualities": [ [ "HAMMER", 1 ] ]
   }
