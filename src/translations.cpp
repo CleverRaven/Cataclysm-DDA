@@ -686,3 +686,8 @@ std::string operator+( const translation &lhs, const translation &rhs )
 {
     return lhs.translated() + rhs.translated();
 }
+
+bool localized_comparator::operator()( const std::string &l, const std::string &r ) const
+{
+    return std::locale()( l, r );
+}
