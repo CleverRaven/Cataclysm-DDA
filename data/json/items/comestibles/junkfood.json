@@ -737,16 +737,8 @@
     "name": { "str_sp": "meat nachos" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "niño nachos" } },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str_sp": "nibelung nachos" }
-      },
-      {
-        "type": "COMPONENT_ID",
-        "condition": "mutant",
-        "name": { "str_sp": "nachos con chupacabra" }
-      }
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "nibelung nachos" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "nachos con chupacabra" } }
     ],
     "weight": "125 g",
     "color": "yellow",
