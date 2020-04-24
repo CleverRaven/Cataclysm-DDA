@@ -43,7 +43,7 @@
     "volume": "3500 ml",
     "price": 2000,
     "price_postapoc": 250,
-    "to_hit": 3,
+    "to_hit": 1,
     "bashing": 10,
     "cutting": 6,
     "material": [ "steel", "wood" ],
