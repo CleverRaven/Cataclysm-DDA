@@ -227,16 +227,8 @@
     "name": "currywurst",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "cheapskate %s" } },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str_sp": "confusing %s" }
-      },
-      {
-        "type": "COMPONENT_ID",
-        "condition": "mutant",
-        "name": { "str_sp": "bloodcurdling %s" }
-      }
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "confusing %s" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "bloodcurdling %s" } }
     ],
     "weight": "85 g",
     "color": "red",
@@ -263,11 +255,7 @@
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str_sp": "Orwell's %s" }
-      }
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orwell's %s" } }
     ],
     "weight": "154 g",
     "color": "red",
@@ -835,8 +823,8 @@
     "id": "pie_meat",
     "name": "meat pie",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "prick pie" },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking animal pie" },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "prick pie" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking animal pie" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "malignant %s" } }
     ],
     "weight": "189 g",
@@ -1115,11 +1103,7 @@
     "name": "taco",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "tio %s" } },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str_sp": "talking %s" }
-      },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "terrifying %s" } }
     ],
     "weight": "102 g",
@@ -1164,11 +1148,7 @@
     "name": "dehydrated meat",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str_sp": "%s, demihuman" }
-      },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -1190,11 +1170,7 @@
     "name": "rehydrated meat",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str_sp": "%s, demihuman" }
-      },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -1211,11 +1187,7 @@
     "name": { "str": "haggis", "str_pl": "haggises" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "human %s" } },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str_sp": "%s, demihuman" }
-      }
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } }
     ],
     "//": "That's whisky without an 'e' because we're talking about Scotch whisky.",
     "weight": "156 g",

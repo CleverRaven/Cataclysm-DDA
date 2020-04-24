@@ -33,16 +33,8 @@
     "comestible_type": "FOOD",
     "name": { "str_sp": "protein powder" },
     "conditional_names": [
-      {
-        "type": "FLAG",
-        "condition": "CANNIBALISM",
-        "name": { "str_sp": "soylent green powder" }
-      },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str_sp": "sapient green powder" }
-      },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green powder" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green powder" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",

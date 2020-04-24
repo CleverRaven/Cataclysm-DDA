@@ -28,11 +28,7 @@
     "name": "bone broth",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "human %s" } },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str_sp": "demihuman %s" }
-      }
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "demihuman %s" } }
     ],
     "weight": "267 g",
     "color": "yellow",
