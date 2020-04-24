@@ -414,7 +414,7 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "volatile_explosive", 23 ] ],
+    "using": [ [ "volatile_explosive", 5 ] ],
     "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
