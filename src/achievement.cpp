@@ -355,7 +355,7 @@ class requirement_watcher : stat_watcher
             } else {
                 result = string_format( _( "%s/%s " ), current, requirement_->target );
             }
-            result += requirement_->statistic->description();
+            result += requirement_->statistic->description().translated();
             return colorize( result, c );
         }
     private:
