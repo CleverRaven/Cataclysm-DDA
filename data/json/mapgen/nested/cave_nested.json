@@ -1,0 +1,410 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_nw_1",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "...........",
+        "     ...  .",
+        "     ...  .",
+        "...   ..  .",
+        "....      .",
+        ".....    ..",
+        ".....     .",
+        ".....     .",
+        ".....     .",
+        ".....      ",
+        ".....      "
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_nw_2",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "...........",
+        "..   ......",
+        "..   ......",
+        "....   ....",
+        "....      .",
+        "....      .",
+        "....   ....",
+        "....   ....",
+        ".        ..",
+        ".        ..",
+        ".          "
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_nw_3",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "...........",
+        "  .........",
+        "     ......",
+        ".    ......",
+        ".      ....",
+        "...      ..",
+        ".....    ..",
+        ".......  ..",
+        "........ ..",
+        "........  .",
+        "........   "
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_nw_4",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "...........",
+        "...........",
+        "...........",
+        "...........",
+        "...........",
+        "...........",
+        "...........",
+        "...........",
+        "...........",
+        ".......... ",
+        "......     "
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_ne_1",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "............",
+        "..      ....",
+        "..         .",
+        ".......    .",
+        "........   .",
+        "........   .",
+        ".....      .",
+        ".....      .",
+        ".....      .",
+        "        ....",
+        "        ....",
+        "        ...."
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_ne_2",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "        ...."
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_ne_3",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "............",
+        "....    ....",
+        "....       .",
+        "..   ...   .",
+        "..   ....  .",
+        "....   ..  .",
+        "....   .....",
+        "..   .......",
+        "..    ......",
+        ".....     ..",
+        ".....     ..",
+        "        ...."
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_ne_4",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "............",
+        "..        ..",
+        ".. .....  ..",
+        ".. ...... ..",
+        ".. ...... ..",
+        ".. ...... ..",
+        "..    ... ..",
+        "..        ..",
+        "..    ......",
+        ".. .........",
+        ".. .........",
+        "        ...."
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_se_1",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "           ",
+        ".   ..     ",
+        ".   ..     ",
+        ".   ..     ",
+        ".   ..     ",
+        ".   .......",
+        ".   .......",
+        ".         .",
+        "...       .",
+        "...        "
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_se_2",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "     ......",
+        "..   .... .",
+        "..   .... .",
+        "...  .... .",
+        "...  .... .",
+        "...        ",
+        "...        ",
+        "...       .",
+        "...   ..  .",
+        "...  ....  ",
+        ".........  "
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_se_3",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "....       ",
+        "....       ",
+        "....       ",
+        "....       ",
+        "......     ",
+        "......     ",
+        "......     ",
+        "......     ",
+        ".......    ",
+        ".......    "
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_se_4",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        ".....      ",
+        "......     ",
+        ".......    ",
+        ".......    ",
+        "......     ",
+        ".......    ",
+        ".......    ",
+        "........   ",
+        ".........  ",
+        ".........  "
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_sw_1",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "...         ",
+        "..        ..",
+        "..        ..",
+        ".       ....",
+        ".        ...",
+        "...   ..  ..",
+        "...  ...  ..",
+        "...  ....  .",
+        "...  ....  .",
+        "...  ..... .",
+        "............",
+        "............"
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_sw_2",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "...         ",
+        "...       ..",
+        "....     ...",
+        "...       ..",
+        "....     ...",
+        ".....    ...",
+        "..         .",
+        "...      ...",
+        "....     ...",
+        ".....   ....",
+        "...       ..",
+        "............"
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_sw_3",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "...         ",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............",
+        "............"
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_sw_4",
+    "object": {
+      "rotation": [ 0, 0 ],
+      "fill_ter": "t_rock_floor",
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "...         ",
+        "...    .....",
+        "...    .. ..",
+        ".....  . ...",
+        ".....   ....",
+        "..     .....",
+        ".....   ....",
+        ".... .  ....",
+        "... ...  ...",
+        ".. ....  ...",
+        "............",
+        "............"
+      ],
+      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+    }
+  }
+]
