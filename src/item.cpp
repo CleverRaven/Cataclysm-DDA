@@ -578,9 +578,14 @@ item &item::ammo_set( const itype_id &ammo, int qty )
 
     // handle reloadable tools and guns with no specific ammo type as special case
     if( ( ( ammo == "null" || ammo == "NULL" ) && ammo_types().empty() ) || is_money() ) {
-        if( ( is_tool() || is_gun() ) && magazine_integral() ) {
-            curammo = nullptr;
-            charges = std::min( qty, ammo_capacity() );
+        if( magazine_integral() ) {
+            if( is_tool() ) {
+                curammo = nullptr;
+                charges = std::min( qty, ammo_capacity() );
+            } else if( is_gun() ) {
+                const item ammo( ammo_default(), calendar::turn, std::min( qty, ammo_capacity() ) );
+                put_in( ammo, item_pocket::pocket_type::MAGAZINE );
+            }
         }
         return *this;
     }
@@ -602,8 +607,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
         put_in( set_ammo, item_pocket::pocket_type::MAGAZINE );
 
     } else if( magazine_integral() ) {
-        curammo = atype;
-        charges = std::min( qty, ammo_capacity() );
+        const item ammo( atype, calendar::turn, std::min( qty, ammo_capacity() ) );
+        put_in( ammo, item_pocket::pocket_type::MAGAZINE );
 
     } else {
         if( !magazine_current() ) {

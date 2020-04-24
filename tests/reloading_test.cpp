@@ -155,7 +155,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
     }
 
     GIVEN( "a player armed with a revolver and ammo for it" ) {
-        item &ammo = dummy.i_add( item( "40sw", 0, item::default_charges_tag{} ) );
+        item &ammo = dummy.i_add( item( "40sw", 0, 100 ) );
         REQUIRE( ammo.is_ammo() );
 
         dummy.weapon = item( "sw_610", 0, 0 );
@@ -191,6 +191,8 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
     }
 
     GIVEN( "a player wielding an unloaded gun, carrying an unloaded magazine, and carrying ammo for the magazine" ) {
+        dummy.worn.clear();
+        dummy.worn.push_back( item( "backpack" ) );
         item &ammo = dummy.i_add( item( "9mm", 0, 50 ) );
         const cata::value_ptr<islot_ammo> &ammo_type = ammo.type->ammo;
         REQUIRE( ammo_type );
@@ -210,8 +212,8 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
             process_activity( dummy );
 
             THEN( "the associated magazine is reloaded" ) {
-                CHECK( mag.ammo_remaining() > 0 );
-                CHECK( mag.contents.legacy_front().type == ammo.type );
+                REQUIRE( mag.ammo_remaining() > 0 );
+                CHECK( mag.contents.first_ammo().type == ammo.type );
             }
             WHEN( "the player triggers auto reload again" ) {
                 g->reload_weapon( false );
