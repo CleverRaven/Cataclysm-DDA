@@ -240,7 +240,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
+    "components": [ [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ] ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -1959,7 +1959,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ "bone", 1 ], "bone_human", 1 ]
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
   },
   {
     "type": "recipe",
