@@ -724,7 +724,7 @@ class game
         void on_move_effects();
     private:
         // Game-start procedures
-        void load( const save_t &name ); // Load a player-specific save file
+        bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
         void load_shortcuts( std::istream &fin );
