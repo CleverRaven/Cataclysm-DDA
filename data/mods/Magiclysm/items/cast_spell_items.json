@@ -3,7 +3,7 @@
     "id": "mana_potion_lesser",
     "name": "Lesser Mana Potion",
     "description": "You can't buy these, so you need to save them until the last boss!  Actually, don't even use them there!",
-    "use_action": { "type": "cast_spell", "spell_id": "recover_mana", "no_fail": true, "level": 0 },
+    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "weight": "265 g",
     "quench": 10,
@@ -26,7 +26,7 @@
     "type": "COMESTIBLE",
     "name": "Mana Potion",
     "copy-from": "mana_potion_lesser",
-    "use_action": { "type": "cast_spell", "spell_id": "recover_mana", "no_fail": true, "level": 5 },
+    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 5 },
     "price": 10000
   },
   {
@@ -34,7 +34,7 @@
     "type": "COMESTIBLE",
     "name": "Greater Mana Potion",
     "copy-from": "mana_potion_lesser",
-    "use_action": { "type": "cast_spell", "spell_id": "recover_mana", "no_fail": true, "level": 15 },
+    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 15 },
     "price": 30000
   },
   {
