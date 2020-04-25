@@ -713,7 +713,7 @@ void player::hardcoded_effects( effect &it )
         }
         if( dur > 4_hours ) {
             // 8 teleports
-            if( one_turn_in( 1000_minutes - dur ) ) && !has_effect( effect_valium ) ) {
+            if( one_turn_in( 1000_minutes - dur ) && !has_effect( effect_valium ) ) {
                 add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
             if( one_turn_in( 1200_minutes - dur ) ) {
