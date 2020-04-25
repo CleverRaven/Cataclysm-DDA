@@ -4496,15 +4496,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                         add_msg( _( "%s was stunned!" ), targ->name );
                     }
 
-                    std::array<body_part, 8> bps = {{
-                            bp_head,
-                            bp_arm_l, bp_arm_r,
-                            bp_hand_l, bp_hand_r,
-                            bp_torso,
-                            bp_leg_l, bp_leg_r
+                    std::array<bodypart_id, 8> bps = {{
+                            bodypart_id( "head" ),
+                            bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+                            bodypart_id( "hand_l" ), bodypart_id( "hand_r" ),
+                            bodypart_id( "torso" ),
+                            bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
                         }
                     };
-                    for( auto &bp : bps ) {
+                    for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
                             targ->deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
@@ -4570,15 +4570,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
-                    std::array<body_part, 8> bps = {{
-                            bp_head,
-                            bp_arm_l, bp_arm_r,
-                            bp_hand_l, bp_hand_r,
-                            bp_torso,
-                            bp_leg_l, bp_leg_r
+                    std::array<bodypart_id, 8> bps = {{
+                            bodypart_id( "head" ),
+                            bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+                            bodypart_id( "hand_l" ), bodypart_id( "hand_r" ),
+                            bodypart_id( "torso" ),
+                            bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
                         }
                     };
-                    for( auto &bp : bps ) {
+                    for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
                             u.deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
@@ -9264,13 +9264,13 @@ point game::place_player( const tripoint &dest_loc )
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 1 ) );
         }
         if( one_in( 5 ) && u.get_armor_bash( bp_foot_r ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your right foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 1 ) );
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
@@ -9281,11 +9281,11 @@ point game::place_player( const tripoint &dest_loc )
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
             u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 10 ) );
         } else {
-            body_part bp = random_body_part();
+            const bodypart_id bp = u.get_random_body_part();
             if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
                 //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                 add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
-                         body_part_name_accusative( bp ),
+                         body_part_name_accusative( bp->token ),
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
                 if( ( u.has_trait( trait_INFRESIST ) ) && ( one_in( 1024 ) ) ) {

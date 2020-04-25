@@ -1587,7 +1587,7 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
         switch( animal_food_type ) {
             case DOGFOOD:
                 if( mon.type->id == mon_dog_thing ) {
-                    p.deal_damage( &mon, bp_hand_r, damage_instance( DT_CUT, rng( 1, 10 ) ) );
+                    p.deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
                     p.add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
                     if( one_in( 5 ) ) {
                         p.add_msg_if_player(
@@ -4010,7 +4010,7 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
     } else {
         // TODO: Maybe - Execute an attack and maybe zap something other than torso
         // Maybe, because it's torso (heart) that fails when zapped with electricity
-        int dam = target->deal_damage( p, bp_torso, damage_instance( DT_ELECTRIC, rng( 5,
+        int dam = target->deal_damage( p, bodypart_id( "torso" ), damage_instance( DT_ELECTRIC, rng( 5,
                                        25 ) ) ).total_damage();
         if( dam > 0 ) {
             p->add_msg_player_or_npc( m_good,
