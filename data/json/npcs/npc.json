@@ -66,7 +66,7 @@
     "chat": "TALK_NC_SURVIVOR_CHEF",
     "faction": "no_faction"
   },
-    {
+  {
     "type": "npc",
     "id": "farmer",
     "//": "A farmer survivor, friendly but suspicious.",
