@@ -757,6 +757,11 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
+    if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
+        !( has_bionic( bio_digestion ) || has_trait( trait_PARAIMMUNE ) ) ) {
+        add_consequence( _( "Eating this raw meat probably isn't very healthy." ), PARASITES );
+    }
+
     const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
 
     if( edible && has_effect( effect_nausea ) ) {

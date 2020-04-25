@@ -148,6 +148,8 @@ enum edible_rating {
     ALLERGY_WEAK,
     // Cannibalism (unless psycho/cannibal)
     CANNIBALISM,
+    // This has parasites
+    PARASITES,
     // Rotten or not rotten enough (for saprophages)
     ROTTEN,
     // Can provoke vomiting if you already feel nauseous.
