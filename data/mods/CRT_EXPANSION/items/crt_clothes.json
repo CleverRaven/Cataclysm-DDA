@@ -14,7 +14,7 @@
     "id": "crt_pants",
     "copy-from": "pants_army",
     "type": "ARMOR",
-    "name": { "str": "CRIT trousers", "str_pl": "CRIT trousers" },
+    "name": { "str_sp": "CRIT trousers" },
     "description": "A  pair of standard-issue cargo pants.  Durable, lightweight and has ample storage.  Super-flex neoprene keeps one warm in moderately cold weather.",
     "color": "light_gray",
     "material": [ "neoprene", "kevlar" ],
