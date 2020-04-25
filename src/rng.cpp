@@ -57,7 +57,7 @@ double rng_exponential( double min, double mean )
 
 bool one_in( int chance )
 {
-    if( chance <= 0 ) {
+    if( chance < 0 ) {
         debugmsg( "Invalid one_in: %d", chance );
         return false;
     }
