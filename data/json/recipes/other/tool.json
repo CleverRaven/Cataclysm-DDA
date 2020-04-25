@@ -369,7 +369,7 @@
     "time": "200 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ] ], [ [ "hose", 2 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ] ], [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ] ]
   },
   {
     "result": "food_processor",
@@ -661,18 +661,5 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
-  },
-  {
-    "result": "hose",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "id_suffix": "hose_from_plastic",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "autolearn": true,
-    "time": "45 m",
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ], [ [ "wire", -1 ], [ "cable", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "duct_tape", 60 ], [ "medical_tape", 60 ] ] ]
   }
 ]

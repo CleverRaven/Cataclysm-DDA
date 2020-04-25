@@ -12,7 +12,11 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "using": [ [ "welding_standard", 40 ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "hose", 2 ] ], [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+    ]
   },
   {
     "type": "recipe",
