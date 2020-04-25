@@ -218,7 +218,7 @@
       ".": [ { "monster": "GROUP_ROACH", "chance": 80 }, { "monster": "GROUP_ZOMBIE", "chance": 60 } ]
     }
   },
-    {
+  {
     "type": "palette",
     "id": "standard_domestic_lino_kitchen",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to add gray linoleum flooring under kitchen furniture",

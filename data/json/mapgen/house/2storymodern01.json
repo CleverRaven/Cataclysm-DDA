@@ -340,6 +340,7 @@
       },
       "furniture": {
         "$": "f_table",
+        ",": "f_chair",
         "(": "f_piano",
         "[": [
           "f_black_eyed_susan",
