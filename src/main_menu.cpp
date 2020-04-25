@@ -277,9 +277,9 @@ holiday main_menu:: get_holiday_from_time()
         return holiday::easter;
     } else if( month == 7 && day == 4 ) {
         return holiday::independence_day;
-    } else if( month == 10 ) {
+    } else if( month == 10 && day >= 23 ) {
         return holiday::halloween;
-    } else if( month == 11 && ( day >= 22 || day <= 28 ) && wday == 4 ) {
+    } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
         return holiday::thanksgiving;
     } else if( month == 12 && day <= 25 ) {
         return holiday::christmas;
@@ -440,7 +440,9 @@ void main_menu::load_char_templates()
 
 bool main_menu::opening_screen()
 {
+    // set holiday based on local system time
     current_holiday = get_holiday_from_time();
+    
     // Play title music, whoo!
     play_music( "title" );
 
