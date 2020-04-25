@@ -58,11 +58,6 @@
     "fuel": { "energy": 1 }
   },
   {
-    "type": "AMMO",
-    "id": "mana_infused_blood",
-    "name": "mana infused blood"
-  },
-  {
     "id": "mana_infused_blood",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
