@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Fatima",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "A welder, culturally muslim but only recently practicing since the Cataclysm has made her rethink her connections to her family's religion",
@@ -146,7 +146,7 @@
   {
     "id": "MISSION_REFUGEE_Fatima_1",
     "type": "mission_definition",
-    "name": "Find a copy of the Quran",
+    "name": { "str": "Find a copy of the Quran" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,

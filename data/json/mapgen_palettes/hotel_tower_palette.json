@@ -9,6 +9,7 @@
       "d": "f_dresser",
       "o": "f_counter",
       "D": "f_dryer",
+      "Y": "f_rack_coat",
       "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "h": "f_chair",
       "r": "f_rack",

@@ -112,7 +112,7 @@
     "id": "bat_plus_one",
     "copy-from": "bat",
     "looks_like": "bat",
-    "name": "bat +1",
+    "name": { "str": "bat +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
@@ -121,7 +121,7 @@
     "id": "bat_plus_two",
     "copy-from": "bat",
     "looks_like": "bat",
-    "name": "bat +2",
+    "name": { "str": "bat +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
@@ -130,7 +130,7 @@
     "id": "bat_metal_plus_one",
     "copy-from": "bat_metal",
     "looks_like": "bat_metal",
-    "name": "aluminum bat +1",
+    "name": { "str": "aluminum bat +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
@@ -139,7 +139,7 @@
     "id": "bat_metal_plus_two",
     "copy-from": "bat_metal",
     "looks_like": "bat_metal",
-    "name": "aluminum bat +2",
+    "name": { "str": "aluminum bat +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
@@ -328,7 +328,7 @@
     "id": "arming_sword_plus_one",
     "copy-from": "arming_sword",
     "looks_like": "arming_sword",
-    "name": "arming sword +1",
+    "name": { "str": "arming sword +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
@@ -337,7 +337,7 @@
     "id": "arming_sword_plus_two",
     "copy-from": "arming_sword",
     "looks_like": "arming_sword",
-    "name": "arming sword +2",
+    "name": { "str": "arming sword +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
@@ -364,7 +364,7 @@
     "id": "battleaxe_plus_one",
     "copy-from": "battleaxe",
     "looks_like": "battleaxe",
-    "name": "battle axe +1",
+    "name": { "str": "battle axe +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
@@ -373,7 +373,7 @@
     "id": "battleaxe_plus_two",
     "copy-from": "battleaxe",
     "looks_like": "battleaxe",
-    "name": "battle axe +2",
+    "name": { "str": "battle axe +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
@@ -758,7 +758,7 @@
   {
     "id": "rune_biomancer_weapon",
     "type": "GENERIC",
-    "name": "Biomancer spear",
+    "name": { "str": "Biomancer spear" },
     "//": "Effectively a durable stone spear +1 with IMPALE tech.  based off Wicked Bonespear.  Lorewise, it would make sense for novice Biomancers to be developing their skills in spears so they can adequately use the Bonespear(No whips/REACH3 for you!) once they're proficient enough to summon one.  Should be weaker than other school weapons DPSwise due to reach.",
     "description": "A grotesque bone spearhead on a stout wooden pole.  There is a Biomancer rune embedded at the base of the head.",
     "weight": "988 g",
@@ -777,7 +777,7 @@
   {
     "id": "rune_technomancer_weapon",
     "type": "GENERIC",
-    "name": "Technomancer toolbar",
+    "name": { "str": "Technomancer toolbar" },
     "//": "Combat stats based off crowbar +1, techniques off Halligan bar(closest non-magical substitute), weight based on 75% of hammer & wrench(since their handles aren't included) + 100% crowbar with benefit from +1 enchantment",
     "description": "This staff incorporates a sturdy cresent wrench on top of a prybar and a hammer on the other in a convienent package.  There is a Technomancer rune embedded in the hammerhead.",
     "weight": "1536 g",
@@ -813,7 +813,7 @@
   {
     "id": "rune_kelvinist_weapon",
     "type": "GENERIC",
-    "name": "Kelvinist flamberge",
+    "name": { "str": "Kelvinist flamberge" },
     "//": "Flame-bladed sword covers half of Kelvinist's heat-cold theme.  Combat stats equivalent to cutlass +1 with BRUTAL technique.",
     "description": "A sword with an undulating blade, reminiscent of a flame.  There is a Kelvinist rune embedded in the pommel.",
     "weight": "1530 g",
@@ -833,7 +833,7 @@
   {
     "id": "rune_stormshaper_weapon",
     "type": "GENERIC",
-    "name": "Stormshaper axe",
+    "name": { "str": "Stormshaper axe" },
     "//": "Equivalent to copper ax +1, with volume reduction so it can be sheathed like the other school weapons.  Metals chosen for being two most conductive metals + balancing reasons",
     "description": "A forged copper axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye.",
     "weight": "3330 g",
@@ -853,7 +853,7 @@
   {
     "id": "rune_animist_weapon",
     "type": "GENERIC",
-    "name": "Animist athame",
+    "name": { "str": "Animist athame" },
     "//": "Tool qualities equivalent to steak knife, combat equiv.  to copper knife + 1 w/ RAPID and BLOCK1, size/weight off combat knife +1",
     "description": "A steel ritual knife used by Animists to draw blood for summoning.  Their school rune is embedded in the crossguard.",
     "weight": "504 g",

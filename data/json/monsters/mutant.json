@@ -2,7 +2,7 @@
   {
     "id": "mon_chud",
     "type": "MONSTER",
-    "name": "C.H.U.D.",
+    "name": { "str": "C.H.U.D." },
     "description": "The C.H.U.D. or Cannibalistic Humanoid Underground Dweller.  A human being turned pale and mad from years of underground isolation.",
     "default_faction": "mutant",
     "bodytype": "human",
@@ -128,7 +128,7 @@
   {
     "id": "mon_one_eye",
     "type": "MONSTER",
-    "name": "cyclopean",
+    "name": { "str": "cyclopean" },
     "description": "A relatively humanoid mutant with purple hair and a grapefruit-sized bloodshot eye.",
     "default_faction": "mutant",
     "bodytype": "human",

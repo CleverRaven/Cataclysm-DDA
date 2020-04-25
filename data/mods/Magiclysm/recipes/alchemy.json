@@ -36,5 +36,32 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_OTHER",
     "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "result": "mana_dust",
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "crystallized_mana", 1 ] ] ],
+    "time": "5 m",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ "spellcraft", 2 ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER",
+    "autolearn": true
+  },
+  {
+    "type": "recipe",
+    "result": "mana_infused_blood",
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "mana_dust", 1 ] ], [ [ "blood", 1 ] ] ],
+    "time": "30 m",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "spellcraft", 3 ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER",
+    "autolearn": true
   }
 ]

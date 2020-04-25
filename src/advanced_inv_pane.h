@@ -1,20 +1,22 @@
 #pragma once
-#ifndef ADVANCED_INV_PANE_H
-#define ADVANCED_INV_PANE_H
-#include "cursesdef.h"
-#include "point.h"
-#include "units.h"
-#include "advanced_inv_area.h"
-#include "advanced_inv_listitem.h"
-#include "color.h"
-#include "uistate.h"
+#ifndef CATA_SRC_ADVANCED_INV_PANE_H
+#define CATA_SRC_ADVANCED_INV_PANE_H
 
 #include <array>
+#include <cstddef>
 #include <functional>
-#include <list>
+#include <map>
 #include <string>
 #include <vector>
-#include <utility>
+
+#include "advanced_inv_area.h"
+#include "advanced_inv_listitem.h"
+#include "cursesdef.h"
+
+class item;
+struct advanced_inv_pane_save_state;
+
+enum aim_location : char;
 
 enum advanced_inv_sortby {
     SORTBY_NONE,
@@ -28,6 +30,7 @@ enum advanced_inv_sortby {
     SORTBY_SPOILAGE,
     SORTBY_PRICE
 };
+
 /**
  * Displayed pane, what is shown on the screen.
  */
@@ -60,14 +63,15 @@ class advanced_inventory_pane
         bool in_vehicle() const {
             return viewing_cargo;
         }
-        bool on_ground() const {
-            return area > AIM_INVENTORY && area < AIM_DRAGGED;
-        }
+        advanced_inv_pane_save_state *save_state;
+        void save_settings();
+        void load_settings( int saved_area_idx,
+                            const std::array<advanced_inv_area, NUM_AIM_LOCATIONS> &squares, bool is_re_enter );
         /**
          * Index of the selected item (index of @ref items),
          */
-        int index;
-        advanced_inv_sortby sortby;
+        int index = 0;
+        advanced_inv_sortby sortby = advanced_inv_sortby::SORTBY_NONE;
         catacurses::window window;
         std::vector<advanced_inv_listitem> items;
         /**
@@ -78,11 +82,11 @@ class advanced_inventory_pane
          * Whether to recalculate the content of this pane.
          * Implies @ref redraw.
          */
-        bool recalc;
+        bool recalc = false;
         /**
          * Whether to redraw this pane.
          */
-        bool redraw;
+        bool redraw = false;
 
         void add_items_from_area( advanced_inv_area &square, bool vehicle_override = false );
         /**
@@ -129,4 +133,4 @@ class advanced_inventory_pane
 
         mutable std::map<std::string, std::function<bool( const item & )>> filtercache;
 };
-#endif
+#endif // CATA_SRC_ADVANCED_INV_PANE_H

@@ -1,8 +1,8 @@
 #include <cstddef>
-#include <sstream>
 #include <list>
 #include <map>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -11,17 +11,17 @@
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
-#include "map.h"
-#include "options.h"
-#include "player.h"
-#include "map_helpers.h"
 #include "inventory.h"
 #include "item.h"
-#include "player_activity.h"
-#include "type_id.h"
 #include "item_location.h"
+#include "map.h"
+#include "map_helpers.h"
 #include "map_selector.h"
+#include "options_helpers.h"
+#include "player.h"
+#include "player_activity.h"
 #include "point.h"
+#include "type_id.h"
 #include "visitable.h"
 
 const trait_id trait_debug_storage( "DEBUG_STORAGE" );
@@ -261,9 +261,8 @@ static void pick_up_from_feet( player &p, int id )
     REQUIRE( found );
 
     p.moves = 100;
-    p.assign_activity( activity_id( "ACT_PICKUP" ) );
-    p.activity.targets.emplace_back( map_cursor( p.pos() ), found );
-    p.activity.values.push_back( 0 );
+    p.assign_activity( player_activity( pickup_activity_actor( { item_location( map_cursor( p.pos() ), found ) }, { 0 },
+                                        p.pos() ) ) );
     p.activity.do_turn( p );
 
     REQUIRE( items.size() == size_before - 1 );
@@ -724,25 +723,25 @@ static void merge_invlet_test( player &dummy, inventory_location from )
 
 #define invlet_test_autoletter_off( name, dummy, from, to ) \
     SECTION( std::string( name ) + " (auto letter off)" ) { \
-        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "disabled" ); \
+        override_option opt( "AUTO_INV_ASSIGN", "disabled" ); \
         invlet_test( dummy, from, to ); \
     }
 
 #define stack_invlet_test_autoletter_off( name, dummy, from, to ) \
     SECTION( std::string( name ) + " (auto letter off)" ) { \
-        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "disabled" ); \
+        override_option opt( "AUTO_INV_ASSIGN", "disabled" ); \
         stack_invlet_test( dummy, from, to ); \
     }
 
 #define swap_invlet_test_autoletter_off( name, dummy, loc ) \
     SECTION( std::string( name ) + " (auto letter off)" ) { \
-        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "disabled" ); \
+        override_option opt( "AUTO_INV_ASSIGN", "disabled" ); \
         swap_invlet_test( dummy, loc ); \
     }
 
 #define merge_invlet_test_autoletter_off( name, dummy, from ) \
     SECTION( std::string( name ) + " (auto letter off)" ) { \
-        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "disabled" ); \
+        override_option opt( "AUTO_INV_ASSIGN", "disabled" ); \
         merge_invlet_test( dummy, from ); \
     }
 

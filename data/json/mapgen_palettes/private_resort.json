@@ -150,6 +150,7 @@
       "h": "f_shower",
       "a": "f_sofa",
       "c": "f_chair",
+      "f": "f_glass_fridge",
       "]": "f_fridge",
       "S": "f_sink",
       "7": "f_deckchair",

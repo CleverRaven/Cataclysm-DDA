@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_EVAC_SHOPKEEP",
-    "name": "Merchant",
+    "name": { "str": "Merchant" },
     "job_description": "I'm a local shopkeeper.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -36,12 +36,14 @@
   {
     "type": "item_group",
     "id": "NC_EVAC_SHOPKEEP_storage",
-    "items": [ [ "duffelbag", 100 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "duffelbag", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "NC_EVAC_SHOPKEEP_coat",
-    "items": [ [ "trenchcoat", 80 ], [ "vest", 60 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 } ]
   },
   {
     "type": "item_group",
@@ -190,10 +192,10 @@
       [ "remington_870", 10 ],
       [ "mossberg_500", 5 ],
       [ "shotgun_d", 5 ],
-      [ "pipebomb", 10 ],
+      [ "improvised_pipebomb", 10 ],
       [ "molotov", 10 ],
       [ "longbow", 5 ],
-      [ "compositebow", 15 ],
+      [ "recurbow", 15 ],
       [ "shortbow", 10 ],
       [ "arrow_metal", 25 ],
       [ "bolt_steel", 10 ],
@@ -202,9 +204,6 @@
       [ "rifle_scope", 20 ],
       [ "pistol_scope", 10 ],
       [ "improve_sights", 20 ],
-      [ "combatsaw_off", 5 ],
-      [ "helsing", 5 ],
-      [ "tihar", 5 ],
       [ "ashot", 5 ]
     ]
   },
@@ -404,7 +403,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
     "type": "mission_definition",
-    "name": "Clear Back Bay",
+    "name": { "str": "Clear Back Bay" },
     "description": "Clear out the barricaded back area in the refugee center and lay the former leader of the Free Merchants to rest, in exchange for the local currency: Free Merchant certified notes.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 2,
@@ -443,7 +442,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_2",
     "type": "mission_definition",
-    "name": "Missing Caravan",
+    "name": { "str": "Missing Caravan" },
     "description": "Investigate the last known location of a disappeared scavenger trading party, and eliminate any bandits or raiders in the vicinity in exchange for <reward_count:FMCNote> certified notes.",
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 5,
@@ -529,7 +528,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_3",
     "type": "mission_definition",
-    "name": "Retrieve Prospectus",
+    "name": { "str": "Retrieve Prospectus" },
     "description": "Visit the farming commune and bring the foreman's prospectus back to the refugee center, for <reward_count:FMCNote> certified notes.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
@@ -575,7 +574,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_4",
     "type": "mission_definition",
-    "name": "Solar Power",
+    "name": { "str": "Solar Power" },
     "description": "Deliver 10 solar panels to help the Free Merchants set up a renewable power grid, in exchange for a handsome reward.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
@@ -605,7 +604,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_5",
     "type": "mission_definition",
-    "name": "In a Pickle",
+    "name": { "str": "In a Pickle" },
     "description": "Deliver 100 half-liter glass canning jars to the Free Merchants to kickstart their food storage plans.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,

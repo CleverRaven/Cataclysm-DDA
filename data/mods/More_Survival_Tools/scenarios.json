@@ -3,7 +3,7 @@
     "type": "scenario",
     "ident": "wilderness",
     "copy-from": "wilderness",
-    "extend": { "allowed_locs": [ "swamp" ] }
+    "extend": { "allowed_locs": [ "sloc_swamp" ] }
   },
   {
     "type": "scenario",

@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_child_scorched",
     "type": "MONSTER",
-    "name": "zombie kinderling",
+    "name": { "str": "zombie kinderling" },
     "description": "A tiny charred body, jumping and kicked and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -48,7 +48,7 @@
   {
     "id": "mon_zombie_fiend",
     "type": "MONSTER",
-    "name": "fiend",
+    "name": { "str": "fiend" },
     "description": "Charred zombie with bony plates, spikes and protrusions.  Moves stiffly, but swiftly.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -82,7 +82,7 @@
   {
     "id": "mon_zombie_scorched",
     "type": "MONSTER",
-    "name": "scorched zombie",
+    "name": { "str": "scorched zombie" },
     "description": "Heavily burned zombie that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
     "default_faction": "zombie",
     "bodytype": "human",

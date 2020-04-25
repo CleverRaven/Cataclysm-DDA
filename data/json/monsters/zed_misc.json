@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_biter",
     "type": "MONSTER",
-    "name": "slavering biter",
+    "name": { "str": "slavering biter" },
     "description": "A distorted and swollen human body.  Its jaws have elongated into a crocodile like snout, dripping with foul smelling saliva.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -62,7 +62,7 @@
   {
     "id": "mon_zombie_brainless",
     "type": "MONSTER",
-    "name": "brainless zombie",
+    "name": { "str": "brainless zombie" },
     "//": "This is the brainless zombie.  Has nohead flag to reflect the head is already catastrophically damaged.  Only detects through hearing.",
     "description": "A zombie like any other, except that its features and skull have been devastated.  It's unclear what caused the damage, but between the scraps of flesh you can see that its face and brain are gone, though its ears are intact.",
     "default_faction": "zombie",
@@ -109,7 +109,7 @@
   {
     "id": "mon_zombie_brute",
     "type": "MONSTER",
-    "name": "zombie brute",
+    "name": { "str": "zombie brute" },
     "description": "Its entire body bulges with distended muscles and swollen, festering wounds.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -156,7 +156,7 @@
   {
     "id": "mon_zombie_brute_grappler",
     "type": "MONSTER",
-    "name": "zombie wrestler",
+    "name": { "str": "zombie wrestler" },
     "description": "A slab of festering muscle the size of a well-toned bodybuilder.  Seems eager to strangle the life from you.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -204,7 +204,7 @@
   {
     "id": "mon_zombie_brute_ninja",
     "type": "MONSTER",
-    "name": "zombie nightstalker",
+    "name": { "str": "zombie nightstalker" },
     "description": "Somehow this brute hides in the dark like some kind of boogeyman.  Very agile for such a large zombie.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -253,7 +253,7 @@
   {
     "id": "mon_zombie_ears",
     "type": "MONSTER",
-    "name": "listener zombie",
+    "name": { "str": "listener zombie" },
     "//": "Upgraded version of brainless.  Regenerating Skull with huge ears.",
     "description": "The head of this zombie was once obviously destroyed, the gaps in its scraps of face now filling with a peculiar gray goo.  Human ears hang from the sides, enormous and unsettling.  Thin slits at the front suggest it may be able to see.",
     "default_faction": "zombie",
@@ -301,7 +301,7 @@
   {
     "id": "mon_zombie_grabber",
     "type": "MONSTER",
-    "name": "grabber zombie",
+    "name": { "str": "grabber zombie" },
     "description": "A deformed human body, once living.  Its arms dangle from its sides like the limbs of some skinless ape, mindlessly groping at their surroundings.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -348,7 +348,7 @@
   {
     "id": "mon_zombie_grappler",
     "type": "MONSTER",
-    "name": "grappler zombie",
+    "name": { "str": "grappler zombie" },
     "description": "An undead humanoid, its elongated arms drag along the ground as it moves.  It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -393,7 +393,7 @@
   {
     "id": "mon_zombie_hollow",
     "type": "MONSTER",
-    "name": "zombie hollow",
+    "name": { "str": "zombie hollow" },
     "description": "Black hollow eyes survey the surroundings as the zombie stretches and bends in ways that whoever the original body belonged to never could.  The only thing that seems solid, on this flexible black-veined body, is the rows of sharp black teeth.  You get the feeling that the only human thing remaining is the skin, worn as one would wear clothes.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -425,7 +425,7 @@
   {
     "id": "mon_zombie_hulk",
     "type": "MONSTER",
-    "name": "zombie hulk",
+    "name": { "str": "zombie hulk" },
     "description": "A human body now swollen to the size of six men, with arms as wide as a trash can.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -472,7 +472,7 @@
   {
     "id": "mon_zombie_hunter",
     "type": "MONSTER",
-    "name": "feral hunter",
+    "name": { "str": "feral hunter" },
     "description": "This once-human body is barely recognizable, scrambling about on all fours, its nails and teeth both sharpened into dangerous looking spikes.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -511,7 +511,7 @@
   {
     "id": "mon_zombie_jackson",
     "type": "MONSTER",
-    "name": "Thriller",
+    "name": { "str": "Thriller" },
     "description": "And though you fight to stay alive,\nYour body starts to shiver.\nFor no mere mortal can resist,\nThe evil of the thriller.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -543,7 +543,7 @@
   {
     "id": "mon_zombie_mancroc",
     "type": "MONSTER",
-    "name": "zombie snapper",
+    "name": { "str": "zombie snapper" },
     "description": "With a crocodile-like snout and rows of protruding teeth, this swimwear-clad zombie lurks in the water.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -604,7 +604,7 @@
   {
     "id": "mon_zombie_master",
     "type": "MONSTER",
-    "name": "zombie master",
+    "name": { "str": "zombie master" },
     "description": "Once human, its features have tightened, its lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath its large, piercing eyes.  It stands tall and its movements are fluid and tightly controlled.  A feeling of danger permeates the air around it, and the light that falls on it seems somehow harsher and more glaring.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -652,7 +652,7 @@
   {
     "id": "mon_zombie_necro",
     "type": "MONSTER",
-    "name": "zombie necromancer",
+    "name": { "str": "zombie necromancer" },
     "description": "A twisted mockery of the human form, emaciated, with jet black skin and glowing red eyes.  It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -699,7 +699,7 @@
   {
     "id": "mon_zombie_runner",
     "type": "MONSTER",
-    "name": "feral runner",
+    "name": { "str": "feral runner" },
     "description": "This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -738,7 +738,7 @@
   {
     "id": "mon_zombie_predator",
     "type": "MONSTER",
-    "name": "feral predator",
+    "name": { "str": "feral predator" },
     "description": "With its joints in odd places and angles, this humanoid creature prowls across the landscape with surprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -780,7 +780,7 @@
   {
     "id": "mon_zombie_screecher",
     "type": "MONSTER",
-    "name": "screecher zombie",
+    "name": { "str": "screecher zombie" },
     "description": "A thin corpse, its chest is swollen in what appears to be preparation.  A thick black ooze drips from its open mouth.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -812,7 +812,7 @@
   {
     "id": "mon_zombie_shady",
     "type": "MONSTER",
-    "name": "shady zombie",
+    "name": { "str": "shady zombie" },
     "description": "An uncanny shadow envelops this creature, as if light itself were too repulsed to touch it.  All you can make out is its shambling, human shaped outline.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -857,7 +857,7 @@
   {
     "id": "mon_shia",
     "type": "MONSTER",
-    "name": { "str": "Shia LaBeouf", "str_pl": "Shia LaBeouf" },
+    "name": { "str_sp": "Shia LaBeouf" },
     "description": "Living in the woods,\nkilling for sport,\neating all the bodies,\nactual cannibal Shia LaBeouf.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -900,7 +900,7 @@
   {
     "id": "mon_zombie_shrieker",
     "type": "MONSTER",
-    "name": "shrieker zombie",
+    "name": { "str": "shrieker zombie" },
     "description": "An elongated human body with a swollen chest and a gaping hole where its jaw used to be.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -946,7 +946,7 @@
   {
     "id": "mon_zombie_skull",
     "type": "MONSTER",
-    "name": "skull zombie",
+    "name": { "str": "skull zombie" },
     "//": "Highest upgrade of brainless/ear zombie.  Still immune to headshots, as there's nothing critical there.",
     "description": "This creature's head is a hideous gray skull, formed of human bone fragments and some sort of goo.  Jagged teeth are visible as the thing works its jaw and disturbingly human, lidless eyes stare at you from their sockets.  The thing's fleshy ears are four sizes too large and droop under their own weight.",
     "default_faction": "zombie",
@@ -994,7 +994,7 @@
   {
     "id": "mon_zombie_smoker",
     "type": "MONSTER",
-    "name": "smoker zombie",
+    "name": { "str": "smoker zombie" },
     "description": "A blackened and twisted naked human body, strips of flesh hang from its body, and it emits a constant haze of thick black smoke.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -1017,7 +1017,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "exempt",
-    "emit_fields": [ "emit_smoke_stream" ],
+    "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": [ "SMOKEBURST" ],
     "flags": [
@@ -1038,7 +1038,7 @@
   {
     "id": "mon_zombie_swimmer",
     "type": "MONSTER",
-    "name": "swimmer zombie",
+    "name": { "str": "swimmer zombie" },
     "description": "A slick and glistening human body.  Its hands and feet are webbed, and it is clad in swimwear.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -1084,7 +1084,7 @@
   {
     "id": "mon_zombie_technician",
     "type": "MONSTER",
-    "name": "zombie technician",
+    "name": { "str": "zombie technician" },
     "description": "Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -1117,7 +1117,7 @@
   {
     "id": "mon_zombie_thorny",
     "type": "MONSTER",
-    "name": "thorny shambler",
+    "name": { "str": "thorny shambler" },
     "description": "A shambling undead humanoid, body overgrown with a tangled mass of otherworldly vegetation.  Hunched over and dragging its feet as it moves, the bramble utterly enveloping its upper half twitches and moves with a life of its own, tendrils tipped with a paralytic sting.",
     "default_faction": "zombie",
     "bodytype": "human",

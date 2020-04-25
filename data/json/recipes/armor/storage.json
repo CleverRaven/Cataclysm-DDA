@@ -308,7 +308,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 40 ], [ "fur", 32 ], [ "tanned_pelt", 6 ], [ "leather", 24 ], [ "tanned_hide", 6 ] ] ]
+    "components": [ [ [ "rag", 40 ] ] ]
   },
   {
     "result": "flintlock_pouch",
@@ -831,7 +831,7 @@
     "time": "16 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ], [ [ "leather_pouch", 5 ] ] ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ], [ [ "leather_pouch", 7 ] ] ]
   },
   {
     "result": "javelin_bag",

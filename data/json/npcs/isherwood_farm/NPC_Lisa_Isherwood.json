@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_LISA",
-    "name": "Lisa Isherwood",
+    "name": { "str": "Lisa Isherwood" },
     "job_description": "Part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,

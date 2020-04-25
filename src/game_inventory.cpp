@@ -1,54 +1,87 @@
 #include "game_inventory.h"
 
-#include <cmath>
+#include <algorithm>
+#include <bitset>
 #include <climits>
 #include <cstddef>
 #include <functional>
-#include <bitset>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 #include "avatar.h"
-#include "game.h"
 #include "bionics.h"
-#include "inventory_ui.h"
-#include "item.h"
-#include "itype.h"
-#include "iuse_actor.h"
-#include "map.h"
-#include "options.h"
-#include "output.h"
-#include "player.h"
-#include "recipe_dictionary.h"
-#include "skill.h"
-#include "string_formatter.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "compatibility.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "game.h"
 #include "input.h"
 #include "inventory.h"
+#include "inventory_ui.h"
+#include "item.h"
 #include "item_location.h"
+#include "itype.h"
 #include "iuse.h"
+#include "iuse_actor.h"
+#include "map.h"
 #include "optional.h"
+#include "options.h"
+#include "output.h"
+#include "player.h"
 #include "player_activity.h"
+#include "point.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "skill.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
-#include "units.h"
 #include "type_id.h"
-#include "point.h"
-#include "cata_string_consts.h"
+#include "ui_manager.h"
+#include "units.h"
+#include "value_ptr.h"
 
-class Character;
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
+static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+
+static const efftype_id effect_assisted( "assisted" );
+
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+
+static const bionic_id bio_painkiller( "bio_painkiller" );
+
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
+
+static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_IN_CBM( "IN_CBM" );
+static const std::string flag_MUSHY( "MUSHY" );
+static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
@@ -139,6 +172,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             if( has_init_filter ) {
                 inv_s.set_filter( init_filter );
                 has_init_filter = false;
+                inv_s.update( need_refresh );
             }
             // Set position after filter to keep cursor at the right position
             if( init_selection ) {
@@ -686,6 +720,9 @@ static std::string get_consume_needs_hint( player &p )
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_pain_description();
     hint.append( string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+    desc = p.get_fatigue_description();
+    hint.append( string_format( "%s %s", _( "Rest :" ), colorize( desc.first, desc.second ) ) );
     return hint;
 }
 
@@ -1116,8 +1153,9 @@ class weapon_inventory_preset: public inventory_selector_preset
 
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
-                    if( loc->ammo_data()->ammo->prop_damage ) {
-                        const float ammo_mult = *loc->ammo_data()->ammo->prop_damage;
+                    if( loc->ammo_data()->ammo->damage.damage_units.front().unconditional_damage_mult != 1.0f ) {
+                        const float ammo_mult =
+                            loc->ammo_data()->ammo->damage.damage_units.front().unconditional_damage_mult;
 
                         return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
                                               get_damage_string( basic_damage, true ),
@@ -1411,17 +1449,31 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
         int iScrollPos = 0;
         int iScrollPosLast = 0;
 
+        item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
+        last_item_info.without_getch = true;
+
+        item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
+        cur_item_info.without_getch = true;
+
+        catacurses::window w_last_item_info;
+        catacurses::window w_cur_item_info;
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            const int half_width = ( TERMX - VIEW_OFFSET_X * 2 ) / 2;
+            const int height = TERMY -  VIEW_OFFSET_Y * 2;
+            w_last_item_info = catacurses::newwin( height, half_width, point_zero );
+            w_cur_item_info = catacurses::newwin( height, half_width, point( half_width, 0 ) );
+            ui.position( point_zero, point( half_width * 2, height ) );
+        } );
+        ui.mark_resize();
+
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            draw_item_info( w_last_item_info, last_item_info );
+            draw_item_info( w_cur_item_info, cur_item_info );
+        } );
+
         do {
-            item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
-            last_item_info.without_getch = true;
-
-            item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
-            cur_item_info.without_getch = true;
-
-            draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                            last_item_info );
-            draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
-                            0, TERMY - VIEW_OFFSET_Y * 2, cur_item_info );
+            ui_manager::redraw();
 
             action = ctxt.handle_input();
 
@@ -1434,7 +1486,6 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
             }
 
         } while( action != "QUIT" );
-        g->refresh_all();
     } while( true );
 }
 
@@ -1482,7 +1533,7 @@ void game_menus::inv::swap_letters( player &p )
         [ &p ]( const std::string::value_type & elem ) {
             if( p.inv.assigned_invlet.count( elem ) ) {
                 return c_yellow;
-            } else if( p.invlet_to_position( elem ) != INT_MIN ) {
+            } else if( p.invlet_to_item( elem ) != nullptr ) {
                 return c_white;
             } else {
                 return c_dark_gray;
@@ -1520,22 +1571,12 @@ static item_location autodoc_internal( player &u, player &patient,
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
                 return it.has_quality( qual_ANESTHESIA );
             } );
-            std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
-                return it.has_flag( flag_ANESTHESIA ); // legacy
-            } );
             for( const item *anesthesia_item : a_filter ) {
                 if( anesthesia_item->ammo_remaining() >= 1 ) {
                     drug_count += anesthesia_item->ammo_remaining();
                 }
             }
-
-            if( !b_filter.empty() ) {
-                // Legacy
-                hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );
-            } else {
-                hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
-            }
-
+            hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
         }
     }
 
@@ -1663,21 +1704,16 @@ class bionic_install_preset: public inventory_selector_preset
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             int chance_of_failure = 100;
             player &installer = p;
-            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
                                        skill_electronics,
                                        -1 );
 
-            if( ( get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
-                                                   ( 4.0 * difficulty ) );
-                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1689,18 +1725,7 @@ class bionic_install_preset: public inventory_selector_preset
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 duration * weight;
-
-            std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
-                // Legacy
-                return it.has_flag( flag_ANESTHESIA );
-            } );
-
-            if( !b_filter.empty() ) {
-                // Legacy
-                return  _( "kit available" );
-            } else {
-                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
-            }
+            return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
         }
 };
 
@@ -1774,7 +1799,6 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             int chance_of_failure = 100;
             player &installer = p;
-            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             // Override player's skills with surgeon skill
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
@@ -1782,14 +1806,10 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                                        skill_electronics,
                                        20 );
 
-            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
-                                                   ( 4.0 * difficulty ) );
-                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1866,21 +1886,16 @@ class bionic_uninstall_preset : public inventory_selector_preset
             const int difficulty = loc.get_item()->type->bionic->difficulty + 2;
             int chance_of_failure = 100;
             player &installer = p;
-            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
                                        skill_electronics,
                                        -1 );
 
-            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
-                                                   ( 4.0 * difficulty ) );
-                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1892,16 +1907,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 duration * weight;
-
-            std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
-                return it.has_flag( flag_ANESTHESIA ); // legacy
-            } );
-
-            if( !b_filter.empty() ) {
-                return  _( "kit available" ); // legacy
-            } else {
-                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
-            }
+            return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
         }
 };
 

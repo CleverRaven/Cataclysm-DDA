@@ -1,85 +1,81 @@
 #pragma once
-#ifndef MAP_H
-#define MAP_H
+#ifndef CATA_SRC_MAP_H
+#define CATA_SRC_MAP_H
 
-#include <cstddef>
-#include <cstdint>
 #include <array>
 #include <bitset>
+#include <climits>
+#include <cstddef>
+#include <cstdint>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
-#include <utility>
-#include <vector>
-#include <functional>
 #include <string>
 #include <tuple>
+#include <utility>
+#include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "colony.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
+#include "line.h"
 #include "lru_cache.h"
+#include "mapdata.h"
+#include "point.h"
+#include "rng.h"
 #include "shadowcasting.h"
 #include "type_id.h"
 #include "units.h"
-#include "cata_utility.h"
-#include "faction.h"
-#include "point.h"
-#include "mapdata.h"
-#include "vehicle_group.h"
-#include "player.h"
 
-struct furn_t;
-struct ter_t;
 struct scent_block;
-
-template <typename T> class string_id;
 template <typename T> class safe_reference;
+template <typename T> class string_id;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-class optional_vpart_position;
-class player;
-class monster;
+class Character;
 class Creature;
-struct rl_vec2d;
-class tripoint_range;
+class basecamp;
 class character_id;
+class computer;
 class field;
 class field_entry;
-class vehicle;
-struct fragment_cloud;
-struct partial_con;
-class submap;
 class item_location;
 class map_cursor;
-struct maptile;
 class mapgendata;
-class basecamp;
-class computer;
-class Character;
+class monster;
+class optional_vpart_position;
+class player;
+class submap;
+class tripoint_range;
+class vehicle;
 class zone_data;
+struct fragment_cloud;
+struct maptile;
+struct partial_con;
+struct rl_vec2d;
 struct trap;
 
-enum direction : unsigned;
 enum class special_item_type : int;
 using itype_id = std::string;
-template<typename T>
-class visitable;
-struct regional_settings;
+class npc_template;
+class tileray;
+class vpart_reference;
 struct mongroup;
 struct projectile;
 struct veh_collision;
-class tileray;
-class npc_template;
-class vpart_reference;
+template<typename T>
+class visitable;
 
 struct wrapped_vehicle {
     tripoint pos;
@@ -171,6 +167,7 @@ struct level_cache {
     bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
     bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
     float seen_cache[MAPSIZE_X][MAPSIZE_Y];
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
@@ -336,9 +333,7 @@ class map
                      bool low_light = false, bool bright_light = false,
                      bool inorder = false ) const;
         void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert = false, bool show_items = true ) const {
-            drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
-        }
+                     bool invert = false, bool show_items = true ) const;
 
         /**
          * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -1278,6 +1273,7 @@ class map
         void add_camp( const tripoint &omt_pos, const std::string &name );
         void remove_submap_camp( const tripoint & );
         basecamp hoist_submap_camp( const tripoint &p );
+        bool point_within_camp( const tripoint &point_check ) const;
         // Graffiti
         bool has_graffiti_at( const tripoint &p ) const;
         const std::string &graffiti_at( const tripoint &p ) const;
@@ -1484,14 +1480,6 @@ class map
          */
         void add_roofs( const tripoint &grid );
         /**
-         * Whether the item has to be removed as it has rotten away completely.
-         * @param itm Item to check for rotting
-         * @param pnt The *absolute* position of the item in the world (not just on this map!),
-         * used for rot calculation.
-         * @return true if the item has rotten away and should be removed, false otherwise.
-         */
-        bool has_rotten_away( item &itm, const tripoint &pnt ) const;
-        /**
          * Go through the list of items, update their rotten status and remove items
          * that have rotten away completely.
          * @param items items to remove
@@ -1560,6 +1548,7 @@ class map
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
+        bool build_vision_transparency_cache( int zlev );
         void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );
@@ -1853,4 +1842,4 @@ class fake_map : public tinymap
                   int fake_map_z );
         ~fake_map() override;
 };
-#endif
+#endif // CATA_SRC_MAP_H

@@ -1,6 +1,6 @@
 #include "posix_time.h"
 
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if defined(_WIN32) && !defined(__CYGWIN__) && !defined(WINPTHREAD_API)
 #include <cerrno>
 
 int

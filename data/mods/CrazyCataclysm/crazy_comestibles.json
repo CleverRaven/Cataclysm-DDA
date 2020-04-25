@@ -3,7 +3,7 @@
     "copy-from": "cookies",
     "type": "COMESTIBLE",
     "id": "sporeos",
-    "name": "SpOreos",
+    "name": { "str_sp": "SpOreos" },
     "color": "dark_gray",
     "spoils_in": 0,
     "symbol": "%",

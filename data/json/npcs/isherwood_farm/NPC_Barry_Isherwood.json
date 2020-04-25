@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_BARRY",
-    "name": "Barry Isherwood",
+    "name": { "str": "Barry Isherwood" },
     "job_description": "Missing member of the Isherwood family.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -70,7 +70,7 @@
   {
     "id": "MISSION_ISHERWOOD_BARRY_1",
     "type": "mission_definition",
-    "name": "Return Barry to Eddie at the dairy.",
+    "name": { "str": "Return Barry to Eddie at the dairy." },
     "goal": "MGOAL_GO_TO",
     "difficulty": 3,
     "value": 20000,

@@ -1,7 +1,7 @@
 #include "action.h"
 
-#include <climits>
 #include <algorithm>
+#include <climits>
 #include <istream>
 #include <iterator>
 #include <memory>
@@ -9,10 +9,15 @@
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "creature.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
+#include "item.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -21,18 +26,26 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
+#include "popup.h"
+#include "ret_val.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "ret_val.h"
-#include "type_id.h"
-#include "point.h"
-#include "cata_string_consts.h"
+
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
+
+static const std::string flag_CONSOLE( "CONSOLE" );
+static const std::string flag_FLOTATION( "FLOTATION" );
+static const std::string flag_GOES_DOWN( "GOES_DOWN" );
+static const std::string flag_GOES_UP( "GOES_UP" );
+static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
+static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 class inventory;
 
@@ -581,12 +594,12 @@ bool can_butcher_at( const tripoint &p )
     // TODO: unify this with game::butcher
     const int factor = g->u.max_quality( qual_BUTCHER );
     const int factorD = g->u.max_quality( qual_CUT_FINE );
-    auto items = g->m.i_at( p );
+    map_stack items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
     const inventory &crafting_inv = g->u.crafting_inventory();
-    for( auto &items_it : items ) {
+    for( item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
@@ -938,7 +951,7 @@ action_id handle_action_menu()
         }
 
         int width = 0;
-        for( auto &cur_entry : entries ) {
+        for( uilist_entry &cur_entry : entries ) {
             width = std::max( width, utf8_width( cur_entry.txt ) );
         }
         //border=2, selectors=3, after=3 for balance.
@@ -994,7 +1007,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_DEBUG );
 
     int width = 0;
-    for( auto &entry : entries ) {
+    for( uilist_entry &entry : entries ) {
         width = std::max( width, utf8_width( entry.txt ) );
     }
     //border=2, selectors=3, after=3 for balance.
@@ -1021,35 +1034,38 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
-    // why not?
     ctxt.register_action( "HELP_KEYBINDINGS" );
     if( allow_vertical ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
 
-    //~ appended to "Close where?" "Pry where?" etc.
-    const std::string query_text = message + _( " (Direction button)" );
-    popup( query_text, PF_NO_WAIT_ON_TOP );
+    static_popup popup;
+    //~ %s: "Close where?" "Pry where?" etc.
+    popup.message( _( "%s (Direction button)" ), message ).on_top( true );
 
-    const std::string action = ctxt.handle_input();
-    if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-        // Make player's sprite face left/right if interacting with something to the left or right
-        if( vec->x > 0 ) {
-            g->u.facing = FD_RIGHT;
-        } else if( vec->x < 0 ) {
-            g->u.facing = FD_LEFT;
+    std::string action;
+    do {
+        ui_manager::redraw();
+        action = ctxt.handle_input();
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            // Make player's sprite face left/right if interacting with something to the left or right
+            if( vec->x > 0 ) {
+                g->u.facing = FD_RIGHT;
+            } else if( vec->x < 0 ) {
+                g->u.facing = FD_LEFT;
+            }
+            return vec;
+        } else if( action == "pause" ) {
+            return tripoint_zero;
+        } else if( action == "LEVEL_UP" ) {
+            return tripoint_above;
+        } else if( action == "LEVEL_DOWN" ) {
+            return tripoint_below;
         }
-        return vec;
-    } else if( action == "pause" ) {
-        return tripoint_zero;
-    } else if( action == "LEVEL_UP" ) {
-        return tripoint_above;
-    } else if( action == "LEVEL_DOWN" ) {
-        return tripoint_below;
-    }
+    } while( action != "QUIT" );
 
-    add_msg( _( "Invalid direction." ) );
+    add_msg( _( "Never mind." ) );
     return cata::nullopt;
 }
 

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COLONY_LIST_TEST_HELPERS_H
-#define COLONY_LIST_TEST_HELPERS_H
+#ifndef CATA_TESTS_COLONY_LIST_TEST_HELPERS_H
+#define CATA_TESTS_COLONY_LIST_TEST_HELPERS_H
 
 // Fast xorshift+128 random number generator function
 // original: https://codingforspeed.com/using-faster-psudo-random-generator-xorshift/
@@ -44,4 +44,4 @@ struct perfect_forwarding_test {
     {}
 };
 
-#endif // COLONY_LIST_TEST_HELPERS_H
+#endif // CATA_TESTS_COLONY_LIST_TEST_HELPERS_H
