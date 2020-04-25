@@ -12,17 +12,22 @@
  * The concept is to bracket these threshods with various bows using standard hunting loadouts.
  */
 
+#include <memory>
 #include <string>
 
 #include "catch/catch.hpp"
-#include "ballistics.h"
-#include "creature.h"
-#include "game_constants.h"
+#include "damage.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "item.h"
+#include "itype.h"
 #include "map.h"
+#include "mapdata.h"
 #include "monster.h"
+#include "point.h"
 #include "projectile.h"
+#include "type_id.h"
 
 // In short, a bow should never destroy a wall, pretty simple.
 static void test_projectile_hitting_wall( const std::string &target_type, bool smashable,
@@ -71,6 +76,8 @@ static void test_archery_balance( std::string weapon_type, std::string ammo_type
     projectile test_projectile;
     test_projectile.speed = 1000;
     test_projectile.impact = weapon.gun_damage();
+    test_projectile.proj_effects = weapon.ammo_effects();
+    test_projectile.critical_multiplier = weapon.ammo_data()->ammo->critical_multiplier;
 
     dealt_projectile_attack attack {
         test_projectile, nullptr, dealt_damage_instance(), tripoint_zero, accuracy_critical - 0.05

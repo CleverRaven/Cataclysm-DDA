@@ -2,20 +2,20 @@
 
 #include <algorithm>
 #include <cassert>
-#include <list>
 #include <set>
 
+#include "calendar.h"
+#include "compatibility.h"
 #include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "rng.h"
-#include "calendar.h"
-#include "compatibility.h"
-#include "enums.h"
 #include "type_id.h"
-#include "flat_set.h"
+#include "value_ptr.h"
 
 static const std::string null_item_id( "null" );
 
@@ -282,7 +282,7 @@ void Item_modifier::modify( item &new_item ) const
         int charges_min = charges.first == -1 ? 0 : charges.first;
         int charges_max = charges.second == -1 ? max_capacity : charges.second;
 
-        if( charges_max != -1 ) {
+        if( charges_min == -1 && charges_max != -1 ) {
             charges_min = 0;
         }
 
@@ -343,7 +343,7 @@ void Item_modifier::modify( item &new_item ) const
                           !new_item.magazine_current();
 
         if( spawn_mag ) {
-            new_item.contents.emplace_back( new_item.magazine_default(), new_item.birthday() );
+            new_item.put_in( item( new_item.magazine_default(), new_item.birthday() ) );
         }
 
         if( spawn_ammo ) {
@@ -363,7 +363,9 @@ void Item_modifier::modify( item &new_item ) const
 
     if( contents != nullptr ) {
         Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
-        new_item.contents.insert( new_item.contents.end(), contentitems.begin(), contentitems.end() );
+        for( const item &it : contentitems ) {
+            new_item.put_in( it );
+        }
     }
 
     for( auto &flag : custom_flags ) {

@@ -1,28 +1,30 @@
 #include "artifact.h"
 
-#include <cstdlib>
-#include <array>
 #include <algorithm>
+#include <array>
+#include <cstdint>
+#include <cstdlib>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>
-#include <unordered_map>
 #include <vector>
 
 #include "assign.h"
+#include "bodypart.h"
 #include "cata_utility.h"
+#include "color.h"
+#include "damage.h"
+#include "debug.h"
 #include "item_factory.h"
+#include "iuse.h"
 #include "json.h"
+#include "optional.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "bodypart.h"
-#include "color.h"
-#include "damage.h"
-#include "iuse.h"
-#include "optional.h"
-#include "units.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 template<typename V, typename B>

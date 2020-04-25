@@ -899,8 +899,7 @@
         [ "solar_panel", 4 ],
         [ "reinforced_solar_panel", 4 ],
         [ "solar_panel_v2", 2 ],
-        [ "reinforced_solar_panel_v2", 2 ],
-        [ "solar_panel_v3", 1 ]
+        [ "reinforced_solar_panel_v2", 2 ]
       ],
       [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
       [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],

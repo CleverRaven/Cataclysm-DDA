@@ -32,6 +32,17 @@
     ]
   },
   {
+    "id": "tailoring_fabric",
+    "type": "item_group",
+    "//": "Fabric sheets used for tailoring.",
+    "items": [
+      { "item": "sheet_cotton", "prob": 200 },
+      { "item": "sheet_neoprene", "prob": 10 },
+      { "item": "tanned_hide", "prob": 50 },
+      { "item": "tanned_pelt", "prob": 50 }
+    ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -78,7 +89,9 @@
       { "item": "screen_mesh", "prob": 40, "count": [ 5, 10 ] },
       { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
       { "item": "nail", "prob": 60, "count": [ 5, 20 ] },
-      { "item": "hinge", "prob": 60, "count": [ 5, 10 ] }
+      { "item": "hinge", "prob": 60, "count": [ 5, 10 ] },
+      { "item": "tempered_glass_sheet", "prob": 30, "count": [ 5, 20 ] },
+      { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] }
     ]
   },
   {
@@ -153,6 +166,7 @@
         ],
         "prob": 100
       },
+      [ "rigid_plastic_sheet", 50 ],
       [ "plastic_sheet", 50 ],
       [ "pine_bough", 10 ]
     ]
@@ -175,6 +189,7 @@
         ],
         "prob": 100
       },
+      [ "rigid_plastic_sheet", 5 ],
       [ "plastic_sheet", 5 ],
       [ "pine_bough", 3 ]
     ]
@@ -231,7 +246,9 @@
       { "item": "chem_zinc_powder", "prob": 5, "charges-min": 100 },
       [ "denat_alcohol", 5 ],
       [ "recharge_station", 10 ],
-      [ "tarp", 15 ]
+      [ "tarp", 15 ],
+      [ "tempered_glass_sheet", 25 ],
+      [ "rigid_plastic_sheet", 30 ]
     ]
   },
   {
@@ -358,6 +375,7 @@
       [ "jumper_cable_heavy", 5 ],
       [ "stereo", 25 ],
       [ "frame", 20 ],
+      [ "hd_tow_cable", 5 ],
       [ "hdframe", 10 ],
       [ "motor", 2 ],
       [ "wheel", 10 ],
@@ -395,6 +413,7 @@
       [ "alternator_car", 6 ],
       [ "alternator_truck", 6 ],
       [ "alternator_bicycle", 4 ],
+      [ "hd_tow_cable", 1 ],
       [ "generator_7500w", 3 ],
       [ "storage_battery", 6 ],
       [ "motor_oil", 100 ],
@@ -489,6 +508,7 @@
       [ "hat_ball", 10 ],
       [ "helmet_ball", 20 ],
       [ "bat", 80 ],
+      [ "bat_nerf", 80 ],
       [ "football", 100 ],
       [ "football_armor", 20 ],
       [ "helmet_football", 20 ],

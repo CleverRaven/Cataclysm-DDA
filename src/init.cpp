@@ -1,48 +1,58 @@
 #include "init.h"
 
-#include <cstddef>
 #include <cassert>
-#include <fstream>
-#include <sstream> // for throwing errors
-#include <string>
-#include <vector>
+#include <cstddef>
 #include <exception>
+#include <fstream>
 #include <iterator>
 #include <memory>
+#include <sstream> // for throwing errors
 #include <stdexcept>
+#include <string>
+#include <vector>
 
+#include "achievement.h"
 #include "activity_type.h"
 #include "ammo.h"
+#include "ammo_effect.h"
 #include "anatomy.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "bodypart.h"
+#include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
+#include "construction_category.h"
 #include "crafting_gui.h"
 #include "creature.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "disease.h"
 #include "effect.h"
 #include "emit.h"
 #include "event_statistics.h"
 #include "faction.h"
 #include "fault.h"
+#include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
 #include "gates.h"
 #include "harvest.h"
 #include "item_action.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "json.h"
 #include "loading_ui.h"
-#include "mapdata.h"
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "magic_ter_furn_transform.h"
 #include "map_extras.h"
+#include "mapdata.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
-#include "magic.h"
-#include "magic_ter_furn_transform.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -53,6 +63,7 @@
 #include "npc_class.h"
 #include "omdata.h"
 #include "overlay_ordering.h"
+#include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "profession.h"
@@ -62,27 +73,22 @@
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
+#include "scent_map.h"
 #include "sdltiles.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
-#include "scent_map.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
-#include "bodypart.h"
-#include "translations.h"
-#include "type_id.h"
-#include "construction_category.h"
-#include "overmap.h"
-#include "clothing_mod.h"
-#include "ammo_effect.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -214,13 +220,14 @@ void DynamicDataLoader::initialize()
     add( "MONSTER_WHITELIST", &MonsterGroupManager::LoadMonsterWhitelist );
     add( "speech", &load_speech );
     add( "ammunition_type", &ammunition_type::load_ammunition_type );
+    add( "start_location", &start_locations::load );
     add( "scenario", &scenario::load_scenario );
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
-    add( "start_location", &start_location::load_location );
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
     add( "scent_type", &scent_type::load_scent_type );
+    add( "disease_type", &disease_type::load_disease_type );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
@@ -390,6 +397,7 @@ void DynamicDataLoader::initialize()
     add( "event_transformation", &event_transformation::load_transformation );
     add( "event_statistic", &event_statistic::load_statistic );
     add( "score", &score::load_score );
+    add( "achievement", &achievement::load_achievement );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -522,7 +530,7 @@ void DynamicDataLoader::unload_data()
     ammunition_type::reset();
     unload_talk_topics();
     behavior::reset();
-    start_location::reset();
+    start_locations::reset();
     scenario::reset();
     gates::reset();
     reset_overlay_ordering();
@@ -538,6 +546,7 @@ void DynamicDataLoader::unload_data()
     event_transformation::reset();
     event_statistic::reset();
     score::reset();
+    achievement::reset();
     scent_type::reset();
 
     // TODO:
@@ -585,6 +594,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
+            { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             {
@@ -606,6 +616,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
+            { _( "Achivements" ), &achievement::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -674,6 +685,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Overmap locations" ), &overmap_locations::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
+            { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
             { _( "Bionics" ), &check_bionics },
@@ -696,6 +708,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency },
+            { _( "Achivements" ), &achievement::check_consistency },
+            { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
         }
     };

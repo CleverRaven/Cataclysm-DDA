@@ -1,10 +1,13 @@
 #include "mondefense.h"
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
+#include <list>
+#include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -13,20 +16,25 @@
 #include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
+#include "enums.h"
 #include "game.h"
-#include "map.h"
-#include "map_iterator.h"
+#include "gun_mode.h"
+#include "item.h"
+#include "line.h"
 #include "mattack_actors.h"
+#include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "player.h"
+#include "point.h"
 #include "projectile.h"
 #include "rng.h"
+#include "sounds.h"
+#include "string_id.h"
 #include "translations.h"
-#include "enums.h"
-#include "item.h"
-#include "point.h"
+#include "type_id.h"
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_rifle( "rifle" );

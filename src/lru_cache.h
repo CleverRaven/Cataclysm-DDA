@@ -1,12 +1,15 @@
 #pragma once
-#ifndef LRU_CACHE_H
-#define LRU_CACHE_H
+#ifndef CATA_SRC_LRU_CACHE_H
+#define CATA_SRC_LRU_CACHE_H
 
 #include <list>
 #include <unordered_map>
 #include <utility>
 
 #include "enums.h" // IWYU pragma: keep
+#include "point.h"
+
+struct memorized_terrain_tile;
 
 template<typename Key, typename Value>
 class lru_cache
@@ -26,4 +29,4 @@ class lru_cache
         std::unordered_map<Key, typename std::list<Pair>::iterator> map;
 };
 
-#endif
+#endif // CATA_SRC_LRU_CACHE_H

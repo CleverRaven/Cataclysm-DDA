@@ -854,6 +854,14 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
 input_event draw_item_info( const catacurses::window &win, item_info_data &data )
 {
+    return draw_item_info( [&]() -> catacurses::window {
+        return win;
+    }, data );
+}
+
+input_event draw_item_info( const std::function<catacurses::window()> &init_window,
+                            item_info_data &data )
+{
     std::string buffer;
     int line_num = data.use_full_win || data.without_border ? 0 : 1;
     if( !data.get_item_name().empty() ) {
@@ -871,65 +879,92 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
     buffer += format_item_info( data.get_item_display(), data.get_item_compare() );
 
     const int b = data.use_full_win ? 0 : ( data.without_border ? 1 : 2 );
-    const int width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
-    const int height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    catacurses::window win;
+    int width = 0;
+    int height = 0;
+    std::vector<std::string> folded;
 
-    input_event result;
-    while( true ) {
-        int iLines = 0;
-        if( !buffer.empty() ) {
-            const auto vFolded = foldstring( buffer, width - 1 );
-            iLines = vFolded.size();
-
-            if( *data.ptr_selected < 0 ) {
-                *data.ptr_selected = 0;
-            } else if( iLines < height ) {
-                *data.ptr_selected = 0;
-            } else if( *data.ptr_selected >= iLines - height ) {
-                *data.ptr_selected = iLines - height;
-            }
-
-            fold_and_print_from( win, point( b, line_num ), width - 1, *data.ptr_selected, c_light_gray,
-                                 buffer );
-
-            draw_scrollbar( win, *data.ptr_selected, height, iLines,
-                            point( data.scrollbar_left ? 0 : getmaxx( win ) - 1,
-                                   ( data.without_border && data.use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
+    const auto init = [&]() {
+        win = init_window();
+        width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
+        height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
+        folded = foldstring( buffer, width - 1 );
+        if( *data.ptr_selected < 0 ) {
+            *data.ptr_selected = 0;
+        } else if( height < 0 || folded.size() < static_cast<size_t>( height ) ) {
+            *data.ptr_selected = 0;
+        } else if( static_cast<size_t>( *data.ptr_selected + height ) >= folded.size() ) {
+            *data.ptr_selected = static_cast<int>( folded.size() ) - height;
         }
+    };
 
+    const auto redraw = [&]() {
+        werase( win );
+        for( int line = 0; line < height; ++line ) {
+            const int idx = *data.ptr_selected + line;
+            if( idx >= 0 && static_cast<size_t>( idx ) < folded.size() ) {
+                if( folded[idx] == "--" ) {
+                    for( int x = 0; x < width; x++ ) {
+                        mvwputch( win, point( b + x, line_num + line ), c_dark_gray, LINE_OXOX );
+                    }
+                } else {
+                    trim_and_print( win, point( b, line_num + line ), width - 1, c_light_gray, folded[idx] );
+                }
+            }
+        }
+        draw_scrollbar( win, *data.ptr_selected, height, folded.size(),
+                        point( data.scrollbar_left ? 0 : getmaxx( win ) - 1,
+                               ( data.without_border && data.use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
         if( !data.without_border ) {
             draw_custom_border( win, buffer.empty() );
-            wrefresh( win );
         }
+        wrefresh( win );
+    };
 
-        if( data.without_getch ) {
-            break;
-        }
-
-        // TODO: use input context
-        result = inp_mngr.get_input_event();
-        const int ch = static_cast<int>( result.get_first_input() );
-        if( data.handle_scrolling && ch == KEY_PPAGE ) {
-            ( *data.ptr_selected )--;
-            werase( win );
-        } else if( data.handle_scrolling && ch == KEY_NPAGE ) {
-            ( *data.ptr_selected )++;
-            werase( win );
-        } else if( *data.ptr_selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
-            result = input_event( static_cast<int>( '\n' ), CATA_INPUT_KEYBOARD );
-            break;
-        } else if( *data.ptr_selected == KEY_LEFT ) {
-            result = input_event( static_cast<int>( ' ' ), CATA_INPUT_KEYBOARD );
-            break;
-        } else {
-            break;
-        }
+    if( data.without_getch ) {
+        init();
+        redraw();
+        return input_event();
     }
 
-    return result;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        init();
+        ui.position_from_window( win );
+    } );
+    ui.mark_resize();
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        redraw();
+    } );
+
+    input_context ctxt;
+    if( data.handle_scrolling ) {
+        ctxt.register_action( "PAGE_UP" );
+        ctxt.register_action( "PAGE_DOWN" );
+    }
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "ANY_INPUT" );
+
+    std::string action;
+    do {
+        ui_manager::redraw();
+        action = ctxt.handle_input();
+        if( data.handle_scrolling && action == "PAGE_UP" ) {
+            if( *data.ptr_selected > 0 ) {
+                --*data.ptr_selected;
+            }
+        } else if( data.handle_scrolling && action == "PAGE_DOWN" ) {
+            if( *data.ptr_selected < 0 ||
+                ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
+                ++*data.ptr_selected;
+            }
+        }
+    } while( action != "QUIT" && action != "CONFIRM" && action != "ANY_INPUT" );
+
+    return ctxt.get_raw_input();
 }
 
 char rand_char()
@@ -1772,7 +1807,7 @@ std::pair<std::string, nc_color> get_light_level( const float light )
     };
     // Avoid magic number
     static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
-    const int light_level = clamp( static_cast< int >( ceil( light ) ), 0, maximum_light_level );
+    const int light_level = clamp( static_cast< int >( std::ceil( light ) ), 0, maximum_light_level );
     const size_t array_index = static_cast< size_t >( light_level );
     return pair_t{ _( strings[array_index].first ), strings[array_index].second };
 }
@@ -1848,14 +1883,14 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
 #if defined(TILES)
     iso_mode = tile_iso && use_tiles;
 #endif
-    oUp = iso_mode ? NORTHEAST : NORTH;
-    oUpRight = iso_mode ? EAST : NORTHEAST;
-    oRight = iso_mode ? SOUTHEAST : EAST;
-    oDownRight = iso_mode ? SOUTH : SOUTHEAST;
-    oDown = iso_mode ? SOUTHWEST : SOUTH;
-    oDownLeft = iso_mode ? WEST : SOUTHWEST;
-    oLeft = iso_mode ? NORTHWEST : WEST;
-    oUpLeft = iso_mode ? NORTH : NORTHWEST;
+    oUp = iso_mode ? direction::NORTHEAST : direction::NORTH;
+    oUpRight = iso_mode ? direction::EAST : direction::NORTHEAST;
+    oRight = iso_mode ? direction::SOUTHEAST : direction::EAST;
+    oDownRight = iso_mode ? direction::SOUTH : direction::SOUTHEAST;
+    oDown = iso_mode ? direction::SOUTHWEST : direction::SOUTH;
+    oDownLeft = iso_mode ? direction::WEST : direction::SOUTHWEST;
+    oLeft = iso_mode ? direction::NORTHWEST : direction::WEST;
+    oUpLeft = iso_mode ? direction::NORTH : direction::NORTHWEST;
 
     point pairDirXY = direction_XY( oDir );
 
@@ -1863,7 +1898,7 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
 
     if( dir == point_zero ) {
         // This would cause infinite loop otherwise
-        oDir = WEST;
+        oDir = direction::WEST;
         dir.x = -1;
     }
 
@@ -1898,26 +1933,29 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
             //Remove old HP bar
             removeCreatureHP();
 
-            if( p_oDir == WEST || p_oDir == NORTHWEST || p_oDir == ( iso_mode ? NORTH : SOUTHWEST ) ) {
-                p_oDir = ( iso_mode ? NORTHWEST : WEST );
+            if( p_oDir == direction::WEST || p_oDir == direction::NORTHWEST ||
+                p_oDir == ( iso_mode ? direction::NORTH : direction::SOUTHWEST ) ) {
+                p_oDir = ( iso_mode ? direction::NORTHWEST : direction::WEST );
             } else {
-                p_oDir = ( iso_mode ? SOUTHEAST : EAST );
+                p_oDir = ( iso_mode ? direction::SOUTHEAST : direction::EAST );
             }
 
         } else {
             //reserve Left/Right for creature hp display
-            if( p_oDir == ( iso_mode ? SOUTHEAST : EAST ) ) {
-                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? EAST : NORTHEAST ) : ( iso_mode ? SOUTH : SOUTHEAST );
+            if( p_oDir == ( iso_mode ? direction::SOUTHEAST : direction::EAST ) ) {
+                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? direction::EAST : direction::NORTHEAST ) :
+                         ( iso_mode ? direction::SOUTH : direction::SOUTHEAST );
 
-            } else if( p_oDir == ( iso_mode ? NORTHWEST : WEST ) ) {
-                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? NORTH : NORTHWEST ) : ( iso_mode ? WEST : SOUTHWEST );
+            } else if( p_oDir == ( iso_mode ? direction::NORTHWEST : direction::WEST ) ) {
+                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? direction::NORTH : direction::NORTHWEST ) :
+                         ( iso_mode ? direction::WEST : direction::SOUTHWEST );
             }
         }
 
         // in tiles, SCT that scroll downwards are inserted at the beginning of the vector to prevent
         // oversize ASCII tiles overdrawing messages below them.
-        if( tiled && ( p_oDir == SOUTHWEST || p_oDir == SOUTH ||
-                       p_oDir == ( iso_mode ? WEST : SOUTHEAST ) ) ) {
+        if( tiled && ( p_oDir == direction::SOUTHWEST || p_oDir == direction::SOUTH ||
+                       p_oDir == ( iso_mode ? direction::WEST : direction::SOUTHEAST ) ) ) {
 
             //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
             for( auto &iter : vSCT ) {

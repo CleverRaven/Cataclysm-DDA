@@ -1,18 +1,20 @@
 #pragma once
-#ifndef UI_H
-#define UI_H
+#ifndef CATA_SRC_UI_H
+#define CATA_SRC_UI_H
 
+#include <initializer_list>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
-#include <initializer_list>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "translations.h"
+
+class translation;
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -32,10 +34,10 @@ const int MENU_AUTOASSIGN = -1;
 // NOLINTNEXTLINE(cata-use-named-point-constants)
 constexpr point MENU_AUTOASSIGN_POS( MENU_AUTOASSIGN, MENU_AUTOASSIGN );
 
-struct input_event;
 class input_context;
 class string_input_popup;
 class ui_adaptor;
+struct input_event;
 
 catacurses::window new_centered_win( int nlines, int ncols );
 
@@ -297,4 +299,4 @@ class pointmenu_cb : public uilist_callback
         void refresh( uilist *menu ) override;
 };
 
-#endif
+#endif // CATA_SRC_UI_H

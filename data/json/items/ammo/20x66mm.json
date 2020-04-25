@@ -6,9 +6,10 @@
     "name": { "str": "20x66mm beanbag" },
     "description": "20x66mm caseless shotgun rounds, sublethal beanbag type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 8000,
-    "price_postapoc": 25000,
+    "price_postapoc": 1000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "proportional": { "damage": 0.1, "recoil": 0.4, "loudness": 0.6 },
+    "proportional": { "damage": { "damage_type": "stab", "amount": 0.1 }, "recoil": 0.4, "loudness": 0.6 },
     "extend": { "effects": [ "LARGE_BEANBAG", "NOGIB" ] }
   },
   {
@@ -17,9 +18,9 @@
     "type": "AMMO",
     "name": { "str": "20x66mm flechette, handmade", "str_pl": "20x66mm flechettes, handmade" },
     "description": "Handcrafted bootleg duplicates of Rivtech 20x66mm caseless flechette rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
-    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "20x66_bootleg_shot",
@@ -27,9 +28,9 @@
     "type": "AMMO",
     "name": { "str": "20x66mm buckshot, handmade" },
     "description": "Handcrafted bootleg duplicates of Rivtech 20x66mm caseless buckshot rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
-    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "20x66_bootleg_slug",
@@ -37,9 +38,9 @@
     "type": "AMMO",
     "name": { "str": "20x66mm slug, handmade", "str_pl": "20x66mm slugs, handmade" },
     "description": "Handcrafted bootleg duplicates of Rivtech 20x66mm caseless solid projectile rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
-    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "20x66_exp",
@@ -48,12 +49,12 @@
     "name": { "str": "20x66mm explosive" },
     "description": "20x66mm caseless shotgun rounds, explosive projectile type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 10000,
-    "price_postapoc": 80000,
+    "price_postapoc": 8000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "range": 20,
-    "damage": 16,
-    "pierce": 4,
+    "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 4 },
     "dispersion": 120,
-    "effects": [ "COOKOFF", "EXPLOSIVE_SMALL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_20x66", "NEVER_MISFIRES" ]
   },
   {
     "id": "20x66_flare",
@@ -62,10 +63,11 @@
     "name": { "str": "20x66mm flare" },
     "description": "20x66mm caseless shotgun rounds, signal flare type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 5000,
-    "price_postapoc": 20000,
+    "price_postapoc": 4000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "range": 20,
-    "damage": 16,
+    "damage": { "damage_type": "stab", "amount": 16 },
     "dispersion": 200,
     "recoil": 100,
     "drop": "handflare_lit",
@@ -78,9 +80,10 @@
     "name": { "str": "20x66mm flechette" },
     "description": "20x66mm caseless shotgun rounds, flechette type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 4000,
-    "price_postapoc": 55000,
+    "price_postapoc": 4000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "damage": -10, "pierce": 20 }
+    "relative": { "damage": { "damage_type": "stab", "amount": -10, "armor_penetration": 20 } }
   },
   {
     "id": "20x66_frag",
@@ -89,19 +92,21 @@
     "name": { "str": "20x66mm frag" },
     "description": "20x66mm caseless shotgun rounds, explosive fragmentation type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 7800,
-    "price_postapoc": 90000,
+    "price_postapoc": 5000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 5,
-    "proportional": { "damage": 0.25, "pierce": 0.25 },
-    "extend": { "effects": [ "FRAG" ] }
+    "proportional": { "damage": { "damage_type": "stab", "amount": 0.25, "armor_penetration": 0.25 } },
+    "extend": { "effects": [ "FRAG_20x66" ] }
   },
   {
     "id": "20x66_inc",
     "copy-from": "20x66_shot",
     "type": "AMMO",
-    "name": { "str": "20x66mm incendiary" },
+    "name": { "str": "20x66mm incendiary", "str_pl": "20x66mm incendiaries" },
     "description": "20x66mm caseless shotgun rounds, incendiary type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 10500,
-    "price_postapoc": 100000,
+    "price_postapoc": 5000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "extend": { "effects": [ "INCENDIARY" ] }
   },
@@ -114,7 +119,8 @@
     "weight": "56 g",
     "volume": "250 ml",
     "price": 1500,
-    "price_postapoc": 9000,
+    "price_postapoc": 4000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "pink",
@@ -122,7 +128,7 @@
     "stack_size": 20,
     "ammo_type": "20x66mm",
     "range": 12,
-    "damage": 60,
+    "damage": { "damage_type": "stab", "amount": 60 },
     "recoil": 2500,
     "effects": [ "COOKOFF", "SHOT", "NEVER_MISFIRES" ]
   },
@@ -133,9 +139,11 @@
     "name": { "str": "20x66mm slug" },
     "description": "20x66mm caseless shotgun rounds, solid projectile type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 1500,
-    "price_postapoc": 9000,
-    "relative": { "range": 12, "pierce": 8 },
-    "proportional": { "damage": 0.65, "dispersion": 1.3 },
+    "price_postapoc": 4000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "damage": { "damage_type": "stab", "amount": 39, "armor_penetration": 8 },
+    "relative": { "range": 12 },
+    "proportional": { "dispersion": 1.3 },
     "delete": { "effects": [ "SHOT" ] }
   }
 ]

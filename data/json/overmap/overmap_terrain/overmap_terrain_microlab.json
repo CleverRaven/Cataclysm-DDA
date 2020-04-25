@@ -30,6 +30,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "microlab_generic_vent_shaft_connector",
+    "copy-from": "microlab_generic"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "microlab_sub_station",
     "name": "subway station?",
     "sym": "S",

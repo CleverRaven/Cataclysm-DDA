@@ -1,18 +1,18 @@
+#include <cstdlib>
 #include <memory>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
-#include "map_iterator.h"
-#include "vehicle.h"
-#include "calendar.h"
-#include "weather.h"
-#include "game_constants.h"
-#include "mapdata.h"
-#include "type_id.h"
+#include "map_helpers.h"
 #include "point.h"
+#include "type_id.h"
+#include "vehicle.h"
+#include "weather.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
@@ -27,38 +27,11 @@ static void reset_player()
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );
 }
 
-// Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
-// terrain, and no furniture, traps, or items.
-static void build_test_map( const ter_id &terrain )
-{
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
-        g->m.furn_set( p, furn_id( "f_null" ) );
-        g->m.ter_set( p, terrain );
-        g->m.trap_set( p, trap_id( "tr_null" ) );
-        g->m.i_clear( p );
-    }
-
-    g->m.invalidate_map_cache( 0 );
-    g->m.build_map_cache( 0, true );
-}
-
-static void remove_all_vehicles()
-{
-    VehicleList vehs = g->m.get_vehicles();
-    vehicle *veh_ptr;
-    for( auto &vehs_v : vehs ) {
-        veh_ptr = vehs_v.v;
-        g->m.destroy_vehicle( veh_ptr );
-    }
-    REQUIRE( g->m.get_vehicles().empty() );
-}
-
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 {
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
-    remove_all_vehicles();
+    clear_vehicles();
 
     SECTION( "vehicle with reactor" ) {
         const tripoint reactor_origin = tripoint( 10, 10, 0 );
@@ -152,7 +125,7 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 {
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
-    remove_all_vehicles();
+    clear_vehicles();
 
     GIVEN( "a scooter with combustion engine and charged battery" ) {
         const tripoint origin = tripoint( 10, 0, 0 );

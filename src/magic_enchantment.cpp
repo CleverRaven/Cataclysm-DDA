@@ -1,14 +1,24 @@
 #include "magic_enchantment.h"
 
+#include <cstdlib>
+#include <memory>
+#include <set>
+
 #include "character.h"
-#include "emit.h"
+#include "creature.h"
+#include "debug.h"
 #include "enum_conversions.h"
+#include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "item.h"
 #include "json.h"
 #include "map.h"
+#include "point.h"
+#include "rng.h"
+#include "string_id.h"
 #include "units.h"
+
+template <typename E> struct enum_traits;
 
 template<>
 struct enum_traits<enchantment::has> {
@@ -230,6 +240,10 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     active_conditions.second = io::string_to_enum<condition>( jo.get_string( "condition",
                                "ALWAYS" ) );
 
+    for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
+        ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
+    }
+
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchantment::mod value = io::string_to_enum<mod>( value_obj.get_string( "value" ) );
@@ -335,6 +349,12 @@ void enchantment::force_add( const enchantment &rhs )
 
     hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
 
+    ench_effects.insert( rhs.ench_effects.begin(), rhs.ench_effects.end() );
+
+    if( rhs.emitter ) {
+        emitter = rhs.emitter;
+    }
+
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
          rhs.intermittent_activation ) {
         for( const fake_spell &fake : act_pair.second ) {
@@ -388,6 +408,9 @@ void enchantment::activate_passive( Character &guy ) const
 
     if( emitter ) {
         g->m.emit_field( guy.pos(), *emitter );
+    }
+    for( const std::pair<efftype_id, int> eff : ench_effects ) {
+        guy.add_effect( eff.first, 1_seconds, num_bp, false, eff.second );
     }
     for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
          intermittent_activation ) {

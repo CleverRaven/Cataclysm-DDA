@@ -3,7 +3,7 @@
     "abstract": "spare_part",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "spare parts", "str_pl": "spare parts" },
+    "name": { "str_sp": "spare parts" },
     "description": "Items with are not themselves useful but are instead requirements for crafting or repairs",
     "symbol": ";",
     "color": "dark_gray"
@@ -17,7 +17,8 @@
     "material": [ "plastic", "steel" ],
     "weight": "850 g",
     "volume": "500 ml",
-    "price": 1200
+    "price": 1200,
+    "price_postapoc": 500
   },
   {
     "id": "drivebelt_makeshift",
@@ -28,18 +29,20 @@
     "material": [ "cotton", "leather" ],
     "weight": "1250 g",
     "volume": "750 ml",
-    "price": 200
+    "price": 200,
+    "price_postapoc": 50
   },
   {
     "id": "filter_air",
     "copy-from": "spare_part",
     "type": "GENERIC",
     "name": { "str": "air filter" },
-    "description": "A plastic box containing crêped paper used to filter the air supply for combustion engines or other industrial equipment.",
+    "description": "A plastic box containing creped paper used to filter the air supply for combustion engines or other industrial equipment.",
     "material": [ "plastic", "paper" ],
     "weight": "360 g",
     "volume": "500 ml",
-    "price": 1900
+    "price": 1900,
+    "price_postapoc": 200
   },
   {
     "id": "filter_air_makeshift",
@@ -50,7 +53,8 @@
     "material": [ "plastic", "paper" ],
     "weight": "480 g",
     "volume": "750 ml",
-    "price": 200
+    "price": 200,
+    "price_postapoc": 50
   },
   {
     "id": "filter_liquid",
@@ -61,7 +65,8 @@
     "material": [ "steel", "paper" ],
     "weight": "480 g",
     "volume": "500 ml",
-    "price": 1900
+    "price": 1900,
+    "price_postapoc": 250
   },
   {
     "id": "filter_liquid_makeshift",
@@ -72,7 +77,8 @@
     "material": [ "steel", "paper" ],
     "weight": "690 g",
     "volume": "750 ml",
-    "price": 200
+    "price": 200,
+    "price_postapoc": 50
   },
   {
     "id": "glowplug",
@@ -83,7 +89,8 @@
     "material": [ "plastic", "copper" ],
     "weight": "260 g",
     "volume": "250 ml",
-    "price": 2300
+    "price": 2300,
+    "price_postapoc": 500
   },
   {
     "id": "pump_complex",
@@ -94,7 +101,8 @@
     "material": "iron",
     "weight": "2800 g",
     "volume": "1250 ml",
-    "price": 28900
+    "price": 28900,
+    "price_postapoc": 750
   },
   {
     "id": "well_pump",
@@ -105,6 +113,7 @@
     "material": "iron",
     "weight": "2400 g",
     "volume": "1 L",
-    "price": 1800
+    "price": 1800,
+    "price_postapoc": 500
   }
 ]

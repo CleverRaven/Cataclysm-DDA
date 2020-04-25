@@ -66,6 +66,141 @@
     "obsolete": true
   },
   {
+    "id": "tool_rdx_charge",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "RDX charge" },
+    "description": "This is a metal keg, filled with 50 liters worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
+    "weight": "106600 g",
+    "volume": "50 L",
+    "price": 90000,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": {
+      "power": 6700,
+      "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "scrap", "recovery": 1 },
+      "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
+    },
+    "use_action": {
+      "target": "tool_rdx_charge_act",
+      "msg": "You light the fuse on the explosive charge.  Clear the area!",
+      "target_charges": 100,
+      "active": true,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "tool_rdx_charge_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active RDX charge" },
+    "description": "This is a metal keg, filled with 50 liters worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
+    "weight": "106600 g",
+    "volume": "50 L",
+    "price": 0,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_red",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": {
+      "power": 6700,
+      "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "scrap", "recovery": 1 },
+      "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
+    },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Kshhh.",
+      "no_deactivate_msg": "You've already lit the fuse - clear the area immediately!",
+      "explosion": { "power": 67000, "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "shrapnel", "recovery": 1 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "id": "tool_anfo_charge",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "ANFO charge" },
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball.",
+    "weight": "77800 g",
+    "volume": "50 L",
+    "price": 75000,
+    "to_hit": -5,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": {
+      "power": 25000,
+      "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
+      "shrapnel": 12600
+    },
+    "use_action": {
+      "target": "tool_anfo_charge_act",
+      "msg": "You light the fuse on the ANFO charge.  Run survivor, run!",
+      "target_charges": 100,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "tool_anfo_charge_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active ANFO charge" },
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
+    "weight": "77800 g",
+    "volume": "50 L",
+    "price": 0,
+    "to_hit": -5,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "light_red",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 25000, "shrapnel": 12600 },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already lit the fuse - run!",
+      "explosion": {
+        "power": 48900,
+        "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
+        "shrapnel": 12600
+      }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "type": "recipe",
+    "result": "tool_anfo_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_rdx_charge",
+    "obsolete": true
+  },
+  {
     "type": "recipe",
     "result": "reloaded_laser_pack",
     "obsolete": true
@@ -83,6 +218,60 @@
     "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
     "price": 220000,
     "difficulty": 3
+  },
+  {
+    "id": "fertilizer_bomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "fertilizer bomb" },
+    "description": "This is a volatile homemade explosive.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "weight": "1133 g",
+    "volume": "750 ml",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "plastic", "powder" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 125 },
+    "use_action": {
+      "target": "fertilizer_bomb_act",
+      "msg": "You light the %s.",
+      "target_charges": 10,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "fertilizer_bomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "fertilizer bomb (lit)", "str_pl": "fertilizer bombs (lit)" },
+    "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
+    "weight": "1133 g",
+    "volume": "750 ml",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "plastic", "powder" ],
+    "symbol": "*",
+    "color": "red",
+    "initial_charges": 10,
+    "max_charges": 10,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 125 },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { "power": 175 }
+    },
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "bio_blaster",
@@ -121,8 +310,7 @@
     "color": "magenta",
     "skill": "rifle",
     "range": 30,
-    "ranged_damage": 22,
-    "pierce": 15,
+    "ranged_damage": { "damage_type": "stab", "amount": 22, "armor_penetration": 15 },
     "dispersion": 30,
     "durability": 10,
     "loudness": 12,
@@ -148,7 +336,7 @@
     "color": "magenta",
     "skill": "rifle",
     "range": 30,
-    "ranged_damage": 22,
+    "ranged_damage": { "damage_type": "stab", "amount": 22 },
     "dispersion": 90,
     "durability": 6,
     "loudness": 15,
@@ -165,6 +353,11 @@
     ],
     "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
     "flags": [ "NO_UNLOAD" ]
+  },
+  {
+    "type": "recipe",
+    "result": "fertilizer_bomb",
+    "obsolete": true
   },
   {
     "id": "ftk93",
@@ -185,7 +378,7 @@
     "volume": "3500 ml",
     "bashing": 10,
     "to_hit": -1,
-    "ranged_damage": 40,
+    "ranged_damage": { "damage_type": "stab", "amount": 40 },
     "dispersion": 30,
     "durability": 9,
     "clip_size": 2,
@@ -219,8 +412,7 @@
     "volume": "250 ml",
     "weight": "68 g",
     "ammo_type": "fusion",
-    "damage": 12,
-    "pierce": 15,
+    "damage": { "damage_type": "stab", "amount": 12, "armor_penetration": 15 },
     "range": 30,
     "stack_size": 40,
     "count": 20,
@@ -239,8 +431,7 @@
     "weight": "68 g",
     "bashing": 1,
     "ammo_type": "fusion",
-    "damage": 11,
-    "pierce": 14,
+    "damage": { "damage_type": "stab", "amount": 11, "armor_penetration": 14 },
     "range": 30,
     "stack_size": 40,
     "count": 20,
@@ -440,6 +631,58 @@
     "capacity_multiplier": 2.0
   },
   {
+    "id": "pipebomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "pipe bomb" },
+    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you five turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
+    "weight": "730 g",
+    "//": "Only one third (410 g) of a whole pipe is being used",
+    "volume": "500 ml",
+    "price": 1500,
+    "to_hit": 1,
+    "bashing": 5,
+    "material": "steel",
+    "symbol": "*",
+    "color": "light_gray",
+    "use_action": {
+      "target": "pipebomb_act",
+      "msg": "You light the fuse on the pipe bomb.",
+      "target_charges": 6,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+  },
+  {
+    "id": "pipebomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active pipe bomb" },
+    "description": "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
+    "weight": "1298 g",
+    "volume": "500 ml",
+    "price": 0,
+    "to_hit": 1,
+    "bashing": 5,
+    "material": "steel",
+    "symbol": "*",
+    "color": "light_gray",
+    "initial_charges": 6,
+    "max_charges": 6,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { "power": 175, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+  },
+  {
     "result": "double_plutonium_core",
     "type": "recipe",
     "obsolete": true
@@ -448,6 +691,67 @@
     "result": "ring",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "pipebomb",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "tool_black_powder_charge",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "id": "tool_black_powder_charge",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "black gunpowder charge" },
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Should explode in a few minutes…",
+    "weight": "6500 g",
+    "volume": "4 L",
+    "price": 20000,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "use_action": {
+      "target": "tool_black_powder_charge_act",
+      "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
+      "target_charges": 20,
+      "active": true,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "tool_black_powder_charge_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active black gunpowder charge" },
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, whose fuse has been lit, its final countdown starting.",
+    "weight": "6500 g",
+    "volume": "4 L",
+    "price": 0,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "light_red",
+    "initial_charges": 20,
+    "max_charges": 20,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Kshhh.",
+      "no_deactivate_msg": "You've already lit the fuse - run!",
+      "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } }
+    }
   },
   {
     "id": "bio_scent_vision",
@@ -459,5 +763,108 @@
     "act_cost": "2 J",
     "react_cost": "2 J",
     "time": 1
+  },
+  {
+    "type": "recipe",
+    "result": "tihar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helsing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pneumatic_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_launcher",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebar_rifle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_rail_rifle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "coilgun",
+    "obsolete": true
+  },
+  {
+    "result": "nailrifle",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "nailmag",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_mod",
+    "obsolete": true
+  },
+  {
+    "id": "mounted_mininuke_launcher",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted mininuke launcher" },
+    "item": "mininuke_launcher",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
+  },
+  {
+    "id": "mounted_heavy_rail_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted heavy rail rifle" },
+    "item": "heavy_rail_rifle",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 30 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_rebar_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted ferromagnetic rail rifle" },
+    "item": "rebar_rifle",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_coilgun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted coilgun" },
+    "item": "coilgun",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   }
 ]

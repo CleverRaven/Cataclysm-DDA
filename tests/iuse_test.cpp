@@ -1,13 +1,17 @@
+#include <array>
+#include <cstdlib>
+#include <memory>
+#include <string>
+
 #include "avatar.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
-#include "point.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 static const std::string flag_WET( "WET" );
 
@@ -412,7 +416,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
     GIVEN( "avatar is boomered and wet" ) {
         dummy.add_effect( efftype_id( "boomered" ), 1_hours );
         dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-        REQUIRE( abs( dummy.has_morale( MORALE_WET ) ) );
+        REQUIRE( std::abs( dummy.has_morale( MORALE_WET ) ) );
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
@@ -420,7 +424,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
             THEN( "it removes the boomered effect, but not the wetness" ) {
                 CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
-                CHECK( abs( dummy.has_morale( MORALE_WET ) ) );
+                CHECK( std::abs( dummy.has_morale( MORALE_WET ) ) );
 
                 AND_THEN( "the towel becomes soiled" ) {
                     CHECK( towel.typeId() == "towel_soiled" );
@@ -538,15 +542,15 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
     }
 }
 
-TEST_CASE( "royal jelly", "[iuse][royal_jelly]" )
+TEST_CASE( "panacea", "[iuse][panacea]" )
 {
     avatar dummy;
-    item &jelly = dummy.i_add( item( "royal_jelly", 0, item::default_charges_tag{} ) );
+    item &panacea = dummy.i_add( item( "panacea", 0, item::default_charges_tag{} ) );
 
-    SECTION( "royal jelly gives cure-all effect" ) {
+    SECTION( "panacea gives cure-all effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "cureall" ) ) );
 
-        dummy.invoke_item( &jelly );
+        dummy.consume_item( panacea );
         CHECK( dummy.has_effect( efftype_id( "cureall" ) ) );
     }
 }

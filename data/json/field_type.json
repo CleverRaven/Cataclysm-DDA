@@ -635,7 +635,7 @@
     "type": "field_type",
     "legacy_enum_id": 25,
     "intensity_levels": [
-      { "name": "faint glimmer", "color": "blue", "sym": "9", "light_emitted": 4 },
+      { "name": "faint glimmer", "color": "blue", "sym": "9" },
       { "name": "beam of light", "color": "light_blue" },
       { "name": "intense beam of light", "color": "white" }
     ],

@@ -1,11 +1,15 @@
 #include "field_type.h"
 
+#include <cstdlib>
+
 #include "bodypart.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "int_id.h"
+#include "json.h"
+#include "string_id.h"
 
 namespace io
 {

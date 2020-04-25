@@ -23,7 +23,8 @@
     "verb": "reading",
     "rooted": true,
     "based_on": "speed",
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MULTIPLE_CONSTRUCTION",
@@ -33,7 +34,8 @@
     "based_on": "neither",
     "suspendable": false,
     "no_resume": true,
-    "multi_activity": true
+    "multi_activity": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MULTIPLE_MINE",
@@ -80,7 +82,8 @@
     "based_on": "neither",
     "suspendable": false,
     "no_resume": true,
-    "multi_activity": true
+    "multi_activity": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MULTIPLE_BUTCHER",
@@ -90,7 +93,8 @@
     "based_on": "neither",
     "suspendable": false,
     "no_resume": true,
-    "multi_activity": true
+    "multi_activity": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MULTIPLE_CHOP_TREES",
@@ -100,14 +104,16 @@
     "based_on": "neither",
     "suspendable": false,
     "no_resume": true,
-    "multi_activity": true
+    "multi_activity": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MULTIPLE_FISH",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
     "verb": "fishing",
-    "based_on": "neither"
+    "based_on": "neither",
+    "auto_needs": true
   },
   {
     "id": "ACT_GENERIC_GAME",
@@ -133,7 +139,8 @@
     "rooted": true,
     "based_on": "time",
     "no_resume": true,
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_CRAFT",
@@ -141,7 +148,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "verb": "crafting",
     "based_on": "neither",
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_DISASSEMBLE",
@@ -151,7 +159,8 @@
     "suspendable": false,
     "rooted": true,
     "based_on": "speed",
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_BUTCHER",
@@ -209,7 +218,8 @@
     "verb": "salvaging",
     "based_on": "speed",
     "no_resume": true,
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_FORAGE",
@@ -224,6 +234,7 @@
     "activity_level": "ACTIVE_EXERCISE",
     "based_on": "neither",
     "refuel_fires": true,
+    "auto_needs": true,
     "verb": "constructing"
   },
   {
@@ -255,7 +266,8 @@
     "verb": "waiting",
     "rooted": true,
     "based_on": "time",
-    "no_resume": true
+    "no_resume": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_FIRSTAID",
@@ -374,7 +386,7 @@
     "id": "ACT_TRAVELLING",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
-    "verb": "travelling",
+    "verb": "traveling",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -403,7 +415,8 @@
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true,
-    "multi_activity": true
+    "multi_activity": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_FERTILIZE_PLOT",
@@ -412,7 +425,8 @@
     "verb": "fertilizing plots",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_ADV_INVENTORY",
@@ -527,13 +541,22 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_LOCKPICK",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "picking lock",
+    "rooted": true,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_REPAIR_ITEM",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "repairing",
     "rooted": true,
     "based_on": "neither",
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MEND_ITEM",
@@ -542,7 +565,8 @@
     "verb": "mending",
     "rooted": true,
     "based_on": "speed",
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_GUNMOD_ADD",
@@ -791,6 +815,7 @@
     "verb": "studying",
     "suspendable": false,
     "refuel_fires": true,
+    "auto_needs": true,
     "rooted": true,
     "based_on": "time",
     "no_resume": true
@@ -829,6 +854,15 @@
     "verb": "hacking",
     "suspendable": false,
     "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MIGRATION_CANCEL",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "canceling activity serialized with legacy code",
+    "suspendable": false,
+    "based_on": "neither",
     "no_resume": true
   }
 ]

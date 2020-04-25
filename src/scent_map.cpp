@@ -1,17 +1,19 @@
 #include "scent_map.h"
 
-#include <cstdlib>
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+#include <cstdlib>
 
 #include "assign.h"
 #include "calendar.h"
 #include "color.h"
+#include "cursesdef.h"
+#include "debug.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "map.h"
 #include "output.h"
-#include "cursesdef.h"
+#include "string_id.h"
 
 static constexpr int SCENT_RADIUS = 40;
 
@@ -77,12 +79,12 @@ void scent_map::draw( const catacurses::window &win, const int div, const tripoi
     }
 }
 
-void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
+void scent_map::shift( const point &sm_shift )
 {
     scent_array<int> new_scent;
     for( size_t x = 0; x < MAPSIZE_X; ++x ) {
         for( size_t y = 0; y < MAPSIZE_Y; ++y ) {
-            const point p( x + sm_shift_x, y + sm_shift_y );
+            const point p = point( x, y ) + sm_shift;
             new_scent[x][y] = inbounds( p ) ? grscent[ p.x ][ p.y ] : 0;
         }
     }

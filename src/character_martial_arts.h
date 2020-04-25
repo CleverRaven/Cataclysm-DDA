@@ -1,17 +1,19 @@
 #pragma once
-#ifndef CHARACTER_MARTIAL_ARTS_H
-#define CHARACTER_MARTIAL_ARTS_H
+#ifndef CATA_SRC_CHARACTER_MARTIAL_ARTS_H
+#define CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 
-#include "type_id.h"
-
+#include <algorithm>
+#include <string>
 #include <vector>
 
-class avatar;
+#include "martialarts.h"
+#include "type_id.h"
+
 class Character;
-class effects_map;
-class item;
-class JsonOut;
 class JsonIn;
+class JsonOut;
+class avatar;
+class item;
 
 using itype_id = std::string;
 
@@ -102,4 +104,4 @@ class character_martial_arts
         std::string selected_style_name( const Character &owner ) const;
 };
 
-#endif // !CHARACTER_MARTIAL_ARTS_H
+#endif // CATA_SRC_CHARACTER_MARTIAL_ARTS_H

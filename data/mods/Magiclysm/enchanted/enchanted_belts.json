@@ -38,7 +38,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "mbelt_leather",
     "id": "mbelt_thor",
-    "name": { "str": "Megingjörð", "str_pl": "Megingjörð" },
+    "name": { "str_sp": "Megingjörð" },
     "description": "The mythical belt of Thor, god of thunder.  Or at least so it appears.  It doubles the wearer's base strength.",
     "material": [ "superalloy" ],
     "material_thickness": 10,

@@ -4,53 +4,52 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <sstream>
-#include <memory>
-#include <tuple>
 #include <list>
+#include <memory>
+#include <sstream>
+#include <tuple>
 
 #include "action.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "clzones.h"
+#include "color.h"
 #include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "iexamine.h"
+#include "input.h"
+#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse.h"
 #include "json.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "monster.h"
+#include "mtype.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
+#include "player.h"
+#include "player_activity.h"
+#include "requirements.h"
+#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "string_input_popup.h"
-#include "color.h"
-#include "input.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "iuse.h"
-#include "player.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "requirements.h"
-#include "rng.h"
-#include "string_id.h"
-#include "field.h"
-#include "bodypart.h"
-#include "enums.h"
-#include "monster.h"
-#include "mtype.h"
 #include "weather.h"
 
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
@@ -535,7 +534,7 @@ void vehicle::toggle_autopilot()
                                            "If no zones are nearby, you will be prompted to create one." ) ) );
     smenu.addentry_col( FOLLOW, true, 'F', _( "Follow…" ),
                         "", string_format(
-                            _( "Program the autopilot to follow you. It might be a good idea to have a remote control available to tell it to stop, too." ) ) );
+                            _( "Program the autopilot to follow you.  It might be a good idea to have a remote control available to tell it to stop, too." ) ) );
     smenu.addentry_col( STOP, true, 'S', _( "Stop…" ),
                         "", string_format( _( "Stop all autopilot related activities." ) ) );
     smenu.query();
@@ -926,7 +925,7 @@ bool vehicle::start_engine( const int e )
     }
 
     const double dmg = parts[engines[e]].damage_percent();
-    const int engine_power = abs( part_epower_w( engines[e] ) );
+    const int engine_power = std::abs( part_epower_w( engines[e] ) );
     const double cold_factor = engine_cold_factor( e );
     const int start_moves = engine_start_time( e );
 
@@ -1260,7 +1259,7 @@ void vehicle::transform_terrain()
                 g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
-            const int speed = abs( velocity );
+            const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
@@ -1499,6 +1498,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     }
 
     coeff_air_changed = true;
+    coeff_air_dirty = true;
 }
 
 void vehicle::use_autoclave( int p )

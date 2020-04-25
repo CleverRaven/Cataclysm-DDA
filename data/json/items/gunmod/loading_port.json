@@ -8,6 +8,7 @@
     "volume": "149 ml",
     "integral_volume": "149 ml",
     "price": 15700,
+    "price_postapoc": 250,
     "install_time": "8 m",
     "material": "aluminum",
     "symbol": ":",

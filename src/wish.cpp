@@ -1,39 +1,40 @@
 #include "debug_menu.h" // IWYU pragma: associated
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
 
+#include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "game.h"
 #include "input.h"
+#include "item.h"
 #include "item_factory.h"
+#include "itype.h"
 #include "map.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "optional.h"
 #include "output.h"
 #include "player.h"
+#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "uistate.h"
-#include "calendar.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "itype.h"
-#include "optional.h"
-#include "type_id.h"
-#include "flat_set.h"
-#include "point.h"
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -408,8 +409,8 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
             if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
                 int num_spawned = 0;
-                for( const tripoint &p : closest_tripoints_first( *spawn, cb.group ) ) {
-                    monster *const mon = g->place_critter_at( mon_type, p );
+                for( const tripoint &destination : closest_tripoints_first( *spawn, cb.group ) ) {
+                    monster *const mon = g->place_critter_at( mon_type, destination );
                     if( !mon ) {
                         continue;
                     }
@@ -496,9 +497,14 @@ class wish_item_callback: public uilist_callback
         }
 };
 
-void debug_menu::wishitem( player *p, int x, int y, int z )
+void debug_menu::wishitem( player *p )
 {
-    if( p == nullptr && x <= 0 ) {
+    wishitem( p, tripoint( -1, -1, -1 ) );
+}
+
+void debug_menu::wishitem( player *p, const tripoint &pos )
+{
+    if( p == nullptr && pos.x <= 0 ) {
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
@@ -568,8 +574,8 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                         }
                     }
                     p->invalidate_crafting_inventory();
-                } else if( x >= 0 && y >= 0 ) {
-                    g->m.add_item_or_charges( tripoint( x, y, z ), granted );
+                } else if( pos.x >= 0 && pos.y >= 0 ) {
+                    g->m.add_item_or_charges( pos, granted );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {

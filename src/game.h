@@ -1,38 +1,40 @@
 #pragma once
-#ifndef GAME_H
-#define GAME_H
+#ifndef CATA_SRC_GAME_H
+#define CATA_SRC_GAME_H
 
-#include <climits>
 #include <array>
+#include <chrono>
+#include <ctime>
+#include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
-#include <vector>
-#include <ctime>
-#include <functional>
-#include <iosfwd>
 #include <string>
-#include <chrono>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "action.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_location.h"
+#include "memory_fast.h"
+#include "monster.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "creature.h"
-#include "type_id.h"
-#include "monster.h"
-#include "weather.h"
 #include "point.h"
-#include "memory_fast.h"
+#include "type_id.h"
+#include "weather.h"
 
+class Creature_tracker;
 class item;
+class spell_events;
 
 #define DEFAULT_TILESET_ZOOM 16
 
@@ -51,7 +53,6 @@ class game;
 
 extern std::unique_ptr<game> g;
 
-extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
 extern int fov_3d_z_range;
@@ -94,31 +95,33 @@ enum target_mode : int;
 struct special_game;
 
 using itype_id = std::string;
+
+class achievements_tracker;
 class avatar;
 class event_bus;
+class faction_manager;
 class kill_tracker;
 class map;
-class tripoint_range;
+class map_item_stack;
 class memorial_logger;
-class faction_manager;
 class npc;
 class player;
-class stats_tracker;
-class vehicle;
-class Creature_tracker;
-class scenario;
-class map_item_stack;
-struct WORLD;
 class save_t;
+class scenario;
+class stats_tracker;
+class tripoint_range;
+class vehicle;
+struct WORLD;
 
 using WORLDPTR = WORLD *;
-class overmap;
-class timed_event_manager;
-
 class live_view;
-struct visibility_variables;
-class scent_map;
 class loading_ui;
+class overmap;
+class scent_map;
+class timed_event_manager;
+struct visibility_variables;
+
+class ui_adaptor;
 
 using item_filter = std::function<bool ( const item & )>;
 
@@ -221,16 +224,25 @@ class game
         void start_calendar();
         /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
         bool do_turn();
+        shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
+        void invalidate_main_ui_adaptor() const;
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+    private:
+        cata::optional<tripoint> zone_start;
+        cata::optional<tripoint> zone_end;
+        bool zone_blink = false;
+        bool zone_cursor = false;
+        bool is_looking = false;
+        cata::optional<tripoint> trail_start;
+        cata::optional<tripoint> trail_end;
+        bool trail_end_x = false;
 
+    public:
         // when force_redraw is true, redraw all panel instead of just animated panels
         // mostly used after UI updates
         void draw_panels( bool force_draw = false );
-        // when force_redraw is true, redraw all panel instead of just animated panels
-        // mostly used after UI updates
-        void draw_panels( size_t column, size_t index, bool force_draw = false );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.
@@ -382,13 +394,13 @@ class game
         class monster_range : public non_dead_range<monster>
         {
             public:
-                monster_range( game &g );
+                monster_range( game &game_ref );
         };
 
         class npc_range : public non_dead_range<npc>
         {
             public:
-                npc_range( game &g );
+                npc_range( game &game_ref );
         };
 
         class Creature_range : public non_dead_range<Creature>
@@ -397,7 +409,7 @@ class game
                 shared_ptr_fast<player> u;
 
             public:
-                Creature_range( game &g );
+                Creature_range( game &game_ref );
         };
 
     public:
@@ -488,6 +500,8 @@ class game
         /** validate list of followers to account for overmap buffers */
         void validate_npc_followers();
         void validate_mounted_npcs();
+        /** validate towed vehicles so they get linked up again after a load */
+        void validate_linked_vehicles();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
         /** process vehicles that are following the player */
@@ -545,7 +559,7 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
-        look_around_result look_around( catacurses::window w_info, tripoint &center,
+        look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
@@ -580,7 +594,6 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
-        void toggle_panel_adm();
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -641,7 +654,7 @@ class game
         void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
-        void draw_hit_player( const player &p, int dam );
+        void draw_hit_player( const Character &p, int dam );
         void draw_line( const tripoint &p, const tripoint &center_point,
                         const std::vector<tripoint> &points );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
@@ -711,7 +724,7 @@ class game
         void on_move_effects();
     private:
         // Game-start procedures
-        void load( const save_t &name ); // Load a player-specific save file
+        bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
         void load_shortcuts( std::istream &fin );
@@ -924,6 +937,7 @@ class game
         pimpl<timed_event_manager> timed_event_manager_ptr;
         pimpl<event_bus> event_bus_ptr;
         pimpl<stats_tracker> stats_tracker_ptr;
+        pimpl<achievements_tracker> achievements_tracker_ptr;
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
@@ -959,9 +973,6 @@ class game
         catacurses::window w_minimap;
         catacurses::window w_pixel_minimap;
         //only a pointer, can refer to w_messages_short or w_messages_long
-
-        catacurses::window w_panel_adm_ptr;
-        catacurses::window w_panel_adm;
 
         catacurses::window w_blackspace;
 
@@ -1045,6 +1056,8 @@ class game
         tripoint last_mouse_edge_scroll_vector_overmap;
         std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context &ctxt, int speed,
                 const tripoint &last, bool iso );
+
+        weak_ptr_fast<ui_adaptor> main_ui_adaptor;
     public:
         /** Used to implement mouse "edge scrolling". Returns a
          *  tripoint which is a vector of the resulting "move", i.e.
@@ -1060,6 +1073,13 @@ class game
 
         // called on map shifting
         void shift_destination_preview( const point &delta );
+
+        /**
+        Checks if player is able to successfully climb to/from some terrain and not slip down
+        @param check_for_traps Used if needed to call trap function on player's location after slipping down
+        @return whether player has slipped down
+        */
+        bool slip_down( bool check_for_traps = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
@@ -1070,4 +1090,13 @@ int get_heat_radiation( const tripoint &location, bool direct );
 // Returns temperature modifier from hot air fields of given location
 int get_convection_temperature( const tripoint &location );
 
-#endif
+namespace cata_event_dispatch
+{
+// Constructs and dispatches an avatar movement event with the necessary parameters
+// @param u The avatar moving
+// @param m The map the avatar is moving on
+// @param p The point the avatar is moving to on map m
+void avatar_moves( const avatar &u, const map &m, const tripoint &p );
+} // namespace cata_event_dispatch
+
+#endif // CATA_SRC_GAME_H

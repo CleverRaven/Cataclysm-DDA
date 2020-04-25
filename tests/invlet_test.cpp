@@ -1,8 +1,8 @@
 #include <cstddef>
-#include <sstream>
 #include <list>
 #include <map>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -11,18 +11,17 @@
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
-#include "map.h"
-#include "options_helpers.h"
-#include "options.h"
-#include "player.h"
-#include "map_helpers.h"
 #include "inventory.h"
 #include "item.h"
-#include "player_activity.h"
-#include "type_id.h"
 #include "item_location.h"
+#include "map.h"
+#include "map_helpers.h"
 #include "map_selector.h"
+#include "options_helpers.h"
+#include "player.h"
+#include "player_activity.h"
 #include "point.h"
+#include "type_id.h"
 #include "visitable.h"
 
 const trait_id trait_debug_storage( "DEBUG_STORAGE" );

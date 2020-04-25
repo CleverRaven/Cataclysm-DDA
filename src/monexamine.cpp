@@ -1,41 +1,43 @@
 #include "monexamine.h"
 
 #include <climits>
-#include <string>
-#include <utility>
-#include <list>
 #include <map>
 #include <memory>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "creature_tracker.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "compatibility.h"
+#include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
-#include "handle_liquid.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "map.h"
+#include "material.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
-#include "string_input_popup.h"
-#include "translations.h"
-#include "ui.h"
-#include "units.h"
-#include "bodypart.h"
-#include "debug.h"
-#include "enums.h"
 #include "player_activity.h"
+#include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
+#include "translations.h"
 #include "type_id.h"
-#include "pimpl.h"
-#include "point.h"
+#include "ui.h"
+#include "units.h"
+#include "value_ptr.h"
 
 static const quality_id qual_shear( "SHEAR" );
 
@@ -671,7 +673,7 @@ void monexamine::play_with( monster &z )
 
 void monexamine::kill_zslave( monster &z )
 {
-    z.apply_damage( &g->u, bp_torso, 100 ); // damage the monster (and its corpse)
+    z.apply_damage( &g->u, bodypart_id( "torso" ), 100 ); // damage the monster (and its corpse)
     z.die( &g->u ); // and make sure it's really dead
 
     g->u.moves -= 150;

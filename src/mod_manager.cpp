@@ -1,10 +1,12 @@
 #include "mod_manager.h"
 
-#include <queue>
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <ostream>
+#include <queue>
 
+#include "assign.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -12,9 +14,9 @@
 #include "json.h"
 #include "path_info.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "worldfactory.h"
-#include "assign.h"
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 

@@ -1,33 +1,34 @@
-#include <climits>
-#include <sstream>
 #include <algorithm>
-#include <list>
+#include <climits>
+#include <map>
 #include <memory>
 #include <set>
+#include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catch/catch.hpp"
 #include "game.h"
+#include "item.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "player_helpers.h"
-#include "recipe_dictionary.h"
-#include "calendar.h"
-#include "cata_utility.h"
-#include "inventory.h"
-#include "item.h"
-#include "optional.h"
 #include "player_activity.h"
+#include "player_helpers.h"
+#include "point.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "string_id.h"
-#include "material.h"
 #include "type_id.h"
-#include "point.h"
+#include "value_ptr.h"
+
+class inventory;
 
 TEST_CASE( "recipe_subset" )
 {
@@ -124,7 +125,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
     GIVEN( "a recipe that can be automatically learned" ) {
         WHEN( "the player has lower skill" ) {
-            for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+            for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
                 dummy.set_skill_level( skl.first, skl.second - 1 );
             }
 
@@ -134,7 +135,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
         }
         WHEN( "the player has just the skill that's required" ) {
             dummy.set_skill_level( r->skill_used, r->difficulty );
-            for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+            for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
                 dummy.set_skill_level( skl.first, skl.second );
             }
 
@@ -143,7 +144,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
                 AND_WHEN( "his skill rusts" ) {
                     dummy.set_skill_level( r->skill_used, 0 );
-                    for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+                    for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
                         dummy.set_skill_level( skl.first, 0 );
                     }
 
@@ -167,7 +168,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
             dummy.set_skill_level( r->skill_used, 2 );
             // Secondary skills are just set to be what the autolearn requires
             // but the primary is not
-            for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+            for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
                 dummy.set_skill_level( skl.first, skl.second );
             }
 
@@ -234,7 +235,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
         standard_npc who( "helper" );
 
         who.set_attitude( NPCATT_FOLLOW );
-        who.spawn_at_sm( 0, 0, 0 );
+        who.spawn_at_sm( tripoint_zero );
 
         g->load_npcs();
 
@@ -287,7 +288,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     const recipe &r = rid.obj();
 
     // Ensure adequate skill for all "required" skills
-    for( const std::pair<skill_id, int> &skl : r.required_skills ) {
+    for( const std::pair<const skill_id, int> &skl : r.required_skills ) {
         g->u.set_skill_level( skl.first, skl.second );
     }
     // and just in case "used" skill difficulty is higher, set that too
@@ -377,7 +378,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.emplace_back( "soldering_iron", -1, 20 );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
-                actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                int turns = actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                CAPTURE( turns );
                 CHECK( get_remaining_charges( "hotplate" ) == 10 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
             }
@@ -398,10 +400,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         WHEN( "UPS-modded tools have enough charges" ) {
             item hotplate( "hotplate", -1, 0 );
-            hotplate.contents.emplace_back( "battery_ups" );
+            hotplate.put_in( item( "battery_ups" ) );
             tools.push_back( hotplate );
             item soldering_iron( "soldering_iron", -1, 0 );
-            soldering_iron.contents.emplace_back( "battery_ups" );
+            soldering_iron.put_in( item( "battery_ups" ) );
             tools.push_back( soldering_iron );
             tools.emplace_back( "UPS_off", -1, 500 );
 
@@ -415,10 +417,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         WHEN( "UPS-modded tools do not have enough charges" ) {
             item hotplate( "hotplate", -1, 0 );
-            hotplate.contents.emplace_back( "battery_ups" );
+            hotplate.put_in( item( "battery_ups" ) );
             tools.push_back( hotplate );
             item soldering_iron( "soldering_iron", -1, 0 );
-            soldering_iron.contents.emplace_back( "battery_ups" );
+            soldering_iron.put_in( item( "battery_ups" ) );
             tools.push_back( soldering_iron );
             tools.emplace_back( "UPS_off", -1, 10 );
 
@@ -436,7 +438,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         std::vector<item> tools;
         tools.emplace_back( "hotplate", -1, 20 );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.contents.emplace_back( "water", -1, 2 );
+        plastic_bottle.put_in( item( "water", -1, 2 ) );
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
 
@@ -447,12 +449,12 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         std::vector<item> tools;
         tools.emplace_back( "hotplate", -1, 20 );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.contents.emplace_back( "water", -1, 2 );
+        plastic_bottle.put_in( item( "water", -1, 2 ) );
         tools.push_back( plastic_bottle );
         item jar( "jar_glass" );
         // If it's not watertight the water will spill.
         REQUIRE( jar.is_watertight_container() );
-        jar.contents.emplace_back( "water", -1, 2 );
+        jar.put_in( item( "water", -1, 2 ) );
         tools.push_back( jar );
 
         prep_craft( recipe_id( "water_clean" ), tools, false );
@@ -494,13 +496,13 @@ static void verify_inventory( const std::vector<std::string> &has,
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
-        const bool has = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
-        REQUIRE( has );
+        const bool has_item = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
+        REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
-        const bool has = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
-        REQUIRE( has );
+        const bool hasnt_item = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
+        REQUIRE( hasnt_item );
     }
 }
 

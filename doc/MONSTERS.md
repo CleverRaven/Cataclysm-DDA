@@ -26,6 +26,12 @@ Monster types support the following properties (mandatory, except if noted other
 "name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
 ```
 
+or, if the singular and plural forms are the same:
+
+```JSON
+"name": { "ctxt": "fish", "str_sp": "bass" }
+```
+
 Name displayed in-game, and optionally the plural name and a translation context (ctxt).
 
 If the plural name is not specified, it defaults to singular name + "s".
@@ -78,7 +84,7 @@ List of scenttype_id ignored by this monster. scent_types are defined in scent_t
 ## "symbol", "color"
 (string)
 
-Symbol and color representing monster in-game. The symbol must be a UTF-8 string, that is exactly one console cell width (may be several Unicode characters). The color must be a valid color id, see TODO: find or create a list of color ids.
+Symbol and color representing monster in-game. The symbol must be a UTF-8 string, that is exactly one console cell width (may be several Unicode characters). See [COLOR.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COLOR.md) for details.
 
 ## "size"
 (string, optional)

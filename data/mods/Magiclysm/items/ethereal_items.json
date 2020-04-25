@@ -35,7 +35,7 @@
     "symbol": ",",
     "color": "yellow",
     "use_action": [ { "type": "firestarter", "moves": 20 } ],
-    "flags": [ "TRADER_AVOID", "FIRESTARTER", "FIRE", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
   },
   {
     "id": "armor_stonefist",
@@ -115,7 +115,7 @@
   {
     "id": "ice_gliders",
     "type": "ARMOR",
-    "name": { "str": "slick icy coatings", "str_pl": "slick icy coatings" },
+    "name": { "str_sp": "slick icy coatings" },
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -387,10 +387,29 @@
     }
   },
   {
+    "id": "armor_frost",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "frost armor" },
+    "description": "A thin layer of magical ice, covering the entire body.",
+    "weight": "5000 g",
+    "volume": "5 L",
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "coverage": 100,
+    "encumbrance": 10,
+    "warmth": 0,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+  },
+  {
     "id": "aura_stoneskin",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "stoneskin coating", "str_pl": "stoneskin coating" },
+    "name": { "str_sp": "stoneskin coating" },
     "description": "A thin layer of shifting, almost fluid living rock, covering the entire body.",
     "weight": "10200 g",
     "volume": "25 L",
@@ -404,5 +423,45 @@
     "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+  },
+  {
+    "id": "burn_scar",
+    "type": "effect_type",
+    "desc": [ "This burn really hurts!" ],
+    "max_duration": "10 second",
+    "rating": "bad",
+    "base_mods": { "pain_amount": [ 20 ] }
+  },
+  {
+    "id": "ench_overcharge_burn_scar",
+    "type": "enchantment",
+    "ench_effects": [ { "effect": "burn_scar", "intensity": 1 } ]
+  },
+  {
+    "id": "overcharge_burn_scar",
+    "type": "ARMOR",
+    "name": { "str": "overcharge burn" },
+    "description": "Ouch, this really smarts!  It'll go away soon, maybe?",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "~",
+    "color": "light_red",
+    "covers": [ "EYES", "MOUTH" ],
+    "encumbrance": 18,
+    "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
+    "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ]
+  },
+  {
+    "id": "protect_env",
+    "type": "ARMOR",
+    "name": { "str": "aura of protection", "str_pl": "auras of protection" },
+    "description": "An all-encompassing, invisible layer of magical aura that protects you from the environment.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "environmental_protection": 15,
+    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ]
   }
 ]

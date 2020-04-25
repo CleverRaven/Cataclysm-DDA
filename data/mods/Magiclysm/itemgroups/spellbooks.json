@@ -81,6 +81,7 @@
       [ "spell_scroll_recover_stamina", 25 ],
       [ "spell_scroll_recover_bionic_power", 25 ],
       [ "spell_scroll_summon_decayed_pouncer", 35 ],
+      [ "spell_scroll_summon_floating_disk", 25 ],
       [ "spell_scroll_vicious_tentacle", 40 ],
       [ "spell_scroll_bio_bonespear", 20 ],
       [ "spell_scroll_megablast", 10 ],
@@ -115,7 +116,8 @@
       [ "spell_scroll_invisibility", 10 ],
       [ "spell_scroll_obfuscated_body", 10 ],
       [ "spell_scroll_lava_bomb", 5 ],
-      [ "spell_scroll_druidic_healing", 20 ]
+      [ "spell_scroll_druidic_healing", 20 ],
+      [ "spell_scroll_overcharge_eyes", 50 ]
     ]
   },
   {

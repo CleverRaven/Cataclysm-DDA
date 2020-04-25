@@ -1,27 +1,26 @@
 #include "profession.h"
 
+#include <algorithm>
 #include <cmath>
 #include <iterator>
 #include <map>
-#include <algorithm>
-#include <memory>
 
 #include "addiction.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "generic_factory.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
-#include "mtype.h"
+#include "magic.h"
 #include "options.h"
 #include "player.h"
 #include "pldata.h"
-#include "text_snippets.h"
 #include "translations.h"
-#include "calendar.h"
-#include "item.h"
-#include "flat_set.h"
 #include "type_id.h"
 
 namespace
@@ -407,7 +406,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     }
     for( item &it : result ) {
         clear_faults( it );
-        if( it.is_holster() && it.contents.size() == 1 ) {
+        if( it.is_holster() && it.contents.num_item_stacks() == 1 ) {
             clear_faults( it.contents.front() );
         }
         if( it.has_flag( "VARSIZE" ) ) {
@@ -468,18 +467,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
             //Check the TODO for more information as to why we are dividing by two here.
             item.ammo_set( item.ammo_default(), item.ammo_capacity() / 2 );
         } else {
-            /* For Items with a magazine or battery in its contents */
-            for( auto &item_contents : item.contents ) {
-                /* for guns and other items defined to have a magazine but don't use "ammo" */
-                if( item_contents.is_magazine() ) {
-                    item_contents.ammo_set(
-                        item_contents.ammo_default(), item_contents.ammo_capacity() / 2
-                    );
-                } else { //Contents are batteries or food
-                    item_contents.charges =
-                        item::find_type( item_contents.typeId() )->charges_default();
-                }
-            }
+            item.contents.set_item_defaults();
         }
     }
 
@@ -696,8 +684,8 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     auto iter = substitutions.find( it.typeId() );
     std::vector<item> ret;
     if( iter == substitutions.end() ) {
-        for( const item &con : it.contents ) {
-            const auto sub = get_substitution( con, traits );
+        for( const item *con : it.contents.all_items_top() ) {
+            const auto sub = get_substitution( *con, traits );
             ret.insert( ret.end(), sub.begin(), sub.end() );
         }
         return ret;

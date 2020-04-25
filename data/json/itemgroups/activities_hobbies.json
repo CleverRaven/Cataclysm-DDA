@@ -7,6 +7,7 @@
       [ "cotton_ball", 50 ],
       [ "aspirin", 85 ],
       [ "bat", 60 ],
+      [ "bat_nerf", 60 ],
       [ "boxing_gloves", 35 ],
       [ "pool_cue", 30 ],
       [ "bat_metal", 60 ],
@@ -113,7 +114,8 @@
       [ "survnote", 1 ],
       [ "halter_top", 30 ],
       [ "iceaxe", 30 ],
-      [ "tourist_table", 30 ]
+      [ "tourist_table", 30 ],
+      [ "fitness_band", 5 ]
     ]
   },
   {
@@ -163,7 +165,8 @@
       { "item": "slingshot", "prob": 10 },
       { "item": "wristrocket", "prob": 5 },
       { "item": "powered_earmuffs", "prob": 80 },
-      { "item": "bandolier_wrist", "prob": 100 }
+      { "item": "bandolier_wrist", "prob": 100 },
+      { "item": "fitness_band", "prob": 5 }
     ]
   },
   {
@@ -207,6 +210,7 @@
       [ "bolt_cf", 5 ],
       [ "bbgun", 10 ],
       [ "crossbow", 2 ],
+      [ "compcrossbow", 2 ],
       [ "mag_survival", 40 ],
       [ "textbook_survival", 20 ],
       [ "modern_tanner", 8 ],
@@ -328,7 +332,8 @@
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 10 ],
       [ "mess_tin", 10 ],
-      [ "survival_kit", 30 ]
+      [ "survival_kit", 30 ],
+      [ "premium_survival_kit", 3 ]
     ]
   }
 ]

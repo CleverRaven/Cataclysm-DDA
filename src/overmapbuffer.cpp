@@ -1,20 +1,25 @@
 #include "overmapbuffer.h"
 
-#include <climits>
 #include <algorithm>
 #include <cassert>
-#include <cstdlib>
+#include <climits>
 #include <iterator>
 #include <list>
 #include <map>
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "character_id.h"
+#include "color.h"
+#include "common_types.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "mongroup.h"
@@ -22,20 +27,14 @@
 #include "npc.h"
 #include "optional.h"
 #include "overmap.h"
-#include "map_iterator.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
-#include "string_formatter.h"
-#include "vehicle.h"
-#include "calendar.h"
-#include "common_types.h"
-#include "game_constants.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
+#include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
-#include "int_id.h"
-#include "color.h"
+#include "vehicle.h"
 
 class map_extra;
 
@@ -176,7 +175,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             point max = om_to_sm_copy( loc + point_south_east ) - point_south_east;
             npc_sm.x = clamp( npc_sm.x, min.x, max.x );
             npc_sm.y = clamp( npc_sm.y, min.y, max.y );
-            np.spawn_at_sm( npc_sm.x, npc_sm.y, np.posz() );
+            np.spawn_at_sm( tripoint( npc_sm, np.posz() ) );
             new_overmap.npcs.push_back( ptr );
             continue;
         }
@@ -710,7 +709,6 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
     const auto get_ter_at = [&]( const point & p ) {
         return ter( base + p );
     };
-
     const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
         int res = 0;
         const oter_id oter = get_ter_at( cur.pos );
@@ -728,9 +726,17 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
                                   is_ot_match( "bridge", oter, ot_match_type::type ) ) ) {
             return pf::rejected;
         }
-        if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ||
-            is_ot_match( "open_air", oter, ot_match_type::type ) ) {
+        if( ptype.only_air && ( !is_ot_match( "open_air", oter, ot_match_type::type ) ) ) {
             return pf::rejected;
+        }
+        if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ) {
+            return pf::rejected;
+        } else if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
+            if( ptype.only_air ) {
+                travel_cost += 1;
+            } else {
+                return pf::rejected;
+            }
         } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
             travel_cost = 10;
         } else if( is_ot_match( "forest_water", oter, ot_match_type::type ) ) {

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "charcoal",
+    "copy-from": "charcoal",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "charcoal",
+    "casing": "dcluster"
+  },
+  {
+    "id": "dshards",
+    "type": "AMMO",
+    "name": "diamond fragments",
+    "description": "These small fragments of diamond are formed as a byproduct from the crystallization process of a diamond matrix.  While the substance usually decays when separated from the catalyst; these fragments are small enough to remain stable.",
+    "weight": "3 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "bashing": 1,
+    "material": "diamond",
+    "symbol": "=",
+    "color": "white",
+    "looks_like": "diamond",
+    "count": 100,
+    "ammo_type": "BB",
+    "damage": 1,
+    "pierce": 1,
+    "dispersion": 12
+  }
+]

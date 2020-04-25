@@ -1,69 +1,73 @@
 #include "avatar.h"
 
+#include <algorithm>
+#include <array>
 #include <climits>
 #include <cstdlib>
-#include <algorithm>
+#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
-#include <ostream>
 #include <set>
-#include <tuple>
 #include <unordered_map>
 #include <utility>
 
 #include "action.h"
-#include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "catacharset.h"
 #include "character.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "color.h"
+#include "compatibility.h"
+#include "debug.h"
 #include "effect.h"
 #include "enums.h"
-#include "filesystem.h"
+#include "event.h"
+#include "event_bus.h"
+#include "faction.h"
 #include "game.h"
+#include "game_constants.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
-#include "monstergenerator.h"
+#include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
-#include "mutation.h"
-#include "npc.h"
-#include "options.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
-#include "player.h"
-#include "profession.h"
-#include "skill.h"
-#include "type_id.h"
-#include "get_version.h"
-#include "ui.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "color.h"
-#include "compatibility.h"
-#include "debug.h"
-#include "game_constants.h"
-#include "item_location.h"
-#include "iuse.h"
 #include "mtype.h"
+#include "npc.h"
 #include "optional.h"
+#include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "pathfinding.h"
 #include "pimpl.h"
+#include "player.h"
 #include "player_activity.h"
+#include "ranged.h"
+#include "ret_val.h"
 #include "rng.h"
+#include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui.h"
 #include "units.h"
-#include "ranged.h"
+#include "value_ptr.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
 
@@ -924,11 +928,11 @@ bool avatar::has_identified( const std::string &item_id ) const
 hint_rating avatar::rate_action_read( const item &it ) const
 {
     if( !it.is_book() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     std::vector<std::string> dummy;
-    return get_book_reader( it, dummy ) == nullptr ? HINT_IFFY : HINT_GOOD;
+    return get_book_reader( it, dummy ) == nullptr ? hint_rating::iffy : hint_rating::good;
 }
 
 void avatar::wake_up()
@@ -1193,7 +1197,7 @@ void avatar::reset_stats()
     // Starvation
     const float bmi = get_bmi();
     if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
+        const int str_penalty = std::floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
         mod_str_bonus( -str_penalty );
@@ -1244,9 +1248,6 @@ void avatar::reset_stats()
             mod_dodge_bonus( 4 );
         }
     }
-
-    // Hit-related effects
-    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit );
 
     // Apply static martial arts buffs
     martial_arts_data.ma_static_effects( *this );
@@ -1698,9 +1699,9 @@ std::string points_left::to_string()
                    _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
                    stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
                    trait_points >= 0 ? '+' : '-',
-                   trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
+                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
                    skill_points >= 0 ? '+' : '-',
-                   skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
+                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
                    is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
     } else if( limit == ONE_POOL ) {
         return string_format( _( "Points left: %4d" ), skill_points_left() );

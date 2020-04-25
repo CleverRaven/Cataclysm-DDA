@@ -1,33 +1,29 @@
 #if defined(TILES)
 
-#include "sdltiles.h" // IWYU pragma: associated
 #include "cursesdef.h" // IWYU pragma: associated
+#include "sdltiles.h" // IWYU pragma: associated
 
-#include <cstdint>
-#include <climits>
 #include <algorithm>
-#include <cassert>
-#include <cstring>
-#include <fstream>
-#include <limits>
-#include <memory>
-#include <stdexcept>
-#include <vector>
 #include <array>
+#include <cassert>
+#include <climits>
 #include <cmath>
+#include <cstdint>
+#include <cstring>
 #include <exception>
+#include <fstream>
 #include <iterator>
+#include <limits>
 #include <map>
+#include <memory>
 #include <set>
+#include <stdexcept>
 #include <type_traits>
-#include <tuple>
-
-#include "platform_win.h"
+#include <vector>
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_syswm.h>
 #else
-#   include <SDL_image.h>
 #ifdef _WIN32
 #   include <SDL_syswm.h>
 #endif
@@ -35,6 +31,7 @@
 
 #include "avatar.h"
 #include "cata_tiles.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
@@ -46,18 +43,17 @@
 #include "game_ui.h"
 #include "get_version.h"
 #include "input.h"
+#include "json.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "sdlsound.h"
-#include "sdl_wrappers.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "wcwidth.h"
-#include "json.h"
-#include "optional.h"
 #include "point.h"
+#include "sdl_wrappers.h"
+#include "sdlsound.h"
+#include "string_formatter.h"
 #include "ui_manager.h"
+#include "wcwidth.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -78,12 +74,12 @@
 #if defined(__ANDROID__)
 #include <jni.h>
 
-#include "worldfactory.h"
 #include "action.h"
+#include "inventory.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "inventory.h"
+#include "worldfactory.h"
 #endif
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -478,6 +474,9 @@ static void WinCreate()
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
 #endif
 
+#if defined(SDL_HINT_RENDER_BATCHING)
+    SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
+#endif
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
@@ -1152,9 +1151,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 alignment_offset = 0;
-                if( ft.alignment == TEXT_ALIGNMENT_CENTER ) {
+                if( ft.alignment == text_alignment::center ) {
                     alignment_offset = full_text_length / 2;
-                } else if( ft.alignment == TEXT_ALIGNMENT_RIGHT ) {
+                } else if( ft.alignment == text_alignment::right ) {
                     alignment_offset = full_text_length - 1;
                 }
             }
@@ -2384,7 +2383,7 @@ void update_finger_repeat_delay()
 {
     float delta_x = finger_curr_x - finger_down_x;
     float delta_y = finger_curr_y - finger_down_y;
-    float dist = ( float )sqrtf( delta_x * delta_x + delta_y * delta_y );
+    float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
     float longest_window_edge = std::max( WindowWidth, WindowHeight );
     float t = clmp( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) ) /
                     std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
@@ -2421,7 +2420,7 @@ void handle_finger_input( uint32_t ticks )
 
     float delta_x = finger_curr_x - finger_down_x;
     float delta_y = finger_curr_y - finger_down_y;
-    float dist = ( float )sqrtf( delta_x * delta_x + delta_y * delta_y ); // in pixel space
+    float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y ); // in pixel space
     bool handle_diagonals = touch_input_context.is_action_registered( "LEFTUP" );
     bool is_default_mode = touch_input_context.get_category() == "DEFAULTMODE";
     if( dist > ( get_option<float>( "ANDROID_DEADZONE_RANGE" )*std::max( WindowWidth,
@@ -3053,7 +3052,7 @@ static void CheckMessages()
                         // If we've moved too far from joystick center, offset joystick center automatically
                         float delta_x = finger_curr_x - finger_down_x;
                         float delta_y = finger_curr_y - finger_down_y;
-                        float dist = ( float )sqrtf( delta_x * delta_x + delta_y * delta_y );
+                        float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
                         float max_dist = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) +
                                            get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * std::max( WindowWidth, WindowHeight );
                         if( dist > max_dist ) {
@@ -3121,11 +3120,11 @@ static void CheckMessages()
                             if( is_default_mode ) {
                                 float x1 = ( finger_curr_x - finger_down_x );
                                 float y1 = ( finger_curr_y - finger_down_y );
-                                float d1 = ( float )( sqrtf( x1 * x1 + y1 * y1 ) );
+                                float d1 = std::sqrt( x1 * x1 + y1 * y1 );
 
                                 float x2 = ( second_finger_curr_x - second_finger_down_x );
                                 float y2 = ( second_finger_curr_y - second_finger_down_y );
-                                float d2 = ( float )( sqrtf( x2 * x2 + y2 * y2 ) );
+                                float d2 = std::sqrt( x2 * x2 + y2 * y2 );
 
                                 float longest_window_edge = std::max( WindowWidth, WindowHeight );
 
@@ -3160,11 +3159,11 @@ static void CheckMessages()
                                         // both fingers heading in opposite direction, check for zoom gesture
                                         float down_x = finger_down_x - second_finger_down_x;
                                         float down_y = finger_down_y - second_finger_down_y;
-                                        float down_dist = ( float )sqrtf( down_x * down_x + down_y * down_y );
+                                        float down_dist = std::sqrt( down_x * down_x + down_y * down_y );
 
                                         float curr_x = finger_curr_x - second_finger_curr_x;
                                         float curr_y = finger_curr_y - second_finger_curr_y;
-                                        float curr_dist = ( float )sqrtf( curr_x * curr_x + curr_y * curr_y );
+                                        float curr_dist = std::sqrt( curr_x * curr_x + curr_y * curr_y );
 
                                         const float zoom_ratio = 0.9f;
                                         if( curr_dist < down_dist * zoom_ratio ) {
@@ -3708,20 +3707,19 @@ void rescale_tileset( int size )
     game_ui::init_ui();
 }
 
-window_dimensions get_window_dimensions( const catacurses::window &win )
+static window_dimensions get_window_dimensions( const catacurses::window &win,
+        const point &pos, const point &size )
 {
-    cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
-
     window_dimensions dim;
-    if( use_tiles && win == g->w_terrain ) {
+    if( use_tiles && g && win == g->w_terrain ) {
         // tiles might have different dimensions than standard font
         dim.scaled_font_size.x = tilecontext->get_tile_width();
         dim.scaled_font_size.y = tilecontext->get_tile_height();
-    } else if( map_font && win == g->w_terrain ) {
+    } else if( map_font && g && win == g->w_terrain ) {
         // map font (if any) might differ from standard font
         dim.scaled_font_size.x = map_font->fontwidth;
         dim.scaled_font_size.y = map_font->fontheight;
-    } else if( overmap_font && win == g->w_overmap ) {
+    } else if( overmap_font && g && win == g->w_overmap ) {
         dim.scaled_font_size.x = overmap_font->fontwidth;
         dim.scaled_font_size.y = overmap_font->fontheight;
     } else {
@@ -3732,9 +3730,15 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     // multiplied by the user's specified scaling factor regardless of whether tiles are in use
     dim.scaled_font_size *= get_scaling_factor();
 
-    dim.window_pos_cell = pwin->pos;
-    dim.window_size_cell.x = pwin->width;
-    dim.window_size_cell.y = pwin->height;
+    if( win ) {
+        cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
+        dim.window_pos_cell = pwin->pos;
+        dim.window_size_cell.x = pwin->width;
+        dim.window_size_cell.y = pwin->height;
+    } else {
+        dim.window_pos_cell = pos;
+        dim.window_size_cell = size;
+    }
 
     // the window position is *always* in standard font dimensions!
     dim.window_pos_pixel = point( dim.window_pos_cell.x * fontwidth,
@@ -3744,6 +3748,16 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
 
     return dim;
+}
+
+window_dimensions get_window_dimensions( const catacurses::window &win )
+{
+    return get_window_dimensions( win, point_zero, point_zero );
+}
+
+window_dimensions get_window_dimensions( const point &pos, const point &size )
+{
+    return get_window_dimensions( {}, pos, size );
 }
 
 cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
@@ -3778,8 +3792,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     if( tile_iso && use_tiles ) {
         const float win_mid_x = win_min.x + win_size.x / 2.0f;
         const float win_mid_y = -win_min.y + win_size.y / 2.0f;
-        const int screen_col = round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
-        const int screen_row = round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
+        const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
+        const int screen_row = std::round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
         p = view_offset + selected;
     } else {

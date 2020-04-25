@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CREATURE_H
-#define CREATURE_H
+#ifndef CATA_SRC_CREATURE_H
+#define CATA_SRC_CREATURE_H
 
 #include <climits>
 #include <map>
@@ -10,6 +10,7 @@
 #include <string>
 #include <utility>
 
+#include "anatomy.h"
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
@@ -226,6 +227,7 @@ class Creature
         void knock_back_from( const tripoint &p );
         virtual void knock_back_to( const tripoint &to ) = 0;
 
+        int size_melee_penalty() const;
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack( Creature *source, int hitroll );
@@ -260,7 +262,7 @@ class Creature
                                               body_part bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage( Creature *source, body_part bp, int amount,
+        virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
                                    bool bypass_med = false ) = 0;
 
         /**
@@ -443,12 +445,16 @@ class Creature
             return false;
         }
 
-        virtual body_part get_random_body_part( bool main = false ) const = 0;
+        anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
+        anatomy_id get_anatomy() const;
+        void set_anatomy( anatomy_id anat );
+
+        bodypart_id get_random_body_part( bool main = false ) const;
         /**
          * Returns body parts in order in which they should be displayed.
          * @param only_main If true, only displays parts that can have hit points
          */
-        virtual std::vector<body_part> get_all_body_parts( bool only_main = false ) const = 0;
+        std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
@@ -834,4 +840,4 @@ class Creature
         int pain;
 };
 
-#endif
+#endif // CATA_SRC_CREATURE_H

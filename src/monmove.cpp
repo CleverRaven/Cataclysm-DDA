@@ -2,45 +2,49 @@
 
 #include "monster.h" // IWYU pragma: associated
 
-#include <cstdlib>
-#include <cmath>
 #include <algorithm>
+#include <cfloat>
+#include <cmath>
+#include <cstdlib>
+#include <iterator>
+#include <list>
 #include <memory>
 #include <ostream>
-#include <list>
-#include <cfloat>
+#include <unordered_map>
 
 #include "avatar.h"
 #include "bionics.h"
+#include "cata_utility.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mattack_common.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "mtype.h"
-#include "creature_tracker.h"
 #include "npc.h"
+#include "pathfinding.h"
+#include "pimpl.h"
+#include "player.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "tileray.h"
 #include "translations.h"
 #include "trap.h"
-#include "vpart_position.h"
-#include "tileray.h"
 #include "vehicle.h"
-#include "cata_utility.h"
-#include "game_constants.h"
-#include "mattack_common.h"
-#include "pathfinding.h"
-#include "player.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "pimpl.h"
-#include "string_formatter.h"
+#include "vpart_position.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
@@ -1094,7 +1098,7 @@ void monster::footsteps( const tripoint &p )
 tripoint monster::scent_move()
 {
     // TODO: Remove when scentmap is 3D
-    if( abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
+    if( std::abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
 
@@ -1494,7 +1498,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                                                g->m.has_flag( TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos(), destination ) : calc_movecost( pos(),
                                                        destination ) );
         if( cost > 0.0f ) {
-            moves -= static_cast<int>( ceil( cost ) );
+            moves -= static_cast<int>( std::ceil( cost ) );
         } else {
             return false;
         }
@@ -1537,10 +1541,10 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
         if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) && get_armor_cut( bp_torso ) < sharp_damage ) {
-            apply_damage( nullptr, bp_torso, sharp_damage );
+            apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
         }
         if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) && get_armor_cut( bp_torso ) < rough_damage ) {
-            apply_damage( nullptr, bp_torso, rough_damage );
+            apply_damage( nullptr, bodypart_id( "torso" ), rough_damage );
         }
     }
 
@@ -1583,7 +1587,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                 factor = 1;
                 break;
         }
-        // TODO: make this take terrain type into account so diggers travelling under sand will create mounds of sand etc.
+        // TODO: make this take terrain type into account so diggers traveling under sand will create mounds of sand etc.
         if( one_in( factor ) ) {
             g->m.ter_set( pos(), t_dirtmound );
         }
@@ -1602,7 +1606,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     if( has_flag( MF_SLUDGETRAIL ) ) {
         for( const tripoint &sludge_p : g->m.points_in_radius( pos(), 1 ) ) {
-            const int fstr = 3 - ( abs( sludge_p.x - posx() ) + abs( sludge_p.y - posy() ) );
+            const int fstr = 3 - ( std::abs( sludge_p.x - posx() ) + std::abs( sludge_p.y - posy() ) );
             if( fstr >= 2 ) {
                 g->m.add_field( sludge_p, fd_sludge, fstr );
             }
@@ -1681,7 +1685,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         // Pushing forward is easier than pushing aside
-        const int direction_penalty = abs( dx - dir.x ) + abs( dy - dir.y );
+        const int direction_penalty = std::abs( dx - dir.x ) + std::abs( dy - dir.y );
         if( direction_penalty > 2 ) {
             continue;
         }
@@ -1785,7 +1789,6 @@ void monster::stumble()
 
     if( g->m.has_zlevels() ) {
         tripoint below( posx(), posy(), posz() - 1 );
-        tripoint above( posx(), posy(), posz() + 1 );
         if( g->m.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }
@@ -1822,14 +1825,14 @@ void monster::knock_back_to( const tripoint &to )
 
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
-        apply_damage( z, bp_torso, z->type->size );
+        apply_damage( z, bodypart_id( "torso" ), z->type->size );
         add_effect( effect_stunned, 1_turns );
         if( type->size > 1 + z->type->size ) {
             z->knock_back_from( pos() ); // Chain reaction!
-            z->apply_damage( this, bp_torso, type->size );
+            z->apply_damage( this, bodypart_id( "torso" ), type->size );
             z->add_effect( effect_stunned, 1_turns );
         } else if( type->size > z->type->size ) {
-            z->apply_damage( this, bp_torso, type->size );
+            z->apply_damage( this, bodypart_id( "torso" ), type->size );
             z->add_effect( effect_stunned, 1_turns );
         }
         z->check_dead_state();
@@ -1842,7 +1845,7 @@ void monster::knock_back_to( const tripoint &to )
     }
 
     if( npc *const p = g->critter_at<npc>( to ) ) {
-        apply_damage( p, bp_torso, 3 );
+        apply_damage( p, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
@@ -1866,7 +1869,7 @@ void monster::knock_back_to( const tripoint &to )
     if( g->m.impassable( to ) ) {
 
         // It's some kind of wall.
-        apply_damage( nullptr, bp_torso, type->size );
+        apply_damage( nullptr, bodypart_id( "torso" ), type->size );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off a %2$s." ), name(),

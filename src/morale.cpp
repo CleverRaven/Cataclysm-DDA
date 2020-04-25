@@ -1,26 +1,29 @@
 #include "morale.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <set>
+#include <array>
 #include <cmath>
+#include <cstdlib>
 #include <memory>
+#include <set>
 #include <utility>
 
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "input.h"
+#include "int_id.h"
 #include "item.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
+#include "point.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "enums.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
@@ -180,8 +183,8 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
         sqrt_of_sum_of_squares = get_net_bonus() + new_bonus;
     } else {
         // Otherwise use the sqrt of sum of squares to nerf stacking
-        sqrt_of_sum_of_squares = pow( get_net_bonus(), 2 ) + pow( new_bonus, 2 );
-        sqrt_of_sum_of_squares = sqrt( sqrt_of_sum_of_squares );
+        sqrt_of_sum_of_squares = std::pow( get_net_bonus(), 2 ) + std::pow( new_bonus, 2 );
+        sqrt_of_sum_of_squares = std::sqrt( sqrt_of_sum_of_squares );
         sqrt_of_sum_of_squares *= sgn( bonus );
     }
 
@@ -217,7 +220,8 @@ void player_morale::morale_point::decay( const time_duration &ticks )
 
 int player_morale::morale_point::normalize_bonus( int bonus, int max_bonus, bool capped ) const
 {
-    return ( ( abs( bonus ) > abs( max_bonus ) && ( max_bonus != 0 || capped ) ) ? max_bonus : bonus );
+    return ( ( std::abs( bonus ) > std::abs( max_bonus ) && ( max_bonus != 0 ||
+               capped ) ) ? max_bonus : bonus );
 }
 
 bool player_morale::mutation_data::get_active() const
@@ -378,18 +382,18 @@ void player_morale::calculate_percentage()
     for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
-            sum_of_positive_squares += pow( bonus, 2 );
+            sum_of_positive_squares += std::pow( bonus, 2 );
         } else {
-            sum_of_negative_squares += pow( bonus, 2 );
+            sum_of_negative_squares += std::pow( bonus, 2 );
         }
     }
 
     for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
-            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_positive_squares ) * 100 );
+            m.set_percent_contribution( ( std::pow( bonus, 2 ) / sum_of_positive_squares ) * 100 );
         } else {
-            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_negative_squares ) * 100 );
+            m.set_percent_contribution( ( std::pow( bonus, 2 ) / sum_of_negative_squares ) * 100 );
         }
     }
 }
@@ -401,10 +405,10 @@ int player_morale::get_total_negative_value() const
     for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus < 0 ) {
-            sum += pow( bonus, 2 );
+            sum += std::pow( bonus, 2 );
         }
     }
-    return sqrt( sum );
+    return std::sqrt( sum );
 }
 
 int player_morale::get_total_positive_value() const
@@ -414,11 +418,11 @@ int player_morale::get_total_positive_value() const
     for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
-            sum += pow( bonus, 2 );
+            sum += std::pow( bonus, 2 );
         }
 
     }
-    return sqrt( sum );
+    return std::sqrt( sum );
 }
 
 int player_morale::get_level() const
@@ -432,13 +436,13 @@ int player_morale::get_level() const
         for( auto &m : points ) {
             const int bonus = m.get_net_bonus( mult );
             if( bonus > 0 ) {
-                sum_of_positive_squares += pow( bonus, 2 );
+                sum_of_positive_squares += std::pow( bonus, 2 );
             } else {
-                sum_of_negative_squares += pow( bonus, 2 );
+                sum_of_negative_squares += std::pow( bonus, 2 );
             }
         }
 
-        level = sqrt( sum_of_positive_squares ) - sqrt( sum_of_negative_squares );
+        level = std::sqrt( sum_of_positive_squares ) - std::sqrt( sum_of_negative_squares );
 
         if( took_prozac ) {
             level *= morale_mults::prozac;
@@ -668,7 +672,7 @@ void player_morale::clear()
 {
     points.clear();
     no_body_part = body_part_data();
-    body_parts.fill( body_part_data() );
+    body_parts.clear();
     for( auto &m : mutations ) {
         m.second.clear();
     }
@@ -739,12 +743,13 @@ void player_morale::on_worn_item_washed( const item &it )
         bp_data.filthy -= 1;
     };
 
-    const auto covered( it.get_covered_body_parts() );
+    const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
         for( const body_part bp : all_body_parts ) {
             if( covered.test( bp ) ) {
-                update_body_part( body_parts[bp] );
+                const bodypart_id bp_id = convert_bp( bp ).id();
+                update_body_part( body_parts[bp_id] );
             }
         }
     } else {
@@ -756,14 +761,15 @@ void player_morale::on_worn_item_washed( const item &it )
 
 void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
 {
+    const bodypart_id bo_id = convert_bp( bp ).id();
     if( eid == effect_took_prozac && bp == num_bp ) {
         set_prozac( intensity != 0 );
     } else if( eid == effect_took_prozac_bad && bp == num_bp ) {
         set_prozac_bad( intensity != 0 );
     } else if( eid == effect_cold && bp < num_bp ) {
-        body_parts[bp].cold = intensity;
+        body_parts[bo_id].cold = intensity;
     } else if( eid == effect_hot && bp < num_bp ) {
-        body_parts[bp].hot = intensity;
+        body_parts[bo_id].hot = intensity;
     }
 }
 
@@ -784,12 +790,13 @@ void player_morale::set_worn( const item &it, bool worn )
         bp_data.covered += sign;
     };
 
-    const auto covered( it.get_covered_body_parts() );
+    const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
         for( const body_part bp : all_body_parts ) {
             if( covered.test( bp ) ) {
-                update_body_part( body_parts[bp] );
+                const bodypart_id bp_id = convert_bp( bp ).id();
+                update_body_part( body_parts[bp_id] );
             }
         }
     } else {
@@ -850,20 +857,14 @@ void player_morale::update_stylish_bonus()
     int bonus = 0;
 
     if( stylish ) {
-        const auto bp_bonus = [ this ]( body_part bp, int bonus ) -> int {
-            return (
-                body_parts[bp].fancy > 0 ||
-                body_parts[opposite_body_part( bp )].fancy > 0 ) ? bonus : 0;
-        };
+        float tmp_bonus = 0;
+        for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
+            if( bpt.second.fancy > 0 ) {
+                tmp_bonus += bpt.first->stylish_bonus;
+            }
+        }
         bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
-                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) +
-                          bp_bonus( bp_torso,  6 ) +
-                          bp_bonus( bp_head,   3 ) +
-                          bp_bonus( bp_eyes,   2 ) +
-                          bp_bonus( bp_mouth,  2 ) +
-                          bp_bonus( bp_leg_l,  2 ) +
-                          bp_bonus( bp_foot_l, 1 ) +
-                          bp_bonus( bp_hand_l, 1 ), 20 );
+                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) + static_cast<int>( tmp_bonus ), 20 );
     }
     set_permanent( MORALE_PERM_FANCY, bonus );
 }
@@ -891,53 +892,41 @@ void player_morale::update_masochist_bonus()
 
 void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 {
-    using bp_int_func = std::function<int( body_part )>;
-    const auto apply_pen = [ this, ticks ]( morale_type type, bp_int_func bp_int ) -> void {
-        const int max_pen =
-
-        2  * bp_int( bp_head ) +
-        2  * bp_int( bp_torso ) +
-        2  * bp_int( bp_mouth ) +
-        .5 * bp_int( bp_arm_l ) +
-        .5 * bp_int( bp_arm_r ) +
-        .5 * bp_int( bp_leg_l ) +
-        .5 * bp_int( bp_leg_r ) +
-        .5 * bp_int( bp_hand_l ) +
-        .5 * bp_int( bp_hand_r ) +
-        .5 * bp_int( bp_foot_l ) +
-        .5 * bp_int( bp_foot_r );
-
-        if( max_pen != 0 )
-        {
-            add( type, -2 * to_turns<int>( ticks ), -std::abs( max_pen ), 1_minutes, 30_seconds, true );
-        }
-    };
-    apply_pen( MORALE_COLD, [ this ]( body_part bp ) {
-        return body_parts[bp].cold;
-    } );
-    apply_pen( MORALE_HOT, [ this ]( body_part bp ) {
-        return body_parts[bp].hot;
-    } );
+    float max_cold_penalty = 0;
+    float max_hot_penalty = 0;
+    for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
+        const bodypart_id bp = bpt.first;
+        max_cold_penalty += body_parts[bp].cold * bp->cold_morale_mod;
+        max_hot_penalty += body_parts[bp].hot * bp->hot_morale_mod;
+    }
+    if( max_cold_penalty != 0 ) {
+        add( MORALE_COLD, -2 * to_turns<int>( ticks ), -std::abs( max_cold_penalty ), 1_minutes, 30_seconds,
+             true );
+    }
+    if( max_hot_penalty != 0 ) {
+        add( MORALE_HOT, -2 * to_turns<int>( ticks ), -std::abs( max_hot_penalty ), 1_minutes, 30_seconds,
+             true );
+    }
 }
 
 void player_morale::update_constrained_penalty()
 {
-    const auto bp_pen = [ this ]( body_part bp, int pen ) -> int {
+    const auto bp_pen = [ this ]( bodypart_id bp, int pen ) -> int {
         return ( body_parts[bp].covered > 0 ) ? pen : 0;
     };
     int pen = 0;
 
     if( has_mutation( trait_FLOWERS ) ) {
-        pen += bp_pen( bp_head, 10 );
+        pen += bp_pen( bodypart_id( "head" ), 10 );
     }
     if( has_mutation( trait_ROOTS1 ) || has_mutation( trait_ROOTS2 ) ||
         has_mutation( trait_ROOTS3 ) ) {
-        pen += bp_pen( bp_foot_l, 5 );
-        pen += bp_pen( bp_foot_r, 5 );
+        pen += bp_pen( bodypart_id( "foot_l" ), 5 );
+        pen += bp_pen( bodypart_id( "foot_r" ), 5 );
     }
     if( has_mutation( trait_LEAVES2 ) || has_mutation( trait_LEAVES3 ) ) {
-        pen += bp_pen( bp_arm_l, 5 );
-        pen += bp_pen( bp_arm_r, 5 );
+        pen += bp_pen( bodypart_id( "arm_l" ), 5 );
+        pen += bp_pen( bodypart_id( "arm_r" ), 5 );
     }
     set_permanent( MORALE_PERM_CONSTRAINED, -std::min( pen, 10 ) );
 }
@@ -948,25 +937,12 @@ void player_morale::update_squeamish_penalty()
         set_permanent( MORALE_PERM_FILTHY, 0 );
         return;
     }
-
     int penalty = 0;
-    const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
-        return (
-            body_parts[bp].filthy > 0 ||
-            body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
-    };
-    penalty = 2 * std::min( static_cast<int>( no_body_part.filthy ), 3 ) +
-              bp_pen( bp_torso,  6 ) +
-              bp_pen( bp_head,   7 ) +
-              bp_pen( bp_eyes,   8 ) +
-              bp_pen( bp_mouth,  9 ) +
-              bp_pen( bp_leg_l,  5 ) +
-              bp_pen( bp_leg_r,  5 ) +
-              bp_pen( bp_arm_l,  5 ) +
-              bp_pen( bp_arm_r,  5 ) +
-              bp_pen( bp_foot_l, 3 ) +
-              bp_pen( bp_foot_r, 3 ) +
-              bp_pen( bp_hand_l, 3 ) +
-              bp_pen( bp_hand_r, 3 );
+    for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
+        if( bpt.second.filthy > 0 ) {
+            penalty += bpt.first->squeamish_penalty;
+        }
+    }
+    penalty += 2 * std::min( static_cast<int>( no_body_part.filthy ), 3 );
     set_permanent( MORALE_PERM_FILTHY, -penalty );
 }

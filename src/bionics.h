@@ -1,26 +1,28 @@
 #pragma once
-#ifndef BIONICS_H
-#define BIONICS_H
+#ifndef CATA_SRC_BIONICS_H
+#define CATA_SRC_BIONICS_H
 
 #include <cstddef>
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
-#include "string_id.h"
+#include "flat_set.h"
+#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
-class player;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
+class player;
+
 using itype_id = std::string;
 
 struct bionic_data {
@@ -106,6 +108,9 @@ struct bionic_data {
     std::map<body_part, size_t> bash_protec;
     /**Amount of cut protection offered by this bionic*/
     std::map<body_part, size_t> cut_protec;
+
+    /** bionic enchantments */
+    std::vector<enchantment_id> enchantments;
 
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
@@ -206,6 +211,9 @@ char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
 
-int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty );
+int bionic_manip_cos( float adjusted_skill, int bionic_difficulty );
 
-#endif
+std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,
+        const trait_id &tid );
+
+#endif // CATA_SRC_BIONICS_H

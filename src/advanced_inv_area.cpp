@@ -1,46 +1,35 @@
-#include "auto_pickup.h"
-#include "avatar.h"
-#include "cata_utility.h"
-#include "catacharset.h"
-#include "game.h"
-#include "item_category.h"
-#include "item_search.h"
-#include "item_stack.h"
-#include "map.h"
-#include "mapdata.h"
-#include "messages.h"
-#include "player.h"
-#include "player_activity.h"
-#include "string_formatter.h"
-#include "string_input_popup.h"
-#include "translations.h"
-#include "trap.h"
-#include "ui.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "inventory.h"
-#include "item.h"
-#include "enums.h"
-#include "item_location.h"
-#include "map_selector.h"
-#include "pimpl.h"
-#include "field.h"
-#include "advanced_inv_area.h"
-
-#include "advanced_inv.h"
-#include "uistate.h"
-
 #include <algorithm>
 #include <cassert>
 #include <cstring>
-#include <string>
-#include <vector>
-#include <initializer_list>
 #include <iterator>
+#include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
 #include <utility>
-#include <numeric>
+
+#include "advanced_inv_area.h"
+#include "advanced_inv_listitem.h"
+#include "avatar.h"
+#include "enums.h"
+#include "field.h"
+#include "field_type.h"
+#include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "map.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "translations.h"
+#include "trap.h"
+#include "type_id.h"
+#include "uistate.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 int advanced_inv_area::get_item_count() const
 {
@@ -57,11 +46,11 @@ int advanced_inv_area::get_item_count() const
     }
 }
 
-advanced_inv_area::advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
+advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint off,
                                       const std::string &name, const std::string &shortname,
                                       std::string minimapname, std::string actionname,
                                       aim_location relative_location ) :
-    id( id ), hscreen( hscreenx, hscreeny ),
+    id( id ), hscreen( h ),
     off( off ), name( name ), shortname( shortname ),
     canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
     weight( 0_gram ), max_size( 0 ), minimapname( minimapname ), actionname( actionname ),

@@ -1,42 +1,61 @@
 #include "veh_interact.h"
 
-#include <cstdlib>
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <cstdlib>
 #include <functional>
+#include <iostream>
 #include <iterator>
 #include <list>
-#include <numeric>
-#include <string>
-#include <array>
 #include <memory>
+#include <numeric>
 #include <set>
+#include <string>
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "crafting.h"
+#include "character_id.h"
 #include "debug.h"
+#include "enums.h"
+#include "faction.h"
 #include "fault.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "handle_liquid.h"
+#include "item.h"
+#include "item_contents.h"
 #include "itype.h"
-#include "math_defines.h"
 #include "map.h"
 #include "map_selector.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
+#include "monster.h"
 #include "npc.h"
+#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "point.h"
+#include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
+#include "tileray.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "veh_utils.h"
@@ -44,20 +63,6 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "calendar.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "optional.h"
-#include "requirements.h"
-#include "tileray.h"
-#include "units.h"
-#include "item.h"
-#include "string_id.h"
-#include "colony.h"
-#include "flat_set.h"
-#include "mapdata.h"
-#include "point.h"
-#include "material.h"
 
 static const itype_id fuel_type_battery( "battery" );
 
@@ -70,8 +75,6 @@ static const quality_id qual_SELF_JACK( "SELF_JACK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
-
-class player;
 
 static inline std::string status_color( bool status )
 {
@@ -87,7 +90,7 @@ static double jack_quality( const vehicle &veh )
 {
     const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(),
             JACK_LIMIT );
-    return ceil( mass / TOOL_LIFT_FACTOR );
+    return std::ceil( mass / TOOL_LIFT_FACTOR );
 }
 
 /** Can part currently be reloaded with anything? */
@@ -604,7 +607,7 @@ task_reason veh_interact::cant_do( char mode )
             return UNKNOWN_TASK;
     }
 
-    if( abs( veh->velocity ) > 100 || g->u.controlling_vehicle ) {
+    if( std::abs( veh->velocity ) > 100 || g->u.controlling_vehicle ) {
         return MOVING_VEHICLE;
     }
     if( !valid_target ) {
@@ -1372,7 +1375,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     };
     headers["BATTERY"] = [epower_w]( const catacurses::window & w, int y ) {
         std::string batt;
-        if( abs( epower_w ) < 10000 ) {
+        if( std::abs( epower_w ) < 10000 ) {
             batt = string_format( _( "Batteries: %s%+4d W</color>" ),
                                   health_color( epower_w >= 0 ), epower_w );
         } else {
@@ -1742,7 +1745,8 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         use_str = g->u.can_lift( *veh );
     } else {
         qual = qual_LIFT;
-        lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
+        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
+                         TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
         use_str = g->u.can_lift( base );
@@ -2314,45 +2318,60 @@ void veh_interact::display_stats() const
 
     bool is_boat = !veh->floating.empty();
     bool is_ground = !veh->wheelcache.empty() || !is_boat;
+    bool is_aircraft = veh->is_rotorcraft() && veh->is_flying_in_air();
 
     const auto vel_to_int = []( const double vel ) {
         return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
     };
 
     int i = 0;
-    if( is_ground ) {
+    if( is_aircraft ) {
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                        vel_to_int( veh->safe_ground_velocity( false ) ),
-                        vel_to_int( veh->max_ground_velocity( false ) ),
+                        _( "Air Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                        vel_to_int( veh->safe_rotor_velocity( false ) ),
+                        vel_to_int( veh->max_rotor_velocity( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
-        // TODO: extract accelerations units to its own function
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        //~ /t means per turn
-                        _( "Acceleration: <color_light_blue>%3d</color> %s/t" ),
-                        vel_to_int( veh->ground_acceleration( false ) ),
-                        velocity_units( VU_VEHICLE ) );
-        i += 1;
-    } else {
-        i += 2;
-    }
-    if( is_boat ) {
-        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        _( "Water Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                        vel_to_int( veh->safe_water_velocity( false ) ),
-                        vel_to_int( veh->max_water_velocity( false ) ),
-                        velocity_units( VU_VEHICLE ) );
-        i += 1;
-        // TODO: extract accelerations units to its own function
-        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        //~ /t means per turn
-                        _( "Water Acceleration: <color_light_blue>%3d</color> %s/t" ),
-                        vel_to_int( veh->water_acceleration( false ) ),
+                        _( "Air Acceleration: <color_light_blue>%3d</color> %s/s" ),
+                        vel_to_int( veh->rotor_acceleration( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
     } else {
-        i += 2;
+        if( is_ground ) {
+            fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+                            _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                            vel_to_int( veh->safe_ground_velocity( false ) ),
+                            vel_to_int( veh->max_ground_velocity( false ) ),
+                            velocity_units( VU_VEHICLE ) );
+            i += 1;
+            // TODO: extract accelerations units to its own function
+            fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+                            //~ /t means per turn
+                            _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
+                            vel_to_int( veh->ground_acceleration( false ) ),
+                            velocity_units( VU_VEHICLE ) );
+            i += 1;
+        } else {
+            i += 2;
+        }
+        if( is_boat ) {
+            fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+                            _( "Water Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                            vel_to_int( veh->safe_water_velocity( false ) ),
+                            vel_to_int( veh->max_water_velocity( false ) ),
+                            velocity_units( VU_VEHICLE ) );
+            i += 1;
+            // TODO: extract accelerations units to its own function
+            fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+                            //~ /t means per turn
+                            _( "Water Acceleration: <color_light_blue>%3d</color> %s/s" ),
+                            vel_to_int( veh->water_acceleration( false ) ),
+                            velocity_units( VU_VEHICLE ) );
+            i += 1;
+        } else {
+            i += 2;
+        }
     }
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                     _( "Mass: <color_light_blue>%5.0f</color> %s" ),
@@ -2448,7 +2467,7 @@ void veh_interact::display_stats() const
     i = std::max( i, 2 * stats_h );
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
-    veh->print_fuel_indicators( w_stats, y[i], x[i], fuel_index, true,
+    veh->print_fuel_indicators( w_stats, point( x[i], y[i] ), fuel_index, true,
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ),
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ) );
 
@@ -3001,10 +3020,9 @@ void veh_interact::complete_vehicle( player &p )
 
             auto &src = p.activity.targets.front();
             struct vehicle_part &pt = veh->parts[ vehicle_part ];
-            std::list<item> &contents = src->contents;
-            if( pt.is_tank() && src->is_container() && !contents.empty() ) {
+            if( pt.is_tank() && src->is_container() && !src->contents.empty() ) {
 
-                pt.base.fill_with( contents.front() );
+                pt.base.fill_with( src->contents.front() );
                 src->on_contents_changed();
 
                 if( pt.ammo_remaining() != pt.ammo_capacity() ) {
@@ -3015,8 +3033,8 @@ void veh_interact::complete_vehicle( player &p )
                     p.add_msg_if_player( m_good, _( "You completely refill the %1$s's %2$s." ), veh->name, pt.name() );
                 }
 
-                if( contents.front().charges == 0 ) {
-                    contents.erase( contents.begin() );
+                if( src->contents.front().charges == 0 ) {
+                    src->remove_item( src->contents.front() );
                 } else {
                     p.add_msg_if_player( m_good, _( "There's some left over!" ) );
                 }
@@ -3074,7 +3092,17 @@ void veh_interact::complete_vehicle( player &p )
             if( veh->part_flag( vehicle_part, "POWER_TRANSFER" ) ) {
                 veh->remove_remote_part( vehicle_part );
             }
-
+            if( veh->is_towing() || veh->is_towed() ) {
+                std::cout << "vehicle is towing/towed" << std::endl;
+                vehicle *other_veh = veh->is_towing() ? veh->tow_data.get_towed() : veh->tow_data.get_towed_by();
+                if( other_veh ) {
+                    std::cout << "other veh exists" << std::endl;
+                    other_veh->remove_part( other_veh->part_with_feature( other_veh->get_tow_part(), "TOW_CABLE",
+                                            true ) );
+                    other_veh->tow_data.clear_towing();
+                }
+                veh->tow_data.clear_towing();
+            }
             bool broken = veh->parts[ vehicle_part ].is_broken();
 
             if( broken ) {

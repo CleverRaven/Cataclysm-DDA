@@ -7,16 +7,15 @@
 
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
 #include "path_info.h"
-#include "string_formatter.h"
+#include "point.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "optional.h"
-#include "point.h"
 
 sokoban_game::sokoban_game() = default;
 

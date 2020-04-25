@@ -8,7 +8,7 @@
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
-    "proportional": { "price": 3, "damage": 3.0, "pierce": 3.0 }
+    "proportional": { "price": 3, "damage": { "damage_type": "stab", "amount": 3.0, "armor_penetration": 3.0 } }
   },
   {
     "id": "nail",
@@ -19,7 +19,7 @@
     "weight": "4 g",
     "volume": "250 ml",
     "price": 1000,
-    "price_postapoc": 6000,
+    "price_postapoc": 250,
     "material": "iron",
     "symbol": "=",
     "color": "cyan",
@@ -27,8 +27,7 @@
     "stack_size": 100,
     "ammo_type": "nail",
     "range": 3,
-    "damage": 4,
-    "pierce": 3,
+    "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 3 },
     "dispersion": 120,
     "effects": [ "NON-FOULING" ]
   }

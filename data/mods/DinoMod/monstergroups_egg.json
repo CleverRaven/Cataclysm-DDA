@@ -6,6 +6,7 @@
     "monsters": [
       { "monster": "mon_compsognathus_hatchling", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_gallimimus_hatchling", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_pachycephalosaurus_hatchling", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_spinosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_tyrannosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_triceratops_hatchling", "freq": 3, "cost_multiplier": 1 },
@@ -17,6 +18,7 @@
       { "monster": "mon_deinonychus_hatchling", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_utahraptor_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_parasaurolophus_hatchling", "freq": 3, "cost_multiplier": 1 },
+      { "monster": "mon_dimorphodon_hatchling", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_dilophosaurus_hatchling", "freq": 15, "cost_multiplier": 1 }
     ]
   }

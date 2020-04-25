@@ -9,12 +9,13 @@
     "weight": "35200 g",
     "volume": "4 L",
     "price": 1650000,
+    "price_postapoc": 5000,
     "to_hit": -1,
     "bashing": 14,
     "material": "steel",
     "ammo": "40x53mm",
     "range": 30,
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "stab", "amount": 1 },
     "dispersion": 180,
     "durability": 8,
     "reload": 400,
@@ -27,7 +28,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ], [ "AUTO", "auto", 2, "NPC_AVOID" ] ],
     "magazines": [ [ "40x53mm", [ "belt40mm" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
   }

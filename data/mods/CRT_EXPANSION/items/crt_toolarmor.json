@@ -29,7 +29,17 @@
     "material_thickness": 5,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "VARSIZE", "GAS_PROOF", "USE_UPS", "NO_UNLOAD" ]
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "PARTIAL_DEAF",
+      "SUN_GLASSES",
+      "VARSIZE",
+      "GAS_PROOF",
+      "USE_UPS",
+      "NO_UNLOAD",
+      "SLEEP_IGNORE"
+    ]
   },
   {
     "id": "crt_gasmask_on",
@@ -70,7 +80,8 @@
       "TRADER_AVOID",
       "GAS_PROOF",
       "USE_UPS",
-      "NO_UNLOAD"
+      "NO_UNLOAD",
+      "SLEEP_IGNORE"
     ]
   },
   {

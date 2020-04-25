@@ -1057,9 +1057,9 @@
   },
   {
     "type": "keybinding",
-    "id": "PICK_RANDOM_NAME",
+    "id": "RANDOMIZE_CHAR_DESCRIPTION",
     "category": "NEW_CHAR_DESCRIPTION",
-    "name": "Pick random character name",
+    "name": "Pick random character description",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
@@ -2889,5 +2889,26 @@
       { "input_method": "keyboard", "key": "SPACE" },
       { "input_method": "keyboard", "key": "RETURN" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CREATURE",
+    "category": "EXTENDED_DESCRIPTION",
+    "name": "Describe creature",
+    "bindings": [ { "input_method": "keyboard", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FURNITURE",
+    "category": "EXTENDED_DESCRIPTION",
+    "name": "Describe furniture",
+    "bindings": [ { "input_method": "keyboard", "key": "f" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TERRAIN",
+    "category": "EXTENDED_DESCRIPTION",
+    "name": "Describe terrain",
+    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
   }
 ]

@@ -2,17 +2,22 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstdio>
+#include <cstring>
 #include <exception>
 #include <functional>
-#include <map>
+#include <istream>
 #include <memory>
 
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_id.h"
+#include "color.h"
 #include "debug.h"
+#include "enums.h"
 #include "filesystem.h"
 #include "game.h"
 #include "gamemode.h"
@@ -22,23 +27,22 @@
 #include "loading_ui.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
+#include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "pldata.h"
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "sdlsound.h"
 #include "sounds.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
-#include "color.h"
-#include "enums.h"
-#include "options.h"
-#include "pldata.h"
-#include "string_formatter.h"
-#include "ui_manager.h"
 
 static const holiday current_holiday = holiday::none;
 
@@ -740,8 +744,8 @@ bool main_menu::new_character_tab()
                 mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -4 ),
                            c_red, "%s", _( "No templates found!" ) );
             } else {
-                mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -2 ),
-                           c_white, "%s", _( "Press 'd' to delete a preset." ) );
+                fold_and_print( w_open, menu_offset + point( 20 + extra_w / 2, -2 ), 0,
+                                c_light_gray, "%s", _( "Press [<color_white>d</color>] to delete a preset." ) );
                 for( int i = 0; i < static_cast<int>( templates.size() ); i++ ) {
                     int line = menu_offset.y - 4 - i;
                     mvwprintz( w_open, point( 20 + menu_offset.x + extra_w / 2, line ),
@@ -816,19 +820,19 @@ bool main_menu::new_character_tab()
                         debugmsg( "Error: %s", err.what() );
                         continue;
                     }
-                    character_type play_type = PLTYPE_CUSTOM;
+                    character_type play_type = character_type::CUSTOM;
                     switch( sel2 ) {
                         case 0:
-                            play_type = PLTYPE_CUSTOM;
+                            play_type = character_type::CUSTOM;
                             break;
                         case 2:
-                            play_type = PLTYPE_RANDOM;
+                            play_type = character_type::RANDOM;
                             break;
                         case 3:
-                            play_type = PLTYPE_NOW;
+                            play_type = character_type::NOW;
                             break;
                         case 4:
-                            play_type = PLTYPE_FULL_RANDOM;
+                            play_type = character_type::FULL_RANDOM;
                             break;
                     }
                     if( !g->u.create( play_type ) ) {
@@ -902,7 +906,7 @@ bool main_menu::new_character_tab()
                     debugmsg( "Error: %s", err.what() );
                     continue;
                 }
-                if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
+                if( !g->u.create( character_type::TEMPLATE, templates[sel3] ) ) {
                     load_char_templates();
                     MAPBUFFER.reset();
                     overmap_buffer.clear();
@@ -1100,9 +1104,10 @@ bool main_menu::load_character_tab( bool transfer )
                         continue;
                     }
 
-                    g->load( savegames[sel3] );
-                    cleanup.cancel();
-                    start = true;
+                    if( g->load( savegames[sel3] ) ) {
+                        cleanup.cancel();
+                        start = true;
+                    }
                 }
             }
         }

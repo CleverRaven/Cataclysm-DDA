@@ -2,22 +2,25 @@
 
 #include <algorithm>
 #include <map>
-#include <set>
 #include <sstream>
 #include <string>
-#include <vector>
 #include <type_traits>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
-#include <unordered_map>
+#include <vector>
 
+#include "achievement.h"
 #include "avatar.h"
+#include "basecamp.h"
+#include "cata_io.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
+#include "hash_utils.h"
 #include "int_id.h"
-#include "cata_io.h"
+#include "json.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "messages.h"
@@ -25,21 +28,20 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
+#include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "popup.h"
-#include "scent_map.h"
-#include "translations.h"
-#include "hash_utils.h"
-#include "basecamp.h"
-#include "json.h"
-#include "omdata.h"
 #include "overmap_types.h"
+#include "popup.h"
 #include "regional_settings.h"
+#include "scent_map.h"
 #include "stats_tracker.h"
 #include "string_id.h"
+#include "translations.h"
 #include "ui_manager.h"
+
+class overmap_connection;
 
 #if defined(__ANDROID__)
 #include "input.h"
@@ -51,7 +53,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 27;
+const int savegame_version = 28;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -78,6 +80,7 @@ void game::serialize( std::ostream &fout )
     // basic game state information.
     json.member( "turn", calendar::turn );
     json.member( "calendar_start", calendar::start_of_cataclysm );
+    json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
@@ -101,6 +104,7 @@ void game::serialize( std::ostream &fout )
     // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
     json.member( "stats_tracker", *stats_tracker_ptr );
+    json.member( "achievements_tracker", *achievements_tracker_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -191,6 +195,10 @@ void game::unserialize( std::istream &fin )
         calendar::turn = tmpturn;
         calendar::start_of_cataclysm = tmpcalstart;
 
+        if( !data.read( "game_start", calendar::start_of_game ) ) {
+            calendar::start_of_game = calendar::start_of_cataclysm;
+        }
+
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
@@ -234,6 +242,7 @@ void game::unserialize( std::istream &fin )
 
         data.read( "player", u );
         data.read( "stats_tracker", *stats_tracker_ptr );
+        data.read( "achievements_tracker", *achievements_tracker_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -848,6 +857,14 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             ter_set( pos, oter_id( "house_w_1_east" ) );
         } else if( old == "house_base_west" || old == "house_west" ) {
             ter_set( pos, oter_id( "house_w_1_west" ) );
+        } else if( old == "rural_house" || old == "rural_house_north" ) {
+            ter_set( pos, oter_id( "rural_house1_north" ) );
+        } else if( old == "rural_house_south" ) {
+            ter_set( pos, oter_id( "rural_house1_south" ) );
+        } else if( old == "rural_house_east" ) {
+            ter_set( pos, oter_id( "rural_house1_east" ) );
+        } else if( old == "rural_house_west" ) {
+            ter_set( pos, oter_id( "rural_house1_west" ) );
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
         }
@@ -1007,7 +1024,7 @@ void overmap::unserialize( std::istream &fin )
                         const std::string radio_name = jsin.get_string();
                         const auto mapping =
                             find_if( radio_type_names.begin(), radio_type_names.end(),
-                        [radio_name]( const std::pair<int, std::string> &p ) {
+                        [radio_name]( const std::pair<radio_type, std::string> &p ) {
                             return p.second == radio_name;
                         } );
                         if( mapping != radio_type_names.end() ) {
@@ -1613,9 +1630,8 @@ void game::unserialize_master( std::istream &fin )
 {
     savegame_loading_version = 0;
     chkversion( fin );
-    std::unique_ptr<static_popup> popup;
     if( savegame_loading_version < 11 ) {
-        popup = std::make_unique<static_popup>();
+        std::unique_ptr<static_popup>popup = std::make_unique<static_popup>();
         popup->message(
             _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
             savegame_loading_version, savegame_version );

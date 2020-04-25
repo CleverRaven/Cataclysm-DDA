@@ -143,7 +143,8 @@
           "f_lily": 1,
           "f_flower_tulip": 1,
           "f_mutpoppy": 1,
-          "f_sunflower": 1
+          "f_sunflower": 1,
+          "f_mustard": 1
         },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
@@ -210,13 +211,15 @@
         "f_dahlia": 3.5,
         "f_datura": 0.2,
         "f_dandelion": 5.0,
-        "f_sunflower": 3.5
+        "f_sunflower": 3.5,
+        "f_mustard": 0.2
       },
       "boosted_other_percent": 50.0
     },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
+      "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [
         { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
@@ -362,13 +365,14 @@
       "trail_width_offset_min": 1,
       "trail_width_offset_max": 3,
       "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 }
+      "trail_terrain": { "t_dirt": 1 },
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
       "forest": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 8,
+          "mx_helicopter": 1,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -395,7 +399,7 @@
       "forest_thick": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 8,
+          "mx_helicopter": 1,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -424,7 +428,7 @@
       "forest_water": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 8,
+          "mx_helicopter": 1,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -452,7 +456,7 @@
       "field": {
         "chance": 6,
         "extras": {
-          "mx_helicopter": 6,
+          "mx_helicopter": 1,
           "mx_military": 2,
           "mx_science": 1,
           "mx_collegekids": 3,
@@ -470,13 +474,14 @@
           "mx_casings": 20,
           "mx_corpses": 3,
           "mx_nest_wasp": 2,
-          "mx_mass_grave": 5
+          "mx_mass_grave": 5,
+          "mx_grave": 5
         }
       },
       "road": {
         "chance": 75,
         "extras": {
-          "mx_helicopter": 25,
+          "mx_helicopter": 1,
           "mx_military": 25,
           "mx_science": 40,
           "mx_collegekids": 50,
@@ -485,7 +490,6 @@
           "mx_drugdeal": 30,
           "mx_supplydrop": 10,
           "mx_portal": 5,
-          "mx_minefield": 80,
           "mx_crater": 10,
           "mx_portal_in": 4,
           "mx_roadworks": 100,
@@ -495,6 +499,7 @@
           "mx_prison_bus": 15
         }
       },
+      "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,
         "extras": {
@@ -520,7 +525,7 @@
       "research_facility_lot": {
         "chance": 3,
         "extras": {
-          "mx_helicopter": 65,
+          "mx_helicopter": 15,
           "mx_military": 65,
           "mx_collegekids": 1,
           "mx_portal": 200,
@@ -639,6 +644,12 @@
         "house_dogs": 50,
         "house_gardener": 50,
         "house_inner_garden": 50,
+        "urban_1_house": 50,
+        "urban_2_house": 50,
+        "urban_3_house": 50,
+        "urban_4_house_basement": 50,
+        "urban_5_house": 50,
+        "urban_6_house": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 20,
         "house_vacant2": 20,
@@ -685,6 +696,8 @@
       "shops": {
         "bus_station": 200,
         "city_block_2": 300,
+        "urban_13_dense_house_apt_house": 300,
+        "urban_14_dense_house_mart_food": 200,
         "town_hall": 150,
         "craft_shop": 200,
         "craft_shop_1": 200,

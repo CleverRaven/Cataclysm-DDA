@@ -1,16 +1,18 @@
 #include "bodypart.h"
 
-#include <map>
-#include <unordered_map>
+#include <cstdlib>
 #include <set>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "anatomy.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "pldata.h"
+#include "type_id.h"
 
 side opposite_side( side s )
 {
@@ -102,7 +104,7 @@ static body_part legacy_id_to_enum( const std::string &legacy_id )
     return iter->second;
 }
 
-/**@relates to str_id*/
+/**@relates string_id*/
 template<>
 bool string_id<body_part_type>::is_valid() const
 {
@@ -116,7 +118,7 @@ bool int_id<body_part_type>::is_valid() const
     return body_part_factory.is_valid( *this );
 }
 
-/**@relates to str_id*/
+/**@relates string_id*/
 template<>
 const body_part_type &string_id<body_part_type>::obj() const
 {
@@ -137,7 +139,7 @@ const bodypart_str_id &int_id<body_part_type>::id() const
     return body_part_factory.convert( *this );
 }
 
-/**@relates to str_id*/
+/**@relates string_id*/
 template<>
 bodypart_id string_id<body_part_type>::id() const
 {
@@ -218,6 +220,14 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "main_part", main_part );
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
+
+    optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
+    optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
+
+    optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
+    optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
+
+
 
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
 

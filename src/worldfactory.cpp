@@ -1,8 +1,8 @@
 #include "worldfactory.h"
 
-#include <cstdio>
 #include <algorithm>
 #include <array>
+#include <cstdio>
 #include <cstdlib>
 #include <fstream>
 #include <iterator>
@@ -14,11 +14,12 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "char_validity_check.h"
+#include "color.h"
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
+#include "game.h"
 #include "ime.h"
 #include "input.h"
 #include "json.h"
@@ -26,12 +27,11 @@
 #include "name.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "game.h"
-#include "string_id.h"
 
 using namespace std::placeholders;
 
@@ -1275,19 +1275,19 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     // Add tips & hints
     fold_and_print( win, point( 2, TERMY - 7 ), getmaxx( win ) - 4, c_light_gray,
                     _( "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default  "
-                       "[<color_yellow>%s</color>] = keybindings  "
                        "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch  "
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch "
                        "<color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color>  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab" ),
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab  "
+                       "[<color_yellow>%s</color>] = keybindings" ),
                     ctxtp.get_desc( "SAVE_DEFAULT_MODS" ),
-                    ctxtp.get_desc( "HELP_KEYBINDINGS" ),
                     ctxtp.get_desc( "PREV_TAB" ),
                     ctxtp.get_desc( "NEXT_TAB" ),
                     ctxtp.get_desc( "LEFT" ),
                     ctxtp.get_desc( "RIGHT" ),
                     ctxtp.get_desc( "PREV_CATEGORY_TAB" ),
-                    ctxtp.get_desc( "NEXT_CATEGORY_TAB" )
+                    ctxtp.get_desc( "NEXT_CATEGORY_TAB" ),
+                    ctxtp.get_desc( "HELP_KEYBINDINGS" )
                   );
     wrefresh( win );
     catacurses::refresh();

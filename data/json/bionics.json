@@ -261,6 +261,7 @@
     "act_cost": "30 kJ",
     "react_cost": "30 kJ",
     "time": 1,
+    "enchantments": [ "ENCH_INVISIBILITY" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -709,6 +710,7 @@
     "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "TORSO", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "ENCH_INVISIBILITY" ],
     "act_cost": "9 kJ",
     "react_cost": "9 kJ",
     "time": 1
@@ -1000,7 +1002,8 @@
     "name": { "str": "Autonomous Surgical Scalpels" },
     "description": "A system of surgical grade scalpels is implanted on your fingers.  They allow you to make automated precise cuts and can also be used as a high-quality butchering tool.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "ARM_L", 1 ] ],
-    "fake_item": "bio_scalpel"
+    "fake_item": "bio_scalpel",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
   },
   {
     "id": "bio_sunglasses",

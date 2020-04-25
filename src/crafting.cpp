@@ -1,72 +1,78 @@
 #include "crafting.h"
 
-#include <climits>
-#include <cstdlib>
 #include <algorithm>
+#include <cassert>
+#include <climits>
 #include <cmath>
-#include <string>
+#include <cstdlib>
 #include <functional>
 #include <limits>
 #include <map>
 #include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "colony.h"
+#include "color.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
 #include "debug.h"
+#include "enums.h"
+#include "faction.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_stack.h"
 #include "itype.h"
+#include "iuse.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "mutation.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "recipe_dictionary.h"
-#include "requirements.h"
-#include "rng.h"
-#include "translations.h"
-#include "ui.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "veh_type.h"
-#include "cata_utility.h"
-#include "color.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "item_stack.h"
-#include "line.h"
-#include "map_selector.h"
-#include "mapdata.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
+#include "requirements.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
-#include "units.h"
+#include "translations.h"
 #include "type_id.h"
-#include "clzones.h"
-#include "colony.h"
-#include "flat_set.h"
-#include "iuse.h"
-#include "point.h"
+#include "ui.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
 #include "weather.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
@@ -913,8 +919,8 @@ double player::crafting_success_roll( const recipe &making ) const
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        for( const std::pair<const skill_id, int> &skib : mut.first->craft_skill_bonus ) {
+    for( const trait_id &mut : get_mutations() ) {
+        for( const std::pair<const skill_id, int> &skib : mut->craft_skill_bonus ) {
             if( making.skill_used == skib.first ) {
                 skill_dice += skib.second;
             }
@@ -1116,7 +1122,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 const double learning_speed =
                     std::max( get_skill_level( making.skill_used ), 1 ) *
                     std::max( get_int(), 1 );
-                const double time_to_learn = 1000 * 8 * pow( difficulty, 4 ) / learning_speed;
+                const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
                 if( x_in_y( making.time, time_to_learn ) ) {
                     learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
@@ -1179,11 +1185,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
             newit_counter++;
         }
 
-        if( food_contained.goes_bad() ) {
-            food_contained.set_relative_rot( relative_rot );
-        }
-
         if( food_contained.has_temperature() ) {
+            if( food_contained.goes_bad() ) {
+                food_contained.set_relative_rot( relative_rot );
+            }
             if( should_heat ) {
                 food_contained.heat_up();
             } else {
@@ -1195,7 +1200,6 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 //
                 // Temperature is not functional for non-foods
                 food_contained.set_item_temperature( 293.15 );
-                food_contained.reset_temp_check();
             }
         }
 
@@ -1217,15 +1221,14 @@ void player::complete_craft( item &craft, const tripoint &loc )
     if( making.has_byproducts() ) {
         std::vector<item> bps = making.create_byproducts( batch_size );
         for( auto &bp : bps ) {
-            if( bp.goes_bad() ) {
-                bp.set_relative_rot( relative_rot );
-            }
             if( bp.has_temperature() ) {
+                if( bp.goes_bad() ) {
+                    bp.set_relative_rot( relative_rot );
+                }
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
                     bp.set_item_temperature( 293.15 );
-                    bp.reset_temp_check();
                 }
             }
             bp.set_owner( get_faction()->id );
@@ -1403,7 +1406,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
 
     for( const auto &component : components ) {
         itype_id type = component.type;
-        int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
+        int count = ( component.count > 0 ) ? component.count * batch : std::abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
             int map_charges = map_inv.charges_of( type, INT_MAX, filter );
@@ -1570,11 +1573,11 @@ static void empty_buckets( player &p )
         return it.is_bucket_nonempty() && &it != &p.weapon;
     }, INT_MAX );
     for( auto &it : buckets ) {
-        for( const item &in : it.contents ) {
-            drop_or_handle( in, p );
+        for( const item *in : it.contents.all_items_top() ) {
+            drop_or_handle( *in, p );
         }
 
-        it.contents.clear();
+        it.contents.clear_items();
         drop_or_handle( it, p );
     }
 }
@@ -1600,7 +1603,7 @@ std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &
     const tripoint &loc = origin;
     const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
     // Count given to use_amount/use_charges, changed by those functions!
-    int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : abs(
+    int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
                          selected_comp.count );
     // First try to get everything from the map, than (remaining amount) from player
     if( is.use_from & use_from_map ) {
@@ -2331,14 +2334,13 @@ void drop_or_handle( const item &newit, player &p )
 
 void remove_ammo( item &dis_item, player &p )
 {
-    for( auto iter = dis_item.contents.begin(); iter != dis_item.contents.end(); ) {
-        if( iter->is_irremovable() ) {
-            iter++;
-            continue;
+    dis_item.remove_items_with( [&p]( const item & it ) {
+        if( it.is_irremovable() ) {
+            return false;
         }
-        drop_or_handle( *iter, p );
-        iter = dis_item.contents.erase( iter );
-    }
+        drop_or_handle( it, p );
+        return true;
+    } );
 
     if( dis_item.has_flag( flag_NO_UNLOAD ) ) {
         return;

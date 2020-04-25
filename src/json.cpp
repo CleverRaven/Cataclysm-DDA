@@ -1,23 +1,25 @@
 #include "json.h"
 
+#include <algorithm>
+#include <bitset>
+#include <cmath> // pow
 #include <cstdint>
 #include <cstdio>
-#include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
+#include <exception>
+#include <iterator>
+#include <limits>
 #include <locale> // ensure user's locale doesn't interfere with output
 #include <set>
 #include <sstream>
 #include <string>
-#include <vector>
-#include <bitset>
-#include <iterator>
-#include <algorithm>
-#include <exception>
 #include <utility>
-#include <limits>
+#include <vector>
 
 #include "cata_utility.h"
+#include "debug.h"
+#include "string_formatter.h"
 
 extern bool test_mode;
 

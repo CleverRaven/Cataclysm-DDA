@@ -1,25 +1,28 @@
 #include "player.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <array>
+#include <cstddef>
+#include <iterator>
+#include <memory>
 #include <string>
 #include <vector>
-#include <iterator>
-#include <cstddef>
 
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
+#include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "line.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "debug.h"
-#include "enums.h"
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 
@@ -842,7 +845,7 @@ void player::sort_armor()
                     item &w = *witer;
                     if( invlet == w.invlet ) {
                         ++witer;
-                    } else if( invlet_to_position( invlet ) != INT_MIN ) {
+                    } else if( invlet_to_item( invlet ) != nullptr ) {
                         ++iiter;
                     } else {
                         inv.reassign_item( w, invlet );

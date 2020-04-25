@@ -196,6 +196,43 @@
   },
   {
     "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_vent_shaft_connector" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        "     |    |  |cccc|     ",
+        "     |=[==|  ||||||     ",
+        "  ((2|    |  2 Y  2  i  ",
+        "  (  | cci|  2 Y  2  c  ",
+        " 6|@@||||||||||||||  c  ",
+        "||||||pppppppppppp|     ",
+        " F|%       YY    p|  c  ",
+        " F|%  ppppppppS  p|  c  ",
+        " F|%             S|  i  ",
+        "  |%    |||  ||   |     ",
+        "|5|||===|||44||   |||22|",
+        "   ^|www|wwwww|    2 YY ",
+        "   ^|www|wwwww|%   2 YY ",
+        "||4||===|wwwww%%   |||||",
+        " |      |w<www|    |###|",
+        "c|l     |||||||    |###|",
+        "c|l l             6|||||",
+        " |l l        %Spppppppp|",
+        "||||||||||||||||||||||#|",
+        " rrcc| hd^=^^=      ^|#|",
+        "    c| dd =  = Y  dh |#|",
+        " c6 6|B   =  = Y hd 6|#|",
+        " cc r|B   [  [      ^|#|",
+        "     ||||||  |||||||||||"
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "p": "t_sewage_pipe", "w": "t_water_pool_shallow", "%": "t_machinery_heavy", "S": "t_sewage_pump" },
+      "items": { "l": { "item": "sewage_plant", "chance": 75 } }
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": [ [ "microlab_generic_surface" ] ],
     "method": "json",
     "object": {

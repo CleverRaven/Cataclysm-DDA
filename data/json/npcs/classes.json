@@ -204,29 +204,6 @@
   },
   {
     "type": "npc_class",
-    "id": "NC_ARSONIST",
-    "name": { "str": "Arsonist" },
-    "job_description": "I'm just watching the world burn.",
-    "traits": [
-      { "group": "BG_survival_story_CRIMINAL" },
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
-      [ "FELINE_EARS", 100 ]
-    ],
-    "bonus_dex": { "rng": [ -2, 0 ] },
-    "bonus_int": { "rng": [ -2, 0 ] },
-    "bonus_per": { "rng": [ 0, 2 ] },
-    "shopkeeper_item_group": "NC_ARSONIST_misc",
-    "skills": [
-      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ 0, -4 ] } ] } },
-      { "skill": "gun", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "throw", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } }
-    ]
-  },
-  {
-    "type": "npc_class",
     "id": "NC_HUNTER",
     "name": { "str": "Hunter" },
     "job_description": "I'm tracking game.",

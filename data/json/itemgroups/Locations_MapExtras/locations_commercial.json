@@ -62,7 +62,8 @@
       [ "glass_plate", 20 ],
       [ "glass_sheet", 5 ],
       [ "jar_3l_glass", 15 ],
-      [ "magnifying_glass", 5 ]
+      [ "magnifying_glass", 5 ],
+      [ "tempered_glass_sheet", 5 ]
     ]
   },
   {
@@ -665,6 +666,7 @@
       [ "flashlight", 40 ],
       [ "heavy_flashlight", 30 ],
       [ "survival_kit", 35 ],
+      [ "premium_survival_kit", 8 ],
       [ "mess_kit", 9 ],
       [ "popcan_stove", 2 ],
       [ "denat_alcohol", 2 ],
@@ -1823,7 +1825,8 @@
       [ "briefs", 30 ],
       [ "yoghurt", 12 ],
       [ "vitamins", 10 ],
-      [ "aspirin", 10 ]
+      [ "aspirin", 10 ],
+      [ "fitness_band", 10 ]
     ]
   },
   {
@@ -1852,8 +1855,11 @@
     "//": "spawn list for craft stores",
     "type": "item_group",
     "items": [
+      { "group": "tailoring_fabric", "prob": 30 },
       [ "awl_steel", 10 ],
+      { "item": "loom_frame", "prob": 2 },
       [ "sewing_kit", 1 ],
+      { "item": "shed_stick", "prob": 2 },
       [ "tailors_kit", 9 ],
       [ "knitting_needles", 15 ],
       [ "kevlar_plate", 10 ],

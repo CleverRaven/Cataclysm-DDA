@@ -128,7 +128,7 @@
     "prereqs": [ "MANA_REGEN2" ],
     "cancels": [ "BAD_MANA_REGEN1", "BAD_MANA_REGEN2", "BAD_MANA_REGEN3" ],
     "types": [ "MANA_REGEN" ],
-    "threshreq": [ "THRESH_PLANT" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_MANA" ],
     "category": [ "PLANT", "MANATOUCHED" ],
     "flags": [ "NON_THRESH" ],
     "mana_regen_multiplier": 1.5

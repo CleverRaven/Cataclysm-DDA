@@ -126,7 +126,7 @@
         "       |||||            ",
         "       |F.g|            ",
         "   |||||...||||||||     ",
-        "   |..............|     ",
+        "   |2......1......|     ",
         "   |..............|     ",
         "   |..............|     ",
         "   |..............|     ",
@@ -145,7 +145,22 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ]
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [ [ "null", 60 ], [ "room_7x7_wine_cellar_W", 10 ], [ "room_7x7_recroom_W", 30 ], [ "7x7_tent_indoors", 15 ] ]
+        },
+        "2": {
+          "chunks": [
+            [ "null", 50 ],
+            [ "room_6x6_brewer_E", 10 ],
+            [ "room_6x6_junk_E", 40 ],
+            [ "room_6x6_office_E", 30 ],
+            [ "6x6_sewing_open", 20 ],
+            [ "6x6_electronics_open", 20 ]
+          ]
+        }
+      }
     }
   }
 ]

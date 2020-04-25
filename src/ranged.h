@@ -1,25 +1,23 @@
-#ifndef RANGED_H
-#define RANGED_H
+#ifndef CATA_SRC_RANGED_H
+#define CATA_SRC_RANGED_H
 
 #include <vector>
+
+#include "memory_fast.h"
 #include "type_id.h"
 #include "units.h"
-#include "memory_fast.h"
 
+class JsonIn;
+class JsonOut;
 class item;
 class player;
-class avatar;
 class spell;
 class turret_data;
 class vehicle;
 struct itype;
 struct tripoint;
 struct vehicle_part;
-
 template<typename T> struct enum_traits;
-
-class JsonIn;
-class JsonOut;
 
 enum target_mode : int {
     TARGET_MODE_FIRE,
@@ -68,7 +66,7 @@ struct targeting_data {
     static targeting_data use_wielded();
 
     /** Use fake gun provided by a bionic */
-    static targeting_data use_bionic( const item &fake_gun, units::energy cost_per_shot );
+    static targeting_data use_bionic( const item &fake_gun, const units::energy &cost_per_shot );
 
     /** Use fake gun provided by a mutation */
     static targeting_data use_mutation( const item &fake_gun );
@@ -113,4 +111,4 @@ class target_handler
 
 int range_with_even_chance_of_good_hit( int dispersion );
 
-#endif // RANGED_H
+#endif // CATA_SRC_RANGED_H

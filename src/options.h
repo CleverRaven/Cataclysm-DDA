@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OPTIONS_H
-#define OPTIONS_H
+#ifndef CATA_SRC_OPTIONS_H
+#define CATA_SRC_OPTIONS_H
 
 #include <functional>
 #include <map>
@@ -323,4 +323,4 @@ inline T get_option( const std::string &name )
     return get_options().get_option( name ).value_as<T>();
 }
 
-#endif
+#endif // CATA_SRC_OPTIONS_H

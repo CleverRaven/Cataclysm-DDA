@@ -39,7 +39,7 @@
   },
   {
     "id": "cats_grace_potion",
-    "name": "Potion of Cat's Grace",
+    "name": { "str": "Potion of Cat's Grace", "str_pl": "Potions of Cat's Grace" },
     "description": "This is a potion of Cat's Grace.  It will increase your dexterity for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "cats_grace", "no_fail": true, "level": 9 },
     "type": "COMESTIBLE",
@@ -60,7 +60,7 @@
   },
   {
     "id": "ogres_strength_potion",
-    "name": "Potion of Ogre's Strength",
+    "name": { "str": "Potion of Ogre's Strength", "str_pl": "Potions of Ogre's Strength" },
     "description": "This is a potion of Ogre's Strength.  It will increase your strength for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "ogres_strength", "no_fail": true, "level": 9 },
     "type": "COMESTIBLE",
@@ -68,7 +68,7 @@
   },
   {
     "id": "eagles_sight_potion",
-    "name": "Potion of Eagle's Sight",
+    "name": { "str": "Potion of Eagle's Sight", "str_pl": "Potions of Eagle's Sight" },
     "description": "This is a potion of Eagle's Sight.  It will increase your perception for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "eagles_sight", "no_fail": true, "level": 9 },
     "type": "COMESTIBLE",
@@ -76,7 +76,7 @@
   },
   {
     "id": "foxs_cunning_potion",
-    "name": "Potion of Fox's Cunning",
+    "name": { "str": "Potion of Fox's Cunning", "str_pl": "Potions of Fox's Cunning" },
     "description": "This is a potion of Fox's Cunning.  It will increase your intelligence for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "foxs_cunning", "no_fail": true, "level": 9 },
     "type": "COMESTIBLE",
@@ -120,7 +120,7 @@
   },
   {
     "id": "twisted_restore_potion",
-    "name": "potion of Twisted Restoration",
+    "name": { "str": "potion of Twisted Restoration", "str_pl": "potions of Twisted Restoration" },
     "description": "This foul-smelling liquid simulates undead regeneration by accelerating your heart to dangerous levels.  Drinking this in danger or at critical condition may be lethal.",
     "use_action": { "type": "cast_spell", "spell_id": "twisted_restore", "no_fail": true, "level": 1 },
     "type": "COMESTIBLE",
@@ -143,7 +143,7 @@
   },
   {
     "id": "twisted_restore_potion_improved",
-    "name": "potion of Improved Twisted Restoration",
+    "name": { "str": "potion of Improved Twisted Restoration", "str_pl": "potions of Improved Twisted Restoration" },
     "description": "This foul-smelling liquid simulates undead regeneration by accelerating your heart to dangerous levels.  Drinking this in danger or at critical condition may be lethal.  Improved infusion techniques lessen the strain of the process.",
     "use_action": { "type": "cast_spell", "spell_id": "twisted_restore_improved", "no_fail": true, "level": 1 },
     "type": "COMESTIBLE",

@@ -13,14 +13,15 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "json.h"
 #include "map.h"
 #include "output.h"
 #include "popup.h"
+#include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "game_constants.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 

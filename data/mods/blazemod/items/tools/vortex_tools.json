@@ -1,0 +1,32 @@
+[
+  {
+    "id": "vgen",
+    "type": "TOOL",
+    "category": "veh_parts",
+    "name": "vortex engine",
+    "description": "A tornado in a box, so to speak.  Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map.  An external mechanism allows it to be attached to a vehicle to render it mobile.",
+    "weight": "62071 g",
+    "volume": "56250 ml",
+    "price": 1500000,
+    "bashing": 4,
+    "rigid": true,
+    "material": [ "steel" ],
+    "symbol": ",",
+    "color": "magenta"
+  },
+  {
+    "id": "vgen2",
+    "type": "TOOL",
+    "category": "veh_parts",
+    "name": "vortex generator",
+    "description": "A tornado in a box, so to speak.  Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map.  An external mechanism allow it to be hooked up to a battery to store the power generated.",
+    "weight": "48066 g",
+    "volume": "50 L",
+    "price": 1500000,
+    "bashing": 4,
+    "rigid": true,
+    "material": [ "steel" ],
+    "symbol": ",",
+    "color": "magenta"
+  }
+]

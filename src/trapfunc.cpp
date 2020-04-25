@@ -1,39 +1,40 @@
 #include "trap.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cassert>
 #include <memory>
 #include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
 #include "explosion.h"
-#include "timed_event.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
 #include "map.h"
-#include "mapgen_functions.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mapgen_functions.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
-#include "overmapbuffer.h"
+#include "player.h"
+#include "point.h"
 #include "rng.h"
 #include "sounds.h"
-#include "translations.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "creature.h"
-#include "damage.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "item.h"
-#include "player.h"
-#include "int_id.h"
-#include "point.h"
 #include "teleport.h"
+#include "timed_event.h"
+#include "translations.h"
 
 static const skill_id skill_throw( "throw" );
 

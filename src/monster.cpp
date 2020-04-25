@@ -1,26 +1,34 @@
 #include "monster.h"
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <tuple>
 #include <unordered_map>
 
 #include "avatar.h"
+#include "character.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_group.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mattack_common.h"
 #include "melee.h"
 #include "messages.h"
 #include "mission.h"
@@ -29,29 +37,23 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "morale_types.h"
-#include "mutation.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-#include "character.h"
-#include "compatibility.h"
-#include "game_constants.h"
-#include "mattack_common.h"
-#include "pimpl.h"
-#include "player.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "flat_set.h"
 #include "weather.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
@@ -1602,7 +1604,7 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, body_part /*bp*/, int dam,
+void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
                             const bool /*bypass_med*/ )
 {
     if( is_dead_state() ) {
@@ -1967,12 +1969,12 @@ int monster::impact( const int force, const tripoint &p )
     int total_dealt = 0;
     if( g->m.has_flag( TFLAG_SHARP, p ) ) {
         const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bp_torso ) );
-        apply_damage( nullptr, bp_torso, cut_damage );
+        apply_damage( nullptr, bodypart_id( "torso" ), cut_damage );
         total_dealt += 10 * mod;
     }
 
     const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bp_torso ) );
-    apply_damage( nullptr, bp_torso, bash_damage );
+    apply_damage( nullptr, bodypart_id( "torso" ), bash_damage );
     total_dealt += force * mod;
 
     add_effect( effect_downed, time_duration::from_turns( rng( 0, mod * 3 + 1 ) ) );
@@ -2058,7 +2060,7 @@ void monster::process_turn()
 {
     decrement_summon_timer();
     if( !is_hallucination() ) {
-        for( const std::pair<emit_id, time_duration> &e : type->emit_fields ) {
+        for( const std::pair<const emit_id, time_duration> &e : type->emit_fields ) {
             if( !calendar::once_every( e.second ) ) {
                 continue;
             }
@@ -2390,7 +2392,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, 1 ) ) {
-            apply_damage( nullptr, bp_torso, val );
+            apply_damage( nullptr, bodypart_id( "torso" ), val );
         }
     }
 
@@ -2408,7 +2410,7 @@ void monster::process_one_effect( effect &it, bool is_new )
 
         dam -= get_armor_type( DT_HEAT, bp_torso );
         if( dam > 0 ) {
-            apply_damage( nullptr, bp_torso, dam );
+            apply_damage( nullptr, bodypart_id( "torso" ), dam );
         } else {
             it.set_duration( 0_turns );
         }
@@ -2451,7 +2453,7 @@ void monster::process_effects()
     if( type->regenerates_in_dark ) {
         const float light = g->m.ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
-        if( heal( static_cast<int>( 50.0 *  exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
+        if( heal( static_cast<int>( 50.0 *  std::exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
                   g->u.sees( *this ) ) ) {
             add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name() );
         }
@@ -2483,7 +2485,7 @@ void monster::process_effects()
         if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name() );
         }
-        apply_damage( nullptr, bp_torso, 100 );
+        apply_damage( nullptr, bodypart_id( "torso" ), 100 );
         if( hp < 0 ) {
             hp = 0;
         }
@@ -2819,16 +2821,6 @@ void monster::on_hit( Creature *source, body_part,
 
     check_dead_state();
     // TODO: Faction relations
-}
-
-body_part monster::get_random_body_part( bool ) const
-{
-    return bp_torso;
-}
-
-std::vector<body_part> monster::get_all_body_parts( bool ) const
-{
-    return std::vector<body_part>( 1, bp_torso );
 }
 
 int monster::get_hp_max( hp_part ) const

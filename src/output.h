@@ -1,30 +1,32 @@
 #pragma once
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef CATA_SRC_OUTPUT_H
+#define CATA_SRC_OUTPUT_H
 
+#include <algorithm>
+#include <cassert>
 #include <cstddef>
 #include <cstdint>
-#include <string>
-#include <vector>
-#include <algorithm>
+#include <functional>
 #include <iterator>
 #include <locale>
+#include <string>
+#include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "catacharset.h"
 #include "color.h"
+#include "debug.h"
 #include "enums.h"
 #include "item.h"
+#include "line.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
-#include "debug.h"
 
 struct input_event;
-struct iteminfo;
 
-enum direction : unsigned;
 namespace catacurses
 {
 class window;
@@ -498,6 +500,9 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
 
 input_event draw_item_info( int iLeft, int iWidth, int iTop, int iHeight, item_info_data &data );
 
+input_event draw_item_info( const std::function<catacurses::window()> &init_window,
+                            item_info_data &data );
+
 enum class item_filter_type : int {
     FIRST = 1, // used for indexing into tables
     FILTER = 1,
@@ -834,7 +839,14 @@ class scrollingcombattext
             private:
                 point pos;
                 direction oDir;
-                direction oUp, oUpRight, oRight, oDownRight, oDown, oDownLeft, oLeft, oUpLeft;
+                direction oUp;
+                direction oUpRight;
+                direction oRight;
+                direction oDownRight;
+                direction oDown;
+                direction oDownLeft;
+                direction oLeft;
+                direction oUpLeft;
                 point dir;
                 int iStep;
                 int iStepOffset;
@@ -978,4 +990,4 @@ std::string colorize_symbols( const std::string &str, F color_of )
     return res;
 }
 
-#endif
+#endif // CATA_SRC_OUTPUT_H

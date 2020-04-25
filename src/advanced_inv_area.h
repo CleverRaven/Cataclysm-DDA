@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ADVANCED_INV_AREA_H
-#define ADVANCED_INV_AREA_H
+#ifndef CATA_SRC_ADVANCED_INV_AREA_H
+#define CATA_SRC_ADVANCED_INV_AREA_H
 
 #include "point.h"
 #include "units.h"
@@ -79,9 +79,10 @@ class advanced_inv_area
         const aim_location relative_location;
 
         advanced_inv_area( aim_location id ) : id( id ), relative_location( id ) {}
-        advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
-                           const std::string &name, const std::string &shortname, std::string minimapname,
-                           std::string actionname, aim_location relative_location );
+        advanced_inv_area(
+            aim_location id, const point &hscreen, tripoint off, const std::string &name,
+            const std::string &shortname, std::string minimapname, std::string actionname,
+            aim_location relative_location );
 
         void init();
 
@@ -108,4 +109,4 @@ class advanced_inv_area
             return veh != nullptr && vstor >= 0;
         }
 };
-#endif
+#endif // CATA_SRC_ADVANCED_INV_AREA_H

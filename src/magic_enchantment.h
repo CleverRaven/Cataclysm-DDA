@@ -1,18 +1,22 @@
 #pragma once
-#ifndef MAGIC_ENCHANTMENT_H
-#define MAGIC_ENCHANTMENT_H
+#ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
+#define CATA_SRC_MAGIC_ENCHANTMENT_H
 
+#include <algorithm>
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "calendar.h"
+#include "json.h"
 #include "magic.h"
+#include "optional.h"
 #include "type_id.h"
 
 class Character;
+class Creature;
 class item;
-class JsonOut;
-class time_duration;
 
 // an "enchantment" is what passive artifact effects used to be:
 // under certain conditions, the effect persists upon the appropriate Character
@@ -142,6 +146,7 @@ class enchantment
         void cast_hit_me( Character &caster, const Creature *target ) const;
     private:
         cata::optional<emit_id> emitter;
+        std::map<efftype_id, int> ench_effects;
         // values that add to the base value
         std::map<mod, int> values_add;
         // values that get multiplied to the base value
@@ -167,4 +172,4 @@ class enchantment
                                      const fake_spell &sp ) const;
 };
 
-#endif
+#endif // CATA_SRC_MAGIC_ENCHANTMENT_H

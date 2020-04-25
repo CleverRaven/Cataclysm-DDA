@@ -1,65 +1,67 @@
 #include "overmap_ui.h"
 
-#include <cstddef>
 #include <algorithm>
 #include <array>
 #include <chrono>
+#include <cstddef>
 #include <list>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
-#include <set>
-#include <type_traits>
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "clzones.h"
+#include "color.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "ime.h"
 #include "input.h"
+#include "int_id.h"
 #include "line.h"
+#include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
+#include "omdata.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmapbuffer.h"
-#include "sounds.h"
-#include "string_input_popup.h"
-#include "ui.h"
-#include "uistate.h"
-#include "weather.h"
-#include "weather_gen.h"
-#include "calendar.h"
-#include "catacharset.h"
-#include "color.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "omdata.h"
-#include "optional.h"
 #include "overmap_types.h"
+#include "overmapbuffer.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
-#include "vpart_position.h"
+#include "uistate.h"
+#include "units.h"
 #include "vehicle.h"
-#include "enums.h"
-#include "map.h"
-#include "player_activity.h"
+#include "vpart_position.h"
+#include "weather.h"
+#include "weather_gen.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
@@ -606,7 +608,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
-        // get all travelling NPCs for the debug menu to show pathfinding routes.
+        // get all traveling NPCs for the debug menu to show pathfinding routes.
         for( auto &elem : overmap_buffer.get_npcs_near_player( 200 ) ) {
             if( !elem ) {
                 continue;
@@ -808,28 +810,28 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         std::string marker_sym = " ";
 
         switch( direction_from( center.xy(), target.xy() ) ) {
-            case NORTH:
+            case direction::NORTH:
                 marker_sym = "^";
                 break;
-            case NORTHEAST:
+            case direction::NORTHEAST:
                 marker_sym = LINE_OOXX_S;
                 break;
-            case EAST:
+            case direction::EAST:
                 marker_sym = ">";
                 break;
-            case SOUTHEAST:
+            case direction::SOUTHEAST:
                 marker_sym = LINE_XOOX_S;
                 break;
-            case SOUTH:
+            case direction::SOUTH:
                 marker_sym = "v";
                 break;
-            case SOUTHWEST:
+            case direction::SOUTHWEST:
                 marker_sym = LINE_XXOO_S;
                 break;
-            case WEST:
+            case direction::WEST:
                 marker_sym = "<";
                 break;
-            case NORTHWEST:
+            case direction::NORTHWEST:
                 marker_sym = LINE_OXXO_S;
                 break;
             default:
@@ -1137,7 +1139,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     std::vector<point> locations;
     std::vector<point> overmap_checked;
 
-    const int radius = OMAPX / 2; // arbitrary
+    const int radius = OMAPX; // arbitrary
     for( const tripoint &p : points_in_radius( curs, radius ) ) {
         overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
@@ -1488,8 +1490,13 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
             if( vp && in_vehicle ) {
                 vehicle &veh = vp->vehicle();
-                ptype.only_water = veh.can_float() && veh.is_watercraft() && veh.is_in_water();
-                ptype.only_road = !ptype.only_water;
+                if( veh.can_float() && veh.is_watercraft() && veh.is_in_water() ) {
+                    ptype.only_water = true;
+                } else if( veh.is_rotorcraft() && veh.is_flying_in_air() ) {
+                    ptype.only_air = true;
+                } else {
+                    ptype.only_road = true;
+                }
             } else {
                 const oter_id oter = overmap_buffer.ter( curs );
                 // going to or coming from a water tile
