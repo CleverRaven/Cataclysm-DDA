@@ -944,6 +944,7 @@ void event_statistic::load( const JsonObject &jo, const std::string & )
     std::string type;
     mandatory( jo, was_loaded, "stat_type", type );
 
+    description_.make_plural();
     optional( jo, was_loaded, "description", description_ );
 
     if( type == "count" ) {
@@ -989,12 +990,19 @@ monotonically event_statistic::monotonicity() const
 
 std::string score::description( stats_tracker &stats ) const
 {
+    cata_variant val = value( stats );
     std::string value_string = value( stats ).get_string();
+    std::string desc;
+    if( val.type() == cata_variant_type::int_ ) {
+        desc = stat_->description().translated( val.get<int>() );
+    } else {
+        desc = stat_->description().translated();
+    }
     if( description_.empty() ) {
         //~ Default format for scores.  %1$s is statistic description; %2$s is value.
-        return string_format( _( "%2$s %1$s" ), this->stat_->description(), value_string );
+        return string_format( _( "%2$s %1$s" ), desc, value_string );
     } else {
-        return string_format( description_.translated(), value_string );
+        return string_format( desc, value_string );
     }
 }
 

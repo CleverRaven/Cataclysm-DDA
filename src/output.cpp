@@ -1389,6 +1389,16 @@ void scrolling_text_view::scroll_down()
     }
 }
 
+void scrolling_text_view::page_up()
+{
+    offset_ = std::max( 0, offset_ - getmaxy( w_ ) );
+}
+
+void scrolling_text_view::page_down()
+{
+    offset_ = std::min( max_offset(), offset_ + getmaxy( w_ ) );
+}
+
 void scrolling_text_view::draw( const nc_color &base_color )
 {
     werase( w_ );

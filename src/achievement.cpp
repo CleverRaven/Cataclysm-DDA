@@ -349,13 +349,16 @@ class requirement_watcher : stat_watcher
             bool is_satisfied = requirement_->satisifed_by( current_value_ );
             nc_color c = is_satisfied ? c_green : c_yellow;
             int current = current_value_.get<int>();
+            int target;
             std::string result;
             if( requirement_->comparison == achievement_comparison::anything ) {
+                target = 1;
                 result = string_format( _( "Triggered by " ) );
             } else {
-                result = string_format( _( "%s/%s " ), current, requirement_->target );
+                target = requirement_->target;
+                result = string_format( _( "%s/%s " ), current, target );
             }
-            result += requirement_->statistic->description().translated();
+            result += requirement_->statistic->description().translated( target );
             return colorize( result, c );
         }
     private:
