@@ -3895,6 +3895,7 @@ nc_color item::color_in_inventory() const
             case ALLERGY:
             case ALLERGY_WEAK:
             case CANNIBALISM:
+            case PARASITES:
                 ret = c_red;
                 break;
             case ROTTEN:
