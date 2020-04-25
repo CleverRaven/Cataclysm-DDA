@@ -2,7 +2,7 @@
   {
     "id": "vgen",
     "type": "vehicle_part",
-    "name": "vortex generator",
+    "name": { "str": "vortex generator" },
     "item": "vgen2",
     "location": "engine_block",
     "fuel_type": "vpower",
@@ -35,7 +35,7 @@
   {
     "id": "vgen2",
     "type": "vehicle_part",
-    "name": "vortex engine",
+    "name": { "str": "vortex engine" },
     "item": "vgen",
     "location": "engine_block",
     "fuel_type": "vpower",
