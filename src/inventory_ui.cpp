@@ -2170,6 +2170,14 @@ void inventory_drop_selector::deselect_contained_items()
             }
         }
     }
+    for( inventory_column *col : get_all_columns() ) {
+        for( inventory_entry *selected : col->get_entries(
+        []( const inventory_entry & entry ) {
+        return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid();
+        } ) ) {
+            set_chosen_count( *selected, 0 );
+        }
+    }
 }
 
 drop_locations inventory_drop_selector::execute()
