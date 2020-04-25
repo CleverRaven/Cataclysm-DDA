@@ -68,7 +68,7 @@
       { "item": "hat_ball", "prob": 10 },
       { "item": "hat_boonie", "prob": 10 },
       { "item": "null", "prob": 10 },
-      { "item": "hat_cloth", "prob": 10 }
+      { "item": "hat_cotton", "prob": 10 }
     ]
   }
 ]
