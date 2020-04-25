@@ -153,7 +153,7 @@
     "durability": 100,
     "description": "A place to sit, and the backrest reclines to make it an uncomfortable bed.",
     "item": "seat",
-    "size": 25,
+    "size": 100,
     "floor_bedding_warmth": 250,
     "comfort": 3,
     "location": "center",
