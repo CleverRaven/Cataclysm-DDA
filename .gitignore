@@ -187,3 +187,4 @@ Xcode/
 /.flatpak-builder/
 /repo/
 /build-dir/
+/out/build/x64-Debug

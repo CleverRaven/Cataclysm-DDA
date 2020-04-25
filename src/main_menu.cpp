@@ -9,6 +9,7 @@
 #include <functional>
 #include <istream>
 #include <memory>
+#include <ctime>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -43,8 +44,6 @@
 #include "ui_manager.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
-
-static const holiday current_holiday = holiday::none;
 
 void main_menu::on_move() const
 {
@@ -243,6 +242,52 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
+holiday main_menu:: get_holiday_from_time()
+{
+    std::tm *local_time;
+
+    std::time_t current_time = std::time( nullptr );
+    local_time = std::localtime( &current_time );
+
+    int month = local_time->tm_mon + 1;
+    int day = local_time->tm_mday;
+    int wday = local_time->tm_wday;
+    int year = local_time->tm_year + 1900;
+
+    /*Calculate date of Easter*/
+    int e_month;
+    int e_day;
+
+    int e_a = year % 19;
+    int e_b = year >> 2;
+    int e_c = ( e_b / 25 ) + 1;
+    int e_d = ( e_c * 3 ) >> 2;
+    int e_e = ( ( e_c << 3 ) + 5 ) / 25;
+    int e_f = ( e_a * 19 + e_d - e_e + 15 ) % 30;
+    int e_g = e_f + ( ( 29578 - e_a - ( e_f << 5 ) ) >> 10 );
+    int e_h = e_g - ( ( year + e_b - e_d + e_g + 2 ) % 7 );
+    int e_i = e_h >> 5; // is it April?
+    e_month = e_i + 3;
+    e_day = ( e_h & 31 ) + e_i;
+
+    /*check date against holidays*/
+    if( month == 1 && day == 1 ) {
+        return holiday::new_year;
+    } else if( month == e_month && day == e_day ) {
+        return holiday::easter;
+    } else if( month == 7 && day == 4 ) {
+        return holiday::independence_day;
+    } else if( month == 10 ) {
+        return holiday::halloween;
+    } else if( month == 11 && ( day >= 22 || day <= 28 ) && wday == 4 ) {
+        return holiday::thanksgiving;
+    } else if( month == 12 && day <= 25 ) {
+        return holiday::christmas;
+    } else {
+        return holiday::none;
+    }
+}
+
 void main_menu::init_windows()
 {
     if( LAST_TERM == point( TERMX, TERMY ) ) {
@@ -395,6 +440,7 @@ void main_menu::load_char_templates()
 
 bool main_menu::opening_screen()
 {
+    current_holiday = get_holiday_from_time();
     // Play title music, whoo!
     play_music( "title" );
 

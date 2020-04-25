@@ -5,11 +5,13 @@
 #include <cstddef>
 #include <string>
 #include <vector>
+#include <ctime>
 
 #include "cursesdef.h"
 #include "input.h"
 #include "point.h"
 #include "worldfactory.h"
+#include "enums.h"
 
 class main_menu
 {
@@ -103,6 +105,10 @@ class main_menu
         void display_text( const std::string &text, const std::string &title, int &selected );
 
         void init_windows();
+
+        /* holiday functions and member variables*/
+        holiday get_holiday_from_time();
+        holiday current_holiday = holiday::none;
 
         static std::string halloween_spider();
         std::string halloween_graves();
