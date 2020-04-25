@@ -1,5 +1,11 @@
 [
   {
+    "type": "palette",
+    "id": "cave_palette",
+    "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+    "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "cave_nw",
@@ -18,8 +24,7 @@
         ".....      ",
         ".....      "
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -41,8 +46,7 @@
         ".        ..",
         ".          "
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -64,8 +68,7 @@
         "........  .",
         "........   "
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -87,8 +90,7 @@
         ".......... ",
         "......     "
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -111,8 +113,7 @@
         "        ....",
         "        ...."
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -135,8 +136,7 @@
         "............",
         "        ...."
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -159,8 +159,7 @@
         ".....     ..",
         "        ...."
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -183,8 +182,7 @@
         ".. .........",
         "        ...."
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -206,8 +204,7 @@
         "...       .",
         "...        "
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -229,8 +226,7 @@
         "...  ....  ",
         ".........  "
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -252,8 +248,7 @@
         ".......    ",
         ".......    "
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -275,8 +270,7 @@
         ".........  ",
         ".........  "
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -299,8 +293,7 @@
         "............",
         "............"
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -323,8 +316,7 @@
         "...       ..",
         "............"
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -347,8 +339,7 @@
         "............",
         "............"
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   },
   {
@@ -371,8 +362,7 @@
         "............",
         "............"
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor" },
-      "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
+      "palettes": [ "cave_palette" ]
     }
   }
 ]
