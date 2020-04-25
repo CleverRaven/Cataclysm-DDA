@@ -8521,11 +8521,11 @@ dealt_damage_instance Character::deal_damage( Creature *source, body_part bp,
             if( has_grab_break_tec() && get_grab_resist() > 0 &&
                 ( rng( 0, get_dex() )  > rng( 0, 10 ) ) ) {
                 if( has_effect( effect_grabbed ) ) {
-                    add_msg_if_player( m_warning, _( "You are being grabbed by %s, but you bat it away!" ),
+                    add_msg_if_player( m_warning, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        source->disp_name() );
                 } else {
-                    add_msg_player_or_npc( m_info, _( "You are being grabbed by %s, but you break its grab!" ),
-                                           _( "<npcname> are being grabbed by %s, but they break its grab!" ),
+                    add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
+                                           _( "The %s tries to grab <npcname>, but they break its grab!" ),
                                            source->disp_name() );
                 }
             } else {
