@@ -2266,7 +2266,7 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                                 oThisItem.put_in( *loc, item_pocket::pocket_type::CONTAINER );
                                 loc.remove_item();
                             } else {
-                                debugmsg( "Item cannot fit into container. It should be excluded from the inventory menu." );
+                                debugmsg( "Item cannot fit into container.  It should be excluded from the inventory menu." );
                             }
                         }
                     }

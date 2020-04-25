@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_POCKET_H
-#define ITEM_POCKET_H
+#ifndef CATA_SRC_ITEM_POCKET_H
+#define CATA_SRC_ITEM_POCKET_H
 
 #include <list>
 
@@ -307,4 +307,4 @@ struct ret_val<item_pocket::contain_code>::default_success
     : public std::integral_constant<item_pocket::contain_code,
       item_pocket::contain_code::SUCCESS> {};
 
-#endif
+#endif // CATA_SRC_ITEM_POCKET_H

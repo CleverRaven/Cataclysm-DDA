@@ -59,13 +59,13 @@ size_t item_contents::size() const
     return contents.size();
 }
 
-void item_contents::combine( const item_contents &rhs )
+void item_contents::combine( const item_contents &read_input )
 {
-    for( const item_pocket &pocket : rhs.contents ) {
+    for( const item_pocket &pocket : read_input.contents ) {
         for( const item *it : pocket.all_items_top() ) {
             const ret_val<bool> inserted = insert_item( *it, pocket.saved_type() );
             if( !inserted.success() ) {
-                debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading. err: %s",
+                debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
                           inserted.str() );
             }
         }

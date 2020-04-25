@@ -365,7 +365,7 @@ void computer_session::action_sample()
                 if( capa <= 0 ) {
                     continue;
                 }
-                capa = std::min( sewage.charges, capa );
+                sewage.charges = std::min( sewage.charges, capa );
                 if( elem.can_contain( sewage ) ) {
                     elem.put_in( sewage, item_pocket::pocket_type::CONTAINER );
                 }

@@ -2247,7 +2247,6 @@ item *Character::try_add( item it, const item *avoid )
     } else {
         pocket->add( it );
         ret = &pocket->back();
-        ret = &pocket->back();
     }
 
     if( keep_invlet ) {
@@ -2261,8 +2260,12 @@ item *Character::try_add( item it, const item *avoid )
 item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
 {
     item *added = try_add( it, avoid );
-    if( added == nullptr && !wield( it ) ) {
-        return g->m.add_item_or_charges( pos(), it );
+    if( added == nullptr ) {
+        if( !wield( it ) ) {
+            return g->m.add_item_or_charges( pos(), it );
+        } else {
+            return weapon;
+        }
     } else {
         return *added;
     }
