@@ -1235,16 +1235,16 @@ void debug()
                     if( elem == vproto_id( "custom" ) ) {
                         continue;
                     }
-                    veh_strings.emplace_back( elem->name, elem );
+                    veh_strings.emplace_back( _( elem->name ), elem );
                 }
-                std::sort( veh_strings.begin(), veh_strings.end() );
+                std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
                 uilist veh_menu;
                 veh_menu.text = _( "Choose vehicle to spawn" );
                 int menu_ind = 0;
                 for( auto &elem : veh_strings ) {
                     //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
                     veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ),
-                                       _( elem.first ), elem.second.c_str() );
+                                       elem.first, elem.second.c_str() );
                     ++menu_ind;
                 }
                 veh_menu.query();
