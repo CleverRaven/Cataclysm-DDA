@@ -26,6 +26,7 @@
 #include "explosion.h"
 #include "flat_set.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "init.h"
 #include "item.h"
 #include "item_contents.h"
@@ -1437,6 +1438,7 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
     if( base != m_templates.end() ) {
         def = base->second;
         def.looks_like = jo.get_string( "copy-from" );
+        def.was_loaded = true;
         return true;
     }
 
@@ -1446,6 +1448,7 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
         if( def.looks_like.empty() ) {
             def.looks_like = jo.get_string( "copy-from" );
         }
+        def.was_loaded = true;
         return true;
     }
 
@@ -1471,25 +1474,29 @@ void Item_factory::load( islot_artifact &slot, const JsonObject &jo, const std::
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-void Item_factory::load( islot_ammo &slot, const JsonObject &jo, const std::string &src )
+void islot_ammo::load( const JsonObject &jo )
 {
-    bool strict = src == "dda";
-
-    assign( jo, "ammo_type", slot.type, strict );
-    assign( jo, "casing", slot.casing, strict );
-    assign( jo, "drop", slot.drop, strict );
-    assign( jo, "drop_chance", slot.drop_chance, strict, 0.0f, 1.0f );
-    assign( jo, "drop_active", slot.drop_active, strict );
+    mandatory( jo, was_loaded, "ammo_type", type );
+    optional( jo, was_loaded, "casing", casing, cata::nullopt );
+    optional( jo, was_loaded, "drop", drop, "null" );
+    optional( jo, was_loaded, "drop_chance", drop_chance, 1.0f );
+    optional( jo, was_loaded, "drop_active", drop_active, true );
     // Damage instance assign reader handles pierce and prop_damage
-    assign( jo, "damage", slot.damage, strict );
-    assign( jo, "range", slot.range, strict, 0 );
-    assign( jo, "dispersion", slot.dispersion, strict, 0 );
-    assign( jo, "recoil", slot.recoil, strict, 0 );
-    assign( jo, "count", slot.def_charges, strict, 1 );
-    assign( jo, "loudness", slot.loudness, strict, 0 );
-    assign( jo, "effects", slot.ammo_effects, strict );
-    assign( jo, "critical_multiplier", slot.critical_multiplier, strict );
-    assign( jo, "show_stats", slot.force_stat_display, strict );
+    assign( jo, "damage", damage );
+    optional( jo, was_loaded, "range", range, 0 );
+    optional( jo, was_loaded, "dispersion", dispersion, 0 );
+    optional( jo, was_loaded, "recoil", recoil, 0 );
+    optional( jo, was_loaded, "count", def_charges, 1 );
+    optional( jo, was_loaded, "loudness", loudness, -1 );
+    optional( jo, was_loaded, "effects", ammo_effects );
+    optional( jo, was_loaded, "critical_multiplier", critical_multiplier, 2.0 );
+    optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
+}
+
+void islot_ammo::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
@@ -1497,7 +1504,17 @@ void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
-        load_slot( def.ammo, jo, src );
+        if( def.was_loaded ) {
+            if( def.ammo ) {
+                def.ammo->was_loaded = true;
+            } else {
+                def.ammo = cata::make_value<islot_ammo>();
+                def.ammo->was_loaded = true;
+            }
+        } else {
+            def.ammo = cata::make_value<islot_ammo>();
+        }
+        def.ammo->load( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -2394,7 +2411,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_slot_optional( def.book, jo, "book_data", src );
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );
-    load_slot_optional( def.ammo, jo, "ammo_data", src );
+    assign( jo, "ammo_data", def.ammo, src == "dda" );
     load_slot_optional( def.seed, jo, "seed_data", src );
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
