@@ -109,7 +109,7 @@
       { "skill": "rifle", "bonus": { "rng": [ 0, 2 ] } }
     ]
   },
-    {
+  {
     "type": "npc_class",
     "id": "NC_FARMER",
     "name": { "str": "Farmer" },
