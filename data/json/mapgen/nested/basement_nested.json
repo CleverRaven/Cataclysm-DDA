@@ -4020,7 +4020,7 @@
         "           "
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { "=": "t_carpet_green","%": "t_carpet_green" },
+      "terrain": { "=": "t_carpet_green", "%": "t_carpet_green" },
       "furniture": { "&": "f_barricade_road", "%": "f_floor_canvas", "!": "f_sandbag_wall", "$": "f_sandbag_half" },
       "place_loot": [
         { "item": "towel", "x": 5, "y": [ 3, 5 ], "chance": 100, "repeat": [ 1, 2 ] },
@@ -4031,7 +4031,7 @@
         { "item": "wheel_wide", "x": 1, "y": 5, "chance": 100 },
         { "item": "wheel_wide", "x": 2, "y": 6, "chance": 100 },
         { "item": "wheel_wide", "x": 1, "y": 7, "chance": 100 }
-       ]
+      ]
     }
   },
   {
@@ -4068,10 +4068,7 @@
         "T": "t_carpet_green"
       },
       "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
-      "place_loot": [
-        { "item": "stereo", "x": 1, "y": 3, "chance": 100 },
-        { "item": "deck_of_cards", "x": 5, "y": 4, "chance": 100 }
-       ]
+      "place_loot": [ { "item": "stereo", "x": 1, "y": 3, "chance": 100 }, { "item": "deck_of_cards", "x": 5, "y": 4, "chance": 100 } ]
     }
   },
   {
@@ -4138,10 +4135,7 @@
         "|||||||||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_loot": [
-        { "item": "television", "x": 5, "y": 3, "chance": 50 },
-        { "item": "stereo", "x": 5, "y": 4, "chance": 50 }
-       ]
+      "place_loot": [ { "item": "television", "x": 5, "y": 3, "chance": 50 }, { "item": "stereo", "x": 5, "y": 4, "chance": 50 } ]
     }
   },
   {
@@ -4164,10 +4158,7 @@
         "|||||+|||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_loot": [
-        { "item": "television", "x": 5, "y": 6, "chance": 50 },
-        { "item": "stereo", "x": 5, "y": 7, "chance": 50 }
-       ]
+      "place_loot": [ { "item": "television", "x": 5, "y": 6, "chance": 50 }, { "item": "stereo", "x": 5, "y": 7, "chance": 50 } ]
     }
   },
   {
@@ -4190,10 +4181,7 @@
         "|||||||||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_loot": [
-        { "item": "television", "x": 9, "y": 2, "chance": 50 },
-        { "item": "stereo", "x": 9, "y": 3, "chance": 50 }
-       ]
+      "place_loot": [ { "item": "television", "x": 9, "y": 2, "chance": 50 }, { "item": "stereo", "x": 9, "y": 3, "chance": 50 } ]
     }
   },
   {
@@ -4216,10 +4204,7 @@
         "|||||||||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_loot": [
-        { "item": "television", "x": 9, "y": 2, "chance": 50 },
-        { "item": "stereo", "x": 9, "y": 3, "chance": 50 }
-       ]
+      "place_loot": [ { "item": "television", "x": 9, "y": 2, "chance": 50 }, { "item": "stereo", "x": 9, "y": 3, "chance": 50 } ]
     }
   }
 ]
