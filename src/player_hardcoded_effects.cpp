@@ -713,10 +713,10 @@ void player::hardcoded_effects( effect &it )
         }
         if( dur > 4_hours ) {
             // 8 teleports
-            if( one_in( 10000 - to_turns<int>( dur ) ) && !has_effect( effect_valium ) ) {
+            if( one_in( 10000 - ( dur / 6_turns ) ) && !has_effect( effect_valium ) ) {
                 add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
-            if( one_in( 12000 - to_turns<int>( dur ) ) ) {
+            if( one_in( 12000 - ( dur / 6_turns ) ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
                 add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 if( one_in( 8 ) ) {
