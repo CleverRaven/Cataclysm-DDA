@@ -2,7 +2,7 @@
   {
     "//": "Basement - Variant 1 ",
     "type": "mapgen",
-    "om_terrain": "house_33_basement",
+    "om_terrain": "house_43_basement",
     "weight": 20,
     "method": "json",
     "object": {
@@ -42,7 +42,7 @@
   {
     "//": "Basement - Variant 2: storage/workspace ",
     "type": "mapgen",
-    "om_terrain": "house_33_basement",
+    "om_terrain": "house_43_basement",
     "weight": 20,
     "method": "json",
     "object": {
@@ -81,7 +81,7 @@
   {
     "//": "Basement - Variant 3: rec room ",
     "type": "mapgen",
-    "om_terrain": "house_33_basement",
+    "om_terrain": "house_43_basement",
     "weight": 20,
     "method": "json",
     "object": {
@@ -130,7 +130,7 @@
   {
     "//": "Ground Floor - Variant 1: normal layout ",
     "type": "mapgen",
-    "om_terrain": "house_33",
+    "om_terrain": "house_43",
     "weight": 200,
     "method": "json",
     "object": {
@@ -235,7 +235,7 @@
   {
     "//": "Ground Floor - Variant 2: more items ",
     "type": "mapgen",
-    "om_terrain": "house_33",
+    "om_terrain": "house_43",
     "weight": 50,
     "method": "json",
     "object": {
@@ -353,7 +353,7 @@
   {
     "//": "Ground Floor - Variant 3: Crash ",
     "type": "mapgen",
-    "om_terrain": "house_33",
+    "om_terrain": "house_43",
     "weight": 10,
     "method": "json",
     "object": {
@@ -474,7 +474,7 @@
   {
     "//": "Ground Floor - Variant 4: fire ",
     "type": "mapgen",
-    "om_terrain": "house_33",
+    "om_terrain": "house_43",
     "weight": 10,
     "method": "json",
     "object": {
@@ -592,7 +592,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": "house_33_roof",
+    "om_terrain": "house_43_roof",
     "weight": 250,
     "method": "json",
     "object": {

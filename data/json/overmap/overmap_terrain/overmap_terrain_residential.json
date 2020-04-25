@@ -1472,12 +1472,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house_33_basement",
+    "id": "house_43_basement",
     "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
-    "id": "house_33",
+    "id": "house_43",
     "name": "house",
     "sym": "^",
     "color": "light_green",
@@ -1488,7 +1488,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house_33_roof",
+    "id": "house_43_roof",
     "name": "house",
     "sym": "^",
     "color": "light_green",
