@@ -24,17 +24,6 @@
   },
   {
     "type": "mutation",
-    "id": "GOODHEARING",
-    "name": "Good Hearing",
-    "points": 1,
-    "description": "Your hearing is better than average, and you can hear distant sounds more easily.",
-    "starting_trait": true,
-    "category": [ "ALPHA", "MOUSE", "ELFA" ],
-    "cancels": [ "BADHEARING" ],
-    "hearing_modifier": 1.25
-  },
-  {
-    "type": "mutation",
     "id": "GOODCARDIO",
     "name": "Indefatigable",
     "points": 2,
@@ -229,7 +218,7 @@
     "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
     "types": [ "TEETH" ],
     "changes_to": [ "SABER_TEETH", "SHARKTEETH" ],
-    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA" ],
+    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "VAMP" ],
     "attacks": [
       {
         "attack_text_u": "You sink your fangs into %s",
@@ -275,7 +264,7 @@
     "types": [ "CLAWS" ],
     "changes_to": [ "CLAWS", "TALONS" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
-    "category": [ "RAPTOR" ]
+    "category": [ "RAPTOR", "VAMP" ]
   },
   {
     "type": "mutation",
