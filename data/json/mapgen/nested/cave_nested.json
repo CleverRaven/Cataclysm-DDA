@@ -4,7 +4,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_nw_1",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 11, 11 ],
       "rows": [
         "...........",
@@ -28,7 +27,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_nw_2",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 11, 11 ],
       "rows": [
         "...........",
@@ -52,7 +50,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_nw_3",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 11, 11 ],
       "rows": [
         "...........",
@@ -76,7 +73,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_nw_4",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 11, 11 ],
       "rows": [
         "...........",
@@ -100,7 +96,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_ne_1",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 12, 12 ],
       "rows": [
         "............",
@@ -125,7 +120,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_ne_2",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 12, 12 ],
       "rows": [
         "............",
@@ -150,7 +144,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_ne_3",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 12, 12 ],
       "rows": [
         "............",
@@ -175,7 +168,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_ne_4",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 12, 12 ],
       "rows": [
         "............",
@@ -200,7 +192,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_se_1",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 11, 11 ],
       "rows": [
         "           ",
@@ -224,7 +215,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_se_2",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 11, 11 ],
       "rows": [
         "     ......",
@@ -248,7 +238,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_se_3",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 11, 11 ],
       "rows": [
         "           ",
@@ -272,7 +261,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_se_4",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 11, 11 ],
       "rows": [
         "           ",
@@ -296,7 +284,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_sw_1",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 12, 12 ],
       "rows": [
         "...         ",
@@ -321,7 +308,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_sw_2",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 12, 12 ],
       "rows": [
         "...         ",
@@ -346,7 +332,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_sw_3",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 12, 12 ],
       "rows": [
         "...         ",
@@ -371,7 +356,6 @@
     "method": "json",
     "nested_mapgen_id": "cave_sw_4",
     "object": {
-      "rotation": [ 0, 0 ],
       "mapgensize": [ 12, 12 ],
       "rows": [
         "...         ",
