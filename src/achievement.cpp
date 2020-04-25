@@ -308,7 +308,8 @@ void achievement::reset()
 
 void achievement::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "description", description_ );
+    mandatory( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "description", description_ );
     optional( jo, was_loaded, "time_constraint", time_constraint_ );
     mandatory( jo, was_loaded, "requirements", requirements_ );
 }
@@ -354,7 +355,7 @@ class requirement_watcher : stat_watcher
             } else {
                 result = string_format( _( "%s/%s " ), current, requirement_->target );
             }
-            result += requirement_->statistic->description();
+            result += requirement_->statistic->description().translated();
             return colorize( result, c );
         }
     private:
@@ -451,7 +452,10 @@ std::string achievement_tracker::ui_text( const achievement_state *state ) const
 
     // First: the achievement description
     nc_color c = color_from_completion( comp );
-    std::string result = colorize( achievement_->description(), c ) + "\n";
+    std::string result = colorize( achievement_->name(), c ) + "\n";
+    if( !achievement_->description().empty() ) {
+        result += "  " + colorize( achievement_->description(), c ) + "\n";
+    }
 
     if( comp == achievement_completion::completed ) {
         std::string message = string_format(

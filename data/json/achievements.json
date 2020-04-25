@@ -2,47 +2,47 @@
   {
     "id": "achievement_kill_zombie",
     "type": "achievement",
-    "description": "One down, billions to go\u2026",
+    "name": "One down, billions to go\u2026",
     "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 } ]
   },
   {
     "id": "achievement_kill_in_first_minute",
     "type": "achievement",
-    "description": "Rude awakening",
+    "name": "Rude awakening",
     "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" },
     "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 1 } ]
   },
   {
     "id": "achievement_survive_one_day",
     "type": "achievement",
-    "description": "The first day of the rest of their unlives",
+    "name": "The first day of the rest of their unlives",
     "time_constraint": { "since": "game_start", "is": ">=", "target": "1 day" },
     "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
   },
   {
     "id": "achievement_marathon",
     "type": "achievement",
-    "description": "Pheidippides was a hack",
-    "//": "Run a marathon...plus a little bit more.",
+    "name": "Pheidippides was a hack",
+    "description": "Run a marathon…plus a little bit more.",
     "requirements": [ { "event_statistic": "num_moves_ran", "is": ">=", "target": 42196 } ]
   },
   {
     "id": "achievement_walk_1000_miles",
     "type": "achievement",
-    "description": "Please don't fall down at my door",
-    "//": "Walk 500 miles, then walk 500 more.",
+    "name": "Please don't fall down at my door",
+    "description": "Walk 500 miles, then walk 500 more.",
     "requirements": [ { "event_statistic": "num_moves_walked", "is": ">=", "target": 1609340 } ]
   },
   {
     "id": "achievement_traverse_sharp_terrain",
     "type": "achievement",
-    "description": "Every rose has its thorn",
+    "name": "Every rose has its thorn",
     "requirements": [ { "event_statistic": "num_moves_sharp_terrain", "is": ">=", "target": 100 } ]
   },
   {
     "id": "achievement_swim_merit_badge",
     "type": "achievement",
-    "description": "Swimming merit badge",
+    "name": "Swimming merit badge",
     "requirements": [
       { "event_statistic": "num_moves_swam", "is": ">=", "target": 10000 },
       { "event_statistic": "num_moves_swam_underwater", "is": ">=", "target": 1000 },
@@ -52,13 +52,13 @@
   {
     "id": "achievement_reach_max_z_level",
     "type": "achievement",
-    "description": "Ain't no mountain high enough",
+    "name": "Ain't no mountain high enough",
     "requirements": [ { "event_statistic": "max_move_z", "is": ">=", "target": 10 } ]
   },
   {
     "id": "achievement_reach_min_z_level",
     "type": "achievement",
-    "description": "Ain't no valley low enough",
+    "name": "Ain't no valley low enough",
     "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -10 } ]
   }
 ]

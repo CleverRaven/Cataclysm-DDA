@@ -33,12 +33,12 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
     } );
     std::sort( sortable_achievements.begin(), sortable_achievements.end() );
     for( const sortable_achievement &ach : sortable_achievements ) {
-        os += achievements.ui_text_for( std::get<const achievement *>( ach ) );
+        os += achievements.ui_text_for( std::get<const achievement *>( ach ) ) + "\n";
     }
     if( valid_achievements.empty() ) {
         os += _( "This game has no valid achievements.\n" );
     }
-    os += _( "\nNote that only achievements that existed when you started this game and still "
+    os += _( "Note that only achievements that existed when you started this game and still "
              "exist now will appear here." );
     return os;
 }
