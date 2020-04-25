@@ -714,13 +714,8 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
     }
 
     if( data->holster && !contents.empty() ) {
-        item holstered_copy( contents.front() );
-        if( !holstered_copy.combine( it ) ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_NO_SPACE, _( "holster already contains an item" ) );
-        } else {
-            return ret_val<item_pocket::contain_code>::make_success();
-        }
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_NO_SPACE, _( "holster already contains an item" ) );
     }
 
     if( it.made_of( phase_id::LIQUID ) ) {
