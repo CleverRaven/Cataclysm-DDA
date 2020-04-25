@@ -66,6 +66,17 @@
     "chat": "TALK_NC_SURVIVOR_CHEF",
     "faction": "no_faction"
   },
+    {
+    "type": "npc",
+    "id": "farmer",
+    "//": "A farmer survivor, friendly but suspicious.",
+    "name_suffix": "farmer",
+    "class": "NC_FARMER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NC_FARMER",
+    "faction": "no_faction"
+  },
   {
     "type": "npc",
     "id": "true_foodperson",
