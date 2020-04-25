@@ -1955,7 +1955,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "survival",
-    "skill_required": [ "survival", 1 ],
+    "skills_required": [ "survival", 1 ],
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
