@@ -258,6 +258,9 @@ holiday main_menu:: get_holiday_from_time()
     int e_month;
     int e_day;
 
+    /* An implementation of Gauss' easter algorithm, that I don't pretend to completely understand, but which is discussed here:
+    https://math.stackexchange.com/questions/896954/decoding-gauss-easter-algorithm
+    Given that I didn't develop the calculation, I made sure to test it out to 2030, but be sure to check after then.*/
     int e_a = year % 19;
     int e_b = year >> 2;
     int e_c = ( e_b / 25 ) + 1;
