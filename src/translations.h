@@ -271,6 +271,6 @@ struct localized_comparator {
     bool operator()( const std::string &, const std::string & ) const;
 };
 
-constexpr localized_comparator localized_compare;
+constexpr localized_comparator localized_compare{};
 
 #endif // CATA_SRC_TRANSLATIONS_H
