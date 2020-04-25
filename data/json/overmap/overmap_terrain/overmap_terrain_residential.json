@@ -2599,5 +2599,41 @@
     "id": "urban_13_12",
     "type": "overmap_terrain",
     "copy-from": "urban_13_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyModern01_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyModern01_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyModern01_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyModern01_roof",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
   }
 ]
