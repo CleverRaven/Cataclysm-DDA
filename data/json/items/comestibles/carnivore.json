@@ -1089,6 +1089,7 @@
     "id": "demihuman_stomach_boiled",
     "copy-from": "stomach_boiled",
     "name": "boiled demihuman stomach",
+    "calories": 90,
     "description": "A boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
     "material": "flesh",
     "flags": [ "STRICT_HUMANITARIANISM" ]
