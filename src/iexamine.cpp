@@ -4585,7 +4585,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         bionic_to_uninstall.set_flag( flag_IN_CBM );
                         bionic_to_uninstall.set_flag( flag_NO_STERILE );
                         bionic_to_uninstall.set_flag( flag_NO_PACKED );
-                        g->u.i_add( bionic_to_uninstall );
+                        // TODO: refactor this whole bit. adding items to the inventory will
+                        // cause major issues when inv gets removed. this is a shim for now
+                        // in order to reduce lines of change for nested containers.
+                        g->u.inv.push_back( bionic_to_uninstall );
                     }
                 }
             }
