@@ -57,7 +57,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_NC_SURVIVOR_CHEF_STORY3",
+    "id": "TALK_NC_FARMER_STORY3",
     "dynamic_line": "She was not all right. I don't know what happened, if she was already turning or if something got in and got her, but she and the baby didn't make it. We lost some more people trying to figure that out, it was horrible.",
     "responses": [
       { "text": "Are you all right?", "topic": "TALK_NC_FARMER_STORY4" },
