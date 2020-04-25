@@ -166,19 +166,7 @@
         "?": "t_door_metal_locked",
         ",": "t_pavement",
         "/": "t_gates_mech_control",
-        "=": [
-          "t_tree",
-          "t_tree_pine",
-          "t_tree_pear",
-          "t_tree_plum",
-          "t_tree_cherry",
-          "t_tree_maple",
-          "t_tree_birch",
-          "t_tree_apple",
-          "t_tree_willow",
-          "t_tree_hickory",
-          "t_tree_young"
-        ],
+        "=": "t_region_tree_shade",
         "_": "t_linoleum_gray",
         ")": "t_linoleum_gray",
         "}": "t_fence_v",
@@ -202,25 +190,7 @@
         "]": "t_carpet_yellow",
         "T": "t_carpet_yellow"
       },
-      "furniture": {
-        "G": "f_deckchair",
-        "%": "f_makeshift_bed",
-        "&": "f_table",
-        "k": "f_chair",
-        "0": [
-          "f_black_eyed_susan",
-          "f_mutpoppy",
-          "f_lily",
-          "f_flower_tulip",
-          "f_datura",
-          "f_flower_spurge",
-          "f_dahlia",
-          "f_chamomile",
-          "f_sunflower",
-          "f_chicory",
-          "f_dandelion"
-        ]
-      },
+      "furniture": { "G": "f_deckchair", "%": "f_makeshift_bed", "&": "f_table", "k": "f_chair", "0": "f_region_flower" },
       "items": {
         "~": { "item": "trash", "chance": 3 },
         "&": { "item": "nightstand", "chance": 30 },
@@ -271,19 +241,7 @@
         "?": "t_door_metal_locked",
         ",": "t_pavement",
         "/": "t_gates_mech_control",
-        "=": [
-          "t_tree",
-          "t_tree_pine",
-          "t_tree_pear",
-          "t_tree_plum",
-          "t_tree_cherry",
-          "t_tree_maple",
-          "t_tree_birch",
-          "t_tree_apple",
-          "t_tree_willow",
-          "t_tree_hickory",
-          "t_tree_young"
-        ],
+        "=": "t_region_tree_shade",
         "_": "t_linoleum_gray",
         ")": "t_linoleum_gray",
         "}": "t_fence_v",
@@ -308,24 +266,7 @@
         "%": "t_carpet_yellow",
         "T": "t_carpet_yellow"
       },
-      "furniture": {
-        "%": "f_makeshift_bed",
-        "&": "f_table",
-        "k": "f_chair",
-        "0": [
-          "f_black_eyed_susan",
-          "f_mutpoppy",
-          "f_lily",
-          "f_flower_tulip",
-          "f_datura",
-          "f_flower_spurge",
-          "f_dahlia",
-          "f_chamomile",
-          "f_sunflower",
-          "f_chicory",
-          "f_dandelion"
-        ]
-      },
+      "furniture": { "%": "f_makeshift_bed", "&": "f_table", "k": "f_chair", "0": "f_region_flower" },
       "items": {
         "~": { "item": "trash", "chance": 3 },
         "&": { "item": "nightstand", "chance": 30 },
@@ -389,19 +330,7 @@
         "?": "t_door_metal_locked",
         ",": "t_pavement",
         "/": "t_gates_mech_control",
-        "=": [
-          "t_tree",
-          "t_tree_pine",
-          "t_tree_pear",
-          "t_tree_plum",
-          "t_tree_cherry",
-          "t_tree_maple",
-          "t_tree_birch",
-          "t_tree_apple",
-          "t_tree_willow",
-          "t_tree_hickory",
-          "t_tree_young"
-        ],
+        "=": "t_region_tree_shade",
         "_": "t_linoleum_gray",
         ")": "t_linoleum_gray",
         "}": "t_fence_v",
@@ -427,24 +356,7 @@
         "%": "t_carpet_yellow",
         "T": "t_carpet_yellow"
       },
-      "furniture": {
-        "%": "f_makeshift_bed",
-        "&": "f_table",
-        "k": "f_chair",
-        "0": [
-          "f_black_eyed_susan",
-          "f_mutpoppy",
-          "f_lily",
-          "f_flower_tulip",
-          "f_datura",
-          "f_flower_spurge",
-          "f_dahlia",
-          "f_chamomile",
-          "f_sunflower",
-          "f_chicory",
-          "f_dandelion"
-        ]
-      },
+      "furniture": { "%": "f_makeshift_bed", "&": "f_table", "k": "f_chair", "0": "f_region_flower" },
       "items": {
         "~": { "item": "trash", "chance": 3 },
         "&": { "item": "nightstand", "chance": 30 },
@@ -510,19 +422,7 @@
         "?": "t_door_metal_locked",
         ",": "t_pavement",
         "/": "t_gates_mech_control",
-        "=": [
-          "t_tree",
-          "t_tree_pine",
-          "t_tree_pear",
-          "t_tree_plum",
-          "t_tree_cherry",
-          "t_tree_maple",
-          "t_tree_birch",
-          "t_tree_apple",
-          "t_tree_willow",
-          "t_tree_hickory",
-          "t_tree_young"
-        ],
+        "=": "t_region_tree_shade",
         "_": "t_linoleum_gray",
         ")": "t_linoleum_gray",
         "}": "t_fence_v",
@@ -547,24 +447,7 @@
         "%": "t_carpet_yellow",
         "T": "t_carpet_yellow"
       },
-      "furniture": {
-        "%": "f_makeshift_bed",
-        "&": "f_table",
-        "k": "f_chair",
-        "0": [
-          "f_black_eyed_susan",
-          "f_mutpoppy",
-          "f_lily",
-          "f_flower_tulip",
-          "f_datura",
-          "f_flower_spurge",
-          "f_dahlia",
-          "f_chamomile",
-          "f_sunflower",
-          "f_chicory",
-          "f_dandelion"
-        ]
-      },
+      "furniture": { "%": "f_makeshift_bed", "&": "f_table", "k": "f_chair", "0": "f_region_flower" },
       "items": {
         "~": { "item": "trash", "chance": 3 },
         "&": { "item": "nightstand", "chance": 30 },
