@@ -870,7 +870,7 @@
     "id": "sharp_toothbrush",
     "symbol": ",",
     "color": "light_blue",
-    "name": { "str": "plastic shank", "str_pl": "plastic shanks" },
+    "name": { "str": "plastic shank" },
     "description": "An oblong plastic trinket with the far end ground down into a stabbing point.",
     "category": "weapons",
     "price": 400,
