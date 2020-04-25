@@ -1840,16 +1840,16 @@ void player::process_items()
         weapon = item();
     }
 
-    std::vector<item *> removed_items;
-    for( item *it : all_items_ptr() ) {
+    std::vector<item_location> removed_items;
+    for( item_location it : all_items_loc() ) {
         if( it->needs_processing() ) {
             if( it->process( this, pos(), false ) ) {
                 removed_items.push_back( it );
             }
         }
     }
-    for( item *removed : removed_items ) {
-        remove_item( *removed );
+    for( item_location removed : removed_items ) {
+        removed.remove_item();
     }
 
     // worn items

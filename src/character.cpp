@@ -2282,17 +2282,30 @@ std::list<item> Character::remove_worn_items_with( std::function<bool( item & )>
     return result;
 }
 
-std::list<item *> Character::all_items_ptr()
+static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
 {
-    std::list<item *> ret;
+    for( item *it : parent->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        item_location child( parent, it );
+        list.push_back( child );
+        recur_internal_locations( child, list );
+    }
+}
+
+std::vector<item_location> Character::all_items_loc()
+{
+    std::vector<item_location> ret;
     if( has_weapon() ) {
-        ret.push_back( &weapon );
-        std::list<item *> weapon_internal_items{ weapon.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) };
+        item_location weap_loc( *this, &weapon );
+        ret.push_back( weap_loc );
+        std::vector<item_location> weapon_internal_items;
+        recur_internal_locations( weap_loc, weapon_internal_items );
         ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
     }
-    for( item &w : worn ) {
-        ret.push_back( &w );
-        std::list<item *> worn_internal_items{ w.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) };
+    for( item &worn_it : worn ) {
+        item_location worn_loc( *this, &worn_it );
+        ret.push_back( worn_loc );
+        std::vector<item_location> worn_internal_items;
+        recur_internal_locations( worn_loc, worn_internal_items );
         ret.insert( ret.end(), worn_internal_items.begin(), worn_internal_items.end() );
     }
     return ret;

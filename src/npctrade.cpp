@@ -150,13 +150,12 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     double adjust = net_price_adjustment( buyer, seller );
 
-    const auto check_item = [fac, adjust, is_npc, &np, &result, &seller]( item_location &&
+    const auto check_item = [fac, adjust, is_npc, &np, &result, &seller]( item_location
     loc, int count = 1 ) {
-        item *it_ptr = loc.get_item();
-        if( it_ptr == nullptr || it_ptr->is_null() ) {
+        if( !loc ) {
             return;
         }
-        item &it = *it_ptr;
+        item &it = *loc;
 
         // Don't sell items we don't own.
         if( !it.is_owned_by( seller ) ) {
@@ -172,13 +171,11 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         }
     };
 
-    invslice slice = seller.inv.slice();
-    for( auto &i : slice ) {
-        check_item( item_location( seller, &i->front() ), i->size() );
-    }
-
-    if( !seller.weapon.has_flag( "NO_UNWIELD" ) ) {
-        check_item( item_location( seller, &seller.weapon ), 1 );
+    for( item_location loc : seller.all_items_loc() ) {
+        if( seller.is_wielding( *loc ) && loc->has_flag( "NO_UNWIELD" ) ) {
+            continue;
+        }
+        check_item( loc, loc->count() );
     }
 
     //nearby items owned by the NPC will only show up in

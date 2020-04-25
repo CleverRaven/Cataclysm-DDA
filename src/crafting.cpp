@@ -537,7 +537,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
     cached_crafting_inventory += inv;
 
-    for( const item *it : all_items_ptr() ) {
+    for( const item_location it : all_items_loc() ) {
         cached_crafting_inventory.add_item( *it );
     }
 
