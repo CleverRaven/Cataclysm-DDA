@@ -33,10 +33,7 @@
         "|||||| PP  PP  PP ||||||"
       ],
       "palettes": [ "microlab" ],
-      "terrain": {
-        "X": "t_region_shrub_decorative",
-        "P": "t_carpet_red"
-        },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
       "computers": {
         "6": {
           "name": "Security Terminal",
@@ -45,7 +42,7 @@
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
       }
-      }
+    }
   },
   {
     "type": "mapgen",
@@ -81,10 +78,7 @@
         "|||||| PP  PP  PP ||||||"
       ],
       "palettes": [ "microlab" ],
-      "terrain": {
-        "X": "t_region_shrub_decorative",
-        "P": "t_carpet_red"
-        },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
       "computers": {
         "6": {
           "name": "Security Terminal",
@@ -93,7 +87,7 @@
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
       }
-      }
+    }
   },
   {
     "type": "mapgen",
@@ -128,14 +122,9 @@
         "|####| PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
-      "set": [
-        { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] }
-      ],
+      "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
       "palettes": [ "microlab" ],
-      "terrain": {
-        "X": "t_region_shrub_decorative",
-        "P": "t_carpet_red"
-        },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
       "monster": { "M": { "monster": "mon_mutant_experimental" }, "ü": { "monster": "mon_mutant_evolved" } },
       "computers": {
         "6": {
@@ -144,9 +133,9 @@
           "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
-        }
-        }
-      },
+      }
+    }
+  },
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_generic_firebreak" ] ],
@@ -180,14 +169,9 @@
         "|####| PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
-      "set": [
-        { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] }
-      ],
+      "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
       "palettes": [ "microlab" ],
-      "terrain": {
-        "X": "t_region_shrub_decorative",
-        "P": "t_carpet_red"
-        },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
       "monster": { "M": { "monster": "mon_hunting_horror" }, "ü": { "monster": "mon_breather_hub" } },
       "computers": {
         "6": {
@@ -197,6 +181,6 @@
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
       }
-      }
+    }
   }
 ]
