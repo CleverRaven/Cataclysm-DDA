@@ -67,7 +67,7 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_generic_firebreak",
-    "copy-from": "microlab_generic"
+    "copy-from": "microlab_generic_hallway_start"
   },
   {
     "type": "overmap_terrain",
@@ -76,28 +76,28 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "microlab_generic_isolated_downstairs",
+    "id": "microlab_generic_stairs_down",
     "copy-from": "microlab_generic_hallway_start"
   },
   {
     "type": "overmap_terrain",
     "id": "microlab_generic_isolated_stairs_odd",
-    "copy-from": "microlab_generic_isolated_downstairs"
+    "copy-from": "microlab_generic_stairs_down"
   },
   {
     "type": "overmap_terrain",
     "id": "microlab_generic_isolated_stairs_even",
-    "copy-from": "microlab_generic_isolated_downstairs"
+    "copy-from": "microlab_generic_stairs_down"
   },
   {
     "type": "overmap_terrain",
-    "id": "microlab_generic_isolated_upstairs",
-    "copy-from": "microlab_generic_isolated_downstairs"
+    "id": "microlab_generic_isolated_stairs_up",
+    "copy-from": "microlab_generic_stairs_down"
   },
   {
     "type": "overmap_terrain",
     "id": "microlab_generic_isolated_elevator_pit",
-    "copy-from": "microlab_generic_isolated_downstairs"
+    "copy-from": "microlab_generic_stairs_down"
   },
   {
     "type": "overmap_terrain",
