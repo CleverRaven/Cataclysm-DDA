@@ -8519,12 +8519,10 @@ dealt_damage_instance Character::deal_damage( Creature *source, body_part bp,
     if( source != nullptr ) {
         if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
             !source->has_effect( effect_grabbing ) ) {
-            /** @EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR */
+            /** @EFFECT_DEX increases chance to avoid being grabbed */
 
-            /** @EFFECT_STR increases chance to avoid being grabbed, if STR>DEX */
             if( has_grab_break_tec() && get_grab_resist() > 0 &&
-                ( get_dex() > get_str() ? rng( 0, get_dex() ) : rng( 0, get_str() ) ) >
-                rng( 0, 10 ) ) {
+                ( rng( 0, get_dex() )  > rng( 0, 10 ) ) ) {
                 if( has_effect( effect_grabbed ) ) {
                     add_msg_if_player( m_warning, _( "You are being grabbed by %s, but you bat it away!" ),
                                        source->disp_name() );
