@@ -682,10 +682,10 @@
       "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up", "<": "t_slope_down" },
       "furniture": {  },
       "nested": {
-        "1": { "chunks": [ [ "cave_nw_1", 25 ], [ "cave_nw_2", 25 ], [ "cave_nw_3", 25 ], [ "cave_nw_4", 25 ] ] },
-        "2": { "chunks": [ [ "cave_ne_1", 25 ], [ "cave_ne_2", 25 ], [ "cave_ne_3", 25 ], [ "cave_ne_4", 25 ] ] },
-        "3": { "chunks": [ [ "cave_sw_1", 25 ], [ "cave_sw_2", 25 ], [ "cave_sw_3", 25 ], [ "cave_sw_4", 25 ] ] },
-        "4": { "chunks": [ [ "cave_se_1", 25 ], [ "cave_se_2", 25 ], [ "cave_se_3", 25 ], [ "cave_se_4", 25 ] ] }
+        "1": { "chunks": [ "cave_nw" ] },
+        "2": { "chunks": [ "cave_ne" ] },
+        "3": { "chunks": [ "cave_sw" ] },
+        "4": { "chunks": [ "cave_se" ] }
       }
     }
   },

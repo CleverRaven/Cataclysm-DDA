@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_nw_1",
+    "nested_mapgen_id": "cave_nw",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rows": [
@@ -25,7 +25,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_nw_2",
+    "nested_mapgen_id": "cave_nw",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rows": [
@@ -48,7 +48,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_nw_3",
+    "nested_mapgen_id": "cave_nw",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rows": [
@@ -71,7 +71,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_nw_4",
+    "nested_mapgen_id": "cave_nw",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rows": [
@@ -94,7 +94,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_ne_1",
+    "nested_mapgen_id": "cave_ne",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
@@ -118,7 +118,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_ne_2",
+    "nested_mapgen_id": "cave_ne",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
@@ -142,7 +142,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_ne_3",
+    "nested_mapgen_id": "cave_ne",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
@@ -166,7 +166,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_ne_4",
+    "nested_mapgen_id": "cave_ne",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
@@ -190,7 +190,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_se_1",
+    "nested_mapgen_id": "cave_se",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rows": [
@@ -213,7 +213,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_se_2",
+    "nested_mapgen_id": "cave_se",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rows": [
@@ -236,7 +236,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_se_3",
+    "nested_mapgen_id": "cave_se",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rows": [
@@ -259,7 +259,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_se_4",
+    "nested_mapgen_id": "cave_se",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rows": [
@@ -282,7 +282,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_sw_1",
+    "nested_mapgen_id": "cave_sw",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
@@ -306,7 +306,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_sw_2",
+    "nested_mapgen_id": "cave_sw",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
@@ -330,7 +330,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_sw_3",
+    "nested_mapgen_id": "cave_sw",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
@@ -354,7 +354,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cave_sw_4",
+    "nested_mapgen_id": "cave_sw",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
