@@ -1402,6 +1402,7 @@
     "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_N",
+    "weight": 1000,
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
@@ -1484,6 +1485,7 @@
     "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_S",
+    "weight": 1000,
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
@@ -1558,6 +1560,7 @@
     "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_E",
+    "weight": 1000,
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
@@ -1632,6 +1635,7 @@
     "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_W",
+    "weight": 1000,
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
