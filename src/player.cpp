@@ -4063,6 +4063,9 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
 
     amount = adjust_for_focus( amount );
 
+    // Intelligence has a +- 10% multiplier per point based around 8 intelligence
+    amount += roll_remainder( .1 * amount * ( get_int() - 8 ) );
+
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
         if( !one_in( 3 ) ) {
             amount = 0;
