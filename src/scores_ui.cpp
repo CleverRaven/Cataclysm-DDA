@@ -61,7 +61,7 @@ static std::string get_scores_text( stats_tracker &stats )
 void show_scores_ui( const achievements_tracker &achievements, stats_tracker &stats,
                      const kill_tracker &kills )
 {
-    catacurses::window w = new_centered_win( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH );
+    catacurses::window w = new_centered_win( TERMY - 2, FULL_SCREEN_WIDTH );
 
     enum class tab_mode {
         achievements,
