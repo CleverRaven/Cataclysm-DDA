@@ -1510,12 +1510,9 @@ bool Character::move_effects( bool attacking )
                 add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
                                        _( "<npcname> finds themselves no longer grabbed." ) );
                 remove_effect( effect_grabbed );
-                /** @EFFECT_DEX increases chance to escape grab, if >STR */
 
-                /** @EFFECT_STR increases chance to escape grab, if >DEX */
-            } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
-                       rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
-                // Randomly compare higher of dex or str to grab intensity.
+                /** @EFFECT_STR increases chance to escape grab */
+            } else if( rng( 0, get_str() ) < rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
                 add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
                                        _( "<npcname> tries to break out of the grab, but fails!" ) );
                 return false;
