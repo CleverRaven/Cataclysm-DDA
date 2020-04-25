@@ -57,6 +57,50 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "microlab_generic_hallway_start",
+    "name": "science lab",
+    "sym": "L",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_firebreak",
+    "copy-from": "microlab_generic"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_hallway",
+    "copy-from": "microlab_generic_hallway_start"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_isolated_downstairs",
+    "copy-from": "microlab_generic_hallway_start"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_isolated_stairs_odd",
+    "copy-from": "microlab_generic_isolated_downstairs"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_isolated_stairs_even",
+    "copy-from": "microlab_generic_isolated_downstairs"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_isolated_upstairs",
+    "copy-from": "microlab_generic_isolated_downstairs"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_isolated_elevator_pit",
+    "copy-from": "microlab_generic_isolated_downstairs"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "microlab_generic_surface",
     "name": "lab",
     "sym": "L",
