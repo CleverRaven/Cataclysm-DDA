@@ -122,14 +122,14 @@
     "id": "TOGGLE_SPACE_HEATER",
     "type": "keybinding",
     "category": "VEHICLE",
-    "name": "Toggle freezer",
+    "name": "Toggle space heater",
     "bindings": [ { "input_method": "keyboard", "key": "s" } ]
   },
   {
     "id": "TOGGLE_COOLER",
     "type": "keybinding",
     "category": "VEHICLE",
-    "name": "Toggle freezer",
+    "name": "Toggle cooler",
     "bindings": [ { "input_method": "keyboard", "key": "C" } ]
   },
   {
