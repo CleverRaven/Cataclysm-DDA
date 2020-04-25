@@ -1472,6 +1472,32 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_33_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_33",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_33_roof",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "basement_chem2",
     "copy-from": "generic_city_house_basement"
   },
