@@ -260,7 +260,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     }
 
     bool did_prompt = false;
-    newit.charges = u.i_add_to_container( newit, false );
+    if( newit.count_by_charges() ) {
+        newit.charges = u.i_add_to_container( newit, false );
+    }
     if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
