@@ -247,7 +247,7 @@ holiday main_menu:: get_holiday_from_time()
     std::tm *local_time;
 
     std::time_t current_time = std::time( nullptr );
-    local_time = std::localtime( &current_time );
+    local_time = std::localtime_r( &current_time );
 
     int month = local_time->tm_mon + 1;
     int day = local_time->tm_mday;
