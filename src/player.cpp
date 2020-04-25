@@ -1273,8 +1273,12 @@ int player::impact( const int force, const tripoint &p )
         if( g->m.has_furn( p ) ) {
             // TODO: Make furniture matter
         } else if( g->m.has_flag( TFLAG_SWIMMABLE, p ) ) {
-            // TODO: Some formula of swimming
-            effective_force /= 4;
+            int swim_skill = get_skill_level( skill_swimming );
+            effective_force /= 4.0f + 0.1f * swim_skill;
+            if( g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+                effective_force /= 1.5f;
+                mod /= 1.0f + ( 0.1f * swim_skill );
+            }
         }
     }
 
