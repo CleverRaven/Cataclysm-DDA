@@ -324,7 +324,7 @@
     "price_postapoc": 100,
     "to_hit": 3,
     "bashing": 4,
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": ",",
     "color": "green",
     "use_action": "SIPHON"

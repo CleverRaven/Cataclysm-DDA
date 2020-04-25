@@ -679,11 +679,26 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Rubber slugs from a shotgun beanbag round.  You could use them to make new beanbag rounds.",
-    "material": "plastic",
+    "material": [ "plastic", "rubber" ],
     "volume": "250 ml",
     "weight": "2 g",
     "ammo_type": "components",
     "count": 25
+  },
+  {
+    "type": "AMMO",
+    "id": "chunk_rubber",
+    "category": "spare_parts",
+    "price": 75,
+    "name": { "str": "chunk of rubber", "str_pl": "chunks of rubber" },
+    "symbol": "*",
+    "color": "dark_gray",
+    "description": "A chunk of useful rubber, can be molded easily.",
+    "material": "rubber",
+    "volume": "250 ml",
+    "weight": "38 g",
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "AMMO",
