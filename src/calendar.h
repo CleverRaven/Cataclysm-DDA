@@ -105,6 +105,7 @@ float season_from_default_ratio();
 std::string name_season( season_type s );
 
 extern time_point start_of_cataclysm;
+extern time_point start_of_game;
 extern time_point turn;
 extern season_type initial_season;
 

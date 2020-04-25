@@ -240,5 +240,17 @@
     "charges": 3,
     "batch_time_factors": [ 30, 2 ],
     "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "chem_match_head_powder", 3 ], [ "gunpowder", 3 ] ] ]
+  },
+  {
+    "result": "wire",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "id_suffix": "debarbing barbed wire",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "autolearn": true,
+    "time": "30 m",
+    "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
+    "components": [ [ [ "wire_barbed", 1 ] ] ]
   }
 ]

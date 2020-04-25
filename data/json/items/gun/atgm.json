@@ -4,7 +4,7 @@
     "copy-from": "gun_base",
     "looks_like": "m79",
     "type": "GUN",
-    "name": { "str": "BGM-71F TOW", "str_pl": "BGM-71F TOW" },
+    "name": { "str_sp": "BGM-71F TOW" },
     "description": "A launcher for anti-tank guided missiles, capable of being deployed as a crew-served weapon or mounted on vehicles.  While fairly accurate, it isn't fire-and-forget.",
     "weight": "93000 g",
     "volume": "25 L",

@@ -2,7 +2,7 @@
   {
     "id": "gloopleboard_horizontal",
     "type": "vehicle_part",
-    "name": "gel panel",
+    "name": { "str": "gel panel" },
     "item": "gloople",
     "location": "center",
     "symbol": "h",
@@ -25,31 +25,31 @@
   {
     "id": "gloopleboard_nw",
     "type": "vehicle_part",
-    "copy-from": "gloople_horizontal",
+    "copy-from": "gloopleboard_horizontal",
     "symbol": "y"
   },
   {
     "id": "gloopleboard_se",
     "type": "vehicle_part",
-    "copy-from": "gloople_horizontal",
+    "copy-from": "gloopleboard_horizontal",
     "symbol": "n"
   },
   {
     "id": "gloopleboard_sw",
     "type": "vehicle_part",
-    "copy-from": "gloople_horizontal",
+    "copy-from": "gloopleboard_horizontal",
     "symbol": "b"
   },
   {
     "id": "gloopleboard_vertical",
     "type": "vehicle_part",
-    "copy-from": "gloople_horizontal",
+    "copy-from": "gloopleboard_horizontal",
     "symbol": "j"
   },
   {
     "id": "grayboard_horizontal",
     "type": "vehicle_part",
-    "name": "gray wall",
+    "name": { "str": "gray wall" },
     "item": "gray",
     "location": "center",
     "symbol": "h",
@@ -97,7 +97,7 @@
   {
     "id": "halfgloopleboard_horizontal",
     "type": "vehicle_part",
-    "name": "gel quarterpanel",
+    "name": { "str": "gel quarterpanel" },
     "item": "gloople",
     "location": "center",
     "symbol": "h",
@@ -157,7 +157,7 @@
   {
     "id": "halfgrayboard_horizontal",
     "type": "vehicle_part",
-    "name": "gray barricade",
+    "name": { "str": "gray barricade" },
     "item": "gray",
     "location": "center",
     "symbol": "h",
@@ -217,7 +217,7 @@
   {
     "id": "halfoozleboard_horizontal",
     "type": "vehicle_part",
-    "name": "ooze screen",
+    "name": { "str": "ooze screen" },
     "item": "oozle",
     "location": "center",
     "symbol": "h",
@@ -277,7 +277,7 @@
   {
     "id": "oozleboard_horizontal",
     "type": "vehicle_part",
-    "name": "ooze barrier",
+    "name": { "str": "ooze barrier" },
     "item": "oozle",
     "location": "center",
     "symbol": "h",

@@ -395,6 +395,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_gas_station",
+    "name": "Gas Station",
+    "terrain": [ "s_gas_rural" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_lighthouse_ground",
     "name": "Lighthouse Island",
     "terrain": [ "lighthouse_ground" ]

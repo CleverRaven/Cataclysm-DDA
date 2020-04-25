@@ -87,18 +87,27 @@
   },
   {
     "type": "recipe",
-    "result": "fertilizer_bomb",
+    "result": "improvised_demolition_charge",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "cooking",
-    "skills_required": [ "survival", 2 ],
+    "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "5 m",
     "autolearn": true,
-    "book_learn": [ [ "adv_chemistry", 2 ], [ "textbook_chemistry", 2 ], [ "recipe_labchem", 3 ], [ "atomic_survival", 2 ] ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "using": [ [ "volatile_explosive", 1 ], [ "stable_explosive", 17 ] ],
-    "components": [ [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ], [ [ "fuse", 1 ] ] ]
+    "using": [ [ "volatile_explosive", 5 ], [ "stable_explosive", 145 ] ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_demolition_charge",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "using": [ [ "volatile_explosive", 150 ] ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "result": "flashbang",
@@ -181,7 +190,28 @@
     ]
   },
   {
-    "result": "makeshift_grenade",
+    "result": "bootleg_grenade",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": false,
+    "book_learn": [ [ "manual_launcher", 4 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "military_explosive", 24 ], [ "explosives_casting_standard", 1 ] ],
+    "components": [
+      [ [ "delay_fuze", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "nail", 30 ], [ "scrap", 2 ] ]
+    ]
+  },
+  {
+    "result": "improvised_grenade",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -191,13 +221,33 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 18 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "volatile_explosive", 1 ], [ "stable_explosive", 23 ] ],
     "components": [
-      [ [ "pilot_light", 1 ] ],
+      [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "bb", 100 ], [ "nail", 30 ] ]
+      [ [ "nail", 30 ], [ "scrap", 2 ] ]
+    ]
+  },
+  {
+    "result": "primitive_grenade",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 2,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "volatile_explosive", 24 ] ],
+    "components": [
+      [ [ "fuse", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "nail", 30 ], [ "scrap", 2 ] ]
     ]
   },
   {
@@ -209,21 +259,8 @@
     "time": "30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "rag", 1 ] ],
-      [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ],
-      [
-        [ "gasoline", 500 ],
-        [ "diesel", 500 ],
-        [ "biodiesel", 500 ],
-        [ "chem_ethanol", 500 ],
-        [ "chem_methanol", 500 ],
-        [ "ether", 500 ],
-        [ "denat_alcohol", 500 ],
-        [ "lamp_oil", 500 ],
-        [ "motor_oil", 500 ]
-      ]
-    ]
+    "using": [ [ "accelerant_liquid", 500 ] ],
+    "components": [ [ [ "rag", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ] ]
   },
   {
     "result": "nail_bomb",
@@ -280,7 +317,23 @@
     "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nail", 200 ], [ "scrap", 16 ] ], [ [ "fuse", 1 ] ], [ [ "dynamite", 1 ] ] ]
   },
   {
-    "result": "pipebomb",
+    "result": "bootleg_pipebomb",
+    "type": "recipe",
+    "id_suffix": "stable",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 5 ],
+    "difficulty": 5,
+    "time": "15 m",
+    "reversible": true,
+    "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "using": [ [ "explosives_casting_standard", 1 ], [ "military_explosive", 30 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "delay_fuze", 1 ] ] ]
+  },
+  {
+    "result": "improvised_pipebomb",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -290,7 +343,21 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 18 ] ],
+    "using": [ [ "stable_explosive", 29 ], [ "volatile_explosive", 1 ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "primitive_pipebomb",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "volatile_explosive", 30 ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
@@ -313,17 +380,30 @@
     ]
   },
   {
-    "result": "tool_anfo_charge",
+    "result": "tool_improvised_barrel_bomb",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "cooking",
-    "difficulty": 7,
+    "skill_used": "fabrication",
+    "difficulty": 3,
     "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
-    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
-    "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_anfo", 6300 ] ], [ [ "dynamite", 2 ] ] ]
+    "using": [ [ "volatile_explosive", 100 ], [ "stable_explosive", 3900 ] ],
+    "components": [ [ [ "30gal_drum", 1 ] ], [ [ "fuse", 10 ] ] ]
+  },
+  {
+    "result": "tool_bootleg_barrel_bomb",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "2 h",
+    "reversible": true,
+    "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
+    "using": [ [ "explosives_casting_standard", 10 ], [ "military_explosive", 4000 ] ],
+    "components": [ [ [ "30gal_drum", 1 ] ], [ [ "delay_fuze", 1 ] ] ]
   },
   {
     "result": "can_bomb",
@@ -334,42 +414,50 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "volatile_explosive", 23 ] ],
+    "using": [ [ "volatile_explosive", 5 ] ],
     "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
-    "result": "pipebomb",
+    "result": "tool_small_bootleg_fragmentation_device",
     "type": "recipe",
-    "id_suffix": "stable",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "cooking", 5 ],
     "difficulty": 5,
     "time": "15 m",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
-    "using": [ [ "explosives_casting_standard", 1 ] ],
+    "using": [ [ "military_explosive", 250 ], [ "explosives_casting_standard", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "fuse", 1 ] ],
-      [ [ "chem_compositionb", 225 ] ],
-      [ [ "chem_black_powder", 10 ], [ "chem_match_head_powder", 10 ], [ "gunpowder", 5 ] ]
-    ]
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "scrap", 20 ] ], [ [ "delay_fuze", 1 ] ] ]
   },
   {
-    "result": "tool_black_powder_charge",
+    "result": "tool_small_improvised_fragmentation_device",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "25 m",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "using": [ [ "stable_explosive", 245 ], [ "volatile_explosive", 5 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "scrap", 20 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "tool_small_primitive_fragmentation_device",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "chem_black_powder", 4120 ] ], [ [ "scrap", 20 ] ], [ [ "string_6", 1 ] ] ]
+    "using": [ [ "volatile_explosive", 250 ] ],
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "scrap", 20 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "result": "tool_rdx_charge",

@@ -115,7 +115,7 @@
   {
     "id": "boxer_briefs",
     "type": "ARMOR",
-    "name": { "str": "boxer briefs", "str_pl": "boxer briefs" },
+    "name": { "str_sp": "boxer briefs" },
     "description": "The age-old question, boxers or briefs?  Your answer?  Yes.",
     "weight": "37 g",
     "volume": "250 ml",
@@ -134,7 +134,7 @@
   {
     "id": "boxer_shorts",
     "type": "ARMOR",
-    "name": { "str": "boxer shorts", "str_pl": "boxer shorts" },
+    "name": { "str_sp": "boxer shorts" },
     "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
     "weight": "42 g",
     "volume": "250 ml",
@@ -153,7 +153,7 @@
   {
     "id": "boy_shorts",
     "type": "ARMOR",
-    "name": { "str": "boy shorts", "str_pl": "boy shorts" },
+    "name": { "str_sp": "boy shorts" },
     "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
     "weight": "42 g",
     "volume": "250 ml",
@@ -191,7 +191,7 @@
   {
     "id": "briefs",
     "type": "ARMOR",
-    "name": { "str": "briefs", "str_pl": "briefs" },
+    "name": { "str_sp": "briefs" },
     "description": "A pair of briefs.  Comfortable underwear worn by men.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -450,7 +450,7 @@
   {
     "id": "panties",
     "type": "ARMOR",
-    "name": { "str": "panties", "str_pl": "panties" },
+    "name": { "str_sp": "panties" },
     "description": "Underwear designed to be worn by women.  Preserves your modesty in desperate times.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -525,7 +525,7 @@
     "id": "tights",
     "repairs_like": "jeans",
     "type": "ARMOR",
-    "name": { "str": "tights", "str_pl": "tights" },
+    "name": { "str_sp": "tights" },
     "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
     "weight": "114 g",
     "volume": "250 ml",
@@ -563,7 +563,7 @@
   {
     "id": "under_armor_shorts",
     "type": "ARMOR",
-    "name": { "str": "compression shorts", "str_pl": "compression shorts" },
+    "name": { "str_sp": "compression shorts" },
     "description": "Nylon sportswear that clings to your upper legs, aiding muscle tone and maintaining warmth.",
     "weight": "82 g",
     "volume": "250 ml",

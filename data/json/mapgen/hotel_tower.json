@@ -532,9 +532,9 @@
       "furniture": { "Y": "f_standing_tank", "6": "f_water_heater", "7": "f_roof_turbine_vent" },
       "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "Y": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 22 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 23, 3 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 49, 65 ], "y": [ 0, 22 ], "repeat": 2 }
+        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 22 ], "repeat": 2 },
+        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 24, 47 ], "y": [ 23, 3 ], "repeat": 2 },
+        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 49, 65 ], "y": [ 0, 22 ], "repeat": 2 }
       ]
     }
   },

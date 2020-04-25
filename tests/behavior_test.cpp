@@ -10,6 +10,7 @@
 #include "item_location.h"
 #include "npc.h"
 #include "player.h"
+#include "map_helpers.h"
 #include "player_helpers.h"
 #include "string_id.h"
 #include "weather.h"
@@ -135,6 +136,7 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 // Make assertions about loaded behaviors.
 TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
+    clear_map();
     behavior::tree npc_needs;
     npc_needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
     npc &test_npc = spawn_npc( { 50, 50 }, "test_talker" );

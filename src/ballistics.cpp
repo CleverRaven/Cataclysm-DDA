@@ -240,14 +240,14 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         rad += ( one_in( 2 ) ? 1 : -1 ) * std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) );
 
         // TODO: This should also represent the miss on z axis
-        const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
+        const int offset = std::min<int>( range, std::sqrt( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                         range + rng( -offset, offset ) :
                         rng( range - offset, proj_arg.range );
         new_range = std::max( new_range, 1 );
 
-        target.x = source.x + roll_remainder( new_range * cos( rad ) );
-        target.y = source.y + roll_remainder( new_range * sin( rad ) );
+        target.x = source.x + roll_remainder( new_range * std::cos( rad ) );
+        target.y = source.y + roll_remainder( new_range * std::sin( rad ) );
 
         if( target == source ) {
             target.x = source.x + sgn( dx );

@@ -221,8 +221,8 @@
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land", "swamp" ],
-    "city_distance": [ 10, 200 ],
-    "city_sizes": [ 1, 3 ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 1, 8 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -1179,6 +1179,20 @@
   },
   {
     "type": "overmap_special",
+    "id": "Rat Cave",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cave" },
+      { "point": [ 0, 0, -1 ], "overmap": "cave_rat_underground" },
+      { "point": [ 0, 0, -2 ], "overmap": "cave_rat" }
+    ],
+    "locations": [ "forest" ],
+    "city_sizes": [ 0, 12 ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Toxic Waste Dump",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "toxic_dump_north" } ],
     "locations": [ "land" ],
@@ -1542,8 +1556,8 @@
       { "point": [ 4, 9, 0 ], "terrain": "road" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 1, 5 ],
-    "city_sizes": [ 1, 12 ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 1, -1 ],
     "occurrences": [ 33, 100 ],
     "flags": [ "UNIQUE" ]
   },

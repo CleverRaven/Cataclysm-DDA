@@ -44,8 +44,8 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     do {
         int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );
-        new_pos.x = origin.x + rdistance * cos( rangle );
-        new_pos.y = origin.y + rdistance * sin( rangle );
+        new_pos.x = origin.x + rdistance * std::cos( rangle );
+        new_pos.y = origin.y + rdistance * std::sin( rangle );
         tries++;
     } while( g->m.impassable( new_pos ) && tries < 20 );
     //handles teleporting into solids.

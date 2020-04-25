@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_mycus",
-    "name": { "str": "marloss wine", "str_pl": "marloss wine" },
+    "name": { "str_sp": "marloss wine" },
     "weight": "33 g",
     "color": "white",
     "addiction_type": "alcohol",
@@ -29,7 +29,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_riesling",
-    "name": { "str": "Riesling", "str_pl": "Riesling" },
+    "name": { "str_sp": "Riesling" },
     "weight": "50 g",
     "color": "white",
     "addiction_type": "alcohol",
@@ -57,7 +57,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_chardonnay",
-    "name": { "str": "Chardonnay", "str_pl": "Chardonnay" },
+    "name": { "str_sp": "Chardonnay" },
     "weight": "50 g",
     "color": "white",
     "addiction_type": "alcohol",
@@ -85,7 +85,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_cabernet",
-    "name": { "str": "Cabernet Sauvignon", "str_pl": "Cabernet Sauvignon" },
+    "name": { "str_sp": "Cabernet Sauvignon" },
     "weight": "50 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -111,7 +111,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_noir",
-    "name": { "str": "pinot noir", "str_pl": "pinot noir" },
+    "name": { "str_sp": "pinot noir" },
     "weight": "50 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -138,7 +138,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_marsala",
-    "name": { "str": "marsala", "str_pl": "marsala" },
+    "name": { "str_sp": "marsala" },
     "weight": "50 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -165,7 +165,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_vermouth",
-    "name": { "str": "vermouth", "str_pl": "vermouth" },
+    "name": { "str_sp": "vermouth" },
     "weight": "50 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -192,7 +192,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wine_barley",
-    "name": { "str": "barley wine", "str_pl": "barley wine" },
+    "name": { "str_sp": "barley wine" },
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -220,7 +220,7 @@
   {
     "type": "COMESTIBLE",
     "id": "whiskey",
-    "name": { "str": "whiskey", "str_pl": "whiskey" },
+    "name": { "str_sp": "whiskey" },
     "weight": "33 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -248,7 +248,7 @@
   {
     "type": "COMESTIBLE",
     "id": "vodka",
-    "name": { "str": "vodka", "str_pl": "vodka" },
+    "name": { "str_sp": "vodka" },
     "weight": "33 g",
     "color": "light_cyan",
     "addiction_type": "alcohol",
@@ -275,7 +275,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gin",
-    "name": { "str": "gin", "str_pl": "gin" },
+    "name": { "str_sp": "gin" },
     "weight": "33 g",
     "color": "light_cyan",
     "addiction_type": "alcohol",
@@ -302,7 +302,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rum",
-    "name": { "str": "rum", "str_pl": "rum" },
+    "name": { "str_sp": "rum" },
     "weight": "33 g",
     "color": "light_cyan",
     "addiction_type": "alcohol",
@@ -329,7 +329,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tequila",
-    "name": { "str": "tequila", "str_pl": "tequila" },
+    "name": { "str_sp": "tequila" },
     "weight": "34 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -356,7 +356,7 @@
   {
     "type": "COMESTIBLE",
     "id": "triple_sec",
-    "name": { "str": "triple sec", "str_pl": "triple sec" },
+    "name": { "str_sp": "triple sec" },
     "weight": "30 g",
     "color": "light_cyan",
     "addiction_type": "alcohol",
@@ -383,7 +383,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bum_wine",
-    "name": { "str": "cheap wine", "str_pl": "cheap wine" },
+    "name": { "str_sp": "cheap wine" },
     "weight": "35 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -411,7 +411,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mixed_alcohol_strong",
-    "name": { "str": "strong mixed alcohol", "str_pl": "strong mixed alcohol" },
+    "name": { "str_sp": "strong mixed alcohol" },
     "weight": "34 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -437,7 +437,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mixed_alcohol_weak",
-    "name": { "str": "weak mixed alcohol", "str_pl": "weak mixed alcohol" },
+    "name": { "str_sp": "weak mixed alcohol" },
     "weight": "248 g",
     "color": "light_red",
     "addiction_type": "alcohol",
@@ -464,7 +464,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fruit_wine",
-    "name": { "str": "fruit wine", "str_pl": "fruit wine" },
+    "name": { "str_sp": "fruit wine" },
     "weight": "36 g",
     "color": "light_red",
     "addiction_type": "alcohol",
@@ -492,7 +492,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brandy",
-    "name": { "str": "brandy", "str_pl": "brandy" },
+    "name": { "str_sp": "brandy" },
     "weight": "34 g",
     "color": "light_red",
     "addiction_type": "alcohol",
@@ -519,7 +519,7 @@
   {
     "type": "COMESTIBLE",
     "id": "irish_coffee",
-    "name": { "str": "Irish coffee", "str_pl": "Irish coffee" },
+    "name": { "str_sp": "Irish coffee" },
     "weight": "260 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -545,7 +545,7 @@
   {
     "type": "COMESTIBLE",
     "id": "long_island",
-    "name": { "str": "Long Island iced tea", "str_pl": "Long Island iced tea" },
+    "name": { "str_sp": "Long Island iced tea" },
     "weight": "232 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -601,7 +601,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_wild_apple",
-    "name": { "str": "wild apple", "str_pl": "wild apple" },
+    "name": { "str_sp": "wild apple" },
     "weight": "258 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -629,7 +629,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_rumcola",
-    "name": { "str": "rum & cola", "str_pl": "rum & cola" },
+    "name": { "str_sp": "rum & cola" },
     "weight": "251 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -656,7 +656,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beer",
-    "name": { "str": "beer", "str_pl": "beer" },
+    "name": { "str_sp": "beer" },
     "weight": "251 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -683,7 +683,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mead",
-    "name": { "str": "spiced mead", "str_pl": "spiced mead" },
+    "name": { "str_sp": "spiced mead" },
     "weight": "36 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -710,7 +710,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dandelion_wine",
-    "name": { "str": "dandelion wine", "str_pl": "dandelion wine" },
+    "name": { "str_sp": "dandelion wine" },
     "weight": "35 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -738,7 +738,7 @@
   {
     "type": "COMESTIBLE",
     "id": "burdock_wine",
-    "name": { "str": "burdock wine", "str_pl": "burdock wine" },
+    "name": { "str_sp": "burdock wine" },
     "weight": "247 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -765,7 +765,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pine_wine",
-    "name": { "str": "pine wine", "str_pl": "pine wine" },
+    "name": { "str_sp": "pine wine" },
     "weight": "35 g",
     "color": "light_green",
     "addiction_type": "alcohol",
@@ -793,7 +793,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hb_beer",
-    "name": { "str": "homebrew beer", "str_pl": "homebrew beer" },
+    "name": { "str_sp": "homebrew beer" },
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -820,7 +820,7 @@
   {
     "type": "COMESTIBLE",
     "id": "moonshine",
-    "name": { "str": "moonshine", "str_pl": "moonshine" },
+    "name": { "str_sp": "moonshine" },
     "weight": "35 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -847,7 +847,7 @@
   {
     "type": "COMESTIBLE",
     "id": "european_pilsner",
-    "name": { "str": "European pilsner", "str_pl": "European pilsner" },
+    "name": { "str_sp": "European pilsner" },
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -875,7 +875,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pale_ale",
-    "name": { "str": "American pale ale", "str_pl": "American pale ale" },
+    "name": { "str_sp": "American pale ale" },
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -903,7 +903,7 @@
   {
     "type": "COMESTIBLE",
     "id": "india_pale_ale",
-    "name": { "str": "India pale ale", "str_pl": "India pale ale" },
+    "name": { "str_sp": "India pale ale" },
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -931,7 +931,7 @@
   {
     "type": "COMESTIBLE",
     "id": "stout",
-    "name": { "str": "stout", "str_pl": "stout" },
+    "name": { "str_sp": "stout" },
     "weight": "205 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -959,7 +959,7 @@
   {
     "type": "COMESTIBLE",
     "id": "belgian_ale",
-    "name": { "str": "Belgian ale", "str_pl": "Belgian ale" },
+    "name": { "str_sp": "Belgian ale" },
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -987,7 +987,7 @@
   {
     "type": "COMESTIBLE",
     "id": "imperial_stout",
-    "name": { "str": "imperial stout", "str_pl": "imperial stout" },
+    "name": { "str_sp": "imperial stout" },
     "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -1073,7 +1073,7 @@
   {
     "type": "COMESTIBLE",
     "id": "single_malt_whiskey",
-    "name": { "str": "single malt whiskey", "str_pl": "single malt whiskey" },
+    "name": { "str_sp": "single malt whiskey" },
     "weight": "33 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -1102,7 +1102,7 @@
     "type": "COMESTIBLE",
     "id": "single_pot_whiskey",
     "copy-from": "whiskey",
-    "name": { "str": "single pot still Irish whiskey", "str_pl": "single pot still Irish whiskey" },
+    "name": { "str_sp": "single pot still Irish whiskey" },
     "description": "A whiskey made from a mixed mash of malted and unmalted barley.",
     "price": 2600,
     "price_postapoc": 250,
@@ -1112,7 +1112,7 @@
     "type": "COMESTIBLE",
     "id": "cheap_whiskey",
     "copy-from": "whiskey",
-    "name": { "str": "cheap whiskey", "str_pl": "cheap whiskey" },
+    "name": { "str_sp": "cheap whiskey" },
     "description": "Really cheap blended whiskey.",
     "price": 1800,
     "price_postapoc": 200,
@@ -1122,7 +1122,7 @@
     "type": "COMESTIBLE",
     "id": "canadian_whiskey",
     "copy-from": "whiskey",
-    "name": { "str": "Canadian whiskey", "str_pl": "Canadian whiskey" },
+    "name": { "str_sp": "Canadian whiskey" },
     "description": "A multi-grain liquor made from a mash of corn and rye.",
     "price": 2400,
     "price_postapoc": 250,
@@ -1131,7 +1131,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sherry",
-    "name": { "str": "sherry", "str_pl": "sherry" },
+    "name": { "str_sp": "sherry" },
     "weight": "120 g",
     "color": "brown",
     "addiction_type": "alcohol",
@@ -1159,7 +1159,7 @@
     "type": "COMESTIBLE",
     "id": "bristol_sherry",
     "copy-from": "sherry",
-    "name": { "str": "Bristol Cream", "str_pl": "Bristol Cream" },
+    "name": { "str_sp": "Bristol Cream" },
     "description": "A fine sherry that has been aged in American oak casks and bottled in Bristol, England.",
     "price": 2800,
     "price_postapoc": 150,
@@ -1169,7 +1169,7 @@
     "type": "COMESTIBLE",
     "id": "madeira",
     "copy-from": "sherry",
-    "name": { "str": "Madeira wine", "str_pl": "Madeira wine" },
+    "name": { "str_sp": "Madeira wine" },
     "description": "Fortified wine from Madeira.  A true Royal Navy drink.",
     "price": 2400,
     "price_postapoc": 150,
@@ -1178,7 +1178,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_hobo",
-    "name": "fancy hobo",
+    "name": { "str_sp": "fancy hobo" },
     "weight": "50 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -1206,7 +1206,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_kalimotxo",
-    "name": "kalimotxo",
+    "name": { "str_sp": "kalimotxo" },
     "weight": "250 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -1234,7 +1234,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_beeknees",
-    "name": { "str": "bee's knees" },
+    "name": { "str_sp": "bee's knees" },
     "weight": "248 g",
     "color": "yellow",
     "addiction_type": "alcohol",

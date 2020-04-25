@@ -117,9 +117,19 @@ class recipe
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
         // Character object (if provided) used to color levels
-        std::string required_skills_string( const Character *, bool print_skill_level ) const;
-        std::string required_skills_string( const Character * ) const;
-        std::string required_skills_string() const;
+
+        // These are primarily used by the crafting menu.
+        // Format the primary skill string.
+        std::string primary_skill_string( const Character *c, bool print_skill_level ) const;
+
+        // Format the other skills string.  This is also used for searching within the crafting
+        // menu which includes the primary skill.
+        std::string required_skills_string( const Character *, bool include_primary_skill,
+                                            bool print_skill_level ) const;
+
+        // This is used by the basecamp bulletin board.
+        std::string required_all_skills_string() const;
+
 
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"

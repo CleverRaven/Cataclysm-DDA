@@ -600,7 +600,7 @@ class item : public visitable<item>
         /*@}*/
 
         /** Max range weapon usable for melee attack accounting for player/NPC abilities */
-        int reach_range( const player &p ) const;
+        int reach_range( const Character &guy ) const;
 
         /**
          * Sets time until activation for an item that will self-activate in the future.

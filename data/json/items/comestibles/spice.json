@@ -3,7 +3,7 @@
     "id": "chilly-p",
     "copy-from": "spice",
     "type": "COMESTIBLE",
-    "name": { "str": "chili powder", "str_pl": "chili powder" },
+    "name": { "str_sp": "chili powder" },
     "description": "Chilly P, Yo!  Not edible on its own, but it could be used to make seasoning.",
     "color": "red"
   },
@@ -11,7 +11,7 @@
     "id": "cinnamon",
     "copy-from": "spice",
     "type": "COMESTIBLE",
-    "name": { "str": "cinnamon", "str_pl": "cinnamon" },
+    "name": { "str_sp": "cinnamon" },
     "description": "Ground cinnamon bark with a sweet but slightly spicy aroma.",
     "color": "brown"
   },
@@ -19,7 +19,7 @@
     "id": "curry_powder",
     "copy-from": "spice",
     "type": "COMESTIBLE",
-    "name": { "str": "curry powder", "str_pl": "curry powder" },
+    "name": { "str_sp": "curry powder" },
     "description": "A blend of spices meant to be used in some South Asian dishes.  Can't be eaten raw, why would you even try that?",
     "color": "red"
   },
@@ -27,7 +27,7 @@
     "id": "pepper",
     "copy-from": "spice",
     "type": "COMESTIBLE",
-    "name": { "str": "black pepper", "str_pl": "black pepper" },
+    "name": { "str_sp": "black pepper" },
     "description": "Ground black spice berries with a pungent aroma.",
     "color": "dark_gray"
   },
@@ -35,7 +35,7 @@
     "id": "salt",
     "copy-from": "spice",
     "type": "COMESTIBLE",
-    "name": { "str": "salt", "str_pl": "salt" },
+    "name": { "str_sp": "salt" },
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
     "color": "white"
   },
@@ -43,7 +43,7 @@
     "id": "seasoning_italian",
     "copy-from": "spice",
     "type": "COMESTIBLE",
-    "name": { "str": "Italian seasoning", "str_pl": "Italian seasoning" },
+    "name": { "str_sp": "Italian seasoning" },
     "description": "A fragrant mix of dried oregano, basil, thyme and other spices.",
     "color": "green"
   },
@@ -51,14 +51,14 @@
     "id": "seasoning_salt",
     "copy-from": "salt",
     "type": "COMESTIBLE",
-    "name": { "str": "seasoned salt", "str_pl": "seasoned salt" },
+    "name": { "str_sp": "seasoned salt" },
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
     "color": "brown"
   },
   {
     "type": "COMESTIBLE",
     "id": "sugar",
-    "name": { "str": "sugar", "str_pl": "sugar" },
+    "name": { "str_sp": "sugar" },
     "weight": "5 g",
     "color": "white",
     "container": "box_small",
@@ -78,7 +78,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sprinkles",
-    "name": { "str": "sprinkles", "str_pl": "sprinkles" },
+    "name": { "str_sp": "sprinkles" },
     "weight": "4 g",
     "copy-from": "sugar",
     "container": "bottle_plastic_small",
@@ -91,7 +91,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wild_herbs",
-    "name": { "str": "wild herbs", "str_pl": "wild herbs" },
+    "name": { "str_sp": "wild herbs" },
     "weight": "7 g",
     "color": "green",
     "comestible_type": "FOOD",
@@ -113,7 +113,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "brown",
-    "name": { "str": "soy sauce", "str_pl": "soy sauce" },
+    "name": { "str_sp": "soy sauce" },
     "description": "Salty fermented soybean sauce.",
     "price": 190,
     "price_postapoc": 25,
@@ -151,7 +151,7 @@
     "id": "mustard_powder",
     "copy-from": "spice",
     "type": "COMESTIBLE",
-    "name": { "str": "mustard powder", "str_pl": "mustard powder" },
+    "name": { "str_sp": "mustard powder" },
     "description": "A fragnant yellow powder.  Not edible in this form.",
     "color": "red"
   }

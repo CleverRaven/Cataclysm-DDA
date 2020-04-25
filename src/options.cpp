@@ -47,7 +47,6 @@
 #include <sstream>
 #include <string>
 
-bool trigdist;
 bool use_tiles;
 bool log_from_top;
 int message_ttl;
@@ -2145,8 +2144,8 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
-         translate_marker( "If true, experimental z-level maps will be enabled.  Turn this off if you experience excessive slowdown." ),
+    add( "ZLEVELS", "world_default", translate_marker( "Z-levels" ),
+         translate_marker( "If true, enables several features related to vertical movement, such as hauling items up stairs, climbing downspouts, and flying aircraft.  May cause problems if toggled mid-game." ),
          true
        );
 

@@ -242,7 +242,7 @@ void uilist::inputfilter()
     filter_popup = std::make_unique<string_input_popup>();
     filter_popup->text( filter )
     .max_length( 256 )
-    .window( window, 4, w_height - 1, w_width - 4 );
+    .window( window, point( 4, w_height - 1 ), w_width - 4 );
     input_event event;
     ime_sentry sentry;
     do {
@@ -541,7 +541,7 @@ void uilist::reposition( ui_adaptor &ui )
         }
         window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
         if( filter_popup ) {
-            filter_popup->window( window, 4, w_height - 1, w_width - 4 );
+            filter_popup->window( window, point( 4, w_height - 1 ), w_width - 4 );
         }
     }
     ui.position_from_window( window );

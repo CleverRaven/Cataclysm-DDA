@@ -122,7 +122,7 @@
     "id": "hygrometer",
     "type": "TOOL",
     "category": "tools",
-    "name": { "str": "hygrometer", "str_pl": "hygrometers" },
+    "name": { "str": "hygrometer" },
     "description": "A plastic hygrometer that can read the relative humidity in the air.",
     "weight": "1 g",
     "volume": "250 ml",

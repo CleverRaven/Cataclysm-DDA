@@ -136,7 +136,7 @@ static float mass_to_area( const float mass )
     // Density of steel in g/cm^3
     constexpr float steel_density = 7.85;
     float fragment_volume = ( mass / 1000.0 ) / steel_density;
-    float fragment_radius = cbrt( ( fragment_volume * 3.0 ) / ( 4.0 * M_PI ) );
+    float fragment_radius = std::cbrt( ( fragment_volume * 3.0 ) / ( 4.0 * M_PI ) );
     return fragment_radius * fragment_radius * M_PI;
 }
 

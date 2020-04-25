@@ -267,7 +267,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
                     for( int x = i - 1; x <= i + 1; x++ ) {
                         for( int y = j - 1; y <= j + 1; y++ ) {
                             if( m.ter( point( x, y ) ) == t_floor ) {
-                                madd_field( &m, x, y, fd_web, rng( 2, 3 ) );
+                                madd_field( &m, point( x, y ), fd_web, rng( 2, 3 ) );
                                 if( one_in( 4 ) ) {
                                     m.furn_set( point( i, j ), egg_type );
                                     m.remove_field( {i, j, m.get_abs_sub().z}, fd_web );
@@ -276,7 +276,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
                         }
                     }
                 } else if( m.passable( point( i, j ) ) && one_in( 5 ) ) {
-                    madd_field( &m, i, j, fd_web, 1 );
+                    madd_field( &m, point( i, j ), fd_web, 1 );
                 }
             }
         }
@@ -1092,9 +1092,9 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( SEEY, SEEY * 2 - 2 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1193,9 +1193,9 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( 1, SEEY );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1339,9 +1339,9 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1473,9 +1473,9 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX ), y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1555,59 +1555,6 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
         }
     }
 
-}
-
-//Obsolete, remove after 0.E.
-static bool mx_fumarole( map &m, const tripoint &abs_sub )
-{
-    if( abs_sub.z > 0 ) {
-        return false;
-    }
-
-    int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
-        x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
-
-    // Pick a random cardinal direction to also spawn lava in
-    // This will make the lava a single connected line, not just on diagonals
-    std::vector<direction> possibilities;
-    possibilities.push_back( direction::EAST );
-    possibilities.push_back( direction::WEST );
-    possibilities.push_back( direction::NORTH );
-    possibilities.push_back( direction::SOUTH );
-    const direction extra_lava_dir = random_entry( possibilities );
-    int x_extra = 0;
-    int y_extra = 0;
-    switch( extra_lava_dir ) {
-        case direction::NORTH:
-            y_extra = -1;
-            break;
-        case direction::EAST:
-            x_extra = 1;
-            break;
-        case direction::SOUTH:
-            y_extra = 1;
-            break;
-        case direction::WEST:
-            x_extra = -1;
-            break;
-        default:
-            break;
-    }
-
-    std::set<point> ignited;
-    place_fumarole( m, x1, y1, x2, y2, ignited );
-    place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
-
-    for( auto &i : ignited ) {
-        // Don't need to do anything to tiles that already have lava on them
-        if( m.ter( i ) != t_lava ) {
-            // Spawn an intense but short-lived fire
-            // Any furniture or buildings will catch fire, otherwise it will burn out quickly
-            m.add_field( tripoint( i, abs_sub.z ), fd_fire, 15, 1_minutes );
-        }
-    }
-
-    return true;
 }
 
 static bool mx_portal_in( map &m, const tripoint &abs_sub )
@@ -1735,18 +1682,6 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             break;
         }
     }
-
-    return true;
-}
-
-//Obsolete, remove after 0.E.
-static bool mx_anomaly( map &m, const tripoint &abs_sub )
-{
-    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
-    artifact_natural_property prop =
-        static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
-    m.create_anomaly( center, prop );
-    m.spawn_natural_artifact( center, prop );
 
     return true;
 }
@@ -2909,7 +2844,6 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
-    { "mx_fumarole", mx_fumarole },
     { "mx_collegekids", mx_collegekids },
     { "mx_drugdeal", mx_drugdeal },
     { "mx_roadworks", mx_roadworks },
@@ -2923,7 +2857,6 @@ FunctionMap builtin_functions = {
     { "mx_science", mx_science },
     { "mx_portal", mx_portal },
     { "mx_portal_in", mx_portal_in },
-    { "mx_anomaly", mx_anomaly },
     { "mx_house_spider", mx_house_spider },
     { "mx_house_wasp", mx_house_wasp },
     { "mx_spider", mx_spider },

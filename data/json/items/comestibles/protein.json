@@ -6,7 +6,7 @@
     "name": "protein drink",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent green drink" },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thin slurry of refined protein mixed with water.  While quite nutritious, it is not particularly tasty.",
     "weight": "278 g",
@@ -30,14 +30,10 @@
     "id": "protein_powder",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "protein powder", "str_pl": "protein powder" },
+    "name": { "str_sp": "protein powder" },
     "conditional_names": [
-      {
-        "type": "FLAG",
-        "condition": "CANNIBALISM",
-        "name": { "str": "soylent green powder", "str_pl": "soylent green powder" }
-      },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green powder" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
     "//": "1 g of protein powder is 0.959 ml, 1 serving is 28g and 27ml",
@@ -83,7 +79,7 @@
     "name": "protein shake",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent green shake" },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
     "material": "fruit",
@@ -102,7 +98,7 @@
     "name": "fortified protein shake",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "fortified soylent green shake" },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
     "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitA", 5 ], [ "vitB", 5 ], [ "vitC", 5 ] ] }

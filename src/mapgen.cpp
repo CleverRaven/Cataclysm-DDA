@@ -2542,7 +2542,7 @@ bool jmapgen_setmap::apply( mapgendata &dat, const point &offset ) const
             break;
             case JMAPGEN_SETMAP_TRAP: {
                 // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                mtrap_set( &m, x_get(), y_get(), trap_id( val.get() ) );
+                mtrap_set( &m, point( x_get(), y_get() ), trap_id( val.get() ) );
             }
             break;
             case JMAPGEN_SETMAP_RADIATION: {
@@ -2569,7 +2569,7 @@ bool jmapgen_setmap::apply( mapgendata &dat, const point &offset ) const
                                                 0 );
                 for( auto &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                    mtrap_set( &m, i.x, i.y, trap_id( val.get() ) );
+                    mtrap_set( &m, i, trap_id( val.get() ) );
                 }
             }
             break;
@@ -2599,7 +2599,7 @@ bool jmapgen_setmap::apply( mapgendata &dat, const point &offset ) const
                 for( int tx = cx; tx <= cx2; tx++ ) {
                     for( int ty = cy; ty <= cy2; ty++ ) {
                         // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                        mtrap_set( &m, tx, ty, trap_id( val.get() ) );
+                        mtrap_set( &m, point( tx, ty ), trap_id( val.get() ) );
                     }
                 }
             }
@@ -4241,10 +4241,10 @@ void map::draw_lab( mapgendata &dat )
                                   point( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
                     spawn_item( point( SEEX - 4, SEEY - 2 ), "id_science" );
                     if( loot_variant <= 96 ) {
-                        mtrap_set( this, SEEX - 3, SEEY - 3, tr_dissector );
-                        mtrap_set( this, SEEX + 2, SEEY - 3, tr_dissector );
-                        mtrap_set( this, SEEX - 3, SEEY + 2, tr_dissector );
-                        mtrap_set( this, SEEX + 2, SEEY + 2, tr_dissector );
+                        mtrap_set( this, point( SEEX - 3, SEEY - 3 ), tr_dissector );
+                        mtrap_set( this, point( SEEX + 2, SEEY - 3 ), tr_dissector );
+                        mtrap_set( this, point( SEEX - 3, SEEY + 2 ), tr_dissector );
+                        mtrap_set( this, point( SEEX + 2, SEEY + 2 ), tr_dissector );
                         line( this, t_reinforced_glass, point( SEEX + 1, SEEY + 1 ), point( SEEX - 2, SEEY + 1 ) );
                         line( this, t_reinforced_glass, point( SEEX - 2, SEEY ), point( SEEX - 2, SEEY - 2 ) );
                         line( this, t_reinforced_glass, point( SEEX - 1, SEEY - 2 ), point( SEEX + 1, SEEY - 2 ) );
@@ -4277,10 +4277,10 @@ void map::draw_lab( mapgendata &dat )
                             spawn_item( point( SEEX, SEEY ), "recipe_caseless" );
                         }
                     } else { // 4% of the lab ends will be this weapons testing end.
-                        mtrap_set( this, SEEX - 4, SEEY - 3, tr_dissector );
-                        mtrap_set( this, SEEX + 3, SEEY - 3, tr_dissector );
-                        mtrap_set( this, SEEX - 4, SEEY + 2, tr_dissector );
-                        mtrap_set( this, SEEX + 3, SEEY + 2, tr_dissector );
+                        mtrap_set( this, point( SEEX - 4, SEEY - 3 ), tr_dissector );
+                        mtrap_set( this, point( SEEX + 3, SEEY - 3 ), tr_dissector );
+                        mtrap_set( this, point( SEEX - 4, SEEY + 2 ), tr_dissector );
+                        mtrap_set( this, point( SEEX + 3, SEEY + 2 ), tr_dissector );
 
                         furn_set( point( SEEX - 2, SEEY - 1 ), f_rack );
                         furn_set( point( SEEX - 1, SEEY - 1 ), f_rack );
@@ -4360,10 +4360,10 @@ void map::draw_lab( mapgendata &dat )
                                   point( 6, SEEY * 2 - 7 ), 1, true );
                     place_spawns( GROUP_ROBOT_SECUBOT, 1, point( SEEX * 2 - 7, SEEY * 2 - 7 ),
                                   point( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
-                    mtrap_set( this, SEEX - 2, SEEY - 2, tr_dissector );
-                    mtrap_set( this, SEEX + 1, SEEY - 2, tr_dissector );
-                    mtrap_set( this, SEEX - 2, SEEY + 1, tr_dissector );
-                    mtrap_set( this, SEEX + 1, SEEY + 1, tr_dissector );
+                    mtrap_set( this, point( SEEX - 2, SEEY - 2 ), tr_dissector );
+                    mtrap_set( this, point( SEEX + 1, SEEY - 2 ), tr_dissector );
+                    mtrap_set( this, point( SEEX - 2, SEEY + 1 ), tr_dissector );
+                    mtrap_set( this, point( SEEX + 1, SEEY + 1 ), tr_dissector );
                     square_furn( this, f_counter, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
                     int item_count = 0;
                     while( item_count < 5 ) {
@@ -4491,12 +4491,12 @@ void map::draw_temple( mapgendata &dat )
                     square( this, t_rock, point( 0, SEEY * 2 - 2 ), point( SEEX - 1, SOUTH_EDGE ) );
                     square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     line( this, t_grate, point( SEEX, 1 ), point( SEEX + 1, 1 ) ); // To drain the water
-                    mtrap_set( this, SEEX, SEEY * 2 - 2, tr_temple_flood );
-                    mtrap_set( this, SEEX + 1, SEEY * 2 - 2, tr_temple_flood );
+                    mtrap_set( this, point( SEEX, SEEY * 2 - 2 ), tr_temple_flood );
+                    mtrap_set( this, point( SEEX + 1, SEEY * 2 - 2 ), tr_temple_flood );
                     for( int y = 2; y < SEEY * 2 - 2; y++ ) {
                         for( int x = 2; x < SEEX * 2 - 2; x++ ) {
                             if( ter( point( x, y ) ) == t_rock_floor && one_in( 4 ) ) {
-                                mtrap_set( this, x, y, tr_temple_flood );
+                                mtrap_set( this, point( x, y ), tr_temple_flood );
                             }
                         }
                     }
@@ -4656,7 +4656,7 @@ void map::draw_temple( mapgendata &dat )
                     // Finally, fill in the rest with random tiles, and place toggle traps
                     for( int i = SEEX - 3; i <= SEEX + 4; i++ ) {
                         for( int j = 2; j <= SEEY * 2 - 2; j++ ) {
-                            mtrap_set( this, i, j, tr_temple_toggle );
+                            mtrap_set( this, point( i, j ), tr_temple_toggle );
                             if( ter( point( i, j ) ) == t_rock_floor ) {
                                 static const std::vector<ter_id> terrains = {
                                     t_rock_red, t_rock_green, t_rock_blue,
@@ -6502,31 +6502,31 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             m->furn_set( point( static_cast<int>( ( x1 + x2 ) / 2 ) + 1,
                                 static_cast<int>( ( y1 + y2 ) / 2 ) + 1 ),
                          f_counter );
-            mtrap_set( m, trapx, trapy, tr_telepad );
+            mtrap_set( m, point( trapx, trapy ), tr_telepad );
             m->place_items( "teleport", 70, point( ( x1 + x2 ) / 2, static_cast<int>( ( y1 + y2 ) / 2 ) ),
                             point( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, static_cast<int>( ( y1 + y2 ) / 2 ) + 1 ), false,
                             calendar::start_of_cataclysm );
             break;
         case room_goo:
             do {
-                mtrap_set( m, trapx, trapy, tr_goo );
+                mtrap_set( m, point( trapx, trapy ), tr_goo );
                 trapx = rng( x1 + 1, x2 - 1 );
                 trapy = rng( y1 + 1, y2 - 1 );
             } while( !one_in( 5 ) );
             if( rotate == 0 ) {
-                mremove_trap( m, x1, y2 );
+                mremove_trap( m, point( x1, y2 ) );
                 m->furn_set( point( x1, y2 ), f_fridge );
                 m->place_items( "goo", 60, point( x1, y2 ), point( x1, y2 ), false, calendar::start_of_cataclysm );
             } else if( rotate == 1 ) {
-                mremove_trap( m, x1, y1 );
+                mremove_trap( m, point( x1, y1 ) );
                 m->furn_set( point( x1, y1 ), f_fridge );
                 m->place_items( "goo", 60, point( x1, y1 ), point( x1, y1 ), false, calendar::start_of_cataclysm );
             } else if( rotate == 2 ) {
-                mremove_trap( m, x2, y1 );
+                mremove_trap( m, point( x2, y1 ) );
                 m->furn_set( point( x2, y1 ), f_fridge );
                 m->place_items( "goo", 60, point( x2, y1 ), point( x2, y1 ), false, calendar::start_of_cataclysm );
             } else {
-                mremove_trap( m, x2, y2 );
+                mremove_trap( m, point( x2, y2 ) );
                 m->furn_set( point( x2, y2 ), f_fridge );
                 m->place_items( "goo", 60, point( x2, y2 ), point( x2, y2 ), false, calendar::start_of_cataclysm );
             }
@@ -6568,7 +6568,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 m->place_items( "dissection", 80, point( x2 - 1, y1 ), point( x2 - 1, y2 ), false,
                                 calendar::start_of_cataclysm );
             }
-            mtrap_set( m, static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ),
+            mtrap_set( m, point( ( x1 + x2 ) / 2, static_cast<int>( ( y1 + y2 ) / 2 ) ),
                        tr_dissector );
             m->place_spawns( GROUP_LAB_CYBORG, 10,
                              point( static_cast<int>( ( ( x1 + x2 ) / 2 ) + 1 ),
@@ -7065,7 +7065,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = cx - 5; i <= cx + 5; i++ ) {
                 for( int j = cy - 5; j <= cy + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble && one_in( 2 ) ) {
-                        mtrap_set( this, i, j, tr_glow );
+                        mtrap_set( this, point( i, j ), tr_glow );
                     }
                 }
             }
@@ -7076,7 +7076,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = cx - 5; i <= cx + 5; i++ ) {
                 for( int j = cy - 5; j <= cy + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble && one_in( 2 ) ) {
-                        mtrap_set( this, i, j, tr_hum );
+                        mtrap_set( this, point( i, j ), tr_hum );
                     }
                 }
             }
@@ -7087,7 +7087,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = cx - 5; i <= cx + 5; i++ ) {
                 for( int j = cy - 5; j <= cy + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble && one_in( 3 ) ) {
-                        mtrap_set( this, i, j, tr_shadow );
+                        mtrap_set( this, point( i, j ), tr_shadow );
                     }
                 }
             }
@@ -7110,7 +7110,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = cx - 5; i <= cx + 5; i++ ) {
                 for( int j = cy - 5; j <= cy + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        mtrap_set( this, i, j, tr_drain );
+                        mtrap_set( this, point( i, j ), tr_drain );
                     }
                 }
             }
@@ -7149,7 +7149,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = cx - 5; i <= cx + 5; i++ ) {
                 for( int j = cy - 5; j <= cy + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        mtrap_set( this, i, j, tr_snake );
+                        mtrap_set( this, point( i, j ), tr_snake );
                     }
                 }
             }

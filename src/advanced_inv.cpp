@@ -59,7 +59,6 @@
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_DROP( "ACT_DROP" );
-static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
@@ -91,21 +90,21 @@ advanced_inventory::advanced_inventory()
       // panes don't need initialization, they are recalculated immediately
     , squares( {
     {
-        //               hx  hy
-        { AIM_INVENTORY, 25, 2, tripoint_zero,       _( "Inventory" ),          _( "IN" ),  "I", "ITEMS_INVENTORY", AIM_INVENTORY},
-        { AIM_SOUTHWEST, 30, 3, tripoint_south_west, _( "South West" ),         _( "SW" ),  "1", "ITEMS_SW",        AIM_WEST},
-        { AIM_SOUTH,     33, 3, tripoint_south,      _( "South" ),              _( "S" ),   "2", "ITEMS_S",         AIM_SOUTHWEST},
-        { AIM_SOUTHEAST, 36, 3, tripoint_south_east, _( "South East" ),         _( "SE" ),  "3", "ITEMS_SE",        AIM_SOUTH},
-        { AIM_WEST,      30, 2, tripoint_west,       _( "West" ),               _( "W" ),   "4", "ITEMS_W",         AIM_NORTHWEST},
-        { AIM_CENTER,    33, 2, tripoint_zero,       _( "Directly below you" ), _( "DN" ),  "5", "ITEMS_CE",        AIM_CENTER},
-        { AIM_EAST,      36, 2, tripoint_east,       _( "East" ),               _( "E" ),   "6", "ITEMS_E",         AIM_SOUTHEAST},
-        { AIM_NORTHWEST, 30, 1, tripoint_north_west, _( "North West" ),         _( "NW" ),  "7", "ITEMS_NW",        AIM_NORTH},
-        { AIM_NORTH,     33, 1, tripoint_north,      _( "North" ),              _( "N" ),   "8", "ITEMS_N",         AIM_NORTHEAST},
-        { AIM_NORTHEAST, 36, 1, tripoint_north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE",        AIM_EAST},
-        { AIM_DRAGGED,   25, 1, tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
-        { AIM_ALL,       22, 3, tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
-        { AIM_CONTAINER, 22, 1, tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
-        { AIM_WORN,      25, 3, tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
+        //               pos in window
+        { AIM_INVENTORY, point( 25, 2 ), tripoint_zero,       _( "Inventory" ),          _( "IN" ),  "I", "ITEMS_INVENTORY", AIM_INVENTORY},
+        { AIM_SOUTHWEST, point( 30, 3 ), tripoint_south_west, _( "South West" ),         _( "SW" ),  "1", "ITEMS_SW",        AIM_WEST},
+        { AIM_SOUTH,     point( 33, 3 ), tripoint_south,      _( "South" ),              _( "S" ),   "2", "ITEMS_S",         AIM_SOUTHWEST},
+        { AIM_SOUTHEAST, point( 36, 3 ), tripoint_south_east, _( "South East" ),         _( "SE" ),  "3", "ITEMS_SE",        AIM_SOUTH},
+        { AIM_WEST,      point( 30, 2 ), tripoint_west,       _( "West" ),               _( "W" ),   "4", "ITEMS_W",         AIM_NORTHWEST},
+        { AIM_CENTER,    point( 33, 2 ), tripoint_zero,       _( "Directly below you" ), _( "DN" ),  "5", "ITEMS_CE",        AIM_CENTER},
+        { AIM_EAST,      point( 36, 2 ), tripoint_east,       _( "East" ),               _( "E" ),   "6", "ITEMS_E",         AIM_SOUTHEAST},
+        { AIM_NORTHWEST, point( 30, 1 ), tripoint_north_west, _( "North West" ),         _( "NW" ),  "7", "ITEMS_NW",        AIM_NORTH},
+        { AIM_NORTH,     point( 33, 1 ), tripoint_north,      _( "North" ),              _( "N" ),   "8", "ITEMS_N",         AIM_NORTHEAST},
+        { AIM_NORTHEAST, point( 36, 1 ), tripoint_north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE",        AIM_EAST},
+        { AIM_DRAGGED,   point( 25, 1 ), tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
+        { AIM_ALL,       point( 22, 3 ), tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
+        { AIM_CONTAINER, point( 22, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
+        { AIM_WORN,      point( 25, 3 ), tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
     }
 } )
 {
@@ -820,7 +819,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
     // Check some preconditions to quickly leave the function.
     size_t liquid_items = 0;
-    for( const advanced_inv_listitem elem : spane.items ) {
+    for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item *elemit : elem.items ) {
             if( elemit->made_of_from_type( LIQUID ) && !elemit->is_frozen_liquid() ) {
                 liquid_items++;
@@ -919,48 +918,9 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
         g->u.drop( dropped, g->u.pos() + darea.off );
     } else {
-        if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
-            g->u.assign_activity( ACT_PICKUP );
-            g->u.activity.coords.push_back( g->u.pos() );
-
-            item_stack::iterator stack_begin, stack_end;
-            if( panes[src].in_vehicle() ) {
-                vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
-                stack_begin = targets.begin();
-                stack_end = targets.end();
-            } else {
-                map_stack targets = g->m.i_at( sarea.pos );
-                stack_begin = targets.begin();
-                stack_end = targets.end();
-            }
-
-            // If moving to inventory or worn, silently filter buckets
-            // Moving them would cause tons of annoying prompts or spills
-            const bool filter_buckets = dpane.get_area() == AIM_INVENTORY ||
-                                        dpane.get_area() == AIM_WORN;
-            bool filtered_any_bucket = false;
-            // Push item_locations and item counts for all items at placement
-            for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
-                if( spane.is_filtered( *it ) ) {
-                    continue;
-                }
-                if( filter_buckets && it->is_bucket_nonempty() ) {
-                    filtered_any_bucket = true;
-                    continue;
-                }
-                if( spane.in_vehicle() ) {
-                    g->u.activity.targets.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
-                } else {
-                    g->u.activity.targets.emplace_back( map_cursor( sarea.pos ), &*it );
-                }
-                // quantity of 0 means move all
-                g->u.activity.values.push_back( 0 );
-            }
-
-            if( filtered_any_bucket ) {
-                add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
-            }
-
+        if( dpane.get_area() == AIM_WORN ) {
+            // TODO: Start ACT_WEAR in this case
+            debugmsg( "Wearing clothes using move all is not yet implemented" );
         } else {
             // Vehicle and map destinations are handled the same.
             // Check first if the destination area still have enough room for moving all.
@@ -1013,12 +973,20 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
             }
 
-            g->u.assign_activity( player_activity( move_items_activity_actor(
-                    target_items,
-                    quantities,
-                    dpane.in_vehicle(),
-                    relative_destination
-                                                   ) ) );
+            if( dpane.get_area() == AIM_INVENTORY ) {
+                g->u.assign_activity( player_activity( pickup_activity_actor(
+                        target_items,
+                        quantities,
+                        panes[src].in_vehicle() ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
+                                                       ) ) );
+            } else {
+                g->u.assign_activity( player_activity( move_items_activity_actor(
+                        target_items,
+                        quantities,
+                        dpane.in_vehicle(),
+                        relative_destination
+                                                       ) ) );
+            }
         }
 
     }
@@ -1187,13 +1155,8 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
 
     const bool by_charges = sitem->items.front()->count_by_charges();
 
-    if( destarea == AIM_INVENTORY || destarea == AIM_WORN ) {
-        if( destarea == AIM_INVENTORY ) {
-            g->u.assign_activity( ACT_PICKUP );
-            g->u.activity.coords.push_back( g->u.pos() );
-        } else {
-            g->u.assign_activity( ACT_WEAR );
-        }
+    if( destarea == AIM_WORN ) {
+        g->u.assign_activity( ACT_WEAR );
 
         if( by_charges ) {
             if( from_vehicle ) {
@@ -1217,10 +1180,6 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
             }
         }
     } else {
-        // Vehicle and map destinations are handled similarly.
-        // Stash the destination
-        const tripoint relative_destination = squares[destarea].off;
-
         // Find target items and quantities thereof for the new activity
         std::vector<item_location> target_items;
         std::vector<int> quantities;
@@ -1246,12 +1205,23 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
             }
         }
 
-        g->u.assign_activity( player_activity( move_items_activity_actor(
-                target_items,
-                quantities,
-                to_vehicle,
-                relative_destination
-                                               ) ) );
+        if( destarea == AIM_INVENTORY ) {
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+                    target_items,
+                    quantities,
+                    from_vehicle ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
+                                                   ) ) );
+        } else {
+            // Stash the destination
+            const tripoint relative_destination = squares[destarea].off;
+
+            g->u.assign_activity( player_activity( move_items_activity_actor(
+                    target_items,
+                    quantities,
+                    to_vehicle,
+                    relative_destination
+                                                   ) ) );
+        }
     }
 }
 
@@ -1501,7 +1471,7 @@ void advanced_inventory::display()
             string_input_popup spopup;
             std::string filter = spane.filter;
             filter_edit = true;
-            spopup.window( spane.window, 4, w_height - 1, w_width / 2 - 4 )
+            spopup.window( spane.window, point( 4, w_height - 1 ), w_width / 2 - 4 )
             .max_length( 256 )
             .text( filter );
 

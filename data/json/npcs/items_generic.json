@@ -888,7 +888,7 @@
       [ "pipe", 4 ],
       [ "pipe_glass", 1 ],
       [ "pipe_tobacco", 1 ],
-      [ "pipebomb", 3 ],
+      [ "improvised_pipebomb", 3 ],
       [ "pistol_bayonet", 1 ],
       [ "pistol_grip", 1 ],
       [ "pistol_scope", 1 ],

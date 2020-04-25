@@ -1021,6 +1021,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
         case event_type::character_takes_damage:
+        case event_type::character_wakes_up:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

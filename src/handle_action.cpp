@@ -55,6 +55,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
+#include "panels.h"
 #include "player.h"
 #include "player_activity.h"
 #include "popup.h"
@@ -2366,7 +2367,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_PANEL_ADM:
-                toggle_panel_adm();
+                panel_manager::get_manager().show_adm();
                 break;
 
             case ACTION_RELOAD_TILESET:

@@ -3,7 +3,7 @@
     "id": "foie_gras",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "foie gras", "str_pl": "foie gras" },
+    "name": { "str_sp": "foie gras" },
     "symbol": "%",
     "looks_like": "meat_cooked",
     "description": "Thought it's not technically foie gras, you don't have to think about that.",
@@ -25,7 +25,7 @@
     "id": "liver_onion",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "liver & onions", "str_pl": "liver & onions" },
+    "name": { "str_sp": "liver & onions" },
     "symbol": "%",
     "looks_like": "meat_cooked",
     "description": "A classic way to serve liver.",
@@ -132,7 +132,7 @@
     "id": "leverpostej",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": { "str": "leverpostej", "str_pl": "leverpostej" },
+    "name": { "str_sp": "leverpostej" },
     "symbol": "%",
     "looks_like": "peanutbutter",
     "quench": -2,
@@ -275,8 +275,7 @@
     "id": "sausage_casings",
     "copy-from": "spice",
     "type": "COMESTIBLE",
-    "name": "sausage casing",
-    "name_plural": "sausage casings",
+    "name": { "str": "sausage casing" },
     "description": "Sausage casings made from animal intestines.  Ready to be used for forming meat products.",
     "color": "red",
     "material": "flesh",
@@ -285,8 +284,7 @@
   {
     "type": "COMESTIBLE",
     "id": "homemade_hotdogs",
-    "name": "homemade hot dog",
-    "name_plural": "homemade hot dogs",
+    "name": { "str": "homemade hot dog" },
     "copy-from": "hotdogs_frozen"
   }
 ]
