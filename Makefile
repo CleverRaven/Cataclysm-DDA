@@ -140,7 +140,7 @@ TILES_TARGET_NAME = $(TARGET_NAME)-tiles
 
 TARGET = $(BUILD_PREFIX)$(TARGET_NAME)
 TILESTARGET = $(BUILD_PREFIX)$(TILES_TARGET_NAME)
-ifdef TILES
+ifeq ($(TILES), 1)
   APPTARGET = $(TILESTARGET)
 else
   APPTARGET = $(TARGET)
@@ -191,7 +191,7 @@ ifndef BACKTRACE
     BACKTRACE = 1
   endif
 endif
-ifdef BACKTRACE
+ifeq ($(BACKTRACE), 1)
   # Also enable libbacktrace on cross-compilation to Windows
   ifndef LIBBACKTRACE
     ifneq (,$(findstring mingw32,$(CROSS)))
@@ -226,7 +226,7 @@ ifneq ($(findstring BSD,$(OS)),)
 endif
 
 # This sets CXX and so must be up here
-ifdef CLANG
+ifeq ($(CLANG), 1)
   # Allow setting specific CLANG version
   ifeq ($(CLANG), 1)
     CLANGCMD = clang++
@@ -258,7 +258,7 @@ else
   OS_COMPILER := $(CXX)
   # Appears that the default value of $LD is unsuitable on most systems
   OS_LINKER := $(CXX)
-  ifdef CCACHE
+  ifeq ($(CCACHE), 1)
     CXX = ccache $(CROSS)$(OS_COMPILER)
     LD  = ccache $(CROSS)$(OS_LINKER)
   else
@@ -282,7 +282,7 @@ ifneq ($(SANITIZE),)
 endif
 
 # enable optimizations. slow to build
-ifdef RELEASE
+ifeq ($(RELEASE), 1)
   ifeq ($(NATIVE), osx)
     ifdef OSXCROSS
       OPTLEVEL = -O0
@@ -305,8 +305,8 @@ ifdef RELEASE
     endif
   endif
 
-  ifdef LTO
-    ifdef CLANG
+  ifeq ($(LTO), 1)
+    ifeq ($(CLANG), 1)
       # LLVM's LTO will complain if the optimization level isn't between O0 and
       # O3 (inclusive)
       OPTLEVEL = -O3
@@ -314,16 +314,16 @@ ifdef RELEASE
   endif
   CXXFLAGS += $(OPTLEVEL)
 
-  ifdef LTO
+  ifeq ($(LTO), 1)
     ifeq ($(NATIVE), osx)
-      ifdef CLANG
+      ifeq ($(CLANG), 1)
         LTOFLAGS += -flto=full
       endif
     else
       LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
     endif
 
-    ifdef CLANG
+    ifeq ($(CLANG), 1)
       LTOFLAGS += -flto
     else
       LTOFLAGS += -flto=jobserver -flto-odr-type-merging
@@ -351,7 +351,7 @@ ifdef RELEASE
 endif
 
 ifndef RELEASE
-  ifdef NOOPT
+  ifeq ($(NOOPT), 1)
     # While gcc claims to include all information required for
     # debugging at -Og, at least with gcc 8.3, control flow
     # doesn't move line-by-line at -Og.  Provide a command-line
@@ -423,7 +423,7 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  ifdef CLANG
+  ifeq ($(CLANG), 1)
     OSX_MIN = 10.7
   else
     OSX_MIN = 10.5
@@ -567,11 +567,11 @@ ifeq ($(SOUND), 1)
   CXXFLAGS += -DSDL_SOUND
 endif
 
-ifdef SDL
+ifeq ($(SDL), 1)
   TILES = 1
 endif
 
-ifdef TILES
+ifeq ($(TILES), 1)
   SDL = 1
   BINDIST_EXTRAS += gfx
   ifeq ($(NATIVE),osx)
@@ -605,7 +605,7 @@ ifdef TILES
     CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_image --cflags)
     CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --cflags)
 
-    ifdef STATIC
+    ifeq ($(STATIC), 1)
       LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
     else
       LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --libs)
@@ -807,7 +807,7 @@ ifeq ($(USE_XDG_DIR),1)
   DEFINES += -DUSE_XDG_DIR
 endif
 
-ifdef LTO
+ifeq ($(LTO), 1)
   # Depending on the compiler version, LTO usually requires all the
   # optimization flags to be specified on the link line, and requires them to
   # match the original invocations.
@@ -836,7 +836,7 @@ all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS) validate-pr
 
 $(TARGET): $(OBJS)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
-ifdef RELEASE
+ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
     ifneq ($(BACKTRACE),1)
 	$(STRIP) $(TARGET)
@@ -914,10 +914,10 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/help $(DATA_PREFIX)
-ifdef TILES
+ifeq ($(TILES), 1)
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
-ifdef SOUND
+ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
@@ -946,10 +946,10 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/help $(DATA_PREFIX)
-ifdef TILES
+ifeq ($(TILES), 1)
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
-ifdef SOUND
+ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
@@ -1012,8 +1012,8 @@ ifeq ($(LOCALIZE), 1)
 	LIBINTL=$$($(CROSS)otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBINTL ]; then cp $$LIBINTL $(APPRESOURCESDIR)/; fi; \
 		if [ ! -z "$$OSXCROSS" ]; then LIBINTL=$$(basename $$LIBINTL) && if [ ! -z "$$LIBINTL" ]; then cp $(LIBSDIR)/gettext/lib/$$LIBINTL $(APPRESOURCESDIR)/; fi; fi
 endif
-ifdef TILES
-ifdef SOUND
+ifeq ($(TILES), 1)
+ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
 endif  # ifdef SOUND
 	cp -R gfx $(APPRESOURCESDIR)/
@@ -1021,7 +1021,7 @@ ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
 	cp -R $(FRAMEWORKSDIR)/SDL2_image.framework $(APPRESOURCESDIR)/
 	cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPRESOURCESDIR)/
-ifdef SOUND
+ifeq ($(SOUND), 1)
 	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
 	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
 	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
@@ -1031,7 +1031,7 @@ else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
-ifdef SOUND
+ifeq ($(SOUND), 1)
 	cp $(SDLLIBSDIR)/libSDL2_mixer.dylib $(APPRESOURCESDIR)/
 endif  # ifdef SOUND
 endif  # ifdef FRAMEWORK
