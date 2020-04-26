@@ -169,7 +169,14 @@
       { "item": "m9", "prob": 6 },
       { "item": "usp_45", "prob": 6 },
       { "item": "m4a1", "prob": 7 },
-      { "item": "m16a4", "prob": 5 },
+      {
+        "item": "m16a4",
+        "prob": 5
+      },
+      {
+        "item": "fn_f2000",
+        "prob": 5
+      },
       { "item": "h&k416a5", "prob": 7 },
       { "item": "m1014", "prob": 2 },
       { "item": "scar_l", "prob": 6 },

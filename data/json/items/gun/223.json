@@ -16,11 +16,17 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": {
+      "damage_type": "stab",
+      "amount": -1
+    },
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 4 ]
+    ],
     "barrel_length": "250 ml",
     "built_in_mods": [ "folding_stock" ],
     "magazines": [
@@ -107,7 +113,12 @@
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [ "stanag30", "stanag50", "survivor223mag" ]
+      ]
+    ]
   },
   {
     "id": "famas",
@@ -144,7 +155,58 @@
       [ "underbarrel mount", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "famasmag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [ "famasmag" ]
+      ]
+    ]
+  },
+  {
+    "id": "fn_f2000",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": {
+      "str": "FN F2000"
+    },
+    "description": "A Belgian bullpup rifle chambered in NATO 5.56x45mm rounds, this assault rifle features a compact and modular design resembling a tuna fish.",
+    "weight": "3400 g",
+    "volume": "1700 ml",
+    "price": 200000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [
+      "steel",
+      "plastic"
+    ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "223",
+    "ranged_damage": {
+      "damage_type": "stab",
+      "amount": -2
+    },
+    "dispersion": 170,
+    "durability": 9,
+    "min_cycle_recoil": 1350,
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 4 ]
+    ],
+    "built_in_mods": [
+      "barrel_ported",
+      "grip_mount",
+      "rail_mount",
+      "sights_mount",
+      "tele_sight"
+    ],
+    "magazines": [
+      [
+        "223",
+        [ "stanag30", "stanag50", "survivor223mag" ]
+      ]
+    ]
   },
   {
     "id": "h&k416a5",
@@ -164,11 +226,17 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ranged_damage": {
+      "damage_type": "stab",
+      "amount": -2
+    },
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 4 ]
+    ],
     "magazines": [
       [
         "223",
@@ -210,8 +278,16 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "g36mag_30rd", "g36mag_100rd" ] ] ]
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 4 ]
+    ],
+    "magazines": [
+      [
+        "223",
+        [ "g36mag_30rd", "g36mag_100rd" ]
+      ]
+    ]
   },
   {
     "id": "m249",
@@ -278,7 +354,10 @@
     "name": { "str": "M27 IAR" },
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": "3710 g",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 4 ]
+    ],
     "magazines": [
       [
         "223",
@@ -299,7 +378,13 @@
         ]
       ]
     ],
-    "relative": { "ranged_damage": { "damage_type": "stab", "amount": 1 }, "durability": 1 }
+    "relative": {
+      "ranged_damage": {
+        "damage_type": "stab",
+        "amount": 1
+      },
+      "durability": 1
+    }
   },
   {
     "id": "m4a1",
@@ -318,11 +403,17 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ranged_damage": {
+      "damage_type": "stab",
+      "amount": -2
+    },
     "dispersion": 180,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 4 ]
+    ],
     "magazines": [
       [
         "223",
@@ -364,7 +455,10 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "BURST", "3 rd.", 3 ]
+    ],
     "magazines": [
       [
         "223",
@@ -408,14 +502,22 @@
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [ "stanag30", "stanag50", "survivor223mag" ]
+      ]
+    ]
   },
   {
     "id": "rifle_223",
     "copy-from": "gun_base",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "pipe rifle: .223", "str_pl": "pipe rifles: .223" },
+    "name": {
+      "str": "pipe rifle: .223",
+      "str_pl": "pipe rifles: .223"
+    },
     "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "weight": "4080 g",
     "volume": "3 L",
@@ -428,7 +530,10 @@
     "color": "brown",
     "ammo": "223",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ranged_damage": {
+      "damage_type": "stab",
+      "amount": -2
+    },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -466,7 +571,10 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": {
+      "damage_type": "stab",
+      "amount": 1
+    },
     "dispersion": 100,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -485,7 +593,12 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ]
+      ]
+    ]
   },
   {
     "id": "scar_l",
@@ -504,11 +617,17 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ranged_damage": {
+      "damage_type": "stab",
+      "amount": -2
+    },
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 4 ]
+    ],
     "magazines": [
       [
         "223",
@@ -548,7 +667,11 @@
     "dispersion": 180,
     "durability": 9,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "BURST", "3 rd.", 3 ],
+      [ "AUTO", "auto", 4 ]
+    ],
     "built_in_mods": [ "folding_stock" ],
     "magazines": [
       [
@@ -591,7 +714,10 @@
     "dispersion": 140,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 4 ]
+    ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -607,7 +733,12 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ]
+      ]
+    ]
   },
   {
     "id": "surv_carbine_223",
@@ -627,7 +758,10 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": -4 },
+    "ranged_damage": {
+      "damage_type": "stab",
+      "amount": -4
+    },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 32,
