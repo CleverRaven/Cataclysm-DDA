@@ -9,17 +9,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "bolter",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "manual storm bolter" },
-    "item": "bolter",
-    "color": "light_gray",
-    "broken_color": "light_gray",
-    "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
     "id": "cangun",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -146,28 +135,6 @@
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
-    "id": "nailer",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "manual perforator" },
-    "item": "nailer",
-    "color": "dark_gray",
-    "broken_color": "dark_gray",
-    "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
-    "id": "needler",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "manual needler" },
-    "item": "needler",
-    "color": "blue",
-    "broken_color": "blue",
-    "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
     "id": "ar15",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -175,17 +142,6 @@
     "item": "ar15",
     "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "railturret",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "manual hypervelocity driver" },
-    "item": "railturret",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "ripper",
@@ -202,17 +158,6 @@
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
-    "id": "rslauncher",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "manual rotary speargun" },
-    "item": "rslauncher",
-    "color": "light_gray",
-    "broken_color": "light_gray",
-    "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
     "id": "scorpion",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -222,17 +167,6 @@
     "broken_color": "brown",
     "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "shardgun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "manual splintergun" },
-    "item": "shardgun",
-    "color": "blue",
-    "broken_color": "blue",
-    "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "slauncher",
@@ -255,17 +189,6 @@
     "broken_color": "blue",
     "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "tiharturret",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "manual avalanche rifle" },
-    "item": "tiharturret",
-    "color": "light_gray",
-    "broken_color": "light_gray",
-    "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "bigun",
@@ -411,15 +334,6 @@
     "item": "h&k416a5",
     "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "heavy_rail_rifle",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "heavy rail rifle turret" },
-    "item": "heavy_rail_rifle",
-    "breaks_into": [ { "item": "heavy_rail_rifle", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "hk_g3",
@@ -692,24 +606,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "nailrifle",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "nail rifle turret" },
-    "item": "nailrifle",
-    "breaks_into": [ { "item": "nailrifle", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "needlegun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "RM216 SPIW turret" },
-    "item": "needlegun",
-    "breaks_into": [ { "item": "needlegun", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
     "id": "pipe_double_shotgun",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -725,15 +621,6 @@
     "name": { "str": "pipe shotgun turret" },
     "item": "pipe_shotgun",
     "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
-    "id": "rebar_rifle",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "rail rifle turret" },
-    "item": "rebar_rifle",
-    "breaks_into": [ { "item": "rebar_rifle", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
