@@ -230,7 +230,7 @@
     "components": [ [ [ "leather", 20 ] ], [ [ "rope_superior_short", 2, "LIST" ] ] ]
   },
   {
-      "result": "pike_wood",
+    "result": "pike_wood",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
