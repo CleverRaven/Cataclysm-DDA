@@ -1687,11 +1687,11 @@ class map
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
         ter_id get_roof( const tripoint &p, bool allow_air );
-
-    private:
-
-        // Iterates over every item on the map, passing each item to the provided function.
+    
+    public:
         void process_items();
+    private:
+        // Iterates over every item on the map, passing each item to the provided function.
         void process_items_in_submap( submap &current_submap, const tripoint &gridp );
         void process_items_in_vehicles( submap &current_submap );
         void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap );
