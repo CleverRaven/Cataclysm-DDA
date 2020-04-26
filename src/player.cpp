@@ -1842,6 +1842,9 @@ void player::process_items()
 
     std::vector<item_location> removed_items;
     for( item_location it : all_items_loc() ) {
+        if( !it ) {
+            continue;
+        }
         if( it->needs_processing() ) {
             if( it->process( this, pos(), false ) ) {
                 removed_items.push_back( it );
