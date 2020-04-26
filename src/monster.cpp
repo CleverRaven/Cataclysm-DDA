@@ -1537,7 +1537,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bp_torso, INT_MIN, &attack );
+        on_hit( source, bodypart_id( "torso" ), INT_MIN, &attack );
     }
 }
 
@@ -2794,7 +2794,7 @@ void monster::on_dodge( Creature *, float )
     // Currently does nothing, later should handle faction relations
 }
 
-void monster::on_hit( Creature *source, body_part,
+void monster::on_hit( Creature *source, bodypart_id,
                       float, dealt_projectile_attack const *const proj )
 {
     if( is_hallucination() ) {

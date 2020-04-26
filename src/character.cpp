@@ -8337,7 +8337,7 @@ void Character::did_hit( Creature &target )
     enchantment_cache.cast_hit_you( *this, target );
 }
 
-void Character::on_hit( Creature *source, body_part /*bp_hit*/,
+void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
     enchantment_cache.cast_hit_me( *this, source );

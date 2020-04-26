@@ -541,7 +541,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         mod_moves( -stab_moves );
     }
 
-    on_hit( source, bp_token ); // trigger on-gethit events
+    on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d );
     dealt_dam.bp_hit = bp_token;
 }

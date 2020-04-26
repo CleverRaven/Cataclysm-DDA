@@ -692,7 +692,7 @@ class Character : public Creature, public visitable<Character>
     public:
 
         // any side effects that might happen when the Character is hit
-        void on_hit( Creature *source, body_part /*bp_hit*/,
+        void on_hit( Creature *source, bodypart_id /*bp_hit*/,
                      float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );

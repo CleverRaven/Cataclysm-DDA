@@ -379,7 +379,7 @@ class monster : public Creature
         // We just dodged an attack from something
         void on_dodge( Creature *source, float difficulty ) override;
         // Something hit us (possibly null source)
-        void on_hit( Creature *source, body_part bp_hit = num_bp,
+        void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
         /** Resets a given special to its monster type cooldown value */
