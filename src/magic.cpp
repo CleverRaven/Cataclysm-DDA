@@ -598,6 +598,22 @@ void spell::gain_level()
     gain_exp( exp_to_next_level() );
 }
 
+void spell::gain_levels( int gains )
+{
+    if( gains < 1 ) {
+        return;
+    }
+    for( int gained = 0; gained < gains || is_max_level(); gained++ ) {
+        gain_level();
+    }
+}
+
+void spell::set_level( int nlevel )
+{
+    experience = 0;
+    gain_levels( nlevel );
+}
+
 bool spell::is_max_level() const
 {
     return get_level() >= type->max_level;

@@ -321,6 +321,9 @@ class spell
         float exp_modifier( const Character &guy ) const;
         // level up!
         void gain_level();
+        // gains a number of levels, or until max. 0 or less just returns early.
+        void gain_levels( int gains );
+        void set_level( int nlevel );
         // is the spell at max level?
         bool is_max_level() const;
         // what is the max level of the spell

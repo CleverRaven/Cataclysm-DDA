@@ -130,6 +130,12 @@ struct bionic_data {
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
      */
     std::vector<trait_id> canceled_mutations;
+
+    /**
+     * The spells you learn when you install this bionic, and what level you learn them at.
+     */
+    std::map<spell_id, int> learned_spells;
+
     /**
      * Additional bionics that are installed automatically when this
      * bionic is installed. This can be used to install several bionics
