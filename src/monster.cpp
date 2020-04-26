@@ -648,7 +648,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     for( int i = 0; i < bar_max_width - bar_width; ++i ) {
         mvwprintz( w, point( column + 4 - i, vStart ), c_white, "." );
     }
-    mvwprintz( w, point( column + bar_max_width + 1, vStart ), c_white, name() );
+    mvwprintz( w, point( column + bar_max_width + 1, vStart ), basic_symbol_color(), name() );
     trim_and_print( w, point( column + bar_max_width + utf8_width( " " + name() + " " ), vStart ),
                     max_width - bar_max_width - utf8_width( " " + name() + " " ), h_white, get_effect_status() );
 

@@ -2227,7 +2227,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     for( int i = 0; i < bar_max_width - bar_width; ++i ) {
         mvwprintz( w, point( column + 4 - i, line ), c_white, "." );
     }
-    trim_and_print( w, point( column + bar.first.length() + 1, line ), iWidth, c_white, name );
+    trim_and_print( w, point( column + bar.first.length() + 1, line ), iWidth, basic_symbol_color(), name );
 
     // Hostility indicator in the second line.
     Attitude att = attitude_to( g->u );
