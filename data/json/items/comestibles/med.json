@@ -914,7 +914,7 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You hit your dap pen.  Sooooo smooth...",
+      "activation_message": "You hit your dab pen.  Sooooo smooth...",
       "effects": [
         { "id": "weed_high", "duration": "90 m" },
         { "id": "pkill1", "duration": "90 m" },
