@@ -4313,11 +4313,10 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-static bool process_item( item_stack &items, safe_reference<item> &item_ref,
-                          const tripoint &location,
-                          const bool activate, const float insulation, const temperature_flag flag )
+static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
+                               const tripoint &location, const float insulation, const temperature_flag flag )
 {
-    if( item_ref->process( nullptr, location, activate, insulation, flag ) ) {
+    if( item_ref->process( nullptr, location, false, insulation, flag ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
@@ -4327,13 +4326,6 @@ static bool process_item( item_stack &items, safe_reference<item> &item_ref,
     }
     // Item not destroyed
     return false;
-}
-
-static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
-                               const tripoint &location, const std::string &,
-                               const float insulation, const temperature_flag flag )
-{
-    return process_item( items, item_ref, location, false, insulation, flag );
 }
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
@@ -4422,11 +4414,6 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     }
 }
 
-void map::process_active_items()
-{
-    process_items( true, process_map_items, std::string {} );
-}
-
 std::vector<tripoint> map::check_submap_active_item_consistency()
 {
     std::vector<tripoint> result;
@@ -4453,8 +4440,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
     return result;
 }
 
-void map::process_items( const bool active, map::map_process_func processor,
-                         const std::string &signal )
+void map::process_items()
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
@@ -4468,7 +4454,7 @@ void map::process_items( const bool active, map::map_process_func processor,
         for( const tripoint &pos : submaps_with_vehicles ) {
             submap *const current_submap = get_submap_at_grid( pos );
             // Vehicles first in case they get blown up and drop active items on the map.
-            process_items_in_vehicles( *current_submap, pos.z, processor, signal );
+            process_items_in_vehicles( *current_submap );
         }
     }
     // Making a copy, in case the original variable gets modified during `process_items_in_submap`
@@ -4476,14 +4462,13 @@ void map::process_items( const bool active, map::map_process_func processor,
     for( const tripoint &abs_pos : submaps_with_active_items_copy ) {
         const tripoint local_pos = abs_pos - abs_sub.xy();
         submap *const current_submap = get_submap_at_grid( local_pos );
-        if( !active || !current_submap->active_items.empty() ) {
-            process_items_in_submap( *current_submap, local_pos, processor, signal );
+        if( !current_submap->active_items.empty() ) {
+            process_items_in_submap( *current_submap, local_pos );
         }
     }
 }
 
-void map::process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                   map::map_process_func processor, const std::string &signal )
+void map::process_items_in_submap( submap &current_submap, const tripoint &gridp )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
@@ -4503,12 +4488,11 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
         map_stack items = i_at( map_location );
-        processor( items, active_item_ref.item_ref, map_location, signal, 1, flag );
+        process_map_items( items, active_item_ref.item_ref, map_location, 1, flag );
     }
 }
 
-void map::process_items_in_vehicles( submap &current_submap, const int gridz,
-                                     map::map_process_func processor, const std::string &signal )
+void map::process_items_in_vehicles( submap &current_submap )
 {
     // a copy, important if the vehicle list changes because a
     // vehicle got destroyed by a bomb (an active item!), this list
@@ -4525,12 +4509,11 @@ void map::process_items_in_vehicles( submap &current_submap, const int gridz,
             continue;
         }
 
-        process_items_in_vehicle( *cur_veh, current_submap, gridz, processor, signal );
+        process_items_in_vehicle( *cur_veh, current_submap );
     }
 }
 
-void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int /*gridz*/,
-                                    map::map_process_func processor, const std::string &signal )
+void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
@@ -4580,7 +4563,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
                 flag = temperature_flag::TEMP_FREEZER;
             }
         }
-        if( !processor( items, active_item_ref.item_ref, item_loc, signal, it_insulation, flag ) ) {
+        if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
