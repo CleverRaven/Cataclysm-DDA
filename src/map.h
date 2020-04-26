@@ -1690,17 +1690,6 @@ class map
         // or can just return air because we bashed down an entire floor tile
         ter_id get_roof( const tripoint &p, bool allow_air );
 
-    public:
-        /**
-         * Processor function pointer used in process_items and brethren.
-         *
-         * Note, typedefs should be discouraged because they tend to obfuscate
-         * code, but due to complexity, a template type makes it worse here.
-         * It's a really heinous function pointer so a typedef is the best
-         * solution in this instance.
-         */
-        using map_process_func = bool ( * )( item_stack &, safe_reference<item> &, const tripoint &,
-                                             const std::string &, float, temperature_flag );
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.
