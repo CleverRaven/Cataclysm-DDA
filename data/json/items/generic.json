@@ -2456,6 +2456,7 @@
     "symbol": ",",
     "color": "yellow",
     "name": { "str": "cash card" },
+    "ascii_picture": "cashcard",
     "description": "A yellow plastic card used to store money.  These became popular once the government officially moved to all electronic money.  It holds up to 2 million dollars.",
     "price": 1000,
     "price_postapoc": 0,
