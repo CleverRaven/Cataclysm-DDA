@@ -7082,7 +7082,7 @@ std::string Character::activity_level_str() const
 
 int Character::get_armor_bash( bodypart_id bp ) const
 {
-    return get_armor_bash_base( bp->token ) + armor_bash_bonus;
+    return get_armor_bash_base( bp ) + armor_bash_bonus;
 }
 
 int Character::get_armor_cut( bodypart_id bp ) const
@@ -7126,22 +7126,22 @@ int Character::get_armor_type( damage_type dt, body_part bp ) const
     return 0;
 }
 
-int Character::get_armor_bash_base( body_part bp ) const
+int Character::get_armor_bash_base( bodypart_id bp ) const
 {
     int ret = 0;
     for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp->token ) ) {
             ret += i.bash_resist();
         }
     }
     for( const bionic_id &bid : get_bionics() ) {
-        const auto bash_prot = bid->bash_protec.find( bp );
+        const auto bash_prot = bid->bash_protec.find( bp.id() );
         if( bash_prot != bid->bash_protec.end() ) {
             ret += bash_prot->second;
         }
     }
 
-    ret += mutation_armor( bp, DT_BASH );
+    ret += mutation_armor( bp->token, DT_BASH );
     return ret;
 }
 
@@ -8317,7 +8317,7 @@ float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
         }
     } else if( dt == DT_BASH ) {
         for( const bionic_id &bid : get_bionics() ) {
-            const auto bash_prot = bid->bash_protec.find( bp );
+            const auto bash_prot = bid->bash_protec.find( convert_bp( bp ) );
             if( bash_prot != bid->bash_protec.end() ) {
                 result += bash_prot->second;
             }

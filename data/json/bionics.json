@@ -43,7 +43,7 @@
     "name": { "str": "Alloy Plating - Arms" },
     "description": "The flesh on your arms has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
-    "bash_protec": [ [ "ARM_L", 3 ], [ "ARM_R", 3 ] ],
+    "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "cut_protec": [ [ "ARM_L", 3 ], [ "ARM_R", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
@@ -54,7 +54,7 @@
     "description": "Your eye sockets have been surgically sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "env_protec": [ [ "eyes", 7 ] ],
-    "bash_protec": [ [ "EYES", 3 ] ],
+    "bash_protec": [ [ "eyes", 3 ] ],
     "cut_protec": [ [ "EYES", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
@@ -64,7 +64,7 @@
     "name": { "str": "Alloy Plating - Head" },
     "description": "The flesh on your head has been surgically replaced by alloy plating, protecting both your head and jaw regions.",
     "occupied_bodyparts": [ [ "HEAD", 5 ], [ "MOUTH", 1 ] ],
-    "bash_protec": [ [ "HEAD", 3 ] ],
+    "bash_protec": [ [ "head", 3 ] ],
     "cut_protec": [ [ "HEAD", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
@@ -74,7 +74,7 @@
     "name": { "str": "Alloy Plating - Legs" },
     "description": "The flesh on your legs has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "LEG_L", 6 ], [ "LEG_R", 6 ] ],
-    "bash_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "cut_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
@@ -84,7 +84,7 @@
     "name": { "str": "Alloy Plating - Torso" },
     "description": "The flesh on your torso has been surgically replaced by alloy plating, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "bash_protec": [ [ "TORSO", 3 ] ],
+    "bash_protec": [ [ "torso", 3 ] ],
     "cut_protec": [ [ "TORSO", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
@@ -174,16 +174,16 @@
       [ "FOOT_R", 1 ]
     ],
     "bash_protec": [
-      [ "TORSO", 2 ],
-      [ "HEAD", 2 ],
-      [ "ARM_L", 2 ],
-      [ "ARM_R", 2 ],
-      [ "HAND_L", 2 ],
-      [ "HAND_R", 2 ],
-      [ "LEG_L", 2 ],
-      [ "LEG_R", 2 ],
-      [ "FOOT_L", 2 ],
-      [ "FOOT_R", 2 ]
+      [ "torso", 2 ],
+      [ "head", 2 ],
+      [ "arm_l", 2 ],
+      [ "arm_r", 2 ],
+      [ "hand_l", 2 ],
+      [ "hand_r", 2 ],
+      [ "leg_l", 2 ],
+      [ "leg_r", 2 ],
+      [ "foot_l", 2 ],
+      [ "foot_r", 2 ]
     ],
     "cut_protec": [
       [ "TORSO", 4 ],
