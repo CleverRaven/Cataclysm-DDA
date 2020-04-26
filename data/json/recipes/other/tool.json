@@ -711,7 +711,7 @@
       [ [ "pipe", 2 ] ],
       [ [ "hose", 1 ] ],
       [ [ "gasket_plastic", 2 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 1 ] ],
       [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ]
     ]
   },
@@ -769,7 +769,7 @@
       { "id": "FILE", "level": 2 }
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "hose", 2 ] ], [ [ "gasket_plastic", 2 ] ], [ [ "motor", 1 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "hose", 2 ] ], [ [ "gasket_plastic", 2 ] ], [ [ "well_pump", 1 ] ] ]
   },
   {
     "type": "recipe",
