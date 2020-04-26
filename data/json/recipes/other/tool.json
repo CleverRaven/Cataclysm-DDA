@@ -670,6 +670,7 @@
     "id_suffix": "DIY_hose_from_leather",
     "skill_used": "fabrication",
     "difficulty": 4,
+    "skills_required": [ [ "survival", 3 ], [ "tailor", 4 ] ],
     "autolearn": true,
     "time": "1 h",
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 1 } ],
