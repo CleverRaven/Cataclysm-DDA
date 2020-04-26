@@ -8295,10 +8295,7 @@ bool item::has_rotten_away() const
 
 bool item::has_rotten_away( const tripoint &pnt, float spoil_multiplier )
 {
-    if( is_corpse() && goes_bad() ) {
-        process_temperature_rot( 1, pnt, nullptr, temperature_flag::TEMP_NORMAL, spoil_multiplier );
-        return get_rot() > 10_days && !can_revive();
-    } else if( goes_bad() ) {
+    if( goes_bad() ) {
         process_temperature_rot( 1, pnt, nullptr, temperature_flag::TEMP_NORMAL, spoil_multiplier );
         return has_rotten_away();
     } else {
@@ -9347,8 +9344,8 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         return process_tool( carrier, pos );
     }
     // All foods that go bad have temperature
-    if( has_temperature() ) {
-        process_temperature_rot( insulation, pos, carrier, flag, spoil_modifier );
+    if( has_temperature() &&
+        process_temperature_rot( insulation, pos, carrier, flag, spoil_modifier ) ) {
         if( is_comestible() ) {
             g->m.rotten_item_spawn( *this, pos );
         }
