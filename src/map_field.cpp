@@ -1814,7 +1814,7 @@ void map::monster_in_field( monster &z )
             if( z.flies() ) {
                 dam -= 15;
             }
-            dam -= z.get_armor_type( DT_HEAT, bodypart_id("torso") );
+            dam -= z.get_armor_type( DT_HEAT, bodypart_id( "torso" ) );
 
             if( cur.get_field_intensity() == 1 ) {
                 dam += rng( 2, 6 );
