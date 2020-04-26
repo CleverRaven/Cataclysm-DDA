@@ -28,6 +28,7 @@ struct scent_block {
     scent_map &scents;
     int modification_count;
 
+    scent_block( const tripoint &sub, scent_map &scents );
     scent_block( int subx, int suby, int subz, scent_map &scents )
         : origin( subx * SEEX - 1, suby * SEEY - 1, subz ), scents( scents ), modification_count( 0 ) {
         for( int x = 0; x < SEEX + 2; ++x ) {

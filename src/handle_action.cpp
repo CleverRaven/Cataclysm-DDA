@@ -431,11 +431,12 @@ static void rcdrive( int dx, int dy )
     }
 }
 
-inline static void rcdrive( point d )
+inline static void rcdrive( const point &d )
 {
     return rcdrive( d.x, d.y );
 }
 
+void pldrive( const tripoint &p );
 static void pldrive( int x, int y, int z = 0 )
 {
     if( !g->check_safe_mode_allowed() ) {

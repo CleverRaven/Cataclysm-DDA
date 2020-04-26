@@ -114,8 +114,11 @@ class Font
          * Draw character t at (x,y) on the screen,
          * using (curses) color.
          */
+        virtual void OutputChar( const std::string &ch, const point &,
+                                 unsigned char color, float opacity = 1.0f ) = 0;
         virtual void OutputChar( const std::string &ch, int x, int y,
                                  unsigned char color, float opacity = 1.0f ) = 0;
+        virtual void draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const;
         virtual void draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const;
         bool draw_window( const catacurses::window &w );
         bool draw_window( const catacurses::window &w, int offsetx, int offsety );
@@ -139,6 +142,8 @@ class CachedTTFFont : public Font
         ~CachedTTFFont() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;
+        void OutputChar( const std::string &ch, const point &,
+                         unsigned char color, float opacity = 1.0f ) override;
         void OutputChar( const std::string &ch, int x, int y,
                          unsigned char color, float opacity = 1.0f ) override;
     protected:
@@ -178,10 +183,15 @@ class BitmapFont : public Font
         ~BitmapFont() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;
+        void OutputChar( const std::string &ch, const point &,
+                         unsigned char color, float opacity = 1.0f ) override;
         void OutputChar( const std::string &ch, int x, int y,
                          unsigned char color, float opacity = 1.0f ) override;
+        void OutputChar( int t, const point &,
+                         unsigned char color, float opacity = 1.0f );
         void OutputChar( int t, int x, int y,
                          unsigned char color, float opacity = 1.0f );
+        void draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const override;
         void draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const override;
     protected:
         std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
@@ -196,6 +206,8 @@ class FontFallbackList : public Font
         ~FontFallbackList() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;
+        void OutputChar( const std::string &ch, const point &,
+                         unsigned char color, float opacity = 1.0f ) override;
         void OutputChar( const std::string &ch, int x, int y,
                          unsigned char color, float opacity = 1.0f ) override;
     protected:
@@ -599,6 +611,7 @@ inline void FillRectDIB( const SDL_Rect &rect, const unsigned char color,
 }
 
 //The following 3 methods use mem functions for fast drawing
+inline void VertLineDIB( const point &p, int y2, int thickness, unsigned char color );
 inline void VertLineDIB( int x, int y, int y2, int thickness, unsigned char color )
 {
     SDL_Rect rect;
@@ -608,6 +621,7 @@ inline void VertLineDIB( int x, int y, int y2, int thickness, unsigned char colo
     rect.h = y2 - y;
     FillRectDIB( rect, color );
 }
+inline void HorzLineDIB( const point &p, int x2, int thickness, unsigned char color );
 inline void HorzLineDIB( int x, int y, int x2, int thickness, unsigned char color )
 {
     SDL_Rect rect;
@@ -617,6 +631,7 @@ inline void HorzLineDIB( int x, int y, int x2, int thickness, unsigned char colo
     rect.h = thickness;
     FillRectDIB( rect, color );
 }
+inline void FillRectDIB( const point &p, int width, int height, unsigned char color );
 inline void FillRectDIB( int x, int y, int width, int height, unsigned char color )
 {
     SDL_Rect rect;
@@ -627,6 +642,8 @@ inline void FillRectDIB( int x, int y, int width, int height, unsigned char colo
     FillRectDIB( rect, color );
 }
 
+inline void fill_rect_xywh_color( const point &p, const int width, const int height,
+                                  const SDL_Color &color );
 inline void fill_rect_xywh_color( const int x, const int y, const int width, const int height,
                                   const SDL_Color &color )
 {

@@ -57,6 +57,7 @@ struct path_data_layer {
 struct pathfinder {
     point min;
     point max;
+    pathfinder( const point &_min, const point &_max );
     pathfinder( int _minx, int _miny, int _maxx, int _maxy ) :
         min( _minx, _miny ), max( _maxx, _maxy ) {
     }

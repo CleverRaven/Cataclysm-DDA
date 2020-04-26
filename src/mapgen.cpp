@@ -100,8 +100,11 @@ static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
 #define MON_RADIUS 3
 
+void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
+void set_science_room( map *m, const point &p1, bool faces_right, const time_point &when );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
+void build_mine_room( room_type type, const point &p1, mapgendata &dat );
 void build_mine_room( room_type type, int x1, int y1, int x2, int y2, mapgendata &dat );
 
 // (x,y,z) are absolute coordinates of a submap
@@ -821,6 +824,7 @@ class jmapgen_alternativly : public jmapgen_piece
                 chosen->get().apply( dat, x, y );
             }
         }
+        bool has_vehicle_collision( mapgendata &dat, const point &p ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -953,6 +957,7 @@ class jmapgen_sign : public jmapgen_piece
             replace_name_tags( signtext );
             return signtext;
         }
+        bool has_vehicle_collision( mapgendata &dat, const point &p ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -1028,6 +1033,7 @@ class jmapgen_vending_machine : public jmapgen_piece
             dat.m.furn_set( point( rx, ry ), f_null );
             dat.m.place_vending( point( rx, ry ), item_group_id, reinforced );
         }
+        bool has_vehicle_collision( mapgendata &dat, const point &p ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -1054,6 +1060,7 @@ class jmapgen_toilet : public jmapgen_piece
                 dat.m.place_toilet( point( rx, ry ), charges );
             }
         }
+        bool has_vehicle_collision( mapgendata &dat, const point &p ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -1092,6 +1099,7 @@ class jmapgen_gaspump : public jmapgen_piece
                 dat.m.place_gas_pump( point( rx, ry ), charges );
             }
         }
+        bool has_vehicle_collision( mapgendata &dat, const point &p ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -1370,6 +1378,7 @@ class jmapgen_vehicle : public jmapgen_piece
             }
             dat.m.add_vehicle( type, point( x.get(), y.get() ), random_entry( rotation ), fuel, status );
         }
+        bool has_vehicle_collision( mapgendata &dat, const point & ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -1436,6 +1445,7 @@ class jmapgen_trap : public jmapgen_piece
             const tripoint actual_loc = tripoint( x.get(), y.get(), dat.m.get_abs_sub().z );
             dat.m.trap_set( actual_loc, id );
         }
+        bool has_vehicle_collision( mapgendata &dat, const point & ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -1453,6 +1463,7 @@ class jmapgen_furniture : public jmapgen_piece
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             dat.m.furn_set( point( x.get(), y.get() ), id );
         }
+        bool has_vehicle_collision( mapgendata &dat, const point & ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -1478,6 +1489,7 @@ class jmapgen_terrain : public jmapgen_piece
                 }
             }
         }
+        bool has_vehicle_collision( mapgendata &dat, const point & ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -1576,6 +1588,7 @@ class jmapgen_computer : public jmapgen_piece
                 cpu->set_access_denied_msg( access_denied.translated() );
             }
         }
+        bool has_vehicle_collision( mapgendata &dat, const point & ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -1679,6 +1692,7 @@ class jmapgen_sealed_item : public jmapgen_piece
             }
             dat.m.furn_set( point( x.get(), y.get() ), furniture );
         }
+        bool has_vehicle_collision( mapgendata &dat, const point & ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
@@ -1837,6 +1851,7 @@ class jmapgen_nested : public jmapgen_piece
 
             ( *ptr )->nest( dat, point( x.get(), y.get() ) );
         }
+        bool has_vehicle_collision( mapgendata &dat, const point & ) const override;
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             const weighted_int_list<std::string> &selected_entries = neighbors.test(
                         dat ) ? entries : else_entries;
