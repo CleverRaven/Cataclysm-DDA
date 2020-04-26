@@ -3999,5 +3999,212 @@
         "!": [ { "item": "book_gunref", "chance": 80, "repeat": [ 1, 2 ] } ]
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "11x11_gym_open",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "           ",
+        "      $ $  ",
+        "     i$ $  ",
+        "     i!!!  ",
+        "     i$ $  ",
+        "      $ $  ",
+        "      ===  ",
+        "   &  =%=  ",
+        " &&&  ===  ",
+        "           "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "=": "t_carpet_green", "%": "t_carpet_green" },
+      "furniture": { "&": "f_barricade_road", "%": "f_floor_canvas", "!": "f_sandbag_wall", "$": "f_sandbag_half" },
+      "place_loot": [
+        { "item": "towel", "x": 5, "y": [ 3, 5 ], "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "wheel_wide", "x": 1, "y": 1, "chance": 100 },
+        { "item": "wheel_wide", "x": 2, "y": 2, "chance": 100 },
+        { "item": "wheel_wide", "x": 1, "y": 3, "chance": 100 },
+        { "item": "wheel_wide", "x": 2, "y": 4, "chance": 100 },
+        { "item": "wheel_wide", "x": 1, "y": 5, "chance": 100 },
+        { "item": "wheel_wide", "x": 2, "y": 6, "chance": 100 },
+        { "item": "wheel_wide", "x": 1, "y": 7, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "11x11_recroom_open",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        " T=====!== ",
+        " x====h=== ",
+        " x===ss=== ",
+        " !==hssh== ",
+        " ====ss=== ",
+        " =====h=== ",
+        " y======== ",
+        " Hll====== ",
+        " HHHH=A%== ",
+        "           "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "=": "t_carpet_green",
+        "x": "t_carpet_green",
+        "!": "t_carpet_green",
+        "h": "t_carpet_green",
+        "s": "t_carpet_green",
+        "y": "t_carpet_green",
+        "A": "t_carpet_green",
+        "%": "t_carpet_green",
+        "H": "t_carpet_green",
+        "l": "t_carpet_green",
+        "T": "t_carpet_green"
+      },
+      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
+      "place_loot": [ { "item": "stereo", "x": 1, "y": 3, "chance": 100 }, { "item": "deck_of_cards", "x": 5, "y": 4, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "11x11_recroom_open",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        " T=====!== ",
+        " x====h=== ",
+        " x===ss=== ",
+        " !==hssh== ",
+        " ===hss=== ",
+        " =====h=== ",
+        " y======== ",
+        " Hll====== ",
+        " HHHH=A%== ",
+        "           "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "=": "t_carpet_purple",
+        "x": "t_carpet_purple",
+        "!": "t_carpet_purple",
+        "h": "t_carpet_purple",
+        "s": "t_carpet_purple",
+        "y": "t_carpet_purple",
+        "H": "t_carpet_purple",
+        "A": "t_carpet_purple",
+        "%": "t_carpet_purple",
+        "l": "t_carpet_purple",
+        "T": "t_carpet_purple"
+      },
+      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
+      "place_loot": [
+        { "item": "stereo", "x": 1, "y": 3, "chance": 100 },
+        { "item": "dnd_handbook", "x": 5, "y": 3, "chance": 100 },
+        { "item": "novel_fantasy", "x": [ 5, 6 ], "y": [ 3, 5 ], "chance": 60, "repeat": [ 0, 4 ] },
+        { "item": "character_sheet", "x": [ 5, 6 ], "y": [ 3, 5 ], "chance": 80, "repeat": [ 1, 5 ] },
+        { "item": "metal_RPG_die", "x": 6, "y": 3, "chance": 10 },
+        { "item": "RPG_die", "x": [ 5, 6 ], "y": [ 3, 5 ], "chance": 90, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_11x11_apartment_N",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "|||||+|||||",
+        "|ffh     F|",
+        "|h    41O3|",
+        "|Hl  x|||||",
+        "|Hl  x|t89|",
+        "|TEs  +  S|",
+        "||||| |||||",
+        "|d  + +  R|",
+        "|@ y|+| hr|",
+        "|@IT|q|Y r|",
+        "|||||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "item": "television", "x": 5, "y": 3, "chance": 50 }, { "item": "stereo", "x": 5, "y": 4, "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_11x11_apartment_S",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "|||||||||||",
+        "|@IT|U|Y r|",
+        "|@ y|+| hr|",
+        "|d  + +  R|",
+        "||||| |||||",
+        "|TEs  +  S|",
+        "|Hl  x|t89|",
+        "|Hl  x|||||",
+        "|h   Y41O3|",
+        "|ffh     F|",
+        "|||||+|||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "item": "television", "x": 5, "y": 6, "chance": 50 }, { "item": "stereo", "x": 5, "y": 7, "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_11x11_apartment_E",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "|||||||||||",
+        "|@@I|s E T|",
+        "|@@ |Hl  x|",
+        "|D  |Hl  x|",
+        "|||+|  A y|",
+        "|Q+   ff  +",
+        "|||+|+||3 |",
+        "|E  | t|4 |",
+        "|I  | 8|O |",
+        "|@@d|S9|F1|",
+        "|||||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "item": "television", "x": 9, "y": 2, "chance": 50 }, { "item": "stereo", "x": 9, "y": 3, "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_11x11_apartment_W",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "|||||||||||",
+        "|@@I|s E T|",
+        "|@@ |Hl  x|",
+        "|D  |Hl  x|",
+        "|||+|  A y|",
+        "+     ff  |",
+        "|||+|+||3 |",
+        "|E  | t|4 |",
+        "|I  | 8|O |",
+        "|@@d|S9|F1|",
+        "|||||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "item": "television", "x": 9, "y": 2, "chance": 50 }, { "item": "stereo", "x": 9, "y": 3, "chance": 50 } ]
+    }
   }
 ]
