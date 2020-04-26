@@ -2523,14 +2523,18 @@ bool mattack::tentacle( monster *z )
         // TODO: handle friendly monsters
         return false;
     }
-    Creature *target = &g->u;
-    if( !z->sees( g->u ) ) {
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
         return false;
     }
-    add_msg( m_bad, _( "The %s lashes its tentacle at you!" ), z->name() );
+    auto msg_type = target == &g->u ? m_bad : m_info;
+    target->add_msg_player_or_npc( msg_type,
+                                   _( "The %s lashes its tentacle at you!" ),
+                                   _( "The %s lashes its tentacle at <npcname>!" ),
+                                   z->name() );
     z->moves -= 100;
 
-    if( g->u.uncanny_dodge() ) {
+    if( target->uncanny_dodge() ) {
         return true;
     }
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
@@ -2543,11 +2547,26 @@ bool mattack::tentacle( monster *z )
 
     body_part hit = target->get_random_body_part()->token;
     int dam = rng( 10, 20 );
-    //~ 1$s is bodypart name, 2$d is damage value.
-    add_msg( m_bad, _( "Your %1$s is hit for %2$d damage!" ), body_part_name( hit ), dam );
-    g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
+    dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
+
+    if( dam > 0 ) {
+        target->add_msg_player_or_npc( msg_type,
+                                       //~ 1$s is bodypart name, 2$d is damage value.
+                                       _( "Your %1$s is hit for %2$d damage!" ),
+                                       //~ 1$s is bodypart name, 2$d is damage value.
+                                       _( "<npcname>'s %1$s is hit for %2$d damage!" ),
+                                       body_part_name( hit ),
+                                       dam );
+    } else {
+        target->add_msg_player_or_npc(
+            _( "The %1$s lashes its tentacle at your %2$s, but glances off your armor!" ),
+            _( "The %1$s lashes its tentacle at <npcname>'s %2$s, but glances off your armor!" ),
+            z->name(),
+            body_part_name_accusative( hit ) );
+    }
+
     target->on_hit( z, hit,  z->type->melee_skill );
-    g->u.check_dead_state();
+    target->check_dead_state();
 
     return true;
 }
