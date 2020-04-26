@@ -1455,9 +1455,9 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "time": "1 m",
+    "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ], { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
