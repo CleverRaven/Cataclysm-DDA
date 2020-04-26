@@ -7080,9 +7080,9 @@ std::string Character::activity_level_str() const
     }
 }
 
-int Character::get_armor_bash( body_part bp ) const
+int Character::get_armor_bash( bodypart_id bp ) const
 {
-    return get_armor_bash_base( bp ) + armor_bash_bonus;
+    return get_armor_bash_base( bp->token ) + armor_bash_bonus;
 }
 
 int Character::get_armor_cut( body_part bp ) const
@@ -7097,7 +7097,7 @@ int Character::get_armor_type( damage_type dt, body_part bp ) const
         case DT_BIOLOGICAL:
             return 0;
         case DT_BASH:
-            return get_armor_bash( bp );
+            return get_armor_bash( convert_bp( bp ).id() );
         case DT_CUT:
             return get_armor_cut( bp );
         case DT_STAB:
@@ -7175,7 +7175,7 @@ int Character::get_env_resist( bodypart_id bp ) const
     }
 
     for( const bionic_id &bid : get_bionics() ) {
-        const auto EP = bid->env_protec.find( bp );
+        const auto EP = bid->env_protec.find( bp.id() );
         if( EP != bid->env_protec.end() ) {
             ret += EP->second;
         }

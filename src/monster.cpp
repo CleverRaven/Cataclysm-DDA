@@ -1814,7 +1814,7 @@ int monster::get_armor_cut( body_part bp ) const
     return static_cast<int>( type->armor_cut ) + armor_cut_bonus + get_worn_armor_val( DT_CUT );
 }
 
-int monster::get_armor_bash( body_part bp ) const
+int monster::get_armor_bash( bodypart_id bp ) const
 {
     ( void ) bp;
     return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val( DT_BASH );
@@ -1829,7 +1829,7 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
         case DT_BIOLOGICAL:
             return 0;
         case DT_BASH:
-            return get_armor_bash( bp );
+            return get_armor_bash( convert_bp( bp ).id() );
         case DT_CUT:
             return get_armor_cut( bp );
         case DT_ACID:
@@ -1973,7 +1973,7 @@ int monster::impact( const int force, const tripoint &p )
         total_dealt += 10 * mod;
     }
 
-    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bp_torso ) );
+    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bodypart_id( "torso" ) ) );
     apply_damage( nullptr, bodypart_id( "torso" ), bash_damage );
     total_dealt += force * mod;
 

@@ -1142,7 +1142,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                     p->check_dead_state();
                                 } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
-                                    mon->apply_damage( nullptr, bodypart_id( "torso" ), 6 - mon->get_armor_bash( bp_torso ) );
+                                    mon->apply_damage( nullptr, bodypart_id( "torso" ),
+                                                       6 - mon->get_armor_bash( bodypart_id( "torso" ) ) );
                                     if( g->u.sees( newp ) ) {
                                         add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                     }

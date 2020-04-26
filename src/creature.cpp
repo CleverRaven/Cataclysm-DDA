@@ -1357,7 +1357,7 @@ int Creature::get_env_resist( bodypart_id ) const
 {
     return 0;
 }
-int Creature::get_armor_bash( body_part ) const
+int Creature::get_armor_bash( bodypart_id ) const
 {
     return armor_bash_bonus;
 }

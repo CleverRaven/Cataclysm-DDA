@@ -1723,7 +1723,7 @@ class Character : public Creature, public visitable<Character>
         std::string activity_level_str() const;
 
         /** Returns overall bashing resistance for the body_part */
-        int get_armor_bash( body_part bp ) const override;
+        int get_armor_bash( bodypart_id bp ) const override;
         /** Returns overall cutting resistance for the body_part */
         int get_armor_cut( body_part bp ) const override;
         /** Returns bashing resistance from the creature and armor only */
