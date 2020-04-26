@@ -26,8 +26,6 @@ namespace cata
 template <typename T> class value_ptr;
 }  // namespace cata
 
-bool item_is_blacklisted( const std::string &id );
-
 using Item_tag = std::string;
 using Group_tag = std::string;
 using Item_list = std::vector<item>;
@@ -216,6 +214,7 @@ class Item_factory
         }
 
         void load_item_blacklist( const JsonObject &json );
+        void load_item_whitelist( const JsonObject &json );
 
         /** Get all item templates (both static and runtime) */
         std::vector<const itype *> all() const;
@@ -338,6 +337,7 @@ class Item_factory
         void init();
 
         void finalize_item_blacklist();
+        void finalize_item_whitelist();
 
         /** Applies part of finalization that don't depend on other items. */
         void finalize_pre( itype &obj );
