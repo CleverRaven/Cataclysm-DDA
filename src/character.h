@@ -1725,7 +1725,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash( bodypart_id bp ) const override;
         /** Returns overall cutting resistance for the body_part */
-        int get_armor_cut( body_part bp ) const override;
+        int get_armor_cut( bodypart_id bp ) const override;
         /** Returns bashing resistance from the creature and armor only */
         int get_armor_bash_base( body_part bp ) const override;
         /** Returns cutting resistance from the creature and armor only */

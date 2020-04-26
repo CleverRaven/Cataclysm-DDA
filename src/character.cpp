@@ -7085,9 +7085,9 @@ int Character::get_armor_bash( bodypart_id bp ) const
     return get_armor_bash_base( bp->token ) + armor_bash_bonus;
 }
 
-int Character::get_armor_cut( body_part bp ) const
+int Character::get_armor_cut( bodypart_id bp ) const
 {
-    return get_armor_cut_base( bp ) + armor_cut_bonus;
+    return get_armor_cut_base( bp->token ) + armor_cut_bonus;
 }
 
 int Character::get_armor_type( damage_type dt, body_part bp ) const
@@ -7099,9 +7099,9 @@ int Character::get_armor_type( damage_type dt, body_part bp ) const
         case DT_BASH:
             return get_armor_bash( convert_bp( bp ).id() );
         case DT_CUT:
-            return get_armor_cut( bp );
+            return get_armor_cut( convert_bp( bp ).id() );
         case DT_STAB:
-            return get_armor_cut( bp ) * 0.8f;
+            return get_armor_cut( convert_bp( bp ).id() ) * 0.8f;
         case DT_ACID:
         case DT_HEAT:
         case DT_COLD:

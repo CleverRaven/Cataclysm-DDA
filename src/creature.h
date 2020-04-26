@@ -409,7 +409,7 @@ class Creature
         virtual int get_env_resist( bodypart_id bp ) const;
 
         virtual int get_armor_bash( bodypart_id bp ) const;
-        virtual int get_armor_cut( body_part bp ) const;
+        virtual int get_armor_cut( bodypart_id bp ) const;
         virtual int get_armor_bash_base( body_part bp ) const;
         virtual int get_armor_cut_base( body_part bp ) const;
         virtual int get_armor_bash_bonus() const;

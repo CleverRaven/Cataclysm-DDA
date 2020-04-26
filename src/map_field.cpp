@@ -1619,18 +1619,19 @@ void map::player_in_field( player &u )
                 const int intensity = cur.get_field_intensity();
                 // Bees will try to sting you in random body parts, up to 8 times.
                 for( int i = 0; i < rng( 1, 7 ); i++ ) {
-                    body_part bp = random_body_part();
+                    bodypart_id bp = u.get_random_body_part();
                     int sum_cover = 0;
                     for( const item &i : u.worn ) {
-                        if( i.covers( bp ) ) {
+                        if( i.covers( bp->token ) ) {
                             sum_cover += i.get_coverage();
                         }
                     }
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
                     // AND clothing on affected body part has low environmental protection value
                     if( ( u.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&
-                        u.add_env_effect( effect_stung, bp, intensity, 9_minutes ) ) {
-                        u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ), body_part_name_accusative( bp ) );
+                        u.add_env_effect( effect_stung, bp->token, intensity, 9_minutes ) ) {
+                        u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ),
+                                             body_part_name_accusative( bp->token ) );
                     }
                 }
             }

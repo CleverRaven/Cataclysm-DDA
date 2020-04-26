@@ -1807,7 +1807,7 @@ int monster::get_worn_armor_val( damage_type dt ) const
     return 0;
 }
 
-int monster::get_armor_cut( body_part bp ) const
+int monster::get_armor_cut( bodypart_id bp ) const
 {
     ( void ) bp;
     // TODO: Add support for worn armor?
@@ -1831,7 +1831,7 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
         case DT_BASH:
             return get_armor_bash( convert_bp( bp ).id() );
         case DT_CUT:
-            return get_armor_cut( bp );
+            return get_armor_cut( convert_bp( bp ).id() );
         case DT_ACID:
             return worn_armor + static_cast<int>( type->armor_acid );
         case DT_STAB:
@@ -1968,7 +1968,7 @@ int monster::impact( const int force, const tripoint &p )
     const float mod = fall_damage_mod();
     int total_dealt = 0;
     if( g->m.has_flag( TFLAG_SHARP, p ) ) {
-        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bp_torso ) );
+        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bodypart_id( "torso" ) ) );
         apply_damage( nullptr, bodypart_id( "torso" ), cut_damage );
         total_dealt += 10 * mod;
     }
