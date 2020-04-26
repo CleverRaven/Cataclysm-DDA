@@ -6564,9 +6564,9 @@
   {
     "type": "mutation",
     "id": "ANTIFIRE",
-    "name": { "str": "No ranged weapons" },
+    "name": { "str": "Throwing Addict" },
     "points": -4,
-    "description": "You denounced bows and guns with vengeful fury before the apocalypse and you plan on sticking to that ideal to your last breath.",
+    "description": "While others have bows and guns, your only choice of ranged weaponry are thrown items, slings, and slingshots.",
     "starting_trait": true,
     "valid": false
   }
