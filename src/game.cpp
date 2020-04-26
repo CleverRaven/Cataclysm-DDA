@@ -5911,7 +5911,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     // Print light level on the selected tile.
     std::pair<std::string, nc_color> ll = get_light_level( std::max( 1.0,
                                           LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
-    mvwprintz( w_look, point( column, ++line ), ll.second, ll.first );
+    mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Lighting: " ) );
+    mvwprintz( w_look, point( column + utf8_width( _( "Lighting: " ) ), line ), ll.second, ll.first );
 
     // Print the terrain and any furntiure on the tile below and whether it is walkable.
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
@@ -5973,6 +5974,8 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 
         mvwprintz( w_look, point( column, ++line ), tr.color, tr_name );
     }
+
+    ++line;
 }
 
 void game::print_creature_info( const Creature *creature, const catacurses::window &w_look,
@@ -7793,6 +7796,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                             ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                     }
                     mvwprintz( w_monsters, point( width - 25, y ), color, sText );
+                    const int bar_max_width = 5;
+                    const int bar_width = utf8_width( sText );
+                    for( int i = 0; i < bar_max_width - bar_width; ++i ) {
+                        mvwprintz( w_monsters, point( width - 21 - i, y ), c_white, "." );
+                    }
 
                     if( m != nullptr ) {
                         const auto att = m->get_attitude();

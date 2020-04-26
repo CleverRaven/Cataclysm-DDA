@@ -2222,6 +2222,11 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // Print health bar and NPC name on the first line.
     std::pair<std::string, nc_color> bar = get_hp_bar( hp_percentage(), 100 );
     mvwprintz( w, point( column, line ), bar.second, bar.first );
+    const int bar_max_width = 5;
+    const int bar_width = utf8_width( bar.first );
+    for( int i = 0; i < bar_max_width - bar_width; ++i ) {
+        mvwprintz( w, point( column + 4 - i, line ), c_white, "." );
+    }
     trim_and_print( w, point( column + bar.first.length() + 1, line ), iWidth, c_white, name );
 
     // Hostility indicator in the second line.

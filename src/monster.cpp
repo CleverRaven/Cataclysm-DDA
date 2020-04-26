@@ -643,18 +643,22 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     std::string bar_str;
     get_HP_Bar( color, bar_str );
     mvwprintz( w, point( column, vStart ), color, bar_str );
-
-    mvwprintz( w, point( column + utf8_width( bar_str ) + 1, vStart ), c_white, name() );
-    trim_and_print( w, point( utf8_width( bar_str ) + utf8_width( name() ) + 1, vStart ),
-                    max_width - utf8_width( bar_str ) - utf8_width( name() ) - 1, h_white, get_effect_status() );
+    const int bar_max_width = 5;
+    const int bar_width = utf8_width( bar_str );
+    for( int i = 0; i < bar_max_width - bar_width; ++i ) {
+        mvwprintz( w, point( column + 4 - i, vStart ), c_white, "." );
+    }
+    mvwprintz( w, point( column + bar_max_width + 1, vStart ), c_white, name() );
+    trim_and_print( w, point( column + bar_max_width + utf8_width( " " + name() + " " ), vStart ),
+                    max_width - bar_max_width - utf8_width( " " + name() + " " ), h_white, get_effect_status() );
 
     // Hostility indicator on the second line.
     std::pair<std::string, nc_color> att = get_attitude();
     mvwprintz( w, point( column, ++vStart ), att.second, att.first );
 
     // Awareness indicator in the third line.
-    std::string senses_str = sees( g->u ) ? _( "It knows you're there" ) :
-                             _( "It hasn't detected you" );
+    std::string senses_str = sees( g->u ) ? _( "Can see to your current location" ) :
+                             _( "Can't see to your current location" );
     mvwprintz( w, point( column, ++vStart ), sees( g->u ) ? c_red : c_green, senses_str );
 
     // Monster description on following lines.
@@ -666,7 +670,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {
-        mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider : %s" ), mounted_player->disp_name() );
+        mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
     // Show monster size on the last line
