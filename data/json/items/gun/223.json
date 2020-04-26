@@ -167,19 +167,14 @@
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": {
-      "str": "FN F2000"
-    },
+    "name": { "str": "FN F2000" },
     "description": "A Belgian bullpup rifle chambered in NATO 5.56x45mm rounds, this assault rifle features a compact and modular design resembling a tuna fish.",
     "weight": "3400 g",
     "volume": "1700 ml",
     "price": 200000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [
-      "steel",
-      "plastic"
-    ],
+    "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
@@ -194,13 +189,7 @@
       [ "DEFAULT", "semi-auto", 1 ],
       [ "AUTO", "auto", 4 ]
     ],
-    "built_in_mods": [
-      "barrel_ported",
-      "grip_mount",
-      "rail_mount",
-      "sights_mount",
-      "tele_sight"
-    ],
+    "built_in_mods": [ "barrel_ported", "grip_mount", "rail_mount", "sights_mount", "tele_sight" ],
     "magazines": [
       [
         "223",
