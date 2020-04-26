@@ -487,7 +487,7 @@ This section describes each json file and their contents. Each json has their ow
     "name": "Air Filtration System",
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
-    "env_protec": [ [ "MOUTH", 7 ] ],
+    "env_protec": [ [ "mouth", 7 ] ],
     "bash_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "cut_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]

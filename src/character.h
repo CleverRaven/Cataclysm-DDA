@@ -1731,7 +1731,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns cutting resistance from the creature and armor only */
         int get_armor_cut_base( body_part bp ) const override;
         /** Returns overall env_resist on a body_part */
-        int get_env_resist( body_part bp ) const override;
+        int get_env_resist( bodypart_id bp ) const override;
         /** Returns overall acid resistance for the body part */
         int get_armor_acid( body_part bp ) const;
         /** Returns overall resistance to given type on the bod part */

@@ -406,7 +406,7 @@ class Creature
         virtual int get_num_dodges_bonus() const;
         virtual int get_num_dodges_base() const;
 
-        virtual int get_env_resist( body_part bp ) const;
+        virtual int get_env_resist( bodypart_id bp ) const;
 
         virtual int get_armor_bash( body_part bp ) const;
         virtual int get_armor_cut( body_part bp ) const;

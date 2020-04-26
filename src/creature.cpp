@@ -1053,7 +1053,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
         return false;
     }
 
-    if( dice( strength, 3 ) > dice( get_env_resist( vector ), 3 ) ) {
+    if( dice( strength, 3 ) > dice( get_env_resist( convert_bp( vector ).id() ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
         add_effect( eff_id, dur, bp, permanent, intensity, true );
@@ -1353,7 +1353,7 @@ int Creature::get_num_dodges_base() const
 }
 
 // currently this is expected to be overridden to actually have use
-int Creature::get_env_resist( body_part ) const
+int Creature::get_env_resist( bodypart_id ) const
 {
     return 0;
 }
