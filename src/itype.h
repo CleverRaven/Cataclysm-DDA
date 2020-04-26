@@ -104,6 +104,7 @@ struct islot_tool {
     int charges_per_use = 0;
     int turns_per_charge = 0;
     int power_draw = 0;
+    int purification_factor = 1;
 
     std::vector<int> rand_charges;
 };
@@ -188,6 +189,9 @@ struct islot_comestible {
 
         /** Chance the above monster group spawns*/
         int rot_spawn_chance = 10;
+
+        /** Additional multiplicative time factor for purifying water. 0 means a constant time */
+        int purification_factor = 0;
 
     private:
         /** effect on morale when consuming */

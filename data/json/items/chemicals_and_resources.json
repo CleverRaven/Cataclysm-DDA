@@ -1008,6 +1008,7 @@
     "weight": "1 g",
     "color": "white",
     "use_action": "WATER_PURIFIER",
+    "purification_factor": 0,
     "container": "bottle_plastic_small",
     "comestible_type": "MED",
     "symbol": "!",
