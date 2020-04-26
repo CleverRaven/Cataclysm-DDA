@@ -471,7 +471,7 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
+    "qualities": [ [ "HAMMER", 2 ] ],
     "use_action": "HAMMER",
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
@@ -706,7 +706,7 @@
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
+    "qualities": [ [ "HAMMER", 2 ] ],
     "use_action": "HAMMER",
     "flags": [ "BELT_CLIP" ]
   },
