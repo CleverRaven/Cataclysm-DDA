@@ -28,8 +28,7 @@
     "name": "Leathered Feet",
     "points": 1,
     "description": "The bottoms of your feet are tough like an animals.  You receive no movement penalty for not wearing shoes.",
-    "valid": false,
-    "category": [ "MASTODON" ]
+    "valid": false
   },
   {
     "type": "mutation",
@@ -38,7 +37,6 @@
     "points": 1,
     "description": "Your skin is tough.  Cutting damage is slightly reduced for you.  Slightly decreases wet penalties.",
     "valid": false,
-    "category": [ "MASTODON" ],
     "cancels": [ "THINSKIN" ],
     "wet_protection": [
       { "part": "LEG_L", "neutral": 2 },
@@ -57,7 +55,6 @@
     "description": "A common flaw in your genemod, brought on by increased muscle mass and bone density.  Moving over rough terrain will slow you down more than normal.",
     "valid": false,
     "cancels": [ "PARKOUR" ],
-    "category": [ "MASTODON" ],
     "movecost_obstacle_modifier": 1.15
   },
   {
@@ -67,7 +64,6 @@
     "points": -2,
     "description": "You have problems with eating meat.  It's possible for you to eat it, but you will suffer morale penalties and obtain less nutrition from it.",
     "valid": false,
-    "category": [ "MASTODON" ],
     "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "cancels": [ "CANNIBAL", "MEATARIAN", "ANTIFRUIT" ]
   },
@@ -81,8 +77,7 @@
     "changes_to": [ "SMELLY2" ],
     "types": [ "SCENT" ],
     "scent_intensity": 800,
-    "social_modifiers": { "persuade": -5, "intimidate": -5 },
-    "category": [ "MASTODON" ]
+    "social_modifiers": { "persuade": -5, "intimidate": -5 }
   },
   {
     "type": "mutation",
@@ -91,7 +86,6 @@
     "points": -1,
     "description": "You make more noise while walking.  You're also more likely to set off traps.",
     "valid": false,
-    "category": [ "MASTODON" ],
     "cancels": [ "LIGHTSTEP" ],
     "noise_modifier": 1.7
   },
@@ -102,7 +96,6 @@
     "points": -3,
     "description": "You can't move as fast as most, resulting in a 10% speed penalty on flat ground.",
     "valid": false,
-    "category": [ "MASTODON" ],
     "types": [ "RUNNING" ],
     "movecost_flatground_modifier": 1.1
   },
@@ -117,7 +110,6 @@
     "bodytemp_sleep": 100,
     "description": "Short fur has grown to cover your entire body, providing slight protection from cold.",
     "valid": false,
-    "category": [ "MASTODON" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SHORTFUR" ],
     "changes_to": [ "MEDIUMFUR" ]
@@ -136,7 +128,6 @@
     "types": [ "SKIN" ],
     "changes_to": [ "MASTODON_FUR" ],
     "prereqs": [ "LIGHTFUR" ],
-    "category": [ "MASTODON" ],
     "armor": [ { "parts": "ALL", "bash": 2 } ]
   },
   {
@@ -152,7 +143,6 @@
     "valid": false,
     "types": [ "SKIN" ],
     "prereqs": [ "MEDIUMFUR" ],
-    "category": [ "MASTODON" ],
     "threshreq": [ "THRESH_MASTODON" ],
     "armor": [ { "parts": "ALL", "bash": 4 } ]
   },
@@ -168,7 +158,6 @@
     "threshreq": [ "THRESH_MASTODON" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "changes_to": [ "MUT_TANK2" ],
-    "category": [ "MASTODON" ],
     "hp_modifier_secondary": 0.2
   },
   {
@@ -183,7 +172,6 @@
     "threshreq": [ "THRESH_MASTODON" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "changes_to": [ "MUT_TANK3" ],
-    "category": [ "MASTODON" ],
     "hp_modifier_secondary": 0.3
   },
   {
@@ -197,7 +185,6 @@
     "prereqs": [ "MUT_TANK2" ],
     "threshreq": [ "THRESH_MASTODON" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
-    "category": [ "MASTODON" ],
     "hp_modifier_secondary": 0.4
   },
   {
@@ -214,7 +201,6 @@
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "cancels": [ "SMALL", "SMALL2" ],
     "changes_to": [ "ELEPHANTINE_OK", "GIGANTIC" ],
-    "category": [ "MASTODON" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05
   },
@@ -232,7 +218,6 @@
     "threshreq": [ "THRESH_MASTODON" ],
     "changes_to": [ "GIGANTIC" ],
     "leads_to": [ "MUT_TANK" ],
-    "category": [ "MASTODON" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05
   },
@@ -250,7 +235,6 @@
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "cancels": [ "SMALL", "SMALL2" ],
     "changes_to": [ "GIGANTIC_OK" ],
-    "category": [ "MASTODON" ],
     "passive_mods": { "str_mod": 4 },
     "hp_adjustment": -6,
     "fatigue_modifier": 0.15,
@@ -273,7 +257,6 @@
     "cancels": [ "SMALL", "SMALL2" ],
     "threshreq": [ "THRESH_MASTODON" ],
     "leads_to": [ "MUT_TANK" ],
-    "category": [ "MASTODON" ],
     "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
     "destroys_gear": true,
@@ -290,8 +273,7 @@
     "valid": false,
     "scent_intensity": 1200,
     "prereqs": [ "ELEPHANTINE_SMELL" ],
-    "leads_to": [ "PHEROMONE_MAMMAL" ],
-    "category": [ "MASTODON" ]
+    "leads_to": [ "PHEROMONE_MAMMAL" ]
   },
   {
     "type": "mutation",
@@ -302,7 +284,6 @@
     "valid": false,
     "types": [ "METABOLISM" ],
     "changes_to": [ "LARGE_DIET" ],
-    "category": [ "MASTODON" ],
     "metabolism_modifier": 0.5,
     "stamina_regen_modifier": 0.1
   },
@@ -316,7 +297,6 @@
     "types": [ "HEALING" ],
     "cancels": [ "LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "WAKEFUL", "WAKEFUL2", "WAKEFUL3" ],
     "prereqs": [ "HUNGER" ],
-    "category": [ "MASTODON" ],
     "healing_resting": 0.25,
     "fatigue_modifier": 0.75,
     "fatigue_regen_modifier": 0.5,
@@ -331,7 +311,6 @@
     "valid": false,
     "changes_to": [ "H20NEEDS" ],
     "cancels": [ "NO_THIRST" ],
-    "category": [ "MASTODON" ],
     "thirst_modifier": 0.5
   },
   {
@@ -344,7 +323,6 @@
     "prereqs": [ "THIRST" ],
     "changes_to": [ "THIRST3" ],
     "cancels": [ "NO_THIRST" ],
-    "category": [ "MASTODON" ],
     "thirst_modifier": 1.0
   },
   {
@@ -357,7 +335,6 @@
     "types": [ "RUNNING" ],
     "changes_to": [ "DELIBERATE2" ],
     "cancels": [ "FLEET" ],
-    "category": [ "MASTODON" ],
     "movecost_modifier": 1.1
   },
   {
@@ -371,7 +348,6 @@
     "prereqs": [ "DELIBERATE1" ],
     "changes_to": [ "PONDEROUS3" ],
     "cancels": [ "QUICK" ],
-    "category": [ "MASTODON" ],
     "movecost_modifier": 1.25
   }
 ]
