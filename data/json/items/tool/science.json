@@ -102,7 +102,7 @@
   {
     "id": "filter_paper_qualitative",
     "type": "TOOL",
-    "name": { "str": "qualitative filter paper", "str_pl": "qualitative filter paper" },
+    "name": { "str_sp": "qualitative filter paper" },
     "description": "filter paper for seperating solids from liquids.  This filter paper has a rating of 2 microns, seperating more solids out than quantitative filter paper but the process takes longer.",
     "symbol": "E",
     "color": "dark_gray",
@@ -118,7 +118,7 @@
   {
     "id": "filter_paper_quantitative",
     "type": "TOOL",
-    "name": { "str": "quantitative filter paper", "str_pl": "quantitative filter paper" },
+    "name": { "str_sp": "quantitative filter paper" },
     "description": "filter paper for seperating solids from liquids.  This filter paper has a rating of 20 microns, seperating less solids out than qualitative filter paper but the process is much faster.",
     "symbol": "E",
     "color": "dark_gray",
@@ -244,7 +244,7 @@
     "id": "butane_tank",
     "type": "TOOL",
     "name": { "str": "butane tank", "str_pl": "tanks of butane" },
-    "description": "This is a tank of compressed butane. It can be used to extract essential oils from organic material.",
+    "description": "This is a tank of compressed butane.  It can be used to extract essential oils from organic material.",
     "weight": "22700 g",
     "volume": "18950 ml",
     "price": 25000,
