@@ -2629,7 +2629,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
                 cLineColor = c_light_gray;
 
-            } else if( current_opt.getValue() == "false" ) {
+            } else if( current_opt.getValue() == "false" || current_opt.getValueName() == "Disabled" ) {
                 cLineColor = c_light_red;
             }
 
