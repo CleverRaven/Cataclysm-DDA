@@ -259,7 +259,7 @@ class Creature
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const damage_unit &du,
-                                              body_part bp, int &damage, int &pain );
+                                              bodypart_id bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
         virtual void apply_damage( Creature *source, bodypart_id bp, int amount,

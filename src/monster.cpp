@@ -1541,7 +1541,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     }
 }
 
-void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                        int &pain )
 {
     switch( du.type ) {
@@ -1581,7 +1581,7 @@ void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int 
             break;
     }
 
-    Creature::deal_damage_handle_type( du, bp, damage, pain );
+    Creature::deal_damage_handle_type( du,  bp, damage, pain );
 }
 
 int monster::heal( const int delta_hp, bool overheal )

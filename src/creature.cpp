@@ -836,7 +836,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
         int cur_damage = 0;
-        deal_damage_handle_type( it, bp_token, cur_damage, total_pain );
+        deal_damage_handle_type( it, bp, cur_damage, total_pain );
         if( cur_damage > 0 ) {
             dealt_dams.dealt_dams[ it.type ] += cur_damage;
             total_damage += cur_damage;
@@ -848,7 +848,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     apply_damage( source, bp, total_damage );
     return dealt_dams;
 }
-void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                         int &pain )
 {
     // Handles ACIDPROOF, electric immunity etc.
@@ -873,7 +873,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp );
+                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp->token );
             }
             break;
 
@@ -891,7 +891,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int
             break;
     }
 
-    on_damage_of_type( adjusted_damage, du.type, bp );
+    on_damage_of_type( adjusted_damage, du.type, bp->token );
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );

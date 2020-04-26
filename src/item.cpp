@@ -1327,7 +1327,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
             int total_pain = 0;
-            temp_mon.deal_damage_handle_type( dmg_unit, bp_torso, cur_damage, total_pain );
+            temp_mon.deal_damage_handle_type( dmg_unit, bodypart_id( "torso" ), cur_damage, total_pain );
             if( cur_damage > 0 ) {
                 dealt_dams.dealt_dams[ dmg_unit.type ] += cur_damage;
             }
@@ -1349,7 +1349,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
                 int total_pain = 0;
-                temp_rs_mon.deal_damage_handle_type( dmg_unit, bp_torso, cur_damage, total_pain );
+                temp_rs_mon.deal_damage_handle_type( dmg_unit, bodypart_id( "torso" ), cur_damage, total_pain );
                 if( cur_damage > 0 ) {
                     rs_dealt_dams.dealt_dams[ dmg_unit.type ] += cur_damage;
                 }
