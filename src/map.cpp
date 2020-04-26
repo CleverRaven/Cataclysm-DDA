@@ -4418,7 +4418,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 
 void map::process_active_items()
 {
-    process_items( true, process_map_items, std::string {} );
+    process_items( true, std::string {} );
 }
 
 std::vector<tripoint> map::check_submap_active_item_consistency()
@@ -4447,7 +4447,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
     return result;
 }
 
-void map::process_items( const bool active, map::map_process_func processor,
+void map::process_items( const bool active,
                          const std::string &signal )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
@@ -4462,7 +4462,7 @@ void map::process_items( const bool active, map::map_process_func processor,
         for( const tripoint &pos : submaps_with_vehicles ) {
             submap *const current_submap = get_submap_at_grid( pos );
             // Vehicles first in case they get blown up and drop active items on the map.
-            process_items_in_vehicles( *current_submap, pos.z, processor, signal );
+            process_items_in_vehicles( *current_submap, pos.z, signal );
         }
     }
     // Making a copy, in case the original variable gets modified during `process_items_in_submap`
@@ -4471,13 +4471,13 @@ void map::process_items( const bool active, map::map_process_func processor,
         const tripoint local_pos = abs_pos - abs_sub.xy();
         submap *const current_submap = get_submap_at_grid( local_pos );
         if( !active || !current_submap->active_items.empty() ) {
-            process_items_in_submap( *current_submap, local_pos, processor, signal );
+            process_items_in_submap( *current_submap, local_pos, signal );
         }
     }
 }
 
 void map::process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                   map::map_process_func processor, const std::string &signal )
+                                   const std::string &signal )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
@@ -4497,12 +4497,12 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
         map_stack items = i_at( map_location );
-        processor( items, active_item_ref.item_ref, map_location, signal, 1, flag );
+        process_map_items( items, active_item_ref.item_ref, map_location, signal, 1, flag );
     }
 }
 
 void map::process_items_in_vehicles( submap &current_submap, const int gridz,
-                                     map::map_process_func processor, const std::string &signal )
+                                     const std::string &signal )
 {
     // a copy, important if the vehicle list changes because a
     // vehicle got destroyed by a bomb (an active item!), this list
@@ -4519,12 +4519,12 @@ void map::process_items_in_vehicles( submap &current_submap, const int gridz,
             continue;
         }
 
-        process_items_in_vehicle( *cur_veh, current_submap, gridz, processor, signal );
+        process_items_in_vehicle( *cur_veh, current_submap, gridz, signal );
     }
 }
 
 void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int /*gridz*/,
-                                    map::map_process_func processor, const std::string &signal )
+                                    const std::string &signal )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
@@ -4574,7 +4574,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
                 flag = temperature_flag::TEMP_FREEZER;
             }
         }
-        if( !processor( items, active_item_ref.item_ref, item_loc, signal, it_insulation, flag ) ) {
+        if( !process_map_items( items, active_item_ref.item_ref, item_loc, signal, it_insulation, flag ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;

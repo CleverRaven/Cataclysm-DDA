@@ -1704,13 +1704,12 @@ class map
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.
-        void process_items( bool active, map_process_func processor, const std::string &signal );
+        void process_items( bool active, const std::string &signal );
         void process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                      map::map_process_func processor, const std::string &signal );
-        void process_items_in_vehicles( submap &current_submap, int gridz,
-                                        map_process_func processor, const std::string &signal );
+                                      const std::string &signal );
+        void process_items_in_vehicles( submap &current_submap, int gridz, const std::string &signal );
         void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, int gridz,
-                                       map::map_process_func processor, const std::string &signal );
+                                       const std::string &signal );
 
         /** Enum used by functors in `function_over` to control execution. */
         enum iteration_state {
