@@ -984,8 +984,6 @@ class map
             set_temperature( tripoint( p, abs_sub.z ), new_temperature );
         }
 
-        // Items
-        void process_active_items();
         // Returns points for all submaps with inconsistent state relative to
         // the list in map.  Used in tests.
         std::vector<tripoint> check_submap_active_item_consistency();
@@ -1693,6 +1691,7 @@ class map
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.
+        void process_items();
         void process_items_in_submap( submap &current_submap, const tripoint &gridp );
         void process_items_in_vehicles( submap &current_submap );
         void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap );
