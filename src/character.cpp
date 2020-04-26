@@ -1157,39 +1157,39 @@ void Character::forced_dismount()
         }
         const int dodge = get_dodge();
         const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
-        body_part hit = num_bp;
+        bodypart_id hit( "num_bp" );
         switch( rng( 1, 10 ) ) {
             case  1:
                 if( one_in( 2 ) ) {
-                    hit = bp_foot_l;
+                    hit = bodypart_id( "foot_l" );
                 } else {
-                    hit = bp_foot_r;
+                    hit = bodypart_id( "foot_r" );
                 }
                 break;
             case  2:
             case  3:
             case  4:
                 if( one_in( 2 ) ) {
-                    hit = bp_leg_l;
+                    hit = bodypart_id( "leg_l" );
                 } else {
-                    hit = bp_leg_r;
+                    hit = bodypart_id( "leg_r" );
                 }
                 break;
             case  5:
             case  6:
             case  7:
                 if( one_in( 2 ) ) {
-                    hit = bp_arm_l;
+                    hit = bodypart_id( "arm_l" );
                 } else {
-                    hit = bp_arm_r;
+                    hit = bodypart_id( "arm_r" );
                 }
                 break;
             case  8:
             case  9:
-                hit = bp_torso;
+                hit = bodypart_id( "torso" );
                 break;
             case 10:
-                hit = bp_head;
+                hit = bodypart_id( "head" );
                 break;
         }
         if( damage > 0 ) {
@@ -8398,7 +8398,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     }
 }
 
-dealt_damage_instance Character::deal_damage( Creature *source, body_part bp,
+dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &d )
 {
     if( has_trait( trait_DEBUG_NODMG ) ) {
@@ -8410,6 +8410,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, body_part bp,
     //block reduction should be by applied this point
     int dam = dealt_dams.total_damage();
 
+    const body_part bp_token = bp->token;
+
     // TODO: Pre or post blit hit tile onto "this"'s location here
     if( dam > 0 && g->u.sees( pos() ) ) {
         g->draw_hit_player( *this, dam );
@@ -8418,8 +8420,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, body_part bp,
             //monster hits player melee
             SCT.add( point( posx(), posy() ),
                      direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
-                     get_hp_bar( dam, get_hp_max( player::bp_to_hp( bp ) ) ).first, m_bad,
-                     body_part_name( bp ), m_neutral );
+                     get_hp_bar( dam, get_hp_max( player::bp_to_hp( bp_token ) ) ).first, m_bad,
+                     body_part_name( bp_token ), m_neutral );
         }
     }
 
@@ -8463,50 +8465,30 @@ dealt_damage_instance Character::deal_damage( Creature *source, body_part bp,
         damage_instance acidblood_damage;
         acidblood_damage.add_damage( DT_ACID, rng( 4, 16 ) );
         if( !one_in( 4 ) ) {
-            source->deal_damage( this, bp_arm_l, acidblood_damage );
-            source->deal_damage( this, bp_arm_r, acidblood_damage );
+            source->deal_damage( this, bodypart_id( "arm_l" ), acidblood_damage );
+            source->deal_damage( this, bodypart_id( "arm_r" ), acidblood_damage );
         } else {
-            source->deal_damage( this, bp_torso, acidblood_damage );
-            source->deal_damage( this, bp_head, acidblood_damage );
+            source->deal_damage( this, bodypart_id( "torso" ), acidblood_damage );
+            source->deal_damage( this, bodypart_id( "head" ), acidblood_damage );
         }
     }
 
     int recoil_mul = 100;
-    switch( bp ) {
-        case bp_eyes:
-            if( dam > 5 || cut_dam > 0 ) {
-                const time_duration minblind = std::max( 1_turns, 1_turns * ( dam + cut_dam ) / 10 );
-                const time_duration maxblind = std::min( 5_turns, 1_turns * ( dam + cut_dam ) / 4 );
-                add_effect( effect_blind, rng( minblind, maxblind ) );
-            }
-            break;
-        case bp_torso:
-            break;
-        case bp_hand_l:
-        // Fall through to arms
-        case bp_arm_l:
-        // Hit to arms/hands are really bad to our aim
-        case bp_hand_r:
-        // Fall through to arms
-        case bp_arm_r:
-            recoil_mul = 200;
-            break;
-        case bp_foot_l:
-        // Fall through to legs
-        case bp_leg_l:
-            break;
-        case bp_foot_r:
-        // Fall through to legs
-        case bp_leg_r:
-            break;
-        case bp_mouth:
-        // Fall through to head damage
-        case bp_head:
-            // TODO: Some daze maybe? Move drain?
-            break;
-        default:
-            debugmsg( "Wacky body part hit!" );
+
+    if( bp == bodypart_id( "eyes" ) ) {
+        if( dam > 5 || cut_dam > 0 ) {
+            const time_duration minblind = std::max( 1_turns, 1_turns * ( dam + cut_dam ) / 10 );
+            const time_duration maxblind = std::min( 5_turns, 1_turns * ( dam + cut_dam ) / 4 );
+            add_effect( effect_blind, rng( minblind, maxblind ) );
+        }
+    } else if( bp == bodypart_id( "hand_l" ) || bp == bodypart_id( "arm_l" ) ||
+               bp == bodypart_id( "hand_r" ) || bp == bodypart_id( "arm_r" ) ) {
+        recoil_mul = 200;
+    } else if( bp == bodypart_id( "num_bp" ) ) {
+        debugmsg( "Wacky body part hit!" );
     }
+
+
 
     // TODO: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
@@ -8541,7 +8523,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, body_part bp,
     if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
         int sum_cover = 0;
         for( const item &i : worn ) {
-            if( i.covers( bp ) && i.is_filthy() ) {
+            if( i.covers( bp_token ) && i.is_filthy() ) {
                 sum_cover += i.get_coverage();
             }
         }
@@ -8554,12 +8536,12 @@ dealt_damage_instance Character::deal_damage( Creature *source, body_part bp,
             const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
             const int infection_chance = ( combined_dam * sum_cover ) / 100;
             if( x_in_y( infection_chance, 100 ) ) {
-                if( has_effect( effect_bite, bp ) ) {
-                    add_effect( effect_bite, 40_minutes, bp, true );
-                } else if( has_effect( effect_infected, bp ) ) {
-                    add_effect( effect_infected, 25_minutes, bp, true );
+                if( has_effect( effect_bite, bp_token ) ) {
+                    add_effect( effect_bite, 40_minutes, bp_token, true );
+                } else if( has_effect( effect_infected, bp_token ) ) {
+                    add_effect( effect_infected, 25_minutes, bp_token, true );
                 } else {
-                    add_effect( effect_bite, 1_turns, bp, true );
+                    add_effect( effect_bite, 1_turns, bp_token, true );
                 }
                 add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
             }
@@ -8681,7 +8663,7 @@ int Character::hitall( int dam, int vary, Creature *source )
 {
     int damage_taken = 0;
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        const bodypart_id bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
         int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
         int cut = 0;
         auto damage = damage_instance::physical( ddam, cut, 0 );
