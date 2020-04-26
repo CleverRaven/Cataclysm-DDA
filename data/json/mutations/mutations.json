@@ -6560,5 +6560,14 @@
     "description": "Whether from personal choice or childhood trauma, traveling with vehicles is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "ANTIFIRE",
+    "name": { "str": "No ranged weapons" },
+    "points": -4,
+    "description": "You denounced bows and guns with vengeful fury before the apocalypse and you plan on sticking to that ideal to your last breath.",
+    "starting_trait": true,
+    "valid": false
   }
 ]

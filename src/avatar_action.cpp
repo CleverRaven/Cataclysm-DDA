@@ -76,6 +76,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_ANTIFIRE( "ANTIFIRE" );
 
 static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const std::string flag_DIG_TOOL( "DIG_TOOL" );
@@ -971,6 +972,11 @@ void avatar_action::fire_ranged_mutation( avatar &you, map &m, const item &fake_
 void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gun,
                                         units::energy cost_per_shot )
 {
+    if( you.has_trait( trait_ANTIFIRE ) ) {
+        add_msg( m_info,
+                 _( "Even though it's bionically installed inside you, you still refuse to fire it." ) );
+        return;
+    }
     targeting_data args = targeting_data::use_bionic( fake_gun, cost_per_shot );
     you.set_targeting_data( args );
     avatar_action::aim_do_turn( you, m );

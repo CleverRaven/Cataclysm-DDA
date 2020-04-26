@@ -107,6 +107,7 @@ static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_HELI_PILOT( "PROF_HELI_PILOT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+static const trait_id trait_ANTIFIRE( "ANTIFIRE" );
 
 static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
@@ -1305,6 +1306,15 @@ static void reach_attack( int range, player &u )
 static void fire()
 {
     player &u = g->u;
+    bool has_antifire = u.has_trait( trait_ANTIFIRE );
+    bool antifire_ammo = u.weapon.ammo_types().count( ammotype( "pebble" ) ) > 0 ||
+                         u.weapon.ammo_types().count( ammotype( "rock" ) ) > 0;
+
+    if( has_antifire && u.weapon.is_gun() && !antifire_ammo ) {
+        add_msg( m_info, _( "You refuse to fire anything out of this %s." ),
+                 u.weapon.display_name() );
+        return;
+    }
 
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
@@ -1313,12 +1323,20 @@ static void fire()
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            avatar_action::fire_turret_manual( g->u, g->m, turret );
+            if( has_antifire ) {
+                add_msg( m_info,
+                         _( "You only have %s to scare unfriendlies from approaching your vehicle.  It hasn't worked though." ),
+                         turret.name() );
+            } else {
+                avatar_action::fire_turret_manual( g->u, g->m, turret );
+            }
             return;
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
-            if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
+            if( has_antifire ) {
+                add_msg( m_info, _( "These turrets will not be fired by you for the foreseeable future." ) );
+            } else if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
                 return;
             }
         }
@@ -1353,6 +1371,11 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
+        if( has_antifire && !antifire_ammo ) {
+            add_msg( m_info, _( "You refuse to fire anything out of this %s." ),
+                     u.weapon.display_name() );
+            return;
+        }
         avatar_action::fire_wielded_weapon( g->u, g->m );
     } else if( u.weapon.has_flag( flag_REACH_ATTACK ) ) {
         int range = u.weapon.has_flag( flag_REACH3 ) ? 3 : 2;

@@ -73,6 +73,8 @@ static const fault_id fault_starter( "fault_engine_starter" );
 
 static const skill_id skill_mechanics( "mechanics" );
 
+static const trait_id trait_ANTIFIRE( "ANTIFIRE" );
+
 enum change_types : int {
     OPENCURTAINS = 0,
     OPENBOTH,
@@ -579,6 +581,7 @@ void vehicle::use_controls( const tripoint &pos )
 {
     std::vector<uilist_entry> options;
     std::vector<std::function<void()>> actions;
+    player &p = g->u;
 
     bool remote = g->remoteveh() == this;
     bool has_electronic_controls = false;
@@ -734,7 +737,7 @@ void vehicle::use_controls( const tripoint &pos )
         }
     }
 
-    if( has_part( "TURRET" ) ) {
+    if( has_part( "TURRET" ) && !p.has_trait( trait_ANTIFIRE ) ) {
         options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
         actions.push_back( [&] { turrets_set_targeting(); refresh(); } );
 
