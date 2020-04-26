@@ -10,7 +10,6 @@
 #include <istream>
 #include <memory>
 #include <ctime>
-#include <time.h>
 
 #include "auto_pickup.h"
 #include "avatar.h"
