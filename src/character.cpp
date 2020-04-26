@@ -7187,9 +7187,9 @@ int Character::get_env_resist( bodypart_id bp ) const
     return ret;
 }
 
-int Character::get_armor_acid( body_part bp ) const
+int Character::get_armor_acid( bodypart_id bp ) const
 {
-    return get_armor_type( DT_ACID, convert_bp( bp ).id() );
+    return get_armor_type( DT_ACID, bp );
 }
 
 int Character::get_stim() const

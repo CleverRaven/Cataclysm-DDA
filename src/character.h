@@ -1733,7 +1733,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns overall env_resist on a body_part */
         int get_env_resist( bodypart_id bp ) const override;
         /** Returns overall acid resistance for the body part */
-        int get_armor_acid( body_part bp ) const;
+        int get_armor_acid( bodypart_id bp ) const;
         /** Returns overall resistance to given type on the bod part */
         int get_armor_type( damage_type dt, bodypart_id bp ) const override;
 
