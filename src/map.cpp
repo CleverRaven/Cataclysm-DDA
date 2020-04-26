@@ -4418,7 +4418,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 
 void map::process_active_items()
 {
-    process_items( true );
+    process_items();
 }
 
 std::vector<tripoint> map::check_submap_active_item_consistency()
@@ -4447,7 +4447,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
     return result;
 }
 
-void map::process_items( const bool active )
+void map::process_items()
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
@@ -4469,7 +4469,7 @@ void map::process_items( const bool active )
     for( const tripoint &abs_pos : submaps_with_active_items_copy ) {
         const tripoint local_pos = abs_pos - abs_sub.xy();
         submap *const current_submap = get_submap_at_grid( local_pos );
-        if( !active || !current_submap->active_items.empty() ) {
+        if( !current_submap->active_items.empty() ) {
             process_items_in_submap( *current_submap, local_pos );
         }
     }
