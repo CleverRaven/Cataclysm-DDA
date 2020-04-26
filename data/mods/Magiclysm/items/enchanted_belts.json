@@ -15,7 +15,7 @@
     "coverage": 5,
     "material_thickness": 2,
     "pocket_data": [
-      { "max_contains_volume": "500 ml", "max__contains_weight": "400 g", "moves": 60, "flag_restriction": [ "BELT_CLIP" ] }
+      { "max_contains_volume": "500 ml", "max_contains_weight": "400 g", "moves": 60, "flag_restriction": [ "BELT_CLIP" ] }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
