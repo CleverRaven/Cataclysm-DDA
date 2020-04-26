@@ -895,35 +895,25 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
 
     // The -1 is the -2 from above, but adjusted since this is a total, not an index.
     int lines_used = getmaxy( w_target ) - 1 - text_y;
-    mvwprintz( w_target, point( 1, text_y++ ), c_white,
-               _( "Move cursor to target with directional keys" ) );
-    if( panel_type == "compact" || panel_type == "labels-narrow" ) {
-    // Temporary conditional to exclude Numbers from Dynamic Compact Aim Window pt.1
-    // Call accuracy display type to exclude "Numbers" style
-    std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
-    if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
-        int text_y = getmaxy( w_target ) - 1;
-        int lines_used = getmaxy( w_target ) - 1 - text_y;
-        const std::string aimhelp = _( "< [?] show help >" );
-        mvwprintz( w_target, point( 1, text_y ), c_white, aimhelp );
-        return lines_used;
-    } else {
-        // Draw the help contents at the bottom of the window, leaving room for monster description
-        // and aiming status to be drawn dynamically.
-        // The - 2 accounts for the window border.
-        // If tiny is set we're critically low on space, let the final line overwrite the border.
-        int text_y = getmaxy( w_target ) - ( tiny ? 1 : 2 );
-        if( is_mouse_enabled() ) {
-            // Reserve a line for mouse instructions.
-            --text_y;
-        }
 
-        // Reserve lines for aiming and firing instructions.
-        if( mode == TARGET_MODE_FIRE ) {
-            text_y -= ( 3 + aim_types.size() );
-        } else if( mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
-            text_y -= 2;
-        }
+    if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+		std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+		if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
+			int text_y = getmaxy( w_target ) - 1;
+			int lines_used = getmaxy( w_target ) - 1 - text_y;
+			const std::string aimhelp = _( "< [?] show help >" );
+			mvwprintz( w_target, point( 1, text_y ), c_white, aimhelp );
+			return lines_used;
+		}
+	} else {
+		    mvwprintz( w_target, point( 1, text_y++ ), c_white,
+               _( "Move cursor to target with directional keys" ) );
+	}
+
+    const auto front_or = [&]( const std::string & s, const char fallback ) {
+        const auto keys = ctxt.keys_bound_to( s );
+        return keys.empty() ? fallback : keys.front();
+    };
 
     nc_color fire_color = grey_out_firing_controls ? c_light_gray : c_white;
 
@@ -955,40 +945,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
         for( const auto &e : aim_types ) {
             if( e.has_threshold ) {
                 aim_and_fire += string_format( "[%s] ", front_or( e.action, ' ' ) );
-        // The -1 is the -2 from above, but adjusted since this is a total, not an index.
-        int lines_used = getmaxy( w_target ) - 1 - text_y;
-        mvwprintz( w_target, point( 1, text_y++ ), c_white,
-                   _( "Move cursor to target with directional keys" ) );
-
-        const auto front_or = [&]( const std::string & s, const char fallback ) {
-            const auto keys = ctxt.keys_bound_to( s );
-            return keys.empty() ? fallback : keys.front();
-        };
-
-        if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL
-            || mode == TARGET_MODE_TURRET ) {
-            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%s] Cycle targets; "
-                       "[%c] to fire." ),
-                       ctxt.get_desc( "NEXT_TARGET", 1 ), front_or( "FIRE", ' ' ) );
-            mvwprintz( w_target, point( 1, text_y++ ), c_white,
-                       _( "[%c] target self; [%c] toggle snap-to-target" ),
-                       front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
-        }
-
-        if( mode == TARGET_MODE_FIRE ) {
-            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim.  "
-                       "(10 moves)" ),
-                       front_or( "AIM", ' ' ) );
-            std::string aim_and_fire;
-            for( const auto &e : aim_types ) {
-                if( e.has_threshold ) {
-                    aim_and_fire += string_format( "[%s] ", front_or( e.action, ' ' ) );
-                }
             }
-            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "%sto aim and fire" ),
-                       aim_and_fire );
-            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch aiming modes." ),
-                       front_or( "SWITCH_AIM", ' ' ) );
         }
         mvwprintz( w_target, point( 1, text_y++ ), fire_color, _( "%sto aim and fire" ), aim_and_fire );
         mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch aiming modes." ),
@@ -1009,21 +966,6 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
         mvwprintz( w_target, point( text_x, text_y ), fire_color, _( "RMB: Fire" ) );
     }
     return lines_used;
-
-        if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL
-            || mode == TARGET_MODE_TURRET ) {
-            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch firing modes." ),
-                       front_or( "SWITCH_MODE", ' ' ) );
-            mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to reload/switch ammo." ),
-                       front_or( "SWITCH_AMMO", ' ' ) );
-        }
-
-        if( is_mouse_enabled() ) {
-            mvwprintz( w_target, point( 1, text_y ), c_white,
-                       _( "Mouse: LMB: Target, Wheel: Cycle, RMB: Fire" ) );
-        }
-        return lines_used;
-    }
 }
 
 static int find_target( const std::vector<Creature *> &t, const tripoint &tpos )
@@ -1141,7 +1083,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     const int bars_pad = 3; // Padding for "bars" to fit moves_to_fire value.
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
         window_width -= bars_pad;
-    }
+    }																					  
 
     nc_color col = c_dark_gray;
 
@@ -1153,12 +1095,13 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     }
 
     if( display_type != "numbers" ) {
+        std::string symbols;
         int column_number = 1;
         if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
             std::string label = _( "Symbols:" );
             mvwprintw( w, point( column_number, line_number ), label );
             column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
-        }
+        }							   
         for( const confidence_rating &cr : confidence_config ) {
             std::string label = pgettext( "aim_confidence", cr.label.c_str() );
             std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol,
@@ -1169,7 +1112,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                 line_number++;
             }
             print_colored_text( w, point( column_number, line_number ), col, col, symbols );
-            column_number += line_len;
+            column_number += line_len;																	  
         }
         line_number++;
     }
@@ -1183,7 +1126,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         dispersion_sources current_dispersion = dispersion;
         int threshold = MAX_RECOIL;
         std::string label = _( "Current" );
-        std::string aim_l = _( "Aim" );
+        std::string aim_l = _( "Aim" );									  
         if( type.has_threshold ) {
             label = type.name;
             threshold = type.threshold;
