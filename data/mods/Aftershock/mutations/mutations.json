@@ -443,6 +443,7 @@
     "visibility": 3,
     "ugliness": 3,
     "description": "You have a pair of bumps on your face above your mouth and beside your nose.",
+    "category": [ "MASTODON" ],
     "changes_to": [ "TUSKS" ]
   },
   {
