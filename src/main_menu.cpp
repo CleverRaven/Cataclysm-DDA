@@ -269,7 +269,7 @@ holiday main_menu::get_holiday_from_time()
 {
     bool success = false;
 
-    std::tm * local_time;
+    std::tm *local_time;
     std::time_t current_time = std::time( nullptr );
 
     /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
