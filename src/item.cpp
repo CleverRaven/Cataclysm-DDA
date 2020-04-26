@@ -8577,10 +8577,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
         calc_temp( temp, insulation, now );
         if( process_rot ) {
             calc_rot( now, temp, spoil_modifier );
-            if( has_rotten_away() && carrier == nullptr ) {
-                return true;
-            }
-            return false;
+            return has_rotten_away() && carrier == nullptr;
         }
     }
 
