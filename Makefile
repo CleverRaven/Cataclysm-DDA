@@ -226,7 +226,7 @@ ifneq ($(findstring BSD,$(OS)),)
 endif
 
 # This sets CXX and so must be up here
-ifeq ($(CLANG), 1)
+ifdef CLANG
   # Allow setting specific CLANG version
   ifeq ($(CLANG), 1)
     CLANGCMD = clang++
@@ -240,7 +240,7 @@ ifeq ($(CLANG), 1)
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
   endif
-  ifdef CCACHE
+  ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
     LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
   else
@@ -306,7 +306,7 @@ ifeq ($(RELEASE), 1)
   endif
 
   ifeq ($(LTO), 1)
-    ifeq ($(CLANG), 1)
+    ifdef CLANG
       # LLVM's LTO will complain if the optimization level isn't between O0 and
       # O3 (inclusive)
       OPTLEVEL = -O3
@@ -316,14 +316,14 @@ ifeq ($(RELEASE), 1)
 
   ifeq ($(LTO), 1)
     ifeq ($(NATIVE), osx)
-      ifeq ($(CLANG), 1)
+      ifdef CLANG
         LTOFLAGS += -flto=full
       endif
     else
       LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
     endif
 
-    ifeq ($(CLANG), 1)
+    ifdef CLANG
       LTOFLAGS += -flto
     else
       LTOFLAGS += -flto=jobserver -flto-odr-type-merging
@@ -423,7 +423,7 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  ifeq ($(CLANG), 1)
+  ifdef CLANG
     OSX_MIN = 10.7
   else
     OSX_MIN = 10.5
