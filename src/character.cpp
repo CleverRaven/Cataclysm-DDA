@@ -7087,7 +7087,7 @@ int Character::get_armor_bash( bodypart_id bp ) const
 
 int Character::get_armor_cut( bodypart_id bp ) const
 {
-    return get_armor_cut_base( bp->token ) + armor_cut_bonus;
+    return get_armor_cut_base( bp ) + armor_cut_bonus;
 }
 
 int Character::get_armor_type( damage_type dt, body_part bp ) const
@@ -7145,22 +7145,22 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
     return ret;
 }
 
-int Character::get_armor_cut_base( body_part bp ) const
+int Character::get_armor_cut_base( bodypart_id bp ) const
 {
     int ret = 0;
     for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp->token ) ) {
             ret += i.cut_resist();
         }
     }
     for( const bionic_id &bid : get_bionics() ) {
-        const auto cut_prot = bid->cut_protec.find( bp );
+        const auto cut_prot = bid->cut_protec.find( bp.id() );
         if( cut_prot != bid->cut_protec.end() ) {
             ret += cut_prot->second;
         }
     }
 
-    ret += mutation_armor( bp, DT_CUT );
+    ret += mutation_armor( bp->token, DT_CUT );
     return ret;
 }
 
@@ -8310,7 +8310,7 @@ float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
     float result = 0.0f;
     if( dt == DT_CUT || dt == DT_STAB ) {
         for( const bionic_id &bid : get_bionics() ) {
-            const auto cut_prot = bid->cut_protec.find( bp );
+            const auto cut_prot = bid->cut_protec.find( convert_bp( bp ) );
             if( cut_prot != bid->cut_protec.end() ) {
                 result += cut_prot->second;
             }

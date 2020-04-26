@@ -1729,7 +1729,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns bashing resistance from the creature and armor only */
         int get_armor_bash_base( bodypart_id bp ) const override;
         /** Returns cutting resistance from the creature and armor only */
-        int get_armor_cut_base( body_part bp ) const override;
+        int get_armor_cut_base( bodypart_id bp ) const override;
         /** Returns overall env_resist on a body_part */
         int get_env_resist( bodypart_id bp ) const override;
         /** Returns overall acid resistance for the body part */

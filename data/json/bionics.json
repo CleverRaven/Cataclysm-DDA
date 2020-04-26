@@ -44,7 +44,7 @@
     "description": "The flesh on your arms has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
     "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "cut_protec": [ [ "ARM_L", 3 ], [ "ARM_R", 3 ] ],
+    "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -55,7 +55,7 @@
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "env_protec": [ [ "eyes", 7 ] ],
     "bash_protec": [ [ "eyes", 3 ] ],
-    "cut_protec": [ [ "EYES", 3 ] ],
+    "cut_protec": [ [ "eyes", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -65,7 +65,7 @@
     "description": "The flesh on your head has been surgically replaced by alloy plating, protecting both your head and jaw regions.",
     "occupied_bodyparts": [ [ "HEAD", 5 ], [ "MOUTH", 1 ] ],
     "bash_protec": [ [ "head", 3 ] ],
-    "cut_protec": [ [ "HEAD", 3 ] ],
+    "cut_protec": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -75,7 +75,7 @@
     "description": "The flesh on your legs has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "LEG_L", 6 ], [ "LEG_R", 6 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "cut_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -85,7 +85,7 @@
     "description": "The flesh on your torso has been surgically replaced by alloy plating, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "bash_protec": [ [ "torso", 3 ] ],
-    "cut_protec": [ [ "TORSO", 3 ] ],
+    "cut_protec": [ [ "torso", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -186,16 +186,16 @@
       [ "foot_r", 2 ]
     ],
     "cut_protec": [
-      [ "TORSO", 4 ],
-      [ "HEAD", 4 ],
-      [ "ARM_L", 4 ],
-      [ "ARM_R", 4 ],
-      [ "HAND_L", 4 ],
-      [ "HAND_R", 4 ],
-      [ "LEG_L", 4 ],
-      [ "LEG_R", 4 ],
-      [ "FOOT_L", 4 ],
-      [ "FOOT_R", 4 ]
+      [ "torso", 4 ],
+      [ "head", 4 ],
+      [ "arm_l", 4 ],
+      [ "arm_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 4 ],
+      [ "foot_r", 4 ]
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },

@@ -107,7 +107,7 @@ struct bionic_data {
     /**Amount of bash protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> bash_protec;
     /**Amount of cut protection offered by this bionic*/
-    std::map<body_part, size_t> cut_protec;
+    std::map<bodypart_str_id, size_t> cut_protec;
 
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;

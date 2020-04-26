@@ -3128,8 +3128,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const body_part, size_t > &element : bid->cut_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+        for( const std::pair< const bodypart_str_id, size_t > &element : bid->cut_protec ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }

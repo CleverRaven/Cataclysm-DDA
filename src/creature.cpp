@@ -1369,7 +1369,7 @@ int Creature::get_armor_bash_base( bodypart_id ) const
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut_base( body_part ) const
+int Creature::get_armor_cut_base( bodypart_id ) const
 {
     return armor_cut_bonus;
 }
