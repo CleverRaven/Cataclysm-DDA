@@ -107,7 +107,9 @@ class main_menu
         void init_windows();
 
         /* holiday functions and member variables*/
+        static bool is_easter( int day, int month, int year );
         holiday get_holiday_from_time();
+
         holiday current_holiday = holiday::none;
 
         static std::string halloween_spider();

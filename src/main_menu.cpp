@@ -10,6 +10,7 @@
 #include <istream>
 #include <memory>
 #include <ctime>
+#include <time.h>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -242,53 +243,82 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
-holiday main_menu:: get_holiday_from_time()
+/* Calculate date of Easter - a direct implementation of the "Anonymous Gregorian" aka Meeus/Jones/Butcher Gregorian algorithm, given here:
+    https://en.wikipedia.org/wiki/Computus#Anonymous_Gregorian_algorithm */
+bool main_menu::is_easter( int day, int month, int year )
 {
-    std::tm *local_time;
+    const int a = year % 19;
+    const int b = year / 100;
+    const int c = year % 100;
+    const int d = b / 4;
+    const int e = b % 4;
+    const int f = ( b + 8 ) / 25;
+    const int g = ( b - f + 1 ) / 3;
+    const int h = ( 19 * a + b - d - g + 15 ) % 30;
+    const int i = c / 4;
+    const int k = c % 4;
+    const int l = ( 32 + 2 * e + 2 * i - h - k ) % 7;
+    const int m = ( a + 11 * h + 22 * l ) / 451;
+    const int e_month = ( h + l - 7 * m + 114 ) / 31;
+    const int e_day = ( ( h + l - 7 * m + 114 ) % 31 ) + 1;
 
+    return ( ( month == e_month ) && ( day == e_day ) );
+}
+
+holiday main_menu::get_holiday_from_time()
+{
+    bool success = false;
+
+    std::tm * local_time;
     std::time_t current_time = std::time( nullptr );
-    local_time = std::localtime_r( &current_time );
 
-    int month = local_time->tm_mon + 1;
-    int day = local_time->tm_mday;
-    int wday = local_time->tm_wday;
-    int year = local_time->tm_year + 1900;
+    /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
+#if defined(_WIN32)
 
-    /*Calculate date of Easter*/
-    int e_month;
-    int e_day;
+    local_time = new std::tm;
 
-    /* An implementation of Gauss' easter algorithm, that I don't pretend to completely understand, but which is discussed here:
-    https://math.stackexchange.com/questions/896954/decoding-gauss-easter-algorithm
-    Given that I didn't develop the calculation, I made sure to test it out to 2030, but be sure to check after then.*/
-    int e_a = year % 19;
-    int e_b = year >> 2;
-    int e_c = ( e_b / 25 ) + 1;
-    int e_d = ( e_c * 3 ) >> 2;
-    int e_e = ( ( e_c << 3 ) + 5 ) / 25;
-    int e_f = ( e_a * 19 + e_d - e_e + 15 ) % 30;
-    int e_g = e_f + ( ( 29578 - e_a - ( e_f << 5 ) ) >> 10 );
-    int e_h = e_g - ( ( year + e_b - e_d + e_g + 2 ) % 7 );
-    int e_i = e_h >> 5; // is it April?
-    e_month = e_i + 3;
-    e_day = ( e_h & 31 ) + e_i;
-
-    /*check date against holidays*/
-    if( month == 1 && day == 1 ) {
-        return holiday::new_year;
-    } else if( month == e_month && day == e_day ) {
-        return holiday::easter;
-    } else if( month == 7 && day == 4 ) {
-        return holiday::independence_day;
-    } else if( month == 10 && day >= 23 ) {
-        return holiday::halloween;
-    } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
-        return holiday::thanksgiving;
-    } else if( month == 12 && day <= 25 ) {
-        return holiday::christmas;
-    } else {
-        return holiday::none;
+    errno_t err = localtime_s( local_time, &current_time );
+    if( err == 0 ) {
+        success = true;
     }
+
+#else
+
+    local_time = std::localtime_r( local_time, &current_time );
+    success = ( local_time != nullptr );
+
+#endif
+
+    if( success ) {
+
+        const int month = local_time->tm_mon + 1;
+        const int day = local_time->tm_mday;
+        const int wday = local_time->tm_wday;
+        const int year = local_time->tm_year + 1900;
+
+#if defined(_WIN32)
+        delete local_time;
+#endif
+
+        /* check date against holidays */
+        if( month == 1 && day == 1 ) {
+            return holiday::new_year;
+        } else if( month == 3 ||
+                   month == 4 ) { // only run easter date calculation if currently March or April
+            if( is_easter( day, month, year ) ) {
+                return holiday::easter;
+            }
+        } else if( month == 7 && day == 4 ) {
+            return holiday::independence_day;
+        } else if( month == 10 && day >= 23 ) {
+            return holiday::halloween;
+        } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
+            return holiday::thanksgiving;
+        } else if( month == 12 && day <= 25 ) {
+            return holiday::christmas;
+        }
+    }
+    return holiday::none; // fall through to here if localtime fails, or none of the day tests hit
 }
 
 void main_menu::init_windows()
@@ -445,7 +475,7 @@ bool main_menu::opening_screen()
 {
     // set holiday based on local system time
     current_holiday = get_holiday_from_time();
-    
+
     // Play title music, whoo!
     play_music( "title" );
 
