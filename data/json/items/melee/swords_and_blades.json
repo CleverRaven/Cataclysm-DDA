@@ -325,7 +325,7 @@
     "id": "machete_gimmick",
     "name": { "str": "machete multitool" },
     "type": "TOOL",
-    "description": "A thin, wobbly steel blade with sawteeth on one side and a flat chisel tip for digging. A jack of many trades and a master of none.",
+    "description": "A thin, wobbly steel blade with sawteeth on one side and a flat chisel tip for digging.  A jack of many trades and a master of none.",
     "symbol": "/",
     "color": "green",
     "weight": 522,
@@ -336,7 +336,7 @@
     "bashing": 8,
     "cutting": 15,
     "material": "steel",
-    "qualiies": [ [ "CUT", 1 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ]
   },
   {
