@@ -4307,7 +4307,7 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-static bool process_item( item_stack &items, safe_reference<item> &item_ref,
+static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
                           const tripoint &location, const float insulation, const temperature_flag flag )
 {
     if( item_ref->process( nullptr, location, false, insulation, flag ) ) {
@@ -4320,13 +4320,6 @@ static bool process_item( item_stack &items, safe_reference<item> &item_ref,
     }
     // Item not destroyed
     return false;
-}
-
-static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
-                               const tripoint &location,
-                               const float insulation, const temperature_flag flag )
-{
-    return process_item( items, item_ref, location, insulation, flag );
 }
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
