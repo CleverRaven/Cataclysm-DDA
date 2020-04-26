@@ -1598,7 +1598,7 @@ bool game::do_turn()
     autopilot_vehicles();
     m.vehmove();
     m.process_fields();
-    m.process_active_items();
+    m.process_items();
     m.creature_in_field( u );
 
     // Apply sounds from previous turn to monster and NPC AI.

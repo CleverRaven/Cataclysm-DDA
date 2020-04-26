@@ -4416,11 +4416,6 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     }
 }
 
-void map::process_active_items()
-{
-    process_items();
-}
-
 std::vector<tripoint> map::check_submap_active_item_consistency()
 {
     std::vector<tripoint> result;
