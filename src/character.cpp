@@ -6196,10 +6196,10 @@ bool Character::is_immune_field( const field_type_id &fid ) const
                get_env_resist( bodypart_id( "foot_r" ) ) >= 15 &&
                get_env_resist( bodypart_id( "leg_l" ) ) >= 15 &&
                get_env_resist( bodypart_id( "leg_r" ) ) >= 15 &&
-               get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
-               get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
-               get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
-               get_armor_type( DT_ACID, bp_leg_r ) >= 5;
+               get_armor_type( DT_ACID, bodypart_id( "foot_l" ) ) >= 5 &&
+               get_armor_type( DT_ACID, bodypart_id( "foot_r" ) ) >= 5 &&
+               get_armor_type( DT_ACID, bodypart_id( "leg_l" ) ) >= 5 &&
+               get_armor_type( DT_ACID, bodypart_id( "leg_r" ) ) >= 5;
     }
     // If we haven't found immunity yet fall up to the next level
     return Creature::is_immune_field( fid );
@@ -7090,30 +7090,30 @@ int Character::get_armor_cut( bodypart_id bp ) const
     return get_armor_cut_base( bp ) + armor_cut_bonus;
 }
 
-int Character::get_armor_type( damage_type dt, body_part bp ) const
+int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     switch( dt ) {
         case DT_TRUE:
         case DT_BIOLOGICAL:
             return 0;
         case DT_BASH:
-            return get_armor_bash( convert_bp( bp ).id() );
+            return get_armor_bash( bp );
         case DT_CUT:
-            return get_armor_cut( convert_bp( bp ).id() );
+            return get_armor_cut( bp );
         case DT_STAB:
-            return get_armor_cut( convert_bp( bp ).id() ) * 0.8f;
+            return get_armor_cut( bp ) * 0.8f;
         case DT_ACID:
         case DT_HEAT:
         case DT_COLD:
         case DT_ELECTRIC: {
             int ret = 0;
             for( auto &i : worn ) {
-                if( i.covers( bp ) ) {
+                if( i.covers( bp->token ) ) {
                     ret += i.damage_resist( dt );
                 }
             }
 
-            ret += mutation_armor( bp, dt );
+            ret += mutation_armor( bp->token, dt );
             return ret;
         }
         case DT_NULL:
@@ -7189,7 +7189,7 @@ int Character::get_env_resist( bodypart_id bp ) const
 
 int Character::get_armor_acid( body_part bp ) const
 {
-    return get_armor_type( DT_ACID, bp );
+    return get_armor_type( DT_ACID, convert_bp( bp ).id() );
 }
 
 int Character::get_stim() const
@@ -8329,7 +8329,7 @@ float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
 
 int Character::get_armor_fire( body_part bp ) const
 {
-    return get_armor_type( DT_HEAT, bp );
+    return get_armor_type( DT_HEAT, convert_bp( bp ).id() );
 }
 
 void Character::did_hit( Creature &target )

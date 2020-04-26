@@ -123,7 +123,7 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
     const int intensity = cur.get_field_intensity();
     const int damage = rng( 1, scale + intensity );
     // A bit ugly, but better than being annoyed by acid when in hazmat
-    if( u.get_armor_type( DT_ACID, bp ) < damage ) {
+    if( u.get_armor_type( DT_ACID, convert_bp( bp ) ) < damage ) {
         const dealt_damage_instance ddi = u.deal_damage( nullptr, convert_bp( bp ).id(),
                                           damage_instance( DT_ACID, damage ) );
         total_damage += ddi.total_damage();
@@ -1814,7 +1814,7 @@ void map::monster_in_field( monster &z )
             if( z.flies() ) {
                 dam -= 15;
             }
-            dam -= z.get_armor_type( DT_HEAT, bp_torso );
+            dam -= z.get_armor_type( DT_HEAT, bodypart_id("torso") );
 
             if( cur.get_field_intensity() == 1 ) {
                 dam += rng( 2, 6 );

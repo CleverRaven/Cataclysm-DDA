@@ -415,7 +415,7 @@ class Creature
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
 
-        virtual int get_armor_type( damage_type dt, body_part bp ) const = 0;
+        virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
         virtual float get_dodge() const;
         virtual float get_melee() const = 0;

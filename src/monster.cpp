@@ -1820,7 +1820,7 @@ int monster::get_armor_bash( bodypart_id bp ) const
     return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val( DT_BASH );
 }
 
-int monster::get_armor_type( damage_type dt, body_part bp ) const
+int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     int worn_armor = get_worn_armor_val( dt );
 
@@ -1829,9 +1829,9 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
         case DT_BIOLOGICAL:
             return 0;
         case DT_BASH:
-            return get_armor_bash( convert_bp( bp ).id() );
+            return get_armor_bash( bp );
         case DT_CUT:
-            return get_armor_cut( convert_bp( bp ).id() );
+            return get_armor_cut( bp );
         case DT_ACID:
             return worn_armor + static_cast<int>( type->armor_acid );
         case DT_STAB:
@@ -2421,7 +2421,7 @@ void monster::process_one_effect( effect &it, bool is_new )
             dam = rng( 5, 10 );
         }
 
-        dam -= get_armor_type( DT_HEAT, bp_torso );
+        dam -= get_armor_type( DT_HEAT, bodypart_id( "torso" ) );
         if( dam > 0 ) {
             apply_damage( nullptr, bodypart_id( "torso" ), dam );
         } else {
