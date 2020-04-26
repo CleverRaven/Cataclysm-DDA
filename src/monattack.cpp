@@ -2560,7 +2560,7 @@ bool mattack::tentacle( monster *z )
     } else {
         target->add_msg_player_or_npc(
             _( "The %1$s lashes its tentacle at your %2$s, but glances off your armor!" ),
-            _( "The %1$s lashes its tentacle at <npcname>'s %2$s, but glances off your armor!" ),
+            _( "The %1$s lashes its tentacle at <npcname>'s %2$s, but glances off their armor!" ),
             z->name(),
             body_part_name_accusative( hit ) );
     }
