@@ -897,18 +897,18 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     int lines_used = getmaxy( w_target ) - 1 - text_y;
 
     if( panel_type == "compact" || panel_type == "labels-narrow" ) {
-		std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
-		if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
-			int text_y = getmaxy( w_target ) - 1;
-			int lines_used = getmaxy( w_target ) - 1 - text_y;
-			const std::string aimhelp = _( "< [?] show help >" );
-			mvwprintz( w_target, point( 1, text_y ), c_white, aimhelp );
-			return lines_used;
-		}
-	} else {
-		    mvwprintz( w_target, point( 1, text_y++ ), c_white,
-               _( "Move cursor to target with directional keys" ) );
-	}
+        std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
+            int text_y = getmaxy( w_target ) - 1;
+            int lines_used = getmaxy( w_target ) - 1 - text_y;
+            const std::string aimhelp = _( "< [?] show help >" );
+            mvwprintz( w_target, point( 1, text_y ), c_white, aimhelp );
+            return lines_used;
+        }
+    } else {
+        mvwprintz( w_target, point( 1, text_y++ ), c_white,
+                   _( "Move cursor to target with directional keys" ) );
+    }
 
     const auto front_or = [&]( const std::string & s, const char fallback ) {
         const auto keys = ctxt.keys_bound_to( s );
@@ -1083,7 +1083,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     const int bars_pad = 3; // Padding for "bars" to fit moves_to_fire value.
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
         window_width -= bars_pad;
-    }																					  
+    }
 
     nc_color col = c_dark_gray;
 
@@ -1101,7 +1101,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
             std::string label = _( "Symbols:" );
             mvwprintw( w, point( column_number, line_number ), label );
             column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
-        }							   
+        }
         for( const confidence_rating &cr : confidence_config ) {
             std::string label = pgettext( "aim_confidence", cr.label.c_str() );
             std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol,
@@ -1112,7 +1112,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                 line_number++;
             }
             print_colored_text( w, point( column_number, line_number ), col, col, symbols );
-            column_number += line_len;																	  
+            column_number += line_len;
         }
         line_number++;
     }
@@ -1126,7 +1126,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         dispersion_sources current_dispersion = dispersion;
         int threshold = MAX_RECOIL;
         std::string label = _( "Current" );
-        std::string aim_l = _( "Aim" );									  
+        std::string aim_l = _( "Aim" );
         if( type.has_threshold ) {
             label = type.name;
             threshold = type.threshold;
