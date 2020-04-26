@@ -72,19 +72,5 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_blue"
-  },
-  {
-    "id": "makeshift_hose",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": "makeshift hose",
-    "description": "This is a simple makeshift hose, made from plastic segments with tape for flexibility. Good enough for liquid transfer in static appliances but lacks in flexibility and durability under stress. Not flexible enough to fit into most fuel tanks to siphon fuel.",
-    "weight": "200 g",
-    "volume": "500 ml",
-    "price": 0,
-    "price_postapoc": 20,
-    "material": "plastic",
-    "symbol": ",",
-    "color": "green"
   }
 ]

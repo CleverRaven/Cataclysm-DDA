@@ -89,18 +89,5 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
     "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
-  },
-  {
-    "result": "makeshift_hose",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "id_suffix": "DIY_hose_from_plastic",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "autolearn": true,
-    "time": "45 m",
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ], [ [ "wire", -1 ], [ "cable", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "duct_tape", 60 ], [ "medical_tape", 60 ] ] ]
   }
 ]
