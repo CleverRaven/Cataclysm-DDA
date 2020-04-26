@@ -133,7 +133,7 @@ std::vector<const recipe *> recipe_subset::recent() const
     for( auto rec_id = uistate.recent_recipes.rbegin(); rec_id != uistate.recent_recipes.rend();
          ++rec_id ) {
         std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
-        [&rec_id, &res]( const recipe * r ) {
+        [&rec_id]( const recipe * r ) {
             return *r && !( *rec_id != r->ident() || r->obsolete );
         } );
     }
