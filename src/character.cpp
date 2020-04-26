@@ -9937,7 +9937,7 @@ int Character::adjust_for_focus( int amount ) const
     if( has_trait( trait_SLOWLEARNER ) ) {
         effective_focus -= 15;
     }
-    effective_focus += ( get_int_base() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
+    effective_focus += ( get_int() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                        get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
     double tmp = amount * ( effective_focus / 100.0 );
     return roll_remainder( tmp );
