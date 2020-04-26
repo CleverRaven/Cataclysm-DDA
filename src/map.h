@@ -1687,7 +1687,7 @@ class map
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
         ter_id get_roof( const tripoint &p, bool allow_air );
-    
+
     public:
         void process_items();
     private:
