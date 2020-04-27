@@ -51,7 +51,7 @@ static iteminfo_query q_vec( const std::vector<iteminfo_parts> &part_flags )
     return iteminfo_query( part_flags );
 }
 
-TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary]" )
+TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary][!mayfail]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_CATEGORY, iteminfo_parts::BASE_MATERIAL,
                                 iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT,
