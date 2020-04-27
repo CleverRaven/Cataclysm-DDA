@@ -552,11 +552,11 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
-    auto is_opaque = [&map_cache]( int x, int y ) {
-        return map_cache.transparency_cache[x][y] <= LIGHT_TRANSPARENCY_SOLID;
+    auto is_opaque = [&map_cache]( const point & p ) {
+        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
-    const bool p_opaque = is_opaque( p.x, p.y );
+    const bool p_opaque = is_opaque( p.xy() );
     float apparent_light;
 
     if( p_opaque && vis > 0 ) {
@@ -586,7 +586,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             if( !lightmap_boundaries.contains_half_open( neighbour ) ) {
                 continue;
             }
-            if( is_opaque( neighbour.x, neighbour.y ) ) {
+            if( is_opaque( neighbour ) ) {
                 continue;
             }
             if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
