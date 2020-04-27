@@ -1529,6 +1529,6 @@
     "book_learn": [ [ "eac_textbook_extraction", 4 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "hi_q_distillate", 10 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "glass_shard", 1 ] ] ]
+    "components": [ [ [ "hi_q_distillate", 10 ] ], [ [ "element", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "glass_shard", 1 ] ] ]
   }
 ]

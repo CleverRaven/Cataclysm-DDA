@@ -845,6 +845,6 @@
     "book_learn": [ [ "textbook_extraction", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "element", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "glass_shard", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "glass_shard", 1 ] ] ]
   }
 ]
