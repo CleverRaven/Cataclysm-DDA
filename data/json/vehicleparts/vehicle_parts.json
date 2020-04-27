@@ -2628,7 +2628,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED", "WINDOW" ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 25 }
   },
@@ -2651,7 +2651,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW" ],
     "breaks_into": "ig_vp_hdframe",
     "damage_reduction": { "all": 78 }
   },
