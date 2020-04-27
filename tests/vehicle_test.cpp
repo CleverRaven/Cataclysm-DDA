@@ -3,13 +3,16 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "damage.h"
+#include "enums.h"
 #include "game.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "vehicle.h"
-#include "enums.h"
-#include "type_id.h"
+#include "optional.h"
 #include "point.h"
+#include "type_id.h"
+#include "vehicle.h"
 
 TEST_CASE( "detaching_vehicle_unboards_passengers" )
 {

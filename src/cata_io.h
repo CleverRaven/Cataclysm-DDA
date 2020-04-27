@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_IO_H
-#define CATA_IO_H
+#ifndef CATA_SRC_CATA_IO_H
+#define CATA_SRC_CATA_IO_H
 
 #include <functional>
 #include <string>
@@ -468,4 +468,4 @@ class JsonArrayOutputArchive
 
 } // namespace io
 
-#endif
+#endif // CATA_SRC_CATA_IO_H

@@ -81,16 +81,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "FEMA_le",
-    "name": "FEMA refugee camp",
-    "sym": "f",
-    "color": "i_blue",
-    "extras": "build",
-    "see_cost": 2,
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
-  },
-  {
-    "type": "overmap_terrain",
     "id": "FEMA_blc",
     "name": "FEMA refugee camp",
     "sym": "f",
@@ -169,6 +159,21 @@
     "sym": "+",
     "color": "white",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter_vandal",
+    "copy-from": "shelter"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter_1_vandal",
+    "copy-from": "shelter_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter_2_vandal",
+    "copy-from": "shelter_2"
   },
   {
     "type": "overmap_terrain",

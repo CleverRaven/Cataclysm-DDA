@@ -1,0 +1,81 @@
+[
+  {
+    "result": "diamondplate",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 10,
+    "skills_required": [  ],
+    "time": "8 h 20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "spiral_matrix", 1 ] ],
+      [ [ "glass_sheet", 2 ] ],
+      [ [ "charcoal", 20 ], [ "dshards", 1000 ], [ "dcluster", 40 ] ]
+    ]
+  },
+  {
+    "result": "diamondframe",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 10,
+    "skills_required": [  ],
+    "time": "8 h 20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "spiral_matrix", 1 ] ],
+      [ [ "xlframe", 1 ], [ "foldframe", 1 ] ],
+      [ [ "charcoal", 20 ], [ "dshards", 1000 ], [ "dcluster", 40 ] ]
+    ]
+  },
+  {
+    "result": "diamondnova",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 10,
+    "skills_required": [ "mechanics", 8 ],
+    "time": "33 h 20 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "metal_tank", 1 ] ],
+      [ [ "pipe", 12 ] ],
+      [ [ "steel_chunk", 27 ], [ "steel_lump", 9 ] ],
+      [ [ "spring", 2 ] ],
+      [ [ "plastic_chunk", 18 ] ],
+      [ [ "vortex_stone", 1 ] ],
+      [ [ "spiral_matrix", 1 ] ]
+    ]
+  },
+  {
+    "result": "diamondlance",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 10,
+    "skills_required": [ "mechanics", 8 ],
+    "time": "25 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "metal_tank", 1 ] ],
+      [ [ "2x4", 12 ], [ "stick", 12 ] ],
+      [ [ "nail", 60 ], [ "adhesive", 5, "LIST" ] ],
+      [ [ "steel_chunk", 24 ], [ "steel_lump", 6 ] ],
+      [ [ "string_36", 12 ] ],
+      [ [ "foot_crank", 1 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "spiral_matrix", 1 ] ]
+    ]
+  }
+]

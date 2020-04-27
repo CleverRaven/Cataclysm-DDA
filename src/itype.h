@@ -1,12 +1,13 @@
 #pragma once
-#ifndef ITYPE_H
-#define ITYPE_H
+#ifndef CATA_SRC_ITYPE_H
+#define CATA_SRC_ITYPE_H
 
+#include <array>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <vector>
-#include <array>
 
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
@@ -25,12 +26,11 @@
 #include "units.h"
 #include "value_ptr.h"
 
-// see item.h
-class item_category;
 class Item_factory;
-class player;
 class item;
+class player;
 struct tripoint;
+template <typename E> struct enum_traits;
 
 enum art_effect_active : int;
 enum art_charge : int;
@@ -135,10 +135,13 @@ struct islot_comestible {
         int addict = 0;
 
         /** effects of addiction */
-        add_type add = ADD_NULL;
+        add_type add = add_type::NONE;
 
         /** stimulant effect */
         int stim = 0;
+
+        /**fatigue altering effect*/
+        int fatigue_mod = 0;
 
         /** Reference to other item that replaces this one as a component in recipe results */
         itype_id cooks_like;
@@ -152,11 +155,14 @@ struct islot_comestible {
         /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
         int parasites = 0;
 
-        /** probability [0, 100] to get food poisoning from this comestible */
-        int contamination = 0;
+        /**Amount of radiation you get from this comestible*/
+        int radiation = 0;
 
         /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
         int freeze_point = temperatures::freezing;
+
+        /**List of diseases carried by this comestible and their associated probability*/
+        std::map<diseasetype_id, int> contamination;
 
         //** specific heats in J/(g K) and latent heat in J/g */
         float specific_heat_liquid = 4.186;
@@ -416,12 +422,6 @@ struct common_ranged_data {
      * Dispersion "bonus" from gun.
      */
     int dispersion = 0;
-    /**
-     * Legacy pierce and damage values, used if @ref damage isn't set.
-    *@{*/
-    int legacy_pierce = 0;
-    int legacy_damage = 0;
-    /*@}*/
 };
 
 struct islot_engine {
@@ -443,11 +443,11 @@ struct islot_wheel {
 };
 
 struct fuel_explosion {
-    int explosion_chance_hot;
-    int explosion_chance_cold;
-    float explosion_factor;
-    bool fiery_explosion;
-    float fuel_size_factor;
+    int explosion_chance_hot = 0;
+    int explosion_chance_cold = 0;
+    float explosion_factor = 0.0f;
+    bool fiery_explosion = false;
+    float fuel_size_factor = 0.0f;
 };
 
 struct islot_fuel {
@@ -455,7 +455,7 @@ struct islot_fuel {
         /** Energy of the fuel (kilojoules per charge) */
         float energy = 0.0f;
         struct fuel_explosion explosion_data;
-        bool has_explode_data;
+        bool has_explode_data = false;
         std::string pump_terrain = "t_null";
 };
 
@@ -590,6 +590,10 @@ struct islot_gunmod : common_ranged_data {
 
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
+
+    /** Increases base gun UPS consumption by this value per shot */
+    int ups_charges_modifier = 0;
+
     /** Increases gun weight by this many times */
     float weight_multiplier = 1.0f;
 
@@ -707,13 +711,12 @@ struct islot_ammo : common_ranged_data {
     bool special_cookoff = false;
 
     /**
-     * If set, ammo does not give a flat damage, instead it multiplies the base
-     * damage of the gun by this value.
+     * The damage multiplier to apply after a critical hit.
      */
-    cata::optional<float> prop_damage;
+    float critical_multiplier = 2.0;
 
     /**
-     * Some combat ammo might not have a damage or prop_damage value
+     * Some combat ammo might not have a damage value
      * Set this to make it show as combat ammo anyway
      */
     cata::optional<bool> force_stat_display;
@@ -866,6 +869,7 @@ struct itype {
 
         std::string snippet_category;
         translation description; // Flavor text
+        std::vector<std::string> ascii_picture;
 
         // The container it comes in
         cata::optional<itype_id> default_container;
@@ -985,7 +989,7 @@ struct itype {
         /** Volume above which the magazine starts to protrude from the item and add extra volume */
         units::volume magazine_well = 0_ml;
 
-        layer_level layer;
+        layer_level layer = layer_level::MAX_CLOTHING_LAYER;
 
         /**
          * How much insulation this item provides, either as a container, or as
@@ -993,6 +997,11 @@ struct itype {
          * greater than zero, transfers faster, cannot be less than zero.
          */
         float insulation_factor = 1;
+
+        /**
+         * Efficiency of solar energy conversion for solarpacks.
+         */
+        float solar_efficiency = 0;
 
         std::string get_item_type_string() const {
             if( tool ) {
@@ -1077,4 +1086,4 @@ struct itype {
         virtual ~itype() = default;
 };
 
-#endif
+#endif // CATA_SRC_ITYPE_H

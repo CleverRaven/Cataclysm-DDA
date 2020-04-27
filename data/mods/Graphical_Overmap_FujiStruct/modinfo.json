@@ -7,6 +7,7 @@
     "maintainers": [ "Kilvoctu" ],
     "description": "Fuji Structures mod support for Graphical Overmap.",
     "category": "graphical",
-    "dependencies": [ "dda", "Graphical_Overmap", "FujiStruct" ]
+    "dependencies": [ "dda", "Graphical_Overmap", "FujiStruct" ],
+    "obsolete": true
   }
 ]

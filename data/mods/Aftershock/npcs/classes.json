@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "afs_prepnet_gardener",
-    "name": "Gardener",
+    "name": { "str": "Gardener" },
     "job_description": "When the end came, we were ready.  Now I grow food for my phyle.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "skills": [
@@ -40,6 +40,43 @@
       { "id": "bio_sunglasses", "chance": 100 },
       { "id": "bio_tools", "chance": 100 },
       { "id": "bio_torsionratchet", "chance": 100 }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "millyficent_whately",
+    "name_unique": "Millyficen Whately",
+    "name_suffix": "Xenobiologist, madwoman",
+    "class": "afs_xenobiologist_madwoman",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_Millyficent_1",
+    "mission_offered": "MISSION_migo_biology_1",
+    "faction": "whately_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "afs_xenobiologist_madwoman",
+    "name": "mi-go enthusiast",
+    "job_description": "I've been studying the mi-go for years…",
+    "common": false,
+    "traits": [
+      [ "hair_red_long", 100 ],
+      [ "SKIN_LIGHT", 100 ],
+      [ "WARM_NATURED", 100 ],
+      [ "INT_UP_3", 100 ],
+      [ "DEX_UP_2", 100 ],
+      [ "STR_UP", 100 ],
+      { "group": "Appearance_demographics", "prob": 100 }
+    ],
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "computer", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 6, 8 ] } }
     ]
   }
 ]

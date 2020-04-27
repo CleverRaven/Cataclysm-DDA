@@ -1,35 +1,9 @@
-#include "auto_pickup.h"
-#include "avatar.h"
-#include "cata_utility.h"
-#include "catacharset.h"
-#include "input.h"
-#include "item_category.h"
-#include "item_search.h"
-#include "item_stack.h"
-#include "options.h"
-#include "output.h"
-#include "player.h"
-#include "player_activity.h"
-#include "string_formatter.h"
-#include "color.h"
-#include "int_id.h"
-#include "item.h"
-#include "ret_val.h"
-#include "type_id.h"
-#include "enums.h"
-#include "faction.h"
-#include "material.h"
-#include "advanced_inv_listitem.h"
-
-#include <algorithm>
 #include <cassert>
-#include <cstring>
-#include <string>
-#include <vector>
-#include <initializer_list>
-#include <iterator>
-#include <utility>
-#include <numeric>
+
+#include "advanced_inv_listitem.h"
+#include "auto_pickup.h"
+#include "item.h"
+#include "item_category.h"
 
 advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int count,
         aim_location area, bool from_vehicle )

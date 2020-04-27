@@ -3,7 +3,7 @@
     "id": "mon_turret",
     "copy-from": "mon_turret",
     "type": "MONSTER",
-    "name": "improvised SMG turret",
+    "name": { "str": "improvised SMG turret" },
     "default_faction": "defense_bot",
     "starting_ammo": { "pistol_ball": 30 },
     "special_attacks": [
@@ -31,7 +31,7 @@
     "id": "mon_turret_bmg",
     "copy-from": "mon_turret_bmg",
     "type": "MONSTER",
-    "name": "CROWS II, heavy machinegun",
+    "name": { "str": "CROWS II, heavy machinegun" },
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging anything up to light vehicles at long range without exposing the operator.  This one is fitted with a heavy machinegun.",
     "default_faction": "military",
     "starting_ammo": { "rifle_huge_ball": 400 },
@@ -57,16 +57,10 @@
     ]
   },
   {
-    "id": "mon_crows_m240",
-    "copy-from": "mon_turret_rifle",
-    "type": "MONSTER",
-    "default_faction": "military"
-  },
-  {
     "id": "mon_turret_rifle",
     "copy-from": "mon_turret_rifle",
     "type": "MONSTER",
-    "name": "CROWS II, light machinegun",
+    "name": { "str": "CROWS II, light machinegun" },
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a light machine gun.",
     "default_faction": "military",
     "starting_ammo": { "rifle_ball": 1000 },
@@ -92,6 +86,12 @@
     ]
   },
   {
+    "id": "mon_crows_m240",
+    "copy-from": "mon_turret_rifle",
+    "type": "MONSTER",
+    "default_faction": "military"
+  },
+  {
     "id": "mon_secubot",
     "copy-from": "mon_secubot",
     "type": "MONSTER",
@@ -104,7 +104,7 @@
         "cooldown": 1,
         "move_cost": 150,
         "gun_type": "rifle_assault",
-        "ammo_type": "556",
+        "ammo_type": "rifle_ball",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 30, "DEFAULT" ] ],
@@ -143,6 +143,36 @@
         "targeting_cost": 200,
         "targeting_timeout_extend": -10,
         "targeting_sound": "\"Hostile detected.\"",
+        "targeting_volume": 50,
+        "no_ammo_sound": "a chk!"
+      }
+    ]
+  },
+  {
+    "id": "mon_turret_riot",
+    "copy-from": "mon_turret_riot",
+    "type": "MONSTER",
+    "name": { "str": "riot control platform" },
+    "description": "These TALON-derived riot control platforms were widely publicized a few years before the cataclysm as a new semi-autonomous device that could fire less-lethal rounds with far more accuracy than a human, ensuring safer hits against a target's limbs.  They were quickly adopted by prisons and inner city police forces, where they demonstrated that 'less lethal' is not the same as 'non-lethal'.  In the days before the cataclysm, massive stockrooms of the things were put into circulation.  On the bright side, although it shoots autonomously, it requires a human operator to relocate, so it's not so mobile anymore.",
+    "default_faction": "cop_bot",
+    "starting_ammo": { "grenade_ammo_beanbag": 6 },
+    "special_attacks": [
+      {
+        "//": "For later: needs the ability to preferentially target legs and arms",
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "grenade_revolver",
+        "ammo_type": "grenade_ammo_beanbag",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Universal curfew is in effect.  Please return to your home.  This unit is authorized to open fire.\"",
         "targeting_volume": 50,
         "no_ammo_sound": "a chk!"
       }

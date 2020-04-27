@@ -264,9 +264,14 @@
     "replace": "reloaded_rifle_huge_AP"
   },
   {
-    "id": [ "36navy", "44army" ],
+    "id": [ "36navy", "44army", "flintlock_ammo" ],
     "type": "MIGRATION",
-    "replace": "flintlock_ammo"
+    "replace": "black_powder_ball"
+  },
+  {
+    "id": [ "flintlock_shot" ],
+    "type": "MIGRATION",
+    "replace": "black_powder_shot"
   },
   {
     "id": [ "40x46mm_m1006" ],
@@ -396,5 +401,20 @@
     "id": [ "bp_shot_flechette" ],
     "type": "MIGRATION",
     "replace": "bp_shot_dart"
+  },
+  {
+    "id": [ "84x246mm_he", "RPG-7_ammo" ],
+    "type": "MIGRATION",
+    "replace": "rocket_he"
+  },
+  {
+    "id": [ "84x246mm_hedp", "m235_tpa", "RPG-7_pg7vr", "RPG-7_tbg7v", "RPG-7_og7v" ],
+    "type": "MIGRATION",
+    "replace": "rocket_hedp"
+  },
+  {
+    "id": [ "84x246mm_smoke" ],
+    "type": "MIGRATION",
+    "replace": "rocket_smoke"
   }
 ]

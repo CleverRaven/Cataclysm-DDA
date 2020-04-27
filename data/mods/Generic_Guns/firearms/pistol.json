@@ -3,7 +3,7 @@
     "id": "pistol_levergun",
     "copy-from": "henry_big_boy",
     "type": "GUN",
-    "name": "cowboy carbine",
+    "name": { "str": "cowboy carbine" },
     "ammo": "ammo_pistol",
     "description": "Since the early days of western expansion, when ammunition supply was infrequent, shooters sought to share ammo between their sidearms and long arms.  This tube magazine lever action carbine allows the shooter to reduce the number of calibers carried and squeeze more power from their pistol ammunition.",
     "clip_size": 10
@@ -12,7 +12,7 @@
     "id": "pistol_machine",
     "copy-from": "glock_18c",
     "type": "GUN",
-    "name": "machine pistol",
+    "name": { "str": "machine pistol" },
     "ammo": "ammo_pistol",
     "description": "This pistol is a tiny machinegun you can stuff into a holster, with which you could dump its magazine at a blistering rate into any close range foes.  Machine pistols mostly see use by vehicle crewmen or bodygaurds of VIPs.  Due to its preposterous rate of fire it is difficult to control.",
     "magazines": [ [ "ammo_pistol", [ "pistol_mag", "pistol_smg_mag" ] ] ]
@@ -21,7 +21,7 @@
     "id": "pistol_medium",
     "copy-from": "glock_19",
     "type": "GUN",
-    "name": "defensive pistol",
+    "name": { "str": "defensive pistol" },
     "ammo": "ammo_pistol",
     "description": "A modern pistol fit for duty, military service, or personal defense, with a detachable box magazine and a reliable action.  Though its chambering is capable of meeting FBI penetration minimums, the lack of a shoulder stock limits its utility.",
     "magazines": [ [ "ammo_pistol", [ "pistol_mag", "pistol_smg_mag" ] ] ]
@@ -37,9 +37,9 @@
   },
   {
     "id": "pistol_revolver",
-    "copy-from": "ruger_lcr_38",
+    "copy-from": "model_10_revolver",
     "type": "GUN",
-    "name": "police revolver",
+    "name": { "str": "police revolver" },
     "ammo": "ammo_pistol",
     "description": "Revolvers like this, chambered for standard defensive calibers, were a favorite of police departments for nearly a century, up until the 1986 Miami shootout.  Afterwards, the slow reloading and shooting of revolvers were considered liabilities; still, this model's accuracy and moderate recoil make for a serviceable sidearm, and there are no magazines for you to lose or damage.",
     "clip_size": 6,

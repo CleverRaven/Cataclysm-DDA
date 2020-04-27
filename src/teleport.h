@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TELEPORT_H
-#define TELEPORT_H
+#ifndef CATA_SRC_TELEPORT_H
+#define CATA_SRC_TELEPORT_H
 
 class Creature;
 
@@ -14,4 +14,4 @@ bool teleport( Creature &critter, int min_distance = 2, int max_distance = 12,
                bool add_teleglow = true );
 } // namespace teleport
 
-#endif
+#endif // CATA_SRC_TELEPORT_H

@@ -62,10 +62,9 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_id": "bio_acidicspray",
+        "spell_data": { "id": "bio_acidicspray" },
         "cooldown": 20,
-        "monster_message": "The black pudding burns you with acid!",
-        "spell_level": 0
+        "monster_message": "The black pudding burns %3$s with acid!"
       }
     ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
@@ -105,7 +104,12 @@
         "cooldown": 1,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_multiplier": 1.2 } ]
       },
-      { "type": "spell", "spell_id": "necrotic_gaze", "cooldown": 5, "monster_message": "The krabgek gazes at %3$s!" }
+      {
+        "type": "spell",
+        "spell_data": { "id": "necrotic_gaze" },
+        "cooldown": 5,
+        "monster_message": "The krabgek gazes at %3$s!"
+      }
     ]
   },
   {
@@ -268,7 +272,7 @@
     "vision_day": 20,
     "vision_night": 20,
     "harvest": "stirge",
-    "special_attacks": [ { "type": "spell", "spell_id": "blood_suck", "spell_level": 3, "cooldown": 3 } ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "blood_suck", "min_level": 3 }, "cooldown": 3 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "SWARMS" ]

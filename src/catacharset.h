@@ -1,10 +1,11 @@
 #pragma once
-#ifndef CATACHARSET_H
-#define CATACHARSET_H
+#ifndef CATA_SRC_CATACHARSET_H
+#define CATA_SRC_CATACHARSET_H
 
 #include <cstddef>
 #include <cstdint>
 #include <string>
+#include <vector>
 
 #define ANY_LENGTH 5
 #define NULL_UNICODE 0x0000
@@ -56,11 +57,15 @@ std::string utf8_to_native( const std::string &str );
 std::string utf32_to_utf8( const std::u32string &str );
 std::u32string utf8_to_utf32( const std::string &str );
 
+// Split the given string into displayed characters.  Each element of the returned vector
+// contains one 'regular' codepoint and all subsequent combining characters.
+std::vector<std::string> utf8_display_split( const std::string & );
+
 /**
  * UTF8-Wrapper over std::string.
  * It looks and feels like a std::string, but uses code points counts
  * as index, not bytes.
- * A multi-byte Unicode character might by represented
+ * A multi-byte Unicode character might be represented
  * as 3 bytes in UTF8, this class will see these 3 bytes as 1 character.
  * It will never separate them. It will however split between code points
  * which might be problematic when containing combination characters.
@@ -171,4 +176,4 @@ class utf8_wrapper
         void init_utf8_wrapper();
 };
 
-#endif
+#endif // CATA_SRC_CATACHARSET_H

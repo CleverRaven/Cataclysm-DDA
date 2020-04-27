@@ -1,21 +1,17 @@
 #pragma once
-#ifndef ADVANCED_INV_LISTITEM_H
-#define ADVANCED_INV_LISTITEM_H
-#include "cursesdef.h"
-#include "units.h"
-#include "advanced_inv_area.h"
-#include "color.h"
-#include "player.h"
+#ifndef CATA_SRC_ADVANCED_INV_LISTITEM_H
+#define CATA_SRC_ADVANCED_INV_LISTITEM_H
 
-#include <array>
-#include <functional>
 #include <list>
 #include <string>
-#include <vector>
-#include <utility>
+
+#include "units.h"
 
 // see item_factory.h
+class item;
 class item_category;
+
+enum aim_location : char;
 
 /**
  * Entry that is displayed in a adv. inv. pane. It can either contain a
@@ -29,7 +25,7 @@ class advanced_inv_listitem
         /**
          * Index of the item in the itemstack.
          */
-        int idx;
+        int idx = 0;
         /**
          * The location of the item, never AIM_ALL.
          */
@@ -49,12 +45,12 @@ class advanced_inv_listitem
         /**
          * Whether auto pickup is enabled for this item (based on the name).
          */
-        bool autopickup;
+        bool autopickup = false;
         /**
          * The stack count represented by this item, should be >= 1, should be 1
          * for anything counted by charges.
          */
-        int stacks;
+        int stacks = 0;
         /**
          * The volume of all the items in this stack, used for sorting.
          */
@@ -62,7 +58,7 @@ class advanced_inv_listitem
         /**
          * The weight of all the items in this stack, used for sorting.
          */
-        units::mass weight;
+        units::mass weight = 0_gram;
         /**
          * The item category, or the category header.
          */
@@ -70,7 +66,7 @@ class advanced_inv_listitem
         /**
          * Is the item stored in a vehicle?
          */
-        bool from_vehicle;
+        bool from_vehicle = false;
         /**
          * Whether this is a category header entry, which does *not* have a reference
          * to an item, only @ref cat is valid.
@@ -108,4 +104,4 @@ class advanced_inv_listitem
         advanced_inv_listitem( const std::list<item *> &list, int index,
                                aim_location area, bool from_vehicle );
 };
-#endif
+#endif // CATA_SRC_ADVANCED_INV_LISTITEM_H

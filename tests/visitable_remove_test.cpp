@@ -5,23 +5,25 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catch/catch.hpp"
 #include "game.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
+#include "optional.h"
 #include "player.h"
+#include "point.h"
 #include "rng.h"
+#include "type_id.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "inventory.h"
-#include "item.h"
-#include "optional.h"
-#include "type_id.h"
-#include "point.h"
 
 template <typename T>
 static int count_items( const T &src, const itype_id &id )
@@ -75,7 +77,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
     item temp_liquid( liquid_id );
     item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( "null" ) );
-    REQUIRE( obj.contents.size() == 1 );
+    REQUIRE( obj.contents.num_item_stacks() == 1 );
     REQUIRE( obj.contents.front().typeId() == liquid_id );
 
     GIVEN( "A player with several bottles of water" ) {
@@ -106,7 +108,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 }
                 AND_THEN( "the removed items all contain water" ) {
                     CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.size() == 1 && e.contents.front().typeId() == liquid_id;
+                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
@@ -133,7 +135,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 }
                 AND_THEN( "the removed items all contained water" ) {
                     CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.size() == 1 && e.contents.front().typeId() == liquid_id;
+                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
@@ -169,7 +171,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     }
                     AND_THEN( "the removed items all contain water" ) {
                         CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                            return e.contents.size() == 1 && e.contents.front().typeId() == liquid_id;
+                            return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
                         } ) );
                     }
                 }
@@ -186,7 +188,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                         REQUIRE( p.weapon.typeId() == container_id );
 
                         AND_THEN( "the remaining water is contained by the currently wielded bottle" ) {
-                            REQUIRE( p.weapon.contents.size() == 1 );
+                            REQUIRE( p.weapon.contents.num_item_stacks() == 1 );
                             REQUIRE( p.weapon.contents.front().typeId() == liquid_id );
                         }
                     }
@@ -205,7 +207,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     }
                     AND_THEN( "the removed items all contained water" ) {
                         CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                            return e.contents.size() == 1 && e.contents.front().typeId() == liquid_id;
+                            return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
                         } ) );
                     }
                 }
@@ -214,8 +216,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
         WHEN( "a hip flask containing water is worn" ) {
             item obj( worn_id );
-            obj.emplace_back( liquid_id, calendar::turn,
-                              temp_liquid.charges_per_volume( obj.get_container_capacity() ) );
+            obj.put_in( item( liquid_id, calendar::turn,
+                              temp_liquid.charges_per_volume( obj.get_container_capacity() ) ) );
             p.wear_item( obj );
 
             REQUIRE( count_items( p, container_id ) == count );
@@ -244,7 +246,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                         REQUIRE( p.is_worn( *found[0] ) );
 
                         AND_THEN( "the hip flask contains water" ) {
-                            REQUIRE( found[0]->contents.size() == 1 );
+                            REQUIRE( found[0]->contents.num_item_stacks() == 1 );
                             REQUIRE( found[0]->contents.front().typeId() == liquid_id );
                         }
                     }
@@ -339,7 +341,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 }
                 AND_THEN( "the removed items all contain water" ) {
                     CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.size() == 1 && e.contents.front().typeId() == liquid_id;
+                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
@@ -366,7 +368,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 }
                 AND_THEN( "the removed items all contained water" ) {
                     CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.size() == 1 && e.contents.front().typeId() == liquid_id;
+                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
@@ -390,7 +392,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 REQUIRE( count_items( sel, liquid_id ) == count - our );
             }
             THEN( "the correct number of items were removed" ) {
-                REQUIRE( del.size() == our );
+                REQUIRE( static_cast<int>( del.size() ) == our );
 
                 AND_THEN( "the removed items were all bottles" ) {
                     CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item & e ) {
@@ -399,7 +401,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 }
                 AND_THEN( "the removed items all contained water" ) {
                     CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.size() == 1 && e.contents.front().typeId() == liquid_id;
+                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
@@ -453,7 +455,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 }
                 AND_THEN( "the removed items all contain water" ) {
                     CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.size() == 1 && e.contents.front().typeId() == liquid_id;
+                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }
@@ -480,7 +482,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 }
                 AND_THEN( "the removed items all contained water" ) {
                     CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.size() == 1 && e.contents.front().typeId() == liquid_id;
+                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
                     } ) );
                 }
             }

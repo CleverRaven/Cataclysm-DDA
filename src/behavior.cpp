@@ -96,7 +96,7 @@ void behavior::load_behavior( const JsonObject &jo, const std::string &src )
 
 node_t::node_t()
 {
-    predicate = &oracle_t::return_running;
+    predicate = &return_running;
 }
 
 void node_t::load( const JsonObject &jo, const std::string & )

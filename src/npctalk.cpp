@@ -1,96 +1,113 @@
 #include "dialogue.h" // IWYU pragma: associated
 
-#include <climits>
+#include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstddef>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <array>
 #include <iterator>
 #include <list>
 #include <map>
 #include <memory>
+#include <ostream>
+#include <string>
 #include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
 #include "activity_type.h"
+#include "auto_pickup.h"
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "character_id.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "clzones.h"
+#include "color.h"
 #include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
 #include "debug.h"
+#include "enums.h"
+#include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "help.h"
 #include "input.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "magic.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
+#include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
-#include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "point.h"
 #include "recipe.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "auto_pickup.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "character.h"
-#include "color.h"
-#include "enums.h"
-#include "faction.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "mapdata.h"
-#include "material.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
-#include "player.h"
-#include "point.h"
+#include "vpart_range.h"
 
-class basecamp;
-
-static const skill_id skill_speech( "speech" );
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_op( "under_operation" );
-static const efftype_id effect_riding( "riding" );
-
-static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 static const itype_id fuel_type_animal( "animal" );
 
-static const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
-static const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
+static const zone_type_id zone_type_npc_investigate_only( "NPC_INVESTIGATE_ONLY" );
+static const zone_type_id zone_type_npc_no_investigate( "NPC_NO_INVESTIGATE" );
+
+static const skill_id skill_speech( "speech" );
+
+static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
+static const bionic_id bio_deformity( "bio_deformity" );
+static const bionic_id bio_face_mask( "bio_face_mask" );
+static const bionic_id bio_voice( "bio_voice" );
+
+static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
@@ -103,7 +120,7 @@ int topic_category( const talk_topic &the_topic );
 
 const talk_topic &special_talk( char ch );
 
-std::string give_item_to( npc &p, bool allow_use, bool allow_carry );
+std::string give_item_to( npc &p, bool allow_use );
 
 std::string talk_trial::name() const
 {
@@ -169,7 +186,7 @@ int npc_trading::cash_to_favor( const npc &, int cash )
     // TODO: It should affect different NPCs to a different degree
     // Square root of mission value in dollars
     // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
-    double scaled_mission_val = sqrt( cash / 100.0 );
+    double scaled_mission_val = std::sqrt( cash / 100.0 );
     return roll_remainder( scaled_mission_val );
 }
 
@@ -193,7 +210,9 @@ enum npc_chat_menu {
     NPC_CHAT_FORBID_ENGAGE,
     NPC_CHAT_CLEAR_OVERRIDES,
     NPC_CHAT_ANIMAL_VEHICLE_FOLLOW,
-    NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW
+    NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW,
+    NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW,
+    NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW
 };
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
@@ -322,8 +341,8 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static void tell_veh_stop_following()
 {
-    for( auto &veh : g->m.get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->is_following = false;
             v->engine_on = false;
@@ -333,10 +352,43 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
-    for( auto &veh : g->m.get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->activate_animal_follow();
+        }
+    }
+}
+
+static void tell_magic_veh_to_follow()
+{
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
+        if( v->magic ) {
+            for( const vpart_reference &vp : v->get_all_parts() ) {
+                const vpart_info &vpi = vp.info();
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) && v->is_owned_by( g->u ) ) {
+                    v->activate_magical_follow();
+                    break;
+                }
+            }
+        }
+    }
+}
+
+static void tell_magic_veh_stop_following()
+{
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
+        if( v->magic ) {
+            for( const vpart_reference &vp : v->get_all_parts() ) {
+                const vpart_info &vpi = vp.info();
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) ) {
+                    v->is_following = false;
+                    v->engine_on = false;
+                    break;
+                }
+            }
         }
     }
 }
@@ -369,12 +421,26 @@ void game::chat()
     }
     std::vector<vehicle *> animal_vehicles;
     std::vector<vehicle *> following_vehicles;
+    std::vector<vehicle *> magic_vehicles;
+    std::vector<vehicle *> magic_following_vehicles;
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             animal_vehicles.push_back( v );
             if( v->is_following ) {
                 following_vehicles.push_back( v );
+            }
+        }
+        if( v->magic ) {
+            for( const vpart_reference &vp : v->get_all_parts() ) {
+                const vpart_info &vpi = vp.info();
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) ) {
+                    magic_vehicles.push_back( v );
+                    if( v->is_following ) {
+                        magic_following_vehicles.push_back( v );
+                    }
+                    break;
+                }
             }
         }
     }
@@ -393,6 +459,14 @@ void game::chat()
     if( !animal_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
                         _( "Whistle at your animals pulling vehicles to follow you." ) );
+    }
+    if( !magic_vehicles.empty() ) {
+        nmenu.addentry( NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW, true, 'Q',
+                        _( "Utter a magical command that will order your magical vehicles to follow you." ) );
+    }
+    if( !magic_following_vehicles.empty() ) {
+        nmenu.addentry( NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW, true, 'q',
+                        _( "Utter a magical command that will order your magical vehicles to stop following you." ) );
     }
     if( !following_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW, true, 'S',
@@ -530,6 +604,12 @@ void game::chat()
         case NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW:
             tell_veh_stop_following();
             break;
+        case NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW:
+            tell_magic_veh_to_follow();
+            break;
+        case NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW:
+            tell_magic_veh_stop_following();
+            break;
         default:
             return;
     }
@@ -615,10 +695,10 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             bool should_check = rl_dist( pos(), spos ) < investigate_dist;
             if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
-                if( mgr.has( zone_no_investigate, s_abs_pos, fac_id ) ) {
+                if( mgr.has( zone_type_npc_no_investigate, s_abs_pos, fac_id ) ) {
                     should_check = false;
-                } else if( mgr.has( zone_investigate_only, my_abs_pos, fac_id ) &&
-                           !mgr.has( zone_investigate_only, s_abs_pos, fac_id ) ) {
+                } else if( mgr.has( zone_type_npc_investigate_only, my_abs_pos, fac_id ) &&
+                           !mgr.has( zone_type_npc_investigate_only, s_abs_pos, fac_id ) ) {
                     should_check = false;
                 }
             }
@@ -802,12 +882,12 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     } while( !d.done );
     g->refresh_all();
 
-    if( g->u.activity.id() == activity_id( "ACT_AIM" ) && !g->u.has_weapon() ) {
+    if( g->u.activity.id() == ACT_AIM && !g->u.has_weapon() ) {
         g->u.cancel_activity();
         // don't query certain activities that are started from dialogue
-    } else if( g->u.activity.id() == activity_id( "ACT_TRAIN" ) ||
-               g->u.activity.id() == activity_id( "ACT_WAIT_NPC" ) ||
-               g->u.activity.id() == activity_id( "ACT_SOCIALIZE" ) ||
+    } else if( g->u.activity.id() == ACT_TRAIN ||
+               g->u.activity.id() == ACT_WAIT_NPC ||
+               g->u.activity.id() == ACT_SOCIALIZE ||
                g->u.activity.index == getID().get_value() ) {
         return;
     }
@@ -895,7 +975,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( "Bye." );
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
         }
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
@@ -1188,7 +1268,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) &&
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == ACT_TRAIN &&
             g->u.backlog.front().index == p->getID().get_value() ) {
             player_activity &backlog = g->u.backlog.front();
             const skill_id skillt( backlog.name );
@@ -1340,10 +1420,10 @@ int talk_trial::calc_chance( const dialogue &d ) const
             chance += u_mods.lie;
 
             //come on, who would suspect a robot of lying?
-            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
+            if( u.has_bionic( bio_voice ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
+            if( u.has_bionic( bio_face_mask ) ) {
                 chance += 20;
             }
             break;
@@ -1352,13 +1432,13 @@ int talk_trial::calc_chance( const dialogue &d ) const
                       p.op_of_u.trust * 2 + p.op_of_u.value;
             chance += u_mods.persuade;
 
-            if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
+            if( u.has_bionic( bio_face_mask ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
+            if( u.has_bionic( bio_deformity ) ) {
                 chance -= 50;
             }
-            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
+            if( u.has_bionic( bio_voice ) ) {
                 chance -= 20;
             }
             break;
@@ -1367,16 +1447,16 @@ int talk_trial::calc_chance( const dialogue &d ) const
                       p.personality.bravery * 2;
             chance += u_mods.intimidate;
 
-            if( u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
+            if( u.has_bionic( bio_face_mask ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_armor_eyes" ) ) ) {
+            if( u.has_bionic( bio_armor_eyes ) ) {
                 chance += 10;
             }
-            if( u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
+            if( u.has_bionic( bio_deformity ) ) {
                 chance += 20;
             }
-            if( u.has_bionic( bionic_id( "bio_voice" ) ) ) {
+            if( u.has_bionic( bio_voice ) ) {
                 chance += 20;
             }
             break;
@@ -1691,6 +1771,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int ch = text_only ? 'a' + responses.size() - 1 : ' ';
     bool okay;
     do {
@@ -1968,7 +2051,7 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             }
         } else {
             item container( container_name, calendar::turn );
-            container.emplace_back( item_name, calendar::turn, count );
+            container.put_in( item( item_name, calendar::turn, count ) );
             u.i_add( container );
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
@@ -1986,31 +2069,25 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue & d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item = item( item_name, calendar::turn );
-        if( u.has_charges( item_name, count ) ) {
-            u.use_charges( item_name, count );
+        if( item::count_by_charges( item_name ) && u.has_charges( item_name, count ) ) {
+            for( const item &it : u.use_charges( item_name, count ) ) {
+                p.i_add( it );
+            }
         } else if( u.has_amount( item_name, count ) ) {
-            u.use_amount( item_name, count );
+            for( const item &it : u.use_amount( item_name, count ) ) {
+                p.i_add( it );
+            }
         } else {
             //~ %1$s is a translated item name
-            popup( _( "You don't have a %1$s!" ), old_item.tname() );
+            popup( _( "You don't have a %1$s!" ), item::nname( item_name ) );
             return;
         }
-        if( old_item.count_by_charges() ) {
-            old_item.mod_charges( count - 1 );
-            p.i_add( old_item );
-        } else {
-            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                p.i_add( old_item );
-            }
-        }
-
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "You give %1$s a %2$s." ), p.name, old_item.tname() );
+            popup( _( "You give %1$s a %2$s." ), p.name, item::nname( item_name ) );
         } else {
             //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-            popup( _( "You give %1$s %2$d %3$s." ), p.name, count, old_item.tname() );
+            popup( _( "You give %1$s %2$d %3$s." ), p.name, count, item::nname( item_name, count ) );
         }
         p.op_of_u.owed += cost;
     };
@@ -2259,7 +2336,7 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
 void talk_effect_fun_t::set_npc_gets_item( bool to_use )
 {
     function = [to_use]( const dialogue & d ) {
-        d.reason = give_item_to( *( d.beta ), to_use, !to_use );
+        d.reason = give_item_to( *( d.beta ), to_use );
     };
 }
 
@@ -2290,8 +2367,6 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
         }
 
         const mtype_id mtype( monster_type_id );
-        const efftype_id effect_pet( "pet" );
-        const efftype_id effect_pacified( "pacified" );
 
         for( int i = 0; i < count; i++ ) {
             monster *const mon_ptr = g->place_critter_around( mtype, u.pos(), 3 );
@@ -2566,6 +2641,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_chop_trees ),
             WRAP( do_fishing ),
             WRAP( do_construction ),
+            WRAP( do_mining ),
             WRAP( do_read ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
@@ -3112,9 +3188,8 @@ void load_talk_topic( const JsonObject &jo )
     }
 }
 
-std::string npc::pick_talk_topic( const player &u )
+std::string npc::pick_talk_topic( const player &/*u*/ )
 {
-    ( void )u;
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {
             set_attitude( NPCATT_MUG );
@@ -3172,6 +3247,8 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
         if( !p.eat( to_eat ) ) {
             reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
+        } else {
+            reason = _( "Thanks, that hit the spot." );
         }
     } else if( to_eat.is_medication() || to_eat.get_contained().is_medication() ) {
         if( comest->tool != "null" ) {
@@ -3185,6 +3262,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
                 return REFUSED;
             }
             p.use_charges( comest->tool, 1 );
+            reason = _( "Thanks, I feel better already." );
         }
         if( to_eat.type->has_use() ) {
             amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
@@ -3192,6 +3270,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
                 reason = _( "It doesn't look like a good idea to consume this…" );
                 return REFUSED;
             }
+            reason = _( "Thanks, I used it." );
         }
 
         to_eat.charges -= amount_used;
@@ -3206,7 +3285,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( consuming_contents ) {
-        it.contents.erase( it.contents.begin() );
+        it.remove_item( it.contents.front() );
         return CONSUMED_SOME;
     }
 
@@ -3214,7 +3293,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     return CONSUMED_ALL;
 }
 
-std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
+std::string give_item_to( npc &p, bool allow_use )
 {
     if( p.is_hallucination() ) {
         return _( "No thanks, I'm good." );
@@ -3236,84 +3315,80 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _( "Are you <swear> insane!?" );
     }
 
-    std::string no_consume_reason;
-    if( allow_use ) {
-        // Eating first, to avoid evaluating bread as a weapon
-        const auto consume_res = try_consume( p, given, no_consume_reason );
-        if( consume_res == CONSUMED_ALL ) {
-            g->u.i_rem( &given );
-        }
-        if( consume_res != REFUSED ) {
-            g->u.moves -= 100;
-            if( given.is_container() ) {
-                given.on_contents_changed();
-            }
-            return _( "Here we go…" );
-        }
-    }
-
     bool taken = false;
+    std::string reason = _( "Nope." );
     int our_ammo = p.ammo_count_for( p.weapon );
     int new_ammo = p.ammo_count_for( given );
     const double new_weapon_value = p.weapon_value( given, new_ammo );
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
+    add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
+             p.weapon.typeId(), our_ammo, cur_weapon_value );
+    add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
+             given.typeId(), new_ammo, new_weapon_value );
     if( allow_use ) {
-        add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-                 p.weapon.type->get_id(), our_ammo, cur_weapon_value );
-        add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                 given.type->get_id(), new_ammo, new_weapon_value );
-        if( new_weapon_value > cur_weapon_value ) {
+        // Eating first, to avoid evaluating bread as a weapon
+        const auto consume_res = try_consume( p, given, reason );
+        if( consume_res != REFUSED ) {
+            if( consume_res == CONSUMED_ALL ) {
+                g->u.i_rem( &given );
+            }
+            g->u.moves -= 100;
+            if( given.is_container() ) {
+                given.on_contents_changed();
+            }
+        }// wield it if its a weapon
+        else if( new_weapon_value > cur_weapon_value ) {
             p.wield( given );
+            reason = _( "Thanks, I'll wield that now." );
             taken = true;
+        }// HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
+        else if( !given.is_gun() && given.is_armor() ) {
+            //if it is impossible to wear return why
+            ret_val<bool> can_wear = p.can_wear( given, true );
+            if( !can_wear.success() ) {
+                reason = can_wear.str();
+            } else {
+                //if we can wear it with equip changes prompt first
+                can_wear = p.can_wear( given );
+                if( ( can_wear.success() ||
+                      query_yn( can_wear.str() + _( " Should I take something off?" ) ) )
+                    && p.wear_if_wanted( given, reason ) ) {
+                    taken = true;
+                } else {
+                    reason = can_wear.str();
+                }
+            }
+        } else {
+            reason += string_format(
+                          _( "My current weapon is better than this.\n(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
+                          cur_weapon_value );
         }
-
-        // HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
-        if( !taken && !given.is_gun() && p.wear_if_wanted( given ) ) {
+    } else {//allow_use is false so try to carry instead
+        if( p.can_pickVolume( given ) && p.can_pickWeight( given ) ) {
+            reason = _( "Thanks, I'll carry that now." );
             taken = true;
+            p.i_add( given );
+        } else {
+            if( !p.can_pickVolume( given ) ) {
+                const units::volume free_space = p.volume_capacity() - p.volume_carried();
+                reason += "\n" + std::string( _( "I have no space to store it." ) ) + "\n";
+                if( free_space > 0_ml ) {
+                    reason += string_format( _( "I can only store %s %s more." ),
+                                             format_volume( free_space ), volume_units_long() );
+                } else {
+                    reason += _( "…or to store anything else for that matter." );
+                }
+            }
+            if( !p.can_pickWeight( given ) ) {
+                reason += std::string( "\n" ) + _( "It is too heavy for me to carry." );
+            }
         }
-    }
-
-    if( !taken && allow_carry &&
-        p.can_pickVolume( given ) &&
-        p.can_pickWeight( given ) ) {
-        taken = true;
-        p.i_add( given );
     }
 
     if( taken ) {
         g->u.i_rem( &given );
         g->u.moves -= 100;
         p.has_new_items = true;
-        return _( "Thanks!" );
-    }
-
-    std::string reason = _( "Nope." );
-    if( allow_use ) {
-        if( !no_consume_reason.empty() ) {
-            reason += no_consume_reason + "\n";
-        }
-
-        reason += _( "My current weapon is better than this." );
-        reason += "\n" + string_format( _( "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
-                                        cur_weapon_value );
-        if( !given.is_gun() && given.is_armor() ) {
-            reason += std::string( "\n" ) + _( "It's too encumbering to wear." );
-        }
-    }
-    if( allow_carry ) {
-        if( !p.can_pickVolume( given ) ) {
-            const units::volume free_space = p.volume_capacity() - p.volume_carried();
-            reason += "\n" + std::string( _( "I have no space to store it." ) ) + "\n";
-            if( free_space > 0_ml ) {
-                reason += string_format( _( "I can only store %s %s more." ),
-                                         format_volume( free_space ), volume_units_long() );
-            } else {
-                reason += _( "…or to store anything else for that matter." );
-            }
-        }
-        if( !p.can_pickWeight( given ) ) {
-            reason += std::string( "\n" ) + _( "It is too heavy for me to carry." );
-        }
     }
 
     return reason;

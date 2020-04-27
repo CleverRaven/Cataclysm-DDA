@@ -435,7 +435,7 @@
     "components": [
       [ [ "element", 8 ] ],
       [ [ "bottle_glass", 2 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ] ],
-      [ [ "hose", 1 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "cable", 5 ] ]
     ]
@@ -723,30 +723,6 @@
       [ [ "amplifier", 2 ] ],
       [ [ "solar_panel", 1 ] ],
       [ [ "cable", 20 ] ],
-      [ [ "sheet_metal", 2 ] ],
-      [ [ "rope_natural_short", 1, "LIST" ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "q_solarpack",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_OTHER",
-    "skill_used": "electronics",
-    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
-    "difficulty": 10,
-    "time": "50 m",
-    "decomp_learn": 5,
-    "autolearn": true,
-    "book_learn": [ [ "recipe_augs", 7 ], [ "recipe_lab_elec", 7 ], [ "advanced_electronics", 8 ] ],
-    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "byproducts": [ [ "sheet_metal_small", 8 ], [ "scrap", 8 ] ],
-    "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "cable", 20 ] ],
-      [ [ "solar_panel_v3", 1 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "rope_natural_short", 1, "LIST" ] ]
     ]

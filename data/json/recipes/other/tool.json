@@ -14,6 +14,44 @@
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
+    "result": "hand_pump",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "mechanics", 2 ],
+    "time": "2 h",
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 5 ], [ "manual_mechanics", 4 ] ],
+    "using": [ [ "welding_standard", 1 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "hose", 1 ] ], [ [ "scrap", 10 ] ] ]
+  },
+  {
+    "result": "loom_frame",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "40 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "cordage_short", 4, "LIST" ] ] ]
+  },
+  {
+    "result": "shed_stick",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 1 ] ] ]
+  },
+  {
     "result": "sickle",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -40,6 +78,51 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "butchering_kit",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "reversible": true,
+    "time": "30 s",
+    "autolearn": true,
+    "components": [
+      [ [ "knife_butcher", 1 ] ],
+      [ [ "knife_carving", 1 ] ],
+      [ [ "knife_meat_cleaver", 1 ] ],
+      [ [ "leather", 2 ], [ "rag", 2 ] ],
+      [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
+    ]
+  },
+  {
+    "result": "shears",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ] ]
+  },
+  {
+    "result": "elec_shears",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 4 ], [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "result": "knife_chef",
@@ -286,13 +369,13 @@
     "time": "200 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ] ], [ [ "hose", 2 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ] ], [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ] ]
   },
   {
     "result": "food_processor",
     "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "20 m",
@@ -437,7 +520,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ], [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "scrap_copper", 4 ], [ "copper", 400 ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 16, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -526,19 +609,8 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "components": [
-      [ [ "rag", 1 ] ],
-      [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ],
-      [
-        [ "lamp_oil", 50 ],
-        [ "motor_oil", 50 ],
-        [ "chem_ethanol", 100 ],
-        [ "denat_alcohol", 100 ],
-        [ "gasoline", 250 ],
-        [ "diesel", 250 ],
-        [ "biodiesel", 250 ]
-      ]
-    ],
+    "using": [ [ "flammable_liquid", 100 ] ],
+    "components": [ [ [ "rag", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -576,5 +648,32 @@
     "time": "45 m",
     "autolearn": true,
     "components": [ [ [ "straw_pile", 3 ], [ "birchbark", 5 ] ] ]
+  },
+  {
+    "result": "dog_whistle_wood",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+  },
+  {
+    "result": "makeshift_hose",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "id_suffix": "DIY_hose_from_leather",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "survival", 3 ], [ "tailor", 4 ] ],
+    "autolearn": true,
+    "time": "1 h",
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 2 ] ], [ [ "superglue", 1 ] ], [ [ "filament", 40, "LIST" ] ] ]
   }
 ]

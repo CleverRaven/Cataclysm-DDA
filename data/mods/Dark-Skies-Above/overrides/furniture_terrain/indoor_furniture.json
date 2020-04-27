@@ -1,0 +1,35 @@
+[
+  {
+    "//": "todo: add more tech junk to salvage from these things",
+    "type": "terrain",
+    "id": "t_plut_generator",
+    "copy-from": "t_plut_generator",
+    "name": "Edison generator",
+    "symbol": "0",
+    "color": "light_green",
+    "description": "This imposing apparatus harnesses 'atmospheric charges', or at least thats what the news said when these things came out.  Pioneered by Elton Moosek and his Bluebox team, these were immediately snapped up by the government due to their potential to generate near limitless power.  It's not doing much good here though.  Perhaps it could be salvaged for other purposes.",
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 8, 16 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 12, 24 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "amplifier", "count": [ 3, 6 ] },
+        { "item": "scrap", "count": [ 8, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dresser",
+    "copy-from": "f_dresser",
+    "name": "dresser",
+    "symbol": "{",
+    "color": "brown",
+    "description": "Dress yourself!"
+  }
+]

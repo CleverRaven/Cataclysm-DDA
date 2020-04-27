@@ -12,7 +12,24 @@
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "Salt_Pan" } ],
     "blueprint_excludes": [ { "id": "fbmsw_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 8 h 15 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 381 ] ],
+          [ [ "cattail_stalk", 172 ], [ "dogbane", 172 ], [ "pine_bough", 172 ], [ "straw_pile", 172 ] ],
+          [ [ "clay_lump", 172 ], [ "material_limestone", 172 ], [ "material_quicklime", 172 ] ],
+          [ [ "material_sand", 430 ], [ "pebble", 430 ] ],
+          [ [ "nail", 396 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
+          [ [ "water", 215 ], [ "water_clean", 215 ] ],
+          [ [ "wood_panel", 22 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,12 +44,31 @@
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbmsw_southeast" } ],
     "blueprint_excludes": [ { "id": "fbmsw_southeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 6 h 40 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 168 ] ],
+          [ [ "cattail_stalk", 104 ], [ "dogbane", 104 ], [ "pine_bough", 104 ], [ "straw_pile", 104 ] ],
+          [ [ "clay_lump", 104 ], [ "material_limestone", 104 ], [ "material_quicklime", 104 ] ],
+          [ [ "material_sand", 260 ], [ "pebble", 260 ] ],
+          [ [ "nail", 72 ] ],
+          [ [ "pipe", 60 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "water", 130 ], [ "water_clean", 130 ] ],
+          [ [ "wood_panel", 3 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
     "result": "faction_base_modular_brewery0_wad_southwest",
-    "description": "We could take advantage of the the designation of this area to build an wattle and daub brewery.",
+    "description": "We could take advantage of the designation of this area to build an wattle and daub brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -42,6 +78,33 @@
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbmsw_southwest" }, { "id": "brewery" } ],
     "blueprint_excludes": [ { "id": "fbmsw_southwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 16 h 40 m",
+      "skills": [ [ "cooking", 3 ], [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_M", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 430 ] ],
+          [ [ "nail", 450 ] ],
+          [ [ "pipe", 36 ] ],
+          [ [ "sheet_metal", 7 ] ],
+          [ [ "sheet_metal_small", 12 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "material_quicklime", 176 ], [ "material_limestone", 176 ], [ "clay_lump", 176 ] ],
+          [ [ "pebble", 440 ], [ "material_sand", 440 ] ],
+          [ [ "straw_pile", 176 ], [ "cattail_stalk", 176 ], [ "dogbane", 176 ], [ "pine_bough", 176 ] ],
+          [ [ "water", 220 ], [ "water_clean", 220 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
+          [ [ "wood_panel", 20 ] ]
+        ]
+      }
+    }
   }
 ]

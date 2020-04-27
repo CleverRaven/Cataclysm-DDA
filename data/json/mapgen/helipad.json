@@ -115,15 +115,16 @@
         "H": { "item": "SUS_spice_collection", "chance": 75 },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
+      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
       "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": 36, "y": 15 }, { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 30, "density": 2 } ],
       "monster": { "T": { "monster": "mon_turret_rifle" } },
       "place_vehicles": [
         { "vehicle": "forklift", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 4, "y": 9, "chance": 75, "rotation": 270, "status": -1 },
         { "vehicle": "flatbed_truck", "x": 11, "y": 4, "chance": 25, "rotation": 270, "status": -1 },
-        { "vehicle": "helicopter_wreck_3a", "x": 9, "y": 42, "chance": 10, "rotation": 90, "status": -1 },
-        { "vehicle": "helicopter_wreck_1a", "x": 18, "y": 34, "chance": 10, "rotation": 270, "status": -1 },
-        { "vehicle": "helicopter_wreck_3a", "x": 39, "y": 42, "chance": 10, "rotation": 90, "status": -1 }
+        { "vehicle": "SmallFlier3_Wreck", "x": 9, "y": 42, "chance": 10, "rotation": 90, "status": -1 },
+        { "vehicle": "Smallflier1_Wreck", "x": 18, "y": 34, "chance": 10, "rotation": 270, "status": -1 },
+        { "vehicle": "SmallFlier2_Wreck", "x": 39, "y": 42, "chance": 10, "rotation": 90, "status": -1 }
       ]
     }
   },

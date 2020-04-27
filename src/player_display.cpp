@@ -1,13 +1,18 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <cstdlib>
 #include <algorithm>
+#include <array>
 #include <cstddef>
+#include <cstdlib>
+#include <memory>
+#include <unordered_map>
 
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "debug.h"
 #include "effect.h"
 #include "game.h"
 #include "input.h"
@@ -17,12 +22,11 @@
 #include "profession.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
-#include "catacharset.h"
-#include "translations.h"
-#include "string_id.h"
-#include "enums.h"
 
 static const skill_id skill_swimming( "swimming" );
 
@@ -170,7 +174,19 @@ static std::string melee_cost_text( int moves )
     return string_format(
                _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
 }
-
+static std::string melee_stamina_cost_text( int cost )
+{
+    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+}
+static std::string mouth_stamina_cost_text( int cost )
+{
+    return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
+}
+static std::string ranged_cost_text( double disp )
+{
+    return string_format( _( "Dispersion when using ranged attacks: <color_white>%+.1f</color>\n" ),
+                          disp );
+}
 static std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
@@ -211,11 +227,14 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
                      eff_encumbrance * 10 );
             break;
         case bp_mouth:
-            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>" );
+            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
+            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
             break;
         case bp_arm_l:
         case bp_arm_r:
-            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>" );
+            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
+            s += melee_stamina_cost_text( eff_encumbrance * 2 );
+            s += ranged_cost_text( eff_encumbrance / 5.0 );
             break;
         case bp_hand_l:
         case bp_hand_r:
@@ -267,14 +286,13 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     center_print( w_stats, 0, h_light_gray, _( title_STATS ) );
 
     // Clear bonus/penalty menu.
-    mvwprintz( w_stats, point( 0, 7 ), c_light_gray, std::string( 26, ' ' ) );
     mvwprintz( w_stats, point( 0, 8 ), c_light_gray, std::string( 26, ' ' ) );
-
     nc_color col_temp = c_light_gray;
 
     if( line == 0 ) {
         // Display information on player strength in appropriate window
-        mvwprintz( w_stats, point( 1, 2 ), h_light_gray, _( "Strength:" ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_stats, point( 1, 1 ), h_light_gray, _( "Strength:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Strength affects your melee damage, the amount of weight you can carry, your total HP, "
@@ -288,37 +306,37 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                             string_format( _( "Melee damage: <color_white>%.1f</color>" ), you.bonus_damage( false ) ) );
     } else if( line == 1 ) {
         // Display information on player dexterity in appropriate window
-        mvwprintz( w_stats, point( 1, 3 ), h_light_gray, _( "Dexterity:" ) );
+        mvwprintz( w_stats, point( 1, 2 ), h_light_gray, _( "Dexterity:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_hit_base() ) );
+                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_melee_hit_base() ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
-                                           -abs( you.ranged_dex_mod() ) ) );
+                                           -std::abs( you.ranged_dex_mod() ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
                             string_format( _( "Throwing penalty per target's dodge: <color_white>%+d</color>" ),
                                            you.throw_dispersion_per_dodge( false ) ) );
     } else if( line == 2 ) {
         // Display information on player intelligence in appropriate window
-        mvwprintz( w_stats, point( 1, 4 ), h_light_gray, _( "Intelligence:" ) );
+        mvwprintz( w_stats, point( 1, 3 ), h_light_gray, _( "Intelligence:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Intelligence is less important in most situations, but it is vital for more complex tasks like "
                            "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
-        print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
-        print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
-                            string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
         if( you.rust_rate() ) {
-            print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
-                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate( false ) ) );
+            print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
+                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate() ) );
         }
+        print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
+                            string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
+        print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
+                            string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
     } else if( line == 3 ) {
         // Display information on player perception in appropriate window
-        mvwprintz( w_stats, point( 1, 5 ), h_light_gray, _( "Perception:" ) );
+        mvwprintz( w_stats, point( 1, 4 ), h_light_gray, _( "Perception:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Perception is the most important stat for ranged combat.  It's also used for "
@@ -330,8 +348,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                                 string_format( _( "Aiming penalty: <color_white>%+d</color>" ), -you.ranged_per_mod() ) );
         }
     } else if( line == 4 ) {
-        mvwprintz( w_stats, point( 1, 6 ), h_light_gray, _( "Weight:" ) );
-        mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 6 ), h_light_gray,
+        mvwprintz( w_stats, point( 1, 5 ), h_light_gray, _( "Weight:" ) );
+        mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), h_light_gray,
                    you.get_weight_string() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -340,6 +358,24 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                                              "  Having too much, or too little, can be unhealthy." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.get_weight_description() );
+    } else if( line == 5 ) {
+        mvwprintz( w_stats, point( 1, 6 ), h_light_gray, _( "Height:" ) );
+        mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), h_light_gray,
+                   you.height_string() );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                                          _( "Your height.  Simply how tall you are." ) );
+        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        you.height_string() );
+    } else if( line == 6 ) {
+        mvwprintz( w_stats, point( 1, 7 ), h_light_gray, _( "Age:" ) );
+        mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), h_light_gray,
+                   you.age_string() );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                                          _( "This is how old you are." ) );
+        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        you.age_string() );
     }
     wrefresh( w_stats );
     wrefresh( w_info );
@@ -347,12 +383,12 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     action = ctxt.handle_input();
     if( action == "DOWN" ) {
         line++;
-        if( line == 5 ) {
+        if( line == 7 ) {
             line = 0;
         }
     } else if( action == "UP" ) {
         if( line == 0 ) {
-            line = 4;
+            line = 6;
         } else {
             line--;
         }
@@ -368,13 +404,20 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                you.is_player() ) {
         g->u.upgrade_stat_prompt( static_cast<Character::stat>( line ) );
     }
-    mvwprintz( w_stats, point( 1, 2 ), c_light_gray, _( "Strength:" ) );
-    mvwprintz( w_stats, point( 1, 3 ), c_light_gray, _( "Dexterity:" ) );
-    mvwprintz( w_stats, point( 1, 4 ), c_light_gray, _( "Intelligence:" ) );
-    mvwprintz( w_stats, point( 1, 5 ), c_light_gray, _( "Perception:" ) );
-    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 6 ), c_light_gray,
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w_stats, point( 1, 1 ), c_light_gray, _( "Strength:" ) );
+    mvwprintz( w_stats, point( 1, 2 ), c_light_gray, _( "Dexterity:" ) );
+    mvwprintz( w_stats, point( 1, 3 ), c_light_gray, _( "Intelligence:" ) );
+    mvwprintz( w_stats, point( 1, 4 ), c_light_gray, _( "Perception:" ) );
+    mvwprintz( w_stats, point( 1, 5 ), c_light_gray, _( "Weight:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), c_light_gray,
                you.get_weight_string() );
+    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Height:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
+               you.height_string() );
+    mvwprintz( w_stats, point( 1, 7 ), c_light_gray, _( "Age:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
+               you.age_string() );
     wrefresh( w_stats );
 }
 
@@ -503,7 +546,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     center_print( w_bionics, 0, h_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                      " / <color_light_blue>%2$d</color>" ),
                                    units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
 
     const size_t useful_y = bionics_win_size_y - 1;
@@ -550,7 +594,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                        string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                        string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                          " / <color_light_blue>%2$d</color>" ),
                                        units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
         for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
             mvwprintz( w_bionics, point( 1, static_cast<int>( i + 2 ) ), c_black, "                         " );
@@ -943,13 +988,19 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         mvwprintz( w_stats, point( 21, line_n ), c_light_gray, "(%2d)", max );
     };
 
-    display_stat( _( "Strength:" ), you.get_str(), you.get_str_base(), 2 );
-    display_stat( _( "Dexterity:" ), you.get_dex(), you.get_dex_base(), 3 );
-    display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 4 );
-    display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 5 );
-    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 6 ), c_light_gray,
+    display_stat( _( "Strength:" ), you.get_str(), you.get_str_base(), 1 );
+    display_stat( _( "Dexterity:" ), you.get_dex(), you.get_dex_base(), 2 );
+    display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 3 );
+    display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 4 );
+    mvwprintz( w_stats, point( 1, 5 ), c_light_gray, _( "Weight:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), c_light_gray,
                you.get_weight_string() );
+    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Height:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
+               you.height_string() );
+    mvwprintz( w_stats, point( 1, 7 ), c_light_gray, _( "Age:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
+               you.age_string() );
 
     wrefresh( w_stats );
 
@@ -973,7 +1024,8 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                      " / <color_light_blue>%2$d</color>" ),
                                    units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
         trim_and_print( w_bionics, point( 1, static_cast<int>( i ) + 2 ), getmaxx( w_bionics ) - 1, c_white,
@@ -1016,13 +1068,13 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         line++;
     }
     if( you.get_thirst() > 40 ) {
-        pen = abs( player::thirst_speed_penalty( you.get_thirst() ) );
+        pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
         line++;
     }
     if( you.kcal_speed_penalty() < 0 ) {
-        pen = abs( you.kcal_speed_penalty() );
+        pen = std::abs( you.kcal_speed_penalty() );
         const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
                                       _( "Starving" ) : _( "Underfed" );
         //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
@@ -1280,38 +1332,38 @@ void player::disp_info()
     // Post-humanity trumps your pre-Cataclysm life.
     if( crossed_threshold() ) {
         std::string race;
-        for( auto &mut : my_mutations ) {
-            const auto &mdata = mut.first.obj();
+        for( const trait_id &mut : get_mutations() ) {
+            const mutation_branch &mdata = mut.obj();
             if( mdata.threshold ) {
                 race = mdata.name();
                 break;
             }
         }
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
+        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
                    male ? _( "Male" ) : _( "Female" ), race );
     } else if( prof == nullptr || prof == profession::generic() ) {
         // Regular person. Nothing interesting.
-        //~ player info window: 1s - name, 2s - gender, '|' - field separator.
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s" ), name, male ? _( "Male" ) : _( "Female" ) );
+        //~ player info window: 1s - name, 2s - gender '|' - field separator.
+        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ) );
     } else {
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
+        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
                    male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
     }
 
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_updown();
-    ctxt.register_action( "NEXT_TAB", translate_marker( "Cycle to next category" ) );
-    ctxt.register_action( "PREV_TAB", translate_marker( "Cycle to previous category" ) );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Cycle to next category" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "CONFIRM", translate_marker( "Toggle skill training" ) );
+    ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
-    std::string help_msg = string_format( _( "Press %s for help." ),
-                                          ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-    mvwprintz( w_tip, point( FULL_SCREEN_WIDTH - utf8_width( help_msg ), 0 ), c_light_red, help_msg );
-    help_msg.clear();
+    right_print( w_tip, 0, 0, c_white, string_format(
+                     _( "[<color_yellow>%s</color>]" ),
+                     ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
     wrefresh( w_tip );
 
     draw_initial_windows( w_stats, w_encumb, w_traits, w_bionics, w_effects, w_skills, w_speed, *this,
@@ -1335,8 +1387,8 @@ void player::disp_info()
         nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
         mvwprintz( w_speed, point( 1, line ), col, "%s", speed_effect.first );
         mvwprintz( w_speed, point( 21, line ), col, ( speed_effect.second > 0 ? "+" : "-" ) );
-        mvwprintz( w_speed, point( abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
-                   abs( speed_effect.second ) );
+        mvwprintz( w_speed, point( std::abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
+                   std::abs( speed_effect.second ) );
         line++;
     }
 
@@ -1345,6 +1397,9 @@ void player::disp_info()
     int curtab = 1;
     line = 0;
     bool done = false;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     // Initial printing is DONE.  Now we give the player a chance to scroll around
     // and "hover" over different items for more info.

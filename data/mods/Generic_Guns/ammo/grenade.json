@@ -3,7 +3,7 @@
     "abstract": "grenade_ammo",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
-    "name": "grenade cartridge",
+    "name": { "str": "grenade cartridge" },
     "ammo_type": "ammo_grenade",
     "casing": "grenade_casing"
   },
@@ -11,15 +11,15 @@
     "id": "grenade_ammo_hedp",
     "copy-from": "grenade_ammo",
     "type": "AMMO",
-    "name": "HEDP grenade cartridge",
-    "description": "A grenade cartridge with a 'High Explosive Dual Purpose' load and a high number of damaging fragments.  Good for armored or soft targets.",
+    "name": { "str": "HEDP grenade cartridge" },
+    "description": "A grenade cartridge with a high explosive dual purpose load, capable of producing good penetration and a high number of damaging fragments.  Good for armored or soft targets.",
     "extend": { "effects": [ "FRAG", "EXPLOSIVE" ] }
   },
   {
     "id": "grenade_ammo_beanbag",
     "copy-from": "grenade_ammo",
     "type": "AMMO",
-    "name": "beanbag grenade cartridge",
+    "name": { "str": "beanbag grenade cartridge" },
     "description": "A less-lethal beanbag grenade cartridge that delivers strong impact on target, causing major pain and disorientation.  May still injure or kill.",
     "damage": 20,
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
@@ -28,7 +28,7 @@
     "id": "grenade_ammo_flare",
     "copy-from": "grenade_ammo",
     "type": "AMMO",
-    "name": "flare grenade cartridge",
+    "name": { "str": "flare grenade cartridge" },
     "description": "A signal flare grenade cartridge.  It will burn brightly for up to a minute, and will also leave a streak of smoke cover in its wake.",
     "drop": "handflare_lit",
     "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }
@@ -37,7 +37,7 @@
     "id": "grenade_ammo_shot",
     "copy-from": "grenade_ammo",
     "type": "AMMO",
-    "name": "buckshot grenade cartridge",
+    "name": { "str": "buckshot grenade cartridge" },
     "description": "A grenade cartridge with a powerful buckshot load, designed to provide some defensive options when carrying a grenade launcher.",
     "range": 12,
     "damage": 85,

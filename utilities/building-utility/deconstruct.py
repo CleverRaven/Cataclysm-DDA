@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 '''Tool to combine ascii map cells with json templates.
 
 Original design and implementation: acidia (https://github.com/acidia)

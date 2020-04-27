@@ -256,6 +256,11 @@
   },
   {
     "type": "recipe",
+    "result": "pipe_combination_gun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "rifle_9mm",
     "obsolete": true
   },
@@ -1617,6 +1622,26 @@
   {
     "type": "recipe",
     "result": "reloaded_762_m87",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "36navy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "44army",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "flintlock_ammo",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "flintlock_shot",
     "obsolete": true
   },
   {

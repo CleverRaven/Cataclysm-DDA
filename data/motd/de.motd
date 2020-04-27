@@ -12,10 +12,65 @@
 
 Nimm an der Diskussion in den Foren und Chaträumen teil:
 * Discourse:                 https://discourse.cataclysmdda.org/
-* Discord:                  https://discord.gg/jFEc7Yp
+* Discord:                   https://discord.gg/jFEc7Yp
 * IRC:                       #CataclysmDDA auf freenode.net
 * Reddit (inoffiziell):      https://www.reddit.com/r/cataclysmdda/
 
 Andere nützliche Links sind auch auf unserer Homepage verfügbar.
 
 Im Spiel kannst du die Einstellungen über das Hauptmenü (Esc) aufrufen.
+
+******************************************************************************
+    Haftungsausschluss für die experimentellen Builds:
+******************************************************************************
+F: Was ist ein experimenteller Build?
+A: Das Ziel der experimentellen Builds ist es, eine zweite Ebene der
+Qualitätskontrolle zu haben. Hier gibt es neuen Inhalt zu sehen, um
+ihn zu testen und auszubalancieren nach der ersten Qualitätskontrolle.
+Beachte, dass, wenn du den neuesten experimentellen Build spielst, dann
+nimmst du am Entwicklungsprozess teil, indem du den neuen Inhalt beim
+Spielen testest, rechne daher mit Programmierfehlern und unterentwickelten
+Funktionen.
+
+F: Warum gibt es überhaupt experimentelle Builds?
+A: Betrachte sie wie Alpha- bzw. Beta-Versionen – Bugs und unterentwickelte
+Funktionen sind Teil davon. Aufgrund von kontinuierlichen Integrations-
+arbeiten befinden sich experimentelle Builds immer im ständigen unfertigen
+Zustand. Experimentelle Builds sind ein Sandkasten, in dem Bugs erkannt
+und Funktionen verfeinert werden. Große und kleine Features werden in diesen
+Builds ständig eingebaut, um sie grob auf Stabilität und Spielbalance zu
+testen. Daher sind experimentelle Builds nicht so ausgereift, was Stabilität
+und Spielbalance betrifft. Tatsächlich ist gar nichts in experimentellen
+Builds garantiert.
+
+F: Sind experimentelle Builds dann spielbar?
+A: Ja. Aber obgleich experimentelle Builds grundsätzlich stabil sind, ist
+das nicht garantiert, da Funktionen in einem unterentwickeltem Zustand
+eingeführt werden können, oder nur teilweise. Sie könnten auch Programm-
+fehler einbauen, sogar schwere Fehler, die das Spiel zum Absturz bringen
+oder Spielstände beschädigen können. Das passiert selten, aber aufgrund
+der Komplexität des Spiels kann die erste Qualitätskontrolle
+unzureichend sein, und es gibt immer Raum für menschliche Fehler.
+
+F: Sollte ich experimentelle Builds spielen, oder doch lieber stabile?
+A: Die Belohnung ist sofortiger Zugriff zu den neuesten Inhalten, das Risiko
+ist der Verlust deines Spielfortschritts, wenn ein übler Bug auftaucht. Es
+ist immer deine Wahl, ob du experimentelle Builds spielen möchtest, da
+stabile Builds verfügbar sind, also such es dir aus. Du trägst die Ver-
+antwortung, wenn etwas schief geht, also sei gewarnt. Triff Vorkehrungen,
+fertige Sicherheitskopien an. Manchmal ist es besser, ein Update für ein paar
+Tage zu verschieben, bevor eine große neue Funktion stabil genug ist oder,
+wenn neulich ein bemerkenswerter Bug entfernt wurde.
+
+F: Sollte ich sonst noch etwas beachten?
+A: Ja. Denk dran, dass alles, was du siehst (und sehen wirst), wird sich
+möglicherweise ändern. Alle Funktionen, auch neue, sind in Arbeit und
+können sich im Zuge der Spielentwicklung ändern.
+Und, wie vorher erwähnt, ist nichts garantiert, auch nicht die Spielbalance
+und Stabilität.
+
+F: Was ist, wenn ich das Risiko experimenteller Builds nicht akzeptiere?
+A: Wenn das Risiko unakzeptabel ist, spiel die stabile Version. Falls du
+das Risiko in Kauf nimmst: Viel Spaß mit den neuen Inhalten der experimen-
+tellen Builds und nimm an der Entwicklung teil; melde Bugs, mach Vorschläge
+oder steuere sogar deine eigenen Inhalte bei. Viel Glück.

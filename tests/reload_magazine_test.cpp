@@ -5,17 +5,15 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "game.h"
-#include "player.h"
-#include "visitable.h"
-#include "calendar.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "player.h"
 #include "type_id.h"
-
-struct itype;
+#include "visitable.h"
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
@@ -72,7 +70,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
             REQUIRE( ammo.charges == mag_cap + 5 );
 
             bool ok = mag.reload( g->u, item_location( p, &ammo ), mag.ammo_capacity() );
-            THEN( "reloading is sucessful" ) {
+            THEN( "reloading is successful" ) {
                 REQUIRE( ok );
 
                 AND_THEN( "the current ammo is updated" ) {
@@ -102,7 +100,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
             REQUIRE( ammo.charges == mag_cap - 2 );
 
             bool ok = mag.reload( g->u, item_location( p, &ammo ), mag.ammo_capacity() );
-            THEN( "reloading is sucessful" ) {
+            THEN( "reloading is successful" ) {
                 REQUIRE( ok == true );
 
                 AND_THEN( "the current ammo is updated" ) {
@@ -131,7 +129,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                 REQUIRE( mag.ammo_remaining() == mag_cap - 2 );
 
                 bool ok = mag.reload( g->u, item_location( p, &ammo ), mag.ammo_capacity() );
-                THEN( "further reloading is sucessful" ) {
+                THEN( "further reloading is successful" ) {
                     REQUIRE( ok );
 
                     AND_THEN( "the magazine is filled to capacity" ) {
@@ -202,7 +200,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
             CHECK( mag.ammo_remaining() == 0 );
 
             bool ok = gun.reload( g->u, item_location( p, &mag ), 1 );
-            THEN( "reloading is sucessful" ) {
+            THEN( "reloading is successful" ) {
                 REQUIRE( ok );
                 REQUIRE( gun.magazine_current() );
 
@@ -229,7 +227,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
             CHECK( mag.ammo_remaining() == mag_cap - 2 );
 
             bool ok = gun.reload( g->u, item_location( p, &mag ), 1 );
-            THEN( "reloading is sucessful" ) {
+            THEN( "reloading is successful" ) {
                 REQUIRE( ok );
                 REQUIRE( gun.magazine_current() );
 
@@ -271,7 +269,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                     REQUIRE( ammo.charges == 10 );
 
                     bool ok = gun.magazine_current()->reload( g->u, item_location( p, &ammo ), 10 );
-                    THEN( "further reloading is sucessful" ) {
+                    THEN( "further reloading is successful" ) {
                         REQUIRE( ok );
 
                         AND_THEN( "the guns contained magazine is filled to capacity" ) {

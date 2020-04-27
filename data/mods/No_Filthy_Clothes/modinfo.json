@@ -5,7 +5,8 @@
     "name": "No Filthy Clothing",
     "description": "Clothes dropped by zombies will be completely clean.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "EXTERNAL_OPTION",

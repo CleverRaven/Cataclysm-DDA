@@ -89,12 +89,12 @@
     "difficulty": 4,
     "time": "15 m",
     "batch_time_factors": [ 83, 5 ],
-    "book_learn": [ [ "family_cookbook", 2 ], [ "cookbook", 2 ] ],
+    "book_learn": [ [ "family_cookbook", 2 ], [ "cookbook", 2 ], [ "cookbook_liverforkids", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "liver", 3 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "fry_oil", 1, "LIST" ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "salt", 1 ] ],
@@ -109,7 +109,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "25 m",
-    "autolearn": true,
+    "book_learn": [ [ "cookbook", 1 ], [ "scots_cookbook", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 45, "LIST" ] ] ],
     "components": [ [ [ "flour", 20 ] ], [ [ "meat_offal", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -166,7 +166,8 @@
     "difficulty": 3,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "stewed_tripe", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ] ]
+    "//": "No frying_oil as a tool, so this must be pan fried, not deep fried",
+    "components": [ [ [ "stewed_tripe", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "fry_oil", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -176,7 +177,7 @@
     "difficulty": 5,
     "time": "60 m",
     "batch_time_factors": [ 83, 5 ],
-    "book_learn": [ [ "cookbook", 3 ], [ "family_cookbook", 3 ] ],
+    "book_learn": [ [ "cookbook", 3 ], [ "family_cookbook", 3 ], [ "cookbook_liverforkids", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 75, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "food_processor", 20 ] ] ],
     "components": [
@@ -198,7 +199,7 @@
     "difficulty": 4,
     "time": "25 m",
     "batch_time_factors": [ 83, 5 ],
-    "book_learn": [ [ "cookbook", 2 ] ],
+    "book_learn": [ [ "cookbook", 2 ], [ "scots_cookbook", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 45, "LIST" ] ] ],
     "components": [
@@ -260,7 +261,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "autolearn": true,
+    "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "container": "jar_glass_sealed",
     "charges": 8,
     "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "liver", 8 ] ] ]
@@ -286,10 +287,10 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "liver", 8 ] ]
+      [ [ "liver", 4 ] ]
     ],
-    "charges": 8,
-    "autolearn": true
+    "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
+    "charges": 4
   },
   {
     "type": "recipe",
@@ -366,6 +367,51 @@
       [ [ "salt", 6 ] ],
       [ [ "pepper", 3 ] ],
       [ [ "milk_standard", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_casings",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "50 m",
+    "batch_time_factors": [ 83, 5 ],
+    "charges": 60,
+    "byproducts": [ [ "ruined_chunks", 2 ] ],
+    "//": "Charcuterie: The Craft of Salting, Smoking, and Curing would be a good book for someone to use for further meat products recipes.",
+    "book_learn": [ [ "offalcooking", 3 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
+    "tools": [ [ [ "funnel", -1 ] ] ],
+    "components": [ [ [ "stomach", 2 ], [ "stomach_large", 1 ] ], [ [ "salt", 20 ] ], [ [ "water", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "homemade_hotdogs",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "charges": 2,
+    "time": "10 m",
+    "book_learn": [ [ "offalcooking", 3 ] ],
+    "batch_time_factors": [ 50, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "components": [
+      [ [ "meat_nofish", 2, "LIST" ] ],
+      [ [ "sausage_casings", 2 ] ],
+      [
+        [ "salt_water", 4 ],
+        [ "saline", 8 ],
+        [ "salt", 4 ],
+        [ "chem_saltpetre", 2 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ]
     ]
   }
 ]

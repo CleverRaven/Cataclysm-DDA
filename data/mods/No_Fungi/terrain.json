@@ -67,7 +67,7 @@
   {
     "type": "terrain",
     "id": "t_fungus_wall",
-    "aliases": [ "t_fungus_wall_h", "t_fungus_wall_v" ],
+    "alias": [ "t_fungus_wall_h", "t_fungus_wall_v" ],
     "name": "fungal wall",
     "description": "Several thick, large tendrils of fungus perforate the wall here, piercing straight through it from the outside.  Despite the apparent damage, the wall is still structurally sound.",
     "symbol": "O",

@@ -12,7 +12,23 @@
     "blueprint_requires": [ { "id": "fbmw_0" } ],
     "blueprint_provides": [ { "id": "fbmw_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmw_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 10 h 30 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 230 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "mortar_build", 18 ] ],
+          [ [ "nail", 560 ] ],
+          [ [ "pebble", 450 ] ],
+          [ [ "rock", 216 ] ],
+          [ [ "wood_panel", 25 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,7 +43,24 @@
     "blueprint_requires": [ { "id": "fbmw_northeast", "amount": 3 } ],
     "blueprint_provides": [ { "id": "fbmw_north" } ],
     "blueprint_excludes": [ { "id": "fbmw_north" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 5 h 40 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 131 ] ],
+          [ [ "nail", 394 ] ],
+          [ [ "wood_panel", 23 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "rock", 144 ] ],
+          [ [ "pebble", 300 ] ],
+          [ [ "mortar_build", 12 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -42,7 +75,24 @@
     "blueprint_requires": [ { "id": "fbmw_north" } ],
     "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 13 h 55 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 281 ] ],
+          [ [ "nail", 746 ] ],
+          [ [ "wood_panel", 39 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "rock", 136 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "pebble", 200 ] ],
+          [ [ "mortar_build", 8 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -57,7 +107,24 @@
     "blueprint_requires": [ { "id": "fbmw_east" } ],
     "blueprint_provides": [ { "id": "fbmw_center" } ],
     "blueprint_excludes": [ { "id": "fbmw_center" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 19 h 5 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ], [ "tailor", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 152 ] ],
+          [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "mortar_build", 8 ] ],
+          [ [ "nail", 372 ] ],
+          [ [ "pebble", 200 ] ],
+          [ [ "rock", 96 ] ],
+          [ [ "wood_panel", 19 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -74,7 +141,31 @@
     "blueprint_excludes": [ { "id": "fbmw_north", "amount": 2 } ],
     "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
     "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 16 h 10 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 132 ] ],
+          [ [ "mortar_build", 7 ] ],
+          [ [ "nail", 380 ] ],
+          [ [ "pebble", 150 ] ],
+          [ [ "pipe", 16 ] ],
+          [ [ "rock", 112 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "sheet_metal_small", 8 ] ],
+          [ [ "water", 2 ], [ "water_clean", 2 ] ],
+          [ [ "wood_panel", 23 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -89,7 +180,24 @@
     "blueprint_requires": [ { "id": "fbmw_north", "amount": 2 } ],
     "blueprint_provides": [ { "id": "fbmw_northwest" }, { "id": "blacksmith_recipes_5" } ],
     "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 17 h 28 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 166 ] ],
+          [ [ "nail", 526 ] ],
+          [ [ "wood_panel", 31 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "rock", 264 ] ],
+          [ [ "pebble", 550 ] ],
+          [ [ "mortar_build", 22 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -106,6 +214,26 @@
     "blueprint_excludes": [ { "id": "fbmw_northsoutheast" }, { "id": "fbmw_south" } ],
     "blueprint_resources": [ "wrench", "pliers", "fake_drop_hammer" ],
     "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "4 d 10 h",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "metal_tank", 2 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "anvil", 1 ] ],
+          [ [ "chain", 4 ] ],
+          [ [ "pipe", 3 ] ],
+          [ [ "rock", 240 ] ],
+          [ [ "pebble", 500 ] ],
+          [ [ "mortar_build", 20 ] ],
+          [ [ "wood_panel", 44 ] ],
+          [ [ "2x4", 352 ] ],
+          [ [ "nail", 880 ] ]
+        ]
+      }
+    }
   }
 ]

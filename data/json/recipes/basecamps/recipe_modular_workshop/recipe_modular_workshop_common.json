@@ -14,7 +14,23 @@
     "blueprint_excludes": [ { "id": "fbmw_northeast", "amount": 2 } ],
     "blueprint_resources": [ "fake_forge", "fake_char_kiln", "crucible", "makeshift_hammer" ],
     "components": [ [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ], [ [ "primitive_hammer", 1 ], [ "makeshift_hammer", 1 ] ] ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "5 h 30 m",
+      "skills": [ [ "fabrication", 5 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 4 ] ],
+          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [ [ "nail", 8 ] ],
+          [ [ "rock", 80 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -31,7 +47,22 @@
     "blueprint_excludes": [ { "id": "fbmw_northeast", "amount": 3 } ],
     "blueprint_resources": [ "anvil" ],
     "components": [ [ [ "anvil", 1 ] ], [ [ "55gal_drum", 1 ] ], [ [ "30gal_drum", 1 ] ] ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "4 h 20 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 30 ], [ "toolset", 225 ], [ "welder", 150 ], [ "welder_crude", 225 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "components": [
+          [ [ "2x4", 6 ] ],
+          [ [ "nail", 40 ] ],
+          [ [ "pipe", 24 ] ],
+          [ [ "sheet_metal", 6 ] ],
+          [ [ "sheet_metal_small", 12 ] ],
+          [ [ "wood_panel", 4 ], [ "wood_sheet", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -48,6 +79,14 @@
     "blueprint_excludes": [ { "id": "fbmw_northeast", "amount": 4 } ],
     "blueprint_resources": [ "hammer_sledge", "copper_knife" ],
     "components": [ [ [ "hammer_sledge", 1 ] ], [ [ "knife_combat", 1 ], [ "copper_knife", 1 ] ] ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 h",
+      "skills": [ [ "fabrication", 1 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER" } ] ],
+        "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ]
+      }
+    }
   }
 ]

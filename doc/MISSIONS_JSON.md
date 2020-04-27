@@ -44,7 +44,7 @@ The name is also required, and is displayed to the user in the 'm'issions menu.
 
 ### description
 Not required, but it's strongly recommended that you summarize all relevant info for the mission.
-You may refer to mission end effects of the "u_buy_item" type, as long as they do not come at a 
+You may refer to mission end effects of the "u_buy_item" type, as long as they do not come at a
 cost to the player. See the example below:
 ```JSON
     "id": "MISSION_EXAMPLE_TOKENS",
@@ -62,21 +62,24 @@ This system may be expanded in the future to allow referring to other mission pa
 
 ### goal
 Must be included, and must be one of these strings:
-"MGOAL_GO_TO"             - Reach a specific overmap tile
-"MGOAL_GO_TO_TYPE"        - Reach any instance of a specified overmap tile type
-"MGOAL_COMPUTER_TOGGLE"   - Activating the correct terminal will complete the mission
-"MGOAL_FIND_ITEM"         - Find 1 or more items of a given type
-"MGOAL_FIND_ANY_ITEM"     - Find 1 or more items of a given type, tagged for this mission
-"MGOAL_FIND_MONSTER"      - Find and retrieve a friendly monster
-"MGOAL_FIND_NPC"          - Find a specific NPC
-"MGOAL_TALK_TO_NPC"       - Talk to a specific NPC
-"MGOAL_RECRUIT_NPC"       - Recruit a specific NPC
-"MGOAL_RECRUIT_NPC_CLASS" - Recruit an NPC of a specific class
-"MGOAL_ASSASSINATE"       - Kill a specific NPC
-"MGOAL_KILL_MONSTER"      - Kill a specific hostile monster
-"MGOAL_KILL_MONSTER_TYPE" - Kill some number of a specific monster type
-"MGOAL_KILL_MONSTER_SPEC" -  Kill some number of monsters from a specific species
-"MGOAL_CONDITION"         - Satisfy the dynamically created condition and talk to the mission giver
+
+goal string               | Goal conditions
+---                       | ---
+`MGOAL_GO_TO`             | Reach a specific overmap tile
+`MGOAL_GO_TO_TYPE`        | Reach any instance of a specified overmap tile type
+`MGOAL_COMPUTER_TOGGLE`   | Activating the correct terminal will complete the mission
+`MGOAL_FIND_ITEM`         | Find 1 or more items of a given type
+`MGOAL_FIND_ANY_ITEM`     | Find 1 or more items of a given type, tagged for this mission
+`MGOAL_FIND_MONSTER`      | Find and retrieve a friendly monster
+`MGOAL_FIND_NPC`          | Find a specific NPC
+`MGOAL_TALK_TO_NPC`       | Talk to a specific NPC
+`MGOAL_RECRUIT_NPC`       | Recruit a specific NPC
+`MGOAL_RECRUIT_NPC_CLASS` | Recruit an NPC of a specific class
+`MGOAL_ASSASSINATE`       | Kill a specific NPC
+`MGOAL_KILL_MONSTER`      | Kill a specific hostile monster
+`MGOAL_KILL_MONSTER_TYPE` | Kill some number of a specific monster type
+`MGOAL_KILL_MONSTER_SPEC` | Kill some number of monsters from a specific species
+`MGOAL_CONDITION`         | Satisfy the dynamically created condition and talk to the mission giver
 
 ### monster_species
 For "MGOAL_KILL_MONSTER_SPEC", sets the target monster species.
@@ -96,7 +99,7 @@ Conditions are explained in more detail in [NPCs.md](./NPCs.md), and are used he
 This is a dictionary of strings.  The NPC says these exact strings in response to the player
 inquiring about the mission or reporting its completion.  All these strings are required, even if they may not be used in the mission.
 
-string ID            |                                  Usage
+string ID            | Usage
 ---                  | ---
 `describe`           | The NPC's overall description of the mission
 `offer`              | The specifics of the mission given when the player selects that mission for consideration
@@ -110,8 +113,8 @@ string ID            |                                  Usage
 
 ### start
 Optional field.  If it is present and a string, it must be name of a function in mission_start::
-that takes a mission * and performs the start code for the mission.  This allows missions other 
-than the standard mission types to be run.  A hardcoded function is currently necessary to set 
+that takes a mission * and performs the start code for the mission.  This allows missions other
+than the standard mission types to be run.  A hardcoded function is currently necessary to set
 up missions with "MGOAL_COMPUTER_TOGGLE".
 
 Alternately, if present, it can be an object as described below.
@@ -153,17 +156,17 @@ are applied afterwards. The `om_terrain` is the only required field.
 `offset_x`,<br\>`offset_y`,<br\>`offset_z` | After finding or creating `om_terrain`, offset the mission target terrain by the offsets in overmap terrain coordinates.
 
 **example**
-```json
+```JSON
 {
-	"assign_mission_target": {
-		"om_terrain": "necropolis_c_44",
-		"om_special": "Necropolis",
-		"reveal_radius": 1,
-		"must_see": false,
-		"random": true,
-		"search_range": 180,
-		"z": -2
-	}
+  "assign_mission_target": {
+    "om_terrain": "necropolis_c_44",
+    "om_special": "Necropolis",
+    "reveal_radius": 1,
+    "must_see": false,
+    "random": true,
+    "search_range": 180,
+    "z": -2
+  }
 }
 ```
 
@@ -179,7 +182,7 @@ value as well--otherwise, the game will not know how to spawn the entire special
 * `TYPE` - The provided string must completely match the base type id of the
   overmap terrain id, which means that suffixes for rotation and linear terrain
   types are ignored.
-    
+
 * `PREFIX` - The provided string must be a complete prefix (with additional
   parts delimited by an underscore) of the overmap terrain id. For example,
   "forest" will match "forest" or "forest_thick" but not "forestcabin".
@@ -195,9 +198,9 @@ succeed (as it is competing for space with already-spawned specials).
 
 `om_terrain_replace` is only relevent if the `om_terrain` is not part of an overmap special.
 This value is used if the `om_terrain` cannot be found, and will be used as an alternative target
-which will then be replaced with the `om_terrain` value. 
+which will then be replaced with the `om_terrain` value.
 
-If `must_see` is set to true, the game will not create the terrain if it can't be found. It tries 
+If `must_see` is set to true, the game will not create the terrain if it can't be found. It tries
 to avoid having new terrains magically appear in areas where the player has already been, and this
 is a consequence.
 
@@ -241,12 +244,12 @@ In order to assign missions to NPCs, the first step is to find that NPC's defini
   "faction": "lobby_beggars"
 },
 ```
-Add a new line that defines the NPC's starting mission, eg: 
+Add a new line that defines the NPC's starting mission, eg:
 ```
 "mission_offered": "MISSION_BEGGAR_2_BOX_SMALL"
 ```
 
-Any NPC that has missions needs to have a dialogue option that leads to TALK_MISSION_LIST, to get the player 
+Any NPC that has missions needs to have a dialogue option that leads to TALK_MISSION_LIST, to get the player
 started on their first mission for the NPC, and either:
 
 * Add one of their talk_topic IDs to the list of generic mission reponse IDs in the first
@@ -256,7 +259,7 @@ TALK_MISSION_LIST_ASSIGNED.
 
 Either of these options will allow the player to do normal mission management dialogue with the NPC.
 
-This is an example of how a custom mission inquiry might appear.  This will only appear in the NPC's dialogue 
+This is an example of how a custom mission inquiry might appear.  This will only appear in the NPC's dialogue
 options if the player has already been assigned a mission.
 ```JSON
 {
@@ -275,5 +278,5 @@ options if the player has already been assigned a mission.
         "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
       }
     ]
-  },
- ```
+},
+```

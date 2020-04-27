@@ -1,31 +1,33 @@
+#include <algorithm>
+#include <cassert>
+#include <functional>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
-#include <algorithm>
-#include <functional>
 
 #include "avatar.h"
 #include "coordinate_conversions.h"
+#include "debug.h"
 #include "dialogue.h"
+#include "enum_conversions.h"
 #include "enums.h"
-#include "json.h"
-#include "mission.h"
 #include "game.h"
+#include "json.h"
+#include "line.h"
+#include "map_iterator.h"
 #include "mapgen_functions.h"
 #include "messages.h"
-#include "map_iterator.h"
+#include "mission.h"
 #include "npc.h"
-#include "npctalk.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
-#include "rng.h"
-#include "debug.h"
-#include "line.h"
 #include "omdata.h"
 #include "optional.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "point.h"
+#include "rng.h"
 #include "translations.h"
 #include "type_id.h"
-#include "point.h"
 
 static tripoint reveal_destination( const std::string &type )
 {
@@ -115,7 +117,7 @@ static tripoint random_house_in_city( const city_reference &cref )
     const tripoint city_center_omt = sm_to_omt_copy( cref.abs_sm_pos );
     std::vector<tripoint> valid;
     for( const tripoint &p : points_in_radius( city_center_omt, cref.city->size ) ) {
-        if( overmap_buffer.check_ot( "house", ot_match_type::type, p ) ) {
+        if( overmap_buffer.check_ot( "house", ot_match_type::prefix, p ) ) {
             valid.push_back( p );
         }
     }

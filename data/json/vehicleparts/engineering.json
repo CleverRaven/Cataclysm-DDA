@@ -2,7 +2,7 @@
   {
     "id": "crane_medium",
     "type": "vehicle_part",
-    "name": "boom crane",
+    "name": { "str": "boom crane" },
     "item": "cantilever_medium",
     "location": "structure",
     "symbol": "=",
@@ -25,7 +25,7 @@
     "id": "crane_medium_internal",
     "type": "vehicle_part",
     "copy-from": "crane_medium",
-    "name": "internal boom crane",
+    "name": { "str": "internal boom crane" },
     "location": "center",
     "delete": { "flags": [ "PROTRUSION" ] },
     "extend": { "flags": [ "OBSTACLE" ] }
@@ -33,7 +33,7 @@
   {
     "id": "crane_small",
     "type": "vehicle_part",
-    "name": "telescopic crane",
+    "name": { "str": "telescopic crane" },
     "item": "cantilever_small",
     "location": "center",
     "symbol": "=",
@@ -56,7 +56,7 @@
   {
     "id": "crane_tiny",
     "type": "vehicle_part",
-    "name": "pallet lifter",
+    "name": { "str": "pallet lifter" },
     "item": "pallet_lifter",
     "location": "center",
     "symbol": "=",
@@ -79,7 +79,7 @@
   {
     "id": "forklift_fork",
     "type": "vehicle_part",
-    "name": "forklift arm",
+    "name": { "str": "forklift arm" },
     "item": "frame",
     "location": "structure",
     "symbol": "|",
@@ -107,7 +107,7 @@
   {
     "id": "rockwheel",
     "type": "vehicle_part",
-    "name": "rockwheel",
+    "name": { "str": "rockwheel" },
     "item": "v_rockwheel_item",
     "location": "structure",
     "symbol": "&",
@@ -137,7 +137,7 @@
   {
     "type": "vehicle_part",
     "id": "air_jack",
-    "name": "air jack system",
+    "name": { "str": "air jack system" },
     "item": "v_airjack_item",
     "location": "under",
     "symbol": "[",
@@ -164,7 +164,7 @@
   {
     "type": "vehicle_part",
     "id": "motorcycle_kickstand",
-    "name": "motorcycle kickstand",
+    "name": { "str": "motorcycle kickstand" },
     "item": "v_motorcycle_kickstand_item",
     "symbol": "[",
     "broken_symbol": "/",

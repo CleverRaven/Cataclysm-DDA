@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "40x46mm_m118_casing", "40x46mm_m199_casing", "40x53mm_m169_casing" ],
+    "id": [ "40x46mm_m118_casing", "40x46mm_m199_casing", "40x46mm_m195_casing", "40x46mm_m212casing", "40x53mm_m169_casing" ],
     "type": "MIGRATION",
     "replace": "grenade_casing"
   },
@@ -34,7 +34,7 @@
     "replace": "shot_casing"
   },
   {
-    "id": [ "22_casing", "32_casing" ],
+    "id": [ "22_casing", "22_casing_new", "32_casing" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_casing"
   },
@@ -43,6 +43,7 @@
       "223_casing",
       "270win_casing",
       "300blk_casing",
+      "308_casing",
       "4570_casing",
       "545_casing",
       "762_51_casing",
@@ -57,5 +58,20 @@
     "id": [ "50_casing", "700nx_casing" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_casing"
+  },
+  {
+    "id": [ "ammolink308", "ammolink223" ],
+    "type": "MIGRATION",
+    "replace": "ammolinkrifle"
+  },
+  {
+    "id": "ammolink40mm",
+    "type": "MIGRATION",
+    "replace": "ammolinkgrenade"
+  },
+  {
+    "id": "ammolink50",
+    "type": "MIGRATION",
+    "replace": "ammolinkrifle_huge"
   }
 ]

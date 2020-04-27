@@ -1,21 +1,22 @@
 #pragma once
-#ifndef IUSE_H
-#define IUSE_H
+#ifndef CATA_SRC_IUSE_H
+#define CATA_SRC_IUSE_H
 
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "clone_ptr.h"
 #include "units.h"
 
 class Character;
-class item;
-class player;
 class JsonObject;
+class item;
 class monster;
-template<typename T> class ret_val;
+class player;
 struct iteminfo;
+template<typename T> class ret_val;
 
 using itype_id = std::string;
 struct tripoint;
@@ -27,9 +28,6 @@ class iuse
         // FOOD AND DRUGS (ADMINISTRATION)
         int sewage( player *, item *, bool, const tripoint & );
         int honeycomb( player *, item *, bool, const tripoint & );
-        int royal_jelly( player *, item *, bool, const tripoint & );
-        int caff( player *, item *, bool, const tripoint & );
-        int atomic_caff( player *, item *, bool, const tripoint & );
         int alcohol_weak( player *, item *, bool, const tripoint & );
         int alcohol_medium( player *, item *, bool, const tripoint & );
         int alcohol_strong( player *, item *, bool, const tripoint & );
@@ -71,6 +69,7 @@ class iuse
         int catfood( player *, item *, bool, const tripoint & );
         int feedcattle( player *, item *, bool, const tripoint & );
         int feedbird( player *, item *, bool, const tripoint & );
+        int antiasthmatic( player *, item *, bool, const tripoint & );
         // TOOLS
         int extinguisher( player *, item *, bool, const tripoint & );
         int hammer( player *, item *, bool, const tripoint & );
@@ -139,6 +138,7 @@ class iuse
         int dive_tank( player *, item *, bool, const tripoint & );
         int gasmask( player *, item *, bool, const tripoint & );
         int portable_game( player *, item *, bool, const tripoint & );
+        int fitness_check( player *p, item *it, bool, const tripoint & );
         int vibe( player *, item *, bool, const tripoint & );
         int hand_crank( player *, item *, bool, const tripoint & );
         int vortex( player *, item *, bool, const tripoint & );
@@ -188,6 +188,7 @@ class iuse
         int camera( player *, item *, bool, const tripoint & );
         int ehandcuffs( player *, item *, bool, const tripoint & );
         int foodperson( player *, item *, bool, const tripoint & );
+        int tow_attach( player *, item *, bool, const tripoint & );
         int cable_attach( player *, item *, bool, const tripoint & );
         int shavekit( player *, item *, bool, const tripoint & );
         int hairkit( player *, item *, bool, const tripoint & );
@@ -202,13 +203,10 @@ class iuse
         int break_stick( player *, item *, bool, const tripoint & );
         int weak_antibiotic( player *, item *, bool, const tripoint & );
         int strong_antibiotic( player *, item *, bool, const tripoint & );
-        int panacea( player *, item *, bool, const tripoint & );
-        int magnesium_tablet( player *, item *, bool, const tripoint & );
+        int melatonin_tablet( player *, item *, bool, const tripoint & );
         int coin_flip( player *, item *, bool, const tripoint & );
         int play_game( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
-        int gobag_normal( player *, item *, bool, const tripoint & );
-        int gobag_personal( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 
@@ -332,4 +330,4 @@ struct use_function {
         void dump_info( const item &, std::vector<iteminfo> & ) const;
 };
 
-#endif
+#endif // CATA_SRC_IUSE_H

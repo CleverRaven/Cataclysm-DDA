@@ -214,7 +214,7 @@
           "tabi_dress",
           "bastsandals",
           "backpack",
-          "compositebow",
+          "recurbow",
           "waterskin"
         ],
         "entries": [ { "item": "katana", "container-item": "scabbard" } ]
@@ -229,7 +229,7 @@
         "tabi_dress",
         "bastsandals",
         "backpack",
-        "compositebow",
+        "recurbow",
         "waterskin",
         "naginata"
       ],

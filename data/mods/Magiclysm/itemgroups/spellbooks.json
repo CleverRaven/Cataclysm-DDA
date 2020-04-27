@@ -26,7 +26,11 @@
       [ "spell_scroll_lightning_blast", 20 ],
       [ "spell_scroll_x-ray", 30 ],
       [ "spell_scroll_necrotic_gaze", 50 ],
-      [ "spell_scroll_crystallize_mana", 20 ]
+      [ "spell_scroll_crystallize_mana", 20 ],
+      [ "spell_scroll_biomancer_paralytic_dart", 40 ],
+      [ "spell_scroll_biomancer_visceral_projection", 40 ],
+      [ "spell_scroll_summon_wisps", 30 ],
+      [ "spell_scroll_stormshaper_wall_of_fog", 35 ]
     ]
   },
   {
@@ -61,7 +65,10 @@
       [ "spell_scroll_quantum_tunnel_lesser", 50 ],
       [ "spell_scroll_synaptic_stimulation", 20 ],
       [ "spell_scroll_purification_seed", 40 ],
-      [ "spell_scroll_crystallize_mana", 50 ]
+      [ "spell_scroll_crystallize_mana", 50 ],
+      [ "spell_scroll_earthshaper_stoneskin", 30 ],
+      [ "spell_scroll_earthshaper_pillar", 35 ],
+      [ "spell_scroll_biomancer_coagulant_weave", 30 ]
     ]
   },
   {
@@ -74,6 +81,7 @@
       [ "spell_scroll_recover_stamina", 25 ],
       [ "spell_scroll_recover_bionic_power", 25 ],
       [ "spell_scroll_summon_decayed_pouncer", 35 ],
+      [ "spell_scroll_summon_floating_disk", 25 ],
       [ "spell_scroll_vicious_tentacle", 40 ],
       [ "spell_scroll_bio_bonespear", 20 ],
       [ "spell_scroll_megablast", 10 ],
@@ -94,7 +102,9 @@
       [ "spell_scroll_animated_blade", 35 ],
       [ "spell_scroll_mirror_image", 15 ],
       [ "spell_scroll_holographic_transposition", 15 ],
-      [ "spell_scroll_dark_sight", 30 ]
+      [ "spell_scroll_dark_sight", 30 ],
+      [ "spell_scroll_druidic_regrowth", 20 ],
+      [ "spell_scroll_stormshaper_ionization", 40 ]
     ]
   },
   {
@@ -105,7 +115,9 @@
       [ "lightning_storm_scroll", 50 ],
       [ "spell_scroll_invisibility", 10 ],
       [ "spell_scroll_obfuscated_body", 10 ],
-      [ "spell_scroll_lava_bomb", 5 ]
+      [ "spell_scroll_lava_bomb", 5 ],
+      [ "spell_scroll_druidic_healing", 20 ],
+      [ "spell_scroll_overcharge_eyes", 50 ]
     ]
   },
   {

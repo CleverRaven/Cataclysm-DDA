@@ -10,10 +10,11 @@
 #include "mtype.h"
 #include "options.h"
 #include "rng.h"
+#include "string_id.h"
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
-//     Ie. a group with 1 monster at frequency will have 50% chance to spawn
+//     I.e. a group with 1 monster at frequency will have 50% chance to spawn
 //     the default monster.
 //     In the same spirit, if you have a total point count of over 1000, the
 //     default monster will never get picked, and nor will the others past the

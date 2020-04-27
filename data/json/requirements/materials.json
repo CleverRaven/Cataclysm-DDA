@@ -12,6 +12,12 @@
     "components": [ [ [ "lead", 1 ] ] ]
   },
   {
+    "id": "copper_scrap_equivalent",
+    "type": "requirement",
+    "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",
+    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 25 ] ] ]
+  },
+  {
     "id": "cordage",
     "type": "requirement",
     "//": "Materials used for tying items, primitive bowstrings, and other uses involving string or makeshift cordage, 36 g/90 cm of cordage per unit.",
@@ -151,10 +157,9 @@
       [
         [ "feather", 10 ],
         [ "duct_tape", 40 ],
-        [ "paper", 40 ],
+        [ "cardboard", 10 ],
         [ "bag_plastic", 1 ],
         [ "bottle_plastic_small", 1 ],
-        [ "box_small", 1 ],
         [ "plastic_chunk", 1 ],
         [ "aluminum_foil", 40 ],
         [ "cash_card", 2 ]

@@ -1,15 +1,18 @@
 #include "safemode_ui.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <fstream>
-#include <string>
-#include <algorithm>
 #include <map>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "color.h"
+#include "compatibility.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -20,12 +23,11 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "color.h"
-#include "compatibility.h"
-#include "cursesdef.h"
+#include "ui_manager.h"
 
 safemode &get_safemode()
 {
@@ -50,10 +52,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     auto character_rules_old = character_rules;
 
     const int header_height = 4;
-    const int content_height = FULL_SCREEN_HEIGHT - 2 - header_height;
-
-    const int offset_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int offset_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    int content_height = 0;
 
     enum Columns : int {
         COLUMN_RULE,
@@ -72,23 +71,57 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     const int num_columns = column_pos.size();
 
-    catacurses::window w_help =
-        catacurses::newwin( FULL_SCREEN_HEIGHT / 2 - 2, FULL_SCREEN_WIDTH * 3 / 4,
-                            point( offset_x + 19 / 2, 7 + offset_y + FULL_SCREEN_HEIGHT / 2 / 2 ) );
-    catacurses::window w_border =
-        catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point( offset_x, offset_y ) );
-    catacurses::window w_header =
-        catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
-                            point( 1 + offset_x, 1 + offset_y ) );
-    catacurses::window w =
-        catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
-                            point( 1 + offset_x, header_height + 1 + offset_y ) );
+    catacurses::window w_border;
+    catacurses::window w_header;
+    catacurses::window w;
 
-    /**
-     * All of the stuff in this lambda needs to be drawn (1) initially, and
-     * (2) after closing the HELP_KEYBINDINGS window (since it mangles the screen)
-    */
-    const auto initial_draw = [&]() {
+    ui_adaptor ui;
+
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        content_height = FULL_SCREEN_HEIGHT - 2 - header_height;
+
+        const int offset_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const int offset_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+
+        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point( offset_x, offset_y ) );
+        w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
+                                       point( 1 + offset_x, 1 + offset_y ) );
+        w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
+                                point( 1 + offset_x, header_height + 1 + offset_y ) );
+
+        ui.position_from_window( w_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
+
+    int tab = GLOBAL_TAB;
+    int line = 0;
+    int column = 0;
+    int start_pos = 0;
+    bool changes_made = false;
+    input_context ctxt( "SAFEMODE" );
+    ctxt.register_cardinal();
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "ADD_DEFAULT_RULESET" );
+    ctxt.register_action( "ADD_RULE" );
+    ctxt.register_action( "REMOVE_RULE" );
+    ctxt.register_action( "COPY_RULE" );
+    ctxt.register_action( "ENABLE_RULE" );
+    ctxt.register_action( "DISABLE_RULE" );
+    ctxt.register_action( "MOVE_RULE_UP" );
+    ctxt.register_action( "MOVE_RULE_DOWN" );
+    ctxt.register_action( "TEST_RULE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    if( is_safemode_in ) {
+        ctxt.register_action( "SWITCH_SAFEMODE_OPTION" );
+        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
+    }
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_border, BORDER_COLOR, custom_name_in );
 
         mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO ); // |-
@@ -138,39 +171,6 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         mvwprintz( w_header, point( column_pos[COLUMN_CATEGORY] + 2, 3 ), c_white, pgettext( "category",
                    "Cat" ) );
 
-        wrefresh( w_header );
-    };
-
-    initial_draw();
-
-    int tab = GLOBAL_TAB;
-    int line = 0;
-    int column = 0;
-    int start_pos = 0;
-    bool changes_made = false;
-    input_context ctxt( "SAFEMODE" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "ADD_DEFAULT_RULESET" );
-    ctxt.register_action( "ADD_RULE" );
-    ctxt.register_action( "REMOVE_RULE" );
-    ctxt.register_action( "COPY_RULE" );
-    ctxt.register_action( "ENABLE_RULE" );
-    ctxt.register_action( "DISABLE_RULE" );
-    ctxt.register_action( "MOVE_RULE_UP" );
-    ctxt.register_action( "MOVE_RULE_DOWN" );
-    ctxt.register_action( "TEST_RULE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-
-    if( is_safemode_in ) {
-        ctxt.register_action( "SWITCH_SAFEMODE_OPTION" );
-        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
-    }
-
-    while( true ) {
         int locx = 17;
         locx += shortcut_print( w_header, point( locx, 2 ), c_white,
                                 ( tab == GLOBAL_TAB ) ? hilite( c_white ) : c_white, _( "[<Global>]" ) ) + 1;
@@ -246,6 +246,12 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         }
 
         wrefresh( w );
+    } );
+
+    while( true ) {
+        auto &current_tab = ( tab == GLOBAL_TAB ) ? global_rules : character_rules;
+
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
 
@@ -261,9 +267,6 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 tab = MAX_TAB - 1;
                 line = 0;
             }
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            // de-mangle parts of the screen
-            initial_draw();
         } else if( action == "QUIT" ) {
             break;
         } else if( tab == CHARACTER_TAB && g->u.name.empty() ) {
@@ -320,39 +323,56 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         } else if( action == "CONFIRM" && !current_tab.empty() ) {
             changes_made = true;
             if( column == COLUMN_RULE ) {
-                switch( current_tab[line].category ) {
-                    case Categories::HOSTILE_SPOTTED:
-                        // NOLINTNEXTLINE(cata-use-named-point-constants)
-                        fold_and_print( w_help, point( 1, 1 ), 999, c_white,
-                                        _(
-                                            "* is used as a Wildcard.  A few Examples:\n"
-                                            "\n"
-                                            "human          matches every NPC\n"
-                                            "zombie         matches the monster name exactly\n"
-                                            "acidic zo*     matches monsters beginning with 'acidic zo'\n"
-                                            "*mbie          matches monsters ending with 'mbie'\n"
-                                            "*cid*zo*ie     multiple * are allowed\n"
-                                            "AcI*zO*iE      case insensitive search" )
-                                      );
-                        break;
-                    case Categories::SOUND:
-                        // NOLINTNEXTLINE(cata-use-named-point-constants)
-                        fold_and_print( w_help, point( 1, 1 ), 999, c_white,
-                                        _(
-                                            "* is used as a Wildcard.  A few Examples:\n"
-                                            "\n"
-                                            "footsteps      matches the sound name exactly\n"
-                                            "a loud ba*     matches sounds beginning with 'a loud ba'\n"
-                                            "*losion!       matches sounds ending with 'losion!'\n"
-                                            "a *oud*ba*     multiple * are allowed\n"
-                                            "*LoU*bA*       case insensitive search" )
-                                      );
-                        break;
-                    default:
-                        break;
-                }
-                draw_border( w_help );
-                wrefresh( w_help );
+                catacurses::window w_help;
+                ui_adaptor help_ui;
+                const auto init_help_window = [&]( ui_adaptor & help_ui ) {
+                    const int offset_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+                    const int offset_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+
+                    w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 - 2, FULL_SCREEN_WIDTH * 3 / 4,
+                                                 point( offset_x + 19 / 2, 7 + offset_y + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+
+                    help_ui.position_from_window( w_help );
+                };
+                init_help_window( help_ui );
+                help_ui.on_screen_resize( init_help_window );
+
+                help_ui.on_redraw( [&]( const ui_adaptor & ) {
+                    switch( current_tab[line].category ) {
+                        case Categories::HOSTILE_SPOTTED:
+                            // NOLINTNEXTLINE(cata-use-named-point-constants)
+                            fold_and_print( w_help, point( 1, 1 ), 999, c_white,
+                                            _(
+                                                "* is used as a Wildcard.  A few Examples:\n"
+                                                "\n"
+                                                "human          matches every NPC\n"
+                                                "zombie         matches the monster name exactly\n"
+                                                "acidic zo*     matches monsters beginning with 'acidic zo'\n"
+                                                "*mbie          matches monsters ending with 'mbie'\n"
+                                                "*cid*zo*ie     multiple * are allowed\n"
+                                                "AcI*zO*iE      case insensitive search" )
+                                          );
+                            break;
+                        case Categories::SOUND:
+                            // NOLINTNEXTLINE(cata-use-named-point-constants)
+                            fold_and_print( w_help, point( 1, 1 ), 999, c_white,
+                                            _(
+                                                "* is used as a Wildcard.  A few Examples:\n"
+                                                "\n"
+                                                "footsteps      matches the sound name exactly\n"
+                                                "a loud ba*     matches sounds beginning with 'a loud ba'\n"
+                                                "*losion!       matches sounds ending with 'losion!'\n"
+                                                "a *oud*ba*     multiple * are allowed\n"
+                                                "*LoU*bA*       case insensitive search" )
+                                          );
+                            break;
+                        default:
+                            break;
+                    }
+                    draw_border( w_help );
+                    wrefresh( w_help );
+                } );
+
                 current_tab[line].rule = wildcard_trim_rule( string_input_popup()
                                          .title( _( "Safe Mode Rule:" ) )
                                          .width( 30 )
@@ -481,37 +501,51 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         }
     }
 
-    const int offset_x = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    const int offset_y = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
-                               0 );
-
     int start_pos = 0;
-    const int content_height = FULL_SCREEN_HEIGHT - 8;
-    const int content_width = FULL_SCREEN_WIDTH - 30;
+    int content_height = 0;
+    int content_width = 0;
 
-    const catacurses::window w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
-            point( offset_x, offset_y ) );
-    const catacurses::window w_test_rule_content = catacurses::newwin( content_height,
-            content_width - 2,
-            point( 1 + offset_x, 1 + offset_y ) );
+    catacurses::window w_test_rule_border;
+    catacurses::window w_test_rule_content;
+
+    ui_adaptor ui;
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int offset_x = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+        const int offset_y = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+                                   0 );
+
+        content_height = FULL_SCREEN_HEIGHT - 8;
+        content_width = FULL_SCREEN_WIDTH - 30;
+
+        w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
+                             point( offset_x, offset_y ) );
+        w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
+                              point( 1 + offset_x, 1 + offset_y ) );
+
+        ui.position_from_window( w_test_rule_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     int nmatch = creature_list.size();
     const std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
                                            "%1$d monsters match: %2$s",
                                            nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
-    draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
-    center_print( w_test_rule_border, content_height + 1, red_background( c_white ),
-                  _( "Lists monsters regardless of their attitude." ) );
-
-    wrefresh( w_test_rule_border );
 
     int line = 0;
 
     input_context ctxt( "SAFEMODE_TEST" );
     ctxt.register_updown();
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    while( true ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
+        center_print( w_test_rule_border, content_height + 1, red_background( c_white ),
+                      _( "Lists monsters regardless of their attitude." ) );
+
+        wrefresh( w_test_rule_border );
+
         // Clear the lines
         for( int i = 0; i < content_height; i++ ) {
             for( int j = 0; j < 79; j++ ) {
@@ -538,6 +572,10 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         }
 
         wrefresh( w_test_rule_content );
+    } );
+
+    while( true ) {
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
@@ -550,7 +588,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
             if( line < 0 ) {
                 line = creature_list.size() - 1;
             }
-        } else {
+        } else if( action == "QUIT" ) {
             break;
         }
     }
@@ -688,16 +726,16 @@ bool safemode::is_sound_safe( const std::string &sound_name_in,
                               const int proximity_in ) const
 {
     bool sound_safe = false;
-    for( unsigned int i = 0; i < safemode_rules_sound.size(); i++ ) {
-        if( wildcard_match( sound_name_in, safemode_rules_sound[i].rule ) &&
-            proximity_in >= safemode_rules_sound[i].proximity ) {
-            if( safemode_rules_sound[i].whitelist ) {
+    for( const rules_class &rule : safemode_rules_sound ) {
+        if( wildcard_match( sound_name_in, rule.rule ) &&
+            proximity_in >= rule.proximity ) {
+            if( rule.whitelist ) {
                 sound_safe = true;
             } else {
                 return false;
             }
         }
-    };
+    }
     return sound_safe;
 }
 

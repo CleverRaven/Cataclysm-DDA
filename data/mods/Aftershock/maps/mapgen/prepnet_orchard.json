@@ -15,8 +15,8 @@
         "....__ddd....t.T.7d7....",
         "FFwww+wwFFFFFFFFFFFFFFFF",
         "FpwCcccwudd...d........F",
-        "F.wCcccWdbd..t.T.7.7...F",
-        "F.WcccHwdbdd...........F",
+        "F.wCcccWBbd..t.T.7.7...F",
+        "F.WcccHwBbdd...........F",
         "F.wCccHW.dd.....d......F",
         "FpwDccHwu#...t.T.7.7...F",
         "F.www+ww...............F",
@@ -49,19 +49,21 @@
         "b": "t_grass",
         "c": "t_thconc_floor",
         "d": "t_dirt",
+        "B": "t_dirt",
         "p": "t_grass",
         "t": "t_tree_plum",
         "u": "t_underbrush",
         "w": "t_wall_log",
         "F": "t_fence_barbed"
       },
-      "furniture": { "C": "f_chair", "D": "f_desk", "H": "f_sofa", "b": "f_bench" },
+      "furniture": { "C": "f_chair", "D": "f_desk", "H": "f_sofa", "b": "f_bench", "B": "f_table" },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
         { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },
         { "item": "supplies_farming", "x": 6, "y": 7, "chance": 15 },
         { "item": "supplies_farming", "x": 3, "y": 9, "chance": 99 }
       ],
+      "place_loot": [ { "group": "prepnet_orchard_trade", "chance": 100, "x": [ 8 ], "y": [ 8, 9 ], "repeat": [ 3, 7 ] } ],
       "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
       "place_monster": [
         { "group": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
@@ -86,8 +88,8 @@
         "....__ddd........7dt....",
         "FFwww+wwFFFFFFFFFFFFFFFF",
         "FpwCcccwUdd..#.s.......F",
-        "F.wCcccWdbd..#.s.7.t...F",
-        "F.WcccHwdbdd...........F",
+        "F.wCcccWBbd..#.s.7.t...F",
+        "F.WcccHwBbdd...........F",
         "F.wCccHW.ad............F",
         "FpwDccHwUu...#.s.7.t...F",
         "F.www+ww#....#.s.......F",
@@ -122,6 +124,7 @@
         "b": "t_grass",
         "c": "t_thconc_floor",
         "d": "t_dirt",
+        "B": "t_dirt",
         "p": "t_grass",
         "s": "t_shrub_blueberry",
         "t": "t_tree_apricot",
@@ -129,12 +132,13 @@
         "w": "t_wall_log",
         "F": "t_fence_barbed"
       },
-      "furniture": { "&": "f_trashcan", "C": "f_chair", "D": "f_desk", "H": "f_sofa", "a": "f_trashcan", "b": "f_bench" },
+      "furniture": { "&": "f_trashcan", "C": "f_chair", "D": "f_desk", "H": "f_sofa", "a": "f_trashcan", "b": "f_bench", "B": "f_table" },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
         { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },
         { "item": "supplies_farming", "x": 6, "y": 7, "chance": 15 }
       ],
+      "place_loot": [ { "group": "prepnet_orchard_trade", "chance": 100, "x": [ 8 ], "y": [ 8, 9 ], "repeat": [ 3, 7 ] } ],
       "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
       "place_monster": [
         { "group": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },

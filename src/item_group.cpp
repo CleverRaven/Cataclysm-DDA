@@ -2,22 +2,27 @@
 
 #include <algorithm>
 #include <cassert>
-#include <list>
 #include <set>
 
+#include "calendar.h"
+#include "compatibility.h"
 #include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "rng.h"
-#include "calendar.h"
-#include "compatibility.h"
-#include "enums.h"
 #include "type_id.h"
-#include "flat_set.h"
+#include "value_ptr.h"
 
 static const std::string null_item_id( "null" );
+
+static const std::string flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
+static const std::string flag_NON_FOULING( "NON-FOULING" );
+static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
+static const std::string flag_VARSIZE( "VARSIZE" );
 
 Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
 {
@@ -63,7 +68,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     } else if( type == S_NONE ) {
         return item( null_item_id, birthday );
     }
-    if( one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
+    if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
         tmp.item_tags.insert( "FIT" );
     }
     if( modifier ) {
@@ -233,15 +238,15 @@ void Item_modifier::modify( item &new_item ) const
 
     new_item.set_damage( rng( damage.first, damage.second ) );
     // no need for dirt if it's a bow
-    if( new_item.is_gun() && !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) &&
-        !new_item.has_flag( "NON-FOULING" ) ) {
+    if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
+        !new_item.has_flag( flag_NON_FOULING ) ) {
         int random_dirt = rng( dirt.first, dirt.second );
         // if gun RNG is dirty, must add dirt fault to allow cleaning
         if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
             new_item.faults.emplace( "fault_gun_dirt" );
             // chance to be unlubed, but only if it's not a laser or something
-        } else if( one_in( 10 ) && !new_item.has_flag( "NEEDS_NO_LUBE" ) ) {
+        } else if( one_in( 10 ) && !new_item.has_flag( flag_NEEDS_NO_LUBE ) ) {
             new_item.faults.emplace( "fault_gun_unlubricated" );
         }
     }
@@ -338,7 +343,7 @@ void Item_modifier::modify( item &new_item ) const
                           !new_item.magazine_current();
 
         if( spawn_mag ) {
-            new_item.contents.emplace_back( new_item.magazine_default(), new_item.birthday() );
+            new_item.put_in( item( new_item.magazine_default(), new_item.birthday() ) );
         }
 
         if( spawn_ammo ) {
@@ -358,7 +363,9 @@ void Item_modifier::modify( item &new_item ) const
 
     if( contents != nullptr ) {
         Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
-        new_item.contents.insert( new_item.contents.end(), contentitems.begin(), contentitems.end() );
+        for( const item &it : contentitems ) {
+            new_item.put_in( it );
+        }
     }
 
     for( auto &flag : custom_flags ) {

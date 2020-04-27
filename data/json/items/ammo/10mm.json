@@ -2,12 +2,13 @@
   {
     "id": "10mm_fmj",
     "type": "AMMO",
-    "name": "10mm Auto FMJ",
+    "name": { "str": "10mm Auto FMJ" },
     "description": "A jacketed 10mm Auto round.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
     "weight": "9 g",
     "volume": "250 ml",
     "price": 400,
-    "price_postapoc": 2800,
+    "price_postapoc": 800,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -16,8 +17,7 @@
     "ammo_type": "10mm",
     "casing": "10mm_casing",
     "range": 14,
-    "damage": 31,
-    "pierce": 4,
+    "damage": { "damage_type": "stab", "amount": 31, "armor_penetration": 4 },
     "dispersion": 50,
     "recoil": 750,
     "effects": [ "COOKOFF" ]
@@ -26,18 +26,23 @@
     "id": "bp_10mm_fmj",
     "copy-from": "10mm_fmj",
     "type": "AMMO",
-    "name": "10mm Auto FMJ, black powder",
-    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "name": { "str": "10mm Auto FMJ, black powder" },
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_10mm_fmj",
     "copy-from": "10mm_fmj",
     "type": "AMMO",
-    "name": "10mm Auto FMJ, reloaded",
-    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "name": { "str": "10mm Auto FMJ, reloaded" },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]
