@@ -31,8 +31,6 @@ class format_effect;
  */
 void formatted_set_simple( map *m, const point &start, const char *cstr,
                            const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b );
-void formatted_set_simple( map *m, int startx, int starty, const char *cstr,
-                           const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b );
 
 template<typename ID>
 class format_effect

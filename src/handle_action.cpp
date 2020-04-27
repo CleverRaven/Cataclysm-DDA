@@ -382,7 +382,7 @@ input_context game::get_player_input( std::string &action )
     return ctxt;
 }
 
-static void rcdrive( int dx, int dy )
+inline static void rcdrive( const point &d )
 {
     player &u = g->u;
     map &m = g->m;
@@ -412,7 +412,7 @@ static void rcdrive( int dx, int dy )
     }
     item *rc_car = rc_pair->second;
 
-    tripoint dest( cx + dx, cy + dy, cz );
+    tripoint dest( cx + d.x, cy + d.y, cz );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
         sounds::sound( dest, 7, sounds::sound_t::combat,
@@ -431,13 +431,7 @@ static void rcdrive( int dx, int dy )
     }
 }
 
-inline static void rcdrive( const point &d )
-{
-    return rcdrive( d.x, d.y );
-}
-
-void pldrive( const tripoint &p );
-static void pldrive( int x, int y, int z = 0 )
+static void pldrive( const tripoint &p )
 {
     if( !g->check_safe_mode_allowed() ) {
         return;
@@ -480,28 +474,28 @@ static void pldrive( int x, int y, int z = 0 )
             return;
         }
     }
-    if( z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
+    if( p.z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
         u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
         return;
     }
-    if( z != 0 && !g->m.has_zlevels() ) {
+    if( p.z != 0 && !g->m.has_zlevels() ) {
         u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
         return;
     }
-    if( z == -1 ) {
+    if( p.z == -1 ) {
         if( veh->check_heli_descend( u ) ) {
             u.add_msg_if_player( m_info, _( "You steer the vehicle into a descent." ) );
         } else {
             return;
         }
-    } else if( z == 1 ) {
+    } else if( p.z == 1 ) {
         if( veh->check_heli_ascend( u ) ) {
             u.add_msg_if_player( m_info, _( "You steer the vehicle into an ascent." ) );
         } else {
             return;
         }
     }
-    veh->pldrive( point( x, y ), z );
+    veh->pldrive( p.xy(), p.z );
 }
 
 inline static void pldrive( point d )

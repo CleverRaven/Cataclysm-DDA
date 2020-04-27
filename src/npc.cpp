@@ -2347,21 +2347,17 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-void maybe_shift( cata::optional<tripoint> &pos, const point &d );
-static void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+static void maybe_shift( cata::optional<tripoint> &pos, const point &d )
 {
     if( pos ) {
-        pos->x += dx;
-        pos->y += dy;
+        *pos += d;
     }
 }
 
-void maybe_shift( tripoint &pos, const point &d );
-static void maybe_shift( tripoint &pos, int dx, int dy )
+static void maybe_shift( tripoint &pos, const point &d )
 {
     if( pos != tripoint_min ) {
-        pos.x += dx;
-        pos.y += dy;
+        pos += d;
     }
 }
 
