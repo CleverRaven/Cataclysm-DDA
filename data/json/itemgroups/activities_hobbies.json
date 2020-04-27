@@ -197,6 +197,7 @@
       [ "knife_hunting", 18 ],
       [ "knife_rambo", 20 ],
       [ "machete", 5 ],
+      [ "machete_gimmick", 5 ],
       [ "vest", 15 ],
       [ "backpack", 38 ],
       [ "backpack_leather", 18 ],
