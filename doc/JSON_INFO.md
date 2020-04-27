@@ -1938,7 +1938,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "ammo": [ "NULL" ],       // Ammo types used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "firestarter" // Action performed when tool is used, see special definition below
-"purification_factor": 1    // If item is used to purify water, additional multiplicative factor to the time taken. 0 results in a constant time.
+"purification_factor": 1    // (OPTIONAL) If item is used to purify water, additional multiplicative factor to the time taken. 0 results in a constant time.
 ```
 
 ### Seed Data

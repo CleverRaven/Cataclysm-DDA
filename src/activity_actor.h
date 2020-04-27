@@ -142,10 +142,11 @@ class migration_cancel_activity_actor : public activity_actor
 class purify_water_activity_actor : public activity_actor
 {
     private:
+        item &liquid;
         int moves;
 
     public:
-        purify_water_activity_actor( int moves = 1 ) : moves( moves ) {}
+        purify_water_activity_actor( item *liquid, int moves = 1 ) : liquid( *liquid ), moves( moves ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_PURIFY_WATER" );

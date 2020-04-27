@@ -2131,14 +2131,13 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    //A factor of 0 represents a constant time to purify, such as with water purification tablets.
+    /** A factor of 0 represents a constant time to purify, such as with water purification tablets.*/
     if( factor == 0 ) {
-        p->assign_activity( player_activity( purify_water_activity_actor( to_moves<int>( 30_minutes ) ) ) );
+        p->assign_activity( player_activity( purify_water_activity_actor( &obj->contents.front(), to_moves<int>( 30_minutes ) ) ) );
     } else {
-        p->assign_activity( player_activity( purify_water_activity_actor( to_moves<int>( 2_minutes * liquid.charges * factor ) ) ) );
+        p->assign_activity( player_activity( purify_water_activity_actor( &obj->contents.front(), to_moves<int>( 2_minutes * liquid.charges * factor ) ) ) );
     }
-
-    liquid.convert( "water_clean" ).poison = 0;
+    
     return liquid.charges;
 }
 
