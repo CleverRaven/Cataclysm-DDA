@@ -108,6 +108,7 @@
     "bashing": 4,
     "price": 1500,
     "price_postapoc": 100,
+    "looks_like": "cable",
     "copy-from": "recharge_station"
   },
   {
