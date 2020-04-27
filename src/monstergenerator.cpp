@@ -328,6 +328,14 @@ void load_monster_adjustment( const JsonObject &jsobj )
     adjustments.push_back( adj );
 }
 
+static void build_behavior_tree( mtype &type )
+{
+    type.set_strategy();
+    if( type.has_flag( MF_ABSORBS ) || type.has_flag( MF_ABSORBS_SPLITS ) ) {
+        type.add_goal( "absorb_items" );
+    }
+}
+
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
@@ -368,6 +376,7 @@ void MonsterGenerator::finalize_mtypes()
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
 
+        build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
     }
 
