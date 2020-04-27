@@ -66,6 +66,141 @@
     "obsolete": true
   },
   {
+    "id": "tool_rdx_charge",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "RDX charge" },
+    "description": "This is a metal keg, filled with 50 liters worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
+    "weight": "106600 g",
+    "volume": "50 L",
+    "price": 90000,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": {
+      "power": 6700,
+      "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "scrap", "recovery": 1 },
+      "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
+    },
+    "use_action": {
+      "target": "tool_rdx_charge_act",
+      "msg": "You light the fuse on the explosive charge.  Clear the area!",
+      "target_charges": 100,
+      "active": true,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "tool_rdx_charge_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active RDX charge" },
+    "description": "This is a metal keg, filled with 50 liters worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
+    "weight": "106600 g",
+    "volume": "50 L",
+    "price": 0,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_red",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": {
+      "power": 6700,
+      "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "scrap", "recovery": 1 },
+      "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
+    },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Kshhh.",
+      "no_deactivate_msg": "You've already lit the fuse - clear the area immediately!",
+      "explosion": { "power": 67000, "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "shrapnel", "recovery": 1 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "id": "tool_anfo_charge",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "ANFO charge" },
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball.",
+    "weight": "77800 g",
+    "volume": "50 L",
+    "price": 75000,
+    "to_hit": -5,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": {
+      "power": 25000,
+      "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
+      "shrapnel": 12600
+    },
+    "use_action": {
+      "target": "tool_anfo_charge_act",
+      "msg": "You light the fuse on the ANFO charge.  Run survivor, run!",
+      "target_charges": 100,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "tool_anfo_charge_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active ANFO charge" },
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
+    "weight": "77800 g",
+    "volume": "50 L",
+    "price": 0,
+    "to_hit": -5,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "light_red",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 25000, "shrapnel": 12600 },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already lit the fuse - run!",
+      "explosion": {
+        "power": 48900,
+        "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
+        "shrapnel": 12600
+      }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "type": "recipe",
+    "result": "tool_anfo_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_rdx_charge",
+    "obsolete": true
+  },
+  {
     "type": "recipe",
     "result": "reloaded_laser_pack",
     "obsolete": true
@@ -496,6 +631,58 @@
     "capacity_multiplier": 2.0
   },
   {
+    "id": "pipebomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "pipe bomb" },
+    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you five turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
+    "weight": "730 g",
+    "//": "Only one third (410 g) of a whole pipe is being used",
+    "volume": "500 ml",
+    "price": 1500,
+    "to_hit": 1,
+    "bashing": 5,
+    "material": "steel",
+    "symbol": "*",
+    "color": "light_gray",
+    "use_action": {
+      "target": "pipebomb_act",
+      "msg": "You light the fuse on the pipe bomb.",
+      "target_charges": 6,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+  },
+  {
+    "id": "pipebomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active pipe bomb" },
+    "description": "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
+    "weight": "1298 g",
+    "volume": "500 ml",
+    "price": 0,
+    "to_hit": 1,
+    "bashing": 5,
+    "material": "steel",
+    "symbol": "*",
+    "color": "light_gray",
+    "initial_charges": 6,
+    "max_charges": 6,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { "power": 175, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+  },
+  {
     "result": "double_plutonium_core",
     "type": "recipe",
     "obsolete": true
@@ -504,6 +691,67 @@
     "result": "ring",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "pipebomb",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "tool_black_powder_charge",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "id": "tool_black_powder_charge",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "black gunpowder charge" },
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Should explode in a few minutes…",
+    "weight": "6500 g",
+    "volume": "4 L",
+    "price": 20000,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "use_action": {
+      "target": "tool_black_powder_charge_act",
+      "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
+      "target_charges": 20,
+      "active": true,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "tool_black_powder_charge_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active black gunpowder charge" },
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, whose fuse has been lit, its final countdown starting.",
+    "weight": "6500 g",
+    "volume": "4 L",
+    "price": 0,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "light_red",
+    "initial_charges": 20,
+    "max_charges": 20,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Kshhh.",
+      "no_deactivate_msg": "You've already lit the fuse - run!",
+      "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } }
+    }
   },
   {
     "id": "bio_scent_vision",

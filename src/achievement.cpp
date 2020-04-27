@@ -60,6 +60,7 @@ std::string enum_to_string<achievement_comparison>( achievement_comparison data 
         // *INDENT-OFF*
         case achievement_comparison::less_equal: return "<=";
         case achievement_comparison::greater_equal: return ">=";
+        case achievement_comparison::anything: return "anything";
         // *INDENT-ON*
         case achievement_comparison::last:
             break;
@@ -111,7 +112,8 @@ struct achievement_requirement {
         const JsonObject &jo = jin.get_object();
         if( !( jo.read( "event_statistic", statistic ) &&
                jo.read( "is", comparison ) &&
-               jo.read( "target", target ) ) ) {
+               ( comparison == achievement_comparison::anything ||
+                 jo.read( "target", target ) ) ) ) {
             jo.throw_error( "Mandatory field missing for achievement requirement" );
         }
     }
@@ -123,6 +125,9 @@ struct achievement_requirement {
                 return;
             case achievement_comparison::greater_equal:
                 becomes_false = is_decreasing( statistic->monotonicity() );
+                return;
+            case achievement_comparison::anything:
+                becomes_false = true;
                 return;
             case achievement_comparison::last:
                 break;
@@ -144,6 +149,8 @@ struct achievement_requirement {
                 return value <= target;
             case achievement_comparison::greater_equal:
                 return value >= target;
+            case achievement_comparison::anything:
+                return true;
             case achievement_comparison::last:
                 break;
         }
@@ -176,6 +183,14 @@ void achievement::time_bound::deserialize( JsonIn &jin )
     }
 }
 
+void achievement::time_bound::check( const string_id<achievement> &id ) const
+{
+    if( comparison_ == achievement_comparison::anything ) {
+        debugmsg( "Achievement %s has unconstrained \"anything\" time_constraint.  "
+                  "Please change it to a consequential comparison.", id.str() );
+    }
+}
+
 time_point achievement::time_bound::target() const
 {
     return epoch_to_time_point( epoch_ ) + period_;
@@ -197,6 +212,8 @@ achievement_completion achievement::time_bound::completed() const
             } else {
                 return achievement_completion::pending;
             }
+        case achievement_comparison::anything:
+            return achievement_completion::completed;
         case achievement_comparison::last:
             break;
     }
@@ -239,6 +256,8 @@ std::string achievement::time_bound::ui_text() const
                     case achievement_comparison::greater_equal:
                         return string_format( _( "At least %s from %s (passed)" ),
                                               to_string( period_ ), translate_epoch( epoch_ ) );
+                    case achievement_comparison::anything:
+                        return std::string();
                     case achievement_comparison::last:
                         break;
                 }
@@ -289,7 +308,8 @@ void achievement::reset()
 
 void achievement::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "description", description_ );
+    mandatory( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "description", description_ );
     optional( jo, was_loaded, "time_constraint", time_constraint_ );
     mandatory( jo, was_loaded, "requirements", requirements_ );
 }
@@ -298,6 +318,9 @@ void achievement::check() const
 {
     for( const achievement_requirement &req : requirements_ ) {
         req.check( id );
+    }
+    if( time_constraint_ ) {
+        time_constraint_->check( id );
     }
 }
 
@@ -326,8 +349,16 @@ class requirement_watcher : stat_watcher
             bool is_satisfied = requirement_->satisifed_by( current_value_ );
             nc_color c = is_satisfied ? c_green : c_yellow;
             int current = current_value_.get<int>();
-            std::string result = string_format( _( "%s/%s " ), current, requirement_->target );
-            result += requirement_->statistic->description();
+            int target;
+            std::string result;
+            if( requirement_->comparison == achievement_comparison::anything ) {
+                target = 1;
+                result = string_format( _( "Triggered by " ) );
+            } else {
+                target = requirement_->target;
+                result = string_format( _( "%s/%s " ), current, target );
+            }
+            result += requirement_->statistic->description().translated( target );
             return colorize( result, c );
         }
     private:
@@ -424,7 +455,10 @@ std::string achievement_tracker::ui_text( const achievement_state *state ) const
 
     // First: the achievement description
     nc_color c = color_from_completion( comp );
-    std::string result = colorize( achievement_->description(), c ) + "\n";
+    std::string result = colorize( achievement_->name(), c ) + "\n";
+    if( !achievement_->description().empty() ) {
+        result += "  " + colorize( achievement_->description(), c ) + "\n";
+    }
 
     if( comp == achievement_completion::completed ) {
         std::string message = string_format(

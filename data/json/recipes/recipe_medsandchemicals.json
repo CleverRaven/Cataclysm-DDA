@@ -154,11 +154,7 @@
     "book_learn": [ [ "textbook_chemistry", 5 ], [ "adv_chemistry", 5 ], [ "recipe_labchem", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [
-      [ [ "dayquil", 2 ], [ "royal_jelly", 1 ] ],
-      [ [ "aspirin", 40 ] ],
-      [ [ "caffeine", 20 ], [ "adderall", 5 ], [ "energy_drink", 2 ] ]
-    ]
+    "components": [ [ [ "dayquil", 2 ] ], [ [ "aspirin", 40 ] ], [ [ "caffeine", 20 ], [ "adderall", 5 ], [ "energy_drink", 2 ] ] ]
   },
   {
     "type": "recipe",

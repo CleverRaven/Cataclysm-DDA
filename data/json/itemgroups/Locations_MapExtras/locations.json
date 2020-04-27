@@ -1124,7 +1124,7 @@
       [ "ref_lighter", 2 ],
       [ "matches", 60 ],
       [ "sewage", 60 ],
-      [ "pipebomb", 4 ],
+      [ "improvised_pipebomb", 4 ],
       [ "crack", 8 ],
       [ "crackpipe", 37 ],
       [ "lsd", 10 ],

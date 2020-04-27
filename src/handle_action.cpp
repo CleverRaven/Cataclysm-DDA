@@ -801,10 +801,10 @@ static void smash()
                 add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
                 u.weapon.spill_contents( u.pos() );
                 sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
-                u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
+                u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 0, vol ) ) );
                 if( vol > 20 ) {
                     // Hurt left arm too, if it was big
-                    u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
+                    u.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_CUT, rng( 0,
                                    static_cast<int>( vol * .5 ) ) ) );
                 }
                 u.remove_weapon();

@@ -1461,31 +1461,63 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         }
 
         if( !ma.weapons.empty() ) {
+            std::vector<std::string> weapons;
+            std::transform( ma.weapons.begin(), ma.weapons.end(),
+                            std::back_inserter( weapons ), []( const std::string & wid )-> std::string { return item::nname( wid ); } );
+            // Sorting alphabetically makes it easier to find a specific weapon
+            std::sort( weapons.begin(), weapons.end() );
+            // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
+            auto last = std::unique( weapons.begin(), weapons.end() );
+            weapons.erase( last, weapons.end() );
+
             buffer += ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>",
-                                ma.weapons.size() ) + std::string( " " );
-            buffer += enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string & wid ) {
-                return item::nname( wid );
-            } );
+                                weapons.size() ) + std::string( " " );
+            buffer += enumerate_as_string( weapons );
         }
 
-        catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                      TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+        catacurses::window w;
 
-        std::string text = replace_colors( buffer );
-        int width = FULL_SCREEN_WIDTH - 4;
-        int height = FULL_SCREEN_HEIGHT - 2;
-        const auto vFolded = foldstring( text, width );
-        int iLines = vFolded.size();
+        const std::string text = replace_colors( buffer );
+        int width = 0;
+        int height = 0;
+        int iLines = 0;
         int selected = 0;
+
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                    point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+
+            width = FULL_SCREEN_WIDTH - 4;
+            height = FULL_SCREEN_HEIGHT - 2;
+
+            const auto vFolded = foldstring( text, width );
+            iLines = vFolded.size();
+
+            if( iLines < height ) {
+                selected = 0;
+            } else if( selected >= iLines - height ) {
+                selected = iLines - height;
+            }
+
+            ui.position_from_window( w );
+        } );
+        ui.mark_resize();
 
         input_context ict;
         ict.register_action( "UP" );
         ict.register_action( "DOWN" );
         ict.register_action( "QUIT" );
+        ict.register_action( "HELP_KEYBINDINGS" );
 
-        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            werase( w );
+            fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
+            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
+            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
+            wrefresh( w );
+        } );
 
         do {
             if( selected < 0 ) {
@@ -1496,12 +1528,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 selected = iLines - height;
             }
 
-            werase( w );
-            fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
-            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
-            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
-            wrefresh( w );
-            catacurses::refresh();
+            ui_manager::redraw();
 
             std::string action = ict.handle_input();
 

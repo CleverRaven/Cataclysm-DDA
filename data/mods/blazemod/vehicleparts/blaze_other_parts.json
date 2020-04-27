@@ -2,7 +2,7 @@
   {
     "type": "vehicle_part",
     "id": "cargo_rack_extended",
-    "name": "cargo shelving",
+    "name": { "str": "cargo shelving" },
     "symbol": "=",
     "looks_like": "box",
     "color": "light_gray",
@@ -28,7 +28,7 @@
   {
     "id": "solar_array",
     "type": "vehicle_part",
-    "name": "solar array",
+    "name": { "str": "solar array" },
     "item": "solar_array",
     "location": "center",
     "symbol": "#",
@@ -55,7 +55,7 @@
   {
     "id": "solar_array2",
     "type": "vehicle_part",
-    "name": "upgraded solar array",
+    "name": { "str": "upgraded solar array" },
     "item": "solar_array2",
     "location": "center",
     "symbol": "#",
@@ -82,7 +82,7 @@
   {
     "id": "solar_array2r",
     "type": "vehicle_part",
-    "name": "upgraded reinforced solar array",
+    "name": { "str": "upgraded reinforced solar array" },
     "item": "solar_array2r",
     "location": "center",
     "symbol": "#",
@@ -109,7 +109,7 @@
   {
     "id": "wiring",
     "type": "vehicle_part",
-    "name": "wiring",
+    "name": { "str": "wiring" },
     "item": "wire",
     "location": "structure",
     "symbol": ".",
@@ -130,7 +130,7 @@
   {
     "id": "stabilized_cargo_portal",
     "type": "vehicle_part",
-    "name": "pocket dimension cargo",
+    "name": { "str": "pocket dimension cargo" },
     "//": "Keep away from Svarog detectors!",
     "item": "stablilized_portal",
     "location": "center",

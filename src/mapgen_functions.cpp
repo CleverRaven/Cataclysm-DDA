@@ -117,7 +117,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_curved",     &mapgen_river_curved },
             { "parking_lot",      &mapgen_parking_lot },
             { "spider_pit", mapgen_spider_pit },
-            { "cave_rat", &mapgen_cave_rat },
             { "cavern", &mapgen_cavern },
             { "open_air", &mapgen_open_air },
             { "rift", &mapgen_rift },
@@ -1897,81 +1896,6 @@ void mapgen_parking_lot( mapgendata &dat )
         if( id.size() > 5 && id.find( "road_" ) == 0 ) {
             m->rotate( i );
         }
-    }
-}
-
-void mapgen_cave_rat( mapgendata &dat )
-{
-    map *const m = &dat.m;
-
-    fill_background( m, t_rock );
-
-    if( dat.above() == "cave_rat" ) {
-        // Finale
-        rough_circle( m, t_rock_floor, point( SEEX, SEEY ), 8 );
-        square( m, t_rock_floor, point( SEEX - 1, SEEY ), point( SEEX, SEEY * 2 - 2 ) );
-        line( m, t_slope_up, point( SEEX - 1, SEEY * 2 - 3 ), point( SEEX, SEEY * 2 - 2 ) );
-        for( int i = SEEX - 4; i <= SEEX + 4; i++ ) {
-            for( int j = SEEY - 4; j <= SEEY + 4; j++ ) {
-                if( ( i <= SEEX - 2 || i >= SEEX + 2 ) && ( j <= SEEY - 2 || j >= SEEY + 2 ) ) {
-                    m->add_spawn( mon_sewer_rat, 1, { i, j, m->get_abs_sub().z } );
-                }
-            }
-        }
-        m->add_spawn( mon_rat_king, 1, { SEEX, SEEY, m->get_abs_sub().z } );
-        m->place_items( "rare", 75, point( SEEX - 4, SEEY - 4 ), point( SEEX + 4, SEEY + 4 ), true,
-                        dat.when() );
-    } else {
-        // Level 1
-        int cavex = SEEX;
-        int cavey = SEEY * 2 - 3;
-        // Default stairs location--may change
-        int stairsx = SEEX - 1, stairsy = 1;
-        int centerx = 0;
-        do {
-            cavex += rng( -1, 1 );
-            cavey -= rng( 0, 1 );
-            for( int cx = cavex - 1; cx <= cavex + 1; cx++ ) {
-                for( int cy = cavey - 1; cy <= cavey + 1; cy++ ) {
-                    m->ter_set( point( cx, cy ), t_rock_floor );
-                    if( one_in( 10 ) ) {
-                        madd_field( m, point( cx, cy ), fd_blood, rng( 1, 3 ) );
-                    }
-                    if( one_in( 20 ) ) {
-                        m->add_spawn( mon_sewer_rat, 1, { cx, cy, m->get_abs_sub().z } );
-                    }
-                }
-            }
-            if( cavey == SEEY - 1 ) {
-                centerx = cavex;
-            }
-        } while( cavey > 2 );
-        // Now draw some extra passages!
-        do {
-            int tox = ( one_in( 2 ) ? 2 : SEEX * 2 - 3 ), toy = rng( 2, SEEY * 2 - 3 );
-            std::vector<point> path = line_to( point( centerx, SEEY - 1 ), point( tox, toy ), 0 );
-            for( auto &i : path ) {
-                for( int cx = i.x - 1; cx <= i.x + 1; cx++ ) {
-                    for( int cy = i.y - 1; cy <= i.y + 1; cy++ ) {
-                        m->ter_set( point( cx, cy ), t_rock_floor );
-                        if( one_in( 10 ) ) {
-                            madd_field( m, point( cx, cy ), fd_blood, rng( 1, 3 ) );
-                        }
-                        if( one_in( 20 ) ) {
-                            m->add_spawn( mon_sewer_rat, 1, { cx, cy, m->get_abs_sub().z } );
-                        }
-                    }
-                }
-            }
-            if( one_in( 2 ) ) {
-                stairsx = tox;
-                stairsy = toy;
-            }
-        } while( one_in( 2 ) );
-        // Finally, draw the stairs up and down.
-        m->ter_set( point( SEEX - 1, SEEX * 2 - 2 ), t_slope_up );
-        m->ter_set( point( SEEX, SEEX * 2 - 2 ), t_slope_up );
-        m->ter_set( point( stairsx, stairsy ), t_slope_down );
     }
 }
 

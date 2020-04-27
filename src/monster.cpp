@@ -2060,7 +2060,7 @@ void monster::process_turn()
 {
     decrement_summon_timer();
     if( !is_hallucination() ) {
-        for( const std::pair<emit_id, time_duration> &e : type->emit_fields ) {
+        for( const std::pair<const emit_id, time_duration> &e : type->emit_fields ) {
             if( !calendar::once_every( e.second ) ) {
                 continue;
             }

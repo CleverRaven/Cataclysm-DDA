@@ -653,20 +653,26 @@ construction_id construction_menu( const bool blueprint )
 
             notes.clear();
             if( tabindex == tabcount - 1 && !filter.empty() ) {
-                notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] to clear filter" ),
+                notes.push_back( string_format( _( "Press [<color_red>%s</color>] to clear filter." ),
                                                 ctxt.get_desc( "RESET_FILTER" ) ) );
             }
-            notes.push_back( string_format( _( "Press [<color_yellow>%s or %s</color>] "
-                                               "to tab." ), ctxt.get_desc( "LEFT" ),
+            notes.push_back( string_format( _( "Press [<color_yellow>%s or %s</color>] to tab." ),
+                                            ctxt.get_desc( "LEFT" ),
                                             ctxt.get_desc( "RIGHT" ) ) );
-            notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] "
-                                               "to search." ), ctxt.get_desc( "FILTER" ) ) );
-            notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] "
-                                               "to toggle unavailable constructions." ),
-                                            ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
-            notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] "
-                                               "to view and edit keybindings." ),
-                                            ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+            notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] to search." ),
+                                            ctxt.get_desc( "FILTER" ) ) );
+            if( !hide_unconstructable ) {
+                notes.push_back( string_format(
+                                     _( "Press [<color_yellow>%s</color>] to hide unavailable constructions." ),
+                                     ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
+            } else {
+                notes.push_back( string_format(
+                                     _( "Press [<color_red>%s</color>] to show unavailable constructions." ),
+                                     ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
+            }
+            notes.push_back( string_format(
+                                 _( "Press [<color_yellow>%s</color>] to view and edit keybindings." ),
+                                 ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
             recalc_buffer();
         } // Finished updating

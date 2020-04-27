@@ -63,7 +63,9 @@
       "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
-      "sloc_cemetery"
+      "sloc_cemetery",
+      "sloc_fire_station",
+      "sloc_police"
     ],
     "start_name": "In Town",
     "flags": [ "SUR_START", "CITY_START", "LONE_START" ]

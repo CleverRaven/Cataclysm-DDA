@@ -1,9 +1,84 @@
 [
   {
     "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "dks_mon_mossliz", "freq": 1, "cost_multiplier": 7, "starts": 72 },
+      { "monster": "dks_mon_mossliz", "freq": 3, "cost_multiplier": 7, "starts": 168 },
+      { "monster": "dks_mon_mossliz", "freq": 6, "cost_multiplier": 7, "starts": 576 },
+      { "monster": "dks_mon_mossliz", "freq": 9, "cost_multiplier": 7, "starts": 2160 },
+      { "monster": "dks_mon_packliz", "freq": 1, "cost_multiplier": 10, "pack_size": [ 3, 5 ], "starts": 96 },
+      { "monster": "dks_mon_packliz", "freq": 2, "cost_multiplier": 10, "pack_size": [ 3, 5 ], "starts": 192 },
+      { "monster": "dks_mon_packliz", "freq": 5, "cost_multiplier": 10, "pack_size": [ 3, 5 ], "starts": 600 },
+      { "monster": "dks_mon_packliz", "freq": 7, "cost_multiplier": 10, "pack_size": [ 3, 5 ], "starts": 2160 },
+      { "monster": "dks_mon_wisp", "freq": 1, "cost_multiplier": 1, "starts": 48, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "freq": 3, "cost_multiplier": 1, "starts": 96, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "freq": 6, "cost_multiplier": 1, "starts": 144, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "freq": 9, "cost_multiplier": 1, "starts": 192, "pack_size": [ 1, 6 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SWAMP",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "dks_mon_mossliz", "freq": 1, "cost_multiplier": 4, "starts": 72 },
+      { "monster": "dks_mon_mossliz", "freq": 3, "cost_multiplier": 4, "starts": 168 },
+      { "monster": "dks_mon_mossliz", "freq": 6, "cost_multiplier": 4, "starts": 576 },
+      { "monster": "dks_mon_mossliz", "freq": 9, "cost_multiplier": 4, "starts": 2160 },
+      { "monster": "dks_mon_packliz", "freq": 1, "cost_multiplier": 7, "pack_size": [ 3, 5 ], "starts": 96 },
+      { "monster": "dks_mon_packliz", "freq": 2, "cost_multiplier": 7, "pack_size": [ 3, 5 ], "starts": 192 },
+      { "monster": "dks_mon_packliz", "freq": 5, "cost_multiplier": 7, "pack_size": [ 3, 5 ], "starts": 600 },
+      { "monster": "dks_mon_packliz", "freq": 7, "cost_multiplier": 7, "pack_size": [ 3, 5 ], "starts": 2160 },
+      { "monster": "dks_mon_wisp", "freq": 1, "cost_multiplier": 1, "starts": 48, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "freq": 3, "cost_multiplier": 1, "starts": 96, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "freq": 6, "cost_multiplier": 1, "starts": 144, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "freq": 9, "cost_multiplier": 1, "starts": 192, "pack_size": [ 1, 6 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RIVER",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "dks_mon_lurker", "freq": 1, "cost_multiplier": 25, "starts": 96 },
+      { "monster": "dks_mon_lurker", "freq": 2, "cost_multiplier": 25, "starts": 672 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_SEWER",
     "default": "mon_sewer_rat",
     "is_animal": true,
-    "monsters": [ { "monster": "dks_mon_lurker_sewer", "freq": 10, "cost_multiplier": 2, "pack_size": [ 1, 2 ] } ]
+    "monsters": [
+      { "monster": "dks_mon_lurker_sewer", "freq": 1, "cost_multiplier": 10, "starts": 96 },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 5, "pack_size": [ 4, 6 ], "starts": 1440 },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 10, "pack_size": [ 7, 9 ], "starts": 2160 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SAFE",
+    "is_safe": true,
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [ { "monster": "dks_mon_wisp", "freq": 1, "cost_multiplier": 1, "starts": 48 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WORM",
+    "default": "mon_worm",
+    "is_animal": true,
+    "monsters": [ { "monster": "dks_mon_bileworm", "freq": 30, "cost_multiplier": 20 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "DUMP_ANIMALS",
+    "default": "mon_null",
+    "monsters": [ { "monster": "dks_mon_bileworm", "freq": 10, "cost_multiplier": 1, "starts": 48 } ]
   }
 ]

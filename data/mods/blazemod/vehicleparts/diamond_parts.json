@@ -2,7 +2,7 @@
   {
     "id": "dboard_horizontal",
     "type": "vehicle_part",
-    "name": "diamond barrier",
+    "name": { "str": "diamond barrier" },
     "item": "diamondplate",
     "location": "center",
     "symbol": "h",
@@ -52,7 +52,7 @@
   {
     "id": "dframe_cover",
     "type": "vehicle_part",
-    "name": "diamond frame",
+    "name": { "str": "diamond frame" },
     "item": "diamondframe",
     "location": "structure",
     "symbol": "^",
@@ -127,7 +127,7 @@
   {
     "id": "plating_diamond",
     "type": "vehicle_part",
-    "name": "diamond plating",
+    "name": { "str": "diamond plating" },
     "item": "diamondplate",
     "location": "armor",
     "symbol": ")",

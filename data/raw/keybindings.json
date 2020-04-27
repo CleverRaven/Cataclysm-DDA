@@ -1895,7 +1895,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View Scores",
+    "name": "View Achievements, Scores, and Kills",
     "category": "DEFAULTMODE",
     "id": "scores",
     "bindings": [ { "input_method": "keyboard", "key": ")" } ]

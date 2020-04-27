@@ -1181,7 +1181,7 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
 
-        for( const std::pair<emit_id, time_duration> &e : mon.emit_fields ) {
+        for( const std::pair<const emit_id, time_duration> &e : mon.emit_fields ) {
             const emit_id emid = e.first;
             if( !emid.is_valid() ) {
                 debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), emid.c_str() );

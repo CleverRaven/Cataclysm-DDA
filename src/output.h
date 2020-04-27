@@ -816,6 +816,8 @@ class scrolling_text_view
         void set_text( const std::string & );
         void scroll_up();
         void scroll_down();
+        void page_up();
+        void page_down();
         void draw( const nc_color &base_color );
     private:
         int text_width();

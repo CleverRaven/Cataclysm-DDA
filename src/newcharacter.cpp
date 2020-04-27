@@ -1560,10 +1560,10 @@ tab_direction set_profession( avatar &u, points_left &points,
             std::string g_switch_msg = u.male ?
                                        //~ Gender switch message. 1s - change key name, 2s - profession name.
                                        _( "Press <color_light_green>%1$s</color> to switch "
-                                          "to <color_magenta>%2$s</color> (<color_magenta>female</color>)." ) :
+                                          "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
                                        //~ Gender switch message. 1s - change key name, 2s - profession name.
                                        _( "Press <color_light_green>%1$s</color> to switch "
-                                          "to <color_magenta>%2$s</color> (<color_magenta>male</color>)." );
+                                          "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
             fold_and_print( w_genderswap, point_zero, ( TERMX / 2 ), c_light_gray, g_switch_msg.c_str(),
                             ctxt.get_desc( "CHANGE_GENDER" ),
                             sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
@@ -2274,7 +2274,7 @@ static void draw_height( const catacurses::window &w_height, const avatar &you,
     werase( w_height );
     mvwprintz( w_height, point_zero, highlight ? h_light_gray : c_light_gray, _( "Height:" ) );
     unsigned height_pos = 1 + utf8_width( _( "Height:" ) );
-    mvwprintz( w_height, point( height_pos, 0 ), c_light_green, string_format( "%d cm",
+    mvwprintz( w_height, point( height_pos, 0 ), c_white, string_format( "%d cm",
                you.base_height() ) );
     wrefresh( w_height );
 }
@@ -2284,7 +2284,7 @@ static void draw_age( const catacurses::window &w_age, const avatar &you, const 
     werase( w_age );
     mvwprintz( w_age, point_zero, highlight ? h_light_gray : c_light_gray, _( "Age:" ) );
     unsigned age_pos = 1 + utf8_width( _( "Age:" ) );
-    mvwprintz( w_age, point( age_pos, 0 ), c_light_green, string_format( "%d", you.base_age() ) );
+    mvwprintz( w_age, point( age_pos, 0 ), c_white, string_format( "%d", you.base_age() ) );
     wrefresh( w_age );
 }
 } // namespace char_creation
@@ -2322,7 +2322,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w_scenario = catacurses::newwin( 1, TERMX - 47, point( 46, 9 ) );
         w_profession = catacurses::newwin( 1, TERMX - 47, point( 46, 10 ) );
         w_skills = catacurses::newwin( TERMY - 12, 33, point( 46, 11 ) );
-        w_guide = catacurses::newwin( 4, TERMX - 3, point( 2, TERMY - 5 ) );
+        w_guide = catacurses::newwin( 6, TERMX - 3, point( 2, TERMY - 7 ) );
         w_height = catacurses::newwin( 1, 20, point( 80, 5 ) );
         w_age = catacurses::newwin( 1, 10, point( 80, 6 ) );
         ui.position_from_window( w );
@@ -2426,6 +2426,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
         std::vector<trait_id> current_traits = points.limit == points_left::TRANSFER ? you.get_mutations() :
                                                you.get_base_traits();
+        std::sort( current_traits.begin(), current_traits.end(), trait_display_sort );
         if( current_traits.empty() ) {
             wprintz( w_traits, c_light_red, _( "None!" ) );
         } else {
@@ -2475,20 +2476,36 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         }
         wrefresh( w_skills );
 
+
+        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX / 2 ), c_light_gray,
+                        _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
+                           "to cycle through name, height, and age." ),
+                        ctxt.get_desc( "LEFT" ),
+                        ctxt.get_desc( "RIGHT" ) );
+
+        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 3 ), ( TERMX / 2 ), c_light_gray,
+                        _( "Press <color_light_green>%s</color> and <color_light_green>%s</color> to change height and age." ),
+                        ctxt.get_desc( "UP" ),
+                        ctxt.get_desc( "DOWN" ) );
+
+        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), ( TERMX / 2 ), c_light_gray,
+                        _( "Press <color_light_green>%s</color> to enter popup input." ),
+                        ctxt.get_desc( "CONFIRM" ) );
+
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), ( TERMX / 2 ), c_light_gray,
                         _( "Press <color_light_green>%s</color> to finish character creation "
                            "or <color_light_green>%s</color> to go back." ),
                         ctxt.get_desc( "NEXT_TAB" ),
                         ctxt.get_desc( "PREV_TAB" ) );
         if( allow_reroll ) {
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), ( TERMX / 2 ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), ( TERMX / 2 ), c_light_gray,
                             _( "Press <color_light_green>%s</color> to save character template, "
                                "<color_light_green>%s</color> to re-roll or <color_light_green>%s</color> for random scenario." ),
                             ctxt.get_desc( "SAVE_TEMPLATE" ),
                             ctxt.get_desc( "REROLL_CHARACTER" ),
                             ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
         } else {
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), ( TERMX / 2 ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), ( TERMX / 2 ), c_light_gray,
                             _( "Press <color_light_green>%s</color> to save a template of this character." ),
                             ctxt.get_desc( "SAVE_TEMPLATE" ) );
         }
@@ -2514,8 +2531,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wrefresh( w_name );
 
         mvwprintz( w_gender, point_zero, c_light_gray, _( "Gender:" ) );
-        mvwprintz( w_gender, point( male_pos, 0 ), ( you.male ? c_light_red : c_light_gray ), _( "Male" ) );
-        mvwprintz( w_gender, point( female_pos, 0 ), ( you.male ? c_light_gray : c_light_red ),
+        mvwprintz( w_gender, point( male_pos, 0 ), ( you.male ? c_light_cyan : c_light_gray ),
+                   _( "Male" ) );
+        mvwprintz( w_gender, point( female_pos, 0 ), ( you.male ? c_light_gray : c_pink ),
                    _( "Female" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_gender, point( 0, 1 ), ( TERMX / 2 ), c_light_gray,
@@ -2536,7 +2554,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_location, point_zero, c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, point( utf8_width( _( "Starting location:" ) ) + 1, 0 ),
-                   you.random_start_location ? c_red : c_light_green,
+                   you.random_start_location ? c_red : c_white,
                    you.random_start_location ? remove_color_tags( random_start_location_text ) :
                    string_format( remove_color_tags( START_LOC_TEXT_TEMPLATE ),
                                   you.start_location.obj().name(),

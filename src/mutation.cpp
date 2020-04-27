@@ -647,7 +647,7 @@ void Character::deactivate_mutation( const trait_id &mut )
 
 trait_id Character::trait_by_invlet( const int ch ) const
 {
-    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.key == ch ) {
             return mut.first;
         }

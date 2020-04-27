@@ -14,6 +14,53 @@
     "volume": "5 L"
   },
   {
+    "result": "makeshift_grenade",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "id": "makeshift_grenade",
+    "copy-from": "grenade",
+    "type": "TOOL",
+    "name": { "str": "makeshift grenade" },
+    "description": "An improvised explosive device cobbled together from parts.  Use this item to pull the pin and light the fuse.  You will then have about 5 seconds before it explodes; throwing it would be a good idea.",
+    "weight": "350 g",
+    "price": 750,
+    "material": [ "aluminum", "iron" ],
+    "symbol": "*",
+    "color": "green",
+    "explode_in_fire": true,
+    "explosion": { "power": 175, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.4 } },
+    "use_action": {
+      "target": "makeshift_grenade_act",
+      "msg": "You pull the pin on the makeshift grenade.",
+      "rand_target_charges": [ 2, 7 ],
+      "active": true,
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "makeshift_grenade_act",
+    "copy-from": "makeshift_grenade",
+    "type": "TOOL",
+    "name": { "str": "active makeshift grenade" },
+    "description": "This is an active grenade, and will explode any second now.  Better throw it!",
+    "price": 0,
+    "rand_charges": [ 2, 7 ],
+    "max_charges": 7,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already pulled the %s's pin; try throwing it instead.",
+      "explosion": { "power": 175, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.4 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
     "id": "barrel_big",
     "type": "GUNMOD",
     "name": { "str": "barrel extension" },

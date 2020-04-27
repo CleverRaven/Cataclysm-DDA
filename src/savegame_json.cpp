@@ -505,7 +505,7 @@ void Character::load( const JsonObject &data )
         }
         std::map<trait_id, char> trait_keys;
         data.read( "mutation_keys", trait_keys );
-        for( const std::pair<trait_id, char> &k : trait_keys ) {
+        for( const std::pair<const trait_id, char> &k : trait_keys ) {
             my_mutations[k.first].key = k.second;
         }
         std::set<trait_id> active_muts;
@@ -565,14 +565,7 @@ void Character::load( const JsonObject &data )
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
-    std::string tmove_mode;
-    data.read( "move_mode", tmove_mode );
-    for( int i = 0; i < CMM_COUNT; ++i ) {
-        if( tmove_mode == character_movemode_str[i] ) {
-            move_mode = static_cast<character_movemode>( i );
-            break;
-        }
-    }
+    data.read( "move_mode", move_mode );
 
     if( has_effect( effect_riding ) ) {
         int temp_id;
@@ -721,7 +714,7 @@ void Character::store( JsonOut &json ) const
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
 
-    json.member( "move_mode", character_movemode_str[ move_mode ] );
+    json.member_as_string( "move_mode",  move_mode );
 
     // storing the mount
     if( is_mounted() ) {

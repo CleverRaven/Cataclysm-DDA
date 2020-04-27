@@ -158,8 +158,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return lcmatch( r->result_name(), txt );
 
             case search_type::skill:
-                return lcmatch( r->required_skills_string( nullptr ), txt ) ||
-                       lcmatch( r->skill_used->name(), txt );
+                return lcmatch( r->required_skills_string( nullptr, true, false ), txt );
 
             case search_type::primary_skill:
                 return lcmatch( r->skill_used->name(), txt );

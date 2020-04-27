@@ -3,7 +3,7 @@
     "id": "stablilized_portal",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": "stabilized portal",
+    "name": { "str": "stabilized portal" },
     "description": "As you gaze into the seemingly infinite depths of this portable hole in reality, a phrase from a time forever gone echoes in your mind.  \"There are two things that are infinite: the universe and human kleptomania.\"",
     "weight": "22813 g",
     "volume": "50 L",
@@ -17,7 +17,7 @@
   {
     "type": "GENERIC",
     "id": "vehicle_shelving",
-    "name": "vehicle shelving",
+    "name": { "str": "vehicle shelving" },
     "description": "Several heavy frames retrofitted to be installed together which are outfitted with tie-downs and attachment points gallore for carrying an extended amount of cargo.",
     "weight": "350000 g",
     "to_hit": -4,

@@ -254,7 +254,7 @@ class Creature
          * @param bp The attacked body part
          * @param dam The damage dealt
          */
-        virtual dealt_damage_instance deal_damage( Creature *source, body_part bp,
+        virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                 const damage_instance &dam );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain

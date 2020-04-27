@@ -1847,7 +1847,7 @@ void monster::knock_back_to( const tripoint &to )
     if( npc *const p = g->critter_at<npc>( to ) ) {
         apply_damage( p, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 1_turns );
-        p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
+        p->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->name );
         }

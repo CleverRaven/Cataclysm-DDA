@@ -22,6 +22,7 @@ class stats_tracker;
 enum class achievement_comparison {
     less_equal,
     greater_equal,
+    anything,
     last,
 };
 
@@ -58,6 +59,10 @@ class achievement
         string_id<achievement> id;
         bool was_loaded = false;
 
+        const translation &name() const {
+            return name_;
+        }
+
         const translation &description() const {
             return description_;
         }
@@ -72,6 +77,7 @@ class achievement
                 };
 
                 void deserialize( JsonIn & );
+                void check( const string_id<achievement> & ) const;
 
                 time_point target() const;
                 achievement_completion completed() const;
@@ -90,6 +96,7 @@ class achievement
             return requirements_;
         }
     private:
+        translation name_;
         translation description_;
         cata::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;
