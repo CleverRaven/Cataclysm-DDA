@@ -91,7 +91,7 @@ int vehicle::slowdown( int at_velocity ) const
     } else if( !is_falling && !is_flying ) {
         double f_rolling_drag = coeff_rolling_drag() * ( vehicles::rolling_constant_to_variable + mps );
         // increase rolling resistance by up to 25x if the vehicle is skidding at right angle to facing
-        const double skid_factor = 1 + 24 * std::abs( sin( DEGREES( face.dir() - move.dir() ) ) );
+        const double skid_factor = 1 + 24 * std::abs( std::sin( DEGREES( face.dir() - move.dir() ) ) );
         f_total_drag += f_rolling_drag * skid_factor;
     }
     double accel_slowdown = f_total_drag / to_kilogram( total_mass() );
@@ -1215,7 +1215,7 @@ rl_vec2d vehicle::velo_vec() const
 
 inline rl_vec2d degree_to_vec( double degrees )
 {
-    return rl_vec2d( cos( degrees * M_PI / 180 ), sin( degrees * M_PI / 180 ) );
+    return rl_vec2d( std::cos( degrees * M_PI / 180 ), std::sin( degrees * M_PI / 180 ) );
 }
 
 // normalized.
@@ -1466,7 +1466,7 @@ vehicle *vehicle::act_on_map()
         const float old_vel = vmiph_to_mps( vertical_velocity );
         // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
         // Note: That drops the sign
-        const float new_vel = -sqrt( 2 * tile_height * g + old_vel * old_vel );
+        const float new_vel = -std::sqrt( 2 * tile_height * g + old_vel * old_vel );
         vertical_velocity = mps_to_vmiph( new_vel );
         is_falling = true;
     } else {

@@ -24,7 +24,7 @@
     "id": "e_handcuffs",
     "copy-from": "e_handcuffs",
     "type": "TOOL",
-    "name": { "str": "electronic handcuffs", "str_pl": "electronic handcuffs" },
+    "name": { "str_sp": "electronic handcuffs" },
     "description": "A pair of electronic handcuffs, used by automated New Order units to detain captives.  Their continuous siren clearly identifies the wearer as a person of interet and alerts nearby 'safety teams' to their presence.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since capture is out of the question, you're probably in for a painful time, unless you get creative…"
   },
   {

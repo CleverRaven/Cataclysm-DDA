@@ -1408,7 +1408,7 @@ double item::average_dps( const player &guy ) const
 {
     double dmg_count = 0.0;
     const std::map<std::string, double> &dps_data = dps( false, true, guy );
-    for( const std::pair<std::string, double> &dps_entry : dps_data ) {
+    for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
         dmg_count += dps_entry.second;
     }
     return dmg_count / dps_data.size();
@@ -1678,8 +1678,8 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         const double multiplier = g->u.vitamin_rate( v.first ) / 1_days * 100;
         const int min_value = min_nutr.get_vitamin( v.first );
         const int max_value = v.second;
-        const int min_rda = lround( min_value * multiplier );
-        const int max_rda = lround( max_value * multiplier );
+        const int min_rda = std::lround( min_value * multiplier );
+        const int max_rda = std::lround( max_value * multiplier );
         const std::string format = min_rda == max_rda ? "%s (%i%%)" : "%s (%i-%i%%)";
         return string_format( format, v.first->name(), min_value, max_value );
     };
@@ -3108,7 +3108,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< body_part, size_t > &element : bid->env_protec ) {
+        for( const std::pair< const body_part, size_t > &element : bid->env_protec ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3118,7 +3118,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< body_part, size_t > &element : bid->bash_protec ) {
+        for( const std::pair< const body_part, size_t > &element : bid->bash_protec ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3128,7 +3128,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< body_part, size_t > &element : bid->cut_protec ) {
+        for( const std::pair< const body_part, size_t > &element : bid->cut_protec ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3209,7 +3209,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
             const std::map<std::string, double> &dps_data = dps( true, false );
             std::string sep;
-            for( const std::pair<std::string, double> &dps_entry : dps_data ) {
+            for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
                 info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
                                    iteminfo::no_newline | iteminfo::is_decimal,
                                    dps_entry.second );
@@ -3272,7 +3272,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "Critical hit chance %d%% - %d%%" ),
+                                      string_format( _( "Critical hit chance <neutral>%d%% - %d%%</neutral>" ),
                                               static_cast<int>( g->u.crit_chance( 0, 100, *this ) *
                                                       100 ),
                                               static_cast<int>( g->u.crit_chance( 100, 0, *this ) *
@@ -3280,27 +3280,27 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d bashing (%d on a critical hit)" ),
+                                      string_format( _( "<neutral>%d</neutral> bashing (<neutral>%d</neutral> on a critical hit)" ),
                                               static_cast<int>( non_crit.type_damage( DT_BASH ) ),
                                               static_cast<int>( crit.type_damage( DT_BASH ) ) ) ) );
         }
         if( ( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d cutting (%d on a critical hit)" ),
+                                      string_format( _( "<neutral>%d</neutral> cutting (<neutral>%d</neutral> on a critical hit)" ),
                                               static_cast<int>( non_crit.type_damage( DT_CUT ) ),
                                               static_cast<int>( crit.type_damage( DT_CUT ) ) ) ) );
         }
         if( ( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d piercing (%d on a critical hit)" ),
+                                      string_format( _( "<neutral>%d</neutral> piercing (<neutral>%d</neutral> on a critical hit)" ),
                                               static_cast<int>( non_crit.type_damage( DT_STAB ) ),
                                               static_cast<int>( crit.type_damage( DT_STAB ) ) ) ) );
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d moves per attack" ), attack_cost ) ) );
+                                      string_format( _( "<neutral>%d</neutral> moves per attack" ), attack_cost ) ) );
         }
         insert_separation_line( info );
     }
@@ -4877,7 +4877,7 @@ damage_instance item::base_damage_thrown() const
     return type->thrown_damage;
 }
 
-int item::reach_range( const player &p ) const
+int item::reach_range( const Character &guy ) const
 {
     int res = 1;
 
@@ -4888,7 +4888,7 @@ int item::reach_range( const player &p ) const
     // for guns consider any attached gunmods
     if( is_gun() && !is_gunmod() ) {
         for( const std::pair<const gun_mode_id, gun_mode> &m : gun_all_modes() ) {
-            if( p.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
+            if( guy.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
                 continue;
             }
             if( m.second.melee() ) {
@@ -5209,7 +5209,7 @@ static int calc_hourly_rotpoints_at_temp( const int temp )
     } else if( temp < dropoff ) {
         return ( temp - temperatures::freezing ) * dstep;
     } else {
-        return lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
+        return std::lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
     }
 }
 
@@ -5310,7 +5310,7 @@ units::volume item::get_storage() const
     }
     units::volume storage = t->storage;
     float mod = get_clothing_mod_val( clothing_mod_type_storage );
-    storage += lround( mod ) * units::legacy_volume_factor;
+    storage += std::lround( mod ) * units::legacy_volume_factor;
 
     return storage;
 }
@@ -5629,7 +5629,7 @@ int item::bash_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround( ( resist * eff_thickness ) + mod );
+    return std::lround( ( resist * eff_thickness ) + mod );
 }
 
 int item::cut_resist( bool to_self ) const
@@ -5658,7 +5658,7 @@ int item::cut_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround( ( resist * eff_thickness ) + mod );
+    return std::lround( ( resist * eff_thickness ) + mod );
 }
 
 #if defined(_MSC_VER)
@@ -5702,7 +5702,7 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return lround( resist + mod );
+    return std::lround( resist + mod );
 }
 
 int item::fire_resist( bool to_self, int base_env_resist ) const
@@ -5733,7 +5733,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return lround( resist + mod );
+    return std::lround( resist + mod );
 }
 
 int item::chip_resistance( bool worst ) const
@@ -8167,8 +8167,8 @@ void item::set_item_specific_energy( const float new_specific_energy )
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
-    temperature = lround( 100000 * new_item_temperature );
-    specific_energy = lround( 100000 * new_specific_energy );
+    temperature = std::lround( 100000 * new_item_temperature );
+    specific_energy = std::lround( 100000 * new_specific_energy );
     reset_temp_check();
 }
 
@@ -8202,8 +8202,8 @@ void item::set_item_temperature( float new_temperature )
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
     float freeze_percentage = 0;
 
-    temperature = lround( 100000 * new_temperature );
-    specific_energy = lround( 100000 * new_specific_energy );
+    temperature = std::lround( 100000 * new_temperature );
+    specific_energy = std::lround( 100000 * new_specific_energy );
 
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
@@ -8483,15 +8483,19 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
 
     return false;
 }
+bool item::has_rotten_away() const
+{
+    if( is_corpse() && !can_revive() ) {
+        return get_rot() > 10_days;
+    } else {
+        return is_food() && get_relative_rot() > 2.0;
+    }
+}
 
 bool item::has_rotten_away( const tripoint &pnt )
 {
-    if( is_corpse() && goes_bad() ) {
-        process_temperature_rot( 1, pnt, nullptr );
-        return get_rot() > 10_days && !can_revive();
-    } else if( goes_bad() ) {
-        process_temperature_rot( 1, pnt, nullptr );
-        return has_rotten_away();
+    if( goes_bad() ) {
+        return process_temperature_rot( 1, false, pnt, nullptr );
     } else if( type->container && type->container->preserves ) {
         // Containers like tin cans preserves all items inside, they do not rot at all.
         return false;
@@ -8499,7 +8503,7 @@ bool item::has_rotten_away( const tripoint &pnt )
         // Items inside rot but do not vanish as the container seals them in.
         for( item *c : contents.all_items_top() ) {
             if( c->goes_bad() ) {
-                c->process_temperature_rot( 1, pnt, nullptr );
+                c->process_temperature_rot( 1, true, pnt, nullptr );
             }
         }
         return false;
@@ -8644,7 +8648,8 @@ void item::apply_freezerburn()
     }
 }
 
-void item::process_temperature_rot( float insulation, const tripoint &pos,
+bool item::process_temperature_rot( float insulation, const bool seals,
+                                    const tripoint &pos,
                                     player *carrier, const temperature_flag flag )
 {
     const time_point now = calendar::turn;
@@ -8654,14 +8659,14 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - last_temp_check < 0_turns ) {
         reset_temp_check();
         last_rot_check = now;
-        return;
+        return false;
     }
 
     // process temperature and rot at most once every 100_turns (10 min)
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 10_minutes;
     if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
-        return;
+        return false;
     }
 
     int temp = g->weather.get_temperature( pos );
@@ -8708,8 +8713,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
         const weather_generator &wgen = g->weather.get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        const tripoint &local = g->m.getlocal( pos );
-        int local_mod = g->new_game ? 0 : g->m.get_temperature( local );
+        int local_mod = g->new_game ? 0 : g->m.get_temperature( pos );
 
         int enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
@@ -8773,9 +8777,9 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             if( process_rot && time - last_rot_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
-                if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
+                if( has_rotten_away() && carrier == nullptr && !seals ) {
                     // No need to track item that will be gone
-                    return;
+                    return true;
                 }
             }
         }
@@ -8787,14 +8791,19 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         calc_temp( temp, insulation, now );
         if( process_rot ) {
             calc_rot( now, temp );
+
+            if( has_rotten_away() && carrier == nullptr && !seals ) {
+                return true;
+            }
         }
-        return;
+        return false;
     }
 
     // Just now created items will get here.
     if( specific_energy < 0 ) {
         set_item_temperature( temp_to_kelvin( temp ) );
     }
+    return false;
 }
 
 void item::calc_temp( const int temp, const float insulation, const time_point &time )
@@ -8972,8 +8981,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
-    temperature = lround( 100000 * new_item_temperature );
-    specific_energy = lround( 100000 * new_specific_energy );
+    temperature = std::lround( 100000 * new_item_temperature );
+    specific_energy = std::lround( 100000 * new_specific_energy );
 
     last_temp_check = time;
 }
@@ -8993,7 +9002,7 @@ void item::heat_up()
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
     temperature = 333.15 * 100000;
-    specific_energy = lround( 100000 * get_specific_energy_from_temperature( 333.15 ) );
+    specific_energy = std::lround( 100000 * get_specific_energy_from_temperature( 333.15 ) );
 
     reset_temp_check();
 }
@@ -9007,7 +9016,7 @@ void item::cold_up()
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
     temperature = 276.15 * 100000;
-    specific_energy = lround( 100000 * get_specific_energy_from_temperature( 276.15 ) );
+    specific_energy = std::lround( 100000 * get_specific_energy_from_temperature( 276.15 ) );
 
     reset_temp_check();
 }
@@ -9460,6 +9469,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
                     temperature_flag flag )
 {
     const bool preserves = type->container && type->container->preserves;
+    const bool seals = type->container && type->container->seals;
     std::vector<item *> removed_items;
     visit_items( [&]( item * it ) {
         if( preserves ) {
@@ -9467,7 +9477,8 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
             // is not changed, the item is still fresh.
             it->last_rot_check = calendar::turn;
         }
-        if( it->process_internal( carrier, pos, activate, type->insulation_factor * insulation, flag ) ) {
+        if( it->process_internal( carrier, pos, activate, type->insulation_factor * insulation, seals,
+                                  flag ) ) {
             removed_items.push_back( it );
         }
         return VisitResponse::NEXT;
@@ -9479,7 +9490,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
 }
 
 bool item::process_internal( player *carrier, const tripoint &pos, bool activate,
-                             float insulation, const temperature_flag flag )
+                             float insulation, const bool seals, const temperature_flag flag )
 {
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         if( !has_var( "ethereal" ) ) {
@@ -9560,8 +9571,12 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         return process_tool( carrier, pos );
     }
     // All foods that go bad have temperature
-    if( has_temperature() ) {
-        process_temperature_rot( insulation, pos, carrier, flag );
+    if( has_temperature() &&
+        process_temperature_rot( insulation, seals, pos, carrier, flag ) ) {
+        if( is_comestible() ) {
+            g->m.rotten_item_spawn( *this, pos );
+        }
+        return true;
     }
 
     return false;

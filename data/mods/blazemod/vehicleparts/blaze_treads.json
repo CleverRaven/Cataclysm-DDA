@@ -2,7 +2,7 @@
   {
     "id": "tread1",
     "type": "vehicle_part",
-    "name": "rubber treads",
+    "name": { "str": "rubber treads" },
     "item": "tread1",
     "location": "under",
     "symbol": "|",
@@ -32,7 +32,7 @@
   {
     "id": "tread2",
     "type": "vehicle_part",
-    "name": "steel treads",
+    "name": { "str": "steel treads" },
     "item": "tread2",
     "location": "under",
     "symbol": "|",
@@ -61,7 +61,7 @@
   {
     "id": "tread3",
     "type": "vehicle_part",
-    "name": "tank treads",
+    "name": { "str": "tank treads" },
     "item": "tread3",
     "location": "under",
     "symbol": "|",

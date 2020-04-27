@@ -235,14 +235,14 @@ class game
         bool zone_blink = false;
         bool zone_cursor = false;
         bool is_looking = false;
+        cata::optional<tripoint> trail_start;
+        cata::optional<tripoint> trail_end;
+        bool trail_end_x = false;
 
     public:
         // when force_redraw is true, redraw all panel instead of just animated panels
         // mostly used after UI updates
         void draw_panels( bool force_draw = false );
-        // when force_redraw is true, redraw all panel instead of just animated panels
-        // mostly used after UI updates
-        void draw_panels( size_t column, size_t index, bool force_draw = false );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.
@@ -594,7 +594,6 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
-        void toggle_panel_adm();
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -725,7 +724,7 @@ class game
         void on_move_effects();
     private:
         // Game-start procedures
-        void load( const save_t &name ); // Load a player-specific save file
+        bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
         void load_shortcuts( std::istream &fin );
@@ -975,9 +974,6 @@ class game
         catacurses::window w_pixel_minimap;
         //only a pointer, can refer to w_messages_short or w_messages_long
 
-        catacurses::window w_panel_adm_ptr;
-        catacurses::window w_panel_adm;
-
         catacurses::window w_blackspace;
 
         // View offset based on the driving speed (if any)
@@ -1093,5 +1089,14 @@ class game
 int get_heat_radiation( const tripoint &location, bool direct );
 // Returns temperature modifier from hot air fields of given location
 int get_convection_temperature( const tripoint &location );
+
+namespace cata_event_dispatch
+{
+// Constructs and dispatches an avatar movement event with the necessary parameters
+// @param u The avatar moving
+// @param m The map the avatar is moving on
+// @param p The point the avatar is moving to on map m
+void avatar_moves( const avatar &u, const map &m, const tripoint &p );
+} // namespace cata_event_dispatch
 
 #endif // CATA_SRC_GAME_H

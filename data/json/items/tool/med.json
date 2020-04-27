@@ -133,7 +133,7 @@
     "id": "thermometer",
     "type": "TOOL",
     "category": "tools",
-    "name": { "str": "thermometer", "str_pl": "thermometers" },
+    "name": { "str": "thermometer" },
     "description": "A plastic thermometer that can read the air temperature.",
     "weight": "1 g",
     "volume": "250 ml",

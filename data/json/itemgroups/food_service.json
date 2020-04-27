@@ -760,6 +760,7 @@
       [ "currywurst", 5 ],
       [ "macaroni_cooked", 5 ],
       [ "lasagne", 5 ],
+      [ "foodplace_food", 2 ],
       [ "spaghetti_pesto", 5 ],
       [ "glazed_tenderloin", 5 ]
     ]
@@ -781,6 +782,7 @@
       [ "tomato", 20 ],
       [ "lettuce", 15 ],
       [ "zucchini", 15 ],
+      [ "foodplace_food", 20 ],
       [ "onion", 15 ],
       [ "chili_pepper", 15 ],
       [ "carrot", 15 ],
@@ -842,6 +844,7 @@
       [ "spaghetti_raw", 20 ],
       [ "lasagne_raw", 20 ],
       [ "macaroni_raw", 20 ],
+      [ "foodplace_food", 5 ],
       [ "knife_butcher", 10 ]
     ]
   },

@@ -542,15 +542,15 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
     }
 }
 
-TEST_CASE( "royal jelly", "[iuse][royal_jelly]" )
+TEST_CASE( "panacea", "[iuse][panacea]" )
 {
     avatar dummy;
-    item &jelly = dummy.i_add( item( "royal_jelly", 0, item::default_charges_tag{} ) );
+    item &panacea = dummy.i_add( item( "panacea", 0, item::default_charges_tag{} ) );
 
-    SECTION( "royal jelly gives cure-all effect" ) {
+    SECTION( "panacea gives cure-all effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "cureall" ) ) );
 
-        dummy.invoke_item( &jelly );
+        dummy.consume_item( panacea );
         CHECK( dummy.has_effect( efftype_id( "cureall" ) ) );
     }
 }

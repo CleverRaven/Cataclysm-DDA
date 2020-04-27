@@ -100,7 +100,7 @@ enum art_effect_passive : int {
     AEP_STEALTH, // Your steps are quieted
     AEP_EXTINGUISH, // May extinguish nearby flames
     AEP_GLOW, // Four-tile light source
-    AEP_PSYSHIELD, // Protection from stare attacks
+    AEP_PSYSHIELD, // Protection from fear paralyze attack
     AEP_RESIST_ELECTRICITY, // Protection from electricity
     AEP_CARRY_MORE, // Increases carrying capacity by 200
     AEP_SAP_LIFE, // Killing non-zombie monsters may heal you
@@ -281,5 +281,22 @@ struct game_message_params {
     /* Flags pertaining to the message */
     game_message_flags flags;
 };
+
+enum class monotonically : int {
+    constant,
+    increasing,
+    decreasing,
+    unknown,
+};
+
+constexpr bool is_increasing( monotonically m )
+{
+    return m == monotonically::constant || m == monotonically::increasing;
+}
+
+constexpr bool is_decreasing( monotonically m )
+{
+    return m == monotonically::constant || m == monotonically::decreasing;
+}
 
 #endif // CATA_SRC_ENUMS_H

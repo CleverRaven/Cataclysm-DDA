@@ -25,7 +25,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wheat",
-    "name": { "str": "wheat", "str_pl": "wheat" },
+    "name": { "str_sp": "wheat" },
     "weight": "203 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -45,7 +45,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_raw",
-    "name": { "str": "raw spaghetti pasta", "str_pl": "raw spaghetti pasta" },
+    "name": { "str_sp": "raw spaghetti pasta" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -65,7 +65,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lasagne_raw",
-    "name": { "str": "raw lasagne pasta", "str_pl": "raw lasagne pasta" },
+    "name": { "str_sp": "raw lasagne pasta" },
     "spoils_in": "360 days",
     "weight": "60 g",
     "color": "yellow",
@@ -85,7 +85,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spaghetti_cooked",
-    "name": { "str": "boiled noodles", "str_pl": "boiled noodles" },
+    "name": { "str_sp": "boiled noodles" },
     "weight": "148 g",
     "color": "yellow",
     "spoils_in": "20 hours",
@@ -105,7 +105,7 @@
   {
     "type": "COMESTIBLE",
     "id": "macaroni_raw",
-    "name": { "str": "raw macaroni", "str_pl": "raw macaroni" },
+    "name": { "str_sp": "raw macaroni" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -125,7 +125,7 @@
   {
     "type": "COMESTIBLE",
     "id": "macaroni_cooked",
-    "name": { "str": "mac & cheese", "str_pl": "mac & cheese" },
+    "name": { "str_sp": "mac & cheese" },
     "weight": "209 g",
     "color": "yellow",
     "spoils_in": "10 hours",
@@ -146,7 +146,7 @@
   {
     "type": "COMESTIBLE",
     "id": "flour",
-    "name": { "str": "flour", "str_pl": "flour" },
+    "name": { "str_sp": "flour" },
     "weight": "13 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -168,7 +168,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oatmeal",
-    "name": { "str": "oatmeal", "str_pl": "oatmeal" },
+    "name": { "str_sp": "oatmeal" },
     "weight": "25 g",
     "color": "light_gray",
     "spoils_in": "360 days",
@@ -190,7 +190,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oats",
-    "name": { "str": "oats", "str_pl": "oats" },
+    "name": { "str_sp": "oats" },
     "weight": "86 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -210,7 +210,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oatmeal_cooked",
-    "name": { "str": "cooked oatmeal", "str_pl": "cooked oatmeal" },
+    "name": { "str_sp": "cooked oatmeal" },
     "weight": "247 g",
     "color": "light_gray",
     "spoils_in": "10 days",
@@ -230,7 +230,7 @@
   {
     "type": "COMESTIBLE",
     "id": "oatmeal_deluxe",
-    "name": { "str": "deluxe cooked oatmeal", "str_pl": "deluxe cooked oatmeal" },
+    "name": { "str_sp": "deluxe cooked oatmeal" },
     "weight": "164 g",
     "color": "light_gray",
     "spoils_in": "10 days",
@@ -287,7 +287,7 @@
   {
     "type": "COMESTIBLE",
     "id": "frenchtoast",
-    "name": { "str": "French toast", "str_pl": "French toasts" },
+    "name": { "str": "French toast" },
     "weight": "42 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -418,7 +418,7 @@
   {
     "type": "COMESTIBLE",
     "id": "granola",
-    "name": { "str": "granola", "str_pl": "granola" },
+    "name": { "str_sp": "granola" },
     "weight": "32 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -466,7 +466,7 @@
   {
     "type": "COMESTIBLE",
     "id": "noodles_fast",
-    "name": { "str": "fast noodles", "str_pl": "fast noodles" },
+    "name": { "str_sp": "fast noodles" },
     "weight": "81 g",
     "color": "yellow",
     "spoils_in": "360 days",

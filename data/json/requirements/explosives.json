@@ -63,5 +63,11 @@
     "type": "requirement",
     "//": "This should contain all the explosives you need to set off with an explosive primer, but can be used without casting in a crucible. 10g tnt equivalent.",
     "components": [ [ [ "chem_ammonium_nitrate", 24 ], [ "chem_ammonium_nitrate_pellets", 24 ], [ "chem_anfo", 14 ], [ "chem_rdx", 6 ] ] ]
+  },
+  {
+    "id": "military_explosive",
+    "type": "requirement",
+    "//": "This should contain all the explosives you need to set off with an explosive primer or a fuze, and also need casting in a crucible. 10g tnt equivalent.",
+    "components": [ [ [ "chem_compositionb", 8 ] ] ]
   }
 ]

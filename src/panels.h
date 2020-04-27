@@ -79,7 +79,7 @@ class panel_manager
         int get_width_right();
         int get_width_left();
 
-        void draw_adm( const catacurses::window &w, size_t column = 0, size_t index = 1 );
+        void show_adm();
 
         void init();
 

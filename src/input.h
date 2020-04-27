@@ -115,14 +115,14 @@ struct input_event {
     int shortcut_last_used_action_counter;
 #endif
 
-    input_event() {
+    input_event() : edit_refresh( false ) {
         type = CATA_INPUT_ERROR;
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
     }
     input_event( int s, input_event_t t )
-        : type( t ) {
+        : type( t ), edit_refresh( false ) {
         sequence.push_back( s );
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
@@ -387,7 +387,7 @@ class input_context
 #endif
 
         input_context() : registered_any_input( false ), category( "default" ),
-            handling_coordinate_input( false ) {
+            coordinate_input_received( false ), handling_coordinate_input( false ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
@@ -396,7 +396,7 @@ class input_context
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
         input_context( const std::string &category ) : registered_any_input( false ),
-            category( category ), handling_coordinate_input( false ) {
+            category( category ), coordinate_input_received( false ), handling_coordinate_input( false ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;

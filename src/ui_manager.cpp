@@ -54,7 +54,16 @@ void ui_adaptor::position_from_window( const catacurses::window &win )
 
 void ui_adaptor::position( const point &topleft, const point &size )
 {
-    position_from_window( catacurses::newwin( size.y, size.x, topleft ) );
+    const rectangle old_dimensions = dimensions;
+    // ensure position is updated before calling invalidate
+#ifdef TILES
+    const window_dimensions dim = get_window_dimensions( topleft, size );
+    dimensions = rectangle( dim.window_pos_pixel, dim.window_pos_pixel + dim.window_size_pixel );
+#else
+    dimensions = rectangle( topleft, topleft + size );
+#endif
+    invalidated = true;
+    ui_manager::invalidate( old_dimensions );
 }
 
 void ui_adaptor::on_redraw( const redraw_callback_t &fun )

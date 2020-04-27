@@ -26,7 +26,7 @@
     "type": "COMESTIBLE",
     "id": "broth_bone",
     "name": "bone broth",
-    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "human %s", "str_pl": "human %s" } } ],
+    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "human %s" } } ],
     "weight": "267 g",
     "color": "yellow",
     "spoils_in": "6 days 16 hours",
@@ -77,7 +77,7 @@
     "name": "meat soup",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "sap soup" },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "weight": "253 g",
     "color": "red",
@@ -126,8 +126,7 @@
   {
     "type": "COMESTIBLE",
     "id": "curry_veggy",
-    "name": "curry",
-    "name_plural": "curries",
+    "name": { "str": "curry", "str_pl": "curries" },
     "weight": "263 g",
     "color": "red",
     "spoils_in": "5 days",
@@ -151,8 +150,7 @@
   {
     "type": "COMESTIBLE",
     "id": "curry_meat",
-    "name": "curry with meat",
-    "name_plural": "curries with meat",
+    "name": { "str": "curry with meat", "str_pl": "curries with meat" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "creature curry", "str_pl": "creature curries" } } ],
     "weight": "289 g",
     "color": "red",
@@ -274,8 +272,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_dumplings",
-    "name": "chicken and dumplings",
-    "name_plural": "chicken and dumplings",
+    "name": { "str_sp": "chicken and dumplings" },
     "weight": "263 g",
     "color": "light_gray",
     "spoils_in": "6 days 16 hours",

@@ -741,57 +741,6 @@ void activity_handlers::stash_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_on_turn_pickup()
-{
-    // ACT_PICKUP has item_locations of target items and quantities of the same.
-
-    // If we don't have target items bail out
-    if( g->u.activity.targets.empty() ) {
-        g->u.cancel_activity();
-        return;
-    }
-
-    // If the player moves while picking up (i.e.: in a moving vehicle) cancel the activity, only populate coords when grabbing from the ground
-    if( !g->u.activity.coords.empty() && g->u.activity.coords.at( 0 ) != g->u.pos() ) {
-        g->u.cancel_activity();
-        if( g->u.is_player() ) {
-            g->u.add_msg_if_player( _( "Moving canceled auto-pickup." ) );
-        }
-        return;
-    }
-
-    // Auto_resume implies autopickup.
-    const bool autopickup = g->u.activity.auto_resume;
-
-    // False indicates that the player canceled pickup when met with some prompt
-    const bool keep_going = Pickup::do_pickup( g->u.activity.targets, g->u.activity.values,
-                            autopickup );
-
-    // If there are items left we ran out of moves, so continue the activity
-    // Otherwise, we are done.
-    if( !keep_going || g->u.activity.targets.empty() ) {
-        g->u.cancel_activity();
-        if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-            g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
-        }
-    }
-
-    // TODO: Move this to advanced inventory instead of hacking it in here
-
-    if( !keep_going ) {
-        // The user canceled the activity, so we're done
-        g->u.cancel_activity();
-        // AIM might have more pickup activities pending, also cancel them.
-        // TODO: Move this to advanced inventory instead of hacking it in here
-        cancel_aim_processing();
-    } else if( g->u.activity.targets.empty() ) {
-        // The user did not cancel, but there's no item left
-        g->u.cancel_activity();
-        // But do not cancel AIM processing as it might have more pickup activities
-        // pending for other locations.
-    }
-}
-
 static double get_capacity_fraction( int capacity, int volume )
 {
     // fraction of capacity the item would occupy

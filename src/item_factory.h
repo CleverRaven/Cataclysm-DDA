@@ -301,6 +301,8 @@ class Item_factory
         void load( relic &slot, const JsonObject &jo, const std::string &src );
 
         //json data handlers
+        void emplace_usage( std::map<std::string, use_function> &container, const std::string &iuse_id );
+
         void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
                                         std::map<std::string, use_function> &use_methods );
 

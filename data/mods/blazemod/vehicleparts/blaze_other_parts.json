@@ -1,163 +1,34 @@
 [
   {
-    "id": "engine_steam_large",
-    "copy-from": "steam_engine",
     "type": "vehicle_part",
-    "item": "steam_triple_large",
-    "durability": 200,
-    "epower": 0,
-    "power": 242450,
-    "energy_consumption": 485000,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 60 ] },
-      { "item": "steel_chunk", "count": [ 30, 60 ] },
-      { "item": "scrap", "count": [ 30, 60 ] },
-      { "item": "water", "count": [ 50, 120 ] }
-    ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    }
-  },
-  {
-    "id": "engine_steam_giant",
-    "copy-from": "steam_engine",
-    "type": "vehicle_part",
-    "item": "steam_triple_giant",
-    "durability": 200,
-    "epower": 0,
-    "power": 447600,
-    "energy_consumption": 895250,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 60 ] },
-      { "item": "steel_chunk", "count": [ 30, 60 ] },
-      { "item": "scrap", "count": [ 30, 60 ] },
-      { "item": "water", "count": [ 50, 120 ] }
-    ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    }
-  },
-  {
-    "abstract": "steam_turbine",
-    "copy-from": "engine_combustion",
-    "type": "vehicle_part",
-    "fuel_type": "coal_lump",
-    "looks_like": "diesel_engine_v12",
-    "m2c": 75,
-    "//": "45% energy efficiency",
-    "description": "A closed cycle, external combustion steam turbine.  Burns coal from a bunker in the vehicle to produce steam.",
-    "extend": { "flags": [ "E_COLD_START" ] }
-  },
-  {
-    "id": "engine_steam_turbine_small",
-    "copy-from": "steam_turbine",
-    "type": "vehicle_part",
-    "item": "steam_turbine_small",
-    "durability": 200,
-    "epower": 0,
-    "power": 93250,
-    "energy_consumption": 207250,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 60 ] },
-      { "item": "steel_chunk", "count": [ 30, 60 ] },
-      { "item": "scrap", "count": [ 30, 60 ] },
-      { "item": "water", "count": [ 50, 120 ] }
-    ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    }
-  },
-  {
-    "id": "engine_steam_turbine_medium",
-    "copy-from": "steam_turbine",
-    "type": "vehicle_part",
-    "item": "steam_turbine_medium",
-    "durability": 200,
-    "epower": 0,
-    "power": 149200,
-    "energy_consumption": 331750,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 60 ] },
-      { "item": "steel_chunk", "count": [ 30, 60 ] },
-      { "item": "scrap", "count": [ 30, 60 ] },
-      { "item": "water", "count": [ 50, 120 ] }
-    ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    }
-  },
-  {
-    "id": "engine_steam_turbine_large",
-    "copy-from": "steam_turbine",
-    "type": "vehicle_part",
-    "item": "steam_turbine_large",
-    "durability": 200,
-    "epower": 0,
-    "power": 242450,
-    "energy_consumption": 539000,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 60 ] },
-      { "item": "steel_chunk", "count": [ 30, 60 ] },
-      { "item": "scrap", "count": [ 30, 60 ] },
-      { "item": "water", "count": [ 50, 120 ] }
-    ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    }
-  },
-  {
-    "id": "engine_steam_turbine_giant",
-    "copy-from": "steam_turbine",
-    "type": "vehicle_part",
-    "item": "steam_turbine_giant",
-    "durability": 200,
-    "epower": 0,
-    "power": 447600,
-    "energy_consumption": 994750,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 60 ] },
-      { "item": "steel_chunk", "count": [ 30, 60 ] },
-      { "item": "scrap", "count": [ 30, 60 ] },
-      { "item": "water", "count": [ 50, 120 ] }
-    ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    }
-  },
-  {
-    "abstract": "rack_blaze",
-    "type": "vehicle_part",
-    "item": "metal_tank_little",
-    "location": "under",
-    "symbol": "O",
+    "id": "cargo_rack_extended",
+    "name": { "str": "cargo shelving" },
+    "symbol": "=",
+    "looks_like": "box",
+    "color": "light_gray",
     "broken_symbol": "#",
-    "color": "brown",
-    "broken_color": "blue",
-    "description": "This part is obsolete.  It should not be installed in a vehicle, and if it is installed, you can safely uninstall it.",
-    "durability": 150,
+    "broken_color": "dark_gray",
+    "durability": 250,
+    "size": 4000,
+    "item": "vehicle_shelving",
+    "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "120 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "120 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "damage_modifier": 80
+    "flags": [ "OBSTACLE", "CARGO", "COVERED" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 16 ] },
+      { "item": "steel_chunk", "count": [ 6, 16 ] },
+      { "item": "scrap", "count": [ 6, 16 ] }
+    ],
+    "damage_reduction": { "all": 28 }
   },
   {
     "id": "solar_array",
     "type": "vehicle_part",
-    "name": "solar array",
+    "name": { "str": "solar array" },
     "item": "solar_array",
     "location": "center",
     "symbol": "#",
@@ -184,7 +55,7 @@
   {
     "id": "solar_array2",
     "type": "vehicle_part",
-    "name": "upgraded solar array",
+    "name": { "str": "upgraded solar array" },
     "item": "solar_array2",
     "location": "center",
     "symbol": "#",
@@ -211,7 +82,7 @@
   {
     "id": "solar_array2r",
     "type": "vehicle_part",
-    "name": "upgraded reinforced solar array",
+    "name": { "str": "upgraded reinforced solar array" },
     "item": "solar_array2r",
     "location": "center",
     "symbol": "#",
@@ -238,7 +109,7 @@
   {
     "id": "wiring",
     "type": "vehicle_part",
-    "name": "wiring",
+    "name": { "str": "wiring" },
     "item": "wire",
     "location": "structure",
     "symbol": ".",
@@ -254,28 +125,28 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 s" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 s" }
     },
-    "flags": [ "FOLDABLE", "AISLE" ]
+    "flags": [ "INITIAL_PART", "FOLDABLE", "AISLE" ]
   },
   {
-    "id": "space_anomaly",
+    "id": "stabilized_cargo_portal",
     "type": "vehicle_part",
-    "name": "cargo dimension",
+    "name": { "str": "pocket dimension cargo" },
     "//": "Keep away from Svarog detectors!",
-    "item": "space_anomaly",
+    "item": "stablilized_portal",
     "location": "center",
     "symbol": "O",
     "broken_symbol": "O",
     "color": "magenta",
     "broken_color": "magenta",
     "durability": 400,
-    "size": 40000,
+    "size": 6000,
     "cargo_weight_modifier": 0,
-    "breaks_into": [  ],
+    "breaks_into": [ { "item": "cargo_rack", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "CARGO", "COVERED", "UNMOUNT_ON_DAMAGE" ]
+    "flags": [ "CARGO", "COVERED" ]
   }
 ]

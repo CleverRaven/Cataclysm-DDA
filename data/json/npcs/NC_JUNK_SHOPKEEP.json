@@ -135,7 +135,7 @@
       { "item": "remington_870", "prob": 10 },
       { "item": "mossberg_500", "prob": 5 },
       { "item": "shotgun_d", "prob": 5 },
-      { "item": "pipebomb", "prob": 10 },
+      { "item": "improvised_pipebomb", "prob": 10 },
       { "item": "molotov", "prob": 10 },
       { "item": "longbow", "prob": 5 },
       { "item": "recurbow", "prob": 15 },

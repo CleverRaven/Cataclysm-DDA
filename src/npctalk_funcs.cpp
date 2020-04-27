@@ -342,7 +342,6 @@ void talk_function::goto_location( npc &p )
         add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
         return;
     }
-    p.set_companion_mission( p.global_omt_location(), "TRAVELER", "traveling", destination );
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.guard_pos = npc::no_goal_point;
@@ -359,12 +358,6 @@ void talk_function::assign_guard( npc &p )
 
     if( p.has_player_activity() ) {
         p.revert_after_activity();
-    }
-
-    if( p.is_travelling() ) {
-        if( p.has_companion_mission() ) {
-            p.reset_companion_mission();
-        }
     }
     p.set_attitude( NPCATT_NULL );
     p.set_mission( NPC_MISSION_GUARD_ALLY );
@@ -395,12 +388,6 @@ void talk_function::assign_camp( npc &p )
         if( p.has_player_activity() ) {
             p.revert_after_activity();
         }
-
-        if( p.is_travelling() ) {
-            if( p.has_companion_mission() ) {
-                p.reset_companion_mission();
-            }
-        }
         p.chatbin.first_topic = "TALK_FRIEND_GUARD";
         p.set_omt_destination();
     }
@@ -416,6 +403,9 @@ void talk_function::stop_guard( npc &p )
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.set_mission( NPC_MISSION_NULL );
+    if( p.has_companion_mission() ) {
+        p.reset_companion_mission();
+    }
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;

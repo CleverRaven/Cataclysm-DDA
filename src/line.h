@@ -34,7 +34,7 @@ constexpr double ARCMIN( double v )
 inline double iso_tangent( double distance, double vertex )
 {
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
-    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( ARCMIN( vertex ) ) ) );
+    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - std::cos( ARCMIN( vertex ) ) ) );
 }
 
 //! This compile-time usable function combines the sign of each (x, y, z) component into a single integer

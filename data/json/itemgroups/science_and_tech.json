@@ -174,7 +174,7 @@
       [ "salt_water", 20 ],
       { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "ammonia", "prob": 24, "charges-min": 10 },
-      [ "royal_jelly", 8 ],
+      [ "panacea", 8 ],
       [ "superglue", 30 ],
       [ "bottle_glass", 10 ],
       [ "syringe", 8 ],

@@ -509,7 +509,7 @@
     "price": 1300,
     "price_postapoc": 50,
     "to_hit": 2,
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "yellow",

@@ -36,7 +36,7 @@
     "id": "mboots_escape",
     "type": "TOOL_ARMOR",
     "copy-from": "boots_hiking",
-    "name": { "str": "escape boots", "str_pl": "escape boots" },
+    "name": { "str_sp": "escape boots" },
     "looks_like": "boots_hiking",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, these boots can be activated once a day to escape from nasty situations, teleporting you a good distance in a random direction.",
     "initial_charges": 24,

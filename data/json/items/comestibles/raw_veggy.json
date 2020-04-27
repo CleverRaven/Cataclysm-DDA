@@ -40,7 +40,7 @@
   {
     "type": "COMESTIBLE",
     "id": "broccoli",
-    "name": { "str": "broccoli", "str_pl": "broccoli" },
+    "name": { "str_sp": "broccoli" },
     "weight": "96 g",
     "color": "green",
     "spoils_in": "6 days 16 hours",
@@ -60,7 +60,7 @@
   {
     "type": "COMESTIBLE",
     "id": "buckwheat",
-    "name": { "str": "buckwheat", "str_pl": "buckwheat" },
+    "name": { "str_sp": "buckwheat" },
     "weight": "180 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -104,7 +104,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spinach",
-    "name": { "str": "spinach", "str_pl": "spinach" },
+    "name": { "str_sp": "spinach" },
     "weight": "139 g",
     "color": "green",
     "spoils_in": "8 days",
@@ -207,7 +207,7 @@
   {
     "type": "COMESTIBLE",
     "id": "corn",
-    "name": { "str": "corn", "str_pl": "corn" },
+    "name": { "str_sp": "corn" },
     "weight": "153 g",
     "color": "light_green",
     "spoils_in": "5 days",
@@ -309,7 +309,7 @@
   {
     "type": "COMESTIBLE",
     "id": "salsify_raw",
-    "name": { "str": "salsify", "str_pl": "salsify" },
+    "name": { "str_sp": "salsify" },
     "weight": "133 g",
     "color": "green",
     "spoils_in": "30 days",
@@ -330,7 +330,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chicory_raw",
-    "name": { "str": "chicory", "str_pl": "chicory" },
+    "name": { "str_sp": "chicory" },
     "weight": "60 g",
     "color": "cyan",
     "spoils_in": "30 days",
@@ -404,7 +404,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hops",
-    "name": { "str": "hops flower", "str_pl": "hops flowers" },
+    "name": { "str": "hops flower" },
     "weight": "92 g",
     "color": "light_green",
     "comestible_type": "FOOD",
@@ -526,7 +526,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn_raw",
-    "name": { "str": "raw popcorn", "str_pl": "raw popcorn" },
+    "name": { "str_sp": "raw popcorn" },
     "weight": "153 g",
     "color": "light_green",
     "spoils_in": "5 days",
@@ -589,7 +589,7 @@
   {
     "type": "COMESTIBLE",
     "id": "horseradish_greens",
-    "name": { "str": "horseradish greens", "str_pl": "horseradish greens" },
+    "name": { "str_sp": "horseradish greens" },
     "weight": "50 g",
     "color": "light_green",
     "spoils_in": "6 days 16 hours",
@@ -609,7 +609,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_dandelion",
-    "name": { "str": "dandelions", "str_pl": "dandelions" },
+    "name": { "str_sp": "dandelions" },
     "weight": "58 g",
     "color": "yellow",
     "spoils_in": "1 day 6 hours",
@@ -631,7 +631,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_burdock",
-    "name": { "str": "burdocks", "str_pl": "burdocks" },
+    "name": { "str_sp": "burdocks" },
     "weight": "58 g",
     "color": "magenta",
     "spoils_in": "1 day 6 hours",
@@ -774,7 +774,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy_wild",
-    "name": { "str": "wild vegetables", "str_pl": "wild vegetables" },
+    "name": { "str_sp": "wild vegetables" },
     "copy-from": "veggy",
     "description": "An assortment of edible-looking wild plants.  Most are quite bitter-tasting.  Some are inedible until cooked.",
     "//": "In real life many root vegetables are mildly toxic until cooked",
@@ -822,7 +822,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_beans",
-    "name": { "str": "raw beans", "str_pl": "raw beans" },
+    "name": { "str_sp": "raw beans" },
     "color": "brown",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
@@ -843,7 +843,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_lentils",
-    "name": { "str": "raw lentils", "str_pl": "raw lentils" },
+    "name": { "str_sp": "raw lentils" },
     "color": "light_green",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
@@ -864,7 +864,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fiddlehead_raw",
-    "name": { "str": "fiddleheads", "str_pl": "fiddleheads" },
+    "name": { "str_sp": "fiddleheads" },
     "weight": "50 g",
     "flags": [ "FREEZERBURN", "RAW" ],
     "color": "light_green",

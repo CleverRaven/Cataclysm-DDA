@@ -1287,7 +1287,7 @@ void editmap::edit_itm()
                 g->draw_panels();
             } while( imenu.ret != UILIST_CANCEL );
         } else if( ilmenu.ret == static_cast<int>( items.size() ) ) {
-            debug_menu::wishitem( nullptr, target.x, target.y, target.z );
+            debug_menu::wishitem( nullptr, target );
             ilmenu.entries.clear();
             i = 0;
             for( auto &an_item : items ) {

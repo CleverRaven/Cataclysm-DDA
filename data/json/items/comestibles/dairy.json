@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_raw",
-    "name": { "str": "raw milk", "str_pl": "raw milk" },
+    "name": { "str_sp": "raw milk" },
     "copy-from": "milk",
     "spoils_in": "12 hours",
     "price": 19,
@@ -13,7 +13,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_UHT",
-    "name": { "str": "shelf stable milk", "str_pl": "shelf stable milk" },
+    "name": { "str_sp": "shelf stable milk" },
     "spoils_in": "2 d",
     "copy-from": "milk",
     "container": "carton_sealed",
@@ -24,7 +24,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_evap",
-    "name": { "str": "evaporated milk", "str_pl": "evaporated milk" },
+    "name": { "str_sp": "evaporated milk" },
     "weight": "266 g",
     "color": "white",
     "spoils_in": "1 day",
@@ -48,7 +48,7 @@
   {
     "type": "COMESTIBLE",
     "id": "buttermilk",
-    "name": { "str": "buttermilk", "str_pl": "buttermilk" },
+    "name": { "str_sp": "buttermilk" },
     "weight": "258 g",
     "color": "white",
     "spoils_in": "2 d",
@@ -91,7 +91,7 @@
   {
     "type": "COMESTIBLE",
     "id": "butter",
-    "name": { "str": "butter", "str_pl": "butter" },
+    "name": { "str_sp": "butter" },
     "weight": "14180 mg",
     "color": "yellow",
     "spoils_in": "14 days",
@@ -112,7 +112,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_butter",
-    "name": { "str": "raw butter", "str_pl": "raw butter" },
+    "name": { "str_sp": "raw butter" },
     "weight": "14 g",
     "color": "white",
     "spoils_in": "10 days",
@@ -132,7 +132,7 @@
   {
     "type": "COMESTIBLE",
     "id": "ghee",
-    "name": { "str": "ghee", "str_pl": "ghee" },
+    "name": { "str_sp": "ghee" },
     "copy-from": "butter",
     "weight": "13500 mg",
     "spoils_in": "90 days",
@@ -186,7 +186,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cheese_hard",
-    "name": { "str": "hard cheese", "str_pl": "hard cheese" },
+    "name": { "str_sp": "hard cheese" },
     "weight": "34 g",
     "color": "yellow",
     "spoils_in": "180 days",
@@ -208,7 +208,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cheese",
-    "name": { "str": "cheese", "str_pl": "cheese" },
+    "name": { "str_sp": "cheese" },
     "weight": "30 g",
     "color": "yellow",
     "spoils_in": "28 days",
@@ -251,7 +251,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_powder",
-    "name": { "str": "powdered milk", "str_pl": "powdered milk" },
+    "name": { "str_sp": "powdered milk" },
     "weight": "30 g",
     "color": "white",
     "container": "bag_plastic",
@@ -274,7 +274,7 @@
   {
     "type": "COMESTIBLE",
     "id": "con_milk",
-    "name": { "str": "condensed milk", "str_pl": "condensed milk" },
+    "name": { "str_sp": "condensed milk" },
     "weight": "32 g",
     "color": "white",
     "spoils_in": "1 day",
@@ -297,7 +297,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_cream",
-    "name": { "str": "heavy cream", "str_pl": "heavy cream" },
+    "name": { "str_sp": "heavy cream" },
     "weight": "254 g",
     "color": "white",
     "spoils_in": "1 day",

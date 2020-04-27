@@ -1436,6 +1436,50 @@
   },
   {
     "type": "recipe",
+    "result": "lotus_tea",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "batch_time_factors": [ 80, 4 ],
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "mag_survival", 1 ],
+      [ "family_cookbook", 1 ]
+    ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "lotus", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "spurge_tea",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "batch_time_factors": [ 80, 4 ],
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "mag_survival", 1 ],
+      [ "family_cookbook", 1 ]
+    ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "spurge", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "kompot",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",

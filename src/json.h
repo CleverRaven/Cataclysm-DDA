@@ -1412,7 +1412,7 @@ void deserialize( cata::optional<T> &obj, JsonIn &jsin )
         obj.reset();
     } else {
         obj.emplace();
-        jsin.read( *obj );
+        jsin.read( *obj, true );
     }
 }
 

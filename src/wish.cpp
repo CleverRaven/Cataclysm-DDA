@@ -497,9 +497,14 @@ class wish_item_callback: public uilist_callback
         }
 };
 
-void debug_menu::wishitem( player *p, int x, int y, int z )
+void debug_menu::wishitem( player *p )
 {
-    if( p == nullptr && x <= 0 ) {
+    wishitem( p, tripoint( -1, -1, -1 ) );
+}
+
+void debug_menu::wishitem( player *p, const tripoint &pos )
+{
+    if( p == nullptr && pos.x <= 0 ) {
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
@@ -569,8 +574,8 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                         }
                     }
                     p->invalidate_crafting_inventory();
-                } else if( x >= 0 && y >= 0 ) {
-                    g->m.add_item_or_charges( tripoint( x, y, z ), granted );
+                } else if( pos.x >= 0 && pos.y >= 0 ) {
+                    g->m.add_item_or_charges( pos, granted );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {
