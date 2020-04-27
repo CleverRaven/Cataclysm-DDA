@@ -450,7 +450,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike_copper",
@@ -470,7 +470,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike",
@@ -489,7 +489,7 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike_fake",
