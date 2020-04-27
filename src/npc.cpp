@@ -2371,9 +2371,9 @@ void npc::shift( const point &s )
 
     setpos( pos() - shift );
 
-    maybe_shift( wanted_item_pos, -shift.x, -shift.y );
-    maybe_shift( last_player_seen_pos, -shift.x, -shift.y );
-    maybe_shift( pulp_location, -shift.x, -shift.y );
+    maybe_shift( wanted_item_pos, point( -shift.x, -shift.y ) );
+    maybe_shift( last_player_seen_pos, point( -shift.x, -shift.y ) );
+    maybe_shift( pulp_location, point( -shift.x, -shift.y ) );
     path.clear();
 }
 

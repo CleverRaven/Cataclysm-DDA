@@ -506,7 +506,7 @@ static void pldrive( int x, int y, int z = 0 )
 
 inline static void pldrive( point d )
 {
-    return pldrive( d.x, d.y );
+    return pldrive( tripoint( d, 0 ) );
 }
 
 static void open()
@@ -1818,7 +1818,7 @@ bool game::handle_action()
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
                 } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
-                    pldrive( 0, 0, -1 );
+                    pldrive( tripoint_below );
                 }
                 break;
 
@@ -1833,7 +1833,7 @@ bool game::handle_action()
                 if( !u.in_vehicle ) {
                     vertical_move( 1, false );
                 } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
-                    pldrive( 0, 0, 1 );
+                    pldrive( tripoint_above );
                 }
                 break;
 

@@ -2938,7 +2938,7 @@ void map::draw_office_tower( mapgendata &dat )
 
     if( terrain_type == "office_tower_1_entrance" ) {
         dat.fill_groundcover();
-        mapf::formatted_set_simple( this, 0, 0,
+        mapf::formatted_set_simple( this, point_zero,
                                     "ss%|....+...|...|EEED...\n"
                                     "ss%|----|...|...|EEx|...\n"
                                     "ss%Vcdc^|...|-+-|---|...\n"
@@ -2991,7 +2991,7 @@ void map::draw_office_tower( mapgendata &dat )
             ( dat.north() == "office_tower_1" && dat.east() == "office_tower_1_entrance" ) ||
             ( dat.west() == "office_tower_1" && dat.north() == "office_tower_1_entrance" ) ||
             ( dat.south() == "office_tower_1" && dat.west() == "office_tower_1_entrance" ) ) {
-            mapf::formatted_set_simple( this, 0, 0,
+            mapf::formatted_set_simple( this, point_zero,
                                         " ssssssssssssssssssssssss\n"
                                         "ssssssssssssssssssssssss\n"
                                         "ss                      \n"
@@ -3055,7 +3055,7 @@ void map::draw_office_tower( mapgendata &dat )
                    ( dat.north() == "office_tower_1_entrance" && dat.east() == "office_tower_1" ) ||
                    ( dat.west() == "office_tower_1" && dat.south() == "office_tower_1_entrance" ) ||
                    ( dat.south() == "office_tower_1" && dat.east() == "office_tower_1_entrance" ) ) {
-            mapf::formatted_set_simple( this, 0, 0,
+            mapf::formatted_set_simple( this, point_zero,
                                         "...DEEE|...|..|-----|%ss\n"
                                         "...|EEE|...|..|^...lV%ss\n"
                                         "...|---|-+-|......hdV%ss\n"
@@ -3104,7 +3104,7 @@ void map::draw_office_tower( mapgendata &dat )
                 rotate( 3 );
             }
         } else {
-            mapf::formatted_set_simple( this, 0, 0,
+            mapf::formatted_set_simple( this, point_zero,
                                         "ssssssssssssssssssssssss\n"
                                         "ssssssssssssssssssssssss\n"
                                         "                      ss\n"
@@ -3158,7 +3158,7 @@ void map::draw_office_tower( mapgendata &dat )
         }
     } else if( terrain_type == "office_tower_b_entrance" ) {
         dat.fill_groundcover();
-        mapf::formatted_set_simple( this, 0, 0,
+        mapf::formatted_set_simple( this, point_zero,
                                     "sss|........|...|EEED___\n"
                                     "sss|........|...|EEx|___\n"
                                     "sss|........|-+-|---|HHG\n"
@@ -3204,7 +3204,7 @@ void map::draw_office_tower( mapgendata &dat )
             ( dat.north() == "office_tower_b" && dat.east() == "office_tower_b_entrance" ) ||
             ( dat.west() == "office_tower_b" && dat.north() == "office_tower_b_entrance" ) ||
             ( dat.south() == "office_tower_b" && dat.west() == "office_tower_b_entrance" ) ) {
-            mapf::formatted_set_simple( this, 0, 0,
+            mapf::formatted_set_simple( this, point_zero,
                                         "ssssssssssssssssssssssss\n"
                                         "ssssssssssssssssssssssss\n"
                                         "sss|--------------------\n"
@@ -3291,7 +3291,7 @@ void map::draw_office_tower( mapgendata &dat )
                    ( dat.north() == "office_tower_b_entrance" && dat.east() == "office_tower_b" ) ||
                    ( dat.west() == "office_tower_b" && dat.south() == "office_tower_b_entrance" ) ||
                    ( dat.south() == "office_tower_b" && dat.east() == "office_tower_b_entrance" ) ) {
-            mapf::formatted_set_simple( this, 0, 0,
+            mapf::formatted_set_simple( this, point_zero,
                                         "___DEEE|...|...,,...|sss\n"
                                         "___|EEE|...|..,,,,..|sss\n"
                                         "GHH|---|-+-|...,,...|sss\n"
@@ -3370,7 +3370,7 @@ void map::draw_office_tower( mapgendata &dat )
                 }
             }
         } else {
-            mapf::formatted_set_simple( this, 0, 0,
+            mapf::formatted_set_simple( this, point_zero,
                                         "ssssssssssssssssssssssss\n"
                                         "ssssssssssssssssssssssss\n"
                                         "--------------------|sss\n"
@@ -3537,8 +3537,8 @@ void map::draw_lab( mapgendata &dat )
             ter_set( point( SEEX + 1, SEEY - 1 ), t_door_metal_c );
             ter_set( point( SEEX - 1, SEEY * 2 - 3 ), t_stairs_down );
             ter_set( point( SEEX, SEEY * 2 - 3 ), t_stairs_down );
-            science_room( this, 2, 2, SEEX - 3, SEEY * 2 - 3, dat.zlevel(), 1 );
-            science_room( this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, dat.zlevel(), 3 );
+            science_room( this, point( 2, 2 ), point( SEEX - 3, SEEY * 2 - 3 ), dat.zlevel(), 1 );
+            science_room( this, point( SEEX + 2, 2 ), point( SEEX * 2 - 3, SEEY * 2 - 3 ), dat.zlevel(), 3 );
 
             place_spawns( GROUP_TURRET, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
 
@@ -3706,40 +3706,40 @@ void map::draw_lab( mapgendata &dat )
                             // Top left
                             if( one_in( 2 ) ) {
                                 ter_set( point( SEEX - 2, int( SEEY / 2 ) ), t_door_glass_frosted_c );
-                                science_room( this, lw, tw, SEEX - 3, SEEY - 3, dat.zlevel(), 1 );
+                                science_room( this, point( lw, tw ), point( SEEX - 3, SEEY - 3 ), dat.zlevel(), 1 );
                             } else {
                                 ter_set( point( SEEX / 2, SEEY - 2 ), t_door_glass_frosted_c );
-                                science_room( this, lw, tw, SEEX - 3, SEEY - 3, dat.zlevel(), 2 );
+                                science_room( this, point( lw, tw ), point( SEEX - 3, SEEY - 3 ), dat.zlevel(), 2 );
                             }
                             // Top right
                             if( one_in( 2 ) ) {
                                 ter_set( point( SEEX + 1, int( SEEY / 2 ) ), t_door_glass_frosted_c );
-                                science_room( this, SEEX + 2, tw, EAST_EDGE - rw, SEEY - 3,
+                                science_room( this, point( SEEX + 2, tw ), point( EAST_EDGE - rw, SEEY - 3 ),
                                               dat.zlevel(), 3 );
                             } else {
                                 ter_set( point( SEEX + int( SEEX / 2 ), SEEY - 2 ), t_door_glass_frosted_c );
-                                science_room( this, SEEX + 2, tw, EAST_EDGE - rw, SEEY - 3,
+                                science_room( this, point( SEEX + 2, tw ), point( EAST_EDGE - rw, SEEY - 3 ),
                                               dat.zlevel(), 2 );
                             }
                             // Bottom left
                             if( one_in( 2 ) ) {
                                 ter_set( point( SEEX / 2, SEEY + 1 ), t_door_glass_frosted_c );
-                                science_room( this, lw, SEEY + 2, SEEX - 3, SOUTH_EDGE - bw,
+                                science_room( this, point( lw, SEEY + 2 ), point( SEEX - 3, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 0 );
                             } else {
                                 ter_set( point( SEEX - 2, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
-                                science_room( this, lw, SEEY + 2, SEEX - 3, SOUTH_EDGE - bw,
+                                science_room( this, point( lw, SEEY + 2 ), point( SEEX - 3, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 1 );
                             }
                             // Bottom right
                             if( one_in( 2 ) ) {
                                 ter_set( point( SEEX + int( SEEX / 2 ), SEEY + 1 ), t_door_glass_frosted_c );
-                                science_room( this, SEEX + 2, SEEY + 2, EAST_EDGE - rw,
-                                              SOUTH_EDGE - bw, dat.zlevel(), 0 );
+                                science_room( this, point( SEEX + 2, SEEY + 2 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
+                                              dat.zlevel(), 0 );
                             } else {
                                 ter_set( point( SEEX + 1, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
-                                science_room( this, SEEX + 2, SEEY + 2, EAST_EDGE - rw,
-                                              SOUTH_EDGE - bw, dat.zlevel(), 3 );
+                                science_room( this, point( SEEX + 2, SEEY + 2 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
+                                              dat.zlevel(), 3 );
                             }
                             if( rw == 1 ) {
                                 ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
@@ -3822,20 +3822,20 @@ void map::draw_lab( mapgendata &dat )
                             ter_set( point( SEEX + int( SEEX / 2 ), SEEY + 3 ), t_door_glass_frosted_c );
                             ter_set( point( SEEX - 4, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
                             ter_set( point( SEEX + 3, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
-                            science_room( this, lw, tw, SEEX - 5, SEEY - 5, dat.zlevel(),
+                            science_room( this, point( lw, tw ), point( SEEX - 5, SEEY - 5 ), dat.zlevel(),
                                           rng( 1, 2 ) );
-                            science_room( this, SEEX - 3, tw, SEEX + 2, SEEY - 5, dat.zlevel(), 2 );
-                            science_room( this, SEEX + 4, tw, EAST_EDGE - rw, SEEY - 5,
+                            science_room( this, point( SEEX - 3, tw ), point( SEEX + 2, SEEY - 5 ), dat.zlevel(), 2 );
+                            science_room( this, point( SEEX + 4, tw ), point( EAST_EDGE - rw, SEEY - 5 ),
                                           dat.zlevel(), rng( 2, 3 ) );
-                            science_room( this, lw, SEEY - 3, SEEX - 5, SEEY + 2, dat.zlevel(), 1 );
-                            science_room( this, SEEX + 4, SEEY - 3, EAST_EDGE - rw, SEEY + 2,
+                            science_room( this, point( lw, SEEY - 3 ), point( SEEX - 5, SEEY + 2 ), dat.zlevel(), 1 );
+                            science_room( this, point( SEEX + 4, SEEY - 3 ), point( EAST_EDGE - rw, SEEY + 2 ),
                                           dat.zlevel(), 3 );
-                            science_room( this, lw, SEEY + 4, SEEX - 5, SOUTH_EDGE - bw,
+                            science_room( this, point( lw, SEEY + 4 ), point( SEEX - 5, SOUTH_EDGE - bw ),
                                           dat.zlevel(), rng( 0, 1 ) );
-                            science_room( this, SEEX - 3, SEEY + 4, SEEX + 2, SOUTH_EDGE - bw,
+                            science_room( this, point( SEEX - 3, SEEY + 4 ), point( SEEX + 2, SOUTH_EDGE - bw ),
                                           dat.zlevel(), 0 );
-                            science_room( this, SEEX + 4, SEEX + 4, EAST_EDGE - rw,
-                                          SOUTH_EDGE - bw, dat.zlevel(), 3 * rng( 0, 1 ) );
+                            science_room( this, point( SEEX + 4, SEEX + 4 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
+                                          dat.zlevel(), 3 * rng( 0, 1 ) );
                             if( rw == 1 ) {
                                 ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
                                 ter_set( point( EAST_EDGE, SEEY ), t_door_metal_c );
@@ -3863,7 +3863,7 @@ void map::draw_lab( mapgendata &dat )
                                     }
                                 }
                             }
-                            science_room( this, lw, tw, EAST_EDGE - rw, SOUTH_EDGE - bw,
+                            science_room( this, point( lw, tw ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
                                           dat.zlevel(), rng( 0, 3 ) );
 
                             if( rw == 1 ) {
@@ -4719,7 +4719,7 @@ void map::draw_mine( mapgendata &dat )
             int x2 = x1 + rng( 4, 9 );
             int y2 = y1 + rng( 4, 9 );
             if( build_shaft ) {
-                build_mine_room( room_mine_shaft, x1, y1, x2, y2, dat );
+                build_mine_room( room_mine_shaft, point( x1, y1 ), point( x2, y2 ), dat );
                 build_shaft = false;
             } else {
                 bool okay = true;
@@ -4730,7 +4730,7 @@ void map::draw_mine( mapgendata &dat )
                 }
                 if( okay ) {
                     room_type type = static_cast<room_type>( rng( room_mine_office, room_mine_housing ) );
-                    build_mine_room( type, x1, y1, x2, y2, dat );
+                    build_mine_room( type, point( x1, y1 ), point( x2, y2 ), dat );
                     tries = 0;
                 } else {
                     tries++;
@@ -6596,7 +6596,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             if( rotate % 2 == 0 ) {
                 int biox = x1 + 2;
                 int bioy = static_cast<int>( ( y1 + y2 ) / 2 );
-                mapf::formatted_set_simple( m, biox - 1, bioy - 1,
+                mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
                                             "---\n"
                                             "|c|\n"
                                             "-=-\n",
@@ -6615,7 +6615,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                     _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
 
                 biox = x2 - 2;
-                mapf::formatted_set_simple( m, biox - 1, bioy - 1,
+                mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
                                             "-=-\n"
                                             "|c|\n"
                                             "---\n",
@@ -6635,7 +6635,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             } else {
                 int bioy = y1 + 2;
                 int biox = static_cast<int>( ( x1 + x2 ) / 2 );
-                mapf::formatted_set_simple( m, biox - 1, bioy - 1,
+                mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
                                             "|-|\n"
                                             "|c=\n"
                                             "|-|\n",
@@ -6654,7 +6654,7 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                     _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
 
                 bioy = y2 - 2;
-                mapf::formatted_set_simple( m, biox - 1, bioy - 1,
+                mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
                                             "|-|\n"
                                             "=c|\n"
                                             "|-|\n",
@@ -6725,8 +6725,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 }
                 m->ter_set( point( w1, static_cast<int>( ( y1 + y2 ) / 2 ) ), t_door_glass_frosted_c );
                 m->ter_set( point( w2, static_cast<int>( ( y1 + y2 ) / 2 ) ), t_door_glass_frosted_c );
-                science_room( m, x1, y1, w1 - 1, y2, z, 1 );
-                science_room( m, w2 + 1, y1, x2, y2, z, 3 );
+                science_room( m, point( x1, y1 ), point( w1 - 1, y2 ), z, 1 );
+                science_room( m, point( w2 + 1, y1 ), point( x2, y2 ), z, 3 );
             } else {
                 int w1 = static_cast<int>( ( y1 + y2 ) / 2 ) - 2;
                 int w2 = static_cast<int>( ( y1 + y2 ) / 2 ) + 2;
@@ -6736,8 +6736,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 }
                 m->ter_set( point( ( x1 + x2 ) / 2, w1 ), t_door_glass_frosted_c );
                 m->ter_set( point( ( x1 + x2 ) / 2, w2 ), t_door_glass_frosted_c );
-                science_room( m, x1, y1, x2, w1 - 1, z, 2 );
-                science_room( m, x1, w2 + 1, x2, y2, z, 0 );
+                science_room( m, point( x1, y1 ), point( x2, w1 - 1 ), z, 2 );
+                science_room( m, point( x1, w2 + 1 ), point( x2, y2 ), z, 0 );
             }
             break;
         default:

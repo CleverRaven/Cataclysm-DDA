@@ -184,7 +184,7 @@ void sokoban_game::draw_level( const catacurses::window &w_sokoban )
 
             if( sTile == "#" ) {
                 mvwputch( w_sokoban, point( iOffsetX + iterX->first, iOffsetY + elem.first ),
-                          c_white, get_wall_connection( elem.first, iterX->first ) );
+                          c_white, get_wall_connection( point( iterX->first, elem.first ) ) );
 
             } else {
                 nc_color cCol = c_white;
