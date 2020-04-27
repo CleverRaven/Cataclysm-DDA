@@ -2,5 +2,5 @@
 # Disable "potentially dangerous function" warning like localtime, there is no good alternative and we aren't multithreaded.
 queries:
   - exclude:
-      cpp/fixme-comment
-      cpp/potentially-dangerous-function
+      - cpp/fixme-comment
+      - cpp/potentially-dangerous-function
