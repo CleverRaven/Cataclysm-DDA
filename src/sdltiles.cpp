@@ -118,6 +118,7 @@ class Font
                                  unsigned char color, float opacity = 1.0f ) = 0;
         virtual void draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const;
         bool draw_window( const catacurses::window &w );
+        bool draw_window( const catacurses::window &w, const point &offset );
         bool draw_window( const catacurses::window &w, int offsetx, int offsety );
 
         static std::unique_ptr<Font> load_font( const std::string &typeface, int fontsize, int fontwidth,
@@ -1006,6 +1007,8 @@ void Font::draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) 
     }
 }
 
+void invalidate_framebuffer( std::vector<curseline> &framebuffer, const point &p, int width,
+                             int height );
 static void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, int y, int width,
                                     int height )
 {

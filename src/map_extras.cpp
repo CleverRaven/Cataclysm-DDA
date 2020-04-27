@@ -1530,6 +1530,8 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
     return true;
 }
 
+void place_fumarole( map &m, const point &p1, const point &p2, std::set<point> &ignited );
+void place_fumarole( map &m, const point &p1, int x2, int y2, std::set<point> &ignited );
 static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
 {
     // Tracks points nearby for ignition after the lava is placed
