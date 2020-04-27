@@ -1,44 +1,48 @@
 [
   {
     "type": "start_location",
-    "ident": "fema_entrance_s",
-    "name": "Fema Entrance",
-    "target": "fema_entrance"
+    "id": "sloc_fema_entrance",
+    "name": "FEMA camp (entrance)",
+    "terrain": [ "fema_entrance" ]
   },
   {
     "type": "start_location",
-    "ident": "fema_s",
-    "name": "Fema Camp",
-    "target": "fema"
+    "id": "sloc_fema",
+    "name": "FEMA camp",
+    "terrain": [ "fema" ]
   },
   {
     "type": "start_location",
-    "ident": "mansion_e2_s",
+    "id": "sloc_mansion_entrance",
     "name": "Mansion Entrance",
-    "target": "mansion_e2"
+    "terrain": [ { "om_terrain": "mansion_e", "om_terrain_match_type": "CONTAINS" } ]
   },
   {
     "type": "start_location",
-    "ident": "mansion_+2_s",
+    "id": "sloc_mansion",
     "name": "Mansion",
-    "target": "mansion_+2"
+    "terrain": [
+      { "om_terrain": "mansion_c", "om_terrain_match_type": "CONTAINS" },
+      { "om_terrain": "mansion_t", "om_terrain_match_type": "CONTAINS" },
+      { "om_terrain": "mansion_+", "om_terrain_match_type": "CONTAINS" }
+    ]
   },
   {
     "type": "start_location",
-    "ident": "s_gas_s",
+    "id": "sloc_gas_station",
     "name": "Gas Station",
-    "target": "s_gas"
+    "terrain": [ "s_gas", "s_gas_1", "garage_gas_1", "garage_gas_2", "garage_gas_3" ]
   },
   {
     "type": "start_location",
-    "ident": "s_electronics_s",
+    "id": "sloc_electronics_store",
     "name": "Electronics Store",
-    "target": "s_electronics"
+    "terrain": [ "s_electronics", "s_electronics_1" ]
   },
   {
     "type": "start_location",
-    "ident": "s_clothes_s",
+    "id": "sloc_clothes_store",
     "name": "Clothing Store",
-    "target": "s_clothes"
+    "terrain": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ]
   }
 ]

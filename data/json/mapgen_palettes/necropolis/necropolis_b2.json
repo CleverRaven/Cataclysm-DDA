@@ -14,6 +14,7 @@
       "O": "f_oven",
       "P": "f_indoor_plant",
       "S": "f_sink",
+      "T": "f_toilet",
       "U": "f_statue",
       "Z": "f_crate_o",
       "b": "f_bench",

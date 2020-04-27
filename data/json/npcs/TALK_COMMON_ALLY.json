@@ -816,6 +816,12 @@
         "effect": "do_construction"
       },
       {
+        "text": "Please do any mining work that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_mining"
+      },
+      {
         "text": "Please study from a book.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },

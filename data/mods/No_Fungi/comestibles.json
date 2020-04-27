@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_berry",
-    "name": "berry-shaped anomaly",
-    "name_plural": "berry-shaped anomalies",
+    "name": { "str": "berry-shaped anomaly", "str_pl": "berry-shaped anomalies" },
     "weight": "177 g",
     "color": "pink",
     "use_action": "BLECH",
@@ -18,8 +17,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_seed",
-    "name": "seed-shaped anomaly",
-    "name_plural": "seed-shaped anomalies",
+    "name": { "str": "seed-shaped anomaly", "str_pl": "seed-shaped anomalies" },
     "weight": "177 g",
     "color": "cyan",
     "use_action": "BLECH",
@@ -33,8 +31,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_gel",
-    "name": "gelatin",
-    "name_plural": "marloss gelatin",
+    "name": { "str": "gelatin", "str_pl": "marloss gelatin" },
     "weight": "177 g",
     "color": "yellow",
     "use_action": "BLECH",
@@ -49,8 +46,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mycus_fruit",
-    "name": "fruit-shaped anomaly",
-    "name_plural": "fruit-shaped anomalies",
+    "name": { "str": "fruit-shaped anomaly", "str_pl": "fruit-shaped anomalies" },
     "weight": "354 g",
     "color": "light_gray",
     "use_action": "BLECH",

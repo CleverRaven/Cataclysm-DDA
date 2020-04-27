@@ -1,26 +1,26 @@
 #pragma once
-#ifndef TRAP_H
-#define TRAP_H
+#ifndef CATA_SRC_TRAP_H
+#define CATA_SRC_TRAP_H
 
 #include <cstddef>
 #include <functional>
-#include <vector>
 #include <string>
 #include <tuple>
+#include <utility>
+#include <vector>
 
 #include "color.h"
-#include "int_id.h"
-#include "string_id.h"
+#include "magic.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
 class Creature;
-class item;
-class player;
-class map;
-struct tripoint;
 class JsonObject;
+class item;
+class map;
+class player;
+struct tripoint;
 
 namespace trapfunc
 {
@@ -62,6 +62,7 @@ bool shadow( const tripoint &p, Creature *c, item *i );
 bool map_regen( const tripoint &p, Creature *c, item *i );
 bool drain( const tripoint &p, Creature *c, item *i );
 bool snake( const tripoint &p, Creature *c, item *i );
+bool cast_spell( const tripoint &p, Creature *critter, item * );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
@@ -91,7 +92,7 @@ struct trap {
 
         bool was_loaded = false;
 
-        int sym;
+        int sym = 0;
         nc_color color;
     private:
         // 1 to ??, affects detection
@@ -116,6 +117,8 @@ struct trap {
         // For disassembly?
         std::vector<std::tuple<std::string, int, int>> components;
     public:
+        // data required for trapfunc::spell()
+        fake_spell spell_data;
         int comfort = 0;
         int floor_bedding_warmth = 0;
     public:
@@ -296,4 +299,4 @@ tr_shadow,
 tr_drain,
 tr_snake;
 
-#endif
+#endif // CATA_SRC_TRAP_H

@@ -1,7 +1,8 @@
 #pragma once
-#ifndef OPTIONS_H
-#define OPTIONS_H
+#ifndef CATA_SRC_OPTIONS_H
+#define CATA_SRC_OPTIONS_H
 
+#include <functional>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -28,6 +29,7 @@ class options_manager
                     : std::pair<std::string, translation>( first, second ) {
                 }
         };
+        static std::vector<id_and_option> lang_options;
     private:
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
@@ -147,7 +149,7 @@ class options_manager
                 // The *untranslated* displayed option tool tip ( longer string ).
                 std::string sTooltip;
                 std::string sType;
-                bool verbose;
+                bool verbose = false;
 
                 std::string format;
 
@@ -164,25 +166,25 @@ class options_manager
                 std::vector<id_and_option> vItems;
                 std::string sDefault;
 
-                int iMaxLength;
+                int iMaxLength = 0;
 
                 //sType == "bool"
-                bool bSet;
-                bool bDefault;
+                bool bSet = false;
+                bool bDefault = false;
 
                 //sType == "int"
-                int iSet;
-                int iMin;
-                int iMax;
-                int iDefault;
+                int iSet = 0;
+                int iMin = 0;
+                int iMax = 0;
+                int iDefault = 0;
                 std::vector< std::tuple<int, std::string> > mIntValues;
 
                 //sType == "float"
-                float fSet;
-                float fMin;
-                float fMax;
-                float fDefault;
-                float fStep;
+                float fSet = 0.0f;
+                float fMin = 0.0f;
+                float fMax = 0.0f;
+                float fDefault = 0.0f;
+                float fStep = 0.0f;
         };
 
         using options_container = std::unordered_map<std::string, cOpt>;
@@ -196,7 +198,8 @@ class options_manager
         void add_options_android();
         void load();
         bool save();
-        std::string show( bool ingame = false, bool world_options_only = false );
+        std::string show( bool ingame = false, bool world_options_only = false,
+                          const std::function<bool()> &on_quit = nullptr );
 
         void add_value( const std::string &lvar, const std::string &lval,
                         const translation &lvalname );
@@ -320,4 +323,4 @@ inline T get_option( const std::string &name )
     return get_options().get_option( name ).value_as<T>();
 }
 
-#endif
+#endif // CATA_SRC_OPTIONS_H

@@ -1,0 +1,270 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_6x6_guns_N",
+    "weight": 1000,
+    "//": "a nested map for magiclysm basements.  ID allows it to spawn wherever 6x6 gun basements spawn at the same weight.",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||+||",
+        "|RR ?|",
+        "|E  &|",
+        "|T h |",
+        "|Y 0!|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "0": "f_magic_bench", "!": "f_alembic", "&": "f_magic_circle", "?": "f_rack_wood" },
+      "items": {
+        "E": { "item": "enchanted_small_items", "chance": 5 },
+        "R": [
+          { "item": "magic_shop_books", "chance": 40, "repeat": [ 0, 2 ] },
+          { "item": "spellbook_loot_2", "chance": 2 },
+          { "item": "academy_lore", "chance": 50 }
+        ],
+        "?": [
+          { "item": "alchemy_items", "chance": 35, "repeat": [ 1, 2 ] },
+          { "item": "magic_shop_potions", "chance": 30 },
+          { "item": "magic_tools_and_loot", "chance": 20 },
+          { "item": "magic_shop_wands", "chance": 5 }
+        ],
+        "0": [
+          { "item": "enchanted_small_items", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "enchanted_combat_items", "chance": 1 },
+          { "item": "enchanted_misc", "chance": 1 },
+          { "item": "classless_items", "chance": 30 }
+        ]
+      },
+      "nested": {
+        "0": {
+          "chunks": [
+            [ "druid_loot_spawn", 40 ],
+            [ "stormshaper_loot_spawn", 40 ],
+            [ "magus_loot_spawn", 40 ],
+            [ "animist_loot_spawn", 40 ],
+            [ "kelvinist_loot_spawn", 40 ],
+            [ "technomancer_loot_spawn", 40 ],
+            [ "earthshaper_loot_spawn", 40 ],
+            [ "biomancer_loot_spawn", 40 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_6x6_guns_S",
+    "weight": 1000,
+    "//": "a nested map for magiclysm basements.  ID allows it to spawn wherever 6x6 gun basements spawn at the same weight.",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|yT0!|",
+        "|H h |",
+        "|H  &|",
+        "|RR ?|",
+        "|||+||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "0": "f_magic_bench", "!": "f_alembic", "&": "f_magic_circle", "?": "f_rack_wood" },
+      "items": {
+        "H": { "item": "enchanted_small_items", "chance": 5 },
+        "R": [
+          { "item": "magic_shop_books", "chance": 40 },
+          { "item": "spellbook_loot_2", "chance": 2 },
+          { "item": "academy_lore", "chance": 50 }
+        ],
+        "?": [
+          { "item": "alchemy_items", "chance": 35, "repeat": [ 1, 2 ] },
+          { "item": "magic_shop_potions", "chance": 30 },
+          { "item": "magic_tools_and_loot", "chance": 20 },
+          { "item": "magic_shop_wands", "chance": 5 }
+        ],
+        "0": [
+          { "item": "enchanted_small_items", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "enchanted_combat_items", "chance": 1 },
+          { "item": "enchanted_misc", "chance": 1 },
+          { "item": "classless_items", "chance": 30 }
+        ]
+      },
+      "nested": {
+        "0": {
+          "chunks": [
+            [ "druid_loot_spawn", 40 ],
+            [ "stormshaper_loot_spawn", 40 ],
+            [ "magus_loot_spawn", 40 ],
+            [ "animist_loot_spawn", 40 ],
+            [ "kelvinist_loot_spawn", 40 ],
+            [ "technomancer_loot_spawn", 40 ],
+            [ "earthshaper_loot_spawn", 40 ],
+            [ "biomancer_loot_spawn", 40 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_6x6_guns_E",
+    "weight": 1000,
+    "//": "a nested map for magiclysm basements.  ID allows it to spawn wherever 6x6 gun basements spawn at the same weight.",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|RR&?|",
+        "|E   +",
+        "|T h |",
+        "|Yy0!|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "0": "f_magic_bench", "!": "f_alembic", "&": "f_magic_circle", "?": "f_rack_wood" },
+      "items": {
+        "E": { "item": "enchanted_small_items", "chance": 5 },
+        "R": [
+          { "item": "magic_shop_books", "chance": 40 },
+          { "item": "spellbook_loot_2", "chance": 2 },
+          { "item": "academy_lore", "chance": 50 }
+        ],
+        "?": [
+          { "item": "alchemy_items", "chance": 35, "repeat": [ 1, 2 ] },
+          { "item": "magic_shop_potions", "chance": 30 },
+          { "item": "magic_tools_and_loot", "chance": 20 },
+          { "item": "magic_shop_wands", "chance": 5 }
+        ],
+        "0": [
+          { "item": "enchanted_small_items", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "enchanted_combat_items", "chance": 1 },
+          { "item": "enchanted_misc", "chance": 1 },
+          { "item": "classless_items", "chance": 30 }
+        ]
+      },
+      "nested": {
+        "0": {
+          "chunks": [
+            [ "druid_loot_spawn", 40 ],
+            [ "stormshaper_loot_spawn", 40 ],
+            [ "magus_loot_spawn", 40 ],
+            [ "animist_loot_spawn", 40 ],
+            [ "kelvinist_loot_spawn", 40 ],
+            [ "technomancer_loot_spawn", 40 ],
+            [ "earthshaper_loot_spawn", 40 ],
+            [ "biomancer_loot_spawn", 40 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_6x6_guns_W",
+    "weight": 1000,
+    "//": "a nested map for magiclysm basements.  ID allows it to spawn wherever 6x6 gun basements spawn at the same weight.",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|RRT?|",
+        "+   &|",
+        "|  h0|",
+        "|HH !|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "0": "f_magic_bench", "!": "f_alembic", "&": "f_magic_circle", "?": "f_rack_wood" },
+      "items": {
+        "H": { "item": "enchanted_small_items", "chance": 5 },
+        "R": [
+          { "item": "magic_shop_books", "chance": 40 },
+          { "item": "spellbook_loot_2", "chance": 2 },
+          { "item": "academy_lore", "chance": 50 }
+        ],
+        "?": [
+          { "item": "alchemy_items", "chance": 35, "repeat": [ 1, 2 ] },
+          { "item": "magic_shop_potions", "chance": 30 },
+          { "item": "magic_tools_and_loot", "chance": 20 },
+          { "item": "magic_shop_wands", "chance": 5 }
+        ],
+        "0": [
+          { "item": "enchanted_small_items", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "enchanted_combat_items", "chance": 1 },
+          { "item": "enchanted_misc", "chance": 1 },
+          { "item": "classless_items", "chance": 30 }
+        ]
+      },
+      "nested": {
+        "0": {
+          "chunks": [
+            [ "druid_loot_spawn", 40 ],
+            [ "stormshaper_loot_spawn", 40 ],
+            [ "magus_loot_spawn", 40 ],
+            [ "animist_loot_spawn", 40 ],
+            [ "kelvinist_loot_spawn", 40 ],
+            [ "technomancer_loot_spawn", 40 ],
+            [ "earthshaper_loot_spawn", 40 ],
+            [ "biomancer_loot_spawn", 40 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "druid_loot_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "druid_items", "x": 0, "y": 0, "chance": 70 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "biomancer_loot_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "biomancer_items", "x": 0, "y": 0, "chance": 70 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "earthshaper_loot_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "earthshaper_items", "x": 0, "y": 0, "chance": 70 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "technomancer_loot_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "technomancer_items", "x": 0, "y": 0, "chance": 70 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kelvinist_loot_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "kelvinist_items", "x": 0, "y": 0, "chance": 70 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "animist_loot_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "animist_items", "x": 0, "y": 0, "chance": 70 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "magus_loot_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "magus_items", "x": 0, "y": 0, "chance": 70 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "stormshaper_loot_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "stormshaper_items", "x": 0, "y": 0, "chance": 70 } ] }
+  }
+]

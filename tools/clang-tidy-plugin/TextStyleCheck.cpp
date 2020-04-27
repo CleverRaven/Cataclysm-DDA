@@ -1,7 +1,25 @@
 #include "TextStyleCheck.h"
 
-#include "StringLiteralIterator.h"
+#include <ClangTidy.h>
+#include <clang/AST/ASTContext.h>
+#include <clang/AST/Expr.h>
+#include <clang/AST/ExprCXX.h>
+#include <clang/ASTMatchers/ASTMatchers.h>
+#include <clang/ASTMatchers/ASTMatchersInternal.h>
+#include <clang/Basic/Diagnostic.h>
+#include <clang/Basic/SourceLocation.h>
+#include <clang/Basic/SourceManager.h>
+#include <cstddef>
+#include <string>
+
 #include "../../src/text_style_check.h"
+#include "StringLiteralIterator.h"
+
+namespace clang
+{
+class LangOptions;
+class TargetInfo;
+}  // namespace clang
 
 using namespace clang::ast_matchers;
 

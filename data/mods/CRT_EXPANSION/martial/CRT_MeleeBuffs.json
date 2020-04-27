@@ -3,8 +3,7 @@
     "id": "manual_crt_cqb",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "C.R.I.T CQB manual",
-    "name_plural": "C.R.I.T CQB manuals",
+    "name": { "str": "C.R.I.T CQB manual" },
     "description": "An advanced military manual on C.R.I.T general CQB.",
     "book_data": { "martial_art": "style_crt_cqb" }
   },
@@ -39,14 +38,14 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "flat_bonuses": [
-          [ "damage", "stab", "dex", 0.15 ],
-          [ "damage", "cut", "dex", 0.05 ],
-          [ "arpen", "stab", "dex", 0.25 ],
-          [ "arpen", "cut", "dex", 0.15 ],
-          [ "dodge", "dex", 0.1 ],
-          [ "hit", "dex", 0.15 ]
+          { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.15 },
+          { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.05 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.25 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.15 },
+          { "stat": "dodge", "scaling-stat": "dex", "scale": 0.1 },
+          { "stat": "hit", "scaling-stat": "dex", "scale": 0.15 }
         ],
-        "mult_bonuses": [ [ "damage", "bash", 0.5 ] ]
+        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0.5 } ]
       }
     ],
     "onhit_buffs": [
@@ -59,8 +58,17 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 2,
         "max_stacks": 10,
-        "flat_bonuses": [ [ "movecost", "dex", -0.05 ], [ "movecost", 0.1 ], [ "damage", "stab", 0.1 ] ],
-        "mult_bonuses": [ [ "damage", "stab", 1.075 ], [ "damage", "cut", 1.02 ], [ "arpen", "stab", 1.01 ], [ "dodge", 1.02 ] ]
+        "flat_bonuses": [
+          { "stat": "movecost", "scaling-stat": "dex", "scale": -0.05 },
+          { "stat": "movecost", "scale": 0.1 },
+          { "stat": "damage", "type": "stab", "scale": 0.1 }
+        ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "stab", "scale": 1.075 },
+          { "stat": "damage", "type": "cut", "scale": 1.02 },
+          { "stat": "arpen", "type": "stab", "scale": 1.01 },
+          { "stat": "dodge", "scale": 1.02 }
+        ]
       }
     ],
     "techniques": [
@@ -80,8 +88,17 @@
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "melee_allowed": false,
-    "mult_bonuses": [ [ "movecost", 0.85 ], [ "damage", "bash", 0.8 ], [ "damage", "cut", 1.025 ], [ "damage", "stab", 1.05 ] ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.2 ], [ "damage", "cut", "dex", 0.1 ], [ "movecost", "dex", -0.15 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.85 },
+      { "stat": "damage", "type": "bash", "scale": 0.8 },
+      { "stat": "damage", "type": "cut", "scale": 1.025 },
+      { "stat": "damage", "type": "stab", "scale": 1.05 }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.15 }
+    ],
     "messages": [ "You quickly dig your fingers into %s", "<npcname> digs their fingers into %s" ]
   },
   {
@@ -91,8 +108,17 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.7 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.7 ], [ "damage", "stab", 0.8 ] ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.015 ], [ "damage", "cut", "dex", 0.0125 ], [ "movecost", "dex", -0.35 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.7 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.7 },
+      { "stat": "damage", "type": "stab", "scale": 0.8 }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.015 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.0125 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.35 }
+    ],
     "messages": [ "You swiftly impale your fingers into %s joints", "<npcname> swiftly impales their fingers into %s" ]
   },
   {
@@ -102,8 +128,17 @@
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "unarmed_allowed": false,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.75 ] ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.015 ], [ "damage", "cut", "dex", 0.0125 ], [ "movecost", "dex", -0.35 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.8 },
+      { "stat": "damage", "type": "bash", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.75 }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.015 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.0125 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.35 }
+    ],
     "messages": [ "You explosively jab your weapon at %s joints", "<npcname> explosively jabs at %s" ]
   },
   {
@@ -113,8 +148,17 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.25 ] ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.2 ], [ "damage", "cut", "dex", 0.01 ], [ "movecost", "dex", -0.2 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.8 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.01 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.2 }
+    ],
     "crit_tec": true,
     "messages": [ "You steady your hand and release a piercing jab at %s", "<npcname> releases a piercing jab at %s" ],
     "stun_dur": 1
@@ -128,14 +172,18 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      [ "movecost", 0.9 ],
-      [ "damage", "bash", 0.2 ],
-      [ "damage", "cut", 1.25 ],
-      [ "arpen", "cut", "dex", 0.15 ],
-      [ "damage", "stab", 1.5 ],
-      [ "arpen", "stab", "dex", 0.3 ]
+      { "stat": "movecost", "scale": 0.9 },
+      { "stat": "damage", "type": "bash", "scale": 0.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.15 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.3 }
     ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.5 ], [ "damage", "cut", "dex", 0.25 ], [ "movecost", "dex", -0.5 ] ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ],
     "crit_tec": true,
     "messages": [
       "You envision a gathering tempest in and then release it's energy on %s's top half",

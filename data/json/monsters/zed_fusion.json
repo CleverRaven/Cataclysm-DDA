@@ -2,7 +2,7 @@
   {
     "id": "mon_crawler",
     "type": "MONSTER",
-    "name": "crawler",
+    "name": { "str": "crawler" },
     "description": "A conglomeration of human parts fused together in a horrible mishmash of function, slowly dragging its eldritch body across the ground.",
     "default_faction": "mutant",
     "species": [ "ABERRATION" ],
@@ -29,7 +29,7 @@
   {
     "id": "mon_devourer",
     "type": "MONSTER",
-    "name": "dissoluted devourer",
+    "name": { "str": "dissoluted devourer" },
     "description": "Human bodies fused together into a colossus with heads and limbs sticking out of its bloated body.  You may have trouble estimating its healthiness and its capabilities might change.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -79,7 +79,7 @@
   {
     "id": "mon_zombie_crushed_giant",
     "type": "MONSTER",
-    "name": "trapped tendril",
+    "name": { "str": "trapped tendril" },
     "description": "A great tendril of mutated flesh and sharpened bone.  Emergent from a crevice in the ruined floor, hundreds of human limbs seek freedom and writhe incessantly from underneath its grotesque carapace.  As enormous as it may already be, you feel certain that this is just part of a creature much bigger, for when it moves, you can feel this whole ruin tremble, as if an unseen giant struggled against the weight of its concrete tomb.",
     "default_faction": "zombie",
     "volume": "875000 ml",
@@ -109,7 +109,7 @@
   {
     "id": "mon_zombie_gasbag_immobile",
     "type": "MONSTER",
-    "name": { "str": "gangrenous flesh", "str_pl": "gangrenous flesh" },
+    "name": { "str_sp": "gangrenous flesh" },
     "description": "Immobile from grievous wounds, its gray skin has bloated to near rupture with putrid gas.  Between lumps of unrecognizable gore, a human head lamely follows your walking with empty, black eyes.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -139,7 +139,7 @@
   {
     "id": "mon_zombie_gasbag_crawler",
     "type": "MONSTER",
-    "name": "gangrenous crawler",
+    "name": { "str": "gangrenous crawler" },
     "description": "A nightmarish spidery abomination, born from human gore.  It deftly crawls between walls and ceiling with limbs grown from its own disjointed ribs.",
     "default_faction": "zombie",
     "bodytype": "spider",
@@ -169,7 +169,7 @@
   {
     "id": "mon_zombie_gasbag_impaler",
     "type": "MONSTER",
-    "name": "gangrenous impaler",
+    "name": { "str": "gangrenous impaler" },
     "description": "A corpse hideously twisted into an insect-like form.  A hollow tendril reaches out from its open thorax.",
     "default_faction": "zombie",
     "bodytype": "spider",
@@ -210,7 +210,7 @@
   {
     "id": "mon_zombie_living_wall",
     "type": "MONSTER",
-    "name": "flesh wall",
+    "name": { "str": "flesh wall" },
     "description": "A great lump of mutated flesh.  It resembles the innards of some gigantic creature and is covered in a grid of diminutive veins.",
     "default_faction": "zombie",
     "volume": "875000 ml",

@@ -1,69 +1,112 @@
 #include "avatar.h"
 
+#include <algorithm>
+#include <array>
 #include <climits>
 #include <cstdlib>
-#include <algorithm>
+#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
-#include <ostream>
 #include <set>
-#include <tuple>
 #include <unordered_map>
 #include <utility>
 
 #include "action.h"
-#include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "catacharset.h"
 #include "character.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "color.h"
+#include "compatibility.h"
+#include "debug.h"
 #include "effect.h"
 #include "enums.h"
-#include "filesystem.h"
+#include "event.h"
+#include "event_bus.h"
+#include "faction.h"
 #include "game.h"
+#include "game_constants.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
-#include "monstergenerator.h"
+#include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
-#include "mutation.h"
-#include "npc.h"
-#include "options.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
-#include "player.h"
-#include "profession.h"
-#include "skill.h"
-#include "type_id.h"
-#include "get_version.h"
-#include "ui.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "color.h"
-#include "compatibility.h"
-#include "debug.h"
-#include "game_constants.h"
-#include "item_location.h"
-#include "iuse.h"
 #include "mtype.h"
+#include "npc.h"
 #include "optional.h"
+#include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "pathfinding.h"
 #include "pimpl.h"
+#include "player.h"
 #include "player_activity.h"
+#include "ranged.h"
+#include "ret_val.h"
 #include "rng.h"
+#include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui.h"
 #include "units.h"
-#include "cata_string_consts.h"
+#include "value_ptr.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+
+static const activity_id ACT_READ( "ACT_READ" );
+
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_watch( "bio_watch" );
+
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_depressants( "depressants" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_irradiated( "irradiated" );
+static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_sleep_deprived( "sleep_deprived" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stim( "stim" );
+static const efftype_id effect_stim_overdose( "stim_overdose" );
+
+static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHITIN2( "CHITIN2" );
+static const trait_id trait_CHITIN3( "CHITIN3" );
+static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_STIMBOOST( "STIMBOOST" );
+static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
+static const trait_id trait_WEBBED( "WEBBED" );
+static const trait_id trait_WHISKERS( "WHISKERS" );
+static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
+
+static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 class JsonIn;
 class JsonOut;
@@ -511,8 +554,8 @@ bool avatar::read( item &it, const bool continuous )
             uilist menu;
             menu.title = string_format( _( "Train %s from manual:" ),
                                         martial_art_learned_from( *it.type )->name );
-            menu.addentry( -1, true, 1, _( "Train once." ) );
-            menu.addentry( getID().get_value(), true, 2, _( "Train until tired or success." ) );
+            menu.addentry( -1, true, '1', _( "Train once" ) );
+            menu.addentry( getID().get_value(), true, '0', _( "Train until tired or success" ) );
             menu.query( true );
             if( menu.ret == UILIST_CANCEL ) {
                 add_msg( m_info, _( "Never mind." ) );
@@ -885,11 +928,11 @@ bool avatar::has_identified( const std::string &item_id ) const
 hint_rating avatar::rate_action_read( const item &it ) const
 {
     if( !it.is_book() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     std::vector<std::string> dummy;
-    return get_book_reader( it, dummy ) == nullptr ? HINT_IFFY : HINT_GOOD;
+    return get_book_reader( it, dummy ) == nullptr ? hint_rating::iffy : hint_rating::good;
 }
 
 void avatar::wake_up()
@@ -1154,7 +1197,7 @@ void avatar::reset_stats()
     // Starvation
     const float bmi = get_bmi();
     if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
+        const int str_penalty = std::floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
         mod_str_bonus( -str_penalty );
@@ -1205,9 +1248,6 @@ void avatar::reset_stats()
             mod_dodge_bonus( 4 );
         }
     }
-
-    // Hit-related effects
-    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit );
 
     // Apply static martial arts buffs
     martial_arts_data.ma_static_effects( *this );
@@ -1388,7 +1428,7 @@ void avatar::set_movement_mode( character_movemode new_mode )
                 }
             } else {
                 if( is_mounted() ) {
-                    // mounts dont currently have stamina, but may do in future.
+                    // mounts don't currently have stamina, but may do in future.
                     add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
                 } else if( get_working_leg_count() < 2 ) {
                     add_msg( m_bad, _( "You need two functional legs to run." ) );
@@ -1571,6 +1611,20 @@ bool avatar::invoke_item( item *used, const std::string &method )
     return Character::invoke_item( used, method );
 }
 
+targeting_data &avatar::get_targeting_data()
+{
+    if( tdata == nullptr ) {
+        debugmsg( "Tried to get targeting data before setting it" );
+        tdata.reset( new targeting_data() );
+    }
+    return *tdata;
+}
+
+void avatar::set_targeting_data( const targeting_data &td )
+{
+    tdata.reset( new targeting_data( td ) );
+}
+
 points_left::points_left()
 {
     limit = MULTI_POOL;
@@ -1645,9 +1699,9 @@ std::string points_left::to_string()
                    _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
                    stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
                    trait_points >= 0 ? '+' : '-',
-                   trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
+                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
                    skill_points >= 0 ? '+' : '-',
-                   skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
+                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
                    is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
     } else if( limit == ONE_POOL ) {
         return string_format( _( "Points left: %4d" ), skill_points_left() );

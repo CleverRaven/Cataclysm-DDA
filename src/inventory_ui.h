@@ -1,6 +1,6 @@
 #pragma once
-#ifndef INVENTORY_UI_H
-#define INVENTORY_UI_H
+#ifndef CATA_SRC_INVENTORY_UI_H
+#define CATA_SRC_INVENTORY_UI_H
 
 #include <cassert>
 #include <climits>
@@ -129,6 +129,7 @@ class inventory_selector_preset
 {
     public:
         inventory_selector_preset();
+        virtual ~inventory_selector_preset() = default;
 
         /** Does this entry satisfy the basic preset conditions? */
         virtual bool is_shown( const item_location & ) const {
@@ -424,7 +425,7 @@ class inventory_selector
 {
     public:
         inventory_selector( player &u, const inventory_selector_preset &preset = default_preset );
-        ~inventory_selector();
+        virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
@@ -702,4 +703,4 @@ class inventory_drop_selector : public inventory_multiselector
         size_t max_chosen_count;
 };
 
-#endif
+#endif // CATA_SRC_INVENTORY_UI_H

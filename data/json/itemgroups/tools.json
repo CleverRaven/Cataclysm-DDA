@@ -53,6 +53,7 @@
       [ "xacto", 40 ],
       [ "bucket", 5 ],
       [ "jumper_cable", 10 ],
+      [ "hd_tow_cable", 5 ],
       [ "funnel", 50 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
@@ -194,7 +195,9 @@
       [ "hammer_sledge", 5 ],
       [ "hammer_sledge_short", 5 ],
       [ "hammer_sledge_engineer", 10 ],
-      [ "halligan", 10 ]
+      [ "halligan", 10 ],
+      [ "pike_pole", 10 ],
+      [ "ny_hook", 10 ]
     ]
   },
   {
@@ -326,9 +329,11 @@
     "type": "item_group",
     "items": [
       [ "awl_steel", 60 ],
+      { "item": "loom_frame", "prob": 5 },
       [ "needle_curved", 30 ],
       [ "scissors", 1000 ],
       [ "sewing_kit", 120 ],
+      { "item": "shed_stick", "prob": 5 },
       [ "tailors_kit", 10 ],
       [ "knitting_needles", 20 ]
     ]

@@ -1,19 +1,19 @@
 #pragma once
-#ifndef VITAMIN_H
-#define VITAMIN_H
+#ifndef CATA_SRC_VITAMIN_H
+#define CATA_SRC_VITAMIN_H
 
 #include <map>
-#include <utility>
-#include <vector>
 #include <set>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+template <typename T> struct enum_traits;
 
 enum vitamin_type {
     VITAMIN,
@@ -98,16 +98,16 @@ class vitamin
 
     private:
         vitamin_id id_;
-        vitamin_type type_;
+        vitamin_type type_ = vitamin_type::num_vitamin_types;
         translation name_;
         efftype_id deficiency_;
         efftype_id excess_;
-        int min_;
-        int max_;
-        time_duration rate_;
+        int min_ = 0;
+        int max_ = 0;
+        time_duration rate_ = 0_turns;
         std::vector<std::pair<int, int>> disease_;
         std::vector<std::pair<int, int>> disease_excess_;
         std::set<std::string> flags_;
 };
 
-#endif
+#endif // CATA_SRC_VITAMIN_H

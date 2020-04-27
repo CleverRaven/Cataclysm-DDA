@@ -1,12 +1,14 @@
 #pragma once
-#ifndef GAME_INVENTORY_H
-#define GAME_INVENTORY_H
+#ifndef CATA_SRC_GAME_INVENTORY_H
+#define CATA_SRC_GAME_INVENTORY_H
 
-#include <list>
 #include <functional>
+#include <list>
+#include <string>
 #include <utility>
 
 #include "inventory_ui.h"
+#include "item_location.h"
 
 struct tripoint;
 
@@ -17,10 +19,9 @@ class optional;
 } // namespace cata
 class avatar;
 class item;
-class item_location;
 class player;
-class salvage_actor;
 class repair_item_actor;
+class salvage_actor;
 
 using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
@@ -117,4 +118,4 @@ item_location sterilize_cbm( player &p );
 
 } // namespace game_menus
 
-#endif // GAME_INVENTORY_H
+#endif // CATA_SRC_GAME_INVENTORY_H

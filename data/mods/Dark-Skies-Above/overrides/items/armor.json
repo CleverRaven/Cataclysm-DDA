@@ -1,0 +1,16 @@
+[
+  {
+    "id": "quiver_large",
+    "copy-from": "quiver_large",
+    "type": "ARMOR",
+    "name": { "str": "large quiver" },
+    "description": "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows.  Historically used by horse archers, rather than foot archers, but sometimes horses are a little hard to come by in this day and age.  Activate to store arrows."
+  },
+  {
+    "id": "bra",
+    "copy-from": "bra",
+    "type": "ARMOR",
+    "name": { "str": "bra" },
+    "description": "A simple bra.  For protecting those bits you don't want creatures to look at."
+  }
+]

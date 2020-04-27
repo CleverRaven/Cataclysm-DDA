@@ -5,8 +5,7 @@
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
-    "name": "SVS-24",
-    "name_plural": "SVS-24",
+    "name": { "str_sp": "SVS-24" },
     "description": "The Sarafanov Assault Rifle replaced the famous AK family of guns as the service rifle of the Russian Army.  It uses the 6.54x42mm cartridge.",
     "price": 450000,
     "material": [ "steel", "plastic" ],
@@ -38,15 +37,14 @@
     "magazines": [
       [ "654", [ "svs24_robomag", "svs24_robodrum" ] ],
       [ "545x39", [ "cw24_robomag", "cw24_bigrobomag", "ak74mag" ] ],
-      [ "762", [ "akmmag", "akmbigmag" ] ]
+      [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ]
     ]
   },
   {
     "id": "svs-24c",
     "copy-from": "svs-24",
     "type": "GUN",
-    "name": "SVS-24C",
-    "name_plural": "SVS-24C",
+    "name": { "str_sp": "SVS-24C" },
     "description": "The compact version of the standard SVS-24.  It is commonly issued to tank crews or special forces due to its smaller size.  The shorter barrel reduces accuracy.",
     "price": 440000,
     "weight": "3 kg",
@@ -73,8 +71,7 @@
     "copy-from": "rifle_semi",
     "type": "GUN",
     "color": "dark_gray",
-    "name": "CW-24",
-    "name_plural": "CW-24",
+    "name": { "str_sp": "CW-24" },
     "description": "Civilian version of the SVS-24.  It was made by Clearwater Arms, Georgia, for the US market.  It's pure semi-automatic, and fires the weaker 5.45x39mm cartridge.",
     "price": 210000,
     "//": "Civvie version is cheaper.",
@@ -104,7 +101,7 @@
     ],
     "magazines": [
       [ "545x39", [ "cw24_robomag", "cw24_bigrobomag" ] ],
-      [ "762", [ "akmmag", "akmbigmag" ] ],
+      [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ],
       [ "654", [ "svs24_robomag", "svs24_robodrum" ] ]
     ]
   },
@@ -113,8 +110,7 @@
     "copy-from": "cw-24",
     "type": "GUN",
     "color": "light_gray",
-    "name": "CW-24M",
-    "name_plural": "CW-24M",
+    "name": { "str_sp": "CW-24M" },
     "description": "Civilian version of the SVS-24.  This one fires the same 6.54x42mm cartridge as the SVS-24.",
     "price": 200000,
     "ammo": "654"
@@ -124,13 +120,12 @@
     "copy-from": "cw-24",
     "type": "GUN",
     "color": "light_gray",
-    "name": "CW-24K",
-    "name_plural": "CW-24K",
+    "name": { "str_sp": "CW-24K" },
     "description": "Civilian version of the SVS-24.  This one fires the cheaper, but still powerful, 7.62x39mm cartridge.",
     "price": 160000,
     "ammo": "762",
     "magazines": [
-      [ "762", [ "akmmag", "akmbigmag" ] ],
+      [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ],
       [ "545x39", [ "cw24_robomag", "cw24_bigrobomag" ] ],
       [ "654", [ "svs24_robomag", "svs24_robodrum" ] ]
     ]
@@ -139,8 +134,7 @@
     "id": "cw-24hack",
     "copy-from": "cw-24",
     "type": "GUN",
-    "name": "Modified CW-24",
-    "name_plural": "Modified CW-24",
+    "name": { "str_sp": "Modified CW-24" },
     "description": "Civilian version of the SVS-24.  It has a modified receiver and a new crudely crafted full-auto bolt carrier.  Don't expect the original reliability.",
     "price": 420000,
     "dispersion": 120,
@@ -151,8 +145,7 @@
     "id": "cw-24m_hack",
     "copy-from": "cw-24m",
     "type": "GUN",
-    "name": "Modified CW-24M",
-    "name_plural": "Modified CW-24M",
+    "name": { "str_sp": "Modified CW-24M" },
     "description": "Civilian version of the SVS-24.  It has a modified receiver and a new crudely crafted full-auto bolt carrier.  Don't expect the original reliability.",
     "price": 420000,
     "dispersion": 120,
@@ -164,8 +157,7 @@
     "copy-from": "rifle_semi",
     "type": "GUN",
     "color": "brown",
-    "name": "CWD-63",
-    "name_plural": "CWD-63",
+    "name": { "str_sp": "CWD-63" },
     "description": "The Clearwater Arms version of the famous SVD-63 Dragunov.  This one was rechambered for the .308 round.",
     "price": 170000,
     "material": [ "steel", "wood" ],
@@ -199,8 +191,7 @@
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
-    "name": "Wrist DREAD",
-    "name_plural": "Wrist DREAD",
+    "name": { "str_sp": "Wrist DREAD" },
     "description": "The miniaturized version of the DREAD MkIX attached to the wrist of the operator.  It fires .20 metal pellets at an incredible rate without any flash or noise.  It is mainly a defensive weapon.",
     "price": 160000,
     "material": [ "steel", "plastic" ],

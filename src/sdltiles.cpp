@@ -1,33 +1,29 @@
 #if defined(TILES)
 
-#include "sdltiles.h" // IWYU pragma: associated
 #include "cursesdef.h" // IWYU pragma: associated
+#include "sdltiles.h" // IWYU pragma: associated
 
-#include <cstdint>
-#include <climits>
 #include <algorithm>
-#include <cassert>
-#include <cstring>
-#include <fstream>
-#include <limits>
-#include <memory>
-#include <stdexcept>
-#include <vector>
 #include <array>
+#include <cassert>
+#include <climits>
 #include <cmath>
+#include <cstdint>
+#include <cstring>
 #include <exception>
+#include <fstream>
 #include <iterator>
+#include <limits>
 #include <map>
+#include <memory>
 #include <set>
+#include <stdexcept>
 #include <type_traits>
-#include <tuple>
-
-#include "platform_win.h"
+#include <vector>
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_syswm.h>
 #else
-#   include <SDL_image.h>
 #ifdef _WIN32
 #   include <SDL_syswm.h>
 #endif
@@ -35,6 +31,7 @@
 
 #include "avatar.h"
 #include "cata_tiles.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
@@ -46,17 +43,17 @@
 #include "game_ui.h"
 #include "get_version.h"
 #include "input.h"
+#include "json.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "sdlsound.h"
-#include "sdl_wrappers.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "wcwidth.h"
-#include "json.h"
-#include "optional.h"
 #include "point.h"
+#include "sdl_wrappers.h"
+#include "sdlsound.h"
+#include "string_formatter.h"
+#include "ui_manager.h"
+#include "wcwidth.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -77,12 +74,12 @@
 #if defined(__ANDROID__)
 #include <jni.h>
 
-#include "worldfactory.h"
 #include "action.h"
+#include "inventory.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "inventory.h"
+#include "worldfactory.h"
 #endif
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -402,6 +399,12 @@ static void WinCreate()
     SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 6 );
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
 
+    // Fix Back button crash on Android 9
+#if defined(SDL_HINT_ANDROID_TRAP_BACK_BUTTON )
+    const bool trap_back_button = get_option<bool>( "ANDROID_TRAP_BACK_BUTTON" );
+    SDL_SetHint( SDL_HINT_ANDROID_TRAP_BACK_BUTTON, trap_back_button ? "1" : "0" );
+#endif
+
     // Prevent mouse|touch input confusion
 #if defined(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH)
     SDL_SetHint( SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1" );
@@ -471,6 +474,9 @@ static void WinCreate()
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
 #endif
 
+#if defined(SDL_HINT_RENDER_BATCHING)
+    SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
+#endif
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
@@ -1145,9 +1151,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 alignment_offset = 0;
-                if( ft.alignment == TEXT_ALIGNMENT_CENTER ) {
+                if( ft.alignment == text_alignment::center ) {
                     alignment_offset = full_text_length / 2;
-                } else if( ft.alignment == TEXT_ALIGNMENT_RIGHT ) {
+                } else if( ft.alignment == text_alignment::right ) {
                     alignment_offset = full_text_length - 1;
                 }
             }
@@ -1756,7 +1762,7 @@ bool handle_resize( int w, int h )
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         SetupRenderTarget();
         game_ui::init_ui();
-
+        ui_manager::screen_resized();
         return true;
     }
     return false;
@@ -2377,7 +2383,7 @@ void update_finger_repeat_delay()
 {
     float delta_x = finger_curr_x - finger_down_x;
     float delta_y = finger_curr_y - finger_down_y;
-    float dist = ( float )sqrtf( delta_x * delta_x + delta_y * delta_y );
+    float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
     float longest_window_edge = std::max( WindowWidth, WindowHeight );
     float t = clmp( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) ) /
                     std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
@@ -2414,7 +2420,7 @@ void handle_finger_input( uint32_t ticks )
 
     float delta_x = finger_curr_x - finger_down_x;
     float delta_y = finger_curr_y - finger_down_y;
-    float dist = ( float )sqrtf( delta_x * delta_x + delta_y * delta_y ); // in pixel space
+    float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y ); // in pixel space
     bool handle_diagonals = touch_input_context.is_action_registered( "LEFTUP" );
     bool is_default_mode = touch_input_context.get_category() == "DEFAULTMODE";
     if( dist > ( get_option<float>( "ANDROID_DEADZONE_RANGE" )*std::max( WindowWidth,
@@ -2818,6 +2824,9 @@ static void CheckMessages()
 #endif
 
     last_input = input_event();
+
+    bool need_redraw = false;
+
     while( SDL_PollEvent( &ev ) ) {
         switch( ev.type ) {
             case SDL_WINDOWEVENT:
@@ -2848,17 +2857,14 @@ static void CheckMessages()
                         break;
 #endif
                     case SDL_WINDOWEVENT_SHOWN:
-                    case SDL_WINDOWEVENT_EXPOSED:
                     case SDL_WINDOWEVENT_MINIMIZED:
-                        break;
                     case SDL_WINDOWEVENT_FOCUS_GAINED:
-                        // Main menu redraw
-                        reinitialize_framebuffer();
-                        // TODO: redraw all game menus if they are open
+                        break;
+                    case SDL_WINDOWEVENT_EXPOSED:
+                        need_redraw = true;
                         needupdate = true;
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
-                        needupdate = true;
 #if defined(__ANDROID__)
                         needs_sdl_surface_visibility_refresh = true;
                         if( android_is_hardware_keyboard_available() ) {
@@ -2873,6 +2879,10 @@ static void CheckMessages()
                     default:
                         break;
                 }
+                break;
+            case SDL_RENDER_TARGETS_RESET:
+                need_redraw = true;
+                needupdate = true;
                 break;
             case SDL_KEYDOWN: {
 #if defined(__ANDROID__)
@@ -3042,7 +3052,7 @@ static void CheckMessages()
                         // If we've moved too far from joystick center, offset joystick center automatically
                         float delta_x = finger_curr_x - finger_down_x;
                         float delta_y = finger_curr_y - finger_down_y;
-                        float dist = ( float )sqrtf( delta_x * delta_x + delta_y * delta_y );
+                        float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
                         float max_dist = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) +
                                            get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * std::max( WindowWidth, WindowHeight );
                         if( dist > max_dist ) {
@@ -3110,11 +3120,11 @@ static void CheckMessages()
                             if( is_default_mode ) {
                                 float x1 = ( finger_curr_x - finger_down_x );
                                 float y1 = ( finger_curr_y - finger_down_y );
-                                float d1 = ( float )( sqrtf( x1 * x1 + y1 * y1 ) );
+                                float d1 = std::sqrt( x1 * x1 + y1 * y1 );
 
                                 float x2 = ( second_finger_curr_x - second_finger_down_x );
                                 float y2 = ( second_finger_curr_y - second_finger_down_y );
-                                float d2 = ( float )( sqrtf( x2 * x2 + y2 * y2 ) );
+                                float d2 = std::sqrt( x2 * x2 + y2 * y2 );
 
                                 float longest_window_edge = std::max( WindowWidth, WindowHeight );
 
@@ -3149,11 +3159,11 @@ static void CheckMessages()
                                         // both fingers heading in opposite direction, check for zoom gesture
                                         float down_x = finger_down_x - second_finger_down_x;
                                         float down_y = finger_down_y - second_finger_down_y;
-                                        float down_dist = ( float )sqrtf( down_x * down_x + down_y * down_y );
+                                        float down_dist = std::sqrt( down_x * down_x + down_y * down_y );
 
                                         float curr_x = finger_curr_x - second_finger_curr_x;
                                         float curr_y = finger_curr_y - second_finger_curr_y;
-                                        float curr_dist = ( float )sqrtf( curr_x * curr_x + curr_y * curr_y );
+                                        float curr_dist = std::sqrt( curr_x * curr_x + curr_y * curr_y );
 
                                         const float zoom_ratio = 0.9f;
                                         if( curr_dist < down_dist * zoom_ratio ) {
@@ -3197,6 +3207,16 @@ static void CheckMessages()
         if( text_refresh && !is_repeat ) {
             break;
         }
+    }
+    if( need_redraw ) {
+        // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
+        // when restoring the window after system sleep, rather than immediately
+        // on focus gain. This seems to mess up the first redraw and
+        // causes black screen that lasts ~0.5 seconds before the screen
+        // contents are redrawn in the following code.
+        window_dimensions dim = get_window_dimensions( catacurses::stdscr );
+        ui_manager::invalidate( rectangle( point_zero, dim.window_size_pixel ) );
+        ui_manager::redraw();
     }
     if( needupdate ) {
         try_sdl_update();
@@ -3409,7 +3429,7 @@ static void init_term_size_and_scaling_factor()
 
         int max_width, max_height;
 
-        int current_display_id = get_option<int>( "DISPLAY" );
+        int current_display_id = std::stoi( get_option<std::string>( "DISPLAY" ) );
         SDL_DisplayMode current_display;
 
         if( SDL_GetDesktopDisplayMode( current_display_id, &current_display ) == 0 ) {
@@ -3495,6 +3515,11 @@ void catacurses::init_interface()
     last_input = input_event();
     inputdelay = -1;
 
+    InitSDL();
+
+    get_options().init();
+    get_options().load();
+
     font_loader fl;
     fl.load();
     fl.fontwidth = get_option<int>( "FONT_WIDTH" );
@@ -3509,8 +3534,6 @@ void catacurses::init_interface()
     fl.overmap_fontheight = get_option<int>( "OVERMAP_FONT_HEIGHT" );
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
-
-    InitSDL();
 
     init_term_size_and_scaling_factor();
 
@@ -3684,45 +3707,75 @@ void rescale_tileset( int size )
     game_ui::init_ui();
 }
 
+static window_dimensions get_window_dimensions( const catacurses::window &win,
+        const point &pos, const point &size )
+{
+    window_dimensions dim;
+    if( use_tiles && g && win == g->w_terrain ) {
+        // tiles might have different dimensions than standard font
+        dim.scaled_font_size.x = tilecontext->get_tile_width();
+        dim.scaled_font_size.y = tilecontext->get_tile_height();
+    } else if( map_font && g && win == g->w_terrain ) {
+        // map font (if any) might differ from standard font
+        dim.scaled_font_size.x = map_font->fontwidth;
+        dim.scaled_font_size.y = map_font->fontheight;
+    } else if( overmap_font && g && win == g->w_overmap ) {
+        dim.scaled_font_size.x = overmap_font->fontwidth;
+        dim.scaled_font_size.y = overmap_font->fontheight;
+    } else {
+        dim.scaled_font_size.x = fontwidth;
+        dim.scaled_font_size.y = fontheight;
+    }
+
+    // multiplied by the user's specified scaling factor regardless of whether tiles are in use
+    dim.scaled_font_size *= get_scaling_factor();
+
+    if( win ) {
+        cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
+        dim.window_pos_cell = pwin->pos;
+        dim.window_size_cell.x = pwin->width;
+        dim.window_size_cell.y = pwin->height;
+    } else {
+        dim.window_pos_cell = pos;
+        dim.window_size_cell = size;
+    }
+
+    // the window position is *always* in standard font dimensions!
+    dim.window_pos_pixel = point( dim.window_pos_cell.x * fontwidth,
+                                  dim.window_pos_cell.y * fontheight );
+    // But the size of the window is in the font dimensions of the window.
+    dim.window_size_pixel.x = dim.window_size_cell.x * dim.scaled_font_size.x;
+    dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
+
+    return dim;
+}
+
+window_dimensions get_window_dimensions( const catacurses::window &win )
+{
+    return get_window_dimensions( win, point_zero, point_zero );
+}
+
+window_dimensions get_window_dimensions( const point &pos, const point &size )
+{
+    return get_window_dimensions( {}, pos, size );
+}
+
 cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
 {
     if( !coordinate_input_received ) {
         return cata::nullopt;
     }
 
-    cata_cursesport::WINDOW *const capture_win = ( capture_win_.get() ? capture_win_ :
-            g->w_terrain ).get<cata_cursesport::WINDOW>();
+    const catacurses::window &capture_win = capture_win_ ? capture_win_ : g->w_terrain;
+    const window_dimensions dim = get_window_dimensions( capture_win );
 
-    // this contains the font dimensions of the capture_win,
-    // not necessarily the global standard font dimensions.
-    int fw = fontwidth;
-    int fh = fontheight;
-    // tiles might have different dimensions than standard font
-    if( use_tiles && capture_win == g->w_terrain ) {
-        fw = tilecontext->get_tile_width();
-        fh = tilecontext->get_tile_height();
-        // add_msg( m_info, "tile map fw %d fh %d", fw, fh);
-    } else if( map_font && capture_win == g->w_terrain ) {
-        // map font (if any) might differ from standard font
-        fw = map_font->fontwidth;
-        fh = map_font->fontheight;
-    } else if( overmap_font && capture_win == g->w_overmap ) {
-        fw = overmap_font->fontwidth;
-        fh = overmap_font->fontheight;
-    }
-
-    // multiplied by the user's specified scaling factor regardless of whether tiles are in use
-    fw = fw * get_scaling_factor();
-    fh = fh * get_scaling_factor();
-
-    // Translate mouse coordinates to map coordinates based on tile size,
-    // the window position is *always* in standard font dimensions!
-    const point win_min( capture_win->pos.x * fontwidth, capture_win->pos.y * fontheight );
-    // But the size of the window is in the font dimensions of the window.
-    const point win_size( capture_win->width * fw, capture_win->height * fh );
+    const int &fw = dim.scaled_font_size.x;
+    const int &fh = dim.scaled_font_size.y;
+    const point &win_min = dim.window_pos_pixel;
+    const point &win_size = dim.window_size_pixel;
     const point win_max = win_min + win_size;
-    // add_msg( m_info, "win_ left %d top %d right %d bottom %d", win_left,win_top,win_right,win_bottom);
-    // add_msg( m_info, "coordinate_ x %d y %d", coordinate_x, coordinate_y);
+
+    // Translate mouse coordinates to map coordinates based on tile size
     // Check if click is within bounds of the window we care about
     const rectangle win_bounds( win_min, win_max );
     if( !win_bounds.contains_inclusive( coordinate ) ) {
@@ -3739,13 +3792,13 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     if( tile_iso && use_tiles ) {
         const float win_mid_x = win_min.x + win_size.x / 2.0f;
         const float win_mid_y = -win_min.y + win_size.y / 2.0f;
-        const int screen_col = round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
-        const int screen_row = round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
+        const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
+        const int screen_row = std::round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
         p = view_offset + selected;
     } else {
         const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        p = view_offset + selected - point( capture_win->width / 2, capture_win->height / 2 );
+        p = view_offset + selected - dim.window_size_cell / 2;
     }
 
     return tripoint( p, g->get_levz() );
@@ -3865,6 +3918,7 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     : Font( w, h )
     , fontblending( fontblending )
 {
+    const std::string original_typeface = typeface;
     int faceIndex = 0;
     if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
         typeface = *sysfnt;
@@ -3872,19 +3926,19 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     }
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::user_font() + typeface + ".ttf";
+        typeface = PATH_INFO::user_font() + original_typeface + ".ttf";
         dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in user font dir.";
     }
     //make fontdata compatible with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + typeface + ".ttf";
+        typeface = PATH_INFO::fontdir() + original_typeface + ".ttf";
         dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in font dir.";
     }
     //different default font with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + "fixedsys.ttf";
+        typeface = PATH_INFO::fontdir() + "unifont.ttf";
         dbg( D_INFO ) << "Using fallback font [" + typeface + "] found in font dir.";
     }
     dbg( D_INFO ) << "Loading truetype font [" + typeface + "].";

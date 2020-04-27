@@ -1,25 +1,26 @@
 #pragma once
-#ifndef MATTACK_ACTORS_H
-#define MATTACK_ACTORS_H
+#ifndef CATA_SRC_MATTACK_ACTORS_H
+#define CATA_SRC_MATTACK_ACTORS_H
 
 #include <climits>
 #include <map>
-#include <vector>
+#include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
+#include "bodypart.h"
 #include "damage.h"
-#include "mattack_common.h"
 #include "magic.h"
+#include "mattack_common.h"
 #include "mtype.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weighted_list.h"
-#include "bodypart.h"
 
+class Creature;
 class JsonObject;
 class monster;
-class Creature;
 
 class leap_actor : public mattack_actor
 {
@@ -113,7 +114,7 @@ class bite_actor : public melee_actor
 {
     public:
         // one_in( this - damage dealt ) chance of getting infected
-        // ie. the higher is this, the lower chance of infection
+        // i.e. the higher is this, the lower chance of infection
         int no_infection_chance;
 
         bite_actor();
@@ -191,4 +192,4 @@ class gun_actor : public mattack_actor
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
-#endif
+#endif // CATA_SRC_MATTACK_ACTORS_H

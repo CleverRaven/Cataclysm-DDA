@@ -68,6 +68,7 @@
     "sym": "│",
     "color": "white",
     "see_cost": 2,
+    "extras": "bridge",
     "mapgen": [ { "method": "builtin", "name": "bridge" } ],
     "flags": [ "RIVER" ]
   },
@@ -297,10 +298,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "trailhead",
+    "id": [ "trailhead", "trailhead_shack_z0", "trailhead_outhouse_z0" ],
     "name": "trailhead",
     "sym": "T",
     "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailhead_shack_z1", "trailhead_outhouse_z1" ],
+    "copy-from": "trailhead",
+    "name": "trailhead roof"
   },
   {
     "type": "overmap_terrain",

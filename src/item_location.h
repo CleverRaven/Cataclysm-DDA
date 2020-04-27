@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_LOCATION_H
-#define ITEM_LOCATION_H
+#ifndef CATA_SRC_ITEM_LOCATION_H
+#define CATA_SRC_ITEM_LOCATION_H
 
 #include <memory>
 #include <string>
@@ -27,7 +27,8 @@ class item_location
             invalid = 0,
             character = 1,
             map = 2,
-            vehicle = 3
+            vehicle = 3,
+            container = 4
         };
 
         item_location();
@@ -37,6 +38,7 @@ class item_location
         item_location( Character &ch, item *which );
         item_location( const map_cursor &mc, item *which );
         item_location( const vehicle_cursor &vc, item *which );
+        item_location( const item_location &container, item *which );
 
         void serialize( JsonOut &js ) const;
         void deserialize( JsonIn &js );
@@ -68,8 +70,8 @@ class item_location
          *  @warning caller should restack inventory if item is to remain in it
          *  @warning all further operations using this class are invalid
          *  @warning it is unsafe to call this within unsequenced operations (see #15542)
-         *  @return inventory position for the item */
-        int obtain( Character &ch, int qty = -1 );
+         *  @return item_location for the item */
+        item_location obtain( Character &ch, int qty = -1 );
 
         /** Calculate (but do not deduct) number of moves required to obtain an item
          *  @see item_location::obtain */
@@ -85,10 +87,13 @@ class item_location
 
         void set_should_stack( bool should_stack ) const;
 
+        /** returns the parent item, or an invalid location if it has no parent */
+        item_location parent_item() const;
+
     private:
         class impl;
 
         std::shared_ptr<impl> ptr;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_LOCATION_H

@@ -28,6 +28,20 @@
     "components": [ [ [ "splinter", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
+    "result": "shears",
+    "type": "uncraft",
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "elec_shears",
+    "type": "uncraft",
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
+  },
+  {
     "result": "bronze_medal",
     "type": "uncraft",
     "time": "30 s",
@@ -1670,6 +1684,27 @@
     "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
   },
   {
+    "result": "sheet_cotton_patchwork",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 1 ] ], [ [ "scrap_cotton", 20 ] ] ]
+  },
+  {
+    "result": "sheet_neoprene_patchwork",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "neoprene", 1 ] ], [ [ "scrap_neoprene", 20 ] ] ]
+  },
+  {
+    "result": "tanned_hide",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 6 ] ] ]
+  },
+  {
     "result": "eink_tablet_pc",
     "type": "uncraft",
     "time": "30 s",
@@ -1759,25 +1794,25 @@
     "result": "glass",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 1 ] ] ]
+    "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "result": "glass_bowl",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "result": "glass_plate",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "result": "glass_sheet",
     "type": "uncraft",
     "time": "2 m",
-    "components": [ [ [ "glass_shard", 322 ] ] ]
+    "components": [ [ [ "glass_shard", 182 ] ] ]
   },
   {
     "result": "game_watch",
@@ -2070,20 +2105,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "l_HFPack",
-    "type": "uncraft",
-    "time": "30 s",
-    "components": [
-      [ [ "l_long_45", 1 ] ],
-      [ [ "l_enforcer_45", 1 ] ],
-      [ [ "small_repairkit", 1 ] ],
-      [ [ "medium_battery_cell", 1 ] ],
-      [ [ "manual_gun", 1 ] ],
-      [ [ "holster", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
-  },
-  {
     "result": "laptop",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -2092,11 +2113,12 @@
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 4 ] ],
+      [ [ "circuit", 1 ] ],
       [ [ "cable", 6 ] ],
       [ [ "amplifier", 1 ] ],
+      [ [ "power_supply", 1 ] ],
       [ [ "plastic_chunk", 6 ] ],
-      [ [ "small_lcd_screen", 1 ] ],
-      [ [ "small_storage_battery", 2 ] ]
+      [ [ "small_lcd_screen", 1 ] ]
     ]
   },
   {
@@ -3298,50 +3320,6 @@
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "solar_panel", 1 ] ],
-      [ [ "cable", 20 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_chunk", 4 ] ],
-      [ [ "scrap", 8 ] ],
-      [ [ "rope_6", 1 ] ]
-    ]
-  },
-  {
-    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
-    "result": "q_solarpack",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 10,
-    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
-    "time": "50 m",
-    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "solar_panel_v3", 1 ] ],
-      [ [ "cable", 20 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_chunk", 4 ] ],
-      [ [ "scrap", 8 ] ],
-      [ [ "rope_6", 1 ] ]
-    ]
-  },
-  {
-    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
-    "result": "q_solarpack_on",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 10,
-    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
-    "time": "50 m",
-    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "solar_panel_v3", 1 ] ],
       [ [ "cable", 20 ] ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "sheet_metal_small", 4 ] ],

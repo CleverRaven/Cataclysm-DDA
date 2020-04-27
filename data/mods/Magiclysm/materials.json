@@ -22,7 +22,7 @@
   {
     "type": "material",
     "ident": "black_dragon_hide",
-    "name": "black dragon hide",
+    "name": "Black Dragon Hide",
     "density": 20,
     "specific_heat_liquid": 4.186,
     "specific_heat_solid": 2.108,
@@ -53,6 +53,8 @@
     "fire_resist": 18,
     "elec_resist": 2,
     "chip_resist": 10,
+    "repaired_with": "demon_chitin_piece",
+    "salvaged_into": "demon_chitin_piece",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
@@ -76,11 +78,11 @@
     "fire_resist": 3,
     "elec_resist": 0,
     "chip_resist": 40,
-    "repaired_with": "scrap",
+    "repaired_with": "orichalcum_ingot",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap", 1 ] ],
+    "burn_products": [ [ "scrap_bronze", 1 ] ],
     "compacts_into": [ "orichalcum_lump", "orichalcum_sliver" ]
   }
 ]

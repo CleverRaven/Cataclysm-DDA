@@ -2,7 +2,7 @@
   {
     "id": "mon_blob",
     "type": "MONSTER",
-    "name": "blob",
+    "name": { "str": "blob" },
     "description": "A black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "bodytype": "blob",
@@ -32,7 +32,7 @@
   {
     "id": "mon_blob_brain",
     "type": "MONSTER",
-    "name": "brain blob",
+    "name": { "str": "brain blob" },
     "description": "A gigantic black blob of viscous goo, oozing across the ground like a glob of living oil.  Other blobs seem to swarm around it.",
     "default_faction": "blob",
     "bodytype": "blob",
@@ -60,7 +60,7 @@
   {
     "id": "mon_blob_large",
     "type": "MONSTER",
-    "name": "big blob",
+    "name": { "str": "big blob" },
     "description": "A large black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "bodytype": "blob",
@@ -91,7 +91,7 @@
   {
     "id": "mon_blob_small",
     "type": "MONSTER",
-    "name": "small blob",
+    "name": { "str": "small blob" },
     "description": "A small black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "bodytype": "blob",
@@ -120,7 +120,7 @@
   {
     "id": "mon_gelatin",
     "type": "MONSTER",
-    "name": "amoebic mold",
+    "name": { "str": "amoebic mold" },
     "description": "A formless slime mold the size of a cow.  Crusty bits of cytoplasm fall away as it oozes across the ground.",
     "bodytype": "blob",
     "default_faction": "blob",
@@ -147,7 +147,7 @@
   {
     "id": "mon_player_blob",
     "type": "MONSTER",
-    "name": "slimespring",
+    "name": { "str": "slimespring" },
     "description": "A familiar-looking blob of goo.  It sprouts the occasional eyestalk.",
     "default_faction": "player",
     "bodytype": "blob",

@@ -7,9 +7,9 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "#####PPPPPP#############",
-        "#####PPPPPP#############",
-        "#####PPPPPP#############",
+        "#####      #############",
+        "#####      #############",
+        "#####      #############",
         "##rrrrrrrrr--ggg-ggg--##",
         "##rrrrrrrrr|DDD   D6D|##",
         "##rrrrrrrrrg c     c g##",

@@ -3,44 +3,47 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
+#include "colony.h"
+#include "debug.h"
 #include "game.h"
 #include "ime.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
+#include "item_stack.h"
+#include "line.h"
 #include "map.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "character.h"
-#include "debug.h"
-#include "inventory.h"
-#include "line.h"
-#include "optional.h"
 #include "visitable.h"
-#include "colony.h"
-#include "item_stack.h"
-#include "point.h"
+#include "vpart_position.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
-#include <set>
-#include <string>
-#include <vector>
-#include <map>
-#include <limits>
-#include <numeric>
 #include <algorithm>
 #include <iterator>
+#include <limits>
+#include <map>
+#include <numeric>
+#include <set>
+#include <string>
 #include <type_traits>
+#include <vector>
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;
@@ -340,7 +343,8 @@ void inventory_column::select( size_t new_index, scroll_direction dir )
         }
 
         selected_index = new_index;
-        page_offset = selected_index - selected_index % entries_per_page;
+        page_offset = ( new_index == static_cast<size_t>( -1 ) ) ?
+                      0 : selected_index - selected_index % entries_per_page;
     }
 }
 
@@ -349,7 +353,8 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
     if( entries.empty() ) {
         return index;
     }
-
+    // limit index to the space of the size of entries
+    index = index % entries.size();
     size_t new_index = index;
     do {
         // 'new_index' incremented by 'dir' using division remainder (number of entries) to loop over the entries.
@@ -358,6 +363,10 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
         //     k = |step|          - absolute step (k <= N).
         new_index = ( new_index + static_cast<int>( dir ) + entries.size() ) % entries.size();
     } while( new_index != index && !entries[new_index].is_selectable() );
+
+    if( !entries[new_index].is_selectable() ) {
+        return static_cast<size_t>( -1 );
+    }
 
     return new_index;
 }
@@ -713,7 +722,9 @@ void inventory_column::add_entry( const inventory_entry &entry )
 void inventory_column::move_entries_to( inventory_column &dest )
 {
     for( const auto &elem : entries ) {
-        if( elem.is_item() ) {
+        if( elem.is_item() &&
+            // this column already has this entry, no need to try to add it again
+            std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
             dest.add_entry( elem );
         }
     }
@@ -1489,7 +1500,7 @@ void inventory_selector::refresh_window() const
 void inventory_selector::set_filter()
 {
     string_input_popup spopup;
-    spopup.window( w_inv, 4, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4 )
+    spopup.window( w_inv, point( 4, getmaxy( w_inv ) - 1 ), ( getmaxx( w_inv ) / 2 ) - 4 )
     .max_length( 256 )
     .text( filter );
 
@@ -1603,8 +1614,8 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 {
     int filter_offset = 0;
     if( has_available_choices() || !filter.empty() ) {
-        std::string text = string_format( filter.empty() ? _( "[%s]Filter" ) : _( "[%s]Filter: " ),
-                                          ctxt.press_x( "INVENTORY_FILTER", "", "", "" ) );
+        std::string text = string_format( filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
+                                          ctxt.get_desc( "INVENTORY_FILTER" ) );
         filter_offset = utf8_width( text + filter ) + 6;
 
         mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );
@@ -1638,18 +1649,18 @@ inventory_selector::inventory_selector( player &u, const inventory_selector_pres
     , own_gear_column( preset )
     , map_column( preset )
 {
-    ctxt.register_action( "DOWN", translate_marker( "Next item" ) );
-    ctxt.register_action( "UP", translate_marker( "Previous item" ) );
-    ctxt.register_action( "RIGHT", translate_marker( "Next column" ) );
-    ctxt.register_action( "LEFT", translate_marker( "Previous column" ) );
-    ctxt.register_action( "CONFIRM", translate_marker( "Confirm your selection" ) );
-    ctxt.register_action( "QUIT", translate_marker( "Cancel" ) );
-    ctxt.register_action( "CATEGORY_SELECTION", translate_marker( "Switch selection mode" ) );
-    ctxt.register_action( "TOGGLE_FAVORITE", translate_marker( "Toggle favorite" ) );
-    ctxt.register_action( "NEXT_TAB", translate_marker( "Page down" ) );
-    ctxt.register_action( "PREV_TAB", translate_marker( "Page up" ) );
-    ctxt.register_action( "HOME", translate_marker( "Home" ) );
-    ctxt.register_action( "END", translate_marker( "End" ) );
+    ctxt.register_action( "DOWN", to_translation( "Next item" ) );
+    ctxt.register_action( "UP", to_translation( "Previous item" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Next column" ) );
+    ctxt.register_action( "LEFT", to_translation( "Previous column" ) );
+    ctxt.register_action( "CONFIRM", to_translation( "Confirm your selection" ) );
+    ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
+    ctxt.register_action( "CATEGORY_SELECTION", to_translation( "Switch selection mode" ) );
+    ctxt.register_action( "TOGGLE_FAVORITE", to_translation( "Toggle favorite" ) );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Page down" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Page up" ) );
+    ctxt.register_action( "HOME", to_translation( "Home" ) );
+    ctxt.register_action( "END", to_translation( "End" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
     ctxt.register_action( "INVENTORY_FILTER" );
@@ -1823,6 +1834,9 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
 
 item_location inventory_pick_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool need_refresh = true;
     while( true ) {
         update( need_refresh );
@@ -1862,8 +1876,8 @@ inventory_multiselector::inventory_multiselector( player &p,
     inventory_selector( p, preset ),
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {
-    ctxt.register_action( "RIGHT", translate_marker( "Mark/unmark selected item" ) );
-    ctxt.register_action( "DROP_NON_FAVORITE", translate_marker( "Mark/unmark non-favorite items" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Mark/unmark selected item" ) );
+    ctxt.register_action( "DROP_NON_FAVORITE", to_translation( "Mark/unmark non-favorite items" ) );
 
     for( auto &elem : get_all_columns() ) {
         elem->set_multiselect( true );
@@ -1890,6 +1904,9 @@ inventory_compare_selector::inventory_compare_selector( player &p ) :
 
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool need_refresh = true;
     while( true ) {
         update( need_refresh );
@@ -1967,6 +1984,9 @@ inventory_iuse_selector::inventory_iuse_selector(
 {}
 drop_locations inventory_iuse_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int count = 0;
     bool need_refresh = true;
     while( true ) {
@@ -2089,6 +2109,9 @@ void inventory_drop_selector::process_selected( int &count,
 
 drop_locations inventory_drop_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int count = 0;
     bool need_refresh = true;
     while( true ) {

@@ -1,7 +1,7 @@
 [
   {
     "id": "base_toiletries",
-    "name": "generic grooming",
+    "name": { "str": "generic grooming" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": "+",
@@ -24,13 +24,13 @@
   },
   {
     "id": "razor_shaving",
-    "name": "shaving razor",
+    "name": { "str": "shaving razor" },
     "type": "GENERIC",
     "description": "A razor blade on a comfortable handle.  Much easier to shave with than a loose razor.",
     "symbol": "t",
     "copy-from": "base_toiletries",
     "price": 800,
-    "price_postapoc": 1200,
+    "price_postapoc": 500,
     "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.  The razor also loses the Cutting 1 quality.  Don't ask how we confirmed this.",
     "weight": "110 g",
     "material": [ "plastic", "steel" ],
@@ -82,7 +82,7 @@
   },
   {
     "id": "curler_hair",
-    "name": "hair curler",
+    "name": { "str": "hair curler" },
     "type": "GENERIC",
     "description": "A soft plastic cylinder you can wrap a lock of your hair around to curl it.",
     "copy-from": "base_toiletries",
@@ -102,7 +102,7 @@
   },
   {
     "id": "comb_pocket",
-    "name": "comb",
+    "name": { "str": "comb" },
     "type": "GENERIC",
     "description": "A grooming tool with teeth for straightening your hair.",
     "symbol": "/",
@@ -119,23 +119,23 @@
   },
   {
     "id": "plunger_toilet",
-    "name": "toilet plunger",
+    "name": { "str": "toilet plunger" },
     "type": "GENERIC",
     "description": "A rubber-tipped tool for unclogging pipes, or a club for an immature survivor.",
     "symbol": "p",
     "color": "red",
     "price": 800,
-    "price_postapoc": 50,
+    "price_postapoc": 10,
     "weight": "590 g",
     "volume": "2100 ml",
     "//": "the volume is pretty bulky, but this is an old fashioned model.",
-    "material": [ "wood", "plastic" ],
+    "material": [ "wood", "rubber" ],
     "bashing": 5,
     "to_hit": -1
   },
   {
     "id": "plunger_futuristic",
-    "name": "professional plunger",
+    "name": { "str": "professional plunger" },
     "type": "GENERIC",
     "description": "This hollow plastic toilet plunger's bell compresses like an accordion.  It is efficient at its intended purpose, and complete rubbish as a weapon.",
     "symbol": "p",
@@ -181,7 +181,7 @@
   },
   {
     "id": "hair_dryer",
-    "name": "hair dryer",
+    "name": { "str": "hair dryer" },
     "type": "GENERIC",
     "description": "This tool dries your hair by pushing air through a coil of hot wires.  Without a functioning power grid, it is a motorized paper weight.",
     "symbol": "(",
@@ -196,7 +196,7 @@
   },
   {
     "id": "curling_iron",
-    "name": "curling iron",
+    "name": { "str": "curling iron" },
     "type": "GENERIC",
     "description": "A wand made of heat-resistant ceramics.  When plugged into an outlet, it is hot enough to shape your hair into curls.  Too bad the power's out.",
     "symbol": "/",

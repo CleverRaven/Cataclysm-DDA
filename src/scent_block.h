@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SCENT_BLOCK_H
-#define SCENT_BLOCK_H
+#ifndef CATA_SRC_SCENT_BLOCK_H
+#define CATA_SRC_SCENT_BLOCK_H
 
 #include <algorithm>
 #include <array>
@@ -102,4 +102,4 @@ struct scent_block {
     }
 };
 
-#endif
+#endif // CATA_SRC_SCENT_BLOCK_H
