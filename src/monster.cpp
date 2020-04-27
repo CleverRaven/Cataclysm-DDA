@@ -2017,7 +2017,7 @@ void monster::disable_special( const std::string &special_name )
 int monster::shortest_special_cooldown() const
 {
     int countdown = std::numeric_limits<int>::max();
-    for( const std::pair<std::string, mon_special_attack> &sp_type : special_attacks ) {
+    for( const std::pair<const std::string, mon_special_attack> &sp_type : special_attacks ) {
         const mon_special_attack &local_attack_data = sp_type.second;
         if( !local_attack_data.enabled ) {
             continue;
