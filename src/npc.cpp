@@ -2347,19 +2347,17 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+static void maybe_shift( cata::optional<tripoint> &pos, const point &d )
 {
     if( pos ) {
-        pos->x += dx;
-        pos->y += dy;
+        *pos += d;
     }
 }
 
-static void maybe_shift( tripoint &pos, int dx, int dy )
+static void maybe_shift( tripoint &pos, const point &d )
 {
     if( pos != tripoint_min ) {
-        pos.x += dx;
-        pos.y += dy;
+        pos += d;
     }
 }
 
@@ -2369,9 +2367,9 @@ void npc::shift( const point &s )
 
     setpos( pos() - shift );
 
-    maybe_shift( wanted_item_pos, -shift.x, -shift.y );
-    maybe_shift( last_player_seen_pos, -shift.x, -shift.y );
-    maybe_shift( pulp_location, -shift.x, -shift.y );
+    maybe_shift( wanted_item_pos, point( -shift.x, -shift.y ) );
+    maybe_shift( last_player_seen_pos, point( -shift.x, -shift.y ) );
+    maybe_shift( pulp_location, point( -shift.x, -shift.y ) );
     path.clear();
 }
 
