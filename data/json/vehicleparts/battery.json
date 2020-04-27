@@ -44,7 +44,7 @@
     "name": { "str": "motorbike battery, small" },
     "item": "battery_motorbike_small",
     "durability": 30,
-    "folded_volume": 1,
+    "folded_volume": 3,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
