@@ -152,7 +152,7 @@
     "to_hit": -10,
     "bashing": 10,
     "ammo": "battery",
-    "power_draw": 1200000,
+    "power_draw": 120000,
     "revert_to": "vac_oven_small_full",
     "charges_per_use": 1,
     "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
