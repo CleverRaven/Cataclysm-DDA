@@ -29,13 +29,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house",
-    "copy-from": "house",
-    "sym": "\u00E0",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "house_wooded",
     "copy-from": "house_wooded",
     "sym": "\u00E0",

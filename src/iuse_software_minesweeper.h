@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SOFTWARE_MINESWEEPER_H
-#define SOFTWARE_MINESWEEPER_H
+#ifndef CATA_SRC_IUSE_SOFTWARE_MINESWEEPER_H
+#define CATA_SRC_IUSE_SOFTWARE_MINESWEEPER_H
 
 #include <map>
 
@@ -40,4 +40,4 @@ class minesweeper_game
         minesweeper_game();
 };
 
-#endif
+#endif // CATA_SRC_IUSE_SOFTWARE_MINESWEEPER_H

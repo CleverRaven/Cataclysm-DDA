@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OVERMAP_UI_H
-#define OVERMAP_UI_H
+#ifndef CATA_SRC_OVERMAP_UI_H
+#define CATA_SRC_OVERMAP_UI_H
 
 #include "point.h"
 
@@ -95,4 +95,4 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
            const draw_data_t &data );
 void create_note( const tripoint &curs );
 } // namespace overmap_ui
-#endif /* OVERMAP_UI_H */
+#endif // CATA_SRC_OVERMAP_UI_H

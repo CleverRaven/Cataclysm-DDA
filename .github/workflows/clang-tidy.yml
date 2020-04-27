@@ -1,0 +1,36 @@
+name: Clang-tidy (clang-8, tiles)
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+    env:
+        CMAKE: 1
+        CLANG: clang++-8
+        COMPILER: clang++-8
+        CATA_CLANG_TIDY: plugin
+        TILES: 1
+        SOUND: 1
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 10
+    - name: install dependencies
+      run: |
+          #sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main"
+          sudo apt-get update
+          sudo apt-get install libncursesw5-dev clang-8 libclang-8-dev llvm-8-dev llvm-8-tools \
+            libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
+            gettext
+    - name: prepare
+      run: bash ./build-scripts/requirements.sh
+    - name: run clang-tidy
+      run: bash ./build-scripts/build.sh

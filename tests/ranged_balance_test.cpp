@@ -1,31 +1,32 @@
+#include <algorithm>
 #include <array>
+#include <cstdlib>
 #include <list>
+#include <memory>
 #include <ostream>
 #include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
-#include "cata_utility.h"
 #include "ballistics.h"
-#include "creature.h"
-#include "dispersion.h"
-#include "map_helpers.h"
-#include "npc.h"
-#include "test_statistics.h"
-#include "units.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "catch/catch.hpp"
+#include "creature.h"
+#include "dispersion.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "json.h"
+#include "map_helpers.h"
+#include "npc.h"
 #include "player.h"
-#include "player_helpers.h"
-#include "material.h"
-#include "skill.h"
-#include "type_id.h"
 #include "point.h"
+#include "test_statistics.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
 
 using firing_statistics = statistics<bool>;
 
@@ -96,7 +97,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
         gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity() );
     }
     for( const auto &mod : mods ) {
-        gun.contents.push_back( item( itype_id( mod ) ) );
+        gun.put_in( item( itype_id( mod ) ) );
     }
     shooter.wield( gun );
 }
@@ -247,7 +248,7 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
 
 static constexpr tripoint shooter_pos( 60, 60, 0 );
 
-TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
+TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );

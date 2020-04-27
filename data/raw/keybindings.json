@@ -1057,9 +1057,9 @@
   },
   {
     "type": "keybinding",
-    "id": "PICK_RANDOM_NAME",
+    "id": "RANDOMIZE_CHAR_DESCRIPTION",
     "category": "NEW_CHAR_DESCRIPTION",
-    "name": "Pick random character name",
+    "name": "Pick random character description",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
@@ -1895,7 +1895,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View Scores",
+    "name": "View Achievements, Scores, and Kills",
     "category": "DEFAULTMODE",
     "id": "scores",
     "bindings": [ { "input_method": "keyboard", "key": ")" } ]
@@ -2171,8 +2171,7 @@
     "type": "keybinding",
     "name": "Cycle move mode (run/walk/crouch)",
     "category": "DEFAULTMODE",
-    "id": "cycle_move",
-    "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
+    "id": "cycle_move"
   },
   {
     "type": "keybinding",
@@ -2196,7 +2195,8 @@
     "type": "keybinding",
     "name": "Movement Mode Menu",
     "category": "DEFAULTMODE",
-    "id": "open_movement"
+    "id": "open_movement",
+    "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
   },
   {
     "type": "keybinding",
@@ -2268,7 +2268,7 @@
     "type": "keybinding",
     "id": "fire",
     "category": "LIST_MONSTERS",
-    "name": "fire",
+    "name": { "ctxt": "verb", "str": "fire" },
     "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {
@@ -2889,5 +2889,26 @@
       { "input_method": "keyboard", "key": "SPACE" },
       { "input_method": "keyboard", "key": "RETURN" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CREATURE",
+    "category": "EXTENDED_DESCRIPTION",
+    "name": "Describe creature",
+    "bindings": [ { "input_method": "keyboard", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FURNITURE",
+    "category": "EXTENDED_DESCRIPTION",
+    "name": "Describe furniture",
+    "bindings": [ { "input_method": "keyboard", "key": "f" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TERRAIN",
+    "category": "EXTENDED_DESCRIPTION",
+    "name": "Describe terrain",
+    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "id": "mon_necco",
     "type": "MONSTER",
-    "name": "necco",
+    "name": { "str": "necco" },
     "copy-from": "mon_cat",
     "description": "A giant necco wafer happily jaunting around.",
     "default_faction": "cat",
@@ -22,7 +22,7 @@
   {
     "id": "mon_marshmallow_kid",
     "type": "MONSTER",
-    "name": { "str": "marshmallow kid", "str_pl": "marshmallow kids" },
+    "name": { "str": "marshmallow kid" },
     "description": "A small humanoid made of marsmallow.  It bumbles around on its stubby cushioned legs.  How cute!",
     "default_faction": "marshmallow_boys",
     "bodytype": "human",
@@ -49,7 +49,7 @@
   {
     "id": "mon_marshmallow_guy",
     "type": "MONSTER",
-    "name": "marshmallow guy",
+    "name": { "str": "marshmallow guy" },
     "description": "A marshmallow humanoid with a smile drawn on its face.  It bumbles around, hollow eyes scanning its surrounding seemingly looking for something.",
     "default_faction": "marshmallow_boys",
     "bodytype": "human",
@@ -75,7 +75,7 @@
   {
     "id": "mon_marshmallow_buff",
     "type": "MONSTER",
-    "name": "marshmallow buff",
+    "name": { "str": "marshmallow buff" },
     "description": "A muscular body made of marshmallow, proudly striding towards an unknown goal.  Yummy!",
     "default_faction": "marshmallow_boys",
     "bodytype": "human",
@@ -105,7 +105,7 @@
   {
     "id": "mon_marshmallow_goliath",
     "type": "MONSTER",
-    "name": "marshmallow goliath",
+    "name": { "str": "marshmallow goliath" },
     "description": "A gigantic marshmallow humanoid softly stompind around, frozen smile and big empty eyes carefully scanning its surroundings.",
     "default_faction": "marshmallow_boys",
     "bodytype": "human",
@@ -147,7 +147,7 @@
   {
     "id": "mon_marshmallow_kid_armored",
     "type": "MONSTER",
-    "name": { "str": "marshmallow squire", "str_pl": "marshmallow squires" },
+    "name": { "str": "marshmallow squire" },
     "description": "A small humanoid made of marsmallow.  It wears a plate armor made of chocolate coated crakers and bumbles around on its stubby cushioned legs.  How cute!",
     "copy-from": "mon_marshmallow_kid",
     "color": "white_red",
@@ -159,7 +159,7 @@
   {
     "id": "mon_marshmallow_guy_armored",
     "type": "MONSTER",
-    "name": "marshmallow knight",
+    "name": { "str": "marshmallow knight" },
     "description": "A marshmallow humanoid in full chocolate coated crakers knight armor.  It bumbles around, hollow eyes scanning its surrounding seemingly looking for something.",
     "default_faction": "marshmallow_boys",
     "copy-from": "mon_marshmallow_guy",
@@ -173,7 +173,7 @@
   {
     "id": "mon_marshmallow_buff_armored",
     "type": "MONSTER",
-    "name": "marshmallow champion",
+    "name": { "str": "marshmallow champion" },
     "description": "Standing tall in its shining armor of chocolate coated crakers this marshmallow is proudly striding towards an unknown goal.",
     "default_faction": "marshmallow_boys",
     "copy-from": "mon_marshmallow_buff",
@@ -187,7 +187,7 @@
   {
     "id": "mon_marshmallow_goliath_armored",
     "type": "MONSTER",
-    "name": "marshmallow war lord",
+    "name": { "str": "marshmallow war lord" },
     "description": "A gigantic humanoid armored with thick plates of chocolate coated crakers.  A frozen smile half visible under its heavy helmet it carefully scans its surroundings.",
     "default_faction": "marshmallow_boys",
     "copy-from": "mon_marshmallow_goliath",
@@ -201,7 +201,7 @@
     "id": "mon_gummy_cub",
     "type": "MONSTER",
     "copy-from": "mon_gummy",
-    "name": "gummy cub",
+    "name": { "str": "gummy cub" },
     "description": "A juvenile gummy bear.  A cute bear cub made of sugary gum.",
     "volume": "40750 ml",
     "weight": "40750 g",
@@ -220,7 +220,7 @@
   {
     "id": "mon_gummy",
     "type": "MONSTER",
-    "name": "gummy bear",
+    "name": { "str": "gummy bear" },
     "description": "A big bear made of fruit flavored gelatine, its smooth round shape and its fruity smell make it somehow less scary than its fleshy counterpart.",
     "default_faction": "gummy_bears",
     "bodytype": "bear",
@@ -251,7 +251,7 @@
   {
     "id": "mon_small_cracker",
     "type": "MONSTER",
-    "name": "cracker kid",
+    "name": { "str": "cracker kid" },
     "description": "A small cracker kid running around on its cracker legs.",
     "default_faction": "crackers",
     "bodytype": "human",
@@ -282,7 +282,7 @@
   {
     "id": "mon_cracker",
     "type": "MONSTER",
-    "name": "cracker",
+    "name": { "str": "cracker" },
     "description": "A full grown cracker running around on its cracker legs.",
     "default_faction": "crackers",
     "bodytype": "human",
@@ -313,7 +313,7 @@
   {
     "id": "mon_cookie",
     "type": "MONSTER",
-    "name": "cookie",
+    "name": { "str": "cookie" },
     "description": "A small cookie, scuriying around in search for crumbs.",
     "default_faction": "cookies",
     "bodytype": "pig",
@@ -369,7 +369,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "gum_spider",
-    "emit_fields": [ "emit_gum_web" ],
+    "emit_fields": [ { "emit_id": "emit_gum_web", "delay": "30 m" } ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "reproduction": { "baby_egg": "gum", "baby_count": 10, "baby_timer": 5 }

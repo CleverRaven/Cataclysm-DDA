@@ -106,13 +106,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "SAFE_AUTODOC",
-    "info": "Makes autodoc operations completely safe, independent of the players skill.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "NO_NPC_FOOD",
     "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs. If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
     "stype": "bool",

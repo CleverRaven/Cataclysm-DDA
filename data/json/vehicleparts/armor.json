@@ -2,7 +2,7 @@
   {
     "id": "rebar_plate",
     "type": "vehicle_part",
-    "name": "rebar reinforcement",
+    "name": { "str": "rebar reinforcement" },
     "item": "rebar_plate",
     "location": "armor",
     "symbol": "X",
@@ -24,7 +24,7 @@
   {
     "id": "spring_plate",
     "type": "vehicle_part",
-    "name": "shock absorber",
+    "name": { "str": "shock absorber" },
     "item": "spring_plate",
     "location": "armor",
     "symbol": "X",

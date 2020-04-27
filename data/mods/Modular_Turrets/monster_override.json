@@ -170,7 +170,7 @@
     "copy-from": "mon_defbot_base",
     "name": "riotcontrol robot",
     "description": "An automated defense robot still active due to its internal power source.  This one is equipped with an electric prod, tear gas sprayer, and integrated 40mm beanbag launcher.",
-    "emit_fields": [ "emit_tear_gas_pulse" ],
+    "emit_fields": [ { "emit_id": "emit_tear_gas_pulse", "delay": "1 s" } ],
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "40x46mm_m1006": 100 },
     "special_attacks": [

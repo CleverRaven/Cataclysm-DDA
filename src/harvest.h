@@ -1,7 +1,8 @@
 #pragma once
-#ifndef HARVEST_H
-#define HARVEST_H
+#ifndef CATA_SRC_HARVEST_H
+#define CATA_SRC_HARVEST_H
 
+#include <algorithm>
 #include <list>
 #include <map>
 #include <set>
@@ -9,7 +10,6 @@
 #include <utility>
 #include <vector>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -92,4 +92,4 @@ class harvest_list
         void finalize();
 };
 
-#endif
+#endif // CATA_SRC_HARVEST_H

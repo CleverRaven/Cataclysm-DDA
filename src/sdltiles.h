@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SDLTILES_H
-#define CATA_SDLTILES_H
+#ifndef CATA_SRC_SDLTILES_H
+#define CATA_SRC_SDLTILES_H
 
 #include <array>
 #if defined(TILES)
@@ -9,9 +9,15 @@
 #include <memory>
 
 #include "color_loader.h"
+#include "point.h"
 #include "sdl_wrappers.h"
 
 class cata_tiles;
+
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 
 extern SDL_Texture_Ptr alt_rect_tex;
 extern bool alt_rect_tex_enabled;
@@ -25,6 +31,18 @@ void rescale_tileset( int size );
 bool save_screenshot( const std::string &file_path );
 void toggle_fullscreen_window();
 
+struct window_dimensions {
+    point scaled_font_size;
+    point window_pos_cell;
+    point window_size_cell;
+    point window_pos_pixel;
+    point window_size_pixel;
+};
+window_dimensions get_window_dimensions( const catacurses::window &win );
+// Get dimensional info of an imaginary normal catacurses::window with the given
+// position and size. Unlike real catacurses::window, size can be zero.
+window_dimensions get_window_dimensions( const point &pos, const point &size );
+
 #endif // TILES
 
-#endif // CATA_SDLTILES_H
+#endif // CATA_SRC_SDLTILES_H

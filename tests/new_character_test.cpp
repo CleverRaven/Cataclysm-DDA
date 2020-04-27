@@ -1,25 +1,27 @@
+#include <array>
+#include <cstddef>
+#include <functional>
+#include <list>
+#include <memory>
 #include <set>
 #include <sstream>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <array>
-#include <functional>
-#include <list>
-#include <memory>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
-#include "profession.h"
-#include "scenario.h"
-#include "string_id.h"
 #include "optional.h"
 #include "pldata.h"
+#include "profession.h"
 #include "ret_val.h"
+#include "scenario.h"
+#include "string_id.h"
 #include "type_id.h"
 
 static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
@@ -49,7 +51,7 @@ static std::vector<trait_id> next_subset( const std::vector<trait_id> &set )
 
 static bool try_set_traits( const std::vector<trait_id> &traits )
 {
-    g->u.empty_traits();
+    g->u.clear_mutations();
     g->u.add_traits(); // mandatory prof/scen traits
     for( const trait_id &tr : traits ) {
         if( g->u.has_conflicting_trait( tr ) || !g->scen->traitquery( tr ) ) {
@@ -96,7 +98,7 @@ struct less<failure> {
 // size of 20, 70% of the time is due to the call to Character::set_mutation in try_set_traits.
 // When the mutation stuff isn't commented out, the test takes 110 minutes (not a typo)!
 
-TEST_CASE( "starting_items" )
+TEST_CASE( "starting_items", "[slow]" )
 {
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
@@ -145,7 +147,10 @@ TEST_CASE( "starting_items" )
                     g->u.male = i == 0;
                     std::list<item> items = prof->items( g->u.male, traits );
                     for( const item &it : items ) {
-                        items.insert( items.begin(), it.contents.begin(), it.contents.end() );
+                        const std::list<const item *> it_contents = it.contents.all_items_top();
+                        for( const item *top_content_item : it_contents ) {
+                            items.push_back( *top_content_item );
+                        }
                     }
 
                     for( const item &it : items ) {
@@ -178,4 +183,3 @@ TEST_CASE( "starting_items" )
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );
 }
-

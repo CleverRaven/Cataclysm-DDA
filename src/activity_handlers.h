@@ -1,23 +1,31 @@
 #pragma once
-#ifndef ACTIVITY_HANDLERS_H
-#define ACTIVITY_HANDLERS_H
+#ifndef CATA_SRC_ACTIVITY_HANDLERS_H
+#define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
+#include <list>
 #include <map>
 #include <unordered_set>
 #include <vector>
-#include <list>
 
-#include "player_activity.h"
+#include "optional.h"
+#include "type_id.h"
 
-class player;
 class Character;
 class item;
+class player;
+class player_activity;
 struct tripoint;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
+
+enum requirement_check_result : int {
+    SKIP_LOCATION = 0,
+    CAN_DO_LOCATION,
+    RETURN_EARLY       //another activity like a fetch activity has been started.
+};
 
 enum butcher_type : int {
     BUTCHER,        // quick butchery
@@ -29,10 +37,10 @@ enum butcher_type : int {
     DISSECT         // dissect a corpse for CBMs
 };
 
-enum do_activity_reason : int {
+enum class do_activity_reason : int {
     CAN_DO_CONSTRUCTION,    // Can do construction.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
-    CAN_DO_PREREQ,          // for constructions - cant build the main construction, but can build the pre-req
+    CAN_DO_PREREQ,          // for constructions - can't build the main construction, but can build the pre-req
     CAN_DO_PREREQ_2,        // Can do the second pre-req deep below the desired one.
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
     NO_COMPONENTS_PREREQ,   // need components to build the pre-requisite for the actual desired construction
@@ -48,10 +56,11 @@ enum do_activity_reason : int {
     NEEDS_CHOPPING,         // There is wood there to be chopped
     NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
     NEEDS_BIG_BUTCHERING,   // There is at least one corpse there to butcher, and it's a big one
-    NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and theres no need for additional tools
+    NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and there's no need for additional tools
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
+    NEEDS_MINING,           // This spot can be mined, if the right tool is present.
     NEEDS_FISHING           // This spot can be fished, if the right tool is present.
 };
 
@@ -88,12 +97,12 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type 
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
-void activity_on_turn_move_items( player_activity &act, player &p );
 void activity_on_turn_move_loot( player_activity &act, player &p );
-void generic_multi_activity_handler( player_activity &act, player &p );
+//return true if there is an activity that can be done potentially, return false if no work can be found.
+bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
 void activity_on_turn_fetch( player_activity &, player *p );
-void activity_on_turn_pickup();
 void activity_on_turn_wear( player_activity &act, player &p );
+bool find_auto_consume( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
 enum class item_drop_reason {
@@ -111,20 +120,6 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
 
 namespace activity_handlers
 {
-
-enum hack_result {
-    HACK_UNABLE,
-    HACK_FAIL,
-    HACK_NOTHING,
-    HACK_SUCCESS
-};
-
-enum hack_type {
-    HACK_SAFE,
-    HACK_DOOR,
-    HACK_GAS,
-    HACK_NULL
-};
 
 bool resume_for_multi_activities( player &p );
 /** activity_do_turn functions: */
@@ -144,7 +139,6 @@ void hand_crank_do_turn( player_activity *act, player *p );
 void multiple_chop_planks_do_turn( player_activity *act, player *p );
 void oxytorch_do_turn( player_activity *act, player *p );
 void aim_do_turn( player_activity *act, player *p );
-void pickup_do_turn( player_activity *act, player *p );
 void wear_do_turn( player_activity *act, player *p );
 void eat_menu_do_turn( player_activity *act, player *p );
 void consume_food_menu_do_turn( player_activity *act, player *p );
@@ -154,6 +148,7 @@ void move_items_do_turn( player_activity *act, player *p );
 void multiple_farm_do_turn( player_activity *act, player *p );
 void multiple_fish_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
+void multiple_mine_do_turn( player_activity *act, player *p );
 void multiple_butcher_do_turn( player_activity *act, player *p );
 void vehicle_deconstruction_do_turn( player_activity *act, player *p );
 void vehicle_repair_do_turn( player_activity *act, player *p );
@@ -169,6 +164,7 @@ void fish_do_turn( player_activity *act, player *p );
 void cracking_do_turn( player_activity *act, player *p );
 void repair_item_do_turn( player_activity *act, player *p );
 void butcher_do_turn( player_activity *act, player *p );
+void pry_nails_do_turn( player_activity *act, player *p );
 void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
@@ -207,11 +203,14 @@ void reload_finish( player_activity *act, player *p );
 void start_fire_finish( player_activity *act, player *p );
 void train_finish( player_activity *act, player *p );
 void milk_finish( player_activity *act, player *p );
+void shear_finish( player_activity *act, player *p );
 void vehicle_finish( player_activity *act, player *p );
 void start_engines_finish( player_activity *act, player *p );
 void churn_finish( player_activity *act, player *p );
+void plant_seed_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
+void lockpicking_finish( player_activity *act, player *p );
 void open_gate_finish( player_activity *act, player * );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
@@ -236,6 +235,7 @@ void aim_finish( player_activity *act, player *p );
 void eat_menu_finish( player_activity *act, player *p );
 void washing_finish( player_activity *act, player *p );
 void hacksaw_finish( player_activity *act, player *p );
+void pry_nails_finish( player_activity *act, player *p );
 void chop_tree_finish( player_activity *act, player *p );
 void chop_logs_finish( player_activity *act, player *p );
 void chop_planks_finish( player_activity *act, player *p );
@@ -249,7 +249,6 @@ void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void mind_splicer_finish( player_activity *act, player *p );
-void hacking_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );
 void study_spell_finish( player_activity *act, player *p );
 
@@ -261,4 +260,4 @@ finish_functions;
 
 } // namespace activity_handlers
 
-#endif
+#endif // CATA_SRC_ACTIVITY_HANDLERS_H

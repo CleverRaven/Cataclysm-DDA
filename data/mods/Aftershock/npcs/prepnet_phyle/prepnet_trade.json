@@ -1,0 +1,35 @@
+[
+  {
+    "type": "item_group",
+    "id": "prepnet_orchard_trade",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "irradiated_food", "prob": 200 },
+      { "group": "hardware", "prob": 100 },
+      { "group": "gear_survival", "prob": 100 },
+      { "group": "rad_gear", "prob": 100 },
+      { "group": "prepnet_basic_robots", "prob": 20 },
+      { "group": "prepnet_basic_grenades", "prob": 30 },
+      { "group": "ammo_any_batteries_full", "prob": 100 },
+      { "group": "prepnet_id_cards", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "prepnet_id_cards",
+    "subtype": "distribution",
+    "items": [ [ "id_science", 90 ], [ "id_military", 5 ], [ "id_industrial", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "prepnet_basic_grenades",
+    "subtype": "distribution",
+    "items": [ [ "grenade_inc", 50 ], [ "scrambler", 25 ], [ "fungicidalbomb", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "prepnet_basic_robots",
+    "subtype": "distribution",
+    "items": [ [ "bot_rifleturret", 40 ], [ "bot_bloodhound_drone", 25 ] ]
+  }
+]

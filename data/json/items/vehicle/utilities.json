@@ -4,10 +4,11 @@
     "id": "black_box",
     "category": "other",
     "name": { "str": "military black box", "str_pl": "military black boxes" },
-    "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this you may find something of interest.",
+    "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this, you may find something of interest.",
     "weight": "4535 g",
     "volume": "2 L",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -1,
     "bashing": 4,
     "material": [ "steel" ],
@@ -17,7 +18,7 @@
   {
     "type": "TOOL",
     "id": "minireactor",
-    "name": "minireactor",
+    "name": { "str": "minireactor" },
     "description": "A small portable plutonium reactor.  Handle with great care!",
     "weight": "27215 g",
     "to_hit": -4,
@@ -28,14 +29,14 @@
     "bashing": 7,
     "category": "veh_parts",
     "price": 90000,
+    "price_postapoc": 5000,
     "ammo": "plutonium",
     "max_charges": 10000
   },
   {
     "type": "GENERIC",
     "id": "mountable_cooler",
-    "name": "vehicle cooler",
-    "name_plural": "vehicle coolers",
+    "name": { "str": "vehicle cooler" },
     "description": "A vehicle-mounted area cooler.",
     "weight": "12500 g",
     "to_hit": -4,
@@ -45,13 +46,13 @@
     "volume": "7500 ml",
     "bashing": 12,
     "category": "veh_parts",
-    "price": 20000
+    "price": 20000,
+    "price_postapoc": 1500
   },
   {
     "type": "GENERIC",
     "id": "mountable_heater",
-    "name": "vehicle heater",
-    "name_plural": "vehicle heaters",
+    "name": { "str": "vehicle heater" },
     "description": "A vehicle-mounted area heater.",
     "weight": "12500 g",
     "to_hit": -4,
@@ -61,12 +62,13 @@
     "volume": "7500 ml",
     "bashing": 12,
     "category": "veh_parts",
-    "price": 20000
+    "price": 20000,
+    "price_postapoc": 1500
   },
   {
     "type": "GENERIC",
     "id": "towel_hanger",
-    "name": "towel hanger",
+    "name": { "str": "towel hanger" },
     "description": "A towel hanger with towels.",
     "weight": "2000 g",
     "to_hit": -1,
@@ -76,12 +78,13 @@
     "volume": "2500 ml",
     "bashing": 4,
     "category": "veh_parts",
-    "price": 3000
+    "price": 3000,
+    "price_postapoc": 10
   },
   {
     "type": "GENERIC",
     "id": "recharge_station",
-    "name": "recharging station",
+    "name": { "str": "recharging station" },
     "description": "A universal recharging station designed to operate on vehicle power.  While on it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.",
     "weight": "10000 g",
     "to_hit": 1,
@@ -91,12 +94,13 @@
     "volume": "5 L",
     "bashing": 5,
     "category": "veh_parts",
-    "price": 90000
+    "price": 90000,
+    "price_postapoc": 1000
   },
   {
     "type": "GENERIC",
     "id": "washing_machine",
-    "name": "washing machine",
+    "name": { "str": "washing machine" },
     "description": "A very small washing machine designed for use in vehicles.",
     "weight": "31752 g",
     "to_hit": -8,
@@ -106,12 +110,13 @@
     "volume": "125 L",
     "bashing": 8,
     "category": "veh_parts",
-    "price": 60000
+    "price": 60000,
+    "price_postapoc": 500
   },
   {
     "type": "GENERIC",
     "id": "programmable_autopilot",
-    "name": "programmable autopilot",
+    "name": { "str": "programmable autopilot" },
     "description": "A computer system hooked up to the steering and engine of a vehicle to allow it to follow simple paths.",
     "weight": "11246 g",
     "to_hit": -2,
@@ -121,14 +126,16 @@
     "volume": "10 L",
     "bashing": 3,
     "category": "veh_parts",
-    "price": 90000
+    "price": 90000,
+    "price_postapoc": 2500
   },
   {
     "type": "GENERIC",
     "id": "vh_autoclave",
-    "name": "mountable autoclave",
+    "name": { "str": "mountable autoclave" },
     "description": "This autoclave has been rigged to run off a vehicle power grid.",
     "price": 162654,
+    "price_postapoc": 1500,
     "symbol": "A",
     "color": "yellow",
     "weight": "34500 g",
@@ -139,31 +146,42 @@
     "type": "GENERIC",
     "copy-from": "washing_machine",
     "id": "minifridge",
-    "name": "minifridge",
+    "name": { "str": "minifridge" },
     "description": "A very small fridge for keeping food cool.  Provides some insulation from outside weather.",
     "insulation": 2
   },
   {
     "type": "GENERIC",
     "id": "minifreezer",
-    "name": "minifreezer",
+    "name": { "str": "minifreezer" },
     "description": "Compact version of a chest freezer, designed as a mobile solution for freezing food.  Provides insulation from the elements.",
     "price": 70000,
+    "price_postapoc": 4000,
     "insulation": 4,
     "copy-from": "minifridge"
   },
   {
     "type": "GENERIC",
     "id": "dishwasher",
-    "name": "dishwasher",
+    "name": { "str": "dishwasher" },
     "description": "A very small dishwasher designed for use in vehicles.",
     "looks_like": "washing_machine",
     "copy-from": "washing_machine"
   },
   {
     "type": "GENERIC",
+    "copy-from": "washing_machine",
+    "id": "fridgetank",
+    "name": { "str": "refrigerated tank" },
+    "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
+    "insulation": 2,
+    "volume": "60 L",
+    "weight": "48 kg"
+  },
+  {
+    "type": "GENERIC",
     "id": "water_faucet",
-    "name": "water faucet",
+    "name": { "str": "water faucet" },
     "description": "A metal faucet that can be attached to a water tank for easy access.",
     "weight": "900 g",
     "to_hit": -1,
@@ -173,6 +191,7 @@
     "volume": "750 ml",
     "bashing": 2,
     "category": "veh_parts",
-    "price": 3000
+    "price": 3000,
+    "price_postapoc": 50
   }
 ]

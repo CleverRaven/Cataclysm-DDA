@@ -1,48 +1,59 @@
-#include "advanced_inv_area.h"
-#include "auto_pickup.h"
-#include "avatar.h"
-#include "cata_utility.h"
-#include "catacharset.h"
-#include "input.h"
-#include "item_category.h"
-#include "item_search.h"
-#include "item_stack.h"
-#include "output.h"
-#include "player.h"
-#include "string_formatter.h"
-#include "string_input_popup.h"
-#include "uistate.h"
-#include "calendar.h"
-#include "color.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item.h"
-#include "ret_val.h"
-#include "type_id.h"
-#include "clzones.h"
-#include "enums.h"
-#include "bionics.h"
-#include "material.h"
-#include "ime.h"
-#include "advanced_inv_pane.h"
-#include "vehicle.h"
-#include "map.h"
-
 #include <algorithm>
 #include <cassert>
-#include <cstring>
+#include <list>
+#include <memory>
 #include <string>
 #include <vector>
-#include <initializer_list>
-#include <iterator>
-#include <utility>
-#include <numeric>
-#include "cata_string_consts.h"
+
+#include "advanced_inv_area.h"
+#include "advanced_inv_pane.h"
+#include "avatar.h"
+#include "game.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_search.h"
+#include "map.h"
+#include "options.h"
+#include "player.h"
+#include "uistate.h"
+#include "units.h"
+#include "vehicle.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
+void advanced_inventory_pane::save_settings()
+{
+    save_state->in_vehicle = in_vehicle();
+    save_state->area_idx = get_area();
+    save_state->selected_idx = index;
+    save_state->filter = filter;
+    save_state->sort_idx = sortby;
+}
+
+void advanced_inventory_pane::load_settings( int saved_area_idx,
+        const std::array<advanced_inv_area, NUM_AIM_LOCATIONS> &squares, bool is_re_enter )
+{
+    const int i_location = ( get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) ) ? saved_area_idx :
+                           save_state->area_idx;
+    const aim_location location = static_cast<aim_location>( i_location );
+    auto square = squares[location];
+    // determine the square's vehicle/map item presence
+    bool has_veh_items = square.can_store_in_vehicle() ?
+                         !square.veh->get_items( square.vstor ).empty() : false;
+    bool has_map_items = !g->m.i_at( square.pos ).empty();
+    // determine based on map items and settings to show cargo
+    bool show_vehicle = is_re_enter ?
+                        save_state->in_vehicle : has_veh_items ? true :
+                        has_map_items ? false : square.can_store_in_vehicle();
+    set_area( square, show_vehicle );
+    sortby = static_cast<advanced_inv_sortby>( save_state->sort_idx );
+    index = save_state->selected_idx;
+    filter = save_state->filter;
+}
+
+static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
 {

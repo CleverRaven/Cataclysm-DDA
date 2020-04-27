@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ASSERTION_HELPERS_H
-#define ASSERTION_HELPERS_H
+#ifndef CATA_TESTS_ASSERTION_HELPERS_H
+#define CATA_TESTS_ASSERTION_HELPERS_H
 
 #include "catch/catch.hpp"
 
@@ -15,4 +15,4 @@ void check_containers_equal( const Container1 &c1, const Container2 &c2 )
     CHECK( std::equal( c1.begin(), c1.end(), c2.begin() ) );
 }
 
-#endif // ASSERTION_HELPERS_H
+#endif // CATA_TESTS_ASSERTION_HELPERS_H

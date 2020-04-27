@@ -16,7 +16,7 @@
   {
     "type": "npc_class",
     "id": "NC_ROBOFAC_SECURITY_HEAD",
-    "name": "Head of security",
+    "name": { "str": "Head of security" },
     "job_description": "I'm part of the Hub security team.",
     "common": false,
     "//": "Needs his own unique background.",

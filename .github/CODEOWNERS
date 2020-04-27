@@ -1,10 +1,10 @@
 #Note that despite github calling these "owners", a better term would be "alerts"
 #Everything in the cataclysm repository remains under a creative commons license, nobody owns the mods.
 #In fact, the code "owners" designation is meant to encourage third party
-#individuals to contribute to the mod, with the maintainers notified for reviews.
+#individuals to contribute to the mod, with the curators notified for reviews.
 
 /data/mods/Aftershock/ @Malecypse @John-Candlebury
-/data/mods/DinoMod/ @damien @ethankaminski @LyleSY
+/data/mods/DinoMod/ @ephemeralstoryteller @damien @LyleSY
 /data/mods/Graphical_Overmap/ @Kilvoctu @Larwck
 /data/mods/MMA/ @Hymore246
 /data/mods/No_Fungi/ @I-am-Erk
@@ -13,11 +13,12 @@
 /data/mods/crt_expansion/ @Soupster89
 /data/mods/desertpack/ @davidpwbrown 
 /data/mods/generic_guns/ @tenmillimaster
-/data/mods/magiclysm/ @KorGgenT
+/data/mods/Magiclysm/ @KorGgenT
 /data/mods/my_sweet_cataclysm/ @Fris0uman
 /data/mods/ruralbiome/ @I-am-Erk
 /data/mods/speedydex/ @KorGgenT
 /data/mods/stats_through_kills/ @KorGgenT
+/data/mods/Dark-Skies-Above/ @ephemeralstoryteller
 
 magic*.cpp @KorGgenT
 magic*.h @KorGgenT

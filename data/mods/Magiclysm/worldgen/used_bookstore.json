@@ -47,6 +47,7 @@
         "N": "f_bookcase",
         "M": "f_bookcase",
         "T": "f_table",
+        "s": "f_sink",
         "O": "f_magic_circle",
         "d": "f_dumpster",
         "C": "f_counter"
