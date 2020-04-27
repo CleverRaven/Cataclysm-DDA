@@ -1070,7 +1070,7 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
         const int mapfont_y2 = std::min( termpixel_y2 / map_font->fontheight, oversized_height - 1 );
         const int mapfont_width = mapfont_x2 - mapfont_x + 1;
         const int mapfont_height = mapfont_y2 - mapfont_y + 1;
-        invalidate_framebuffer( oversized_framebuffer, mapfont_x, mapfont_y, mapfont_width,
+        invalidate_framebuffer( oversized_framebuffer, point( mapfont_x, mapfont_y ), mapfont_width,
                                 mapfont_height );
     }
 
@@ -1082,7 +1082,8 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
                                              oversized_height - 1 );
         const int overmapfont_width = overmapfont_x2 - overmapfont_x + 1;
         const int overmapfont_height = overmapfont_y2 - overmapfont_y + 1;
-        invalidate_framebuffer( oversized_framebuffer, overmapfont_x, overmapfont_y, overmapfont_width,
+        invalidate_framebuffer( oversized_framebuffer, point( overmapfont_x, overmapfont_y ),
+                                overmapfont_width,
                                 overmapfont_height );
     }
 }
@@ -1196,7 +1197,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             x_offset = width;
         }
 
-        invalidate_framebuffer( terminal_framebuffer, win->pos.x, win->pos.y,
+        invalidate_framebuffer( terminal_framebuffer, win->pos,
                                 TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT );
 
         update = true;
@@ -1235,7 +1236,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // The offset must not use the global font, but the map font
         int offsetx = win->pos.x * map_font->fontwidth;
         int offsety = win->pos.y * map_font->fontheight;
-        update = map_font->draw_window( w, offsetx, offsety );
+        update = map_font->draw_window( w, point( offsetx, offsety ) );
     } else if( g && w == g->w_blackspace ) {
         // fill-in black space window skips draw code
         // so as not to confuse framebuffer any more than necessary
@@ -1273,7 +1274,7 @@ bool Font::draw_window( const catacurses::window &w )
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
     // font used for this window.
-    return draw_window( w, win->pos.x * ::fontwidth, win->pos.y * ::fontheight );
+    return draw_window( w, point( win->pos.x * ::fontwidth, win->pos.y * ::fontheight ) );
 }
 
 bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )

@@ -1647,8 +1647,9 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 m.add_field( portal_location, fd_fatigue, 3 );
 
                 std::set<point> ignited;
-                place_fumarole( m, x1, y1, x2, y2, ignited );
-                place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
+                place_fumarole( m, point( x1, y1 ), point( x2, y2 ), ignited );
+                place_fumarole( m, point( x1 + x_extra, y1 + y_extra ), point( x2 + x_extra, y2 + y_extra ),
+                                ignited );
 
                 for( auto &i : ignited ) {
                     // Don't need to do anything to tiles that already have lava on them
