@@ -2241,8 +2241,11 @@ item *Character::try_add( item it, const item *avoid )
                 return nullptr;
             }
         } else {
-            wield( it );
-            ret = &weapon;
+            if( wield( it ) ) {
+                ret = &weapon;
+            } else {
+                return nullptr;
+            }
         }
     } else {
         pocket->add( it );
