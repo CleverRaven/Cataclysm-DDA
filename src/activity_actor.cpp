@@ -318,7 +318,7 @@ void purify_water_activity_actor::start( player_activity &act, Character & )
 void purify_water_activity_actor::finish( player_activity &act, Character & )
 {
     liquid.convert( "water_clean" ).poison = 0;
-    
+
     act.set_to_null();
 }
 
@@ -327,6 +327,7 @@ void purify_water_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "moves", moves );
+    jsout.member( "liquid", liquid );
 
     jsout.end_object();
 }
@@ -338,6 +339,7 @@ std::unique_ptr<activity_actor> purify_water_activity_actor::deserialize( JsonIn
     JsonObject data = jsin.get_object();
 
     data.read( "moves", actor.moves );
+    data.read( "liquid", actor.liquid );
 
     return actor.clone();
 }
