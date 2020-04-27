@@ -1781,6 +1781,7 @@ CBMs can be defined like this:
 "cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
+"purification_factor": 0,   // (Optional) If item is used to purify water, additional multiplicative factor to the time taken. 0 results in a constant time.
 ```
 
 ### Containers
@@ -1937,6 +1938,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "ammo": [ "NULL" ],       // Ammo types used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "firestarter" // Action performed when tool is used, see special definition below
+"purification_factor": 1    // If item is used to purify water, additional multiplicative factor to the time taken. 0 results in a constant time.
 ```
 
 ### Seed Data
