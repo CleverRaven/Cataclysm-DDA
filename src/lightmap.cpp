@@ -696,6 +696,7 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
 
 // For a direction vector defined by x, y, return the quadrant that's the
 // source of that direction.  Assumes x != 0 && y != 0
+// NOLINTNEXTLINE(cata-xy)
 static constexpr quadrant quadrant_from_x_y( int x, int y )
 {
     return ( x > 0 ) ?

@@ -16,6 +16,8 @@
 
 #include <memory>
 
+struct point;
+
 struct SDL_Renderer_deleter {
     void operator()( SDL_Renderer *const renderer ) {
         SDL_DestroyRenderer( renderer );
@@ -86,6 +88,7 @@ SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer,
         const SDL_Surface_Ptr &surface );
 void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a );
 // NOLINTNEXTLINE(cata-xy)
+void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, const point &p );
 void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, int x, int y );
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
 void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *rect, Uint32 color );
