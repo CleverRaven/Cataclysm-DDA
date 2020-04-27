@@ -242,8 +242,10 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
-/* Calculate date of Easter - a direct implementation of the "Anonymous Gregorian" aka Meeus/Jones/Butcher Gregorian algorithm, given here:
-    https://en.wikipedia.org/wiki/Computus#Anonymous_Gregorian_algorithm */
+/*
+Calculate date of Easter - a direct implementation of the "Anonymous Gregorian" aka Meeus/Jones/Butcher Gregorian algorithm, given at:
+https://en.wikipedia.org/wiki/Computus#Anonymous_Gregorian_algorithm
+*/
 bool main_menu::is_easter( int day, int month, int year )
 {
     const int a = year % 19;
@@ -295,22 +297,28 @@ holiday main_menu::get_holiday_from_time()
         /* check date against holidays */
         if( month == 1 && day == 1 ) {
             return holiday::new_year;
-        } else if( month == 3 ||
-                   month == 4 ) { // only run easter date calculation if currently March or April
+        }
+        // only run easter date calculation if currently March or April
+        else if( month == 3 || month == 4 ) {
             if( is_easter( day, month, year ) ) {
                 return holiday::easter;
             }
         } else if( month == 7 && day == 4 ) {
             return holiday::independence_day;
-        } else if( month == 10 && day >= 23 ) {
+        }
+        // 13 days seems appropriate for Halloween
+        else if( month == 10 && day >= 19 ) {
             return holiday::halloween;
         } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
             return holiday::thanksgiving;
-        } else if( month == 12 && day <= 25 ) {
+        }
+        // For the 12 days of Christmas, my true love gave to me...
+        else if( month == 12 && ( day >= 14 && day <= 25 ) ) {
             return holiday::christmas;
         }
     }
-    return holiday::none; // fall through to here if localtime fails, or none of the day tests hit
+    // fall through to here if localtime fails, or none of the day tests hit
+    return holiday::none;
 }
 
 void main_menu::init_windows()
