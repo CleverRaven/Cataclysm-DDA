@@ -1083,7 +1083,7 @@
     "id": "makeshift_hose",
     "type": "TOOL",
     "name": "leather hose",
-    "description": "This is a hose made out of leather. Watertight and flexiable, it can be used to siphon fuel from a vehicle tank. However, it's not as elastic a rubber hose.",
+    "description": "This is a hose made out of leather.  Watertight and flexiable, it can be used to siphon fuel from a vehicle tank.  However, it's not as elastic a rubber hose.",
     "weight": "600 g",
     "volume": "500 ml",
     "price": 100,
