@@ -135,5 +135,21 @@
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
     "components": [ [ [ "lead", 25 ] ], [ [ "tin", 25 ] ], [ [ "rosin", 2 ] ] ]
+  },
+  {
+    "result": "vehicle_light_plus_battery_cell",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": [ [ "electronics", 4 ], [ "mechanics", 2 ] ],
+    "book_learn": [ [ "manual_electronics", 3 ], [ "advanced_electronics", 3 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ], [ [ "light_plus_battery_cell", 1 ] ] ]
   }
 ]

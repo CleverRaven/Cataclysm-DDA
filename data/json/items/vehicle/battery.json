@@ -116,5 +116,23 @@
     "ammo_type": "battery",
     "capacity": 40000,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ]
+  },
+  {
+    "id": "vehicle_light_plus_battery_cell",
+    "type": "MAGAZINE",
+    "category": "veh_parts",
+    "name": { "str": "vehicle light battery (high-capacity)", "str_pl": "vehicle light batteries (high-capacity)" },
+    "description": "This is a high-capacity light battery cell, modified to be compatible with vehicle electrical grid.",
+    "weight": "60 g",
+    "volume": "235ml",
+    "price": 5000,
+    "price_postapoc": 150,
+    "material": [ "iron", "plastic" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "battery",
+    "capacity": 150,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ]
   }
 ]
