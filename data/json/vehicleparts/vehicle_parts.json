@@ -2259,7 +2259,6 @@
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "CRAFTRIG", "WATER_PURIFIER", "COVERED" ],
-    "purification_factor": 1,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
