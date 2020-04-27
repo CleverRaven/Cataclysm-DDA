@@ -166,7 +166,7 @@
     "color": "dark_gray",
     "use_action": {
       "target": "vac_oven_small_done",
-      "msg": "The vacuum oven is done purging. Your shatter is ready!",
+      "msg": "The vacuum oven is done purging.  Your shatter is ready!",
       "active": false,
       "moves": 0,
       "type": "delayed_transform",
