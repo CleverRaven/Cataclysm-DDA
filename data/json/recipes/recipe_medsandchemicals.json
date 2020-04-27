@@ -1556,7 +1556,6 @@
     "time": "5 m",
     "charges": 50,
     "batch_time_factors": [ 80, 1 ],
-    "reversible": false,
     "book_learn": [ [ "textbook_extraction", 4 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
