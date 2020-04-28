@@ -574,11 +574,8 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             m.add_spawn( mon_turret_riot, 1, { x, y, abs_sub.z } );
         }
     };
-    bool mil = false;
-    if( one_in( 6 ) ) {
-        mil = true;
-    }
-    if( mil ) { //Military doesn't joke around with their barricades!
+
+    if( one_in( 6 ) ) { //Military doesn't joke around with their barricades!
 
         if( one_in( 2 ) ) {
             if( road_at_north ) {
