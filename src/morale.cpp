@@ -506,7 +506,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
             nc_color color;
 
         public:
-            morale_line() {}
+            morale_line() = default;
             morale_line( const separation_line ) : sep_line( true ) {}
             morale_line( const std::string &text, const nc_color &color )
                 : left( text ), color( color ) {}
