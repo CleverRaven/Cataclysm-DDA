@@ -17,4 +17,4 @@ class ascii_art
         std::vector<std::string> picture;
 };
 
-#endif
+#endif // CATA_SRC_ASCII_ART_H
