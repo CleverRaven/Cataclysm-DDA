@@ -189,7 +189,7 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
-    "id": "xLboy_shorts",
+    "id": "xlboy_shorts",
     "type": "ARMOR",
     "name": { "str_sp": "xl boy shorts" },
     "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.  This size is made for giants.",
