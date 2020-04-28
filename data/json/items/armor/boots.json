@@ -1275,7 +1275,7 @@
     "price_postapoc": 50,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "socks_wool",
+    "looks_like": "socks",
     "color": "white",
     "covers": [ "FEET" ],
     "coverage": 100,
