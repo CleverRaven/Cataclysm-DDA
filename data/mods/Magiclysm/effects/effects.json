@@ -201,7 +201,7 @@
     "flags": [ "EFFECT_FEATHER_FALL" ]
   },
   {
-    "type": "effect_type",	
+    "type": "effect_type",
     "id": "eff_frightful_presence",
     "name": [ "Scared", "Frightened", "Terrified" ],
     "max_intensity": 3,
