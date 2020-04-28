@@ -1267,7 +1267,7 @@
   {
     "id": "xlsocks",
     "type": "ARMOR",
-    "name": { "str_sp": "pair of xl socks" },
+    "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
     "description": "Socks.  Big ones.  Put 'em on your feet.",
     "weight": "58 g",
     "volume": "250 ml",
