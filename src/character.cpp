@@ -9787,7 +9787,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
         if( filter( *e ) && e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
             has_tool_with_UPS = true;
         }
-        return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
+        return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
     for( auto e : del ) {
