@@ -205,7 +205,7 @@
     "id": "eff_frightful_presence",
     "name": [ "Scared", "Frightened", "Terrified" ],
     "max_intensity": 3,
-	"max_duration": "10 s",
+    "max_duration": "10 s",
     "desc": [ "Your knees are shaking, your heart beats fast, and your stomach rebels." ],
     "apply_message": "You are afraid!",
     "remove_message": "Your fear dissipates.",
