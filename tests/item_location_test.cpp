@@ -12,6 +12,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "visitable.h"
 
@@ -69,6 +70,7 @@ TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]"
 TEST_CASE( "item_in_container", "[item][item_location]" )
 {
     avatar &dummy = g->u;
+    clear_avatar();
     item &backpack = dummy.i_add( item( "backpack" ) );
     item jeans( "jeans" );
 
