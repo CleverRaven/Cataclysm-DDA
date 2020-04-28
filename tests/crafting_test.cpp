@@ -297,7 +297,8 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     const tripoint test_origin( 60, 60, 0 );
     g->u.setpos( test_origin );
     const item backpack( "backpack" );
-    g->u.wear( g->u.i_add( backpack ), false );
+    g->u.worn.push_back( backpack );
+    g->u.worn.push_back( backpack );
     for( const item &gear : tools ) {
         g->u.i_add( gear );
     }
@@ -346,7 +347,8 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     g->u.learn_recipe( &rec );
     REQUIRE( g->u.has_recipe( &rec, g->u.crafting_inventory(), g->u.get_crafting_helpers() ) != -1 );
-
+    g->u.remove_weapon();
+    REQUIRE( !g->u.is_armed() );
     g->u.make_craft( rid, 1 );
     REQUIRE( g->u.activity );
     REQUIRE( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
@@ -417,10 +419,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         WHEN( "UPS-modded tools have enough charges" ) {
             item hotplate( "hotplate", -1, 0 );
-            hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::CONTAINER );
+            hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
             tools.push_back( hotplate );
             item soldering_iron( "soldering_iron", -1, 0 );
-            soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::CONTAINER );
+            soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
             tools.push_back( soldering_iron );
             tools.emplace_back( "UPS_off", -1, 500 );
 
@@ -434,10 +436,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         WHEN( "UPS-modded tools do not have enough charges" ) {
             item hotplate( "hotplate", -1, 0 );
-            hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::CONTAINER );
+            hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
             tools.push_back( hotplate );
             item soldering_iron( "soldering_iron", -1, 0 );
-            soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::CONTAINER );
+            soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
             tools.push_back( soldering_iron );
             tools.emplace_back( "UPS_off", -1, 10 );
 
