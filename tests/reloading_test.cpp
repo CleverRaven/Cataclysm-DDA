@@ -212,8 +212,12 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
             process_activity( dummy );
 
             THEN( "the associated magazine is reloaded" ) {
-                REQUIRE( mag.ammo_remaining() > 0 );
-                CHECK( mag.contents.first_ammo().type == ammo.type );
+                const std::vector<item *> mags = dummy.items_with( []( const item & it ) {
+                    return it.typeId() == "glockmag";
+                } );
+                REQUIRE( mags.size() == 1 );
+                REQUIRE( !mags.front()->contents.empty() );
+                CHECK( mags.front()->contents.first_ammo().type == ammo.type );
             }
             WHEN( "the player triggers auto reload again" ) {
                 g->reload_weapon( false );
@@ -244,8 +248,12 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 process_activity( dummy );
 
                 THEN( "the associated magazine is reloaded" ) {
-                    CHECK( mag.ammo_remaining() > 0 );
-                    CHECK( mag.contents.first_ammo().type == ammo.type );
+                    const std::vector<item *> mags = dummy.items_with( []( const item & it ) {
+                        return it.typeId() == "glockmag";
+                    } );
+                    REQUIRE( mags.size() == 1 );
+                    REQUIRE( !mags.front()->contents.empty() );
+                    CHECK( mags.front()->contents.first_ammo().type == ammo.type );
                 }
                 WHEN( "the player triggers auto reload again" ) {
                     g->reload_weapon( false );
@@ -261,8 +269,12 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                         process_activity( dummy );
 
                         THEN( "the second associated magazine is reloaded" ) {
-                            CHECK( mag2.ammo_remaining() > 0 );
-                            CHECK( mag2.contents.first_ammo().type == ammo.type );
+                            const std::vector<item *> mags = dummy.items_with( []( const item & it ) {
+                                return it.typeId() == "glockbigmag";
+                            } );
+                            REQUIRE( mags.size() == 1 );
+                            REQUIRE( !mags.front()->contents.empty() );
+                            CHECK( mags.front()->contents.first_ammo().type == ammo.type );
                         }
                         WHEN( "the player triggers auto reload again" ) {
                             g->reload_weapon( false );
