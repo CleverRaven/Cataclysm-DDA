@@ -66,8 +66,6 @@ static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
-static const int ascii_art_width = 42;
-
 bool item_is_blacklisted( const std::string &id )
 {
     return item_blacklist.count( id );
@@ -506,13 +504,6 @@ void Item_factory::finalize_post( itype &obj )
             if( !dtype.is_valid() ) {
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.", obj.id, dtype.c_str() );
             }
-        }
-    }
-    for( std::string &line : obj.ascii_picture ) {
-        if( utf8_width( remove_color_tags( line ) ) > ascii_art_width ) {
-            line = trim_by_length( line, ascii_art_width );
-            debugmsg( "ascii_picture in %s contains a line too long to be displayed (>%i char).", obj.id,
-                      ascii_art_width );
         }
     }
 }
@@ -2211,7 +2202,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
-    assign( jo, "ascii_picture", def.ascii_picture );
+    assign( jo, "ascii_picture", def.picture_id );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
