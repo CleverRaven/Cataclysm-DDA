@@ -946,6 +946,7 @@ furn_id f_null,
         f_washer, f_dryer,
         f_vending_c, f_vending_o, f_dumpster, f_dive_block,
         f_crate_c, f_crate_o, f_coffin_c, f_coffin_o,
+        f_gunsafe_ml,
         f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet,
         f_fema_groundsheet, f_large_groundsheet,
         f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
@@ -1087,6 +1088,7 @@ void set_furn_ids()
     f_tourist_table = furn_id( "f_tourist_table" );
     f_camp_chair = furn_id( "f_camp_chair" );
     f_sign = furn_id( "f_sign" );
+    f_gunsafe_ml = furn_id( "f_gunsafe_ml" );
 }
 
 size_t ter_t::count()

@@ -195,7 +195,9 @@
       [ "hammer_sledge", 5 ],
       [ "hammer_sledge_short", 5 ],
       [ "hammer_sledge_engineer", 10 ],
-      [ "halligan", 10 ]
+      [ "halligan", 10 ],
+      [ "pike_pole", 10 ],
+      [ "ny_hook", 10 ]
     ]
   },
   {

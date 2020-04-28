@@ -174,7 +174,19 @@ static std::string melee_cost_text( int moves )
     return string_format(
                _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
 }
-
+static std::string melee_stamina_cost_text( int cost )
+{
+    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+}
+static std::string mouth_stamina_cost_text( int cost )
+{
+    return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
+}
+static std::string ranged_cost_text( double disp )
+{
+    return string_format( _( "Dispersion when using ranged attacks: <color_white>%+.1f</color>\n" ),
+                          disp );
+}
 static std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
@@ -215,11 +227,14 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
                      eff_encumbrance * 10 );
             break;
         case bp_mouth:
-            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>" );
+            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
+            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
             break;
         case bp_arm_l:
         case bp_arm_r:
-            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>" );
+            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
+            s += melee_stamina_cost_text( eff_encumbrance * 2 );
+            s += ranged_cost_text( eff_encumbrance / 5.0 );
             break;
         case bp_hand_l:
         case bp_hand_r:
@@ -297,10 +312,10 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_hit_base() ) );
+                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_melee_hit_base() ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
-                                           -abs( you.ranged_dex_mod() ) ) );
+                                           -std::abs( you.ranged_dex_mod() ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
                             string_format( _( "Throwing penalty per target's dodge: <color_white>%+d</color>" ),
                                            you.throw_dispersion_per_dodge( false ) ) );

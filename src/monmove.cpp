@@ -13,6 +13,7 @@
 #include <unordered_map>
 
 #include "avatar.h"
+#include "behavior.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "creature_tracker.h"
@@ -30,6 +31,7 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
+#include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
 #include "pathfinding.h"
@@ -629,10 +631,14 @@ void monster::move()
         return;
     }
 
+    behavior::monster_oracle_t oracle( this );
+    behavior::tree goals;
+    goals.add( type->get_goals() );
+    std::string action = goals.tick( &oracle );
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if( !is_hallucination() && ( has_flag( MF_ABSORBS ) || has_flag( MF_ABSORBS_SPLITS ) ) &&
-        !g->m.has_flag( TFLAG_SEALED, pos() ) && g->m.has_items( pos() ) ) {
+    // TODO: Stick this in a map and dispatch to it via the action string.
+    if( action == "consume_items" ) {
         if( g->u.sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name() );
@@ -1540,11 +1546,13 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( type->size != MS_TINY && on_ground ) {
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
-        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) && get_armor_cut( bp_torso ) < sharp_damage ) {
-            apply_damage( nullptr, bp_torso, sharp_damage );
+        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) &&
+            get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage ) {
+            apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
         }
-        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) && get_armor_cut( bp_torso ) < rough_damage ) {
-            apply_damage( nullptr, bp_torso, rough_damage );
+        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) &&
+            get_armor_cut( bodypart_id( "torso" ) ) < rough_damage ) {
+            apply_damage( nullptr, bodypart_id( "torso" ), rough_damage );
         }
     }
 
@@ -1825,14 +1833,14 @@ void monster::knock_back_to( const tripoint &to )
 
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
-        apply_damage( z, bp_torso, z->type->size );
+        apply_damage( z, bodypart_id( "torso" ), z->type->size );
         add_effect( effect_stunned, 1_turns );
         if( type->size > 1 + z->type->size ) {
             z->knock_back_from( pos() ); // Chain reaction!
-            z->apply_damage( this, bp_torso, type->size );
+            z->apply_damage( this, bodypart_id( "torso" ), type->size );
             z->add_effect( effect_stunned, 1_turns );
         } else if( type->size > z->type->size ) {
-            z->apply_damage( this, bp_torso, type->size );
+            z->apply_damage( this, bodypart_id( "torso" ), type->size );
             z->add_effect( effect_stunned, 1_turns );
         }
         z->check_dead_state();
@@ -1845,9 +1853,9 @@ void monster::knock_back_to( const tripoint &to )
     }
 
     if( npc *const p = g->critter_at<npc>( to ) ) {
-        apply_damage( p, bp_torso, 3 );
+        apply_damage( p, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 1_turns );
-        p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
+        p->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->name );
         }
@@ -1869,7 +1877,7 @@ void monster::knock_back_to( const tripoint &to )
     if( g->m.impassable( to ) ) {
 
         // It's some kind of wall.
-        apply_damage( nullptr, bp_torso, type->size );
+        apply_damage( nullptr, bodypart_id( "torso" ), type->size );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off a %2$s." ), name(),

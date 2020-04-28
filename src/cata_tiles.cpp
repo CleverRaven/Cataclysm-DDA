@@ -165,15 +165,15 @@ formatted_text::formatted_text( const std::string &text, const int color,
         case direction::NORTHWEST:
         case direction::WEST:
         case direction::SOUTHWEST:
-            alignment = TEXT_ALIGNMENT_RIGHT;
+            alignment = text_alignment::right;
             break;
         case direction::NORTH:
         case direction::CENTER:
         case direction::SOUTH:
-            alignment = TEXT_ALIGNMENT_CENTER;
+            alignment = text_alignment::center;
             break;
         default:
-            alignment = TEXT_ALIGNMENT_LEFT;
+            alignment = text_alignment::left;
             break;
     }
 }
@@ -347,8 +347,8 @@ void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
         std::vector<texture> &target )
 {
     assert( surf );
-    const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, surf->w / sprite_width,
-                                            surf->h / sprite_height );
+    const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, point( surf->w / sprite_width,
+                                            surf->h / sprite_height ) );
 
     const std::shared_ptr<SDL_Texture> texture_ptr = CreateTextureFromSurface( renderer, surf );
     assert( texture_ptr );
@@ -462,8 +462,8 @@ void tileset_loader::load_tileset( const std::string &img_path )
     const rect_range<SDL_Rect> output_range(
         max_tile_xcount * sprite_width,
         max_tile_ycount * sprite_height,
-        divide_round_up( tile_atlas->w, info.max_texture_width ),
-        divide_round_up( tile_atlas->h, info.max_texture_height ) );
+        point( divide_round_up( tile_atlas->w, info.max_texture_width ), divide_round_up( tile_atlas->h,
+                info.max_texture_height ) ) );
 
     const int expected_tilecount = ( tile_atlas->w / sprite_width ) * ( tile_atlas->h / sprite_height );
     extend_vector_by( ts.tile_values, expected_tilecount );

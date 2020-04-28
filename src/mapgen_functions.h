@@ -12,6 +12,7 @@
 class map;
 class mapgendata;
 class mission;
+struct point;
 struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
@@ -75,9 +76,9 @@ void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 
 // Temporary wrappers
-void mremove_trap( map *m, int x, int y );
-void mtrap_set( map *m, int x, int y, trap_id type );
-void madd_field( map *m, int x, int y, field_type_id type, int intensity );
+void mremove_trap( map *m, const point & );
+void mtrap_set( map *m, const point &, trap_id type );
+void madd_field( map *m, const point &, field_type_id type, int intensity );
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,

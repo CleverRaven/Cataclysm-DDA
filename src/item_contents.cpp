@@ -144,6 +144,28 @@ std::list<const item *> item_contents::all_items_top() const
     return ret;
 }
 
+std::list<item *> item_contents::all_items_ptr()
+{
+    std::list<item *> ret;
+    for( item &it : items ) {
+        ret.push_back( &it );
+        std::list<item *> inside = it.contents.all_items_ptr();
+        ret.insert( ret.end(), inside.begin(), inside.end() );
+    }
+    return ret;
+}
+
+std::list<const item *> item_contents::all_items_ptr() const
+{
+    std::list<const item *> ret;
+    for( const item &it : items ) {
+        ret.push_back( &it );
+        std::list<const item *> inside = it.contents.all_items_ptr();
+        ret.insert( ret.end(), inside.begin(), inside.end() );
+    }
+    return ret;
+}
+
 std::vector<item *> item_contents::gunmods()
 {
     std::vector<item *> res;

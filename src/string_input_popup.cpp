@@ -467,7 +467,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     return _text;
 }
 
-string_input_popup &string_input_popup::window( const catacurses::window &w, int startx, int starty,
+string_input_popup &string_input_popup::window( const catacurses::window &w, const point &start,
         int endx )
 {
     if( !custom_window && this->w ) {
@@ -475,8 +475,8 @@ string_input_popup &string_input_popup::window( const catacurses::window &w, int
         return *this;
     }
     this->w = w;
-    _startx = startx;
-    _starty = starty;
+    _startx = start.x;
+    _starty = start.y;
     _endx = endx;
     custom_window = true;
     return *this;

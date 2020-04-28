@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <array>
 
+#include "coordinate_conversions.h"
 #include "point.h"
 #include "scent_map.h"
 
@@ -28,8 +29,11 @@ struct scent_block {
     scent_map &scents;
     int modification_count;
 
-    scent_block( int subx, int suby, int subz, scent_map &scents )
-        : origin( subx * SEEX - 1, suby * SEEY - 1, subz ), scents( scents ), modification_count( 0 ) {
+    scent_block( const tripoint &sub, scent_map &scents )
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+        : origin( sm_to_ms_copy( sub ) + point( -1, -1 ) )
+        , scents( scents )
+        , modification_count( 0 ) {
         for( int x = 0; x < SEEX + 2; ++x ) {
             for( int y = 0; y < SEEY + 2; ++y ) {
                 assignment[x][y] = { NONE, 0 };

@@ -260,6 +260,20 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
     trait_factory.load( jo, src );
 }
 
+mut_transform::mut_transform() : active( false ), moves( 0 ) {}
+
+bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "target", target );
+    assign( j, "msg_transform", msg_transform );
+    assign( j, "active", active );
+    assign( j, "moves", moves );
+
+    return true;
+}
+
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -292,6 +306,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         auto si = jo.get_object( "ranged_mutation" );
         optional( si, was_loaded, "type", ranged_mutation );
         optional( si, was_loaded, "message", raw_ranged_mutation_message );
+    }
+    if( jo.has_object( "transform" ) ) {
+        transform = cata::make_value<mut_transform>();
+        transform->load( jo, "transform" );
     }
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
@@ -331,6 +349,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
     optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
     optional( jo, was_loaded, "cut_dmg_bonus", cut_dmg_bonus, 0 );
+    optional( jo, was_loaded, "pierce_dmg_bonus", pierce_dmg_bonus, 0.0f );
     optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
     optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
     optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
@@ -366,6 +385,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );
+
+    optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 
     optional( jo, was_loaded, "allowed_category", allowed_category );
 
@@ -535,6 +556,12 @@ void mutation_branch::check_consistency()
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
             }
         }
+        if( mid->transform ) {
+            const trait_id tid = mid->transform->target;
+            if( !tid.is_valid() ) {
+                debugmsg( "mutation %s transform uses undefined target %s", mid.c_str(), tid.c_str() );
+            }
+        }
         for( const std::pair<species_id, int> elem : an_id ) {
             if( !elem.first.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined species id %s", mid.c_str(), elem.first.c_str() );
@@ -614,7 +641,21 @@ void dream::load( const JsonObject &jsobj )
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
-    return a->name() < b->name();
+    if( a->get_display_color() > b->get_display_color() ) {
+        return true;
+    }
+    if( a->get_display_color() < b->get_display_color() ) {
+        return false;
+    }
+
+    if( a->name() < b->name() ) {
+        return true;
+    }
+    if( a->name() > b->name() ) {
+        return false;
+    }
+
+    return false;
 }
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )

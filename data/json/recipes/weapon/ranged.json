@@ -12,7 +12,11 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "using": [ [ "welding_standard", 40 ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "hose", 2 ] ], [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -26,20 +30,6 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "sling", 1 ] ] ]
-  },
-  {
-    "result": "nailrifle",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "skills_required": [ "gun", 2 ],
-    "time": "12 m",
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "nailgun", 1 ] ], [ [ "pipe", 1 ] ], [ [ "2x4", 2 ], [ "stick", 3 ] ] ]
   },
   {
     "type": "recipe",

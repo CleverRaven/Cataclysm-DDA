@@ -7,6 +7,7 @@
 
 #include "avatar_action.h"
 #include "bionics.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -25,7 +26,6 @@
 #include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "player_activity.h"
 #include "rng.h"
 #include "string_id.h"
@@ -169,6 +169,17 @@ void Character::unset_mutation( const trait_id &trait_ )
     mutation_loss_effect( trait );
     recalc_sight_limits();
     reset_encumbrance();
+}
+
+void Character::switch_mutations( const trait_id &switched, const trait_id &target,
+                                  bool start_powered )
+{
+    unset_mutation( switched );
+    mutation_loss_effect( switched );
+
+    set_mutation( target );
+    my_mutations[target].powered = start_powered;
+    mutation_effect( target );
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
@@ -494,6 +505,13 @@ void Character::activate_mutation( const trait_id &mut )
         recalc_sight_limits();
     }
 
+    if( mdata.transform ) {
+        const cata::value_ptr<mut_transform> trans = mdata.transform;
+        mod_moves( - trans->moves );
+        switch_mutations( mut, trans->target, trans->active );
+        return;
+    }
+
     if( mut == trait_WEB_WEAVER ) {
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
@@ -619,11 +637,17 @@ void Character::deactivate_mutation( const trait_id &mut )
     // Handle stat changes from deactivation
     apply_mods( mut, false );
     recalc_sight_limits();
+    const mutation_branch &mdata = mut.obj();
+    if( mdata.transform ) {
+        const cata::value_ptr<mut_transform> trans = mdata.transform;
+        mod_moves( -trans->moves );
+        switch_mutations( mut, trans->target, trans->active );
+    }
 }
 
 trait_id Character::trait_by_invlet( const int ch ) const
 {
-    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.key == ch ) {
             return mut.first;
         }
@@ -1285,12 +1309,12 @@ void Character::remove_child_flag( const trait_id &flag )
     }
 }
 
-static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool strong )
+static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, bool strong )
 {
-    if( p.has_trait( trait_MUTAGEN_AVOID ) ) {
-        p.add_msg_if_player( m_warning,
-                             //~ "Uh-uh" is a sound used for "nope", "no", etc.
-                             _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
+    if( guy.has_trait( trait_MUTAGEN_AVOID ) ) {
+        guy.add_msg_if_player( m_warning,
+                               //~ "Uh-uh" is a sound used for "nope", "no", etc.
+                               _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
         return mutagen_rejection::rejected;
     }
 
@@ -1304,44 +1328,44 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         return mutagen_rejection::accepted;
     }
 
-    if( p.has_trait( trait_THRESH_MYCUS ) ) {
-        p.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
-        if( p.has_trait( trait_M_SPORES ) || p.has_trait( trait_M_FERTILE ) ||
-            p.has_trait( trait_M_BLOSSOMS ) || p.has_trait( trait_M_BLOOM ) ) {
-            p.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
-            g->m.ter_set( p.pos(), t_fungus );
-            if( p.is_avatar() ) {
+    if( guy.has_trait( trait_THRESH_MYCUS ) ) {
+        guy.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
+        if( guy.has_trait( trait_M_SPORES ) || guy.has_trait( trait_M_FERTILE ) ||
+            guy.has_trait( trait_M_BLOSSOMS ) || guy.has_trait( trait_M_BLOOM ) ) {
+            guy.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
+            g->m.ter_set( guy.pos(), t_fungus );
+            if( guy.is_avatar() ) {
                 g->memorial().add(
                     pgettext( "memorial_male", "Destroyed a harmful invader." ),
                     pgettext( "memorial_female", "Destroyed a harmful invader." ) );
             }
             return mutagen_rejection::destroyed;
         } else {
-            p.add_msg_if_player( m_bad,
-                                 _( "We must eliminate this contaminant at the earliest opportunity." ) );
+            guy.add_msg_if_player( m_bad,
+                                   _( "We must eliminate this contaminant at the earliest opportunity." ) );
             return mutagen_rejection::rejected;
         }
     }
 
-    if( p.has_trait( trait_THRESH_MARLOSS ) ) {
-        p.add_msg_player_or_npc( m_warning,
-                                 _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
-                                 _( "<npcname> writhes in agony and collapses to the ground!" ),
-                                 it.tname() );
-        p.vomit();
-        p.mod_pain( 35 + ( strong ? 20 : 0 ) );
+    if( guy.has_trait( trait_THRESH_MARLOSS ) ) {
+        guy.add_msg_player_or_npc( m_warning,
+                                   _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
+                                   _( "<npcname> writhes in agony and collapses to the ground!" ),
+                                   it.tname() );
+        guy.vomit();
+        guy.mod_pain( 35 + ( strong ? 20 : 0 ) );
         // Lose a significant amount of HP, probably about 25-33%
-        p.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
+        guy.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p.fall_asleep( 5_hours - 1_minutes * ( p.int_cur + ( strong ? 100 : 0 ) ) );
-        p.set_mutation( trait_MUTAGEN_AVOID );
+        guy.fall_asleep( 5_hours - 1_minutes * ( guy.int_cur + ( strong ? 100 : 0 ) ) );
+        guy.set_mutation( trait_MUTAGEN_AVOID );
         // Injected mutagen purges marloss, ingested doesn't
         if( strong ) {
-            p.unset_mutation( trait_THRESH_MARLOSS );
-            p.add_msg_if_player( m_warning,
-                                 _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
-            p.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
-            if( p.is_avatar() ) {
+            guy.unset_mutation( trait_THRESH_MARLOSS );
+            guy.add_msg_if_player( m_warning,
+                                   _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
+            guy.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
+            if( guy.is_avatar() ) {
                 g->memorial().add(
                     pgettext( "memorial_male",
                               "Burned out a particularly nasty fungal infestation." ),
@@ -1349,10 +1373,10 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
                               "Burned out a particularly nasty fungal infestation." ) );
             }
         } else {
-            p.add_msg_if_player( m_warning,
-                                 _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
-                                 it.tname() );
-            if( p.is_avatar() ) {
+            guy.add_msg_if_player( m_warning,
+                                   _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
+                                   it.tname() );
+            if( guy.is_avatar() ) {
                 g->memorial().add(
                     pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
                     pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
@@ -1365,11 +1389,11 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
     return mutagen_rejection::accepted;
 }
 
-mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
+mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
                                        const mutagen_technique technique )
 {
-    g->events().send<event_type::administers_mutagen>( p.getID(), technique );
-    mutagen_rejection status = try_reject_mutagen( p, it, strong );
+    g->events().send<event_type::administers_mutagen>( guy.getID(), technique );
+    mutagen_rejection status = try_reject_mutagen( guy, it, strong );
     if( status == mutagen_rejection::rejected ) {
         return mutagen_attempt( false, 0 );
     }
@@ -1475,4 +1499,21 @@ bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
 {
     return std::find( traits.begin(), traits.end(), trait ) != traits.end();
+}
+
+std::string Character::visible_mutations( const int visibility_cap ) const
+{
+    const std::vector<trait_id> &my_muts = get_mutations();
+    const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),
+    [visibility_cap ]( const trait_id & pr ) -> std::string {
+        const auto &mut_branch = pr.obj();
+        // Finally some use for visibility trait of mutations
+        if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
+        {
+            return colorize( mut_branch.name(), mut_branch.get_display_color() );
+        }
+
+        return std::string();
+    } );
+    return trait_str;
 }

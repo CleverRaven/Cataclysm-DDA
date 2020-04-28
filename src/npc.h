@@ -819,9 +819,9 @@ class npc : public player
         faction_id get_fac_id() const;
         /**
          * Set @ref submap_coords and @ref pos.
-         * @param mx,my,mz are global submap coordinates.
+         * @param m global submap coordinates.
          */
-        void spawn_at_sm( int mx, int my, int mz );
+        void spawn_at_sm( const tripoint &p );
         /**
          * As spawn_at, but also sets position within the submap.
          * Note: final submap may differ from submap_offset if @ref square has
@@ -1056,7 +1056,7 @@ class npc : public player
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
          */
-        void shift( int sx, int sy );
+        void shift( const point &s );
 
         // Movement; the following are defined in npcmove.cpp
         void move(); // Picks an action & a target and calls execute_action

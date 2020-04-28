@@ -412,7 +412,8 @@
       { "item": "textbook_weapeast", "prob": 3 },
       { "item": "textbook_armwest", "prob": 3 },
       { "item": "textbook_armeast", "prob": 3 },
-      { "item": "survnote", "prob": 2 }
+      { "item": "survnote", "prob": 2 },
+      { "item": "book_lockpick", "prob": 2 }
     ]
   },
   {
@@ -465,6 +466,7 @@
       { "item": "collector_book", "prob": 30 },
       { "item": "carpentry_book", "prob": 5 },
       { "item": "jewelry_book", "prob": 5 },
+      { "item": "book_lockpick", "prob": 2 },
       { "group": "religious_books", "prob": 40 }
     ]
   },
@@ -512,6 +514,7 @@
       { "item": "manual_wingchun", "prob": 3 },
       { "item": "manual_medievalpole", "prob": 3 },
       { "item": "manual_swordsmanship", "prob": 3 },
+      { "item": "book_lockpick", "prob": 1 },
       { "group": "rare_martial_arts_books", "prob": 6 }
     ]
   },

@@ -384,6 +384,7 @@
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
       { "level": 2, "name": "melee" },
+      { "level": 2, "name": "lockpick" },
       { "level": 2, "name": "cutting" },
       { "level": 1, "name": "bashing" }
     ],
@@ -550,7 +551,10 @@
       { "level": 1, "name": "melee" },
       { "level": 1, "name": "throw" },
       { "level": 2, "name": "archery" },
-      { "level": 2, "name": "survival" }
+      { "level": 3, "name": "survival" },
+      { "level": 1, "name": "cooking" },
+      { "level": 1, "name": "fabrication" },
+      { "level": 1, "name": "tailor" }
     ],
     "traits": [ "PROF_CHURL" ]
   },
@@ -607,7 +611,8 @@
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "unarmed" },
       { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "barter" }
+      { "level": 1, "name": "barter" },
+      { "level": 1, "name": "lockpick" }
     ],
     "items": {
       "both": {
@@ -750,6 +755,7 @@
           "pants_army",
           "undershirt",
           "jacket_army",
+          "ballistic_vest_esapi",
           "helmet_army",
           "mask_ski",
           "gloves_liner",
@@ -761,7 +767,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "modularvest", "contents-group": "army_mags_m4" },
+          { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
@@ -783,6 +789,7 @@
       { "level": 2, "name": "cutting" },
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "lockpick" },
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "swimming" },
       { "level": 1, "name": "survival" }
@@ -1005,7 +1012,8 @@
       { "level": 2, "name": "fabrication" },
       { "level": 2, "name": "cooking" },
       { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "swimming" }
+      { "level": 2, "name": "swimming" },
+      { "level": 1, "name": "lockpick" }
     ],
     "items": {
       "both": {
@@ -1484,7 +1492,7 @@
     "name": { "male": "Handy Man", "female": "Handy Woman" },
     "description": "You used to work at a local hardware store, and you did a lot of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help it rebuild?",
     "points": 1,
-    "skills": [ { "level": 2, "name": "fabrication" } ],
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "lockpick" } ],
     "items": {
       "both": {
         "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch" ],
@@ -1662,7 +1670,7 @@
     "description": "You have done many high profile heists, but your gains mean nothing in this world.  All you have left are the tools of your trade and your impeccable style.",
     "points": 4,
     "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_power_storage_mkII" ],
-    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" } ],
+    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" }, { "level": 3, "name": "lockpick" } ],
     "items": {
       "both": {
         "items": [ "waistcoat", "pants", "dress_shirt", "socks", "dress_shoes", "knit_scarf", "gold_watch", "smart_phone" ],
@@ -1976,7 +1984,8 @@
             "charges": 30,
             "contents-item": [ "shoulder_strap", "acog_scope" ]
           },
-          { "item": "modularvestceramic", "contents-group": "army_mags_m4" }
+          { "item": "ballistic_vest_esapi" },
+          { "item": "legpouch_large", "contents-group": "army_mags_m4" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2418,7 +2427,7 @@
     "name": "Convict",
     "description": "The Cataclysm gave you a chance to escape, but freedom comes with a steep price.",
     "points": 0,
-    "skills": [ { "level": 1, "name": "melee" } ],
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "lockpick" } ],
     "items": {
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
       "male": [ "briefs" ],
@@ -2509,6 +2518,7 @@
     "name": "Burglar",
     "description": "You thought this would be your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
     "points": 3,
+    "skills": [ { "level": 4, "name": "lockpick" } ],
     "//": "A ski mask would fit the stereotype better, but wool allergy breaks this.",
     "items": {
       "both": [
@@ -3391,7 +3401,12 @@
     "name": "Survivalist Jr.",
     "description": "Your parents were crazy preppers who thought some \"Cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
     "points": 3,
-    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ],
+    "skills": [
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "fabrication" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "lockpick" }
+    ],
     "items": {
       "both": {
         "items": [
@@ -3632,6 +3647,39 @@
           { "item": "jackhammer", "charges": 400 },
           { "item": "light_minus_disposable_cell", "charges": 100 },
           { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "demolition_expert",
+    "name": "Demolition Expert",
+    "description": "Before this all began you were having the time of your life at your dream job, blowing things up.  Now you're finally allowed to do it full time. ",
+    "skills": [ { "level": 2, "name": "fabrication" } ],
+    "points": 3,
+    "items": {
+      "both": {
+        "items": [
+          "socks",
+          "boots_steel",
+          "gloves_work",
+          "jumpsuit",
+          "canteen",
+          "tool_belt",
+          "mbag",
+          "briefcase",
+          "wristwatch",
+          "hat_hard",
+          "matches"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "dynamite", "count": 8 },
+          { "item": "dynamite", "count": 4 },
+          { "group": "charged_cell_phone" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -4055,5 +4103,46 @@
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],
       "female": [ "tank_top", "bra", "panties", "skirt", "heels", "jacket_leather", "stockings" ]
     }
+  },
+  {
+    "type": "profession",
+    "ident": "mili_pilot",
+    "name": "Military Pilot",
+    "description": "You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next.  You knew it was only a matter of time before the horrors patrolling the skies shot you down.",
+    "points": 5,
+    "skills": [
+      { "level": 4, "name": "driving" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "gun" }
+    ],
+    "traits": [ "PROF_HELI_PILOT" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "socks",
+          "undershirt",
+          "boots_combat",
+          "wristwatch",
+          "fancy_sunglasses",
+          "gloves_tactical",
+          "helmet_army",
+          "jacket_army",
+          "webbing_belt",
+          "legpouch_large"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
+          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
   }
 ]

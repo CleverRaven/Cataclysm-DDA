@@ -333,6 +333,12 @@
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
   },
   {
+    "id": "POLEARM",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
+  },
+  {
     "id": "POWERED",
     "type": "json_flag",
     "context": [ "TOOL" ],

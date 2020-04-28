@@ -116,7 +116,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_fairy",
-    "name": { "str": "fairy bread", "str_pl": "fairy bread" },
+    "name": { "str_sp": "fairy bread" },
     "weight": "114 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -197,7 +197,7 @@
     "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "weight": "233 g",
     "color": "light_gray",

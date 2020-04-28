@@ -61,3 +61,111 @@ TEST_CASE( "Item_modifier gun fouling", "[item_group]" )
         CHECK( !bow.has_var( "dirt" ) );
     }
 }
+
+TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
+{
+    GIVEN( "an ammo item that uses charges" ) {
+        const std::string item_id = "40x46mm_m1006";
+        item subject( item_id );
+
+        const int default_charges = 6;
+
+        REQUIRE( subject.is_ammo() );
+        REQUIRE( subject.count_by_charges() );
+        REQUIRE( subject.count() == default_charges );
+        REQUIRE( subject.charges == default_charges );
+
+        AND_GIVEN( "a modifier that does not modify charges" ) {
+            Item_modifier modifier;
+
+            WHEN( "the item is modified" ) {
+                modifier.modify( subject );
+
+                THEN( "charges should be unchanged" ) {
+                    CHECK( subject.charges == default_charges );
+                }
+            }
+        }
+
+        AND_GIVEN( "a modifier that sets min and max charges to 0" ) {
+            const int min_charges = 0;
+            const int max_charges = 0;
+            Item_modifier modifier;
+            modifier.charges = { min_charges, max_charges };
+
+            WHEN( "the item is modified" ) {
+                modifier.modify( subject );
+
+                THEN( "charges are set to 1" ) {
+                    CHECK( subject.charges == 1 );
+                }
+            }
+        }
+
+        AND_GIVEN( "a modifier that sets min and max charges to -1" ) {
+            const int min_charges = -1;
+            const int max_charges = -1;
+            Item_modifier modifier;
+            modifier.charges = { min_charges, max_charges };
+
+            WHEN( "the item is modified" ) {
+                modifier.modify( subject );
+
+                THEN( "charges should be unchanged" ) {
+                    CHECK( subject.charges == default_charges );
+                }
+            }
+        }
+
+        AND_GIVEN( "a modifier that sets min and max charges to a range [1, 4]" ) {
+            const int min_charges = 1;
+            const int max_charges = 4;
+            Item_modifier modifier;
+            modifier.charges = { min_charges, max_charges };
+
+            WHEN( "the item is modified" ) {
+                // We have to repeat this a bunch because the charges assignment
+                // actually does rng between min and max, and if we only checked once
+                // we might get a false success.
+                std::vector<int> results;
+                results.reserve( 100 );
+                for( int i = 0; i < 100; i++ ) {
+                    modifier.modify( subject );
+                    results.emplace_back( subject.charges );
+                }
+
+                THEN( "charges are set to the expected range of values" ) {
+                    CHECK( std::all_of( results.begin(), results.end(), [&]( int v ) {
+                        return v >= min_charges && v <= max_charges;
+                    } ) );
+                }
+            }
+        }
+
+        AND_GIVEN( "a modifier that sets min and max charges to 4" ) {
+            const int expected = 4;
+            const int min_charges = expected;
+            const int max_charges = expected;
+            Item_modifier modifier;
+            modifier.charges = { min_charges, max_charges };
+
+            WHEN( "the item is modified" ) {
+                // We have to repeat this a bunch because the charges assignment
+                // actually does rng between min and max, and if we only checked once
+                // we might get a false success.
+                std::vector<int> results;
+                results.reserve( 100 );
+                for( int i = 0; i < 100; i++ ) {
+                    modifier.modify( subject );
+                    results.emplace_back( subject.charges );
+                }
+
+                THEN( "charges are set to the expected value" ) {
+                    CHECK( std::all_of( results.begin(), results.end(), [&]( int v ) {
+                        return v == expected;
+                    } ) );
+                }
+            }
+        }
+    }
+}

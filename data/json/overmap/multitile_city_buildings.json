@@ -1,6 +1,17 @@
 [
   {
     "type": "city_building",
+    "id": "2storyModern01",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "2storyModern01_basement_north", "locations": [ "land" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "2storyModern01_first_north", "locations": [ "land" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "2storyModern01_second_north", "locations": [ "land" ] },
+      { "point": [ 0, 0, 2 ], "overmap": "2storyModern01_roof_north", "locations": [ "land" ] }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "urban_1_house",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "urban_1_1_south" },

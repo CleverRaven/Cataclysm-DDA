@@ -269,7 +269,7 @@
           "y": [ 24, 40 ]
         }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 4, 23 ], "repeat": [ 0, 1 ] } ]
+      "place_monsters": [ { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 4, 23 ], "y": [ 4, 23 ], "repeat": [ 0, 1 ] } ]
     }
   }
 ]

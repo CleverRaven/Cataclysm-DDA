@@ -17,6 +17,7 @@ class JsonIn;
 class JsonOut;
 class event_statistic;
 class event_transformation;
+enum class monotonically : int;
 class score;
 class stats_tracker;
 
@@ -48,9 +49,12 @@ class event_multiset
         // occured.
         // total returns the sum of some integer-valued field across every
         // event satisfying certain criteria.
+        // maximum and minimum return the max and min respectively of some
+        // integer-valued field across every event satisfying certain criteria.
         // For example, count might return the number of times the avatar has
-        // taken damage, while total might return the total damage taken in all
-        // those cases.
+        // taken damage, total might return the total damage taken in all
+        // those cases, and maximum might return the single largest amount
+        // of damage taken in a single event across all those cases.
         // The criteria takes the form of an event::data_type map specifying
         // some values that must be matched in the events of that type.  You can
         // provide just a subset of the relevant keys from the event_type in
@@ -59,6 +63,8 @@ class event_multiset
         int count( const cata::event::data_type &criteria ) const;
         int total( const std::string &field ) const;
         int total( const std::string &field, const cata::event::data_type &criteria ) const;
+        int minimum( const std::string &field ) const;
+        int maximum( const std::string &field ) const;
 
         void add( const cata::event & );
         void add( const counts_type::value_type & );

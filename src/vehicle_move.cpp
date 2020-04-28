@@ -91,7 +91,7 @@ int vehicle::slowdown( int at_velocity ) const
     } else if( !is_falling && !is_flying ) {
         double f_rolling_drag = coeff_rolling_drag() * ( vehicles::rolling_constant_to_variable + mps );
         // increase rolling resistance by up to 25x if the vehicle is skidding at right angle to facing
-        const double skid_factor = 1 + 24 * std::abs( sin( DEGREES( face.dir() - move.dir() ) ) );
+        const double skid_factor = 1 + 24 * std::abs( std::sin( DEGREES( face.dir() - move.dir() ) ) );
         f_total_drag += f_rolling_drag * skid_factor;
     }
     double accel_slowdown = f_total_drag / to_kilogram( total_mass() );
@@ -758,10 +758,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 ph->hitall( dam, 40, driver );
             } else {
                 const int armor = part_flag( ret.part, "SHARP" ) ?
-                                  critter->get_armor_cut( bp_torso ) :
-                                  critter->get_armor_bash( bp_torso );
+                                  critter->get_armor_cut( bodypart_id( "torso" ) ) :
+                                  critter->get_armor_bash( bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
-                critter->apply_damage( driver, bp_torso, dam );
+                critter->apply_damage( driver, bodypart_id( "torso" ), dam );
                 add_msg( m_debug, "Critter collision damage: %d", dam );
             }
 
@@ -948,7 +948,7 @@ bool vehicle::has_harnessed_animal() const
     return false;
 }
 
-void vehicle::autodrive( int x, int y )
+void vehicle::autodrive( const point &p )
 {
     if( !is_towed() && !magic ) {
         for( size_t e = 0; e < parts.size(); e++ ) {
@@ -962,7 +962,7 @@ void vehicle::autodrive( int x, int y )
             }
         }
     }
-    int turn_delta = 15 * x;
+    int turn_delta = 15 * p.x;
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0 ) {
         float eff = steering_effectiveness();
@@ -979,12 +979,12 @@ void vehicle::autodrive( int x, int y )
         }
         turn( turn_delta );
     }
-    if( y != 0 ) {
+    if( p.y != 0 ) {
         int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
         if( cruise_on ) {
-            cruise_thrust( -y * thr_amount );
+            cruise_thrust( -p.y * thr_amount );
         } else {
-            thrust( -y );
+            thrust( -p.y );
         }
     }
     // TODO: Actually check if we're on land on water (or disable water-skidding)
@@ -1215,7 +1215,7 @@ rl_vec2d vehicle::velo_vec() const
 
 inline rl_vec2d degree_to_vec( double degrees )
 {
-    return rl_vec2d( cos( degrees * M_PI / 180 ), sin( degrees * M_PI / 180 ) );
+    return rl_vec2d( std::cos( degrees * M_PI / 180 ), std::sin( degrees * M_PI / 180 ) );
 }
 
 // normalized.
@@ -1466,7 +1466,7 @@ vehicle *vehicle::act_on_map()
         const float old_vel = vmiph_to_mps( vertical_velocity );
         // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
         // Note: That drops the sign
-        const float new_vel = -sqrt( 2 * tile_height * g + old_vel * old_vel );
+        const float new_vel = -std::sqrt( 2 * tile_height * g + old_vel * old_vel );
         vertical_velocity = mps_to_vmiph( new_vel );
         is_falling = true;
     } else {
@@ -1745,7 +1745,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "<npcname> takes %d damage by the power of the "
                                                "impact!" ),  dmg );
             } else {
-                pet->apply_damage( nullptr, bp_torso, dmg );
+                pet->apply_damage( nullptr, bodypart_id( "torso" ), dmg );
             }
         }
 

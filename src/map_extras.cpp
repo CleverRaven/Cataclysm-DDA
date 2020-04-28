@@ -95,6 +95,7 @@ static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
+static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_wasp( "mon_wasp" );
@@ -267,7 +268,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
                     for( int x = i - 1; x <= i + 1; x++ ) {
                         for( int y = j - 1; y <= j + 1; y++ ) {
                             if( m.ter( point( x, y ) ) == t_floor ) {
-                                madd_field( &m, x, y, fd_web, rng( 2, 3 ) );
+                                madd_field( &m, point( x, y ), fd_web, rng( 2, 3 ) );
                                 if( one_in( 4 ) ) {
                                     m.furn_set( point( i, j ), egg_type );
                                     m.remove_field( {i, j, m.get_abs_sub().z}, fd_web );
@@ -276,7 +277,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
                         }
                     }
                 } else if( m.passable( point( i, j ) ) && one_in( 5 ) ) {
-                    madd_field( &m, i, j, fd_web, 1 );
+                    madd_field( &m, point( i, j ), fd_web, 1 );
                 }
             }
         }
@@ -573,11 +574,8 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             m.add_spawn( mon_turret_riot, 1, { x, y, abs_sub.z } );
         }
     };
-    bool mil = false;
-    if( one_in( 6 ) ) {
-        mil = true;
-    }
-    if( mil ) { //Military doesn't joke around with their barricades!
+
+    if( one_in( 6 ) ) { //Military doesn't joke around with their barricades!
 
         if( one_in( 2 ) ) {
             if( road_at_north ) {
@@ -592,7 +590,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
                 line( &m, t_fence_barbed, point( 4, SEEY * 2 - 3 ), point( 10, SEEY * 2 - 3 ) );
                 line( &m, t_fence_barbed, point( 13, SEEY * 2 - 3 ), point( 19, SEEY * 2 - 3 ) );
             }
-            if( road_at_east ) {
+            if( road_at_west ) {
                 line( &m, t_fence_barbed, point( 3, 4 ), point( 3, 10 ) );
                 line( &m, t_fence_barbed, point( 3, 13 ), point( 3, 19 ) );
             }
@@ -647,6 +645,11 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             }
         }
 
+        line_furn( &m, f_sandbag_wall, point( 12, 7 ), point( 15, 7 ) );
+        m.add_spawn( mon_turret_searchlight, 1, { 13, 8, abs_sub.z } );
+        m.ter_set( point( 14, 8 ), t_plut_generator );
+        line_furn( &m, f_sandbag_wall, point( 12, 9 ), point( 15, 9 ) );
+
         int num_bodies = dice( 2, 5 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
@@ -685,6 +688,12 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20 );
         m.add_vehicle( vproto_id( "policecar" ), point( 16, SEEY * 2 - 6 ), 145 );
+
+        line_furn( &m, f_sandbag_wall, point( 6, 10 ), point( 9, 10 ) );
+        m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
+        m.ter_set( point( 8, 11 ), t_plut_generator );
+        line_furn( &m, f_sandbag_wall, point( 6, 12 ), point( 9, 12 ) );
+
         int num_bodies = dice( 1, 6 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
@@ -1092,9 +1101,9 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( SEEY, SEEY * 2 - 2 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1193,9 +1202,9 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( 1, SEEY );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1339,9 +1348,9 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1473,9 +1482,9 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX ), y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1555,59 +1564,6 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
         }
     }
 
-}
-
-//Obsolete, remove after 0.E.
-static bool mx_fumarole( map &m, const tripoint &abs_sub )
-{
-    if( abs_sub.z > 0 ) {
-        return false;
-    }
-
-    int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
-        x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
-
-    // Pick a random cardinal direction to also spawn lava in
-    // This will make the lava a single connected line, not just on diagonals
-    std::vector<direction> possibilities;
-    possibilities.push_back( direction::EAST );
-    possibilities.push_back( direction::WEST );
-    possibilities.push_back( direction::NORTH );
-    possibilities.push_back( direction::SOUTH );
-    const direction extra_lava_dir = random_entry( possibilities );
-    int x_extra = 0;
-    int y_extra = 0;
-    switch( extra_lava_dir ) {
-        case direction::NORTH:
-            y_extra = -1;
-            break;
-        case direction::EAST:
-            x_extra = 1;
-            break;
-        case direction::SOUTH:
-            y_extra = 1;
-            break;
-        case direction::WEST:
-            x_extra = -1;
-            break;
-        default:
-            break;
-    }
-
-    std::set<point> ignited;
-    place_fumarole( m, x1, y1, x2, y2, ignited );
-    place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
-
-    for( auto &i : ignited ) {
-        // Don't need to do anything to tiles that already have lava on them
-        if( m.ter( i ) != t_lava ) {
-            // Spawn an intense but short-lived fire
-            // Any furniture or buildings will catch fire, otherwise it will burn out quickly
-            m.add_field( tripoint( i, abs_sub.z ), fd_fire, 15, 1_minutes );
-        }
-    }
-
-    return true;
 }
 
 static bool mx_portal_in( map &m, const tripoint &abs_sub )
@@ -1735,18 +1691,6 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             break;
         }
     }
-
-    return true;
-}
-
-//Obsolete, remove after 0.E.
-static bool mx_anomaly( map &m, const tripoint &abs_sub )
-{
-    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
-    artifact_natural_property prop =
-        static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
-    m.create_anomaly( center, prop );
-    m.spawn_natural_artifact( center, prop );
 
     return true;
 }
@@ -2909,7 +2853,6 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
-    { "mx_fumarole", mx_fumarole },
     { "mx_collegekids", mx_collegekids },
     { "mx_drugdeal", mx_drugdeal },
     { "mx_roadworks", mx_roadworks },
@@ -2923,7 +2866,6 @@ FunctionMap builtin_functions = {
     { "mx_science", mx_science },
     { "mx_portal", mx_portal },
     { "mx_portal_in", mx_portal_in },
-    { "mx_anomaly", mx_anomaly },
     { "mx_house_spider", mx_house_spider },
     { "mx_house_wasp", mx_house_wasp },
     { "mx_spider", mx_spider },

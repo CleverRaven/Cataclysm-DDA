@@ -1559,15 +1559,6 @@ bool overmap::generate_sub( const int z )
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "sewage_treatment" ) {
                 sewer_points.emplace_back( i, j );
-            } else if( oter_above == "cave" && z == -1 ) {
-                if( one_in( 3 ) ) {
-                    ter_set( p, oter_id( "cave_rat" ) );
-                    requires_sub = true; // rat caves are two level
-                } else {
-                    ter_set( p, oter_id( "cave" ) );
-                }
-            } else if( oter_above == "cave_rat" && z == -2 ) {
-                ter_set( p, oter_id( "cave_rat" ) );
             } else if( oter_above == "anthill" || oter_above == "acid_anthill" ) {
                 const int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
                 ant_points.push_back( city( p.xy(), size ) );
@@ -1764,14 +1755,15 @@ bool overmap::generate_sub( const int z )
         requires_sub = true;
     }
     for( auto &i : ant_points ) {
-        if( ter( { i.pos, z } ) != "empty_rock" ) {
+        const tripoint p_loc = tripoint( i.pos, z );
+        if( ter( p_loc ) != "empty_rock" ) {
             continue;
         }
-        mongroup_id ant_group( ter( i.pos + tripoint_above ) == "anthill" ?
+        mongroup_id ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
                                "GROUP_ANT" : "GROUP_ANT_ACID" );
         add_mon_group( mongroup( ant_group, tripoint( i.pos.x * 2, i.pos.y * 2, z ),
                                  ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
-        build_anthill( tripoint( i.pos, z ), i.size );
+        build_anthill( p_loc, i.size );
     }
 
     return requires_sub;
@@ -2062,13 +2054,13 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power )
             const int targ_dist = rl_dist( p, mg.target );
             // TODO: Base this on targ_dist:dist ratio.
             if( targ_dist < 5 ) {  // If signal source already pursued by horde
-                mg.set_target( ( mg.target.x + p.x ) / 2, ( mg.target.y + p.y ) / 2 );
+                mg.set_target( point( ( mg.target.x + p.x ) / 2, ( mg.target.y + p.y ) / 2 ) );
                 const int min_inc_inter = 3; // Min interest increase to already targeted source
                 const int inc_roll = rng( min_inc_inter, calculated_inter );
                 mg.inc_interest( inc_roll );
                 add_msg( m_debug, "horde inc interest %d dist %d", inc_roll, dist );
             } else { // New signal source
-                mg.set_target( p.x, p.y );
+                mg.set_target( p.xy() );
                 mg.set_interest( min_capped_inter );
                 add_msg( m_debug, "horde set interest %d dist %d", min_capped_inter, dist );
             }

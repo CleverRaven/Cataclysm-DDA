@@ -50,6 +50,8 @@ class scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;
 
+        vproto_id _starting_vehicle = vproto_id::NULL_ID();
+
         void load( const JsonObject &jo, const std::string &src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
 
@@ -79,6 +81,8 @@ class scenario
         std::string start_name() const;
         int start_location_count() const;
         int start_location_targets_count() const;
+
+        vproto_id vehicle() const;
 
         const profession *weighted_random_profession() const;
         std::vector<string_id<profession>> permitted_professions() const;

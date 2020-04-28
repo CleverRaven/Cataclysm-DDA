@@ -8,7 +8,7 @@
   {
     "type": "MONSTER",
     "id": "mon_compsognathus",
-    "name": { "str": "Compsognathus", "str_pl": "Compsognathus" },
+    "name": { "str_sp": "Compsognathus" },
     "species": "DINOSAUR",
     "default_faction": "compsognathus",
     "symbol": "D",
@@ -57,13 +57,14 @@
   {
     "type": "MONSTER",
     "id": "mon_gallimimus",
-    "name": { "str": "Gallimimus", "str_pl": "Gallimimus" },
+    "name": { "str_sp": "Gallimimus" },
     "species": "DINOSAUR",
     "default_faction": "gallimimus",
     "symbol": "D",
     "color": "light_green_yellow",
     "volume": "440000 ml",
     "weight": 440000,
+    "bodytype": "ostrich",
     "material": "flesh",
     "aggression": -60,
     "morale": -20,
@@ -100,13 +101,14 @@
   {
     "type": "MONSTER",
     "id": "mon_pachycephalosaurus",
-    "name": { "str": "Pachycephalosaurus", "str_pl": "Pachycephalosaurus" },
+    "name": { "str_sp": "Pachycephalosaurus" },
     "species": "DINOSAUR",
     "default_faction": "pachycephalosaurus",
     "symbol": "D",
     "color": "light_green_yellow",
     "volume": "450000 ml",
     "weight": "450 kg",
+    "bodytype": "ostrich",
     "material": "flesh",
     "aggression": -40,
     "morale": -10,
@@ -142,7 +144,7 @@
   {
     "type": "MONSTER",
     "id": "mon_spinosaurus",
-    "name": { "str": "Spinosaurus", "str_pl": "Spinosaurus" },
+    "name": { "str_sp": "Spinosaurus" },
     "species": "DINOSAUR",
     "default_faction": "spinosaurus",
     "symbol": "D",
@@ -188,7 +190,7 @@
   {
     "type": "MONSTER",
     "id": "mon_tyrannosaurus",
-    "name": { "str": "Tyrannosaurus rex", "str_pl": "Tyrannosaurus rex" },
+    "name": { "str_sp": "Tyrannosaurus rex" },
     "species": "DINOSAUR",
     "default_faction": "t-rex",
     "symbol": "D",
@@ -222,13 +224,14 @@
   {
     "type": "MONSTER",
     "id": "mon_triceratops",
-    "name": { "str": "Triceratops", "str_pl": "Triceratops" },
+    "name": { "str_sp": "Triceratops" },
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
     "color": "light_green_magenta",
     "volume": "6000000 ml",
     "weight": 6000000,
+    "bodytype": "elephant",
     "material": "flesh",
     "diff": 30,
     "aggression": -50,
@@ -267,7 +270,7 @@
   {
     "type": "MONSTER",
     "id": "mon_stegosaurus",
-    "name": { "str": "Stegosaurus", "str_pl": "Stegosaurus" },
+    "name": { "str_sp": "Stegosaurus" },
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
@@ -300,7 +303,7 @@
   {
     "type": "MONSTER",
     "id": "mon_ankylosaurus",
-    "name": { "str": "Ankylosaurus", "str_pl": "Ankylosaurus" },
+    "name": { "str_sp": "Ankylosaurus" },
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
@@ -333,7 +336,7 @@
   {
     "type": "MONSTER",
     "id": "mon_allosaurus",
-    "name": { "str": "Allosaurus", "str_pl": "Allosaurus" },
+    "name": { "str_sp": "Allosaurus" },
     "species": "DINOSAUR",
     "default_faction": "allosaurus",
     "symbol": "D",
@@ -434,7 +437,7 @@
   {
     "type": "MONSTER",
     "id": "mon_deinonychus",
-    "name": { "str": "Deinonychus", "str_pl": "Deinonychus" },
+    "name": { "str_sp": "Deinonychus" },
     "species": "DINOSAUR",
     "default_faction": "deinonychus",
     "symbol": "D",
@@ -504,7 +507,7 @@
   {
     "type": "MONSTER",
     "id": "mon_parasaurolophus",
-    "name": { "str": "Parasaurolophus", "str_pl": "Parasaurolophus" },
+    "name": { "str_sp": "Parasaurolophus" },
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
@@ -537,7 +540,7 @@
   {
     "type": "MONSTER",
     "id": "mon_dimorphodon",
-    "name": { "str": "Dimorphodon", "str_pl": "Dimorphodon" },
+    "name": { "str_sp": "Dimorphodon" },
     "species": "DINOSAUR",
     "default_faction": "dimorphodon",
     "symbol": "D",
@@ -555,11 +558,13 @@
     "dodge": 3,
     "armor_bash": 3,
     "armor_cut": 1,
-    "luminance": 0,
     "vision_day": 50,
     "hp": 30,
     "death_function": [ "NORMAL" ],
-    "description": "A small flying reptile, circling overhead looking for prey.",
+    "description": "A feathered flying reptile over three feet long, with short wings and a big colorful beak.",
+    "reproduction": { "baby_egg": "egg_dimorphodon", "baby_count": 3, "baby_timer": 24 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED" ],
     "harvest": "animal_noskin",
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
@@ -569,10 +574,11 @@
   {
     "type": "MONSTER",
     "id": "mon_dilophosaurus",
-    "name": { "str": "Dilophosaurus", "str_pl": "Dilophosaurus" },
+    "name": { "str_sp": "Dilophosaurus" },
     "species": "DINOSAUR",
     "default_faction": "dilophosaurus",
     "symbol": "D",
+    "diff": 2,
     "color": "magenta_green",
     "volume": "400000 ml",
     "weight": 400000,
@@ -722,6 +728,13 @@
     "upgrades": { "age_grow": 30, "into": "mon_parasaurolophus" }
   },
   {
+    "id": "mon_dimorphodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
+  },
+  {
     "id": "mon_dilophosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -867,7 +880,11 @@
       { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
       { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_tyrannosaurus", "freq": 1, "cost_multiplier": 40 },
-      { "monster": "mon_allosaurus", "freq": 2, "cost_multiplier": 30 }
+      { "monster": "mon_allosaurus", "freq": 2, "cost_multiplier": 30 },
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 72 },
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 168 },
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 672 },
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 2160 }
     ]
   },
   {
@@ -893,6 +910,13 @@
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
       { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PARK_ANIMAL",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
   },
   {
     "type": "monstergroup",

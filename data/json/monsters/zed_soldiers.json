@@ -469,7 +469,7 @@
   {
     "id": "mon_zombie_bio_op2",
     "type": "MONSTER",
-    "name": "elite zombie bio-operator",
+    "name": { "str": "elite zombie bio-operator" },
     "description": "Once a highly trained soldier, various bionics cover this zombie's broken body.  Strangely, it maintains a vague martial arts stance.",
     "copy-from": "mon_zombie_bio_op",
     "looks_like": "mon_zombie_bio_op",

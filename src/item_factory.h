@@ -295,12 +295,13 @@ class Item_factory
         void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
         void load( islot_battery &slot, const JsonObject &jo, const std::string &src );
         void load( islot_bionic &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_ammo &slot, const JsonObject &jo, const std::string &src );
         void load( islot_seed &slot, const JsonObject &jo, const std::string &src );
         void load( islot_artifact &slot, const JsonObject &jo, const std::string &src );
         void load( relic &slot, const JsonObject &jo, const std::string &src );
 
         //json data handlers
+        void emplace_usage( std::map<std::string, use_function> &container, const std::string &iuse_id );
+
         void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
                                         std::map<std::string, use_function> &use_methods );
 

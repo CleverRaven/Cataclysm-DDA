@@ -10,6 +10,7 @@
 
 #include "active_item_cache.h"
 #include "bionics.h"
+#include "mutation.h"
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
@@ -278,12 +279,8 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
     }
 
     if( qual == qual_BUTCHER ) {
-        if( self->has_trait( trait_CLAWS_ST ) ) {
-            res = std::max( res, 8 );
-        } else if( self->has_trait( trait_TALONS ) || self->has_trait( trait_MANDIBLES ) ||
-                   self->has_trait( trait_CLAWS ) || self->has_trait( trait_CLAWS_RETRACT ) ||
-                   self->has_trait( trait_CLAWS_RAT ) ) {
-            res = std::max( res, 4 );
+        for( const trait_id &mut : self->get_mutations() ) {
+            res = std::max( res, mut->butchering_quality );
         }
     }
 

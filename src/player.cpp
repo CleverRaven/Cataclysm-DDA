@@ -180,7 +180,6 @@ static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_SPINES( "SPINES" );
@@ -204,9 +203,6 @@ static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
 
-static const mtype_id mon_player_blob( "mon_player_blob" );
-static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
-
 static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
@@ -218,8 +214,6 @@ static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
-
-const double MAX_RECOIL = 3000;
 
 stat_mod player::get_pain_penalty() const
 {
@@ -287,7 +281,6 @@ player::player()
     sight_max = 9999;
     last_batch = 0;
     lastconsumed = itype_id( "null" );
-    next_expected_position = cata::nullopt;
     death_drops = true;
 
     nv_cached = false;
@@ -479,7 +472,6 @@ int player::kcal_speed_penalty()
         }
     };
     if( get_kcal_percent() > 0.95f ) {
-        // TODO: get speed penalties for being too fat, too
         return 0;
     } else {
         return std::round( multi_lerp( starv_thresholds, get_bmi() ) );
@@ -514,7 +506,7 @@ void player::recalc_speed_bonus()
     if( get_thirst() > 40 ) {
         mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
     }
-    // fat or underweight, you get slower. cumulative with hunger
+    // when underweight, you get slower. cumulative with hunger
     mod_speed_bonus( kcal_speed_penalty() );
 
     for( const auto &maps : *effects ) {
@@ -562,117 +554,6 @@ void player::recalc_speed_bonus()
     if( get_speed_bonus() < min_speed_bonus ) {
         set_speed_bonus( min_speed_bonus );
     }
-}
-
-int player::run_cost( int base_cost, bool diag ) const
-{
-    float movecost = static_cast<float>( base_cost );
-    if( diag ) {
-        movecost *= 0.7071f; // because everything here assumes 100 is base
-    }
-    const bool flatground = movecost < 105;
-    // The "FLAT" tag includes soft surfaces, so not a good fit.
-    const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
-    const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS", pos() );
-
-    if( !is_mounted() ) {
-        if( movecost > 100 ) {
-            movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
-            if( movecost < 100 ) {
-                movecost = 100;
-            }
-        }
-        if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
-            if( movecost > 75 ) {
-                movecost =
-                    75; // Mycal characters are faster on their home territory, even through things like shrubs
-            }
-        }
-        if( is_limb_hindered( hp_leg_l ) ) {
-            movecost += 25;
-        }
-
-        if( is_limb_hindered( hp_leg_r ) ) {
-            movecost += 25;
-        }
-        movecost *= Character::mutation_value( "movecost_modifier" );
-        if( flatground ) {
-            movecost *= Character::mutation_value( "movecost_flatground_modifier" );
-        }
-        if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
-            movecost *= .9f;
-        }
-        if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == CMM_RUN ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 0.95f;
-            }
-        } else if( has_bionic( bio_jointservo ) ) {
-            movecost *= 1.1f;
-        }
-
-        if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
-            movecost *= 1.1f;
-        }
-        if( worn_with_flag( "FIN" ) ) {
-            movecost *= 1.5f;
-        }
-        if( worn_with_flag( "ROLLER_INLINE" ) ) {
-            if( on_road ) {
-                movecost *= 0.5f;
-            } else {
-                movecost *= 1.5f;
-            }
-        }
-        // Quad skates might be more stable than inlines,
-        // but that also translates into a slower speed when on good surfaces.
-        if( worn_with_flag( "ROLLER_QUAD" ) ) {
-            if( on_road ) {
-                movecost *= 0.7f;
-            } else {
-                movecost *= 1.3f;
-            }
-        }
-        // Skates with only one wheel (roller shoes) are fairly less stable
-        // and fairly slower as well
-        if( worn_with_flag( "ROLLER_ONE" ) ) {
-            if( on_road ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 1.1f;
-            }
-        }
-
-        movecost +=
-            ( ( encumb( bp_foot_l ) + encumb( bp_foot_r ) ) * 2.5 +
-              ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) * 1.5 ) / 10;
-
-        // ROOTS3 does slow you down as your roots are probing around for nutrients,
-        // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
-        // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-        const bool mutfeet = has_trait( trait_LEG_TENTACLES ) || has_trait( trait_PADDED_FEET ) ||
-                             has_trait( trait_HOOVES ) || has_trait( trait_TOUGH_FEET ) || has_trait( trait_ROOTS2 );
-        if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
-            movecost += 8;
-        }
-        if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
-            movecost += 8;
-        }
-
-        if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
-            movecost += 10 * footwear_factor();
-        }
-
-        movecost = calculate_by_enchantment( movecost, enchantment::mod::MOVE_COST );
-        movecost /= stamina_move_cost_modifier();
-    }
-
-    if( diag ) {
-        movecost *= M_SQRT2;
-    }
-
-    return static_cast<int>( movecost );
 }
 
 float player::stability_roll() const
@@ -781,23 +662,6 @@ bool player::has_conflicting_trait( const trait_id &flag ) const
 {
     return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
              has_same_type_trait( flag ) );
-}
-
-bool player::has_opposite_trait( const trait_id &flag ) const
-{
-    for( const trait_id &i : flag->cancels ) {
-        if( has_trait( i ) ) {
-            return true;
-        }
-    }
-    for( const trait_id &mut : get_mutations() ) {
-        for( const trait_id &canceled_trait : mut->cancels ) {
-            if( canceled_trait == flag ) {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 bool player::has_lower_trait( const trait_id &flag ) const
@@ -1133,13 +997,15 @@ void player::on_dodge( Creature *source, float difficulty )
     }
 }
 
-void player::on_hit( Creature *source, body_part bp_hit,
+void player::on_hit( Creature *source, bodypart_id bp_hit,
                      float /*difficulty*/, dealt_projectile_attack const *const proj )
 {
     check_dead_state();
     if( source == nullptr || proj != nullptr ) {
         return;
     }
+
+    const body_part bp_hit_token = bp_hit->token;
 
     bool u_see = g->u.sees( *this );
     if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
@@ -1156,9 +1022,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
         damage_instance ods_shock_damage;
         ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
         // Should hit body part used for attack
-        source->deal_damage( this, bp_torso, ods_shock_damage );
+        source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
     }
-    if( !wearing_something_on( bp_hit ) &&
+    if( !wearing_something_on( bp_hit_token ) &&
         ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
         int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
         if( !is_player() ) {
@@ -1174,9 +1040,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
         }
         damage_instance spine_damage;
         spine_damage.add_damage( DT_STAB, spine );
-        source->deal_damage( this, bp_torso, spine_damage );
+        source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
     }
-    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
+    if( ( !( wearing_something_on( bp_hit_token ) ) ) && ( has_trait( trait_THORNS ) ) &&
         ( !( source->has_weapon() ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
@@ -1191,9 +1057,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
         thorn_damage.add_damage( DT_CUT, thorn );
         // In general, critters don't have separate limbs
         // so safer to target the torso
-        source->deal_damage( this, bp_torso, thorn_damage );
+        source->deal_damage( this, bodypart_id( "torso" ), thorn_damage );
     }
-    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
+    if( ( !( wearing_something_on( bp_hit_token ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
                 add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
@@ -1270,180 +1136,6 @@ bool player::immune_to( body_part bp, damage_unit dam ) const
     return dam.amount <= 0;
 }
 
-dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
-        const damage_instance &d )
-{
-    if( has_trait( trait_DEBUG_NODMG ) ) {
-        return dealt_damage_instance();
-    }
-
-    //damage applied here
-    dealt_damage_instance dealt_dams = Creature::deal_damage( source, bp, d );
-    //block reduction should be by applied this point
-    int dam = dealt_dams.total_damage();
-
-    // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( dam > 0 && g->u.sees( pos() ) ) {
-        g->draw_hit_player( *this, dam );
-
-        if( is_player() && source ) {
-            //monster hits player melee
-            SCT.add( point( posx(), posy() ),
-                     direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
-                     get_hp_bar( dam, get_hp_max( player::bp_to_hp( bp ) ) ).first, m_bad,
-                     body_part_name( bp ), m_neutral );
-        }
-    }
-
-    // handle snake artifacts
-    if( has_artifact_with( AEP_SNAKES ) && dam >= 6 ) {
-        const int snakes = dam / 6;
-        int spawned = 0;
-        for( int i = 0; i < snakes; i++ ) {
-            if( monster *const snake = g->place_critter_around( mon_shadow_snake, pos(), 1 ) ) {
-                snake->friendly = -1;
-                spawned++;
-            }
-        }
-        if( spawned == 1 ) {
-            add_msg( m_warning, _( "A snake sprouts from your body!" ) );
-        } else if( spawned >= 2 ) {
-            add_msg( m_warning, _( "Some snakes sprout from your body!" ) );
-        }
-    }
-
-    // And slimespawners too
-    if( ( has_trait( trait_SLIMESPAWNER ) ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
-        if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
-            slime->friendly = -1;
-            add_msg_if_player( m_warning, _( "Slime is torn from you, and moves on its own!" ) );
-        }
-    }
-
-    //Acid blood effects.
-    bool u_see = g->u.sees( *this );
-    int cut_dam = dealt_dams.type_damage( DT_CUT );
-    if( source && has_trait( trait_ACIDBLOOD ) && !one_in( 3 ) &&
-        ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( g->u.pos(), source->pos() ) <= 1 ) ) {
-        if( is_player() ) {
-            add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
-                     source->disp_name() );
-        } else if( u_see ) {
-            add_msg( _( "%1$s's acidic blood splashes on %2$s in mid-attack!" ),
-                     disp_name(), source->disp_name() );
-        }
-        damage_instance acidblood_damage;
-        acidblood_damage.add_damage( DT_ACID, rng( 4, 16 ) );
-        if( !one_in( 4 ) ) {
-            source->deal_damage( this, bp_arm_l, acidblood_damage );
-            source->deal_damage( this, bp_arm_r, acidblood_damage );
-        } else {
-            source->deal_damage( this, bp_torso, acidblood_damage );
-            source->deal_damage( this, bp_head, acidblood_damage );
-        }
-    }
-
-    int recoil_mul = 100;
-    switch( bp ) {
-        case bp_eyes:
-            if( dam > 5 || cut_dam > 0 ) {
-                const time_duration minblind = std::max( 1_turns, 1_turns * ( dam + cut_dam ) / 10 );
-                const time_duration maxblind = std::min( 5_turns, 1_turns * ( dam + cut_dam ) / 4 );
-                add_effect( effect_blind, rng( minblind, maxblind ) );
-            }
-            break;
-        case bp_torso:
-            break;
-        case bp_hand_l:
-        // Fall through to arms
-        case bp_arm_l:
-        // Hit to arms/hands are really bad to our aim
-        case bp_hand_r:
-        // Fall through to arms
-        case bp_arm_r:
-            recoil_mul = 200;
-            break;
-        case bp_foot_l:
-        // Fall through to legs
-        case bp_leg_l:
-            break;
-        case bp_foot_r:
-        // Fall through to legs
-        case bp_leg_r:
-            break;
-        case bp_mouth:
-        // Fall through to head damage
-        case bp_head:
-            // TODO: Some daze maybe? Move drain?
-            break;
-        default:
-            debugmsg( "Wacky body part hit!" );
-    }
-
-    // TODO: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
-    recoil += recoil_mul * weapon.volume() / 250_ml;
-    recoil = std::min( MAX_RECOIL, recoil );
-    //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
-    // Skip all this if the damage isn't from a creature. e.g. an explosion.
-    if( source != nullptr ) {
-        if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
-            !source->has_effect( effect_grabbing ) ) {
-            /** @EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR */
-
-            /** @EFFECT_STR increases chance to avoid being grabbed, if STR>DEX */
-            if( has_grab_break_tec() && get_grab_resist() > 0 &&
-                ( get_dex() > get_str() ? rng( 0, get_dex() ) : rng( 0, get_str() ) ) >
-                rng( 0, 10 ) ) {
-                if( has_effect( effect_grabbed ) ) {
-                    add_msg_if_player( m_warning, _( "You are being grabbed by %s, but you bat it away!" ),
-                                       source->disp_name() );
-                } else {
-                    add_msg_player_or_npc( m_info, _( "You are being grabbed by %s, but you break its grab!" ),
-                                           _( "<npcname> are being grabbed by %s, but they break its grab!" ),
-                                           source->disp_name() );
-                }
-            } else {
-                int prev_effect = get_effect_int( effect_grabbed );
-                add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 2 );
-                source->add_effect( effect_grabbing, 2_turns );
-                add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
-                                       source->disp_name() );
-            }
-        }
-    }
-
-    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
-        int sum_cover = 0;
-        for( const item &i : worn ) {
-            if( i.covers( bp ) && i.is_filthy() ) {
-                sum_cover += i.get_coverage();
-            }
-        }
-
-        // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
-        // i.e. if the body part has a sum of 100 coverage from filthy clothing,
-        // each point of damage has a 1% change of causing infection.
-        if( sum_cover > 0 ) {
-            const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
-            const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
-            const int infection_chance = ( combined_dam * sum_cover ) / 100;
-            if( x_in_y( infection_chance, 100 ) ) {
-                if( has_effect( effect_bite, bp ) ) {
-                    add_effect( effect_bite, 40_minutes, bp, true );
-                } else if( has_effect( effect_infected, bp ) ) {
-                    add_effect( effect_infected, 25_minutes, bp, true );
-                } else {
-                    add_effect( effect_bite, 1_turns, bp, true );
-                }
-                add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
-            }
-        }
-    }
-
-    on_hurt( source );
-    return dealt_dams;
-}
-
 void player::mod_pain( int npain )
 {
     if( npain > 0 ) {
@@ -1490,81 +1182,6 @@ int player::get_perceived_pain() const
     }
 
     return std::max( get_pain() - get_painkiller(), 0 );
-}
-
-int player::reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt )
-{
-    effect &e = get_effect( eff_id, hurt );
-    int intensity = e.get_intensity();
-    if( remove_med < intensity ) {
-        if( eff_id == effect_bandaged ) {
-            add_msg_if_player( m_bad, _( "Bandages on your %s were damaged!" ), body_part_name( hurt ) );
-        } else  if( eff_id == effect_disinfected ) {
-            add_msg_if_player( m_bad, _( "You got some filth on your disinfected %s!" ),
-                               body_part_name( hurt ) );
-        }
-    } else {
-        if( eff_id == effect_bandaged ) {
-            add_msg_if_player( m_bad, _( "Bandages on your %s were destroyed!" ), body_part_name( hurt ) );
-        } else  if( eff_id == effect_disinfected ) {
-            add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
-        }
-    }
-    e.mod_duration( -6_hours * remove_med );
-    return intensity;
-}
-
-/*
-    Where damage to player is actually applied to hit body parts
-    Might be where to put bleed stuff rather than in player::deal_damage()
- */
-void player::apply_damage( Creature *source, body_part hurt, int dam, const bool bypass_med )
-{
-    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) ) {
-        // don't do any more damage if we're already dead
-        // Or if we're debugging and don't want to die
-        return;
-    }
-
-    hp_part hurtpart = bp_to_hp( hurt );
-    if( hurtpart == num_hp_parts ) {
-        debugmsg( "Wacky body part hurt!" );
-        hurtpart = hp_torso;
-    }
-
-    mod_pain( dam / 2 );
-
-    const int dam_to_bodypart = std::min( dam, hp_cur[hurtpart] );
-
-    hp_cur[hurtpart] -= dam_to_bodypart;
-    g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
-
-    if( !weapon.is_null() && !can_wield( weapon ).success() && can_unwield( weapon ).success() ) {
-        add_msg_if_player( _( "You are no longer able to wield your %s and drop it!" ),
-                           weapon.display_name() );
-        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
-        i_rem( &weapon );
-    }
-    if( has_effect( effect_mending, hurt ) && ( source == nullptr || !source->is_hallucination() ) ) {
-        effect &e = get_effect( effect_mending, hurt );
-        float remove_mend = dam / 20.0f;
-        e.mod_duration( -e.get_max_duration() * remove_mend );
-    }
-
-    if( dam > get_painkiller() ) {
-        on_hurt( source );
-    }
-
-    if( !bypass_med ) {
-        // remove healing effects if damaged
-        int remove_med = roll_remainder( dam / 5.0f );
-        if( remove_med > 0 && has_effect( effect_bandaged, hurt ) ) {
-            remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt );
-        }
-        if( remove_med > 0 && has_effect( effect_disinfected, hurt ) ) {
-            reduce_healing_effect( effect_disinfected, remove_med, hurt );
-        }
-    }
 }
 
 float player::fall_damage_mod() const
@@ -1696,7 +1313,7 @@ int player::impact( const int force, const tripoint &p )
     int total_dealt = 0;
     if( mod * effective_force >= 5 ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
-            const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+            const bodypart_id bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
             di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
@@ -1742,15 +1359,15 @@ void player::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH, critter->type->size ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
             critter->knock_back_from( pos() ); // Chain reaction!
-            critter->apply_damage( this, bp_torso, ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         } else if( ( str_max - 6 ) / 4 == critter->type->size ) {
-            critter->apply_damage( this, bp_torso, ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         }
         critter->check_dead_state();
@@ -1761,9 +1378,9 @@ void player::knock_back_to( const tripoint &to )
     }
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
-        deal_damage( np, bp_torso, damage_instance( DT_BASH, np->get_size() ) );
+        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH, np->get_size() ) );
         add_effect( effect_stunned, 1_turns );
-        np->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );
+        np->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
                                np->name );
         np->check_dead_state();
@@ -1780,7 +1397,7 @@ void player::knock_back_to( const tripoint &to )
 
         // It's some kind of wall.
         // TODO: who knocked us back? Maybe that creature should be the source of the damage?
-        apply_damage( nullptr, bp_torso, 3 );
+        apply_damage( nullptr, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                g->m.obstacle_name( to ) );
@@ -2009,14 +1626,14 @@ void player::process_one_effect( effect &it, bool is_new )
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
                 }
-                apply_damage( nullptr, bp_torso, val, true );
+                apply_damage( nullptr, bodypart_id( "torso" ), val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
-                apply_damage( nullptr, bp, val, true );
+                apply_damage( nullptr, convert_bp( bp ).id(), val, true );
             }
         }
     }
@@ -3097,13 +2714,13 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
 
 hint_rating player::rate_action_wear( const item &it ) const
 {
-    // TODO: flag already-worn items as HINT_IFFY
+    // TODO: flag already-worn items as hint_rating::iffy
 
     if( !it.is_armor() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
-    return can_wear( it ).success() ? HINT_GOOD : HINT_IFFY;
+    return can_wear( it ).success() ? hint_rating::good : hint_rating::iffy;
 }
 
 bool player::can_reload( const item &it, const itype_id &ammo ) const
@@ -3383,14 +3000,14 @@ player::wear( item &to_wear, bool interactive )
 hint_rating player::rate_action_takeoff( const item &it ) const
 {
     if( !it.is_armor() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     if( is_worn( it ) ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     }
 
-    return HINT_IFFY;
+    return hint_rating::iffy;
 }
 
 ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
@@ -3659,19 +3276,19 @@ void player::use_wielded()
 
 hint_rating player::rate_action_reload( const item &it ) const
 {
-    hint_rating res = HINT_CANT;
+    hint_rating res = hint_rating::cant;
 
     // Guns may contain additional reloadable mods so check these first
     for( const auto mod : it.gunmods() ) {
         switch( rate_action_reload( *mod ) ) {
-            case HINT_GOOD:
-                return HINT_GOOD;
+            case hint_rating::good:
+                return hint_rating::good;
 
-            case HINT_CANT:
+            case hint_rating::cant:
                 continue;
 
-            case HINT_IFFY:
-                res = HINT_IFFY;
+            case hint_rating::iffy:
+                res = hint_rating::iffy;
         }
     }
 
@@ -3679,89 +3296,89 @@ hint_rating player::rate_action_reload( const item &it ) const
         return res;
     }
 
-    return can_reload( it ) ? HINT_GOOD : HINT_IFFY;
+    return can_reload( it ) ? hint_rating::good : hint_rating::iffy;
 }
 
 hint_rating player::rate_action_unload( const item &it ) const
 {
     if( ( it.is_container() || it.is_bandolier() ) && !it.contents.empty() &&
         it.can_unload_liquid() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     }
 
     if( it.has_flag( "NO_UNLOAD" ) ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     if( it.magazine_current() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     }
 
     for( auto e : it.gunmods() ) {
         if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
             ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
-            return HINT_GOOD;
+            return hint_rating::good;
         }
     }
 
     if( it.ammo_types().empty() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     if( it.ammo_remaining() > 0 || it.casings_count() > 0 ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     }
 
     if( it.ammo_capacity() > 0 ) {
-        return HINT_IFFY;
+        return hint_rating::iffy;
     }
 
-    return HINT_CANT;
+    return hint_rating::cant;
 }
 
 hint_rating player::rate_action_mend( const item &it ) const
 {
     // TODO: check also if item damage could be repaired via a tool
     if( !it.faults.empty() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     }
-    return it.faults_potential().empty() ? HINT_CANT : HINT_IFFY;
+    return it.faults_potential().empty() ? hint_rating::cant : hint_rating::iffy;
 }
 
 hint_rating player::rate_action_disassemble( const item &it )
 {
     if( can_disassemble( it, crafting_inventory() ).success() ) {
-        return HINT_GOOD; // possible
+        return hint_rating::good; // possible
 
     } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
-        return HINT_IFFY; // potentially possible but we currently lack requirements
+        return hint_rating::iffy; // potentially possible but we currently lack requirements
 
     } else {
-        return HINT_CANT; // never possible
+        return hint_rating::cant; // never possible
     }
 }
 
 hint_rating player::rate_action_use( const item &it ) const
 {
     if( it.is_tool() ) {
-        return it.ammo_sufficient() ? HINT_GOOD : HINT_IFFY;
+        return it.ammo_sufficient() ? hint_rating::good : hint_rating::iffy;
 
     } else if( it.is_gunmod() ) {
         /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
         if( get_skill_level( skill_gun ) == 0 ) {
-            return HINT_IFFY;
+            return hint_rating::iffy;
         } else {
-            return HINT_GOOD;
+            return hint_rating::good;
         }
     } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
-        return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
+        return hint_rating::iffy; //the rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
     } else if( it.type->has_use() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     } else if( !it.is_container_empty() ) {
         return rate_action_use( it.get_contained() );
     }
 
-    return HINT_CANT;
+    return hint_rating::cant;
 }
 
 void player::use( int inventory_position )
@@ -4420,35 +4037,6 @@ float player::fine_detail_vision_mod( const tripoint &p ) const
     return std::min( own_light, ambient_light );
 }
 
-bool player::natural_attack_restricted_on( body_part bp ) const
-{
-    for( auto &i : worn ) {
-        if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) && !i.has_flag( "SEMITANGIBLE" ) &&
-            !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-int player::adjust_for_focus( int amount ) const
-{
-    int effective_focus = focus_pool;
-    if( has_trait( trait_FASTLEARNER ) ) {
-        effective_focus += 15;
-    }
-    if( has_active_bionic( bio_memory ) ) {
-        effective_focus += 10;
-    }
-    if( has_trait( trait_SLOWLEARNER ) ) {
-        effective_focus -= 15;
-    }
-    effective_focus += ( get_int_base() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
-                       get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
-    double tmp = amount * ( effective_focus / 100.0 );
-    return roll_remainder( tmp );
-}
-
 void player::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
     SkillLevel &level = get_skill_level_object( id );
@@ -4823,254 +4411,6 @@ void player::environmental_revert_effect()
     reset_encumbrance();
 }
 
-void player::set_destination( const std::vector<tripoint> &route,
-                              const player_activity &new_destination_activity )
-{
-    auto_move_route = route;
-    set_destination_activity( new_destination_activity );
-    destination_point.emplace( g->m.getabs( route.back() ) );
-}
-
-void player::clear_destination()
-{
-    auto_move_route.clear();
-    clear_destination_activity();
-    destination_point = cata::nullopt;
-    next_expected_position = cata::nullopt;
-}
-
-bool player::has_distant_destination() const
-{
-    return has_destination() && !get_destination_activity().is_null() &&
-           get_destination_activity().id() == "ACT_TRAVELLING" && !omt_path.empty();
-}
-
-bool player::is_auto_moving() const
-{
-    return destination_point.has_value();
-}
-
-bool player::has_destination() const
-{
-    return !auto_move_route.empty();
-}
-
-bool player::has_destination_activity() const
-{
-    return !get_destination_activity().is_null() && destination_point &&
-           position == g->m.getlocal( *destination_point );
-}
-
-void player::start_destination_activity()
-{
-    if( !has_destination_activity() ) {
-        debugmsg( "Tried to start invalid destination activity" );
-        return;
-    }
-
-    assign_activity( get_destination_activity() );
-    clear_destination();
-}
-
-std::vector<tripoint> &player::get_auto_move_route()
-{
-    return auto_move_route;
-}
-
-action_id player::get_next_auto_move_direction()
-{
-    if( !has_destination() ) {
-        return ACTION_NULL;
-    }
-
-    if( next_expected_position ) {
-        if( pos() != *next_expected_position ) {
-            // We're off course, possibly stumbling or stuck, cancel auto move
-            return ACTION_NULL;
-        }
-    }
-
-    next_expected_position.emplace( auto_move_route.front() );
-    auto_move_route.erase( auto_move_route.begin() );
-
-    tripoint dp = *next_expected_position - pos();
-
-    // Make sure the direction is just one step and that
-    // all diagonal moves have 0 z component
-    if( std::abs( dp.x ) > 1 || std::abs( dp.y ) > 1 || std::abs( dp.z ) > 1 ||
-        ( std::abs( dp.z ) != 0 && ( std::abs( dp.x ) != 0 || std::abs( dp.y ) != 0 ) ) ) {
-        // Should never happen, but check just in case
-        return ACTION_NULL;
-    }
-    return get_movement_action_from_delta( dp, iso_rotate::yes );
-}
-
-bool player::defer_move( const tripoint &next )
-{
-    // next must be adjacent to current pos
-    if( square_dist( next, pos() ) != 1 ) {
-        return false;
-    }
-    // next must be adjacent to subsequent move in any preexisting automove route
-    if( has_destination() && square_dist( auto_move_route.front(), next ) != 1 ) {
-        return false;
-    }
-    auto_move_route.insert( auto_move_route.begin(), next );
-    next_expected_position = pos();
-    return true;
-}
-
-void player::shift_destination( const point &shift )
-{
-    if( next_expected_position ) {
-        *next_expected_position += shift;
-    }
-
-    for( auto &elem : auto_move_route ) {
-        elem += shift;
-    }
-}
-
-bool player::has_weapon() const
-{
-    return !unarmed_attack();
-}
-
-int player::get_hp() const
-{
-    return get_hp( num_hp_parts );
-}
-
-int player::get_hp( hp_part bp ) const
-{
-    if( bp < num_hp_parts ) {
-        return hp_cur[bp];
-    }
-    int hp_total = 0;
-    for( int i = 0; i < num_hp_parts; ++i ) {
-        hp_total += hp_cur[i];
-    }
-    return hp_total;
-}
-
-int player::get_hp_max() const
-{
-    return get_hp_max( num_hp_parts );
-}
-
-int player::get_hp_max( hp_part bp ) const
-{
-    if( bp < num_hp_parts ) {
-        return hp_max[bp];
-    }
-    int hp_total = 0;
-    for( int i = 0; i < num_hp_parts; ++i ) {
-        hp_total += hp_max[i];
-    }
-    return hp_total;
-}
-
-Creature::Attitude player::attitude_to( const Creature &other ) const
-{
-    const auto m = dynamic_cast<const monster *>( &other );
-    if( m != nullptr ) {
-        if( m->friendly != 0 ) {
-            return A_FRIENDLY;
-        }
-        switch( m->attitude( const_cast<player *>( this ) ) ) {
-            // player probably does not want to harm them, but doesn't care much at all.
-            case MATT_FOLLOW:
-            case MATT_FPASSIVE:
-            case MATT_IGNORE:
-            case MATT_FLEE:
-                return A_NEUTRAL;
-            // player does not want to harm those.
-            case MATT_FRIEND:
-            case MATT_ZLAVE:
-                // Don't want to harm your zlave!
-                return A_FRIENDLY;
-            case MATT_ATTACK:
-                return A_HOSTILE;
-            case MATT_NULL:
-            case NUM_MONSTER_ATTITUDES:
-                break;
-        }
-
-        return A_NEUTRAL;
-    }
-
-    const auto p = dynamic_cast<const npc *>( &other );
-    if( p != nullptr ) {
-        if( p->is_enemy() ) {
-            return A_HOSTILE;
-        } else if( p->is_player_ally() ) {
-            return A_FRIENDLY;
-        } else {
-            return A_NEUTRAL;
-        }
-    } else if( &other == this ) {
-        return A_FRIENDLY;
-    }
-
-    return A_NEUTRAL;
-}
-
-bool player::sees( const tripoint &t, bool, int ) const
-{
-    static const bionic_id str_bio_night( "bio_night" );
-    const int wanted_range = rl_dist( pos(), t );
-    bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
-                   Creature::sees( t );
-    // Clairvoyance is now pretty cheap, so we can check it early
-    if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
-        return true;
-    }
-    // Only check if we need to override if we already came to the opposite conclusion.
-    if( can_see && wanted_range < 15 && wanted_range > sight_range( 1 ) &&
-        has_active_bionic( str_bio_night ) ) {
-        can_see = false;
-    }
-    if( can_see && wanted_range > unimpaired_range() ) {
-        can_see = false;
-    }
-
-    return can_see;
-}
-
-bool player::sees( const Creature &critter ) const
-{
-    // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
-    const int dist = rl_dist( pos(), critter.pos() );
-    if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
-        return true;
-    }
-
-    return Creature::sees( critter );
-}
-
-nc_color player::bodytemp_color( int bp ) const
-{
-    nc_color color = c_light_gray; // default
-    if( bp == bp_eyes ) {
-        color = c_light_gray;    // Eyes don't count towards warmth
-    } else if( temp_conv[bp]  > BODYTEMP_SCORCHING ) {
-        color = c_red;
-    } else if( temp_conv[bp]  > BODYTEMP_VERY_HOT ) {
-        color = c_light_red;
-    } else if( temp_conv[bp]  > BODYTEMP_HOT ) {
-        color = c_yellow;
-    } else if( temp_conv[bp]  > BODYTEMP_COLD ) {
-        color = c_green;
-    } else if( temp_conv[bp]  > BODYTEMP_VERY_COLD ) {
-        color = c_light_blue;
-    } else if( temp_conv[bp]  > BODYTEMP_FREEZING ) {
-        color = c_cyan;
-    } else if( temp_conv[bp] <= BODYTEMP_FREEZING ) {
-        color = c_blue;
-    }
-    return color;
-}
-
 //message related stuff
 void player::add_msg_if_player( const std::string &msg ) const
 {
@@ -5108,401 +4448,8 @@ void player::add_msg_player_or_say( const game_message_params &params,
     Messages::add_msg( params, player_msg );
 }
 
-bool player::knows_trap( const tripoint &pos ) const
-{
-    const tripoint p = g->m.getabs( pos );
-    return known_traps.count( p ) > 0;
-}
-
-void player::add_known_trap( const tripoint &pos, const trap &t )
-{
-    const tripoint p = g->m.getabs( pos );
-    if( t.is_null() ) {
-        known_traps.erase( p );
-    } else {
-        // TODO: known_traps should map to a trap_str_id
-        known_traps[p] = t.id.str();
-    }
-}
-
-bool player::can_hear( const tripoint &source, const int volume ) const
-{
-    if( is_deaf() ) {
-        return false;
-    }
-
-    // source is in-ear and at our square, we can hear it
-    if( source == pos() && volume == 0 ) {
-        return true;
-    }
-    const int dist = rl_dist( source, pos() );
-    const float volume_multiplier = hearing_ability();
-    return ( volume - weather::sound_attn( g->weather.weather ) ) * volume_multiplier >= dist;
-}
-
-float player::hearing_ability() const
-{
-    float volume_multiplier = 1.0;
-
-    // Mutation/Bionic volume modifiers
-    if( has_active_bionic( bio_ears ) && !has_active_bionic( bio_earplugs ) ) {
-        volume_multiplier *= 3.5;
-    }
-    if( has_trait( trait_PER_SLIME ) ) {
-        // Random hearing :-/
-        // (when it's working at all, see player.cpp)
-        // changed from 0.5 to fix Mac compiling error
-        volume_multiplier *= ( rng( 1, 2 ) );
-    }
-
-    volume_multiplier *= Character::mutation_value( "hearing_modifier" );
-
-    if( has_effect( effect_deaf ) ) {
-        // Scale linearly up to 30 minutes
-        volume_multiplier *= ( 30_minutes - get_effect_dur( effect_deaf ) ) / 30_minutes;
-    }
-
-    if( has_effect( effect_earphones ) ) {
-        volume_multiplier *= .25;
-    }
-
-    return volume_multiplier;
-}
-
-std::string player::visible_mutations( const int visibility_cap ) const
-{
-    const std::vector<trait_id> &my_muts = get_mutations();
-    const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),
-    [visibility_cap ]( const trait_id & pr ) -> std::string {
-        const auto &mut_branch = pr.obj();
-        // Finally some use for visibility trait of mutations
-        if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
-        {
-            return colorize( mut_branch.name(), mut_branch.get_display_color() );
-        }
-
-        return std::string();
-    } );
-    return trait_str;
-}
-
-std::vector<std::string> player::short_description_parts() const
-{
-    std::vector<std::string> result;
-
-    if( is_armed() ) {
-        result.push_back( _( "Wielding: " ) + weapon.tname() );
-    }
-    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(),
-    []( const item & it ) {
-        return it.tname();
-    } );
-    if( !worn_str.empty() ) {
-        result.push_back( _( "Wearing: " ) + worn_str );
-    }
-    const int visibility_cap = 0; // no cap
-    const auto trait_str = visible_mutations( visibility_cap );
-    if( !trait_str.empty() ) {
-        result.push_back( _( "Traits: " ) + trait_str );
-    }
-    return result;
-}
-
-std::string player::short_description() const
-{
-    return join( short_description_parts(), ";   " );
-}
-
-int player::print_info( const catacurses::window &w, int vStart, int, int column ) const
-{
-    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
-    return vStart;
-}
-
-bool player::is_visible_in_range( const Creature &critter, const int range ) const
-{
-    return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
-}
-
-std::vector<Creature *> player::get_visible_creatures( const int range ) const
-{
-    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
-        rl_dist( pos(), critter.pos() ) <= range && sees( critter );
-    } );
-}
-
-std::vector<Creature *> player::get_targetable_creatures( const int range ) const
-{
-    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        bool can_see = sees( critter ) || sees_with_infrared( critter );
-        if( can_see )   //handles the case where we can see something with glass in the way or a mutation lets us see through walls
-        {
-            std::vector<tripoint> path = g->m.find_clear_path( pos(), critter.pos() );
-            for( const tripoint &point : path ) {
-                if( g->m.impassable( point ) ) {
-                    can_see = false;
-                    break;
-                }
-            }
-        }
-        bool in_range = std::round( rl_dist_exact( pos(), critter.pos() ) ) <= range;
-        // TODO: get rid of fake npcs (pos() check)
-        bool valid_target = this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY;
-        return valid_target && in_range && can_see;
-    } );
-}
-
-std::vector<Creature *> player::get_hostile_creatures( int range ) const
-{
-    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        // Fixes circular distance range for ranged attacks
-        float dist_to_creature = std::round( rl_dist_exact( pos(), critter.pos() ) );
-        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
-        dist_to_creature <= range && critter.attitude_to( *this ) == A_HOSTILE
-        && sees( critter );
-    } );
-}
-
-void player::place_corpse()
-{
-    //If the character/NPC is on a distant mission, don't drop their their gear when they die since they still have a local pos
-    if( !death_drops ) {
-        return;
-    }
-    std::vector<item *> tmp = inv_dump();
-    item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
-    body.set_item_temperature( 310.15 );
-    for( auto itm : tmp ) {
-        g->m.add_item_or_charges( pos(), *itm );
-    }
-    for( const bionic &bio : *my_bionics ) {
-        if( item::type_is_defined( bio.id.str() ) ) {
-            item cbm( bio.id.str(), calendar::turn );
-            cbm.set_flag( "FILTHY" );
-            cbm.set_flag( "NO_STERILE" );
-            cbm.set_flag( "NO_PACKED" );
-            cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
-            body.put_in( cbm );
-        }
-    }
-
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( item( "bio_power_storage" ) );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( item( "bio_power_storage_mkII" ) );
-    }
-    g->m.add_item_or_charges( pos(), body );
-}
-
-void player::place_corpse( const tripoint &om_target )
-{
-    tinymap bay;
-    bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
-    int finX = rng( 1, SEEX * 2 - 2 );
-    int finY = rng( 1, SEEX * 2 - 2 );
-    // This makes no sense at all. It may find a random tile without furniture, but
-    // if the first try to find one fails, it will go through all tiles of the map
-    // and essentially select the last one that has no furniture.
-    // Q: Why check for furniture? (Check for passable or can-place-items seems more useful.)
-    // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
-    // Q: Why use furn_str_id instead of f_null?
-    // TODO: fix it, see above.
-    if( bay.furn( point( finX, finY ) ) != furn_str_id( "f_null" ) ) {
-        for( const tripoint &p : bay.points_on_zlevel() ) {
-            if( bay.furn( p ) == furn_str_id( "f_null" ) ) {
-                finX = p.x;
-                finY = p.y;
-            }
-        }
-    }
-
-    std::vector<item *> tmp = inv_dump();
-    item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
-    for( auto itm : tmp ) {
-        bay.add_item_or_charges( point( finX, finY ), *itm );
-    }
-    for( const bionic &bio : *my_bionics ) {
-        if( item::type_is_defined( bio.id.str() ) ) {
-            body.put_in( item( bio.id.str(), calendar::turn ) );
-        }
-    }
-
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( item( "bio_power_storage" ) );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( item( "bio_power_storage_mkII" ) );
-    }
-    bay.add_item_or_charges( point( finX, finY ), body );
-}
-
-bool player::sees_with_infrared( const Creature &critter ) const
-{
-    if( !vision_mode_cache[IR_VISION] || !critter.is_warm() ) {
-        return false;
-    }
-
-    if( is_player() || critter.is_player() ) {
-        // Players should not use map::sees
-        // Likewise, players should not be "looked at" with map::sees, not to break symmetry
-        return g->m.pl_line_of_sight( critter.pos(),
-                                      sight_range( current_daylight_level( calendar::turn ) ) );
-    }
-
-    return g->m.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
-}
-
-float player::power_rating() const
-{
-    int dmg = std::max( { weapon.damage_melee( DT_BASH ),
-                          weapon.damage_melee( DT_CUT ),
-                          weapon.damage_melee( DT_STAB )
-                        } );
-
-    int ret = 2;
-    // Small guns can be easily hidden from view
-    if( weapon.volume() <= 250_ml ) {
-        ret = 2;
-    } else if( weapon.is_gun() ) {
-        ret = 4;
-    } else if( dmg > 12 ) {
-        ret = 3; // Melee weapon or weapon-y tool
-    }
-    if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
-        ret += 1;
-    }
-    if( is_wearing_power_armor( nullptr ) ) {
-        ret = 5; // No mercy!
-    }
-    return ret;
-}
-
-float player::speed_rating() const
-{
-    float ret = get_speed() / 100.0f;
-    ret *= 100.0f / run_cost( 100, false );
-    // Adjustment for player being able to run, but not doing so at the moment
-    if( move_mode != CMM_RUN ) {
-        ret *= 1.0f + ( static_cast<float>( get_stamina() ) / static_cast<float>( get_stamina_max() ) );
-    }
-    return ret;
-}
-
-item &player::item_with_best_of_quality( const quality_id &qid )
-{
-    int maxq = max_quality( qid );
-    auto items_with_quality = items_with( [qid]( const item & it ) {
-        return it.has_quality( qid );
-    } );
-    for( item *it : items_with_quality ) {
-        if( it->get_quality( qid ) == maxq ) {
-            return *it;
-        }
-    }
-    return null_item_reference();
-}
-
-bool player::crush_frozen_liquid( item_location loc )
-{
-    if( has_quality( quality_id( "HAMMER" ) ) ) {
-        item hammering_item = item_with_best_of_quality( quality_id( "HAMMER" ) );
-        //~ %1$s: item to be crushed, %2$s: hammer name
-        if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
-                         "<color_red>Be wary of fragile items nearby!</color>" ),
-                      loc.get_item()->display_name(), hammering_item.tname() ) ) {
-
-            //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
-            if( one_in( 1 + dex_cur / 4 ) ) {
-                add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
-                                   hammering_item.tname() );
-                int smashskill = str_cur + hammering_item.damage_melee( DT_BASH );
-                g->m.bash( loc.position(), smashskill );
-            }
-            add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
-            return true;
-        }
-    } else {
-        popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
-    }
-    return false;
-}
-
-void player::on_mutation_gain( const trait_id &mid )
-{
-    morale->on_mutation_gain( mid );
-    magic.on_mutation_gain( mid, *this );
-    update_type_of_scent( mid );
-    recalculate_enchantment_cache(); // mutations can have enchantments
-}
-
-void player::on_mutation_loss( const trait_id &mid )
-{
-    morale->on_mutation_loss( mid );
-    magic.on_mutation_loss( mid );
-    update_type_of_scent( mid, false );
-    recalculate_enchantment_cache(); // mutations can have enchantments
-}
-
-void player::on_stat_change( const std::string &stat, int value )
-{
-    morale->on_stat_change( stat, value );
-}
-
-void player::on_item_wear( const item &it )
-{
-    morale->on_item_wear( it );
-}
-
-void player::on_item_takeoff( const item &it )
-{
-    morale->on_item_takeoff( it );
-}
-
-void player::on_worn_item_washed( const item &it )
-{
-    if( is_worn( it ) ) {
-        morale->on_worn_item_washed( it );
-    }
-}
-
-void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
-{
-    // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
-    // See @ref get_perceived_pain()
-    if( eid == effect_adrenaline ) {
-        // Note that calling this does no harm if it wasn't changed.
-        on_stat_change( "perceived_pain", get_perceived_pain() );
-    }
-
-    morale->on_effect_int_change( eid, intensity, bp );
-}
-
 bool player::query_yn( const std::string &mes ) const
 {
     return ::query_yn( mes );
 }
 
-const pathfinding_settings &player::get_pathfinding_settings() const
-{
-    return *path_settings;
-}
-
-std::set<tripoint> player::get_path_avoid() const
-{
-    std::set<tripoint> ret;
-    for( npc &guy : g->all_npcs() ) {
-        if( sees( guy ) ) {
-            ret.insert( guy.pos() );
-        }
-    }
-
-    // TODO: Add known traps in a way that doesn't destroy performance
-
-    return ret;
-}

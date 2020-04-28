@@ -22,7 +22,7 @@
   {
     "id": "mon_marshmallow_kid",
     "type": "MONSTER",
-    "name": { "str": "marshmallow kid", "str_pl": "marshmallow kids" },
+    "name": { "str": "marshmallow kid" },
     "description": "A small humanoid made of marsmallow.  It bumbles around on its stubby cushioned legs.  How cute!",
     "default_faction": "marshmallow_boys",
     "bodytype": "human",
@@ -147,7 +147,7 @@
   {
     "id": "mon_marshmallow_kid_armored",
     "type": "MONSTER",
-    "name": { "str": "marshmallow squire", "str_pl": "marshmallow squires" },
+    "name": { "str": "marshmallow squire" },
     "description": "A small humanoid made of marsmallow.  It wears a plate armor made of chocolate coated crakers and bumbles around on its stubby cushioned legs.  How cute!",
     "copy-from": "mon_marshmallow_kid",
     "color": "white_red",

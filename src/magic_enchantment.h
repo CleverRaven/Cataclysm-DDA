@@ -146,6 +146,7 @@ class enchantment
         void cast_hit_me( Character &caster, const Creature *target ) const;
     private:
         cata::optional<emit_id> emitter;
+        std::map<efftype_id, int> ench_effects;
         // values that add to the base value
         std::map<mod, int> values_add;
         // values that get multiplied to the base value

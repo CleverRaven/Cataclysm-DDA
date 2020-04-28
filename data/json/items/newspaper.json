@@ -9,6 +9,7 @@
     "snippet_category": "flier",
     "description": "A scrap of paper.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
     "volume": "5 ml"
@@ -23,6 +24,7 @@
     "snippet_category": "note",
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
@@ -39,6 +41,7 @@
     "description": "A Dungeons & Dragons character sheet.",
     "looks_like": "survnote",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
@@ -54,6 +57,7 @@
     "snippet_category": "scores",
     "description": "A colorfully printed score card.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
@@ -69,6 +73,7 @@
     "snippet_category": "newest_news",
     "description": "A single sheet of newspaper broadsheet.  It is possibly one of the last issues printed before New England was overwhelmed.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
     "volume": "1 ml"
@@ -83,6 +88,7 @@
     "snippet_category": "many_years_old_news",
     "description": "A single sheet of newspaper broadsheet.  It seems to date from several years ago, and you've NO idea how it lasted this long.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
     "volume": "1 ml"
@@ -97,6 +103,7 @@
     "snippet_category": "years_old_news",
     "description": "A single sheet of newspaper broadsheet.  It seems to date from a few years ago--amazing it has lasted this long.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
     "volume": "1 ml"
@@ -111,6 +118,7 @@
     "snippet_category": "one_year_old_news",
     "description": "A single sheet of newspaper broadsheet.  It was printed more than a year ago.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
     "volume": "1 ml"
@@ -125,6 +133,7 @@
     "snippet_category": "months_old_news",
     "description": "A single sheet of newspaper broadsheet.  It was printed in the months leading up to the Cataclysm.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
     "volume": "1 ml"
@@ -139,6 +148,7 @@
     "snippet_category": "weeks_old_news",
     "description": "A single sheet of newspaper broadsheet.  It was printed in the weeks leading up to the Cataclysm.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "3 g",
     "volume": "1 ml"
@@ -153,6 +163,7 @@
     "snippet_category": "necropolis_intro",
     "description": "A folded glossy handout that appears to be an introduction to living in a massive underground complex.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "paper",
     "weight": "1 g",
     "volume": "1 ml"
@@ -167,6 +178,7 @@
     "snippet_category": "death_note",
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
     "price": 0,
+    "price_postapoc": 0,
     "looks_like": "survnote",
     "material": "paper",
     "flags": [ "TRADER_AVOID" ],

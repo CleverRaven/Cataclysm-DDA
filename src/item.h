@@ -568,9 +568,15 @@ class item : public visitable<item>
         /**
          * calculate effective dps against a stock set of monsters.  by default, assume g->u
          * is wielding
-         */
-        std::map<std::string, double> dps( const player &guy ) const;
-        std::map<std::string, double> dps() const;
+        * for_display - include monsters intended for display purposes
+         * for_calc - include monsters intended for evaluation purposes
+         * for_display and for_calc are inclusive
+               */
+        std::map<std::string, double> dps( bool for_display, bool for_calc, const player &guy ) const;
+        std::map<std::string, double> dps( bool for_display, bool for_calc ) const;
+        /** return the average dps of the weapon against evaluation monsters */
+        double average_dps( const player &guy ) const;
+
         /**
          * Whether the character needs both hands to wield this item.
          */
@@ -594,7 +600,7 @@ class item : public visitable<item>
         /*@}*/
 
         /** Max range weapon usable for melee attack accounting for player/NPC abilities */
-        int reach_range( const player &p ) const;
+        int reach_range( const Character &guy ) const;
 
         /**
          * Sets time until activation for an item that will self-activate in the future.
@@ -764,12 +770,14 @@ class item : public visitable<item>
          * Update rot for things that perish
          * All items that rot also have temperature
          * @param insulation Amount of insulation item has from surroundings
+         * @param seals Wether the item is in sealed  container
          * @param pos The current position
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
+         * @return true if the item is fully rotten and is ready to be removed
          */
-        void process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
-                                      temperature_flag flag = temperature_flag::TEMP_NORMAL );
+        bool process_temperature_rot( float insulation, bool seals, const tripoint &pos,
+                                      player *carrier, temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
         void heat_up();
@@ -831,10 +839,12 @@ class item : public visitable<item>
             return get_relative_rot() > 1.0;
         }
 
-        /** at twice regular shelf life perishable foods rot away completely. Corpses last longer */
-        bool has_rotten_away() const {
-            return is_food() && get_relative_rot() > 2.0;
-        }
+        /**
+         * Whether the item has enough rot that it should get removed.
+         * Regular shelf life perishable foods rot away completely at 2x shelf life. Corpses last 10 days
+         * @return true if the item has enough rot to be removed, false otherwise.
+         */
+        bool has_rotten_away() const;
 
         /** remove frozen tag and if it takes freezerburn, applies mushy/rotten */
         void apply_freezerburn();
@@ -2078,7 +2088,7 @@ class item : public visitable<item>
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
         bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                               temperature_flag flag = temperature_flag::TEMP_NORMAL );
+                               bool seals = false, temperature_flag flag = temperature_flag::TEMP_NORMAL );
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
@@ -2246,13 +2256,13 @@ bool item_ptr_compare_by_charges( const item *left, const item *right );
  *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
  *  will eventually be rewritten to eliminate the need for this hack.
  */
-enum hint_rating {
+enum class hint_rating : int {
     /** Item should display as gray */
-    HINT_CANT = 0,
+    cant = 0,
     /** Item should display as red */
-    HINT_IFFY = 1,
+    iffy = 1,
     /** Item should display as green */
-    HINT_GOOD = -999
+    good = -999
 };
 
 /**

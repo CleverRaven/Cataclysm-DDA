@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "sheet_metal",
-    "name": { "str": "sheet metal", "str_pl": "sheet metal" },
+    "name": { "str_sp": "sheet metal" },
     "description": "A thin sheet of metal.",
     "//": "Roughly in the 70cm×70cm×1.5mm to 1m×1m×0.75mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
     "weight": "6000 g",
@@ -14,12 +14,13 @@
     "bashing": 5,
     "category": "spare_parts",
     "price": 6000,
+    "price_postapoc": 100,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "type": "GENERIC",
     "id": "sheet_metal_lit",
-    "name": { "str": "wired sheet metal", "str_pl": "wired sheet metal" },
+    "name": { "str_sp": "wired sheet metal" },
     "description": "Sheet metal that has had light housing wired into it.",
     "weight": "6200 g",
     "to_hit": -2,
@@ -29,7 +30,8 @@
     "volume": "1250 ml",
     "bashing": 5,
     "category": "veh_parts",
-    "price": 7500
+    "price": 7500,
+    "price_postapoc": 250
   },
   {
     "type": "GENERIC",
@@ -44,12 +46,13 @@
     "volume": "3 L",
     "bashing": 10,
     "category": "veh_parts",
-    "price": 12000
+    "price": 12000,
+    "price_postapoc": 100
   },
   {
     "type": "GENERIC",
     "id": "steel_plate",
-    "name": { "str": "steel plating", "str_pl": "steel plating" },
+    "name": { "str_sp": "steel plating" },
     "description": "A piece of armor plating made of steel.",
     "weight": "12880 g",
     "to_hit": -1,
@@ -60,12 +63,13 @@
     "bashing": 6,
     "category": "veh_parts",
     "price": 12000,
+    "price_postapoc": 250,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "type": "GENERIC",
     "id": "alloy_plate",
-    "name": { "str": "superalloy plating", "str_pl": "superalloy plating" },
+    "name": { "str_sp": "superalloy plating" },
     "description": "A piece of armor plating made of sturdy superalloy.",
     "weight": "10800 g",
     "to_hit": -1,
@@ -76,6 +80,7 @@
     "bashing": 6,
     "category": "veh_parts",
     "price": 18500,
+    "price_postapoc": 500,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -91,12 +96,13 @@
     "volume": "500 ml",
     "category": "veh_parts",
     "price": 8500,
+    "price_postapoc": 500,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "type": "GENERIC",
     "id": "spiked_plate",
-    "name": { "str": "spiked plating", "str_pl": "spiked plating" },
+    "name": { "str_sp": "spiked plating" },
     "description": "A piece of armor plating made of steel.  It is covered with menacing spikes.",
     "weight": "12240 g",
     "to_hit": -1,
@@ -109,6 +115,7 @@
     "flags": [ "STAB" ],
     "category": "veh_parts",
     "price": 18500,
+    "price_postapoc": 250,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -125,6 +132,7 @@
     "bashing": 6,
     "category": "veh_parts",
     "price": 16000,
+    "price_postapoc": 500,
     "qualities": [ [ "COOK", 1 ], [ "ANVIL", 1 ] ]
   },
   {
@@ -141,6 +149,7 @@
     "bashing": 8,
     "category": "veh_parts",
     "price": 16000,
+    "price_postapoc": 750,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -151,6 +160,7 @@
     "name": { "str": "chitin armor kit" },
     "description": "Light chitin plating made for a vehicle.",
     "price": 1200,
+    "price_postapoc": 250,
     "material": [ "chitin" ],
     "weight": "2000 g",
     "volume": "5500 ml",
@@ -175,6 +185,7 @@
     "name": { "str": "bone armor kit" },
     "description": "Bone plating made for a vehicle.",
     "price": 1200,
+    "price_postapoc": 100,
     "material": [ "bone" ],
     "weight": "4000 g",
     "volume": "9500 ml",

@@ -957,7 +957,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        mod_power_level( units::from_kilojoule( -abs( food.get_comestible_fun() ) ) );
+        mod_power_level( units::from_kilojoule( -std::abs( food.get_comestible_fun() ) ) );
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !has_trait( trait_M_IMMUNE ) ) {
@@ -1002,7 +1002,7 @@ bool player::eat( item &food, bool force )
         }
     }
 
-    for( const std::pair<diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
+    for( const std::pair<const diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
         if( rng( 1, 100 ) <= elem.second ) {
             expose_to_disease( elem.first );
         }
@@ -1102,7 +1102,8 @@ void Character::modify_morale( item &food, const int nutr )
 
     // Morale bonus for eating unspoiled food with chair/table nearby
     // Does not apply to non-ingested consumables like bandages or drugs
-    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) && !food.has_flag( "NO_INGEST" ) ) {
+    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) && !food.has_flag( "NO_INGEST" ) &&
+        food.get_comestible()->comesttype != "MED" ) {
         if( g->m.has_nearby_chair( pos(), 1 ) && g->m.has_nearby_table( pos(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( MORALE_ATE_WITHOUT_TABLE );
@@ -1356,17 +1357,17 @@ bool Character::consume_effects( item &food )
 hint_rating Character::rate_action_eat( const item &it ) const
 {
     if( !can_consume( it ) ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     const auto rating = will_eat( it );
     if( rating.success() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
-    return HINT_IFFY;
+    return hint_rating::iffy;
 }
 
 bool Character::can_feed_reactor_with( const item &it ) const
