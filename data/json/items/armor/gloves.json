@@ -565,6 +565,7 @@
     "encumbrance": 13,
     "warmth": 20,
     "material_thickness": 2,
+    "environmental_protection": 2,
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
