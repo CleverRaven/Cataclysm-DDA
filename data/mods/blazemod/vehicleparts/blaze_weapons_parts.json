@@ -12,7 +12,7 @@
     "id": "cangun",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "manual slingshot cannon" },
+    "name": { "str": "slingshot cannon" },
     "item": "cangun",
     "color": "brown",
     "broken_color": "brown",
@@ -29,10 +29,10 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "gattler1",
+    "id": "gattler",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "manual rotary cannon" },
+    "name": { "str": "rotary cannon" },
     "item": "gattler",
     "color": "dark_gray",
     "broken_color": "dark_gray",
@@ -61,7 +61,7 @@
     "id": "lasgun",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "manual laser cannon" },
+    "name": { "str": "laser cannon" },
     "item": "lasgun",
     "color": "blue",
     "broken_color": "blue",
@@ -72,7 +72,7 @@
     "id": "lasgunp",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "manual pulse laser" },
+    "name": { "str": "pulse laser" },
     "item": "lasgunp",
     "color": "blue",
     "broken_color": "blue",
@@ -83,7 +83,7 @@
     "id": "lasgunx",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "manual turbolaser" },
+    "name": { "str": "turbolaser" },
     "item": "lasgunx",
     "color": "magenta",
     "broken_color": "magenta",
@@ -109,32 +109,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mcutter",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "manual lacerator" },
-    "item": "cutter",
-    "broken_symbol": "x",
-    "color": "dark_gray",
-    "broken_color": "dark_gray",
-    "power": -1750,
-    "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
-    "extend": { "flags": [ "EXTRA_DRAG" ] }
-  },
-  {
-    "id": "mflamethrower3",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "manual RM451 flamethrower" },
-    "item": "rm451_flamethrower",
-    "color": "red",
-    "broken_color": "red",
-    "breaks_into": [ { "item": "rm451_flamethrower", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
-    "extend": { "flags": [ "USE_TANKS" ] }
-  },
-  {
     "id": "ar15",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -147,7 +121,7 @@
     "id": "ripper",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "manual ripper" },
+    "name": { "str": "ripper" },
     "item": "ripper",
     "broken_symbol": "x",
     "color": "dark_gray",
@@ -161,7 +135,7 @@
     "id": "scorpion",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "manual scorpion ballista" },
+    "name": { "str": "scorpion ballista" },
     "item": "scorpion",
     "color": "brown",
     "broken_color": "brown",
@@ -172,7 +146,7 @@
     "id": "slauncher",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "manual speargun" },
+    "name": { "str": "speargun" },
     "item": "slauncher",
     "color": "light_gray",
     "broken_color": "light_gray",
@@ -183,7 +157,7 @@
     "id": "teslagun",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "manual tesla cannon" },
+    "name": { "str": "tesla cannon" },
     "item": "teslagun",
     "color": "blue",
     "broken_color": "blue",
@@ -241,15 +215,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "coilgun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "coilgun turret" },
-    "item": "coilgun",
-    "breaks_into": [ { "item": "coilgun", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
     "id": "cutter",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -273,19 +238,7 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "flamethrower1",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "simple flamethrower turret" },
-    "item": "flamethrower_simple",
-    "color": "red",
-    "broken_color": "red",
-    "breaks_into": [ { "item": "flamethrower_simple", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
-    "extend": { "flags": [ "USE_TANKS" ] }
-  },
-  {
-    "id": "flamethrower2",
+    "id": "flamethrower",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "flamethrower turret" },
@@ -297,7 +250,7 @@
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
-    "id": "flamethrower3",
+    "id": "rm451_flamethrower",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "RM451 flamethrower turret" },
@@ -399,66 +352,12 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "l_base_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "L523 turret" },
-    "item": "l_base_223",
-    "breaks_into": [ { "item": "l_base_223", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "l_car_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "L523-CAR turret" },
-    "item": "l_car_223",
-    "breaks_into": [ { "item": "l_car_223", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "l_def_12",
+    "id": "tavor_12",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "Tavor TS12 turret" },
     "item": "tavor_12",
     "breaks_into": [ { "item": "tavor_12", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "l_dsr_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "L523-DSR turret" },
-    "item": "l_dsr_223",
-    "breaks_into": [ { "item": "l_dsr_223", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "l_lmg_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "L523-LMG turret" },
-    "item": "l_lmg_223",
-    "breaks_into": [ { "item": "l_lmg_223", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "l_long_45",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "Long Ranger turret" },
-    "item": "l_long_45",
-    "breaks_into": [ { "item": "l_long_45", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "l_mbr_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "L523-MBR turret" },
-    "item": "l_mbr_223",
-    "breaks_into": [ { "item": "l_mbr_223", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -719,15 +618,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "rm360_carbine",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "RM360 carbine turret" },
-    "item": "rm360_carbine",
-    "breaks_into": [ { "item": "rm360_carbine", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
     "id": "rm51_assault_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -885,15 +775,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "survivor_special_700",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "survivor special turret" },
-    "item": "survivor_special_700",
-    "breaks_into": [ { "item": "survivor_special_700", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
     "id": "tec9",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -918,15 +799,6 @@
     "name": { "str": "V29 laser turret" },
     "item": "v29",
     "breaks_into": [ { "item": "v29", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
-  },
-  {
-    "id": "v29_cheap",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "LACP laser turret" },
-    "item": "v29_cheap",
-    "breaks_into": [ { "item": "v29_cheap", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   }
 ]
