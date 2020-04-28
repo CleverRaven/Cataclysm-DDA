@@ -2179,7 +2179,8 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         mag_data.type = item_pocket::pocket_type::MAGAZINE;
         // only one magazine in a pocket, for now
         mag_data.holster = true;
-        mag_data.rigid = true;
+        // guns are, in code terms, nonrigid objects with optional magazine_wells.
+        mag_data.rigid = false;
         mag_data.watertight = true;
         mag_data.max_contains_volume = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
