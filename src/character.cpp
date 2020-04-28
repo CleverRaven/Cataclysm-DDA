@@ -2705,7 +2705,7 @@ units::mass Character::weight_carried_with_tweaks( const std::vector<std::pair<i
         &locations ) const
 {
     std::map<const item *, int> dropping;
-    for( const std::pair<const item_location, int> &location_pair : locations ) {
+    for( const std::pair<item_location, int> &location_pair : locations ) {
         dropping.emplace( location_pair.first.get_item(), location_pair.second );
     }
     return weight_carried_with_tweaks( { dropping } );
@@ -2767,7 +2767,7 @@ units::volume Character::volume_carried_with_tweaks( const
         &locations ) const
 {
     std::map<const item *, int> dropping;
-    for( const std::pair<const item_location, int> &location_pair : locations ) {
+    for( const std::pair<item_location, int> &location_pair : locations ) {
         dropping.emplace( location_pair.first.get_item(), location_pair.second );
     }
     return volume_carried_with_tweaks( { dropping } );

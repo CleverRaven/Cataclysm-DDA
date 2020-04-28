@@ -2164,7 +2164,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     if( def.magazine ) {
         pocket_data mag_data;
         mag_data.type = item_pocket::pocket_type::MAGAZINE;
-        for( const ammotype amtype : def.magazine->type ) {
+        for( const ammotype &amtype : def.magazine->type ) {
             mag_data.ammo_restriction.emplace( amtype, def.magazine->capacity );
         }
         mag_data.fire_protection = def.magazine->protects_contents;

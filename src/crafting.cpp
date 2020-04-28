@@ -537,7 +537,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     cached_crafting_inventory.clear();
     cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
 
-    for( const item_location it : all_items_loc() ) {
+    for( const item_location &it : all_items_loc() ) {
         // can't craft with containers that have items in them
         if( !it->contents.empty_container() ) {
             continue;
