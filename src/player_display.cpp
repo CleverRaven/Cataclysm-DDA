@@ -174,7 +174,19 @@ static std::string melee_cost_text( int moves )
     return string_format(
                _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
 }
-
+static std::string melee_stamina_cost_text( int cost )
+{
+    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+}
+static std::string mouth_stamina_cost_text( int cost )
+{
+    return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
+}
+static std::string ranged_cost_text( double disp )
+{
+    return string_format( _( "Dispersion when using ranged attacks: <color_white>%+.1f</color>\n" ),
+                          disp );
+}
 static std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
@@ -215,11 +227,14 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
                      eff_encumbrance * 10 );
             break;
         case bp_mouth:
-            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>" );
+            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
+            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
             break;
         case bp_arm_l:
         case bp_arm_r:
-            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>" );
+            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
+            s += melee_stamina_cost_text( eff_encumbrance * 2 );
+            s += ranged_cost_text( eff_encumbrance / 5.0 );
             break;
         case bp_hand_l:
         case bp_hand_r:

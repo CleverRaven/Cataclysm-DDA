@@ -45,7 +45,7 @@
     "weight": "1700 g",
     "volume": "1250 ml",
     "bashing": 14,
-    "to_hit": -2,
+    "to_hit": -1,
     "category": "spare_parts"
   },
   {

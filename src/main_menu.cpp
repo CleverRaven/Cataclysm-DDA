@@ -1104,9 +1104,10 @@ bool main_menu::load_character_tab( bool transfer )
                         continue;
                     }
 
-                    g->load( savegames[sel3] );
-                    cleanup.cancel();
-                    start = true;
+                    if( g->load( savegames[sel3] ) ) {
+                        cleanup.cancel();
+                        start = true;
+                    }
                 }
             }
         }

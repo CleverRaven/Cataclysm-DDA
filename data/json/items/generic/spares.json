@@ -14,7 +14,7 @@
     "type": "GENERIC",
     "name": { "str": "drive belt" },
     "description": "A synthetic rubber V-belt with steel reinforcement fibers commonly fitted to engines or other industrial equipment.",
-    "material": [ "plastic", "steel" ],
+    "material": [ "rubber", "steel" ],
     "weight": "850 g",
     "volume": "500 ml",
     "price": 1200,
@@ -102,7 +102,8 @@
     "weight": "2800 g",
     "volume": "1250 ml",
     "price": 28900,
-    "price_postapoc": 750
+    "price_postapoc": 750,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
     "id": "well_pump",

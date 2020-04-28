@@ -260,7 +260,7 @@ bool is_valid_in_w_terrain( const point &p )
 static void achievement_attained( const achievement *a )
 {
     g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
-                            a->description() );
+                            a->name() );
 }
 
 // This is the main game set-up process.
@@ -1598,7 +1598,7 @@ bool game::do_turn()
     autopilot_vehicles();
     m.vehmove();
     m.process_fields();
-    m.process_active_items();
+    m.process_items();
     m.creature_in_field( u );
 
     // Apply sounds from previous turn to monster and NPC AI.
@@ -2751,7 +2751,7 @@ bool game::load( const std::string &world )
     return true;
 }
 
-void game::load( const save_t &name )
+bool game::load( const save_t &name )
 {
     background_pane background;
     static_popup popup;
@@ -2771,7 +2771,7 @@ void game::load( const save_t &name )
     // This should be initialized more globally (in player/Character constructor)
     u.weapon = item( "null", 0 );
     if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
-        return;
+        return false;
     }
 
     read_from_file_optional_json( playerpath + SAVE_EXTENSION_MAP_MEMORY, [&]( JsonIn & jsin ) {
@@ -2837,6 +2837,8 @@ void game::load( const save_t &name )
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
+
+    return true;
 }
 
 void game::load_world_modfiles( loading_ui &ui )
@@ -4494,15 +4496,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                         add_msg( _( "%s was stunned!" ), targ->name );
                     }
 
-                    std::array<body_part, 8> bps = {{
-                            bp_head,
-                            bp_arm_l, bp_arm_r,
-                            bp_hand_l, bp_hand_r,
-                            bp_torso,
-                            bp_leg_l, bp_leg_r
+                    std::array<bodypart_id, 8> bps = {{
+                            bodypart_id( "head" ),
+                            bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+                            bodypart_id( "hand_l" ), bodypart_id( "hand_r" ),
+                            bodypart_id( "torso" ),
+                            bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
                         }
                     };
-                    for( auto &bp : bps ) {
+                    for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
                             targ->deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
@@ -4568,15 +4570,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
-                    std::array<body_part, 8> bps = {{
-                            bp_head,
-                            bp_arm_l, bp_arm_r,
-                            bp_hand_l, bp_hand_r,
-                            bp_torso,
-                            bp_leg_l, bp_leg_r
+                    std::array<bodypart_id, 8> bps = {{
+                            bodypart_id( "head" ),
+                            bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+                            bodypart_id( "hand_l" ), bodypart_id( "hand_r" ),
+                            bodypart_id( "torso" ),
+                            bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
                         }
                     };
-                    for( auto &bp : bps ) {
+                    for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
                             u.deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
@@ -9208,11 +9210,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( dest_loc != u.pos() ) {
-        mtype_id mount_type;
-        if( u.is_mounted() ) {
-            mount_type = u.mounted_creature->type->id;
-        }
-        g->events().send<event_type::avatar_moves>( mount_type );
+        cata_event_dispatch::avatar_moves( u, m, dest_loc );
     }
 
     tripoint oldpos = u.pos();
@@ -9266,13 +9264,13 @@ point game::place_player( const tripoint &dest_loc )
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 1 ) );
         }
         if( one_in( 5 ) && u.get_armor_bash( bp_foot_r ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your right foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 1 ) );
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
@@ -9283,11 +9281,11 @@ point game::place_player( const tripoint &dest_loc )
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
             u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 10 ) );
         } else {
-            body_part bp = random_body_part();
+            const bodypart_id bp = u.get_random_body_part();
             if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
                 //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                 add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
-                         body_part_name_accusative( bp ),
+                         body_part_name_accusative( bp->token ),
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
                 if( ( u.has_trait( trait_INFRESIST ) ) && ( one_in( 1024 ) ) ) {
@@ -9666,6 +9664,7 @@ bool game::phasing_move( const tripoint &dest_loc )
 
         u.grab( OBJECT_NONE );
         on_move_effects();
+        m.creature_on_trap( u );
         return true;
     }
 
@@ -10421,9 +10420,10 @@ void game::vertical_move( int movez, bool force )
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
         std::vector<tripoint> candidates = closest_tripoints_first( u.pos(), 1 );
-        std::remove_if( candidates.begin(), candidates.end(), [this]( const tripoint & c ) {
+        candidates.erase( std::remove_if( candidates.begin(), candidates.end(),
+        [this]( const tripoint & c ) {
             return !is_empty( c );
-        } );
+        } ), candidates.end() );
 
         for( const auto &np : npcs_to_bring ) {
             const auto found = std::find_if( candidates.begin(), candidates.end(),
@@ -10478,6 +10478,8 @@ void game::vertical_move( int movez, bool force )
     refresh_all();
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
+
+    cata_event_dispatch::avatar_moves( u, m, u.pos() );
 }
 
 void game::start_hauling( const tripoint &pos )
@@ -12089,3 +12091,16 @@ bool game::slip_down( bool check_for_traps )
     }
     return false;
 }
+
+namespace cata_event_dispatch
+{
+void avatar_moves( const avatar &u, const map &m, const tripoint &p )
+{
+    mtype_id mount_type;
+    if( u.is_mounted() ) {
+        mount_type = u.mounted_creature->type->id;
+    }
+    g->events().send<event_type::avatar_moves>( mount_type, m.ter( p ).id(),
+            u.get_movement_mode(), u.is_underwater(), p.z );
+}
+} // namespace cata_event_dispatch

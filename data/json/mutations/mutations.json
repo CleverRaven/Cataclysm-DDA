@@ -370,17 +370,6 @@
   },
   {
     "type": "mutation",
-    "id": "DRUNKEN",
-    "name": { "str": "Drunken Master" },
-    "points": 1,
-    "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
-    "//": "Remove this trait after 0.E stable.",
-    "starting_trait": false,
-    "valid": false,
-    "cancels": [ "LIGHTWEIGHT" ]
-  },
-  {
-    "type": "mutation",
     "id": "SPIRITUAL",
     "name": { "str": "Spiritual" },
     "points": 1,
@@ -1061,7 +1050,7 @@
     "description": "Alcohol and drugs go straight to your head.  You suffer the negative effects of these for longer.",
     "starting_trait": true,
     "category": [ "MEDICAL" ],
-    "cancels": [ "DRUNKEN", "TOLERANCE" ]
+    "cancels": [ "TOLERANCE" ]
   },
   {
     "type": "mutation",

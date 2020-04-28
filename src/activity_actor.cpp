@@ -4,6 +4,7 @@
 #include <utility>
 
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
+#include "advanced_inv.h"
 #include "avatar.h"
 #include "character.h"
 #include "computer_session.h"
@@ -281,6 +282,70 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &
     return actor.clone();
 }
 
+void pickup_activity_actor::do_turn( player_activity &, Character &who )
+{
+    // If we don't have target items bail out
+    if( target_items.empty() ) {
+        who.cancel_activity();
+        return;
+    }
+
+    // If the player moves while picking up (i.e.: in a moving vehicle) cancel
+    // the activity, only populate starting_pos when grabbing from the ground
+    if( starting_pos && *starting_pos != who.pos() ) {
+        who.cancel_activity();
+        who.add_msg_if_player( _( "Moving canceled auto-pickup." ) );
+        return;
+    }
+
+    // Auto_resume implies autopickup.
+    const bool autopickup = who.activity.auto_resume;
+
+    // False indicates that the player canceled pickup when met with some prompt
+    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup );
+
+    // If there are items left we ran out of moves, so continue the activity
+    // Otherwise, we are done.
+    if( !keep_going || target_items.empty() ) {
+        who.cancel_activity();
+
+        if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+            who.set_value( "THIEF_MODE", "THIF_ASK" );
+        }
+
+        if( !keep_going ) {
+            // The user canceled the activity, so we're done
+            // AIM might have more pickup activities pending, also cancel them.
+            // TODO: Move this to advanced inventory instead of hacking it in here
+            cancel_aim_processing();
+        }
+    }
+}
+
+void pickup_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target_items", target_items );
+    jsout.member( "quantities", quantities );
+    jsout.member( "starting_pos", starting_pos );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin )
+{
+    pickup_activity_actor actor( {}, {}, cata::nullopt );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target_items", actor.target_items );
+    data.read( "quantities", actor.quantities );
+    data.read( "starting_pos", actor.starting_pos );
+
+    return actor.clone();
+}
+
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Stop the activity
@@ -318,6 +383,7 @@ deserialize_functions = {
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
+    { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

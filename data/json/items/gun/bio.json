@@ -78,7 +78,7 @@
     "color": "magenta",
     "skill": "rifle",
     "range": 10,
-    "ranged_damage": { "damage_type": "stab", "amount": 16 },
+    "ranged_damage": { "damage_type": "electric", "amount": 16 },
     "dispersion": 10,
     "durability": 10,
     "loudness": 10,

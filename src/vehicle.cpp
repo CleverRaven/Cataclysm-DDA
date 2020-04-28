@@ -1223,7 +1223,7 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             rl_vec2d windvec;
             double raddir = ( ( g->weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
             windvec = windvec.normalized();
-            windvec.y = -cos( raddir );
+            windvec.y = -std::cos( raddir );
             windvec.x = std::sin( raddir );
             rl_vec2d fv = face_vec();
             double dot = windvec.dot_product( fv );

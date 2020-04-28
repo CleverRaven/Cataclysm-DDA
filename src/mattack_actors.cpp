@@ -303,7 +303,7 @@ bool melee_actor::call( monster &z ) const
                        *body_parts.pick();
 
     target->on_hit( &z, bp_hit );
-    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit, damage );
+    dealt_damage_instance dealt_damage = target->deal_damage( &z, convert_bp( bp_hit ).id(), damage );
     dealt_damage.bp_hit = bp_hit;
 
     int damage_total = dealt_damage.total_damage();

@@ -505,6 +505,7 @@
     "material": "gold",
     "weight": "1500 g",
     "volume": "250 ml",
+    "to_hit": -2,
     "bashing": 9
   },
   {
@@ -522,7 +523,7 @@
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 8,
-    "to_hit": -2,
+    "to_hit": -1,
     "qualities": [ [ "BUTCHER", -38 ] ]
   },
   {
@@ -632,7 +633,7 @@
     "weight": "908 g",
     "volume": "1500 ml",
     "bashing": 12,
-    "to_hit": 2,
+    "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -692,7 +693,6 @@
     "weight": "751 g",
     "volume": "750 ml",
     "bashing": 8,
-    "to_hit": 3,
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -1823,6 +1823,32 @@
     "id": "chamomile",
     "name": { "str_sp": "chamomile flowers" },
     "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
+    "weight": "50 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "lotus",
+    "name": { "str": "lotus flower" },
+    "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
+    "weight": "50 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "spurge",
+    "name": { "str_sp": "spurge flowers" },
+    "description": "A handful of yellow-green flowers.  Can be brewed into a tea that prevents asthma attacks.",
     "weight": "50 g",
     "color": "white",
     "symbol": ",",

@@ -2,7 +2,7 @@
   {
     "id": "gloopletread",
     "type": "vehicle_part",
-    "name": "Gelatinous track",
+    "name": { "str": "Gelatinous tracks" },
     "item": "gloopletread",
     "location": "under",
     "symbol": "|",
@@ -28,7 +28,7 @@
     "id": "oozletread",
     "type": "vehicle_part",
     "copy-from": "gloopletread",
-    "name": "Oozing track",
+    "name": { "str": "Oozing tracks" },
     "item": "oozletread",
     "durability": 500,
     "breaks_into": [ { "item": "oozlegrow" } ]
@@ -37,7 +37,7 @@
     "id": "graytread",
     "type": "vehicle_part",
     "copy-from": "gloopletread",
-    "name": "Gray track",
+    "name": { "str": "Gray track" },
     "item": "graytread",
     "durability": 1000,
     "breaks_into": [ { "item": "graygrow" } ]

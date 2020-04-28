@@ -187,6 +187,11 @@ struct value_constraint {
             equals_ = cata_variant::make<cata_variant_type::int_>( equals_int );
         }
 
+        bool equals_bool;
+        if( jo.read( "equals", equals_bool, false ) ) {
+            equals_ = cata_variant::make<cata_variant_type::bool_>( equals_bool );
+        }
+
         std::string equals_string;
         if( jo.read( "equals", equals_string, false ) ) {
             equals_string_ = equals_string;
@@ -672,6 +677,15 @@ struct event_statistic_total : event_statistic::impl {
         return std::make_unique<state>( this, stats );
     }
 
+    void check( const std::string &name ) const override {
+        cata::event::fields_type event_fields = source.fields();
+        auto it = event_fields.find( field );
+        if( it == event_fields.end() ) {
+            debugmsg( "event_statistic %s refers to field %s in event source %s, but that source "
+                      "has no such field", name, field, source.debug_description() );
+        }
+    }
+
     cata_variant_type type() const override {
         return cata_variant_type::int_;
     }
@@ -682,6 +696,142 @@ struct event_statistic_total : event_statistic::impl {
 
     std::unique_ptr<impl> clone() const override {
         return std::make_unique<event_statistic_total>( *this );
+    }
+};
+
+struct event_statistic_maximum : event_statistic::impl {
+    event_statistic_maximum( const string_id<event_statistic> &i, const event_source &s,
+                             const std::string &f ) :
+        id( i ), source( s ), field( f )
+    {}
+
+    string_id<event_statistic> id;
+    event_source source;
+    std::string field;
+
+    cata_variant value( stats_tracker &stats ) const override {
+        int maximum = source.get( stats ).maximum( field );
+        return cata_variant::make<cata_variant_type::int_>( maximum );
+    }
+
+    struct state : stats_tracker_state, event_multiset_watcher {
+        state( const event_statistic_maximum *s, stats_tracker &stats ) :
+            stat( s ),
+            value( s->value( stats ).get<int>() ) {
+            stat->source.add_watcher( stats, this );
+        }
+
+        void event_added( const cata::event &e, stats_tracker &stats ) override {
+            const int new_value = std::max( e.get<int>( stat->field ), value );
+            if( new_value != value ) {
+                value = new_value;
+                stats.stat_value_changed( stat->id, cata_variant( value ) );
+            }
+        }
+
+        void events_reset( const event_multiset &new_set, stats_tracker &stats ) override {
+            value = new_set.maximum( stat->field );
+            stats.stat_value_changed( stat->id, cata_variant( value ) );
+        }
+
+        const event_statistic_maximum *stat;
+        int value;
+    };
+
+    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
+        return std::make_unique<state>( this, stats );
+    }
+
+    void check( const std::string &name ) const override {
+        cata::event::fields_type event_fields = source.fields();
+        auto it = event_fields.find( field );
+        if( it == event_fields.end() ) {
+            debugmsg( "event_statistic %s refers to field %s in event source %s, but that source "
+                      "has no such field", name, field, source.debug_description() );
+        }
+    }
+
+    cata_variant_type type() const override {
+        return cata_variant_type::int_;
+    }
+
+    monotonically monotonicity() const override {
+        return source.monotonicity();
+    }
+
+    std::unique_ptr<impl> clone() const override {
+        return std::make_unique<event_statistic_maximum>( *this );
+    }
+};
+
+struct event_statistic_minimum : event_statistic::impl {
+    event_statistic_minimum( const string_id<event_statistic> &i, const event_source &s,
+                             const std::string &f ) :
+        id( i ), source( s ), field( f )
+    {}
+
+    string_id<event_statistic> id;
+    event_source source;
+    std::string field;
+
+    cata_variant value( stats_tracker &stats ) const override {
+        int minimum = source.get( stats ).minimum( field );
+        return cata_variant::make<cata_variant_type::int_>( minimum );
+    }
+
+    struct state : stats_tracker_state, event_multiset_watcher {
+        state( const event_statistic_minimum *s, stats_tracker &stats ) :
+            stat( s ),
+            value( s->value( stats ).get<int>() ) {
+            stat->source.add_watcher( stats, this );
+        }
+
+        void event_added( const cata::event &e, stats_tracker &stats ) override {
+            const int new_value = std::min( e.get<int>( stat->field ), value );
+            if( new_value != value ) {
+                value = new_value;
+                stats.stat_value_changed( stat->id, cata_variant( value ) );
+            }
+        }
+
+        void events_reset( const event_multiset &new_set, stats_tracker &stats ) override {
+            value = new_set.minimum( stat->field );
+            stats.stat_value_changed( stat->id, cata_variant( value ) );
+        }
+
+        const event_statistic_minimum *stat;
+        int value;
+    };
+
+    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
+        return std::make_unique<state>( this, stats );
+    }
+
+    void check( const std::string &name ) const override {
+        cata::event::fields_type event_fields = source.fields();
+        auto it = event_fields.find( field );
+        if( it == event_fields.end() ) {
+            debugmsg( "event_statistic %s refers to field %s in event source %s, but that source "
+                      "has no such field", name, field, source.debug_description() );
+        }
+    }
+
+    cata_variant_type type() const override {
+        return cata_variant_type::int_;
+    }
+
+    monotonically monotonicity() const override {
+        // If the source is increasing (adding more events)
+        if( is_increasing( source.monotonicity() ) ) {
+            // Then the minimum value will be decreasing
+            return monotonically::decreasing;
+        } else {
+            return monotonically::unknown;
+        }
+    }
+
+    std::unique_ptr<impl> clone() const override {
+        return std::make_unique<event_statistic_minimum>( *this );
     }
 };
 
@@ -794,6 +944,7 @@ void event_statistic::load( const JsonObject &jo, const std::string & )
     std::string type;
     mandatory( jo, was_loaded, "stat_type", type );
 
+    description_.make_plural();
     optional( jo, was_loaded, "description", description_ );
 
     if( type == "count" ) {
@@ -802,6 +953,14 @@ void event_statistic::load( const JsonObject &jo, const std::string & )
         std::string field;
         mandatory( jo, was_loaded, "field", field );
         impl_ = std::make_unique<event_statistic_total>( id, event_source( jo ), field );
+    } else if( type == "minimum" ) {
+        std::string field;
+        mandatory( jo, was_loaded, "field", field );
+        impl_ = std::make_unique<event_statistic_minimum>( id, event_source( jo ), field );
+    } else if( type == "maximum" ) {
+        std::string field;
+        mandatory( jo, was_loaded, "field", field );
+        impl_ = std::make_unique<event_statistic_maximum>( id, event_source( jo ), field );
     } else if( type == "unique_value" ) {
         event_type event_t = event_type::num_event_types;
         mandatory( jo, was_loaded, "event_type", event_t );
@@ -831,12 +990,19 @@ monotonically event_statistic::monotonicity() const
 
 std::string score::description( stats_tracker &stats ) const
 {
+    cata_variant val = value( stats );
     std::string value_string = value( stats ).get_string();
+    std::string desc;
+    if( val.type() == cata_variant_type::int_ ) {
+        desc = stat_->description().translated( val.get<int>() );
+    } else {
+        desc = stat_->description().translated();
+    }
     if( description_.empty() ) {
         //~ Default format for scores.  %1$s is statistic description; %2$s is value.
-        return string_format( _( "%1$s: %2$s" ), this->stat_->description(), value_string );
+        return string_format( _( "%2$s %1$s" ), desc, value_string );
     } else {
-        return string_format( description_.translated(), value_string );
+        return string_format( desc, value_string );
     }
 }
 

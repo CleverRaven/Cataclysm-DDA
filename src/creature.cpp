@@ -509,8 +509,9 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    body_part bp_hit = select_body_part( source, hit_spread );
-    block_hit( source, bp_hit, d );
+    const bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    body_part bp_token = bp_hit->token;
+    block_hit( source, bp_token, d );
 
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
@@ -540,9 +541,9 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         mod_moves( -stab_moves );
     }
 
-    on_hit( source, bp_hit ); // trigger on-gethit events
+    on_hit( source, bp_token ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d );
-    dealt_dam.bp_hit = bp_hit;
+    dealt_dam.bp_hit = bp_token;
 }
 
 /**
@@ -686,7 +687,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    dealt_dam = deal_damage( source, bp_hit, impact );
+    const bodypart_id bp_hit_id = convert_bp( bp_hit ).id();
+    dealt_dam = deal_damage( source, bp_hit_id, impact );
     dealt_dam.bp_hit = bp_hit;
 
     // Apply ammo effects to target.
@@ -817,7 +819,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     attack.missed_by = goodhit;
 }
 
-dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
+dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam )
 {
     if( is_dead_state() ) {
@@ -828,13 +830,13 @@ dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-
-    absorb_hit( bp, d );
+    const body_part bp_token = bp->token;
+    absorb_hit( bp_token, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
         int cur_damage = 0;
-        deal_damage_handle_type( it, bp, cur_damage, total_pain );
+        deal_damage_handle_type( it, bp_token, cur_damage, total_pain );
         if( cur_damage > 0 ) {
             dealt_dams.dealt_dams[ it.type ] += cur_damage;
             total_damage += cur_damage;
@@ -843,7 +845,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
 
     mod_pain( total_pain );
 
-    apply_damage( source, convert_bp( bp ).id(), total_damage );
+    apply_damage( source, bp, total_damage );
     return dealt_dams;
 }
 void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,

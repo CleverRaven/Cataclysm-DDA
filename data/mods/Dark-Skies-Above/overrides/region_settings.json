@@ -16,9 +16,9 @@
     },
     "city": { "shops": { "office_tower_hiddenlab": 0, "office_tower_collapsed": 0 } },
     "map_extras": {
-      "forest": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0, "mx_spider": 0 } },
-      "forest_thick": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0, "mx_shia": 0, "mx_spider": 0, "mx_jabberwock": 0 } },
-      "forest_water": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0, "mx_spider": 0, "mx_nest_dermatik": 0 } },
+      "forest": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0 } },
+      "forest_thick": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_shia": 0, "mx_spider": 0, "mx_jabberwock": 0 } },
+      "forest_water": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0, "mx_nest_dermatik": 0 } },
       "field": {
         "extras": {
           "mx_nest_wasp": 0,
