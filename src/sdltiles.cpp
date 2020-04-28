@@ -119,7 +119,6 @@ class Font
         virtual void draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const;
         bool draw_window( const catacurses::window &w );
         bool draw_window( const catacurses::window &w, const point &offset );
-        bool draw_window( const catacurses::window &w, int offsetx, int offsety );
 
         static std::unique_ptr<Font> load_font( const std::string &typeface, int fontsize, int fontwidth,
                                                 int fontheight, bool fontblending );
@@ -1007,13 +1006,11 @@ void Font::draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) 
     }
 }
 
-void invalidate_framebuffer( std::vector<curseline> &framebuffer, const point &p, int width,
-                             int height );
-static void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, int y, int width,
+static void invalidate_framebuffer( std::vector<curseline> &framebuffer, const point &p, int width,
                                     int height )
 {
-    for( int j = 0, fby = y; j < height; j++, fby++ ) {
-        std::fill_n( framebuffer[fby].chars.begin() + x, width, cursecell( "" ) );
+    for( int j = 0, fby = p.y; j < height; j++, fby++ ) {
+        std::fill_n( framebuffer[fby].chars.begin() + p.x, width, cursecell( "" ) );
     }
 }
 
@@ -1277,7 +1274,7 @@ bool Font::draw_window( const catacurses::window &w )
     return draw_window( w, point( win->pos.x * ::fontwidth, win->pos.y * ::fontheight ) );
 }
 
-bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
+bool Font::draw_window( const catacurses::window &w, const point &offset )
 {
     if( scaling_factor > 1 ) {
         SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor,
@@ -1359,8 +1356,8 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
 
             const cursecell &cell = win->line[j].chars[i];
 
-            const int drawx = offsetx + i * fontwidth;
-            const int drawy = offsety + j * fontheight;
+            const int drawx = offset.x + i * fontwidth;
+            const int drawy = offset.y + j * fontheight;
             if( drawx + fontwidth > WindowWidth || drawy + fontheight > WindowHeight ) {
                 // Outside of the display area, would not render anyway
                 continue;
