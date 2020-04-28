@@ -486,7 +486,7 @@
       { "item": "jumpsuit", "prob": 20 },
       { "item": "kevlar", "prob": 10 },
       { "item": "ballistic_vest_esapi", "prob": 40 },
-      { "item": "kevlar_plate", "prob": 10 },
+      { "item": "sheet_kevlar_layered", "prob": 10 },
       { "item": "mask_gas", "prob": 10 },
       { "item": "helmet_army", "prob": 40 },
       { "item": "helmet_liner", "prob": 10 },

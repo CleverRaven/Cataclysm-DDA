@@ -896,6 +896,8 @@
       [ "foon", 5 ],
       { "group": "wines_worthy", "prob": 66 },
       [ "fruit_wine", 20 ],
+      [ "gloves_cut_resistant", 5 ],
+      [ "armguard_cut_resistant", 2 ],
       [ "hat_chef", 30 ],
       [ "jacket_chef", 30 ],
       [ "pants_checkered", 28 ]

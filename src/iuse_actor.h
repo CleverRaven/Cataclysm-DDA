@@ -535,6 +535,7 @@ class salvage_actor : public iuse_actor
             material_id( "faux_fur" ),
             material_id( "fur" ),
             material_id( "kevlar" ),
+            material_id( "kevlar_layered" ),
             material_id( "kevlar_rigid" ),
             material_id( "leather" ),
             material_id( "lycra" ),

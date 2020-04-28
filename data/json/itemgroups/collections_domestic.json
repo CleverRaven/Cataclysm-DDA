@@ -449,6 +449,7 @@
       { "group": "kitchen_appliances", "prob": 253 },
       { "item": "hat_chef", "prob": 2 },
       { "item": "jacket_chef", "prob": 2 },
+      { "item": "gloves_cut_resistant", "prob": 1 },
       { "item": "pot", "prob": 25 },
       { "item": "sponge", "prob": 30 },
       { "item": "pot_copper", "prob": 15 },

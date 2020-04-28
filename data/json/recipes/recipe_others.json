@@ -1172,6 +1172,28 @@
   },
   {
     "type": "recipe",
+    "result": "sheet_kevlar_layered",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "sheet_kevlar", 16 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rigid_kevlar_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "15 m",
+    "autolearn": true,
+    "components": [ [ [ "sheet_kevlar", 16 ], [ "sheet_kevlar_layered", 1 ] ], [ [ "superglue", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "vehicle_controls",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
