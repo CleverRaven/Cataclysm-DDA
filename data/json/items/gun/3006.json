@@ -123,7 +123,7 @@
     "name": { "str": "Browning Automatic Rifle" },
     "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
     "weight": "8820 g",
-    "volume": "3000 ml",
+    "volume": "2500 ml",
     "price": 350000,
     "price_postapoc": 4000,
     "to_hit": -1,
