@@ -704,7 +704,7 @@
           { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" },
           { "group": "snacks_fancy" },
           { "group": "snacks" },
-          { "item": "bat" }
+          { "item": "bat", "custom-flags": [ "auto_wield" ] }
         ]
       }
     }
