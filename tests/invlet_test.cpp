@@ -788,7 +788,7 @@ static void verify_invlet_consistency( const invlet_favorites &fav )
     }
 }
 
-TEST_CASE( "invlet_favourites_can_erase", "[invlet][!mayfail]" )
+TEST_CASE( "invlet_favourites_can_erase", "[.invlet]" )
 {
     invlet_favorites fav;
     fav.set( 'a', "a" );
@@ -799,7 +799,7 @@ TEST_CASE( "invlet_favourites_can_erase", "[invlet][!mayfail]" )
     CHECK( fav.invlets_for( "a" ).empty() );
 }
 
-TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet][!mayfail]" )
+TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[.invlet]" )
 {
     invlet_favorites fav;
     fav.set( 'a', "a" );
@@ -812,7 +812,7 @@ TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet][!mayfail
     CHECK( fav.invlets_for( "b" ) == "a" );
 }
 
-TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[invlet][!mayfail]" )
+TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[.invlet]" )
 {
     invlet_favorites fav;
     fav.set( 'a', "a" );
