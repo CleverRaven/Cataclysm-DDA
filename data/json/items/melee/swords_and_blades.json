@@ -550,8 +550,8 @@
     "flags": [ "SHEATH_SWORD" ],
     "weight": "1814 g",
     "volume": "2750 ml",
-    "bashing": 29,
-    "cutting": 10,
+    "bashing": 10,
+    "cutting": 29,
     "category": "weapons"
   },
   {
@@ -607,8 +607,8 @@
     "techniques": [ "WBLOCK_2" ],
     "weight": "1814 g",
     "volume": "2750 ml",
-    "bashing": 30,
-    "cutting": 9,
+    "bashing": 9,
+    "cutting": 30,
     "to_hit": 2,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
@@ -1000,8 +1000,8 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
     "weight": "1882 g",
     "volume": "3250 ml",
-    "bashing": 30,
-    "cutting": 12,
+    "bashing": 12,
+    "cutting": 30,
     "to_hit": 1,
     "category": "weapons"
   },
@@ -1259,8 +1259,8 @@
     "techniques": "WBLOCK_2",
     "weight": "955 g",
     "volume": "1250 ml",
-    "bashing": 23,
-    "cutting": 7,
+    "bashing": 7,
+    "cutting": 23,
     "flags": [ "SHEATH_SWORD" ],
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ]
@@ -1338,8 +1338,8 @@
     "flags": [ "SHEATH_SWORD" ],
     "weight": "1133 g",
     "volume": "2 L",
-    "bashing": 22,
-    "cutting": 9,
+    "bashing": 9,
+    "cutting": 22,
     "to_hit": 2,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ]
@@ -1377,8 +1377,8 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "weight": "3176 g",
     "volume": "3250 ml",
-    "bashing": 38,
-    "cutting": 10,
+    "bashing": 10,
+    "cutting": 38,
     "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ]
@@ -1473,8 +1473,8 @@
     "flags": [ "SHEATH_SWORD" ],
     "weight": "835 g",
     "volume": "1500 ml",
-    "bashing": 17,
-    "cutting": 7,
+    "bashing": 7,
+    "cutting": 17,
     "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ]
