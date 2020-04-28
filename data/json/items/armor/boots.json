@@ -1265,6 +1265,25 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "xlsocks",
+    "type": "ARMOR",
+    "name": { "str_sp": "pair of xl socks" },
+    "description": "Socks.  Big ones.  Put 'em on your feet.",
+    "weight": "58 g",
+    "volume": "250 ml",
+    "price": 200,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "socks_wool",
+    "color": "white",
+    "covers": [ "FEET" ],
+    "coverage": 100,
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT","OVERSIZE" ]
+  },
+  {
     "id": "socks_ankle",
     "type": "ARMOR",
     "name": { "str": "pair of ankle socks", "str_pl": "pairs of ankle socks" },
