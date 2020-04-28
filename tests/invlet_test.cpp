@@ -748,7 +748,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
         merge_invlet_test( dummy, from ); \
     }
 
-TEST_CASE( "Inventory letter test", "[invlet][!mayfail]" )
+TEST_CASE( "Inventory letter test", "[.invlet]" )
 {
     player &dummy = g->u;
     const tripoint spot( 60, 60, 0 );
