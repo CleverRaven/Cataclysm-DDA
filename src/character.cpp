@@ -6180,7 +6180,7 @@ bool Character::is_immune_field( const field_type_id &fid ) const
     bool immune_by_body_part_resistance = !ft.immunity_data_body_part_env_resistance.empty();
     for( const std::pair<body_part, int> &fide : ft.immunity_data_body_part_env_resistance ) {
         immune_by_body_part_resistance = immune_by_body_part_resistance &&
-                                         get_env_resist( fide.first ) >= fide.second;
+                                         get_env_resist( convert_bp( fide.first ).id() ) >= fide.second;
     }
     if( immune_by_body_part_resistance ) {
         return true;
@@ -6192,14 +6192,14 @@ bool Character::is_immune_field( const field_type_id &fid ) const
         return has_active_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" );
     }
     if( ft.has_acid ) {
-        return !is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
-               get_env_resist( bp_foot_r ) >= 15 &&
-               get_env_resist( bp_leg_l ) >= 15 &&
-               get_env_resist( bp_leg_r ) >= 15 &&
-               get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
-               get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
-               get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
-               get_armor_type( DT_ACID, bp_leg_r ) >= 5;
+        return !is_on_ground() && get_env_resist( bodypart_id( "foot_l" ) ) >= 15 &&
+               get_env_resist( bodypart_id( "foot_r" ) ) >= 15 &&
+               get_env_resist( bodypart_id( "leg_l" ) ) >= 15 &&
+               get_env_resist( bodypart_id( "leg_r" ) ) >= 15 &&
+               get_armor_type( DT_ACID, bodypart_id( "foot_l" ) ) >= 5 &&
+               get_armor_type( DT_ACID, bodypart_id( "foot_r" ) ) >= 5 &&
+               get_armor_type( DT_ACID, bodypart_id( "leg_l" ) ) >= 5 &&
+               get_armor_type( DT_ACID, bodypart_id( "leg_r" ) ) >= 5;
     }
     // If we haven't found immunity yet fall up to the next level
     return Creature::is_immune_field( fid );
@@ -7080,17 +7080,17 @@ std::string Character::activity_level_str() const
     }
 }
 
-int Character::get_armor_bash( body_part bp ) const
+int Character::get_armor_bash( bodypart_id bp ) const
 {
     return get_armor_bash_base( bp ) + armor_bash_bonus;
 }
 
-int Character::get_armor_cut( body_part bp ) const
+int Character::get_armor_cut( bodypart_id bp ) const
 {
     return get_armor_cut_base( bp ) + armor_cut_bonus;
 }
 
-int Character::get_armor_type( damage_type dt, body_part bp ) const
+int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     switch( dt ) {
         case DT_TRUE:
@@ -7108,12 +7108,12 @@ int Character::get_armor_type( damage_type dt, body_part bp ) const
         case DT_ELECTRIC: {
             int ret = 0;
             for( auto &i : worn ) {
-                if( i.covers( bp ) ) {
+                if( i.covers( bp->token ) ) {
                     ret += i.damage_resist( dt );
                 }
             }
 
-            ret += mutation_armor( bp, dt );
+            ret += mutation_armor( bp->token, dt );
             return ret;
         }
         case DT_NULL:
@@ -7126,68 +7126,68 @@ int Character::get_armor_type( damage_type dt, body_part bp ) const
     return 0;
 }
 
-int Character::get_armor_bash_base( body_part bp ) const
+int Character::get_armor_bash_base( bodypart_id bp ) const
 {
     int ret = 0;
     for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp->token ) ) {
             ret += i.bash_resist();
         }
     }
     for( const bionic_id &bid : get_bionics() ) {
-        const auto bash_prot = bid->bash_protec.find( bp );
+        const auto bash_prot = bid->bash_protec.find( bp.id() );
         if( bash_prot != bid->bash_protec.end() ) {
             ret += bash_prot->second;
         }
     }
 
-    ret += mutation_armor( bp, DT_BASH );
+    ret += mutation_armor( bp->token, DT_BASH );
     return ret;
 }
 
-int Character::get_armor_cut_base( body_part bp ) const
+int Character::get_armor_cut_base( bodypart_id bp ) const
 {
     int ret = 0;
     for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp->token ) ) {
             ret += i.cut_resist();
         }
     }
     for( const bionic_id &bid : get_bionics() ) {
-        const auto cut_prot = bid->cut_protec.find( bp );
+        const auto cut_prot = bid->cut_protec.find( bp.id() );
         if( cut_prot != bid->cut_protec.end() ) {
             ret += cut_prot->second;
         }
     }
 
-    ret += mutation_armor( bp, DT_CUT );
+    ret += mutation_armor( bp->token, DT_CUT );
     return ret;
 }
 
-int Character::get_env_resist( body_part bp ) const
+int Character::get_env_resist( bodypart_id bp ) const
 {
     int ret = 0;
     for( auto &i : worn ) {
         // Head protection works on eyes too (e.g. baseball cap)
-        if( i.covers( bp ) || ( bp == bp_eyes && i.covers( bp_head ) ) ) {
+        if( i.covers( bp->token ) || ( bp == bodypart_id( "eyes" ) && i.covers( bp_head ) ) ) {
             ret += i.get_env_resist();
         }
     }
 
     for( const bionic_id &bid : get_bionics() ) {
-        const auto EP = bid->env_protec.find( bp );
+        const auto EP = bid->env_protec.find( bp.id() );
         if( EP != bid->env_protec.end() ) {
             ret += EP->second;
         }
     }
 
-    if( bp == bp_eyes && has_trait( trait_SEESLEEP ) ) {
+    if( bp == bodypart_id( "eyes" ) && has_trait( trait_SEESLEEP ) ) {
         ret += 8;
     }
     return ret;
 }
 
-int Character::get_armor_acid( body_part bp ) const
+int Character::get_armor_acid( bodypart_id bp ) const
 {
     return get_armor_type( DT_ACID, bp );
 }
@@ -8310,14 +8310,14 @@ float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
     float result = 0.0f;
     if( dt == DT_CUT || dt == DT_STAB ) {
         for( const bionic_id &bid : get_bionics() ) {
-            const auto cut_prot = bid->cut_protec.find( bp );
+            const auto cut_prot = bid->cut_protec.find( convert_bp( bp ) );
             if( cut_prot != bid->cut_protec.end() ) {
                 result += cut_prot->second;
             }
         }
     } else if( dt == DT_BASH ) {
         for( const bionic_id &bid : get_bionics() ) {
-            const auto bash_prot = bid->bash_protec.find( bp );
+            const auto bash_prot = bid->bash_protec.find( convert_bp( bp ) );
             if( bash_prot != bid->bash_protec.end() ) {
                 result += bash_prot->second;
             }
@@ -8329,7 +8329,7 @@ float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
 
 int Character::get_armor_fire( body_part bp ) const
 {
-    return get_armor_type( DT_HEAT, bp );
+    return get_armor_type( DT_HEAT, convert_bp( bp ).id() );
 }
 
 void Character::did_hit( Creature &target )
@@ -8337,7 +8337,7 @@ void Character::did_hit( Creature &target )
     enchantment_cache.cast_hit_you( *this, target );
 }
 
-void Character::on_hit( Creature *source, body_part /*bp_hit*/,
+void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
     enchantment_cache.cast_hit_me( *this, source );

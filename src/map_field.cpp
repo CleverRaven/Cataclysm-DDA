@@ -123,7 +123,7 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
     const int intensity = cur.get_field_intensity();
     const int damage = rng( 1, scale + intensity );
     // A bit ugly, but better than being annoyed by acid when in hazmat
-    if( u.get_armor_type( DT_ACID, bp ) < damage ) {
+    if( u.get_armor_type( DT_ACID, convert_bp( bp ) ) < damage ) {
         const dealt_damage_instance ddi = u.deal_damage( nullptr, convert_bp( bp ).id(),
                                           damage_instance( DT_ACID, damage ) );
         total_damage += ddi.total_damage();
@@ -1142,7 +1142,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                     p->check_dead_state();
                                 } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
-                                    mon->apply_damage( nullptr, bodypart_id( "torso" ), 6 - mon->get_armor_bash( bp_torso ) );
+                                    mon->apply_damage( nullptr, bodypart_id( "torso" ),
+                                                       6 - mon->get_armor_bash( bodypart_id( "torso" ) ) );
                                     if( g->u.sees( newp ) ) {
                                         add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                     }
@@ -1618,18 +1619,19 @@ void map::player_in_field( player &u )
                 const int intensity = cur.get_field_intensity();
                 // Bees will try to sting you in random body parts, up to 8 times.
                 for( int i = 0; i < rng( 1, 7 ); i++ ) {
-                    body_part bp = random_body_part();
+                    bodypart_id bp = u.get_random_body_part();
                     int sum_cover = 0;
                     for( const item &i : u.worn ) {
-                        if( i.covers( bp ) ) {
+                        if( i.covers( bp->token ) ) {
                             sum_cover += i.get_coverage();
                         }
                     }
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
                     // AND clothing on affected body part has low environmental protection value
                     if( ( u.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&
-                        u.add_env_effect( effect_stung, bp, intensity, 9_minutes ) ) {
-                        u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ), body_part_name_accusative( bp ) );
+                        u.add_env_effect( effect_stung, bp->token, intensity, 9_minutes ) ) {
+                        u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ),
+                                             body_part_name_accusative( bp->token ) );
                     }
                 }
             }
@@ -1654,8 +1656,8 @@ void map::player_in_field( player &u )
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
-                if( !( u.worn_with_flag( flag_GAS_PROOF ) && u.get_env_resist( bp_mouth ) >= 15 &&
-                       u.get_env_resist( bp_eyes ) >= 15 ) ) {
+                if( !( u.worn_with_flag( flag_GAS_PROOF ) && u.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
+                       u.get_env_resist( bodypart_id( "eyes" ) ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
                     bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
                     if( u.has_trait( trait_THRESH_MYCUS ) || u.has_trait( trait_THRESH_MARLOSS ) ||
@@ -1812,7 +1814,7 @@ void map::monster_in_field( monster &z )
             if( z.flies() ) {
                 dam -= 15;
             }
-            dam -= z.get_armor_type( DT_HEAT, bp_torso );
+            dam -= z.get_armor_type( DT_HEAT, bodypart_id( "torso" ) );
 
             if( cur.get_field_intensity() == 1 ) {
                 dam += rng( 2, 6 );
