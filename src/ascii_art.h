@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ASCII_ART_H
-#define ASCII_ART_H
+#ifndef CATA_SRC_ASCII_ART_H
+#define CATA_SRC_ASCII_ART_H
 
 #include "type_id.h"
 #include "json.h"
@@ -17,4 +17,4 @@ class ascii_art
         std::vector<std::string> picture;
 };
 
-#endif
+#endif // CATA_SRC_ASCII_ART_H
