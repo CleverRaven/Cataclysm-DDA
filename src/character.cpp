@@ -2292,9 +2292,9 @@ static void recur_internal_locations( item_location parent, std::vector<item_loc
 {
     for( item *it : parent->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         item_location child( parent, it );
-        list.push_back( child );
         recur_internal_locations( child, list );
     }
+    list.push_back( parent );
 }
 
 std::vector<item_location> Character::all_items_loc()
@@ -2302,14 +2302,12 @@ std::vector<item_location> Character::all_items_loc()
     std::vector<item_location> ret;
     if( has_weapon() ) {
         item_location weap_loc( *this, &weapon );
-        ret.push_back( weap_loc );
         std::vector<item_location> weapon_internal_items;
         recur_internal_locations( weap_loc, weapon_internal_items );
         ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
     }
     for( item &worn_it : worn ) {
         item_location worn_loc( *this, &worn_it );
-        ret.push_back( worn_loc );
         std::vector<item_location> worn_internal_items;
         recur_internal_locations( worn_loc, worn_internal_items );
         ret.insert( ret.end(), worn_internal_items.begin(), worn_internal_items.end() );

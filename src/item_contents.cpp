@@ -43,6 +43,22 @@ bool item_contents::empty() const
     return true;
 }
 
+bool item_contents::empty_container() const
+{
+    if( contents.empty() ) {
+        return true;
+    }
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( !pocket.empty() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool item_contents::full( bool allow_bucket ) const
 {
     for( const item_pocket &pocket : contents ) {
@@ -280,6 +296,10 @@ size_t item_contents::num_item_stacks() const
 {
     size_t num = 0;
     for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+            // mods aren't really a contained item, which this function gets
+            continue;
+        }
         num += pocket.size();
     }
     return num;

@@ -524,7 +524,7 @@
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_glass_sealed",
     "time": "30 m",
-    "charges": 8,
+    "charges": 16,
     "book_learn": [ [ "manual_canning", 3 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
@@ -1212,7 +1212,7 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 3,
     "time": "2 h",
-    "charges": 12,
+    "charges": 120,
     "book_learn": [
       [ "cookbook_italian", 3 ],
       [ "family_cookbook", 3 ],
@@ -1242,7 +1242,7 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 3,
     "time": "45 m",
-    "charges": 2,
+    "charges": 20,
     "book_learn": [
       [ "cookbook_italian", 3 ],
       [ "family_cookbook", 3 ],

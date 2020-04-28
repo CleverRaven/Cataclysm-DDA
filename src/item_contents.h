@@ -49,6 +49,8 @@ class item_contents
         ret_val<bool> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool empty() const;
+        // ignores all pockets except CONTAINER pockets to check if this contents is empty.
+        bool empty_container() const;
         // checks if CONTAINER pockets are all full
         bool full( bool allow_bucket ) const;
         // number of pockets

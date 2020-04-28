@@ -534,10 +534,14 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
+    cached_crafting_inventory.clear();
     cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
-    cached_crafting_inventory += inv;
 
     for( const item_location it : all_items_loc() ) {
+        // can't craft with containers that have items in them
+        if( !it->contents.empty_container() ) {
+            continue;
+        }
         cached_crafting_inventory.add_item( *it );
     }
 
@@ -1097,8 +1101,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
         // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
-        item &food_contained = ( newit.is_container() && !newit.contents.empty() ) ?
-                               newit.contents.only_item() : newit;
+        item &food_contained = !newit.contents.empty() ? newit.contents.only_item() : newit;
 
         // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
