@@ -2123,9 +2123,9 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
     }
 
     int factor;
-    if( it->type->tool != NULL ) {
+    if( it->type->tool ) {
         factor = it->type->tool->purification_factor;
-    } else if( it->type->comestible != NULL ) {
+    } else if( it->type->comestible ) {
         factor = it->type->comestible->purification_factor;
     } else {
         debugmsg( "ERROR: Water purifier not a tool or comestible" );
@@ -2134,10 +2134,12 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 
     /** A factor of 0 represents a constant time to purify, such as with water purification tablets. */
     if( factor == 0 ) {
-        p->assign_activity( player_activity( purify_water_activity_actor( &obj->contents.front(),
+        p->assign_activity( player_activity( purify_water_activity_actor( item_location( *p,
+                                             &obj->contents.front() ),
                                              to_moves<int>( 30_minutes ) ) ) );
     } else {
-        p->assign_activity( player_activity( purify_water_activity_actor( &obj->contents.front(),
+        p->assign_activity( player_activity( purify_water_activity_actor( item_location( *p,
+                                             &obj->contents.front() ),
                                              to_moves<int>( 2_minutes * liquid.charges * factor ) ) ) );
     }
 

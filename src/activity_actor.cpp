@@ -382,7 +382,7 @@ void purify_water_activity_actor::start( player_activity &act, Character & )
 
 void purify_water_activity_actor::finish( player_activity &act, Character & )
 {
-    liquid.convert( "water_clean" ).poison = 0;
+    liquid.get_item()->convert( "water_clean" ).poison = 0;
 
     act.set_to_null();
 }
@@ -399,7 +399,7 @@ void purify_water_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> purify_water_activity_actor::deserialize( JsonIn &jsin )
 {
-    purify_water_activity_actor actor( new item(), 1 );
+    purify_water_activity_actor actor( item_location(), 1 );
 
     JsonObject data = jsin.get_object();
 
@@ -419,6 +419,7 @@ deserialize_functions = {
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_PURIFY_WATER" ), &purify_water_activity_actor::deserialize },
 };
 } // namespace activity_actors
 
