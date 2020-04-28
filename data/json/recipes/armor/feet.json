@@ -412,6 +412,17 @@
     "components": [ [ [ "rag", 2 ] ] ]
   },
   {
+    "result": "xlsocks",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "time": "15 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 4 ] ],
+    "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
     "result": "socks_bag",
     "type": "recipe",
     "category": "CC_ARMOR",
