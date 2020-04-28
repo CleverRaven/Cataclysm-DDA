@@ -108,7 +108,6 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-
 class npc_template;
 
 namespace io
