@@ -974,8 +974,6 @@ class game
         catacurses::window w_pixel_minimap;
         //only a pointer, can refer to w_messages_short or w_messages_long
 
-        catacurses::window w_blackspace;
-
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,
         // Don't write to this directly, always use set_driving_view_offset

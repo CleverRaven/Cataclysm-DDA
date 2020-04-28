@@ -1366,20 +1366,17 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
 
 static tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() )
 {
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    ui_adaptor ui;
+    ui.on_screen_resize( []( ui_adaptor & ui ) {
+        /* please do not change point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) to point( OVERMAP_WINDOW_WIDTH, 0 ) */
+        /* because overmap legend will be absent */
+        g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH,
+                                            point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) );
+        g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point_zero );
 
-    /* please do not change point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) to point( OVERMAP_WINDOW_WIDTH, 0 ) */
-    /* because overmap legend will be absent */
-    g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH,
-                                        point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) );
-    g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point_zero );
-
-    // Draw black padding space to avoid gap between map and legend
-    // also clears the pixel minimap in TILES
-    g->w_blackspace = catacurses::newwin( TERMY, TERMX, point_zero );
-    mvwputch( g->w_blackspace, point_zero, c_black, ' ' );
-    wrefresh( g->w_blackspace );
+        ui.position_from_window( catacurses::stdscr );
+    } );
+    ui.mark_resize();
 
     tripoint ret = overmap::invalid_tripoint;
     tripoint curs( orig );
@@ -1426,14 +1423,17 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
     cata::optional<tripoint> mouse_pos;
-    bool redraw = true;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        catacurses::erase();
+        catacurses::refresh();
+        draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
+              show_explored, fast_scroll, &ictxt, data );
+    } );
+
     do {
-        if( redraw ) {
-            draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
-                  show_explored, fast_scroll, &ictxt, data );
-        }
-        redraw = true;
+        ui_manager::redraw();
 #if (defined TILES || defined _WIN32 || defined WINDOWS )
         int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
         // If EDGE_SCROLL is disabled, it will have a value of -1.
@@ -1451,9 +1451,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             curs.y += vec->y * scroll_d;
         } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
             tripoint edge_scroll = g->mouse_edge_scrolling_overmap( ictxt );
-            if( edge_scroll == tripoint_zero ) {
-                redraw = false;
-            } else {
+            if( edge_scroll != tripoint_zero ) {
                 if( action == "MOUSE_MOVE" ) {
                     edge_scroll *= 2;
                 }
@@ -1579,15 +1577,10 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
         if( now > last_blink + std::chrono::milliseconds( BLINK_SPEED ) ) {
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
-                redraw = true;
             }
             last_blink = now;
         }
     } while( action != "QUIT" && action != "CONFIRM" );
-    werase( g->w_overmap );
-    werase( g->w_omlegend );
-    catacurses::erase();
-    g->init_ui( true );
     return ret;
 }
 
