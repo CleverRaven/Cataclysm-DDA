@@ -312,7 +312,11 @@ units::volume item_pocket::item_size_modifier() const
     }
     units::volume total_vol = 0_ml;
     for( const item &it : contents ) {
-        total_vol += it.volume();
+        if( is_type( item_pocket::pocket_type::MOD ) ) {
+            total_vol += it.volume( true );
+        } else {
+            total_vol += it.volume();
+        }
     }
     total_vol -= data->magazine_well;
     return std::max( 0_ml, total_vol );
@@ -322,7 +326,7 @@ units::mass item_pocket::item_weight_modifier() const
 {
     units::mass total_mass = 0_gram;
     for( const item &it : contents ) {
-        if( it.is_gunmod() ) {
+        if( is_type( item_pocket::pocket_type::MOD ) ) {
             total_mass += it.weight( true, true ) * data->weight_multiplier;
         } else {
             total_mass += it.weight() * data->weight_multiplier;
