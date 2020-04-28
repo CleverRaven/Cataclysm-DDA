@@ -1001,7 +1001,6 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
-    "purification_factor": 1,
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [
