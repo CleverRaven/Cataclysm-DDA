@@ -726,7 +726,7 @@
     "id": "tea_bag",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "tea bag", "str_pl": "tea bags" },
+    "name": { "str": "tea bag" },
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "INEDIBLE" ],
     "weight": "5 g",
     "volume": "10 ml",
@@ -740,7 +740,7 @@
   },
   {
     "id": "herbal_tea_bag",
-    "name": { "str": "herbal tea bag", "str_pl": "herbal tea bags" },
+    "name": { "str": "herbal tea bag" },
     "copy-from": "tea_bag",
     "color": "green",
     "description": "Paper sachet with dried wild herbs inside.  Put it into boiling water to make some healthy warm drink."
