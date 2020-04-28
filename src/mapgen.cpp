@@ -5963,8 +5963,8 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
     for( int i = 0; i < spawn_count; i++ ) {
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
-        auto is_valid_terrain = [this, ongrass]( int x, int y ) {
-            auto &terrain = ter( point( x, y ) ).obj();
+        auto is_valid_terrain = [this, ongrass]( const point & p ) {
+            auto &terrain = ter( p ).obj();
             return terrain.movecost == 0           &&
                    !terrain.has_flag( "PLACE_ITEM" ) &&
                    !ongrass                                   &&
@@ -5977,7 +5977,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
             px = rng( p1.x, p2.x );
             py = rng( p1.y, p2.y );
             tries++;
-        } while( is_valid_terrain( px, py ) && tries < 20 );
+        } while( is_valid_terrain( point( px, py ) ) && tries < 20 );
         if( tries < 20 ) {
             auto put = put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );
             res.insert( res.end(), put.begin(), put.end() );
