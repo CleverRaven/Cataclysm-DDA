@@ -28,6 +28,7 @@
     "id": "NC_TRUE_FOODPERSON_misc",
     "subtype": "collection",
     "entries": [
+      { "item": "medium_disposable_cell", "prob": 90 },
       { "group": "snacks_fancy", "prob": 30, "charges": 2 },
       { "group": "snacks", "prob": 20, "charges": 2 }
     ]
