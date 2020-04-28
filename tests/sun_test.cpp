@@ -33,29 +33,33 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
     CHECK( is_night( midnight + 3_hours ) );
     CHECK( is_night( midnight + 4_hours ) );
 
-    // FIXME: This time is neither night nor sunrise
-    CHECK_FALSE( is_night( today_sunrise ) );
-    CHECK_FALSE( is_dawn( today_sunrise ) );
+    // The point of sunrise is both "night" and "dawn"
+    CHECK( is_night( today_sunrise ) );
+    CHECK( is_dawn( today_sunrise ) );
 
     // Dawn
     CHECK( is_dawn( today_sunrise + 1_seconds ) );
     CHECK( is_dawn( today_sunrise + 30_minutes ) );
     CHECK( is_dawn( today_sunrise + 59_minutes ) );
-    CHECK_FALSE( is_dawn( today_sunrise + 1_hours ) );
+
+    // The endpoint of dawn is both "dawn" and "day"
+    CHECK( is_dawn( today_sunrise + 1_hours ) );
+    //CHECK( is_day( today_sunrise + 1_hours ) );
 
     // FIXME: No function to tell when it is daytime
 
-    // FIXME: Sunset does not begin at sunset
-    CHECK_FALSE( is_dusk( today_sunset ) );
+    // The beginning of sunset is both "day" and "dusk"
+    //CHECK( is_day( today_sunset ) );
+    CHECK( is_dusk( today_sunset ) );
 
     // Dusk
     CHECK( is_dusk( today_sunset + 1_seconds ) );
     CHECK( is_dusk( today_sunset + 30_minutes ) );
     CHECK( is_dusk( today_sunset + 59_minutes ) );
 
-    // FIXME: This time is neither dusk nor night
-    CHECK_FALSE( is_dusk( today_sunset + 1_hours ) );
-    CHECK_FALSE( is_night( today_sunset + 1_hours ) );
+    // The point when dusk ends is both "dusk" and "night"
+    CHECK( is_dusk( today_sunset + 1_hours ) );
+    CHECK( is_night( today_sunset + 1_hours ) );
 
     // Night again
     CHECK( is_night( today_sunset + 1_hours + 1_seconds ) );
