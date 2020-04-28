@@ -149,20 +149,22 @@ TEST_CASE( "starting_items", "[slow]" )
                     g->u.male = i == 0;
 
                     g->u.add_profession_items();
-                    int item_visit_count = 0;
-                    const auto visitable_counter = [&item_visit_count]( const item * ) {
-                        item_visit_count++;
+                    std::set<const item *> items_visited;
+                    const auto visitable_counter = [&items_visited]( const item *it ) {
+                        items_visited.emplace( it );
                         return VisitResponse::NEXT;
                     };
                     g->u.visit_items( visitable_counter );
                     g->u.inv.visit_items( visitable_counter );
-                    const int item_inv_count = item_visit_count;
+                    const int num_items_pre_migration = items_visited.size();
+                    items_visited.clear();
 
-                    item_visit_count = 0;
                     g->u.migrate_items_to_storage( true );
                     g->u.visit_items( visitable_counter );
+                    const int num_items_post_migration = items_visited.size();
+                    items_visited.clear();
 
-                    if( item_visit_count != item_inv_count ) {
+                    if( num_items_pre_migration != num_items_post_migration ) {
                         failure cur_fail;
                         cur_fail.prof = g->u.prof->ident();
                         cur_fail.mut = g->u.get_mutations();
@@ -170,7 +172,8 @@ TEST_CASE( "starting_items", "[slow]" )
 
                         failures.insert( cur_fail );
                     }
-                    REQUIRE( item_visit_count == item_inv_count );
+                    CAPTURE( g->u.prof->ident().c_str() );
+                    CHECK( num_items_pre_migration == num_items_post_migration );
                 } // all genders
             } // all profs
         } // all scens
