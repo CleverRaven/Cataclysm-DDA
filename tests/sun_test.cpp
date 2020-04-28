@@ -4,54 +4,57 @@
 
 // SUN TESTS
 
-static const time_point midday = calendar::turn_zero + 12_hours;
-static const time_point midnight = calendar::turn_zero + 0_hours;
-
-// FIXME - rework these
-
-// is_night, is_sunrise_now, is_sunset_now
+// is_night, is_dawn, is_dusk
 TEST_CASE( "daily solar cycle", "[sun][cycle]" )
 {
-    // TODO: Generalize based on sunrise/sunset
-
     // Use sunrise/sunset on the first day (spring equinox)
-    const time_point today_sunrise = sunrise( calendar::turn_zero );
-    const time_point today_sunset = sunset( calendar::turn_zero );
+    const time_point midnight = calendar::turn_zero;
+    const time_point today_sunrise = sunrise( midnight );
+    const time_point today_sunset = sunset( midnight );
 
-    // INFO( "Sunrise today: " + to_string( today_sunrise ) ); // 6:00 AM
-    // INFO( "Sunset today: " + to_string( today_sunset ) ); // 7:00 PM
+    REQUIRE( "Year 1, Spring, day 1 6:00:00 AM" == to_string( today_sunrise ) );
+    REQUIRE( "Year 1, Spring, day 1 7:00:00 PM" == to_string( today_sunset ) );
 
-    // Night
+    // 00:00 is_night
+    //   :   is_night
+    // 06:00 is_night && is_dawn (sunrise time)
+    //   :   is_dawn (sunrise + twilight )
+    // 07:00 is_dawn && is_day
+    //   :   is_day
+    // 19:00 is_day && is_dusk (sunset time)
+    //   :   is_dusk (sunset + twilight )
+    // 20:00 is_dusk && is_night
+    //   :   is_night
+    // 23:59 is_night
+
     CHECK( is_night( midnight ) );
-    CHECK( is_night( midnight + 1_hours ) );
+    CHECK( is_night( midnight + 1_seconds ) );
     CHECK( is_night( midnight + 2_hours ) );
     CHECK( is_night( midnight + 3_hours ) );
     CHECK( is_night( midnight + 4_hours ) );
-    CHECK( is_night( midnight + 5_hours ) );
 
     // FIXME: This time is neither night nor sunrise
     CHECK_FALSE( is_night( today_sunrise ) );
-    CHECK_FALSE( is_sunrise_now( today_sunrise ) );
+    CHECK_FALSE( is_dawn( today_sunrise ) );
 
     // Dawn
-    CHECK( is_sunrise_now( today_sunrise + 1_seconds ) );
-    CHECK( is_sunrise_now( today_sunrise + 30_minutes ) );
-    CHECK( is_sunrise_now( today_sunrise + 59_minutes ) );
-    CHECK_FALSE( is_sunrise_now( today_sunrise + 1_hours ) );
+    CHECK( is_dawn( today_sunrise + 1_seconds ) );
+    CHECK( is_dawn( today_sunrise + 30_minutes ) );
+    CHECK( is_dawn( today_sunrise + 59_minutes ) );
+    CHECK_FALSE( is_dawn( today_sunrise + 1_hours ) );
 
     // FIXME: No function to tell when it is daytime
-    //CHECK( is_day( midday ) );
 
     // FIXME: Sunset does not begin at sunset
-    CHECK_FALSE( is_sunset_now( today_sunset ) );
+    CHECK_FALSE( is_dusk( today_sunset ) );
 
     // Dusk
-    CHECK( is_sunset_now( today_sunset + 1_seconds ) );
-    CHECK( is_sunset_now( today_sunset + 30_minutes ) );
-    CHECK( is_sunset_now( today_sunset + 59_minutes ) );
+    CHECK( is_dusk( today_sunset + 1_seconds ) );
+    CHECK( is_dusk( today_sunset + 30_minutes ) );
+    CHECK( is_dusk( today_sunset + 59_minutes ) );
 
     // FIXME: This time is neither dusk nor night
-    CHECK_FALSE( is_sunset_now( today_sunset + 1_hours ) );
+    CHECK_FALSE( is_dusk( today_sunset + 1_hours ) );
     CHECK_FALSE( is_night( today_sunset + 1_hours ) );
 
     // Night again
@@ -63,8 +66,9 @@ TEST_CASE( "daily solar cycle", "[sun][cycle]" )
 
 TEST_CASE( "sunlight", "[sun]" )
 {
-    const time_point today_sunrise = sunrise( calendar::turn_zero );
-    const time_point today_sunset = sunset( calendar::turn_zero );
+    const time_point midnight = calendar::turn_zero;
+    const time_point today_sunrise = sunrise( midnight );
+    const time_point today_sunset = sunset( midnight );
 
     CHECK( sunlight( midnight ) == 1.0f );
     CHECK( sunlight( today_sunrise ) == 1.0f );
@@ -73,7 +77,7 @@ TEST_CASE( "sunlight", "[sun]" )
     CHECK( sunlight( today_sunrise + 30_minutes ) == 50.50f );
     CHECK( sunlight( today_sunrise + 45_minutes ) == 75.25f );
     // Midday
-    CHECK( sunlight( midday ) == default_daylight_level() ); // 100.0
+    CHECK( sunlight( midnight + 12_hours ) == default_daylight_level() ); // 100.0
     CHECK( sunlight( today_sunset ) == default_daylight_level() ); // 100.0
     // Dusk
     CHECK( sunlight( today_sunset + 15_minutes ) == 75.25f );

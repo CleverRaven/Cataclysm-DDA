@@ -139,8 +139,7 @@ bool is_night( const time_point &p )
     return now > sunset + twilight_duration || now < sunrise;
 }
 
-// TODO: Rename to is_dusk
-bool is_sunset_now( const time_point &p )
+bool is_dusk( const time_point &p )
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunset = time_past_midnight( ::sunset( p ) );
@@ -149,8 +148,7 @@ bool is_sunset_now( const time_point &p )
     return now > sunset && now < sunset + twilight_duration;
 }
 
-// TODO: Rename to is_dawn
-bool is_sunrise_now( const time_point &p )
+bool is_dawn( const time_point &p )
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
@@ -208,12 +206,12 @@ float sunlight( const time_point &p, const bool vision )
         // Night (after dusk, before sunrise)
         return moonlight;
     } else if( now >= sunrise && now <= sunrise + twilight_duration ) {
-        // else if( is_sunrise_now( p ) )
+        // else if( is_dawn( p ) )
         // Dawn (morning twilight)
         const double percent = ( now - sunrise ) / twilight_duration;
         return static_cast<double>( moonlight ) * ( 1. - percent ) + daylight_level * percent;
     } else if( now >= sunset && now <= sunset + twilight_duration ) {
-        // else if( is_sunset_now( p ) )
+        // else if( is_dusk( p ) )
         // Dusk (evening twilight)
         const double percent = ( now - sunset ) / twilight_duration;
         return daylight_level * ( 1. - percent ) + static_cast<double>( moonlight ) * percent;
