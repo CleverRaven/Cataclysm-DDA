@@ -16,6 +16,23 @@
     "category": "weapons"
   },
   {
+    "id": "bullwhip_razor",
+    "name": { "str": "scourge" },
+    "type": "TOOL",
+    "description": "The \"cat 'o nine tails\", a handle with nine short leather whips each sporting a razor-sharp metal tip.  This ancient instrument of torture causes massive bleeding but is an ineffecient weapon by design.",
+    "symbol": "/",
+    "color": "brown",
+    "weight": "3496 g",
+    "volume": 9,
+    "price": 4800,
+    "price_postapoc": 5200,
+    "to_hit": 2,
+    "//": "There's no way you can swing this thing without hitting SOMETHING.",
+    "cutting": 10,
+    "material": [ "leather", "steel" ],
+    "flags": [ "REACHATTACK", "WHIP", "NONCONDUCTIVE" ]
+  },
+  {
     "id": "lobotomizer",
     "type": "TOOL",
     "name": { "str": "lobotomizer" },

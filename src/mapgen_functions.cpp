@@ -1044,7 +1044,7 @@ void mapgen_subway( mapgendata &dat )
     switch( num_dirs ) {
         case 4:
             // 4-way intersection
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         "..^/D^^/D^....^D/^^D/^..\n"
                                         ".^/DX^/DX......XD/^XD/^.\n"
                                         "^/D^X/D^X......X^D/X^D/^\n"
@@ -1086,7 +1086,7 @@ void mapgen_subway( mapgendata &dat )
             break;
         case 3:
             // tee
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         "..^/D^^/D^...^/D^^/D^...\n"
                                         ".^/D^^/D^...^/D^^/D^....\n"
                                         "^/D^^/D^...^/D^^/D^.....\n"
@@ -1133,7 +1133,7 @@ void mapgen_subway( mapgendata &dat )
         case 2:
             // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
-                mapf::formatted_set_simple( m, 0, 0,
+                mapf::formatted_set_simple( m, point_zero,
                                             "...^DD^^DD^...^DD^^DD^..\n"
                                             "....^DD^^DD^...^DD^^DD^.\n"
                                             ".....^DD^^DD^...^DD^^DD^\n"
@@ -1169,7 +1169,7 @@ void mapgen_subway( mapgendata &dat )
                                                     f_null,
                                                     f_null ) );
             } else { // normal subway drawing
-                mapf::formatted_set_simple( m, 0, 0,
+                mapf::formatted_set_simple( m, point_zero,
                                             "...^X^^^X^....^X^^^X^...\n"
                                             "...-x---x-....-x---x-...\n"
                                             "...^X^^^X^....^X^^^X^...\n"
@@ -1212,7 +1212,7 @@ void mapgen_subway( mapgendata &dat )
             break;
         case 1:
             // dead end
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         "...^X^^^X^..../D^^/D^...\n"
                                         "...-x---x-.../DX^/DX^...\n"
                                         "...^X^^^X^../D^X/D^X^...\n"
@@ -1534,7 +1534,7 @@ void mapgen_railroad( mapgendata &dat )
     switch( num_dirs ) {
         case 4:
             // 4-way intersection
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         ".DD^^DD^........^DD^^DD.\n"
                                         "DD^^DD^..........^DD^^DD\n"
                                         "D^^DD^............^DD^^D\n"
@@ -1570,7 +1570,7 @@ void mapgen_railroad( mapgendata &dat )
             break;
         case 3:
             // tee
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         ".DD^^DD^........^DD^^DD.\n"
                                         "DD^^DD^..........^DD^^DD\n"
                                         "D^^DD^............^DD^^D\n"
@@ -1616,7 +1616,7 @@ void mapgen_railroad( mapgendata &dat )
             // straight or diagonal
             if( diag ) {
                 // diagonal railroads get drawn differently from all other types
-                mapf::formatted_set_simple( m, 0, 0,
+                mapf::formatted_set_simple( m, point_zero,
                                             ".^DD^^DD^.......^DD^^DD^\n"
                                             "..^DD^^DD^.......^DD^^DD\n"
                                             "...^DD^^DD^.......^DD^^D\n"
@@ -1650,7 +1650,7 @@ void mapgen_railroad( mapgendata &dat )
                                                     f_null,
                                                     f_null ) );
             } else { // normal railroads drawing
-                mapf::formatted_set_simple( m, 0, 0,
+                mapf::formatted_set_simple( m, point_zero,
                                             ".^X^^^X^........^X^^^X^.\n"
                                             ".-x---x-........-x---x-.\n"
                                             ".^X^^^X^........^X^^^X^.\n"
@@ -1691,7 +1691,7 @@ void mapgen_railroad( mapgendata &dat )
             break;
         case 1:
             // dead end
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         ".^X^^^X^........^X^^^X^.\n"
                                         ".-x---x-........-x---x-.\n"
                                         ".^X^^^X^........^X^^^X^.\n"
@@ -1739,7 +1739,7 @@ void mapgen_railroad( mapgendata &dat )
 void mapgen_railroad_bridge( mapgendata &dat )
 {
     map *const m = &dat.m;
-    mapf::formatted_set_simple( m, 0, 0,
+    mapf::formatted_set_simple( m, point_zero,
                                 "r^X^^^X^________^X^^^X^r\n"
                                 "r-x---x-________-x---x-r\n"
                                 "r^X^^^X^________^X^^^X^r\n"

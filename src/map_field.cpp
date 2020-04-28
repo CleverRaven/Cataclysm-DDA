@@ -384,7 +384,7 @@ If you need to insert a new field behavior per unit time add a case statement in
 bool map::process_fields_in_submap( submap *const current_submap,
                                     const tripoint &submap )
 {
-    scent_block sblk( submap.x, submap.y, submap.z, g->scent );
+    scent_block sblk( submap, g->scent );
 
     // This should be true only when the field changes transparency
     // More correctly: not just when the field is opaque, but when it changes state

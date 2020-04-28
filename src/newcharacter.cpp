@@ -2324,7 +2324,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w_skills = catacurses::newwin( TERMY - 12, 33, point( 46, 11 ) );
         w_guide = catacurses::newwin( 6, TERMX - 3, point( 2, TERMY - 7 ) );
         w_height = catacurses::newwin( 1, 20, point( 80, 5 ) );
-        w_age = catacurses::newwin( 1, 10, point( 80, 6 ) );
+        w_age = catacurses::newwin( 1, 12, point( 80, 6 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
