@@ -382,7 +382,11 @@ void purify_water_activity_actor::start( player_activity &act, Character & )
 
 void purify_water_activity_actor::finish( player_activity &act, Character & )
 {
-    liquid.get_item()->convert( "water_clean" ).poison = 0;
+    if( liquid ) {
+        liquid->convert( "water_clean" ).poison = 0;
+    } else {
+        debugmsg( "Lost target item of ACT_PURIFY_WATER" );
+    }
 
     act.set_to_null();
 }
