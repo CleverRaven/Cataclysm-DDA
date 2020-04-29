@@ -8072,7 +8072,9 @@ void item::set_item_temperature( float new_temperature )
 
 void item::fill_with( item &liquid, int amount )
 {
-    amount = std::min( amount, liquid.charges );
+    if( liquid.count_by_charges() ) {
+        amount = std::min( amount, liquid.charges );
+    }
     if( amount <= 0 ) {
         return;
     }
