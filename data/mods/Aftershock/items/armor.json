@@ -293,5 +293,47 @@
     "warmth": 20,
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xlleather_belt",
+    "type": "ARMOR",
+    "name": { "str": "XL leather belt" },
+    "description": "An XL leather belt.  Useful for making your pair of pants fit if you need really big pants.",
+    "weight": "150 g",
+    "volume": "350 ml",
+    "copy-from": "leather_belt",
+    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+  },
+  {
+    "id": "police_belt",
+    "type": "ARMOR",
+    "name": { "str": "XL police duty belt" },
+    "description": "An XL black leather belt used by extremely large uplifted police officers.  It has several pouches and a holder for a baton.",
+    "weight": "450 g",
+    "volume": "2500 ml",
+    "copy-from": "police_belt",
+    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+  },
+  {
+    "id": "xltac_fullhelmet",
+    "repairs_like": "xlkevlar",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "XL tactical full helmet" },
+    "description": "An all-encompassing massive black helmet that covers your entire face and neck, providing excellent protection from all sorts of damage.",
+    "weight": "1324 g",
+    "volume": "2 L",
+    "copy-from": "tac_fullhelmet",
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "OVERSIZE" ]
+  },
+  {
+    "type": "ARMOR",
+    "id": "xllegpouch_large",
+    "name": { "str": "XL leg ammo pouch", "str_pl": "XL leg ammo pouches" },
+    "description": "An XL fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "copy-from": "legpouch_large",
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   }
 ]
