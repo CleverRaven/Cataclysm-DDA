@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <string>
 #include <vector>
-#include <ctime>
 
 #include "cursesdef.h"
 #include "input.h"
