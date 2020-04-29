@@ -1092,5 +1092,23 @@
     "symbol": ",",
     "color": "green",
     "use_action": "SIPHON"
+  },
+  {
+    "id": "makeshift_hand_drill",
+    "type": "TOOL",
+    "name": { "str": "makeshift hand drill" },
+    "description": "This is a makeshift manual drill made out of pipe and improvised drill bit.  It is very slow and it will exhaust you quickly.",
+    "weight": "1354 g",
+    "volume": "1 L",
+    "price": 100,
+    "price_postapoc": 50,
+    "to_hit": -3,
+    "bashing": 4,
+    "cutting": 1,
+    "material": [ "wood", "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "looks_like": "hand_drill",
+    "qualities": [ [ "DRILL", 1 ] ]
   }
 ]

@@ -675,5 +675,17 @@
     "time": "1 h",
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 2 ] ], [ [ "superglue", 1 ] ], [ [ "filament", 40, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_hand_drill",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "HAMMER_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "nail", 1 ], [ "screwdriver", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 3 ] ] ]
   }
 ]
