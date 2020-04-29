@@ -23,7 +23,7 @@
     "price": 1000,
     "count": 1,
     "stack_size": 1,
-    "damage": 60,
+    "damage": { "damage_type": "stab", "amount": 60 },
     "extend": { "effects": [ "EXPLOSIVE_BIG" ] }
   },
   {
@@ -37,7 +37,7 @@
     "price": 1000,
     "count": 5,
     "stack_size": 5,
-    "damage": 150,
+    "damage": { "damage_type": "stab", "amount": 150 },
     "extend": { "effects": [ "EXPLOSIVE_HUGE" ] }
   },
   {
@@ -51,7 +51,7 @@
     "price": 600,
     "count": 1,
     "stack_size": 1,
-    "damage": 20,
+    "damage": { "damage_type": "stab", "amount": 20 },
     "extend": { "effects": [ "FLAME" ] }
   },
   {
@@ -65,7 +65,7 @@
     "price": 2200,
     "count": 1,
     "stack_size": 1,
-    "damage": 40,
+    "damage": { "damage_type": "stab", "amount": 40 },
     "extend": { "effects": [ "NAPALM" ] }
   },
   {
@@ -79,7 +79,7 @@
     "price": 800,
     "count": 1,
     "stack_size": 1,
-    "damage": 75,
+    "damage": { "damage_type": "stab", "amount": 75 },
     "extend": { "effects": [ "FRAG" ] }
   },
   {
@@ -97,7 +97,7 @@
     "count": 1,
     "stack_size": 2,
     "ammo_type": "h_projectile",
-    "damage": 14,
+    "damage": { "damage_type": "stab", "amount": 14 },
     "effects": [ "MININUKE_MOD", "NEVER_MISFIRES" ],
     "flags": [ "LEAK_RAD" ]
   },
@@ -115,8 +115,7 @@
     "color": "brown",
     "count": 10,
     "ammo_type": "harpoon",
-    "damage": 40,
-    "pierce": 10,
+    "damage": { "damage_type": "stab", "amount": 40, "armor_penetration": 10 },
     "effects": [ "RECOVER_3", "NEVER_MISFIRES" ]
   },
   {
@@ -131,7 +130,7 @@
     "count": 1,
     "stack_size": 1,
     "ammo_type": "hbolt",
-    "damage": 14,
+    "damage": { "damage_type": "stab", "amount": 14 },
     "effects": [ "NEVER_MISFIRES", "COOKOFF" ],
     "flags": [ "" ]
   },
@@ -200,8 +199,7 @@
     "count": 5,
     "ammo_type": "hbolt",
     "range": 10,
-    "damage": 35,
-    "pierce": 35,
+    "damage": { "damage_type": "stab", "amount": 35, "armor_penetration": 35 },
     "effects": [ "RECOVER_3" ]
   },
   {
@@ -219,7 +217,7 @@
     "count": 1,
     "stack_size": 2,
     "ammo_type": "hbolt",
-    "damage": 14,
+    "damage": { "damage_type": "stab", "amount": 14 },
     "effects": [ "MININUKE_MOD", "NEVER_MISFIRES" ],
     "flags": [ "LEAK_RAD" ]
   },
@@ -238,8 +236,7 @@
     "count": 5,
     "ammo_type": "hbolt",
     "range": 10,
-    "damage": 20,
-    "pierce": 20,
+    "damage": { "damage_type": "stab", "amount": 20, "armor_penetration": 20 },
     "effects": [ "RECOVER_5" ]
   },
   {
@@ -258,7 +255,7 @@
     "count": 1,
     "ammo_type": "h_projectile",
     "range": 3,
-    "damage": 50,
+    "damage": { "damage_type": "stab", "amount": 50 },
     "effects": [ "RECOVER_20", "LARGE_BEANBAG" ]
   },
   {
@@ -276,12 +273,11 @@
     "count": 20,
     "ammo_type": "ripdisk",
     "range": 6,
-    "damage": 25,
-    "pierce": 5,
+    "damage": { "damage_type": "stab", "amount": 25, "armor_penetration": 5 },
     "effects": [ "RECOVER_3", "NEVER_MISFIRES" ]
   },
   {
-    "id": "shards",
+    "id": "metal_shards",
     "type": "AMMO",
     "name": { "str": "metal fragment" },
     "description": "Small slivers of metal.  Can't see much use for them.",
@@ -294,8 +290,7 @@
     "color": "blue",
     "count": 250,
     "ammo_type": "BB",
-    "damage": 1,
-    "pierce": 1,
+    "damage": { "damage_type": "stab", "amount": 1, "armor_penetration": 1 },
     "dispersion": 200
   }
 ]

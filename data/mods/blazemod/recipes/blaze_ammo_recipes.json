@@ -145,7 +145,7 @@
         [ "chem_hmtd", 2 ],
         [ "chem_anfo", 5 ]
       ],
-      [ [ "lead", 120 ], [ "nail", 30 ], [ "bb", 100 ], [ "shards", 50 ], [ "material_sand", 200 ] ],
+      [ [ "lead", 120 ], [ "nail", 30 ], [ "bb", 100 ], [ "metal_shards", 50 ], [ "material_sand", 200 ] ],
       [
         [ "smpistol_primer", 1 ],
         [ "lgpistol_primer", 1 ],
@@ -318,7 +318,7 @@
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "shards",
+    "result": "metal_shards",
     "type": "recipe",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
