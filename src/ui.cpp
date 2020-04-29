@@ -698,16 +698,8 @@ void uilist::show()
     }
     apply_scrollbar();
 
-    this->refresh( true );
-}
-
-/**
- * wrefresh + wrefresh callback's window
- */
-void uilist::refresh( bool refresh_callback )
-{
     wrefresh( window );
-    if( refresh_callback && callback != nullptr ) {
+    if( callback != nullptr ) {
         callback->refresh( this );
     }
 }

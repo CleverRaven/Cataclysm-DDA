@@ -1298,7 +1298,6 @@ void editmap::edit_itm()
                              pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );
             ilmenu.setup();
             ilmenu.filterlist();
-            ilmenu.refresh();
         }
     } while( ilmenu.ret != UILIST_CANCEL );
 }
@@ -1757,11 +1756,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             if( gpmenu.ret_act == "LEFT" ) {
                 gmenu.scrollby( -1 );
                 gmenu.show();
-                gmenu.refresh();
             } else if( gpmenu.ret_act == "RIGHT" ) {
                 gmenu.scrollby( 1 );
                 gmenu.show();
-                gmenu.refresh();
             }
         }
         showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;

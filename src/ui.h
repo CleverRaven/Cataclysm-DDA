@@ -233,7 +233,6 @@ class uilist
         void query( bool loop = true, int timeout = -1 );
         void filterlist();
         void apply_scrollbar();
-        void refresh( bool refresh_callback = true );
         void addentry( const std::string &str );
         void addentry( int r, bool e, int k, const std::string &str );
         // K is templated so it matches a `char` literal and a `int` value.
