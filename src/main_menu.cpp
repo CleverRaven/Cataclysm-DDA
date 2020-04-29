@@ -253,8 +253,7 @@ bool main_menu::is_easter( int day, int month, int year )
             default: break;
             // *INDENT-ON*
         }
-        // month == 4 - april
-    } else {
+    } else if( month == 4 ) {
         switch( year ) {
             // *INDENT-OFF*
             case 2021: return day == 4;
