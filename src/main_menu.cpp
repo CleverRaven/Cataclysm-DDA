@@ -248,8 +248,8 @@ bool main_menu::is_easter( int day, int month, int year )
     if( month == 3 ) {
         switch( year ) {
             // *INDENT-OFF*
-            case 2024: return ( day == 31 );
-            case 2027: return ( day == 28 );
+            case 2024: return day == 31;
+            case 2027: return day == 28;
             default: break;
             // *INDENT-ON*
         }
@@ -257,14 +257,14 @@ bool main_menu::is_easter( int day, int month, int year )
     } else {
         switch( year ) {
             // *INDENT-OFF*
-            case 2021: return ( day == 4 );
-            case 2022: return ( day == 17 );
-            case 2023: return ( day == 9 );
-            case 2025: return ( day == 20 );
-            case 2026: return ( day == 5 );
-            case 2028: return ( day == 16 );
-            case 2029: return ( day == 1 );
-            case 2030: return ( day == 21 );
+            case 2021: return day == 4;
+            case 2022: return day == 17;
+            case 2023: return day == 9;
+            case 2025: return day == 20;
+            case 2026: return day == 5
+            case 2028: return day == 16;
+            case 2029: return day == 1;
+            case 2030: return day == 21;
             default: break;
             // *INDENT-ON*
         }
