@@ -6,10 +6,10 @@
     "responses": [
       { "text": "One of who?", "topic": "TALK_NC_FARMER_INTRO" },
       {
-        "text": "My thoughts exactly. We have a lot in common, we should travel together!",
+        "text": "My thoughts exactly.  We have a lot in common, we should travel together!",
         "topic": "TALK_SUGGEST_FOLLOW"
       },
-      { "text": "A daring trader? Yes. Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
+      { "text": "A daring trader?  Yes.  Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
       { "text": "I don't have time for this.", "topic": "TALK_DONE" }
     ]
   },
