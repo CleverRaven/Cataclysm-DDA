@@ -42,6 +42,7 @@
 #include "game.h"
 #include "game_ui.h"
 #include "get_version.h"
+#include "hash_utils.h"
 #include "input.h"
 #include "json.h"
 #include "optional.h"
@@ -151,9 +152,18 @@ class CachedTTFFont : public Font
             std::string   codepoints;
             unsigned char color;
 
-            // Operator overload required to use in std::map.
-            bool operator<( const key_t &rhs ) const noexcept {
-                return ( color == rhs.color ) ? codepoints < rhs.codepoints : color < rhs.color;
+            std::pair<std::string, unsigned char> as_pair() const {
+                return std::make_pair( codepoints, color );
+            }
+
+            friend bool operator==( const key_t &lhs, const key_t &rhs ) noexcept {
+                return lhs.as_pair() == rhs.as_pair();
+            }
+        };
+
+        struct key_t_hash {
+            size_t operator()( const key_t &k ) const {
+                return cata::auto_hash<std::pair<std::string, unsigned char>>()( k.as_pair() );
             }
         };
 
@@ -162,7 +172,7 @@ class CachedTTFFont : public Font
             int          width;
         };
 
-        std::map<key_t, cached_t> glyph_cache_map;
+        std::unordered_map<key_t, cached_t, key_t_hash> glyph_cache_map;
 
         const bool fontblending;
 };
