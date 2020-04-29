@@ -675,19 +675,10 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
             result.mod_charges( -result.charges + new_amt );
             while( result.charges > 0 ) {
                 const item pushed = result.in_its_container();
-                int charges = 0;
-                // get the first contained item (there's only one because of in_its_container())
-                pushed.visit_items( [&charges, &result]( const item * it ) {
-                    if( it == &result ) {
-                        return VisitResponse::NEXT;
-                    }
-                    charges = it->charges;
-                    return VisitResponse::ABORT;
-                } );
-
                 ret.push_back( pushed );
+                // get the first contained item (there's only one because of in_its_container())
                 result.mod_charges( pushed.contents.empty() ? -pushed.charges :
-                                    -charges );
+                                    -pushed.contents.only_item().charges );
             }
         }
     }
