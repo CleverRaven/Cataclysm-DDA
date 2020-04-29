@@ -106,7 +106,6 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -307,7 +306,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -399,7 +397,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -517,7 +514,6 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 1,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SIDEWALK", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_SAFETY", "SOURCE_ANIMALS", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1215,7 +1211,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_ANIMALS", "SOURCE_FARMING" ]
   },
   {
@@ -1501,7 +1496,6 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1522,7 +1516,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1533,7 +1526,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1544,7 +1536,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1555,7 +1546,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1566,7 +1556,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1577,7 +1566,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1588,7 +1576,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1609,7 +1596,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1620,7 +1606,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1631,7 +1616,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1642,7 +1626,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1653,7 +1636,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1664,7 +1646,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1675,7 +1656,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1686,7 +1666,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
@@ -1697,7 +1676,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "mondensity": 2,
-    "place_npcs": [ { "class": "NC_FARMER", "chance": 30 } ],
     "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   }
 ]
