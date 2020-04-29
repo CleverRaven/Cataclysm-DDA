@@ -97,23 +97,6 @@ struct uilist_entry {
 };
 
 /**
- * Virtual base class for windowed ui stuff (like uilist)
- */
-class ui_container // NOLINT(cata-xy)
-{
-    public:
-        virtual ~ui_container() = default;
-
-    public:
-        int w_x;
-        int w_y;
-        int w_width;
-        int w_height;
-        catacurses::window window;
-        virtual void refresh( bool refresh_children = true ) = 0;
-};
-
-/**
  * Generic multi-function callback for highlighted items, key presses, and window control. Example:
  *
  * class monmenu_cb: public uilist_callback {
@@ -165,9 +148,14 @@ class uilist_callback
  * uilist: scrolling vertical list menu
  */
 
-class uilist: public ui_container
+class uilist
 {
     public:
+        int w_x;
+        int w_y;
+        int w_width;
+        int w_height;
+        catacurses::window window;
         int ret;
         std::string ret_act;
         int selected;
@@ -233,7 +221,7 @@ class uilist: public ui_container
         uilist( const point &start, int width, const std::string &msg,
                 std::initializer_list<const char *const> opts );
 
-        ~uilist() override;
+        ~uilist();
 
         void init();
         void setup();
@@ -246,7 +234,7 @@ class uilist: public ui_container
         void query( bool loop = true, int timeout = -1 );
         void filterlist();
         void apply_scrollbar();
-        void refresh( bool refresh_callback = true ) override;
+        void refresh( bool refresh_callback = true );
         void redraw( bool redraw_callback = true );
         void addentry( const std::string &str );
         void addentry( int r, bool e, int k, const std::string &str );
