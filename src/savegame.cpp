@@ -344,9 +344,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         const std::string old = convert.second;
 
         struct convert_nearby {
-            int xoffset;
+            point offset;
             std::string x_id;
-            int yoffset;
             std::string y_id;
             std::string new_id;
         };
@@ -358,26 +357,26 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             old == "apartments_mod_tower_1_entrance" ) {
             const std::string base = old.substr( 0, old.rfind( "1_entrance" ) );
             const std::string other = base + "1";
-            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
-            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
-            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
+            nearby.push_back( { point_north_east, other, other, base + "SW_north" } );
+            nearby.push_back( { point_south_west, other, other, base + "SW_south" } );
+            nearby.push_back( { point_south_east, other, other, base + "SW_east" } );
+            nearby.push_back( { point_north_west, other, other, base + "SW_west" } );
 
         } else if( old == "apartments_con_tower_1" || old == "apartments_mod_tower_1" ) {
             const std::string base = old.substr( 0, old.rfind( '1' ) );
             const std::string entr = base + "1_entrance";
-            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
-            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
-            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
-            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
-            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
-            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
-            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
-            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
-            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
-            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
-            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
-            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+            nearby.push_back( { point_south_east, old, entr, base + "NW_north" } );
+            nearby.push_back( { point_north_west, old, entr, base + "NW_south" } );
+            nearby.push_back( { point_south_west, entr, old, base + "NW_east" } );
+            nearby.push_back( { point_north_east, entr, old, base + "NW_west" } );
+            nearby.push_back( { point_south_west, old, old, base + "NE_north" } );
+            nearby.push_back( { point_north_east, old, old, base + "NE_south" } );
+            nearby.push_back( { point_north_west, old, old, base + "NE_east" } );
+            nearby.push_back( { point_south_east, old, old, base + "NE_west" } );
+            nearby.push_back( { point_north_west, entr, old, base + "SE_north" } );
+            nearby.push_back( { point_south_east, entr, old, base + "SE_south" } );
+            nearby.push_back( { point_north_east, old, entr, base + "SE_east" } );
+            nearby.push_back( { point_south_west, old, entr, base + "SE_west" } );
 
         } else if( old == "subway_station" ) {
             ter_set( pos, oter_id( "underground_sub_station" ) );
@@ -388,75 +387,75 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "public_works_entrance" ) {
             const std::string base = "public_works_";
             const std::string other = "public_works";
-            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
-            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
-            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
+            nearby.push_back( { point_north_east, other, other, base + "SW_north" } );
+            nearby.push_back( { point_south_west, other, other, base + "SW_south" } );
+            nearby.push_back( { point_south_east, other, other, base + "SW_east" } );
+            nearby.push_back( { point_north_west, other, other, base + "SW_west" } );
 
         } else if( old == "public_works" ) {
             const std::string base = "public_works_";
             const std::string entr = "public_works_entrance";
-            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
-            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
-            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
-            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
-            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
-            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
-            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
-            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
-            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
-            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
-            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
-            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+            nearby.push_back( { point_south_east, old, entr, base + "NW_north" } );
+            nearby.push_back( { point_north_west, old, entr, base + "NW_south" } );
+            nearby.push_back( { point_south_west, entr, old, base + "NW_east" } );
+            nearby.push_back( { point_north_east, entr, old, base + "NW_west" } );
+            nearby.push_back( { point_south_west, old, old, base + "NE_north" } );
+            nearby.push_back( { point_north_east, old, old, base + "NE_south" } );
+            nearby.push_back( { point_north_west, old, old, base + "NE_east" } );
+            nearby.push_back( { point_south_east, old, old, base + "NE_west" } );
+            nearby.push_back( { point_north_west, entr, old, base + "SE_north" } );
+            nearby.push_back( { point_south_east, entr, old, base + "SE_south" } );
+            nearby.push_back( { point_north_east, old, entr, base + "SE_east" } );
+            nearby.push_back( { point_south_west, old, entr, base + "SE_west" } );
 
         } else if( old.compare( 0, 7, "school_" ) == 0 ) {
             const std::string school = "school_";
             const std::string school_1 = school + "1_";
             if( old == school + "1" ) {
-                nearby.push_back( { -1, school + "2", 1, school + "4", school_1 + "1_north" } );
-                nearby.push_back( { -1, school + "4", -1, school + "2", school_1 + "1_east" } );
-                nearby.push_back( { 1, school + "2", -1, school + "4", school_1 + "1_south" } );
-                nearby.push_back( { 1, school + "4", 1, school + "2", school_1 + "1_west" } );
+                nearby.push_back( { point_south_west, school + "2", school + "4", school_1 + "1_north" } );
+                nearby.push_back( { point_north_west, school + "4", school + "2", school_1 + "1_east" } );
+                nearby.push_back( { point_north_east, school + "2", school + "4", school_1 + "1_south" } );
+                nearby.push_back( { point_south_east, school + "4", school + "2", school_1 + "1_west" } );
             } else if( old == school + "2" ) {
-                nearby.push_back( { -1, school + "3", 1, school + "5", school_1 + "2_north" } );
-                nearby.push_back( { -1, school + "5", -1, school + "3", school_1 + "2_east" } );
-                nearby.push_back( { 1, school + "3", -1, school + "5", school_1 + "2_south" } );
-                nearby.push_back( { 1, school + "5", 1, school + "3", school_1 + "2_west" } );
+                nearby.push_back( { point_south_west, school + "3", school + "5", school_1 + "2_north" } );
+                nearby.push_back( { point_north_west, school + "5", school + "3", school_1 + "2_east" } );
+                nearby.push_back( { point_north_east, school + "3", school + "5", school_1 + "2_south" } );
+                nearby.push_back( { point_south_east, school + "5", school + "3", school_1 + "2_west" } );
             } else if( old == school + "3" ) {
-                nearby.push_back( { 1, school + "2", 1, school + "6", school_1 + "3_north" } );
-                nearby.push_back( { -1, school + "6", 1, school + "2", school_1 + "3_east" } );
-                nearby.push_back( { -1, school + "2", -1, school + "6", school_1 + "3_south" } );
-                nearby.push_back( { 1, school + "6", -1, school + "2", school_1 + "3_west" } );
+                nearby.push_back( { point_south_east, school + "2", school + "6", school_1 + "3_north" } );
+                nearby.push_back( { point_south_west, school + "6", school + "2", school_1 + "3_east" } );
+                nearby.push_back( { point_north_west, school + "2", school + "6", school_1 + "3_south" } );
+                nearby.push_back( { point_north_east, school + "6", school + "2", school_1 + "3_west" } );
             } else if( old == school + "4" ) {
-                nearby.push_back( { -1, school + "5", 1, school + "7", school_1 + "4_north" } );
-                nearby.push_back( { -1, school + "7", -1, school + "5", school_1 + "4_east" } );
-                nearby.push_back( { 1, school + "5", -1, school + "7", school_1 + "4_south" } );
-                nearby.push_back( { 1, school + "7", 1, school + "5", school_1 + "4_west" } );
+                nearby.push_back( { point_south_west, school + "5", school + "7", school_1 + "4_north" } );
+                nearby.push_back( { point_north_west, school + "7", school + "5", school_1 + "4_east" } );
+                nearby.push_back( { point_north_east, school + "5", school + "7", school_1 + "4_south" } );
+                nearby.push_back( { point_south_east, school + "7", school + "5", school_1 + "4_west" } );
             } else if( old == school + "5" ) {
-                nearby.push_back( { -1, school + "6", 1, school + "8", school_1 + "5_north" } );
-                nearby.push_back( { -1, school + "8", -1, school + "6", school_1 + "5_east" } );
-                nearby.push_back( { 1, school + "6", -1, school + "8", school_1 + "5_south" } );
-                nearby.push_back( { 1, school + "8", 1, school + "6", school_1 + "5_west" } );
+                nearby.push_back( { point_south_west, school + "6", school + "8", school_1 + "5_north" } );
+                nearby.push_back( { point_north_west, school + "8", school + "6", school_1 + "5_east" } );
+                nearby.push_back( { point_north_east, school + "6", school + "8", school_1 + "5_south" } );
+                nearby.push_back( { point_south_east, school + "8", school + "6", school_1 + "5_west" } );
             } else if( old == school + "6" ) {
-                nearby.push_back( { 1, school + "5", 1, school + "9", school_1 + "6_north" } );
-                nearby.push_back( { -1, school + "9", 1, school + "5", school_1 + "6_east" } );
-                nearby.push_back( { -1, school + "5", -1, school + "9", school_1 + "6_south" } );
-                nearby.push_back( { 1, school + "9", -1, school + "5", school_1 + "6_west" } );
+                nearby.push_back( { point_south_east, school + "5", school + "9", school_1 + "6_north" } );
+                nearby.push_back( { point_south_west, school + "9", school + "5", school_1 + "6_east" } );
+                nearby.push_back( { point_north_west, school + "5", school + "9", school_1 + "6_south" } );
+                nearby.push_back( { point_north_east, school + "9", school + "5", school_1 + "6_west" } );
             } else if( old == school + "7" ) {
-                nearby.push_back( { -1, school + "8", -1, school + "4", school_1 + "7_north" } );
-                nearby.push_back( { 1, school + "4", -1, school + "8", school_1 + "7_east" } );
-                nearby.push_back( { 1, school + "8", 1, school + "4", school_1 + "7_south" } );
-                nearby.push_back( { -1, school + "4", 1, school + "8", school_1 + "7_west" } );
+                nearby.push_back( { point_north_west, school + "8", school + "4", school_1 + "7_north" } );
+                nearby.push_back( { point_north_east, school + "4", school + "8", school_1 + "7_east" } );
+                nearby.push_back( { point_south_east, school + "8", school + "4", school_1 + "7_south" } );
+                nearby.push_back( { point_south_west, school + "4", school + "8", school_1 + "7_west" } );
             } else if( old == school + "8" ) {
-                nearby.push_back( { -1, school + "9", -1, school + "5", school_1 + "8_north" } );
-                nearby.push_back( { 1, school + "5", -1, school + "9", school_1 + "8_east" } );
-                nearby.push_back( { 1, school + "9", 1, school + "5", school_1 + "8_south" } );
-                nearby.push_back( { -1, school + "5", 1, school + "9", school_1 + "8_west" } );
+                nearby.push_back( { point_north_west, school + "9", school + "5", school_1 + "8_north" } );
+                nearby.push_back( { point_north_east, school + "5", school + "9", school_1 + "8_east" } );
+                nearby.push_back( { point_south_east, school + "9", school + "5", school_1 + "8_south" } );
+                nearby.push_back( { point_south_west, school + "5", school + "9", school_1 + "8_west" } );
             } else if( old == school + "9" ) {
-                nearby.push_back( { 1, school + "8", -1, school + "6", school_1 + "9_north" } );
-                nearby.push_back( { 1, school + "6", 1, school + "8", school_1 + "9_east" } );
-                nearby.push_back( { -1, school + "8", 1, school + "6", school_1 + "9_south" } );
-                nearby.push_back( { -1, school + "6", -1, school + "8", school_1 + "9_west" } );
+                nearby.push_back( { point_north_east, school + "8", school + "6", school_1 + "9_north" } );
+                nearby.push_back( { point_south_east, school + "6", school + "8", school_1 + "9_east" } );
+                nearby.push_back( { point_south_west, school + "8", school + "6", school_1 + "9_south" } );
+                nearby.push_back( { point_north_west, school + "6", school + "8", school_1 + "9_west" } );
             }
 
         } else if( old.compare( 0, 7, "prison_" ) == 0 ) {
@@ -466,60 +465,60 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 ter_set( pos, oter_id( "prison_1_b_2_north" ) );
             } else if( old == "prison_b" ) {
                 if( pos.z < 0 ) {
-                    nearby.push_back( { -1, "prison_b_entrance",  1, "prison_b",          "prison_1_b_1_north" } );
-                    nearby.push_back( {  1, "prison_b_entrance",  1, "prison_b",          "prison_1_b_3_north" } );
-                    nearby.push_back( { -2, "prison_b",           1, "prison_b",          "prison_1_b_4_north" } );
-                    nearby.push_back( {  0, "prison_b",          -1, "prison_b_entrance", "prison_1_b_5_north" } );
-                    nearby.push_back( {  2, "prison_b",           1, "prison_b",          "prison_1_b_6_north" } );
-                    nearby.push_back( { -2, "prison_b",          -2, "prison_b",          "prison_1_b_7_north" } );
-                    nearby.push_back( {  0, "prison_b",          -2, "prison_b_entrance", "prison_1_b_8_north" } );
-                    nearby.push_back( {  2, "prison_b",          -2, "prison_b",          "prison_1_b_9_north" } );
+                    nearby.push_back( { point_south_west, "prison_b_entrance", "prison_b",          "prison_1_b_1_north" } );
+                    nearby.push_back( { point_south_east, "prison_b_entrance", "prison_b",          "prison_1_b_3_north" } );
+                    nearby.push_back( { point( -2, 1 ), "prison_b", "prison_b",          "prison_1_b_4_north" } );
+                    nearby.push_back( { point_north, "prison_b", "prison_b_entrance", "prison_1_b_5_north" } );
+                    nearby.push_back( { point( 2, 1 ), "prison_b", "prison_b",          "prison_1_b_6_north" } );
+                    nearby.push_back( { point( -2, -2 ), "prison_b", "prison_b",          "prison_1_b_7_north" } );
+                    nearby.push_back( { point( 0, -2 ), "prison_b", "prison_b_entrance", "prison_1_b_8_north" } );
+                    nearby.push_back( { point( 2, -2 ), "prison_b", "prison_b",          "prison_1_b_9_north" } );
                 }
             } else if( old == prison + "1" ) {
-                nearby.push_back( { -1, prison + "2", 1, prison + "4", prison_1 + "1_north" } );
-                nearby.push_back( { -1, prison + "4", -1, prison + "2", prison_1 + "1_east" } );
-                nearby.push_back( { 1, prison + "2", -1, prison + "4", prison_1 + "1_south" } );
-                nearby.push_back( { 1, prison + "4", 1, prison + "2", prison_1 + "1_west" } );
+                nearby.push_back( { point_south_west, prison + "2", prison + "4", prison_1 + "1_north" } );
+                nearby.push_back( { point_north_west, prison + "4", prison + "2", prison_1 + "1_east" } );
+                nearby.push_back( { point_north_east, prison + "2", prison + "4", prison_1 + "1_south" } );
+                nearby.push_back( { point_south_east, prison + "4", prison + "2", prison_1 + "1_west" } );
             } else if( old == prison + "2" ) {
-                nearby.push_back( { -1, prison + "3", 1, prison + "5", prison_1 + "2_north" } );
-                nearby.push_back( { -1, prison + "5", -1, prison + "3", prison_1 + "2_east" } );
-                nearby.push_back( { 1, prison + "3", -1, prison + "5", prison_1 + "2_south" } );
-                nearby.push_back( { 1, prison + "5", 1, prison + "3", prison_1 + "2_west" } );
+                nearby.push_back( { point_south_west, prison + "3", prison + "5", prison_1 + "2_north" } );
+                nearby.push_back( { point_north_west, prison + "5", prison + "3", prison_1 + "2_east" } );
+                nearby.push_back( { point_north_east, prison + "3", prison + "5", prison_1 + "2_south" } );
+                nearby.push_back( { point_south_east, prison + "5", prison + "3", prison_1 + "2_west" } );
             } else if( old == prison + "3" ) {
-                nearby.push_back( { 1, prison + "2", 1, prison + "6", prison_1 + "3_north" } );
-                nearby.push_back( { -1, prison + "6", 1, prison + "2", prison_1 + "3_east" } );
-                nearby.push_back( { -1, prison + "2", -1, prison + "6", prison_1 + "3_south" } );
-                nearby.push_back( { 1, prison + "6", -1, prison + "2", prison_1 + "3_west" } );
+                nearby.push_back( { point_south_east, prison + "2", prison + "6", prison_1 + "3_north" } );
+                nearby.push_back( { point_south_west, prison + "6", prison + "2", prison_1 + "3_east" } );
+                nearby.push_back( { point_north_west, prison + "2", prison + "6", prison_1 + "3_south" } );
+                nearby.push_back( { point_north_east, prison + "6", prison + "2", prison_1 + "3_west" } );
             } else if( old == prison + "4" ) {
-                nearby.push_back( { -1, prison + "5", 1, prison + "7", prison_1 + "4_north" } );
-                nearby.push_back( { -1, prison + "7", -1, prison + "5", prison_1 + "4_east" } );
-                nearby.push_back( { 1, prison + "5", -1, prison + "7", prison_1 + "4_south" } );
-                nearby.push_back( { 1, prison + "7", 1, prison + "5", prison_1 + "4_west" } );
+                nearby.push_back( { point_south_west, prison + "5", prison + "7", prison_1 + "4_north" } );
+                nearby.push_back( { point_north_west, prison + "7", prison + "5", prison_1 + "4_east" } );
+                nearby.push_back( { point_north_east, prison + "5", prison + "7", prison_1 + "4_south" } );
+                nearby.push_back( { point_south_east, prison + "7", prison + "5", prison_1 + "4_west" } );
             } else if( old == prison + "5" ) {
-                nearby.push_back( { -1, prison + "6", 1, prison + "8", prison_1 + "5_north" } );
-                nearby.push_back( { -1, prison + "8", -1, prison + "6", prison_1 + "5_east" } );
-                nearby.push_back( { 1, prison + "6", -1, prison + "8", prison_1 + "5_south" } );
-                nearby.push_back( { 1, prison + "8", 1, prison + "6", prison_1 + "5_west" } );
+                nearby.push_back( { point_south_west, prison + "6", prison + "8", prison_1 + "5_north" } );
+                nearby.push_back( { point_north_west, prison + "8", prison + "6", prison_1 + "5_east" } );
+                nearby.push_back( { point_north_east, prison + "6", prison + "8", prison_1 + "5_south" } );
+                nearby.push_back( { point_south_east, prison + "8", prison + "6", prison_1 + "5_west" } );
             } else if( old == prison + "6" ) {
-                nearby.push_back( { 1, prison + "5", 1, prison + "9", prison_1 + "6_north" } );
-                nearby.push_back( { -1, prison + "9", 1, prison + "5", prison_1 + "6_east" } );
-                nearby.push_back( { -1, prison + "5", -1, prison + "9", prison_1 + "6_south" } );
-                nearby.push_back( { 1, prison + "9", -1, prison + "5", prison_1 + "6_west" } );
+                nearby.push_back( { point_south_east, prison + "5", prison + "9", prison_1 + "6_north" } );
+                nearby.push_back( { point_south_west, prison + "9", prison + "5", prison_1 + "6_east" } );
+                nearby.push_back( { point_north_west, prison + "5", prison + "9", prison_1 + "6_south" } );
+                nearby.push_back( { point_north_east, prison + "9", prison + "5", prison_1 + "6_west" } );
             } else if( old == prison + "7" ) {
-                nearby.push_back( { -1, prison + "8", -1, prison + "4", prison_1 + "7_north" } );
-                nearby.push_back( { 1, prison + "4", -1, prison + "8", prison_1 + "7_east" } );
-                nearby.push_back( { 1, prison + "8", 1, prison + "4", prison_1 + "7_south" } );
-                nearby.push_back( { -1, prison + "4", 1, prison + "8", prison_1 + "7_west" } );
+                nearby.push_back( { point_north_west, prison + "8", prison + "4", prison_1 + "7_north" } );
+                nearby.push_back( { point_north_east, prison + "4", prison + "8", prison_1 + "7_east" } );
+                nearby.push_back( { point_south_east, prison + "8", prison + "4", prison_1 + "7_south" } );
+                nearby.push_back( { point_south_west, prison + "4", prison + "8", prison_1 + "7_west" } );
             } else if( old == prison + "8" ) {
-                nearby.push_back( { -1, prison + "9", -1, prison + "5", prison_1 + "8_north" } );
-                nearby.push_back( { 1, prison + "5", -1, prison + "9", prison_1 + "8_east" } );
-                nearby.push_back( { 1, prison + "9", 1, prison + "5", prison_1 + "8_south" } );
-                nearby.push_back( { -1, prison + "5", 1, prison + "9", prison_1 + "8_west" } );
+                nearby.push_back( { point_north_west, prison + "9", prison + "5", prison_1 + "8_north" } );
+                nearby.push_back( { point_north_east, prison + "5", prison + "9", prison_1 + "8_east" } );
+                nearby.push_back( { point_south_east, prison + "9", prison + "5", prison_1 + "8_south" } );
+                nearby.push_back( { point_south_west, prison + "5", prison + "9", prison_1 + "8_west" } );
             } else if( old == prison + "9" ) {
-                nearby.push_back( { 1, prison + "8", -1, prison + "6", prison_1 + "9_north" } );
-                nearby.push_back( { 1, prison + "6", 1, prison + "8", prison_1 + "9_east" } );
-                nearby.push_back( { -1, prison + "8", 1, prison + "6", prison_1 + "9_south" } );
-                nearby.push_back( { -1, prison + "6", -1, prison + "8", prison_1 + "9_west" } );
+                nearby.push_back( { point_north_east, prison + "8", prison + "6", prison_1 + "9_north" } );
+                nearby.push_back( { point_south_east, prison + "6", prison + "8", prison_1 + "9_east" } );
+                nearby.push_back( { point_south_west, prison + "8", prison + "6", prison_1 + "9_south" } );
+                nearby.push_back( { point_north_west, prison + "6", prison + "8", prison_1 + "9_west" } );
             }
 
         } else if( old.compare( 0, 8, "hospital" ) == 0 ) {
@@ -528,14 +527,14 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             if( old == hospital_entrance ) {
                 ter_set( pos, oter_id( hospital + "_2_north" ) );
             } else if( old == hospital ) {
-                nearby.push_back( { -1, hospital_entrance,  1, hospital,          hospital + "_1_north" } );
-                nearby.push_back( {  1, hospital_entrance,  1, hospital,          hospital + "_3_north" } );
-                nearby.push_back( { -2, hospital,           1, hospital,          hospital + "_4_north" } );
-                nearby.push_back( {  0, hospital,          -1, hospital_entrance, hospital + "_5_north" } );
-                nearby.push_back( {  2, hospital,           1, hospital,          hospital + "_6_north" } );
-                nearby.push_back( { -2, hospital,          -2, hospital,          hospital + "_7_north" } );
-                nearby.push_back( {  0, hospital,          -2, hospital_entrance, hospital + "_8_north" } );
-                nearby.push_back( {  2, hospital,          -2, hospital,          hospital + "_9_north" } );
+                nearby.push_back( { point_south_west, hospital_entrance, hospital,          hospital + "_1_north" } );
+                nearby.push_back( { point_south_east, hospital_entrance, hospital,          hospital + "_3_north" } );
+                nearby.push_back( { point( -2, 1 ), hospital, hospital,          hospital + "_4_north" } );
+                nearby.push_back( { point_north, hospital, hospital_entrance, hospital + "_5_north" } );
+                nearby.push_back( { point( 2, 1 ), hospital, hospital,          hospital + "_6_north" } );
+                nearby.push_back( { point( -2, -2 ), hospital, hospital,          hospital + "_7_north" } );
+                nearby.push_back( { point( 0, -2 ), hospital, hospital_entrance, hospital + "_8_north" } );
+                nearby.push_back( { point( 2, -2 ), hospital, hospital,          hospital + "_9_north" } );
             }
 
         } else if( old == "sewage_treatment" ) {
@@ -550,15 +549,15 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "sewage_treatment_under" ) {
             const std::string base = "sewage_treatment_under";
             const std::string hub = "sewage_treatment_hub";
-            nearby.push_back( { -1, hub,   0, base, "sewage_treatment_1_1_-1_north" } );
-            nearby.push_back( { -1, base,  1, hub,  "sewage_treatment_0_0_-1_north" } );
-            nearby.push_back( { -1, base,  1, base, "sewage_treatment_1_0_-1_north" } );
+            nearby.push_back( { point_west, hub, base, "sewage_treatment_1_1_-1_north" } );
+            nearby.push_back( { point_south_west, base, hub,  "sewage_treatment_0_0_-1_north" } );
+            nearby.push_back( { point_south_west, base, base, "sewage_treatment_1_0_-1_north" } );
             // Fill empty space with something other than drivethrus.
-            nearby.push_back( { 1,  hub,   0, base, "empty_rock" } );
-            nearby.push_back( { 1,  base,  0, base, "empty_rock" } );
-            nearby.push_back( { -1, base, -1, base, "empty_rock" } );
-            nearby.push_back( { 0,  base, -1, base, "empty_rock" } );
-            nearby.push_back( { 1,  base, -1, base, "empty_rock" } );
+            nearby.push_back( { point_east, hub, base, "empty_rock" } );
+            nearby.push_back( { point_east, base, base, "empty_rock" } );
+            nearby.push_back( { point_north_west, base, base, "empty_rock" } );
+            nearby.push_back( { point_north, base, base, "empty_rock" } );
+            nearby.push_back( { point_north_east, base, base, "empty_rock" } );
         } else if( old == "sewage_treatment_hub" ) {
             ter_set( pos, oter_id( "sewage_treatment_0_1_-1_north" ) );
             convert_unrelated_adjacent_tiles.push_back( { tripoint( 2, 0, 0 ), "sewage_treatment_2_1_-1_north" } );
@@ -566,117 +565,117 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "cathedral_1_entrance" ) {
             const std::string base = "cathedral_1_";
             const std::string other = "cathedral_1";
-            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
-            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
-            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
+            nearby.push_back( { point_north_east, other, other, base + "SW_north" } );
+            nearby.push_back( { point_south_west, other, other, base + "SW_south" } );
+            nearby.push_back( { point_south_east, other, other, base + "SW_east" } );
+            nearby.push_back( { point_north_west, other, other, base + "SW_west" } );
 
         } else if( old == "cathedral_1" ) {
             const std::string base = "cathedral_1_";
             const std::string entr = "cathedral_1_entrance";
-            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
-            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
-            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
-            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
-            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
-            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
-            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
-            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
-            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
-            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
-            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
-            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+            nearby.push_back( { point_south_east, old, entr, base + "NW_north" } );
+            nearby.push_back( { point_north_west, old, entr, base + "NW_south" } );
+            nearby.push_back( { point_south_west, entr, old, base + "NW_east" } );
+            nearby.push_back( { point_north_east, entr, old, base + "NW_west" } );
+            nearby.push_back( { point_south_west, old, old, base + "NE_north" } );
+            nearby.push_back( { point_north_east, old, old, base + "NE_south" } );
+            nearby.push_back( { point_north_west, old, old, base + "NE_east" } );
+            nearby.push_back( { point_south_east, old, old, base + "NE_west" } );
+            nearby.push_back( { point_north_west, entr, old, base + "SE_north" } );
+            nearby.push_back( { point_south_east, entr, old, base + "SE_south" } );
+            nearby.push_back( { point_north_east, old, entr, base + "SE_east" } );
+            nearby.push_back( { point_south_west, old, entr, base + "SE_west" } );
 
         } else if( old == "cathedral_b_entrance" ) {
             const std::string base = "cathedral_b_";
             const std::string other = "cathedral_b";
-            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
-            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
-            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
+            nearby.push_back( { point_north_east, other, other, base + "SW_north" } );
+            nearby.push_back( { point_south_west, other, other, base + "SW_south" } );
+            nearby.push_back( { point_south_east, other, other, base + "SW_east" } );
+            nearby.push_back( { point_north_west, other, other, base + "SW_west" } );
 
         } else if( old == "cathedral_b" ) {
             const std::string base = "cathedral_b_";
             const std::string entr = "cathedral_b_entrance";
-            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
-            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
-            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
-            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
-            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
-            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
-            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
-            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
-            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
-            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
-            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
-            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+            nearby.push_back( { point_south_east, old, entr, base + "NW_north" } );
+            nearby.push_back( { point_north_west, old, entr, base + "NW_south" } );
+            nearby.push_back( { point_south_west, entr, old, base + "NW_east" } );
+            nearby.push_back( { point_north_east, entr, old, base + "NW_west" } );
+            nearby.push_back( { point_south_west, old, old, base + "NE_north" } );
+            nearby.push_back( { point_north_east, old, old, base + "NE_south" } );
+            nearby.push_back( { point_north_west, old, old, base + "NE_east" } );
+            nearby.push_back( { point_south_east, old, old, base + "NE_west" } );
+            nearby.push_back( { point_north_west, entr, old, base + "SE_north" } );
+            nearby.push_back( { point_south_east, entr, old, base + "SE_south" } );
+            nearby.push_back( { point_north_east, old, entr, base + "SE_east" } );
+            nearby.push_back( { point_south_west, old, entr, base + "SE_west" } );
 
         } else if( old.compare( 0, 14, "hotel_tower_1_" ) == 0 ) {
             const std::string hotel = "hotel_tower_1_";
             if( old == hotel + "1" ) {
-                nearby.push_back( { -1, hotel + "2", 1, hotel + "4", hotel + "1_north" } );
-                nearby.push_back( { -1, hotel + "4", -1, hotel + "2", hotel + "1_east" } );
-                nearby.push_back( { 1, hotel + "2", -1, hotel + "4", hotel + "1_south" } );
-                nearby.push_back( { 1, hotel + "4", 1, hotel + "2", hotel + "1_west" } );
+                nearby.push_back( { point_south_west, hotel + "2", hotel + "4", hotel + "1_north" } );
+                nearby.push_back( { point_north_west, hotel + "4", hotel + "2", hotel + "1_east" } );
+                nearby.push_back( { point_north_east, hotel + "2", hotel + "4", hotel + "1_south" } );
+                nearby.push_back( { point_south_east, hotel + "4", hotel + "2", hotel + "1_west" } );
             } else if( old == hotel + "2" ) {
-                nearby.push_back( { -1, hotel + "3", 1, hotel + "5", hotel + "2_north" } );
-                nearby.push_back( { -1, hotel + "5", -1, hotel + "3", hotel + "2_east" } );
-                nearby.push_back( { 1, hotel + "3", -1, hotel + "5", hotel + "2_south" } );
-                nearby.push_back( { 1, hotel + "5", 1, hotel + "3", hotel + "2_west" } );
+                nearby.push_back( { point_south_west, hotel + "3", hotel + "5", hotel + "2_north" } );
+                nearby.push_back( { point_north_west, hotel + "5", hotel + "3", hotel + "2_east" } );
+                nearby.push_back( { point_north_east, hotel + "3", hotel + "5", hotel + "2_south" } );
+                nearby.push_back( { point_south_east, hotel + "5", hotel + "3", hotel + "2_west" } );
             } else if( old == hotel + "3" ) {
-                nearby.push_back( { 1, hotel + "2", 1, hotel + "6", hotel + "3_north" } );
-                nearby.push_back( { -1, hotel + "6", 1, hotel + "2", hotel + "3_east" } );
-                nearby.push_back( { -1, hotel + "2", -1, hotel + "6", hotel + "3_south" } );
-                nearby.push_back( { 1, hotel + "6", -1, hotel + "2", hotel + "3_west" } );
+                nearby.push_back( { point_south_east, hotel + "2", hotel + "6", hotel + "3_north" } );
+                nearby.push_back( { point_south_west, hotel + "6", hotel + "2", hotel + "3_east" } );
+                nearby.push_back( { point_north_west, hotel + "2", hotel + "6", hotel + "3_south" } );
+                nearby.push_back( { point_north_east, hotel + "6", hotel + "2", hotel + "3_west" } );
             } else if( old == hotel + "4" ) {
-                nearby.push_back( { -1, hotel + "5", 1, hotel + "7", hotel + "4_north" } );
-                nearby.push_back( { -1, hotel + "7", -1, hotel + "5", hotel + "4_east" } );
-                nearby.push_back( { 1, hotel + "5", -1, hotel + "7", hotel + "4_south" } );
-                nearby.push_back( { 1, hotel + "7", 1, hotel + "5", hotel + "4_west" } );
+                nearby.push_back( { point_south_west, hotel + "5", hotel + "7", hotel + "4_north" } );
+                nearby.push_back( { point_north_west, hotel + "7", hotel + "5", hotel + "4_east" } );
+                nearby.push_back( { point_north_east, hotel + "5", hotel + "7", hotel + "4_south" } );
+                nearby.push_back( { point_south_east, hotel + "7", hotel + "5", hotel + "4_west" } );
             } else if( old == hotel + "5" ) {
-                nearby.push_back( { -1, hotel + "6", 1, hotel + "8", hotel + "5_north" } );
-                nearby.push_back( { -1, hotel + "8", -1, hotel + "6", hotel + "5_east" } );
-                nearby.push_back( { 1, hotel + "6", -1, hotel + "8", hotel + "5_south" } );
-                nearby.push_back( { 1, hotel + "8", 1, hotel + "6", hotel + "5_west" } );
+                nearby.push_back( { point_south_west, hotel + "6", hotel + "8", hotel + "5_north" } );
+                nearby.push_back( { point_north_west, hotel + "8", hotel + "6", hotel + "5_east" } );
+                nearby.push_back( { point_north_east, hotel + "6", hotel + "8", hotel + "5_south" } );
+                nearby.push_back( { point_south_east, hotel + "8", hotel + "6", hotel + "5_west" } );
             } else if( old == hotel + "6" ) {
-                nearby.push_back( { 1, hotel + "5", 1, hotel + "9", hotel + "6_north" } );
-                nearby.push_back( { -1, hotel + "9", 1, hotel + "5", hotel + "6_east" } );
-                nearby.push_back( { -1, hotel + "5", -1, hotel + "9", hotel + "6_south" } );
-                nearby.push_back( { 1, hotel + "9", -1, hotel + "5", hotel + "6_west" } );
+                nearby.push_back( { point_south_east, hotel + "5", hotel + "9", hotel + "6_north" } );
+                nearby.push_back( { point_south_west, hotel + "9", hotel + "5", hotel + "6_east" } );
+                nearby.push_back( { point_north_west, hotel + "5", hotel + "9", hotel + "6_south" } );
+                nearby.push_back( { point_north_east, hotel + "9", hotel + "5", hotel + "6_west" } );
             } else if( old == hotel + "7" ) {
-                nearby.push_back( { -1, hotel + "8", -1, hotel + "4", hotel + "7_north" } );
-                nearby.push_back( { 1, hotel + "4", -1, hotel + "8", hotel + "7_east" } );
-                nearby.push_back( { 1, hotel + "8", 1, hotel + "4", hotel + "7_south" } );
-                nearby.push_back( { -1, hotel + "4", 1, hotel + "8", hotel + "7_west" } );
+                nearby.push_back( { point_north_west, hotel + "8", hotel + "4", hotel + "7_north" } );
+                nearby.push_back( { point_north_east, hotel + "4", hotel + "8", hotel + "7_east" } );
+                nearby.push_back( { point_south_east, hotel + "8", hotel + "4", hotel + "7_south" } );
+                nearby.push_back( { point_south_west, hotel + "4", hotel + "8", hotel + "7_west" } );
             } else if( old == hotel + "8" ) {
-                nearby.push_back( { -1, hotel + "9", -1, hotel + "5", hotel + "8_north" } );
-                nearby.push_back( { 1, hotel + "5", -1, hotel + "9", hotel + "8_east" } );
-                nearby.push_back( { 1, hotel + "9", 1, hotel + "5", hotel + "8_south" } );
-                nearby.push_back( { -1, hotel + "5", 1, hotel + "9", hotel + "8_west" } );
+                nearby.push_back( { point_north_west, hotel + "9", hotel + "5", hotel + "8_north" } );
+                nearby.push_back( { point_north_east, hotel + "5", hotel + "9", hotel + "8_east" } );
+                nearby.push_back( { point_south_east, hotel + "9", hotel + "5", hotel + "8_south" } );
+                nearby.push_back( { point_south_west, hotel + "5", hotel + "9", hotel + "8_west" } );
             } else if( old == hotel + "9" ) {
-                nearby.push_back( { 1, hotel + "8", -1, hotel + "6", hotel + "9_north" } );
-                nearby.push_back( { 1, hotel + "6", 1, hotel + "8", hotel + "9_east" } );
-                nearby.push_back( { -1, hotel + "8", 1, hotel + "6", hotel + "9_south" } );
-                nearby.push_back( { -1, hotel + "6", -1, hotel + "8", hotel + "9_west" } );
+                nearby.push_back( { point_north_east, hotel + "8", hotel + "6", hotel + "9_north" } );
+                nearby.push_back( { point_south_east, hotel + "6", hotel + "8", hotel + "9_east" } );
+                nearby.push_back( { point_south_west, hotel + "8", hotel + "6", hotel + "9_south" } );
+                nearby.push_back( { point_north_west, hotel + "6", hotel + "8", hotel + "9_west" } );
             }
 
         } else if( old.compare( 0, 14, "hotel_tower_b_" ) == 0 ) {
             const std::string hotelb = "hotel_tower_b_";
             if( old == hotelb + "1" ) {
-                nearby.push_back( { -1, hotelb + "2", 0, hotelb + "1", hotelb + "1_north" } );
-                nearby.push_back( { 0, hotelb + "1", -1, hotelb + "2", hotelb + "1_east" } );
-                nearby.push_back( { 1, hotelb + "2", 0, hotelb + "1", hotelb + "1_south" } );
-                nearby.push_back( { 0, hotelb + "1", 1, hotelb + "2", hotelb + "1_west" } );
+                nearby.push_back( { point_west, hotelb + "2", hotelb + "1", hotelb + "1_north" } );
+                nearby.push_back( { point_north, hotelb + "1", hotelb + "2", hotelb + "1_east" } );
+                nearby.push_back( { point_east, hotelb + "2", hotelb + "1", hotelb + "1_south" } );
+                nearby.push_back( { point_south, hotelb + "1", hotelb + "2", hotelb + "1_west" } );
             } else if( old == hotelb + "2" ) {
-                nearby.push_back( { -1, hotelb + "3", 0, hotelb + "2", hotelb + "2_north" } );
-                nearby.push_back( { 0, hotelb + "2", -1, hotelb + "3", hotelb + "2_east" } );
-                nearby.push_back( { 1, hotelb + "3", 0, hotelb + "2", hotelb + "2_south" } );
-                nearby.push_back( { 0, hotelb + "2", 1, hotelb + "3", hotelb + "2_west" } );
+                nearby.push_back( { point_west, hotelb + "3", hotelb + "2", hotelb + "2_north" } );
+                nearby.push_back( { point_north, hotelb + "2", hotelb + "3", hotelb + "2_east" } );
+                nearby.push_back( { point_east, hotelb + "3", hotelb + "2", hotelb + "2_south" } );
+                nearby.push_back( { point_south, hotelb + "2", hotelb + "3", hotelb + "2_west" } );
             } else if( old == hotelb + "3" ) {
-                nearby.push_back( { 1, hotelb + "2", 0, hotelb + "3", hotelb + "3_north" } );
-                nearby.push_back( { 0, hotelb + "3", 1, hotelb + "2", hotelb + "3_east" } );
-                nearby.push_back( { -1, hotelb + "2", 0, hotelb + "3", hotelb + "3_south" } );
-                nearby.push_back( { 0, hotelb + "3", -1, hotelb + "2", hotelb + "3_west" } );
+                nearby.push_back( { point_east, hotelb + "2", hotelb + "3", hotelb + "3_north" } );
+                nearby.push_back( { point_south, hotelb + "3", hotelb + "2", hotelb + "3_east" } );
+                nearby.push_back( { point_west, hotelb + "2", hotelb + "3", hotelb + "3_south" } );
+                nearby.push_back( { point_north, hotelb + "3", hotelb + "2", hotelb + "3_west" } );
             }
         } else if( old == "bunker" ) {
             if( pos.z < 0 ) {
@@ -695,26 +694,26 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             ter_set( pos, oter_id( "farm_2_north" ) );
 
         } else if( old == "farm_field" ) {
-            nearby.push_back( { -1, "farm",        1, "farm_field", "farm_1_north" } );
-            nearby.push_back( {  1, "farm",        1, "farm_field", "farm_3_north" } );
-            nearby.push_back( { -2, "farm_field",  1, "farm_field", "farm_4_north" } );
-            nearby.push_back( {  0, "farm_field", -1, "farm",       "farm_5_north" } );
-            nearby.push_back( {  2, "farm_field",  1, "farm_field", "farm_6_north" } );
-            nearby.push_back( { -2, "farm_field", -2, "farm_field", "farm_7_north" } );
-            nearby.push_back( {  0, "farm_field", -2, "farm",       "farm_8_north" } );
-            nearby.push_back( {  2, "farm_field", -2, "farm_field", "farm_9_north" } );
+            nearby.push_back( { point_south_west, "farm", "farm_field", "farm_1_north" } );
+            nearby.push_back( { point_south_east, "farm", "farm_field", "farm_3_north" } );
+            nearby.push_back( { point( -2, 1 ), "farm_field", "farm_field", "farm_4_north" } );
+            nearby.push_back( { point_north, "farm_field", "farm",       "farm_5_north" } );
+            nearby.push_back( { point( 2, 1 ), "farm_field", "farm_field", "farm_6_north" } );
+            nearby.push_back( { point( -2, -2 ), "farm_field", "farm_field", "farm_7_north" } );
+            nearby.push_back( { point( 0, -2 ), "farm_field", "farm",       "farm_8_north" } );
+            nearby.push_back( { point( 2, -2 ), "farm_field", "farm_field", "farm_9_north" } );
         } else if( old.compare( 0, 7, "mansion" ) == 0 ) {
             if( old == "mansion_entrance" ) {
                 ter_set( pos, oter_id( "mansion_e1_north" ) );
             } else if( old == "mansion" ) {
-                nearby.push_back( { -1, "mansion_entrance",  1, "mansion",          "mansion_c1_east" } );
-                nearby.push_back( {  1, "mansion_entrance",  1, "mansion",          "mansion_c3_north" } );
-                nearby.push_back( { -2, "mansion",           1, "mansion",          "mansion_t2_west" } );
-                nearby.push_back( {  0, "mansion",          -1, "mansion_entrance", "mansion_+4_north" } );
-                nearby.push_back( {  2, "mansion",           1, "mansion",          "mansion_t4_east" } );
-                nearby.push_back( { -2, "mansion",          -2, "mansion",          "mansion_c4_south" } );
-                nearby.push_back( {  0, "mansion",          -2, "mansion_entrance", "mansion_t2_north" } );
-                nearby.push_back( {  2, "mansion",          -2, "mansion",          "mansion_c2_west" } );
+                nearby.push_back( { point_south_west, "mansion_entrance", "mansion",          "mansion_c1_east" } );
+                nearby.push_back( { point_south_east, "mansion_entrance", "mansion",          "mansion_c3_north" } );
+                nearby.push_back( { point( -2, 1 ), "mansion", "mansion",          "mansion_t2_west" } );
+                nearby.push_back( { point_north, "mansion", "mansion_entrance", "mansion_+4_north" } );
+                nearby.push_back( { point( 2, 1 ), "mansion", "mansion",          "mansion_t4_east" } );
+                nearby.push_back( { point( -2, -2 ), "mansion", "mansion",          "mansion_c4_south" } );
+                nearby.push_back( { point( 0, -2 ), "mansion", "mansion_entrance", "mansion_t2_north" } );
+                nearby.push_back( { point( 2, -2 ), "mansion", "mansion",          "mansion_c2_west" } );
             }
 
             // Migrate terrains with NO_ROTATE flag to rotatable
@@ -870,8 +869,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         }
 
         for( const auto &conv : nearby ) {
-            const auto x_it = needs_conversion.find( pos + point( conv.xoffset, 0 ) );
-            const auto y_it = needs_conversion.find( pos + point( 0, conv.yoffset ) );
+            const auto x_it = needs_conversion.find( pos + point( conv.offset.x, 0 ) );
+            const auto y_it = needs_conversion.find( pos + point( 0, conv.offset.y ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
                 y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
                 ter_set( pos, oter_id( conv.new_id ) );

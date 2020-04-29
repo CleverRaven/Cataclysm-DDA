@@ -4,6 +4,8 @@
 
 #include <map>
 
+#include "point.h"
+
 namespace catacurses
 {
 class window;
@@ -14,14 +16,10 @@ class minesweeper_game
     private:
         bool check_win();
         void new_level( const catacurses::window &w_minesweeper );
-        int iMaxX = 0;
-        int iMaxY = 0;
-        int iMinX = 0;
-        int iMinY = 0;
-        int iLevelX = 0;
-        int iLevelY = 0;
-        int iOffsetX = 0;
-        int iOffsetY = 0;
+        point max;
+        point min;
+        point level;
+        point offset;
         int iBombs = 0;
 
         std::map<int, std::map<int, int> > mLevel;
