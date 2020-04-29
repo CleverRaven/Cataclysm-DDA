@@ -411,8 +411,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "18 L",
         "max_contains_weight": "30 kg",
-        "moves": 300,
-        "flag_restriction": [ "SHEATH_GOLF" ]
+        "moves": 300
       }
     ],
     "warmth": 5,
