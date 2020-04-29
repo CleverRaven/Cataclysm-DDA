@@ -107,8 +107,11 @@ struct uilist_entry {
  *       game_z[num]->dead = true;
  *     }
  *   }
- *   void select(int num, uilist * menu) {
- *       mvwprintz(menu->window, 0, 0, c_red, "( %s )",game_z[num]->name() );
+ *   void refresh( uilist *menu ) {
+ *       if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < game_z.size() ) {
+ *           mvwprintz( menu->window, 0, 0, c_red, "( %s )",game_z[menu->selected]->name() );
+ *           wrefresh( menu->window );
+ *       }
  *   }
  * }
  * uilist monmenu;
@@ -280,7 +283,6 @@ class pointmenu_cb : public uilist_callback
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );
         ~pointmenu_cb() override = default;
-        void select( int num, uilist *menu ) override;
         void refresh( uilist *menu ) override;
 };
 

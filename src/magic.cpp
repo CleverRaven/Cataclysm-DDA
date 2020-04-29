@@ -1518,7 +1518,7 @@ class spellcasting_callback : public uilist_callback
             return false;
         }
 
-        void select( int entnum, uilist *menu ) override {
+        void refresh( uilist *menu ) override {
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, 0 ), c_magenta, LINE_OXXX );
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, menu->w_height - 1 ), c_magenta,
                       LINE_XXOX );
@@ -1532,7 +1532,10 @@ class spellcasting_callback : public uilist_callback
             const std::string assign_letter = _( "Assign Hotkey [=]" );
             mvwprintz( menu->window, point( menu->w_width - assign_letter.length() - 1, 0 ), c_yellow,
                        assign_letter );
-            draw_spell_info( *known_spells[entnum], menu );
+            if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
+                draw_spell_info( *known_spells[menu->selected], menu );
+            }
+            wrefresh( menu->window );
         }
 };
 
@@ -1957,14 +1960,17 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 }
 
-void spellbook_callback::select( int entnum, uilist *menu )
+void spellbook_callback::refresh( uilist *menu )
 {
     mvwputch( menu->window, point( menu->pad_left, 0 ), c_magenta, LINE_OXXX );
     mvwputch( menu->window, point( menu->pad_left, menu->w_height - 1 ), c_magenta, LINE_XXOX );
     for( int i = 1; i < menu->w_height - 1; i++ ) {
         mvwputch( menu->window, point( menu->pad_left, i ), c_magenta, LINE_XOXO );
     }
-    draw_spellbook_info( spells[entnum], menu );
+    if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
+        draw_spellbook_info( spells[menu->selected], menu );
+    }
+    wrefresh( menu->window );
 }
 
 void fake_spell::load( const JsonObject &jo )
