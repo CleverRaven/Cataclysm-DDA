@@ -89,17 +89,20 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( magazine_type );
     REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
 
-    item &gun = dummy.i_add( item( "glock_19", 0, item::default_charges_tag{} ) );
-    REQUIRE( gun.ammo_types().count( ammo_type->type ) != 0 );
-
+    item gun( "glock_19" );
     gun.put_in( mag, item_pocket::pocket_type::MAGAZINE );
+    REQUIRE( gun.magazine_current() != nullptr );
+    REQUIRE( gun.ammo_types().count( ammo_type->type ) != 0 );
+    dummy.i_add( gun );
+
     const std::vector<item *> guns = dummy.items_with( []( const item & it ) {
         return it.typeId() == "glock_19";
     } );
     REQUIRE( guns.size() == 1 );
     item &glock = *guns.front();
+    REQUIRE( glock.magazine_current() != nullptr );
     // We're expecting the magazine to end up in the inventory.
-    g->unload( glock );
+    REQUIRE( g->unload( glock ) );
     const std::vector<item *> glock_mags = dummy.items_with( []( const item & it ) {
         return it.typeId() == "glockmag";
     } );

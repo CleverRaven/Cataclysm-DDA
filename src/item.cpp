@@ -4134,9 +4134,6 @@ void item::on_contents_changed()
 {
     contents.update_open_pockets();
     encumbrance_update_ = true;
-    contents.remove_items_if( []( const item & removed ) {
-        return !removed.count_by_charges() && removed.charges <= 0;
-    } );
 }
 
 void item::on_damage( int, damage_type )
@@ -7599,7 +7596,9 @@ bool item::reload( player &u, item_location ammo, int qty )
             // sets curammo to one of the ammo types contained
             curammo = ammo->contents.first_ammo().type;
             qty = std::min( qty, ammo->ammo_remaining() );
-            put_in( *ammo, item_pocket::pocket_type::MAGAZINE );
+            item ammo_copy( ammo->contents.first_ammo() );
+            ammo_copy.charges = qty;
+            put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
             ammo->ammo_consume( qty, tripoint_zero );
         } else if( ammo->ammo_type() == "plutonium" ) {
             curammo = ammo->type;
