@@ -823,10 +823,15 @@ item item::in_container( const itype_id &cont ) const
     if( cont != "null" ) {
         item ret( cont, birthday() );
         if( ret.has_pockets() ) {
-            ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
-            if( made_of( LIQUID ) ) {
-                // fill up all the pockets that take liquid to the brim with this item
-                ret.contents.fill_with( *this );
+            if( count_by_charges() ) {
+                ret.fill_with( item( *this ), made_of( LIQUID ) ? item::INFINITE_CHARGES : charges );
+            } else {
+                const ret_val<bool> put_in_success =
+                    ret.contents.insert_item( *this, item_pocket::pocket_type::CONTAINER );
+                ret.on_contents_changed();
+                if( !put_in_success.success() ) {
+                    debugmsg( "ERROR: failed to put %s in %s", typeId(), cont.c_str() );
+                }
             }
 
             ret.invlet = invlet;
