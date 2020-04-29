@@ -16,7 +16,9 @@ new activity.
 
 3. `activity_actor.cpp` Define the `start`, `do_turn`, and `finish`
 functions needed for the new actor as well as the required serialization
-functions.
+functions. Don't forget to add the deserialization function of your new
+activity actor to the `deserialize_functions` map towards the bottom of
+`activity_actor.cpp`.
 
 4. `player_activity.cpp` Optionally update `can_resume_with`.
 
