@@ -740,6 +740,7 @@
   },
   {
     "id": "herbal_tea_bag",
+    "type": "COMESTIBLE",
     "name": { "str": "herbal tea bag" },
     "copy-from": "tea_bag",
     "color": "green",
