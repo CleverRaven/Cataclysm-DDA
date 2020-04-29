@@ -1073,15 +1073,29 @@ void create_note( const tripoint &curs )
     std::string new_note = old_note;
     auto map_around = get_overmap_neighbors( curs );
 
-    catacurses::window w_preview = catacurses::newwin( npm_height + 2,
-                                   max_note_display_length - npm_width - 1,
-                                   point( npm_width + 2, 2 ) );
-    catacurses::window w_preview_title = catacurses::newwin( 2, max_note_display_length + 1,
-                                         point_zero );
-    catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, point( 0,
-                                       2 ) );
-    std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
-        std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+    catacurses::window w_preview;
+    catacurses::window w_preview_title;
+    catacurses::window w_preview_map;
+    std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w_preview = catacurses::newwin( npm_height + 2,
+                                        max_note_display_length - npm_width - 1,
+                                        point( npm_width + 2, 2 ) );
+        w_preview_title = catacurses::newwin( 2, max_note_display_length + 1,
+                                              point_zero );
+        w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2,
+                                            point( 0, 2 ) );
+        preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+
+        ui.position( point_zero, point( max_note_display_length + 1, npm_height + 4 ) );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        update_note_preview( new_note, map_around, preview_windows );
+    } );
 
     // this implies enable_ime() and ensures that ime mode is always restored on return
     ime_sentry sentry;
@@ -1098,19 +1112,14 @@ void create_note( const tripoint &curs )
     .string_color( c_yellow )
     .identifier( "map_note" );
 
-    update_note_preview( old_note, map_around, preview_windows );
-
     do {
         new_note = input_popup.query_string( false );
-        const int first_input = input_popup.context().get_raw_input().get_first_input();
-        if( first_input == KEY_ESCAPE ) {
+        if( input_popup.canceled() ) {
             new_note = old_note;
             esc_pressed = true;
             break;
-        } else if( first_input == '\n' ) {
+        } else if( input_popup.confirmed() ) {
             break;
-        } else {
-            update_note_preview( new_note, map_around, preview_windows );
         }
     } while( true );
 
