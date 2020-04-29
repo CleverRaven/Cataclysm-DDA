@@ -1246,6 +1246,16 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
   },
   {
+    "id": "xlnomex_socks",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
+    "description": "A snug fitting pair of stockings made from thin and lightweight Nomex fire-resistant fabric.  Tough yet breathable, they are light and comfortable to wear under clothing.",
+    "weight": "300 g",
+    "volume": "1000 ml",
+    "copy-from": "nomex_socks",
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+  },
+  {
     "id": "socks",
     "type": "ARMOR",
     "name": { "str": "pair of socks", "str_pl": "pairs of socks" },
@@ -1271,16 +1281,7 @@
     "description": "Socks.  Big ones.  Put 'em on your feet.",
     "weight": "58 g",
     "volume": "250 ml",
-    "price": 200,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "socks",
-    "color": "white",
-    "covers": [ "FEET" ],
-    "coverage": 100,
-    "warmth": 5,
-    "material_thickness": 1,
+    "copy-from": "socks",
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
@@ -1358,6 +1359,16 @@
     "warmth": 30,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "xlsocks_wool",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
+    "description": "Warm socks made of wool for a larger than you'd previously thought possible human.",
+    "weight": "77 g",
+    "volume": "500 ml",
+    "copy-from": "socks_wool",
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
     "id": "stockings",
