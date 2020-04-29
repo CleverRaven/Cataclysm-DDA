@@ -4134,9 +4134,6 @@ void item::on_contents_changed()
 {
     contents.update_open_pockets();
     encumbrance_update_ = true;
-    contents.remove_items_if( []( const item & removed ) {
-        return !removed.count_by_charges() && removed.charges <= 0;
-    } );
 }
 
 void item::on_damage( int, damage_type )
@@ -6808,22 +6805,13 @@ int item::ammo_remaining() const
     }
 
     if( is_tool() ) {
-        if( type->tool->ammo_id.empty() ||
-            !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
-            // includes auxiliary gunmods
-            if( has_flag( flag_USES_BIONIC_POWER ) ) {
-                int power = units::to_kilojoule( g->u.get_power_level() );
-                return power;
-            }
-            return charges;
-        } else {
-            int res = 0;
-            for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
-                res += e->charges;
-            }
-            return res;
+        // includes auxiliary gunmods
+        if( has_flag( flag_USES_BIONIC_POWER ) ) {
+            int power = units::to_kilojoule( g->u.get_power_level() );
+            return power;
         }
-    } else if( is_gun() && magazine_integral() && !contents.empty() ) {
+        return charges;
+    } else if( is_gun() && !contents.empty() ) {
         return contents.first_ammo().charges;
     }
 
@@ -6929,28 +6917,16 @@ int item::ammo_consume( int qty, const tripoint &pos )
         return contents.ammo_consume( qty );
 
     } else if( is_tool() || is_gun() ) {
-        if( type->tool->ammo_id.empty() ||
-            !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
-            qty = std::min( qty, charges );
-            if( has_flag( flag_USES_BIONIC_POWER ) ) {
-                charges = units::to_kilojoule( g->u.get_power_level() );
-                g->u.mod_power_level( units::from_kilojoule( -qty ) );
-            }
-            charges -= qty;
-            if( charges == 0 ) {
-                curammo = nullptr;
-            }
-            return qty;
-        } else {
-            for( item *it : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
-                qty = std::min( qty, it->charges );
-                it->charges -= qty;
-            }
-
-            on_contents_changed();
-
-            return qty;
+        qty = std::min( qty, charges );
+        if( has_flag( flag_USES_BIONIC_POWER ) ) {
+            charges = units::to_kilojoule( g->u.get_power_level() );
+            g->u.mod_power_level( units::from_kilojoule( -qty ) );
         }
+        charges -= qty;
+        if( charges == 0 ) {
+            curammo = nullptr;
+        }
+        return qty;
     }
 
     return 0;
