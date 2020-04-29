@@ -658,7 +658,10 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     units::volume volume = to_throw.volume();
     units::mass weight = to_throw.weight();
 
-    const int weight_cost = weight / ( 2_gram * std::max( 1, str_cur ) );
+    // Previously calculated as 2_gram * std::max( 1, str_cur )
+    // using 16_gram normalizes it to 8 str. Same effort expenditure
+    // for being able to throw farther.
+    const int weight_cost = weight / ( 16_gram );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) * 2.0f );
     const int stamina_cost = ( weight_cost + encumbrance_cost - throwing_skill + 50 ) * -1;
 
