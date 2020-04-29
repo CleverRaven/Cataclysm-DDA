@@ -1565,6 +1565,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             int line_number = 1;
             Creature *critter = g->critter_at( dst, true );
             const int relative_elevation = dst.z - pc.pos().z;
+            std::string label_range;
             if( dst != src ) {
                 // Only draw those tiles which are on current z-level
                 auto ret_this_zlevel = ret;
@@ -1576,27 +1577,20 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 // Provides feedback to the player, and avoids leaking information
                 // about tiles they can't see.
                 g->draw_line( dst, center, ret_this_zlevel );
-
-                // Print to target window
-                if( ( panel_type == "compact" || panel_type == "labels-narrow" )
-                    && display_type != "numbers" ) {
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d" ),
-                               rl_dist( src, dst ), range, relative_elevation );
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ), t.size() );
-                } else {
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d "
-                               "Targets: %d" ), range, relative_elevation, t.size() );
-                }
+                label_range = string_format( "%d/%d", rl_dist( src, dst ), range );
             } else {
-                if( ( panel_type == "compact" || panel_type == "labels-narrow" )
-                    && display_type != "numbers" ) {
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d" ),
-                               rl_dist( src, dst ), range, relative_elevation );
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ), t.size() );
-                } else {
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d "
-                               "Targets: %d" ), range, relative_elevation, t.size() );
-                }
+                label_range = string_format( "%d", range );
+            }
+
+            // Print to target window
+            if( ( panel_type == "compact" || panel_type == "labels-narrow" )
+                && display_type != "numbers" ) {
+                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %s Elevation: %d" ),
+                           label_range, relative_elevation );
+                mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ), t.size() );
+            } else {
+                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %s Elevation: %d Targets: %d" ),
+                           label_range, relative_elevation, t.size() );
             }
 
             // Skip blank lines if we're short on space.
