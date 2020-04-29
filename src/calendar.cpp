@@ -75,6 +75,7 @@ moon_phase get_moon_phase( const time_point &p )
 }
 
 // TODO: Refactor sunrise / sunset
+// The only difference between them is the start_hours array
 time_point sunrise( const time_point &p )
 {
     static_assert( static_cast<int>( SPRING ) == 0,
@@ -95,7 +96,6 @@ time_point sunrise( const time_point &p )
     return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
 }
 
-// TODO: Refactor sunrise / sunset
 time_point sunset( const time_point &p )
 {
     static_assert( static_cast<int>( SPRING ) == 0,
@@ -127,8 +127,6 @@ time_point daylight_time( const time_point &p )
     return sunrise( p ) + 15_minutes;
 }
 
-// TODO: bool is_day( const time_point &p ) ?
-
 bool is_night( const time_point &p )
 {
     const time_duration now = time_past_midnight( p );
@@ -136,6 +134,15 @@ bool is_night( const time_point &p )
     const time_duration sunset = time_past_midnight( ::sunset( p ) );
 
     return now >= sunset + twilight_duration || now <= sunrise;
+}
+
+bool is_day( const time_point &p )
+{
+    const time_duration now = time_past_midnight( p );
+    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
+    const time_duration sunset = time_past_midnight( ::sunset( p ) );
+
+    return now >= sunrise + twilight_duration && now <= sunset;
 }
 
 bool is_dusk( const time_point &p )
