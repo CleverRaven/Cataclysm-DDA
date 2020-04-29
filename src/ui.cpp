@@ -712,31 +712,6 @@ void uilist::refresh( bool refresh_callback )
     }
 }
 
-/**
- * redraw borders, which is required in some cases ( look_around() )
- */
-void uilist::redraw( bool /*redraw_callback*/ )
-{
-    draw_border( window, border_color );
-    if( !title.empty() ) {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( window, point( 1, 0 ), border_color, "< " );
-        wprintz( window, title_color, title );
-        wprintz( window, border_color, " >" );
-    }
-    if( !filter.empty() ) {
-        mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
-        mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
-    }
-    // TODO: something with the redraw_callback
-    /*
-    // pending tests on if this is needed
-        if ( redraw_callback && callback != NULL ) {
-            callback->redraw(this);
-        }
-    */
-}
-
 int uilist::scroll_amount_from_key( const int key )
 {
     if( key == KEY_UP ) {
@@ -985,7 +960,6 @@ void pointmenu_cb::refresh( uilist *menu )
         g->draw_ter();
         wrefresh( g->w_terrain );
         g->draw_panels();
-        menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;
     }
@@ -996,7 +970,6 @@ void pointmenu_cb::refresh( uilist *menu )
     // TODO: Remove this line when it's safe
     g->u.view_offset.z = 0;
     g->draw_trail_to_square( g->u.view_offset, true );
-    menu->redraw( false );
     menu->show();
 }
 

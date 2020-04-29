@@ -429,7 +429,6 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                     cb.msg += _( "\nTarget location is not suitable for placing this kind of monster.  Choose a different target or [i]ncrease the groups size." );
                 }
                 uistate.wishmonster_selected = wmenu.selected;
-                wmenu.redraw();
             }
         }
     } while( wmenu.ret >= 0 );

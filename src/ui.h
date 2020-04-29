@@ -140,7 +140,6 @@ class uilist_callback
             return false;
         }
         virtual void refresh( uilist * ) {}
-        virtual void redraw( uilist * ) {}
         virtual ~uilist_callback() = default;
 };
 /*@}*/
@@ -235,7 +234,6 @@ class uilist
         void filterlist();
         void apply_scrollbar();
         void refresh( bool refresh_callback = true );
-        void redraw( bool redraw_callback = true );
         void addentry( const std::string &str );
         void addentry( int r, bool e, int k, const std::string &str );
         // K is templated so it matches a `char` literal and a `int` value.

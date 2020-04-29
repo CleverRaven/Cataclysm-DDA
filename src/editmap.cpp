@@ -1576,7 +1576,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
-    gmenu.redraw();
     gmenu.show();
 
     uilist gpmenu;
@@ -1774,7 +1773,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     }
     gmenu.border_color = c_magenta;
     gmenu.hilight_color = h_white;
-    gmenu.redraw();
     hilights["mapgentgt"].points.clear();
     cleartmpmap( tmpmap );
 }
