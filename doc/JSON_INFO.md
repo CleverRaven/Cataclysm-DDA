@@ -17,6 +17,7 @@ Use the `Home` key to return to the top.
     + [Other formatting](#other-formatting)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   * [`data/json/` JSONs](#datajson-jsons)
+    + [Ascii_arts](#ascii_arts)
     + [Body_parts](#body_parts)
     + [Bionics](#bionics)
     + [Dreams](#dreams)
@@ -185,6 +186,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 |---                          |---
 | achievements.json           | achievements
 | anatomy.json                | a listing of player body parts - do not edit
+| ascii_arts.json             | ascii arts for item descriptions
 | bionics.json                | bionics, does NOT include bionic effects
 | body_parts.json             | an expansion of anatomy.json - do not edit
 | clothing_mods.json          | definition of clothing mods
@@ -381,6 +383,36 @@ This section describes each json file and their contents. Each json has their ow
 
 ## `data/json/` JSONs
 
+### Ascii_arts
+
+| Identifier        | Description
+|---                |---
+| id                | Unique ID. Must be one continuous word, use underscores if necessary.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 42 columns long.
+
+```C++
+  {
+    "type": "ascii_art",
+    "id": "cashcard",
+    "picture": [
+      "",
+      "",
+      "",
+      "       <color_white>╔═══════════════════╗",
+      "       <color_white>║                   ║",
+      "       <color_white>║</color> <color_yellow>╔═   ╔═╔═╗╔═║ ║</color>   <color_white>║",
+      "       <color_white>║</color> <color_yellow>║═ ┼ ║ ║═║╚╗║═║</color>   <color_white>║",
+      "       <color_white>║</color> <color_yellow>╚═   ╚═║ ║═╝║ ║</color>   <color_white>║",
+      "       <color_white>║                   ║",
+      "       <color_white>║   RIVTECH TRUST   ║",
+      "       <color_white>║                   ║",
+      "       <color_white>║                   ║",
+      "       <color_white>║ 555 993 55221 066 ║",
+      "       <color_white>╚═══════════════════╝"
+    ]
+  }
+```
+
 ### Body_parts
 
 | Identifier        | Description
@@ -487,9 +519,9 @@ This section describes each json file and their contents. Each json has their ow
     "name": "Air Filtration System",
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
-    "env_protec": [ [ "MOUTH", 7 ] ],
-    "bash_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
-    "cut_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "env_protec": [ [ "mouth", 7 ] ],
+    "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
 }
 ```
@@ -1544,33 +1576,7 @@ See also VEHICLE_JSON.md
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
-"ascii_picture": [
-      "        ,,,,,,,,,,,,,",
-      "    .;;;;;;;;;;;;;;;;;;;,.",
-      " .;;;;;;;;;;;;;;;;;;;;;;;;,",
-      ".;;;;;;;;;;;;;;;;;;;;;;;;;;;;.",
-      ";;;;;@;;;;;;;;;;;;;;;;;;;;;;;;' .............",
-      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'.................",
-      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'...................`",
-      ";;;;@;;;;;;;;;;;;;;;@;;;;;;;'.....................",
-      " `;;;;;;;;;;;;;;;;;;;@@;;;;;'..................;....", // Ascii art that  will be displayed at the bottom of the item description. Array of string with each element being a line of the picture. Lines longer than 42 characters won't display properly.
-      "   `;;;;;;;;;;;;;;;;@@;;;;'....................;;...",
-      "     `;;;;;;;;;;;;;@;;;;'...;.................;;....",
-      "        `;;;;;;;;;;;;'   ...;;...............;.....",
-      "           `;;;;;;'        ...;;..................",
-      "              ;;              ..;...............",
-      "              `                  ............",
-      "             `                      ......",
-      "             `                         ..",
-      "           `                           '",
-      "          `                           '",
-      "         `                           '",
-      "        `                           `",
-      "        `                           `,",
-      "        `",
-      "         `",
-      "           `."
-    ],
+"ascii_picture": "ascii_socks", // Id of the asci_art used for this item
 "phase": "solid",                            // (Optional, default = "solid") What phase it is
 "weight": "350 g",                           // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
 "volume": "250 ml",                          // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.

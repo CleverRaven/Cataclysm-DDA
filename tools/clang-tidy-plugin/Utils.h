@@ -68,6 +68,15 @@ static const FunctionDecl *getContainingFunction(
     return nullptr;
 }
 
+inline bool isPointType( const CXXRecordDecl *R )
+{
+    if( !R ) {
+        return false;
+    }
+    StringRef name = R->getName();
+    return name == "point" || name == "tripoint";
+}
+
 inline auto isPointType()
 {
     using namespace clang::ast_matchers;
@@ -104,13 +113,21 @@ inline auto isXParam()
     return matchesName( "[xX]" );
 }
 
-inline bool isPointType( const CXXRecordDecl *R )
+inline auto isYParam()
 {
-    if( !R ) {
-        return false;
+    using namespace clang::ast_matchers;
+    return matchesName( "[yY]" );
+}
+
+inline bool isPointMethod( const FunctionDecl *d )
+{
+    if( const CXXMethodDecl *Method = dyn_cast_or_null<CXXMethodDecl>( d ) ) {
+        const CXXRecordDecl *Record = Method->getParent();
+        if( isPointType( Record ) ) {
+            return true;
+        }
     }
-    StringRef name = R->getName();
-    return name == "point" || name == "tripoint";
+    return false;
 }
 
 // Struct to help identify and construct names of associated points and
@@ -127,7 +144,7 @@ class NameConvention
             None
         };
 
-        MatchResult Match( StringRef name );
+        MatchResult Match( StringRef name ) const;
 
         bool operator!() const {
             return !valid;

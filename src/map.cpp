@@ -4384,8 +4384,11 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         }
     }
 
-    if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true ) >= 0 &&
-        cur_veh.has_part( "RECHARGE", true ) ) {
+    const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
+    vehicle_part recharge_part;
+    if( recharge_part_idx >= 0 && ( recharge_part = cur_veh.parts[recharge_part_idx] ) &&
+        !recharge_part.removed && !recharge_part.is_broken() &&
+        ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {
             if( !n.has_flag( "RECHARGE" ) && !n.has_flag( "USE_UPS" ) ) {
                 continue;
@@ -4393,22 +4396,20 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
             if( n.ammo_capacity() > n.ammo_remaining() ||
                 ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
-                // Around 85% efficient, so double discharge once every 7 seconds
-                const int per_charge = one_in( 7 ) ? 2 : 1;
-                const int missing = cur_veh.discharge_battery( per_charge, false );
-                if( missing < per_charge &&
-                    ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
-                    if( n.is_battery() ) {
-                        n.set_energy( 1_kJ );
-                    } else {
-                        n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                int power = recharge_part.info().bonus;
+                while( power >= 1000 || x_in_y( power, 1000 ) ) {
+                    const int missing = cur_veh.discharge_battery( 1, false );
+                    // Around 85% efficient; a few of the discharges don't actually recharge
+                    if( missing == 0 && !one_in( 7 ) ) {
+                        if( n.is_battery() ) {
+                            n.set_energy( 1_kJ );
+                        } else {
+                            n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                        }
                     }
+                    power -= 1000;
                 }
-
-                if( missing > 0 ) {
-                    // Not enough charge - stop charging
-                    break;
-                }
+                break;
             }
         }
     }
