@@ -242,28 +242,43 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
-/*
-Calculate date of Easter - a direct implementation of the "Anonymous Gregorian" aka Meeus/Jones/Butcher Gregorian algorithm, given at:
-https://en.wikipedia.org/wiki/Computus#Anonymous_Gregorian_algorithm
-*/
+/* compare against table of easter dates */
 bool main_menu::is_easter( int day, int month, int year )
 {
-    const int a = year % 19;
-    const int b = year / 100;
-    const int c = year % 100;
-    const int d = b / 4;
-    const int e = b % 4;
-    const int f = ( b + 8 ) / 25;
-    const int g = ( b - f + 1 ) / 3;
-    const int h = ( 19 * a + b - d - g + 15 ) % 30;
-    const int i = c / 4;
-    const int k = c % 4;
-    const int l = ( 32 + 2 * e + 2 * i - h - k ) % 7;
-    const int m = ( a + 11 * h + 22 * l ) / 451;
-    const int e_month = ( h + l - 7 * m + 114 ) / 31;
-    const int e_day = ( ( h + l - 7 * m + 114 ) % 31 ) + 1;
-
-    return ( ( month == e_month ) && ( day == e_day ) );
+    if( month == 3 ) {
+        switch( year ) {
+            case 2024:
+                return ( day == 31 );
+            case 2027:
+                return ( day == 28 );
+            default:
+                break;
+        }
+        // month == 4 - april
+    } else {
+        switch( year ) {
+            case 2021:
+                return ( day == 4 );
+            case 2022:
+                return ( day == 17 );
+            case 2023:
+                return ( day == 9 );
+            case 2025:
+                return ( day == 20 );
+            case 2026:
+                return ( day == 5 );
+            case 2028:
+                return ( day == 16 );
+            case 2029:
+                return ( day == 1 );
+            case 2030:
+                return ( day == 21 );
+            default:
+                break;
+        }
+    }
+    // in practice, this should not be reached
+    return false;
 }
 
 holiday main_menu::get_holiday_from_time()
