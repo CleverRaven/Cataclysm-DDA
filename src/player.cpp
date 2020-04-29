@@ -1273,7 +1273,7 @@ int player::impact( const int force, const tripoint &p )
         if( g->m.has_furn( p ) ) {
             // TODO: Make furniture matter
         } else if( g->m.has_flag( TFLAG_SWIMMABLE, p ) ) {
-            int swim_skill = get_skill_level( skill_swimming );
+            const int swim_skill = get_skill_level( skill_swimming );
             effective_force /= 4.0f + 0.1f * swim_skill;
             if( g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
                 effective_force /= 1.5f;
@@ -4454,4 +4454,3 @@ bool player::query_yn( const std::string &mes ) const
 {
     return ::query_yn( mes );
 }
-
