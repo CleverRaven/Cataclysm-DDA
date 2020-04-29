@@ -607,7 +607,7 @@ bool translation::empty() const
 
 bool translation::translated_lt( const translation &that ) const
 {
-    return translated() < that.translated();
+    return localized_compare( translated(), that.translated() );
 }
 
 bool translation::translated_eq( const translation &that ) const

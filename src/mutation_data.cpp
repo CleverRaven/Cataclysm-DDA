@@ -648,14 +648,7 @@ bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
         return false;
     }
 
-    if( a->name() < b->name() ) {
-        return true;
-    }
-    if( a->name() > b->name() ) {
-        return false;
-    }
-
-    return false;
+    return localized_compare( a->name(), b->name() );
 }
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
