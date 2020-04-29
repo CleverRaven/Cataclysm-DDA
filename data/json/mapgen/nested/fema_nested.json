@@ -230,8 +230,8 @@
       "palettes": [ "FEMA_camp" ],
       "monsters": {
         "#": [
-          { "monster": "GROUP_VANILLA", "chance": 1, "density": 0.005 },
-          { "monster": "GROUP_SCHOOL", "chance": 20, "density": 0.01 }
+          { "monster": "GROUP_MIL_BASE_CIVILIAN", "chance": 1, "density": 0.005 },
+          { "monster": "GROUP_ZOMBIE_SCORCHED", "chance": 20, "density": 0.01 }
         ]
       }
     }
