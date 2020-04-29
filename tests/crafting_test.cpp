@@ -364,6 +364,13 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
     return turns;
 }
 
+static item tool_with_ammo( const itype_id &tool, const int qty )
+{
+    item tool_it( tool );
+    tool_it.ammo_set( tool_it.ammo_default(), qty );
+    return tool_it;
+}
+
 TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 {
     std::vector<item> tools;
@@ -393,8 +400,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         // - 10 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            tools.emplace_back( "hotplate", -1, 20 );
-            tools.emplace_back( "soldering_iron", -1, 20 );
+            tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+            tools.push_back( tool_with_ammo( "soldering_iron", 20 ) );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
                 int turns = actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
@@ -405,10 +412,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
-            tools.emplace_back( "hotplate", -1, 5 );
-            tools.emplace_back( "hotplate", -1, 5 );
-            tools.emplace_back( "soldering_iron", -1, 5 );
-            tools.emplace_back( "soldering_iron", -1, 5 );
+            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate", 5 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron", 5 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
@@ -418,10 +423,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         }
 
         WHEN( "UPS-modded tools have enough charges" ) {
-            item hotplate( "hotplate", -1, 0 );
+            item hotplate( "hotplate" );
             hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
             tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron", -1, 0 );
+            item soldering_iron( "soldering_iron" );
             soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
             tools.push_back( soldering_iron );
             tools.emplace_back( "UPS_off", -1, 500 );
@@ -435,10 +440,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         }
 
         WHEN( "UPS-modded tools do not have enough charges" ) {
-            item hotplate( "hotplate", -1, 0 );
+            item hotplate( "hotplate" );
             hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
             tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron", -1, 0 );
+            item soldering_iron( "soldering_iron" );
             soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
             tools.push_back( soldering_iron );
             tools.emplace_back( "UPS_off", -1, 10 );
@@ -455,7 +460,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
 {
     SECTION( "clean_water" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 20 );
+        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
@@ -466,7 +471,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
     SECTION( "clean_water_in_occupied_cooking_vessel" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 20 );
+        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
