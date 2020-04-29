@@ -255,7 +255,7 @@
     "covers": [ "ARMS" ],
     "coverage": 30,
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "vambrace_larmor",
