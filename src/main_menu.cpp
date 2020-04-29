@@ -306,10 +306,8 @@ holiday main_menu::get_holiday_from_time()
             return holiday::new_year;
         }
         // only run easter date calculation if currently March or April
-        else if( month == 3 || month == 4 ) {
-            if( is_easter( day, month, year ) ) {
-                return holiday::easter;
-            }
+        else if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
+            return holiday::easter;
         } else if( month == 7 && day == 4 ) {
             return holiday::independence_day;
         }
