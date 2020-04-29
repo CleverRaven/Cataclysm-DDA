@@ -18,7 +18,7 @@
     "id": "nylon",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "synthetic fabric", "str_pl": "synthetic fabric" },
+    "name": { "str_sp": "synthetic fabric" },
     "description": "This is small bolt of synthetic fabric.  Unlike you and other natural materials, it won't degrade much with age.  Maybe that's less of a bad thing now.",
     "weight": "55 g",
     "volume": "250 ml",

@@ -116,7 +116,7 @@
     "id": "fuse",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str": "fuse", "str_pl": "fuse" },
+    "name": { "str_sp": "fuse" },
     "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
     "weight": "6 g",
     "volume": "80 ml",
@@ -142,7 +142,7 @@
     "volume": "250 ml",
     "bashing": 5,
     "cutting": 3,
-    "to_hit": -2,
+    "to_hit": -3,
     "qualities": [ [ "BUTCHER", -50 ] ]
   },
   {
@@ -155,7 +155,7 @@
     "volume": "500 ml",
     "price": 100,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": "rubber",
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"

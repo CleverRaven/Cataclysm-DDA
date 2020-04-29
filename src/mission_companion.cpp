@@ -375,31 +375,13 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     base_camps::tab_mode tab_mode = base_camps::TAB_MAIN;
 
-    size_t part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
-    size_t part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
-    size_t maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
-    size_t maxx = part_x ? TERMX - 2 * part_x : FULL_SCREEN_WIDTH;
-
-    catacurses::window w_list = catacurses::newwin( maxy, maxx, point( part_x,
-                                part_y + TITLE_TAB_HEIGHT ) );
-    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, point( part_x, part_y ) );
-
     size_t sel = 0;
-    int name_offset = 0;
-    size_t folded_names_lines = 0;
-    bool redraw = true;
 
     // The following are for managing the right pane scrollbar.
     size_t info_offset = 0;
-    size_t info_height = maxy - 3;
-    size_t info_width = maxx - 1 - MAX_FAC_NAME_SIZE;
-    size_t end_line = 0;
     nc_color col = c_white;
     std::vector<std::string> name_text;
     std::vector<std::string> mission_text;
-
-    catacurses::window w_info = catacurses::newwin( info_height, info_width,
-                                point( part_x + MAX_FAC_NAME_SIZE, part_y + TITLE_TAB_HEIGHT + 1 ) );
 
     input_context ctxt( "FACTIONS" );
     ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
@@ -436,103 +418,133 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         return false;
     }
 
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
+    size_t part_y = 0;
+    size_t part_x = 0;
+    size_t maxy = 0;
+    size_t maxx = 0;
+    size_t info_height = 0;
+    size_t info_width = 0;
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    catacurses::window w_list;
+    catacurses::window w_tabs;
+    catacurses::window w_info;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+        part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+        maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
+        maxx = part_x ? TERMX - 2 * part_x : FULL_SCREEN_WIDTH;
+        info_height = maxy - 3;
+        info_width = maxx - 1 - MAX_FAC_NAME_SIZE;
+
+        w_list = catacurses::newwin( maxy, maxx,
+                                     point( part_x, part_y + TITLE_TAB_HEIGHT ) );
+        w_info = catacurses::newwin( info_height, info_width,
+                                     point( part_x + MAX_FAC_NAME_SIZE, part_y + TITLE_TAB_HEIGHT + 1 ) );
+
+        if( role_id == "FACTION_CAMP" ) {
+            w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, point( part_x, part_y ) );
+            ui.position( point( part_x, part_y ), point( maxx, maxy + TITLE_TAB_HEIGHT ) );
+        } else {
+            ui.position( point( part_x, part_y + TITLE_TAB_HEIGHT ), point( maxx, maxy ) );
+        }
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_list );
+        draw_border( w_list );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
+                   tab_mode ) );
+
+        std::vector<std::vector<std::string>> folded_names;
+        size_t folded_names_lines = 0;
+        for( const auto &cur_key_entry : cur_key_list ) {
+            std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, MAX_FAC_NAME_SIZE - 5,
+                                              ' ' );
+            folded_names_lines += f_name.size();
+            folded_names.emplace_back( f_name );
+        }
+
+        int name_offset = 0;
+        calcStartPos( name_offset, sel, info_height, folded_names_lines );
+
+        size_t list_line = 2;
+        for( size_t current = name_offset; list_line < info_height &&
+             current < cur_key_list.size(); current++ ) {
+            nc_color col = ( current == sel ? h_white : c_white );
+            //highlight important missions
+            for( const auto &k : mission_key.entries[0] ) {
+                if( cur_key_list[current].id == k.id ) {
+                    col = ( current == sel ? h_white : c_yellow );
+                    break;
+                }
+            }
+            //dull uncraftable items
+            for( const auto &k : mission_key.entries[10] ) {
+                if( cur_key_list[current].id == k.id ) {
+                    col = ( current == sel ? h_white : c_dark_gray );
+                    break;
+                }
+            }
+            std::vector<std::string> &name_text = folded_names[current];
+            for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
+                print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
+                                    col, col, name_text[name_line] );
+                list_line += 1;
+            }
+        }
+
+        if( cur_key_list.size() > info_height + 1 ) {
+            scrollbar()
+            .offset_x( 0 )
+            .offset_y( 1 )
+            .content_size( folded_names_lines )
+            .viewport_pos( sel )
+            .viewport_size( info_height + 1 )
+            .apply( w_list );
+        }
+        wrefresh( w_list );
+        werase( w_info );
+
+        // Fold mission text, store it for scrolling
+        mission_text = foldstring( mission_key.cur_key.text, info_width - 2, ' ' );
+        if( info_height >= mission_text.size() ) {
+            info_offset = 0;
+        } else if( info_offset + info_height > mission_text.size() ) {
+            info_offset = mission_text.size() - info_height;
+        }
+        if( mission_text.size() > info_height ) {
+            scrollbar()
+            .offset_x( info_width - 1 )
+            .offset_y( 0 )
+            .content_size( mission_text.size() )
+            .viewport_pos( info_offset )
+            .viewport_size( info_height )
+            .apply( w_info );
+        }
+        const size_t end_line = std::min( info_height, mission_text.size() - info_offset );
+
+        // Display the current subset of the mission text.
+        for( size_t start_line = 0; start_line < end_line; start_line++ ) {
+            print_colored_text( w_info, point( 0, start_line ), col, col,
+                                mission_text[start_line + info_offset] );
+        }
+
+        wrefresh( w_info );
+
+        if( role_id == "FACTION_CAMP" ) {
+            werase( w_tabs );
+            draw_camp_tabs( w_tabs, tab_mode, mission_key.entries );
+            wrefresh( w_tabs );
+        }
+    } );
 
     while( true ) {
         mission_key.cur_key = cur_key_list[sel];
-        if( redraw ) {
-            werase( w_list );
-            draw_border( w_list );
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
-                       tab_mode ) );
-
-            std::vector<std::vector<std::string>> folded_names;
-            for( const auto &cur_key_entry : cur_key_list ) {
-                std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, MAX_FAC_NAME_SIZE - 5,
-                                                  ' ' );
-                folded_names_lines += f_name.size();
-                folded_names.emplace_back( f_name );
-            }
-
-            calcStartPos( name_offset, sel, info_height, folded_names_lines );
-
-            size_t list_line = 2;
-            for( size_t current = name_offset; list_line < info_height &&
-                 current < cur_key_list.size(); current++ ) {
-                nc_color col = ( current == sel ? h_white : c_white );
-                //highlight important missions
-                for( const auto &k : mission_key.entries[0] ) {
-                    if( cur_key_list[current].id == k.id ) {
-                        col = ( current == sel ? h_white : c_yellow );
-                        break;
-                    }
-                }
-                //dull uncraftable items
-                for( const auto &k : mission_key.entries[10] ) {
-                    if( cur_key_list[current].id == k.id ) {
-                        col = ( current == sel ? h_white : c_dark_gray );
-                        break;
-                    }
-                }
-                std::vector<std::string> &name_text = folded_names[current];
-                for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
-                    print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
-                                        col, col, name_text[name_line] );
-                    list_line += 1;
-                }
-            }
-
-            if( cur_key_list.size() > info_height + 1 ) {
-                scrollbar()
-                .offset_x( 0 )
-                .offset_y( 1 )
-                .content_size( folded_names_lines )
-                .viewport_pos( sel )
-                .viewport_size( info_height + 1 )
-                .apply( w_list );
-            }
-            wrefresh( w_list );
-            werase( w_info );
-
-            // Fold mission text, store it for scrolling
-            mission_text = foldstring( mission_key.cur_key.text, info_width - 2, ' ' );
-            if( info_height >= mission_text.size() ) {
-                info_offset = 0;
-            } else if( info_offset + info_height > mission_text.size() ) {
-                info_offset = mission_text.size() - info_height;
-            }
-            if( mission_text.size() > info_height ) {
-                scrollbar()
-                .offset_x( info_width - 1 )
-                .offset_y( 0 )
-                .content_size( mission_text.size() )
-                .viewport_pos( info_offset )
-                .viewport_size( info_height )
-                .apply( w_info );
-            }
-            end_line = std::min( info_height, mission_text.size() - info_offset );
-
-            // Display the current subset of the mission text.
-            for( size_t start_line = 0; start_line < end_line; start_line++ ) {
-                print_colored_text( w_info, point( 0, start_line ), col, col,
-                                    mission_text[start_line + info_offset] );
-            }
-
-            wrefresh( w_info );
-
-            if( role_id == "FACTION_CAMP" ) {
-                werase( w_tabs );
-                draw_camp_tabs( w_tabs, tab_mode, mission_key.entries );
-                wrefresh( w_tabs );
-            }
-            redraw = false;
-        }
+        ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             if( sel == cur_key_list.size() - 1 ) {
@@ -541,7 +553,6 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 sel++;
             }
             info_offset = 0;
-            redraw = true;
         } else if( action == "UP" ) {
             if( sel == 0 ) {
                 sel = cur_key_list.size() - 1;    // Wrap around
@@ -549,19 +560,14 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 sel--;
             }
             info_offset = 0;
-            redraw = true;
         } else if( action == "PAGE_UP" ) {
             if( info_offset > 0 ) {
                 info_offset--;
-                redraw = true;
             }
         } else if( action == "PAGE_DOWN" ) {
             info_offset++;
-            redraw = true;
         } else if( action == "NEXT_TAB" && role_id == "FACTION_CAMP" ) {
-            redraw = true;
             sel = 0;
-            name_offset = 0;
             info_offset = 0;
 
             do {
@@ -574,9 +580,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 }
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && role_id == "FACTION_CAMP" ) {
-            redraw = true;
             sel = 0;
-            name_offset = 0;
             info_offset = 0;
 
             do {
@@ -604,14 +608,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             } else {
                 continue;
             }
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            g->draw_ter();
-            wrefresh( g->w_terrain );
-            g->draw_panels( true );
-            redraw = true;
         }
     }
-    g->refresh_all();
     return true;
 }
 

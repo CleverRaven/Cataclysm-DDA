@@ -34,7 +34,7 @@
   {
     "id": "shears",
     "type": "TOOL",
-    "name": { "str": "shears", "str_pl": "shears" },
+    "name": { "str_sp": "shears" },
     "description": "This is a set of shears designed to obtain wool from sheep.",
     "weight": "820 g",
     "volume": "750 ml",
@@ -51,7 +51,7 @@
   {
     "id": "elec_shears",
     "type": "TOOL",
-    "name": { "str": "electric_shears", "str_pl": "electric_shears" },
+    "name": { "str_sp": "electric shears" },
     "description": "These electric shears can be used to shear animals quicker.",
     "weight": "1200 g",
     "volume": "1200 ml",

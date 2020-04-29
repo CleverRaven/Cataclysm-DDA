@@ -4,7 +4,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "Remington 700 .270 Win", "str_pl": "Remington 700 .270 Win" },
+    "name": { "str_sp": "Remington 700 .270 Win" },
     "description": "A classic bolt action rifle chambered for .270 Winchester, very popular among hunters.  This is a CDL SF model with a forged, fluted, 416 stainless steel barrel threaded into the receiver and a recessed bolt face.  It has checkered walnut furniture and a recoil pad to reduce perceived recoil.",
     "weight": "3410 g",
     "volume": "2202 ml",

@@ -99,6 +99,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "battery_charger",
+    "name": { "str": "battery charger" },
+    "description": "A small device for recharging batteries, given a source of electricty.  It could easily be wired into a vehicle with power.  It will slowly charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  It can only be installed onto existing storage compartments.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "to_hit": -1,
+    "bashing": 4,
+    "price": 1500,
+    "price_postapoc": 100,
+    "looks_like": "cable",
+    "copy-from": "recharge_station"
+  },
+  {
+    "type": "GENERIC",
     "id": "washing_machine",
     "name": { "str": "washing machine" },
     "description": "A very small washing machine designed for use in vehicles.",

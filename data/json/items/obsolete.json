@@ -14,6 +14,53 @@
     "volume": "5 L"
   },
   {
+    "result": "makeshift_grenade",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "id": "makeshift_grenade",
+    "copy-from": "grenade",
+    "type": "TOOL",
+    "name": { "str": "makeshift grenade" },
+    "description": "An improvised explosive device cobbled together from parts.  Use this item to pull the pin and light the fuse.  You will then have about 5 seconds before it explodes; throwing it would be a good idea.",
+    "weight": "350 g",
+    "price": 750,
+    "material": [ "aluminum", "iron" ],
+    "symbol": "*",
+    "color": "green",
+    "explode_in_fire": true,
+    "explosion": { "power": 175, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.4 } },
+    "use_action": {
+      "target": "makeshift_grenade_act",
+      "msg": "You pull the pin on the makeshift grenade.",
+      "rand_target_charges": [ 2, 7 ],
+      "active": true,
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "makeshift_grenade_act",
+    "copy-from": "makeshift_grenade",
+    "type": "TOOL",
+    "name": { "str": "active makeshift grenade" },
+    "description": "This is an active grenade, and will explode any second now.  Better throw it!",
+    "price": 0,
+    "rand_charges": [ 2, 7 ],
+    "max_charges": 7,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already pulled the %s's pin; try throwing it instead.",
+      "explosion": { "power": 175, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.4 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
     "id": "barrel_big",
     "type": "GUNMOD",
     "name": { "str": "barrel extension" },
@@ -933,7 +980,7 @@
     "id": "40mm_flashbang",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
-    "name": { "str": "40x46mm " },
+    "name": { "str": "40x46mm" },
     "description": "A 40mm grenade with a flashbang load.  It will detonate with a blast of light and sound, designed to blind, deafen, and disorient anyone nearby.",
     "extend": { "effects": [ "FLASHBANG" ] }
   },
@@ -967,21 +1014,21 @@
   {
     "id": "schematics_chickenbot",
     "type": "BOOK",
-    "name": { "str": "chicken walker schematics", "str_pl": "chicken walker schematics" },
+    "name": { "str_sp": "chicken walker schematics" },
     "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the chicken walker.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_tankbot",
     "type": "BOOK",
-    "name": { "str": "tank drone schematics", "str_pl": "tank drone schematics" },
+    "name": { "str_sp": "tank drone schematics" },
     "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the tank drone.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_tripod",
     "type": "BOOK",
-    "name": { "str": "tripod schematics", "str_pl": "tripod schematics" },
+    "name": { "str_sp": "tripod schematics" },
     "description": "Bearing the logo of Honda, those are assembly plans, design specs, and technical drawings for the tripod.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
@@ -1128,7 +1175,7 @@
   {
     "type": "GENERIC",
     "id": "tripod_chassis",
-    "name": { "str": "tripod chassis", "str_pl": "tripod chassis" },
+    "name": { "str_sp": "tripod chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the tripod.",
     "symbol": "c",
     "color": "light_gray",
@@ -1141,7 +1188,7 @@
   {
     "type": "GENERIC",
     "id": "chickenbot_chassis",
-    "name": { "str": "chicken walker chassis", "str_pl": "chicken walker chassis" },
+    "name": { "str_sp": "chicken walker chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the chicken walker.",
     "symbol": "c",
     "color": "light_gray",
@@ -1154,7 +1201,7 @@
   {
     "type": "GENERIC",
     "id": "tankbot_chassis",
-    "name": { "str": "Beagle chassis", "str_pl": "Beagle chassis" },
+    "name": { "str_sp": "Beagle chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Beagle tank.",
     "symbol": "c",
     "color": "light_gray",
@@ -1170,7 +1217,7 @@
     "type": "GUN",
     "symbol": "(",
     "color": "green",
-    "name": { "str": "Tankbot Main Gun", "str_pl": "Tankbot Main Gun" },
+    "name": { "str_sp": "Tankbot Main Gun" },
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
     "price": 99999999,
     "material": "steel",
@@ -2520,5 +2567,99 @@
       "flags": [ "MAG_COMPACT" ]
     },
     "flags": [ "STURDY", "OUTER" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "shotcanister_scrap",
+    "price": 1000,
+    "price_postapoc": 250,
+    "name": { "str": "scrap shotcanister" },
+    "symbol": "=",
+    "color": "green",
+    "description": "This small paper canister resembling a crude shotshell is filled to the brim with assorted pieces of scrap metal.",
+    "material": [ "steel" ],
+    "volume": "250 ml",
+    "weight": "55 g",
+    "bashing": 2,
+    "cutting": 1,
+    "ammo_type": "shotcanister",
+    "looks_like": "shot_scrap",
+    "range": 1,
+    "damage": { "damage_type": "stab", "amount": 10 },
+    "dispersion": 250,
+    "loudness": 0,
+    "count": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "shotcanister_pebble",
+    "price": 1000,
+    "price_postapoc": 50,
+    "name": { "str": "pebble shotcanister" },
+    "symbol": "=",
+    "color": "green",
+    "description": "This small paper canister resembling a crude shotshell is filled to the brim with tiny pebbles.  Damage is pathetic but flight is much more stable than scrap.",
+    "material": [ "stone" ],
+    "volume": "250 ml",
+    "weight": "55 g",
+    "bashing": 2,
+    "cutting": 1,
+    "ammo_type": "shotcanister",
+    "looks_like": "shot_scrap",
+    "range": 2,
+    "damage": { "damage_type": "stab", "amount": 7, "armor_penetration": 1 },
+    "dispersion": 80,
+    "loudness": 0,
+    "count": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "shotcanister_flechette",
+    "price": 1000,
+    "price_postapoc": 250,
+    "name": { "str": "flechette shotcanister" },
+    "symbol": "=",
+    "color": "green",
+    "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade flechettes, giving it some armor piercing capabilities.",
+    "material": [ "steel" ],
+    "volume": "250 ml",
+    "weight": "55 g",
+    "bashing": 2,
+    "cutting": 1,
+    "ammo_type": "shotcanister",
+    "looks_like": "shot_scrap",
+    "range": 3,
+    "damage": { "damage_type": "stab", "amount": 13, "armor_penetration": 7 },
+    "dispersion": 50,
+    "loudness": 0,
+    "count": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "shotcanister_bearing",
+    "price": 1000,
+    "price_postapoc": 250,
+    "name": { "str": "bearing shotcanister" },
+    "symbol": "=",
+    "color": "green",
+    "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade bearings, stabilizing its flight pattern a tiny bit.",
+    "material": [ "steel" ],
+    "volume": "250 ml",
+    "weight": "55 g",
+    "bashing": 2,
+    "cutting": 1,
+    "ammo_type": "shotcanister",
+    "looks_like": "shot_scrap",
+    "range": 2,
+    "damage": { "damage_type": "stab", "amount": 12, "armor_penetration": 2 },
+    "dispersion": 100,
+    "loudness": 0,
+    "count": 10
+  },
+  {
+    "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
   }
 ]

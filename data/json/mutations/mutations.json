@@ -290,18 +290,11 @@
     "id": "THICKSKIN",
     "name": { "str": "Thick-Skinned" },
     "points": 1,
-    "description": "Your skin is tough.  Cutting damage is slightly reduced for you.  Slightly decreases wet penalties.",
+    "description": "Your skin is tough.  Cutting and bash damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
     "starting_trait": true,
     "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR" ],
     "cancels": [ "THINSKIN" ],
-    "wet_protection": [
-      { "part": "LEG_L", "neutral": 2 },
-      { "part": "LEG_R", "neutral": 2 },
-      { "part": "ARM_L", "neutral": 2 },
-      { "part": "ARM_R", "neutral": 2 },
-      { "part": "TORSO", "neutral": 4 }
-    ],
-    "armor": [ { "parts": "ALL", "cut": 1 } ]
+    "armor": [ { "parts": "ALL", "cut": 1, "bash": 1 } ]
   },
   {
     "type": "mutation",
@@ -374,17 +367,6 @@
     "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
     "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE" ]
-  },
-  {
-    "type": "mutation",
-    "id": "DRUNKEN",
-    "name": { "str": "Drunken Master" },
-    "points": 1,
-    "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
-    "//": "Remove this trait after 0.E stable.",
-    "starting_trait": false,
-    "valid": false,
-    "cancels": [ "LIGHTWEIGHT" ]
   },
   {
     "type": "mutation",
@@ -947,10 +929,10 @@
     "id": "THINSKIN",
     "name": { "str": "Thin-Skinned" },
     "points": -1,
-    "description": "Your skin is fragile.  Cutting damage is slightly increased for you.",
+    "description": "Your skin is fragile.  Cutting and bash damage is slightly increased for you.",
     "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
-    "armor": [ { "parts": "ALL", "cut": -1 } ]
+    "armor": [ { "parts": "ALL", "cut": -1, "bash": -1 } ]
   },
   {
     "type": "mutation",
@@ -1068,7 +1050,7 @@
     "description": "Alcohol and drugs go straight to your head.  You suffer the negative effects of these for longer.",
     "starting_trait": true,
     "category": [ "MEDICAL" ],
-    "cancels": [ "DRUNKEN", "TOLERANCE" ]
+    "cancels": [ "TOLERANCE" ]
   },
   {
     "type": "mutation",

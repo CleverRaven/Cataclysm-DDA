@@ -1249,9 +1249,6 @@ void avatar::reset_stats()
         }
     }
 
-    // Hit-related effects
-    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit );
-
     // Apply static martial arts buffs
     martial_arts_data.ma_static_effects( *this );
 

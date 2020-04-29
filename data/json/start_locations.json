@@ -7,6 +7,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_shelter_vandalized",
+    "name": "Shelter (Vandalized)",
+    "terrain": [ "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_refugee_center",
     "name": "Refugee Center",
     "terrain": [ "evac_center_7" ]
@@ -255,13 +261,20 @@
     "type": "start_location",
     "id": "sloc_fire_station",
     "name": "Fire Station",
-    "terrain": [ { "om_terrain": "fire_station", "om_terrain_match_type": "PREFIX" } ]
+    "terrain": [
+      { "om_terrain": "fire_station", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "fire_station_1", "om_terrain_match_type": "TYPE" }
+    ]
   },
   {
     "type": "start_location",
     "id": "sloc_police",
     "name": "Police Station",
-    "terrain": [ { "om_terrain": "police", "om_terrain_match_type": "PREFIX" } ]
+    "terrain": [
+      { "om_terrain": "police", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "police_1", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "police_2", "om_terrain_match_type": "TYPE" }
+    ]
   },
   {
     "type": "start_location",
@@ -386,6 +399,12 @@
     "id": "sloc_cabin_lake",
     "name": "Lake Cabin",
     "terrain": [ "cabin_lake" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_gas_station",
+    "name": "Gas Station",
+    "terrain": [ "s_gas_rural" ]
   },
   {
     "type": "start_location",

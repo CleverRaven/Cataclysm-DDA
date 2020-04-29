@@ -2,7 +2,7 @@
   {
     "id": "frostie_trunk",
     "type": "vehicle_part",
-    "name": "ice pack",
+    "name": { "str": "ice pack" },
     "item": "frostie",
     "location": "center",
     "symbol": "H",
@@ -21,9 +21,9 @@
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "FOLDABLE" ]
   },
   {
-    "id": "frostie_wall",
+    "id": "frostie_windshield",
     "type": "vehicle_part",
-    "name": "icy windshield",
+    "name": { "str": "icy windshield" },
     "item": "frostie",
     "location": "center",
     "symbol": "\"",
@@ -32,16 +32,34 @@
     "broken_color": "light_blue",
     "durability": 500,
     "damage_modifier": 80,
-    "folded_volume": 1,
+    "folded_volume": "1000 ml",
     "breaks_into": [ { "item": "frostiegrow" } ],
     "description": "A living blob, existing in a super-cooled state.  It is transparent, and can be used to see out of the vehicle.",
     "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "WINDOW", "FOLDABLE" ]
+    "flags": [ "OVER", "WINDSHIELD", "OBSTACLE", "WINDOW", "FOLDABLE" ]
+  },
+  {
+    "id": "frostie_boat_hull",
+    "type": "vehicle_part",
+    "name": { "str": "gelacier boat hull" },
+    "item": "frostie",
+    "location": "under",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "light_blue",
+    "broken_color": "light_blue",
+    "durability": 500,
+    "damage_modifier": 200,
+    "folded_volume": "1000 ml",
+    "breaks_into": [ { "item": "frostiegrow" } ],
+    "description": "A living blob, existing in a super-cooled state.  It acts as a boat hull.",
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "FLOATS", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED" ]
   },
   {
     "id": "gloople_amalgam",
     "type": "vehicle_part",
-    "name": "gel retriever",
+    "name": { "str": "gel retriever" },
     "item": "gloople",
     "location": "under",
     "symbol": "R",
@@ -61,7 +79,7 @@
   {
     "id": "gloople_belt",
     "type": "vehicle_part",
-    "name": "gel harness",
+    "name": { "str": "gel harness" },
     "item": "gloople",
     "location": "on_seat",
     "symbol": ",",
@@ -80,7 +98,7 @@
   {
     "id": "gloople_tank",
     "type": "vehicle_part",
-    "name": "capsule (10L)",
+    "name": { "str": "capsule (10L)" },
     "item": "gloople_tank",
     "location": "fuel_source",
     "symbol": "O",
@@ -100,7 +118,7 @@
     "id": "gloople_tank_large",
     "type": "vehicle_part",
     "copy-from": "gloople_tank",
-    "name": "gel tank (60L)",
+    "name": { "str": "gel tank (60L)" },
     "item": "gloople_tank_large",
     "size": 60000,
     "folded_volume": 240
@@ -108,7 +126,7 @@
   {
     "id": "gloople_plate",
     "type": "vehicle_part",
-    "name": "gel reinforcement",
+    "name": { "str": "gel reinforcement" },
     "item": "gloople",
     "location": "armor",
     "symbol": "X",
@@ -126,7 +144,7 @@
   {
     "id": "gloople_roof",
     "type": "vehicle_part",
-    "name": "gel roof",
+    "name": { "str": "gel roof" },
     "item": "gloople",
     "location": "roof",
     "symbol": "#",
@@ -144,7 +162,7 @@
   {
     "id": "gloople_seat",
     "type": "vehicle_part",
-    "name": "gel seat",
+    "name": { "str": "gel seat" },
     "item": "gloople",
     "location": "center",
     "symbol": "#",
@@ -162,7 +180,7 @@
   {
     "id": "gloople_trunk",
     "type": "vehicle_part",
-    "name": "gel receptacle",
+    "name": { "str": "gel receptacle" },
     "item": "gloople",
     "location": "center",
     "symbol": "H",
@@ -182,13 +200,13 @@
     "id": "gloople_trunk_u",
     "type": "vehicle_part",
     "copy-from": "gloople_trunk",
-    "name": "gel pouch (under)",
+    "name": { "str": "gel pouch (under)" },
     "location": "under"
   },
   {
     "id": "gloopleaisle_horizontal",
     "type": "vehicle_part",
-    "name": "gel walkway",
+    "name": { "str": "gel walkway" },
     "item": "gloople",
     "location": "center",
     "symbol": "=",
@@ -212,7 +230,7 @@
   {
     "id": "gloopledoor",
     "type": "vehicle_part",
-    "name": "gel hatch",
+    "name": { "str": "gel hatch" },
     "item": "gloople",
     "location": "center",
     "symbol": "+",
@@ -230,7 +248,7 @@
   {
     "id": "gloopledoor_opaque",
     "type": "vehicle_part",
-    "name": "opaque gel hatch",
+    "name": { "str": "opaque gel hatch" },
     "item": "gloople",
     "location": "center",
     "symbol": "+",
@@ -246,58 +264,9 @@
     "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
-    "id": "glowie_battery",
-    "type": "vehicle_part",
-    "name": "gel battery",
-    "item": "glowie",
-    "location": "fuel_source",
-    "fuel_type": "battery",
-    "symbol": "#",
-    "broken_symbol": "x",
-    "color": "cyan",
-    "broken_color": "cyan",
-    "durability": 200,
-    "damage_modifier": 10,
-    "folded_volume": 1,
-    "breaks_into": [ { "item": "glowiegrow" } ],
-    "description": "A living, glowing blob.  Having been filled with electrical power, it stores that power and can release it to power other parts of the vehicle, allowing it to act as a storage battery.",
-    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "FOLDABLE" ]
-  },
-  {
-    "id": "glowie_battery_u",
-    "type": "vehicle_part",
-    "copy-from": "glowie_battery",
-    "name": "gel battery (under)",
-    "location": "under"
-  },
-  {
-    "id": "glowie_power",
-    "type": "vehicle_part",
-    "name": "gel generator",
-    "item": "glowie",
-    "location": "center",
-    "fuel_type": "bfeed",
-    "symbol": "#",
-    "broken_symbol": "x",
-    "color": "cyan",
-    "broken_color": "cyan",
-    "durability": 200,
-    "//": "Power is a multiplier on power efficiency - 1 unit is 100 units of battery or 100 kJ",
-    "power": 50,
-    "epower": 250,
-    "bonus": 25,
-    "damage_modifier": 10,
-    "folded_volume": 1,
-    "breaks_into": [ { "item": "glowiegrow" } ],
-    "description": "A living, glowing blob.  It consumes blob feed and produces electrical power, allowing it to be used as a reactor.  It also glows, and can be turned on to illuminate several squares inside the vehicle.",
-    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "REACTOR", "FOLDABLE", "ATOMIC_LIGHT", "ENABLED_DRAINS_EPOWER" ]
-  },
-  {
     "id": "gray_amalgam",
     "type": "vehicle_part",
-    "name": "gray retriever",
+    "name": { "str": "gray retriever" },
     "item": "gray",
     "location": "under",
     "symbol": "R",
@@ -317,7 +286,7 @@
   {
     "id": "gray_belt",
     "type": "vehicle_part",
-    "name": "gray harness",
+    "name": { "str": "gray harness" },
     "item": "gray",
     "location": "on_seat",
     "symbol": ",",
@@ -336,7 +305,7 @@
   {
     "id": "gray_tank",
     "type": "vehicle_part",
-    "name": "cocoon (30L)",
+    "name": { "str": "cocoon (30L)" },
     "item": "gray_tank",
     "location": "fuel_source",
     "symbol": "O",
@@ -356,7 +325,7 @@
     "id": "gray_tank_large",
     "type": "vehicle_part",
     "copy-from": "gray_tank",
-    "name": "gray tank (100L)",
+    "name": { "str": "gray tank (100L)" },
     "item": "gray_tank_large",
     "size": 100000,
     "folded_volume": 400
@@ -364,7 +333,7 @@
   {
     "id": "gray_plate",
     "type": "vehicle_part",
-    "name": "gray reinforcement",
+    "name": { "str": "gray reinforcement" },
     "item": "gray",
     "location": "armor",
     "symbol": "X",
@@ -382,7 +351,7 @@
   {
     "id": "gray_roof",
     "type": "vehicle_part",
-    "name": "gray roof",
+    "name": { "str": "gray roof" },
     "item": "gray",
     "location": "roof",
     "symbol": "#",
@@ -400,7 +369,7 @@
   {
     "id": "gray_seat",
     "type": "vehicle_part",
-    "name": "gray seat",
+    "name": { "str": "gray seat" },
     "item": "gray",
     "location": "center",
     "symbol": "#",
@@ -418,7 +387,7 @@
   {
     "id": "gray_trunk",
     "type": "vehicle_part",
-    "name": "gray receptacle",
+    "name": { "str": "gray receptacle" },
     "item": "gray",
     "location": "center",
     "symbol": "H",
@@ -438,13 +407,13 @@
     "id": "gray_trunk_u",
     "type": "vehicle_part",
     "copy-from": "gray_trunk",
-    "name": "gray pouch (under)",
+    "name": { "str": "gray pouch (under)" },
     "location": "under"
   },
   {
     "id": "grayaisle_horizontal",
     "type": "vehicle_part",
-    "name": "gray walkway",
+    "name": { "str": "gray walkway" },
     "item": "gray",
     "location": "center",
     "symbol": "=",
@@ -468,7 +437,7 @@
   {
     "id": "graydoor",
     "type": "vehicle_part",
-    "name": "gray hatch",
+    "name": { "str": "gray hatch" },
     "item": "gray",
     "location": "center",
     "symbol": "+",
@@ -486,7 +455,7 @@
   {
     "id": "graydoor_opaque",
     "type": "vehicle_part",
-    "name": "opaque gray hatch",
+    "name": { "str": "opaque gray hatch" },
     "item": "gray",
     "location": "center",
     "symbol": "+",
@@ -504,7 +473,7 @@
   {
     "id": "oozle_amalgam",
     "type": "vehicle_part",
-    "name": "ooze retriever",
+    "name": { "str": "ooze retriever" },
     "item": "oozle",
     "location": "under",
     "symbol": "R",
@@ -524,7 +493,7 @@
   {
     "id": "oozle_belt",
     "type": "vehicle_part",
-    "name": "ooze harness",
+    "name": { "str": "ooze harness" },
     "item": "oozle",
     "location": "on_seat",
     "symbol": ",",
@@ -543,7 +512,7 @@
   {
     "id": "oozle_tank",
     "type": "vehicle_part",
-    "name": "pod (20L)",
+    "name": { "str": "pod (20L)" },
     "item": "oozle_tank",
     "location": "fuel_source",
     "symbol": "O",
@@ -563,7 +532,7 @@
     "id": "oozle_tank_large",
     "type": "vehicle_part",
     "copy-from": "oozle_tank",
-    "name": "ooze tank (80L)",
+    "name": { "str": "ooze tank (80L)" },
     "item": "oozle_tank_large",
     "size": 8000,
     "folded_volume": 320
@@ -571,7 +540,7 @@
   {
     "id": "oozle_plate",
     "type": "vehicle_part",
-    "name": "ooze reinforcement",
+    "name": { "str": "ooze reinforcement" },
     "item": "oozle",
     "location": "armor",
     "symbol": "X",
@@ -589,7 +558,7 @@
   {
     "id": "oozle_roof",
     "type": "vehicle_part",
-    "name": "ooze roof",
+    "name": { "str": "ooze roof" },
     "item": "oozle",
     "location": "roof",
     "symbol": "#",
@@ -607,7 +576,7 @@
   {
     "id": "oozle_seat",
     "type": "vehicle_part",
-    "name": "ooze seat",
+    "name": { "str": "ooze seat" },
     "item": "oozle",
     "location": "center",
     "symbol": "#",
@@ -625,7 +594,7 @@
   {
     "id": "oozle_trunk",
     "type": "vehicle_part",
-    "name": "ooze receptacle",
+    "name": { "str": "ooze receptacle" },
     "item": "oozle",
     "location": "center",
     "symbol": "H",
@@ -645,13 +614,13 @@
     "id": "oozle_trunk_u",
     "type": "vehicle_part",
     "copy-from": "oozle_trunk",
-    "name": "ooze pouch (under)",
+    "name": { "str": "ooze pouch (under)" },
     "location": "under"
   },
   {
     "id": "oozleaisle_horizontal",
     "type": "vehicle_part",
-    "name": "ooze walkway",
+    "name": { "str": "ooze walkway" },
     "item": "oozle",
     "location": "center",
     "symbol": "=",
@@ -675,7 +644,7 @@
   {
     "id": "oozledoor",
     "type": "vehicle_part",
-    "name": "ooze hatch",
+    "name": { "str": "ooze hatch" },
     "item": "oozle",
     "location": "center",
     "symbol": "+",
@@ -693,7 +662,7 @@
   {
     "id": "oozledoor_opaque",
     "type": "vehicle_part",
-    "name": "opaque ooze hatch",
+    "name": { "str": "opaque ooze hatch" },
     "item": "oozle",
     "location": "center",
     "symbol": "+",
@@ -711,7 +680,7 @@
   {
     "id": "queen",
     "type": "vehicle_part",
-    "name": "amorphous core",
+    "name": { "str": "amorphous core" },
     "item": "queen",
     "location": "center",
     "fuel_type": "bfeedfuel",

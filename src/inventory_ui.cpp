@@ -1500,7 +1500,7 @@ void inventory_selector::refresh_window() const
 void inventory_selector::set_filter()
 {
     string_input_popup spopup;
-    spopup.window( w_inv, 4, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4 )
+    spopup.window( w_inv, point( 4, getmaxy( w_inv ) - 1 ), ( getmaxx( w_inv ) / 2 ) - 4 )
     .max_length( 256 )
     .text( filter );
 

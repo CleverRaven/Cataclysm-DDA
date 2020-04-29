@@ -114,7 +114,7 @@
   {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
-    "name": { "str": "seeing this is a bug", "str_pl": "seeing this is a bug" },
+    "name": { "str_sp": "seeing this is a bug" },
     "description": "seeing this is a bug",
     "volume": "0 ml",
     "price": 0,
@@ -148,7 +148,7 @@
     "description": "This rubber rowboat (oars included) is deflated for storage.  Activate it (having an air pump in inventory) to inflate and launch.",
     "price": 350000,
     "price_postapoc": 4000,
-    "material": "plastic",
+    "material": "rubber",
     "weight": "9071 g",
     "volume": "21500 ml",
     "bashing": 10,

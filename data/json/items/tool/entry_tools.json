@@ -8,8 +8,8 @@
     "volume": "1 L",
     "price": 1300,
     "price_postapoc": 500,
-    "to_hit": 2,
-    "bashing": 14,
+    "to_hit": -1,
+    "bashing": 20,
     "cutting": 1,
     "material": "steel",
     "symbol": ";",
@@ -31,6 +31,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
+    "qualities": [ [ "LOCKPICK", 3 ] ],
     "use_action": { "type": "picklock", "pick_quality": 3 }
   },
   {
@@ -42,9 +43,9 @@
     "volume": "750 ml",
     "price": 5000,
     "price_postapoc": 500,
-    "to_hit": 2,
-    "bashing": 14,
-    "cutting": 3,
+    "to_hit": -2,
+    "bashing": 24,
+    "cutting": 8,
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
@@ -62,7 +63,7 @@
     "volume": "1 L",
     "price": 0,
     "price_postapoc": 10,
-    "to_hit": 2,
+    "to_hit": -1,
     "bashing": 12,
     "cutting": 1,
     "material": "steel",
@@ -85,6 +86,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
+    "qualities": [ [ "LOCKPICK", 5 ] ],
     "use_action": { "type": "picklock", "pick_quality": 5 }
   },
   {
@@ -100,6 +102,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
+    "qualities": [ [ "LOCKPICK", 40 ] ],
     "use_action": { "type": "picklock", "pick_quality": 40 }
   }
 ]

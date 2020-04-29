@@ -1572,7 +1572,7 @@
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
-    "name": { "str": "RX11 stimulant delivery system", "str_pl": "RX11 stimulant delivery system" },
+    "name": { "str_sp": "RX11 stimulant delivery system" },
     "description": "The Rivtech RX11 stimulant delivery system is a jet autoinjector system worn on the user's body.  A simple press of its activator injects powerful chemical stimulants into the bloodstream without using a needle.",
     "price": 40000,
     "price_postapoc": 1000,
@@ -1839,7 +1839,8 @@
     "price_postapoc": 25,
     "material": [ "iron" ],
     "weight": "2 g",
-    "use_action": { "type": "picklock", "pick_quality": 3 }
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "fc_hairpin",
@@ -1854,6 +1855,7 @@
     "material": [ "plastic" ],
     "weight": "4 g",
     "use_action": { "type": "picklock", "pick_quality": 1 },
+    "qualities": [ [ "LOCKPICK", 1 ] ],
     "flags": [ "FANCY" ]
   },
   {
@@ -2572,7 +2574,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "bagpipes",
-    "name": { "str": "bagpipes", "str_pl": "bagpipes" },
+    "name": { "str_sp": "bagpipes" },
     "category": "tools",
     "weight": "2300 g",
     "color": "green",
@@ -2649,7 +2651,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "saxophone",
-    "name": { "str": "saxophone", "str_pl": "saxophones" },
+    "name": { "str": "saxophone" },
     "category": "tools",
     "weight": "2000 g",
     "color": "yellow",
@@ -2693,7 +2695,7 @@
     "category": "armor",
     "symbol": "[",
     "color": "blue",
-    "name": { "str": "shooter's earmuffs", "str_pl": "shooter's earmuffs" },
+    "name": { "str_sp": "shooter's earmuffs" },
     "description": "A pair of earmuffs favored by shooters.  Without batteries or when turned off they function like normal earmuffs and block all sound.  They will block sounds over a certain decibel amount when turned on.  The earmuffs are currently off.",
     "flags": [ "DEAF", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "price": 12500,
@@ -2739,7 +2741,7 @@
     "category": "armor",
     "symbol": "[",
     "color": "blue",
-    "name": { "str": "shooter's earmuffs", "str_pl": "shooter's earmuffs" },
+    "name": { "str_sp": "shooter's earmuffs" },
     "description": "A pair of earmuffs favored by shooters.  The earmuffs are turned on.  They will block sounds over a certain decibel amount, assuming it is charged with batteries.",
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "PARTIAL_DEAF" ],
     "price": 12500,

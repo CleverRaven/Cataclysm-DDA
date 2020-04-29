@@ -1,10 +1,9 @@
 [
   {
-    "id": "vpower",
+    "id": "vortex_power",
     "type": "AMMO",
     "category": "chems",
-    "name": "vortex core",
-    "name_plural": "vortex core",
+    "name": { "str_sp": "vortex core" },
     "description": "Seeing this is a bug.",
     "weight": 0,
     "volume": 0,
@@ -16,6 +15,6 @@
     "symbol": "?",
     "color": "magenta",
     "count": 1,
-    "ammo_type": "vpower"
+    "ammo_type": "vortex_power"
   }
 ]

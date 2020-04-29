@@ -153,7 +153,7 @@
   {
     "id": "repeater_mod_guide",
     "type": "BOOK",
-    "name": { "str": "plans for a radio repeater mod", "str_pl": "plans for a radio repeater mod" },
+    "name": { "str_sp": "plans for a radio repeater mod" },
     "description": "Instructions on how to create a mod for a radio station terminal which converts the entire system into a repeater.",
     "weight": "5 g",
     "volume": "250 ml",
@@ -212,7 +212,7 @@
   {
     "abstract": "schematics_generic",
     "type": "BOOK",
-    "name": { "str": "schematics", "str_pl": "schematics" },
+    "name": { "str_sp": "schematics" },
     "description": "seeing this is a bug",
     "weight": "30 g",
     "volume": "250 ml",
@@ -231,98 +231,98 @@
   {
     "id": "schematics_nursebot",
     "type": "BOOK",
-    "name": { "str": "nurse bot schematics", "str_pl": "nurse bot schematics" },
+    "name": { "str_sp": "nurse bot schematics" },
     "description": "Bearing the logo of Uncanny, these are assembly plans, design specs, and technical drawings for the nurse bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_grocerybot",
     "type": "BOOK",
-    "name": { "str": "grocery bot schematics", "str_pl": "grocery bot schematics" },
+    "name": { "str_sp": "grocery bot schematics" },
     "description": "Bearing the logo of Uncanny, these are assembly plans, design specs, and technical drawings for the grocery bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_copbot",
     "type": "BOOK",
-    "name": { "str": "police bot schematics", "str_pl": "police bot schematics" },
+    "name": { "str_sp": "police bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the police bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_eyebot",
     "type": "BOOK",
-    "name": { "str": "eyebot schematics", "str_pl": "eyebot schematics" },
+    "name": { "str_sp": "eyebot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the eyebot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_secubot",
     "type": "BOOK",
-    "name": { "str": "security bot schematics", "str_pl": "security bot schematics" },
+    "name": { "str_sp": "security bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the security bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_skitterbot",
     "type": "BOOK",
-    "name": { "str": "skitterbot schematics", "str_pl": "skitterbot schematics" },
+    "name": { "str_sp": "skitterbot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the skitterbot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_hazmatbot",
     "type": "BOOK",
-    "name": { "str": "cleaner bot schematics", "str_pl": "cleaner bot schematics" },
+    "name": { "str_sp": "cleaner bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the cleaner bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_molebot",
     "type": "BOOK",
-    "name": { "str": "miner bot schematics", "str_pl": "miner bot schematics" },
+    "name": { "str_sp": "miner bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the miner bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_riotbot",
     "type": "BOOK",
-    "name": { "str": "riot control bot schematics", "str_pl": "riot control bot schematics" },
+    "name": { "str_sp": "riot control bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the riot control bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_sciencebot",
     "type": "BOOK",
-    "name": { "str": "lab defense bot schematics", "str_pl": "lab defense bot schematics" },
+    "name": { "str_sp": "lab defense bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the lab defense bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_dispatch",
     "type": "BOOK",
-    "name": { "str": "dispatch schematics", "str_pl": "dispatch schematics" },
+    "name": { "str_sp": "dispatch schematics" },
     "description": "Bearing the logo of Northrop, these are assembly plans, design specs, and technical drawings for the dispatch.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_dispatch_military",
     "type": "BOOK",
-    "name": { "str": "military dispatch schematics", "str_pl": "military dispatch schematics" },
+    "name": { "str_sp": "military dispatch schematics" },
     "description": "Bearing the logo of Northrop, these are assembly plans, design specs, and technical drawings for the military dispatch.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_antimateriel",
     "type": "BOOK",
-    "name": { "str": "anti-materiel turret schematics", "str_pl": "anti-materiel turret schematics" },
+    "name": { "str_sp": "anti-materiel turret schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the anti-materiel turret.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_searchlight",
     "type": "BOOK",
-    "name": { "str": "milspec searchlight schematics", "str_pl": "milspec searchlight schematics" },
+    "name": { "str_sp": "milspec searchlight schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the milspec searchlight.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   }

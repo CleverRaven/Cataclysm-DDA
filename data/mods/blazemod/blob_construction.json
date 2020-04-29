@@ -1,7 +1,7 @@
 [
   {
     "type": "construction",
-    "id": "constr_blaze_blob_pit",
+    "id": "constr_harvest_blob_corpse_pit",
     "category": "OTHER",
     "description": "Harvest Blob Feed from Corpse Pit: Smash to Harvest",
     "difficulty": 0,
@@ -14,7 +14,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_blaze_blob_pit_slime",
+    "id": "constr_harvest_blob_slime",
     "category": "OTHER",
     "description": "Harvest Blob Feed from Slime: Smash to Harvest",
     "difficulty": 0,

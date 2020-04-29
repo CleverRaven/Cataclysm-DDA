@@ -102,12 +102,15 @@ struct bionic_data {
     /**Type of field emitted by this bionic when it produces energy*/
     emit_id power_gen_emission = emit_id::NULL_ID();
     /**Amount of environemental protection offered by this bionic*/
-    std::map<body_part, size_t> env_protec;
+    std::map<bodypart_str_id, size_t> env_protec;
 
     /**Amount of bash protection offered by this bionic*/
-    std::map<body_part, size_t> bash_protec;
+    std::map<bodypart_str_id, size_t> bash_protec;
     /**Amount of cut protection offered by this bionic*/
-    std::map<body_part, size_t> cut_protec;
+    std::map<bodypart_str_id, size_t> cut_protec;
+
+    /** bionic enchantments */
+    std::vector<enchantment_id> enchantments;
 
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.

@@ -51,7 +51,7 @@
     "id": "bioweapon_chassis",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "bioweapon chassis", "str_pl": "bioweapon chassis" },
+    "name": { "str_sp": "bioweapon chassis" },
     "description": "This cross between a sea anemone and what you imagine a dragon's mouth would look like is the core body of the bioweapon.  You cannot imagine what you could make out of this but maybe someone somewhere does.",
     "weight": "40000 g",
     "volume": "25 L",

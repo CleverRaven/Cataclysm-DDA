@@ -72,7 +72,7 @@
   {
     "id": "commune_prospectus",
     "type": "BOOK",
-    "name": { "str": "Ranch Prospectus", "str_pl": "Ranch Prospectus" },
+    "name": { "str_sp": "Ranch Prospectus" },
     "description": "A short paper of the economic viability of constructing an agricultural outpost.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -1419,7 +1419,7 @@
   {
     "id": "record_patient",
     "type": "BOOK",
-    "name": { "str": "patient treatment records", "str_pl": "patient treatment records" },
+    "name": { "str_sp": "patient treatment records" },
     "description": "A massive stack of medical records that contain every gory detail.",
     "weight": "680 g",
     "volume": "1500 ml",
@@ -1436,7 +1436,7 @@
   {
     "id": "record_weather",
     "type": "BOOK",
-    "name": { "str": "national weather transcripts", "str_pl": "national weather transcripts" },
+    "name": { "str_sp": "national weather transcripts" },
     "description": "Old weather records are about as interesting as a rock.",
     "weight": "454 g",
     "volume": "1750 ml",
@@ -1638,7 +1638,7 @@
   {
     "type": "BOOK",
     "id": "collector_book",
-    "name": { "str": "collector's edition book", "str_pl": "collector's edition books" },
+    "name": { "str": "collector's edition book" },
     "description": "A unique, valuable book that has been kept as a collector's item.",
     "snippet_category": [
       { "id": "fancy1", "text": "This is a high-quality leather bound copy of Charles Dickens' \"A Tale of Two Cities\"." },

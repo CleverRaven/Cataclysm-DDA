@@ -283,19 +283,19 @@ float Character::get_hit_weapon( const item &weap ) const
     }
 
     /** @EFFECT_MELEE improves hit chance for all items (including non-weapons) */
-    return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f );
+    return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f ) + weap.type->m_to_hit;
 }
 
 float Character::get_melee_hit_base() const
 {
     // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + get_hit_weapon( used_weapon() );
+    return Character::get_hit_base() + get_hit_weapon( used_weapon() ) + mabuff_tohit_bonus();
 }
 
 float Character::hit_roll() const
 {
     // Dexterity, skills, weapon and martial arts
-    float hit = get_hit();
+    float hit = get_melee_hit_base();
 
     // Farsightedness makes us hit worse
     if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
@@ -388,6 +388,7 @@ void Character::melee_attack( Creature &t, bool allow_special )
 void Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
                               bool allow_unarmed )
 {
+    melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
         // TODO: Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
@@ -397,11 +398,13 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         auto mons = mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
-                add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ), mons->get_name() );
+                add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ),
+                         mons->get_name() );
                 return;
             }
             if( mons->type->has_special_attack( "SMASH" ) && one_in( 3 ) ) {
-                add_msg( m_info, _( "The %s hisses as its hydraulic arm pumps forward!" ), mons->get_name() );
+                add_msg( m_info, _( "The %s hisses as its hydraulic arm pumps forward!" ),
+                         mons->get_name() );
                 mattack::smash_specific( mons, &t );
             } else {
                 mons->use_mech_power( -2 );
@@ -418,7 +421,6 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         return;
     }
 
-    const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
     int move_cost = attack_speed( cur_weapon );
 
     if( hit_spread < 0 ) {
@@ -467,9 +469,14 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         // trigger martial arts on-miss effects
         martial_arts_data.ma_onmiss_effects( *this );
     } else {
+        melee::melee_stats.hit_count += 1;
         // Remember if we see the monster at start - it may change
         const bool seen = g->u.sees( t );
         // Start of attacks.
+        const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
+        if( critical_hit ) {
+            melee::melee_stats.actual_crit_count += 1;
+        }
         damage_instance d;
         roll_all_damage( critical_hit, d, false, cur_weapon );
 
@@ -491,6 +498,11 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             technique_id = tec_none;
             d.mult_damage( 0.1 );
         }
+        // polearms and pikes (but not spears) do less damage to adjacent targets
+        if( cur_weapon.reach_range( *this ) > 1 && !reach_attacking &&
+            cur_weapon.has_flag( "POLEARM" ) ) {
+            d.mult_damage( 0.7 );
+        }
 
         const ma_technique &technique = technique_id.obj();
 
@@ -511,21 +523,24 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
                 perform_special_attacks( t, dealt_special_dam );
             }
             t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam );
-            if( ( cur_weapon.is_null() && ( dealt_dam.type_damage( DT_CUT ) > 0 ||
-                                            dealt_dam.type_damage( DT_STAB ) > 0 ) ) || ( dealt_special_dam.type_damage( DT_CUT ) > 0 ||
-                                                    dealt_special_dam.type_damage( DT_STAB ) > 0 ) ) {
+            if( dealt_special_dam.type_damage( DT_CUT ) > 0 ||
+                dealt_special_dam.type_damage( DT_STAB ) > 0 ||
+                ( cur_weapon.is_null() && ( dealt_dam.type_damage( DT_CUT ) > 0 ||
+                                            dealt_dam.type_damage( DT_STAB ) > 0 ) ) ) {
                 if( has_trait( trait_POISONOUS ) ) {
                     add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
                     t.add_effect( effect_poison, 6_turns );
                 } else if( has_trait( trait_POISONOUS2 ) ) {
-                    add_msg_if_player( m_good, _( "You inject your venom into %s!" ), t.disp_name() );
+                    add_msg_if_player( m_good, _( "You inject your venom into %s!" ),
+                                       t.disp_name() );
                     t.add_effect( effect_badpoison, 6_turns );
                 }
             }
 
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
-                sounds::sound( pos(), 8, sounds::sound_t::combat, "whack!" ); //sound generated later
+                //sound generated later
+                sounds::sound( pos(), 8, sounds::sound_t::combat, "whack!" );
             }
             std::string material = "flesh";
             if( t.is_monster() ) {
@@ -536,6 +551,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             }
             sfx::generate_melee_sound( pos(), t.pos(), true, t.is_monster(), material );
             int dam = dealt_dam.total_damage();
+            melee::melee_stats.damage_amount += dam;
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( bio_cqb ) ) {
@@ -551,7 +567,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
                 std::string message = melee_message( technique, *this, dealt_dam );
                 player_hit_message( this, message, t, dam, critical_hit );
             } else {
-                add_msg_player_or_npc( m_good, _( "You hit something." ), _( "<npcname> hits something." ) );
+                add_msg_player_or_npc( m_good, _( "You hit something." ),
+                                       _( "<npcname> hits something." ) );
             }
 
             if( !specialmsg.empty() ) {
@@ -576,7 +593,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     const int melee = get_skill_level( skill_melee );
     /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
     const int weight_cost = cur_weapon.weight() / ( 2_gram * std::max( 1, str_cur ) );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) * 2.0f );
+    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
+                                 2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
@@ -590,7 +608,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     did_hit( t );
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
-        t.as_character()->on_hit( this, body_part::num_bp, 0.0f, &dp );
+        t.as_character()->on_hit( this, bodypart_id( "num_bp" ), 0.0f, &dp );
     }
     return;
 }
@@ -732,18 +750,23 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
 
     // Chance to get all 3 criticals (a guaranteed critical regardless of hit/dodge)
     const double chance_triple = weapon_crit_chance * stat_crit_chance * skill_crit_chance;
-    // Only check double critical (one that requires hit/dodge comparison) if we have good hit vs dodge
+    // Only check double critical (one that requires hit/dodge comparison) if we have good
+    // hit vs dodge
     if( roll_hit > target_dodge * 3 / 2 ) {
         const double chance_double = 0.5 * (
                                          weapon_crit_chance * stat_crit_chance +
                                          stat_crit_chance * skill_crit_chance +
                                          weapon_crit_chance * skill_crit_chance -
                                          ( 3 * chance_triple ) );
-        // Because chance_double already removed the triples with -( 3 * chance_triple ), chance_triple
-        // and chance_double are mutually exclusive probabilities and can just be added together.
+        // Because chance_double already removed the triples with -( 3 * chance_triple ),
+        // chance_triple and chance_double are mutually exclusive probabilities and can just
+        // be added together.
+        melee::melee_stats.double_crit_count += 1;
+        melee::melee_stats.double_crit_chance += chance_double + chance_triple;
         return chance_triple + chance_double;
     }
-
+    melee::melee_stats.crit_count += 1;
+    melee::melee_stats.crit_chance += chance_triple;
     return chance_triple;
 }
 
@@ -1758,9 +1781,11 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     //Hurting the wielder from poorly-chosen weapons
     if( weap.has_flag( "HURT_WHEN_WIELDED" ) && x_in_y( 2, 3 ) ) {
         add_msg_if_player( m_bad, _( "The %s cuts your hand!" ), weap.tname() );
-        deal_damage( nullptr, bp_hand_r, damage_instance::physical( 0, weap.damage_melee( DT_CUT ), 0 ) );
+        deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance::physical( 0,
+                     weap.damage_melee( DT_CUT ), 0 ) );
         if( weap.is_two_handed( *this ) ) { // Hurt left hand too, if it was big
-            deal_damage( nullptr, bp_hand_l, damage_instance::physical( 0, weap.damage_melee( DT_CUT ), 0 ) );
+            deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance::physical( 0,
+                         weap.damage_melee( DT_CUT ), 0 ) );
         }
     }
 
@@ -1782,10 +1807,12 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         // Dump its contents on the ground
         weap.contents.spill_contents( pos() );
         // Take damage
-        deal_damage( nullptr, bp_arm_r, damage_instance::physical( 0, rng( 0, vol * 2 ), 0 ) );
+        deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance::physical( 0, rng( 0, vol * 2 ),
+                     0 ) );
         if( weap.is_two_handed( *this ) ) { // Hurt left arm too, if it was big
             //redeclare shatter_dam because deal_damage mutates it
-            deal_damage( nullptr, bp_arm_l, damage_instance::physical( 0, rng( 0, vol * 2 ), 0 ) );
+            deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance::physical( 0, rng( 0, vol * 2 ),
+                         0 ) );
         }
         d.add_damage( DT_CUT, rng( 0, 5 + static_cast<int>( vol * 1.5 ) ) ); // Hurt the monster extra
         remove_weapon();
@@ -2177,46 +2204,22 @@ double player::weapon_value( const item &weap, int ammo ) const
 
 double player::melee_value( const item &weap ) const
 {
-    double my_value = 0;
-
-    damage_instance non_crit;
-    roll_all_damage( false, non_crit, true, weap );
-    float avg_dmg = non_crit.total_damage();
-
-    const int accuracy = weap.type->m_to_hit + get_hit_weapon( weap );
-    if( accuracy < 0 ) {
-        // Heavy penalty
-        my_value += accuracy * 5;
-    } else if( accuracy <= 5 ) {
-        // Big bonus
-        my_value += accuracy * 3;
-    } else {
-        // Small bonus above that
-        my_value += 15 + ( accuracy - 5 );
-    }
-
-    int move_cost = attack_speed( weap );
-    static const matec_id rapid_strike( "RAPID" );
-    if( weap.has_technique( rapid_strike ) ) {
-        move_cost /= 2;
-        avg_dmg *= 0.66;
-    }
-
-    const int arbitrary_dodge_target = 5;
-    double crit_ch = crit_chance( accuracy, arbitrary_dodge_target, weap );
-    my_value += crit_ch * 10; // Criticals are worth more than just extra damage
-    if( crit_ch > 0.1 ) {
-        damage_instance crit;
-        roll_all_damage( true, crit, true, weap );
-        // Note: intentionally doesn't include rapid attack bonus in criticals
-        avg_dmg = ( 1.0 - crit_ch ) * avg_dmg + crit.total_damage() * crit_ch;
-    }
-
-    my_value += avg_dmg * 100 / move_cost;
+    // start with average effective dps against a range of enemies
+    double my_value = weap.average_dps( *this );
 
     float reach = weap.reach_range( *this );
+    // value reach weapons more
     if( reach > 1.0f ) {
-        my_value *= 1.0f + 0.5f * ( sqrtf( reach ) - 1.0f );
+        my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
+    }
+    // value polearms less to account for the trickiness of keeping the right range
+    if( weapon.has_flag( "POLEARM" ) ) {
+        my_value *= 0.8;
+    }
+
+    // value style weapons more
+    if( !martial_arts_data.enumerate_known_styles( weap.type->get_id() ).empty() ) {
+        my_value *= 1.5;
     }
 
     add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id(), my_value );
@@ -2352,16 +2355,33 @@ void avatar::steal( npc &target )
     mod_moves( -200 );
 }
 
-namespace melee
-{
-
 /**
  * Once the accuracy (sum of modifiers) of an attack has been determined,
  * this is used to actually roll the "hit value" of the attack to be compared to dodge.
  */
-float melee_hit_range( float accuracy )
+float melee::melee_hit_range( float accuracy )
 {
     return normal_roll( accuracy * 5, 25.0f );
 }
 
+melee_statistic_data melee::get_stats()
+{
+    return melee_stats;
+}
+
+void melee::clear_stats()
+{
+    melee_stats.attack_count = 0;
+    melee_stats.hit_count = 0;
+    melee_stats.double_crit_count = 0;
+    melee_stats.crit_count = 0;
+    melee_stats.double_crit_chance = 0.0;
+    melee_stats.crit_chance = 0.0;
+    melee_stats.actual_crit_count = 0;
+    melee_stats.damage_amount = 0;
+}
+
+namespace melee
+{
+melee_statistic_data melee_stats;
 } // namespace melee

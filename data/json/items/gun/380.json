@@ -99,7 +99,7 @@
     "copy-from": "pistol_backup",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Taurus Spectrum", "str_pl": "Taurus Spectrum" },
+    "name": { "str_sp": "Taurus Spectrum" },
     "description": "A .380 subcompact pistol.  Designed for concealed carry and built from high-quality, durable materials.",
     "weight": "283 g",
     "volume": "187 ml",

@@ -242,11 +242,12 @@ input_event input_manager::get_input_event()
         if( key != ERR ) {
             int newch;
             // Clear the buffer of characters that match the one we're going to act on.
+            const int prev_timeout = input_timeout;
             set_timeout( 0 );
             do {
                 newch = getch();
             } while( newch != ERR && newch == key );
-            reset_timeout();
+            set_timeout( prev_timeout );
             // If we read a different character than the one we're going to act on, re-queue it.
             if( newch != ERR && newch != key ) {
                 ungetch( newch );

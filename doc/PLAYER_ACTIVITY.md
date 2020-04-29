@@ -14,8 +14,9 @@ of the activity in question.
 (e.g. move_items_activity_actor) to store state and handle turns of the
 new activity.
 
-3. `activity_actor.cpp` Define the `do_turn` and `finish` functions
-needed for the new actor as well as the required serialization functions.
+3. `activity_actor.cpp` Define the `start`, `do_turn`, and `finish`
+functions needed for the new actor as well as the required serialization
+functions.
 
 4. `player_activity.cpp` Optionally update `can_resume_with`.
 
@@ -106,6 +107,13 @@ across save/load cycles.
 Be careful when storing coordinates as the activity may be carried out
 by NPCS. If its, the coordinates must be absolute not local as local
 coordinates are based on the avatars position.
+
+### `activity_actor::start`
+
+This function is called exactly once when the activity
+is assigned to a character. It is useful for setting
+`player_activity::moves_left`/`player_activity::moves_total` in the case
+of an activity based on time or speed.
 
 ### `activity_actor::do_turn`
 

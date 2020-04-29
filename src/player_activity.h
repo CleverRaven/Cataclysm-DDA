@@ -39,14 +39,15 @@ class player_activity
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left = 0;
-        /** An activity specific value. */
+
+        // The members in the following block are deprecated, prefer creating a new
+        // activity_actor.
         int index = 0;
         /**
          *   An activity specific value.
          *   DO NOT USE FOR ITEM INDEX
         */
         int position = 0;
-        /** An activity specific value. */
         std::string name;
         std::vector<item_location> targets;
         std::vector<int> values;
@@ -55,6 +56,7 @@ class player_activity
         std::unordered_set<tripoint> coord_set;
         std::vector<weak_ptr_fast<monster>> monsters;
         tripoint placement;
+
         bool no_drink_nearby_for_auto_consume = false;
         bool no_food_nearby_for_auto_consume = false;
         /** If true, the activity will be auto-resumed next time the player attempts
@@ -121,6 +123,12 @@ class player_activity
         void migrate_item_position( Character &guy );
         /** Convert from the old enumeration to the new string_id */
         void deserialize_legacy_type( int legacy_type, activity_id &dest );
+
+        /**
+         * Preform necessary initialization to start the activity. Must be
+         * called whenever a Character starts a new activity.
+         */
+        void start( Character &who );
 
         /**
          * Performs the activity for a single turn. If the activity is complete

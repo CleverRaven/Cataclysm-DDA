@@ -741,6 +741,15 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_overcharge_eyes",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Overcharge", "str_pl": "Scrolls of Overcharge" },
+    "description": "You overcharge your internal batteries to send a semi-directed beam from your face.",
+    "use_action": { "type": "learn_spell", "spells": [ "overcharge_eyes" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_clairvoyance",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Clairvoyance", "str_pl": "Scrolls of Clairvoyance" },

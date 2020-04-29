@@ -16,6 +16,7 @@
 #include "ammo.h"
 #include "ammo_effect.h"
 #include "anatomy.h"
+#include "ascii_art.h"
 #include "behavior.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -228,6 +229,7 @@ void DynamicDataLoader::initialize()
     add( "hit_range", &Creature::load_hit_range );
     add( "scent_type", &scent_type::load_scent_type );
     add( "disease_type", &disease_type::load_disease_type );
+    add( "ascii_art", &ascii_art::load_ascii_art );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
@@ -616,6 +618,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
+            { _( "Achivements" ), &achievement::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif

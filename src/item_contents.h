@@ -36,6 +36,11 @@ class item_contents
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top() const;
 
+        // returns a list of pointers to all items inside recursively
+        std::list<item *> all_items_ptr();
+        // returns a list of pointers to all items inside recursively
+        std::list<const item *> all_items_ptr() const;
+
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
         /** gets all gunmods in the item */

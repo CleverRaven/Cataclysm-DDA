@@ -156,9 +156,9 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  To-hit bonus: <color_c_yellow>-2</color>\n"
             "Moves per attack: <color_c_yellow>79</color>\n"
             "Typical damage per second:\n"
-            "  Best: <color_c_yellow>8.84</color>"
-            "  Vs. Agile: <color_c_yellow>4.62</color>"
-            "  Vs. Armored: <color_c_yellow>1.35</color>" );
+            "Best: <color_c_yellow>4.92</color>"
+            "  Vs. Agile: <color_c_yellow>2.05</color>"
+            "  Vs. Armored: <color_c_yellow>0.15</color>\n" );
     }
 
     SECTION( "bash and cut damage" ) {
@@ -170,23 +170,37 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  To-hit bonus: <color_c_yellow>+2</color>\n"
             "Moves per attack: <color_c_yellow>145</color>\n"
             "Typical damage per second:\n"
-            "  Best: <color_c_yellow>11.64</color>"
-            "  Vs. Agile: <color_c_yellow>6.08</color>"
-            "  Vs. Armored: <color_c_yellow>4.45</color>" );
+            "Best: <color_c_yellow>9.38</color>"
+            "  Vs. Agile: <color_c_yellow>5.74</color>"
+            "  Vs. Armored: <color_c_yellow>2.84</color>\n" );
     }
 
     SECTION( "bash and pierce damage" ) {
         test_info_equals(
             item( "pointy_stick" ), q,
             "--\n"
-            "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>4</color>"
-            "  Pierce: <color_c_yellow>8</color>"
-            "  To-hit bonus: <color_c_yellow>+1</color>\n"
+            "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>5</color>"
+            "  Pierce: <color_c_yellow>9</color>"
+            "  To-hit bonus: <color_c_yellow>-1</color>\n"
             "Moves per attack: <color_c_yellow>100</color>\n"
             "Typical damage per second:\n"
-            "  Best: <color_c_yellow>11.33</color>"
-            "  Vs. Agile: <color_c_yellow>5.93</color>"
-            "  Vs. Armored: <color_c_yellow>1.24</color>" );
+            "Best: <color_c_yellow>6.87</color>"
+            "  Vs. Agile: <color_c_yellow>3.20</color>"
+            "  Vs. Armored: <color_c_yellow>0.12</color>\n" );
+    }
+
+    SECTION( "melee and ranged damaged" ) {
+        test_info_equals(
+            item( "arrow_wood" ), q,
+            "--\n"
+            "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>2</color>"
+            "  Cut: <color_c_yellow>1</color>"
+            "  To-hit bonus: <color_c_yellow>+0</color>\n"
+            "Moves per attack: <color_c_yellow>65</color>\n"
+            "Typical damage per second:\n"
+            "Best: <color_c_yellow>4.90</color>"
+            "  Vs. Agile: <color_c_yellow>2.46</color>"
+            "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
 
     SECTION( "no damage" ) {

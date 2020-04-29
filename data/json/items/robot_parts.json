@@ -51,7 +51,7 @@
   {
     "type": "GENERIC",
     "id": "self_monitoring_module",
-    "name": { "str": "self monitoring sensors", "str_pl": "self monitoring sensors" },
+    "name": { "str_sp": "self monitoring sensors" },
     "description": "An array of sensors and diagnostic modules allowing the robot to perceive itself.",
     "copy-from": "robot_module_abstract"
   },
@@ -185,7 +185,7 @@
   {
     "type": "GENERIC",
     "id": "turret_chassis",
-    "name": { "str": "turret interior chassis", "str_pl": "turret interior chassis" },
+    "name": { "str_sp": "turret interior chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton of a turret.",
     "symbol": "c",
     "color": "light_gray",
@@ -199,7 +199,7 @@
   {
     "type": "GENERIC",
     "id": "copbot_chassis",
-    "name": { "str": "police bot chassis", "str_pl": "police bot chassis" },
+    "name": { "str_sp": "police bot chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the police bot.",
     "symbol": "c",
     "color": "light_gray",
