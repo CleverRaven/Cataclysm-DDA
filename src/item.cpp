@@ -8072,8 +8072,7 @@ void item::set_item_temperature( float new_temperature )
 
 void item::fill_with( item &liquid, int amount )
 {
-    amount = std::min( get_remaining_capacity_for_liquid( liquid, true ),
-                       std::min( amount, liquid.charges ) );
+    amount = std::min( amount, liquid.charges );
     if( amount <= 0 ) {
         return;
     }
@@ -8091,7 +8090,9 @@ void item::fill_with( item &liquid, int amount )
             pocket = best_pocket( liquid_copy );
             liquid_copy.charges =
                 std::max( amount, pocket->remaining_capacity_for_item( liquid_copy ) );
-            pocket->insert_item( liquid_copy );
+            if( !pocket->insert_item( liquid_copy ).success() ) {
+                break;
+            }
             amount -= liquid_copy.charges;
         }
         liquid.charges = amount;
