@@ -9,17 +9,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_cangun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted slingshot cannon" },
-    "item": "cangun",
-    "color": "brown",
-    "broken_color": "brown",
-    "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
     "id": "mounted_acr",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -27,17 +16,6 @@
     "item": "acr",
     "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_gattler",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted rotary cannon" },
-    "item": "gattler",
-    "color": "dark_gray",
-    "broken_color": "dark_gray",
-    "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "mounted_ak47",
@@ -56,39 +34,6 @@
     "item": "ak74",
     "breaks_into": [ { "item": "ak74", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_lasgun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted laser cannon" },
-    "item": "lasgun",
-    "color": "blue",
-    "broken_color": "blue",
-    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
-  },
-  {
-    "id": "mounted_lasgunp",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted pulse laser" },
-    "item": "lasgunp",
-    "color": "blue",
-    "broken_color": "blue",
-    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
-  },
-  {
-    "id": "mounted_lasgunx",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted turbolaser" },
-    "item": "lasgunx",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "lasgunx", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "mounted_american_180",
@@ -116,53 +61,6 @@
     "item": "ar15",
     "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_ripper",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted ripper" },
-    "item": "ripper",
-    "broken_symbol": "x",
-    "color": "dark_gray",
-    "broken_color": "dark_gray",
-    "power": -8750,
-    "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
-    "extend": { "flags": [ "EXTRA_DRAG" ] }
-  },
-  {
-    "id": "mounted_scorpion",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted scorpion ballista" },
-    "item": "scorpion",
-    "color": "brown",
-    "broken_color": "brown",
-    "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "mounted_slauncher",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted speargun" },
-    "item": "slauncher",
-    "color": "light_gray",
-    "broken_color": "light_gray",
-    "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "mounted_teslagun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted tesla cannon" },
-    "item": "teslagun",
-    "color": "blue",
-    "broken_color": "blue",
-    "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mounted_bigun",
@@ -213,20 +111,6 @@
     "durability": 240,
     "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "mounted_cutter",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted lacerator" },
-    "item": "cutter",
-    "broken_symbol": "x",
-    "color": "dark_gray",
-    "broken_color": "dark_gray",
-    "power": -1750,
-    "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
-    "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
     "id": "mounted_cx4",
