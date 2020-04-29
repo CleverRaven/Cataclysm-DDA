@@ -88,7 +88,7 @@
     "container": "usb_drive",
     "//": "note: str_pl = str because otherwise you get 'USB drives with productivity softwares'",
     "//": "- account for this on all software items because that's how they'll be found in the wild",
-    "name": { "str": "usable software", "str_pl": "usable software" },
+    "name": { "str_sp": "usable software" },
     "material": [ "plastic" ],
     "color": "dark_gray",
     "symbol": "#"
