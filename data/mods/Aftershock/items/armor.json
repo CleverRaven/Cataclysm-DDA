@@ -74,7 +74,7 @@
   {
     "id": "xl_jeans",
     "type": "ARMOR",
-    "name": { "str": "XL jeans", "str_pl": "XL jeans" },
+    "name": { "str": "XL jeans", "str_pl": "pairs of XL jeans" },
     "description": "A pair of XL blue jeans with two deep pockets.",
     "weight": "900 g",
     "volume": "3 L",
