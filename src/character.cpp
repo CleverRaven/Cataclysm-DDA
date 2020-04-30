@@ -6641,8 +6641,9 @@ std::string Character::extended_description() const
     // This should be extracted into a separate function later on
     for( const bodypart_id bp : bps ) {
         // Hide appendix from the player
-        if (bp->id == "num_bp")
+        if (bp->id == "num_bp") {
             continue;
+        }
         const std::string &bp_heading = body_part_name_as_heading( bp->token, 1 );
         hp_part hp = bp_to_hp( bp->token );
 
