@@ -253,15 +253,12 @@ std::string getOSXSystemLang()
         lang_code = lang_code_raw_fast;
     } else { // fallback to slow way
         CFIndex length = CFStringGetLength( lang ) + 1;
-        char *lang_code_raw_slow = new char[length];
-        bool success;
-        success = CFStringGetCString( lang, lang_code_raw_slow, length, kCFStringEncodingUTF8 );
+        std::vector<char> lang_code_raw_slow( length, '\0' );
+        bool success = CFStringGetCString( lang, lang_code_raw_slow.data(), length, kCFStringEncodingUTF8 );
         if( !success ) {
-            delete[] lang_code_raw_slow;
             return "en_US";
         }
-        lang_code = lang_code_raw_slow;
-        delete[] lang_code_raw_slow;
+        lang_code = lang_code_raw_slow.data();
     }
 
     // Convert to the underscore format expected by gettext
