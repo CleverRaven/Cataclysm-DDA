@@ -174,7 +174,12 @@
     "time": "8 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "blob_clutter", 1 ] ], [ [ "blob_feed", 500 ] ], [ [ "blob_frostie", 1 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
+    "components": [
+      [ [ "blob_clutter", 1 ] ],
+      [ [ "blob_feed", 500 ] ],
+      [ [ "blob_frostie", 1 ] ],
+      [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
+    ]
   },
   {
     "result": "blob_frostie",
@@ -293,7 +298,12 @@
     "time": "8 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "blob_gloople", 1 ] ], [ [ "blob_feed", 250 ] ], [ [ "plut_cell", 1 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
+    "components": [
+      [ [ "blob_gloople", 1 ] ],
+      [ [ "blob_feed", 250 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
+    ]
   },
   {
     "result": "blob_gray",

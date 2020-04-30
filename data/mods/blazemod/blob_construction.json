@@ -9,7 +9,14 @@
     "pre_terrain": "t_pit_corpsed",
     "post_terrain": "blob_pit",
     "tools": [
-      [ [ "blob_gloople", -1 ], [ "blob_glooplegrow", -1 ], [ "blob_oozle", -1 ], [ "blob_oozlegrow", -1 ], [ "blob_gray", -1 ], [ "blob_graygrow", -1 ] ]
+      [
+        [ "blob_gloople", -1 ],
+        [ "blob_glooplegrow", -1 ],
+        [ "blob_oozle", -1 ],
+        [ "blob_oozlegrow", -1 ],
+        [ "blob_gray", -1 ],
+        [ "blob_graygrow", -1 ]
+      ]
     ]
   },
   {
@@ -22,7 +29,14 @@
     "pre_terrain": "t_slime",
     "post_terrain": "blob_pit_slime",
     "tools": [
-      [ [ "blob_gloople", -1 ], [ "blob_glooplegrow", -1 ], [ "blob_oozle", -1 ], [ "blob_oozlegrow", -1 ], [ "blob_gray", -1 ], [ "blob_graygrow", -1 ] ]
+      [
+        [ "blob_gloople", -1 ],
+        [ "blob_glooplegrow", -1 ],
+        [ "blob_oozle", -1 ],
+        [ "blob_oozlegrow", -1 ],
+        [ "blob_gray", -1 ],
+        [ "blob_graygrow", -1 ]
+      ]
     ]
   },
   {
