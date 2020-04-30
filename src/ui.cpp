@@ -133,8 +133,6 @@ void uilist::init()
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
-    // TODO:
-    textalign = MENU_ALIGN_LEFT;
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
     window = catacurses::window();         // our window
@@ -147,8 +145,6 @@ void uilist::init()
     desc_enabled = false;  // don't show option description by default
     desc_lines = 6;        // default number of lines for description
     footer_text.clear();   // takes precedence over per-entry descriptions.
-    // TODO: always true.
-    border = true;
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -159,7 +155,6 @@ void uilist::init()
     allow_anykey = false;    // do not return on unbound keys
     allow_cancel = true;     // allow canceling with "QUIT" action
     allow_additional = false; // do not return on unhandled additional actions
-    hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
     vshift = 0;              // scrolling menu offset
@@ -170,15 +165,8 @@ void uilist::init()
     fselected = 0;           // fentries[selected]
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
-    max_entry_len = 0;       // does nothing but can be read
+    max_entry_len = 0;
     max_column_len = 0;      // for calculating space for second column
-
-    scrollbar_auto =
-        true;   // there is no force-on; true will only render scrollbar if entries > vertical height
-    scrollbar_nopage_color =
-        c_light_gray;    // color of '|' line for the entire area that isn't current page.
-    scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
-    scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
     hotkeys = DEFAULT_HOTKEYS;
     input_category = "UILIST";
@@ -492,12 +480,6 @@ void uilist::setup()
         w_y = static_cast<int>( ( TERMY - w_height ) / 2 );
     }
 
-    if( scrollbar_side == -1 ) {
-        scrollbar_side = ( pad_left > 0 ? 1 : 0 );
-    }
-    if( static_cast<int>( entries.size() ) <= vmax ) {
-        scrollbar_auto = false;
-    }
     window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
         debugmsg( "Window not created; probably trying to use uilist in test mode." );
@@ -555,11 +537,7 @@ void uilist::reposition( ui_adaptor &ui )
 
 void uilist::apply_scrollbar()
 {
-    if( !scrollbar_auto ) {
-        return;
-    }
-
-    int sbside = ( scrollbar_side == 0 ? 0 : w_width - 1 );
+    int sbside = ( pad_left <= 0 ? 0 : w_width - 1 );
     int estart = textformatted.size();
     if( estart > 0 ) {
         estart += 2;
@@ -575,8 +553,8 @@ void uilist::apply_scrollbar()
     .viewport_size( vmax )
     .border_color( border_color )
     .arrow_color( border_color )
-    .slot_color( scrollbar_nopage_color )
-    .bar_color( scrollbar_page_color )
+    .slot_color( c_light_gray )
+    .bar_color( c_cyan_cyan )
     .scroll_to_last( false )
     .apply( window );
 }
@@ -629,9 +607,7 @@ void uilist::show()
                               disabled_color )
                           );
 
-            if( hilight_full ) {
-                mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
-            }
+            mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
             if( entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
                 const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
                 mvwprintz( window, point( pad_left + 2, estart + si ), entries[ ei ].enabled ? hotkey_co : co,

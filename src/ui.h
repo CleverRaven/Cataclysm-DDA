@@ -26,9 +26,6 @@ const int UILIST_UNBOUND = -1026;
 const int UILIST_CANCEL = -1027;
 const int UILIST_TIMEOUT = -1028;
 const int UILIST_ADDITIONAL = -1029;
-const int MENU_ALIGN_LEFT = -1;
-const int MENU_ALIGN_CENTER = 0;
-const int MENU_ALIGN_RIGHT = 1;
 const int MENU_WIDTH_ENTRIES = -2;
 const int MENU_AUTOASSIGN = -1;
 // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -153,63 +150,6 @@ class uilist_callback
 class uilist // NOLINT(cata-xy)
 {
     public:
-        int w_x;
-        int w_y;
-        int w_width;
-        int w_height;
-        catacurses::window window;
-        int ret;
-        std::string ret_act;
-        int selected;
-        int keypress;
-        std::string text;
-        std::vector<std::string> textformatted;
-        std::string input_category;
-        std::vector<std::pair<std::string, translation>> additional_actions;
-        int textwidth;
-        int textalign;
-        int max_entry_len;
-        int max_column_len;
-        std::string title;
-        std::vector<uilist_entry> entries;
-        std::map<int, int> keymap;
-        bool desc_enabled;
-        int desc_lines;
-        std::string footer_text; // basically the same as desc, except it doesn't change based on selection
-        bool border;
-        bool filtering;
-        bool filtering_nocase;
-        nc_color border_color;
-        nc_color text_color;
-        nc_color title_color;
-        nc_color hilight_color;
-        nc_color hotkey_color;
-        nc_color disabled_color;
-        int pad_left = 0;
-        int pad_right = 0;
-        bool allow_disabled = false; // return on selecting disabled entry, default false
-        // return UILIST_UNBOUND on keys unbound & unhandled by callback, default false
-        bool allow_anykey = false;
-        bool allow_cancel = true; // return UILIST_CANCEL on "QUIT" action, default true
-        // return UILIST_ADDITIONAL if the input action is inside `additional_actions`
-        // and unhandled by callback, default false.
-        bool allow_additional = false;
-        bool hilight_disabled = false;
-        bool hilight_full = false;
-        int vshift = 0;
-        int vmax = 0;
-        std::string filter;
-        std::vector<int> fentries;
-        int fselected = 0;
-        bool centered_scroll = false;
-
-        bool scrollbar_auto = false;
-        nc_color scrollbar_nopage_color;
-        nc_color scrollbar_page_color;
-        int scrollbar_side = 0;
-
-        uilist_callback *callback;
-
         uilist();
         uilist( const std::string &hotkeys_override );
         // query() will be called at the end of these convenience constructors
@@ -231,11 +171,8 @@ class uilist // NOLINT(cata-xy)
         void reposition( ui_adaptor &ui );
         void show();
         bool scrollby( int scrollby );
-        int scroll_amount_from_key( int key );
-        int scroll_amount_from_action( const std::string &action );
         void query( bool loop = true, int timeout = -1 );
         void filterlist();
-        void apply_scrollbar();
         void addentry( const std::string &str );
         void addentry( int r, bool e, int k, const std::string &str );
         // K is templated so it matches a `char` literal and a `int` value.
@@ -256,18 +193,99 @@ class uilist // NOLINT(cata-xy)
         operator int() const;
 
     private:
-        bool started = false;
-        std::unique_ptr<string_input_popup> filter_popup;
-
-        bool w_x_autoassigned = false;
-        bool w_y_autoassigned = false;
-
+        int scroll_amount_from_key( int key );
+        int scroll_amount_from_action( const std::string &action );
+        void apply_scrollbar();
         // This function assumes it's being called from `query` and should
         // not be made public.
         void inputfilter();
 
-    protected:
+    public:
+        // Parameters
+        // TODO change to setters
+        std::string title;
+        std::string text;
+        // basically the same as desc, except it doesn't change based on selection
+        std::string footer_text;
+        std::vector<uilist_entry> entries;
+
+        std::string input_category;
+        std::vector<std::pair<std::string, translation>> additional_actions;
+
+        nc_color border_color;
+        nc_color text_color;
+        nc_color title_color;
+        nc_color hilight_color;
+        nc_color hotkey_color;
+        nc_color disabled_color;
+
+        uilist_callback *callback;
+
+        int textwidth;
+
+        int pad_left = 0;
+        int pad_right = 0;
+
+        int desc_lines;
+        bool desc_enabled;
+
+        bool filtering;
+        bool filtering_nocase;
+
+        // return on selecting disabled entry, default false
+        bool allow_disabled = false;
+        // return UILIST_UNBOUND on keys unbound & unhandled by callback, default false
+        bool allow_anykey = false;
+        // return UILIST_CANCEL on "QUIT" action, default true
+        bool allow_cancel = true;
+        // return UILIST_ADDITIONAL if the input action is inside `additional_actions`
+        // and unhandled by callback, default false.
+        bool allow_additional = false;
+        bool hilight_disabled = false;
+
+    private:
         std::string hotkeys;
+
+    public:
+        // Iternal states
+        // TODO make private
+        std::vector<std::string> textformatted;
+
+        catacurses::window window;
+        int w_x;
+        int w_y;
+        int w_width;
+        int w_height;
+
+        int vshift = 0;
+
+        int fselected = 0;
+
+    private:
+        std::vector<int> fentries;
+        std::map<int, int> keymap;
+
+        std::unique_ptr<string_input_popup> filter_popup;
+        std::string filter;
+
+        int max_entry_len;
+        int max_column_len;
+
+        int vmax = 0;
+
+        bool w_x_autoassigned = false;
+        bool w_y_autoassigned = false;
+
+        bool started = false;
+
+    public:
+        // Results
+        // TODO change to getters
+        std::string ret_act;
+        int ret;
+        int keypress;
+
+        int selected;
 };
 
 /**
