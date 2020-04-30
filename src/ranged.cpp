@@ -654,11 +654,17 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const int move_cost = throw_cost( *this, to_throw );
     mod_moves( -move_cost );
 
+    const int throwing_skill = get_skill_level( skill_throw );
     units::volume volume = to_throw.volume();
     units::mass weight = to_throw.weight();
 
-    const int stamina_cost = ( static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) )
-                               + ( weight / 10_gram ) + 200 ) * -1;
+    // Previously calculated as 2_gram * std::max( 1, str_cur )
+    // using 16_gram normalizes it to 8 str. Same effort expenditure
+    // for being able to throw farther.
+    const int weight_cost = weight / ( 16_gram );
+    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) * 2.0f );
+    const int stamina_cost = ( weight_cost + encumbrance_cost - throwing_skill + 50 ) * -1;
+
     bool throw_assist = false;
     int throw_assist_str = 0;
     if( is_mounted() ) {

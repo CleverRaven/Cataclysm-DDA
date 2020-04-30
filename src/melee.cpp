@@ -591,8 +591,12 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     }
 
     const int melee = get_skill_level( skill_melee );
-    /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
-    const int weight_cost = cur_weapon.weight() / ( 2_gram * std::max( 1, str_cur ) );
+
+    // Previously calculated as 2_gram * std::max( 1, str_cur )
+    // using 16_gram normalizes it to 8 str. Same effort expenditure
+    // for each strike, regardless of weight. This is compensated
+    // for by the additional move cost as weapon weight increases
+    const int weight_cost = cur_weapon.weight() / ( 16_gram );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
                                  2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
