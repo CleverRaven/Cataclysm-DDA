@@ -1259,13 +1259,13 @@ static bool search( const ui_adaptor &om_ui, tripoint &curs, const tripoint &ori
     return true;
 }
 
-static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bool show_explored,
-                                  const bool fast_scroll, std::string &action )
+static void place_ter_or_special( const ui_adaptor &om_ui, tripoint &curs,
+                                  const std::string &om_action )
 {
     uilist pmenu;
     // This simplifies overmap_special selection using uilist
     std::vector<const overmap_special *> oslist;
-    const bool terrain = action == "PLACE_TERRAIN";
+    const bool terrain = om_action == "PLACE_TERRAIN";
 
     if( terrain ) {
         pmenu.title = _( "Select terrain to place:" );
@@ -1291,12 +1291,22 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
     pmenu.query();
 
     if( pmenu.ret >= 0 ) {
-        catacurses::window w_editor = catacurses::newwin( 15, 27, point( TERMX - 27, 3 ) );
+        catacurses::window w_editor;
+
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            w_editor = catacurses::newwin( 15, 27, point( TERMX - 27, 3 ) );
+
+            ui.position_from_window( w_editor );
+        } );
+        ui.mark_resize();
+
         input_context ctxt( "OVERMAP_EDITOR" );
         ctxt.register_directions();
         ctxt.register_action( "CONFIRM" );
         ctxt.register_action( "ROTATE" );
         ctxt.register_action( "QUIT" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "ANY_INPUT" );
 
         if( terrain ) {
@@ -1319,14 +1329,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
             }
         }
 
-        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-        do {
-            // overmap::draw will handle actually showing the preview
-            draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
-                  fast_scroll, nullptr, draw_data_t() );
-
+        ui.on_redraw( [&]( const ui_adaptor & ) {
             draw_border( w_editor );
             if( terrain ) {
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1358,6 +1361,12 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                        ctxt.get_desc( "CONFIRM" ) );
             mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
             wrefresh( w_editor );
+        } );
+
+        std::string action;
+        do {
+            om_ui.invalidate_ui();
+            ui_manager::redraw();
 
             action = ctxt.handle_input( BLINK_SPEED );
 
@@ -1389,7 +1398,6 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
 
         uistate.place_terrain = nullptr;
         uistate.place_special = nullptr;
-        action.clear();
     }
 }
 
@@ -1597,7 +1605,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                 continue;
             }
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
-            place_ter_or_special( curs, orig, show_explored, fast_scroll, action );
+            place_ter_or_special( ui, curs, action );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }
