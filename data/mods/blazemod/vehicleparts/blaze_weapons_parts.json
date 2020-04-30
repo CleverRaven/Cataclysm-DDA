@@ -5,7 +5,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted TDI Vector" },
     "item": "TDI",
-    "breaks_into": [ { "item": "TDI", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "TDI", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -14,7 +14,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Remington ACR" },
     "item": "acr",
-    "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "acr", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -23,7 +23,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted AK47" },
     "item": "ak47",
-    "breaks_into": [ { "item": "ak47", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "ak47", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -32,7 +32,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted AK74" },
     "item": "ak74",
-    "breaks_into": [ { "item": "ak74", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "ak74", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -41,7 +41,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted American-180" },
     "item": "american_180",
-    "breaks_into": [ { "item": "american_180", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "american_180", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -50,7 +50,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted AN94" },
     "item": "an94",
-    "breaks_into": [ { "item": "an94", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "an94", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -59,7 +59,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted AR-15" },
     "item": "ar15",
-    "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "ar15", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -68,7 +68,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted autoshotgun" },
     "item": "bigun",
-    "breaks_into": [ { "item": "bigun", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "bigun", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -77,7 +77,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted blunderbuss" },
     "item": "blunderbuss",
-    "breaks_into": [ { "item": "blunderbuss", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "blunderbuss", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -86,7 +86,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Browning BLR" },
     "item": "browning_blr",
-    "breaks_into": [ { "item": "browning_blr", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "browning_blr", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -95,7 +95,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Calico M960" },
     "item": "calico",
-    "breaks_into": [ { "item": "calico", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "calico", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -109,7 +109,7 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "durability": 240,
-    "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "carbine_flintlock", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -118,7 +118,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Cx4 Storm" },
     "item": "cx4",
-    "breaks_into": [ { "item": "cx4", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "cx4", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -129,7 +129,7 @@
     "item": "flamethrower",
     "color": "red",
     "broken_color": "red",
-    "breaks_into": [ { "item": "flamethrower", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
@@ -141,7 +141,7 @@
     "item": "rm451_flamethrower",
     "color": "red",
     "broken_color": "red",
-    "breaks_into": [ { "item": "rm451_flamethrower", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rm451_flamethrower", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
@@ -151,7 +151,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted FN FAL" },
     "item": "fn_fal",
-    "breaks_into": [ { "item": "fn_fal", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "fn_fal", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -160,7 +160,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted FN P90" },
     "item": "fn_p90",
-    "breaks_into": [ { "item": "fn_p90", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "fn_p90", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -169,7 +169,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted H&K 416A5" },
     "item": "h&k416a5",
-    "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "h&k416a5", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -178,7 +178,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted H&K G3" },
     "item": "hk_g3",
-    "breaks_into": [ { "item": "hk_g3", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "hk_g3", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -187,7 +187,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted H&K G36" },
     "item": "hk_g36",
-    "breaks_into": [ { "item": "hk_g36", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "hk_g36", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -196,7 +196,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted H&K G80" },
     "item": "hk_g80",
-    "breaks_into": [ { "item": "hk_g80", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "hk_g80", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -205,7 +205,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted H&K MP5" },
     "item": "hk_mp5",
-    "breaks_into": [ { "item": "hk_mp5", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "hk_mp5", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -214,7 +214,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted H&K MP7" },
     "item": "hk_mp7",
-    "breaks_into": [ { "item": "hk_mp7", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "hk_mp7", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -223,7 +223,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted H&K UMP45" },
     "item": "hk_ump45",
-    "breaks_into": [ { "item": "hk_ump45", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "hk_ump45", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -232,7 +232,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Kel-Tec KSG" },
     "item": "ksg",
-    "breaks_into": [ { "item": "ksg", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "ksg", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -241,7 +241,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Tavor TS12" },
     "item": "tavor_12",
-    "breaks_into": [ { "item": "tavor_12", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "tavor_12", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -250,7 +250,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted 40mm launcher" },
     "item": "launcher_simple",
-    "breaks_into": [ { "item": "launcher_simple", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "launcher_simple", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -259,7 +259,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M1014 shotgun" },
     "item": "m1014",
-    "breaks_into": [ { "item": "m1014", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m1014", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -268,7 +268,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Barrett M107A1" },
     "item": "m107a1",
-    "breaks_into": [ { "item": "m107a1", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m107a1", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -277,7 +277,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M14-EBR" },
     "item": "m14ebr",
-    "breaks_into": [ { "item": "m14ebr", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m14ebr", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -286,7 +286,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M1A" },
     "item": "m1a",
-    "breaks_into": [ { "item": "m1a", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m1a", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -295,7 +295,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M2010 ESR" },
     "item": "m2010",
-    "breaks_into": [ { "item": "m2010", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m2010", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -304,7 +304,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M27 IAR" },
     "item": "m27iar",
-    "breaks_into": [ { "item": "m27iar", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m27iar", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -313,7 +313,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted .50 caliber" },
     "item": "m2browning_sawn",
-    "breaks_into": [ { "item": "m2browning_sawn", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m2browning_sawn", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -322,7 +322,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M320" },
     "item": "m320",
-    "breaks_into": [ { "item": "m320", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m320", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -331,7 +331,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M4A1" },
     "item": "m4a1",
-    "breaks_into": [ { "item": "m4a1", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m4a1", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -340,7 +340,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M60" },
     "item": "m60",
-    "breaks_into": [ { "item": "m60", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m60", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -349,7 +349,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M79" },
     "item": "m79",
-    "breaks_into": [ { "item": "m79", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "m79", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -358,7 +358,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted MAC-10" },
     "item": "mac_10",
-    "breaks_into": [ { "item": "mac_10", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "mac_10", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -367,7 +367,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Marlin 39A" },
     "item": "marlin_9a",
-    "breaks_into": [ { "item": "marlin_9a", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "marlin_9a", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -376,7 +376,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Milkor MGL" },
     "item": "mgl",
-    "breaks_into": [ { "item": "mgl", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "mgl", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -385,7 +385,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Mossberg 500" },
     "item": "mossberg_500",
-    "breaks_into": [ { "item": "mossberg_500", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "mossberg_500", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -394,7 +394,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted double pipe shotgun" },
     "item": "pipe_double_shotgun",
-    "breaks_into": [ { "item": "pipe_double_shotgun", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "pipe_double_shotgun", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -403,7 +403,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted pipe shotgun" },
     "item": "pipe_shotgun",
-    "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "pipe_shotgun", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -412,7 +412,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Remington 700" },
     "item": "remington_700",
-    "breaks_into": [ { "item": "remington_700", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "remington_700", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -421,7 +421,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Remington 870" },
     "item": "remington_870",
-    "breaks_into": [ { "item": "remington_870", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "remington_870", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -432,7 +432,7 @@
     "item": "rep_crossbow",
     "color": "brown",
     "broken_color": "light_gray",
-    "breaks_into": [ { "item": "rep_crossbow", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rep_crossbow", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -441,7 +441,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted revolver shotgun" },
     "item": "revolver_shotgun",
-    "breaks_into": [ { "item": "revolver_shotgun", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "revolver_shotgun", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -450,7 +450,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted .22 pipe rifle" },
     "item": "rifle_22",
-    "breaks_into": [ { "item": "rifle_22", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rifle_22", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -459,7 +459,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted .308 pipe rifle" },
     "item": "rifle_308",
-    "breaks_into": [ { "item": "rifle_308", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rifle_308", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -468,7 +468,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted 9x19mm pipe rifle" },
     "item": "rifle_9mm",
-    "breaks_into": [ { "item": "rifle_9mm", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rifle_9mm", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -480,7 +480,7 @@
     "symbol": "+",
     "broken_symbol": "x",
     "durability": 240,
-    "breaks_into": [ { "item": "rifle_flintlock", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rifle_flintlock", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -489,7 +489,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted RM11B scout rifle" },
     "item": "rm11b_sniper_rifle",
-    "breaks_into": [ { "item": "rm11b_sniper_rifle", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rm11b_sniper_rifle", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -498,7 +498,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted RM2000 SMG" },
     "item": "rm2000_smg",
-    "breaks_into": [ { "item": "rm2000_smg", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rm2000_smg", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -507,7 +507,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted RM51 assault rifle" },
     "item": "rm51_assault_rifle",
-    "breaks_into": [ { "item": "rm51_assault_rifle", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rm51_assault_rifle", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -516,7 +516,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted RM614 LMG" },
     "item": "rm614_lmg",
-    "breaks_into": [ { "item": "rm614_lmg", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rm614_lmg", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -525,7 +525,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted RM802" },
     "item": "rm802",
-    "breaks_into": [ { "item": "rm802", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rm802", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -534,7 +534,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted RM88 battle rifle" },
     "item": "rm88_battle_rifle",
-    "breaks_into": [ { "item": "rm88_battle_rifle", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rm88_battle_rifle", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -545,7 +545,7 @@
     "item": "rslauncher",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "rslauncher", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -554,7 +554,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Ruger 10/22" },
     "item": "ruger_1022",
-    "breaks_into": [ { "item": "ruger_1022", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "ruger_1022", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -563,7 +563,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Ruger mini-14" },
     "item": "ruger_mini",
-    "breaks_into": [ { "item": "ruger_mini", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "ruger_mini", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -572,7 +572,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Saiga 12" },
     "item": "saiga_12",
-    "breaks_into": [ { "item": "saiga_12", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "saiga_12", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -581,7 +581,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Savage 111F" },
     "item": "savage_111f",
-    "breaks_into": [ { "item": "savage_111f", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "savage_111f", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -590,7 +590,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted FN SCAR-H" },
     "item": "scar_h",
-    "breaks_into": [ { "item": "scar_h", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "scar_h", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -599,7 +599,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted FN SCAR-L" },
     "item": "scar_l",
-    "breaks_into": [ { "item": "scar_l", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "scar_l", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -608,7 +608,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted double shotgun" },
     "item": "shotgun_d",
-    "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "shotgun_d", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -617,7 +617,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted single shotgun" },
     "item": "shotgun_s",
-    "breaks_into": [ { "item": "shotgun_s", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "shotgun_s", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -626,7 +626,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted SKS" },
     "item": "sks",
-    "breaks_into": [ { "item": "sks", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "sks", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -637,7 +637,7 @@
     "item": "slauncher",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "slauncher", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -646,7 +646,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Steyr AUG" },
     "item": "steyr_aug",
-    "breaks_into": [ { "item": "steyr_aug", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "steyr_aug", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -655,7 +655,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted 223 carbine" },
     "item": "surv_carbine_223",
-    "breaks_into": [ { "item": "surv_carbine_223", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "surv_carbine_223", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -664,7 +664,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted TEC-9" },
     "item": "tec9",
-    "breaks_into": [ { "item": "tec9", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "tec9", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -673,7 +673,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted Uzi" },
     "item": "uzi",
-    "breaks_into": [ { "item": "uzi", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "uzi", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -682,7 +682,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted V29 laser" },
     "item": "v29",
-    "breaks_into": [ { "item": "v29", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "v29", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   }
 ]
