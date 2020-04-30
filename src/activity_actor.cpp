@@ -25,7 +25,6 @@
 #include "player_activity.h"
 #include "point.h"
 #include "timed_event.h"
-#include "type_id.h"
 #include "uistate.h"
 
 static const bionic_id bio_fingerhack( "bio_fingerhack" );

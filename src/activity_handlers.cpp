@@ -43,7 +43,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "gates.h"
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
