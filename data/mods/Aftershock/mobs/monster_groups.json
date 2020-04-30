@@ -87,5 +87,26 @@
       { "monster": "mon_zombie_upliftedbear", "freq": 10, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
       { "monster": "mon_uplifted_ape_zed", "freq": 10, "cost_multiplier": 1, "pack_size": [ 2, 3 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BRUTE",
+    "default": "mon_zombie_brute",
+    "//": "Brute upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_upliftedbear", "freq": 112, "cost_multiplier": 10 },
+      { "monster": "mon_uplifted_ape_zed", "freq": 100, "cost_multiplier": 50 },
+      { "monster": "mon_zombie_oliphant", "freq": 70, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_zombie_upliftedbear", "freq": 3, "cost_multiplier": 10 },
+      { "monster": "mon_uplifted_ape_zed", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_oliphant", "freq": 1, "cost_multiplier": 50 }
+    ]
   }
 ]
