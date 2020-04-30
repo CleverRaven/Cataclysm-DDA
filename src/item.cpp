@@ -825,6 +825,7 @@ item item::in_container( const itype_id &cont ) const
         if( ret.has_pockets() ) {
             if( count_by_charges() ) {
                 item item_copy( *this );
+                item_copy.charges = 1;
                 ret.fill_with( item_copy, made_of( LIQUID ) ? item::INFINITE_CHARGES : charges );
             } else {
                 ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
