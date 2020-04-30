@@ -1559,7 +1559,10 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
 
     // Check if we are going to block with an item. This could
     // be worn equipment with the BLOCK_WHILE_WORN flag.
-    const bool item_blocking = !shield.is_null();
+    const bool has_shield = !shield.is_null();
+
+    // boolean check if blocking is being done with unarmed or not
+    const bool item_blocking = !force_unarmed && has_shield && !unarmed;
 
     int block_score = 1;
 
@@ -1569,12 +1572,12 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
         if( martial_arts_data.can_limb_block( *this ) ) {
             // block_bonus for limb blocks will be added when the limb is decided
             block_score = str_cur + melee_skill + unarmed_skill;
-        } else if( item_blocking ) {
+        } else if( has_shield ) {
             // We can still block with a worn item while unarmed. Use higher of melee and unarmed
             block_score = str_cur + block_bonus + ( melee_skill > unarmed_skill ?
                                                     melee_skill :  unarmed_skill );
         }
-    } else if( item_blocking ) {
+    } else if( has_shield ) {
         block_score = str_cur + block_bonus + get_skill_level( skill_melee );
     } else {
         // Can't block with limbs or items (do not block)
@@ -1583,7 +1586,7 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
-    if( !force_unarmed && item_blocking ) {
+    if( !force_unarmed && has_shield ) {
         thing_blocked_with = shield.tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;
@@ -1616,7 +1619,7 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
         thing_blocked_with = body_part_name( bp_hit );
     }
 
-    if( item_blocking ) {
+    if( has_shield ) {
         // Does our shield cover the limb we blocked with? If so, add the block bonus.
         block_score += shield.covers( bp_hit ) ? block_bonus : 0;
     }
@@ -1659,7 +1662,7 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
         // but severely mitigated damage if not
         else if( elem.type == DT_HEAT || elem.type == DT_ACID || elem.type == DT_COLD ) {
             // Unarmed weapons won't block those
-            if( !force_unarmed && item_blocking && !unarmed ) {
+            if( item_blocking ) {
                 float previous_amount = elem.amount;
                 elem.amount /= 5;
                 damage_blocked += previous_amount - elem.amount;
@@ -1668,7 +1671,7 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
             // conductive weapon
         } else if( elem.type == DT_ELECTRIC ) {
             // Unarmed weapons and conductive weapons won't block this
-            if( !force_unarmed && item_blocking && !unarmed && !conductive_shield ) {
+            if( item_blocking && !conductive_shield ) {
                 float previous_amount = elem.amount;
                 elem.amount /= 5;
                 damage_blocked += previous_amount - elem.amount;
