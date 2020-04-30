@@ -1,6 +1,6 @@
 [
   {
-    "result": "diamondplate",
+    "result": "diamond_plate",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -17,7 +17,7 @@
     ]
   },
   {
-    "result": "diamondframe",
+    "result": "diamond_frame",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -34,7 +34,7 @@
     ]
   },
   {
-    "result": "diamondnova",
+    "result": "diamond_nova",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -56,7 +56,7 @@
     ]
   },
   {
-    "result": "diamondlance",
+    "result": "diamond_lance",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",

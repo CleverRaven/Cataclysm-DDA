@@ -1,9 +1,9 @@
 [
   {
-    "id": "bfeedfuel",
+    "id": "blob_feed_fuel",
     "type": "AMMO",
     "category": "fuel",
-    "name": { "str": "liquified blob feed", "str_pl": "bfeedfuel" },
+    "name": { "str_sp": "liquified blob feed" },
     "description": "Liquified blob feed, useful for fueling certain blob based vehicle parts",
     "weight": "1 g",
     "volume": "200ml",
@@ -17,13 +17,13 @@
     "color": "red",
     "count": 250,
     "stack_size": 200,
-    "ammo_type": "bfeed",
+    "ammo_type": "blob_feed",
     "range": 4,
     "damage": 5,
     "pierce": 5
   },
   {
-    "id": "bfeed",
+    "id": "blob_feed",
     "type": "AMMO",
     "category": "fuel",
     "name": { "str_sp": "blob feed" },
@@ -37,6 +37,6 @@
     "symbol": "*",
     "color": "red",
     "count": 25,
-    "ammo_type": "bfeed"
+    "ammo_type": "blob_feed"
   }
 ]

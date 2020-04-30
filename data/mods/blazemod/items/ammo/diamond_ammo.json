@@ -1,11 +1,22 @@
 [
   {
     "id": "diamond_coal",
-    "copy-from": "charcoal",
     "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str_sp": "charcoal" },
-    "casing": "diamond_cluster"
+    "name": { "str_sp": "glittering carbon" },
+    "description": "These small fragments of carbon are have been compressed into a crystalline structure that is beginning to resemble diamonds.",
+    "weight": "3 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "bashing": 1,
+    "material": "diamond",
+    "symbol": "=",
+    "color": "white",
+    "looks_like": "diamond",
+    "count": 100,
+    "ammo_type": "crystalline_shards",
+    "damage": 1,
+    "pierce": 1,
+    "dispersion": 12
   },
   {
     "id": "diamond_shards",

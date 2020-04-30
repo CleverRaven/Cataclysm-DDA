@@ -18,7 +18,7 @@
     "volume": 50
   },
   {
-    "id": "mon_gloople",
+    "id": "blob_mon_gloople",
     "type": "MONSTER",
     "name": { "str_sp": "gelatinous mass" },
     "description": "An escaping noisy blob, catch it before it brings in every zombie for miles!",
@@ -41,14 +41,14 @@
     "dodge": 0,
     "armor_bash": 0,
     "armor_cut": 0,
-    "revert_to_itype": "gloople",
+    "revert_to_itype": "blob_gloople",
     "special_attacks": [ [ "PARROT", 0 ] ],
     "death_function": [ "MELT" ],
     "harvest": "exempt",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
-    "id": "mon_gray",
+    "id": "blob_mon_gray",
     "type": "MONSTER",
     "name": { "str_sp": "gray mass" },
     "description": "An escaping noisy blob, catch it before it brings in every zombie for miles!",
@@ -71,14 +71,14 @@
     "dodge": 0,
     "armor_bash": 0,
     "armor_cut": 0,
-    "revert_to_itype": "gray",
+    "revert_to_itype": "blob_gray",
     "special_attacks": [ [ "PARROT", 0 ] ],
     "death_function": [ "MELT" ],
     "harvest": "exempt",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
-    "id": "mon_oozle",
+    "id": "blob_mon_oozle",
     "type": "MONSTER",
     "name": { "str_sp": "gelatinous mass" },
     "description": "An escaping noisy blob, catch it before it brings in every zombie for miles!",
@@ -101,7 +101,7 @@
     "dodge": 0,
     "armor_bash": 0,
     "armor_cut": 0,
-    "revert_to_itype": "oozle",
+    "revert_to_itype": "blob_oozle",
     "special_attacks": [ [ "PARROT", 0 ] ],
     "death_function": [ "MELT" ],
     "harvest": "exempt",

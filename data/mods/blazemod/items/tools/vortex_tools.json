@@ -1,6 +1,6 @@
 [
   {
-    "id": "vgen",
+    "id": "vortex_engine",
     "type": "TOOL",
     "category": "veh_parts",
     "name": { "str": "vortex engine" },
@@ -15,7 +15,7 @@
     "color": "magenta"
   },
   {
-    "id": "vgen2",
+    "id": "vortex_generator",
     "type": "TOOL",
     "category": "veh_parts",
     "name": { "str": "vortex generator" },
