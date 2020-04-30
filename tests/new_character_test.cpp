@@ -101,7 +101,7 @@ struct less<failure> {
 /**
  * Disabled temporarily because 3169 profession combinations do not work and need to be fixed in json
  */
-TEST_CASE( "starting_items", "[!mayfail][slow]" )
+TEST_CASE( "starting_items", "[.][slow]" )
 {
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {

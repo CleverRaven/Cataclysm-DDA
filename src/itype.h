@@ -878,9 +878,6 @@ struct itype {
         // MATERIALS WORK IN PROGRESS.
         std::vector<material_id> materials;
 
-        // information related to being able to store things inside the item.
-        std::vector<pocket_data> pockets;
-
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
 
@@ -978,6 +975,9 @@ struct itype {
 
         /** Default magazine for each ammo type that can be used to reload this item */
         std::map< ammotype, itype_id > magazine_default;
+
+        // information related to being able to store things inside the item.
+        std::vector<pocket_data> pockets;
 
         layer_level layer = layer_level::MAX_CLOTHING_LAYER;
 
