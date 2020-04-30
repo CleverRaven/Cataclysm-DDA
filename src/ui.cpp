@@ -235,6 +235,9 @@ void uilist::filterlist()
     if( static_cast<int>( fentries.size() ) <= vmax ) {
         vshift = 0;
     }
+    if( callback != nullptr ) {
+        callback->select( this );
+    }
 }
 
 void uilist::inputfilter()
@@ -515,6 +518,9 @@ void uilist::setup()
             }
         }
     }
+    if( callback != nullptr ) {
+        callback->select( this );
+    }
     started = true;
 }
 
@@ -657,9 +663,6 @@ void uilist::show()
                 mvwputch( window, point( pad_left + 1 + menu_entry_extra_text.left, estart + si ),
                           menu_entry_extra_text.color, menu_entry_extra_text.sym );
             }
-            if( callback != nullptr && ei == selected ) {
-                callback->select( ei, this );
-            }
         } else {
             mvwprintz( window, point( pad_left + 1, estart + si ), c_light_gray, padspaces );
         }
@@ -788,6 +791,9 @@ bool uilist::scrollby( const int scrollby )
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
         selected = fentries [ fselected ];
+        if( callback != nullptr ) {
+            callback->select( this );
+        }
     }
     return true;
 }
@@ -858,6 +864,9 @@ void uilist::query( bool loop, int timeout )
                 ret = entries[ selected ].retval; // valid
             } else if( allow_disabled ) {
                 ret = entries[selected].retval; // disabled
+            }
+            if( callback != nullptr ) {
+                callback->select( this );
             }
         } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {

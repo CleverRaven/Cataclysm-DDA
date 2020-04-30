@@ -137,7 +137,7 @@ class uilist;
 class uilist_callback
 {
     public:
-        virtual void select( int /*entnum*/, uilist * ) {}
+        virtual void select( uilist * ) {}
         virtual bool key( const input_context &, const input_event &/*key*/, int /*entnum*/,
                           uilist * ) {
             return false;
