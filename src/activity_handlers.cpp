@@ -166,7 +166,6 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
-static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
@@ -380,7 +379,6 @@ activity_handlers::finish_functions = {
     { ACT_PULP, pulp_finish },
     { ACT_CRACKING, cracking_finish },
     { ACT_LOCKPICK, lockpicking_finish },
-    { ACT_OPEN_GATE, open_gate_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -2618,14 +2616,6 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
         p->i_rem( it );
     }
 
-    act->set_to_null();
-}
-
-void activity_handlers::open_gate_finish( player_activity *act, player * )
-{
-    // Don't use reference and don't inline, because act can change
-    const tripoint pos = act->placement;
-    gates::open_gate( pos );
     act->set_to_null();
 }
 

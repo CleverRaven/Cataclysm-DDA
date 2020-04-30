@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
+#include "gates.h"
 #include "iexamine.h"
 #include "item.h"
 #include "item_location.h"
@@ -24,6 +25,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "timed_event.h"
+#include "type_id.h"
 #include "uistate.h"
 
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
@@ -374,6 +376,41 @@ std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( Js
     return migration_cancel_activity_actor().clone();
 }
 
+void open_gate_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+    act.placement = placement;
+}
+
+void open_gate_activity_actor::finish( player_activity &act, Character & )
+{
+    gates::open_gate( placement );
+    act.set_to_null();
+}
+
+void open_gate_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "placement", placement );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &jsin )
+{
+    open_gate_activity_actor actor( 0, tripoint_zero );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "placement", actor.placement );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -383,6 +420,7 @@ deserialize_functions = {
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
+    { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
 };
 } // namespace activity_actors
