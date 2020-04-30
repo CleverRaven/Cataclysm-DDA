@@ -21,7 +21,15 @@ template<class CharT, class Traits, class Alloc>
 bool operator<( const std::basic_string<CharT, Traits, Alloc> &lhs,
                 const std::basic_string<CharT, Traits, Alloc> &rhs ) noexcept;
 
+template<class RandomIt>
+void sort( RandomIt first, RandomIt last );
+
 }
+
+template<class T>
+struct iterator {
+    using value_type = T;
+};
 
 class NonString
 {
@@ -38,4 +46,26 @@ bool f0( const std::string &l, const std::string &r )
 bool f1( const NonString &l, const NonString &r )
 {
     return l < r;
+}
+
+bool sort0( const std::string *start, const std::string *end )
+{
+    std::sort( start, end );
+    // CHECK-MESSAGES: warning: Raw sort of 'const std::string' (aka 'const basic_string<char>').  For UI purposes please use localized_compare from translations.h. [cata-use-localized-sorting]
+}
+
+bool sort1( const NonString *start, const NonString *end )
+{
+    std::sort( start, end );
+}
+
+bool sortit0( iterator<std::string> start, iterator<std::string> end )
+{
+    std::sort( start, end );
+    // CHECK-MESSAGES: warning: Raw sort of 'std::basic_string<char, std::char_traits<char>, std::allocator<char> >'.  For UI purposes please use localized_compare from translations.h. [cata-use-localized-sorting]
+}
+
+bool sortit1( iterator<NonString> start, iterator<NonString> end )
+{
+    std::sort( start, end );
 }
