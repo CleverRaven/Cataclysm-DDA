@@ -305,11 +305,15 @@ Groups of vehicle definitions with self-explanatory names of files:
 | Filename
 |---
 | bikes.json
+| boats.json
 | cars.json
 | carts.json
+| custom_vehicles.json
 | emergency.json
 | farm.json
+| helicopters.json
 | military.json
+| trains.json
 | trucks.json
 | utility.json
 | vans_busses.json
