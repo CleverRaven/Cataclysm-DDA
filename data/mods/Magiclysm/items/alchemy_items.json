@@ -49,6 +49,14 @@
     "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
   },
   {
+    "id": "gold_infuser",
+    "copy-from": "gold_bracelet",
+    "type": "ARMOR",
+    "qualities": [ [ "MANA_INFUSE", 3 ] ],
+    "name": { "str": "gold infusion bracelet" },
+    "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
+  },
+  {
     "id": "copper_circlet",
     "type": "ARMOR",
     "category": "armor",
