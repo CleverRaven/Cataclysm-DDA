@@ -6934,8 +6934,8 @@ int item::ammo_consume( int qty, const tripoint &pos )
         return contents.ammo_consume( qty );
 
     } else if( is_tool() || is_gun() ) {
-        if( type->tool->ammo_id.empty() ||
-            !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        if( !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) || 
+            ( is_tool() && type->tool->ammo_id.empty() ) ) {
             qty = std::min( qty, charges );
             if( has_flag( flag_USES_BIONIC_POWER ) ) {
                 charges = units::to_kilojoule( g->u.get_power_level() );
