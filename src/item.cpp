@@ -827,16 +827,17 @@ item item::in_container( const itype_id &cont ) const
                 item item_copy( *this );
                 ret.fill_with( item_copy, made_of( LIQUID ) ? item::INFINITE_CHARGES : charges );
             } else {
-                const ret_val<bool> put_in_success =
-                    ret.contents.insert_item( *this, item_pocket::pocket_type::CONTAINER );
-                ret.on_contents_changed();
-                if( !put_in_success.success() ) {
-                    debugmsg( "ERROR: failed to put %s in %s", typeId(), cont.c_str() );
-                }
+                ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
             }
 
             ret.invlet = invlet;
             ret.seal();
+            if( !ret.has_item_with( [&cont]( const item & it ) {
+            return it.typeId() == cont;
+            } ) ) {
+                debugmsg( "ERROR: failed to put %s in its container %s", typeId().c_str(), cont.c_str() );
+                return *this;
+            }
             return ret;
         }
     }

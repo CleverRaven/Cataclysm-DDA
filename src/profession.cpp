@@ -676,9 +676,10 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
             while( result.charges > 0 ) {
                 const item pushed = result.in_its_container();
                 ret.push_back( pushed );
+                const int charges = pushed.contents.empty() ? -pushed.charges :
+                                    -pushed.contents.only_item().charges;
                 // get the first contained item (there's only one because of in_its_container())
-                result.mod_charges( pushed.contents.empty() ? -pushed.charges :
-                                    -pushed.contents.only_item().charges );
+                result.mod_charges( charges );
             }
         }
     }
