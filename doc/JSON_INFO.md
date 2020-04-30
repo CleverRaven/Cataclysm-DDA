@@ -1440,8 +1440,6 @@ completed when you wake up for the first time after 24 hours into the game.
 
 Vehicle components when installed on a vehicle.
 
-
-
 ```C++
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
