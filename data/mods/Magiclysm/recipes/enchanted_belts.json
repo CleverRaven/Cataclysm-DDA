@@ -6,12 +6,10 @@
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "spellcraft",
     "difficulty": 4,
-    "time": "20 m",
+    "time": "120 m",
 	"reversible": true,
     "autolearn": true,
-    "qualities": [
-      { "id": "MANA_INFUSE", "level": 2 }
-    ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
     "components": [
       [ [ "survivor_belt", 1 ] ],
       [ [ "rune_technomancer_weapon", 1 ] ],

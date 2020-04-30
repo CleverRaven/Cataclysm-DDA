@@ -114,24 +114,24 @@
     "name": { "str": "technomancer's toolbelt" },
     "weight": "4000 g",
     "storage": "1 L",
-    "description": "A custom-built leather utility belt that instantly creates any tool that you reach for and is enchanted. More compact, more storage, more utility.  Activate to sheathe/draw a weapon.",
+    "description": "A custom-built-and-enchanted leather utility belt that instantly creates any tool that you reach for. More storage, more utility.  Activate to sheathe/draw a weapon.",
     "price": 500000,
     "material": [ "leather", "steel" ],
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "coverage": 10,
+    "coverage": 15,
     "material_thickness": 4,
     "qualities": [
-      [ "HAMMER", 3 ],
-      [ "PRY", 3 ],
+      [ "HAMMER", 4 ],
+      [ "PRY", 4 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 2 ],
       [ "WRENCH", 2 ],
-      [ "AXE", 1 ],
-      [ "SCREW", 1 ],
+      [ "AXE", 2 ],
+      [ "SCREW", 2 ],
       [ "HAMMER_FINE", 2 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "SCREW_FINE", 1 ]
+      [ "SAW_M_FINE", 2 ],
+      [ "WRENCH_FINE", 2 ],
+      [ "SCREW_FINE", 2 ]
     ]
   },
   {
