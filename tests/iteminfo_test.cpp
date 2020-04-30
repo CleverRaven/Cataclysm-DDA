@@ -347,7 +347,7 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
     }
 }
 
-TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
+TEST_CASE( "nutrients in food", "[item][iteminfo][food][!mayfail]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
                                 iteminfo_parts::FOOD_QUENCH
