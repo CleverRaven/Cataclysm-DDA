@@ -3025,8 +3025,8 @@ void veh_interact::complete_vehicle( player &p )
             item_location &src = p.activity.targets.front();
             struct vehicle_part &pt = veh->parts[ vehicle_part ];
             if( pt.is_tank() && src->is_container() && !src->contents.empty() ) {
-
-                pt.base.fill_with( src->contents.legacy_front() );
+                item &contained = src->contents.legacy_front();
+                contained.charges -= pt.base.fill_with( *contained.type, contained.charges );
                 src->on_contents_changed();
 
                 if( pt.ammo_remaining() != pt.ammo_capacity() ) {

@@ -824,9 +824,7 @@ item item::in_container( const itype_id &cont ) const
         item ret( cont, birthday() );
         if( ret.has_pockets() ) {
             if( count_by_charges() ) {
-                item item_copy( *this );
-                item_copy.charges = 1;
-                ret.fill_with( item_copy, made_of( LIQUID ) ? item::INFINITE_CHARGES : charges );
+                ret.fill_with( *type, charges );
             } else {
                 ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
             }
@@ -7583,7 +7581,7 @@ bool item::reload( player &u, item_location ammo, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        fill_with( *ammo, qty );
+        fill_with( *ammo->type, qty );
     } else if( !magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -8074,37 +8072,32 @@ void item::set_item_temperature( float new_temperature )
     reset_temp_check();
 }
 
-void item::fill_with( item &liquid, int amount )
+int item::fill_with( const itype &contained, const int amount )
 {
-    if( liquid.count_by_charges() ) {
-        amount = std::min( amount, liquid.charges );
-    }
     if( amount <= 0 ) {
-        return;
+        return 0;
     }
 
-    item liquid_copy( liquid );
-    liquid_copy.charges = amount;
+    item contained_item( &contained );
+    if( contained_item.count_by_charges() ) {
+        contained_item.charges = 1;
+    }
 
-    if( can_contain( liquid_copy ) ) {
-        put_in( liquid_copy, item_pocket::pocket_type::CONTAINER );
-        liquid.mod_charges( -amount );
-    } else if( can_contain_partial( liquid_copy ) ) {
-        item_pocket *pocket = best_pocket( liquid_copy );
-        while( pocket != nullptr && amount > 0 ) {
-            liquid_copy.charges = 1;
-            pocket = best_pocket( liquid_copy );
-            liquid_copy.charges =
-                std::max( amount, pocket->remaining_capacity_for_item( liquid_copy ) );
-            if( !pocket->insert_item( liquid_copy ).success() ) {
-                break;
-            }
-            amount -= liquid_copy.charges;
+    item_pocket *pocket = best_pocket( contained_item );
+    if( pocket == nullptr ) {
+        debugmsg( "tried to put an item in a container that cannot contain it" );
+        return 0;
+    }
+
+    int num_contained = 0;
+    while( pocket != nullptr && amount > num_contained ) {
+        if( !pocket->insert_item( contained_item ).success() ) {
+            break;
         }
-        liquid.charges = amount;
-    } else {
-        debugmsg( "tried to put a liquid in a container that cannot contain it" );
+        num_contained++;
+        pocket = best_pocket( contained_item );
     }
+    return num_contained;
 }
 
 void item::set_countdown( int num_turns )

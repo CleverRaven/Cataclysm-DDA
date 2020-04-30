@@ -375,7 +375,7 @@ bool vehicle_part::fill_with( item &liquid, int qty )
         return false;
     }
 
-    base.fill_with( liquid, qty );
+    liquid.charges -= base.fill_with( *liquid.type, qty );
     return true;
 }
 

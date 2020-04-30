@@ -2175,18 +2175,16 @@ int Character::i_add_to_container( const item &it, const bool unloading )
         return charges;
     }
 
-    item copy_item( it );
-
-    weapon.fill_with( copy_item );
+    charges -= weapon.fill_with( *it.type, charges );
     for( item &worn_it : worn ) {
-        if( copy_item.count() > 0 ) {
-            worn_it.fill_with( copy_item );
+        if( charges > 0 ) {
+            charges -= worn_it.fill_with( *it.type, charges );
         } else {
             break;
         }
     }
 
-    return copy_item.count();
+    return charges;
 }
 
 item_pocket *Character::best_pocket( const item &it, const item *avoid )
@@ -6540,7 +6538,7 @@ bool Character::pour_into( item &container, item &liquid )
 
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
 
-    container.fill_with( liquid, amount );
+    liquid.charges -= container.fill_with( *liquid.type, amount );
     inv.unsort();
 
     if( liquid.charges > 0 ) {

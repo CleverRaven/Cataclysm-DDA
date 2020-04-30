@@ -674,12 +674,12 @@ class item : public visitable<item>
          */
         bool is_container_full( bool allow_bucket = false ) const;
         /**
-         * Fill item with liquid up to its capacity. This works for guns and tools that accept
-         * liquid ammo.
-         * @param liquid Liquid to fill the container with.
+         * Fill item with an item up to @amount number of items. This works for any item with container pockets.
+         * @param contained item to fill the container with.
          * @param amount Amount to fill item with, capped by remaining capacity
+         * @returns amount of contained that was put into it
          */
-        void fill_with( item &liquid, int amount = INFINITE_CHARGES );
+        int fill_with( const itype &contained, int amount = INFINITE_CHARGES );
         /**
          * How much more of this liquid (in charges) can be put in this container.
          * If this is not a container (or not suitable for the liquid), it returns 0.
