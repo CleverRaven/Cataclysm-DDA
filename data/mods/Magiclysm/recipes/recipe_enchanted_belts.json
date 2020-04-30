@@ -7,7 +7,7 @@
     "skill_used": "spellcraft",
     "difficulty": 4,
     "time": "120 m",
-	"reversible": true,
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
     "components": [
