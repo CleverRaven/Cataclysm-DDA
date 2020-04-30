@@ -2,7 +2,7 @@
   {
     "id": "dcluster",
     "type": "TOOL",
-    "name": "diamond cluster",
+    "name": { "str": "diamond cluster" },
     "description": "A cluster of artificial crystals that have broken off of a diamond matrix.  While the substance usually decays when separated from the catalyst; this cluster seems to be self-sustaining by some unknown mechanism.  ",
     "weight": "350 g",
     "volume": "250 ml",

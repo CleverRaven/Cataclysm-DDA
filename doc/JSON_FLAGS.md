@@ -746,29 +746,33 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ## MAP SPECIALS
 
-- ```mx_anomaly``` ...  Natural anomaly (crater + artifact).
 - ```mx_bandits_block``` ...  Road block made by bandits from tree logs.
 - ```mx_burned_ground``` ... Fire has ravaged this place.
 - ```mx_point_burned_ground``` ... Fire has ravaged this place. (partial application)
+- ```mx_casings``` ... Several types of spent casings (solitary, groups, entire overmap tile)
 - ```mx_clay_deposit``` ... A small surface clay deposit.
 - ```mx_clearcut``` ... All trees become stumps.
 - ```mx_collegekids``` ... Corpses and items.
+- ```mx_corpses``` ... Up to 5 corpses with everyday loot.
 - ```mx_crater``` ... Crater with rubble (and radioactivity).
 - ```mx_drugdeal``` ... Corpses and some drugs.
 - ```mx_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.)
 - ```mx_point_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.) (partial application)
-- ```mx_fumarole``` ... A lava rift.
 - ```mx_grove``` ... All trees and shrubs become a single species of tree.
+- ```mx_grave``` ... A grave in the open field, with a corpse and some everyday loot.
 - ```mx_helicopter``` ... Metal wreckage and some items.
 - ```mx_jabberwock``` ... A *chance* of a jabberwock.
+- ```mx_looters``` ... Up to 5 bandits spawn in the building.
+- ```mx_marloss_pilgrimage``` A sect of people worshiping fungaloids.
+- ```mx_mayhem``` ... Several types of road mayhem (firefights, crashed cars etc).
 - ```mx_military``` ... Corpses and some military items.
-- ```mx_minefield``` ... Landmines, a field of them.
+- ```mx_minefield``` ... A military roadblock at the entry of the bridges with landmines scattered in the front of it.
 - ```mx_null``` ... No special at all.
 - ```mx_pond``` ... A small pond.
 - ```mx_portal_in``` ... Another portal to neither space.
-- ```mx_portal``` ... Portal to neither space.
+- ```mx_portal``` ... Portal to neither space, with several types of surrounding environment.
 - ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
-- ```mx_roadworks``` ... Partialy closed damaged road with chance of work equipment and utility vehicles.
+- ```mx_roadworks``` ... Partially closed damaged road with chance of work equipment and utility vehicles.
 - ```mx_science``` ... Corpses and some scientist items.
 - ```mx_shia``` ... A *chance* of Shia, if Crazy Catalcysm is enabled.
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.

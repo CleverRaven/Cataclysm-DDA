@@ -112,7 +112,6 @@
     "weight": "446 g",
     "color": "white",
     "spoils_in": "3 days 8 hours",
-    "use_action": "ROYAL_JELLY",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 10,

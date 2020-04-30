@@ -44,10 +44,11 @@ Use the `Home` key to return to the top.
     + [Recipes](#recipes)
     + [Constructions](#constructions)
     + [Scent Types](#scent_types)
-    + [Scores](#scores)
-      - [`event_transformation`](#-event-transformation-)
-      - [`event_statistic`](#-event-statistic-)
-      - [`score`](#-score-)
+    + [Scores and Achievements](#scores-and-achievements)
+      - [`event_transformation`](#event_transformation)
+      - [`event_statistic`](#event_statistic)
+      - [`score`](#score)
+      - [`achievement`](#achievement)
     + [Skills](#skills)
     + [Traits/Mutations](#traits-mutations)
     + [Vehicle Groups](#vehicle-groups)
@@ -182,6 +183,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 
 | Filename                    | Description
 |---                          |---
+| achievements.json           | achievements
 | anatomy.json                | a listing of player body parts - do not edit
 | bionics.json                | bionics, does NOT include bionic effects
 | body_parts.json             | an expansion of anatomy.json - do not edit
@@ -225,11 +227,12 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | road_vehicles.json          | vehicle spawn information for roads
 | rotatable_symbols.json      | rotatable symbols - do not edit
 | scent_types.json            | type of scent available
-| scores.json                 | statistics, scores, and achievements
+| scores.json                 | scores
 | skills.json                 | skill descriptions and ID's
 | snippets.json               | flier/poster descriptions
 | species.json                | monster species
 | speech.json                 | monster vocalizations
+| statistics.json             | statistics and transformations used to define scores and achievements
 | start_locations.json        | starting locations for scenarios
 | techniques.json             | generic for items and martial arts
 | terrain.json                | terrain types and definitions
@@ -1060,7 +1063,7 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
   }
 ```
 
-### Scores and achievements
+### Scores and Achievements
 
 Scores are defined in two or three steps based on *events*.  To see what events
 exist and what data they contain, read [`event.h`](../src/event.h).
@@ -1178,6 +1181,18 @@ The sum of the numeric value in the specified field across all events:
 "field" : "damage"
 ```
 
+The maximum of the numeric value in the specified field across all events:
+```C++
+"stat_type" : "maximum"
+"field" : "damage"
+```
+
+The minimum of the numeric value in the specified field across all events:
+```C++
+"stat_type" : "minimum"
+"field" : "damage"
+```
+
 Assume there is only a single event to consider, and take the value of the
 given field for that unique event:
 ```C++
@@ -1222,8 +1237,10 @@ an `event_statistic`.  For example:
 {
   "id": "achievement_kill_zombie",
   "type": "achievement",
-  // The achievement description is used for the UI.
-  "description": "One down, billions to go\u2026",
+  // The achievement name and description are used for the UI.
+  // Description is optional and can provide extra details if you wish.
+  "name": "One down, billions to go\u2026",
+  "description": "Kill a zombie",
   "requirements": [
     // Each requirement must specify the statistic being constrained, and the
     // constraint in terms of a comparison against some target value.
@@ -1232,8 +1249,8 @@ an `event_statistic`.  For example:
 },
 ```
 
-Currently the `"is"` field must be `">="` or `"<="` and the `"target"` must be
-an integer, but these restrictions might loosen in the future.
+The `"is"` field must be `">="`, `"<="` or `"anything"`.  When it is not
+`"anything"` the `"target"` must be present, and must be an integer.
 
 Another optional field is
 
@@ -1247,10 +1264,24 @@ or `"cataclysm"`.  The `"target"` describes an amount of time since that
 reference point.
 
 Note that achievements can only be captured when a statistic listed in their
-requirements changes.  So, if you want an achievement such as "survived a
-certain amount of time" which effectively only has a time constraint then you
-must still place some requirement alongside it; pick some statistic which is
-likely to change often, and a vacuous or weak constraint on it.
+requirements changes.  So, if you want an achievement which would normally be
+triggered by reaching some time threshold (such as "survived a certain amount
+of time") then you must place some requirement alongside it to trigger it after
+that time has passed.  Pick some statistic which is likely to change often, and
+add an `"anything"` constraint on it.  For example:
+
+```C++
+{
+  "id": "achievement_survive_one_day",
+  "type": "achievement",
+  "description": "The first day of the rest of their unlives",
+  "time_constraint": { "since": "game_start", "is": ">=", "target": "1 day" },
+  "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
+},
+```
+
+This is a simple "survive a day" but is triggered by waking up, so it will be
+completed when you wake up for the first time after 24 hours into the game.
 
 ### Skills
 
@@ -2054,7 +2085,7 @@ Possible values (see src/enums.h for an up-to-date list):
 - `AEP_STEALTH` Your steps are quieted
 - `AEP_EXTINGUISH` May extinguish nearby flames
 - `AEP_GLOW` Four-tile light source
-- `AEP_PSYSHIELD` Protection from stare attacks
+- `AEP_PSYSHIELD` Protection from fear paralyze attack
 - `AEP_RESIST_ELECTRICITY` Protection from electricity
 - `AEP_CARRY_MORE` Increases carrying capacity by 200
 - `AEP_SAP_LIFE` Killing non-zombie monsters may heal you

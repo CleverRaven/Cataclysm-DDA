@@ -101,7 +101,6 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 //return true if there is an activity that can be done potentially, return false if no work can be found.
 bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
 void activity_on_turn_fetch( player_activity &, player *p );
-void activity_on_turn_pickup();
 void activity_on_turn_wear( player_activity &act, player &p );
 bool find_auto_consume( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
@@ -140,7 +139,6 @@ void hand_crank_do_turn( player_activity *act, player *p );
 void multiple_chop_planks_do_turn( player_activity *act, player *p );
 void oxytorch_do_turn( player_activity *act, player *p );
 void aim_do_turn( player_activity *act, player *p );
-void pickup_do_turn( player_activity *act, player *p );
 void wear_do_turn( player_activity *act, player *p );
 void eat_menu_do_turn( player_activity *act, player *p );
 void consume_food_menu_do_turn( player_activity *act, player *p );

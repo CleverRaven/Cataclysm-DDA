@@ -142,7 +142,7 @@
     "volume": "250 ml",
     "bashing": 5,
     "cutting": 3,
-    "to_hit": -2,
+    "to_hit": -3,
     "qualities": [ [ "BUTCHER", -50 ] ]
   },
   {
@@ -155,7 +155,7 @@
     "volume": "500 ml",
     "price": 100,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": "rubber",
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"

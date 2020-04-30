@@ -1,7 +1,20 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "campus_admin_0_0_0",
+    "id": [
+      "campus_admin_0_0_0",
+      "campus_admin_0_1_0",
+      "campus_admin_0_2_0",
+      "campus_admin_0_0_1",
+      "campus_admin_0_1_1",
+      "campus_admin_0_2_1",
+      "campus_admin_0_0_2",
+      "campus_admin_0_1_2",
+      "campus_admin_0_2_2",
+      "campus_admin_0_0_3",
+      "campus_admin_0_1_3",
+      "campus_admin_0_2_3"
+    ],
     "name": "campus admin building",
     "sym": "A",
     "color": "red",
@@ -10,63 +23,32 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "campus_admin_0_1_0",
-    "copy-from": "campus_admin_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_admin_0_2_0",
-    "copy-from": "campus_admin_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_admin_0_0_1",
-    "copy-from": "campus_admin_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_admin_0_1_1",
-    "copy-from": "campus_admin_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_admin_0_2_1",
-    "copy-from": "campus_admin_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_admin_0_0_2",
-    "copy-from": "campus_admin_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_admin_0_1_2",
-    "copy-from": "campus_admin_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_admin_0_2_2",
-    "copy-from": "campus_admin_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_admin_0_0_3",
-    "name": "campus admin building roof",
-    "copy-from": "campus_admin_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_admin_0_1_3",
-    "copy-from": "campus_admin_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_admin_0_2_3",
-    "copy-from": "campus_admin_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_0_0",
+    "id": [
+      "campus_commons_0_0_0",
+      "campus_commons_1_0_0",
+      "campus_commons_0_1_0",
+      "campus_commons_1_1_0",
+      "campus_commons_0_2_0",
+      "campus_commons_1_2_0",
+      "campus_commons_0_3_0",
+      "campus_commons_1_3_0",
+      "campus_commons_0_0_1",
+      "campus_commons_1_0_1",
+      "campus_commons_0_1_1",
+      "campus_commons_1_1_1",
+      "campus_commons_0_2_1",
+      "campus_commons_1_2_1",
+      "campus_commons_0_3_1",
+      "campus_commons_1_3_1",
+      "campus_commons_0_0_2",
+      "campus_commons_1_0_2",
+      "campus_commons_0_1_2",
+      "campus_commons_1_1_2",
+      "campus_commons_0_2_2",
+      "campus_commons_1_2_2",
+      "campus_commons_0_3_2",
+      "campus_commons_1_3_2"
+    ],
     "name": "campus commons building",
     "sym": "C",
     "color": "light_blue",
@@ -74,164 +56,40 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "campus_commons_1_0_0",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_1_0",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_1_0",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_2_0",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_2_0",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_3_0",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_3_0",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_0_1",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_0_1",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_1_1",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_1_1",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_2_1",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_2_1",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_3_1",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_3_1",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_0_2",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_0_2",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_1_2",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_1_2",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_2_2",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_2_2",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_3_2",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_3_2",
-    "copy-from": "campus_commons_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_0_3",
+    "id": [
+      "campus_commons_0_0_3",
+      "campus_commons_1_0_3",
+      "campus_commons_0_1_3",
+      "campus_commons_1_1_3",
+      "campus_commons_0_2_3",
+      "campus_commons_1_2_3",
+      "campus_commons_0_3_3",
+      "campus_commons_1_3_3"
+    ],
     "name": "campus commons roof",
     "color": "blue",
     "copy-from": "campus_commons_0_0_0"
   },
   {
     "type": "overmap_terrain",
-    "id": "campus_commons_1_0_3",
-    "copy-from": "campus_commons_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_1_3",
-    "copy-from": "campus_commons_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_1_3",
-    "copy-from": "campus_commons_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_2_3",
-    "copy-from": "campus_commons_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_2_3",
-    "copy-from": "campus_commons_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_0_3_3",
-    "copy-from": "campus_commons_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_commons_1_3_3",
-    "copy-from": "campus_commons_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_0_0_0",
+    "id": [
+      "campus_media_0_0_0",
+      "campus_media_0_1_0",
+      "campus_media_1_0_0",
+      "campus_media_1_1_0",
+      "campus_media_0_0_1",
+      "campus_media_0_1_1",
+      "campus_media_1_0_1",
+      "campus_media_1_1_1",
+      "campus_media_0_0_2",
+      "campus_media_0_1_2",
+      "campus_media_1_0_2",
+      "campus_media_1_1_2",
+      "campus_media_0_0_3",
+      "campus_media_0_1_3",
+      "campus_media_1_0_3",
+      "campus_media_1_1_3"
+    ],
     "name": "campus media building",
     "sym": "C",
     "color": "light_blue",
@@ -239,104 +97,24 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "campus_media_0_1_0",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_1_0_0",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_1_1_0",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_0_0_1",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_0_1_1",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_1_0_1",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_1_1_1",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_0_0_2",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_0_1_2",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_1_0_2",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_1_1_2",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_0_0_3",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_0_1_3",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_1_0_3",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_1_1_3",
-    "copy-from": "campus_media_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_0_0_4",
+    "id": [ "campus_media_0_0_4", "campus_media_0_1_4", "campus_media_1_0_4", "campus_media_1_1_4" ],
     "name": "campus media building roof",
     "color": "blue",
     "copy-from": "campus_media_0_0_0"
   },
   {
     "type": "overmap_terrain",
-    "id": "campus_media_0_1_4",
-    "copy-from": "campus_media_0_0_4"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_1_0_4",
-    "copy-from": "campus_media_0_0_4"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_media_1_1_4",
-    "copy-from": "campus_media_0_0_4"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_health_0_0_0",
+    "id": [
+      "campus_health_0_0_0",
+      "campus_health_0_1_0",
+      "campus_health_0_2_0",
+      "campus_health_0_0_1",
+      "campus_health_0_1_1",
+      "campus_health_0_2_1",
+      "campus_health_0_0_2",
+      "campus_health_0_1_2",
+      "campus_health_0_2_2"
+    ],
     "name": "campus health building",
     "sym": "C",
     "color": "red",
@@ -344,63 +122,26 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "campus_health_0_1_0",
-    "copy-from": "campus_health_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_health_0_2_0",
-    "copy-from": "campus_health_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_health_0_0_1",
-    "copy-from": "campus_health_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_health_0_1_1",
-    "copy-from": "campus_health_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_health_0_2_1",
-    "copy-from": "campus_health_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_health_0_0_2",
-    "copy-from": "campus_health_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_health_0_1_2",
-    "copy-from": "campus_health_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_health_0_2_2",
-    "copy-from": "campus_health_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_health_0_0_3",
+    "id": [ "campus_health_0_0_3", "campus_health_0_1_3", "campus_health_0_2_3" ],
     "name": "campus health building roof",
     "copy-from": "campus_health_0_0_0"
   },
   {
     "type": "overmap_terrain",
-    "id": "campus_health_0_1_3",
-    "copy-from": "campus_health_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_health_0_2_3",
-    "copy-from": "campus_health_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_0_0",
+    "id": [
+      "campus_lecture_0_0_0",
+      "campus_lecture_0_1_0",
+      "campus_lecture_0_2_0",
+      "campus_lecture_0_3_0",
+      "campus_lecture_0_0_1",
+      "campus_lecture_0_1_1",
+      "campus_lecture_0_2_1",
+      "campus_lecture_0_3_1",
+      "campus_lecture_0_0_2",
+      "campus_lecture_0_1_2",
+      "campus_lecture_0_2_2",
+      "campus_lecture_0_3_2"
+    ],
     "name": "campus lecture hall",
     "sym": "C",
     "color": "light_blue",
@@ -408,79 +149,9 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "campus_lecture_0_1_0",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_2_0",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_3_0",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_0_1",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_1_1",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_2_1",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_3_1",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_0_2",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_1_2",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_2_2",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_3_2",
-    "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_0_3",
+    "id": [ "campus_lecture_0_0_3", "campus_lecture_0_1_3", "campus_lecture_0_2_3", "campus_lecture_0_3_3" ],
     "name": "campus lecture hall roof",
     "color": "blue",
     "copy-from": "campus_lecture_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_1_3",
-    "copy-from": "campus_lecture_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_2_3",
-    "copy-from": "campus_lecture_0_0_3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campus_lecture_0_3_3",
-    "copy-from": "campus_lecture_0_0_3"
   }
 ]

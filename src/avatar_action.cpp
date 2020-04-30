@@ -562,6 +562,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
     you.setpos( p );
     g->update_map( you );
+
+    cata_event_dispatch::avatar_moves( you, m, p );
+
     if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos(), &you );
     }

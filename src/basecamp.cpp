@@ -221,7 +221,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
         comp = comp + elem + "\n";
     }
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
-                          making.description, making.required_skills_string(), comp );
+                          making.description, making.required_all_skills_string(), comp );
     if( !trunc ) {
         time_duration base_time = making.batch_duration();
         comp += string_format( _( "Risk: None\nTime: %s\n" ),

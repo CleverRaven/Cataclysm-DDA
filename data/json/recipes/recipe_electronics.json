@@ -435,7 +435,7 @@
     "components": [
       [ [ "element", 8 ] ],
       [ [ "bottle_glass", 2 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ] ],
-      [ [ "hose", 1 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "cable", 5 ] ]
     ]

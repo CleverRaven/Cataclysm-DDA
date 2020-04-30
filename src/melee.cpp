@@ -1783,9 +1783,11 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     //Hurting the wielder from poorly-chosen weapons
     if( weap.has_flag( "HURT_WHEN_WIELDED" ) && x_in_y( 2, 3 ) ) {
         add_msg_if_player( m_bad, _( "The %s cuts your hand!" ), weap.tname() );
-        deal_damage( nullptr, bp_hand_r, damage_instance::physical( 0, weap.damage_melee( DT_CUT ), 0 ) );
+        deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance::physical( 0,
+                     weap.damage_melee( DT_CUT ), 0 ) );
         if( weap.is_two_handed( *this ) ) { // Hurt left hand too, if it was big
-            deal_damage( nullptr, bp_hand_l, damage_instance::physical( 0, weap.damage_melee( DT_CUT ), 0 ) );
+            deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance::physical( 0,
+                         weap.damage_melee( DT_CUT ), 0 ) );
         }
     }
 
@@ -1807,10 +1809,12 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         // Dump its contents on the ground
         weap.contents.spill_contents( pos() );
         // Take damage
-        deal_damage( nullptr, bp_arm_r, damage_instance::physical( 0, rng( 0, vol * 2 ), 0 ) );
+        deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance::physical( 0, rng( 0, vol * 2 ),
+                     0 ) );
         if( weap.is_two_handed( *this ) ) { // Hurt left arm too, if it was big
             //redeclare shatter_dam because deal_damage mutates it
-            deal_damage( nullptr, bp_arm_l, damage_instance::physical( 0, rng( 0, vol * 2 ), 0 ) );
+            deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance::physical( 0, rng( 0, vol * 2 ),
+                         0 ) );
         }
         d.add_damage( DT_CUT, rng( 0, 5 + static_cast<int>( vol * 1.5 ) ) ); // Hurt the monster extra
         remove_weapon();

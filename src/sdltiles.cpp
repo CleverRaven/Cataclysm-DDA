@@ -114,9 +114,9 @@ class Font
          * Draw character t at (x,y) on the screen,
          * using (curses) color.
          */
-        virtual void OutputChar( const std::string &ch, int x, int y,
+        virtual void OutputChar( const std::string &ch, const point &,
                                  unsigned char color, float opacity = 1.0f ) = 0;
-        virtual void draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const;
+        virtual void draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const;
         bool draw_window( const catacurses::window &w );
         bool draw_window( const catacurses::window &w, int offsetx, int offsety );
 
@@ -139,7 +139,7 @@ class CachedTTFFont : public Font
         ~CachedTTFFont() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;
-        void OutputChar( const std::string &ch, int x, int y,
+        void OutputChar( const std::string &ch, const point &,
                          unsigned char color, float opacity = 1.0f ) override;
     protected:
         SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
@@ -178,11 +178,11 @@ class BitmapFont : public Font
         ~BitmapFont() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;
-        void OutputChar( const std::string &ch, int x, int y,
+        void OutputChar( const std::string &ch, const point &,
                          unsigned char color, float opacity = 1.0f ) override;
-        void OutputChar( int t, int x, int y,
+        void OutputChar( int t, const point &,
                          unsigned char color, float opacity = 1.0f );
-        void draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const override;
+        void draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const override;
     protected:
         std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
         int tilewidth;
@@ -196,7 +196,7 @@ class FontFallbackList : public Font
         ~FontFallbackList() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;
-        void OutputChar( const std::string &ch, int x, int y,
+        void OutputChar( const std::string &ch, const point &,
                          unsigned char color, float opacity = 1.0f ) override;
     protected:
         std::vector<std::unique_ptr<Font>> fonts;
@@ -599,38 +599,38 @@ inline void FillRectDIB( const SDL_Rect &rect, const unsigned char color,
 }
 
 //The following 3 methods use mem functions for fast drawing
-inline void VertLineDIB( int x, int y, int y2, int thickness, unsigned char color )
+inline void VertLineDIB( const point &p, int y2, int thickness, unsigned char color )
 {
     SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
+    rect.x = p.x;
+    rect.y = p.y;
     rect.w = thickness;
-    rect.h = y2 - y;
+    rect.h = y2 - p.y;
     FillRectDIB( rect, color );
 }
-inline void HorzLineDIB( int x, int y, int x2, int thickness, unsigned char color )
+inline void HorzLineDIB( const point &p, int x2, int thickness, unsigned char color )
 {
     SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = x2 - x;
+    rect.x = p.x;
+    rect.y = p.y;
+    rect.w = x2 - p.x;
     rect.h = thickness;
     FillRectDIB( rect, color );
 }
-inline void FillRectDIB( int x, int y, int width, int height, unsigned char color )
+inline void FillRectDIB( const point &p, int width, int height, unsigned char color )
 {
     SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
+    rect.x = p.x;
+    rect.y = p.y;
     rect.w = width;
     rect.h = height;
     FillRectDIB( rect, color );
 }
 
-inline void fill_rect_xywh_color( const int x, const int y, const int width, const int height,
+inline void fill_rect_xywh_color( const point &p, int width, int height,
                                   const SDL_Color &color )
 {
-    const SDL_Rect rect = { x, y, width, height };
+    const SDL_Rect rect = { p.x, p.y, width, height };
     FillRectDIB_SDLColor( rect, color );
 }
 
@@ -690,7 +690,7 @@ bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
     return TTF_GlyphIsProvided( font.get(), UTF8_getch( ch ) );
 }
 
-void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
+void CachedTTFFont::OutputChar( const std::string &ch, const point &p,
                                 const unsigned char color, const float opacity )
 {
     key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
@@ -709,7 +709,7 @@ void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
         // Nothing we can do here )-:
         return;
     }
-    SDL_Rect rect {x, y, value.width, fontheight};
+    SDL_Rect rect {p.x, p.y, value.width, fontheight};
     if( opacity != 1.0f ) {
         SDL_SetTextureAlphaMod( value.texture.get(), opacity * 255.0f );
     }
@@ -740,14 +740,14 @@ bool BitmapFont::isGlyphProvided( const std::string &ch ) const
     }
 }
 
-void BitmapFont::OutputChar( const std::string &ch, const int x, const int y,
+void BitmapFont::OutputChar( const std::string &ch, const point &p,
                              const unsigned char color, const float opacity )
 {
     const int t = UTF8_getch( ch );
-    BitmapFont::OutputChar( t, x, y, color, opacity );
+    BitmapFont::OutputChar( t, p, color, opacity );
 }
 
-void BitmapFont::OutputChar( const int t, const int x, const int y,
+void BitmapFont::OutputChar( const int t, const point &p,
                              const unsigned char color, const float opacity )
 {
     if( t <= 256 ) {
@@ -757,8 +757,8 @@ void BitmapFont::OutputChar( const int t, const int x, const int y,
         src.w = fontwidth;
         src.h = fontheight;
         SDL_Rect rect;
-        rect.x = x;
-        rect.y = y;
+        rect.x = p.x;
+        rect.y = p.y;
         rect.w = fontwidth;
         rect.h = fontheight;
         if( opacity != 1.0f ) {
@@ -807,7 +807,7 @@ void BitmapFont::OutputChar( const int t, const int x, const int y,
             default:
                 return;
         }
-        draw_ascii_lines( uc, x, y, color );
+        draw_ascii_lines( uc, p, color );
     }
 }
 
@@ -933,61 +933,73 @@ void set_displaybuffer_rendertarget()
 
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
-void Font::draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const
+void Font::draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const
 {
     switch( line_id ) {
         // box bottom/top side (horizontal line)
         case LINE_OXOX_C:
-            HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
+            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, FG );
             break;
         // box left/right side (vertical line)
         case LINE_XOXO_C:
-            VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + fontheight, 2, FG );
+            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, FG );
             break;
         // box top left
         case LINE_OXXO_C:
-            HorzLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
-            VertLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawy + fontheight, 2, FG );
+            HorzLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.x + fontwidth,
+                         1,
+                         FG );
+            VertLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.y + fontheight,
+                         2,
+                         FG );
             break;
         // box top right
         case LINE_OOXX_C:
-            HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + ( fontwidth / 2 ), 1, FG );
-            VertLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawy + fontheight, 2, FG );
+            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + ( fontwidth / 2 ), 1, FG );
+            VertLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.y + fontheight,
+                         2,
+                         FG );
             break;
         // box bottom right
         case LINE_XOOX_C:
-            HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + ( fontwidth / 2 ), 1, FG );
-            VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + ( fontheight / 2 ) + 1, 2, FG );
+            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + ( fontwidth / 2 ), 1, FG );
+            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + ( fontheight / 2 ) + 1, 2, FG );
             break;
         // box bottom left
         case LINE_XXOO_C:
-            HorzLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
-            VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + ( fontheight / 2 ) + 1, 2, FG );
+            HorzLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.x + fontwidth,
+                         1,
+                         FG );
+            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + ( fontheight / 2 ) + 1, 2, FG );
             break;
         // box bottom north T (left, right, up)
         case LINE_XXOX_C:
-            HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
-            VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + ( fontheight / 2 ), 2, FG );
+            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, FG );
+            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + ( fontheight / 2 ), 2, FG );
             break;
         // box bottom east T (up, right, down)
         case LINE_XXXO_C:
-            VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + fontheight, 2, FG );
-            HorzLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
+            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, FG );
+            HorzLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.x + fontwidth,
+                         1,
+                         FG );
             break;
         // box bottom south T (left, right, down)
         case LINE_OXXX_C:
-            HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
-            VertLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawy + fontheight, 2, FG );
+            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, FG );
+            VertLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.y + fontheight,
+                         2,
+                         FG );
             break;
         // box X (left down up right)
         case LINE_XXXX_C:
-            HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
-            VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + fontheight, 2, FG );
+            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, FG );
+            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, FG );
             break;
         // box bottom east T (left, down, up)
         case LINE_XOXX_C:
-            VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + fontheight, 2, FG );
-            HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + ( fontwidth / 2 ), 1, FG );
+            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, FG );
+            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + ( fontwidth / 2 ), 1, FG );
             break;
         default:
             break;
@@ -1086,7 +1098,7 @@ void cata_cursesport::handle_additional_window_clear( WINDOW *win )
 void clear_window_area( const catacurses::window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
-    FillRectDIB( win->pos.x * fontwidth, win->pos.y * fontheight,
+    FillRectDIB( point( win->pos.x * fontwidth, win->pos.y * fontheight ),
                  win->width * fontwidth, win->height * fontheight, catacurses::black );
 }
 
@@ -1121,7 +1133,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             GetRenderDrawBlendMode( renderer, blend_mode ); // save the current blend mode
             SetRenderDrawBlendMode( renderer, color_blocks.first ); // set the new blend mode
             for( const auto &e : color_blocks.second ) {
-                fill_rect_xywh_color( e.first.x, e.first.y, tilecontext->get_tile_width(),
+                fill_rect_xywh_color( e.first, tilecontext->get_tile_width(),
                                       tilecontext->get_tile_height(), e.second );
             }
             SetRenderDrawBlendMode( renderer, blend_mode ); // set the old blend mode
@@ -1173,7 +1185,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 
                 // TODO: draw with outline / BG color for better readability
                 const uint32_t ch = text.at( i );
-                map_font->OutputChar( utf32_to_utf8( ch ), x, y, ft.color );
+                map_font->OutputChar( utf32_to_utf8( ch ), point( x, y ), ft.color );
                 width += mk_wcwidth( ch );
             }
 
@@ -1197,14 +1209,14 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                                        map_font->fontheight, 0 );
         //Gap between terrain and lower window edge
         if( partial_height > 0 ) {
-            FillRectDIB( win->pos.x * map_font->fontwidth,
-                         ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight,
+            FillRectDIB( point( win->pos.x * map_font->fontwidth,
+                                ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight ),
                          TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, catacurses::black );
         }
         //Gap between terrain and sidebar
         if( partial_width > 0 ) {
-            FillRectDIB( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth,
-                         win->pos.y * map_font->fontheight,
+            FillRectDIB( point( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth,
+                                win->pos.y * map_font->fontheight ),
                          partial_width,
                          TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height,
                          catacurses::black );
@@ -1228,7 +1240,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         int offsety = win->pos.y * font->fontheight;
         int wwidth = win->width * font->fontwidth;
         int wheight = win->height * font->fontheight;
-        FillRectDIB( offsetx, offsety, wwidth, wheight, catacurses::black );
+        FillRectDIB( point( offsetx, offsety ), wwidth, wheight, catacurses::black );
         update = true;
     } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
         // ensure the space the minimap covers is "dirtied".
@@ -1365,7 +1377,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
 
             // Spaces are used a lot, so this does help noticeably
             if( cell.ch == space_string ) {
-                FillRectDIB( drawx, drawy, fontwidth, fontheight, cell.BG );
+                FillRectDIB( point( drawx, drawy ), fontwidth, fontheight, cell.BG );
                 continue;
             }
             const int codepoint = UTF8_getch( cell.ch );
@@ -1419,11 +1431,11 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
                     use_draw_ascii_lines_routine = false;
                     break;
             }
-            FillRectDIB( drawx, drawy, fontwidth * cw, fontheight, BG );
+            FillRectDIB( point( drawx, drawy ), fontwidth * cw, fontheight, BG );
             if( use_draw_ascii_lines_routine ) {
-                draw_ascii_lines( uc, drawx, drawy, FG );
+                draw_ascii_lines( uc, point( drawx, drawy ), FG );
             } else {
-                OutputChar( cell.ch, drawx, drawy, FG );
+                OutputChar( cell.ch, point( drawx, drawy ), FG );
             }
         }
     }
@@ -2293,13 +2305,13 @@ void draw_quick_shortcuts()
                      text_scale;
         }
         text_y = ( WindowHeight - ( height + font->fontheight * text_scale ) * 0.5f ) / text_scale;
-        font->OutputChar( text, text_x + 1, text_y + 1, 0,
+        font->OutputChar( text, point( text_x + 1, text_y + 1 ), 0,
                           get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
-        font->OutputChar( text, text_x, text_y, get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
+        font->OutputChar( text, point( text_x, text_y ), get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
                           get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f );
         if( hovered ) {
             // draw a second button hovering above the first one
-            font->OutputChar( text, text_x, text_y - ( height * 1.2f / text_scale ),
+            font->OutputChar( text, point( text_x, text_y - ( height * 1.2f / text_scale ) ),
                               get_option<int>( "ANDROID_SHORTCUT_COLOR" ) );
             if( show_hint ) {
                 // draw hint text
@@ -2315,9 +2327,9 @@ void draw_quick_shortcuts()
                 SDL_RenderSetScale( renderer.get(), text_scale, text_scale );
                 text_x = ( WindowWidth - ( ( font->fontwidth  * hint_length ) * text_scale ) ) * 0.5f / text_scale;
                 text_y = ( WindowHeight - font->fontheight * text_scale ) * 0.5f / text_scale;
-                font->OutputChar( hint_text, text_x + 1, text_y + 1, 0,
+                font->OutputChar( hint_text, point( text_x + 1, text_y + 1 ), 0,
                                   get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
-                font->OutputChar( hint_text, text_x, text_y, get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
+                font->OutputChar( hint_text, point( text_x, text_y ), get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
                                   get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f );
             }
         }
@@ -3707,10 +3719,9 @@ void rescale_tileset( int size )
     game_ui::init_ui();
 }
 
-window_dimensions get_window_dimensions( const catacurses::window &win )
+static window_dimensions get_window_dimensions( const catacurses::window &win,
+        const point &pos, const point &size )
 {
-    cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
-
     window_dimensions dim;
     if( use_tiles && g && win == g->w_terrain ) {
         // tiles might have different dimensions than standard font
@@ -3731,9 +3742,15 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     // multiplied by the user's specified scaling factor regardless of whether tiles are in use
     dim.scaled_font_size *= get_scaling_factor();
 
-    dim.window_pos_cell = pwin->pos;
-    dim.window_size_cell.x = pwin->width;
-    dim.window_size_cell.y = pwin->height;
+    if( win ) {
+        cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
+        dim.window_pos_cell = pwin->pos;
+        dim.window_size_cell.x = pwin->width;
+        dim.window_size_cell.y = pwin->height;
+    } else {
+        dim.window_pos_cell = pos;
+        dim.window_size_cell = size;
+    }
 
     // the window position is *always* in standard font dimensions!
     dim.window_pos_pixel = point( dim.window_pos_cell.x * fontwidth,
@@ -3743,6 +3760,16 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
 
     return dim;
+}
+
+window_dimensions get_window_dimensions( const catacurses::window &win )
+{
+    return get_window_dimensions( win, point_zero, point_zero );
+}
+
+window_dimensions get_window_dimensions( const point &pos, const point &size )
+{
+    return get_window_dimensions( {}, pos, size );
 }
 
 cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
@@ -3845,53 +3872,53 @@ BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface_pa
     }
 }
 
-void BitmapFont::draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const
+void BitmapFont::draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const
 {
     BitmapFont *t = const_cast<BitmapFont *>( this );
     switch( line_id ) {
         // box bottom/top side (horizontal line)
         case LINE_OXOX_C:
-            t->OutputChar( 0xcd, drawx, drawy, FG );
+            t->OutputChar( 0xcd, draw, FG );
             break;
         // box left/right side (vertical line)
         case LINE_XOXO_C:
-            t->OutputChar( 0xba, drawx, drawy, FG );
+            t->OutputChar( 0xba, draw, FG );
             break;
         // box top left
         case LINE_OXXO_C:
-            t->OutputChar( 0xc9, drawx, drawy, FG );
+            t->OutputChar( 0xc9, draw, FG );
             break;
         // box top right
         case LINE_OOXX_C:
-            t->OutputChar( 0xbb, drawx, drawy, FG );
+            t->OutputChar( 0xbb, draw, FG );
             break;
         // box bottom right
         case LINE_XOOX_C:
-            t->OutputChar( 0xbc, drawx, drawy, FG );
+            t->OutputChar( 0xbc, draw, FG );
             break;
         // box bottom left
         case LINE_XXOO_C:
-            t->OutputChar( 0xc8, drawx, drawy, FG );
+            t->OutputChar( 0xc8, draw, FG );
             break;
         // box bottom north T (left, right, up)
         case LINE_XXOX_C:
-            t->OutputChar( 0xca, drawx, drawy, FG );
+            t->OutputChar( 0xca, draw, FG );
             break;
         // box bottom east T (up, right, down)
         case LINE_XXXO_C:
-            t->OutputChar( 0xcc, drawx, drawy, FG );
+            t->OutputChar( 0xcc, draw, FG );
             break;
         // box bottom south T (left, right, down)
         case LINE_OXXX_C:
-            t->OutputChar( 0xcb, drawx, drawy, FG );
+            t->OutputChar( 0xcb, draw, FG );
             break;
         // box X (left down up right)
         case LINE_XXXX_C:
-            t->OutputChar( 0xce, drawx, drawy, FG );
+            t->OutputChar( 0xce, draw, FG );
             break;
         // box bottom east T (left, down, up)
         case LINE_XOXX_C:
-            t->OutputChar( 0xb9, drawx, drawy, FG );
+            t->OutputChar( 0xb9, draw, FG );
             break;
         default:
             break;
@@ -3964,7 +3991,7 @@ bool FontFallbackList::isGlyphProvided( const std::string & ) const
     return true;
 }
 
-void FontFallbackList::OutputChar( const std::string &ch, const int x, const int y,
+void FontFallbackList::OutputChar( const std::string &ch, const point &p,
                                    const unsigned char color, const float opacity )
 {
     auto cached = glyph_font.find( ch );
@@ -3975,7 +4002,7 @@ void FontFallbackList::OutputChar( const std::string &ch, const int x, const int
             }
         }
     }
-    ( *cached->second )->OutputChar( ch, x, y, color, opacity );
+    ( *cached->second )->OutputChar( ch, p, color, opacity );
 }
 
 static int map_font_width()

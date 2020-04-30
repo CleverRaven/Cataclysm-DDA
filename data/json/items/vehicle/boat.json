@@ -53,12 +53,11 @@
     "name": { "str_sp": "oars" },
     "description": "Oars for a boat.",
     "weight": "8 kg",
-    "to_hit": -1,
     "color": "light_gray",
     "symbol": ":",
     "material": [ "wood" ],
     "volume": "16 L",
-    "bashing": 10,
+    "bashing": 18,
     "category": "veh_parts",
     "price": 9000,
     "price_postapoc": 100

@@ -308,7 +308,18 @@
     "death_function": [ "NORMAL" ],
     "harvest": "mammal_tiny",
     "reproduction": { "baby_monster": "mon_cat_kitten", "baby_count": 4, "baby_timer": 60 },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "ANIMAL",
+      "CATFOOD",
+      "CLIMBS",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "HIT_AND_RUN"
+    ]
   },
   {
     "id": "mon_cat_longhair",
@@ -1881,7 +1892,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_otter",
@@ -2044,7 +2055,7 @@
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_rat_king",

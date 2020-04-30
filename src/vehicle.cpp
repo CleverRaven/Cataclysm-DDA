@@ -1223,7 +1223,7 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             rl_vec2d windvec;
             double raddir = ( ( g->weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
             windvec = windvec.normalized();
-            windvec.y = -cos( raddir );
+            windvec.y = -std::cos( raddir );
             windvec.x = std::sin( raddir );
             rl_vec2d fv = face_vec();
             double dot = windvec.dot_product( fv );
@@ -1384,7 +1384,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     // Check all the flags of the part to see if they require other flags
     // If other flags are required check if those flags are present
-    for( const std::string flag : part.get_flags() ) {
+    for( const std::string &flag : part.get_flags() ) {
         if( !json_flag::get( flag ).requires_flag().empty() ) {
             bool anchor_found = false;
             for( const auto &elem : parts_in_square ) {

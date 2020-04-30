@@ -102,15 +102,15 @@
   {
     "id": "TALK_SCAVENGER_MERC_HIRE",
     "type": "talk_topic",
-    "dynamic_line": "I'm currently waiting for a customer to return… I'll make you a deal though, 2500 Merch will cover my expenses if I get a small cut of the loot.",
+    "dynamic_line": "I'm currently waiting for a customer to return… I'll make you a deal though, 750 Merch will cover my expenses if I get a small cut of the loot.",
     "responses": [
       { "text": "What the heck is a Merch?", "topic": "TALK_SCAVENGER_MERC_MERCH" },
       { "text": "I might be back.", "topic": "TALK_SCAVENGER_MERC" },
       {
-        "text": "[FMC2500] You have a deal.",
+        "text": "[FMC750] You have a deal.",
         "topic": "TALK_SCAVENGER_MERC_HIRE_SUCCESS",
-        "condition": { "u_has_items": { "item": "FMCNote", "count": 2500 } },
-        "effect": { "u_consume_item": "FMCNote", "count": 2500 }
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 750 } },
+        "effect": { "u_consume_item": "FMCNote", "count": 750 }
       }
     ]
   },

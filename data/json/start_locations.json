@@ -261,13 +261,20 @@
     "type": "start_location",
     "id": "sloc_fire_station",
     "name": "Fire Station",
-    "terrain": [ { "om_terrain": "fire_station", "om_terrain_match_type": "PREFIX" } ]
+    "terrain": [
+      { "om_terrain": "fire_station", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "fire_station_1", "om_terrain_match_type": "TYPE" }
+    ]
   },
   {
     "type": "start_location",
     "id": "sloc_police",
     "name": "Police Station",
-    "terrain": [ { "om_terrain": "police", "om_terrain_match_type": "PREFIX" } ]
+    "terrain": [
+      { "om_terrain": "police", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "police_1", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "police_2", "om_terrain_match_type": "TYPE" }
+    ]
   },
   {
     "type": "start_location",

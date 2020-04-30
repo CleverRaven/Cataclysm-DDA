@@ -164,15 +164,19 @@
     "type": "ARMOR",
     "name": { "str": "survivor utility belt (holster)", "str_pl": "survivor utility belts (holster)" },
     "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a clip for holding various equipment.  Durable and carefully crafted to be comfortable to wear.  Activate to clip something to it.",
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Attach what to belt loop?",
-      "holster_msg": "You clip your %s to your %s",
-      "max_volume": "1500 ml",
-      "max_weight": 2000,
-      "draw_cost": 50,
-      "flags": [ "BELT_CLIP" ]
-    }
+    "use_action": [
+      {
+        "type": "holster",
+        "holster_prompt": "Attach what to belt loop?",
+        "holster_msg": "You clip your %s to your %s",
+        "max_volume": "1500 ml",
+        "max_weight": 2000,
+        "draw_cost": 50,
+        "flags": [ "BELT_CLIP" ]
+      },
+      "CROWBAR",
+      "HAMMER"
+    ]
   },
   {
     "id": "survivor_belt",

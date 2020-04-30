@@ -33,12 +33,12 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
     } );
     std::sort( sortable_achievements.begin(), sortable_achievements.end() );
     for( const sortable_achievement &ach : sortable_achievements ) {
-        os += achievements.ui_text_for( std::get<const achievement *>( ach ) );
+        os += achievements.ui_text_for( std::get<const achievement *>( ach ) ) + "\n";
     }
     if( valid_achievements.empty() ) {
         os += _( "This game has no valid achievements.\n" );
     }
-    os += _( "\nNote that only achievements that existed when you started this game and still "
+    os += _( "Note that only achievements that existed when you started this game and still "
              "exist now will appear here." );
     return os;
 }
@@ -61,7 +61,7 @@ static std::string get_scores_text( stats_tracker &stats )
 void show_scores_ui( const achievements_tracker &achievements, stats_tracker &stats,
                      const kill_tracker &kills )
 {
-    catacurses::window w = new_centered_win( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH );
+    catacurses::window w = new_centered_win( TERMY - 2, FULL_SCREEN_WIDTH );
 
     enum class tab_mode {
         achievements,
@@ -74,6 +74,8 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
     tab_mode tab = static_cast<tab_mode>( 0 );
     input_context ctxt( "SCORES" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
@@ -137,6 +139,10 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
             view.scroll_down();
         } else if( action == "UP" ) {
             view.scroll_up();
+        } else if( action == "PAGE_DOWN" ) {
+            view.page_down();
+        } else if( action == "PAGE_UP" ) {
+            view.page_up();
         } else if( action == "CONFIRM" || action == "QUIT" ) {
             break;
         }
