@@ -1,6 +1,6 @@
 [
   {
-    "id": "queen",
+    "id": "blob_queen",
     "type": "GENERIC",
     "category": "veh_parts",
     "name": { "str": "amorphous heart" },

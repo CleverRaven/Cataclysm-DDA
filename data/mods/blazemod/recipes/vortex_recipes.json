@@ -1,6 +1,6 @@
 [
   {
-    "result": "vgen",
+    "result": "vortex_engine",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -22,7 +22,7 @@
     ]
   },
   {
-    "result": "vgen2",
+    "result": "vortex_generator",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -44,7 +44,7 @@
     ]
   },
   {
-    "result": "vortexaccelerator",
+    "result": "vortex_accelerator",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -64,7 +64,7 @@
     ]
   },
   {
-    "result": "vortexcannon",
+    "result": "vortex_cannon",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
