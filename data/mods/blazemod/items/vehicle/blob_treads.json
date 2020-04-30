@@ -1,6 +1,6 @@
 [
   {
-    "id": "gloopletread",
+    "id": "blob_gloopletread",
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "Gelatinous track" },
@@ -17,7 +17,7 @@
     "width": 15
   },
   {
-    "id": "oozletread",
+    "id": "blob_oozletread",
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "Oozing track" },
@@ -34,7 +34,7 @@
     "width": 25
   },
   {
-    "id": "graytread",
+    "id": "blob_graytread",
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "Gray track" },

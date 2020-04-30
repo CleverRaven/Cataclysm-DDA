@@ -720,6 +720,11 @@ struct islot_ammo : common_ranged_data {
      * Set this to make it show as combat ammo anyway
      */
     cata::optional<bool> force_stat_display;
+
+    bool was_loaded;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_bionic {
@@ -861,6 +866,9 @@ struct itype {
             return count_by_charges() ? 0 : damage_max_;
         }
 
+        // used for generic_factory for copy-from
+        bool was_loaded = false;
+
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         std::string looks_like;
 
@@ -869,7 +877,7 @@ struct itype {
 
         std::string snippet_category;
         translation description; // Flavor text
-        std::vector<std::string> ascii_picture;
+        ascii_art_id picture_id;
 
         // The container it comes in
         cata::optional<itype_id> default_container;

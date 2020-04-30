@@ -86,8 +86,8 @@ void mdefense::zapback( monster &m, Creature *const source,
     const damage_instance shock {
         DT_ELECTRIC, static_cast<float>( rng( 1, 5 ) )
     };
-    source->deal_damage( &m, bp_arm_l, shock );
-    source->deal_damage( &m, bp_arm_r, shock );
+    source->deal_damage( &m, bodypart_id( "arm_l" ), shock );
+    source->deal_damage( &m, bodypart_id( "arm_r" ), shock );
 
     source->check_dead_state();
 }
@@ -118,7 +118,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
                 const damage_instance acid_burn{
                     DT_ACID, static_cast<float>( rng( 1, 5 ) )
                 };
-                source->deal_damage( &m, one_in( 2 ) ? bp_hand_l : bp_hand_r, acid_burn );
+                source->deal_damage( &m, one_in( 2 ) ? bodypart_id( "hand_l" ) : bodypart_id( "hand_r" ),
+                                     acid_burn );
                 source->add_msg_if_player( m_bad, _( "Acid covering %s burns your hand!" ), m.disp_name() );
             }
         }

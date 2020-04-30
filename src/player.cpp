@@ -997,13 +997,15 @@ void player::on_dodge( Creature *source, float difficulty )
     }
 }
 
-void player::on_hit( Creature *source, body_part bp_hit,
+void player::on_hit( Creature *source, bodypart_id bp_hit,
                      float /*difficulty*/, dealt_projectile_attack const *const proj )
 {
     check_dead_state();
     if( source == nullptr || proj != nullptr ) {
         return;
     }
+
+    const body_part bp_hit_token = bp_hit->token;
 
     bool u_see = g->u.sees( *this );
     if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
@@ -1020,9 +1022,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
         damage_instance ods_shock_damage;
         ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
         // Should hit body part used for attack
-        source->deal_damage( this, bp_torso, ods_shock_damage );
+        source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
     }
-    if( !wearing_something_on( bp_hit ) &&
+    if( !wearing_something_on( bp_hit_token ) &&
         ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
         int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
         if( !is_player() ) {
@@ -1038,9 +1040,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
         }
         damage_instance spine_damage;
         spine_damage.add_damage( DT_STAB, spine );
-        source->deal_damage( this, bp_torso, spine_damage );
+        source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
     }
-    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
+    if( ( !( wearing_something_on( bp_hit_token ) ) ) && ( has_trait( trait_THORNS ) ) &&
         ( !( source->has_weapon() ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
@@ -1055,9 +1057,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
         thorn_damage.add_damage( DT_CUT, thorn );
         // In general, critters don't have separate limbs
         // so safer to target the torso
-        source->deal_damage( this, bp_torso, thorn_damage );
+        source->deal_damage( this, bodypart_id( "torso" ), thorn_damage );
     }
-    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
+    if( ( !( wearing_something_on( bp_hit_token ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
                 add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
@@ -1311,7 +1313,7 @@ int player::impact( const int force, const tripoint &p )
     int total_dealt = 0;
     if( mod * effective_force >= 5 ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
-            const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+            const bodypart_id bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
             di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
@@ -1357,7 +1359,7 @@ void player::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH, critter->type->size ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
@@ -1376,9 +1378,9 @@ void player::knock_back_to( const tripoint &to )
     }
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
-        deal_damage( np, bp_torso, damage_instance( DT_BASH, np->get_size() ) );
+        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH, np->get_size() ) );
         add_effect( effect_stunned, 1_turns );
-        np->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );
+        np->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
                                np->name );
         np->check_dead_state();

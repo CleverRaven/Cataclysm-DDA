@@ -984,8 +984,6 @@ class map
             set_temperature( tripoint( p, abs_sub.z ), new_temperature );
         }
 
-        // Items
-        void process_active_items();
         // Returns points for all submaps with inconsistent state relative to
         // the list in map.  Used in tests.
         std::vector<tripoint> check_submap_active_item_consistency();
@@ -1446,6 +1444,13 @@ class map
          * If false, monsters are not spawned in view of player character.
          */
         void spawn_monsters( bool ignore_sight );
+
+        /**
+        * Checks to see if the item that is rotting away generates a creature when it does.
+        * @param item item that is spawning creatures
+        * @param p The point on this map where the item is and creature will be
+        */
+        void rotten_item_spawn( const item &item, const tripoint &p );
     private:
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
@@ -1487,12 +1492,6 @@ class map
          */
         template <typename Container>
         void remove_rotten_items( Container &items, const tripoint &p );
-        /**
-         * Checks to see if the item that is rotting away generates a creature when it does.
-         * @param item item that is spawning creatures
-         * @param p The point on this map where the item is and creature will be
-         */
-        void rotten_item_spawn( const item &item, const tripoint &p );
         /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
@@ -1538,7 +1537,6 @@ class map
         void draw_temple( mapgendata &dat );
         void draw_mine( mapgendata &dat );
         void draw_spiral( mapgendata &dat );
-        void draw_fema( mapgendata &dat );
         void draw_anthill( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );
         void draw_spider_pit( mapgendata &dat );
@@ -1690,26 +1688,12 @@ class map
         ter_id get_roof( const tripoint &p, bool allow_air );
 
     public:
-        /**
-         * Processor function pointer used in process_items and brethren.
-         *
-         * Note, typedefs should be discouraged because they tend to obfuscate
-         * code, but due to complexity, a template type makes it worse here.
-         * It's a really heinous function pointer so a typedef is the best
-         * solution in this instance.
-         */
-        using map_process_func = bool ( * )( item_stack &, safe_reference<item> &, const tripoint &,
-                                             const std::string &, float, temperature_flag );
+        void process_items();
     private:
-
         // Iterates over every item on the map, passing each item to the provided function.
-        void process_items( bool active, map_process_func processor, const std::string &signal );
-        void process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                      map::map_process_func processor, const std::string &signal );
-        void process_items_in_vehicles( submap &current_submap, int gridz,
-                                        map_process_func processor, const std::string &signal );
-        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, int gridz,
-                                       map::map_process_func processor, const std::string &signal );
+        void process_items_in_submap( submap &current_submap, const tripoint &gridp );
+        void process_items_in_vehicles( submap &current_submap );
+        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap );
 
         /** Enum used by functors in `function_over` to control execution. */
         enum iteration_state {

@@ -73,12 +73,12 @@ jobs:
           sources: [*apt_sources]
 
     - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" TILES=1 SOUND=1 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency"
-      name: "GCC 8 Make build with Tiles, Sound, astyle and address sanitization"
+      name: "GCC 8 Make build with Tiles, Sound and address sanitization"
       dist: bionic
       compiler: gcc
       addons: &gcc8
         apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "astyle"]
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: *apt_sources
 
     - env: CLANG=clang++-8 SANITIZE=address,undefined EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items ~[starve] ~grenade_lethality"

@@ -1,6 +1,6 @@
 [
   {
-    "id": "gloople_tank",
+    "id": "blob_gloople_tank",
     "type": "CONTAINER",
     "name": { "str": "gelatinous capsule" },
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
@@ -16,16 +16,16 @@
     "watertight": true
   },
   {
-    "id": "gloople_tank_large",
+    "id": "blob_gloople_tank_large",
     "type": "CONTAINER",
     "name": { "str": "gelatinous tank" },
-    "copy-from": "gloople_tank",
+    "copy-from": "blob_gloople_tank",
     "weight": "6 kg",
     "volume": "60 L",
     "contains": "60 L"
   },
   {
-    "id": "gray_tank",
+    "id": "blob_gray_tank",
     "type": "CONTAINER",
     "name": { "str": "gray cocoon" },
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
@@ -41,16 +41,16 @@
     "watertight": true
   },
   {
-    "id": "gray_tank_large",
+    "id": "blob_gray_tank_large",
     "type": "CONTAINER",
     "name": { "str": "gray tank" },
-    "copy-from": "gray_tank",
+    "copy-from": "blob_gray_tank",
     "weight": "10 kg",
     "volume": "100 L",
     "contains": "100 L"
   },
   {
-    "id": "oozle_tank",
+    "id": "blob_oozle_tank",
     "type": "CONTAINER",
     "name": { "str": "oozing pod" },
     "description": "While the blob is very eager to be fed, it's not as enthusiastic about giving up liquids.  A few alterations are necessary.",
@@ -66,10 +66,10 @@
     "watertight": true
   },
   {
-    "id": "oozle_tank_large",
+    "id": "blob_oozle_tank_large",
     "type": "CONTAINER",
     "name": { "str": "oozing tank" },
-    "copy-from": "oozle_tank",
+    "copy-from": "blob_oozle_tank",
     "weight": "8 kg",
     "volume": "80 L",
     "contains": "80 L"

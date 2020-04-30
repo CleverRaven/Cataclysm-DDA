@@ -1051,10 +1051,8 @@
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 5 ], [ "textbook_chemistry", 7 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [
-      [ [ "chem_ammonium_nitrate", 94 ], [ "chem_ammonium_nitrate_pellets", 94 ] ],
-      [ [ "diesel", 6 ], [ "biodiesel", 6 ], [ "gasoline", 6 ] ]
-    ]
+    "using": [ [ "fuel_liquid", 6 ] ],
+    "components": [ [ [ "chem_ammonium_nitrate", 94 ], [ "chem_ammonium_nitrate_pellets", 94 ] ] ]
   },
   {
     "type": "recipe",

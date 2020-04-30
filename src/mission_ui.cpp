@@ -22,7 +22,7 @@
 
 void game::list_missions()
 {
-    catacurses::window w_missions = new_centered_win( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH );
+    catacurses::window w_missions;
 
     enum class tab_mode : int {
         TAB_ACTIVE = 0,
@@ -34,43 +34,28 @@ void game::list_missions()
     };
     tab_mode tab = tab_mode::FIRST_TAB;
     size_t selection = 0;
-    // content ranges from y=3 to FULL_SCREEN_HEIGHT - 2
-    const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
+    int entries_per_page = 0;
     input_context ctxt( "MISSIONS" );
     ctxt.register_cardinal();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w_missions = new_centered_win( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH );
 
-    while( true ) {
+        // content ranges from y=3 to FULL_SCREEN_HEIGHT - 2
+        entries_per_page = FULL_SCREEN_HEIGHT - 4;
+
+        ui.position_from_window( w_missions );
+    } );
+    ui.mark_resize();
+
+    std::vector<mission *> umissions;
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
-        std::vector<mission *> umissions;
-        if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
-            debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
-            tab = tab_mode::FIRST_TAB;
-        }
-        switch( tab ) {
-            case tab_mode::TAB_ACTIVE:
-                umissions = u.get_active_missions();
-                break;
-            case tab_mode::TAB_COMPLETED:
-                umissions = u.get_completed_missions();
-                break;
-            case tab_mode::TAB_FAILED:
-                umissions = u.get_failed_missions();
-                break;
-            default:
-                break;
-        }
-        if( ( !umissions.empty() && selection >= umissions.size() ) ||
-            ( umissions.empty() && selection != 0 ) ) {
-            debugmsg( "Sanity check failed: selection=%d, size=%d", static_cast<int>( selection ),
-                      static_cast<int>( umissions.size() ) );
-            selection = 0;
-        }
         // entries_per_page * page number
         const int top_of_page = entries_per_page * ( selection / entries_per_page );
         const int bottom_of_page =
@@ -171,6 +156,34 @@ void game::list_missions()
         }
 
         wrefresh( w_missions );
+    } );
+
+    while( true ) {
+        umissions.clear();
+        if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
+            debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
+            tab = tab_mode::FIRST_TAB;
+        }
+        switch( tab ) {
+            case tab_mode::TAB_ACTIVE:
+                umissions = u.get_active_missions();
+                break;
+            case tab_mode::TAB_COMPLETED:
+                umissions = u.get_completed_missions();
+                break;
+            case tab_mode::TAB_FAILED:
+                umissions = u.get_failed_missions();
+                break;
+            default:
+                break;
+        }
+        if( ( !umissions.empty() && selection >= umissions.size() ) ||
+            ( umissions.empty() && selection != 0 ) ) {
+            debugmsg( "Sanity check failed: selection=%d, size=%d", static_cast<int>( selection ),
+                      static_cast<int>( umissions.size() ) );
+            selection = 0;
+        }
+        ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "RIGHT" ) {
             tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
@@ -204,6 +217,4 @@ void game::list_missions()
             break;
         }
     }
-
-    refresh_all();
 }

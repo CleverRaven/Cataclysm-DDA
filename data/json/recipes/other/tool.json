@@ -369,7 +369,7 @@
     "time": "200 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ] ], [ [ "hose", 2 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ] ], [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ] ]
   },
   {
     "result": "food_processor",
@@ -661,5 +661,31 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+  },
+  {
+    "result": "makeshift_hose",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "id_suffix": "DIY_hose_from_leather",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "survival", 3 ], [ "tailor", 4 ] ],
+    "autolearn": true,
+    "time": "1 h",
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 2 ] ], [ [ "superglue", 1 ] ], [ [ "filament", 40, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_hand_drill",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "HAMMER_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "nail", 1 ], [ "screwdriver", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 3 ] ] ]
   }
 ]

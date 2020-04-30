@@ -323,6 +323,7 @@
     "apply_message": "The scream dazes you!",
     "rating": "bad",
     "max_intensity": 10,
+    "max_duration": "10 m",
     "int_add_val": 2,
     "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },

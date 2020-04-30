@@ -1,6 +1,6 @@
 [
   {
-    "result": "gloopletread",
+    "result": "blob_gloopletread",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -8,10 +8,10 @@
     "difficulty": 6,
     "time": "4 h 10 m",
     "autolearn": true,
-    "components": [ [ [ "gloople", 1 ] ] ]
+    "components": [ [ [ "blob_gloople", 1 ] ] ]
   },
   {
-    "result": "oozletread",
+    "result": "blob_oozletread",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -19,10 +19,10 @@
     "difficulty": 6,
     "time": "4 h 10 m",
     "autolearn": true,
-    "components": [ [ [ "oozle", 1 ] ] ]
+    "components": [ [ [ "blob_oozle", 1 ] ] ]
   },
   {
-    "result": "graytread",
+    "result": "blob_graytread",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -30,10 +30,10 @@
     "difficulty": 6,
     "time": "4 h 10 m",
     "autolearn": true,
-    "components": [ [ [ "gray", 1 ] ] ]
+    "components": [ [ [ "blob_gray", 1 ] ] ]
   },
   {
-    "result": "bfeedfuel",
+    "result": "blob_feed_fuel",
     "type": "recipe",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
@@ -41,10 +41,10 @@
     "difficulty": 6,
     "time": "16 m 40 s",
     "autolearn": true,
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bfeed", 1 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "blob_feed", 1 ] ] ]
   },
   {
-    "result": "bfeed",
+    "result": "blob_feed",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -71,7 +71,7 @@
     ]
   },
   {
-    "result": "bfeed",
+    "result": "blob_feed",
     "type": "recipe",
     "id_suffix": "blob assisted",
     "category": "CC_OTHER",
@@ -80,7 +80,7 @@
     "difficulty": 6,
     "time": "16 m 40 s",
     "autolearn": true,
-    "tools": [ [ [ "gloople", -1 ], [ "oozle", -1 ], [ "gray", -1 ] ] ],
+    "tools": [ [ [ "blob_gloople", -1 ], [ "blob_oozle", -1 ], [ "blob_gray", -1 ] ] ],
     "components": [
       [
         [ "corpse", 1 ],
@@ -99,7 +99,7 @@
     ]
   },
   {
-    "result": "bframegrow",
+    "result": "blob_bframegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -112,21 +112,21 @@
     "components": [
       [ [ "bone", 20 ], [ "bone_tainted", 20 ], [ "bone_human", 20 ] ],
       [ [ "slime_scrap", 10 ] ],
-      [ [ "bfeed", 500 ] ],
+      [ [ "blob_feed", 500 ] ],
       [ [ "cordage", 3, "LIST" ], [ "adhesive", 3, "LIST" ] ],
       [ [ "vacutainer", 1 ] ],
       [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
     ]
   },
   {
-    "result": "biter",
+    "result": "blob_biter",
     "type": "uncraft",
     "difficulty": 0,
     "time": "2 h 46 m 40 s",
-    "components": [ [ [ "bitergrow", 2 ] ] ]
+    "components": [ [ [ "blob_bitergrow", 2 ] ] ]
   },
   {
-    "result": "bitergrow",
+    "result": "blob_bitergrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -137,21 +137,21 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
-      [ [ "gray", 1 ] ],
-      [ [ "bfeed", 250 ] ],
+      [ [ "blob_gray", 1 ] ],
+      [ [ "blob_feed", 250 ] ],
       [ [ "meal_chitin_piece", 24 ], [ "meal_bone_tainted", 24 ], [ "meal_bone", 24 ] ],
       [ [ "mutagen", 1 ] ]
     ]
   },
   {
-    "result": "clutter",
+    "result": "blob_clutter",
     "type": "uncraft",
     "difficulty": 0,
     "time": "2 h 46 m 40 s",
-    "components": [ [ [ "cluttergrow", 2 ] ] ]
+    "components": [ [ [ "blob_cluttergrow", 2 ] ] ]
   },
   {
-    "result": "cluttergrow",
+    "result": "blob_cluttergrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -161,10 +161,10 @@
     "time": "16 h 40 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "gray", 1 ] ], [ [ "bfeed", 1000 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
+    "components": [ [ [ "blob_gray", 1 ] ], [ [ "blob_feed", 1000 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
   },
   {
-    "result": "freeziegrow",
+    "result": "blob_freeziegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -174,17 +174,22 @@
     "time": "8 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "clutter", 1 ] ], [ [ "bfeed", 500 ] ], [ [ "frostie", 1 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
+    "components": [
+      [ [ "blob_clutter", 1 ] ],
+      [ [ "blob_feed", 500 ] ],
+      [ [ "blob_frostie", 1 ] ],
+      [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
+    ]
   },
   {
-    "result": "frostie",
+    "result": "blob_frostie",
     "type": "uncraft",
     "difficulty": 0,
     "time": "1 h 23 m 20 s",
-    "components": [ [ [ "frostiegrow", 2 ] ] ]
+    "components": [ [ [ "blob_frostiegrow", 2 ] ] ]
   },
   {
-    "result": "frostiegrow",
+    "result": "blob_frostiegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -195,15 +200,15 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
-      [ [ "gloople", 1 ] ],
-      [ [ "bfeed", 250 ] ],
+      [ [ "blob_gloople", 1 ] ],
+      [ [ "blob_feed", 250 ] ],
       [ [ "water", 200 ] ],
       [ [ "plasma", 5 ] ],
       [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
     ]
   },
   {
-    "result": "frostie_wheel",
+    "result": "blob_frostie_wheel",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -212,10 +217,10 @@
     "time": "4 h 10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "frostie", 1 ] ], [ [ "water", 200 ] ] ]
+    "components": [ [ [ "blob_frostie", 1 ] ], [ [ "water", 200 ] ] ]
   },
   {
-    "result": "fuzzlegrow",
+    "result": "blob_fuzzlegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -226,21 +231,21 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
-      [ [ "biter", 1 ] ],
-      [ [ "bfeed", 250 ] ],
+      [ [ "blob_biter", 1 ] ],
+      [ [ "blob_feed", 250 ] ],
       [ [ "raw_fur", 150 ], [ "raw_hfur", 150 ], [ "fur", 24 ] ],
       [ [ "mutagen", 1 ] ]
     ]
   },
   {
-    "result": "gloople",
+    "result": "blob_gloople",
     "type": "uncraft",
     "difficulty": 0,
     "time": "1 h 23 m 20 s",
-    "components": [ [ [ "glooplegrow", 2 ] ] ]
+    "components": [ [ [ "blob_glooplegrow", 2 ] ] ]
   },
   {
-    "result": "gloople_tank",
+    "result": "blob_gloople_tank",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -249,10 +254,10 @@
     "time": "4 h 10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "gloople", 1 ] ] ]
+    "components": [ [ [ "blob_gloople", 1 ] ] ]
   },
   {
-    "result": "gloople_tank_large",
+    "result": "blob_gloople_tank_large",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -261,10 +266,10 @@
     "time": "8 h 20 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "gloople", 1 ] ] ]
+    "components": [ [ [ "blob_gloople", 1 ] ] ]
   },
   {
-    "result": "gloople_wheel",
+    "result": "blob_gloople_wheel",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -273,17 +278,17 @@
     "time": "4 h 10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "gloople", 1 ] ], [ [ "water", 100 ] ] ]
+    "components": [ [ [ "blob_gloople", 1 ] ], [ [ "water", 100 ] ] ]
   },
   {
-    "result": "glowie",
+    "result": "blob_glowie",
     "type": "uncraft",
     "difficulty": 0,
     "time": "1 h 23 m 20 s",
-    "components": [ [ [ "glowiegrow", 2 ] ] ]
+    "components": [ [ [ "blob_glowiegrow", 2 ] ] ]
   },
   {
-    "result": "glowiegrow",
+    "result": "blob_glowiegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -293,17 +298,22 @@
     "time": "8 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "gloople", 1 ] ], [ [ "bfeed", 250 ] ], [ [ "plut_cell", 1 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
+    "components": [
+      [ [ "blob_gloople", 1 ] ],
+      [ [ "blob_feed", 250 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
+    ]
   },
   {
-    "result": "gray",
+    "result": "blob_gray",
     "type": "uncraft",
     "difficulty": 0,
     "time": "5 h 33 m 20 s",
-    "components": [ [ [ "graygrow", 2 ] ] ]
+    "components": [ [ [ "blob_graygrow", 2 ] ] ]
   },
   {
-    "result": "gray_tank",
+    "result": "blob_gray_tank",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -312,10 +322,10 @@
     "time": "4 h 10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "gray", 1 ] ] ]
+    "components": [ [ [ "blob_gray", 1 ] ] ]
   },
   {
-    "result": "gray_tank_large",
+    "result": "blob_gray_tank_large",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -324,10 +334,10 @@
     "time": "8 h 20 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "gray", 1 ] ] ]
+    "components": [ [ [ "blob_gray", 1 ] ] ]
   },
   {
-    "result": "gray_wheel",
+    "result": "blob_gray_wheel",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -336,10 +346,10 @@
     "time": "4 h 10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "gray", 1 ] ], [ [ "water", 200 ] ] ]
+    "components": [ [ [ "blob_gray", 1 ] ], [ [ "water", 200 ] ] ]
   },
   {
-    "result": "graygrow",
+    "result": "blob_graygrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -347,10 +357,10 @@
     "difficulty": 6,
     "time": "8 h 20 m",
     "autolearn": true,
-    "components": [ [ [ "oozle", 1 ] ], [ [ "bfeed", 1000 ] ], [ [ "mutagen", 1 ] ] ]
+    "components": [ [ [ "blob_oozle", 1 ] ], [ [ "blob_feed", 1000 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
-    "result": "grinder",
+    "result": "blob_grinder",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -361,10 +371,10 @@
     "autolearn": true,
     "using": [ [ "adhesive", 10 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pebble", 500 ] ], [ [ "gray", 1 ] ], [ [ "bfeed", 500 ] ], [ [ "mutagen", 1 ] ] ]
+    "components": [ [ [ "pebble", 500 ] ], [ [ "blob_gray", 1 ] ], [ [ "blob_feed", 500 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
-    "result": "horrorgrow",
+    "result": "blob_horrorgrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -375,14 +385,14 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
-      [ [ "biter", 1 ] ],
-      [ [ "bfeed", 500 ] ],
+      [ [ "blob_biter", 1 ] ],
+      [ [ "blob_feed", 500 ] ],
       [ [ "meal_chitin_piece", 48 ], [ "meal_bone_tainted", 48 ], [ "meal_bone", 48 ] ],
       [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
     ]
   },
   {
-    "result": "inkiegrow",
+    "result": "blob_inkiegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -393,15 +403,15 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
-      [ [ "clutter", 1 ] ],
-      [ [ "bfeed", 250 ] ],
+      [ [ "blob_clutter", 1 ] ],
+      [ [ "blob_feed", 250 ] ],
       [ [ "stomach", 8 ], [ "stomach_large", 4 ], [ "hstomach", 8 ], [ "hstomach_large", 4 ], [ "plant_sac", 2 ] ],
       [ [ "gasoline", 500 ], [ "diesel", 500 ], [ "biodiesel", 500 ] ],
       [ [ "mutagen", 1 ] ]
     ]
   },
   {
-    "result": "meltiegrow",
+    "result": "blob_meltiegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -412,29 +422,29 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
-      [ [ "clutter", 1 ] ],
-      [ [ "bfeed", 250 ] ],
+      [ [ "blob_clutter", 1 ] ],
+      [ [ "blob_feed", 250 ] ],
       [ [ "stomach", 8 ], [ "stomach_large", 4 ], [ "hstomach", 8 ], [ "hstomach_large", 4 ], [ "plant_sac", 2 ] ],
       [ [ "acid", 5 ], [ "water_acid", 10 ], [ "acidbomb", 1 ] ],
       [ [ "mutagen", 1 ] ]
     ]
   },
   {
-    "result": "meltie",
+    "result": "blob_meltie",
     "type": "uncraft",
     "difficulty": 0,
     "time": "2 h 46 m 40 s",
-    "components": [ [ [ "meltiegrow", 2 ] ] ]
+    "components": [ [ [ "blob_meltiegrow", 2 ] ] ]
   },
   {
-    "result": "oozle",
+    "result": "blob_oozle",
     "type": "uncraft",
     "difficulty": 0,
     "time": "2 h 46 m 40 s",
-    "components": [ [ [ "oozlegrow", 2 ] ] ]
+    "components": [ [ [ "blob_oozlegrow", 2 ] ] ]
   },
   {
-    "result": "oozle_tank",
+    "result": "blob_oozle_tank",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -443,10 +453,10 @@
     "time": "4 h 10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "oozle", 1 ] ] ]
+    "components": [ [ [ "blob_oozle", 1 ] ] ]
   },
   {
-    "result": "oozle_tank_large",
+    "result": "blob_oozle_tank_large",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -455,10 +465,10 @@
     "time": "8 h 20 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "oozle", 1 ] ] ]
+    "components": [ [ [ "blob_oozle", 1 ] ] ]
   },
   {
-    "result": "oozle_wheel",
+    "result": "blob_oozle_wheel",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -467,10 +477,10 @@
     "time": "4 h 10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "oozle", 1 ] ], [ [ "water", 200 ] ] ]
+    "components": [ [ [ "blob_oozle", 1 ] ], [ [ "water", 200 ] ] ]
   },
   {
-    "result": "oozlegrow",
+    "result": "blob_oozlegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -478,10 +488,10 @@
     "difficulty": 6,
     "time": "8 h 20 m",
     "autolearn": true,
-    "components": [ [ [ "gloople", 1 ] ], [ [ "bfeed", 500 ] ], [ [ "mutagen", 1 ] ] ]
+    "components": [ [ [ "blob_gloople", 1 ] ], [ [ "blob_feed", 500 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
-    "result": "queengrow",
+    "result": "blob_queengrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -489,10 +499,10 @@
     "difficulty": 6,
     "time": "8 h 20 m",
     "autolearn": true,
-    "components": [ [ [ "gray", 1 ] ], [ [ "bfeed", 2000 ] ], [ [ "mutagen", 1 ] ] ]
+    "components": [ [ [ "blob_gray", 1 ] ], [ [ "blob_feed", 2000 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
-    "result": "razorqueengrow",
+    "result": "blob_razorqueengrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -503,14 +513,14 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
-      [ [ "sharp", 1 ] ],
-      [ [ "bfeed", 500 ] ],
+      [ [ "blob_sharp", 1 ] ],
+      [ [ "blob_feed", 500 ] ],
       [ [ "meal_chitin_piece", 48 ], [ "meal_bone_tainted", 48 ], [ "meal_bone", 48 ] ],
       [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
     ]
   },
   {
-    "result": "spouterqueen",
+    "result": "blob_spouterqueen",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -519,10 +529,10 @@
     "time": "8 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "queen", 1 ] ] ]
+    "components": [ [ [ "blob_queen", 1 ] ] ]
   },
   {
-    "result": "sharpgrow",
+    "result": "blob_sharpgrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -532,10 +542,10 @@
     "time": "8 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "clutter", 1 ] ], [ [ "biter", 1 ] ], [ [ "bfeed", 500 ] ], [ [ "mutagen", 1 ] ] ]
+    "components": [ [ [ "blob_clutter", 1 ] ], [ [ "blob_biter", 1 ] ], [ [ "blob_feed", 500 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
-    "result": "sicklegrow",
+    "result": "blob_sicklegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -546,14 +556,14 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
-      [ [ "sharp", 1 ] ],
-      [ [ "bfeed", 200 ] ],
+      [ [ "blob_sharp", 1 ] ],
+      [ [ "blob_feed", 200 ] ],
       [ [ "meal_chitin_piece", 24 ], [ "meal_bone_tainted", 24 ], [ "meal_bone", 24 ] ],
       [ [ "mutagen", 1 ] ]
     ]
   },
   {
-    "result": "sparkiegrow",
+    "result": "blob_sparkiegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -563,10 +573,10 @@
     "time": "8 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "glowie", 1 ] ], [ [ "clutter", 1 ] ], [ [ "bfeed", 250 ] ], [ [ "mutagen", 1 ] ] ]
+    "components": [ [ [ "blob_glowie", 1 ] ], [ [ "blob_clutter", 1 ] ], [ [ "blob_feed", 250 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
-    "result": "stickiegrow",
+    "result": "blob_stickiegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -578,14 +588,14 @@
     "using": [ [ "adhesive", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
-      [ [ "clutter", 1 ] ],
-      [ [ "bfeed", 250 ] ],
+      [ [ "blob_clutter", 1 ] ],
+      [ [ "blob_feed", 250 ] ],
       [ [ "stomach", 8 ], [ "stomach_large", 4 ], [ "hstomach", 8 ], [ "hstomach_large", 4 ], [ "plant_sac", 2 ] ],
       [ [ "mutagen", 1 ] ]
     ]
   },
   {
-    "result": "torchiegrow",
+    "result": "blob_torchiegrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -596,15 +606,15 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [
-      [ [ "clutter", 1 ] ],
-      [ [ "bfeed", 250 ] ],
+      [ [ "blob_clutter", 1 ] ],
+      [ [ "blob_feed", 250 ] ],
       [ [ "stomach", 8 ], [ "stomach_large", 4 ], [ "hstomach", 8 ], [ "hstomach_large", 4 ], [ "plant_sac", 2 ] ],
       [ [ "incendiary", 200 ] ],
       [ [ "mutagen", 1 ] ]
     ]
   },
   {
-    "result": "voideatergrow",
+    "result": "blob_voideatergrow",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -614,6 +624,6 @@
     "time": "8 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "sparkie", 1 ] ], [ [ "bfeed", 1000 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
+    "components": [ [ [ "blob_sparkie", 1 ] ], [ [ "blob_feed", 1000 ] ], [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ] ]
   }
 ]

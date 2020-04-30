@@ -307,7 +307,7 @@ static void do_blast( const tripoint &p, const float power,
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
             // TODO: player's fault?
-            const double dmg = std::max( force - critter->get_armor_bash( bp_torso ) / 2.0, 0.0 );
+            const double dmg = std::max( force - critter->get_armor_bash( bodypart_id( "torso" ) ) / 2.0, 0.0 );
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
@@ -320,26 +320,26 @@ static void do_blast( const tripoint &p, const float power,
                                    _( "<npcname> is caught in the explosion!" ) );
 
         struct blastable_part {
-            body_part bp;
+            bodypart_id bp;
             float low_mul;
             float high_mul;
             float armor_mul;
         };
 
         static const std::array<blastable_part, 6> blast_parts = { {
-                { bp_torso, 2.0f, 3.0f, 0.5f },
-                { bp_head,  2.0f, 3.0f, 0.5f },
+                { bodypart_id( "torso" ), 2.0f, 3.0f, 0.5f },
+                { bodypart_id( "head" ),  2.0f, 3.0f, 0.5f },
                 // Hit limbs harder so that it hurts more without being much more deadly
-                { bp_leg_l, 2.0f, 3.5f, 0.4f },
-                { bp_leg_r, 2.0f, 3.5f, 0.4f },
-                { bp_arm_l, 2.0f, 3.5f, 0.4f },
-                { bp_arm_r, 2.0f, 3.5f, 0.4f },
+                { bodypart_id( "leg_l" ), 2.0f, 3.5f, 0.4f },
+                { bodypart_id( "leg_r" ), 2.0f, 3.5f, 0.4f },
+                { bodypart_id( "arm_l" ), 2.0f, 3.5f, 0.4f },
+                { bodypart_id( "arm_r" ), 2.0f, 3.5f, 0.4f },
             }
         };
 
         for( const auto &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
-            const std::string hit_part_name = body_part_name_accusative( blp.bp );
+            const std::string hit_part_name = body_part_name_accusative( blp.bp->token );
             const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blp.armor_mul );
             const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();

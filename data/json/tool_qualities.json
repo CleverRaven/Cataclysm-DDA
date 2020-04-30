@@ -266,5 +266,15 @@
     "type": "tool_quality",
     "id": "LOCKPICK",
     "name": { "str": "lockpicking" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "EXTRACT",
+    "name": { "str": "extraction" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "FILTER",
+    "name": { "str": "filtration" }
   }
 ]

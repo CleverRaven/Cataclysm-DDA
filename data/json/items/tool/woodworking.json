@@ -54,7 +54,7 @@
     "techniques": "SWEEP",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "use_action": "CHAINSAW_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ]
   },
   {
     "id": "circsaw_off",
@@ -180,7 +180,7 @@
     "revert_to": "elec_chainsaw_off",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "use_action": "ELEC_CHAINSAW_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED" ],
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
     "magazine_well": 2
   },
   {

@@ -116,7 +116,8 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static void eff_fun_onfire( player &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, it.get_bp(), damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
+    u.deal_damage( nullptr, convert_bp( it.get_bp() ).id(), damage_instance( DT_HEAT, rng( intense,
+                   intense * 2 ) ) );
 }
 static void eff_fun_spores( player &u, effect &it )
 {
@@ -713,10 +714,10 @@ void player::hardcoded_effects( effect &it )
         }
         if( dur > 4_hours ) {
             // 8 teleports
-            if( one_in( 10000 - to_turns<int>( dur ) ) && !has_effect( effect_valium ) ) {
+            if( one_turn_in( 1000_minutes - dur ) && !has_effect( effect_valium ) ) {
                 add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
-            if( one_in( 12000 - to_turns<int>( dur ) ) ) {
+            if( one_turn_in( 1200_minutes - dur ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
                 add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 if( one_in( 8 ) ) {

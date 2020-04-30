@@ -139,6 +139,30 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
+// This is an attempt to handle attenuation of sound for underground areas.
+// The main issue it adresses is that you can hear activity
+// relatively deep underground while on the surface.
+// My research indicates that attenuation through soil-like materials is as
+// high as 100x the attenuation through air, plus vertical distances are
+// roughly five times as large as horizontal ones.
+static int sound_distance( const tripoint &source, const tripoint &sink )
+{
+    const int lower_z = std::min( source.z, sink.z );
+    const int upper_z = std::max( source.z, sink.z );
+    const int vertical_displacement = upper_z - lower_z;
+    int vertical_attenuation = vertical_displacement;
+    if( lower_z < 0 && vertical_displacement > 0 ) {
+        // Apply a moderate bonus attenuation (5x) for the first level of vertical displacement.
+        vertical_attenuation += 4;
+        // At displacements greater than one, apply a large additional attenuation (100x) per level.
+        const int underground_displacement = std::min( -lower_z, vertical_displacement );
+        vertical_attenuation += ( underground_displacement - 1 ) * 20;
+    }
+    // Regardless of underground effects, scale the vertical distance by 5x.
+    vertical_attenuation *= 5;
+    return rl_dist( source.xy(), sink.xy() ) + vertical_attenuation;
+}
+
 void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
                             const std::string &description )
 {
@@ -201,7 +225,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
         std::max( std::min( input_sounds.size(), static_cast<size_t>( 10 ) ),
                   static_cast<size_t>( std::log( input_sounds.size() ) ) );
     const size_t stopping_point = input_sounds.size() - num_seed_clusters;
-    const size_t max_map_distance = rl_dist( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
+    const size_t max_map_distance = sound_distance( tripoint( point_zero, OVERMAP_DEPTH ),
+                                    tripoint( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT ) );
     // Randomly choose cluster seeds.
     for( size_t i = input_sounds.size(); i > stopping_point; i-- ) {
         size_t index = rng( 0, i - 1 );
@@ -223,7 +248,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
              ++centroid_iter ) {
             // Scale the distance between the two by the max possible distance.
             tripoint centroid_pos { static_cast<int>( centroid_iter->x ), static_cast<int>( centroid_iter->y ), static_cast<int>( centroid_iter->z ) };
-            const int dist = rl_dist( sound_event_pair.first, centroid_pos );
+            const int dist = sound_distance( sound_event_pair.first, centroid_pos );
             if( dist * dist < dist_factor ) {
                 found_centroid = centroid_iter;
                 dist_factor = dist * dist;
@@ -294,7 +319,7 @@ void sounds::process_sounds()
         // Alert all monsters (that can hear) to the sound.
         for( monster &critter : g->all_monsters() ) {
             // TODO: Generalize this to Creature::hear_sound
-            const int dist = rl_dist( source, critter.pos() );
+            const int dist = sound_distance( source, critter.pos() );
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound
                 critter.hear_sound( source, vol, dist );
@@ -360,8 +385,7 @@ void sounds::process_sound_markers( player *p )
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
-        const int distance_to_sound = rl_dist( p->pos().xy(), pos.xy() ) +
-                                      std::abs( p->pos().z - pos.z ) * 10;
+        const int distance_to_sound = sound_distance( p->pos(), pos );
         const int raw_volume = sound.volume;
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
@@ -759,9 +783,10 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     for( wrapped_vehicle vehicle : vehs ) {
         if( vehicle.v->vehicle_noise > 0 &&
-            vehicle.v->vehicle_noise - rl_dist( g->u.pos(), vehicle.v->global_pos3() ) > noise_factor ) {
+            vehicle.v->vehicle_noise -
+            sound_distance( g->u.pos(), vehicle.v->global_pos3() ) > noise_factor ) {
 
-            noise_factor = vehicle.v->vehicle_noise - rl_dist( g->u.pos(), vehicle.v->global_pos3() );
+            noise_factor = vehicle.v->vehicle_noise - sound_distance( g->u.pos(), vehicle.v->global_pos3() );
             veh = vehicle.v;
         }
     }
@@ -964,7 +989,7 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
 
     } else {
         angle = get_heard_angle( source );
-        distance = rl_dist( g->u.pos(), source );
+        distance = sound_distance( g->u.pos(), source );
         if( distance <= 17 ) {
             selected_sound = "fire_gun";
         } else {
@@ -1501,7 +1526,7 @@ void sfx::do_obstacle( const std::string & ) { }
 /*@{*/
 int sfx::get_heard_volume( const tripoint &source )
 {
-    int distance = rl_dist( g->u.pos(), source );
+    int distance = sound_distance( g->u.pos(), source );
     // fract = -100 / 24
     const float fract = -4.166666;
     int heard_volume = fract * distance - 1 + 100;

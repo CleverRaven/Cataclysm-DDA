@@ -311,7 +311,7 @@
     "components": [
       [ [ "sheet_metal", 3 ] ],
       [ [ "wire", 6 ] ],
-      [ [ "hose", 1 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "circuit", 1 ] ],
       [ [ "scrap", 4 ] ],
@@ -336,7 +336,7 @@
     "components": [
       [ [ "sheet_metal", 3 ] ],
       [ [ "wire", 6 ] ],
-      [ [ "hose", 1 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "circuit", 1 ] ],
       [ [ "scrap", 4 ] ],
