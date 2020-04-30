@@ -471,7 +471,8 @@ void main_menu::load_char_templates()
         path.erase( 0, path.find_last_of( "\\/" ) + 1 );
         templates.push_back( path );
     }
-    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
+    std::sort( templates.begin(), templates.end(), localized_compare );
+    std::reverse( templates.begin(), templates.end() );
 }
 
 bool main_menu::opening_screen()
