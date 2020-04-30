@@ -109,7 +109,7 @@
   },
   {
     "type": "ARMOR",
-    "copy-from": "mbelt_leather",
+    "copy-from": "survivor_belt",
     "id": "mbelt_technomancer_toolbelt",
     "name": { "str": "technomancer's toolbelt" },
     "weight": "4000 g",
