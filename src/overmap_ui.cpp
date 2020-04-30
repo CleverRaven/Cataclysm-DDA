@@ -1147,8 +1147,7 @@ void create_note( const tripoint &curs )
 }
 
 // if false, search yielded no results
-static bool search( tripoint &curs, const tripoint &orig, const bool show_explored,
-                    const bool fast_scroll, std::string &action )
+static bool search( const ui_adaptor &om_ui, tripoint &curs, const tripoint &orig )
 {
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
@@ -1195,8 +1194,17 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     int i = 0;
     //Navigate through results
-    tripoint tmp = curs;
-    catacurses::window w_search = catacurses::newwin( 13, 27, point( TERMX - 27, 3 ) );
+    const tripoint prev_curs = curs;
+
+    catacurses::window w_search;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w_search = catacurses::newwin( 13, 27, point( TERMX - 27, 3 ) );
+
+        ui.position_from_window( w_search );
+    } );
+    ui.mark_resize();
 
     input_context ctxt( "OVERMAP_SEARCH" );
     ctxt.register_leftright();
@@ -1207,15 +1215,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-    do {
-        tmp.x = locations[i].x;
-        tmp.y = locations[i].y;
-        draw( g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored,
-              fast_scroll, nullptr,
-              draw_data_t() );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         //Draw search box
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_search, point( 1, 1 ), c_light_blue, _( "Search:" ) );
@@ -1235,6 +1235,14 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
         mvwprintz( w_search, point( 1, 11 ), c_white, _( "q or ESC to return." ) );
         draw_border( w_search );
         wrefresh( w_search );
+    } );
+
+    std::string action;
+    do {
+        curs.x = locations[i].x;
+        curs.y = locations[i].y;
+        om_ui.invalidate_ui();
+        ui_manager::redraw();
         action = ctxt.handle_input( BLINK_SPEED );
         if( uistate.overmap_blinking ) {
             uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
@@ -1243,11 +1251,11 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
             i = ( i + 1 ) % locations.size();
         } else if( action == "PREV_TAB" || action == "LEFT" ) {
             i = ( i + locations.size() - 1 ) % locations.size();
-        } else if( action == "CONFIRM" ) {
-            curs = tmp;
+        } else if( action == "QUIT" ) {
+            curs = prev_curs;
+            om_ui.invalidate_ui();
         }
     } while( action != "CONFIRM" && action != "QUIT" );
-    action.clear();
     return true;
 }
 
@@ -1585,7 +1593,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
         } else if( action == "TOGGLE_FOREST_TRAILS" ) {
             uistate.overmap_show_forest_trails = !uistate.overmap_show_forest_trails;
         } else if( action == "SEARCH" ) {
-            if( !search( curs, orig, show_explored, fast_scroll, action ) ) {
+            if( !search( ui, curs, orig ) ) {
                 continue;
             }
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
