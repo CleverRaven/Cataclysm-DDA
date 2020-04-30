@@ -4710,16 +4710,22 @@ template const Creature *game::critter_at<Creature>( const tripoint &, bool ) co
 template<typename T>
 shared_ptr_fast<T> game::shared_from( const T &critter )
 {
-    if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
-        return std::dynamic_pointer_cast<T>( mon_ptr );
-    }
     if( static_cast<const Creature *>( &critter ) == static_cast<const Creature *>( &u ) ) {
         // u is not stored in a shared_ptr, but it won't go out of scope anyway
         return std::dynamic_pointer_cast<T>( u_shared_ptr );
     }
-    for( auto &cur_npc : active_npc ) {
-        if( static_cast<const Creature *>( cur_npc.get() ) == static_cast<const Creature *>( &critter ) ) {
-            return std::dynamic_pointer_cast<T>( cur_npc );
+    if( critter.is_monster() ) {
+        if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
+            if( static_cast<const Creature *>( mon_ptr.get() ) == static_cast<const Creature *>( &critter ) ) {
+                return std::dynamic_pointer_cast<T>( mon_ptr );
+            }
+        }
+    }
+    if( critter.is_npc() ) {
+        for( auto &cur_npc : active_npc ) {
+            if( static_cast<const Creature *>( cur_npc.get() ) == static_cast<const Creature *>( &critter ) ) {
+                return std::dynamic_pointer_cast<T>( cur_npc );
+            }
         }
     }
     return nullptr;
