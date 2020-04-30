@@ -9,7 +9,7 @@
     "broken_color": "pink",
     "size": 1000,
     "folded_volume": 10,
-    "breaks_into": [ { "item": "vortex_accelerator", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "vortex_accelerator", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -22,7 +22,7 @@
     "broken_color": "pink",
     "size": 10,
     "folded_volume": 20,
-    "breaks_into": [ { "item": "vortex_cannon", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "vortex_cannon", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   }
 ]

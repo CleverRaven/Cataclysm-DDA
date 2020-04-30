@@ -7,7 +7,7 @@
     "item": "cangun",
     "color": "brown",
     "broken_color": "brown",
-    "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "cangun", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -20,7 +20,7 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "power": -1750,
-    "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "cutter", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
@@ -32,7 +32,7 @@
     "item": "gattler",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "gattler", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
@@ -43,7 +43,7 @@
     "item": "lasgun",
     "color": "blue",
     "broken_color": "blue",
-    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "lasgun", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
@@ -54,7 +54,7 @@
     "item": "lasgunp",
     "color": "blue",
     "broken_color": "blue",
-    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "lasgun", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
@@ -65,7 +65,7 @@
     "item": "lasgunx",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "lasgunx", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "lasgunx", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
@@ -78,7 +78,7 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "power": -8750,
-    "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "ripper", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
@@ -90,7 +90,7 @@
     "item": "scorpion",
     "color": "brown",
     "broken_color": "brown",
-    "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "scorpion", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -101,7 +101,7 @@
     "item": "slauncher",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "slauncher", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -112,7 +112,7 @@
     "item": "teslagun",
     "color": "blue",
     "broken_color": "blue",
-    "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ],
+    "breaks_into": [ { "item": "teslagun", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   }
 ]
