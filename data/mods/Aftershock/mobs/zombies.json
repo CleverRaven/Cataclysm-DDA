@@ -118,7 +118,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 18, "armor_multiplier": 0.7 } ]
       }
     ],
-    "death_drops": "default_zombie_death_drops",
+    "death_drops": "xl_uplift_death_drop",
     "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
@@ -162,6 +162,7 @@
     "dodge": 4,
     "vision_day": 20,
     "harvest": "zombie_meatslug",
+    "death_drops": "xl_uplift_death_drop",
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [
@@ -179,6 +180,53 @@
       "PUSH_MON",
       "FILTHY",
       "LOUDMOVES"
+    ]
+  },
+  {
+    "id": "mon_zombie_oliphant",
+    "type": "MONSTER",
+    "name": { "str": "Ghoulodon" },
+    "description": "An undead Uplifted Elephant of ginormous size.  It still wears it's assault grade armor.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "UPLIFT" ],
+    "diff": 7,
+    "volume": "875000 ml",
+    "weight": "200 kg",
+    "hp": 480,
+    "speed": 130,
+    "material": [ "flesh" ],
+    "symbol": "E",
+    "color": "white_magenta",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 6,
+    "melee_dice_sides": 8,
+    "melee_cut": 0,
+    "armor_bash": 12,
+    "armor_cut": 16,
+    "vision_day": 50,
+    "vision_night": 4,
+    "harvest": "zombie",
+    "special_attacks": [ [ "SMASH", 28 ] ],
+    "death_drops": "xl_uplift_death_drop",
+    "death_function": [ "NORMAL" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "DESTROYS",
+      "POISON",
+      "ATTACKMON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "FILTHY"
     ]
   }
 ]
