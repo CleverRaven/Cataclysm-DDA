@@ -298,6 +298,7 @@ class target_ui
         std::string uitext_fire();
 
         void draw_window_title();
+        void draw_help_notice();
 
         // Draw list of available controls at the bottom of the window.
         // Returns how much lines it took.
@@ -2580,6 +2581,7 @@ void target_ui::draw_ui_window( player &pc )
 
     draw_border( w_target );
     draw_window_title();
+    draw_help_notice();
     draw_controls_list();
 
     int text_y = 1; // Skip top border
@@ -2650,6 +2652,18 @@ void target_ui::draw_window_title()
     wprintz( w_target, c_white, " >" );
 }
 
+void target_ui::draw_help_notice()
+{
+    int text_y = getmaxy( w_target ) - 1;
+    int width = getmaxx( w_target );
+    const std::string label_help = _( "[?] show all controls" );
+    int label_width = std::min( utf8_width( label_help ), width - 6 ); // 6 for borders and "< " + " >"
+    int text_x = width - label_width - 6;
+    mvwprintz( w_target, point( text_x + 1, text_y ), c_white, "< " );
+    trim_and_print( w_target, point( text_x + 3, text_y ), label_width, c_white, label_help );
+    wprintz( w_target, c_white, " >" );
+}
+
 int target_ui::draw_controls_list()
 {
     // Get first key bound to given action OR ' ' if there are none.
@@ -2664,7 +2678,7 @@ int target_ui::draw_controls_list()
 
     // Since this list is of variable length and positioned
     // at the bottom, we draw everything in reverse order
-    int text_y = height - ( compact ? 1 : 2 ); // If we're short on space, draw over bottom border
+    int text_y = height - 2; // Don't draw over bottom border
     if( is_mouse_enabled() ) {
         const char *label_mouse = "Mouse: LMB: Target, Wheel: Cycle,";
         int text_x = utf8_width( label_mouse ) + 2; // '2' for border + space at the end
