@@ -878,6 +878,9 @@ struct itype {
         // MATERIALS WORK IN PROGRESS.
         std::vector<material_id> materials;
 
+        // information related to being able to store things inside the item.
+        std::vector<pocket_data> pockets;
+
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
 
@@ -923,9 +926,6 @@ struct itype {
         units::mass weight = 0_gram;
         /** Weight difference with the part it replaces for mods */
         units::mass integral_weight = -1_gram;
-
-        // information related to being able to store things inside the item.
-        std::vector<pocket_data> pockets;
 
         /**
          * Space occupied by items of this type
