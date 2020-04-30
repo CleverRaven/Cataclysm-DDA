@@ -7586,12 +7586,9 @@ bool item::reload( player &u, item_location ammo, int qty )
             std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
-            // eject magazine to player inventory and try to dispose of it from there
-            item &mag = u.i_add( *magazine_current() );
-            if( !u.dispose_item( item_location( u, &mag ), prompt ) ) {
-                u.remove_item( mag ); // user canceled so delete the clone
-                return false;
-            }
+            // eject magazine to player inventory
+            u.i_add( *magazine_current() );
+
             remove_item( *magazine_current() );
         }
 
