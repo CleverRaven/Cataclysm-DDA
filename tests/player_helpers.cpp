@@ -172,3 +172,10 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
         }
     }
 }
+
+item tool_with_ammo( const itype_id &tool, const int qty )
+{
+    item tool_it( tool );
+    tool_it.ammo_set( tool_it.ammo_default(), qty );
+    return tool_it;
+}

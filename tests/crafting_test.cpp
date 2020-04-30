@@ -364,13 +364,6 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
     return turns;
 }
 
-static item tool_with_ammo( const itype_id &tool, const int qty )
-{
-    item tool_it( tool );
-    tool_it.ammo_set( tool_it.ammo_default(), qty );
-    return tool_it;
-}
-
 TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
 {
     avatar dummy;
