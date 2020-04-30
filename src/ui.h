@@ -150,7 +150,7 @@ class uilist_callback
  * uilist: scrolling vertical list menu
  */
 
-class uilist
+class uilist // NOLINT(cata-xy)
 {
     public:
         int w_x;
