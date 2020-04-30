@@ -305,11 +305,15 @@ Groups of vehicle definitions with self-explanatory names of files:
 | Filename
 |---
 | bikes.json
+| boats.json
 | cars.json
 | carts.json
+| custom_vehicles.json
 | emergency.json
 | farm.json
+| helicopters.json
 | military.json
+| trains.json
 | trucks.json
 | utility.json
 | vans_busses.json
@@ -1460,6 +1464,8 @@ Vehicle components when installed on a vehicle.
                                *    power       = base engine power in watts
                                *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
                                *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
+"wheel_type":                 // (Optional: standard, off-road)
+"contact_area":               // (Optional) Affects vehicle ground pressure
 "cargo_weight_modifier": 33,  // (Optional, default = 100) Modifies cargo weight by set percentage
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
 
