@@ -9473,7 +9473,8 @@ point game::place_player( const tripoint &dest_loc )
         m.creature_on_trap( u );
     }
     // Drench the player if swimmable
-    if( m.has_flag( "SWIMMABLE", u.pos() ) && !u.is_mounted() ) {
+    if( m.has_flag( "SWIMMABLE", u.pos() ) &&
+        !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
         u.drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
     }
 
