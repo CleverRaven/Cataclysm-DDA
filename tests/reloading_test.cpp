@@ -128,14 +128,22 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 
 static void reload_a_revolver( player &dummy, item &gun, item &ammo )
 {
-    while( gun.ammo_remaining() < gun.ammo_capacity() ) {
+    if( !dummy.is_wielding( gun ) ) {
+        if( dummy.has_weapon() ) {
+            // to avoid dispose_option in player::unwield()
+            dummy.i_add( dummy.weapon );
+            dummy.remove_weapon();
+        }
+        dummy.wield( gun );
+    }
+    while( dummy.weapon.ammo_remaining() < dummy.weapon.ammo_capacity() ) {
         g->reload_weapon( false );
         REQUIRE( dummy.activity );
         process_activity( dummy );
-        CAPTURE( gun.typeId() );
+        CAPTURE( dummy.weapon.typeId() );
         CAPTURE( ammo.typeId() );
-        CHECK( gun.ammo_remaining() > 0 );
-        CHECK( gun.ammo_current() == ammo.type->get_id() );
+        CHECK( !dummy.weapon.contents.empty() );
+        CHECK( dummy.weapon.ammo_current() == ammo.type->get_id() );
     }
 }
 
