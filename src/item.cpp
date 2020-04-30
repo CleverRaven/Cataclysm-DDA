@@ -876,10 +876,7 @@ bool item::combine( const item &rhs )
     if( !count_by_charges() ) {
         return false;
     }
-    if( !stacks_with( rhs, true ) ) {
-        return false;
-    }
-    if( is_comestible() ) {
+    if( is_comestible() && typeId() == rhs.typeId() ) {
         const float lhs_energy = get_item_thermal_energy();
         const float rhs_energy = rhs.get_item_thermal_energy();
         const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
@@ -888,6 +885,8 @@ bool item::combine( const item &rhs )
         //use maximum rot between the two
         set_relative_rot( std::max( get_relative_rot(),
                                     rhs.get_relative_rot() ) );
+    } else if( !stacks_with( rhs, true ) ) {
+        return false;
     }
     charges += rhs.charges;
     return true;
@@ -8095,7 +8094,9 @@ int item::fill_with( const itype &contained, const int amount )
             break;
         }
         num_contained++;
-        pocket = best_pocket( contained_item );
+        if( !pocket->can_contain( contained_item ).success() ) {
+            pocket = best_pocket( contained_item );
+        }
     }
     return num_contained;
 }
