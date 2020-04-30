@@ -6813,6 +6813,11 @@ int item::ammo_remaining() const
     }
 
     if( is_tool() ) {
+        // dirty hack for UPS, hopefully temporary
+        if( typeId() == "UPS_off" || typeId() == "adv_UPS_off" ) {
+            return charges;
+        }
+
         if( type->tool->ammo_id.empty() ||
             !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
             // includes auxiliary gunmods
@@ -6934,7 +6939,7 @@ int item::ammo_consume( int qty, const tripoint &pos )
         return contents.ammo_consume( qty );
 
     } else if( is_tool() || is_gun() ) {
-        if( !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) || 
+        if( !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ||
             ( is_tool() && type->tool->ammo_id.empty() ) ) {
             qty = std::min( qty, charges );
             if( has_flag( flag_USES_BIONIC_POWER ) ) {

@@ -371,6 +371,18 @@ static item tool_with_ammo( const itype_id &tool, const int qty )
     return tool_it;
 }
 
+TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
+{
+    avatar dummy;
+    clear_character( dummy );
+    dummy.worn.push_back( item( "backpack" ) );
+    item &ups = dummy.i_add( item( "UPS_off", -1, 500 ) );
+    REQUIRE( dummy.has_item( ups ) );
+    REQUIRE( ups.charges == 500 );
+    REQUIRE( dummy.charges_of( "UPS_off" ) == 500 );
+    REQUIRE( dummy.charges_of( "UPS" ) == 500 );
+}
+
 TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 {
     std::vector<item> tools;
