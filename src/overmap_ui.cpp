@@ -183,6 +183,7 @@ static void update_note_preview( const std::string &note,
 
     const int npm_offset_x = 1;
     const int npm_offset_y = 1;
+    werase( *w_preview_map );
     draw_border( *w_preview_map, c_yellow );
     for( int i = 0; i < npm_height; i++ ) {
         for( int j = 0; j < npm_width; j++ ) {
@@ -322,19 +323,42 @@ class map_notes_callback : public uilist_callback
         overmapbuffer::t_notes_vector _notes;
         int _z;
         int _selected = 0;
+
+        catacurses::window w_preview;
+        catacurses::window w_preview_title;
+        catacurses::window w_preview_map;
+        std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows;
+        ui_adaptor ui;
+
         point point_selected() {
             return _notes[_selected].first;
         }
         tripoint note_location() {
             return tripoint( point_selected(), _z );
         }
-        std::string old_note() {
-            return overmap_buffer.note( note_location() );
-        }
     public:
-        map_notes_callback( const overmapbuffer::t_notes_vector &notes, int z ) {
-            _notes = notes;
-            _z = z;
+        map_notes_callback( const overmapbuffer::t_notes_vector &notes, int z )
+            : _notes( notes ), _z( z ) {
+            ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+                w_preview = catacurses::newwin( npm_height + 2, max_note_display_length - npm_width - 1,
+                                                point( npm_width + 2, 2 ) );
+                w_preview_title = catacurses::newwin( 2, max_note_display_length + 1, point_zero );
+                w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, point( 0, 2 ) );
+                preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+
+                ui.position( point_zero, point( max_note_display_length + 1, npm_height + 4 ) );
+            } );
+            ui.mark_resize();
+
+            ui.on_redraw( [this]( const ui_adaptor & ) {
+                if( _selected >= 0 && static_cast<size_t>( _selected ) < _notes.size() ) {
+                    const tripoint note_pos = note_location();
+                    const auto map_around = get_overmap_neighbors( note_pos );
+                    update_note_preview( overmap_buffer.note( note_pos ), map_around, preview_windows );
+                } else {
+                    update_note_preview( {}, {}, preview_windows );
+                }
+            } );
         }
         bool key( const input_context &ctxt, const input_event &event, int, uilist *menu ) override {
             _selected = menu->selected;
@@ -378,21 +402,9 @@ class map_notes_callback : public uilist_callback
             }
             return false;
         }
-        void refresh( uilist *menu ) override {
+        void select( uilist *menu ) override {
             _selected = menu->selected;
-            if( _selected >= 0 && static_cast<size_t>( _selected ) < _notes.size() ) {
-                const auto map_around = get_overmap_neighbors( note_location() );
-                catacurses::window w_preview =
-                    catacurses::newwin( npm_height + 2, max_note_display_length - npm_width - 1,
-                                        point( npm_width + 2, 2 ) );
-                catacurses::window w_preview_title =
-                    catacurses::newwin( 2, max_note_display_length + 1, point_zero );
-                catacurses::window w_preview_map =
-                    catacurses::newwin( npm_height + 2, npm_width + 2, point( 0, 2 ) );
-                const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
-                    std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
-                update_note_preview( old_note(), map_around, preview_windows );
-            }
+            ui.invalidate_ui();
         }
 };
 
