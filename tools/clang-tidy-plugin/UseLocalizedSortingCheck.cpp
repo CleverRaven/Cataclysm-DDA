@@ -33,29 +33,53 @@ namespace tidy
 namespace cata
 {
 
+inline auto isStringType()
+{
+    return qualType( anyOf( asString( "const std::string" ), asString( "std::string" ) ) );
+}
+
+inline bool IsString( QualType T )
+{
+    const TagDecl *TTag = T.getTypePtr()->getAsTagDecl();
+    if( !TTag ) {
+        return false;
+    }
+    StringRef Name = TTag->getName();
+    return Name == "basic_string";
+}
+
 void UseLocalizedSortingCheck::registerMatchers( MatchFinder *Finder )
 {
     Finder->addMatcher(
         cxxOperatorCallExpr(
             hasArgument(
                 0,
-                expr(
-                    hasType(
-                        qualType(
-                            anyOf( asString( "const std::string" ), asString( "std::string" ) )
-                        ).bind( "arg0Type" )
-                    )
-                ).bind( "arg0Expr" )
+                expr( hasType( isStringType().bind( "arg0Type" ) ) ).bind( "arg0Expr" )
             ),
             hasOverloadedOperatorName( "<" )
-        ).bind( "call" ),
+        ).bind( "opCall" ),
+        this
+    );
+
+    Finder->addMatcher(
+        callExpr(
+            callee( namedDecl( hasAnyName( "std::sort", "std::stable_sort" ) ) ),
+            argumentCountIs( 2 ),
+            hasArgument(
+                0,
+                expr( hasType( qualType( anyOf(
+                        pointerType( pointee( isStringType().bind( "valueType" ) ) ),
+                        hasDeclaration( decl().bind( "iteratorDecl" ) )
+                                         ) ) ) )
+            )
+        ).bind( "sortCall" ),
         this
     );
 }
 
-static void CheckCall( UseLocalizedSortingCheck &Check, const MatchFinder::MatchResult &Result )
+static void CheckOpCall( UseLocalizedSortingCheck &Check, const MatchFinder::MatchResult &Result )
 {
-    const CXXOperatorCallExpr *Call = Result.Nodes.getNodeAs<CXXOperatorCallExpr>( "call" );
+    const CXXOperatorCallExpr *Call = Result.Nodes.getNodeAs<CXXOperatorCallExpr>( "opCall" );
     const QualType *Arg0Type = Result.Nodes.getNodeAs<QualType>( "arg0Type" );
     const Expr *Arg0Expr = Result.Nodes.getNodeAs<Expr>( "arg0Expr" );
     if( !Call || !Arg0Type || !Arg0Expr ) {
@@ -72,9 +96,47 @@ static void CheckCall( UseLocalizedSortingCheck &Check, const MatchFinder::Match
                 "translations.h." ) << *Arg0Type;
 }
 
+static void CheckSortCall( UseLocalizedSortingCheck &Check, const MatchFinder::MatchResult &Result )
+{
+    const CallExpr *Call = Result.Nodes.getNodeAs<CallExpr>( "sortCall" );
+    const QualType *BoundValueType = Result.Nodes.getNodeAs<QualType>( "valueType" );
+    const TagDecl *IteratorDecl = Result.Nodes.getNodeAs<TagDecl>( "iteratorDecl" );
+    if( !Call || ( !BoundValueType && !IteratorDecl ) ) {
+        return;
+    }
+
+    QualType ValueType;
+
+    if( IteratorDecl ) {
+        //Check.diag( Call->getBeginLoc(), "Iterator type %0" ) << IteratorDecl;
+
+        for( const Decl *D : IteratorDecl->decls() ) {
+            if( const TypedefNameDecl *ND = dyn_cast<TypedefNameDecl>( D ) ) {
+                if( ND->getName() == "value_type" ) {
+                    ValueType = ND->getUnderlyingType();
+                    break;
+                }
+            }
+        }
+
+        if( !IsString( ValueType ) ) {
+            return;
+        }
+    }
+
+    if( BoundValueType ) {
+        ValueType = *BoundValueType;
+    }
+
+    Check.diag( Call->getBeginLoc(),
+                "Raw sort of %0.  For UI purposes please use localized_compare from "
+                "translations.h." ) << ValueType;
+}
+
 void UseLocalizedSortingCheck::check( const MatchFinder::MatchResult &Result )
 {
-    CheckCall( *this, Result );
+    CheckOpCall( *this, Result );
+    CheckSortCall( *this, Result );
 }
 
 } // namespace cata
