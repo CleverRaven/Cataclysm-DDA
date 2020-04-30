@@ -1572,7 +1572,7 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
         } else if( item_blocking ) {
             // We can still block with a worn item while unarmed. Use higher of melee and unarmed
             block_score = str_cur + block_bonus + ( melee_skill > unarmed_skill ?
-                                                    melee_skill :  unarmed_skill );
+            block_score = str_cur + block_bonus + std::max( melee_skill, unarmed_skill );
         }
     } else if( item_blocking ) {
         block_score = str_cur + block_bonus + get_skill_level( skill_melee );
