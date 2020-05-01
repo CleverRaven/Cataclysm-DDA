@@ -246,7 +246,7 @@ struct resealable_data {
 class pocket_data
 {
     public:
-        bool was_loaded;
+        bool was_loaded = false;
 
         pocket_data() = default;
         // this constructor is used for special types of pockets, not loading
