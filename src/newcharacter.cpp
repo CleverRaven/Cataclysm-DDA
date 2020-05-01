@@ -1303,8 +1303,8 @@ struct {
         if( sort_by_points ) {
             return a->point_cost() < b->point_cost();
         } else {
-            return a->gender_appropriate_name( male ) <
-                   b->gender_appropriate_name( male );
+            return localized_compare( a->gender_appropriate_name( male ),
+                                      b->gender_appropriate_name( male ) );
         }
     }
 } profession_sorter;
@@ -1701,7 +1701,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     ui.on_screen_resize( init_windows );
 
     auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
-        return a.name() < b.name();
+        return localized_compare( a.name(), b.name() );
     } );
 
     const int num_skills = sorted_skills.size();
@@ -1921,8 +1921,8 @@ struct {
         } else if( sort_by_points ) {
             return a->point_cost() < b->point_cost();
         } else {
-            return a->gender_appropriate_name( male ) <
-                   b->gender_appropriate_name( male );
+            return localized_compare( a->gender_appropriate_name( male ),
+                                      b->gender_appropriate_name( male ) );
         }
     }
 } scenario_sorter;
@@ -2324,7 +2324,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w_skills = catacurses::newwin( TERMY - 12, 33, point( 46, 11 ) );
         w_guide = catacurses::newwin( 6, TERMX - 3, point( 2, TERMY - 7 ) );
         w_height = catacurses::newwin( 1, 20, point( 80, 5 ) );
-        w_age = catacurses::newwin( 1, 10, point( 80, 6 ) );
+        w_age = catacurses::newwin( 1, 12, point( 80, 6 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -2443,7 +2443,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
             const int level_a = you.get_skill_level_object( a.ident() ).exercised_level();
             const int level_b = you.get_skill_level_object( b.ident() ).exercised_level();
-            return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
+            return localized_compare( std::make_pair( -level_a, a.name() ),
+                                      std::make_pair( -level_b, b.name() ) );
         } );
 
         int line = 1;

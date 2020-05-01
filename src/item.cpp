@@ -17,6 +17,7 @@
 
 #include "advanced_inv.h"
 #include "ammo.h"
+#include "ascii_art.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -1327,7 +1328,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
             int total_pain = 0;
-            temp_mon.deal_damage_handle_type( dmg_unit, bp_torso, cur_damage, total_pain );
+            temp_mon.deal_damage_handle_type( dmg_unit, bodypart_id( "torso" ), cur_damage, total_pain );
             if( cur_damage > 0 ) {
                 dealt_dams.dealt_dams[ dmg_unit.type ] += cur_damage;
             }
@@ -1349,7 +1350,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
                 int total_pain = 0;
-                temp_rs_mon.deal_damage_handle_type( dmg_unit, bp_torso, cur_damage, total_pain );
+                temp_rs_mon.deal_damage_handle_type( dmg_unit, bodypart_id( "torso" ), cur_damage, total_pain );
                 if( cur_damage > 0 ) {
                     rs_dealt_dams.dealt_dams[ dmg_unit.type ] += cur_damage;
                 }
@@ -3108,8 +3109,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const body_part, size_t > &element : bid->env_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+        for( const std::pair< const bodypart_str_id, size_t > &element : bid->env_protec ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3118,8 +3119,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const body_part, size_t > &element : bid->bash_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+        for( const std::pair< const bodypart_str_id, size_t > &element : bid->bash_protec ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3128,8 +3129,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const body_part, size_t > &element : bid->cut_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+        for( const std::pair< const bodypart_str_id, size_t > &element : bid->cut_protec ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3681,8 +3682,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
     if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
-        for( const std::string &line : type->ascii_picture ) {
-            info.push_back( iteminfo( "DESCRIPTION", line ) );
+        const ascii_art_id art = type->picture_id;
+        if( art.is_valid() ) {
+            for( const std::string &line : art->picture ) {
+                info.push_back( iteminfo( "DESCRIPTION", line ) );
+            }
         }
     }
 }

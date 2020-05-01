@@ -1,8 +1,8 @@
 [
   {
-    "id": "bfeed",
+    "id": "blob_feed",
     "name": "blob feed",
-    "default": "bfeed",
+    "default": "blob_feed",
     "type": "ammunition_type"
   }
 ]

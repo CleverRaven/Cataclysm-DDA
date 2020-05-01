@@ -1,6 +1,6 @@
 [
   {
-    "id": "frostie_wheel",
+    "id": "blob_frostie_wheel",
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "gelacier wheel" },
@@ -16,7 +16,7 @@
     "width": 15
   },
   {
-    "id": "gloople_wheel",
+    "id": "blob_gloople_wheel",
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "gelatinous wheel" },
@@ -32,7 +32,7 @@
     "width": 15
   },
   {
-    "id": "gray_wheel",
+    "id": "blob_gray_wheel",
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "gray wheel" },
@@ -48,7 +48,7 @@
     "width": 40
   },
   {
-    "id": "grinder",
+    "id": "blob_grinder",
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "earthen roller" },
@@ -65,7 +65,7 @@
     "width": 60
   },
   {
-    "id": "oozle_wheel",
+    "id": "blob_oozle_wheel",
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "oozing wheel" },

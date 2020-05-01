@@ -725,12 +725,6 @@ bool oter_t::is_hardcoded() const
         "anthill",
         "ants_lab",
         "ants_lab_stairs",
-        "fema",
-        "fema_entrance",
-        "haz_sar", // remove after 0.E.
-        "haz_sar_b1", // remove after 0.E.
-        "haz_sar_entrance", // remove after 0.E.
-        "haz_sar_entrance_b1", // remove after 0.E.
         "ice_lab",
         "ice_lab_stairs",
         "ice_lab_core",

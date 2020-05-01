@@ -48,6 +48,7 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -653,11 +654,17 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const int move_cost = throw_cost( *this, to_throw );
     mod_moves( -move_cost );
 
+    const int throwing_skill = get_skill_level( skill_throw );
     units::volume volume = to_throw.volume();
     units::mass weight = to_throw.weight();
 
-    const int stamina_cost = ( static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) )
-                               + ( weight / 10_gram ) + 200 ) * -1;
+    // Previously calculated as 2_gram * std::max( 1, str_cur )
+    // using 16_gram normalizes it to 8 str. Same effort expenditure
+    // for being able to throw farther.
+    const int weight_cost = weight / ( 16_gram );
+    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) * 2.0f );
+    const int stamina_cost = ( weight_cost + encumbrance_cost - throwing_skill + 50 ) * -1;
+
     bool throw_assist = false;
     int throw_assist_str = 0;
     if( is_mounted() ) {
@@ -836,6 +843,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     // Draw the "title" of the window.
     mvwprintz( w_target, point( 2, 0 ), c_white, "< " );
     std::string title;
+    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
 
     switch( mode ) {
         case TARGET_MODE_FIRE:
@@ -877,8 +885,20 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
 
     // The -1 is the -2 from above, but adjusted since this is a total, not an index.
     int lines_used = getmaxy( w_target ) - 1 - text_y;
-    mvwprintz( w_target, point( 1, text_y++ ), c_white,
-               _( "Move cursor to target with directional keys" ) );
+
+    if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+        std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
+            int text_y = getmaxy( w_target ) - 1;
+            int lines_used = getmaxy( w_target ) - 1 - text_y;
+            const std::string aimhelp = _( "< [?] show help >" );
+            mvwprintz( w_target, point( 1, text_y ), c_white, aimhelp );
+            return lines_used;
+        }
+    } else {
+        mvwprintz( w_target, point( 1, text_y++ ), c_white,
+                   _( "Move cursor to target with directional keys" ) );
+    }
 
     const auto front_or = [&]( const std::string & s, const char fallback ) {
         const auto keys = ctxt.keys_bound_to( s );
@@ -1047,8 +1067,13 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                                 const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
                                 double range, double target_size, int recoil = 0 )
 {
-    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
+    int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    const int bars_pad = 3; // Padding for "bars" to fit moves_to_fire value.
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
+        window_width -= bars_pad;
+    }
 
     nc_color col = c_dark_gray;
 
@@ -1061,12 +1086,25 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 
     if( display_type != "numbers" ) {
         std::string symbols;
-        for( const confidence_rating &cr : confidence_config ) {
-            symbols += string_format( " <color_%s>%s</color> = %s", cr.color, cr.symbol,
-                                      pgettext( "aim_confidence", cr.label.c_str() ) );
+        int column_number = 1;
+        if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+            std::string label = _( "Symbols:" );
+            mvwprintw( w, point( column_number, line_number ), label );
+            column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
         }
-        print_colored_text( w, point( 1, line_number++ ), col, col, string_format(
-                                _( "Symbols:%s" ), symbols ) );
+        for( const confidence_rating &cr : confidence_config ) {
+            std::string label = pgettext( "aim_confidence", cr.label.c_str() );
+            std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol,
+                                                 label );
+            int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
+            if( ( window_width + bars_pad - column_number ) < line_len ) {
+                column_number = 1;
+                line_number++;
+            }
+            print_colored_text( w, point( column_number, line_number ), col, col, symbols );
+            column_number += line_len;
+        }
+        line_number++;
     }
 
     const auto front_or = [&]( const std::string & s, const char fallback ) {
@@ -1077,7 +1115,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     for( const aim_type &type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
         int threshold = MAX_RECOIL;
-        std::string label = _( "Current Aim" );
+        std::string label = _( "Current" );
+        std::string aim_l = _( "Aim" );
         if( type.has_threshold ) {
             label = type.name;
             threshold = type.threshold;
@@ -1095,9 +1134,17 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
-        print_colored_text( w, point( 1, line_number++ ), col, col,
-                            string_format( _( "<color_white>[%s]</color> %s: Moves to fire: <color_light_blue>%d</color>" ),
-                                           hotkey, label, moves_to_fire ) );
+        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
+            print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
+                                aim_l ) );
+            right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
+            right_print( w, line_number, 1, c_light_blue, string_format( "%d", moves_to_fire ) );
+        } else {
+            print_colored_text( w, point( 1, line_number++ ), col, col,
+                                string_format( _( "<color_white>[%s]</color> %s %s: Moves to fire: "
+                                                  "<color_light_blue>%d</color>" ),
+                                               hotkey, label, aim_l, moves_to_fire ) );
+        }
 
         double confidence = confidence_estimate( range, target_size, current_dispersion );
 
@@ -1259,17 +1306,17 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
         thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
     }
     thresholds_it = thresholds.begin();
-    aim_types.push_back( aim_type { _( "Regular Aim" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
+    aim_types.push_back( aim_type { _( "Regular" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
                                     true, *thresholds_it } );
     thresholds_it++;
     if( thresholds_it != thresholds.end() ) {
-        aim_types.push_back( aim_type { _( "Careful Aim" ), "CAREFUL_SHOT",
+        aim_types.push_back( aim_type { _( "Careful" ), "CAREFUL_SHOT",
                                         _( "[%c] to take careful aim and fire." ), true,
                                         *thresholds_it } );
         thresholds_it++;
     }
     if( thresholds_it != thresholds.end() ) {
-        aim_types.push_back( aim_type { _( "Precise Aim" ), "PRECISE_SHOT",
+        aim_types.push_back( aim_type { _( "Precise" ), "PRECISE_SHOT",
                                         _( "[%c] to take precise aim and fire." ), true,
                                         *thresholds_it } );
     }
@@ -1351,6 +1398,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
+    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
 
     int sight_dispersion = 0;
     if( relevant ) {
@@ -1383,6 +1431,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     } else if( compact ) {
         // Cover up more low-value ui elements if we're tight on space.
         height = 25;
+    }
+    // Call accuracy display type to exclude "Numbers" style
+    std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
+        width = 34;
     }
     catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
 
@@ -1518,6 +1571,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             int line_number = 1;
             Creature *critter = g->critter_at( dst, true );
             const int relative_elevation = dst.z - pc.pos().z;
+            std::string label_range;
             if( dst != src ) {
                 // Only draw those tiles which are on current z-level
                 auto ret_this_zlevel = ret;
@@ -1529,14 +1583,20 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 // Provides feedback to the player, and avoids leaking information
                 // about tiles they can't see.
                 g->draw_line( dst, center, ret_this_zlevel );
-
-                // Print to target window
-                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
-                           rl_dist( src, dst ), range, relative_elevation, t.size() );
-
+                label_range = string_format( "%d/%d", rl_dist( src, dst ), range );
             } else {
-                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
-                           relative_elevation, t.size() );
+                label_range = string_format( "%d", range );
+            }
+
+            // Print to target window
+            if( ( panel_type == "compact" || panel_type == "labels-narrow" )
+                && display_type != "numbers" ) {
+                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %s Elevation: %d" ),
+                           label_range, relative_elevation );
+                mvwprintw( w_target, point( 1, line_number++ ), _( "Targets: %d" ), t.size() );
+            } else {
+                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %s Elevation: %d Targets: %d" ),
+                           label_range, relative_elevation, t.size() );
             }
 
             // Skip blank lines if we're short on space.

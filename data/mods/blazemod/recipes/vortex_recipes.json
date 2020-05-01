@@ -1,6 +1,6 @@
 [
   {
-    "result": "vgen",
+    "result": "vortex_engine",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -22,7 +22,7 @@
     ]
   },
   {
-    "result": "vgen2",
+    "result": "vortex_generator",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -44,7 +44,7 @@
     ]
   },
   {
-    "result": "vortexaccelerator",
+    "result": "vortex_accelerator",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -64,20 +64,7 @@
     ]
   },
   {
-    "result": "spiral_matrix",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 10,
-    "time": "8 h 20 m",
-    "autolearn": true,
-    "using": [ [ "welding_standard", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "components": [ [ [ "charcoal", 50 ] ], [ [ "plasma", 10 ] ], [ [ "spiral_stone", 1 ] ] ]
-  },
-  {
-    "result": "vortexcannon",
+    "result": "vortex_cannon",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",

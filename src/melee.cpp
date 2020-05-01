@@ -591,8 +591,12 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     }
 
     const int melee = get_skill_level( skill_melee );
-    /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
-    const int weight_cost = cur_weapon.weight() / ( 2_gram * std::max( 1, str_cur ) );
+
+    // Previously calculated as 2_gram * std::max( 1, str_cur )
+    // using 16_gram normalizes it to 8 str. Same effort expenditure
+    // for each strike, regardless of weight. This is compensated
+    // for by the additional move cost as weapon weight increases
+    const int weight_cost = cur_weapon.weight() / ( 16_gram );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
                                  2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
@@ -608,7 +612,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     did_hit( t );
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
-        t.as_character()->on_hit( this, body_part::num_bp, 0.0f, &dp );
+        t.as_character()->on_hit( this, bodypart_id( "num_bp" ), 0.0f, &dp );
     }
     return;
 }
@@ -1532,106 +1536,60 @@ item &Character::best_shield()
 bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance &dam )
 {
 
-    // Shouldn't block if player is asleep or winded ; this only seems to be used by player.
-    // TODO: It should probably be moved to the section that regenerates blocks
-    // and to effects that disallow blocking
+    // Shouldn't block if player is asleep or winded
     if( blocks_left < 1 || in_sleep_state() || has_effect( effect_narcosis ) ||
         has_effect( efftype_id( "winded" ) ) ) {
         return false;
     }
     blocks_left--;
 
-    martial_arts_data.ma_ongethit_effects(
-        *this ); // fire martial arts on-getting-hit-triggered effects
+    // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
+    martial_arts_data.ma_ongethit_effects( *this );
 
     // This bonus absorbs damage from incoming attacks before they land,
     // but it still counts as a block even if it absorbs all the damage.
     float total_phys_block = mabuff_block_bonus();
+
     // Extract this to make it easier to implement shields/multiwield later
     item &shield = best_shield();
+    block_bonus = blocking_ability( shield );
     bool conductive_shield = shield.conductive();
-    bool unarmed = shield.has_flag( "UNARMED_WEAPON" );
+    bool unarmed = weapon.has_flag( "UNARMED_WEAPON" );
+    bool force_unarmed = martial_arts_data.is_force_unarmed();
 
-    // This gets us a number between:
-    // str ~0 + skill 0 = 0
-    // str ~20 + skill 10 + 10(unarmed skill or weapon bonus) = 40
+    int melee_skill = get_skill_level( skill_melee );
+    int unarmed_skill = get_skill_level( skill_unarmed );
+
+    // Check if we are going to block with an item. This could
+    // be worn equipment with the BLOCK_WHILE_WORN flag.
+    const bool has_shield = !shield.is_null();
+
+    // boolean check if blocking is being done with unarmed or not
+    const bool item_blocking = !force_unarmed && has_shield && !unarmed;
+
     int block_score = 1;
-    // Remember if we're using a weapon or a limb to block.
-    // So that we don't suddenly switch that for any reason.
-    const bool weapon_blocking = !shield.is_null();
-    if( !martial_arts_data.is_force_unarmed() && weapon_blocking ) {
-        /** @EFFECT_STR increases attack blocking effectiveness with a weapon */
 
-        /** @EFFECT_MELEE increases attack blocking effectiveness with a weapon */
-        block_bonus = blocking_ability( shield );
+    /** @EFFECT_STR increases attack blocking effectiveness with a limb or worn/wielded item */
+    /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn/wielded item */
+    if( ( unarmed || force_unarmed ) ) {
+        if( martial_arts_data.can_limb_block( *this ) ) {
+            // block_bonus for limb blocks will be added when the limb is decided
+            block_score = str_cur + melee_skill + unarmed_skill;
+        } else if( has_shield ) {
+            // We can still block with a worn item while unarmed. Use higher of melee and unarmed
+            block_score = str_cur + block_bonus + std::max( melee_skill, unarmed_skill );
+        }
+    } else if( has_shield ) {
         block_score = str_cur + block_bonus + get_skill_level( skill_melee );
-    } else if( martial_arts_data.can_limb_block( *this ) ) {
-        /** @EFFECT_STR increases attack blocking effectiveness with a limb */
-
-        /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb */
-        block_score = str_cur + get_skill_level( skill_melee ) + get_skill_level( skill_unarmed );
     } else {
-        // Can't block with items, can't block with limbs
-        // What were we supposed to be blocking with then?
+        // Can't block with limbs or items (do not block)
         return false;
     }
 
-    // Map block_score to the logistic curve for a number between 1 and 0.
-    // Basic beginner character (str 8, skill 0, basic weapon)
-    // Will have a score around 10 and block about %15 of incoming damage.
-    // More proficient melee character (str 10, skill 4, wbock_2 weapon)
-    // will have a score of 20 and block about 45% of damage.
-    // A highly expert character (str 14, skill 8 wblock_2)
-    // will have a score in the high 20s and will block about 80% of damage.
-    // As the block score approaches 40, damage making it through will dwindle
-    // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
-    const float physical_block_multiplier = logarithmic_range( 0, 40, block_score );
-
-    float total_damage = 0.0;
-    float damage_blocked = 0.0;
-    for( auto &elem : dam.damage_units ) {
-        total_damage += elem.amount;
-        // block physical damage "normally"
-        if( elem.type == DT_BASH || elem.type == DT_CUT || elem.type == DT_STAB ) {
-            // use up our flat block bonus first
-            float block_amount = std::min( total_phys_block, elem.amount );
-            total_phys_block -= block_amount;
-            elem.amount -= block_amount;
-            damage_blocked += block_amount;
-            if( elem.amount <= std::numeric_limits<float>::epsilon() ) {
-                continue;
-            }
-
-            float previous_amount = elem.amount;
-            elem.amount *= physical_block_multiplier;
-            damage_blocked += previous_amount - elem.amount;
-            // non-electrical "elemental" damage types do their full damage if unarmed,
-            // but severely mitigated damage if not
-        } else if( elem.type == DT_HEAT || elem.type == DT_ACID || elem.type == DT_COLD ) {
-            // Unarmed weapons won't block those
-            if( !martial_arts_data.is_force_unarmed() && weapon_blocking && !unarmed ) {
-                float previous_amount = elem.amount;
-                elem.amount /= 5;
-                damage_blocked += previous_amount - elem.amount;
-            }
-            // electrical damage deals full damage if unarmed OR wielding a
-            // conductive weapon
-        } else if( elem.type == DT_ELECTRIC ) {
-            // Unarmed weapons and conductive weapons won't block this
-            if( !martial_arts_data.is_force_unarmed() && weapon_blocking && !unarmed && !conductive_shield ) {
-                float previous_amount = elem.amount;
-                elem.amount /= 5;
-                damage_blocked += previous_amount - elem.amount;
-            }
-        }
-    }
-
-    martial_arts_data.ma_onblock_effects( *this ); // fire martial arts block-triggered effects
-
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
-    if( !martial_arts_data.is_force_unarmed() && weapon_blocking ) {
+    if( !force_unarmed && has_shield ) {
         thing_blocked_with = shield.tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;
@@ -1662,6 +1620,66 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
         }
 
         thing_blocked_with = body_part_name( bp_hit );
+    }
+
+    if( has_shield ) {
+        // Does our shield cover the limb we blocked with? If so, add the block bonus.
+        block_score += shield.covers( bp_hit ) ? block_bonus : 0;
+    }
+
+    // Map block_score to the logistic curve for a number between 1 and 0.
+    // Basic beginner character (str 8, skill 0, basic weapon)
+    // Will have a score around 10 and block about %15 of incoming damage.
+    // More proficient melee character (str 10, skill 4, wbock_2 weapon)
+    // will have a score of 20 and block about 45% of damage.
+    // A highly expert character (str 14, skill 8 wblock_2)
+    // will have a score in the high 20s and will block about 80% of damage.
+    // As the block score approaches 40, damage making it through will dwindle
+    // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
+    const float physical_block_multiplier = logarithmic_range( 0, 40, block_score );
+
+    float total_damage = 0.0;
+    float damage_blocked = 0.0;
+
+    for( auto &elem : dam.damage_units ) {
+        total_damage += elem.amount;
+
+        // block physical damage "normally"
+        if( elem.type == DT_BASH || elem.type == DT_CUT || elem.type == DT_STAB ) {
+            // use up our flat block bonus first
+            float block_amount = std::min( total_phys_block, elem.amount );
+            total_phys_block -= block_amount;
+            elem.amount -= block_amount;
+            damage_blocked += block_amount;
+
+            if( elem.amount <= std::numeric_limits<float>::epsilon() ) {
+                continue;
+            }
+
+            float previous_amount = elem.amount;
+            elem.amount *= physical_block_multiplier;
+            damage_blocked += previous_amount - elem.amount;
+        }
+
+        // non-electrical "elemental" damage types do their full damage if unarmed,
+        // but severely mitigated damage if not
+        else if( elem.type == DT_HEAT || elem.type == DT_ACID || elem.type == DT_COLD ) {
+            // Unarmed weapons won't block those
+            if( item_blocking ) {
+                float previous_amount = elem.amount;
+                elem.amount /= 5;
+                damage_blocked += previous_amount - elem.amount;
+            }
+            // electrical damage deals full damage if unarmed OR wielding a
+            // conductive weapon
+        } else if( elem.type == DT_ELECTRIC ) {
+            // Unarmed weapons and conductive weapons won't block this
+            if( item_blocking && !conductive_shield ) {
+                float previous_amount = elem.amount;
+                elem.amount /= 5;
+                damage_blocked += previous_amount - elem.amount;
+            }
+        }
     }
 
     std::string damage_blocked_description;
@@ -1696,6 +1714,9 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
     add_msg_player_or_npc( _( "You block %1$s of the damage with your %2$s!" ),
                            _( "<npcname> blocks %1$s of the damage with their %2$s!" ),
                            damage_blocked_description, thing_blocked_with );
+
+    // fire martial arts block-triggered effects
+    martial_arts_data.ma_onblock_effects( *this );
 
     // Check if we have any block counters
     matec_id tec = pick_technique( *source, shield, false, false, true );

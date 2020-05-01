@@ -1,6 +1,6 @@
 [
   {
-    "id": "dcluster",
+    "id": "diamond_cluster",
     "type": "TOOL",
     "name": { "str": "diamond cluster" },
     "description": "A cluster of artificial crystals that have broken off of a diamond matrix.  While the substance usually decays when separated from the catalyst; this cluster seems to be self-sustaining by some unknown mechanism.  ",
@@ -13,9 +13,9 @@
     "color": "white",
     "looks_like": "diamond",
     "ammo": "NULL",
-    "revert_to": "dshards",
+    "revert_to": "diamond_shards",
     "use_action": {
-      "target": "dshards",
+      "target": "diamond_shards",
       "msg": "The cluster comes apart in your hands.",
       "target_charges": 25,
       "moves": 0,
@@ -23,7 +23,7 @@
     }
   },
   {
-    "id": "spiral_matrix",
+    "id": "diamond_matrix",
     "type": "TOOL",
     "name": { "str": "diamond matrix", "str_pl": "diamond matrices" },
     "description": "A sparkling diamond with a dazzling spiral pattern.  Small pieces of glittering crystal form on the edges as you hold it.",
@@ -35,9 +35,9 @@
     "symbol": "*",
     "color": "white",
     "looks_like": "spiral_stone",
-    "revert_to": "spiral_matrix",
+    "revert_to": "diamond_matrix",
     "use_action": {
-      "target": "spiral_matrix",
+      "target": "diamond_matrix",
       "msg": "Your senses dull as you gaze into the depths of this gemstone's center…",
       "moves": 60000,
       "type": "transform"

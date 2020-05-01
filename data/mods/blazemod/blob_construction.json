@@ -9,7 +9,14 @@
     "pre_terrain": "t_pit_corpsed",
     "post_terrain": "blob_pit",
     "tools": [
-      [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ]
+      [
+        [ "blob_gloople", -1 ],
+        [ "blob_glooplegrow", -1 ],
+        [ "blob_oozle", -1 ],
+        [ "blob_oozlegrow", -1 ],
+        [ "blob_gray", -1 ],
+        [ "blob_graygrow", -1 ]
+      ]
     ]
   },
   {
@@ -22,7 +29,14 @@
     "pre_terrain": "t_slime",
     "post_terrain": "blob_pit_slime",
     "tools": [
-      [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ]
+      [
+        [ "blob_gloople", -1 ],
+        [ "blob_glooplegrow", -1 ],
+        [ "blob_oozle", -1 ],
+        [ "blob_oozlegrow", -1 ],
+        [ "blob_gray", -1 ],
+        [ "blob_graygrow", -1 ]
+      ]
     ]
   },
   {
@@ -39,7 +53,7 @@
       "ter_set": "t_pit",
       "sound": "squish!",
       "sound_fail": "squish!",
-      "items": [ { "item": "bfeed", "count": [ 250, 500 ] } ]
+      "items": [ { "item": "blob_feed", "count": [ 250, 500 ] } ]
     },
     "flags": [ "WALL", "TRANSPARENT", "EASY_DECONSTRUCT" ]
   },
@@ -57,7 +71,7 @@
       "ter_set": "t_dirt",
       "sound": "squish!",
       "sound_fail": "squish!",
-      "items": [ { "item": "bfeed", "count": [ 50, 250 ] } ]
+      "items": [ { "item": "blob_feed", "count": [ 50, 250 ] } ]
     },
     "flags": [ "WALL", "TRANSPARENT", "EASY_DECONSTRUCT" ]
   }

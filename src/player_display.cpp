@@ -1230,16 +1230,13 @@ void player::disp_info()
     std::vector<bionic> bionicslist = *my_bionics;
     unsigned int bionics_win_size_y = 2 + bionicslist.size();
 
-    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by( [&]( const Skill & a,
-    const Skill & b ) {
+    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
+    [&]( const Skill & a, const Skill & b ) {
         skill_displayType_id type_a = a.display_category();
         skill_displayType_id type_b = b.display_category();
 
-        if( type_a != type_b ) {
-            return type_a < type_b;
-        } else {
-            return a.name() < b.name();
-        }
+        return localized_compare( std::make_pair( type_a, a.name() ),
+                                  std::make_pair( type_b, b.name() ) );
     } );
 
     std::vector<HeaderSkill> skillslist;

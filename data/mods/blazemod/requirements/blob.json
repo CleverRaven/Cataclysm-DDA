@@ -3,6 +3,6 @@
     "id": "blobrep",
     "type": "requirement",
     "//": "Material for fixing parts made from blobs.",
-    "components": [ [ [ "bfeed", 1 ] ] ]
+    "components": [ [ [ "blob_feed", 1 ] ] ]
   }
 ]
