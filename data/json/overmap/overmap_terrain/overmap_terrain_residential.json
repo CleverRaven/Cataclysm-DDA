@@ -21,7 +21,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_city_house_no_sidewalk",
     "copy-from": "generic_city_house",
-    "remove": { "flags": [ "SIDEWALK" ] }
+    "delete": { "flags": [ "SIDEWALK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -29,7 +29,7 @@
     "copy-from": "generic_city_house_no_sidewalk",
     "name": "house roof",
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
-    "remove": { "flags": [ "GENERIC_LOOT" ] }
+    "delete": { "flags": [ "GENERIC_LOOT" ] }
   },
   {
     "type": "overmap_terrain",
