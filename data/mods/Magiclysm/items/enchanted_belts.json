@@ -116,7 +116,6 @@
     "storage": "1 L",
     "description": "A custom-built-and-enchanted leather utility belt that instantly creates any tool that you reach for. More storage, more utility.  Activate to sheathe/draw a weapon.",
     "price": 500000,
-    "coverage": 15,
     "material_thickness": 3,
     "qualities": [
       [ "HAMMER", 3 ],
