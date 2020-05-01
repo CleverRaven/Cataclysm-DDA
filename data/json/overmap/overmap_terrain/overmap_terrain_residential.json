@@ -455,7 +455,7 @@
     "copy-from": "generic_city_trailerpark",
     "name": "trailer park roof",
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
-    "remove": { "flags": [ "GENERIC_LOOT" ] }
+    "delete": { "flags": [ "GENERIC_LOOT" ] }
   },
   {
     "type": "overmap_terrain",
