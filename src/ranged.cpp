@@ -2078,9 +2078,7 @@ void target_ui::init_window_and_input( player &pc )
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
         ctxt.register_action( "SWITCH_AIM" );
-    }
 
-    if( mode == TargetMode::Fire ) {
         aim_types = pc.get_aim_types( *relevant );
         for( aim_type &type : aim_types ) {
             if( type.has_threshold ) {
