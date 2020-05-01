@@ -11,10 +11,6 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "components": [
-      [ [ "survivor_belt", 1 ] ],
-      [ [ "rune_technomancer_weapon", 1 ] ],
-      [ [ "rune_technomancer", 1 ] ]
-    ]
+    "components": [ [ [ "survivor_belt", 1 ] ], [ [ "rune_technomancer_weapon", 1 ] ], [ [ "rune_technomancer", 1 ] ] ]
   }
 ]
