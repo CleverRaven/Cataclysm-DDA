@@ -40,7 +40,7 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "gasoline",
-    "fuel_options": [ "gasoline", "diesel", "lamp_oil", "jp8", "motor_oil", "avgas" ],
+    "fuel_options": [ "gasoline", "diesel", "lamp_oil", "jp8", "motor_oil", "avgas", "biodiesel" ],
     "m2c": 60,
     "//": "25% energy efficiency",
     "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn lamp oil, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine, but consumes more fuel."
