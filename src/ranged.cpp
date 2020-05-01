@@ -1855,6 +1855,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 
     // Handle multi-turn aiming
     std::string action;
+    bool attack_was_confirmed = false;
     if( mode == TargetMode::Fire ) {
         if( pc.activity.id() == ACT_AIM ) {
             // We were in this UI during previous turn...
@@ -1865,6 +1866,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
                 // ...and selected 'aim and shoot', but ran out of moves.
                 // So, skip retrieving input and go straight to the action.
                 action = act_data;
+                attack_was_confirmed = true;
             }
             // Load state of snap-to-target mode to keep it consistent between turns
             snap_to_target = pc.activity.str_values[1] == "snap";
@@ -1882,6 +1884,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     if( !choose_initial_target( pc, initial_dst ) ) {
         // We've lost our target from previous turn
         action.clear();
+        attack_was_confirmed = false;
     }
     set_cursor_pos( pc, initial_dst );
 
@@ -1964,7 +1967,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 
             // This action basically means "Fire" as well; the actual firing may be delayed
             // through aiming, but there is usually no means to abort it. Therefore we query now
-            if( !confirm_non_enemy_target() ) {
+            if( !attack_was_confirmed && !confirm_non_enemy_target() ) {
                 continue;
             }
 
