@@ -1064,7 +1064,7 @@ std::vector<options_manager::id_and_option> options_manager::get_actual_lang_opt
 
     std::copy_if( lang_options.begin(), lang_options.end(), std::back_inserter( options ),
     [&lang_list]( const options_manager::id_and_option & pair ) {
-        return std::find( lang_list.begin(), lang_list.end(), pair.first ) != lang_list.end();
+        return lang_list.count( pair.first );
     } );
     return options;
 }
