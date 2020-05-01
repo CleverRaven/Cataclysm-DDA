@@ -19,6 +19,7 @@
 #include "cursesdef.h"
 #include "input.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "pimpl.h"
 #include "units.h"
 #include "item_category.h"
@@ -26,7 +27,9 @@
 class Character;
 class item;
 class player;
+class string_input_popup;
 struct tripoint;
+class ui_adaptor;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -288,14 +291,14 @@ class inventory_column
             this->visibility = visibility;
         }
 
-        void set_width( size_t new_width );
+        void set_width( size_t new_width, const std::vector<inventory_column *> &all_columns );
         void set_height( size_t new_height );
         size_t get_width() const;
         size_t get_height() const;
         /** Expands the column to fit the new entry. */
         void expand_to_fit( const inventory_entry &entry );
         /** Resets width to original (unchanged). */
-        void reset_width();
+        virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
         int reassign_custom_invlets( const player &p, int min_invlet, int max_invlet );
         /** Reorder entries, repopulate titles, adjust to the new height. */
@@ -409,6 +412,8 @@ class selection_column : public inventory_column
             return false;
         }
 
+        void reset_width( const std::vector<inventory_column *> &all_columns ) override;
+
         void prepare_paging( const std::string &filter = "" ) override;
 
         void on_change( const inventory_entry &entry ) override;
@@ -493,14 +498,11 @@ class inventory_selector
         /** Entry has been changed */
         void on_change( const inventory_entry &entry );
 
-        void prepare_layout( size_t client_width, size_t client_height );
-        void prepare_layout();
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 
         size_t get_layout_width() const;
         size_t get_layout_height() const;
 
-        void resize_window( int width, int height );
-        void refresh_window() const;
         void set_filter();
 
         /** Tackles screen overflow */
@@ -522,11 +524,6 @@ class inventory_selector
         size_t get_header_min_width() const;
         size_t get_footer_min_width() const;
 
-        void draw_header( const catacurses::window &w ) const;
-        void draw_footer( const catacurses::window &w ) const;
-        void draw_columns( const catacurses::window &w ) const;
-        void draw_frame( const catacurses::window &w ) const;
-
         /** @return an entry from all entries by its invlet */
         inventory_entry *find_entry_by_invlet( int invlet ) const;
 
@@ -535,10 +532,21 @@ class inventory_selector
         }
         std::vector<inventory_column *> get_visible_columns() const;
 
+    private:
+        // These functions are called from resizing/redraw callbacks of ui_adaptor
+        // and should not be made protected or public.
+        void prepare_layout( size_t client_width, size_t client_height );
+        void prepare_layout();
+
+        void resize_window( int width, int height );
+        void refresh_window() const;
+
+        void draw_header( const catacurses::window &w ) const;
+        void draw_footer( const catacurses::window &w ) const;
+        void draw_columns( const catacurses::window &w ) const;
+        void draw_frame( const catacurses::window &w ) const;
+
     public:
-
-        void update( bool &need_refresh );
-
         /**
          * Select a location
          * @param loc Location to select
@@ -551,6 +559,7 @@ class inventory_selector
         }
 
         void select_position( std::pair<size_t, size_t> position ) {
+            prepare_layout();
             set_active_column( position.first );
             get_active_column().select( position.second, scroll_direction::BACKWARD );
         }
@@ -597,13 +606,14 @@ class inventory_selector
         }
         void toggle_navigation_mode();
 
-        /** Entry has been added */
-        virtual void on_entry_add( const inventory_entry & ) {}
-
         const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
     private:
         catacurses::window w_inv;
+
+        weak_ptr_fast<ui_adaptor> ui;
+
+        std::unique_ptr<string_input_popup> spopup;
 
         std::vector<inventory_column *> columns;
 
@@ -622,7 +632,6 @@ class inventory_selector
 
         bool is_empty = true;
         bool display_stats = true;
-        bool layout_is_valid = false;
 
     public:
         std::string action_bound_to_key( char key ) const;
@@ -648,7 +657,6 @@ class inventory_multiselector : public inventory_selector
                                  const std::string &selection_column_title = "" );
     protected:
         void rearrange_columns( size_t client_width ) override;
-        void on_entry_add( const inventory_entry &entry ) override;
 
     private:
         std::unique_ptr<inventory_column> selection_col;
