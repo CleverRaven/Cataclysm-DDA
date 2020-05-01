@@ -1479,7 +1479,7 @@ void inventory_selector::resize_window( int width, int height )
 {
     if( !w_inv || width != getmaxx( w_inv ) || height != getmaxy( w_inv ) ) {
         w_inv = catacurses::newwin( height, width,
-                                    point( VIEW_OFFSET_X + ( TERMX - width ) / 2, VIEW_OFFSET_Y + ( TERMY - height ) / 2 ) );
+                                    point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
     }
 }
 
