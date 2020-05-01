@@ -159,7 +159,6 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         has_init_filter = true;
     }
 
-    bool need_refresh = true;
     do {
         u.inv.restack( u );
 
@@ -167,18 +166,14 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
 
-        if( init_selection || has_init_filter ) {
-            inv_s.update( need_refresh );
-            if( has_init_filter ) {
-                inv_s.set_filter( init_filter );
-                has_init_filter = false;
-                inv_s.update( need_refresh );
-            }
-            // Set position after filter to keep cursor at the right position
-            if( init_selection ) {
-                inv_s.select_position( init_pair );
-                init_selection = false;
-            }
+        if( has_init_filter ) {
+            inv_s.set_filter( init_filter );
+            has_init_filter = false;
+        }
+        // Set position after filter to keep cursor at the right position
+        if( init_selection ) {
+            inv_s.select_position( init_pair );
+            init_selection = false;
         }
 
         if( inv_s.empty() ) {
@@ -224,12 +219,10 @@ void game_menus::inv::common( avatar &you )
 
     int res = 0;
 
-    bool need_refresh = true;
     do {
         you.inv.restack( you );
         inv_s.clear_items();
         inv_s.add_character_items( you );
-        inv_s.update( need_refresh );
 
         const item_location &location = inv_s.execute();
 
@@ -263,11 +256,9 @@ void game_menus::inv::common( item_location loc, avatar &you )
 
     int res = 0;
 
-    bool need_refresh = true;
     do {
         inv_s.clear_items();
         inv_s.add_contained_items( loc );
-        inv_s.update( need_refresh );
 
         const item_location &location = inv_s.execute();
 
@@ -1623,21 +1614,12 @@ static item_location autodoc_internal( player &u, player &patient,
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
-    std::pair<size_t, size_t> init_pair;
-    bool init_selection = false;
-    bool need_refresh = true;
     do {
         u.inv.restack( u );
 
         inv_s.clear_items();
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
-
-        if( init_selection ) {
-            inv_s.update( need_refresh );
-            inv_s.select_position( init_pair );
-            init_selection = false;
-        }
 
         if( inv_s.empty() ) {
             popup( _( "You don't have any bionics to install." ), PF_GET_KEY );
@@ -1998,21 +1980,12 @@ static item_location autoclave_internal( player &u,
     inv_s.set_hint( _( "<color_yellow>Select one CBM to sterilize</color>" ) );
     inv_s.set_display_stats( false );
 
-    std::pair<size_t, size_t> init_pair;
-    bool init_selection = false;
-    bool need_refresh = true;
     do {
         u.inv.restack( u );
 
         inv_s.clear_items();
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
-
-        if( init_selection ) {
-            inv_s.update( need_refresh );
-            inv_s.select_position( init_pair );
-            init_selection = false;
-        }
 
         if( inv_s.empty() ) {
             popup( _( "You don't have any CBM to sterilize." ), PF_GET_KEY );
