@@ -379,7 +379,6 @@ void open_gate_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
     act.moves_left = moves;
-    act.placement = placement;
 }
 
 void open_gate_activity_actor::finish( player_activity &act, Character & )
