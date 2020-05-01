@@ -48,6 +48,7 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -183,8 +184,11 @@ class target_ui
 
         // Compact layout
         bool compact;
-        // Tiny layout - when extremely whort on space
+        // Tiny layout - when extremely short on space
         bool tiny;
+        // Narrow layout - to keep in theme with
+        // "compact" and "labels-narrow" sidebar styles.
+        bool narrow;
         // Window
         catacurses::window w_target;
         // Input context
@@ -1213,8 +1217,13 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                                 const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
                                 double range, double target_size, int recoil = 0 )
 {
-    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
+    int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    const int bars_pad = 3; // Padding for "bars" to fit moves_to_fire value.
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
+        window_width -= bars_pad;
+    }
 
     nc_color col = c_dark_gray;
 
@@ -1227,12 +1236,25 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 
     if( display_type != "numbers" ) {
         std::string symbols;
-        for( const confidence_rating &cr : confidence_config ) {
-            symbols += string_format( " <color_%s>%s</color> = %s", cr.color, cr.symbol,
-                                      pgettext( "aim_confidence", cr.label.c_str() ) );
+        int column_number = 1;
+        if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+            std::string label = _( "Symbols:" );
+            mvwprintw( w, point( column_number, line_number ), label );
+            column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
         }
-        print_colored_text( w, point( 1, line_number++ ), col, col, string_format(
-                                _( "Symbols:%s" ), symbols ) );
+        for( const confidence_rating &cr : confidence_config ) {
+            std::string label = pgettext( "aim_confidence", cr.label.c_str() );
+            std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol,
+                                                 label );
+            int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
+            if( ( window_width + bars_pad - column_number ) < line_len ) {
+                column_number = 1;
+                line_number++;
+            }
+            print_colored_text( w, point( column_number, line_number ), col, col, symbols );
+            column_number += line_len;
+        }
+        line_number++;
     }
 
     const auto front_or = [&]( const std::string & s, const char fallback ) {
@@ -1243,7 +1265,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     for( const aim_type &type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
         int threshold = MAX_RECOIL;
-        std::string label = _( "Current Aim" );
+        std::string label = _( "Current" );
+        std::string aim_l = _( "Aim" );
         if( type.has_threshold ) {
             label = type.name;
             threshold = type.threshold;
@@ -1261,9 +1284,17 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
-        print_colored_text( w, point( 1, line_number++ ), col, col,
-                            string_format( _( "<color_white>[%s]</color> %s: Moves to fire: <color_light_blue>%d</color>" ),
-                                           hotkey, label, moves_to_fire ) );
+        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
+            print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
+                                aim_l ) );
+            right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
+            right_print( w, line_number, 1, c_light_blue, string_format( "%d", moves_to_fire ) );
+        } else {
+            print_colored_text( w, point( 1, line_number++ ), col, col,
+                                string_format( _( "<color_white>[%s]</color> %s %s: Moves to fire: "
+                                                  "<color_light_blue>%d</color>" ),
+                                               hotkey, label, aim_l, moves_to_fire ) );
+        }
 
         double confidence = confidence_estimate( range, target_size, current_dispersion );
 
@@ -1408,17 +1439,17 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
         thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
     }
     thresholds_it = thresholds.begin();
-    aim_types.push_back( aim_type { _( "Regular Aim" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
+    aim_types.push_back( aim_type { _( "Regular" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
                                     true, *thresholds_it } );
     thresholds_it++;
     if( thresholds_it != thresholds.end() ) {
-        aim_types.push_back( aim_type { _( "Careful Aim" ), "CAREFUL_SHOT",
+        aim_types.push_back( aim_type { _( "Careful" ), "CAREFUL_SHOT",
                                         _( "[%c] to take careful aim and fire." ), true,
                                         *thresholds_it } );
         thresholds_it++;
     }
     if( thresholds_it != thresholds.end() ) {
-        aim_types.push_back( aim_type { _( "Precise Aim" ), "PRECISE_SHOT",
+        aim_types.push_back( aim_type { _( "Precise" ), "PRECISE_SHOT",
                                         _( "[%c] to take precise aim and fire." ), true,
                                         *thresholds_it } );
     }
@@ -1979,22 +2010,36 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 
 void target_ui::init_window_and_input( player &pc )
 {
-    compact = TERMY < 41;
-    bool use_whole_sidebar = TERMY < 32;
-    tiny = TERMY < 28;
+    // TODO: make 'narrow' layout work for 'numbers' display type
+    std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    narrow = ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers";
+
     int top = 0;
-    int width = 55;
+    int width;
     int height;
-    if( use_whole_sidebar ) {
-        // If we're extremely short on space, use the whole sidebar.
-        height = TERMY;
-    } else if( compact ) {
-        // Cover up more low-value ui elements if we're tight on space.
-        height = 28;
+    if( narrow ) {
+        // Narrow style excludes the list of controls;
+        // we can have small window size and don't suffer from it.
+        width = 34;
+        height = 24;
     } else {
-        // Go all out
-        height = 32;
+        width = 55;
+        compact = TERMY < 41;
+        tiny = TERMY < 28;
+        bool use_whole_sidebar = TERMY < 32;
+        if( use_whole_sidebar ) {
+            // If we're extremely short on space, use the whole sidebar.
+            height = TERMY;
+        } else if( compact ) {
+            // Cover up more low-value ui elements if we're tight on space.
+            height = 28;
+        } else {
+            // Go all out
+            height = 32;
+        }
     }
+
     w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
 
     ctxt = input_context( "TARGET" );
@@ -2613,7 +2658,9 @@ void target_ui::draw_ui_window( player &pc )
         }
     }
 
-    draw_controls_list( text_y );
+    if( !narrow ) {
+        draw_controls_list( text_y );
+    }
 
     wrefresh( w_target );
 }
@@ -2657,7 +2704,7 @@ void target_ui::draw_help_notice()
 {
     int text_y = getmaxy( w_target ) - 1;
     int width = getmaxx( w_target );
-    const std::string label_help = _( "[?] show all controls" );
+    const std::string label_help = narrow ? _( "[?] show help" ) : _( "[?] show all controls" );
     int label_width = std::min( utf8_width( label_help ), width - 6 ); // 6 for borders and "< " + " >"
     int text_x = width - label_width - 6;
     mvwprintz( w_target, point( text_x + 1, text_y ), c_white, "< " );
@@ -2754,7 +2801,6 @@ void target_ui::draw_controls_list( int text_y )
 
 void target_ui::panel_cursor_info( int &text_y )
 {
-    int dz = dst.z - src.z;
     std::string label_range;
     if( src == dst ) {
         label_range = string_format( "Range: %d", range );
@@ -2763,13 +2809,30 @@ void target_ui::panel_cursor_info( int &text_y )
     }
     if( status == Status::OutOfRange && mode != TargetMode::Turrets ) {
         // Since each turret has its own range, highlighting cursor
-        // range with red is misleading
+        // range with red would be misleading
         label_range = colorize( label_range, c_red );
     }
-    label_range = string_format( _( "%s Elevation: %d Targets: %d" ), label_range, dz,
-                                 targets.size() );
-    nc_color clr = c_light_gray;
-    print_colored_text( w_target, point( 1, text_y++ ), clr, clr, label_range );
+
+    std::vector<std::string> labels;
+    labels.push_back( label_range );
+    if( allow_zlevel_shift ) {
+        labels.push_back( string_format( _( "Elevation: %d" ), dst.z - src.z ) );
+    }
+    labels.push_back( string_format( _( "Targets: %d" ), targets.size() ) );
+
+    nc_color col = c_light_gray;
+    int width = getmaxx( w_target );
+    int text_x = 1;
+    for( const std::string &s : labels ) {
+        int x_left = width - text_x - 1;
+        int len = utf8_width( s, true );
+        if( len > x_left ) {
+            text_x = 1;
+            text_y++;
+        }
+        print_colored_text( w_target, point( text_x, text_y ), col, col, s );
+        text_x += len + 1; // 1 for space
+    }
 }
 
 void target_ui::panel_gun_info( int &text_y )
