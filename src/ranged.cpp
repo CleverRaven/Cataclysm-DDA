@@ -301,8 +301,8 @@ class target_ui
         void draw_help_notice();
 
         // Draw list of available controls at the bottom of the window.
-        // Returns how much lines it took.
-        int draw_controls_list();
+        // text_y - first free line counting from the top
+        void draw_controls_list( int text_y );
 
         void panel_cursor_info( int &text_y );
         void panel_gun_info( int &text_y );
@@ -1351,9 +1351,9 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
                                 range, target_size, predicted_recoil );
 }
 
-static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number,
-                           input_context &ctxt,
-                           const item &weapon, const tripoint &target_pos, bool is_blind_throw )
+static void draw_throw_aim( const player &p, const catacurses::window &w, int &text_y,
+                            input_context &ctxt,
+                            const item &weapon, const tripoint &target_pos, bool is_blind_throw )
 {
     Creature *target = g->critter_at( target_pos, true );
     if( target != nullptr && !p.sees( *target ) ) {
@@ -1381,9 +1381,9 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const target_ui::TargetMode throwing_target_mode = is_blind_throw ?
             target_ui::TargetMode::ThrowBlind :
             target_ui::TargetMode::Throw;
-    return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, weapon, dispersion,
-                                confidence_config,
-                                range, target_size );
+    text_y = print_ranged_chance( p, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
+                                  confidence_config,
+                                  range, target_size );
 }
 
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
@@ -2582,7 +2582,6 @@ void target_ui::draw_ui_window( player &pc )
     draw_border( w_target );
     draw_window_title();
     draw_help_notice();
-    draw_controls_list();
 
     int text_y = 1; // Skip top border
 
@@ -2613,6 +2612,8 @@ void target_ui::draw_ui_window( player &pc )
             draw_throw_aim( pc, w_target, text_y, ctxt, *relevant, dst, blind );
         }
     }
+
+    draw_controls_list( text_y );
 
     wrefresh( w_target );
 }
@@ -2664,32 +2665,51 @@ void target_ui::draw_help_notice()
     wprintz( w_target, c_white, " >" );
 }
 
-int target_ui::draw_controls_list()
+void target_ui::draw_controls_list( int text_y )
 {
+    // Change UI colors for visual feedback
+    // TODO: Colorize keys inside brackets to be consistent with other UI windows
+    nc_color col_enabled = c_white;
+    nc_color col_disabled = c_light_gray;
+    nc_color col_move = ( status != Status::OutOfAmmo ? col_enabled : col_disabled );
+    nc_color col_fire = ( status == Status::Good ? col_enabled : col_disabled );
+
     // Get first key bound to given action OR ' ' if there are none.
     const auto bound_key = [this]( const std::string & s ) {
-        const auto keys = ctxt.keys_bound_to( s );
+        const std::vector<char> keys = this->ctxt.keys_bound_to( s );
         return keys.empty() ? ' ' : keys.front();
     };
+    const auto colored = [col_enabled]( nc_color color, const std::string & s ) {
+        if( color == col_enabled ) {
+            // col_enabled is the default one when printing
+            return s;
+        } else {
+            return colorize( s, color );
+        }
+    };
 
-    nc_color move_color = ( status != Status::OutOfAmmo ? c_white : c_light_gray );
-    nc_color fire_color = ( status == Status::Good ? c_white : c_light_gray );
-    int height = getmaxy( w_target );
+    struct line {
+        size_t order; // Lines with highest 'order' are removed first
+        std::string str;
+    };
+    std::vector<line> lines;
 
-    // Since this list is of variable length and positioned
-    // at the bottom, we draw everything in reverse order
-    int text_y = height - 2; // Don't draw over bottom border
+    // Compile full list
+    lines.push_back( {8, colored( col_move, _( "Move cursor with directional keys" ) )} );
     if( is_mouse_enabled() ) {
-        const char *label_mouse = "Mouse: LMB: Target, Wheel: Cycle,";
-        int text_x = utf8_width( label_mouse ) + 2; // '2' for border + space at the end
-        mvwprintz( w_target, point( 1, text_y ), move_color, label_mouse );
-        mvwprintz( w_target, point( text_x, text_y-- ), fire_color, _( "RMB: Fire" ) );
+        std::string move = _( "Mouse: LMB: Target, Wheel: Cycle, " );
+        std::string fire = _( "RMB: Fire" );
+        lines.push_back( {7, colored( col_move, move ) + colored( col_fire, fire )} );
     }
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
-        mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "[%c] to reload/switch ammo." ),
-                   bound_key( "SWITCH_AMMO" ) );
-        mvwprintz( w_target, point( 1, text_y-- ), c_white, _( "[%c] to switch firing modes." ),
-                   bound_key( "SWITCH_MODE" ) );
+    {
+        std::string cycle = string_format( _( "[%s] Cycle targets; " ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
+        std::string fire = string_format( _( "[%c] %s." ), bound_key( "FIRE" ), uitext_fire() );
+        lines.push_back( {0, colored( col_move, cycle ) + colored( col_fire, fire )} );
+    }
+    {
+        std::string text = string_format( _( "[%c] target self; [%c] toggle snap-to-target" ),
+                                          bound_key( "CENTER" ), bound_key( "TOGGLE_SNAP_TO_TARGET" ) );
+        lines.push_back( {3, colored( col_enabled, text )} );
     }
     if( mode == TargetMode::Fire ) {
         std::string aim_and_fire;
@@ -2698,25 +2718,38 @@ int target_ui::draw_controls_list()
                 aim_and_fire += string_format( "[%c] ", bound_key( e.action ) );
             }
         }
+        aim_and_fire += _( "to aim and fire." );
 
-        mvwprintz( w_target, point( 1, text_y-- ), fire_color, _( "[%c] to switch aiming modes." ),
-                   bound_key( "SWITCH_AIM" ) );
-        mvwprintz( w_target, point( 1, text_y-- ), fire_color, _( "%sto aim and fire" ), aim_and_fire );
-        mvwprintz( w_target, point( 1, text_y-- ), fire_color, _( "[%c] to steady your aim.  (10 moves)" ),
-                   bound_key( "AIM" ) );
+        std::string aim = string_format( _( "[%c] to steady your aim.  (10 moves)" ),
+                                         bound_key( "AIM" ) );
+        std::string sw_aim = string_format( _( "[%c] to switch aiming modes." ),
+                                            bound_key( "SWITCH_AIM" ) );
+
+        lines.push_back( {2, colored( col_fire, aim )} );
+        lines.push_back( {1, colored( col_fire, sw_aim )} );
+        lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
-    mvwprintz( w_target, point( 1, text_y-- ), c_white,
-               _( "[%c] target self; [%c] toggle snap-to-target" ), bound_key( "CENTER" ),
-               bound_key( "TOGGLE_SNAP_TO_TARGET" ) );
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+        lines.push_back( {5, colored( col_enabled, string_format( _( "[%c] to switch firing modes." ),
+                                      bound_key( "SWITCH_MODE" ) ) )} );
+        lines.push_back( {6, colored( col_enabled, string_format( _( "[%c] to reload/switch ammo." ),
+                                      bound_key( "SWITCH_AMMO" ) ) )} );
+    }
 
-    auto label_cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
-    int text_x = utf8_width( label_cycle ) + 2; // '2' for border + space at the end
-    mvwprintz( w_target, point( 1, text_y ), move_color, label_cycle );
-    mvwprintz( w_target, point( text_x, text_y-- ), fire_color, "[%c] %s.", bound_key( "FIRE" ),
-               uitext_fire() );
+    // Shrink the list until it fits
+    int height = getmaxy( w_target );
+    size_t available_lines = static_cast<size_t>( height - text_y - 1 ); // 1 for bottom border
+    while( lines.size() > available_lines ) {
+        lines.erase( std::max_element( lines.begin(), lines.end(), []( const line & l1, const line & l2 ) {
+            return l1.order < l2.order;
+        } ) );
+    }
 
-    mvwprintz( w_target, point( 1, text_y-- ), move_color, _( "Move cursor with directional keys" ) );
-    return height - text_y;
+    text_y = height - lines.size() - 1;
+    for( const line &l : lines ) {
+        nc_color col = col_enabled;
+        print_colored_text( w_target, point( 1, text_y++ ), col, col, l.str );
+    }
 }
 
 void target_ui::panel_cursor_info( int &text_y )
