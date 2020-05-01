@@ -1546,10 +1546,12 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( type->size != MS_TINY && on_ground ) {
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
-        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) && get_armor_cut( bp_torso ) < sharp_damage ) {
+        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) &&
+            get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
         }
-        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) && get_armor_cut( bp_torso ) < rough_damage ) {
+        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) &&
+            get_armor_cut( bodypart_id( "torso" ) ) < rough_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), rough_damage );
         }
     }

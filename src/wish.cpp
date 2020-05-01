@@ -609,7 +609,7 @@ void debug_menu::wishskill( player *p )
     skmenu.addentry( 0, true, '1', _( "Modify all skills…" ) );
 
     auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
-        return a.name() < b.name();
+        return localized_compare( a.name(), b.name() );
     } );
 
     std::vector<int> origskills;

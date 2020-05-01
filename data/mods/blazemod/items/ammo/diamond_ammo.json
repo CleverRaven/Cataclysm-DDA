@@ -1,14 +1,25 @@
 [
   {
-    "id": "charcoal",
-    "copy-from": "charcoal",
+    "id": "diamond_coal",
     "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str_sp": "charcoal" },
-    "casing": "dcluster"
+    "name": { "str_sp": "glittering carbon" },
+    "description": "These small fragments of carbon are have been compressed into a crystalline structure that is beginning to resemble diamonds.",
+    "weight": "3 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "bashing": 1,
+    "material": "diamond",
+    "symbol": "=",
+    "color": "white",
+    "looks_like": "diamond",
+    "count": 100,
+    "ammo_type": "crystalline_shards",
+    "damage": 1,
+    "pierce": 1,
+    "dispersion": 12
   },
   {
-    "id": "dshards",
+    "id": "diamond_shards",
     "type": "AMMO",
     "name": { "str_sp": "diamond fragments" },
     "description": "These small fragments of diamond are formed as a byproduct from the crystallization process of a diamond matrix.  While the substance usually decays when separated from the catalyst; these fragments are small enough to remain stable.",

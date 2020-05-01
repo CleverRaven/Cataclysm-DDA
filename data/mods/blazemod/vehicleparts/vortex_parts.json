@@ -1,11 +1,11 @@
 [
   {
-    "id": "vgen",
+    "id": "vortex_generator",
     "type": "vehicle_part",
     "name": { "str": "vortex generator" },
-    "item": "vgen2",
+    "item": "vortex_generator",
     "location": "engine_block",
-    "fuel_type": "vpower",
+    "fuel_type": "vortex_power",
     "symbol": "8",
     "broken_symbol": "x",
     "color": "magenta",
@@ -33,12 +33,12 @@
     "flags": [ "REACTOR", "PERPETUAL" ]
   },
   {
-    "id": "vgen2",
+    "id": "vortex_engine",
     "type": "vehicle_part",
     "name": { "str": "vortex engine" },
-    "item": "vgen",
+    "item": "vortex_engine",
     "location": "engine_block",
-    "fuel_type": "vpower",
+    "fuel_type": "vortex_power",
     "symbol": "8",
     "broken_symbol": "x",
     "color": "magenta",

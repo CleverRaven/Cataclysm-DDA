@@ -1,6 +1,6 @@
 [
   {
-    "id": "diamondframe",
+    "id": "diamond_frame",
     "type": "GENERIC",
     "category": "veh_parts",
     "name": { "str": "diamond frame" },
@@ -17,7 +17,7 @@
     "techniques": [ "DEF_DISARM" ]
   },
   {
-    "id": "diamondplate",
+    "id": "diamond_plate",
     "type": "GENERIC",
     "category": "veh_parts",
     "name": { "str": "diamond plating" },

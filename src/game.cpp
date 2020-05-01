@@ -4710,16 +4710,22 @@ template const Creature *game::critter_at<Creature>( const tripoint &, bool ) co
 template<typename T>
 shared_ptr_fast<T> game::shared_from( const T &critter )
 {
-    if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
-        return std::dynamic_pointer_cast<T>( mon_ptr );
-    }
     if( static_cast<const Creature *>( &critter ) == static_cast<const Creature *>( &u ) ) {
         // u is not stored in a shared_ptr, but it won't go out of scope anyway
         return std::dynamic_pointer_cast<T>( u_shared_ptr );
     }
-    for( auto &cur_npc : active_npc ) {
-        if( static_cast<const Creature *>( cur_npc.get() ) == static_cast<const Creature *>( &critter ) ) {
-            return std::dynamic_pointer_cast<T>( cur_npc );
+    if( critter.is_monster() ) {
+        if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
+            if( static_cast<const Creature *>( mon_ptr.get() ) == static_cast<const Creature *>( &critter ) ) {
+                return std::dynamic_pointer_cast<T>( mon_ptr );
+            }
+        }
+    }
+    if( critter.is_npc() ) {
+        for( auto &cur_npc : active_npc ) {
+            if( static_cast<const Creature *>( cur_npc.get() ) == static_cast<const Creature *>( &critter ) ) {
+                return std::dynamic_pointer_cast<T>( cur_npc );
+            }
         }
     }
     return nullptr;
@@ -8905,7 +8911,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         };
 
         if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
-            ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) ) {
+            ( u.get_armor_bash( bodypart_id( "foot_l" ) ) < 5 ||
+              u.get_armor_bash( bodypart_id( "foot_r" ) ) < 5 ) ) {
             harmful_stuff.emplace_back( m.name( dest_loc ) );
         } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !( u.in_vehicle ||
                    g->m.veh_at( dest_loc ) ) &&
@@ -9262,13 +9269,13 @@ point game::place_player( const tripoint &dest_loc )
     }
     // TODO: Move the stuff below to a Character method so that NPCs can reuse it
     if( m.has_flag( "ROUGH", dest_loc ) && ( !u.in_vehicle ) && ( !u.is_mounted() ) ) {
-        if( one_in( 5 ) && u.get_armor_bash( bp_foot_l ) < rng( 2, 5 ) ) {
+        if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_l" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
             u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 1 ) );
         }
-        if( one_in( 5 ) && u.get_armor_bash( bp_foot_r ) < rng( 2, 5 ) ) {
+        if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_r" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your right foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
@@ -9474,7 +9481,8 @@ point game::place_player( const tripoint &dest_loc )
         m.creature_on_trap( u );
     }
     // Drench the player if swimmable
-    if( m.has_flag( "SWIMMABLE", u.pos() ) && !u.is_mounted() ) {
+    if( m.has_flag( "SWIMMABLE", u.pos() ) &&
+        !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
         u.drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
     }
 
@@ -9960,7 +9968,8 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
             const int damage = rng( force, force * 2.0f ) / 6;
             c->impact( damage, pt );
             // Multiply zed damage by 6 because no body parts
-            const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_torso ) ) * 6 );
+            const int zed_damage = std::max( 0,
+                                             ( damage - critter.get_armor_bash( bodypart_id( "torso" ) ) ) * 6 );
             // TODO: Pass the "flinger" here - it's not the flung critter that deals damage
             critter.apply_damage( c, bodypart_id( "torso" ), zed_damage );
             critter.check_dead_state();

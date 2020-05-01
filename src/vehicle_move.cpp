@@ -758,8 +758,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 ph->hitall( dam, 40, driver );
             } else {
                 const int armor = part_flag( ret.part, "SHARP" ) ?
-                                  critter->get_armor_cut( bp_torso ) :
-                                  critter->get_armor_bash( bp_torso );
+                                  critter->get_armor_cut( bodypart_id( "torso" ) ) :
+                                  critter->get_armor_bash( bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
                 add_msg( m_debug, "Critter collision damage: %d", dam );

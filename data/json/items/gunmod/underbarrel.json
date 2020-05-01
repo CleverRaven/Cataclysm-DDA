@@ -344,7 +344,7 @@
     "name": { "str": "masterkey shotgun" },
     "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
     "weight": "2600 g",
-    "volume": "500 ml",
+    "volume": "1068 ml",
     "price": 95000,
     "price_postapoc": 1000,
     "material": [ "steel" ],

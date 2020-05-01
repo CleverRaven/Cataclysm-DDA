@@ -6,10 +6,16 @@
     "recipes": [
       { "id": "faction_base_modular_hub_field_0", "description": "Field Camp", "om_terrains": [ "field" ] },
       { "id": "faction_base_firestation_0", "description": "Firestation Base", "om_terrains": [ "fire_station" ] },
-      { "id": "faction_base_shelter_0", "description": "Evac Shelter Base", "om_terrains": [ "shelter" ] },
-      { "id": "faction_base_shelter_0", "description": "Evac Shelter Base", "om_terrains": [ "shelter_vandal" ] },
-      { "id": "faction_base_shelter_1_0", "description": "Evac Shelter Base", "om_terrains": [ "shelter_1" ] },
-      { "id": "faction_base_shelter_1_0", "description": "Evac Shelter Base", "om_terrains": [ "shelter_1_vandal" ] }
+      {
+        "id": "faction_base_shelter_0",
+        "description": "Evac Shelter Base",
+        "om_terrains": [ "shelter", "shelter_vandal" ]
+      },
+      {
+        "id": "faction_base_shelter_1_0",
+        "description": "Evac Shelter Base",
+        "om_terrains": [ "shelter_1", "shelter_1_vandal" ]
+      }
     ]
   },
   {

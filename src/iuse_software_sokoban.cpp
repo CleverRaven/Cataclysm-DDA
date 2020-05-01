@@ -320,8 +320,8 @@ int sokoban_game::start_game()
             if( !vUndo.empty() ) {
                 //reset last player pos
                 mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "+" ? "." : " ";
-                iPlayerYNew = vUndo[vUndo.size() - 1].iOldY;
-                iPlayerXNew = vUndo[vUndo.size() - 1].iOldX;
+                iPlayerYNew = vUndo[vUndo.size() - 1].old.y;
+                iPlayerXNew = vUndo[vUndo.size() - 1].old.x;
                 mLevel[iPlayerYNew][iPlayerXNew] = vUndo[vUndo.size() - 1].sTileOld;
 
                 vUndo.pop_back();
@@ -330,8 +330,8 @@ int sokoban_game::start_game()
             }
 
             if( bUndoSkip && !vUndo.empty() ) {
-                iDirY = vUndo[vUndo.size() - 1].iOldY;
-                iDirX = vUndo[vUndo.size() - 1].iOldX;
+                iDirY = vUndo[vUndo.size() - 1].old.y;
+                iDirX = vUndo[vUndo.size() - 1].old.x;
 
                 if( vUndo[vUndo.size() - 1].sTileOld == "$" ||
                     vUndo[vUndo.size() - 1].sTileOld == "*" ) {

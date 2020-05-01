@@ -9,6 +9,7 @@
 #include <functional>
 #include <istream>
 #include <memory>
+#include <ctime>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -43,8 +44,6 @@
 #include "ui_manager.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
-
-static const holiday current_holiday = holiday::none;
 
 void main_menu::on_move() const
 {
@@ -243,6 +242,88 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
+/* compare against table of easter dates */
+bool main_menu::is_easter( int day, int month, int year )
+{
+    if( month == 3 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2024: return day == 31;
+            case 2027: return day == 28;
+            default: break;
+            // *INDENT-ON*
+        }
+    } else if( month == 4 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2021: return day == 4;
+            case 2022: return day == 17;
+            case 2023: return day == 9;
+            case 2025: return day == 20;
+            case 2026: return day == 5;
+            case 2028: return day == 16;
+            case 2029: return day == 1;
+            case 2030: return day == 21;
+            default: break;
+            // *INDENT-ON*
+        }
+    }
+    return false;
+}
+
+holiday main_menu::get_holiday_from_time()
+{
+    bool success = false;
+
+    std::tm local_time;
+    std::time_t current_time = std::time( nullptr );
+
+    /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
+#if defined(_WIN32)
+
+    errno_t err = localtime_s( &local_time, &current_time );
+    if( err == 0 ) {
+        success = true;
+    }
+
+#else
+
+    success = !!localtime_r( &current_time, &local_time );
+
+#endif
+
+    if( success ) {
+
+        const int month = local_time.tm_mon + 1;
+        const int day = local_time.tm_mday;
+        const int wday = local_time.tm_wday;
+        const int year = local_time.tm_year + 1900;
+
+        /* check date against holidays */
+        if( month == 1 && day == 1 ) {
+            return holiday::new_year;
+        }
+        // only run easter date calculation if currently March or April
+        else if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
+            return holiday::easter;
+        } else if( month == 7 && day == 4 ) {
+            return holiday::independence_day;
+        }
+        // 13 days seems appropriate for Halloween
+        else if( month == 10 && day >= 19 ) {
+            return holiday::halloween;
+        } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
+            return holiday::thanksgiving;
+        }
+        // For the 12 days of Christmas, my true love gave to me...
+        else if( month == 12 && ( day >= 14 && day <= 25 ) ) {
+            return holiday::christmas;
+        }
+    }
+    // fall through to here if localtime fails, or none of the day tests hit
+    return holiday::none;
+}
+
 void main_menu::init_windows()
 {
     if( LAST_TERM == point( TERMX, TERMY ) ) {
@@ -395,6 +476,9 @@ void main_menu::load_char_templates()
 
 bool main_menu::opening_screen()
 {
+    // set holiday based on local system time
+    current_holiday = get_holiday_from_time();
+
     // Play title music, whoo!
     play_music( "title" );
 
