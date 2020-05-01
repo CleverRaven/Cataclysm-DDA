@@ -751,6 +751,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_spurge",
+    "copy-from": "seed",
+    "looks_like": "seed_raw_dandelion",
+    "name": { "str_sp": "spurge seeds" },
+    "description": "Some spurge seeds.",
+    "seed_data": { "plant_name": "spurge", "fruit": "spurge", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_popcorn",
     "copy-from": "seed",
     "name": { "str_sp": "popcorn seeds" },
