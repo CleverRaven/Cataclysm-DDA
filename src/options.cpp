@@ -1365,7 +1365,6 @@ void options_manager::add_options_interface()
         interface_page_.items_.emplace_back();
     };
 
-    // TODO: scan for languages like we do for tilesets.
     add( "USE_LANG", "interface", translate_marker( "Language" ),
          translate_marker( "Switch Language." ), options_manager::actual_lang_options, "" );
 
