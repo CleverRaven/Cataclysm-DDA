@@ -269,6 +269,7 @@ struct localized_comparator {
     }
 
     bool operator()( const std::string &, const std::string & ) const;
+    bool operator()( const std::wstring &, const std::wstring & ) const;
 };
 
 constexpr localized_comparator localized_compare{};

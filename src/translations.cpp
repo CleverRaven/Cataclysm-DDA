@@ -698,6 +698,14 @@ std::string operator+( const translation &lhs, const translation &rhs )
 
 bool localized_comparator::operator()( const std::string &l, const std::string &r ) const
 {
+    // We need different implementations on each platform.  MacOS seems to not
+    // support localized comparison of strings via the standard library at all,
+    // so resort to MacOS-specific solution.  Windows cannot be expected to be
+    // using a UTF-8 locale (whereas our strings are always UTF-8) and so we
+    // must convert to wstring for comparison there.  Linux seems to work as
+    // expected on regular strings; no workarounds needed.
+    // See https://github.com/CleverRaven/Cataclysm-DDA/pull/40041 for further
+    // discussion.
 #if defined(MACOSX)
     CFStringRef lr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, l.c_str(),
                      kCFStringEncodingUTF8, kCFAllocatorNull );
@@ -707,6 +715,18 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
     CFRelease( lr );
     CFRelease( rr );
     return result;
-#endif
+#elif defined(_WIN32)
+    return ( *this )( utf8_to_wstr( l ), utf8_to_wstr( r ) );
+#else
     return std::locale()( l, r );
+#endif
+}
+
+bool localized_comparator::operator()( const std::wstring &l, const std::wstring &r ) const
+{
+#if defined(MACOSX)
+    return ( *this )( wstr_to_utf8( l ), wstr_to_utf8( r ) );
+#else
+    return std::locale()( l, r );
+#endif
 }
