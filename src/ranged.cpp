@@ -2755,14 +2755,14 @@ void target_ui::draw_controls_list( int text_y )
     // Compile full list
     lines.push_back( {8, colored( col_move, _( "Move cursor with directional keys" ) )} );
     if( is_mouse_enabled() ) {
-        std::string move = _( "Mouse: LMB: Target, Wheel: Cycle, " );
+        std::string move = _( "Mouse: LMB: Target, Wheel: Cycle," );
         std::string fire = _( "RMB: Fire" );
-        lines.push_back( {7, colored( col_move, move ) + colored( col_fire, fire )} );
+        lines.push_back( {7, colored( col_move, move ) + " " + colored( col_fire, fire )} );
     }
     {
-        std::string cycle = string_format( _( "[%s] Cycle targets; " ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
+        std::string cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
         std::string fire = string_format( _( "[%c] %s." ), bound_key( "FIRE" ), uitext_fire() );
-        lines.push_back( {0, colored( col_move, cycle ) + colored( col_fire, fire )} );
+        lines.push_back( {0, colored( col_move, cycle ) + " " + colored( col_fire, fire )} );
     }
     {
         std::string text = string_format( _( "[%c] target self; [%c] toggle snap-to-target" ),
