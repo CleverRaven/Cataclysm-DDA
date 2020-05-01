@@ -365,8 +365,8 @@ class item_location::impl::item_on_person : public item_location::impl
                     // TODO: implement movement cost for transferring item between characters
                 }
 
-                return mv;
             }
+            return mv;
         }
 
         void remove_item() override {
