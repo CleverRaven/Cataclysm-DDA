@@ -235,10 +235,11 @@ class target_ui
         void update_target_list( player &pc );
 
         // Tries to find something to aim at.
+        // reentered - true if UI was re-entered (e.g. during multi-turn aiming)
         // Validates pc.last_target and pc.last_target_pos.
         // Sets 'new_dst' as the initial aiming point.
         // Returns 'true' if we can proceed with aim-and-shoot.
-        bool choose_initial_target( player &pc, tripoint &new_dst );
+        bool choose_initial_target( player &pc, bool reentered, tripoint &new_dst );
 
         // Update 'status' variable
         void update_status();
@@ -1856,9 +1857,11 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     // Handle multi-turn aiming
     std::string action;
     bool attack_was_confirmed = false;
+    bool reentered = false;
     if( mode == TargetMode::Fire ) {
         if( pc.activity.id() == ACT_AIM ) {
             // We were in this UI during previous turn...
+            reentered = true;
             std::string act_data = pc.activity.str_values[0];
             if( act_data == "AIM" ) {
                 // ...and ran out of moves while aiming.
@@ -1881,7 +1884,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     src = pc.pos();
     tripoint initial_dst = src;
     update_target_list( pc );
-    if( !choose_initial_target( pc, initial_dst ) ) {
+    if( !choose_initial_target( pc, reentered, initial_dst ) ) {
         // We've lost our target from previous turn
         action.clear();
         attack_was_confirmed = false;
@@ -2279,7 +2282,7 @@ void target_ui::update_target_list( player &pc )
     } );
 }
 
-bool target_ui::choose_initial_target( player &pc, tripoint &new_dst )
+bool target_ui::choose_initial_target( player &pc, bool reentered, tripoint &new_dst )
 {
     // Determine if we had a target and it is still visible
     const auto old_target = std::find( targets.begin(), targets.end(), pc.last_target.lock().get() );
@@ -2301,7 +2304,7 @@ bool target_ui::choose_initial_target( player &pc, tripoint &new_dst )
         if( dist_fn( local ) > range ) {
             // No luck
             pc.last_target_pos = cata::nullopt;
-        } else {
+        } else if( reentered ) {
             local_last_tgt_pos = local;
         }
     }
