@@ -538,17 +538,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_rslauncher",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted rotary speargun" },
-    "item": "rslauncher",
-    "color": "light_gray",
-    "broken_color": "light_gray",
-    "breaks_into": [ { "item": "rslauncher", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
     "id": "mounted_ruger_1022",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -628,17 +617,6 @@
     "item": "sks",
     "breaks_into": [ { "item": "sks", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_slauncher",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted speargun" },
-    "item": "slauncher",
-    "color": "light_gray",
-    "broken_color": "light_gray",
-    "breaks_into": [ { "item": "slauncher", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mounted_steyr_aug",

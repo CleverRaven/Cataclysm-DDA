@@ -1,8 +1,0 @@
-[
-  {
-    "id": "vortex_power",
-    "name": "vortex energy",
-    "default": "vortex_power",
-    "type": "ammunition_type"
-  }
-]
