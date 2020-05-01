@@ -18,15 +18,6 @@
 // mod_duration
 // mult_duration
 //
-// Body part:
-// get_bp
-// set_bp
-//
-// Permanence:
-// is_permanent
-// pause_effect
-// unpause_effect
-//
 // Intensity:
 // get_intensity
 // get_max_intensity
@@ -67,5 +58,61 @@ TEST_CASE( "effect initialization test", "[effect][init]" )
 {
     check_effect_init( "grabbed", 1_turns, "arm_r", true, 1, calendar::turn );
     check_effect_init( "bite", 1_minutes, "torso", false, 2, calendar::turn );
+}
+
+TEST_CASE( "display short description", "[effect][desc]" )
+{
+    const efftype_id eff_id( "grabbed" );
+    const body_part arm_r = bodypart_id( "arm_r" )->token;
+    effect grabbed( &eff_id.obj(), 1_turns, arm_r, false, 1, calendar::turn );
+
+    // TODO: Determine a case where `reduced` makes a difference
+
+    CHECK( grabbed.disp_short_desc( false ) == "You have been grabbed by an attack.\n"
+           "You are being held in place, and dodging and blocking are very difficult." );
+
+    CHECK( grabbed.disp_short_desc( true ) == "You have been grabbed by an attack.\n"
+           "You are being held in place, and dodging and blocking are very difficult." );
+}
+
+TEST_CASE( "effect permanence", "[effect][permanent]" )
+{
+    const efftype_id eff_id( "grabbed" );
+    const body_part arm_r = bodypart_id( "arm_r" )->token;
+
+    // Grab right arm, not permanent
+    effect grabbed( &eff_id.obj(), 1_turns, arm_r, false, 1, calendar::turn );
+    CHECK_FALSE( grabbed.is_permanent() );
+    // Pause makes it permanent
+    grabbed.pause_effect();
+    CHECK( grabbed.is_permanent() );
+    // Pause again does nothing
+    grabbed.pause_effect();
+    CHECK( grabbed.is_permanent() );
+    // Unpause removes permanence
+    grabbed.unpause_effect();
+    CHECK_FALSE( grabbed.is_permanent() );
+    // Unpause again does nothing
+    grabbed.unpause_effect();
+    CHECK_FALSE( grabbed.is_permanent() );
+}
+
+TEST_CASE( "effect body part", "[effect][bodypart]" )
+{
+    const efftype_id eff_id( "grabbed" );
+    const body_part arm_r = bodypart_id( "arm_r" )->token;
+    const body_part arm_l = bodypart_id( "arm_l" )->token;
+
+    // Grab right arm, initially
+    effect grabbed( &eff_id.obj(), 1_turns, arm_r, false, 1, calendar::turn );
+    CHECK( grabbed.get_bp() == arm_r );
+    // Switch to left arm
+    grabbed.set_bp( arm_l );
+    CHECK( grabbed.get_bp() == arm_l );
+    CHECK_FALSE( grabbed.get_bp() == arm_r );
+    // Back to right arm
+    grabbed.set_bp( arm_r );
+    CHECK( grabbed.get_bp() == arm_r );
+    CHECK_FALSE( grabbed.get_bp() == arm_l );
 }
 
