@@ -2025,8 +2025,8 @@ void target_ui::init_window_and_input( player &pc )
     int width;
     int height;
     if( narrow ) {
-        // Narrow style excludes the list of controls;
-        // we can have small window size and don't suffer from it.
+        // Narrow layout removes the list of controls. This allows us
+        // to have small window size and not suffer from it.
         width = 34;
         height = 24;
         compact = true;
