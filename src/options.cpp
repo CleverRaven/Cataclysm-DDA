@@ -3130,4 +3130,7 @@ void options_manager::update_global_locale()
     } catch( std::runtime_error &e ) {
         std::locale::global( std::locale() );
     }
+
+    DebugLog( D_INFO, DC_ALL ) << "[options] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[options] C++ locale set to " << std::locale().name();
 }

@@ -207,6 +207,8 @@ void set_language()
     if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
         DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '.1252').";
     }
+    DebugLog( D_INFO, DC_ALL ) << "[translations] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[translations] C++ locale set to " << std::locale().name();
 #endif
 
     // Step 2. Bind to gettext domain.
