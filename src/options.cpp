@@ -58,27 +58,7 @@ bool tile_iso;
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
-std::vector<options_manager::id_and_option> options_manager::lang_options = {
-    { "", translate_marker( "System language" ) },
-    // Note: language names are in their own language and are *not* translated at all.
-    // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
-    // http://en.wikipedia.org/wiki/List_of_language_names
-    { "en", no_translation( R"(English)" ) },
-    { "de", no_translation( R"(Deutsch)" ) },
-    { "es_AR", no_translation( R"(Español (Argentina))" ) },
-    { "es_ES", no_translation( R"(Español (España))" ) },
-    { "fr", no_translation( R"(Français)" ) },
-    { "hu", no_translation( R"(Magyar)" ) },
-    { "ja", no_translation( R"(日本語)" ) },
-    { "ko", no_translation( R"(한국어)" ) },
-    { "pl", no_translation( R"(Polski)" ) },
-    { "pt_BR", no_translation( R"(Português (Brasil))" )},
-    { "ru", no_translation( R"(Русский)" ) },
-    { "zh_CN", no_translation( R"(中文 (天朝))" ) },
-    { "zh_TW", no_translation( R"(中文 (台灣))" ) },
-};
-
-std::vector<options_manager::id_and_option> options_manager::actual_lang_options =
+const std::vector<options_manager::id_and_option> options_manager::actual_lang_options =
     options_manager::get_actual_lang_options();
 
 options_manager &get_options()
@@ -1038,7 +1018,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     return result;
 }
 
-std::vector<std::string> options_manager::get_lang_list()
+std::unordered_set<std::string> options_manager::get_lang_list()
 {
     std::vector<std::string> lang_dirs = get_directories_with( PATH_INFO::lang_file(),
                                          PATH_INFO::langdir(), true );
@@ -1050,20 +1030,39 @@ std::vector<std::string> options_manager::get_lang_list()
         const std::size_t len = dir.rfind( end_str ) - start;
         dir = dir.substr( start, len );
     } );
-    return lang_dirs;
+    return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
 }
 
 std::vector<options_manager::id_and_option> options_manager::get_actual_lang_options()
 {
-    std::vector<std::string> lang_list = options_manager::get_lang_list();
+    std::vector<options_manager::id_and_option> lang_options = {
+        { "", translate_marker( "System language" ) },
+        // Note: language names are in their own language and are *not* translated at all.
+        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
+        // http://en.wikipedia.org/wiki/List_of_language_names
+        { "en", no_translation( R"(English)" ) },
+        { "de", no_translation( R"(Deutsch)" ) },
+        { "es_AR", no_translation( R"(Español (Argentina))" ) },
+        { "es_ES", no_translation( R"(Español (España))" ) },
+        { "fr", no_translation( R"(Français)" ) },
+        { "hu", no_translation( R"(Magyar)" ) },
+        { "ja", no_translation( R"(日本語)" ) },
+        { "ko", no_translation( R"(한국어)" ) },
+        { "pl", no_translation( R"(Polski)" ) },
+        { "pt_BR", no_translation( R"(Português (Brasil))" )},
+        { "ru", no_translation( R"(Русский)" ) },
+        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
+        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
+    };
+
+    std::unordered_set<std::string> lang_list = options_manager::get_lang_list();
+
     std::vector<options_manager::id_and_option> options;
 
-    lang_list.push_back( "" ); // for System language option
-    lang_list.push_back( "en" ); // for English option
+    lang_list.insert( "" ); // for System language option
+    lang_list.insert( "en" ); // for English option
 
-    std::copy_if( options_manager::lang_options.begin(),
-                  options_manager::lang_options.end(),
-                  std::back_inserter( options ),
+    std::copy_if( lang_options.begin(), lang_options.end(), std::back_inserter( options ),
     [&lang_list]( const options_manager::id_and_option & pair ) {
         return std::find( lang_list.begin(), lang_list.end(), pair.first ) != lang_list.end();
     } );
