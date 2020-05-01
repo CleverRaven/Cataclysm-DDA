@@ -58,8 +58,8 @@ bool tile_iso;
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
-const std::vector<options_manager::id_and_option> options_manager::actual_lang_options =
-    options_manager::get_actual_lang_options();
+const std::vector<options_manager::id_and_option> options_manager::lang_options =
+    options_manager::get_lang_options();
 
 options_manager &get_options()
 {
@@ -1018,7 +1018,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     return result;
 }
 
-std::unordered_set<std::string> options_manager::get_lang_list()
+std::unordered_set<std::string> options_manager::get_langs_with_translation_files()
 {
     std::vector<std::string> lang_dirs = get_directories_with( PATH_INFO::lang_file(),
                                          PATH_INFO::langdir(), true );
@@ -1033,7 +1033,7 @@ std::unordered_set<std::string> options_manager::get_lang_list()
     return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
 }
 
-std::vector<options_manager::id_and_option> options_manager::get_actual_lang_options()
+std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 {
     std::vector<options_manager::id_and_option> lang_options = {
         { "", translate_marker( "System language" ) },
@@ -1055,7 +1055,7 @@ std::vector<options_manager::id_and_option> options_manager::get_actual_lang_opt
         { "zh_TW", no_translation( R"(中文 (台灣))" ) },
     };
 
-    std::unordered_set<std::string> lang_list = options_manager::get_lang_list();
+    std::unordered_set<std::string> lang_list = options_manager::get_langs_with_translation_files();
 
     std::vector<options_manager::id_and_option> options;
 
@@ -1365,7 +1365,7 @@ void options_manager::add_options_interface()
     };
 
     add( "USE_LANG", "interface", translate_marker( "Language" ),
-         translate_marker( "Switch Language." ), options_manager::actual_lang_options, "" );
+         translate_marker( "Switch Language." ), options_manager::lang_options, "" );
 
     add_empty_line();
 
