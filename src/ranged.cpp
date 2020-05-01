@@ -2029,6 +2029,7 @@ void target_ui::init_window_and_input( player &pc )
         // we can have small window size and don't suffer from it.
         width = 34;
         height = 24;
+        compact = true;
     } else {
         width = 55;
         compact = TERMY < 41;
@@ -2791,8 +2792,11 @@ void target_ui::draw_controls_list( int text_y )
 
     // Shrink the list until it fits
     int height = getmaxy( w_target );
-    size_t available_lines = static_cast<size_t>( height - text_y - 1 ); // 1 for bottom border
-    while( lines.size() > available_lines ) {
+    int available_lines = height - text_y - 1; // 1 for bottom border
+    if( available_lines <= 0 ) {
+        return;
+    }
+    while( lines.size() > static_cast<size_t>( available_lines ) ) {
         lines.erase( std::max_element( lines.begin(), lines.end(), []( const line & l1, const line & l2 ) {
             return l1.order < l2.order;
         } ) );
@@ -2839,6 +2843,7 @@ void target_ui::panel_cursor_info( int &text_y )
         print_colored_text( w_target, point( text_x, text_y ), col, col, s );
         text_x += len + 1; // 1 for space
     }
+    text_y++;
 }
 
 void target_ui::panel_gun_info( int &text_y )
