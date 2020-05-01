@@ -30,6 +30,7 @@ class options_manager
                 }
         };
         static std::vector<id_and_option> lang_options;
+        static std::vector<id_and_option> actual_lang_options;
     private:
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
@@ -37,6 +38,8 @@ class options_manager
             const std::string &path );
         static std::vector<id_and_option> load_soundpack_from(
             const std::string &path );
+        static std::vector<std::string> get_lang_list();
+        static std::vector<id_and_option> get_actual_lang_options();
 
         bool load_legacy();
 

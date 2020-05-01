@@ -78,6 +78,9 @@ std::vector<options_manager::id_and_option> options_manager::lang_options = {
     { "zh_TW", no_translation( R"(中文 (台灣))" ) },
 };
 
+std::vector<options_manager::id_and_option> options_manager::actual_lang_options =
+    options_manager::get_actual_lang_options();
+
 options_manager &get_options()
 {
     static options_manager single_instance;
@@ -1035,6 +1038,38 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     return result;
 }
 
+std::vector<std::string> options_manager::get_lang_list()
+{
+    std::vector<std::string> lang_dirs = get_directories_with( PATH_INFO::lang_file(),
+                                         PATH_INFO::langdir(), true );
+    const std::string start_str = "mo/";
+    const std::size_t start_len = start_str.length();
+    const std::string end_str = "/LC_MESSAGES";
+    std::for_each( lang_dirs.begin(), lang_dirs.end(), [&]( std::string & dir ) {
+        const std::size_t start = dir.find( start_str ) + start_len;
+        const std::size_t len = dir.rfind( end_str ) - start;
+        dir = dir.substr( start, len );
+    } );
+    return lang_dirs;
+}
+
+std::vector<options_manager::id_and_option> options_manager::get_actual_lang_options()
+{
+    std::vector<std::string> lang_list = options_manager::get_lang_list();
+    std::vector<options_manager::id_and_option> options;
+
+    lang_list.push_back( "" ); // for System language option
+    lang_list.push_back( "en" ); // for English option
+
+    std::copy_if( options_manager::lang_options.begin(),
+                  options_manager::lang_options.end(),
+                  std::back_inserter( options ),
+    [&lang_list]( const options_manager::id_and_option & pair ) {
+        return std::find( lang_list.begin(), lang_list.end(), pair.first ) != lang_list.end();
+    } );
+    return options;
+}
+
 #if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
@@ -1332,7 +1367,7 @@ void options_manager::add_options_interface()
 
     // TODO: scan for languages like we do for tilesets.
     add( "USE_LANG", "interface", translate_marker( "Language" ),
-         translate_marker( "Switch Language." ), options_manager::lang_options, "" );
+         translate_marker( "Switch Language." ), options_manager::actual_lang_options, "" );
 
     add_empty_line();
 
