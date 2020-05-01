@@ -42,7 +42,7 @@
         "rigid": true,
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "10 kg",
-        "open_caontainer": true,
+        "open_container": true,
         "moves": 400
       }
     ],
