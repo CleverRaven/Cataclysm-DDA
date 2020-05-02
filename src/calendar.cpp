@@ -332,8 +332,14 @@ std::string to_string( const time_duration &d )
         divider = 1_minutes;
     } else if( d < 1_days ) {
         divider = 1_hours;
+    } else if( d < 1_weeks ) {
+        divider = 1_days;
+    } else if( d < calendar::season_length() || calendar::eternal_season() ) {
+        divider = 1_weeks;
+    } else if( d < calendar::year_length() ) {
+        divider = calendar::season_length();
     } else {
-        divider = 24_hours;
+        divider = calendar::year_length();
     }
 
     if( d % divider != 0_turns ) {
