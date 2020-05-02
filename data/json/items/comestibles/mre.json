@@ -153,11 +153,19 @@
     "looks_like": "mre_veggy_box"
   },
   {
-    "id": "mre_sfettuccini_box",
+    "id": "mre_sfettuccine_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": { "str": "MRE - Creamy Spinach Fettuccini", "str_pl": "MREs - Creamy Spinach Fettuccini" },
-    "description": "A 'Meal Ready to Eat' with a creamy spinach fettuccini entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "name": { "str": "MRE - Spinach Fettuccine", "str_pl": "MREs - Spinach Fettuccine" },
+    "description": "A 'Meal Ready to Eat' with a creamy spinach fettuccine entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_ratatouille_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Ratatouille", "str_pl": "MREs - Ratatouille" },
+    "description": "A 'Meal Ready to Eat' with a ratatouille entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
   {
@@ -364,19 +372,19 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "mre_sfettuccini",
+    "id": "mre_sfettuccine",
     "copy-from": "mre_entree",
-    "name": "creamy spinach fettuccini entree",
-    "description": "The cheese tortellini entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "name": "spinach fettuccine entree",
+    "description": "The creamy spinach fettuccine entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "veggy", "milk" ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "mre_cheesetort",
+    "id": "mre_ratatouille",
     "copy-from": "mre_entree",
-    "name": "cheese tortellini entree",
-    "description": "The cheese tortellini entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "material": [ "tomato", "veggy", "milk" ]
+    "name": "ratatouille entree",
+    "description": "The ratatouille entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "material": [ "veggy", "tomato", "wheat" ]
   },
   {
     "type": "COMESTIBLE",

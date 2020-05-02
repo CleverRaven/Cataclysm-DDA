@@ -461,15 +461,18 @@
     "copy-from": "peanutbutter"
   },
   {
-    "id": "can_peanutbutter",
+    "id": "spread_peanutbutter",
     "type": "COMESTIBLE",
     "symbol": "%",
     "name": "peanut butter spread",
-    "description": "A thick, nutty brown processed spread.",
+    "description": "Processed peanut butter spread..",
+    "//TODO": "make a container called small sealed plastic tub",
     "container": "can_food",
     "comestible_type": "FOOD",
     "charges": 1,
-    "copy-from": "peanutbutter"
+    "phase": "solid",
+    "copy-from": "peanutbutter",
+    "delete": { "flags": [ "DRINK" ] }
   },
   {
     "type": "COMESTIBLE",
