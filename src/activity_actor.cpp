@@ -13,6 +13,7 @@
 #include "game.h"
 #include "iexamine.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_location.h"
 #include "json.h"
 #include "line.h"
@@ -31,6 +32,75 @@ static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const skill_id skill_computer( "computer" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+
+void dig_channel_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void dig_channel_activity_actor::do_turn( player_activity &, Character & )
+{
+    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel digging a pit at work!
+        sounds::sound( location, 10, sounds::sound_t::activity, _( "hsh!" ) );
+    }
+}
+
+void dig_channel_activity_actor::finish( player_activity &act, Character &who )
+{
+
+    g->m.ter_set( location, ter_id( result_terrain ) );
+
+    for( int i = 0; i < byproducts_count; i++ ) {
+        g->m.spawn_items( byproducts_location, item_group::items_from( byproducts_item_group,
+                          calendar::turn ) );
+    }
+
+    who.mod_hunger( 5 );
+    who.mod_thirst( 5 );
+    who.mod_fatigue( 10 );
+    // TODO: Remove this once player -> Character migration is complete
+    {
+        player *p = dynamic_cast<player *>( &who );
+        p->add_msg_if_player( m_good, _( "You finish digging up %s." ),
+                              g->m.ter( location ).obj().name() );
+    }
+
+    act.set_to_null();
+}
+
+void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "location", location );
+    jsout.member( "result_terrain", result_terrain );
+    jsout.member( "byproducts_location", byproducts_location );
+    jsout.member( "byproducts_count", byproducts_count );
+    jsout.member( "byproducts_item_group", byproducts_item_group );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn &jsin )
+{
+    dig_channel_activity_actor actor( 0, tripoint_zero,
+                                      {}, tripoint_zero, 0, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "location", actor.location );
+    data.read( "result_terrain", actor.result_terrain );
+    data.read( "byproducts_location", actor.byproducts_location );
+    data.read( "byproducts_count", actor.byproducts_count );
+    data.read( "byproducts_item_group", actor.byproducts_item_group );
+
+    return actor.clone();
+}
 
 void hacking_activity_actor::start( player_activity &act, Character & )
 {
@@ -380,6 +450,7 @@ namespace activity_actors
 // Please keep this alphabetically sorted
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
+    { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },

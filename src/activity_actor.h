@@ -67,6 +67,44 @@ class activity_actor
         virtual void serialize( JsonOut &jsout ) const = 0;
 };
 
+class dig_channel_activity_actor : public activity_actor
+{
+    private:
+        int moves;
+        tripoint location;
+        std::string result_terrain;
+        tripoint byproducts_location;
+        int byproducts_count;
+        std::string byproducts_item_group;
+
+    public:
+        dig_channel_activity_actor(
+            int dig_moves, const tripoint &dig_loc,
+            const std::string &resulting_ter, const tripoint &dump_loc,
+            int dump_spawn_count, const std::string &dump_item_group
+        ):
+            moves( dig_moves ), location( dig_loc ),
+            result_terrain( resulting_ter ),
+            byproducts_location( dump_loc ),
+            byproducts_count( dump_spawn_count ),
+            byproducts_item_group( dump_item_group ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_DIG_CHANNEL" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<dig_channel_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class hacking_activity_actor : public activity_actor
 {
     public:
