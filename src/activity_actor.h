@@ -176,6 +176,32 @@ class migration_cancel_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class open_gate_activity_actor : public activity_actor
+{
+    private:
+        int moves;
+        tripoint placement;
+
+    public:
+        open_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
+            moves( gate_moves ), placement( gate_placement ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_OPEN_GATE" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<open_gate_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 namespace activity_actors
 {
 
