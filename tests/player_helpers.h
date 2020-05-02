@@ -22,6 +22,6 @@ void process_activity( player &dummy );
 npc &spawn_npc( const point &, const std::string &npc_class );
 void give_and_activate_bionic( player &, bionic_id const & );
 
-item tool_with_ammo( const itype_id &tool, const int qty );
+item tool_with_ammo( const itype_id &tool, int qty );
 
 #endif // CATA_TESTS_PLAYER_HELPERS_H
