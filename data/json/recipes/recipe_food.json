@@ -4629,11 +4629,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "syrup", 1 ] ],
-      [ [ "any_peanutbutter", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "syrup", 1 ] ], [ [ "any_peanutbutter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5211,8 +5207,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ] ]
   },
   {
     "type": "recipe",
