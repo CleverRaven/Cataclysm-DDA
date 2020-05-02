@@ -183,7 +183,7 @@ class open_gate_activity_actor : public activity_actor
         tripoint placement;
 
     public:
-        open_gate_activity_actor( int gate_moves, tripoint gate_placement ) :
+        open_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
             moves( gate_moves ), placement( gate_placement ) {}
 
         activity_id get_type() const override {
