@@ -1755,20 +1755,24 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     if( !( use_aid || use_str ) ) {
         ok = false;
     }
+    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
+    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
     const auto helpers = g->u.get_crafting_helpers();
-    if( !helpers.empty() ) {
-        msg += string_format(
-                   //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-                   _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
-                   status_color( use_aid ), qual.obj().name, lvl,
-                   status_color( use_str ), str ) + "\n";
+    //~ %1$s is quality name, %2$d is quality level
+    std::string aid_string = string_format( _("1 tool with %1$s %2$d" ),
+                                            qual.obj().name, lvl );
+
+    std::string str_string;
+    if (!helpers.empty() ) {
+      str_string = string_format( _( "strength ( assisted ) %d" ), str );
     } else {
-        msg += string_format(
-                   //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-                   _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-                   status_color( use_aid ), qual.obj().name, lvl,
-                   status_color( use_str ), str ) + "\n";
+      str_string = string_format( _( "strength %d" ), str);
     }
+
+msg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                      colorize( aid_string, aid_color ),
+                      colorize( str_string, str_color ) ) + "\n";
+
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
