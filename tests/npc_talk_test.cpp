@@ -712,7 +712,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     const std::vector<item *> glass_bottles = g->u.items_with( []( const item & it ) {
         return it.typeId() == "bottle_glass";
     } );
-    REQUIRE( glass_bottles.size() > 0 );
+    REQUIRE( !glass_bottles.empty() );
     REQUIRE( g->u.wield( *glass_bottles.front() ) );
     effects = d.responses[14].success;
     effects.apply( d );
