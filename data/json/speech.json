@@ -1994,6 +1994,12 @@
   {
     "type": "speech",
     "speaker": "mon_eyebot",
+    "sound": "\"Attention mobile unit.  Code 5, establish surveillance.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_eyebot",
     "sound": "\"Criminal activity registered!\"",
     "volume": 15
   },
@@ -2186,7 +2192,26 @@
   {
     "type": "speech",
     "speaker": "foodperson_mask",
-    "sound": "\"FoodPlace: It's the Calories.\"",
+    "sound": "\"At FoodPlace your excellent value brings us nourishment and delight.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"At FoodPlace our food is not the problem!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"Eat at FoodPlace.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "//hat tip": "i-am-erk",
+    "sound": "\"FoodPlace is a popular food chain selling food items.  What else is there to know?\"",
     "volume": 15
   },
   {
@@ -2198,7 +2223,43 @@
   {
     "type": "speech",
     "speaker": "foodperson_mask",
+    "sound": "\"You need food, don't you?  It's time for FoodPlace!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: It's the Calories.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: Don’t get caught in the web of unsafe diet.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
     "sound": "\"FoodPlace: Edible food is OUR guarantee!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: We bring food to life!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: Edible food is one of our main goals!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace is the only way to obtain healthy and strong lifecycle choices!!\"",
     "volume": 15
   },
   {
