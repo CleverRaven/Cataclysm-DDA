@@ -7,7 +7,7 @@
     "maintainers": [ "BorkBorkGoesTheCode" ],
     "description": "Adds a few armored fighting vehicles and other such things, requires Vehicle Additions Pack.",
     "category": "vehicles",
-    "dependencies": [ "dda", "blazemod" ],
+    "dependencies": [ "dda" ],
     "obsolete": true
   }
 ]
