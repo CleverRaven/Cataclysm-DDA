@@ -1,32 +1,14 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "cemetery_4square_00",
-    "copy-from": "generic_cemetery"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cemetery_4square_10",
-    "copy-from": "generic_cemetery"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cemetery_4square_01",
-    "copy-from": "generic_cemetery"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cemetery_4square_11",
-    "copy-from": "generic_cemetery"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "Cemetery_1a",
-    "copy-from": "generic_cemetery"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "Cemetery_1b",
+    "id": [
+      "cemetery_4square_00",
+      "cemetery_4square_10",
+      "cemetery_4square_01",
+      "cemetery_4square_11",
+      "Cemetery_1a",
+      "Cemetery_1b"
+    ],
     "copy-from": "generic_cemetery"
   }
 ]
