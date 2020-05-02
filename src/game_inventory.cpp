@@ -830,7 +830,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 }
             }
 
-            if( it.is_medication() && !p.can_use_heal_item( it ) ) {
+            if( it.is_medication() && !p.can_use_heal_item( it ) && !it.is_craft() ) {
                 return _( "Your biology is not compatible with that item." );
             }
 
