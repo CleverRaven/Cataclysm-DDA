@@ -4585,10 +4585,7 @@
     "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "meat_cooked", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "meat_cooked", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4598,10 +4595,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "any_peanutbutter", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "any_peanutbutter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4611,11 +4605,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "jam_fruit", 1 ] ],
-      [ [ "any_peanutbutter", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "jam_fruit", 1 ] ], [ [ "any_peanutbutter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4653,11 +4643,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "book_learn": [ [ "mag_glam", 1 ] ],
-    "components": [
-      [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "any_butter", 4, "LIST" ], [ "ghee", 4 ] ],
-      [ [ "sprinkles", 3 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "any_butter", 4, "LIST" ], [ "ghee", 4 ] ], [ [ "sprinkles", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -5204,10 +5190,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "jam_fruit", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "jam_fruit", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5217,10 +5200,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5231,9 +5211,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ]
     ]
   },
   {
