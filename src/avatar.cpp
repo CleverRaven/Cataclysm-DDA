@@ -75,6 +75,7 @@ static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_watch( "bio_watch" );
 
+static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_depressants( "depressants" );
 static const efftype_id effect_happy( "happy" );
@@ -941,7 +942,11 @@ void avatar::wake_up()
         if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
             print_health();
         }
-        if( has_effect( effect_slept_through_alarm ) ) {
+        // alarm was set and player hasn't slept through the alarm.
+        if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
+            add_msg( _( "It looks like you woke up before your alarm." ) );
+            remove_effect( effect_alarm_clock );
+        } else if( has_effect( effect_slept_through_alarm ) ) {
             if( has_bionic( bio_watch ) ) {
                 add_msg( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
             } else {
