@@ -2392,14 +2392,7 @@ melee_statistic_data melee::get_stats()
 
 void melee::clear_stats()
 {
-    melee_stats.attack_count = 0;
-    melee_stats.hit_count = 0;
-    melee_stats.double_crit_count = 0;
-    melee_stats.crit_count = 0;
-    melee_stats.double_crit_chance = 0.0;
-    melee_stats.crit_chance = 0.0;
-    melee_stats.actual_crit_count = 0;
-    melee_stats.damage_amount = 0;
+    melee_stats = melee_statistic_data{};
 }
 
 namespace melee
