@@ -6819,7 +6819,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
     float rate_medicine = 0.0f;
 
     for( const std::pair<const efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
-          &elem : *effects ) {
+         &elem : *effects ) {
         for( const std::pair<const body_part, effect> &i : elem.second ) {
             const effect &eff = i.second;
             float tmp_rate = static_cast<float>( eff.get_amount( "HEAL_RATE" ) ) / to_turns<int>
