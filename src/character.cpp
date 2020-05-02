@@ -7679,11 +7679,17 @@ void Character::cough( bool harmful, int loudness )
 
 void Character::wake_up()
 {
-    remove_effect( effect_sleep );
+    // Do not remove effect_sleep or effect_alarm_clock now otherwise it invalidates an effect
+    // iterator in player::process_effects().
+    // We just set it for later removal (also happening in player::process_effects(), so no side
+    // effects) with a duration of 0 turns.
+
+    if( has_effect( effect_sleep ) ) {
+        g->events().send<event_type::character_wakes_up>( getID() );
+        get_effect( effect_sleep ).set_duration( 0_turns );
+    }
     remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
-    // Do not remove effect_alarm_clock now otherwise it invalidates an effect iterator in player::process_effects().
-    // We just set it for later removal (also happening in player::process_effects(), so no side effects) with a duration of 0 turns.
     if( has_effect( effect_alarm_clock ) ) {
         get_effect( effect_alarm_clock ).set_duration( 0_turns );
     }
