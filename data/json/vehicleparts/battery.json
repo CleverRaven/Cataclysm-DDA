@@ -150,13 +150,15 @@
     "flags": [ "NEEDS_BATTERY_MOUNT" ]
   },
   {
-    "id": "vehicle_light_plus_battery_cell",
+    "id": "light_plus_battery_cell",
     "copy-from": "battery_car",
     "type": "vehicle_part",
     "name": { "str": "light battery (high-capacity)" },
-    "item": "vehicle_light_plus_battery_cell",
+    "item": "light_plus_battery_cell",
+    "location": "on_battery_mount",
     "durability": 20,
     "folded_volume": 1,
-    "breaks_into": [ { "item": "cable", "count": [ 4, 7 ] }, { "item": "scrap", "count": [ 4, 7 ] } ]
+    "breaks_into": [ { "item": "e_scrap", "prob": 20 } ],
+    "flags": [ "NEEDS_BATTERY_MOUNT", "NO_REPAIR" ]
   }
 ]

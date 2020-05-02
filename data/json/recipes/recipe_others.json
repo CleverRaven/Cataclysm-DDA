@@ -4567,5 +4567,34 @@
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "plastic_chunk", 200 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "consumer_battery_adapter",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "electronics",
+    "skills_required": [ "mechanics", 3 ],
+    "difficulty": 3,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [
+      [ "mag_electronics", 3 ],
+      [ "mag_mechanics", 3 ],
+      [ "textbook_electronics", 3 ],
+      [ "textbook_mechanics", 3 ],
+      [ "manual_mechanics", 3 ]
+    ],
+    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 20 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "cable", 10 ] ]
+    ]
   }
 ]

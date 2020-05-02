@@ -3635,5 +3635,35 @@
       { "item": "motor_tiny", "prob": 25 }
     ],
     "damage_reduction": { "all": 32 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "consumer_battery_mount",
+    "name": { "str": "battery grid adapter" },
+    "symbol": "O",
+    "color": "light_gray",
+    "looks_like": "storage_battery_mount",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 100,
+    "durability": 50,
+    "folded_volume": 4,
+    "description": "An adapter for consumer electronics batteries.  Allows such battery to be connected to the vehicle power grid.  Can be adjusted to work with practically any rechargeable battery, but only one at a time.",
+    "item": "consumer_battery_adapter",
+    "location": "fuel_source",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "vehicle_bolt", 1 ], [ "soldering_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_bolt", 1 ], [ "soldering_standard", 10 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "20 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "BATTERY_MOUNT" ],
+    "breaks_into": [
+      { "item": "power_supply", "prob": 50 },
+      { "item": "e_scrap", "count": [ 0, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "plastic_chunk", "count": [ 0, 3 ] },
+      { "item": "cable", "count": [ 1, 5 ] }
+    ],
+    "damage_reduction": { "all": 4 }
   }
 ]
