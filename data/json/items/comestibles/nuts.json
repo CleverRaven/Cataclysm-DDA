@@ -430,6 +430,48 @@
     "freezing_point": -80
   },
   {
+    "id": "peanutbutter",
+    "type": "COMESTIBLE",
+    "symbol": "~",
+    "color": "brown",
+    "spoils_in": "180 days",
+    "name": "peanut butter",
+    "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
+    "price": 195,
+    "price_postapoc": 1000,
+    "//": "Two tablespoons per charge.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "comestible_type": "DRINK",
+    "container": "jar_glass_sealed",
+    "primary_material": "junk",
+    "quench": -2,
+    "calories": 190,
+    "charges": 8,
+    "phase": "liquid",
+    "flags": [ "USE_EAT_VERB" ],
+    "vitamins": [ [ "iron", 6 ] ],
+    "fun": 2
+  },
+  {
+    "id": "peanutbutter_imitation",
+    "type": "COMESTIBLE",
+    "name": "imitation peanutbutter",
+    "description": "A thick, nutty brown paste.",
+    "copy-from": "peanutbutter"
+  },
+  {
+    "id": "can_peanutbutter",
+    "type": "COMESTIBLE",
+    "symbol": "%",
+    "name": "peanut butter spread",
+    "description": "A thick, nutty brown processed spread.",
+    "container": "can_food",
+    "comestible_type": "FOOD",
+    "charges": 1,
+    "copy-from": "peanutbutter"
+  },
+  {
     "type": "COMESTIBLE",
     "id": "acorns",
     "name": { "str_sp": "acorns" },
