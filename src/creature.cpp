@@ -152,6 +152,8 @@ void Creature::process_turn()
 
     process_effects();
 
+    process_damage_over_time();
+
     // Call this in case any effects have changed our stats
     reset_stats();
 
@@ -895,6 +897,10 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
+}
+
+void Creature::heal_bp( bodypart_id bp, int dam )
+{
 }
 
 /*
@@ -1664,6 +1670,44 @@ body_part Creature::select_body_part( Creature *source, int hit_roll ) const
     add_msg( m_debug, "difference = %d", szdif );
 
     return human_anatomy->select_body_part( szdif, hit_roll )->token;
+}
+
+void Creature::add_damage_over_time( const bodypart_id &bp, const damage_type &type,
+                                     const int amount, const time_duration &time )
+{
+    const std::pair<time_duration, int> dmg_spec( time, amount );
+    std::map<damage_type, std::pair<time_duration, int>> DoT_instance;
+    DoT_instance.emplace( type, dmg_spec );
+    if( damage_over_time_map.find( bp ) != damage_over_time_map.end() ) {
+
+        damage_over_time_map[bp].try_emplace( type, dmg_spec );
+    } else {
+        damage_over_time_map.emplace( bp, DoT_instance );
+    }
+}
+
+void Creature::process_damage_over_time()
+{
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( damage_over_time_map.find( bp ) != damage_over_time_map.end() ) {
+            for( const std::pair<damage_type, std::pair<time_duration, int>> &DoT_instance :
+                 damage_over_time_map[bp] ) {
+                const std::pair<time_duration, int> &dmg_spec = DoT_instance.second;
+                if( dmg_spec.first > 0_turns ) {
+                    const int dmg_amount = dmg_spec.second;
+                    if( dmg_amount < 0 ) {
+                        heal_bp( bp, -dmg_amount );
+                    } else {
+                        deal_damage( nullptr, bp, damage_instance( DoT_instance.first, dmg_amount ) );
+                    }
+
+                    damage_over_time_map[bp][DoT_instance.first].first -= 1_turns;
+                } else {
+                    damage_over_time_map[bp].erase( DoT_instance.first );
+                }
+            }
+        }
+    }
 }
 
 void Creature::check_dead_state()

@@ -794,6 +794,7 @@ class Character : public Creature, public visitable<Character>
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
         /** Heals a body_part for dam */
+        void heal_bp( bodypart_id bp, int dam ) override;
         void heal( body_part healed, int dam );
         /** Heals an hp_part for dam */
         void heal( hp_part healed, int dam );

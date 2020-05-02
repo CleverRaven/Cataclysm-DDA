@@ -690,6 +690,21 @@ static effect_data load_effect_data( const JsonObject &e )
                         get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
 }
 
+static DoT_data load_DoT_data( const JsonObject &e )
+{
+    time_duration time;
+    std::vector<bodypart_str_id> bps;
+    if( e.has_string( "duration" ) ) {
+        time = read_from_json_string<time_duration>( *e.get_raw( "duration" ), time_duration::units );
+    } else {
+        time = time_duration::from_turns( e.get_int( "duration", 0 ) );
+    }
+    for( const std::string &bp_id : e.get_array( "bodyparts" ) ) {
+        bps.emplace_back( bodypart_str_id( bp_id ) );
+    }
+    return DoT_data( dt_by_name( e.get_string( "damage_type" ) ), time, bps, e.get_int( "amount" ) );
+}
+
 void consume_drug_iuse::load( const JsonObject &obj )
 {
     obj.read( "activation_message", activation_message );
@@ -699,6 +714,11 @@ void consume_drug_iuse::load( const JsonObject &obj )
     if( obj.has_array( "effects" ) ) {
         for( const JsonObject e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
+        }
+    }
+    if( obj.has_array( "damage_over_time" ) ) {
+        for( const JsonObject e : obj.get_array( "damage_over_time" ) ) {
+            damage_over_time.push_back( load_DoT_data( e ) );
         }
     }
     obj.read( "stat_adjustments", stat_adjustments );
@@ -776,6 +796,13 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
             dur *= 1.2;
         }
         p.add_effect( eff.id, dur, eff.bp, eff.permanent );
+    }
+    //Apply the various damage_over_time
+    for( const DoT_data Dot : damage_over_time ) {
+        for( const bodypart_str_id &bp : Dot.bps ) {
+            p.add_damage_over_time( bp.id(), Dot.type, Dot.amount, Dot.duration );
+        }
+
     }
     for( const auto &stat_adjustment : stat_adjustments ) {
         p.mod_stat( stat_adjustment.first, stat_adjustment.second );
