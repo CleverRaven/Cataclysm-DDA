@@ -1,0 +1,16 @@
+[
+  {
+    "type": "effect_type",
+    "id": "debugged",
+    "name": [ "Debugged" ],
+    "desc": [ "You have been debugged!\nEverything is working perfectly now.." ],
+    "apply_message": "Diving into your source, you find a rubber duck, and talk it to death.",
+    "rating": "good",
+    "int_dur_factor": "1 m",
+    "max_duration": "1 h",
+    "max_intensity": 10,
+    "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 200 ], "healing_torso": [ 150 ] },
+    "scaling_mods": { "per_mod": [ 5 ], "int_mod": [ 10 ] },
+    "show_in_info": true
+  }
+]
