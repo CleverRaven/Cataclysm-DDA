@@ -133,20 +133,6 @@
     "components": [ [ [ "hard_plate", 10 ] ], [ [ "chain", 8 ] ] ]
   },
   {
-    "result": "stablilized_portal",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "electronics",
-    "difficulty": 8,
-    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 8 ] ],
-    "time": "40 h",
-    "autolearn": true,
-    "using": [ [ "welding_standard", 6 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "cargo_rack", 1 ] ], [ [ "teleporter", 1 ] ], [ [ "portal", 1 ] ], [ [ "plut_cell", 5 ] ] ]
-  },
-  {
     "type": "recipe",
     "result": "vehicle_shelving",
     "category": "CC_OTHER",
