@@ -604,20 +604,6 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
-    "type": "recipe",
-    "result": "machete_gimmick",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "6 h",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
     "result": "makeshift_crowbar",
     "type": "recipe",
     "category": "CC_OTHER",
