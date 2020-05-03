@@ -233,7 +233,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     // Clockwise Perpendicular of Delta vector
     const point delta_perp( -delta.y, delta.x );
 
-    const point abs_delta = abs( delta );
+    const point abs_delta = delta.abs();
     // Primary axis of delta vector
     const point axis_delta = abs_delta.x > abs_delta.y ? point( delta.x, 0 ) : point( 0, delta.y );
     // Clockwise Perpendicular of axis vector
