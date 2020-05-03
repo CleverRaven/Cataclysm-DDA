@@ -292,7 +292,9 @@ bool containers_equal( const T &left, const T &right )
     return std::equal( left.begin(), left.end(), right.begin() );
 }
 
-bool player_activity::can_resume_with( const player_activity &other, const Character & ) const
+// ADDED CODE
+bool player_activity::can_resume_with( const player_activity &other, const Character &who ) const
+// END ADDED CODE
 {
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
@@ -303,6 +305,12 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     if( !*this || !other || type->no_resume() ) {
         return false;
     }
+
+    // ADDED CODE
+    if ( actor && other.actor && id() == other.id() ) {
+        return actor->can_resume_with( *other.actor, who);
+    }
+    // END ADDED CODE
 
     if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
         if( other.coords.empty() || other.coords[0] != coords[0] ) {
@@ -322,7 +330,12 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
-    } else if( id() == activity_id( "ACT_DIG" ) || id() == activity_id( "ACT_DIG_CHANNEL" ) ) {
+    // REMOVED CODE
+    /* } else if( id() == activity_id( "ACT_DIG" ) || id() == activity_id( "ACT_DIG_CHANNEL" ) ) { */
+    // END REMOVED CODE
+    // ADDED CODE
+    } else if( id() == activity_id( "ACT_DIG" ) ) {
+    // END ADDED CODE
         // We must be digging in the same location.
         if( placement != other.placement ) {
             return false;
