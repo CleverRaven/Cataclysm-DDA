@@ -64,14 +64,52 @@
 //
 TEST_CASE( "disabled body parts", "[player][effect][disabled]" )
 {
-    // GIVEN a body part is disabled
-    // AND the effect is paused
-    //
-    // WHEN it is actually broken
-    // THEN disabled effect remains paused
-    //
-    // WHEN not broken
-    // THEN disabled effect is unpaused
+    avatar dummy;
+    const efftype_id effect_disabled( "disabled" );
+    const body_part right_leg = bodypart_id( "leg_r" )->token;
+
+    dummy.clear_effects();
+
+    GIVEN( "player has a broken and disabled body part" ) {
+        // Break a leg, and make it "permanently" disabled
+        dummy.apply_damage( nullptr, bodypart_id( "leg_r" ), 999 );
+        dummy.add_effect( effect_disabled, 1_turns, right_leg, true );
+
+        // Keep the effect object for hardcoded_effects
+        effect &effect_obj = dummy.get_effect( effect_disabled, right_leg );
+
+        // Make sure setup worked as expected
+        REQUIRE( dummy.has_effect( effect_disabled, right_leg ) );
+        REQUIRE( effect_obj.is_permanent() );
+
+        WHEN( "it is still broken" ) {
+            REQUIRE( dummy.is_limb_broken( hp_leg_r ) );
+
+            WHEN( "hardcoded effects apply" ) {
+                dummy.hardcoded_effects( effect_obj );
+
+                THEN( "it remains permanently disabled" ) {
+                    CHECK( dummy.has_effect( effect_disabled, right_leg ) );
+                    CHECK( effect_obj.is_permanent() );
+                }
+            }
+        }
+
+        WHEN( "it is no longer broken" ) {
+            // Modify hp_cur directly, since `heal` can only heal if not broken
+            dummy.hp_cur[hp_leg_r] = 1;
+            REQUIRE_FALSE( dummy.is_limb_broken( hp_leg_r ) );
+
+            WHEN( "hardcoded effects apply" ) {
+                dummy.hardcoded_effects( effect_obj );
+
+                THEN( "it remains disabled but only temporarily" ) {
+                    CHECK( dummy.has_effect( effect_disabled, right_leg ) );
+                    CHECK_FALSE( effect_obj.is_permanent() );
+                }
+            }
+        }
+    }
 }
 
 // effect_mending
