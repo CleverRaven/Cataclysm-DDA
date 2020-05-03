@@ -2425,6 +2425,28 @@ void Character::add_bionic( const bionic_id &b )
         add_bionic( inc_bid );
     }
 
+    for( const std::pair<spell_id, int> spell_pair : b->learned_spells ) {
+        const spell_id learned_spell = spell_pair.first;
+        if( learned_spell->spell_class != trait_id( "NONE" ) ) {
+            const trait_id spell_class = learned_spell->spell_class;
+            // spells you learn from a bionic overwrite the opposite spell class.
+            // for best UX, include those spell classes in "canceled_mutations"
+            if( !has_trait( spell_class ) ) {
+                set_mutation( spell_class );
+                on_mutation_gain( spell_class );
+                add_msg_if_player( spell_class->desc() );
+            }
+        }
+        if( !magic.knows_spell( learned_spell ) ) {
+            magic.learn_spell( learned_spell, *this, true );
+        }
+        spell &known_spell = magic.get_spell( learned_spell );
+        // spells you learn from installing a bionic upgrade spells you know if they are the same
+        if( known_spell.get_level() < spell_pair.second ) {
+            known_spell.set_level( spell_pair.second );
+        }
+    }
+
     reset_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
@@ -2435,6 +2457,8 @@ void Character::add_bionic( const bionic_id &b )
 void Character::remove_bionic( const bionic_id &b )
 {
     bionic_collection new_my_bionics;
+    // any spells you should not forget due to still having a bionic installed that has it.
+    std::set<spell_id> cbm_spells;
     for( bionic &i : *my_bionics ) {
         if( b == i.id ) {
             continue;
@@ -2445,8 +2469,20 @@ void Character::remove_bionic( const bionic_id &b )
             continue;
         }
 
+        for( const std::pair<spell_id, int> &spell_pair : i.id->learned_spells ) {
+            cbm_spells.emplace( spell_pair.first );
+        }
+
         new_my_bionics.push_back( bionic( i.id, i.invlet ) );
     }
+
+    // any spells you learn from installing a bionic you forget.
+    for( const std::pair<spell_id, int> &spell_pair : b->learned_spells ) {
+        if( cbm_spells.count( spell_pair.first ) == 0 ) {
+            magic.forget_spell( spell_pair.first );
+        }
+    }
+
     *my_bionics = new_my_bionics;
     reset_encumbrance();
     recalc_sight_limits();
@@ -2576,6 +2612,7 @@ void load_bionic( const JsonObject &jsobj )
     assign( jsobj, "coverage_power_gen_penalty", new_bionic.coverage_power_gen_penalty );
     assign( jsobj, "is_remote_fueled", new_bionic.is_remote_fueled );
 
+    assign( jsobj, "learned_spells", new_bionic.learned_spells );
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
     jsobj.read( "included", new_bionic.included );
