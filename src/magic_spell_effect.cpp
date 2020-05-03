@@ -673,6 +673,9 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     if( granted.count_by_charges() && sp.damage() > 0 ) {
         granted.charges = sp.damage();
     }
+    if( sp.has_flag( spell_flag::WITH_CONTAINER ) ) {
+        granted = granted.in_its_container();
+    }
     if( g->u.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
         g->u.wear_item( granted, false );
