@@ -95,6 +95,8 @@ class damage_over_time_data
         int amount;
 
         void load_DoT_data( const JsonObject &obj );
+
+        void store( JsonOut &jsout ) const;
 };
 
 struct dealt_damage_instance {

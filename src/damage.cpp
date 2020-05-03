@@ -440,3 +440,13 @@ void damage_over_time_data::load_DoT_data( const JsonObject &obj )
         bps.emplace_back( bodypart_str_id( bp_id ) );
     }
 }
+
+void damage_over_time_data::store( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "damage_type", name_by_dt( type ) );
+    jsout.member( "duration", duration );
+    jsout.member( "amount", amount );
+    jsout.member( "bodyparts", bps );
+    jsout.end_object();
+}
