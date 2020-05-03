@@ -2982,13 +2982,7 @@ void Creature::store( JsonOut &jsout ) const
     }
     jsout.member( "effects", tmp_map );
 
-    jsout.member( "damage_over_time_map" );
-    jsout.start_array();
-    for( const damage_over_time_data &DoT : damage_over_time_map ) {
-        DoT.store( jsout );
-    }
-    jsout.end_array();
-
+jsout.member( "damage_over_time_map", damage_over_time_map );
     jsout.member( "values", values );
 
     jsout.member( "blocks_left", num_blocks );
@@ -3054,13 +3048,7 @@ void Creature::load( const JsonObject &jsin )
     }
     jsin.read( "values", values );
 
-    if( jsin.has_array( "damage_over_time_map" ) ) {
-        for( const JsonObject &obj : jsin.get_array( "damage_over_time_map" ) ) {
-            damage_over_time_data tmp_DoT;
-            tmp_DoT.load_DoT_data( obj );
-            add_damage_over_time( tmp_DoT );
-        }
-    }
+jsin.read( "damage_over_time_map", damage_over_time_data );
 
     jsin.read( "blocks_left", num_blocks );
     jsin.read( "dodges_left", num_dodges );

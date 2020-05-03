@@ -702,13 +702,7 @@ void consume_drug_iuse::load( const JsonObject &obj )
             effects.push_back( load_effect_data( e ) );
         }
     }
-    if( obj.has_array( "damage_over_time" ) ) {
-        for( const JsonObject e : obj.get_array( "damage_over_time" ) ) {
-            damage_over_time_data tmp_DoT_data;
-            tmp_DoT_data.load_DoT_data( e );
-            damage_over_time.emplace_back( tmp_DoT_data );
-        }
-    }
+    optional( obj, false, "damage_over_time", damage_over_time_data );
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
     obj.read( "moves", moves );

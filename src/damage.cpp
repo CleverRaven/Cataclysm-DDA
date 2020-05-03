@@ -424,7 +424,7 @@ resistances load_resistances_instance( const JsonObject &jo )
     return ret;
 }
 
-void damage_over_time_data::load_DoT_data( const JsonObject &obj )
+void damage_over_time_data::load( const JsonObject &obj )
 {
     type = dt_by_name( obj.get_string( "damage_type" ) );
 
@@ -441,7 +441,7 @@ void damage_over_time_data::load_DoT_data( const JsonObject &obj )
     }
 }
 
-void damage_over_time_data::store( JsonOut &jsout ) const
+void damage_over_time_data::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "damage_type", name_by_dt( type ) );
