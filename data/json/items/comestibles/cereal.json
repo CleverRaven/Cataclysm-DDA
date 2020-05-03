@@ -46,7 +46,7 @@
     "type": "COMESTIBLE",
     "id": "cereal_fp1",
     "name": { "str_sp": "Snicker-Snacks cereal" },
-    "description": "FoodPlace brand Snicker-Snack cereal.  Each tiny \"Snicker-Snack\" is shaped like an earth food!",
+    "description": "FoodPlace brand Snicker-Snack cereal.  Each tiny \"Snicker-Snack\" is shaped like human food!",
     "material": "foodplace_foodstuff",
     "charges": 6,
     "copy-from": "cereal_tpl"
