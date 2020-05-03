@@ -1288,7 +1288,17 @@ an `event_statistic`.  For example:
 The `"is"` field must be `">="`, `"<="` or `"anything"`.  When it is not
 `"anything"` the `"target"` must be present, and must be an integer.
 
-Another optional field is
+There are further optional fields:
+
+```C++
+"hidden_by": [ "other_achievement_id" ]
+```
+
+Give a list of other achievement ids.  This achievement will be hidden (i.e.
+not appear in the achievements UI) until all of the achievements listed have
+been completed.
+
+Use this to prevent spoilers or to reduce clutter in the list of achievements.
 
 ```C++
 "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
