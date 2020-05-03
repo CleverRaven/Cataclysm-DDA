@@ -7761,7 +7761,7 @@ bool item::reload( player &u, item_location loc, int qty )
 
     if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
         if( container != nullptr ) {
-            remove_item( container->contents.front() );
+            container->remove_item( container->contents.front() );
             u.inv.restack( u ); // emptied containers do not stack with non-empty ones
         } else {
             loc.remove_item();
