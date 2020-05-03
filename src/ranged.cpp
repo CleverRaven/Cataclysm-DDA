@@ -247,6 +247,9 @@ class target_ui
         // Calculates distance from 'src'. For consistency, prefer using this over rl_dist.
         int dist_fn( const tripoint &p );
 
+        // Checks if player can see target. For consistency, prefer using this over pc.sees()
+        bool pl_can_target( const player &pc, const Creature *cr );
+
         // Set creature (or tile) under cursor as player's last target
         void set_last_target( player &pc );
 
@@ -1889,8 +1892,15 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
         // We've lost our target from previous turn
         action.clear();
         attack_was_confirmed = false;
+        pc.last_target.reset();
     }
     set_cursor_pos( pc, initial_dst );
+    if( dst != initial_dst ) {
+        // Our target moved out of range
+        action.clear();
+        attack_was_confirmed = false;
+        pc.last_target.reset();
+    }
 
     // Event loop!
     ExitCode loop_exit_code;
@@ -2228,7 +2238,7 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
     // Cache creature under cursor
     if( src != dst ) {
         Creature *cr = g->critter_at( dst, true );
-        if( cr && ( pc.sees( *cr ) || pc.sees_with_infrared( *cr ) ) ) {
+        if( cr && pl_can_target( pc, cr ) ) {
             dst_critter = cr;
         } else {
             dst_critter = nullptr;
@@ -2286,15 +2296,14 @@ void target_ui::update_target_list( player &pc )
 bool target_ui::choose_initial_target( player &pc, bool reentered, tripoint &new_dst )
 {
     // Determine if we had a target and it is still visible
-    const auto old_target = std::find( targets.begin(), targets.end(), pc.last_target.lock().get() );
-    if( old_target == targets.end() ) {
-        // No luck
-        pc.last_target.reset();
-    } else {
-        // There it is!
-        new_dst = ( *old_target )->pos();
-        pc.last_target_pos = g->m.getabs( new_dst );
-        return true;
+    if( !pc.last_target.expired() ) {
+        Creature *cr = pc.last_target.lock().get();
+        if( pl_can_target( pc, cr ) ) {
+            // There it is!
+            new_dst = cr->pos();
+            pc.last_target_pos = g->m.getabs( new_dst );
+            return true;
+        }
     }
 
     // Check if we were aiming at a tile or a (now missing) creature in a tile
@@ -2368,6 +2377,11 @@ void target_ui::update_status()
 int target_ui::dist_fn( const tripoint &p )
 {
     return static_cast<int>( std::round( trig_dist( src, p ) ) );
+}
+
+bool target_ui::pl_can_target( const player &pc, const Creature *cr )
+{
+    return pc.sees( *cr ) || pc.sees_with_infrared( *cr );
 }
 
 void target_ui::set_last_target( player &pc )
