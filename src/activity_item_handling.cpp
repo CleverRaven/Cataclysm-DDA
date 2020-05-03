@@ -284,7 +284,7 @@ static void pass_to_ownership_handling( item obj, player *p )
 
 static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
-    units::volume remaining_volume = pet.storage_item->get_storage() - pet.get_carried_volume();
+    units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
     units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
 
     for( const item &it : items ) {
@@ -409,9 +409,9 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
     drop_on_map( c, reason, items, where );
 }
 
-static drop_locations convert_to_locations( const player_activity &act )
+static std::list<act_item> convert_to_act_item( const player_activity &act, Character &guy )
 {
-    drop_locations res;
+    std::list<act_item> res;
 
     if( act.values.size() != act.targets.size() ) {
         debugmsg( "Drop/stash activity contains an odd number of values." );
@@ -423,127 +423,8 @@ static drop_locations convert_to_locations( const player_activity &act )
         if( !act.targets[i] || !act.targets[i].get_item() ) {
             continue;
         }
-        res.emplace_back( act.targets[i], act.values[i] );
+        res.emplace_back( act.targets[i], act.values[i], act.targets[i].obtain_cost( guy, act.values[i] ) );
     }
-    return res;
-}
-
-static std::list<act_item> convert_to_items( Character &p, const drop_locations &drop,
-        std::function<bool( item_location loc )> filter )
-{
-    std::list<act_item> res;
-
-    for( const drop_location &rec : drop ) {
-        const item_location loc = rec.first;
-        const int count = rec.second;
-
-        if( !filter( loc ) ) {
-            continue;
-        } else if( !p.is_worn( *loc ) && !p.is_wielding( *loc ) ) {
-            // Special case. After dropping the first few items, the remaining items are already separated.
-            // That means: `drop` already contains references to each of the items in
-            // `p.inv.const_stack`, and `count` will be 1 for each of them.
-            // If we continued without this check, we iterate over `p.inv.const_stack` multiple times,
-            // but each time stopping after visiting the first item.
-            // In the end, we would add references to the same item (the first one in the stack) multiple times.
-            if( count == 1 ) {
-                res.emplace_back( loc, 1, loc.obtain_cost( p, 1 ) );
-                continue;
-            }
-            int obtained = 0;
-            for( const item &it : p.inv.const_stack( p.get_item_position( &*loc ) ) ) {
-                if( obtained >= count ) {
-                    break;
-                }
-                const int qty = it.count_by_charges() ? std::min<int>( it.charges, count - obtained ) : 1;
-                obtained += qty;
-                item_location loc( p, const_cast<item *>( &it ) );
-                res.emplace_back( loc, qty, loc.obtain_cost( p, qty ) );
-            }
-        } else {
-            res.emplace_back( loc, count, p.is_wielding( *loc ) ? 0 : loc.obtain_cost( p ) );
-        }
-    }
-
-    return res;
-}
-
-// Prepares items for dropping by reordering them so that the drop
-// cost is minimal and "dependent" items get taken off first.
-// Implements the "backpack" logic.
-static std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop )
-{
-    std::list<act_item> res = convert_to_items( p, drop,
-    [&p]( item_location loc ) {
-        return p.is_wielding( *loc );
-    } );
-    std::list<act_item> inv = convert_to_items( p, drop,
-    [&p]( item_location loc ) {
-        return !p.is_wielding( *loc ) && !p.is_worn( *loc );
-    } );
-    std::list<act_item> worn = convert_to_items( p, drop,
-    [&p]( item_location loc ) {
-        return p.is_worn( *loc );
-    } );
-
-    // Sort inventory items by volume in ascending order
-    inv.sort( []( const act_item & first, const act_item & second ) {
-        return first.loc->volume() < second.loc->volume();
-    } );
-    // Add missing dependent worn items (if any).
-    for( const auto &wait : worn ) {
-        for( item *dit : p.get_dependent_worn_items( *wait.loc ) ) {
-            const auto iter = std::find_if( worn.begin(), worn.end(),
-            [dit]( const act_item & ait ) {
-                return &*ait.loc == dit;
-            } );
-
-            if( iter == worn.end() ) {
-                // TODO: Use a calculated cost
-                const item_location loc( p, dit );
-                act_item act( loc, loc->count(), loc.obtain_cost( p, loc->count() ) );
-                worn.emplace_front( loc, loc->count(), loc.obtain_cost( p ) );
-            }
-        }
-    }
-    // Sort worn items by storage in descending order, but dependent items always go first.
-    worn.sort( []( const act_item & first, const act_item & second ) {
-        return first.loc->is_worn_only_with( *second.loc )
-               || ( first.loc->get_storage() > second.loc->get_storage()
-                    && !second.loc->is_worn_only_with( *first.loc ) );
-    } );
-
-    // Cumulatively increases
-    units::volume storage_loss = 0_ml;
-    // Cumulatively decreases
-    units::volume remaining_storage = p.volume_capacity();
-
-    while( !worn.empty() && !inv.empty() ) {
-        storage_loss += worn.front().loc->get_storage();
-        remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
-        units::volume inventory_item_volume = inv.front().loc->volume();
-        // Does not fit
-        if( remaining_storage < inventory_item_volume ) {
-            break;
-        }
-
-        while( !inv.empty() && remaining_storage >= inventory_item_volume ) {
-            remaining_storage -= inventory_item_volume;
-
-            res.push_back( inv.front() );
-            // Free of charge
-            res.back().consumed_moves = 0;
-
-            inv.pop_front();
-        }
-
-        res.push_back( worn.front() );
-        worn.pop_front();
-    }
-    // Now insert everything that remains
-    std::copy( inv.begin(), inv.end(), std::back_inserter( res ) );
-    std::copy( worn.begin(), worn.end(), std::back_inserter( res ) );
-
     return res;
 }
 
@@ -566,8 +447,7 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
     std::list<item> res;
 
-    std::list<act_item> items = reorder_for_dropping( p, convert_to_locations( act ) );
-
+    std::list<act_item> items = convert_to_act_item( act, p );
     debug_drop_list( items );
 
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
@@ -588,12 +468,7 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 
         items.pop_front();
     }
-    // Avoid tumbling to the ground. Unload cleanly.
-    const units::volume excessive_volume = p.volume_carried() - p.volume_capacity();
-    if( excessive_volume > 0_ml ) {
-        const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
-        res.insert( res.begin(), excess.begin(), excess.end() );
-    }
+
     // Load anything that remains (if any) into the activity
     act.targets.clear();
     act.values.clear();
@@ -674,7 +549,7 @@ void activity_on_turn_wear( player_activity &act, player &p )
 
 void activity_handlers::washing_finish( player_activity *act, player *p )
 {
-    std::list<act_item> items = reorder_for_dropping( *p, convert_to_locations( *act ) );
+    std::list<act_item> items = convert_to_act_item( *act, *p );
 
     // Check again that we have enough water and soap incase the amount in our inventory changed somehow
     // Consume the water and soap
@@ -686,8 +561,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
     const auto is_liquid_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) ||
-                                                it.contents_made_of( LIQUID ) );
+        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) );
     };
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", required.water, is_liquid_crafting_component ) &&
@@ -3080,7 +2954,7 @@ bool find_auto_consume( player &p, const bool food )
                 // not quenching enough
                 continue;
             }
-            if( !food && it.is_watertight_container() && it.contents_made_of( SOLID ) ) {
+            if( !food && it.is_watertight_container() && comest.made_of( SOLID ) ) {
                 // its frozen
                 continue;
             }

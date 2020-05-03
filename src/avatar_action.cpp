@@ -1084,12 +1084,7 @@ void avatar_action::eat( avatar &you, item_location loc )
         you.consume( loc );
 
     } else if( you.consume_item( *it ) ) {
-        if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
-            it->remove_item( it->contents.front() );
-            add_msg( _( "You leave the empty %s." ), it->tname() );
-        } else {
-            loc.remove_item();
-        }
+        loc.remove_item();
     }
     if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
         g->u.set_value( "THIEF_MODE", "THIEF_ASK" );

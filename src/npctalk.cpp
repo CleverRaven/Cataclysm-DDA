@@ -2051,7 +2051,7 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             }
         } else {
             item container( container_name, calendar::turn );
-            container.put_in( item( item_name, calendar::turn, count ) );
+            container.put_in( item( item_name, calendar::turn, count ), item_pocket::pocket_type::CONTAINER );
             u.i_add( container );
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
@@ -3225,11 +3225,11 @@ enum consumption_result {
 };
 
 // Returns true if we destroyed the item through consumption
+// does not try to consume contents
 static consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // TODO: Unify this with 'player::consume_item()'
-    bool consuming_contents = it.is_container() && !it.contents.empty();
-    item &to_eat = consuming_contents ? it.contents.front() : it;
+    item &to_eat = it;
     const auto &comest = to_eat.get_comestible();
     if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
@@ -3250,7 +3250,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
         } else {
             reason = _( "Thanks, that hit the spot." );
         }
-    } else if( to_eat.is_medication() || to_eat.get_contained().is_medication() ) {
+    } else if( to_eat.is_medication() ) {
         if( comest->tool != "null" ) {
             bool has = p.has_amount( comest->tool, 1 );
             if( item::count_by_charges( comest->tool ) ) {
@@ -3281,11 +3281,6 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( to_eat.charges > 0 ) {
-        return CONSUMED_SOME;
-    }
-
-    if( consuming_contents ) {
-        it.remove_item( it.contents.front() );
         return CONSUMED_SOME;
     }
 

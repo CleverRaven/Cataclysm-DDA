@@ -5,7 +5,6 @@
     "name": { "str": "ammo pouch", "str_pl": "ammo pouches" },
     "description": "A small pouch that can be used to store most types of small ammunition, rockets will not fit.  Activate to store ammunition.",
     "weight": "490 g",
-    "rigid": false,
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 1000,
@@ -19,57 +18,57 @@
     "coverage": 10,
     "encumbrance": 5,
     "material_thickness": 1,
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 60,
-      "ammo": [
-        "pebble",
-        "700nx",
-        "50",
-        "4570",
-        "BB",
-        "410shot",
-        "22",
-        "shot",
-        "9mm",
-        "357sig",
-        "9x18",
-        "380",
-        "38",
-        "40",
-        "10mm",
-        "44",
-        "45",
-        "460",
-        "454",
-        "45colt",
-        "500",
-        "57",
-        "46",
-        "762",
-        "545x39",
-        "223",
-        "3006",
-        "270win",
-        "308",
-        "12mm",
-        "8x40mm",
-        "20x66mm",
-        "5x50",
-        "metal_rail",
-        "stimpack_ammo",
-        "ampoule",
-        "300",
-        "32",
-        "762x25",
-        "flintlock",
-        "36paper",
-        "44paper",
-        "762R",
-        "paintball"
-      ],
-      "draw_cost": 35
-    },
+    "pocket_data": [
+      {
+        "ammo_restriction": {
+          "pebble": 60,
+          "700nx": 60,
+          "50": 60,
+          "4570": 60,
+          "BB": 60,
+          "410shot": 60,
+          "22": 60,
+          "shot": 60,
+          "9mm": 60,
+          "357sig": 60,
+          "9x18": 60,
+          "380": 60,
+          "38": 60,
+          "40": 60,
+          "10mm": 60,
+          "44": 60,
+          "45": 60,
+          "460": 60,
+          "454": 60,
+          "45colt": 60,
+          "500": 60,
+          "57": 60,
+          "46": 60,
+          "762": 60,
+          "545x39": 60,
+          "223": 60,
+          "3006": 60,
+          "270win": 60,
+          "308": 60,
+          "12mm": 60,
+          "8x40mm": 60,
+          "20x66mm": 60,
+          "5x50": 60,
+          "metal_rail": 60,
+          "stimpack_ammo": 60,
+          "ampoule": 60,
+          "300": 60,
+          "32": 60,
+          "762x25": 60,
+          "flintlock": 60,
+          "36paper": 60,
+          "44paper": 60,
+          "762R": 60,
+          "paintball": 60
+        },
+        "moves": 35
+      }
+    ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -89,14 +88,16 @@
     "coverage": 20,
     "encumbrance": 4,
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "max_volume": "1500 ml",
-      "draw_cost": 40,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "WAIST" ]
   },
   {
@@ -108,7 +109,6 @@
     "volume": "250 ml",
     "price": 1250,
     "price_postapoc": 2000,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -116,14 +116,16 @@
     "covers": [ "TORSO" ],
     "coverage": 15,
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "max_volume": "750 ml",
-      "draw_cost": 40,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -135,7 +137,6 @@
     "volume": "500 ml",
     "price": 3900,
     "price_postapoc": 3000,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tool_belt",
@@ -143,15 +144,37 @@
     "covers": [ "TORSO" ],
     "coverage": 15,
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "max_volume": "750 ml",
-      "draw_cost": 40,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -163,7 +186,6 @@
     "volume": "1250 ml",
     "price": 6000,
     "price_postapoc": 1000,
-    "rigid": false,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "quiver",
@@ -172,15 +194,49 @@
     "coverage": 30,
     "encumbrance": 10,
     "material_thickness": 4,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash javelins",
-      "holster_msg": "You stash your %s.",
-      "multi": 5,
-      "max_volume": "1250 ml",
-      "draw_cost": 30,
-      "flags": [ "JAVELIN" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "JAVELIN" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "JAVELIN" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "JAVELIN" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "JAVELIN" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "JAVELIN" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
   },
   {
@@ -200,14 +256,16 @@
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "max_volume": "250 ml",
-      "draw_cost": 40,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -219,7 +277,6 @@
     "volume": "250 ml",
     "price": 2000,
     "price_postapoc": 1000,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ammo_satchel",
@@ -227,15 +284,23 @@
     "covers": [ "LEG_EITHER" ],
     "coverage": 15,
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 2,
-      "max_volume": "500 ml",
-      "draw_cost": 40,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -256,7 +321,7 @@
     "coverage": 10,
     "encumbrance": 3,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
+    "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -277,7 +342,7 @@
     "coverage": 10,
     "encumbrance": 10,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
+    "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
     "flags": [ "WAIST", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -298,7 +363,7 @@
     "coverage": 15,
     "encumbrance": 3,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
+    "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -319,7 +384,7 @@
     "coverage": 15,
     "encumbrance": 14,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
+    "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -332,7 +397,6 @@
     "looks_like": "vest",
     "price": 7400,
     "price_postapoc": 2000,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -340,17 +404,41 @@
     "coverage": 20,
     "encumbrance": 2,
     "material_thickness": 2,
-    "storage": "3 L",
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "moves": 60
+      }
+    ],
     "flags": [ "WATER_FRIENDLY", "WAIST" ]
   },
   {
@@ -372,19 +460,43 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 17,
-    "storage": "2500 ml",
     "warmth": 15,
     "material_thickness": 4,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "moves": 60,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "moves": 60,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "moves": 60,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "moves": 60,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "OVERSIZE", "STURDY", "OUTER" ]
   }
 ]

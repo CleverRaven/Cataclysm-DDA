@@ -1,6 +1,6 @@
 [
   {
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "id": "gp_pot",
     "symbol": ")",
     "color": "brown",
@@ -10,7 +10,7 @@
     "material": "clay",
     "weight": "280 g",
     "volume": "2 L",
-    "contains": "1250 ml",
+    "pocket_data": [ { "max_contains_volume": "1250 ml", "max_contains_weight": "3 kg", "open_container": true } ],
     "bashing": 1,
     "cutting": 0,
     "category": "tools",

@@ -28,8 +28,7 @@
         ]
       ]
     ],
-    "flags": [ "FIRESTARTER" ],
-    "magazine_well": 1
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "fire_drill",

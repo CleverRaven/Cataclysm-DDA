@@ -351,31 +351,21 @@ class item_location::impl::item_on_person : public item_location::impl
                     // holsters may also adjust the volume cost factor
 
                     if( parents.back()->can_holster( obj, true ) ) {
-                        auto ptr = dynamic_cast<const holster_actor *>
-                                   ( parents.back()->type->get_use( "holster" )->get_actor_ptr() );
-                        mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, ptr->draw_cost );
-
-                    } else if( parents.back()->is_bandolier() ) {
-                        auto ptr = dynamic_cast<const bandolier_actor *>
-                                   ( parents.back()->type->get_use( "bandolier" )->get_actor_ptr() );
-                        mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, ptr->draw_cost );
+                        mv += who->as_player()->item_handling_cost( obj, false,
+                                parents.back()->contents.obtain_cost( obj ) );
 
                     } else {
-                        mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false,
-                                INVENTORY_HANDLING_PENALTY / 2 );
+                        // it is more expensive to obtain items from the inventory
+                        // TODO: calculate cost for searching in inventory proportional to item volume
+                        mv += dynamic_cast<player *>( who )->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
                     }
-
-                } else {
-                    // it is more expensive to obtain items from the inventory
-                    // TODO: calculate cost for searching in inventory proportional to item volume
-                    mv += dynamic_cast<player *>( who )->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
                 }
-            }
 
-            if( &ch != who ) {
-                // TODO: implement movement cost for transferring item between characters
-            }
+                if( &ch != who ) {
+                    // TODO: implement movement cost for transferring item between characters
+                }
 
+            }
             return mv;
         }
 
@@ -572,8 +562,19 @@ class item_location::impl::item_in_container : public item_location::impl
             if( !target() ) {
                 return 0;
             }
-            // a temporary measure before pockets
-            return INVENTORY_HANDLING_PENALTY + container.obtain_cost( ch, qty );
+
+            item obj = *target();
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *target();
+            }
+
+            const int container_mv = container->contents.obtain_cost( *target() );
+            if( container_mv == 0 ) {
+                debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
+                return 0;
+            }
+            return container_mv + container.obtain_cost( ch, qty );
         }
 };
 

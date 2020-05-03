@@ -55,7 +55,8 @@ static void test_consumable_ammo( player &p, std::string &itemname, bool when_em
 
 TEST_CASE( "bionics", "[bionics] [item]" )
 {
-    player &dummy = g->u;
+    avatar &dummy = g->u;
+    clear_avatar();
 
     // one section failing shouldn't affect the rest
     clear_bionics( dummy );
@@ -90,6 +91,8 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
     }
 
+    clear_bionics( dummy );
+
     SECTION( "bio_batteries" ) {
         give_and_activate_bionic( dummy, bionic_id( "bio_batteries" ) );
 
@@ -111,6 +114,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
     }
 
+    clear_bionics( dummy );
     // TODO: bio_cable bio_reactor
     // TODO: (pick from stuff with power_source)
 }

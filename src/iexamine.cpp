@@ -3321,13 +3321,17 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
     map_stack items = g->m.i_at( examp );
     if( !items.empty() ) {
         item &it = items.only_item();
-        if( it.is_bucket() || it.is_watertight_container() ) {
+        if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
-            if( !it.is_container_empty() && it.contents.front().typeId() == "maple_sap" ) {
-                has_sap = true;
-                charges = it.contents.front().charges;
-            }
+            it.visit_items( [&charges, &has_sap]( const item * it ) {
+                if( it->typeId() == "maple_syrup" ) {
+                    has_sap = true;
+                    charges = it->charges;
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
         }
     }
 
@@ -4581,7 +4585,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         bionic_to_uninstall.set_flag( flag_IN_CBM );
                         bionic_to_uninstall.set_flag( flag_NO_STERILE );
                         bionic_to_uninstall.set_flag( flag_NO_PACKED );
-                        g->u.i_add( bionic_to_uninstall );
+                        // TODO: refactor this whole bit. adding items to the inventory will
+                        // cause major issues when inv gets removed. this is a shim for now
+                        // in order to reduce lines of change for nested containers.
+                        g->u.inv.push_back( bionic_to_uninstall );
                     }
                 }
             }
@@ -4740,7 +4747,7 @@ static void mill_activate( player &p, const tripoint &examp )
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( flag_MILLABLE ) ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( 1, false, examp, nullptr );
+            it.process_temperature_rot( 1, examp, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -4840,7 +4847,7 @@ static void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( "fire", 1 );
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_temperature_rot( 1, false, examp, nullptr );
+            it.process_temperature_rot( 1, examp, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }

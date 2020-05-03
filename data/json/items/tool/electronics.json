@@ -46,8 +46,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "camera_pro",
@@ -79,8 +78,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "cell_phone",
@@ -118,8 +116,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "cell_phone_flashlight",
@@ -151,8 +148,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "directional_antenna",
@@ -218,8 +214,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "electrohack",
@@ -250,8 +245,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "geiger_off",
@@ -282,8 +276,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "geiger_on",
@@ -294,8 +287,7 @@
     "power_draw": 200,
     "revert_to": "geiger_off",
     "use_action": "GEIGER",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "hand_crank_charger",
@@ -361,8 +353,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "laptop_screen_lit",
@@ -402,8 +393,7 @@
           "light_minus_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "mp3_on",
@@ -414,8 +404,7 @@
     "power_draw": 1000,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "noise_emitter",
@@ -488,8 +477,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "smart_phone",
@@ -531,8 +519,7 @@
     "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "magazine_well": 1
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "smart_phone_flashlight",
@@ -567,7 +554,6 @@
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "magazine_well": 6,
     "flags": [ "IS_UPS" ]
   },
   {
@@ -598,7 +584,6 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   }
 ]

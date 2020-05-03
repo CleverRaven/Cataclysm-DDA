@@ -14,8 +14,7 @@
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "charges_per_use": 1,
     "ammo": "crystallized_mana",
-    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ],
-    "magazine_well": 1
+    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ]
   },
   {
     "abstract": "disp_wand",

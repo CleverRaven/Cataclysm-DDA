@@ -12,6 +12,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "visitable.h"
 
@@ -69,24 +70,26 @@ TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]"
 TEST_CASE( "item_in_container", "[item][item_location]" )
 {
     avatar &dummy = g->u;
+    clear_avatar();
     item &backpack = dummy.i_add( item( "backpack" ) );
     item jeans( "jeans" );
 
     REQUIRE( dummy.has_item( backpack ) );
 
-    backpack.put_in( jeans );
+    backpack.put_in( jeans, item_pocket::pocket_type::CONTAINER );
 
     item_location backpack_loc( dummy, & **dummy.wear( backpack ) );
 
     REQUIRE( dummy.has_item( *backpack_loc ) );
 
-    item_location jeans_loc( backpack_loc, &jeans );
+    item_location jeans_loc( backpack_loc, &backpack_loc->contents.only_item() );
 
     REQUIRE( backpack_loc.where() == item_location::type::character );
     REQUIRE( jeans_loc.where() == item_location::type::container );
 
-    CHECK( backpack_loc.obtain_cost( dummy ) + INVENTORY_HANDLING_PENALTY == jeans_loc.obtain_cost(
-               dummy ) );
+    CHECK( backpack_loc.obtain_cost( dummy ) +
+           backpack_loc->contents.obtain_cost( *jeans_loc ) ==
+           jeans_loc.obtain_cost( dummy ) );
 
     CHECK( jeans_loc.parent_item() == backpack_loc );
 }

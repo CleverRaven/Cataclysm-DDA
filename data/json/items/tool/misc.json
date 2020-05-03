@@ -377,8 +377,7 @@
     },
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": 4
+    ]
   },
   {
     "id": "large_space_heater_on",
@@ -390,8 +389,7 @@
     "emits": [ "emit_hot_air2_blast" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "large_space_heater",
-    "use_action": { "target": "large_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" },
-    "magazine_well": 4
+    "use_action": { "target": "large_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" }
   },
   {
     "id": "lifestraw",
@@ -601,8 +599,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "small_space_heater_on",
@@ -614,8 +611,7 @@
     "emits": [ "emit_hot_air2_stream" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "small_space_heater",
-    "use_action": { "target": "small_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" },
-    "magazine_well": 2
+    "use_action": { "target": "small_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" }
   },
   {
     "id": "spray_can",
