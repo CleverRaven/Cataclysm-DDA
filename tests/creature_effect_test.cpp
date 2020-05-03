@@ -94,9 +94,19 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
                 CHECK( dummy.has_effect( effect_grabbed, num_bp ) );
             }
 
-            WHEN( "character has another effect on the whole body" ) {
-                dummy.add_effect( effect_downed, 1_minutes, num_bp );
+        }
 
+        // Downed
+        WHEN( "character has effect on the whole body" ) {
+            dummy.add_effect( effect_downed, 1_minutes, num_bp );
+
+            THEN( "has_effect is false for any body part" ) {
+                CHECK_FALSE( dummy.has_effect( effect_downed, left_arm ) );
+                CHECK_FALSE( dummy.has_effect( effect_downed, right_arm ) );
+            }
+            THEN( "has_effect is true when body part is not specified" ) {
+                CHECK( dummy.has_effect( effect_downed ) );
+                CHECK( dummy.has_effect( effect_downed, num_bp ) );
             }
         }
     }
