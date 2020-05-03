@@ -81,6 +81,7 @@
     "melee_cut": 0,
     "armor_bash": 14,
     "armor_cut": 4,
+    "armor_bullet": 3,
     "armor_stab": 20,
     "armor_acid": 20,
     "harvest": "exempt",

@@ -126,6 +126,7 @@ void Creature::reset_bonuses()
 
     armor_bash_bonus = 0;
     armor_cut_bonus = 0;
+    armor_bullet_bonus = 0;
 
     speed_bonus = 0;
     dodge_bonus = 0;
@@ -1365,6 +1366,10 @@ int Creature::get_armor_cut( bodypart_id ) const
 {
     return armor_cut_bonus;
 }
+int Creature::get_armor_bullet( bodypart_id ) const
+{
+    return armor_bullet_bonus;
+}
 int Creature::get_armor_bash_base( bodypart_id ) const
 {
     return armor_bash_bonus;
@@ -1372,6 +1377,10 @@ int Creature::get_armor_bash_base( bodypart_id ) const
 int Creature::get_armor_cut_base( bodypart_id ) const
 {
     return armor_cut_bonus;
+}
+int Creature::get_armor_bullet_base( bodypart_id ) const
+{
+    return armor_bullet_bonus;
 }
 int Creature::get_armor_bash_bonus() const
 {
@@ -1381,6 +1390,11 @@ int Creature::get_armor_cut_bonus() const
 {
     return armor_cut_bonus;
 }
+int Creature::get_armor_bullet_bonus() const
+{
+    return armor_bullet_bonus;
+}
+
 
 int Creature::get_speed() const
 {
@@ -1518,6 +1532,10 @@ void Creature::set_armor_bash_bonus( int nbasharm )
 void Creature::set_armor_cut_bonus( int ncutarm )
 {
     armor_cut_bonus = ncutarm;
+}
+void Creature::set_armor_bullet_bonus( int nbulletarm )
+{
+    armor_bullet_bonus = nbulletarm;
 }
 
 void Creature::set_speed_base( int nspeed )

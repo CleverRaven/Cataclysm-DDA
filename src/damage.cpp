@@ -206,6 +206,7 @@ resistances::resistances( monster &monster ) : resistances()
     set_resist( DT_BASH, monster.type->armor_bash );
     set_resist( DT_CUT,  monster.type->armor_cut );
     set_resist( DT_STAB, monster.type->armor_stab );
+    set_resist( DT_BULLET, monster.type->armor_bullet );
     set_resist( DT_ACID, monster.type->armor_acid );
     set_resist( DT_HEAT, monster.type->armor_fire );
 }
@@ -239,6 +240,7 @@ static const std::map<std::string, damage_type> dt_map = {
     { translate_marker_context( "damage type", "cut" ), DT_CUT },
     { translate_marker_context( "damage type", "acid" ), DT_ACID },
     { translate_marker_context( "damage type", "stab" ), DT_STAB },
+    { translate_marker_context( "damage_type", "bullet" ), DT_BULLET },
     { translate_marker_context( "damage type", "heat" ), DT_HEAT },
     { translate_marker_context( "damage type", "cold" ), DT_COLD },
     { translate_marker_context( "damage type", "electric" ), DT_ELECTRIC }
@@ -404,6 +406,7 @@ std::array<float, NUM_DT> load_damage_array( const JsonObject &jo )
     ret[ DT_BASH ] = jo.get_float( "bash", phys );
     ret[ DT_CUT ] = jo.get_float( "cut", phys );
     ret[ DT_STAB ] = jo.get_float( "stab", phys );
+    ret[ DT_BULLET ] = jo.get_float( "bullet", phys );
 
     float non_phys = jo.get_float( "non_physical", init_val );
     ret[ DT_BIOLOGICAL ] = jo.get_float( "biological", non_phys );

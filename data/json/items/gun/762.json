@@ -94,7 +94,7 @@
     "color": "brown",
     "ammo": "762",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 90,
     "durability": 8,
     "clip_size": 10,
@@ -171,7 +171,7 @@
     "ammo": "762",
     "skill": "pistol",
     "dispersion": 240,
-    "ranged_damage": -5,
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "durability": 7,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [

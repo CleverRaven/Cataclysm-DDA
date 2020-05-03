@@ -17,7 +17,7 @@
     "ammo_type": "300blk",
     "casing": "300blk_casing",
     "range": 45,
-    "damage": { "damage_type": "stab", "amount": 43, "armor_penetration": 5 },
+    "damage": { "damage_type": "bullet", "amount": 43, "armor_penetration": 5 },
     "dispersion": 30,
     "recoil": 2000,
     "effects": [ "COOKOFF" ]
@@ -30,7 +30,7 @@
     "description": "A subsonic .300 AAC Blackout round with a 220gr open tip match bullet.  300 BLK is an intermediate cartridge necked up from 5.56x45mm, designed to achieve similar ballistics to 7.62x39mm.  It is compatible with standard AR-15 lower receivers and will feed from STANAG magazines.",
     "weight": "21 g",
     "range": 40,
-    "damage": { "damage_type": "stab", "amount": 26 },
+    "damage": { "damage_type": "bullet", "amount": 26 },
     "recoil": 1700
   },
   {
@@ -40,7 +40,7 @@
     "name": { "str": ".300 AAC Blackout, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -53,7 +53,7 @@
     "type": "AMMO",
     "name": { "str": ".300 AAC Blackout, reloaded" },
     "description": ".300 AAC Blackout is an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

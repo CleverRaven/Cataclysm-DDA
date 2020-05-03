@@ -410,10 +410,13 @@ class Creature
 
         virtual int get_armor_bash( bodypart_id bp ) const;
         virtual int get_armor_cut( bodypart_id bp ) const;
+        virtual int get_armor_bullet( bodypart_id bp ) const;
         virtual int get_armor_bash_base( bodypart_id bp ) const;
         virtual int get_armor_cut_base( bodypart_id bp ) const;
+        virtual int get_armor_bullet_base( bodypart_id bp ) const;
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
+        virtual int get_armor_bullet_bonus() const;
 
         virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
@@ -485,6 +488,7 @@ class Creature
 
         virtual void set_armor_bash_bonus( int nbasharm );
         virtual void set_armor_cut_bonus( int ncutarm );
+        virtual void set_armor_bullet_bonus( int nbulletarm );
 
         virtual void set_speed_base( int nspeed );
         virtual void set_speed_bonus( int nspeed );
@@ -763,6 +767,7 @@ class Creature
 
         int armor_bash_bonus;
         int armor_cut_bonus;
+        int armor_bullet_bonus;
         int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus;

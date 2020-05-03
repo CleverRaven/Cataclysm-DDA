@@ -2358,7 +2358,8 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
     if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
         info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
                                   iteminfo::no_newline, bash_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), cut_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "", iteminfo::no_newline, cut_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Ballistic: " ), bullet_resist() ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
                                   iteminfo::no_newline, acid_resist() ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
@@ -3133,6 +3134,15 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   _( "<bold>Cut Protection</bold>: " ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, size_t > &element : bid->cut_protec ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
+                                      " <num> ", iteminfo::no_newline, element.second ) );
+        }
+    }
+
+    if( !bid->bullet_protec.empty() ) {
+        info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>: " ),
+                                  iteminfo::no_newline ) );
+        for( const std::pair<const bodypart_str_id, size_t > &element : bid->bullet_protec ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -5590,6 +5600,35 @@ int item::stab_resist( bool to_self ) const
     return static_cast<int>( 0.8f * cut_resist( to_self ) );
 }
 
+int item::bullet_resist( bool to_self ) const
+{
+    if( is_null() ) {
+        return 0;
+    }
+
+    const int base_thickness = get_thickness();
+    float resist = 0;
+    float mod = get_clothing_mod_val( clothing_mod_type_bullet );
+    int eff_thickness = 1;
+
+    // base resistance
+    // Don't give reinforced items +armor, just more resistance to ripping
+    const int dmg = damage_level( 4 );
+    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+    eff_thickness = std::max( 1, base_thickness - eff_damage );
+
+    const std::vector<const material_type *> mat_types = made_of_types();
+    if( !mat_types.empty() ) {
+        for( const material_type *mat : mat_types ) {
+            resist += mat->bullet_resist();
+        }
+        // Average based on number of materials.
+        resist /= mat_types.size();
+    }
+
+    return std::lround( ( resist * eff_thickness ) + mod );
+}
+
 int item::acid_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
@@ -5858,6 +5897,8 @@ int item::damage_resist( damage_type dt, bool to_self ) const
             return stab_resist( to_self );
         case DT_HEAT:
             return fire_resist( to_self );
+        case DT_BULLET:
+            return bullet_resist( to_self );
         default:
             debugmsg( "Invalid damage type: %d", dt );
     }

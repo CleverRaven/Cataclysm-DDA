@@ -50,7 +50,7 @@
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": "45colt",
-    "ranged_damage": { "damage_type": "stab", "amount": 5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 180,
     "durability": 7,
     "clip_size": 14,

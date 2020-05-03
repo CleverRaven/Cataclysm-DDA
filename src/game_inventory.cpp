@@ -334,6 +334,10 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "CUT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
+                return get_number_string( loc->bullet_resist() );
+            }, _( "BULLET" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->acid_resist() );
             }, _( "ACID" ) );
 
