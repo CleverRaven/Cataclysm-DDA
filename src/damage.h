@@ -94,9 +94,12 @@ class damage_over_time_data
         std::vector<bodypart_str_id> bps;
         int amount;
 
+        bool was_loaded;
+
         void load( const JsonObject &obj );
 
-        void store( JsonOut &jsout ) const;
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 struct dealt_damage_instance {

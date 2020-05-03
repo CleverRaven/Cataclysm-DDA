@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "debug.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "json.h"
 #include "monster.h"
@@ -426,18 +427,16 @@ resistances load_resistances_instance( const JsonObject &jo )
 
 void damage_over_time_data::load( const JsonObject &obj )
 {
-    type = dt_by_name( obj.get_string( "damage_type" ) );
-
-    amount = obj.get_int( "amount" );
+    std::string tmp_string;
+    mandatory( obj, was_loaded, "damage_type", tmp_string );
+    type = dt_by_name( tmp_string );
+    mandatory( obj, was_loaded, "amount", amount );
+    mandatory( obj, was_loaded, "bodyparts", bps );
 
     if( obj.has_string( "duration" ) ) {
         duration = read_from_json_string<time_duration>( *obj.get_raw( "duration" ), time_duration::units );
     } else {
         duration = time_duration::from_turns( obj.get_int( "duration", 0 ) );
-    }
-
-    for( const std::string &bp_id : obj.get_array( "bodyparts" ) ) {
-        bps.emplace_back( bodypart_str_id( bp_id ) );
     }
 }
 
@@ -449,4 +448,13 @@ void damage_over_time_data::serialize( JsonOut &jsout ) const
     jsout.member( "amount", amount );
     jsout.member( "bodyparts", bps );
     jsout.end_object();
+}
+
+void damage_over_time_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    type = dt_by_name( jo.get_string( "damage_type" ) );
+    jo.read( "amount", amount );
+    jo.read( "duration", duration );
+    jo.read( "bodyparts", bps );
 }

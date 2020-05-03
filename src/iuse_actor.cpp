@@ -35,6 +35,7 @@
 #include "flat_set.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "generic_factory.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
@@ -702,7 +703,7 @@ void consume_drug_iuse::load( const JsonObject &obj )
             effects.push_back( load_effect_data( e ) );
         }
     }
-    optional( obj, false, "damage_over_time", damage_over_time_data );
+    optional( obj, false, "damage_over_time", damage_over_time );
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
     obj.read( "moves", moves );
