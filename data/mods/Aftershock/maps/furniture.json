@@ -90,123 +90,125 @@
         { "item": "rag", "count": [ 40, 55 ] },
         { "item": "afs_material_1", "count": [ 10, 20 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cryo_pod",
+    "name": "cryo pod",
+    "symbol": "#",
+    "description": "This is a long term sleep pod.  Cryo pods are mostly used by people waiting a short term for organs or criminals avoiding heat right after a crime.",
+    "color": "light_blue",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "comfort": 2,
+    "floor_bedding_warmth": 500,
+    "required_str": -1,
+    "looks_like": "f_bed_frame",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_crispr",
+    "name": "CRISPR Biolab",
+    "symbol": "&",
+    "description": "A boxy looking device of arms, droppers and pipettes.  It was used pre-Cataclysm to do expirements in gene editing.",
+    "color": "light_cyan",
+    "looks_like": "f_robotic_arm",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "afs_circuitry_1", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_1", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "afs_material_1", "count": [ 6, 8 ] }
+      ]
     },
-    {
-      "type": "furniture",
-      "id": "f_cryo_pod",
-      "name": "cryo pod",
-      "symbol": "#",
-      "description": "This is a long term sleep pod.  Cryo pods are mostly used by people waiting a short term for organs or criminals avoiding heat right after a crime.",
-      "color": "light_blue",
-      "move_cost_mod": 15,
-      "coverage": 80,
-      "comfort": 2,
-      "floor_bedding_warmth": 500,
-      "required_str": -1,
-      "looks_like": "f_bed_frame",
-      "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
-      "bash": {
-        "str_min": 18,
-        "str_max": 40,
-        "sound": "clang!",
-        "sound_fail": "whump.",
-        "items": [
-          { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
-          { "item": "steel_chunk", "count": [ 3, 6 ] },
-          { "item": "rag", "count": [ 40, 55 ] },
-          { "item": "afs_material_1", "count": [ 10, 20 ] },
-          { "item": "afs_magnet_2", "count": [ 1, 3 ] },
-          { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
-        ]
-      },
-      {
-        "type": "furniture",
-        "id": "f_crispr",
-        "name": "CRISPR Biolab",
-        "symbol": "&",
-        "description": "A boxy looking device of arms, droppers and pipettes.  It was used pre-Cataclysm to do expirements in gene editing.",
-        "color": "light_cyan",
-        "looks_like": "f_robotic_arm",
-        "move_cost_mod": -1,
-        "coverage": 35,
-        "required_str": -1,
-        "flags": [ "TRANSPARENT" ],
-        "deconstruct": {
-          "items": [
-            { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
-            { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-            { "item": "cable", "charges": [ 4, 6 ] },
-            { "item": "small_lcd_screen", "count": [ 1, 2 ] },
-            { "item": "e_scrap", "count": [ 10, 16 ] },
-            { "item": "afs_circuitry_1", "count": [ 6, 10 ] },
-            { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
-            { "item": "afs_energy_storage_1", "count": [ 2, 4 ] },
-            { "item": "plastic_chunk", "count": [ 10, 12 ] },
-            { "item": "afs_material_1", "count": [ 6, 8 ] }
-          ]
-        },
-        "bash": {
-          "str_min": 8,
-          "str_max": 150,
-          "sound": "crunch!",
-          "sound_fail": "whack!",
-          "items": [
-            { "item": "afs_circuitry_3", "prob": 25 },
-            { "item": "afs_circuitry_2", "count": [ 0, 2 ], "prob": 50 },
-            { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-            { "item": "small_lcd_screen", "prob": 25 },
-            { "item": "afs_circuitry_1", "count": [ 1, 4 ], "prob": 50 },
-            { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
-            { "item": "afs_energy_storage_1", "prob": 25 },
-            { "item": "afs_energy_storage_2", "prob": 25 },
-            { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-            { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 }
-          ]
-        }
-      },
-      {
-        "type": "furniture",
-        "id": "f_3dprinter",
-        "name": "3D printer",
-        "symbol": "&",
-        "description": "A boxy looking device of arms, droppers and pipettes.  It was used pre-Cataclysm to do expirements in gene editing.",
-        "color": "light_cyan",
-        "looks_like": "f_robotic_arm",
-        "move_cost_mod": -1,
-        "coverage": 35,
-        "required_str": -1,
-        "flags": [ "TRANSPARENT" ],
-        "deconstruct": {
-          "items": [
-            { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
-            { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-            { "item": "cable", "charges": [ 4, 6 ] },
-            { "item": "small_lcd_screen", "count": [ 1, 2 ] },
-            { "item": "e_scrap", "count": [ 10, 16 ] },
-            { "item": "afs_circuitry_1", "count": [ 6, 10 ] },
-            { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
-            { "item": "afs_energy_storage_1", "count": [ 2, 4 ] },
-            { "item": "plastic_chunk", "count": [ 10, 12 ] },
-            { "item": "afs_material_1", "count": [ 6, 8 ] }
-          ]
-        },
-        "bash": {
-          "str_min": 8,
-          "str_max": 150,
-          "sound": "crunch!",
-          "sound_fail": "whack!",
-          "items": [
-            { "item": "afs_circuitry_3", "prob": 25 },
-            { "item": "afs_circuitry_2", "count": [ 0, 2 ], "prob": 50 },
-            { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-            { "item": "small_lcd_screen", "prob": 25 },
-            { "item": "afs_circuitry_1", "count": [ 1, 4 ], "prob": 50 },
-            { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
-            { "item": "afs_energy_storage_1", "prob": 25 },
-            { "item": "afs_energy_storage_2", "prob": 25 },
-            { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-            { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 }
-          ]
-        }
-      }
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "afs_circuitry_3", "prob": 25 },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_energy_storage_1", "prob": 25 },
+        { "item": "afs_energy_storage_2", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_3dprinter",
+    "name": "3D printer",
+    "symbol": "&",
+    "description": "A boxy looking device of arms, droppers and pipettes.  It was used pre-Cataclysm to do expirements in gene editing.",
+    "color": "light_cyan",
+    "looks_like": "f_robotic_arm",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "afs_circuitry_1", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_1", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "afs_material_1", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "afs_circuitry_3", "prob": 25 },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_energy_storage_1", "prob": 25 },
+        { "item": "afs_energy_storage_2", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  }
 ]
