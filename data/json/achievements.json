@@ -13,6 +13,19 @@
     "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 1 } ]
   },
   {
+    "id": "achievement_kill_10_monsters",
+    "type": "achievement",
+    "name": "Decamate",
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_kill_100_monsters",
+    "type": "achievement",
+    "name": "Centinel",
+    "hidden_by": [ "achievement_kill_10_monsters" ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 100 } ]
+  },
+  {
     "id": "achievement_survive_one_day",
     "type": "achievement",
     "name": "The first day of the rest of their unlives",
