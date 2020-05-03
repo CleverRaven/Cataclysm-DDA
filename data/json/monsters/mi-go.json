@@ -43,6 +43,7 @@
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_2",
+      "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -92,6 +93,7 @@
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_2",
+      "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -140,6 +142,7 @@
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_2",
+      "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -192,6 +195,7 @@
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_2",
+      "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -243,6 +247,7 @@
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_2",
+      "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -301,6 +306,7 @@
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_2",
+      "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
     ]
   }
