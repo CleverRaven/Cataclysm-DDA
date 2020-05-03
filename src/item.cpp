@@ -9506,9 +9506,13 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
         return VisitResponse::NEXT;
     } );
     for( item *it : removed_items ) {
-        remove_item( *it );
+        // remove_item can not remove `this` itself, so don't even try.
+        if( it != this ) {
+            remove_item( *it );
+        }
     }
-    return !removed_items.empty();
+    // Inform the caller that they need to remove `this`.
+    return std::find( removed_items.begin(), removed_items.end(), this ) != removed_items.end();
 }
 
 bool item::process_internal( player *carrier, const tripoint &pos, bool activate,
