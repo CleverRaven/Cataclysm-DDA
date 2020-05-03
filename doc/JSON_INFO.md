@@ -2270,6 +2270,14 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type" : "consume_drug", // A drug the player can consume.
     "activation_message" : "You smoke your crack rocks.  Mother would be proud.", // Message, ayup.
     "effects" : { "high": 15 }, // Effects and their duration.
+    "damage_over_time": [ 
+        {
+          "damage_type": "true", // Type of damage
+          "duration": "1 m", // For how long this damage will be applied
+          "amount": -10, // Amount of damage applied every turn, negative damage heals
+          "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ] // Body parts hit by the damage
+        }
+    ]
     "stat_adjustments": {"hunger" : -10}, // Adjustment to make to player stats.
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
