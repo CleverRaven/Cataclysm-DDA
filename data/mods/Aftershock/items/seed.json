@@ -48,7 +48,7 @@
     "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
     "name": { "str_sp": "subterraenean cocunut" },
-    "description": "Proof that man went to far before the Cataclysm.",
+    "description": "Proof that man went too far before the Cataclysm.",
     "seed_data": { "plant_name": "cocunut", "fruit": "cocunut", "byproducts": [ "withered" ], "grow": "120 days" }
   }
 ]

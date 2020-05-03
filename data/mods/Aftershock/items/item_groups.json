@@ -276,5 +276,18 @@
       [ "afs_neural_io_2", 10 ],
       [ "plut_cell", 20 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "exoticplants",
+    "subtype": "collection",
+    "entries": [
+      { "item": "seed_pineapple" },
+      { "item": "seed_melon" },
+      { "item": "seed_bananas" },
+      { "item": "seed_orange" },
+      { "item": "seed_lemon" },
+      { "item": "seed_cocunut" }
+    ]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "a nested map for basements",
+    "//": "a nested map for basements.  resistance_12x12",
     "nested_mapgen_id": "resistance_12x12",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -49,7 +49,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "a nested map for basements",
+    "//": "a nested map for basements.  cyberpunk_12x12",
     "nested_mapgen_id": "cyberpunk_12x12",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -96,7 +96,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "a nested map for basements",
+    "//": "a nested map for basements.  amateur_crispr_12x12",
     "nested_mapgen_id": "amateur_crispr_12x12",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -135,7 +135,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "a nested map for basements",
+    "//": "a nested map for basements.  room_6x6_makerspace",
     "nested_mapgen_id": "room_6x6_makerspace",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -211,7 +211,7 @@
         "T": "t_linoleum_gray"
       },
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
-      "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
+      "sealed_item": { "Q": { "item": { "item_group": "exoticplants" }, "furniture": "f_planter_harvest" } },
       "furniture": {
         "T": "f_workbench",
         "h": "f_chair",
@@ -270,7 +270,7 @@
         "T": "t_linoleum_gray"
       },
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
-      "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
+      "sealed_item": { "Q": { "item": { "item": "exoticplants" }, "furniture": "f_planter_harvest" } },
       "furniture": {
         "T": "f_workbench",
         "h": "f_chair",
@@ -329,7 +329,7 @@
         "T": "t_linoleum_gray"
       },
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
-      "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
+      "sealed_item": { "Q": { "item": { "item": "exoticplants" }, "furniture": "f_planter_harvest" } },
       "furniture": {
         "T": "f_workbench",
         "h": "f_chair",
@@ -388,7 +388,7 @@
         "T": "t_linoleum_gray"
       },
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
-      "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
+      "sealed_item": { "Q": { "item": { "item": "exoticplants" }, "furniture": "f_planter_harvest" } },
       "furniture": {
         "T": "f_workbench",
         "h": "f_chair",
