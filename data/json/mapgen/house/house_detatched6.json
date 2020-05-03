@@ -79,7 +79,11 @@
       "sealed_item": {
         "~": { "item": { "item": "seed_weed" }, "furniture": "f_plant_harvest" },
         "&": { "item": { "item": "seed_weed" }, "furniture": "f_plant_harvest" }
-      }
+      },
+      "place_monsters": [
+        { "chance": 10, "density": 1, "monster": "GROUP_DOGS", "x": 14, "y": 15 },
+        { "chance": 8, "density": 1, "monster": "GROUP_DOGS", "x": 8, "y": 6 }
+      ]
     }
   },
   {
@@ -116,6 +120,75 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_detatched6_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        " |||||||||||||||||||||| ",
+        " |.......2............| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |............<..F.gUU| ",
+        " |1.....|ZJW||||||||||| ",
+        " |......|||||           ",
+        " |......|               ",
+        " |......|               ",
+        " |......|               ",
+        " |......|               ",
+        " ||||||||               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 60 ],
+            [ "room_6x6_guns_N", 10 ],
+            [ "room_6x6_office_N", 40 ],
+            [ "6x6_electronics_open", 40 ],
+            [ "6x6_sewing_open", 40 ],
+            [ "room_6x6_brewer_N", 20 ],
+            [ "room_6x6_junk", 50 ]
+          ]
+        },
+        "2": {
+          "chunks": [
+            [ "null", 50 ],
+            [ "5x5_holdout_S", 2 ],
+            [ "5x5_holdout_E", 2 ],
+            [ "5x5_gym_N", 20 ],
+            [ "5x5_gym_S", 20 ],
+            [ "5x5_gym_E", 20 ],
+            [ "5x5_gym_W", 20 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 10 ],
+            [ "home_office_4x4_S", 10 ]
+          ]
+        }
+      }
     }
   }
 ]

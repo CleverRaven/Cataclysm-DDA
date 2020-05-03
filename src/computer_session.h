@@ -1,8 +1,10 @@
 #pragma once
-#ifndef COMPUTER_SESSION_H
-#define COMPUTER_SESSION_H
+#ifndef CATA_SRC_COMPUTER_SESSION_H
+#define CATA_SRC_COMPUTER_SESSION_H
 
 #include <map>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "computer.h"
@@ -20,8 +22,8 @@ class computer_session
 
     private:
         computer &comp;
-        // Output window. This class assumes win's dimensions do not change.
-        const catacurses::window win;
+        // Output window. This class assumes win's size does not change.
+        catacurses::window win;
         const int left;
         const int top;
         const int width;
@@ -73,6 +75,8 @@ class computer_session
         // Simply wait for any key, returns True
         template<typename ...Args>
         bool query_any( const std::string &text, Args &&... args );
+        // Wait for any key without new output
+        bool query_any();
 
         void action_amigara_log();
         void action_amigara_start();
@@ -138,4 +142,4 @@ class computer_session
         computer_failure_functions;
 };
 
-#endif
+#endif // CATA_SRC_COMPUTER_SESSION_H

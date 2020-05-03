@@ -31,7 +31,7 @@
   {
     "id": "BGSS_HUNTER_2_STORY4",
     "type": "talk_topic",
-    "dynamic_line": "I ran for a little bit, but then I saw soldier zombies crawling out of that chopper.  They had the same look about them as my brother did, and it was them on one side and him on the other.  I'm no genius but I've seen a few movies: I figured out what was happening.  I didn't want to take on kevlar armor with my knife, so I turned back and faced the other zombie.  I couldn't let my brother stay…  like that.  So I did what I had to, and I guess I'll live with that forever.",
+    "dynamic_line": "I ran for a little bit, but then I saw soldier zombies crawling out of that chopper.  They had the same look about them as my brother did, and it was them on one side and him on the other.  I'm no genius but I've seen a few movies: I figured out what was happening.  I didn't want to take on Kevlar armor with my knife, so I turned back and faced the other zombie.  I couldn't let my brother stay…  like that.  So I did what I had to, and I guess I'll live with that forever.",
     "responses": [
       { "text": "Thanks for telling me your story.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }

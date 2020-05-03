@@ -1,14 +1,17 @@
 #pragma once
-#ifndef FACTION_H
-#define FACTION_H
+#ifndef CATA_SRC_FACTION_H
+#define CATA_SRC_FACTION_H
 
 #include <bitset>
-#include <vector>
 #include <map>
+#include <set>
 #include <string>
+#include <tuple>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
-#include "character.h"
+#include "character_id.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "string_id.h"
@@ -22,8 +25,8 @@ std::string fac_respect_text( int val );
 std::string fac_wealth_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
 class faction;
 
@@ -134,4 +137,4 @@ class faction_manager
         faction *get( const faction_id &id, bool complain = true );
 };
 
-#endif
+#endif // CATA_SRC_FACTION_H

@@ -39,6 +39,7 @@
       "f": "t_carpet_purple",
       "e": "t_carpet_purple",
       ".": "t_thconc_floor",
+      "_": "t_floor",
       "!": "t_brick_wall",
       "|": "t_wall_b",
       "%": "t_wall_glass",

@@ -7,15 +7,15 @@
 
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
 #include "path_info.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "color.h"
-#include "optional.h"
 #include "point.h"
+#include "translations.h"
+#include "ui_manager.h"
 
 sokoban_game::sokoban_game() = default;
 
@@ -100,26 +100,26 @@ void sokoban_game::parse_level( std::istream &fin )
     }
 }
 
-int sokoban_game::get_wall_connection( const int iY, const int iX )
+int sokoban_game::get_wall_connection( const point &i )
 {
     bool bTop = false;
     bool bRight = false;
     bool bBottom = false;
     bool bLeft = false;
 
-    if( mLevel[iY - 1][iX] == "#" ) {
+    if( mLevel[i.y - 1][i.x] == "#" ) {
         bTop = true;
     }
 
-    if( mLevel[iY][iX + 1] == "#" ) {
+    if( mLevel[i.y][i.x + 1] == "#" ) {
         bRight = true;
     }
 
-    if( mLevel[iY + 1][iX] == "#" ) {
+    if( mLevel[i.y + 1][i.x] == "#" ) {
         bBottom = true;
     }
 
-    if( mLevel[iY][iX - 1] == "#" ) {
+    if( mLevel[i.y][i.x - 1] == "#" ) {
         bLeft = true;
     }
 
@@ -184,7 +184,7 @@ void sokoban_game::draw_level( const catacurses::window &w_sokoban )
 
             if( sTile == "#" ) {
                 mvwputch( w_sokoban, point( iOffsetX + iterX->first, iOffsetY + elem.first ),
-                          c_white, get_wall_connection( elem.first, iterX->first ) );
+                          c_white, get_wall_connection( point( iterX->first, elem.first ) ) );
 
             } else {
                 nc_color cCol = c_white;
@@ -269,6 +269,9 @@ int sokoban_game::start_game()
     int iPlayerY = 0;
     int iPlayerX = 0;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool bNewLevel = true;
     bool bMoved = false;
     do {
@@ -317,8 +320,8 @@ int sokoban_game::start_game()
             if( !vUndo.empty() ) {
                 //reset last player pos
                 mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "+" ? "." : " ";
-                iPlayerYNew = vUndo[vUndo.size() - 1].iOldY;
-                iPlayerXNew = vUndo[vUndo.size() - 1].iOldX;
+                iPlayerYNew = vUndo[vUndo.size() - 1].old.y;
+                iPlayerXNew = vUndo[vUndo.size() - 1].old.x;
                 mLevel[iPlayerYNew][iPlayerXNew] = vUndo[vUndo.size() - 1].sTileOld;
 
                 vUndo.pop_back();
@@ -327,8 +330,8 @@ int sokoban_game::start_game()
             }
 
             if( bUndoSkip && !vUndo.empty() ) {
-                iDirY = vUndo[vUndo.size() - 1].iOldY;
-                iDirX = vUndo[vUndo.size() - 1].iOldX;
+                iDirY = vUndo[vUndo.size() - 1].old.y;
+                iDirX = vUndo[vUndo.size() - 1].old.x;
 
                 if( vUndo[vUndo.size() - 1].sTileOld == "$" ||
                     vUndo[vUndo.size() - 1].sTileOld == "*" ) {

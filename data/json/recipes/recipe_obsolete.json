@@ -67,6 +67,21 @@
     "obsolete": true
   },
   {
+    "result": "tool_rdx_charge",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "nail_bomb",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "fragment_bomb",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "type": "recipe",
     "result": "30gal_drum",
     "obsolete": true
@@ -2252,6 +2267,197 @@
   {
     "type": "recipe",
     "result": "crucible",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battletorch_done",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battletorch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shishkebab_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "firemachete_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broadfire_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "firekatana_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "zweifire_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_survivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_hsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_HFPack",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin91_30",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin44",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin91_30_ebr",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin44_ebr",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_car_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_mbr_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_dsr_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_lmg_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "compcrossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "compbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "recurbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reflexrecurvebow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "q_solarpack",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "q_solarpack_on",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "taint_tornado",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "drink_sewerbrew",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_chunk",
+    "id_suffix": "from_cash_cards",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvestsuper",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularveststeel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvestkevlar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvesthard",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvestceramic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_bearing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_pebble",
     "obsolete": true
   }
 ]

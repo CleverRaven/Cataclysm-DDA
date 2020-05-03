@@ -1,14 +1,12 @@
-#!/bin/python
+#!/usr/bin/env python
 
 # compose.py
 # Split a gfx directory made of 1000s of little images and files into a set of tilesheets
 # and a tile_config.json
 
 import argparse
-import copy
 import json
 import os
-import string
 import subprocess
 
 try:
@@ -72,8 +70,6 @@ class PngRefs(object):
         self.pngnum = 0
         self.referenced_pngnames = []
         self.tileset_pathname = tileset_dirname
-        if not tileset_dirname.startswith("gfx/"):
-            self.tileset_pathname = "gfx/" + tileset_dirname
         if self.tileset_pathname.endswith("/"):
             self.tileset_pathname = self.tileset_pathname[:-1]
 
@@ -159,7 +155,7 @@ class PngRefs(object):
         else:
             try:
                 del tile_entry["bg"]
-            except:
+            except Exception:
                 print("Cannot find bg for tile with id {}".format(tile_id))
 
         add_tile_entrys = tile_entry.get("additional_tiles", [])
@@ -239,6 +235,12 @@ class TilesheetData(object):
                 except Vips.Error:
                     pass
 
+                try:
+                    if vips_image.get_typeof("icc-profile-data") != 0:
+                        vips_image = vips_image.icc_transform("srgb")
+                except Vips.Error:
+                    pass
+
                 if vips_image.width != self.width or vips_image.height != self.height:
                     size_msg = "{} is {}x{}, sheet sprites are {}x{}."
                     print(size_msg.format(png_pathname, vips_image.width, vips_image.height,
@@ -295,7 +297,7 @@ class TilesheetData(object):
 
 args = argparse.ArgumentParser(description="Merge all the individal tile_entries and pngs in a tileset's directory into a tile_config.json and 1 or more tilesheet pngs.")
 args.add_argument("tileset_dir", action="store",
-                  help="local name of the tileset directory under gfx/")
+                  help="local name of the tileset directory")
 argsDict = vars(args.parse_args())
 
 tileset_dirname = argsDict.get("tileset_dir", "")

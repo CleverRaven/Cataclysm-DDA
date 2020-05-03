@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Pablo",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Pablo is a young professional who survived with his wife, but she was pregnant and lost the baby.",
@@ -166,7 +166,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Background2_survivors",
-    "dynamic_line": "From the bus?  A few of us made it in the end; the Singh family were on that bus with us.  We were some of the last refugees to arrive.  They put us into a room for processing, where a bunch of the wounded were being handled as best as they could manage.  They were short staffed though, and they missed one.  We all thought he was just having a nap, but he wasn't, and when he got back up as a zombie, there was a huge panic.  Gunshots in a small, crowded room, and trampling… it was really ugly.  We were close to the door and managed to get out right away, but then a couple panicking people closed the place off and left innocent people in there for what seemed like ages, calling it an 'outbreak'.  By the time leveller heads prevailed, there weren't many people left in there to recover.",
+    "dynamic_line": "From the bus?  A few of us made it in the end; the Singh family were on that bus with us.  We were some of the last refugees to arrive.  They put us into a room for processing, where a bunch of the wounded were being handled as best as they could manage.  They were short staffed though, and they missed one.  We all thought he was just having a nap, but he wasn't, and when he got back up as a zombie, there was a huge panic.  Gunshots in a small, crowded room, and trampling… it was really ugly.  We were close to the door and managed to get out right away, but then a couple panicking people closed the place off and left innocent people in there for what seemed like ages, calling it an 'outbreak'.  By the time leveler heads prevailed, there weren't many people left in there to recover.",
     "responses": [
       {
         "text": "I've been back to the quarantined area, cleared it out.  It was ugly back there.",

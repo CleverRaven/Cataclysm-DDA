@@ -2,10 +2,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement" ],
+    "om_terrain": [ "basement_chem" ],
+    "//": "matches house_29",
     "weight": 250,
     "object": {
-      "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
       "rows": [
         "                        ",
@@ -26,7 +26,7 @@
         "      |R________i|      ",
         "      |||+|++|||||      ",
         "      |W__|..|          ",
-        "      |E_R|<<|          ",
+        "      |E_R|.<|          ",
         "      ||||||||          ",
         "                        ",
         "                        ",
@@ -89,10 +89,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement" ],
+    "om_terrain": "basement_chem2",
+    "//": "matches house_30",
     "weight": 200,
     "object": {
-      "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
       "rows": [
         "                        ",
@@ -113,7 +113,7 @@
         "   |||||+||,,||+||||||  ",
         "    |i,A,F|++|U__XU|    ",
         "    |D,,,T|..|U___c|    ",
-        "    |b,,hT|<<|U___c|    ",
+        "    |b,,hT|<.|U___c|    ",
         "    |b,n,T||||U_U_U|    ",
         "    |||||||  |||||||    ",
         "                        ",

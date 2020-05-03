@@ -323,6 +323,7 @@
     "apply_message": "The scream dazes you!",
     "rating": "bad",
     "max_intensity": 10,
+    "max_duration": "10 m",
     "int_add_val": 2,
     "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },
@@ -628,6 +629,13 @@
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
     "base_mods": { "vomit_chance": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisible" ],
+    "desc": [ "You are invisible." ],
+    "flags": [ "EFFECT_INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -1104,8 +1112,13 @@
   },
   {
     "type": "effect_type",
+    "id": "took_antiasthmatic",
+    "name": [ "Took antiasthmatic drugs" ],
+    "desc": [ "You have taken an antiasthmatic drug recently." ]
+  },
+  {
+    "type": "effect_type",
     "id": "cureall",
-    "//": "This is the royal jelly effect, it should cure pretty much everything.",
     "removes_effects": [
       "fungus",
       "dermatik",
@@ -1688,6 +1701,13 @@
   },
   {
     "type": "effect_type",
+    "id": "sheared",
+    "name": [ "Sheared" ],
+    "desc": [ "The creature has been fully sheared." ],
+    "max_duration": "90d"
+  },
+  {
+    "type": "effect_type",
     "id": "pkill",
     "name": [ "Painkillers" ],
     "desc": [ "You are under the influence of analgesic substances to relieve pain, but they may numb you a bit." ],
@@ -1741,12 +1761,10 @@
   {
     "type": "effect_type",
     "id": "irradiated",
-    "name": [ "Irradiated" ],
-    "desc": [ "You suffer symptoms of a radiation sickness that weakens your body." ],
+    "//": "No name or desc. Hidden from player, encourages use of radiation detection equipment",
     "max_intensity": 2000,
     "int_dur_factor": "10 s",
-    "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] },
-    "miss_messages": [ [ "Radiation weakens you.", 1 ] ]
+    "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] }
   },
   {
     "type": "effect_type",
@@ -1882,6 +1900,7 @@
     "apply_message": "The air in here smells like vinegar and mold, and hurts your lungs a bit.",
     "max_intensity": 5,
     "int_dur_factor": "5 seconds",
+    "max_duration": "30 s",
     "rating": "bad",
     "miss_messages": [ [ "You feel groggy in this sweltering, foul air.", 2 ] ],
     "harmful_cough": false,

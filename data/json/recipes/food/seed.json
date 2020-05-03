@@ -390,6 +390,18 @@
     "flags": [ "ALLOW_ROTTEN" ]
   },
   {
+    "result": "seed_raw_burdock",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SEEDS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "raw_burdock", 4 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
+  },
+  {
     "result": "seed_rhubarb",
     "type": "recipe",
     "category": "CC_FOOD",

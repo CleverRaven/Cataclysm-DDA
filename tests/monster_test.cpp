@@ -14,6 +14,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "options_helpers.h"
 #include "options.h"
 #include "player.h"
 #include "test_statistics.h"
@@ -296,7 +297,7 @@ static void monster_check()
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "true" );
+    override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
     test_moves_to_squares( "mon_pig", true );
@@ -305,7 +306,7 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "false" );
+    override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
     test_moves_to_squares( "mon_pig", true );
@@ -316,7 +317,7 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 TEST_CASE( "monster_speed_square", "[speed]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "false" );
+    override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     monster_check();
 }
@@ -324,7 +325,7 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 TEST_CASE( "monster_speed_trig", "[speed]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "true" );
+    override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
 }

@@ -2,15 +2,16 @@
 
 #include <cstddef>
 #include <functional>
+#include <memory>
 #include <utility>
 
 #include "debug.h"
 #include "json.h"
 #include "map.h"
+#include "point.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "point.h"
 
 using vplacement_id = string_id<VehiclePlacement>;
 

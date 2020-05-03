@@ -1,17 +1,20 @@
 #pragma once
-#ifndef UI_H
-#define UI_H
+#ifndef CATA_SRC_UI_H
+#define CATA_SRC_UI_H
 
+#include <initializer_list>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
-#include <initializer_list>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "point.h"
 #include "string_formatter.h"
+
+class translation;
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -31,8 +34,10 @@ const int MENU_AUTOASSIGN = -1;
 // NOLINTNEXTLINE(cata-use-named-point-constants)
 constexpr point MENU_AUTOASSIGN_POS( MENU_AUTOASSIGN, MENU_AUTOASSIGN );
 
-struct input_event;
 class input_context;
+class string_input_popup;
+class ui_adaptor;
+struct input_event;
 
 catacurses::window new_centered_win( int nlines, int ncols );
 
@@ -170,7 +175,7 @@ class uilist: public ui_container
         std::string text;
         std::vector<std::string> textformatted;
         std::string input_category;
-        std::vector< std::pair<std::string, std::string> > additional_actions;
+        std::vector<std::pair<std::string, translation>> additional_actions;
         int textwidth;
         int textalign;
         int max_entry_len;
@@ -190,27 +195,28 @@ class uilist: public ui_container
         nc_color hilight_color;
         nc_color hotkey_color;
         nc_color disabled_color;
-        int pad_left;
-        int pad_right;
-        bool allow_disabled; // return on selecting disabled entry, default false
-        bool allow_anykey; // return UILIST_UNBOUND on keys unbound & unhandled by callback, default false
-        bool allow_cancel; // return UILIST_CANCEL on "QUIT" action, default true
+        int pad_left = 0;
+        int pad_right = 0;
+        bool allow_disabled = false; // return on selecting disabled entry, default false
+        // return UILIST_UNBOUND on keys unbound & unhandled by callback, default false
+        bool allow_anykey = false;
+        bool allow_cancel = true; // return UILIST_CANCEL on "QUIT" action, default true
         // return UILIST_ADDITIONAL if the input action is inside `additional_actions`
         // and unhandled by callback, default false.
-        bool allow_additional;
-        bool hilight_disabled;
-        bool hilight_full;
-        int vshift;
-        int vmax;
+        bool allow_additional = false;
+        bool hilight_disabled = false;
+        bool hilight_full = false;
+        int vshift = 0;
+        int vmax = 0;
         std::string filter;
         std::vector<int> fentries;
-        int fselected;
-        bool centered_scroll;
+        int fselected = 0;
+        bool centered_scroll = false;
 
-        bool scrollbar_auto;
+        bool scrollbar_auto = false;
         nc_color scrollbar_nopage_color;
         nc_color scrollbar_page_color;
-        int scrollbar_side;
+        int scrollbar_side = 0;
 
         uilist_callback *callback;
 
@@ -227,8 +233,12 @@ class uilist: public ui_container
         uilist( const point &start, int width, const std::string &msg,
                 std::initializer_list<const char *const> opts );
 
+        ~uilist() override;
+
         void init();
         void setup();
+        // initialize the window or reposition it after screen size change.
+        void reposition( ui_adaptor &ui );
         void show();
         bool scrollby( int scrollby );
         int scroll_amount_from_key( int key );
@@ -236,7 +246,6 @@ class uilist: public ui_container
         void query( bool loop = true, int timeout = -1 );
         void filterlist();
         void apply_scrollbar();
-        std::string inputfilter();
         void refresh( bool refresh_callback = true ) override;
         void redraw( bool redraw_callback = true );
         void addentry( const std::string &str );
@@ -258,10 +267,16 @@ class uilist: public ui_container
 
         operator int() const;
 
-        // pending refactor // ui_element_input * filter_input;
-
     private:
-        bool started;
+        bool started = false;
+        std::unique_ptr<string_input_popup> filter_popup;
+
+        bool w_x_autoassigned = false;
+        bool w_y_autoassigned = false;
+
+        // This function assumes it's being called from `query` and should
+        // not be made public.
+        void inputfilter();
 
     protected:
         std::string hotkeys;
@@ -284,4 +299,4 @@ class pointmenu_cb : public uilist_callback
         void refresh( uilist *menu ) override;
 };
 
-#endif
+#endif // CATA_SRC_UI_H

@@ -107,6 +107,7 @@
       { "item": "permanent_marker", "prob": 40 },
       { "item": "paper", "prob": 55 },
       { "item": "light_battery_cell", "count": [ 1, 2 ], "prob": 85 },
+      { "item": "battery_charger", "prob": 85 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
@@ -318,8 +319,8 @@
         "distribution": [ { "item": "milk", "prob": 94 }, { "item": "almond_milk", "prob": 3 }, { "item": "soy_milk", "prob": 3 } ],
         "prob": 95
       },
-      { "item": "ketchup", "charges-min": 1, "prob": 85 },
-      { "item": "mustard", "charges-min": 1, "prob": 85 },
+      { "group": "ketchup_sealed_rng", "prob": 85 },
+      { "group": "mustard_sealed_rng", "prob": 85 },
       { "item": "mayonnaise", "charges-min": 1, "prob": 75 },
       { "item": "soysauce", "charges-min": 1, "prob": 65 },
       { "item": "horseradish", "charges-min": 1, "prob": 25 },
@@ -606,12 +607,45 @@
     "//2": "This group is for a bathroom sink.",
     "subtype": "collection",
     "entries": [
+      { "item": "soap", "count": [ 1, 4 ], "prob": 75 },
       { "item": "soap_holder", "prob": 40 },
-      { "item": "soap", "count": [ 1, 4 ], "prob": 90 },
       { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 20 },
+      { "item": "cotton_ball", "prob": 50 },
       { "item": "bleach", "prob": 15 },
       { "item": "ammonia", "prob": 20 },
+      { "item": "string_floss", "count": [ 1, 2 ], "prob": 60 },
       { "item": "toothbrush_plain", "count": [ 1, 3 ], "prob": 45 }
+    ]
+  },
+  {
+    "id": "SUS_bathroom_medicine",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for the medicine cabinet.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "aspirin", "prob": 160 }, { "item": "codeine", "prob": 30 }, { "item": "tramadol", "prob": 10 } ],
+        "prob": 95
+      },
+      { "item": "eyedrops", "prob": 15 },
+      { "item": "pepto", "prob": 70 },
+      { "item": "inhaler", "prob": 25 },
+      { "item": "pills_sleep", "prob": 10 },
+      { "distribution": [ { "item": "nyquil", "prob": 60 }, { "item": "dayquil", "prob": 20 } ], "prob": 50 },
+      {
+        "distribution": [
+          { "item": "vitamins", "prob": 60 },
+          { "item": "gummy_vitamins", "prob": 20 },
+          { "item": "calcium_tablet", "prob": 10 }
+        ],
+        "prob": 80
+      },
+      {
+        "distribution": [ { "item": "weak_antibiotic", "prob": 40 }, { "item": "antibiotics", "prob": 10 } ],
+        "prob": 10
+      },
+      { "distribution": [ { "item": "antifungal", "prob": 60 }, { "item": "antiparasitic", "prob": 20 } ], "prob": 5 }
     ]
   },
   {
@@ -623,9 +657,10 @@
     "entries": [
       { "item": "hairbrush", "count": [ 1, 2 ], "prob": 90 },
       { "item": "comb_pocket", "count": [ 1, 2 ], "prob": 75 },
-      { "item": "curler_hair", "prob": 25 },
+      { "item": "scissors", "count": [ 1, 2 ], "prob": 60 },
       { "item": "hair_dryer", "prob": 60 },
-      { "item": "curling_iron", "prob": 20 }
+      { "collection": [ { "item": "curling_iron", "count": [ 1, 2 ] }, { "item": "curler_hair" } ], "prob": 25 },
+      { "item": "elec_hairtrimmer", "prob": 30 }
     ]
   },
   {
@@ -635,16 +670,20 @@
     "//2": "This group is for things you often find stored on or next to a toilet.",
     "subtype": "collection",
     "entries": [
-      { "distribution": [ { "item": "plunger_toilet", "prob": 90 }, { "item": "plunger_futuristic", "prob": 10 } ] },
+      {
+        "distribution": [ { "item": "plunger_toilet", "prob": 90 }, { "item": "plunger_futuristic", "prob": 10 } ],
+        "prob": 90
+      },
       { "item": "brush_toilet", "prob": 75 },
-      { "item": "toilet_paper", "prob": 80 }
+      { "item": "toilet_paper", "prob": 95, "container-item": "wrapper" },
+      { "item": "bathroom_scale", "prob": 50 }
     ]
   },
   {
     "id": "SUS_bathroom_cabinet",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for a bathroom cabinet.",
+    "//2": "This group is for a bathroom cabinet under the sink.",
     "subtype": "collection",
     "entries": [
       { "item": "soap", "count": [ 1, 4 ], "prob": 70 },
@@ -652,11 +691,17 @@
         "distribution": [ { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 50 }, { "item": "shavingkit", "prob": 50 } ],
         "prob": 75
       },
+      {
+        "distribution": [ { "item": "bandages", "prob": 60 }, { "item": "medical_gauze", "prob": 20 }, { "item": "1st_aid", "prob": 10 } ],
+        "prob": 20
+      },
+      { "item": "disinfectant", "prob": 40 },
+      { "item": "chem_hydrogen_peroxide", "prob": 50 },
       { "item": "mirror", "prob": 25 },
-      { "item": "string_floss", "count": [ 1, 2 ], "prob": 60 },
       { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
       { "collection": [ { "item": "candle", "count": [ 1, 2 ] }, { "item": "matches" } ], "prob": 20 },
-      { "item": "toilet_paper", "prob": 80 }
+      { "item": "toilet_paper", "prob": 80 },
+      { "item": "towel", "count": [ 1, 2 ], "prob": 75 }
     ]
   },
   {

@@ -15,7 +15,7 @@
         ".##||||+|             o.",
         ".o      |         h   o.",
         ".#E @@  |       A   A #.",
-        ".o d@@s | hfh | ||JJJ||.",
+        ".o d@@s | hfh | ||JJJ|#.",
         ".#|||||+| hfh |  Y   4#.",
         ".#g|d                Oo.",
         ".#>+          |6 31F52#.",
@@ -58,6 +58,7 @@
             [ "greenhouse_6x6_vegetable", 25 ],
             [ "pond_6x6", 25 ],
             [ "shed_6x6_junk", 25 ],
+            [ "shed_6x6_bike", 25 ],
             [ "shed_6x6_woodworker", 25 ]
           ],
           "x": 15,
@@ -101,6 +102,66 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_08_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "  ||||||||||||||||||||| ",
+        "  |2........1.........| ",
+        "  |...................| ",
+        "  |...................| ",
+        " ||...................| ",
+        " |z...................| ",
+        " |%...................| ",
+        " |g...................| ",
+        " |....................| ",
+        " |.....z..............| ",
+        " |<..zFz..............| ",
+        " |%%+%||||||||||||||||| ",
+        " |....|                 ",
+        " |JWZJ|                 ",
+        " ||||||                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "2": {
+          "chunks": [
+            [ "null", 70 ],
+            [ "room_6x6_guns_E", 2 ],
+            [ "room_6x6_guns_S", 2 ],
+            [ "room_6x6_junk_E", 30 ],
+            [ "room_6x6_junk_S", 30 ],
+            [ "room_6x6_office_E", 30 ],
+            [ "room_6x6_office_S", 30 ],
+            [ "room_6x6_brewer_E", 10 ],
+            [ "room_6x6_brewer_S", 10 ]
+          ]
+        },
+        "1": {
+          "chunks": [
+            [ "null", 70 ],
+            [ "room_10x10_woodworker_W", 20 ],
+            [ "room_10x10_guns_W", 7 ],
+            [ "room_10x10_pool_W", 2 ],
+            [ "room_10x10_junk_W", 30 ],
+            [ "room_10x10_recording_studio_W", 20 ]
+          ]
+        }
+      }
     }
   }
 ]

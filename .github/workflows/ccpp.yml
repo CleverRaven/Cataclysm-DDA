@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v1
+    - name: checkout repository
+      uses: actions/checkout@v1
       with:
         fetch-depth: 10
     - name: install dependencies
@@ -23,3 +24,9 @@ jobs:
       run: make
     - name: run tests
       run: make check
+    - name: upload artifacts if failed
+      uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: cata_test
+        path: tests/cata_test

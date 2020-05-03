@@ -7,6 +7,7 @@
     "maintainers": [ "Noctifer-de-Mortem" ],
     "description": "Adds new classes and scenarios while rebalancing some existing ones.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

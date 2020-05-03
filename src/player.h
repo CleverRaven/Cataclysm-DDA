@@ -1,84 +1,79 @@
 #pragma once
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef CATA_SRC_PLAYER_H
+#define CATA_SRC_PLAYER_H
 
 #include <climits>
-#include <array>
-#include <memory>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <set>
 #include <string>
 #include <type_traits>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
+#include "color.h"
+#include "craft_command.h"
+#include "creature.h"
+#include "cursesdef.h"
 #include "damage.h"
+#include "enums.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_location.h"
+#include "memory_fast.h"
+#include "monster.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "ret_val.h"
-#include "weighted_list.h"
-#include "bodypart.h"
-#include "color.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "inventory.h"
-#include "item_location.h"
 #include "pldata.h"
-#include "type_id.h"
-#include "magic.h"
-#include "monster.h"
-#include "craft_command.h"
 #include "point.h"
-#include "memory_fast.h"
+#include "ret_val.h"
+#include "string_id.h"
+#include "type_id.h"
 
 class basecamp;
 class effect;
 class faction;
+class inventory;
 class map;
 class npc;
-struct pathfinding_settings;
 class recipe;
+struct pathfinding_settings;
+struct requirement_data;
+
 enum class recipe_filter_flags : int;
-struct islot_comestible;
 struct itype;
-class monster;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
 class recipe_subset;
 
 enum action_id : int;
-struct bionic;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
-struct dealt_projectile_attack;
 class dispersion_sources;
+struct bionic;
+struct dealt_projectile_attack;
 
 using itype_id = std::string;
 using faction_id = string_id<faction>;
-struct trap;
 class profession;
+struct trap;
 
 nc_color encumb_color( int level );
 enum game_message_type : int;
 class ma_technique;
-class martialart;
+class vehicle;
 struct item_comp;
 struct tool_comp;
-class vehicle;
 struct w_point;
-struct targeting_data;
 
 /** @relates ret_val */
 template<>
@@ -90,14 +85,6 @@ template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, INEDIBLE> {};
 
-struct special_attack {
-    std::string text;
-    damage_instance damage;
-};
-
-// The maximum level recoil will ever reach.
-// This corresponds to the level of accuracy of a "snap" or "hip" shot.
-extern const double MAX_RECOIL;
 
 struct stat_mod {
     int strength = 0;
@@ -109,10 +96,10 @@ struct stat_mod {
 };
 
 struct needs_rates {
-    float thirst;
-    float hunger;
-    float fatigue;
-    float recovery;
+    float thirst = 0.0f;
+    float hunger = 0.0f;
+    float fatigue = 0.0f;
+    float recovery = 0.0f;
     float kcal = 0.0f;
 };
 
@@ -156,12 +143,6 @@ class player : public Character
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
-        /** Returns an enumeration of visible mutations with colors */
-        std::string visible_mutations( int visibility_cap ) const;
-        std::vector<std::string> short_description_parts() const;
-        std::string short_description() const;
-        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
-
         // populate variables, inventory items, and misc from json object
         virtual void deserialize( JsonIn &jsin ) = 0;
 
@@ -180,15 +161,7 @@ class player : public Character
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
-        /** Called after every action, invalidates player caches */
-        void action_taken();
 
-        /** Define color for displaying the body temperature */
-        nc_color bodytemp_color( int bp ) const;
-        /** Returns the player's modified base movement cost */
-        int  run_cost( int base_cost, bool diag = false ) const;
-        /** Returns the player's speed for swimming across water tiles */
-        int  swim_speed() const;
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
 
@@ -196,8 +169,6 @@ class player : public Character
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
          */
         bool has_conflicting_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which cancels the entered trait */
-        bool has_opposite_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which upgrades into the entered trait */
         bool has_lower_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which is an upgrade of the entered trait */
@@ -214,73 +185,12 @@ class player : public Character
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
-        /** Handles bionic deactivation effects of the entered bionic, returns if anything
-         *  deactivated */
-        bool deactivate_bionic( int b, bool eff_only = false ) override;
-        /** Remove all bionics */
-        void clear_bionics();
-        /** Returns the size of my_bionics[] */
-        int num_bionics() const;
-        /** Returns amount of Storage CBMs in the corpse **/
-        std::pair<int, int> amount_of_storage_bionics() const;
-        /** Returns the bionic at a given index in my_bionics[] */
-        bionic &bionic_at_index( int i );
+
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet( int ch );
 
-        const tripoint &pos() const override;
-        /** Returns the player's sight range */
-        int sight_range( int light_level ) const override;
-        /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
-        int  unimpaired_range() const;
-        /** Returns true if overmap tile is within player line-of-sight */
-        bool overmap_los( const tripoint &omt, int sight_points );
-        /** Returns the distance the player can see on the overmap */
-        int  overmap_sight_range( int light_level ) const;
-        /** Returns the distance the player can see through walls */
-        int  clairvoyance() const;
-        /** Returns true if the player has some form of impaired sight */
-        bool sight_impaired() const;
-        /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
-        bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
-
-        /** Returns true if the player or their vehicle has an alarm clock */
-        bool has_alarm_clock() const;
-        /** Returns true if the player or their vehicle has a watch */
-        bool has_watch() const;
-
-        // see Creature::sees
-        bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
-        // see Creature::sees
-        bool sees( const Creature &critter ) const override;
-        /**
-         * Get all hostile creatures currently visible to this player.
-         */
-        std::vector<Creature *> get_hostile_creatures( int range ) const;
-
-        /**
-         * Returns all creatures that this player can see and that are in the given
-         * range. This player object itself is never included.
-         * The player character (g->u) is checked and might be included (if applicable).
-         * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
-         * are included.
-         */
-        std::vector<Creature *> get_visible_creatures( int range ) const;
-        /**
-         * As above, but includes all creatures the player can detect well enough to target
-         * with ranged weapons, e.g. with infrared vision.
-         */
-        std::vector<Creature *> get_targetable_creatures( int range ) const;
-        /**
-         * Check whether the this player can see the other creature with infrared. This implies
-         * this player can see infrared and the target is visible with infrared (is warm).
-         * And of course a line of sight exists.
-         */
-        bool sees_with_infrared( const Creature &critter ) const;
-
-        Attitude attitude_to( const Creature &other ) const override;
 
         void pause(); // '.' command; pauses & resets recoil
 
@@ -291,41 +201,16 @@ class player : public Character
 
         /** Returns value of player's stable footing */
         float stability_roll() const override;
-        /** Returns true if the player has quiet melee attacks */
-        bool is_quiet() const;
         /** Returns true if the player has stealthy movement */
         bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Always returns false, since players can't dig currently */
-        bool digging() const override;
-        /** Returns true if the player is knocked over or has broken legs */
-        bool is_on_ground() const override;
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
 
         /** Returns true if the player is able to use a grab breaking technique */
         bool can_grab_break( const item &weap ) const;
-        /** Returns true if the player is able to use a miss recovery technique */
-        bool can_miss_recovery( const item &weap ) const;
         // melee.cpp
-        /** Returns the best item for blocking with */
-        item &best_shield();
-        /**
-         * Sets up a melee attack and handles melee attack function calls
-         * @param t Creature to attack
-         * @param allow_special whether non-forced martial art technique or mutation attack should be
-         *   possible with this attack.
-         * @param force_technique special technique to use in attack.
-         * @param allow_unarmed always uses the wielded weapon regardless of martialarts style
-         */
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
-                           bool allow_unarmed = true );
-        /**
-         * Calls the to other melee_attack function with an empty technique id (meaning no specific
-         * technique should be used).
-         */
-        void melee_attack( Creature &t, bool allow_special );
 
         /**
          * Returns a weapon's modified dispersion value.
@@ -365,56 +250,19 @@ class player : public Character
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &p );
 
-        /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
-        bool block_hit( Creature *source, body_part &bp_hit, damage_instance &dam ) override;
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
-        void on_hit( Creature *source, body_part bp_hit = num_bp,
+        void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
-        /** Returns the bonus bashing damage the player deals based on their stats */
-        float bonus_damage( bool random ) const;
-        /** Returns weapon skill */
-        float get_hit_base() const override;
-        /** Returns the player's basic hit roll that is compared to the target's dodge roll */
-        float hit_roll() const override;
-        /** Returns the chance to critical given a hit roll and target's dodge roll */
-        double crit_chance( float roll_hit, float target_dodge, const item &weap ) const;
-        /** Returns true if the player scores a critical hit */
-        bool scored_crit( float target_dodge, const item &weap ) const;
-        /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
-        int attack_speed( const item &weap ) const;
-        /** Gets melee accuracy component from weapon+skills */
-        float get_hit_weapon( const item &weap ) const;
+
         /** NPC-related item rating functions */
         double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
         double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
         double melee_value( const item &weap ) const; // As above, but only as melee
         double unarmed_value() const; // Evaluate yourself!
 
-        // If average == true, adds expected values of random rolls instead of rolling.
-        /** Adds all 3 types of physical damage to instance */
-        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
-        /** Adds player's total bash damage to the damage instance */
-        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
-        /** Adds player's total cut damage to the damage instance */
-        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
-        /** Adds player's total stab damage to the damage instance */
-        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
-
-        /** Returns a random valid technique */
-        matec_id pick_technique( Creature &t, const item &weap,
-                                 bool crit, bool dodge_counter, bool block_counter );
-        void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
-                                int &move_cost );
-        /** Performs special attacks and their effects (poisonous, stinger, etc.) */
-        void perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam );
-
-        /** Returns a vector of valid mutation attacks */
-        std::vector<special_attack> mutation_attacks( Creature &t ) const;
-        /** Handles combat effects, returns a string of any valid combat effect messages */
-        std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
         /** Returns Creature::get_dodge_base modified by the player's skill level */
         float get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
         /** Returns Creature::get_dodge() modified by any player effects */
@@ -442,8 +290,6 @@ class player : public Character
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
         // Mental skills and stats
-        /** Returns the player's reading speed */
-        int read_speed( bool return_stat_effect = true ) const;
         /** Returns a value used when attempting to convince NPC's of something */
         int talk_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
@@ -461,14 +307,6 @@ class player : public Character
          * @returns true if given damage can not reduce hp of given body part
          */
         bool immune_to( body_part bp, damage_unit dam ) const;
-        /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
-        dealt_damage_instance deal_damage( Creature *source, body_part bp,
-                                           const damage_instance &d ) override;
-        /** Reduce healing effect intensity, return initial intensity of the effect */
-        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
-        /** Actually hurt the player, hurts a body_part directly, no armor reduction */
-        void apply_damage( Creature *source, body_part hurt, int dam,
-                           bool bypass_med = false ) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
@@ -511,10 +349,6 @@ class player : public Character
         bool eat( item &food, bool force = false );
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
-
-        std::pair<std::string, nc_color> get_hunger_description() const override;
-
-        std::pair<std::string, nc_color> get_pain_description() const override;
 
         int get_lift_assist() const;
 
@@ -605,7 +439,7 @@ class player : public Character
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
          * @param container Container containing the item to be wielded
-         * @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
+         * @param internal_item reference to contained item to wield.
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
@@ -682,15 +516,11 @@ class player : public Character
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
         bool beyond_final_warning( const faction_id &id );
-        /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
-        bool natural_attack_restricted_on( body_part bp ) const;
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
         int kcal_speed_penalty();
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
-
-        int adjust_for_focus( int amount ) const;
         /** This handles giving xp for a skill */
         void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
@@ -702,9 +532,6 @@ class player : public Character
          *  truncated to a number of characters. 0 means it is not truncated
          */
         std::string weapname( unsigned int truncate = 0 ) const;
-
-        float power_rating() const override;
-        float speed_rating() const override;
 
         void process_items();
         /**
@@ -724,10 +551,6 @@ class player : public Character
          * @param quantity How many charges to remove
          */
         item reduce_charges( item *it, int quantity );
-        /** Return the item position of the item with given invlet, return INT_MIN if
-         * the player does not have such an item with that invlet. Don't use this on npcs.
-         * Only use the invlet in the user interface, otherwise always use the item position. */
-        int invlet_to_position( int invlet ) const;
 
         /**
         * Check whether player has a bionic power armor interface.
@@ -735,28 +558,12 @@ class player : public Character
         */
         bool can_interface_armor() const;
 
-        // Put corpse+inventory on map at the place where this is.
-        void place_corpse();
-        // Put corpse+inventory on defined om tile
-        void place_corpse( const tripoint &om_target );
-
-        /** Returns the item in the player's inventory with the highest of the specified quality*/
-        item &item_with_best_of_quality( const quality_id &qid );
-
-        /**
-        * Prompts user about crushing item at item_location loc, for harvesting of frozen liquids
-        * @param loc Location for item to crush
-        */
-        bool crush_frozen_liquid( item_location loc );
-
         bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**
          * Check whether the player has a gun that uses the given type of ammo.
          */
         bool has_gun_for_ammo( const ammotype &at ) const;
         bool has_magazine_for_ammo( const ammotype &at ) const;
-
-        bool has_weapon() const override;
 
         // Checks crafting inventory for books providing the requested recipe.
         // Then checks nearby NPCs who could provide it too.
@@ -898,54 +705,28 @@ class player : public Character
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
                             const std::string &hotkeys = DEFAULT_HOTKEYS );
 
-        // Auto move methods
-        void set_destination( const std::vector<tripoint> &route,
-                              const player_activity &new_destination_activity = player_activity() );
-        void clear_destination();
-        bool has_distant_destination() const;
-
-        // true if the player is auto moving, or if the player is going to finish
-        // auto moving but the destination is not yet reset, such as in avatar_action::move
-        bool is_auto_moving() const;
-        // true if there are further moves in the auto move route
-        bool has_destination() const;
-        // true if player has destination activity AND is standing on destination tile
-        bool has_destination_activity() const;
-        // starts destination activity and cleans up to ensure it is called only once
-        void start_destination_activity();
-        std::vector<tripoint> &get_auto_move_route();
-        action_id get_next_auto_move_direction();
-        bool defer_move( const tripoint &next );
-        void shift_destination( const point &shift );
-
         // ---------------VALUES-----------------
         tripoint view_offset;
         // Is currently in control of a vehicle
         bool controlling_vehicle;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
-        cata::optional<tripoint> destination_point;
         int volume;
         const profession *prof;
 
+        bool random_start_location;
         start_location_id start_location;
 
-        double recoil = MAX_RECOIL;
         weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         int scent;
-        int dodges_left;
-        int blocks_left;
         int cash;
         int movecounter;
-        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
-        bool death_drops;
 
-        bool reach_attacking = false;
         bool manual_examine = false;
-
+        vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
@@ -959,72 +740,27 @@ class player : public Character
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        bool is_underwater() const override;
         void set_underwater( bool );
         bool is_hallucination() const override;
         void environmental_revert_effect();
 
-        // Checks whether a player can hear a sound at a given volume and location.
-        bool can_hear( const tripoint &source, int volume ) const;
-        // Returns a multiplier indicating the keenness of a player's hearing.
-        float hearing_ability() const;
-
-        m_size get_size() const override;
-        int get_hp( hp_part bp ) const override;
-        int get_hp() const override;
-        int get_hp_max( hp_part bp ) const override;
-        int get_hp_max() const override;
-
         //message related stuff
         using Character::add_msg_if_player;
         void add_msg_if_player( const std::string &msg ) const override;
-        void add_msg_if_player( game_message_type type, const std::string &msg ) const override;
+        void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
         using Character::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_str ) const override;
-        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         using Character::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
-        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
-        using trap_map = std::map<tripoint, std::string>;
-        bool knows_trap( const tripoint &pos ) const;
-        void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-
-        /**
-         * Called when a mutation is gained
-         */
-        void on_mutation_gain( const trait_id &mid ) override;
-        /**
-         * Called when a mutation is lost
-         */
-        void on_mutation_loss( const trait_id &mid ) override;
-        /**
-         * Called when a stat is changed
-         */
-        void on_stat_change( const std::string &stat, int value ) override;
-        /**
-         * Called when an item is worn
-         */
-        void on_item_wear( const item &it ) override;
-        /**
-         * Called when an item is taken off
-         */
-        void on_item_takeoff( const item &it ) override;
-        /**
-         * Called when an item is washed
-         */
-        void on_worn_item_washed( const item &it ) override;
-        /**
-         * Called when effect intensity has been changed
-         */
-        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
-
         // formats and prints encumbrance info to specified window
         void print_encumbrance( const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;
@@ -1032,8 +768,6 @@ class player : public Character
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
-        std::set<tripoint> get_path_avoid() const override;
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
@@ -1042,23 +776,9 @@ class player : public Character
          */
         void disarm( npc &target );
 
-        /**
-         * Accessor method for weapon targeting data, used for interactive weapon aiming.
-         * @return a reference to the data pointed by player's tdata member.
-         */
-        const targeting_data &get_targeting_data();
-
-        /**
-         * Mutator method for weapon targeting data.
-         * @param td targeting data to be set.
-         */
-        void set_targeting_data( const targeting_data &td );
-
         std::set<tripoint> camps;
 
     protected:
-
-        trap_map known_traps;
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
@@ -1067,18 +787,6 @@ class player : public Character
         void process_one_effect( effect &it, bool is_new ) override;
 
     private:
-
-        /** Check if an area-of-effect technique has valid targets */
-        bool valid_aoe_technique( Creature &t, const ma_technique &technique );
-        bool valid_aoe_technique( Creature &t, const ma_technique &technique,
-                                  std::vector<Creature *> &targets );
-        /**
-         * Check whether the other creature is in range and can be seen by this creature.
-         * @param critter Creature to check for visibility
-         * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
-         * are included.
-         */
-        bool is_visible_in_range( const Creature &critter, int range ) const;
 
         /**
          * Consumes an item as medication.
@@ -1089,15 +797,8 @@ class player : public Character
 
     private:
 
-        std::vector<tripoint> auto_move_route;
-        // Used to make sure auto move is canceled if we stumble off course
-        cata::optional<tripoint> next_expected_position;
-        /** warnings from a faction about bad behaviour */
+        /** warnings from a faction about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
-
-    private:
-        /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
-        shared_ptr_fast<targeting_data> tdata;
 
     protected:
 
@@ -1108,4 +809,4 @@ class player : public Character
         mutable decltype( _skills ) valid_autolearn_skills;
 };
 
-#endif
+#endif // CATA_SRC_PLAYER_H

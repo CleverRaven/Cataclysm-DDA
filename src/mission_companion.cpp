@@ -1,63 +1,83 @@
 #include "mission_companion.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <cassert>
-#include <vector>
 #include <array>
+#include <cassert>
+#include <cstdlib>
 #include <list>
 #include <map>
+#include <memory>
+#include <set>
 #include <unordered_map>
 #include <utility>
-#include <set>
+#include <vector>
 
 #include "avatar.h"
+#include "basecamp.h"
 #include "calendar.h"
+#include "catacharset.h"
+#include "colony.h"
+#include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
-#include "faction_camp.h"
-#include "input.h"
-#include "item_group.h"
-#include "itype.h"
-#include "line.h"
-#include "mapbuffer.h"
-#include "mapdata.h"
-#include "messages.h"
-#include "mtype.h"
-#include "map_iterator.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
-#include "rng.h"
-#include "translations.h"
-#include "basecamp.h"
-#include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "enums.h"
 #include "faction.h"
+#include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
+#include "input.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_stack.h"
+#include "itype.h"
+#include "line.h"
 #include "map.h"
+#include "map_iterator.h"
+#include "mapbuffer.h"
+#include "mapdata.h"
+#include "material.h"
+#include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
-#include "pimpl.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "pldata.h"
+#include "point.h"
+#include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "translations.h"
 #include "ui.h"
-#include "weighted_list.h"
-#include "material.h"
-#include "colony.h"
-#include "point.h"
+#include "ui_manager.h"
+#include "value_ptr.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+#include "weighted_list.h"
+
+static const efftype_id effect_riding( "riding" );
+
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_unarmed( "unarmed" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
+static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
+static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 
 struct comp_rank {
     int industry;
@@ -316,7 +336,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
             } else if( calendar::turn >= elem->companion_mission_time ) {
                 entry = entry + "  " + elem->name + _( " [COMPLETE]\n" );
             } else {
-                entry = entry + "  " + elem->name + " [" + to_string( abs( to_hours<int>
+                entry = entry + "  " + elem->name + " [" + to_string( std::abs( to_hours<int>
                         ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours]\n" );
             }
         }
@@ -355,35 +375,17 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     base_camps::tab_mode tab_mode = base_camps::TAB_MAIN;
 
-    size_t part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
-    size_t part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
-    size_t maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
-    size_t maxx = part_x ? TERMX - 2 * part_x : FULL_SCREEN_WIDTH;
-
-    catacurses::window w_list = catacurses::newwin( maxy, maxx, point( part_x,
-                                part_y + TITLE_TAB_HEIGHT ) );
-    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, point( part_x, part_y ) );
-
     size_t sel = 0;
-    int name_offset = 0;
-    size_t folded_names_lines = 0;
-    bool redraw = true;
 
     // The following are for managing the right pane scrollbar.
     size_t info_offset = 0;
-    size_t info_height = maxy - 3;
-    size_t info_width = maxx - 1 - MAX_FAC_NAME_SIZE;
-    size_t end_line = 0;
     nc_color col = c_white;
     std::vector<std::string> name_text;
     std::vector<std::string> mission_text;
 
-    catacurses::window w_info = catacurses::newwin( info_height, info_width,
-                                point( part_x + MAX_FAC_NAME_SIZE, part_y + TITLE_TAB_HEIGHT + 1 ) );
-
     input_context ctxt( "FACTIONS" );
-    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
+    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "PAGE_UP" );
@@ -416,100 +418,133 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         return false;
     }
 
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
+    size_t part_y = 0;
+    size_t part_x = 0;
+    size_t maxy = 0;
+    size_t maxx = 0;
+    size_t info_height = 0;
+    size_t info_width = 0;
+
+    catacurses::window w_list;
+    catacurses::window w_tabs;
+    catacurses::window w_info;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+        part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+        maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
+        maxx = part_x ? TERMX - 2 * part_x : FULL_SCREEN_WIDTH;
+        info_height = maxy - 3;
+        info_width = maxx - 1 - MAX_FAC_NAME_SIZE;
+
+        w_list = catacurses::newwin( maxy, maxx,
+                                     point( part_x, part_y + TITLE_TAB_HEIGHT ) );
+        w_info = catacurses::newwin( info_height, info_width,
+                                     point( part_x + MAX_FAC_NAME_SIZE, part_y + TITLE_TAB_HEIGHT + 1 ) );
+
+        if( role_id == "FACTION_CAMP" ) {
+            w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, point( part_x, part_y ) );
+            ui.position( point( part_x, part_y ), point( maxx, maxy + TITLE_TAB_HEIGHT ) );
+        } else {
+            ui.position( point( part_x, part_y + TITLE_TAB_HEIGHT ), point( maxx, maxy ) );
+        }
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_list );
+        draw_border( w_list );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
+                   tab_mode ) );
+
+        std::vector<std::vector<std::string>> folded_names;
+        size_t folded_names_lines = 0;
+        for( const auto &cur_key_entry : cur_key_list ) {
+            std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, MAX_FAC_NAME_SIZE - 5,
+                                              ' ' );
+            folded_names_lines += f_name.size();
+            folded_names.emplace_back( f_name );
+        }
+
+        int name_offset = 0;
+        calcStartPos( name_offset, sel, info_height, folded_names_lines );
+
+        size_t list_line = 2;
+        for( size_t current = name_offset; list_line < info_height &&
+             current < cur_key_list.size(); current++ ) {
+            nc_color col = ( current == sel ? h_white : c_white );
+            //highlight important missions
+            for( const auto &k : mission_key.entries[0] ) {
+                if( cur_key_list[current].id == k.id ) {
+                    col = ( current == sel ? h_white : c_yellow );
+                    break;
+                }
+            }
+            //dull uncraftable items
+            for( const auto &k : mission_key.entries[10] ) {
+                if( cur_key_list[current].id == k.id ) {
+                    col = ( current == sel ? h_white : c_dark_gray );
+                    break;
+                }
+            }
+            std::vector<std::string> &name_text = folded_names[current];
+            for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
+                print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
+                                    col, col, name_text[name_line] );
+                list_line += 1;
+            }
+        }
+
+        if( cur_key_list.size() > info_height + 1 ) {
+            scrollbar()
+            .offset_x( 0 )
+            .offset_y( 1 )
+            .content_size( folded_names_lines )
+            .viewport_pos( sel )
+            .viewport_size( info_height + 1 )
+            .apply( w_list );
+        }
+        wrefresh( w_list );
+        werase( w_info );
+
+        // Fold mission text, store it for scrolling
+        mission_text = foldstring( mission_key.cur_key.text, info_width - 2, ' ' );
+        if( info_height >= mission_text.size() ) {
+            info_offset = 0;
+        } else if( info_offset + info_height > mission_text.size() ) {
+            info_offset = mission_text.size() - info_height;
+        }
+        if( mission_text.size() > info_height ) {
+            scrollbar()
+            .offset_x( info_width - 1 )
+            .offset_y( 0 )
+            .content_size( mission_text.size() )
+            .viewport_pos( info_offset )
+            .viewport_size( info_height )
+            .apply( w_info );
+        }
+        const size_t end_line = std::min( info_height, mission_text.size() - info_offset );
+
+        // Display the current subset of the mission text.
+        for( size_t start_line = 0; start_line < end_line; start_line++ ) {
+            print_colored_text( w_info, point( 0, start_line ), col, col,
+                                mission_text[start_line + info_offset] );
+        }
+
+        wrefresh( w_info );
+
+        if( role_id == "FACTION_CAMP" ) {
+            werase( w_tabs );
+            draw_camp_tabs( w_tabs, tab_mode, mission_key.entries );
+            wrefresh( w_tabs );
+        }
+    } );
 
     while( true ) {
         mission_key.cur_key = cur_key_list[sel];
-        if( redraw ) {
-            werase( w_list );
-            draw_border( w_list );
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
-                       tab_mode ) );
-
-            std::vector<std::vector<std::string>> folded_names;
-            for( const auto &cur_key_entry : cur_key_list ) {
-                std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, MAX_FAC_NAME_SIZE - 5,
-                                                  ' ' );
-                folded_names_lines += f_name.size();
-                folded_names.emplace_back( f_name );
-            }
-
-            calcStartPos( name_offset, sel, info_height, folded_names_lines );
-
-            size_t list_line = 2;
-            for( size_t current = name_offset; list_line < info_height &&
-                 current < cur_key_list.size(); current++ ) {
-                nc_color col = ( current == sel ? h_white : c_white );
-                //highlight important missions
-                for( const auto &k : mission_key.entries[0] ) {
-                    if( cur_key_list[current].id == k.id ) {
-                        col = ( current == sel ? h_white : c_yellow );
-                        break;
-                    }
-                }
-                //dull uncraftable items
-                for( const auto &k : mission_key.entries[10] ) {
-                    if( cur_key_list[current].id == k.id ) {
-                        col = ( current == sel ? h_white : c_dark_gray );
-                        break;
-                    }
-                }
-                std::vector<std::string> &name_text = folded_names[current];
-                for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
-                    print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
-                                        col, col, name_text[name_line] );
-                    list_line += 1;
-                }
-            }
-
-            if( cur_key_list.size() > info_height + 1 ) {
-                scrollbar()
-                .offset_x( 0 )
-                .offset_y( 1 )
-                .content_size( folded_names_lines )
-                .viewport_pos( sel )
-                .viewport_size( info_height + 1 )
-                .apply( w_list );
-            }
-            wrefresh( w_list );
-            werase( w_info );
-
-            // Fold mission text, store it for scrolling
-            mission_text = foldstring( mission_key.cur_key.text, info_width - 2, ' ' );
-            if( info_height >= mission_text.size() ) {
-                info_offset = 0;
-            } else if( info_offset + info_height > mission_text.size() ) {
-                info_offset = mission_text.size() - info_height;
-            }
-            if( mission_text.size() > info_height ) {
-                scrollbar()
-                .offset_x( info_width - 1 )
-                .offset_y( 0 )
-                .content_size( mission_text.size() )
-                .viewport_pos( info_offset )
-                .viewport_size( info_height )
-                .apply( w_info );
-            }
-            end_line = std::min( info_height, mission_text.size() - info_offset );
-
-            // Display the current subset of the mission text.
-            for( size_t start_line = 0; start_line < end_line; start_line++ ) {
-                print_colored_text( w_info, point( 0, start_line ), col, col,
-                                    mission_text[start_line + info_offset] );
-            }
-
-            wrefresh( w_info );
-
-            if( role_id == "FACTION_CAMP" ) {
-                werase( w_tabs );
-                draw_camp_tabs( w_tabs, tab_mode, mission_key.entries );
-                wrefresh( w_tabs );
-            }
-            redraw = false;
-        }
+        ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             if( sel == cur_key_list.size() - 1 ) {
@@ -518,7 +553,6 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 sel++;
             }
             info_offset = 0;
-            redraw = true;
         } else if( action == "UP" ) {
             if( sel == 0 ) {
                 sel = cur_key_list.size() - 1;    // Wrap around
@@ -526,19 +560,14 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 sel--;
             }
             info_offset = 0;
-            redraw = true;
         } else if( action == "PAGE_UP" ) {
             if( info_offset > 0 ) {
                 info_offset--;
-                redraw = true;
             }
         } else if( action == "PAGE_DOWN" ) {
             info_offset++;
-            redraw = true;
         } else if( action == "NEXT_TAB" && role_id == "FACTION_CAMP" ) {
-            redraw = true;
             sel = 0;
-            name_offset = 0;
             info_offset = 0;
 
             do {
@@ -551,9 +580,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 }
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && role_id == "FACTION_CAMP" ) {
-            redraw = true;
             sel = 0;
-            name_offset = 0;
             info_offset = 0;
 
             do {
@@ -581,14 +608,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             } else {
                 continue;
             }
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            g->draw_ter();
-            wrefresh( g->w_terrain );
-            g->draw_panels( true );
-            redraw = true;
         }
     }
-    g->refresh_all();
     return true;
 }
 
@@ -983,8 +1004,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
                           false );
     tinymap bay;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    for( const tripoint &p : bay.points_on_zlevel() ) {
-        if( bay.ter( p ) == t_dirtmound ) {
+    for( const tripoint &plot : bay.points_on_zlevel() ) {
+        if( bay.ter( plot ) == t_dirtmound ) {
             empty_plots++;
         }
     }
@@ -1010,8 +1031,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
     }
 
     //Plant the actual seeds
-    for( const tripoint &p : bay.points_on_zlevel() ) {
-        if( bay.ter( p ) == t_dirtmound && limiting_number > 0 ) {
+    for( const tripoint &plot : bay.points_on_zlevel() ) {
+        if( bay.ter( plot ) == t_dirtmound && limiting_number > 0 ) {
             std::list<item> used_seed;
             if( item::count_by_charges( seed_id ) ) {
                 used_seed = g->u.use_charges( seed_id, 1 );
@@ -1019,8 +1040,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
                 used_seed = g->u.use_amount( seed_id, 1 );
             }
             used_seed.front().set_age( 0_turns );
-            bay.add_item_or_charges( p, used_seed.front() );
-            bay.set( p, t_dirt, f_plant_seed );
+            bay.add_item_or_charges( plot, used_seed.front() );
+            bay.set( plot, t_dirt, f_plant_seed );
             limiting_number--;
         }
     }
@@ -1041,9 +1062,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    for( const tripoint &p : bay.points_on_zlevel() ) {
-        map_stack items = bay.i_at( p );
-        if( bay.furn( p ) == furn_str_id( "f_plant_harvest" ) && !items.empty() ) {
+    for( const tripoint &plot : bay.points_on_zlevel() ) {
+        map_stack items = bay.i_at( plot );
+        if( bay.furn( plot ) == furn_str_id( "f_plant_harvest" ) && !items.empty() ) {
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.is_seed();
@@ -1087,10 +1108,10 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         skillLevel += 2;
     }
 
-    for( const tripoint &p : bay.points_on_zlevel() ) {
-        if( bay.furn( p ) == furn_str_id( "f_plant_harvest" ) ) {
+    for( const tripoint &plot : bay.points_on_zlevel() ) {
+        if( bay.furn( plot ) == furn_str_id( "f_plant_harvest" ) ) {
             // Can't use item_stack::only_item() since there might be fertilizer
-            map_stack items = bay.i_at( p );
+            map_stack items = bay.i_at( plot );
             map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.is_seed();
             } );
@@ -1100,9 +1121,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                 tmp = item( seed_data.fruit_id, calendar::turn );
                 if( tmp.typeId() == plant_types[plant_index] ) {
                     number_plots++;
-                    bay.i_clear( p );
-                    bay.furn_set( p, f_null );
-                    bay.ter_set( p, t_dirtmound );
+                    bay.i_clear( plot );
+                    bay.furn_set( plot, f_null );
+                    bay.ter_set( plot, t_dirtmound );
                     int plantCount = rng( skillLevel / 2, skillLevel );
                     if( plantCount >= 9 ) {
                         plantCount = 9;
@@ -1253,9 +1274,12 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     //The loot value needs to be added to the faction - what the player is payed
+    tripoint loot_location = g->u.global_omt_location();
+    // Only check at the ground floor.
+    loot_location.z = 0;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
-        const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "house",
-                              0, false );
+        const tripoint site = overmap_buffer.find_closest( loot_location, "house", 0, false,
+                              ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
         loot_building( site );
     }

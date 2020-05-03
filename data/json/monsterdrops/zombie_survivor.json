@@ -64,7 +64,13 @@
   {
     "id": "survivor_grenades",
     "type": "item_group",
-    "items": [ [ "gasbomb_makeshift", 30 ], [ "molotov", 100 ], [ "nail_bomb", 100 ], [ "pipebomb", 30 ], [ "can_bomb", 30 ] ]
+    "items": [
+      [ "gasbomb_makeshift", 30 ],
+      [ "molotov", 100 ],
+      [ "nail_bomb", 100 ],
+      [ "improvised_pipebomb", 30 ],
+      [ "can_bomb", 30 ]
+    ]
   },
   {
     "id": "survivor_stabbing",
@@ -86,6 +92,49 @@
       { "group": "survivor_knife", "prob": 10 },
       { "group": "survivor_melee", "prob": 40 },
       { "group": "guns_survival", "prob": 60 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_survivor_elite_death_drops",
+    "entries": [
+      { "group": "survivorzed_gloves", "damage": [ 1, 4 ] },
+      { "group": "survivorzed_boots", "damage": [ 1, 4 ] },
+      { "group": "survivorzed_head", "damage": [ 1, 4 ] },
+      { "group": "survivorzed_extra", "count": [ 3, 10 ], "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          { "group": "survivorzed_suits", "prob": 25, "damage": [ 1, 4 ] },
+          {
+            "collection": [
+              { "group": "survivorzed_tops", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "survivorzed_bottoms", "prob": 25, "damage": [ 1, 4 ] }
+            ],
+            "prob": 75
+          }
+        ]
+      },
+      {
+        "distribution": [ { "group": "underwear", "prob": 10, "damage": [ 1, 4 ] }, { "group": "loincloth", "prob": 1, "damage": [ 1, 4 ] } ]
+      },
+      {
+        "distribution": [
+          { "group": "guns_common", "prob": 24 },
+          { "group": "grenades", "prob": 10 },
+          { "group": "mil_hw", "prob": 1 },
+          { "group": "launchers", "prob": 1 },
+          { "group": "stash_food", "prob": 40 },
+          { "group": "ammo_common", "prob": 26 },
+          { "group": "stash_drugs", "prob": 28 },
+          { "group": "gear_survival", "prob": 18 },
+          { "group": "mil_food", "prob": 22 },
+          { "group": "mil_food_nodrugs", "prob": 34 },
+          { "group": "shelter", "prob": 8 },
+          { "group": "mil_surplus", "prob": 6 }
+        ]
+      },
+      { "item": "cash_card", "prob": 25, "charges-min": 50000, "charges-max": 150000 }
     ]
   }
 ]

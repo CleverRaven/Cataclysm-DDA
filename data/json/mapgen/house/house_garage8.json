@@ -104,5 +104,66 @@
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_garage8_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        " ||||||||||             ",
+        " |98S%...J|             ",
+        " |t..+.A.J|             ",
+        " |%%%%...W|             ",
+        " |g+.....Z|    |||||    ",
+        " |F+.....J||||||...||   ",
+        " |%%.........1......|   ",
+        " |z<..2.............|   ",
+        " |z.................|   ",
+        " |..................|   ",
+        " |..................|   ",
+        " |zz................|   ",
+        " |z.................|   ",
+        " ||||||||||||||||||||   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 60 ],
+            [ "room_7x7_wine_cellar_W", 10 ],
+            [ "room_7x7_junk_W", 30 ],
+            [ "room_7x7_recroom_W", 30 ],
+            [ "7x7_tent_indoors", 15 ]
+          ]
+        },
+        "2": {
+          "chunks": [
+            [ "null", 60 ],
+            [ "5x5_holdout_W", 2 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        }
+      }
+    }
   }
 ]

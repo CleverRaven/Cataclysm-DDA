@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house_09" ],
+    "//": "uses bionic_basement",
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -26,10 +27,10 @@
         ".#|||||||||| |||||+|||#.",
         ".#d     IID|         so.",
         ".#@@    h  +   y     so.",
-        ".#@@       |y |||+||||#.",
-        ".#d       E||+|Q      #.",
-        ".#     R  T|>>|UUdA ZW#.",
-        ".####oo#####o##########.",
+        ".#@@       | y|||+||||#.",
+        ".#d       E|+||Q      #.",
+        ".#     R  T|>q|UUdA ZW#.",
+        ".####oo################.",
         "...................^...."
       ],
       "palettes": [ "standard_domestic_palette" ],

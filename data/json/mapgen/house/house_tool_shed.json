@@ -68,7 +68,7 @@
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",
-        " |222222222222222222253.",
+        " |222222222222222222253 ",
         " |....................3 ",
         " |....................3 ",
         " |....................3 ",
@@ -94,6 +94,69 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_toolshed_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        " |||||||||||||||||||||| ",
+        " |S8%F.g%.z.2.........| ",
+        " |t.%%++%z............| ",
+        " |%+%.................| ",
+        " |....................| ",
+        " |.1..................| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |<...................| ",
+        " |%%+%||||||||||||||||| ",
+        " |W..J|                 ",
+        " |Z..J|                 ",
+        " ||||||                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 60 ],
+            [ "5x5_holdout_S", 2 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        },
+        "2": {
+          "chunks": [
+            [ "null", 70 ],
+            [ "room_10x10_woodworker_W", 20 ],
+            [ "room_10x10_guns_W", 7 ],
+            [ "room_10x10_pool_W", 2 ],
+            [ "room_10x10_junk_W", 30 ],
+            [ "room_10x10_recording_studio_W", 20 ]
+          ]
+        }
+      }
     }
   }
 ]

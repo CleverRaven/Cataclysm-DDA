@@ -6,6 +6,7 @@
     "authors": [ "Icecoon", "community" ],
     "description": "For those gun nuts.  Don't have enough near-future firearms in your life?  Add this mod today!",
     "category": "items",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

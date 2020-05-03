@@ -6,7 +6,8 @@
     "authors": [ "tungtn/community" ],
     "description": "Removes fictional conventional firearms and ammunition.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "ITEM_BLACKLIST",
@@ -47,22 +48,7 @@
       "rm228",
       "8mm_civilian",
       "rm298",
-      "rm360_carbine",
-      "l_sp_9mm",
-      "l_mp_9mm",
-      "l_lookout_9mm",
-      "l_sp_45",
-      "l_mp_45",
-      "l_enforcer_45",
-      "l_long_45",
-      "l_HFPack",
       "l_bak_223",
-      "lw12mag",
-      "lw21mag",
-      "l_base_223",
-      "l_car_223",
-      "l_mbr_223",
-      "l_dsr_223",
       "8x40_10_mag",
       "8x40_25_mag",
       "8x40_50_mag",
@@ -72,11 +58,8 @@
       "20x66_10_mag",
       "20x66_20_mag",
       "20x66_40_mag",
-      "360_200_mag",
-      "360_400_mag",
       "5x50_50_mag",
       "5x50_100_mag",
-      "l_lmg_223",
       "lwfeed"
     ]
   }

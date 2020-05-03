@@ -6,6 +6,7 @@
     "authors": [ "Sunshine" ],
     "description": "Demo for JSONized mapgens (megastore, missile silo).",
     "category": "buildings",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

@@ -1,345 +1,97 @@
 [
   {
     "type": "overmap_terrain",
-    "abstract": "generic_mansion_no_sidewalk",
+    "abstract": "generic_mansion",
     "name": "mansion",
     "sym": "M",
-    "color": "green",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS" ]
+    "flags": [ "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS", "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
-    "abstract": "generic_mansion",
-    "copy-from": "generic_mansion_no_sidewalk",
+    "abstract": "generic_mansion_no_sidewalk",
+    "copy-from": "generic_mansion",
+    "color": "green",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mansion_entry", "mansion_e1", "mansion_e2" ],
+    "copy-from": "generic_mansion"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mansion_wild" ],
     "color": "light_green",
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "mansion_c",
-    "type": "overmap_terrain",
     "copy-from": "generic_mansion_no_sidewalk"
   },
   {
-    "id": "mansion_c1",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c2",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c3",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c4",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c5",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c_up",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c1u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c2u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c3u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c4u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c5u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c_dn",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c1d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c2d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c3d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c4d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_c5d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+2",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+3",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+4",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+_up",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+1u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+2u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+3u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+4u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+_dn",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+1d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+2d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_+4d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t2",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t4",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t5",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t6",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t7",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t_up",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t1u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t2u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t4u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t5u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t6u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t7u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t_dn",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t1d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t2d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t4d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t5d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t6d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_t7d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_entry",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion"
-  },
-  {
-    "id": "mansion_e1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion"
-  },
-  {
-    "id": "mansion_e2",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion"
-  },
-  {
-    "id": "mansion_entry_up",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_e1u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_e2u",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_entry_dn",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_e1d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_e2d",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_wild",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk",
-    "color": "light_green"
-  },
-  {
-    "id": "mansion_wild_up",
-    "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
-  },
-  {
-    "id": "mansion_wild_dn",
-    "type": "overmap_terrain",
+    "id": [
+      "mansion_+",
+      "mansion_+1",
+      "mansion_+1d",
+      "mansion_+1u",
+      "mansion_+2",
+      "mansion_+2d",
+      "mansion_+2u",
+      "mansion_+3",
+      "mansion_+3u",
+      "mansion_+4",
+      "mansion_+4d",
+      "mansion_+4u",
+      "mansion_+_dn",
+      "mansion_+_up",
+      "mansion_c",
+      "mansion_c1",
+      "mansion_c1d",
+      "mansion_c1u",
+      "mansion_c2",
+      "mansion_c2d",
+      "mansion_c2u",
+      "mansion_c3",
+      "mansion_c3d",
+      "mansion_c3u",
+      "mansion_c4",
+      "mansion_c4d",
+      "mansion_c4u",
+      "mansion_c5",
+      "mansion_c5d",
+      "mansion_c5u",
+      "mansion_c_dn",
+      "mansion_c_up",
+      "mansion_e1d",
+      "mansion_e1u",
+      "mansion_e2d",
+      "mansion_e2u",
+      "mansion_entry_dn",
+      "mansion_entry_up",
+      "mansion_t",
+      "mansion_t1",
+      "mansion_t1d",
+      "mansion_t1u",
+      "mansion_t2",
+      "mansion_t2d",
+      "mansion_t2u",
+      "mansion_t4",
+      "mansion_t4d",
+      "mansion_t4u",
+      "mansion_t5",
+      "mansion_t5d",
+      "mansion_t5u",
+      "mansion_t6",
+      "mansion_t6d",
+      "mansion_t6u",
+      "mansion_t7",
+      "mansion_t7d",
+      "mansion_t7u",
+      "mansion_t_dn",
+      "mansion_t_up",
+      "mansion_wild_dn",
+      "mansion_wild_up"
+    ],
     "copy-from": "generic_mansion_no_sidewalk"
   }
 ]

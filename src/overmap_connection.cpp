@@ -71,7 +71,7 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
         return nullptr;
     }
 
-    const size_t cache_index = ground;
+    const size_t cache_index = ground.to_i();
     assert( cache_index < cached_subtypes.size() );
 
     if( cached_subtypes[cache_index] ) {

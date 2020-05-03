@@ -2,14 +2,14 @@
   {
     "id": "mon_fungaloid",
     "type": "MONSTER",
-    "name": "fungaloid",
+    "name": { "str": "fungaloid" },
     "copy-from": "mon_fungaloid",
     "special_attacks": [ [ "FUNGUS_CORPORATE", 30 ] ]
   },
   {
     "id": "mon_zombie_electric",
     "type": "MONSTER",
-    "name": "shocker zombie",
+    "name": { "str": "shocker zombie" },
     "description": "A human body with pale blue flesh, crackling with electrical energy.  It seems eager to tell you something.",
     "copy-from": "mon_zombie_electric",
     "special_attacks": [ [ "SHOCKING_REVEAL", 25 ] ]
@@ -17,7 +17,7 @@
   {
     "id": "mon_zombie_skeltal",
     "type": "MONSTER",
-    "name": "mr skeltal",
+    "name": { "str": "mr skeltal" },
     "description": "Devoid entirely of flesh and organs, this walking skeleton rattles you to the bone.  In its bony hand, it holds a pristine trumpet, unmarred by the end of the world.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -76,7 +76,7 @@
   {
     "id": "mon_bear_smoky",
     "type": "MONSTER",
-    "name": "Smoky bear",
+    "name": { "str": "Smoky bear" },
     "description": "A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice… and hunger.",
     "default_faction": "bear",
     "species": [ "ZOMBIE" ],
@@ -98,7 +98,7 @@
     "armor_cut": 4,
     "vision_day": 30,
     "vision_night": 10,
-    "emit_fields": [ "emit_smoke_stream" ],
+    "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],

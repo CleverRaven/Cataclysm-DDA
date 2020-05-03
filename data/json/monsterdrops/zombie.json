@@ -1,0 +1,138 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_armored_death_drops",
+    "entries": [
+      { "item": "power_supply", "count": [ 0, 7 ], "prob": 25 },
+      { "item": "element", "count": [ 0, 3 ], "prob": 40 },
+      { "item": "cable", "charges": [ 0, 12 ], "prob": 60 },
+      { "item": "transponder", "count": [ 0, 1 ], "prob": 25 },
+      { "item": "circuit", "count": [ 0, 8 ], "prob": 40 },
+      { "item": "small_lcd_screen", "count": [ 0, 2 ], "prob": 25 },
+      { "item": "RAM", "count": [ 0, 1 ], "prob": 25 },
+      { "item": "depowered_helmet", "count": [ 0, 1 ], "prob": 20 },
+      { "item": "depowered_armor", "count": [ 0, 1 ], "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_grenadier",
+    "entries": [
+      { "item": "tacvest", "damage": [ 1, 4 ] },
+      { "item": "bot_grenade_hack", "count": [ 0, 3 ] },
+      { "item": "bot_flashbang_hack", "prob": 50 },
+      { "item": "bot_gasbomb_hack", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_grenadier_elite",
+    "entries": [
+      { "item": "tacvest", "damage": [ 1, 4 ] },
+      { "item": "molle_pack", "damage": [ 1, 4 ] },
+      { "item": "bot_grenade_hack", "count": [ 0, 4 ] },
+      { "item": "bot_flashbang_hack", "count": [ 1, 2 ], "prob": 50 },
+      { "item": "bot_gasbomb_hack", "count": [ 1, 2 ], "prob": 50 },
+      { "item": "bot_c4_hack", "count": [ 1, 2 ], "prob": 20 },
+      { "item": "bot_mininuke_hack", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_hazmat_death_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "hazmat_full", "damage": [ 1, 4 ], "prob": 20 },
+          {
+            "collection": [
+              { "group": "hazmat_torso", "damage": [ 1, 4 ] },
+              { "group": "hazmat_gloves", "damage": [ 1, 4 ] },
+              { "group": "hazmat_boots", "damage": [ 1, 4 ] },
+              { "group": "hazmat_mask", "damage": [ 1, 4 ] },
+              { "group": "hazmat_eyes", "damage": [ 1, 4 ], "prob": 33 }
+            ],
+            "prob": 80
+          }
+        ]
+      },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "distribution": [ { "group": "rad_gear", "prob": 1 } ] },
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_hulk_death_drops",
+    "entries": [
+      { "item": "rag", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
+      { "group": "pants", "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items" },
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_fireman_death_drops",
+    "entries": [
+      { "group": "fireman_torso", "damage": [ 1, 4 ] },
+      { "group": "fireman_pants", "damage": [ 1, 4 ] },
+      { "group": "fireman_gloves", "damage": [ 1, 4 ] },
+      { "group": "fireman_boots", "damage": [ 1, 4 ] },
+      { "group": "fireman_mask", "damage": [ 1, 4 ] },
+      { "group": "fireman_head", "damage": [ 1, 4 ] },
+      { "group": "hazmat_eyes", "damage": [ 1, 4 ], "prob": 33 },
+      { "distribution": [ { "group": "fireman_gear", "prob": 1 } ] },
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_flamer",
+    "ammo": 50,
+    "magazine": 100,
+    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_swimmer_death_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "swimmer_wetsuit", "damage": [ 1, 4 ], "prob": 10 },
+          {
+            "collection": [
+              { "group": "swimmer_head", "damage": [ 1, 4 ], "prob": 75 },
+              { "group": "swimmer_torso", "damage": [ 1, 4 ], "prob": 33 },
+              { "group": "swimmer_pants", "damage": [ 1, 4 ] },
+              { "group": "swimmer_shoes", "damage": [ 1, 4 ], "prob": 25 }
+            ],
+            "prob": 90
+          }
+        ]
+      },
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000, "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mon_zombie_thorny_death_drops",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rag", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
+      { "group": "pants", "damage": [ 1, 4 ] },
+      { "group": "shoes", "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items" },
+      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
+      { "item": "fighter_sting", "prob": 60 }
+    ]
+  }
+]

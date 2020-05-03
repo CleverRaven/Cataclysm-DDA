@@ -1,6 +1,6 @@
 #pragma once
-#ifndef INT_ID_H
-#define INT_ID_H
+#ifndef CATA_SRC_INT_ID_H
+#define CATA_SRC_INT_ID_H
 
 #include <functional>
 #include <string>
@@ -30,7 +30,7 @@ class int_id
         }
 
         /**
-         * Prevent accidental construction from other int ids due to the non-explicit `operator int()`.
+         * Prevent accidental construction from other int ids.
          */
         template < typename S, typename std::enable_if_t < !std::is_same<S, T>::value, int > = 0 >
         int_id( const int_id<S> &id ) = delete;
@@ -86,10 +86,13 @@ class int_id
         }
         /**
          * Conversion to int as with the @ref to_i function.
-         * It is non-explicit to allow using int_id implicitly as indices etc
          */
-        operator int() const {
+        explicit operator int() const {
             return _id;
+        }
+
+        explicit operator bool() const {
+            return _id != 0;
         }
 
         // Those are optional, you need to implement them on your own if you want to use them.
@@ -125,4 +128,4 @@ struct hash< int_id<T> > {
 };
 } // namespace std
 
-#endif
+#endif // CATA_SRC_INT_ID_H

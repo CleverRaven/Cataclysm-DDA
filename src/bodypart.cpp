@@ -1,16 +1,18 @@
 #include "bodypart.h"
 
-#include <map>
-#include <unordered_map>
+#include <cstdlib>
 #include <set>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "anatomy.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
-#include "translations.h"
 #include "json.h"
+#include "pldata.h"
+#include "type_id.h"
 
 side opposite_side( side s )
 {
@@ -72,7 +74,7 @@ std::string enum_to_string<hp_part>( hp_part data )
 namespace
 {
 
-generic_factory<body_part_struct> body_part_factory( "body part" );
+generic_factory<body_part_type> body_part_factory( "body part" );
 
 } // namespace
 
@@ -102,63 +104,73 @@ static body_part legacy_id_to_enum( const std::string &legacy_id )
     return iter->second;
 }
 
+/**@relates string_id*/
 template<>
-bool bodypart_ids::is_valid() const
+bool string_id<body_part_type>::is_valid() const
 {
     return body_part_factory.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
-bool bodypart_id::is_valid() const
+bool int_id<body_part_type>::is_valid() const
 {
     return body_part_factory.is_valid( *this );
 }
 
+/**@relates string_id*/
 template<>
-const body_part_struct &bodypart_ids::obj() const
+const body_part_type &string_id<body_part_type>::obj() const
 {
     return body_part_factory.obj( *this );
 }
 
+/** @relates int_id */
 template<>
-const body_part_struct &bodypart_id::obj() const
+const body_part_type &int_id<body_part_type>::obj() const
 {
     return body_part_factory.obj( *this );
 }
 
+/** @relates int_id */
 template<>
-const bodypart_ids &bodypart_id::id() const
+const bodypart_str_id &int_id<body_part_type>::id() const
 {
     return body_part_factory.convert( *this );
 }
 
+/**@relates string_id*/
 template<>
-bodypart_id bodypart_ids::id() const
+bodypart_id string_id<body_part_type>::id() const
 {
     return body_part_factory.convert( *this, bodypart_id( 0 ) );
 }
+
+/** @relates int_id */
+template<>
+int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.id() ) {}
 
 body_part get_body_part_token( const std::string &id )
 {
     return legacy_id_to_enum( id );
 }
 
-const bodypart_ids &convert_bp( body_part bp )
+const bodypart_str_id &convert_bp( body_part bp )
 {
-    static const std::vector<bodypart_ids> body_parts = {
-        bodypart_ids( "torso" ),
-        bodypart_ids( "head" ),
-        bodypart_ids( "eyes" ),
-        bodypart_ids( "mouth" ),
-        bodypart_ids( "arm_l" ),
-        bodypart_ids( "arm_r" ),
-        bodypart_ids( "hand_l" ),
-        bodypart_ids( "hand_r" ),
-        bodypart_ids( "leg_l" ),
-        bodypart_ids( "leg_r" ),
-        bodypart_ids( "foot_l" ),
-        bodypart_ids( "foot_r" ),
-        bodypart_ids( "num_bp" ),
+    static const std::vector<bodypart_str_id> body_parts = {
+        bodypart_str_id( "torso" ),
+        bodypart_str_id( "head" ),
+        bodypart_str_id( "eyes" ),
+        bodypart_str_id( "mouth" ),
+        bodypart_str_id( "arm_l" ),
+        bodypart_str_id( "arm_r" ),
+        bodypart_str_id( "hand_l" ),
+        bodypart_str_id( "hand_r" ),
+        bodypart_str_id( "leg_l" ),
+        bodypart_str_id( "leg_r" ),
+        bodypart_str_id( "foot_l" ),
+        bodypart_str_id( "foot_r" ),
+        bodypart_str_id( "num_bp" ),
     };
     if( bp > num_bp || bp < bp_torso ) {
         debugmsg( "Invalid body part token %d", bp );
@@ -168,24 +180,35 @@ const bodypart_ids &convert_bp( body_part bp )
     return body_parts[static_cast<size_t>( bp )];
 }
 
-static const body_part_struct &get_bp( body_part bp )
+static const body_part_type &get_bp( body_part bp )
 {
     return convert_bp( bp ).obj();
 }
 
-void body_part_struct::load_bp( const JsonObject &jo, const std::string &src )
+void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
 {
     body_part_factory.load( jo, src );
 }
 
-void body_part_struct::load( const JsonObject &jo, const std::string & )
+void body_part_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
 
     mandatory( jo, was_loaded, "name", name );
-    optional( jo, was_loaded, "name_plural", name_multiple );
-    mandatory( jo, was_loaded, "heading_singular", name_as_heading_singular );
-    mandatory( jo, was_loaded, "heading_plural", name_as_heading_multiple );
+    // This is NOT the plural of `name`; it's a name refering to the pair of
+    // bodyparts which this bodypart belongs to, and thus should not be implemented
+    // using "ngettext" or "translation::make_plural". Otherwise, in languages
+    // without plural forms, translation of this string would indicate it
+    // to be a left or right part, while it is not.
+    optional( jo, was_loaded, "name_multiple", name_multiple );
+
+    mandatory( jo, was_loaded, "accusative", accusative );
+    // same as the above comment
+    optional( jo, was_loaded, "accusative_multiple", accusative_multiple );
+
+    mandatory( jo, was_loaded, "heading", name_as_heading );
+    // Same as the above comment
+    mandatory( jo, was_loaded, "heading_multiple", name_as_heading_multiple );
     optional( jo, was_loaded, "hp_bar_ui_text", hp_bar_ui_text );
     mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
     mandatory( jo, was_loaded, "hit_size", hit_size );
@@ -198,26 +221,34 @@ void body_part_struct::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "main_part", main_part );
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
 
+    optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
+    optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
+
+    optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
+    optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
+
+
+
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
 
     part_side = jo.get_enum_value<side>( "side" );
 }
 
-void body_part_struct::reset()
+void body_part_type::reset()
 {
     body_part_factory.reset();
 }
 
-void body_part_struct::finalize_all()
+void body_part_type::finalize_all()
 {
     body_part_factory.finalize();
 }
 
-void body_part_struct::finalize()
+void body_part_type::finalize()
 {
 }
 
-void body_part_struct::check_consistency()
+void body_part_type::check_consistency()
 {
     for( const body_part bp : all_body_parts ) {
         const auto &legacy_bp = convert_bp( bp );
@@ -229,7 +260,7 @@ void body_part_struct::check_consistency()
     body_part_factory.check();
 }
 
-void body_part_struct::check() const
+void body_part_type::check() const
 {
     const auto &under_token = get_bp( token );
     if( this != &under_token ) {
@@ -254,29 +285,28 @@ void body_part_struct::check() const
     }
 }
 
-// Some languages do not have plural forms, so we don't use ngettext()/npgettext()
-// in the 3 following methods so the singular and plural strings can be properly
-// translated for these languages.
 std::string body_part_name( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return number > 1 ? _( bdy.name_multiple ) : _( bdy.name );
+    // See comments in `body_part_type::load` about why these two strings are
+    // not a single translation object with plural enabled.
+    return number > 1 ? bdy.name_multiple.translated() : bdy.name.translated();
 }
 
 std::string body_part_name_accusative( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    if( number > 1 ) {
-        return pgettext( "bodypart_accusative", bdy.name_multiple.c_str() );
-    } else {
-        return pgettext( "bodypart_accusative", bdy.name.c_str() );
-    }
+    // See comments in `body_part_type::load` about why these two strings are
+    // not a single translation object with plural enabled.
+    return number > 1 ? bdy.accusative_multiple.translated() : bdy.accusative.translated();
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return number > 1 ? _( bdy.name_as_heading_multiple ) : _( bdy.name_as_heading_singular );
+    // See comments in `body_part_type::load` about why these two strings are
+    // not a single translation object with plural enabled.
+    return number > 1 ? bdy.name_as_heading_multiple.translated() : bdy.name_as_heading.translated();
 }
 
 std::string body_part_hp_bar_ui_text( body_part bp )

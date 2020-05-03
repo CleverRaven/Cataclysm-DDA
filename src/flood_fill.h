@@ -1,6 +1,6 @@
 #pragma once
-#ifndef FLOOD_FILL_H
-#define FLOOD_FILL_H
+#ifndef CATA_SRC_FLOOD_FILL_H
+#define CATA_SRC_FLOOD_FILL_H
 
 #include <queue>
 #include <vector>
@@ -52,4 +52,4 @@ std::vector<point> point_flood_fill_4_connected( const point &starting_point,
 }
 } // namespace ff
 
-#endif
+#endif // CATA_SRC_FLOOD_FILL_H

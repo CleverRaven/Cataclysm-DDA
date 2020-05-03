@@ -484,7 +484,7 @@
     "ident": "crt_exile",
     "name": "CRIT Survivalist",
     "description": "You were an elite recon of the C.R.I.T.  You were hailed as a top survivalist after being stuck for weeks behind enemy lines and having to survive with nothing but some rocks, sticks and plants.  However, after a few too many drinks (20) at the local bar and getting into a fight (knocking them out) with one of your commanding officers during a drunken bout you were stripped of your rank and sent off into the forests with your current gear to run a trial by survival.  After an hour of scouting about in the forest for a good shelter, your radio rang and you were briefed over the fact that the world was suddenly ending.  Of course, no one has time to pick your sorry ass up, so cheers.  Staying away from drinks might be a good idea; at least you got some real tools this time!",
-    "traits": [ "MARTIAL_CRT", "DRUNKEN", "ADDICTIVE" ],
+    "traits": [ "MARTIAL_CRT", "LIGHTWEIGHT", "ADDICTIVE" ],
     "points": 12,
     "skills": [
       { "level": 2, "name": "gun" },

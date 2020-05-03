@@ -126,7 +126,7 @@
         "         c|  |  dd|r c  ",
         " FFFFccccc|  |   h|r c  ",
         "|||||||||||YY|[===||    ",
-        " FF c|^???^       v| c  ",
+        " FF c|^???^       V| c  ",
         "    c|?           V| c  ",
         "    c|? tt         | i  ",
         "    c|             |    ",
@@ -190,7 +190,45 @@
       "items": {
         "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
         "t": { "item": "magazines", "chance": 90 }
-      }
+      },
+      "monster": { "T": { "monster": "mon_turret_rifle" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_vent_shaft_connector" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        "     |    |  |cccc|     ",
+        "     |=[==|  ||||||     ",
+        "  ((2|    |  2 Y  2  i  ",
+        "  (  | cci|  2 Y  2  c  ",
+        " 6|@@||||||||||||||  c  ",
+        "||||||pppppppppppp|     ",
+        " F|%       YY    p|  c  ",
+        " F|%  ppppppppS  p|  c  ",
+        " F|%             S|  i  ",
+        "  |%    |||  ||   |     ",
+        "|5|||===|||44||   |||22|",
+        "   ^|www|wwwww|    2 YY ",
+        "   ^|www|wwwww|%   2 YY ",
+        "||4||===|wwwww%%   |||||",
+        " |      |w<www|    |###|",
+        "c|l     |||||||    |###|",
+        "c|l l             6|||||",
+        " |l l        %Spppppppp|",
+        "||||||||||||||||||||||#|",
+        " rrcc| hd^=^^=      ^|#|",
+        "    c| dd =  = Y  dh |#|",
+        " c6 6|B   =  = Y hd 6|#|",
+        " cc r|B   [  [      ^|#|",
+        "     ||||||  |||||||||||"
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "p": "t_sewage_pipe", "w": "t_water_pool_shallow", "%": "t_machinery_heavy", "S": "t_sewage_pump" },
+      "items": { "l": { "item": "sewage_plant", "chance": 75 } }
     }
   },
   {
@@ -231,6 +269,7 @@
         "E": "t_elevator_control",
         " ": "t_grass",
         "_": "t_pavement",
+        "S": "t_sidewalk",
         ".": "t_thconc_floor",
         "G": "t_card_science"
       }

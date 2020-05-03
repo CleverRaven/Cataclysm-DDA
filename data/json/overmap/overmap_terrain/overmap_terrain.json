@@ -20,13 +20,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_city_building",
     "copy-from": "generic_city_building_no_sidewalk",
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "abstract": "generic_city_building_no_rotate",
-    "copy-from": "generic_city_building",
-    "flags": [ "NO_ROTATE" ]
+    "extend": { "flags": [ "SIDEWALK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -894,13 +888,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mass_grave",
-    "name": "mass grave",
-    "sym": "X",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "ws_giant_sinkhole_1",
     "name": "giant sinkhole",
     "copy-from": "generic_city_building_no_sidewalk",
@@ -1316,6 +1303,40 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_subway_vent_shaft_surface",
+    "copy-from": "forest"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_subway_vent_shaft_roof",
+    "copy-from": "open_air"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_subway_vent_shaft-1",
+    "name": "ventilation shaft",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_subway_vent_shaft-2",
+    "copy-from": "lab_subway_vent_shaft-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_subway_vent_shaft-3",
+    "copy-from": "lab_subway_vent_shaft-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_subway_vent_shaft-4",
+    "copy-from": "lab_subway_vent_shaft-1"
   },
   {
     "type": "overmap_terrain",

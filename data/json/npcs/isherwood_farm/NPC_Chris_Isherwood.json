@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_CHRIS",
-    "name": "Chris Isherwood",
+    "name": { "str": "Chris Isherwood" },
     "job_description": "I'm Jesse and Carlos' son, part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -161,7 +161,7 @@
   {
     "id": "MISSION_ISHERWOOD_CHRIS_1",
     "type": "mission_definition",
-    "name": "Free Barry from the mysterious structure",
+    "name": { "str": "Free Barry from the mysterious structure" },
     "goal": "MGOAL_TALK_TO_NPC",
     "difficulty": 5,
     "value": 50000,

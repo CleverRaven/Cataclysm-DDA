@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_ACTION_H
-#define ITEM_ACTION_H
+#ifndef CATA_SRC_ITEM_ACTION_H
+#define CATA_SRC_ITEM_ACTION_H
 
 #include <map>
 #include <string>
@@ -58,4 +58,4 @@ class item_action_generator
         void check_consistency() const;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_ACTION_H

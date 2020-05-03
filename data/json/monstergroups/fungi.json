@@ -1,11 +1,52 @@
 [
   {
     "type": "monstergroup",
+    "name": "GROUP_FUNGI",
+    "default": "mon_spore",
+    "monsters": [
+      { "monster": "mon_fungaloid", "freq": 300, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_young", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fungus", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_boomer_fungus", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_child_fungus", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_fungal_wall", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_queen", "freq": 0, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_FUNGI_FUNGALOID",
     "default": "mon_fungaloid",
     "monsters": [
       { "monster": "mon_fungaloid", "freq": 300, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_young", "freq": 100, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FUNGI_TOWER",
+    "default": "mon_fungal_tendril",
+    "monsters": [
+      { "monster": "mon_fungaloid", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_young", "freq": 30, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fungus", "freq": 75, "cost_multiplier": 0 },
+      { "monster": "mon_boomer_fungus", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_child_fungus", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_fungal_hedgerow", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_tower", "freq": 0, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FUNGI_FLOWERS",
+    "default": "mon_fungal_blossom",
+    "monsters": [
+      { "monster": "mon_fungaloid", "freq": 20, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_young", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fungus", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_boomer_fungus", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_child_fungus", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_seeder", "freq": 0, "cost_multiplier": 0 }
     ]
   }
 ]

@@ -1,6 +1,10 @@
 #include "ammo_effect.h"
 
+#include <set>
+
+#include "debug.h"
 #include "generic_factory.h"
+#include "int_id.h"
 #include "json.h"
 
 namespace
@@ -67,11 +71,18 @@ void ammo_effect::load( const JsonObject &jo, const std::string & )
         optional( joa, was_loaded, "intensity_max", aoe_intensity_max, 0 );
         optional( joa, was_loaded, "radius", aoe_radius, 1 );
         optional( joa, was_loaded, "radius_z", aoe_radius_z, 0 );
-        optional( joa, was_loaded, "chance", aoe_chance, 1 );
+        optional( joa, was_loaded, "chance", aoe_chance, 100 );
         optional( joa, was_loaded, "size", aoe_size, 0 );
         optional( joa, was_loaded, "check_passable", aoe_check_passable, false );
         optional( joa, was_loaded, "check_sees", aoe_check_sees, false );
         optional( joa, was_loaded, "check_sees_radius", aoe_check_sees_radius, 0 );
+    }
+    if( jo.has_member( "trail" ) ) {
+        JsonObject joa = jo.get_object( "trail" );
+        optional( joa, was_loaded, "field_type", trail_field_type_name, "fd_null" );
+        optional( joa, was_loaded, "intensity_min", trail_intensity_min, 0 );
+        optional( joa, was_loaded, "intensity_max", trail_intensity_max, 0 );
+        optional( joa, was_loaded, "chance", trail_chance, 100 );
     }
     if( jo.has_member( "explosion" ) ) {
         JsonObject joe = jo.get_object( "explosion" );
@@ -85,6 +96,7 @@ void ammo_effect::finalize()
 {
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
         const_cast<ammo_effect &>( ae ).aoe_field_type = field_type_id( ae.aoe_field_type_name );
+        const_cast<ammo_effect &>( ae ).trail_field_type = field_type_id( ae.trail_field_type_name );
     }
 
 }
@@ -100,8 +112,8 @@ void ammo_effect::check() const
     if( aoe_size < 0 ) {
         debugmsg( "Value of aoe_size cannot be negative" );
     }
-    if( aoe_chance < 0 ) {
-        debugmsg( "Field chance divisor cannot be negative" );
+    if( aoe_chance > 100 || aoe_chance <= 0 ) {
+        debugmsg( "Field chance of %s out of range (%d of min 1 max 100)", id.c_str(), aoe_chance );
     }
     if( aoe_radius_z < 0 || aoe_radius < 0 ) {
         debugmsg( "Radius values cannot be negative" );
@@ -110,6 +122,19 @@ void ammo_effect::check() const
         debugmsg( "Field intensity cannot be negative" );
     }
     if( aoe_intensity_max < aoe_intensity_min ) {
+        debugmsg( "Maximum intensity must be greater than or equal to minimum intensity" );
+    }
+    if( !trail_field_type.is_valid() ) {
+        debugmsg( "No such field type %s", trail_field_type_name );
+    }
+    if( trail_chance > 100 || trail_chance <= 0 ) {
+        debugmsg( "Field chance divisor cannot be negative" );
+        debugmsg( "Field chance of %s out of range (%d of min 1 max 100)", id.c_str(), trail_chance );
+    }
+    if( trail_intensity_min < 0 ) {
+        debugmsg( "Field intensity cannot be negative" );
+    }
+    if( trail_intensity_max < trail_intensity_min ) {
         debugmsg( "Maximum intensity must be greater than or equal to minimum intensity" );
     }
 }
