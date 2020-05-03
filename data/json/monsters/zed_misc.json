@@ -645,6 +645,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PATH_AVOID_DANGER_2",
+      "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "FILTHY"
     ]
@@ -692,6 +693,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PATH_AVOID_DANGER_1",
+      "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "FILTHY"
     ]
