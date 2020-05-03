@@ -81,6 +81,7 @@ TOOL (but not TOOL_ARMOR)
 COMESTIBLE
 BOOK
 ENGINE
+MATERIAL
 ```
 
 To find out if a types supports copy-from, you need to know if it has implemented generic_factory. To find out if this is the case, do the following:
