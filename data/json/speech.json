@@ -1994,12 +1994,6 @@
   {
     "type": "speech",
     "speaker": "mon_eyebot",
-    "sound": "\"Attention mobile unit.  Code 5, establish surveillance.\"",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": "mon_eyebot",
     "sound": "\"Criminal activity registered!\"",
     "volume": 15
   },
@@ -2192,7 +2186,7 @@
   {
     "type": "speech",
     "speaker": "foodperson_mask",
-    "sound": "\"At FoodPlace your excellent value brings us nourishment and delight.\"",
+    "sound": "\"At FoodPlace your excellent value brings nourishment and delight.\"",
     "volume": 15
   },
   {
