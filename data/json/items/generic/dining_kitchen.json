@@ -477,7 +477,8 @@
       },
       { "id": "bottleopener6", "text": "This bottle opener reads 'Corporate Team Building Exercise 1999'." },
       { "id": "bottleopener7", "text": "This bottle opener reads 'I'd rather be drinking whiskey'." },
-      { "id": "bottleopener8", "text": "This bottle opener is shaped like a phaser." }
+      { "id": "bottleopener8", "text": "This bottle opener is shaped like a phaser." },
+      { "id": "bottleopener9", "text": "This novelty bottle opener is designed to look like a hobo clown." }
     ]
   },
   {
@@ -582,6 +583,7 @@
     "description": "A rubber scraper for making sure you get every last scrap of cookie dough.",
     "looks_like": "spoon",
     "proportional": { "weight": 3.0, "volume": 2.0 },
+    "material": "rubber",
     "copy-from": "base_plastic_silverware"
   },
   {
@@ -688,7 +690,8 @@
     "color": "dark_gray",
     "container_data": { "contains": "25 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": "HEAT_FOOD",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "type": "GENERIC",

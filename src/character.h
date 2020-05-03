@@ -692,7 +692,7 @@ class Character : public Creature, public visitable<Character>
     public:
 
         // any side effects that might happen when the Character is hit
-        void on_hit( Creature *source, body_part /*bp_hit*/,
+        void on_hit( Creature *source, bodypart_id /*bp_hit*/,
                      float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
@@ -701,7 +701,7 @@ class Character : public Creature, public visitable<Character>
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
-        dealt_damage_instance deal_damage( Creature *source, body_part bp,
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
@@ -1723,19 +1723,19 @@ class Character : public Creature, public visitable<Character>
         std::string activity_level_str() const;
 
         /** Returns overall bashing resistance for the body_part */
-        int get_armor_bash( body_part bp ) const override;
+        int get_armor_bash( bodypart_id bp ) const override;
         /** Returns overall cutting resistance for the body_part */
-        int get_armor_cut( body_part bp ) const override;
+        int get_armor_cut( bodypart_id bp ) const override;
         /** Returns bashing resistance from the creature and armor only */
-        int get_armor_bash_base( body_part bp ) const override;
+        int get_armor_bash_base( bodypart_id bp ) const override;
         /** Returns cutting resistance from the creature and armor only */
-        int get_armor_cut_base( body_part bp ) const override;
+        int get_armor_cut_base( bodypart_id bp ) const override;
         /** Returns overall env_resist on a body_part */
-        int get_env_resist( body_part bp ) const override;
+        int get_env_resist( bodypart_id bp ) const override;
         /** Returns overall acid resistance for the body part */
-        int get_armor_acid( body_part bp ) const;
+        int get_armor_acid( bodypart_id bp ) const;
         /** Returns overall resistance to given type on the bod part */
-        int get_armor_type( damage_type dt, body_part bp ) const override;
+        int get_armor_type( damage_type dt, bodypart_id bp ) const override;
 
         int get_stim() const;
         void set_stim( int new_stim );

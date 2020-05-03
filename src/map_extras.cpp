@@ -95,6 +95,7 @@ static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
+static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_wasp( "mon_wasp" );
@@ -564,20 +565,17 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
-    const auto spawn_turret = [&]( int x, int y ) {
+    const auto spawn_turret = [&]( const point & p ) {
         if( one_in( 3 ) ) {
-            m.add_spawn( mon_turret_bmg, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_bmg, 1, { p, abs_sub.z } );
         } else if( one_in( 2 ) ) {
-            m.add_spawn( mon_turret_rifle, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_rifle, 1, { p, abs_sub.z } );
         } else {
-            m.add_spawn( mon_turret_riot, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
         }
     };
-    bool mil = false;
-    if( one_in( 6 ) ) {
-        mil = true;
-    }
-    if( mil ) { //Military doesn't joke around with their barricades!
+
+    if( one_in( 6 ) ) { //Military doesn't joke around with their barricades!
 
         if( one_in( 2 ) ) {
             if( road_at_north ) {
@@ -592,7 +590,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
                 line( &m, t_fence_barbed, point( 4, SEEY * 2 - 3 ), point( 10, SEEY * 2 - 3 ) );
                 line( &m, t_fence_barbed, point( 13, SEEY * 2 - 3 ), point( 19, SEEY * 2 - 3 ) );
             }
-            if( road_at_east ) {
+            if( road_at_west ) {
                 line( &m, t_fence_barbed, point( 3, 4 ), point( 3, 10 ) );
                 line( &m, t_fence_barbed, point( 3, 13 ), point( 3, 19 ) );
             }
@@ -619,33 +617,38 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             // The truck's wrecked...with fuel.  Explosive barrel?
             m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, SEEY * 2 - 12 ), 0, 70, -1 );
             if( road_at_north ) {
-                spawn_turret( 12, 6 );
+                spawn_turret( point( 12, 6 ) );
             }
             if( road_at_east ) {
-                spawn_turret( 18, 12 );
+                spawn_turret( point( 18, 12 ) );
             }
             if( road_at_south ) {
-                spawn_turret( 12, 18 );
+                spawn_turret( point( 12, 18 ) );
             }
             if( road_at_west ) {
-                spawn_turret( 6, 12 );
+                spawn_turret( point( 6, 12 ) );
             }
         } else {  // Vehicle & turrets
             m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0, 70,
                            -1 );
             if( road_at_north ) {
-                spawn_turret( 12, 6 );
+                spawn_turret( point( 12, 6 ) );
             }
             if( road_at_east ) {
-                spawn_turret( 18, 12 );
+                spawn_turret( point( 18, 12 ) );
             }
             if( road_at_south ) {
-                spawn_turret( 12, 18 );
+                spawn_turret( point( 12, 18 ) );
             }
             if( road_at_west ) {
-                spawn_turret( 6, 12 );
+                spawn_turret( point( 6, 12 ) );
             }
         }
+
+        line_furn( &m, f_sandbag_wall, point( 12, 7 ), point( 15, 7 ) );
+        m.add_spawn( mon_turret_searchlight, 1, { 13, 8, abs_sub.z } );
+        m.ter_set( point( 14, 8 ), t_plut_generator );
+        line_furn( &m, f_sandbag_wall, point( 12, 9 ), point( 15, 9 ) );
 
         int num_bodies = dice( 2, 5 );
         for( int i = 0; i < num_bodies; i++ ) {
@@ -685,6 +688,12 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20 );
         m.add_vehicle( vproto_id( "policecar" ), point( 16, SEEY * 2 - 6 ), 145 );
+
+        line_furn( &m, f_sandbag_wall, point( 6, 10 ), point( 9, 10 ) );
+        m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
+        m.ter_set( point( 8, 11 ), t_plut_generator );
+        line_furn( &m, f_sandbag_wall, point( 6, 12 ), point( 9, 12 ) );
+
         int num_bodies = dice( 1, 6 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
@@ -1530,12 +1539,12 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
+static void place_fumarole( map &m, const point &p1, const point &p2, std::set<point> &ignited )
 {
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;
 
-    std::vector<point> fumarole = line_to( point( x1, y1 ), point( x2, y2 ), 0 );
+    std::vector<point> fumarole = line_to( p1, p2, 0 );
     for( auto &i : fumarole ) {
         m.ter_set( i, t_lava );
 
@@ -1555,59 +1564,6 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
         }
     }
 
-}
-
-//Obsolete, remove after 0.E.
-static bool mx_fumarole( map &m, const tripoint &abs_sub )
-{
-    if( abs_sub.z > 0 ) {
-        return false;
-    }
-
-    int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
-        x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
-
-    // Pick a random cardinal direction to also spawn lava in
-    // This will make the lava a single connected line, not just on diagonals
-    std::vector<direction> possibilities;
-    possibilities.push_back( direction::EAST );
-    possibilities.push_back( direction::WEST );
-    possibilities.push_back( direction::NORTH );
-    possibilities.push_back( direction::SOUTH );
-    const direction extra_lava_dir = random_entry( possibilities );
-    int x_extra = 0;
-    int y_extra = 0;
-    switch( extra_lava_dir ) {
-        case direction::NORTH:
-            y_extra = -1;
-            break;
-        case direction::EAST:
-            x_extra = 1;
-            break;
-        case direction::SOUTH:
-            y_extra = 1;
-            break;
-        case direction::WEST:
-            x_extra = -1;
-            break;
-        default:
-            break;
-    }
-
-    std::set<point> ignited;
-    place_fumarole( m, x1, y1, x2, y2, ignited );
-    place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
-
-    for( auto &i : ignited ) {
-        // Don't need to do anything to tiles that already have lava on them
-        if( m.ter( i ) != t_lava ) {
-            // Spawn an intense but short-lived fire
-            // Any furniture or buildings will catch fire, otherwise it will burn out quickly
-            m.add_field( tripoint( i, abs_sub.z ), fd_fire, 15, 1_minutes );
-        }
-    }
-
-    return true;
 }
 
 static bool mx_portal_in( map &m, const tripoint &abs_sub )
@@ -1698,8 +1654,9 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 m.add_field( portal_location, fd_fatigue, 3 );
 
                 std::set<point> ignited;
-                place_fumarole( m, x1, y1, x2, y2, ignited );
-                place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
+                place_fumarole( m, point( x1, y1 ), point( x2, y2 ), ignited );
+                place_fumarole( m, point( x1 + x_extra, y1 + y_extra ), point( x2 + x_extra, y2 + y_extra ),
+                                ignited );
 
                 for( auto &i : ignited ) {
                     // Don't need to do anything to tiles that already have lava on them
@@ -1735,18 +1692,6 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             break;
         }
     }
-
-    return true;
-}
-
-//Obsolete, remove after 0.E.
-static bool mx_anomaly( map &m, const tripoint &abs_sub )
-{
-    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
-    artifact_natural_property prop =
-        static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
-    m.create_anomaly( center, prop );
-    m.spawn_natural_artifact( center, prop );
 
     return true;
 }
@@ -2909,7 +2854,6 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
-    { "mx_fumarole", mx_fumarole },
     { "mx_collegekids", mx_collegekids },
     { "mx_drugdeal", mx_drugdeal },
     { "mx_roadworks", mx_roadworks },
@@ -2923,7 +2867,6 @@ FunctionMap builtin_functions = {
     { "mx_science", mx_science },
     { "mx_portal", mx_portal },
     { "mx_portal_in", mx_portal_in },
-    { "mx_anomaly", mx_anomaly },
     { "mx_house_spider", mx_house_spider },
     { "mx_house_wasp", mx_house_wasp },
     { "mx_spider", mx_spider },

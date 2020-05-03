@@ -501,15 +501,19 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // Not many items, just grab them
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
-        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         if( from_vehicle ) {
-            g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*here.front() );
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+            { item_location( vehicle_cursor( *veh, cargo_part ), &*here.front() ) },
+            { 0 },
+            cata::nullopt
+                                                   ) ) );
         } else {
-            g->u.activity.targets.emplace_back( map_cursor( p ), &*here.front() );
-            g->u.activity.coords.push_back( g->u.pos() );
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+            {item_location( map_cursor( p ), &*here.front() ) },
+            { 0 },
+            g->u.pos()
+                                                   ) ) );
         }
-        // auto-pickup means pick up all.
-        g->u.activity.values.push_back( 0 );
         return;
     }
 
@@ -976,12 +980,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     // At this point we've selected our items, register an activity to pick them up.
-    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-    g->u.activity.coords.push_back( g->u.pos() );
-    if( min == -1 ) {
-        // Auto pickup will need to auto resume since there can be several of them on the stack.
-        g->u.activity.auto_resume = true;
-    }
     std::vector<std::pair<item_stack::iterator, int>> pick_values;
     for( size_t i = 0; i < stacked_here.size(); i++ ) {
         const pickup_count &selection = getitem[i];
@@ -1010,13 +1008,22 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         }
     }
 
+    std::vector<item_location> target_items;
+    std::vector<int> quantities;
     for( std::pair<item_stack::iterator, int> &iter_qty : pick_values ) {
         if( from_vehicle ) {
-            g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*iter_qty.first );
+            target_items.emplace_back( vehicle_cursor( *veh, cargo_part ), &*iter_qty.first );
         } else {
-            g->u.activity.targets.emplace_back( map_cursor( p ), &*iter_qty.first );
+            target_items.emplace_back( map_cursor( p ), &*iter_qty.first );
         }
-        g->u.activity.values.push_back( iter_qty.second );
+        quantities.push_back( iter_qty.second );
+    }
+
+    g->u.assign_activity( player_activity( pickup_activity_actor( target_items, quantities,
+                                           g->u.pos() ) ) );
+    if( min == -1 ) {
+        // Auto pickup will need to auto resume since there can be several of them on the stack.
+        g->u.activity.auto_resume = true;
     }
 
     g->reenter_fullscreen();

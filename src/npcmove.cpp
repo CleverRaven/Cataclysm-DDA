@@ -464,8 +464,10 @@ void npc::assess_danger()
 
         // don't ignore monsters that are too close or too close to an ally
         bool is_too_close = dist <= def_radius;
-        const auto test_too_close = [critter, def_radius,
-                 &is_too_close]( const weak_ptr_fast<Creature> &guy ) {
+        for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
+            if( is_too_close ) {
+                break;
+            }
             // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
             // friendly NPC when the NPC is riding a creature - I don't know why.
             // so this skips the bad weak_ptrs, but this doesn't functionally change the AI Priority
@@ -474,9 +476,7 @@ void npc::assess_danger()
             if( guy.lock() ) {
                 is_too_close |= too_close( critter.pos(), guy.lock()->pos(), def_radius );
             }
-            return is_too_close;
-        };
-        std::any_of( ai_cache.friends.begin(), ai_cache.friends.end(), test_too_close );
+        }
         // ignore distant monsters that our rules prevent us from attacking
         if( !is_too_close && is_player_ally() && !ok_by_rules( critter, dist, scaled_distance ) ) {
             continue;
@@ -912,7 +912,6 @@ void npc::execute_action( npc_action action )
     int oldmoves = moves;
     tripoint tar = pos();
     Creature *cur = current_target();
-    player *patient = dynamic_cast<player *>( current_ally() );
     if( action == npc_flee ) {
         tar = good_escape_direction( false );
     } else if( cur != nullptr ) {
@@ -1079,18 +1078,21 @@ void npc::execute_action( npc_action action )
             }
             break;
 
-        case npc_heal_player:
-            update_path( patient->pos() );
-            if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
-                heal_player( *patient );
-            } else if( !path.empty() ) {
-                say( _( "Hold still %s, I'm coming to help you." ), patient->disp_name() );
-                move_to_next();
-            } else {
-                move_pause();
+        case npc_heal_player: {
+            player *patient = dynamic_cast<player *>( current_ally() );
+            if( patient ) {
+                update_path( patient->pos() );
+                if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
+                    heal_player( *patient );
+                } else if( !path.empty() ) {
+                    say( _( "Hold still %s, I'm coming to help you." ), patient->disp_name() );
+                    move_to_next();
+                } else {
+                    move_pause();
+                }
             }
             break;
-
+        }
         case npc_follow_player:
             update_path( g->u.pos() );
             if( static_cast<int>( path.size() ) <= follow_distance() &&

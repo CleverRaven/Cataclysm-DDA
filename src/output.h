@@ -138,8 +138,6 @@ extern int TERMX; // width available for display
 extern int TERMY; // height available for display
 extern int POSX; // X position of '@' inside terrain window
 extern int POSY; // Y position of '@' inside terrain window
-extern int VIEW_OFFSET_X; // X position of terrain window
-extern int VIEW_OFFSET_Y; // Y position of terrain window
 extern int TERRAIN_WINDOW_WIDTH; // width of terrain window
 extern int TERRAIN_WINDOW_HEIGHT; // height of terrain window
 extern int TERRAIN_WINDOW_TERM_WIDTH; // width of terrain window in terminal characters
@@ -816,6 +814,8 @@ class scrolling_text_view
         void set_text( const std::string & );
         void scroll_up();
         void scroll_down();
+        void page_up();
+        void page_down();
         void draw( const nc_color &base_color );
     private:
         int text_width();

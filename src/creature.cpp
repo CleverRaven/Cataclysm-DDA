@@ -509,8 +509,9 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    body_part bp_hit = select_body_part( source, hit_spread );
-    block_hit( source, bp_hit, d );
+    const bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    body_part bp_token = bp_hit->token;
+    block_hit( source, bp_token, d );
 
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
@@ -542,7 +543,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
 
     on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d );
-    dealt_dam.bp_hit = bp_hit;
+    dealt_dam.bp_hit = bp_token;
 }
 
 /**
@@ -686,7 +687,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    dealt_dam = deal_damage( source, bp_hit, impact );
+    const bodypart_id bp_hit_id = convert_bp( bp_hit ).id();
+    dealt_dam = deal_damage( source, bp_hit_id, impact );
     dealt_dam.bp_hit = bp_hit;
 
     // Apply ammo effects to target.
@@ -817,7 +819,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     attack.missed_by = goodhit;
 }
 
-dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
+dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam )
 {
     if( is_dead_state() ) {
@@ -828,8 +830,8 @@ dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-
-    absorb_hit( bp, d );
+    const body_part bp_token = bp->token;
+    absorb_hit( bp_token, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
@@ -843,10 +845,10 @@ dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
 
     mod_pain( total_pain );
 
-    apply_damage( source, convert_bp( bp ).id(), total_damage );
+    apply_damage( source, bp, total_damage );
     return dealt_dams;
 }
-void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                         int &pain )
 {
     // Handles ACIDPROOF, electric immunity etc.
@@ -871,7 +873,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp );
+                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp->token );
             }
             break;
 
@@ -889,7 +891,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int
             break;
     }
 
-    on_damage_of_type( adjusted_damage, du.type, bp );
+    on_damage_of_type( adjusted_damage, du.type, bp->token );
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
@@ -1051,7 +1053,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
         return false;
     }
 
-    if( dice( strength, 3 ) > dice( get_env_resist( vector ), 3 ) ) {
+    if( dice( strength, 3 ) > dice( get_env_resist( convert_bp( vector ).id() ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
         add_effect( eff_id, dur, bp, permanent, intensity, true );
@@ -1351,23 +1353,23 @@ int Creature::get_num_dodges_base() const
 }
 
 // currently this is expected to be overridden to actually have use
-int Creature::get_env_resist( body_part ) const
+int Creature::get_env_resist( bodypart_id ) const
 {
     return 0;
 }
-int Creature::get_armor_bash( body_part ) const
+int Creature::get_armor_bash( bodypart_id ) const
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut( body_part ) const
+int Creature::get_armor_cut( bodypart_id ) const
 {
     return armor_cut_bonus;
 }
-int Creature::get_armor_bash_base( body_part ) const
+int Creature::get_armor_bash_base( bodypart_id ) const
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut_base( body_part ) const
+int Creature::get_armor_cut_base( bodypart_id ) const
 {
     return armor_cut_bonus;
 }

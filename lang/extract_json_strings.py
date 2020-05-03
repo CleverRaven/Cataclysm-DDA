@@ -62,6 +62,7 @@ ignore_files = {os.path.normpath(i) for i in {
 
 # these objects have no translatable strings
 ignorable = {
+    "ascii_art",
     "ammo_effect",
     "behavior",
     "charge_removal_blacklist",
@@ -238,12 +239,21 @@ def extract_construction(item):
 def extract_material(item):
     outfile = get_outfile("material")
     writestr(outfile, item["name"])
-    writestr(outfile, item["bash_dmg_verb"])
-    writestr(outfile, item["cut_dmg_verb"])
-    writestr(outfile, item["dmg_adj"][0])
-    writestr(outfile, item["dmg_adj"][1])
-    writestr(outfile, item["dmg_adj"][2])
-    writestr(outfile, item["dmg_adj"][3])
+    wrote = False
+    if "bash_dmg_verb" in item:
+        writestr(outfile, item["bash_dmg_verb"])
+        wrote = True
+    if "cut_dmg_verb" in item:
+        writestr(outfile, item["cut_dmg_verb"])
+        wrote = True
+    if "dmg_adj" in item:
+        writestr(outfile, item["dmg_adj"][0])
+        writestr(outfile, item["dmg_adj"][1])
+        writestr(outfile, item["dmg_adj"][2])
+        writestr(outfile, item["dmg_adj"][3])
+        wrote = True
+    if not wrote and not "copy-from" in item :
+        print("WARNING: {}: no mandatory field in item: {}".format("/data/json/materials.json", item))        
 
 def extract_martial_art(item):
     outfile = get_outfile("martial_art")

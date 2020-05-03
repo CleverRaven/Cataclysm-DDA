@@ -76,7 +76,7 @@ class event_statistic
         string_id<event_statistic> id;
         bool was_loaded = false;
 
-        const std::string &description() const {
+        const translation &description() const {
             return description_;
         }
 
@@ -85,7 +85,7 @@ class event_statistic
 
         class impl;
     private:
-        std::string description_;
+        translation description_;
         cata::clone_ptr<impl> impl_;
 };
 

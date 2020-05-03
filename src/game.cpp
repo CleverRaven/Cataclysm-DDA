@@ -260,7 +260,7 @@ bool is_valid_in_w_terrain( const point &p )
 static void achievement_attained( const achievement *a )
 {
     g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
-                            a->description() );
+                            a->name() );
 }
 
 // This is the main game set-up process.
@@ -507,35 +507,19 @@ void game::init_ui( const bool resized )
      * You usually don't have to use it, expect for positioning of windows,
      * because the window positions use the standard font dimension.
      *
-     * VIEW_OFFSET_X/VIEW_OFFSET_Y is the position of w_terrain on screen,
-     * it is (as every window position) in standard font dimension.
-     * As the sidebar is located right of w_terrain it also controls its position.
-     * It was used to move everything into the center of the screen,
-     * when the screen was larger than what the game required. They are currently
-     * set to zero to prevent the other game windows from being truncated if
-     * w_terrain is too small for the current window.
-     *
      * The code here calculates size available for w_terrain, caps it at
      * max_view_size (the maximal view range than any character can have at
      * any time).
      * It is stored in TERRAIN_WINDOW_*.
-     * If w_terrain does not occupy the whole available area, VIEW_OFFSET_*
-     * are set to move everything into the middle of the screen.
      */
     to_map_font_dimension( TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT );
-
-    VIEW_OFFSET_X = 0;
-    VIEW_OFFSET_Y = 0;
-
-    // VIEW_OFFSET_* are in standard font dimension.
-    from_map_font_dimension( VIEW_OFFSET_X, VIEW_OFFSET_Y );
 
     // Position of the player in the terrain window, it is always in the center
     POSX = TERRAIN_WINDOW_WIDTH / 2;
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
     w_terrain = w_terrain_ptr = catacurses::newwin( TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
-                                point( VIEW_OFFSET_X + sidebar_left, VIEW_OFFSET_Y ) );
+                                point( sidebar_left, 0 ) );
     werase( w_terrain );
 
     /**
@@ -551,8 +535,8 @@ void game::init_ui( const bool resized )
     reinitialize_framebuffer();
 
     // minimap is always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
-    int _y = VIEW_OFFSET_Y;
-    int _x = VIEW_OFFSET_X;
+    int _y = 0;
+    int _x = 0;
 
     w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, point( _x, _y ) );
     werase( w_minimap );
@@ -1598,7 +1582,7 @@ bool game::do_turn()
     autopilot_vehicles();
     m.vehmove();
     m.process_fields();
-    m.process_active_items();
+    m.process_items();
     m.creature_in_field( u );
 
     // Apply sounds from previous turn to monster and NPC AI.
@@ -2144,8 +2128,8 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         // TODO: Ideally the setup of uilist would be split into calculate variables (size, width...),
         // and actual window creation. This would allow us to let uilist calculate the width, we can
         // use that to adjust its location afterwards.
-        action_menu.w_y = VIEW_OFFSET_Y;
-        action_menu.w_x = popup_x + VIEW_OFFSET_X;
+        action_menu.w_y = 0;
+        action_menu.w_x = popup_x;
         action_menu.w_width = popup_width;
         // Filtering isn't needed, the number of entries is manageable.
         action_menu.filtering = false;
@@ -2158,10 +2142,10 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         do {
             item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
             data.without_getch = true;
-            const int iHeight = TERMY - VIEW_OFFSET_Y * 2;
+            const int iHeight = TERMY;
             const int iScrollHeight = iHeight - 2;
 
-            draw_item_info( iStartX, iWidth, VIEW_OFFSET_X, iHeight, data );
+            draw_item_info( iStartX, iWidth, 0, iHeight, data );
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
             if( action_menu.ret >= 0 ) {
@@ -4496,15 +4480,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                         add_msg( _( "%s was stunned!" ), targ->name );
                     }
 
-                    std::array<body_part, 8> bps = {{
-                            bp_head,
-                            bp_arm_l, bp_arm_r,
-                            bp_hand_l, bp_hand_r,
-                            bp_torso,
-                            bp_leg_l, bp_leg_r
+                    std::array<bodypart_id, 8> bps = {{
+                            bodypart_id( "head" ),
+                            bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+                            bodypart_id( "hand_l" ), bodypart_id( "hand_r" ),
+                            bodypart_id( "torso" ),
+                            bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
                         }
                     };
-                    for( auto &bp : bps ) {
+                    for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
                             targ->deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
@@ -4570,15 +4554,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
-                    std::array<body_part, 8> bps = {{
-                            bp_head,
-                            bp_arm_l, bp_arm_r,
-                            bp_hand_l, bp_hand_r,
-                            bp_torso,
-                            bp_leg_l, bp_leg_r
+                    std::array<bodypart_id, 8> bps = {{
+                            bodypart_id( "head" ),
+                            bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+                            bodypart_id( "hand_l" ), bodypart_id( "hand_r" ),
+                            bodypart_id( "torso" ),
+                            bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
                         }
                     };
-                    for( auto &bp : bps ) {
+                    for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
                             u.deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
@@ -4710,16 +4694,22 @@ template const Creature *game::critter_at<Creature>( const tripoint &, bool ) co
 template<typename T>
 shared_ptr_fast<T> game::shared_from( const T &critter )
 {
-    if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
-        return std::dynamic_pointer_cast<T>( mon_ptr );
-    }
     if( static_cast<const Creature *>( &critter ) == static_cast<const Creature *>( &u ) ) {
         // u is not stored in a shared_ptr, but it won't go out of scope anyway
         return std::dynamic_pointer_cast<T>( u_shared_ptr );
     }
-    for( auto &cur_npc : active_npc ) {
-        if( static_cast<const Creature *>( cur_npc.get() ) == static_cast<const Creature *>( &critter ) ) {
-            return std::dynamic_pointer_cast<T>( cur_npc );
+    if( critter.is_monster() ) {
+        if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
+            if( static_cast<const Creature *>( mon_ptr.get() ) == static_cast<const Creature *>( &critter ) ) {
+                return std::dynamic_pointer_cast<T>( mon_ptr );
+            }
+        }
+    }
+    if( critter.is_npc() ) {
+        for( auto &cur_npc : active_npc ) {
+            if( static_cast<const Creature *>( cur_npc.get() ) == static_cast<const Creature *>( &critter ) ) {
+                return std::dynamic_pointer_cast<T>( cur_npc );
+            }
         }
     }
     return nullptr;
@@ -6114,11 +6104,11 @@ static void zones_manager_draw_borders( const catacurses::window &w_border,
     for( int i = 1; i < TERMX; ++i ) {
         if( i < width ) {
             mvwputch( w_border, point( i, 0 ), c_light_gray, LINE_OXOX ); // -
-            mvwputch( w_border, point( i, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
+            mvwputch( w_border, point( i, TERMY - iInfoHeight - 1 ), c_light_gray,
                       LINE_OXOX ); // -
         }
 
-        if( i < TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 ) {
+        if( i < TERMY - iInfoHeight ) {
             mvwputch( w_border, point( 0, i ), c_light_gray, LINE_XOXO ); // |
             mvwputch( w_border, point( width - 1, i ), c_light_gray, LINE_XOXO ); // |
         }
@@ -6127,9 +6117,9 @@ static void zones_manager_draw_borders( const catacurses::window &w_border,
     mvwputch( w_border, point_zero, c_light_gray, LINE_OXXO ); // |^
     mvwputch( w_border, point( width - 1, 0 ), c_light_gray, LINE_OOXX ); // ^|
 
-    mvwputch( w_border, point( 0, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
+    mvwputch( w_border, point( 0, TERMY - iInfoHeight - 1 ), c_light_gray,
               LINE_XXXO ); // |-
-    mvwputch( w_border, point( width - 1, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
+    mvwputch( w_border, point( width - 1, TERMY - iInfoHeight - 1 ), c_light_gray,
               LINE_XOXX ); // -|
 
     mvwprintz( w_border, point( 2, 0 ), c_white, _( "Zones manager" ) );
@@ -6172,21 +6162,21 @@ void game::zones_manager()
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ?
-                  TERMX + VIEW_OFFSET_X - width : VIEW_OFFSET_X;
-        const int w_zone_height = TERMY - zone_ui_height - VIEW_OFFSET_Y * 2;
+                  TERMX - width : 0;
+        const int w_zone_height = TERMY - zone_ui_height;
         max_rows = w_zone_height - 2;
         w_zones = catacurses::newwin( w_zone_height - 2, width - 2,
-                                      point( offsetX + 1, VIEW_OFFSET_Y + 1 ) );
+                                      point( offsetX + 1, 1 ) );
         w_zones_border = catacurses::newwin( w_zone_height, width,
-                                             point( offsetX, VIEW_OFFSET_Y ) );
+                                             point( offsetX, 0 ) );
         w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1,
-                                           width - 2, point( offsetX + 1, w_zone_height + VIEW_OFFSET_Y ) );
+                                           width - 2, point( offsetX + 1, w_zone_height ) );
         w_zones_info_border = catacurses::newwin( zone_ui_height, width,
-                              point( offsetX, w_zone_height + VIEW_OFFSET_Y ) );
+                              point( offsetX, w_zone_height ) );
         w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
-                                              point( offsetX + 1, TERMY - zone_options_height - VIEW_OFFSET_Y ) );
+                                              point( offsetX + 1, TERMY - zone_options_height ) );
 
-        ui.position( point( offsetX, VIEW_OFFSET_Y ), point( width, TERMY - VIEW_OFFSET_Y * 2 ) );
+        ui.position( point( offsetX, 0 ), point( width, TERMY ) );
     } );
     ui.mark_resize();
 
@@ -7053,11 +7043,11 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     for( int i = 1; i < TERMX; i++ ) {
         if( i < width ) {
             mvwputch( window, point( i, 0 ), c_light_gray, LINE_OXOX ); // -
-            mvwputch( window, point( i, TERMY - height - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
+            mvwputch( window, point( i, TERMY - height - 1 ), c_light_gray,
                       LINE_OXOX ); // -
         }
 
-        if( i < TERMY - height - VIEW_OFFSET_Y * 2 ) {
+        if( i < TERMY - height ) {
             mvwputch( window, point( 0, i ), c_light_gray, LINE_XOXO ); // |
             mvwputch( window, point( width - 1, i ), c_light_gray, LINE_XOXO ); // |
         }
@@ -7066,9 +7056,9 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     mvwputch( window, point_zero, c_light_gray, LINE_OXXO ); // |^
     mvwputch( window, point( width - 1, 0 ), c_light_gray, LINE_OOXX ); // ^|
 
-    mvwputch( window, point( 0, TERMY - height - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
+    mvwputch( window, point( 0, TERMY - height - 1 ), c_light_gray,
               LINE_XXXO ); // |-
-    mvwputch( window, point( width - 1, TERMY - height - 1 - VIEW_OFFSET_Y * 2 ), c_light_gray,
+    mvwputch( window, point( width - 1, TERMY - height - 1 ), c_light_gray,
               LINE_XOXX ); // -|
 
     mvwprintz( window, point( 2, 0 ), c_light_green, "<Tab> " );
@@ -7108,7 +7098,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     const int gap_spaces = ( width - usedwidth ) / gaps;
     usedwidth += gap_spaces * gaps;
     int xpos = gap_spaces + ( width - usedwidth ) / 2;
-    const int ypos = TERMY - height - 1 - VIEW_OFFSET_Y * 2;
+    const int ypos = TERMY - height - 1;
 
     for( int i = 0; i < n; i++ ) {
         xpos += shortcut_print( window, point( xpos, ypos ), c_white, c_light_green,
@@ -7187,24 +7177,24 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         iInfoHeight = std::min( 25, TERMY / 2 );
-        iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
+        iMaxRows = TERMY - iInfoHeight - 2;
 
-        width = clamp( max_name_width, 45, ( TERMX - VIEW_OFFSET_X ) / 3 );
+        width = clamp( max_name_width, 45, TERMX / 3 );
 
-        const int offsetX = TERMX - VIEW_OFFSET_X - width;
+        const int offsetX = TERMX - width;
 
-        w_items = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2,
-                                      width - 2, point( offsetX + 1, VIEW_OFFSET_Y + 1 ) );
-        w_items_border = catacurses::newwin( TERMY - iInfoHeight - VIEW_OFFSET_Y * 2,
-                                             width, point( offsetX, VIEW_OFFSET_Y ) );
+        w_items = catacurses::newwin( TERMY - 2 - iInfoHeight,
+                                      width - 2, point( offsetX + 1, 1 ) );
+        w_items_border = catacurses::newwin( TERMY - iInfoHeight,
+                                             width, point( offsetX, 0 ) );
         w_item_info = catacurses::newwin( iInfoHeight, width,
-                                          point( offsetX, TERMY - iInfoHeight - VIEW_OFFSET_Y ) );
+                                          point( offsetX, TERMY - iInfoHeight ) );
 
         if( activeItem ) {
             centerlistview( active_pos, width );
         }
 
-        ui.position( point( offsetX, VIEW_OFFSET_Y ), point( width, TERMY - VIEW_OFFSET_Y * 2 ) );
+        ui.position( point( offsetX, 0 ), point( width, TERMY ) );
     } );
     ui.mark_resize();
 
@@ -7421,7 +7411,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             info_data.handle_scrolling = true;
 
             draw_item_info( [&]() -> catacurses::window {
-                return catacurses::newwin( TERMY - VIEW_OFFSET_Y * 2, width - 5, point_zero );
+                return catacurses::newwin( TERMY, width - 5, point_zero );
             }, info_data );
         } else if( action == "PRIORITY_INCREASE" ) {
             filter_type = item_filter_type::HIGH_PRIORITY;
@@ -7623,23 +7613,23 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         if( hide_ui ) {
             ui.position( point_zero, point_zero );
         } else {
-            offsetX = TERMX - VIEW_OFFSET_X - width;
-            iMaxRows = TERMY - iInfoHeight - VIEW_OFFSET_Y * 2 - 1;
+            offsetX = TERMX - width;
+            iMaxRows = TERMY - iInfoHeight - 1;
 
             w_monsters = catacurses::newwin( iMaxRows, width - 2, point( offsetX + 1,
-                                             VIEW_OFFSET_Y + 1 ) );
+                                             1 ) );
             w_monsters_border = catacurses::newwin( iMaxRows + 1, width, point( offsetX,
-                                                    VIEW_OFFSET_Y ) );
+                                                    0 ) );
             w_monster_info = catacurses::newwin( iInfoHeight - 2, width - 2,
-                                                 point( offsetX + 1, TERMY - iInfoHeight - VIEW_OFFSET_Y + 1 ) );
+                                                 point( offsetX + 1, TERMY - iInfoHeight + 1 ) );
             w_monster_info_border = catacurses::newwin( iInfoHeight, width, point( offsetX,
-                                    TERMY - iInfoHeight - VIEW_OFFSET_Y ) );
+                                    TERMY - iInfoHeight ) );
 
             if( cCurMon ) {
                 centerlistview( iActivePos, width );
             }
 
-            ui.position( point( offsetX, VIEW_OFFSET_Y ), point( width, TERMY - VIEW_OFFSET_Y * 2 ) );
+            ui.position( point( offsetX, 0 ), point( width, TERMY ) );
         }
     } );
     ui.mark_resize();
@@ -8904,7 +8894,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         };
 
         if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
-            ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) ) {
+            ( u.get_armor_bash( bodypart_id( "foot_l" ) ) < 5 ||
+              u.get_armor_bash( bodypart_id( "foot_r" ) ) < 5 ) ) {
             harmful_stuff.emplace_back( m.name( dest_loc ) );
         } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !( u.in_vehicle ||
                    g->m.veh_at( dest_loc ) ) &&
@@ -9260,17 +9251,17 @@ point game::place_player( const tripoint &dest_loc )
     }
     // TODO: Move the stuff below to a Character method so that NPCs can reuse it
     if( m.has_flag( "ROUGH", dest_loc ) && ( !u.in_vehicle ) && ( !u.is_mounted() ) ) {
-        if( one_in( 5 ) && u.get_armor_bash( bp_foot_l ) < rng( 2, 5 ) ) {
+        if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_l" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 1 ) );
         }
-        if( one_in( 5 ) && u.get_armor_bash( bp_foot_r ) < rng( 2, 5 ) ) {
+        if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_r" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your right foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 1 ) );
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
@@ -9281,11 +9272,11 @@ point game::place_player( const tripoint &dest_loc )
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
             u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 10 ) );
         } else {
-            body_part bp = random_body_part();
+            const bodypart_id bp = u.get_random_body_part();
             if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
                 //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                 add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
-                         body_part_name_accusative( bp ),
+                         body_part_name_accusative( bp->token ),
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
                 if( ( u.has_trait( trait_INFRESIST ) ) && ( one_in( 1024 ) ) ) {
@@ -9472,7 +9463,8 @@ point game::place_player( const tripoint &dest_loc )
         m.creature_on_trap( u );
     }
     // Drench the player if swimmable
-    if( m.has_flag( "SWIMMABLE", u.pos() ) && !u.is_mounted() ) {
+    if( m.has_flag( "SWIMMABLE", u.pos() ) &&
+        !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
         u.drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
     }
 
@@ -9664,6 +9656,7 @@ bool game::phasing_move( const tripoint &dest_loc )
 
         u.grab( OBJECT_NONE );
         on_move_effects();
+        m.creature_on_trap( u );
         return true;
     }
 
@@ -9957,7 +9950,8 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
             const int damage = rng( force, force * 2.0f ) / 6;
             c->impact( damage, pt );
             // Multiply zed damage by 6 because no body parts
-            const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_torso ) ) * 6 );
+            const int zed_damage = std::max( 0,
+                                             ( damage - critter.get_armor_bash( bodypart_id( "torso" ) ) ) * 6 );
             // TODO: Pass the "flinger" here - it's not the flung critter that deals damage
             critter.apply_damage( c, bodypart_id( "torso" ), zed_damage );
             critter.check_dead_state();
@@ -10419,9 +10413,10 @@ void game::vertical_move( int movez, bool force )
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
         std::vector<tripoint> candidates = closest_tripoints_first( u.pos(), 1 );
-        std::remove_if( candidates.begin(), candidates.end(), [this]( const tripoint & c ) {
+        candidates.erase( std::remove_if( candidates.begin(), candidates.end(),
+        [this]( const tripoint & c ) {
             return !is_empty( c );
-        } );
+        } ), candidates.end() );
 
         for( const auto &np : npcs_to_bring ) {
             const auto found = std::find_if( candidates.begin(), candidates.end(),

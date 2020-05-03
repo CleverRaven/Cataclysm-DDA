@@ -324,7 +324,7 @@
     "price_postapoc": 100,
     "to_hit": 3,
     "bashing": 4,
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": ",",
     "color": "green",
     "use_action": "SIPHON"
@@ -1078,5 +1078,37 @@
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
     "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "makeshift_hose",
+    "type": "TOOL",
+    "name": "leather hose",
+    "description": "This is a hose made out of leather.  Watertight and flexiable, it can be used to siphon fuel from a vehicle tank.  However, it's not as elastic a rubber hose.",
+    "weight": "600 g",
+    "volume": "500 ml",
+    "price": 100,
+    "price_postapoc": 50,
+    "material": "leather",
+    "symbol": ",",
+    "color": "green",
+    "use_action": "SIPHON"
+  },
+  {
+    "id": "makeshift_hand_drill",
+    "type": "TOOL",
+    "name": { "str": "makeshift hand drill" },
+    "description": "This is a makeshift manual drill made out of pipe and improvised drill bit.  It is very slow and it will exhaust you quickly.",
+    "weight": "1354 g",
+    "volume": "1 L",
+    "price": 100,
+    "price_postapoc": 50,
+    "to_hit": -3,
+    "bashing": 4,
+    "cutting": 1,
+    "material": [ "wood", "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "looks_like": "hand_drill",
+    "qualities": [ [ "DRILL", 1 ] ]
   }
 ]

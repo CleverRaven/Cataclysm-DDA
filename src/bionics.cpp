@@ -2599,16 +2599,15 @@ void load_bionic( const JsonObject &jsobj )
     }
 
     for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {
-        new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                       ja.get_int( 1 ) );
+        new_bionic.env_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
     }
 
     for( JsonArray ja : jsobj.get_array( "bash_protec" ) ) {
-        new_bionic.bash_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+        new_bionic.bash_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
                                         ja.get_int( 1 ) );
     }
     for( JsonArray ja : jsobj.get_array( "cut_protec" ) ) {
-        new_bionic.cut_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+        new_bionic.cut_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
 

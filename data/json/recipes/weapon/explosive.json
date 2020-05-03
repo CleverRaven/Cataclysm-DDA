@@ -263,45 +263,6 @@
     "components": [ [ [ "rag", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ] ]
   },
   {
-    "result": "nail_bomb",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 0 ],
-    "difficulty": 1,
-    "time": "8 m",
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "volatile_explosive", 18 ] ],
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "nail", 40 ] ],
-      [ [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ]
-    ]
-  },
-  {
-    "result": "fragment_bomb",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 0 ],
-    "difficulty": 1,
-    "time": "12 m",
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 18 ] ],
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "nail", 50 ], [ "scrap", 4 ] ],
-      [ [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ]
-    ]
-  },
-  {
     "result": "dynamite_bomb",
     "type": "recipe",
     "category": "CC_WEAPON",
@@ -414,7 +375,7 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "volatile_explosive", 23 ] ],
+    "using": [ [ "volatile_explosive", 5 ] ],
     "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
@@ -458,19 +419,5 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "volatile_explosive", 250 ] ],
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "scrap", 20 ] ], [ [ "fuse", 1 ] ] ]
-  },
-  {
-    "result": "tool_rdx_charge",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "fabrication",
-    "difficulty": 9,
-    "time": "5 h",
-    "reversible": true,
-    "using": [ [ "cordage", 5 ] ],
-    "book_learn": [ [ "manual_launcher", 9 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_rdx", 6000 ] ], [ [ "chem_hmtd", 4000 ] ], [ [ "scrap", 50 ] ] ]
   }
 ]

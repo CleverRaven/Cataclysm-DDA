@@ -725,12 +725,6 @@ bool oter_t::is_hardcoded() const
         "anthill",
         "ants_lab",
         "ants_lab_stairs",
-        "fema",
-        "fema_entrance",
-        "haz_sar", // remove after 0.E.
-        "haz_sar_b1", // remove after 0.E.
-        "haz_sar_entrance", // remove after 0.E.
-        "haz_sar_entrance_b1", // remove after 0.E.
         "ice_lab",
         "ice_lab_stairs",
         "ice_lab_core",
@@ -1559,13 +1553,6 @@ bool overmap::generate_sub( const int z )
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "sewage_treatment" ) {
                 sewer_points.emplace_back( i, j );
-            } else if( oter_above == "cave" && z == -1 ) {
-                if( one_in( 3 ) ) {
-                    ter_set( p, oter_id( "cave_rat" ) );
-                    requires_sub = true; // rat caves are two level
-                }
-            } else if( oter_above == "cave_rat" && z == -2 ) {
-                ter_set( p, oter_id( "cave_rat" ) );
             } else if( oter_above == "anthill" || oter_above == "acid_anthill" ) {
                 const int size = rng( MIN_ANT_SIZE, MAX_ANT_SIZE );
                 ant_points.push_back( city( p.xy(), size ) );

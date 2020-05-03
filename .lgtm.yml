@@ -1,4 +1,5 @@
 # Disable FIXME query, in DDA it is as likely to be a future feature as a bug.
+# Disable "potentially dangerous function" warning like localtime, there is no good alternative and we aren't multithreaded.
 queries:
-  - exclude: cpp/fixme-comment
-  
+    - exclude: cpp/fixme-comment
+    - exclude: cpp/potentially-dangerous-function

@@ -59,6 +59,10 @@ class achievement
         string_id<achievement> id;
         bool was_loaded = false;
 
+        const translation &name() const {
+            return name_;
+        }
+
         const translation &description() const {
             return description_;
         }
@@ -92,6 +96,7 @@ class achievement
             return requirements_;
         }
     private:
+        translation name_;
         translation description_;
         cata::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;
@@ -102,9 +107,19 @@ struct enum_traits<achievement::time_bound::epoch> {
     static constexpr achievement::time_bound::epoch last = achievement::time_bound::epoch::last;
 };
 
+// Once an achievement is either completed or failed it is stored as an
+// achievement_state
 struct achievement_state {
+    // The final state
     achievement_completion completion;
+
+    // When it became that state
     time_point last_state_change;
+
+    // The values for each requirement at the time of completion or failure
+    std::vector<cata_variant> final_values;
+
+    std::string ui_text( const achievement * ) const;
 
     void serialize( JsonOut & ) const;
     void deserialize( JsonIn & );
@@ -122,7 +137,9 @@ class achievement_tracker
 
         void set_requirement( requirement_watcher *watcher, bool is_satisfied );
 
-        std::string ui_text( const achievement_state * ) const;
+        bool time_is_expired() const;
+        std::vector<cata_variant> current_values() const;
+        std::string ui_text() const;
     private:
         const achievement *achievement_;
         achievements_tracker *tracker_;
@@ -142,8 +159,9 @@ class achievements_tracker : public event_subscriber
         achievements_tracker( const achievements_tracker & ) = delete;
         achievements_tracker &operator=( const achievements_tracker & ) = delete;
 
-        achievements_tracker( stats_tracker &,
-                              const std::function<void( const achievement * )> &achievement_attained_callback );
+        achievements_tracker(
+            stats_tracker &,
+            const std::function<void( const achievement * )> &achievement_attained_callback );
         ~achievements_tracker() override;
 
         // Return all scores which are valid now and existed at game start
@@ -164,8 +182,11 @@ class achievements_tracker : public event_subscriber
 
         stats_tracker *stats_ = nullptr;
         std::function<void( const achievement * )> achievement_attained_callback_;
-        std::unordered_map<string_id<achievement>, achievement_tracker> watchers_;
         std::unordered_set<string_id<achievement>> initial_achievements_;
+
+        // Class invariant: each valid achievement has exactly one of a watcher
+        // (if it's pending) or a status (if it's completed or failed).
+        std::unordered_map<string_id<achievement>, achievement_tracker> trackers_;
         std::unordered_map<string_id<achievement>, achievement_state> achievements_status_;
 };
 

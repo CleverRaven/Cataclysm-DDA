@@ -51,7 +51,7 @@
     "description": "A fletched wooden arrow shaft with a blunt rubber tip.  Can stun weaker enemies.  Stands a good chance of remaining intact once fired.",
     "price": 500,
     "price_postapoc": 100,
-    "material": [ "wood", "plastic" ],
+    "material": [ "wood", "rubber" ],
     "volume": "250 ml",
     "weight": "60 g",
     "bashing": 2,

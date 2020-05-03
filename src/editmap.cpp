@@ -178,7 +178,7 @@ editmap::editmap()
 {
     width = 45;
     height = TERMY;
-    offsetX = VIEW_OFFSET_X;
+    offsetX = 0;
     infoHeight = 0;
     sel_field = -1;
     sel_field_intensity = -1;

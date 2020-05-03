@@ -18,7 +18,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_wakes_up",
-    "description": "times woken up"
+    "description": { "str": "wake up", "str_pl": "times woken up" }
   },
   {
     "id": "avatar_kills",
@@ -45,14 +45,14 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_kills",
-    "description": "monsters killed"
+    "description": { "str": "monster killed", "str_pl": "monsters killed" }
   },
   {
     "id": "num_avatar_zombie_kills",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_zombie_kills",
-    "description": "zombies killed"
+    "description": { "str": "zombie killed", "str_pl": "zombies killed" }
   },
   {
     "id": "avatar_takes_damage",
@@ -66,7 +66,7 @@
     "stat_type": "total",
     "field": "damage",
     "event_transformation": "avatar_takes_damage",
-    "description": "damage taken"
+    "description": { "str_sp": "damage taken" }
   },
   {
     "id": "avatar_heals_damage",
@@ -80,7 +80,7 @@
     "stat_type": "total",
     "field": "damage",
     "event_transformation": "avatar_heals_damage",
-    "description": "damage healed"
+    "description": { "str_sp": "damage healed" }
   },
   {
     "id": "avatar_headshots",
@@ -93,14 +93,14 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_headshots",
-    "description": "headshots"
+    "description": { "str": "headshot" }
   },
   {
     "id": "num_moves",
     "type": "event_statistic",
     "stat_type": "count",
     "event_type": "avatar_moves",
-    "description": "squares moved"
+    "description": { "str": "square moved", "str_pl": "squares moved" }
   },
   {
     "id": "moves_with_terrain_flags",
@@ -161,49 +161,49 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_walked",
-    "description": "squares walked"
+    "description": { "str": "square walked", "str_pl": "squares walked" }
   },
   {
     "id": "num_moves_mounted",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_mounted",
-    "description": "squares rode a mount"
+    "description": { "str": "square ridden on a mount", "str_pl": "squares ridden on a mount" }
   },
   {
     "id": "num_moves_ran",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_ran",
-    "description": "squares ran"
+    "description": { "str": "square ran", "str_pl": "squares ran" }
   },
   {
     "id": "num_moves_crouched",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_crouched",
-    "description": "squares crouched"
+    "description": { "str": "square crouched", "str_pl": "squares crouched" }
   },
   {
     "id": "num_moves_swam",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_swam",
-    "description": "squares swam"
+    "description": { "str": "square swam", "str_pl": "squares swam" }
   },
   {
     "id": "num_moves_swam_underwater",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_swam_underwater",
-    "description": "squares swam underwater"
+    "description": { "str": "square swam underwater", "str_pl": "squares swam underwater" }
   },
   {
     "id": "num_moves_sharp_terrain",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_sharp_terrain",
-    "description": "moves through sharp terrain"
+    "description": { "str": "move through sharp terrain", "str_pl": "moves through sharp terrain" }
   },
   {
     "id": "min_move_z",
@@ -211,7 +211,7 @@
     "stat_type": "minimum",
     "field": "z",
     "event_type": "avatar_moves",
-    "description": "minimum z level reached"
+    "description": { "str_sp": "minimum z level reached" }
   },
   {
     "id": "max_move_z",
@@ -219,7 +219,7 @@
     "stat_type": "maximum",
     "field": "z",
     "event_type": "avatar_moves",
-    "description": "maximum z level reached"
+    "description": { "str_sp": "maximum z level reached" }
   },
   {
     "id": "min_move_underwater_z",
@@ -227,6 +227,6 @@
     "stat_type": "minimum",
     "field": "z",
     "event_transformation": "moves_swam_underwater",
-    "description": "minimum z level reached underwater"
+    "description": { "str_sp": "minimum z level reached underwater" }
   }
 ]

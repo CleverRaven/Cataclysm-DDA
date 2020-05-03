@@ -116,7 +116,8 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static void eff_fun_onfire( player &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, it.get_bp(), damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
+    u.deal_damage( nullptr, convert_bp( it.get_bp() ).id(), damage_instance( DT_HEAT, rng( intense,
+                   intense * 2 ) ) );
 }
 static void eff_fun_spores( player &u, effect &it )
 {
@@ -483,7 +484,6 @@ void player::hardcoded_effects( effect &it )
         return;
     }
 
-    const time_point start = it.get_start_time();
     const time_duration dur = it.get_duration();
     int intense = it.get_intensity();
     body_part bp = it.get_bp();
@@ -713,10 +713,10 @@ void player::hardcoded_effects( effect &it )
         }
         if( dur > 4_hours ) {
             // 8 teleports
-            if( one_in( 10000 - to_turns<int>( dur ) ) && !has_effect( effect_valium ) ) {
+            if( one_turn_in( 1000_minutes - dur ) && !has_effect( effect_valium ) ) {
                 add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
-            if( one_in( 12000 - to_turns<int>( dur ) ) ) {
+            if( one_turn_in( 1200_minutes - dur ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
                 add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 if( one_in( 8 ) ) {
@@ -1234,25 +1234,10 @@ void player::hardcoded_effects( effect &it )
             }
         }
 
-        // A bit of a hack: check if we are about to wake up for any reason, including regular timing out of sleep
+        // A bit of a hack: check if we are about to wake up for any reason, including regular
+        // timing out of sleep
         if( dur == 1_turns || woke_up ) {
-            g->events().send<event_type::character_wakes_up>( getID() );
-            if( calendar::turn - start > 2_hours ) {
-                print_health();
-            }
-            // alarm was set and player hasn't slept through the alarm.
-            if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
-                add_msg_if_player( _( "It looks like you woke up just before your alarm." ) );
-                remove_effect( effect_alarm_clock );
-            } else if( has_effect( effect_slept_through_alarm ) ) { // slept though the alarm.
-                if( has_bionic( bio_watch ) ) {
-                    add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
-                } else {
-                    add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm…" ) );
-                }
-                get_effect( effect_slept_through_alarm ).set_duration( 0_turns );
-                remove_effect( effect_alarm_clock );
-            }
+            wake_up();
         }
     } else if( id == effect_alarm_clock ) {
         if( in_sleep_state() ) {

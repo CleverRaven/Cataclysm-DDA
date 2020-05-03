@@ -98,7 +98,6 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
-static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
 static const efftype_id effect_earphones( "earphones" );
@@ -622,20 +621,37 @@ void iexamine::vending( player &p, const tripoint &examp )
         popup( _( "You need some money on a cash card to buy things." ) );
     }
 
-    const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
-    const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
-    const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
-    const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-    const int w_items_w  = window_w / 2;
-    const int w_info_w   = window_w - w_items_w;
-    const int list_lines = window_h - 4; // minus for header and footer
-
+    int w_items_w = 0;
+    int w_info_w = 0;
+    int list_lines = 0;
+    int lines_above = 0;
+    int lines_below = 0;
     constexpr int first_item_offset = 3; // header size
 
-    catacurses::window const w = catacurses::newwin( window_h, w_items_w, point( padding_x,
-                                 padding_y ) );
-    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,
-                                           point( padding_x + w_items_w, padding_y ) );
+    catacurses::window w;
+    catacurses::window w_item_info;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
+        const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
+        const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
+        const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+        w_items_w  = window_w / 2;
+        w_info_w   = window_w - w_items_w;
+        list_lines = window_h - 4; // minus for header and footer
+
+        lines_above = list_lines / 2;                  // lines above the selector
+        lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
+
+        w = catacurses::newwin( window_h, w_items_w,
+                                point( padding_x, padding_y ) );
+        w_item_info = catacurses::newwin( window_h, w_info_w,
+                                          point( padding_x + w_items_w, padding_y ) );
+
+        ui.position( point( padding_x, padding_y ), point( window_w, window_h ) );
+    } );
+    ui.mark_resize();
 
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
@@ -652,7 +668,7 @@ void iexamine::vending( player &p, const tripoint &examp )
     for( auto it = std::begin( vend_items ); it != std::end( vend_items ); ++it ) {
         // |# {name}|
         // 123      4
-        item_map[utf8_truncate( it->tname(), static_cast<size_t>( w_items_w - 4 ) )].push_back( it );
+        item_map[it->tname()].push_back( it );
     }
 
     // Next, put pointers to the pairs in the map in a vector to allow indexing.
@@ -662,14 +678,8 @@ void iexamine::vending( player &p, const tripoint &examp )
         item_list.emplace_back( &pair );
     }
 
-    const int lines_above = list_lines / 2;                  // lines above the selector
-    const int lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
     int cur_pos = 0;
-    for( ;; ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         const int num_items = item_list.size();
         const int page_size = std::min( num_items, list_lines );
 
@@ -722,6 +732,16 @@ void iexamine::vending( player &p, const tripoint &examp )
                                                 static_cast<size_t>( w_info_w - 4 ) );
         mvwprintw( w_item_info, point_east, "<%s>", name );
         wrefresh( w_item_info );
+    } );
+
+    for( ;; ) {
+        ui_manager::redraw();
+
+        const int num_items = item_list.size();
+
+        // Item info
+        auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
+        auto &cur_item  = cur_items.back();
 
         const std::string &action = ctxt.handle_input();
         if( action == "DOWN" ) {
@@ -1649,7 +1669,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         return;
     }
 
-    int resist = p.get_env_resist( bp_mouth );
+    int resist = p.get_env_resist( bodypart_id( "mouth" ) );
 
     if( resist < 10 ) {
         // Can't smell the flowers with a gas mask on!
@@ -3371,9 +3391,8 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            g->u.assign_activity( ACT_PICKUP );
-            g->u.activity.targets.emplace_back( map_cursor( examp ), container );
-            g->u.activity.values.push_back( 0 );
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+            { item_location( map_cursor( examp ), container ) }, { 0 }, g->u.pos() ) ) );
             return;
         }
 
@@ -3659,9 +3678,8 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             auto items = g->m.i_at( examp );
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
-                    p.assign_activity( ACT_PICKUP );
-                    p.activity.targets.emplace_back( map_cursor( examp ), &itm );
-                    p.activity.values.push_back( 0 );
+                    g->u.assign_activity( player_activity( pickup_activity_actor(
+                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, g->u.pos() ) ) );
                     return;
                 }
             }
@@ -4722,7 +4740,7 @@ static void mill_activate( player &p, const tripoint &examp )
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( flag_MILLABLE ) ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( 1, examp, nullptr );
+            it.process_temperature_rot( 1, false, examp, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -4822,7 +4840,7 @@ static void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( "fire", 1 );
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_temperature_rot( 1, examp, nullptr );
+            it.process_temperature_rot( 1, false, examp, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }

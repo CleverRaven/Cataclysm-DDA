@@ -56,5 +56,24 @@
     "category": "fuel",
     "ammo_type": "blood",
     "fuel": { "energy": 1 }
+  },
+  {
+    "id": "mana_infused_blood",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "mana infused blood", "str_pl": "mana_infused_blood" },
+    "description": "Blood that is filled to the brim with arcane energy.  It releases a faint blue glow.",
+    "weight": "265 g",
+    "volume": "250 ml",
+    "price": 0,
+    "symbol": "~",
+    "color": "light_blue",
+    "phase": "liquid",
+    "container": "flask_glass",
+    "tool": "syringe",
+    "quench": 50,
+    "ammo_data": { "ammo_type": "mana_infused_blood" },
+    "flags": [ "NO_INGEST" ],
+    "use_action": { "type": "cast_spell", "spell_id": "mana_doping", "no_fail": true, "level": 0 }
   }
 ]

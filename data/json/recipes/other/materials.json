@@ -252,5 +252,24 @@
     "time": "30 m",
     "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
     "components": [ [ [ "wire_barbed", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "glass_tinted",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "30 m",
+    "book_learn": [ [ "glassblowing_book", 4 ], [ "textbook_fabrication", 5 ], [ "welding_book", 5 ] ],
+    "batch_time_factors": [ 90, 2 ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "sheet_metal_small", -1 ], [ "sheet_metal", -1 ] ],
+      [ [ "forge", 60 ] ]
+    ],
+    "components": [ [ [ "glass_shard", 2 ] ], [ [ "chem_sulphur", 1 ] ], [ [ "scrap", 1 ] ], [ [ "charcoal", 1 ] ] ]
   }
 ]
