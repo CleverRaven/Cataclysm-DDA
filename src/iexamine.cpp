@@ -4288,7 +4288,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
             p.setpos( examp );
 
-            if( g->slip_down( true ) ) {
+            if( g->m.has_flag( "UNSTABLE", examp + tripoint_below ) && g->slip_down( true ) ) {
                 return;
             }
 
