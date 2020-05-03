@@ -7,7 +7,7 @@
     "maintainers": [ "Soup-de-Loop" ],
     "description": "Introduces the fictional corporation Blaze Industries, bringing advanced vehicle modification to the consumer.",
     "//": "Spiritual successor to blazemod, do not use together with the legacy blazemod unless you know what you are doing.",
-    "category": "vehicles",
+    "category": "content",
     "dependencies": [ "dda" ]
   }
 ]
