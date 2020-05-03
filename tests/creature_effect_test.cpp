@@ -22,6 +22,7 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
 {
     const efftype_id effect_downed( "downed" );
     const efftype_id effect_grabbed( "grabbed" );
+    const efftype_id effect_invisibility( "invisibility" );
 
     // For monster, has_effect is not body-part-specific (uses num_bp)
     SECTION( "monster has_effect" ) {
@@ -108,6 +109,42 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
                 CHECK( dummy.has_effect( effect_downed ) );
                 CHECK( dummy.has_effect( effect_downed, num_bp ) );
             }
+        }
+    }
+}
+
+// Creature::has_effect_with_flag
+//
+TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
+{
+    const efftype_id effect_downed( "downed" );
+    const efftype_id effect_invisibility( "invisibility" );
+    const std::string invisibility_flag = "EFFECT_INVISIBLE";
+
+    monster mummy( mtype_id( "debug_mon" ) );
+
+    mummy.clear_effects();
+
+    WHEN( "monster does not have any effects" ) {
+
+        THEN( "has_effect_with_flag is false" ) {
+            CHECK_FALSE( mummy.has_effect_with_flag( invisibility_flag ) );
+        }
+    }
+
+    WHEN( "monster has only effects without flag" ) {
+        mummy.add_effect( effect_downed, 1_minutes );
+
+        THEN( "has_effect_with_flag is false" ) {
+            CHECK_FALSE( mummy.has_effect_with_flag( invisibility_flag ) );
+        }
+    }
+
+    WHEN( "monster has an effect with the flag" ) {
+        mummy.add_effect( effect_invisibility, 1_minutes );
+
+        THEN( "has_effect_with_flag is true" ) {
+            CHECK( mummy.has_effect_with_flag( invisibility_flag ) );
         }
     }
 }
