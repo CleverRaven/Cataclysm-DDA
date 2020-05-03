@@ -99,6 +99,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "cereal_fp7",
+    "name": { "str_sp": "Foodios cereal" },
+    "description": "FoodPlace brand \"Foodios\" cereal.  Foodios™ are Foodalicious™!",
+    "material": "foodplace_foodstuff",
+    "charges": 6,
+    "copy-from": "cereal_tpl"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "cereal",
     "name": "sugary cereal",
     "weight": "38 g",
