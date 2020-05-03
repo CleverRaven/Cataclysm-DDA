@@ -60,6 +60,65 @@
 // - player::process_one_effect
 
 
+// effect_mending
+//
+// Applied to a body part, this effect indicates when a limb is mending from being broken.
+// Mending itself occurs in `Character::mend` (outside the scope of these tests).
+//
+// FIXME: This test (and the effect_disabled test) are kind of pointless and over-complicated,
+// considering their simplistic implementation. Consider removing these (maybe more maintenance than
+// they are worth).
+//
+TEST_CASE( "mending broken limbs", "[player][effect][mending]" )
+{
+    avatar dummy;
+    const efftype_id effect_mending( "mending" );
+    const body_part right_leg = bodypart_id( "leg_r" )->token;
+
+    dummy.clear_effects();
+
+    GIVEN( "player has a broken and mending body part" ) {
+        // Break a leg, and make it "permanently" mending
+        dummy.apply_damage( nullptr, bodypart_id( "leg_r" ), 999 );
+        dummy.add_effect( effect_mending, 1_turns, right_leg, true );
+
+        // Keep the effect object for hardcoded_effects
+        effect &effect_obj = dummy.get_effect( effect_mending, right_leg );
+
+        // Make sure setup worked as expected
+        REQUIRE( dummy.has_effect( effect_mending, right_leg ) );
+        REQUIRE( effect_obj.is_permanent() );
+
+        WHEN( "it is still broken" ) {
+            REQUIRE( dummy.is_limb_broken( hp_leg_r ) );
+
+            WHEN( "hardcoded effects apply" ) {
+                dummy.hardcoded_effects( effect_obj );
+
+                THEN( "mending effect duration > 0" ) {
+                    CHECK( dummy.has_effect( effect_mending, right_leg ) );
+                    CHECK( to_turns<int>( effect_obj.get_duration() ) > 0 );
+                }
+            }
+        }
+
+        WHEN( "it is no longer broken" ) {
+            // "Un-break" the leg, to avoid the complexity of `Character::mend`
+            dummy.hp_cur[hp_leg_r] = 1;
+            REQUIRE_FALSE( dummy.is_limb_broken( hp_leg_r ) );
+
+            WHEN( "hardcoded effects apply" ) {
+                dummy.hardcoded_effects( effect_obj );
+
+                THEN( "mending effect duration is 0" ) {
+                    CHECK( dummy.has_effect( effect_mending, right_leg ) );
+                    CHECK( to_turns<int>( effect_obj.get_duration() ) == 0 );
+                }
+            }
+        }
+    }
+}
+
 // effect_disabled
 //
 TEST_CASE( "disabled body parts", "[player][effect][disabled]" )
@@ -96,7 +155,7 @@ TEST_CASE( "disabled body parts", "[player][effect][disabled]" )
         }
 
         WHEN( "it is no longer broken" ) {
-            // Modify hp_cur directly, since `heal` can only heal if not broken
+            // "Un-break" the leg, to avoid the complexity of `Character::mend`
             dummy.hp_cur[hp_leg_r] = 1;
             REQUIRE_FALSE( dummy.is_limb_broken( hp_leg_r ) );
 
@@ -110,19 +169,6 @@ TEST_CASE( "disabled body parts", "[player][effect][disabled]" )
             }
         }
     }
-}
-
-// effect_mending
-//
-TEST_CASE( "mending broken limbs", "[player][effect][mending]" )
-{
-    // GIVEN a body part is mending
-    //
-    // WHEN still broken
-    // THEN mending duration > 0
-    //
-    // WHEN no longer broken
-    // THEN mending duration = 0
 }
 
 // effect_panacea
