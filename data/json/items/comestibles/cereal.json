@@ -88,7 +88,7 @@
     "type": "COMESTIBLE",
     "id": "cereal_fp5",
     "name": { "str_sp": "Honey Pellet cereal" },
-    "description": "FoodPlace brand \"Amorphous Honey Pellet\" cereal.  The box promises \"Inconceivable sustenance in tiny morsels of insipid honey.\"",
+    "description": "FoodPlace brand \"Amorphous Honey Pellet\" cereal.  The box promises \"Inconceivable sustenance in tiny morsels of yellow honey.\"",
     "copy-from": "cereal_fpsugar_tpl"
   },
   {
