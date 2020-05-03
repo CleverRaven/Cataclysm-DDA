@@ -122,6 +122,9 @@ class inventory_entry
     private:
         const item_category *custom_category = nullptr;
         bool enabled = true;
+    protected:
+        // indents the entry if it is contained in an item
+        bool _indent = true;
 
 };
 

@@ -525,25 +525,26 @@ class comestible_inventory_preset : public inventory_selector_preset
         comestible_inventory_preset( const player &p ) : p( p ) {
 
             append_cell( [ &p, this ]( const item_location & loc ) {
-                const nutrients nutr = p.compute_effective_nutrients( get_consumable_item( loc ) );
+                const nutrients nutr = p.compute_effective_nutrients( *loc );
                 return good_bad_none( nutr.kcal );
             }, _( "CALORIES" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return good_bad_none( get_edible_comestible( loc ).quench );
+                return good_bad_none( loc->is_comestible() ? loc->get_comestible()->quench : 0 );
             }, _( "QUENCH" ) );
 
             append_cell( [ &p, this ]( const item_location & loc ) {
-                const item &it = get_consumable_item( loc );
+                const item &it = *loc;
                 if( it.has_flag( flag_MUSHY ) ) {
-                    return highlight_good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
+                    return highlight_good_bad_none( p.fun_for( *loc ).first );
                 } else {
-                    return good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
+                    return good_bad_none( p.fun_for( *loc ).first );
                 }
             }, _( "JOY" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                const time_duration spoils = get_edible_comestible( loc ).spoils;
+                const time_duration spoils = loc->is_comestible() ? loc->get_comestible()->spoils :
+                                             calendar::INDEFINITELY_LONG_DURATION;
                 if( spoils > 0_turns ) {
                     return to_string_clipped( spoils );
                 }
@@ -552,7 +553,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "SHELF LIFE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                const item &it = get_consumable_item( loc );
+                const item &it = *loc;
 
                 int converted_volume_scale = 0;
                 const int charges = std::max( it.charges, 1 );
@@ -565,8 +566,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [this]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
-                    const islot_comestible item = get_edible_comestible( loc );
-                    if( item.spoils > 0_turns ) {
+                    if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
                         return get_freshness( loc );
                     }
                     return std::string( "---" );
@@ -576,9 +576,8 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
-                    const islot_comestible item = get_edible_comestible( loc );
-                    if( item.spoils > 0_turns ) {
-                        if( !get_consumable_item( loc ).rotten() ) {
+                    if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
+                        if( !loc->rotten() ) {
                             return get_time_left_rounded( loc );
                         }
                     }
@@ -590,7 +589,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( [ this, &p ]( const item_location & loc ) {
                 std::string cbm_name;
 
-                switch( p.get_cbm_rechargeable_with( get_consumable_item( loc ) ) ) {
+                switch( p.get_cbm_rechargeable_with( *loc ) ) {
                     case rechargeable_cbm::none:
                         break;
                     case rechargeable_cbm::reactor:
@@ -600,7 +599,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                         cbm_name = _( "Furnace" );
                         break;
                     case rechargeable_cbm::other:
-                        std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
+                        std::vector<bionic_id> bids = p.get_bionic_fueled_with( *loc );
                         if( !bids.empty() ) {
                             bionic_id bid = p.get_most_efficient_bionic( bids );
                             cbm_name = bid->name.translated();
@@ -616,18 +615,18 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "CBM" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) {
-                return good_bad_none( p.get_acquirable_energy( get_consumable_item( loc ) ) );
+                return good_bad_none( p.get_acquirable_energy( *loc ) );
             }, _( "ENERGY (kJ)" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return p.can_consume( *loc );
+            return p.can_consume_as_is( *loc );
         }
 
         std::string get_denial( const item_location &loc ) const override {
             const item &med = *loc;
 
-            if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( flag_LIQUIDCONT, loc.position() ) ) {
+            if( loc->made_of_from_type( LIQUID ) && loc.where() != item_location::type::container ) {
                 return _( "Can't drink spilt liquids" );
             }
 
@@ -635,9 +634,9 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "Your biology is not compatible with that item." );
             }
 
-            const auto &it = get_consumable_item( loc );
-            const auto res = p.can_eat( it );
-            const auto cbm = p.get_cbm_rechargeable_with( it );
+            const item &it = *loc;
+            const ret_val<edible_rating> res = p.can_eat( it );
+            const rechargeable_cbm cbm = p.get_cbm_rechargeable_with( it );
 
             if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
@@ -662,7 +661,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
     protected:
         int get_order( const item_location &loc, const time_duration &time ) const {
-            if( get_consumable_item( loc ).rotten() ) {
+            if( loc->rotten() ) {
                 if( p.has_trait( trait_SAPROPHAGE ) || p.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
@@ -673,16 +672,6 @@ class comestible_inventory_preset : public inventory_selector_preset
             } else {
                 return 2;
             }
-        }
-
-        // WARNING: this can return consumables which are not necessarily possessing
-        // the comestible type. please dereference responsibly.
-        const item &get_consumable_item( const item_location &loc ) const {
-            return p.get_consumable_from( const_cast<item &>( *loc ) );
-        }
-
-        const islot_comestible &get_edible_comestible( const item_location &loc ) const {
-            return get_edible_comestible( get_consumable_item( loc ) );
         }
 
         const islot_comestible &get_edible_comestible( const item &it ) const {
@@ -696,9 +685,10 @@ class comestible_inventory_preset : public inventory_selector_preset
 
         time_duration get_time_left( const item_location &loc ) const {
             time_duration time_left = 0_turns;
-            const time_duration shelf_life = get_edible_comestible( loc ).spoils;
+            const time_duration shelf_life = loc->is_comestible() ? loc->get_comestible()->spoils :
+                                             calendar::INDEFINITELY_LONG_DURATION;
             if( shelf_life > 0_turns ) {
-                const item &it = get_consumable_item( loc );
+                const item &it = *loc;
                 const double relative_rot = it.get_relative_rot();
                 time_left = shelf_life - shelf_life * relative_rot;
 
@@ -713,7 +703,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_time_left_rounded( const item_location &loc ) const {
-            const item &it = get_consumable_item( loc );
+            const item &it = *loc;
             if( it.is_going_bad() ) {
                 return _( "soon!" );
             }
@@ -723,7 +713,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_freshness( const item_location &loc ) {
-            const item &it = get_consumable_item( loc );
+            const item &it = *loc;
             const double rot_progress = it.get_relative_rot();
             if( it.is_fresh() ) {
                 return _( "fresh" );
@@ -783,7 +773,7 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
 
         bool is_shown( const item_location &loc ) const override {
             return comestible_inventory_preset::is_shown( loc ) &&
-                   predicate( get_consumable_item( loc ) );
+                   predicate( *loc );
         }
 
     private:
