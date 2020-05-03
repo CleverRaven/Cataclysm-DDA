@@ -67,6 +67,10 @@ class achievement
             return description_;
         }
 
+        const std::vector<string_id<achievement>> &hidden_by() const {
+            return hidden_by_;
+        }
+
         class time_bound
         {
             public:
@@ -98,6 +102,7 @@ class achievement
     private:
         translation name_;
         translation description_;
+        std::vector<string_id<achievement>> hidden_by_;
         cata::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;
 };
@@ -170,6 +175,7 @@ class achievements_tracker : public event_subscriber
         void report_achievement( const achievement *, achievement_completion );
 
         achievement_completion is_completed( const string_id<achievement> & ) const;
+        bool is_hidden( const achievement * ) const;
         std::string ui_text_for( const achievement * ) const;
 
         void clear();

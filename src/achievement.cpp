@@ -50,6 +50,13 @@ const achievement &string_id<achievement>::obj() const
     return achievement_factory.obj( *this );
 }
 
+/** @relates string_id */
+template<>
+bool string_id<achievement>::is_valid() const
+{
+    return achievement_factory.is_valid( *this );
+}
+
 namespace io
 {
 
@@ -310,17 +317,24 @@ void achievement::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
     optional( jo, was_loaded, "description", description_ );
+    optional( jo, was_loaded, "hidden_by", hidden_by_ );
     optional( jo, was_loaded, "time_constraint", time_constraint_ );
     mandatory( jo, was_loaded, "requirements", requirements_ );
 }
 
 void achievement::check() const
 {
-    for( const achievement_requirement &req : requirements_ ) {
-        req.check( id );
+    for( const string_id<achievement> &a : hidden_by_ ) {
+        if( !a.is_valid() ) {
+            debugmsg( "Achievement %s specifies hidden_by achievement %s, but the latter does not "
+                      "exist.", id.str(), a.str() );
+        }
     }
     if( time_constraint_ ) {
         time_constraint_->check( id );
+    }
+    for( const achievement_requirement &req : requirements_ ) {
+        req.check( id );
     }
 }
 
@@ -597,6 +611,20 @@ achievement_completion achievements_tracker::is_completed( const string_id<achie
         return achievement_completion::pending;
     }
     return it->second.completion;
+}
+
+bool achievements_tracker::is_hidden( const achievement *ach ) const
+{
+    if( is_completed( ach->id ) == achievement_completion::completed ) {
+        return false;
+    }
+
+    for( const string_id<achievement> &hidden_by : ach->hidden_by() ) {
+        if( is_completed( hidden_by ) != achievement_completion::completed ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::string achievements_tracker::ui_text_for( const achievement *ach ) const
