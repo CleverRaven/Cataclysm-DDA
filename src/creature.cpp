@@ -1672,40 +1672,27 @@ body_part Creature::select_body_part( Creature *source, int hit_roll ) const
     return human_anatomy->select_body_part( szdif, hit_roll )->token;
 }
 
-void Creature::add_damage_over_time( const bodypart_id &bp, const damage_type &type,
-                                     const int amount, const time_duration &time )
+void Creature::add_damage_over_time( const damage_over_time_data &DoT )
 {
-    const std::pair<time_duration, int> dmg_spec( time, amount );
-    std::map<damage_type, std::pair<time_duration, int>> DoT_instance;
-    DoT_instance.emplace( type, dmg_spec );
-    if( damage_over_time_map.find( bp ) != damage_over_time_map.end() ) {
-
-        damage_over_time_map[bp].try_emplace( type, dmg_spec );
-    } else {
-        damage_over_time_map.emplace( bp, DoT_instance );
-    }
+    damage_over_time_map.emplace_back( DoT );
 }
 
 void Creature::process_damage_over_time()
 {
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( damage_over_time_map.find( bp ) != damage_over_time_map.end() ) {
-            for( const std::pair<damage_type, std::pair<time_duration, int>> &DoT_instance :
-                 damage_over_time_map[bp] ) {
-                const std::pair<time_duration, int> &dmg_spec = DoT_instance.second;
-                if( dmg_spec.first > 0_turns ) {
-                    const int dmg_amount = dmg_spec.second;
-                    if( dmg_amount < 0 ) {
-                        heal_bp( bp, -dmg_amount );
-                    } else {
-                        deal_damage( nullptr, bp, damage_instance( DoT_instance.first, dmg_amount ) );
-                    }
-
-                    damage_over_time_map[bp][DoT_instance.first].first -= 1_turns;
+    for( auto DoT = damage_over_time_map.begin(); DoT != damage_over_time_map.end(); ) {
+        if( DoT->duration > 0_turns ) {
+            for( const bodypart_str_id &bp : DoT->bps ) {
+                const int dmg_amount = DoT->amount;
+                if( dmg_amount < 0 ) {
+                    heal_bp( bp.id(), -dmg_amount );
                 } else {
-                    damage_over_time_map[bp].erase( DoT_instance.first );
+                    deal_damage( nullptr, bp.id(), damage_instance( DoT->type, dmg_amount ) );
                 }
             }
+            DoT->duration -= 1_turns;
+            ++DoT;
+        } else {
+            damage_over_time_map.erase( DoT );
         }
     }
 }

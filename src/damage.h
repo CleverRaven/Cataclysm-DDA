@@ -8,6 +8,7 @@
 #include <string>
 
 #include "type_id.h"
+#include "calendar.h"
 
 class item;
 class monster;
@@ -83,6 +84,17 @@ struct damage_instance {
     /*@}*/
 
     void deserialize( JsonIn & );
+};
+
+class damage_over_time_data
+{
+    public:
+        damage_type type;
+        time_duration duration;
+        std::vector<bodypart_str_id> bps;
+        int amount;
+
+        void load_DoT_data( const JsonObject &obj );
 };
 
 struct dealt_damage_instance {

@@ -423,3 +423,20 @@ resistances load_resistances_instance( const JsonObject &jo )
     ret.resist_vals = load_damage_array( jo );
     return ret;
 }
+
+void damage_over_time_data::load_DoT_data( const JsonObject &obj )
+{
+    type = dt_by_name( obj.get_string( "damage_type" ) );
+
+    amount = obj.get_int( "amount" );
+
+    if( obj.has_string( "duration" ) ) {
+        duration = read_from_json_string<time_duration>( *obj.get_raw( "duration" ), time_duration::units );
+    } else {
+        duration = time_duration::from_turns( obj.get_int( "duration", 0 ) );
+    }
+
+    for( const std::string &bp_id : obj.get_array( "bodyparts" ) ) {
+        bps.emplace_back( bodypart_str_id( bp_id ) );
+    }
+}

@@ -10,7 +10,6 @@
 #include <utility>
 #include <vector>
 
-#include "calendar.h"
 #include "color.h"
 #include "damage.h"
 #include "enums.h"
@@ -240,18 +239,6 @@ struct effect_data {
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
 
-/** Used in consume_drug_iuse for storing damage over time data. */
-struct DoT_data {
-    damage_type type;
-    time_duration duration;
-    std::vector<bodypart_str_id> bps;
-    int amount;
-
-    DoT_data( const damage_type &type, const time_duration &dur, const std::vector<bodypart_str_id> &nbp,
-              const int dmg ) :
-        type( type ), duration( dur ), bps( nbp ), amount( dmg ) {}
-};
-
 /**
  * This iuse encapsulates the effects of taking a drug.
  */
@@ -274,7 +261,8 @@ class consume_drug_iuse : public iuse_actor
         /** Modify player vitamin_levels by random amount between min (first) and max (second) */
         std::map<vitamin_id, std::pair<int, int>> vitamins;
 
-        std::vector<DoT_data> damage_over_time;
+        /**List of damage over time applyed by this drug, negative damage heals*/
+        std::vector<damage_over_time_data> damage_over_time;
 
         /** How many move points this action takes. */
         int moves = 100;

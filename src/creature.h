@@ -12,6 +12,7 @@
 
 #include "anatomy.h"
 #include "bodypart.h"
+#include "damage.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -753,7 +754,7 @@ class Creature
 
         pimpl<effects_map> effects;
 
-        std::map< bodypart_id, std::map<damage_type, std::pair<time_duration, int> > >damage_over_time_map;
+        std::vector<damage_over_time_data> damage_over_time_map;
 
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
@@ -800,8 +801,7 @@ class Creature
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
 
-        void add_damage_over_time( const bodypart_id &bp, const damage_type &type, const int amount,
-                                   const time_duration &time );
+        void add_damage_over_time( const damage_over_time_data &DoT );
         void process_damage_over_time();
 
         static void load_hit_range( const JsonObject & );
