@@ -5,9 +5,9 @@
     "name": "Roadheader and other mining vehicles",
     "authors": [ "Ckpyt" ],
     "maintainers": [ "Ckpyt in the forest" ],
-    "description": "Adds a few mining vehicles, requires Vehicle Additions Pack.",
+    "description": "Adds a few mining vehicles, requires Tanks and Other Vehicles as it is no longer dependent on blazemod.",
     "category": "vehicles",
-    "dependencies": [ "dda", "blazemod" ],
+    "dependencies": [ "dda", "Tanks" ],
     "obsolete": true
   }
 ]

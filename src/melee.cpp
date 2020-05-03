@@ -630,6 +630,8 @@ void player::reach_attack( const tripoint &p )
     int target_size = critter != nullptr ? critter->get_size() : 2;
     // Reset last target pos
     last_target_pos = cata::nullopt;
+    // Max out recoil
+    recoil = MAX_RECOIL;
 
     int move_cost = attack_speed( weapon );
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
@@ -2392,14 +2394,7 @@ melee_statistic_data melee::get_stats()
 
 void melee::clear_stats()
 {
-    melee_stats.attack_count = 0;
-    melee_stats.hit_count = 0;
-    melee_stats.double_crit_count = 0;
-    melee_stats.crit_count = 0;
-    melee_stats.double_crit_chance = 0.0;
-    melee_stats.crit_chance = 0.0;
-    melee_stats.actual_crit_count = 0;
-    melee_stats.damage_amount = 0;
+    melee_stats = melee_statistic_data{};
 }
 
 namespace melee

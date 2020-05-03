@@ -23,7 +23,7 @@
   },
   {
     "id": "afs_basin",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "name": { "ctxt": "container", "str": "basin" },
     "description": "A wide, shallow basin used to hold liquid, hammered from a piece of sheet metal.  Ideal for collecting water.",
     "weight": "5 kg",
@@ -35,8 +35,17 @@
     "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
-    "contains": "2500 ml",
-    "watertight": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "10 kg",
+        "open_container": true,
+        "moves": 400
+      }
+    ],
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -128,11 +137,21 @@
   {
     "id": "hazardous_waste_drum",
     "copy-from": "55gal_drum",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "name": { "str": "hazardous waste drum" },
     "description": "A yellow drum meant for the storage of hazardous substances.",
     "material": [ "steel", "lead" ],
     "symbol": "0",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "500 kg",
+        "moves": 400
+      }
+    ],
     "color": "yellow"
   },
   {

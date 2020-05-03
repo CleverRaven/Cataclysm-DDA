@@ -56,6 +56,7 @@ enum spell_flag {
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
+    WITH_CONTAINER, // items spawned with container
     LAST
 };
 
@@ -554,7 +555,7 @@ class spellbook_callback : public uilist_callback
         std::vector<spell_type> spells;
     public:
         void add_spell( const spell_id &sp );
-        void select( int entnum, uilist *menu ) override;
+        void refresh( uilist *menu ) override;
 };
 
 // Utility structure to run area queries over weight map. It uses shortest-path-expanding-tree,

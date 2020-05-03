@@ -1,7 +1,7 @@
 [
   {
     "id": "cauldron_demon_chitin",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "other",
     "name": { "str": "cauldron of purification", "str_pl": "cauldrons of purification" },
     "description": "This cauldron made of demon spider chitin seems to absorb the light.  It will hold 16 liters of material and will absorb poisons from it.  It may have other properties that require discovery.",
@@ -14,9 +14,8 @@
     "material": "demon_chitin",
     "symbol": ")",
     "color": "red",
-    "contains": "16 L",
+    "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
     "//": "I went ahead and gave this a level of 2 for when magical mutagens become a thing as I figured dragonblood for instance should need different tools than making alpha mutagen.",
-    "watertight": true,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ] ],
     "use_action": "HEAT_FOOD"
   },

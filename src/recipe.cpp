@@ -596,7 +596,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
     const bool recipe_forbids_rotten =
         result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" );
     const bool flags_forbid_rotten =
-        static_cast<bool>( flags & recipe_filter_flags::no_rotten ) && result.goes_bad_after_opening();
+        static_cast<bool>( flags & recipe_filter_flags::no_rotten );
     std::function<bool( const item & )> rotten_filter = return_true<item>;
     if( recipe_forbids_rotten || flags_forbid_rotten ) {
         rotten_filter = []( const item & component ) {

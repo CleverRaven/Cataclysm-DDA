@@ -27,7 +27,6 @@
     "price": 25000,
     "price_postapoc": 1750,
     "ammo": "380",
-    "magazine_well": "44 ml",
     "min_cycle_recoil": 270,
     "magazines": [ [ "380", [ "kp3atmag" ] ] ]
   },
@@ -91,7 +90,6 @@
     "ammo": "380",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
     "magazines": [ [ "380", [ "hptcf380mag_8rd", "hptcf380mag_10rd" ] ] ]
   },
   {
@@ -114,7 +112,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 225,
-    "magazine_well": 1,
     "magazines": [ [ "380", [ "taurus_spectrum_mag" ] ] ]
   }
 ]

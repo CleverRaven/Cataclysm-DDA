@@ -323,8 +323,6 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
-            file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
     }
@@ -343,8 +341,6 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         }
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
-            file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
     }

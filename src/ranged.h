@@ -19,16 +19,6 @@ struct tripoint;
 struct vehicle_part;
 template<typename T> struct enum_traits;
 
-enum target_mode : int {
-    TARGET_MODE_FIRE,
-    TARGET_MODE_THROW,
-    TARGET_MODE_TURRET,
-    TARGET_MODE_TURRET_MANUAL,
-    TARGET_MODE_REACH,
-    TARGET_MODE_THROW_BLIND,
-    TARGET_MODE_SPELL
-};
-
 /**
  * Specifies weapon source for aiming across turns and
  * (de-)serialization of targeting_data
@@ -78,36 +68,33 @@ struct targeting_data {
     void deserialize( JsonIn &jsin );
 };
 
-class target_handler
+namespace target_handler
 {
-        // TODO: alias return type of target_ui
-    public:
-        /**
-         *  Prompts for target and returns trajectory to it.
-         *  TODO: pass arguments via constructor(s) and add methods for getting names and button labels,
-         *        switching ammo & firing modes, drawing - stuff like that
-         *  @param pc The player doing the targeting
-         *  @param mode targeting mode, which affects UI display among other things.
-         *  @param relevant active item, if any (for instance, a weapon to be aimed).
-         *  @param range the maximum distance to which we're allowed to draw a target.
-         *  @param ammo effective ammo data (derived from @param relevant if unspecified).
-         *  @param turret turret being fired (relevant for TARGET_MODE_TURRET_MANUAL)
-         *  @param veh vehicle that turrets belong to (relevant for TARGET_MODE_TURRET)
-         *  @param vturrets vehicle turrets being aimed (relevant for TARGET_MODE_TURRET)
-         */
-        std::vector<tripoint> target_ui( player &pc, target_mode mode,
-                                         item *relevant, int range,
-                                         const itype *ammo = nullptr,
-                                         turret_data *turret = nullptr,
-                                         vehicle *veh = nullptr,
-                                         const std::vector<vehicle_part *> &vturrets = std::vector<vehicle_part *>()
-                                       );
-        // magic version of target_ui
-        std::vector<tripoint> target_ui( spell_id sp, bool no_fail = false,
-                                         bool no_mana = false );
-        std::vector<tripoint> target_ui( spell &casting, bool no_fail = false,
-                                         bool no_mana = false );
-};
+// Trajectory to target. Empty if selection was aborted or player ran out of moves
+using trajectory = std::vector<tripoint>;
+
+/**
+ * Firing ranged weapon. This mode allows spending moves on aiming.
+ * 'reload_requested' is set to 'true' if user aborted aiming to reload the gun/change ammo
+ */
+trajectory mode_fire( player &pc, item &weapon, bool &reload_requested );
+
+/** Throwing item */
+trajectory mode_throw( player &pc, item &relevant, bool blind_throwing );
+
+/** Reach attacking */
+trajectory mode_reach( player &pc, item &weapon );
+
+/** Manually firing vehicle turret */
+trajectory mode_turret_manual( player &pc, turret_data &turret );
+
+/** Selecting target for turrets (when using vehicle controls) */
+trajectory mode_turrets( player &pc, vehicle &veh, const std::vector<vehicle_part *> &turrets );
+
+/** Casting a spell */
+trajectory mode_spell( player &pc, spell &casting, bool no_fail, bool no_mana );
+trajectory mode_spell( player &pc, spell_id sp, bool no_fail, bool no_mana );
+} // namespace target_handler
 
 int range_with_even_chance_of_good_hit( int dispersion );
 

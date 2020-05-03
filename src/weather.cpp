@@ -207,17 +207,29 @@ void item::add_rain_to_container( bool acid, int charges )
     }
     item ret( acid ? "water_acid" : "water", calendar::turn );
     const int capa = get_remaining_capacity_for_liquid( ret, true );
-    if( contents.empty() ) {
+    ret.charges = std::min( charges, capa );
+    if( contents.can_contain( ret ).success() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if( !acid ) {
             // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
             ret.poison = one_in( 10 ) ? 1 : 0;
         }
-        ret.charges = std::min( charges, capa );
-        put_in( ret );
+        put_in( ret, item_pocket::pocket_type::CONTAINER );
     } else {
+        static const std::set<std::string> allowed_liquid_types{
+            "water",
+            "water_acid",
+            "water_acid_weak"
+        };
+        item *found_liq = contents.get_item_with( [&]( const item & liquid ) {
+            return allowed_liquid_types.count( liquid.typeId() );
+        } );
+        if( found_liq == nullptr ) {
+            debugmsg( "Rainwater failed to add to container" );
+            return;
+        }
         // The container already has a liquid.
-        item &liq = contents.front();
+        item &liq = *found_liq;
         int orig = liq.charges;
         int added = std::min( charges, capa );
         if( capa > 0 ) {
@@ -240,7 +252,7 @@ void item::add_rain_to_container( bool acid, int charges )
             const bool transmute = x_in_y( 2 * added, liq.charges );
 
             if( transmute ) {
-                contents.front() = item( "water_acid_weak", calendar::turn, liq.charges );
+                liq = item( "water_acid_weak", calendar::turn, liq.charges );
             } else if( liq.typeId() == "water" ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1

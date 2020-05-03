@@ -176,7 +176,7 @@
   },
   {
     "id": "foil_alum",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "other",
     "name": "aluminum foil wrap",
     "//": "Dummied out way back when.",
@@ -185,11 +185,9 @@
     "volume": 0,
     "price": 0,
     "to_hit": -2,
-    "rigid": false,
     "material": "aluminum",
     "symbol": ",",
     "color": "light_gray",
-    "contains": "2500 ml",
     "qualities": [ [ "COOK", 1 ] ]
   },
   {

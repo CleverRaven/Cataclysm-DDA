@@ -200,6 +200,9 @@
       "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
     },
     "terrain": {
+      "Ŋ": "t_elevator_control_off",
+      "ȴ": "t_gutter_downspout",
+      "ȸ": "t_gutter_drop",
       " ": "t_open_air",
       ".": "t_linoleum_gray",
       ",": "t_linoleum_white",

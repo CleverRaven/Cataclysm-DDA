@@ -25,10 +25,6 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
     clear_character( attacker );
     REQUIRE( attacker.can_wield( weapon ).success() );
 
-
-    // FIXME: This is_wielding check always fails
-    //REQUIRE( attacker.is_wielding( weapon ) );
-
     melee::clear_stats();
     melee_statistic_data melee_stats = melee::get_stats();
     // rerun the trials in groups of 1000 until 100 crits occur
@@ -38,6 +34,10 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
             // Reset and re-wield weapon before each attack to prevent skill-up during trials
             clear_character( attacker );
             attacker.wield( weapon );
+            // Verify that wielding worked (and not e.g. using martial arts
+            // instead)
+            REQUIRE( attacker.used_weapon().type == weapon.type );
+
             int before_moves = attacker.get_moves();
 
             // Keep the defender at maximum health
@@ -83,6 +83,9 @@ static void check_accuracy_dps( avatar &attacker, monster &defender, item &wpn1,
     REQUIRE( wpn1_stats.hit_count > 0 );
     REQUIRE( wpn2_stats.hit_count > 0 );
     REQUIRE( wpn3_stats.hit_count > 0 );
+    CAPTURE( wpn1_stats.attack_count );
+    CAPTURE( wpn2_stats.attack_count );
+    CAPTURE( wpn3_stats.attack_count );
     double wpn1_hit_rate = static_cast<double>( wpn1_stats.hit_count ) / wpn1_stats.attack_count;
     double wpn2_hit_rate = static_cast<double>( wpn2_stats.hit_count ) / wpn2_stats.attack_count;
     double wpn3_hit_rate = static_cast<double>( wpn3_stats.hit_count ) / wpn3_stats.attack_count;

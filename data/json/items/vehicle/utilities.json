@@ -25,6 +25,7 @@
     "color": "light_cyan",
     "symbol": ":",
     "material": [ "superalloy", "ceramic" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 10000 }, "rigid": true } ],
     "volume": "100 L",
     "bashing": 7,
     "category": "veh_parts",
