@@ -599,8 +599,19 @@ class item : public visitable<item>
         skill_id melee_skill() const;
         /*@}*/
 
-        /** Max range weapon usable for melee attack accounting for player/NPC abilities */
+        /*
+         * Max range of melee attack this weapon can be used for.
+         * Accounts for character's abilities and installed gun mods.
+         * Guaranteed to be at least 1
+         */
         int reach_range( const Character &guy ) const;
+
+        /*
+         * Max range of melee attack this weapon can be used for in its current state.
+         * Accounts for character's abilities and installed gun mods.
+         * Guaranteed to be at least 1
+         */
+        int current_reach_range( const Character &guy ) const;
 
         /**
          * Sets time until activation for an item that will self-activate in the future.
