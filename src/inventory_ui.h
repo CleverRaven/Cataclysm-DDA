@@ -168,6 +168,10 @@ class inventory_selector_preset
         virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
         const;
 
+        bool indent_entries() const {
+            return _indent_entries;
+        }
+
     protected:
         /** Text of the first column (default: item name) */
         virtual std::string get_caption( const inventory_entry &entry ) const;
@@ -184,6 +188,9 @@ class inventory_selector_preset
                           const std::string &title = std::string(),
                           const std::string &stub = std::string() );
         bool check_components = false;
+
+        // whether to indent contained entries in the menu
+        bool _indent_entries = true;
 
     private:
         class cell_t
@@ -323,6 +330,11 @@ class inventory_column
         }
 
         void set_filter( const std::string &filter );
+
+        // whether or not to indent contained entries
+        bool indent_entries() const {
+            return preset.indent_entries();
+        };
 
     protected:
         struct entry_cell_cache_t {
