@@ -75,9 +75,8 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal_fp4",
-    "//note": "this is not a Fallout Brand, it's actually a calvin and hobbes fictional brand",
-    "name": { "str_sp": "Sugar Bombs cereal" },
-    "description": "FoodPlace brand \"Sugar Bombs\" cereal.  \"Chocolate Frosted Crunchy Sugar Bombs: 8 essential vitamins packed into that rich, fudgy taste!\"",
+    "name": { "str_sp": "Sugar Chomps cereal" },
+    "description": "FoodPlace brand \"Sugar Chomps\" cereal.  \"Chocolate Frosted Crunchy Sugar Chomps: 8 essential vitamins packed into that rich, fudgy taste!\"",
     "fun": 12,
     "addiction_potential": 10,
     "stim": 20,
