@@ -928,7 +928,7 @@
   {
     "type": "recipe",
     "result": "chem_ammonium_nitrate",
-    "id_suffix": "from pellets",
+    "id_suffix": "from_pellets",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "charges": 100,
