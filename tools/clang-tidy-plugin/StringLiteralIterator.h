@@ -1,5 +1,5 @@
-#ifndef CATA_TOOLS_CLANG_TIDY_STRINGLITERALITERATOR_H
-#define CATA_TOOLS_CLANG_TIDY_STRINGLITERALITERATOR_H
+#ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_STRINGLITERALITERATOR_H
+#define CATA_TOOLS_CLANG_TIDY_PLUGIN_STRINGLITERALITERATOR_H
 
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Basic/TargetInfo.h>
@@ -85,4 +85,4 @@ struct iterator_traits<clang::tidy::cata::StringLiteralIterator> {
 };
 } // namespace std
 
-#endif // CATA_TOOLS_CLANG_TIDY_STRINGLITERALITERATOR_H
+#endif // CATA_TOOLS_CLANG_TIDY_PLUGIN_STRINGLITERALITERATOR_H

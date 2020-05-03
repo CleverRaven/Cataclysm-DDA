@@ -2,7 +2,7 @@
   {
     "id": "chem_ethanol",
     "type": "AMMO",
-    "name": { "str": "ethanol", "str_pl": "ethanol" },
+    "name": { "str_sp": "ethanol" },
     "description": "Extremely pure alcohol suitable for use as a component in chemical reactions.  You could also water it down and drink it, or use it as fuel in alcohol-burning stoves.",
     "weight": "1 g",
     "volume": "200ml",
@@ -43,7 +43,7 @@
   {
     "id": "diesel",
     "type": "AMMO",
-    "name": { "str": "diesel", "str_pl": "diesel" },
+    "name": { "str_sp": "diesel" },
     "description": "Petroleum-based fuel made from a byproduct of the gasoline making process.",
     "category": "fuel",
     "weight": "1 g",
@@ -70,14 +70,13 @@
   {
     "id": "jp8",
     "type": "AMMO",
-    "name": "JP8 fuel",
-    "name_plural": "JP8 fuel",
+    "name": { "str_sp": "JP8 fuel" },
     "description": "A kerosene-based fuel used mainly by US military vehicles as a replacement for diesel and jet fuel, to simplify logistics.",
     "category": "fuel",
     "weight": "1 g",
     "volume": "200ml",
     "price": 50,
-    "price_postapoc": 2000,
+    "price_postapoc": 1000,
     "looks_like": "diesel",
     "count": 250,
     "stack_size": 200,
@@ -99,14 +98,13 @@
   {
     "id": "avgas",
     "type": "AMMO",
-    "name": "avgas fuel",
-    "name_plural": "avgas fuel",
+    "name": { "str_sp": "avgas fuel" },
     "description": "A specialized type of petroleum-based fuel used to power aircraft.",
     "category": "fuel",
     "weight": "1 g",
     "volume": "200ml",
     "price": 50,
-    "price_postapoc": 2000,
+    "price_postapoc": 1000,
     "count": 250,
     "stack_size": 200,
     "phase": "liquid",
@@ -127,7 +125,7 @@
   },
   {
     "id": "biodiesel",
-    "name": { "str": "biodiesel", "str_pl": "biodiesel" },
+    "name": { "str_sp": "biodiesel" },
     "copy-from": "diesel",
     "type": "AMMO",
     "description": "Vegetable oil- or animal fat-based diesel fuel consisting of long-chain alkyl (methyl, ethyl, or propyl) esters.",
@@ -141,7 +139,7 @@
   {
     "id": "gasoline",
     "type": "AMMO",
-    "name": { "str": "gasoline", "str_pl": "gasoline" },
+    "name": { "str_sp": "gasoline" },
     "description": "Gasoline is a highly flammable liquid.  When under pressure, it has the potential for violent explosion.",
     "category": "fuel",
     "weight": "1 g",
@@ -168,7 +166,7 @@
   {
     "id": "lamp_oil",
     "type": "AMMO",
-    "name": { "str": "lamp oil", "str_pl": "lamp oil" },
+    "name": { "str_sp": "lamp oil" },
     "description": "A thin and clean-burning oil made for use in oil lamps.",
     "category": "fuel",
     "weight": "1 g",
@@ -195,7 +193,7 @@
   {
     "id": "motor_oil",
     "type": "AMMO",
-    "name": { "str": "motor oil", "str_pl": "motor oil" },
+    "name": { "str_sp": "motor oil" },
     "description": "An oil made for use in car engines.",
     "category": "fuel",
     "weight": "1 g",
@@ -222,12 +220,13 @@
   {
     "id": "napalm",
     "type": "AMMO",
-    "name": { "str": "napalm", "str_pl": "napalm" },
+    "name": { "str_sp": "napalm" },
     "description": "This is gasoline mixed with some other components to make it stick to the surface and increase burning temperature, meant to be used with a flamethrower.",
     "category": "fuel",
     "weight": "1 g",
     "volume": "200ml",
     "price": 8000,
+    "price_postapoc": 1000,
     "count": 250,
     "stack_size": 200,
     "phase": "liquid",
@@ -243,10 +242,11 @@
   {
     "id": "gelled_gasoline",
     "type": "AMMO",
-    "name": { "str": "gelled gasoline", "str_pl": "gelled gasoline" },
+    "name": { "str_sp": "gelled gasoline" },
     "copy-from": "gasoline",
     "description": "A flammable gel composed of gasoline and dissolved shavings of polystyrene, roughly similar in properties to napalm b.  It's meant to be used with a flamethrower.",
     "price": 400,
+    "price_postapoc": 500,
     "ammo_type": "flammable",
     "damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 10 },
     "range": 3
@@ -254,10 +254,11 @@
   {
     "id": "flamethrower_fuel",
     "type": "AMMO",
-    "name": { "str": "flamethrower fuel", "str_pl": "flamethrower fuel" },
+    "name": { "str_sp": "flamethrower fuel" },
     "copy-from": "gasoline",
     "description": "A mixture of gasoline and diesel oil in equal parts.  Its combustion properties make it unfit for applications where you would use any of them separately, but it can be used to feed a flamethrower.",
     "price": 400,
+    "price_postapoc": 500,
     "ammo_type": "flammable",
     "range": 0
   }

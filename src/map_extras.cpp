@@ -95,6 +95,7 @@ static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
+static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_wasp( "mon_wasp" );
@@ -267,7 +268,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
                     for( int x = i - 1; x <= i + 1; x++ ) {
                         for( int y = j - 1; y <= j + 1; y++ ) {
                             if( m.ter( point( x, y ) ) == t_floor ) {
-                                madd_field( &m, x, y, fd_web, rng( 2, 3 ) );
+                                madd_field( &m, point( x, y ), fd_web, rng( 2, 3 ) );
                                 if( one_in( 4 ) ) {
                                     m.furn_set( point( i, j ), egg_type );
                                     m.remove_field( {i, j, m.get_abs_sub().z}, fd_web );
@@ -276,7 +277,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
                         }
                     }
                 } else if( m.passable( point( i, j ) ) && one_in( 5 ) ) {
-                    madd_field( &m, i, j, fd_web, 1 );
+                    madd_field( &m, point( i, j ), fd_web, 1 );
                 }
             }
         }
@@ -318,7 +319,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                         }
                     }
 
-                } else if( one_in( 4 + ( abs( x - cx ) + ( abs( y -
+                } else if( one_in( 4 + ( std::abs( x - cx ) + ( std::abs( y -
                                          cy ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                     if( !one_in( 3 ) ) {
@@ -350,8 +351,8 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     int x_offset = veh->dir_vec().x * x_length / 2;
     int y_offset = veh->dir_vec().y * y_length / 2;
 
-    int x_min = abs( bbox.p1.x ) + 0;
-    int y_min = abs( bbox.p1.y ) + 0;
+    int x_min = std::abs( bbox.p1.x ) + 0;
+    int y_min = std::abs( bbox.p1.y ) + 0;
 
     int x_max = SEEX * 2 - bbox.p2.x - 1;
     int y_max = SEEY * 2 - bbox.p2.y - 1;
@@ -564,20 +565,17 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
-    const auto spawn_turret = [&]( int x, int y ) {
+    const auto spawn_turret = [&]( const point & p ) {
         if( one_in( 3 ) ) {
-            m.add_spawn( mon_turret_bmg, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_bmg, 1, { p, abs_sub.z } );
         } else if( one_in( 2 ) ) {
-            m.add_spawn( mon_turret_rifle, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_rifle, 1, { p, abs_sub.z } );
         } else {
-            m.add_spawn( mon_turret_riot, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
         }
     };
-    bool mil = false;
-    if( one_in( 6 ) ) {
-        mil = true;
-    }
-    if( mil ) { //Military doesn't joke around with their barricades!
+
+    if( one_in( 6 ) ) { //Military doesn't joke around with their barricades!
 
         if( one_in( 2 ) ) {
             if( road_at_north ) {
@@ -592,7 +590,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
                 line( &m, t_fence_barbed, point( 4, SEEY * 2 - 3 ), point( 10, SEEY * 2 - 3 ) );
                 line( &m, t_fence_barbed, point( 13, SEEY * 2 - 3 ), point( 19, SEEY * 2 - 3 ) );
             }
-            if( road_at_east ) {
+            if( road_at_west ) {
                 line( &m, t_fence_barbed, point( 3, 4 ), point( 3, 10 ) );
                 line( &m, t_fence_barbed, point( 3, 13 ), point( 3, 19 ) );
             }
@@ -619,33 +617,38 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             // The truck's wrecked...with fuel.  Explosive barrel?
             m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, SEEY * 2 - 12 ), 0, 70, -1 );
             if( road_at_north ) {
-                spawn_turret( 12, 6 );
+                spawn_turret( point( 12, 6 ) );
             }
             if( road_at_east ) {
-                spawn_turret( 18, 12 );
+                spawn_turret( point( 18, 12 ) );
             }
             if( road_at_south ) {
-                spawn_turret( 12, 18 );
+                spawn_turret( point( 12, 18 ) );
             }
             if( road_at_west ) {
-                spawn_turret( 6, 12 );
+                spawn_turret( point( 6, 12 ) );
             }
         } else {  // Vehicle & turrets
             m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0, 70,
                            -1 );
             if( road_at_north ) {
-                spawn_turret( 12, 6 );
+                spawn_turret( point( 12, 6 ) );
             }
             if( road_at_east ) {
-                spawn_turret( 18, 12 );
+                spawn_turret( point( 18, 12 ) );
             }
             if( road_at_south ) {
-                spawn_turret( 12, 18 );
+                spawn_turret( point( 12, 18 ) );
             }
             if( road_at_west ) {
-                spawn_turret( 6, 12 );
+                spawn_turret( point( 6, 12 ) );
             }
         }
+
+        line_furn( &m, f_sandbag_wall, point( 12, 7 ), point( 15, 7 ) );
+        m.add_spawn( mon_turret_searchlight, 1, { 13, 8, abs_sub.z } );
+        m.ter_set( point( 14, 8 ), t_plut_generator );
+        line_furn( &m, f_sandbag_wall, point( 12, 9 ), point( 15, 9 ) );
 
         int num_bodies = dice( 2, 5 );
         for( int i = 0; i < num_bodies; i++ ) {
@@ -685,6 +688,12 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20 );
         m.add_vehicle( vproto_id( "policecar" ), point( 16, SEEY * 2 - 6 ), 145 );
+
+        line_furn( &m, f_sandbag_wall, point( 6, 10 ), point( 9, 10 ) );
+        m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
+        m.ter_set( point( 8, 11 ), t_plut_generator );
+        line_furn( &m, f_sandbag_wall, point( 6, 12 ), point( 9, 12 ) );
+
         int num_bodies = dice( 1, 6 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
@@ -1029,7 +1038,7 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
 
     bool did_something = false;
 
-    if( bridge_at_north && !bridge_at_center && road_at_south ) {
+    if( bridge_at_north && bridge_at_center && road_at_south ) {
         //Sandbag block at the left edge
         line_furn( &m, f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
         line_furn( &m, f_sandbag_half, point( 3, 7 ), point( 9, 7 ) );
@@ -1076,9 +1085,9 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         }
 
         //Horizontal line of barbed wire fence
-        line( &m, t_fence_barbed, point( 0, 9 ), point( SEEX * 2, 9 ) );
+        line( &m, t_fence_barbed, point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
 
-        std::vector<point> barbed_wire = line_to( point( 0, 9 ), point( SEEX * 2, 9 ) );
+        std::vector<point> barbed_wire = line_to( point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
         for( auto &i : barbed_wire ) {
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
@@ -1090,17 +1099,17 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         //Spawn 6-20 mines in the lower submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 1, SEEX * 2 ), y = rng( SEEY, SEEY * 2 - 2 );
+            const int x = rng( 3, SEEX * 2 - 4 ), y = rng( SEEY, SEEY * 2 - 2 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 1, SEEX * 2 ), y = rng( SEEY, SEEY * 2 - 2 );
+            const int x = rng( 3, SEEX * 2 - 4 ), y = rng( SEEY, SEEY * 2 - 2 );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
                 m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
@@ -1117,8 +1126,8 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         }
 
         //Set two warning signs on the last horizontal line of the submap
-        x = rng( 1, SEEX );
-        x1 = rng( SEEX + 1, SEEX * 2 );
+        x = rng( 3, SEEX );
+        x1 = rng( SEEX + 1, SEEX * 2 - 4 );
         m.furn_set( point( x, SEEY * 2 - 1 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x, SEEY * 2 - 1, abs_sub.z ), text );
         m.furn_set( point( x1, SEEY * 2 - 1 ), furn_str_id( "f_sign_warning" ) );
@@ -1127,15 +1136,13 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_south && !bridge_at_center && road_at_north ) {
+    if( bridge_at_south && bridge_at_center && road_at_north ) {
         //Two horizontal lines of sandbags
         line_furn( &m, f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
         line_furn( &m, f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
 
-        //|^|-shaped section of barbed wire fence
+        //Section of barbed wire fence
         line( &m, t_fence_barbed, point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
-        line( &m, t_fence_barbed, point( 3, 13 ), point( 3, 17 ) );
-        line( &m, t_fence_barbed, point( SEEX * 2 - 4, 13 ), point( SEEX * 2 - 4, 17 ) );
 
         std::vector<point> barbed_wire = line_to( point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
         for( auto &i : barbed_wire ) {
@@ -1193,17 +1200,17 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         //Spawn 6-20 mines in the upper submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 1, SEEX * 2 ), y = rng( 1, SEEY );
+            const int x = rng( 3, SEEX * 2 - 4 ), y = rng( 1, SEEY );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 1, SEEX * 2 ), y = rng( 1, SEEY );
+            const int x = rng( 3, SEEX * 2 - 4 ), y = rng( 1, SEEY );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
                 m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
@@ -1220,8 +1227,8 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         }
 
         //Set two warning signs on the first horizontal line of the submap
-        x = rng( 1, SEEX );
-        x1 = rng( SEEX + 1, SEEX * 2 );
+        x = rng( 3, SEEX );
+        x1 = rng( SEEX + 1, SEEX * 2 - 4 );
         m.furn_set( point( x, 0 ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x, 0, abs_sub.z ), text );
         m.furn_set( point( x1, 0 ), furn_str_id( "f_sign_warning" ) );
@@ -1230,7 +1237,7 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_west && !bridge_at_center && road_at_east ) {
+    if( bridge_at_west && bridge_at_center && road_at_east ) {
         //Draw walls of first tent
         square_furn( &m, f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
 
@@ -1339,17 +1346,17 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         //Spawn 6-20 mines in the rightmost submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 );
+            const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 );
+            const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 3, SEEY * 2 - 4 );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
                 m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
@@ -1366,8 +1373,8 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         }
 
         //Set two warning signs on the last vertical line of the submap
-        y = rng( 1, SEEY );
-        y1 = rng( SEEY + 1, SEEY * 2 );
+        y = rng( 3, SEEY );
+        y1 = rng( SEEY + 1, SEEY * 2 - 4 );
         m.furn_set( point( SEEX * 2 - 1, y ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( SEEX * 2 - 1, y, abs_sub.z ), text );
         m.furn_set( point( SEEX * 2 - 1, y1 ), furn_str_id( "f_sign_warning" ) );
@@ -1376,15 +1383,13 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_east && !bridge_at_center && road_at_west ) {
+    if( bridge_at_east && bridge_at_center && road_at_west ) {
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270, 70, 1 );
 
-        //Spawn sandbag and barbed wire fence barricades around the truck
-        line_furn( &m, f_sandbag_half, point( 14, 2 ), point( 14, 8 ) );
-        line_furn( &m, f_sandbag_half, point( 14, 17 ), point( 14, 21 ) );
-        line( &m, t_fence_barbed, point( 15, 2 ), point( 20, 2 ) );
-        line( &m, t_fence_barbed, point( 15, 21 ), point( 20, 21 ) );
+        //Spawn sandbag barricades around the truck
+        line_furn( &m, f_sandbag_half, point( 14, 3 ), point( 14, 8 ) );
+        line_furn( &m, f_sandbag_half, point( 14, 17 ), point( 14, 20 ) );
 
         //50% chance to spawn a soldier killed by gunfire, and a trail of blood
         if( one_in( 2 ) ) {
@@ -1475,17 +1480,17 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         //Spawn 6-20 mines in the leftmost submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 1, SEEX ), y = rng( 1, SEEY * 2 );
+            const int x = rng( 1, SEEX ), y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, x, y, tr_landmine_buried );
+                mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, x, y, tr_landmine );
+                mtrap_set( &m, point( x, y ), tr_landmine );
             }
         }
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const int x = rng( 1, SEEX ), y = rng( 1, SEEY * 2 );
+            const int x = rng( 1, SEEX ), y = rng( 3, SEEY * 2 - 4 );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
                 m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
@@ -1502,8 +1507,8 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         }
 
         //Set two warning signs on the first vertical line of the submap
-        y = rng( 1, SEEY );
-        y1 = rng( SEEY + 1, SEEY * 2 );
+        y = rng( 3, SEEY );
+        y1 = rng( SEEY + 1, SEEY * 2 - 4 );
         m.furn_set( point( 0, y ), furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( 0, y, abs_sub.z ), text );
         m.furn_set( point( 0, y1 ), furn_str_id( "f_sign_warning" ) );
@@ -1534,12 +1539,12 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
+static void place_fumarole( map &m, const point &p1, const point &p2, std::set<point> &ignited )
 {
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;
 
-    std::vector<point> fumarole = line_to( point( x1, y1 ), point( x2, y2 ), 0 );
+    std::vector<point> fumarole = line_to( p1, p2, 0 );
     for( auto &i : fumarole ) {
         m.ter_set( i, t_lava );
 
@@ -1559,59 +1564,6 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
         }
     }
 
-}
-
-//Obsolete, remove after 0.E.
-static bool mx_fumarole( map &m, const tripoint &abs_sub )
-{
-    if( abs_sub.z > 0 ) {
-        return false;
-    }
-
-    int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
-        x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
-
-    // Pick a random cardinal direction to also spawn lava in
-    // This will make the lava a single connected line, not just on diagonals
-    std::vector<direction> possibilities;
-    possibilities.push_back( EAST );
-    possibilities.push_back( WEST );
-    possibilities.push_back( NORTH );
-    possibilities.push_back( SOUTH );
-    const direction extra_lava_dir = random_entry( possibilities );
-    int x_extra = 0;
-    int y_extra = 0;
-    switch( extra_lava_dir ) {
-        case NORTH:
-            y_extra = -1;
-            break;
-        case EAST:
-            x_extra = 1;
-            break;
-        case SOUTH:
-            y_extra = 1;
-            break;
-        case WEST:
-            x_extra = -1;
-            break;
-        default:
-            break;
-    }
-
-    std::set<point> ignited;
-    place_fumarole( m, x1, y1, x2, y2, ignited );
-    place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
-
-    for( auto &i : ignited ) {
-        // Don't need to do anything to tiles that already have lava on them
-        if( m.ter( i ) != t_lava ) {
-            // Spawn an intense but short-lived fire
-            // Any furniture or buildings will catch fire, otherwise it will burn out quickly
-            m.add_field( tripoint( i, abs_sub.z ), fd_fire, 15, 1_minutes );
-        }
-    }
-
-    return true;
 }
 
 static bool mx_portal_in( map &m, const tripoint &abs_sub )
@@ -1677,21 +1629,21 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                     x2 = rng( SEEX, SEEX * 2 - 3 ), y2 = rng( SEEY, SEEY * 2 - 3 );
                 // Pick a random cardinal direction to also spawn lava in
                 // This will make the lava a single connected line, not just on diagonals
-                static const std::array<direction, 4> possibilities = { { EAST, WEST, NORTH, SOUTH } };
+                static const std::array<direction, 4> possibilities = { { direction::EAST, direction::WEST, direction::NORTH, direction::SOUTH } };
                 const direction extra_lava_dir = random_entry( possibilities );
                 int x_extra = 0;
                 int y_extra = 0;
                 switch( extra_lava_dir ) {
-                    case NORTH:
+                    case direction::NORTH:
                         y_extra = -1;
                         break;
-                    case EAST:
+                    case direction::EAST:
                         x_extra = 1;
                         break;
-                    case SOUTH:
+                    case direction::SOUTH:
                         y_extra = 1;
                         break;
-                    case WEST:
+                    case direction::WEST:
                         x_extra = -1;
                         break;
                     default:
@@ -1702,8 +1654,9 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 m.add_field( portal_location, fd_fatigue, 3 );
 
                 std::set<point> ignited;
-                place_fumarole( m, x1, y1, x2, y2, ignited );
-                place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
+                place_fumarole( m, point( x1, y1 ), point( x2, y2 ), ignited );
+                place_fumarole( m, point( x1 + x_extra, y1 + y_extra ), point( x2 + x_extra, y2 + y_extra ),
+                                ignited );
 
                 for( auto &i : ignited ) {
                     // Don't need to do anything to tiles that already have lava on them
@@ -1739,18 +1692,6 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             break;
         }
     }
-
-    return true;
-}
-
-//Obsolete, remove after 0.E.
-static bool mx_anomaly( map &m, const tripoint &abs_sub )
-{
-    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
-    artifact_natural_property prop =
-        static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
-    m.create_anomaly( center, prop );
-    m.spawn_natural_artifact( center, prop );
 
     return true;
 }
@@ -2913,7 +2854,6 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
-    { "mx_fumarole", mx_fumarole },
     { "mx_collegekids", mx_collegekids },
     { "mx_drugdeal", mx_drugdeal },
     { "mx_roadworks", mx_roadworks },
@@ -2927,7 +2867,6 @@ FunctionMap builtin_functions = {
     { "mx_science", mx_science },
     { "mx_portal", mx_portal },
     { "mx_portal_in", mx_portal_in },
-    { "mx_anomaly", mx_anomaly },
     { "mx_house_spider", mx_house_spider },
     { "mx_house_wasp", mx_house_wasp },
     { "mx_spider", mx_spider },
@@ -3006,8 +2945,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                 string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
                                extra.get_symbol(),
                                get_note_string_from_color( extra.color ),
-                               _( extra.name ),
-                               _( extra.description ) );
+                               extra.name(),
+                               extra.description() );
             overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
         }
     }
@@ -3084,8 +3023,8 @@ void debug_spawn_test()
 
 void map_extra::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", name );
-    mandatory( jo, was_loaded, "description", description );
+    mandatory( jo, was_loaded, "name", _name );
+    mandatory( jo, was_loaded, "description", _description );
     if( jo.has_object( "generator" ) ) {
         JsonObject jg = jo.get_object( "generator" );
         generator_method = jg.get_enum_value<map_extra_method>( "generator_method",

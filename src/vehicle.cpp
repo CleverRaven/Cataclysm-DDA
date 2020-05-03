@@ -109,7 +109,7 @@ class RemovePartHandler
         virtual ~RemovePartHandler() = default;
 
         virtual void unboard( const tripoint &loc ) = 0;
-        virtual void add_item_or_charges( const tripoint &loc, item it ) = 0;
+        virtual void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) = 0;
         virtual void set_transparency_cache_dirty( int z ) = 0;
         virtual void removed( vehicle &veh, int part ) = 0;
         virtual void spawn_animal_from_part( item &base, const tripoint &loc ) = 0;
@@ -123,7 +123,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void unboard( const tripoint &loc ) override {
             g->m.unboard_vehicle( loc );
         }
-        void add_item_or_charges( const tripoint &loc, item it ) override {
+        void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
             g->m.add_item_or_charges( loc, std::move( it ) );
         }
         void set_transparency_cache_dirty( const int z ) override {
@@ -172,14 +172,16 @@ class MapgenRemovePartHandler : public RemovePartHandler
             // Ignored. Will almost certainly not be called anyway, because
             // there are no creatures that could have been mounted during mapgen.
         }
-        void add_item_or_charges( const tripoint &loc, item it ) override {
+        void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) override {
             if( !m.inbounds( loc ) ) {
-                debugmsg( "Tried to put item %s on invalid tile %d,%d,%d during mapgen!", it.tname(), loc.x, loc.y,
-                          loc.z );
+                if( !permit_oob ) {
+                    debugmsg( "Tried to put item %s on invalid tile %s during mapgen!",
+                              it.tname(), loc.to_string() );
+                }
                 tripoint copy = loc;
                 m.clip_to_bounds( copy );
                 assert( m.inbounds( copy ) ); // prevent infinite recursion
-                add_item_or_charges( copy, std::move( it ) );
+                add_item_or_charges( copy, std::move( it ), false );
                 return;
             }
             m.add_item_or_charges( loc, std::move( it ) );
@@ -797,7 +799,7 @@ void vehicle::stop_autodriving()
     }
     if( velocity > 0 ) {
         if( is_patrolling || is_following ) {
-            autodrive( 0, 10 );
+            autodrive( point( 0, 10 ) );
         } else {
             pldrive( point( 0, 10 ) );
         }
@@ -870,7 +872,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
         if( velocity > 0 ) {
             follow_protocol ||
-            is_patrolling ? autodrive( 0, 10 ) : pldrive( point( 0, 10 ) );
+            is_patrolling ? autodrive( point( 0, 10 ) ) : pldrive( point( 0, 10 ) );
         }
         stop_autodriving();
         return;
@@ -912,7 +914,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
     }
     follow_protocol ||
-    is_patrolling ? autodrive( turn_x, accel_y ) : pldrive( point( turn_x, accel_y ) );
+    is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( point( turn_x, accel_y ) );
 }
 
 double vehicle::get_angle_from_targ( const tripoint &targ )
@@ -1221,8 +1223,8 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             rl_vec2d windvec;
             double raddir = ( ( g->weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
             windvec = windvec.normalized();
-            windvec.y = -cos( raddir );
-            windvec.x = sin( raddir );
+            windvec.y = -std::cos( raddir );
+            windvec.x = std::sin( raddir );
             rl_vec2d fv = face_vec();
             double dot = windvec.dot_product( fv );
             if( dot <= 0 ) {
@@ -1382,7 +1384,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     // Check all the flags of the part to see if they require other flags
     // If other flags are required check if those flags are present
-    for( const std::string flag : part.get_flags() ) {
+    for( const std::string &flag : part.get_flags() ) {
         if( !json_flag::get( flag ).requires_flag().empty() ) {
             bool anchor_found = false;
             for( const auto &elem : parts_in_square ) {
@@ -1894,7 +1896,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         if( part_flag( p, parent_flag ) ) {
             int dep = part_with_feature( p, child_flag, false );
             if( dep >= 0 && !magic ) {
-                handler.add_item_or_charges( part_loc, parts[dep].properties_to_item() );
+                handler.add_item_or_charges( part_loc, parts[dep].properties_to_item(), false );
                 remove_part( dep, handler );
                 return true;
             }
@@ -1964,7 +1966,12 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         // TODO: fix this ^^
         tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
         if( !magic ) {
-            handler.add_item_or_charges( dest, i );
+            // This new point might be out of the map bounds.  It's not
+            // reasonable to try to spawn it outside the currently valid map,
+            // so we pass true here to cause such points to be clamped to the
+            // valid bounds without printing an error (as would normally
+            // occur).
+            handler.add_item_or_charges( dest, i, true );
         }
     }
     refresh();
@@ -3791,7 +3798,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );
     // Even a vehicle with engines off will make noise traveling at high speeds
-    noise = std::max( noise, static_cast<double>( fabs( velocity / 500.0 ) ) );
+    noise = std::max( noise, static_cast<double>( std::fabs( velocity / 500.0 ) ) );
     int lvl = 0;
     if( one_in( 4 ) && rng( 0, 30 ) < noise ) {
         while( noise > sounds[lvl].second ) {
@@ -4203,7 +4210,7 @@ float vehicle::strain() const
     if( velocity < sv && velocity > -sv ) {
         return 0;
     } else {
-        return static_cast<float>( abs( velocity ) - sv ) / static_cast<float>( mv - sv );
+        return static_cast<float>( std::abs( velocity ) - sv ) / static_cast<float>( mv - sv );
     }
 }
 
@@ -4672,7 +4679,7 @@ void vehicle::update_alternator_load()
         }
         alternator_load =
             engine_vpower
-            ? 1000 * ( abs( alternators_power ) + abs( extra_drag ) ) / engine_vpower
+            ? 1000 * ( std::abs( alternators_power ) + std::abs( extra_drag ) ) / engine_vpower
             : 0;
     } else {
         alternator_load = 0;
@@ -4745,7 +4752,7 @@ void vehicle::power_parts()
         charge_battery( delta_energy_bat );
     } else if( epower < 0 ) {
         // draw epower deficit from battery
-        battery_deficit = discharge_battery( abs( delta_energy_bat ) );
+        battery_deficit = discharge_battery( std::abs( delta_energy_bat ) );
     }
 
     if( battery_deficit != 0 ) {
@@ -5297,7 +5304,7 @@ void vehicle::gain_moves()
         }
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
-        if( vslowdown > abs( velocity ) ) {
+        if( vslowdown > std::abs( velocity ) ) {
             if( cruise_on && cruise_velocity && pl_control ) {
                 velocity = velocity > 0 ? 1 : -1;
             } else {
@@ -5682,8 +5689,8 @@ void vehicle::refresh_pivot() const
                   xc_numerator, xc_denominator, yc_numerator, yc_denominator );
         pivot_cache = local_center_of_mass();
     } else {
-        pivot_cache.x = round( xc_numerator / xc_denominator );
-        pivot_cache.y = round( yc_numerator / yc_denominator );
+        pivot_cache.x = std::round( xc_numerator / xc_denominator );
+        pivot_cache.y = std::round( yc_numerator / yc_denominator );
     }
 }
 
@@ -5744,10 +5751,10 @@ void vehicle::do_towing_move()
         towed_veh->velocity = reverse ? -velocity : velocity;
     }
     if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
-        towed_veh->autodrive( turn_x, accel_y );
+        towed_veh->autodrive( point( turn_x, accel_y ) );
     } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
         accel_y = 10;
-        towed_veh->autodrive( turn_x, accel_y );
+        towed_veh->autodrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
         std::vector<tripoint> lineto = line_to( g->m.getlocal( towed_tow_point ),
@@ -5850,8 +5857,8 @@ void vehicle::set_tow_directions()
 {
     const int length = mount_max.x - mount_min.x + 1;
     const point mount_of_tow = parts[get_tow_part()].mount;
-    const point normalized_tow_mount = point( abs( mount_of_tow.x - mount_min.x ),
-                                       abs( mount_of_tow.y - mount_min.y ) );
+    const point normalized_tow_mount = point( std::abs( mount_of_tow.x - mount_min.x ),
+                                       std::abs( mount_of_tow.y - mount_min.y ) );
     if( length >= 3 ) {
         const int trisect = length / 3;
         if( normalized_tow_mount.x <= trisect ) {
@@ -6648,7 +6655,7 @@ void vehicle::update_time( const time_point &update_to )
             continue;
         }
 
-        double area = pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
+        double area = std::pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
         int qty = roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
         int cost_to_purify = c_qty * item::find_type( "water_purifier" )->charges_to_use();
@@ -6766,12 +6773,12 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     const float x = xf / mass_cache;
     const float y = yf / mass_cache;
     if( use_precalc ) {
-        mass_center_precalc.x = round( x );
-        mass_center_precalc.y = round( y );
+        mass_center_precalc.x = std::round( x );
+        mass_center_precalc.y = std::round( y );
         mass_center_precalc_dirty = false;
     } else {
-        mass_center_no_precalc.x = round( x );
-        mass_center_no_precalc.y = round( y );
+        mass_center_no_precalc.x = std::round( x );
+        mass_center_no_precalc.y = std::round( y );
         mass_center_no_precalc_dirty = false;
     }
 }

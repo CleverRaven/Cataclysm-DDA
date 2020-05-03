@@ -101,8 +101,8 @@ static const trait_id trait_ASTHMA( "ASTHMA" );
 
 class vehicle;
 
-extern std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>>>
-nested_mapgen;
+extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
+        nested_mapgen;
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -416,8 +416,11 @@ void spawn_nested_mapgen()
         target_map.load( abs_sub, true );
         const tripoint local_ms = target_map.getlocal( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
-        const auto &ptr = random_entry_ref( nested_mapgen[nest_str[nest_choice]] );
-        ptr->nest( md, local_ms.xy() );
+        const auto &ptr = nested_mapgen[nest_str[nest_choice]].pick();
+        if( ptr == nullptr ) {
+            return;
+        }
+        ( *ptr )->nest( md, local_ms.xy() );
         target_map.save();
         g->load_npcs();
         g->m.invalidate_map_cache( g->get_levz() );
@@ -1232,16 +1235,16 @@ void debug()
                     if( elem == vproto_id( "custom" ) ) {
                         continue;
                     }
-                    veh_strings.emplace_back( elem->name, elem );
+                    veh_strings.emplace_back( _( elem->name ), elem );
                 }
-                std::sort( veh_strings.begin(), veh_strings.end() );
+                std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
                 uilist veh_menu;
                 veh_menu.text = _( "Choose vehicle to spawn" );
                 int menu_ind = 0;
                 for( auto &elem : veh_strings ) {
                     //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
                     veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ),
-                                       _( elem.first ), elem.second.c_str() );
+                                       elem.first, elem.second.c_str() );
                     ++menu_ind;
                 }
                 veh_menu.query();
@@ -1396,31 +1399,31 @@ void debug()
             smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), u.hp_cur[hp_leg_l] );
             smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), u.hp_cur[hp_leg_r] );
             smenu.query();
-            body_part part;
+            bodypart_id part;
             int dbg_damage;
             switch( smenu.ret ) {
                 case 0:
-                    part = bp_torso;
+                    part = bodypart_id( "torso" );
                     break;
                 case 1:
-                    part = bp_head;
+                    part = bodypart_id( "head" );
                     break;
                 case 2:
-                    part = bp_arm_l;
+                    part = bodypart_id( "arm_l" );
                     break;
                 case 3:
-                    part = bp_arm_r;
+                    part = bodypart_id( "arm_r" );
                     break;
                 case 4:
-                    part = bp_leg_l;
+                    part = bodypart_id( "leg_l" );
                     break;
                 case 5:
-                    part = bp_leg_r;
+                    part = bodypart_id( "leg_r" );
                     break;
                 default:
                     break;
             }
-            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %d" ), part ) ) {
+            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 u.apply_damage( nullptr, part, dbg_damage );
                 u.die( nullptr );
             }

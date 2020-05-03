@@ -256,6 +256,11 @@
   },
   {
     "type": "item_action",
+    "id": "ANTIASTHMATIC",
+    "name": { "str": "Take" }
+  },
+  {
+    "type": "item_action",
     "id": "ANTIBIOTIC",
     "name": { "str": "Take" }
   },
@@ -751,6 +756,11 @@
   },
   {
     "type": "item_action",
+    "id": "FITNESS_CHECK",
+    "name": "Check health metrics"
+  },
+  {
+    "type": "item_action",
     "id": "deploy_tent",
     "name": { "str": "Put up" }
   },
@@ -828,11 +838,6 @@
     "type": "item_action",
     "id": "RM13ARMOR_ON",
     "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "ROYAL_JELLY",
-    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -1097,11 +1102,6 @@
   {
     "type": "item_action",
     "id": "STRONG_ANTIBIOTIC",
-    "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
-    "id": "PANACEA",
     "name": { "str": "Take" }
   },
   {

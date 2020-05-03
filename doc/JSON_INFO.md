@@ -17,6 +17,7 @@ Use the `Home` key to return to the top.
     + [Other formatting](#other-formatting)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   * [`data/json/` JSONs](#datajson-jsons)
+    + [Ascii_arts](#ascii_arts)
     + [Body_parts](#body_parts)
     + [Bionics](#bionics)
     + [Dreams](#dreams)
@@ -44,10 +45,11 @@ Use the `Home` key to return to the top.
     + [Recipes](#recipes)
     + [Constructions](#constructions)
     + [Scent Types](#scent_types)
-    + [Scores](#scores)
-      - [`event_transformation`](#-event-transformation-)
-      - [`event_statistic`](#-event-statistic-)
-      - [`score`](#-score-)
+    + [Scores and Achievements](#scores-and-achievements)
+      - [`event_transformation`](#event_transformation)
+      - [`event_statistic`](#event_statistic)
+      - [`score`](#score)
+      - [`achievement`](#achievement)
     + [Skills](#skills)
     + [Traits/Mutations](#traits-mutations)
     + [Vehicle Groups](#vehicle-groups)
@@ -182,7 +184,9 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 
 | Filename                    | Description
 |---                          |---
+| achievements.json           | achievements
 | anatomy.json                | a listing of player body parts - do not edit
+| ascii_arts.json             | ascii arts for item descriptions
 | bionics.json                | bionics, does NOT include bionic effects
 | body_parts.json             | an expansion of anatomy.json - do not edit
 | clothing_mods.json          | definition of clothing mods
@@ -225,11 +229,12 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | road_vehicles.json          | vehicle spawn information for roads
 | rotatable_symbols.json      | rotatable symbols - do not edit
 | scent_types.json            | type of scent available
-| scores.json                 | statistics, scores, and achievements
+| scores.json                 | scores
 | skills.json                 | skill descriptions and ID's
 | snippets.json               | flier/poster descriptions
 | species.json                | monster species
 | speech.json                 | monster vocalizations
+| statistics.json             | statistics and transformations used to define scores and achievements
 | start_locations.json        | starting locations for scenarios
 | techniques.json             | generic for items and martial arts
 | terrain.json                | terrain types and definitions
@@ -299,11 +304,15 @@ Groups of vehicle definitions with self-explanatory names of files:
 | Filename
 |---
 | bikes.json
+| boats.json
 | cars.json
 | carts.json
+| custom_vehicles.json
 | emergency.json
 | farm.json
+| helicopters.json
 | military.json
+| trains.json
 | trucks.json
 | utility.json
 | vans_busses.json
@@ -351,6 +360,12 @@ Some json strings are extracted for translation, for example item names, descrip
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
+or, if the plural form is the same as the singular form:
+
+```JSON
+"name": { "ctxt": "foo", "str_sp": "foo" }
+```
+
 You can also add comments for translators by adding a "//~" entry like below. The
 order of the entries does not matter.
 
@@ -367,6 +382,36 @@ Currently, only some JSON values support this syntax (see [here](https://github.
 This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.
 
 ## `data/json/` JSONs
+
+### Ascii_arts
+
+| Identifier        | Description
+|---                |---
+| id                | Unique ID. Must be one continuous word, use underscores if necessary.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 42 columns long.
+
+```C++
+  {
+    "type": "ascii_art",
+    "id": "cashcard",
+    "picture": [
+      "",
+      "",
+      "",
+      "       <color_white>╔═══════════════════╗",
+      "       <color_white>║                   ║",
+      "       <color_white>║</color> <color_yellow>╔═   ╔═╔═╗╔═║ ║</color>   <color_white>║",
+      "       <color_white>║</color> <color_yellow>║═ ┼ ║ ║═║╚╗║═║</color>   <color_white>║",
+      "       <color_white>║</color> <color_yellow>╚═   ╚═║ ║═╝║ ║</color>   <color_white>║",
+      "       <color_white>║                   ║",
+      "       <color_white>║   RIVTECH TRUST   ║",
+      "       <color_white>║                   ║",
+      "       <color_white>║                   ║",
+      "       <color_white>║ 555 993 55221 066 ║",
+      "       <color_white>╚═══════════════════╝"
+    ]
+  }
+```
 
 ### Body_parts
 
@@ -448,6 +493,7 @@ This section describes each json file and their contents. Each json has their ow
 | coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
 | power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
+| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
 
 ```C++
 {
@@ -473,9 +519,9 @@ This section describes each json file and their contents. Each json has their ow
     "name": "Air Filtration System",
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
-    "env_protec": [ [ "MOUTH", 7 ] ],
-    "bash_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
-    "cut_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "env_protec": [ [ "mouth", 7 ] ],
+    "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
 }
 ```
@@ -1049,7 +1095,7 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
   }
 ```
 
-### Scores and achievements
+### Scores and Achievements
 
 Scores are defined in two or three steps based on *events*.  To see what events
 exist and what data they contain, read [`event.h`](../src/event.h).
@@ -1167,6 +1213,18 @@ The sum of the numeric value in the specified field across all events:
 "field" : "damage"
 ```
 
+The maximum of the numeric value in the specified field across all events:
+```C++
+"stat_type" : "maximum"
+"field" : "damage"
+```
+
+The minimum of the numeric value in the specified field across all events:
+```C++
+"stat_type" : "minimum"
+"field" : "damage"
+```
+
 Assume there is only a single event to consider, and take the value of the
 given field for that unique event:
 ```C++
@@ -1176,7 +1234,8 @@ given field for that unique event:
 
 Regardless of `stat_type`, each `event_statistic` can also have:
 ```C++
-"description": "Number of things" // Intended for use in describing achievement requirements.
+// Intended for use in describing scores and achievement requirements.
+"description": "Number of things"
 ```
 
 #### `score`
@@ -1187,6 +1246,9 @@ of scores.  The `description` specifies a string which is expected to contain a
 
 Note that even though most statistics yield an integer, you should still use
 `%s`.
+
+If the underlying statistic has a description, then the score description is
+optional.  It defaults to "<statistic description>: <value>".
 
 ```C++
 "id": "score_headshots",
@@ -1207,8 +1269,10 @@ an `event_statistic`.  For example:
 {
   "id": "achievement_kill_zombie",
   "type": "achievement",
-  // The achievement description is used for the UI.
-  "description": "One down, billions to go\u2026",
+  // The achievement name and description are used for the UI.
+  // Description is optional and can provide extra details if you wish.
+  "name": "One down, billions to go\u2026",
+  "description": "Kill a zombie",
   "requirements": [
     // Each requirement must specify the statistic being constrained, and the
     // constraint in terms of a comparison against some target value.
@@ -1216,6 +1280,50 @@ an `event_statistic`.  For example:
   ]
 },
 ```
+
+The `"is"` field must be `">="`, `"<="` or `"anything"`.  When it is not
+`"anything"` the `"target"` must be present, and must be an integer.
+
+There are further optional fields:
+
+```C++
+"hidden_by": [ "other_achievement_id" ]
+```
+
+Give a list of other achievement ids.  This achievement will be hidden (i.e.
+not appear in the achievements UI) until all of the achievements listed have
+been completed.
+
+Use this to prevent spoilers or to reduce clutter in the list of achievements.
+
+```C++
+"time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
+```
+
+This allows putting a time limit (either a lower or upper bound) on when the
+achievement can be claimed.  The `"since"` field can be either `"game_start"`
+or `"cataclysm"`.  The `"target"` describes an amount of time since that
+reference point.
+
+Note that achievements can only be captured when a statistic listed in their
+requirements changes.  So, if you want an achievement which would normally be
+triggered by reaching some time threshold (such as "survived a certain amount
+of time") then you must place some requirement alongside it to trigger it after
+that time has passed.  Pick some statistic which is likely to change often, and
+add an `"anything"` constraint on it.  For example:
+
+```C++
+{
+  "id": "achievement_survive_one_day",
+  "type": "achievement",
+  "description": "The first day of the rest of their unlives",
+  "time_constraint": { "since": "game_start", "is": ">=", "target": "1 day" },
+  "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
+},
+```
+
+This is a simple "survive a day" but is triggered by waking up, so it will be
+completed when you wake up for the first time after 24 hours into the game.
 
 ### Skills
 
@@ -1235,7 +1343,9 @@ an `event_statistic`.  For example:
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
 "cut_dmg_bonus": 3, // Bonus to unarmed cut damage (default: 0)
+"pierce_dmg_bonus": 3, // Bonus to unarmed pierce damage (default: 0.0)
 "bash_dmg_bonus": 3, // Bonus to unarmed bash damage (default: 0)
+"butchering_quality": 4, // Butchering quality of this mutations (default: 0)
 "rand_cut_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed cut damage between min and max.
 "rand_bash_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed bash damage between min and max.
 "bodytemp_modifiers" : [100, 150], // Range of additional bodytemp units (these units are described in 'weather.h'. First value is used if the person is already overheated, second one if it's not.
@@ -1316,6 +1426,11 @@ an `event_statistic`.  For example:
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
 "mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transfomr into
+               "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
+               "active": false , // Will the target mutation start powered ( turn ON ).
+               "moves": 100 // how many moves this costs. (default: 0)
+}
 ```
 
 ### Vehicle Groups
@@ -1344,6 +1459,9 @@ Vehicle components when installed on a vehicle.
 "broken_color": "light_gray", // Color used when part is broken
 "damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this part hits something, as a percentage. Higher = more damage to creature struck
 "durability": 200,            // How much damage the part can take before breaking
+"description": "A wheel."     // A description of this vehicle part when installing it
+"size": 2000                  // If vehicle part has flag "FLUIDTANK" then capacity in mLs, else divide by 4 for volume on space
+"cargo_weight_modifier": 100  // Special function to multiplicatively modify item weight on space. Divide by 100 for ratio.
 "wheel_width": 9,             /* (Optional, default = 0)
                                * SPECIAL: A part may have at most ONE of the following fields:
                                *    wheel_width = base wheel width in inches
@@ -1351,6 +1469,8 @@ Vehicle components when installed on a vehicle.
                                *    power       = base engine power in watts
                                *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
                                *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
+"wheel_type":                 // (Optional: standard, off-road)
+"contact_area":               // (Optional) Affects vehicle ground pressure
 "cargo_weight_modifier": 33,  // (Optional, default = 100) Modifies cargo weight by set percentage
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
 
@@ -1454,7 +1574,7 @@ See also VEHICLE_JSON.md
 "name": {
     "ctxt": "clothing",           // Optional translation context. Useful when a string has multiple meanings that need to be translated differently in other languages.
     "str": "pair of socks",       // The name appearing in the examine box.  Can be more than one word separated by spaces
-    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified.
+    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified. "str_sp" can be used if the singular and plural forms are the same
 },
 "conditional_names": [ {          // Optional list of names that will be applied in specified conditions (see Conditional Naming section for more details).
     "type": "COMPONENT_ID",       // The condition type.
@@ -1467,33 +1587,7 @@ See also VEHICLE_JSON.md
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
-"ascii_picture": [
-      "        ,,,,,,,,,,,,,",
-      "    .;;;;;;;;;;;;;;;;;;;,.",
-      " .;;;;;;;;;;;;;;;;;;;;;;;;,",
-      ".;;;;;;;;;;;;;;;;;;;;;;;;;;;;.",
-      ";;;;;@;;;;;;;;;;;;;;;;;;;;;;;;' .............",
-      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'.................",
-      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'...................`",
-      ";;;;@;;;;;;;;;;;;;;;@;;;;;;;'.....................",
-      " `;;;;;;;;;;;;;;;;;;;@@;;;;;'..................;....", // Ascii art that  will be displayed at the bottom of the item description. Array of string with each element being a line of the picture. Lines longer than 42 characters won't display properly.
-      "   `;;;;;;;;;;;;;;;;@@;;;;'....................;;...",
-      "     `;;;;;;;;;;;;;@;;;;'...;.................;;....",
-      "        `;;;;;;;;;;;;'   ...;;...............;.....",
-      "           `;;;;;;'        ...;;..................",
-      "              ;;              ..;...............",
-      "              `                  ............",
-      "             `                      ......",
-      "             `                         ..",
-      "           `                           '",
-      "          `                           '",
-      "         `                           '",
-      "        `                           `",
-      "        `                           `,",
-      "        `",
-      "         `",
-      "           `."
-    ],
+"ascii_picture": "ascii_socks", // Id of the asci_art used for this item
 "phase": "solid",                            // (Optional, default = "solid") What phase it is
 "weight": "350 g",                           // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
 "volume": "250 ml",                          // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
@@ -1691,7 +1785,7 @@ The `conditional_names` field allows defining alternate names for items that wil
     {
       "type": "COMPONENT_ID",
       "condition": "mutant",
-      "name": { "str": "sinister %s", "str_pl": "sinister %s" }
+      "name": { "str_sp": "sinister %s" }
     }
   ]
 }
@@ -1708,7 +1802,7 @@ So, in the above example, if the sausage is made from mutant humanoid meat, and 
 1. First, the item name is entirely replaced with "Mannwurst" if singular, or "Mannwursts" if plural.
 2. Next, it is replaced by "sinister %s", but %s is replaced with the name as it was before this step, resulting in "sinister Mannwurst" or "sinister Mannwursts".
 
-NB: If `"str_pl": "sinister %s"` wasn't specified, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
+NB: If `"str": "sinister %s"` was specified instead of `"str_sp": "sinister %s"`, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
 
 #### Color Key
 
@@ -2007,7 +2101,7 @@ Possible values (see src/enums.h for an up-to-date list):
 - `AEP_STEALTH` Your steps are quieted
 - `AEP_EXTINGUISH` May extinguish nearby flames
 - `AEP_GLOW` Four-tile light source
-- `AEP_PSYSHIELD` Protection from stare attacks
+- `AEP_PSYSHIELD` Protection from fear paralyze attack
 - `AEP_RESIST_ELECTRICITY` Protection from electricity
 - `AEP_CARRY_MORE` Increases carrying capacity by 200
 - `AEP_SAP_LIFE` Killing non-zombie monsters may heal you

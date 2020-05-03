@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PATHFINDING_H
-#define PATHFINDING_H
+#ifndef CATA_SRC_PATHFINDING_H
+#define CATA_SRC_PATHFINDING_H
 
 #include "game_constants.h"
 
@@ -72,4 +72,4 @@ struct pathfinding_settings {
           avoid_sharp( as ) {}
 };
 
-#endif
+#endif // CATA_SRC_PATHFINDING_H

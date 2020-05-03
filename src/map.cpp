@@ -449,7 +449,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     if( dp == tripoint_zero ) {
         debugmsg( "Empty displacement vector" );
         return &veh;
-    } else if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) {
+    } else if( std::abs( dp.x ) > 1 || std::abs( dp.y ) > 1 || std::abs( dp.z ) > 1 ) {
         debugmsg( "Invalid displacement vector: %d, %d, %d", dp.x, dp.y, dp.z );
         return &veh;
     }
@@ -553,7 +553,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     int coll_turn = 0;
     if( impulse > 0 ) {
         coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
-        const int volume = std::min<int>( 100, sqrtf( impulse ) );
+        const int volume = std::min<int>( 100, std::sqrt( impulse ) );
         // TODO: Center the sound at weighted (by impulse) average of collisions
         sounds::sound( veh.global_pos3(), volume, sounds::sound_t::combat, _( "crash!" ),
                        false, "smash_success", "hit_vehicle" );
@@ -777,7 +777,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m1 = to_kilogram( veh.total_mass() );
         // Collision is perfectly inelastic for simplicity
         // Assume veh2 is standing still
-        dmg = abs( veh.vertical_velocity / 100 ) * m1 / 10;
+        dmg = std::abs( veh.vertical_velocity / 100 ) * m1 / 10;
         veh.vertical_velocity = 0;
     }
 
@@ -1728,7 +1728,8 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     assert( to.z > std::numeric_limits<int>::min() );
     // Note: no need to check inbounds here, because maptile_at will do that
     // If oob tile is supplied, the maptile_at will be an unpassable "null" tile
-    if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ) {
+    if( std::abs( from.x - to.x ) > 1 || std::abs( from.y - to.y ) > 1 ||
+        std::abs( from.z - to.z ) > 1 ) {
         return false;
     }
 
@@ -1773,7 +1774,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     if( !up_ter.has_flag( TFLAG_NO_FLOOR ) && !up_ter.has_flag( TFLAG_GOES_DOWN ) && !up_is_ledge ) {
         // Can't move from up to down
-        if( abs( from.x - to.x ) == 1 || abs( from.y - to.y ) == 1 ) {
+        if( std::abs( from.x - to.x ) == 1 || std::abs( from.y - to.y ) == 1 ) {
             // Break the move into two - vertical then horizontal
             tripoint midpoint( down_p.xy(), up_p.z );
             return valid_move( down_p, midpoint, bash, flying ) &&
@@ -2034,15 +2035,21 @@ void map::drop_furniture( const tripoint &p )
         player *pl = dynamic_cast<player *>( critter );
         monster *mon = dynamic_cast<monster *>( critter );
         if( pl != nullptr ) {
-            pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0, 0.5f ) );
-            pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0, 0.5f ) );
-            pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
-            pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
-            pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
-            pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0,
+                             0.5f ) );
+            pl->deal_damage( nullptr, bodypart_id( "head" ),  damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0,
+                             0.5f ) );
+            pl->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+                             0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+                             0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+                             0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+                             0.4f ) );
         } else if( mon != nullptr ) {
             // TODO: Monster's armor and size - don't crush hulks with chairs
-            mon->apply_damage( nullptr, bp_torso, rng( dmg, dmg * 2 ) );
+            mon->apply_damage( nullptr, bodypart_id( "torso" ), rng( dmg, dmg * 2 ) );
         }
     }
 
@@ -2426,16 +2433,16 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
     int xmov = 0;
     int ymov = 0;
     switch( dir ) {
-        case NORTH:
+        case direction::NORTH:
             ymov = -1;
             break;
-        case SOUTH:
+        case direction::SOUTH:
             ymov = 1;
             break;
-        case WEST:
+        case direction::WEST:
             xmov = -1;
             break;
-        case EAST:
+        case direction::EAST:
             xmov = 1;
             break;
         default:
@@ -2445,10 +2452,10 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
     int y2 = p.y;
     bool result = true;
     bool loop = true;
-    while( ( loop ) && ( ( dir == NORTH && y2 >= 0 ) ||
-                         ( dir == SOUTH && y2 < max.y ) ||
-                         ( dir == WEST  && x2 >= 0 ) ||
-                         ( dir == EAST  && x2 < max.x ) ) ) {
+    while( ( loop ) && ( ( dir == direction::NORTH && y2 >= 0 ) ||
+                         ( dir == direction::SOUTH && y2 < max.y ) ||
+                         ( dir == direction::WEST  && x2 >= 0 ) ||
+                         ( dir == direction::EAST  && x2 < max.x ) ) ) {
         if( no_furn && has_furn( point( x2, y2 ) ) ) {
             loop = false;
             result = false;
@@ -3382,20 +3389,20 @@ void map::crush( const tripoint &p )
             // TODO: Make this depend on the ceiling material
             const int dam = rng( 0, 40 );
             // Torso and head take the brunt of the blow
-            body_part hit = bp_head;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
-            hit = bp_torso;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .45 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( DT_BASH,
+                                         dam * .25 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                                         dam * .45 ) );
             // Legs take the next most through transferred force
-            hit = bp_leg_l;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
-            hit = bp_leg_r;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_BASH,
+                                         dam * .10 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_BASH,
+                                         dam * .10 ) );
             // Arms take the least
-            hit = bp_arm_l;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
-            hit = bp_arm_r;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( DT_BASH,
+                                         dam * .05 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( DT_BASH,
+                                         dam * .05 ) );
 
             // Pin whoever got hit
             crushed_player->add_effect( effect_crushed, 1_turns, num_bp, true );
@@ -3405,7 +3412,7 @@ void map::crush( const tripoint &p )
 
     if( monster *const monhit = g->critter_at<monster>( p ) ) {
         // 25 ~= 60 * .45 (torso)
-        monhit->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( 0, 25 ) ) );
+        monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH, rng( 0, 25 ) ) );
 
         // Pin whoever got hit
         monhit->add_effect( effect_crushed, 1_turns, num_bp, true );
@@ -3423,7 +3430,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     // TODO: Make bashing count fully, but other types much less
     float initial_damage = 0.0;
     for( damage_unit dam : proj.impact ) {
-        initial_damage += dam.amount / 3;
+        initial_damage += dam.amount;
         initial_damage += dam.res_pen;
     }
     if( initial_damage < 0 ) {
@@ -4306,11 +4313,10 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-static bool process_item( item_stack &items, safe_reference<item> &item_ref,
-                          const tripoint &location,
-                          const bool activate, const float insulation, const temperature_flag flag )
+static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
+                               const tripoint &location, const float insulation, const temperature_flag flag )
 {
-    if( item_ref->process( nullptr, location, activate, insulation, flag ) ) {
+    if( item_ref->process( nullptr, location, false, insulation, flag ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
@@ -4320,13 +4326,6 @@ static bool process_item( item_stack &items, safe_reference<item> &item_ref,
     }
     // Item not destroyed
     return false;
-}
-
-static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
-                               const tripoint &location, const std::string &,
-                               const float insulation, const temperature_flag flag )
-{
-    return process_item( items, item_ref, location, false, insulation, flag );
 }
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
@@ -4385,8 +4384,11 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         }
     }
 
-    if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true ) >= 0 &&
-        cur_veh.has_part( "RECHARGE", true ) ) {
+    const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
+    vehicle_part recharge_part;
+    if( recharge_part_idx >= 0 && ( recharge_part = cur_veh.parts[recharge_part_idx] ) &&
+        !recharge_part.removed && !recharge_part.is_broken() &&
+        ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {
             if( !n.has_flag( "RECHARGE" ) && !n.has_flag( "USE_UPS" ) ) {
                 continue;
@@ -4394,30 +4396,23 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
             if( n.ammo_capacity() > n.ammo_remaining() ||
                 ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
-                // Around 85% efficient, so double discharge once every 7 seconds
-                const int per_charge = one_in( 7 ) ? 2 : 1;
-                const int missing = cur_veh.discharge_battery( per_charge, false );
-                if( missing < per_charge &&
-                    ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
-                    if( n.is_battery() ) {
-                        n.set_energy( 1_kJ );
-                    } else {
-                        n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                int power = recharge_part.info().bonus;
+                while( power >= 1000 || x_in_y( power, 1000 ) ) {
+                    const int missing = cur_veh.discharge_battery( 1, false );
+                    // Around 85% efficient; a few of the discharges don't actually recharge
+                    if( missing == 0 && !one_in( 7 ) ) {
+                        if( n.is_battery() ) {
+                            n.set_energy( 1_kJ );
+                        } else {
+                            n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                        }
                     }
+                    power -= 1000;
                 }
-
-                if( missing > 0 ) {
-                    // Not enough charge - stop charging
-                    break;
-                }
+                break;
             }
         }
     }
-}
-
-void map::process_active_items()
-{
-    process_items( true, process_map_items, std::string {} );
 }
 
 std::vector<tripoint> map::check_submap_active_item_consistency()
@@ -4446,8 +4441,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
     return result;
 }
 
-void map::process_items( const bool active, map::map_process_func processor,
-                         const std::string &signal )
+void map::process_items()
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
@@ -4461,7 +4455,7 @@ void map::process_items( const bool active, map::map_process_func processor,
         for( const tripoint &pos : submaps_with_vehicles ) {
             submap *const current_submap = get_submap_at_grid( pos );
             // Vehicles first in case they get blown up and drop active items on the map.
-            process_items_in_vehicles( *current_submap, pos.z, processor, signal );
+            process_items_in_vehicles( *current_submap );
         }
     }
     // Making a copy, in case the original variable gets modified during `process_items_in_submap`
@@ -4469,14 +4463,13 @@ void map::process_items( const bool active, map::map_process_func processor,
     for( const tripoint &abs_pos : submaps_with_active_items_copy ) {
         const tripoint local_pos = abs_pos - abs_sub.xy();
         submap *const current_submap = get_submap_at_grid( local_pos );
-        if( !active || !current_submap->active_items.empty() ) {
-            process_items_in_submap( *current_submap, local_pos, processor, signal );
+        if( !current_submap->active_items.empty() ) {
+            process_items_in_submap( *current_submap, local_pos );
         }
     }
 }
 
-void map::process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                   map::map_process_func processor, const std::string &signal )
+void map::process_items_in_submap( submap &current_submap, const tripoint &gridp )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
@@ -4496,12 +4489,11 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
         map_stack items = i_at( map_location );
-        processor( items, active_item_ref.item_ref, map_location, signal, 1, flag );
+        process_map_items( items, active_item_ref.item_ref, map_location, 1, flag );
     }
 }
 
-void map::process_items_in_vehicles( submap &current_submap, const int gridz,
-                                     map::map_process_func processor, const std::string &signal )
+void map::process_items_in_vehicles( submap &current_submap )
 {
     // a copy, important if the vehicle list changes because a
     // vehicle got destroyed by a bomb (an active item!), this list
@@ -4518,12 +4510,11 @@ void map::process_items_in_vehicles( submap &current_submap, const int gridz,
             continue;
         }
 
-        process_items_in_vehicle( *cur_veh, current_submap, gridz, processor, signal );
+        process_items_in_vehicle( *cur_veh, current_submap );
     }
 }
 
-void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int /*gridz*/,
-                                    map::map_process_func processor, const std::string &signal )
+void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
@@ -4573,7 +4564,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
                 flag = temperature_flag::TEMP_FREEZER;
             }
         }
-        if( !processor( items, active_item_ref.item_ref, item_loc, signal, it_insulation, flag ) ) {
+        if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -4628,9 +4619,9 @@ bool map::could_see_items( const tripoint &p, const tripoint &from ) const
     if( container ) {
         // can see inside of containers if adjacent or
         // on top of the container
-        return ( abs( p.x - from.x ) <= 1 &&
-                 abs( p.y - from.y ) <= 1 &&
-                 abs( p.z - from.z ) <= 1 );
+        return ( std::abs( p.x - from.x ) <= 1 &&
+                 std::abs( p.y - from.y ) <= 1 &&
+                 std::abs( p.z - from.z ) <= 1 );
     }
     return true;
 }
@@ -6443,7 +6434,7 @@ void map::shift( const point &sp )
         return; // Skip this?
     }
 
-    if( abs( sp.x ) > 1 || abs( sp.y ) > 1 ) {
+    if( std::abs( sp.x ) > 1 || std::abs( sp.y ) > 1 ) {
         debugmsg( "map::shift called with a shift of more than one submap" );
     }
 
@@ -6734,9 +6725,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt )
 {
-    const tripoint abs_pnt = getabs( pnt );
     for( auto it = items.begin(); it != items.end(); ) {
-        if( it->has_rotten_away( abs_pnt ) ) {
+        if( it->has_rotten_away( pnt ) ) {
             if( it->is_comestible() ) {
                 rotten_item_spawn( *it, pnt );
             }

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAPGEN_FUNCTIONS_H
-#define MAPGEN_FUNCTIONS_H
+#ifndef CATA_SRC_MAPGEN_FUNCTIONS_H
+#define CATA_SRC_MAPGEN_FUNCTIONS_H
 
 #include <functional>
 #include <map>
@@ -12,6 +12,7 @@
 class map;
 class mapgendata;
 class mission;
+struct point;
 struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
@@ -75,9 +76,9 @@ void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 
 // Temporary wrappers
-void mremove_trap( map *m, int x, int y );
-void mtrap_set( map *m, int x, int y, trap_id type );
-void madd_field( map *m, int x, int y, field_type_id type, int intensity );
+void mremove_trap( map *m, const point & );
+void mtrap_set( map *m, const point &, trap_id type );
+void madd_field( map *m, const point &, field_type_id type, int intensity );
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
@@ -90,4 +91,4 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );
 
-#endif
+#endif // CATA_SRC_MAPGEN_FUNCTIONS_H

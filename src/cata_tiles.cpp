@@ -158,22 +158,22 @@ static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMs
 }
 
 formatted_text::formatted_text( const std::string &text, const int color,
-                                const direction direction )
+                                const direction text_direction )
     : text( text ), color( color )
 {
-    switch( direction ) {
-        case NORTHWEST:
-        case WEST:
-        case SOUTHWEST:
-            alignment = TEXT_ALIGNMENT_RIGHT;
+    switch( text_direction ) {
+        case direction::NORTHWEST:
+        case direction::WEST:
+        case direction::SOUTHWEST:
+            alignment = text_alignment::right;
             break;
-        case NORTH:
-        case CENTER:
-        case SOUTH:
-            alignment = TEXT_ALIGNMENT_CENTER;
+        case direction::NORTH:
+        case direction::CENTER:
+        case direction::SOUTH:
+            alignment = text_alignment::center;
             break;
         default:
-            alignment = TEXT_ALIGNMENT_LEFT;
+            alignment = text_alignment::left;
             break;
     }
 }
@@ -347,8 +347,8 @@ void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
         std::vector<texture> &target )
 {
     assert( surf );
-    const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, surf->w / sprite_width,
-                                            surf->h / sprite_height );
+    const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, point( surf->w / sprite_width,
+                                            surf->h / sprite_height ) );
 
     const std::shared_ptr<SDL_Texture> texture_ptr = CreateTextureFromSurface( renderer, surf );
     assert( texture_ptr );
@@ -462,8 +462,8 @@ void tileset_loader::load_tileset( const std::string &img_path )
     const rect_range<SDL_Rect> output_range(
         max_tile_xcount * sprite_width,
         max_tile_ycount * sprite_height,
-        divide_round_up( tile_atlas->w, info.max_texture_width ),
-        divide_round_up( tile_atlas->h, info.max_texture_height ) );
+        point( divide_round_up( tile_atlas->w, info.max_texture_width ), divide_round_up( tile_atlas->h,
+                info.max_texture_height ) ) );
 
     const int expected_tilecount = ( tile_atlas->w / sprite_width ) * ( tile_atlas->h / sprite_height );
     extend_vector_by( ts.tile_values, expected_tilecount );
@@ -1085,12 +1085,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         for( const point &pt_elem : collision_checkpoints ) {
             overlay_strings.emplace( player_to_screen( pt_elem ) + point( tile_width / 2, 0 ),
                                      formatted_text( "CHECK", catacurses::yellow,
-                                             NORTH ) );
+                                             direction::NORTH ) );
         }
         for( const point &pt_elem : target_points ) {
             overlay_strings.emplace( player_to_screen( pt_elem ) + point( tile_width / 2, 0 ),
                                      formatted_text( "TARGET", catacurses::red,
-                                             NORTH ) );
+                                             direction::NORTH ) );
         }
     }
     for( int row = min_row; row < max_row; row ++ ) {
@@ -1141,7 +1141,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                              formatted_text( std::to_string( scent_value ), 8 + catacurses::yellow,
-                                                     NORTH ) );
+                                                     direction::NORTH ) );
                 }
             }
 
@@ -1151,7 +1151,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 if( !scent_type.is_empty() ) {
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                              formatted_text( scent_type.c_str(), 8 + catacurses::yellow,
-                                                     NORTH ) );
+                                                     direction::NORTH ) );
                 }
             }
 
@@ -1167,7 +1167,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         col = catacurses::cyan;
                     }
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
-                                             formatted_text( std::to_string( rad_value ), 8 + col, NORTH ) );
+                                             formatted_text( std::to_string( rad_value ), 8 + col, direction::NORTH ) );
                 }
             }
 
@@ -1198,7 +1198,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
                 overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                          formatted_text( std::to_string( temp_value ), color,
-                                                 NORTH ) );
+                                                 direction::NORTH ) );
             }
 
             if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
@@ -1215,7 +1215,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 std::string visibility_str = visibility ? "+" : "-";
                 overlay_strings.emplace(
                     player_to_screen( point( x, y ) ) + point( tile_width / 4, tile_height / 4 ),
-                    formatted_text( visibility_str, catacurses::black, NORTH ) );
+                    formatted_text( visibility_str, catacurses::black, direction::NORTH ) );
             }
 
             if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
@@ -1241,7 +1241,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                     // string overlay
                     overlay_strings.emplace( tile_pos + point( tile_width / 4, tile_height / 4 ),
-                                             formatted_text( string_format( "%.1f", ambient ), catacurses::black, NORTH ) );
+                                             formatted_text( string_format( "%.1f", ambient ), catacurses::black, direction::NORTH ) );
                 }
             }
 
@@ -1297,7 +1297,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         text += "+";
                     }
                     overlay_strings.emplace( player_to_screen( p.pos.xy() ) + point( tile_width / 2, 0 ),
-                                             formatted_text( text, catacurses::red, NORTH ) );
+                                             formatted_text( text, catacurses::red, direction::NORTH ) );
                 }
             }
         }
@@ -1441,11 +1441,11 @@ void cata_tiles::get_window_tile_counts( const int width, const int height, int 
         int &rows ) const
 {
     if( tile_iso ) {
-        columns = ceil( static_cast<double>( width ) / tile_width ) * 2 + 4;
-        rows = ceil( static_cast<double>( height ) / ( tile_width / 2.0 - 1 ) ) * 2 + 4;
+        columns = std::ceil( static_cast<double>( width ) / tile_width ) * 2 + 4;
+        rows = std::ceil( static_cast<double>( height ) / ( tile_width / 2.0 - 1 ) ) * 2 + 4;
     } else {
-        columns = ceil( static_cast<double>( width ) / tile_width );
-        rows = ceil( static_cast<double>( height ) / tile_height );
+        columns = std::ceil( static_cast<double>( width ) / tile_width );
+        rows = std::ceil( static_cast<double>( height ) / tile_height );
     }
 }
 

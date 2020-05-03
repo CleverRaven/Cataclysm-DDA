@@ -704,8 +704,8 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
         // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
-        windchill_f = 35.74 + 0.6215 * temperature_f - 35.75 * pow( wind_mph,
-                      0.16 ) + 0.4275 * temperature_f * pow( wind_mph, 0.16 ) - temperature_f;
+        windchill_f = 35.74 + 0.6215 * temperature_f - 35.75 * std::pow( wind_mph,
+                      0.16 ) + 0.4275 * temperature_f * std::pow( wind_mph, 0.16 ) - temperature_f;
         if( wind_mph < 3 ) {
             // This model fails when wind is less than 3 mph
             windchill_f = 0;
@@ -724,7 +724,7 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
         // model being designed for reasonable ambient temperature values,
         // rather than extremely high ones.
         double windchill_c = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
-                             exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) ) - 0.70 *
+                             std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) ) - 0.70 *
                              wind_meters_per_sec - 4.00;
         // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
         windchill_f = windchill_c * 9 / 5;

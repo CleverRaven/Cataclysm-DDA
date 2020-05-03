@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MORALE_H
-#define MORALE_H
+#ifndef CATA_SRC_MORALE_H
+#define CATA_SRC_MORALE_H
 
 #include <algorithm>
 #include <functional>
@@ -109,7 +109,7 @@ class player_morale
                  *contribution should be bettween [0,100] (inclusive)
                  */
                 void set_percent_contribution( double contribution );
-                double get_percent_contribution();
+                double get_percent_contribution() const;
             private:
                 morale_type type;
                 const itype *item_type;
@@ -208,4 +208,4 @@ class player_morale
         int perceived_pain;
 };
 
-#endif
+#endif // CATA_SRC_MORALE_H

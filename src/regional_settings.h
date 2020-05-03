@@ -1,6 +1,6 @@
 #pragma once
-#ifndef REGIONAL_SETTINGS_H
-#define REGIONAL_SETTINGS_H
+#ifndef CATA_SRC_REGIONAL_SETTINGS_H
+#define CATA_SRC_REGIONAL_SETTINGS_H
 
 #include <map>
 #include <set>
@@ -157,6 +157,7 @@ struct forest_trail_settings {
     bool clear_trail_terrain = false;
     std::map<std::string, int> unfinalized_trail_terrain;
     weighted_int_list<ter_id> trail_terrain;
+    building_bin trailheads;
 
     void finalize();
     forest_trail_settings() = default;
@@ -258,4 +259,4 @@ void reset_region_settings();
 void load_region_overlay( const JsonObject &jo );
 void apply_region_overlay( const JsonObject &jo, regional_settings &region );
 
-#endif
+#endif // CATA_SRC_REGIONAL_SETTINGS_H

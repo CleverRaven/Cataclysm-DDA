@@ -666,6 +666,7 @@
       [ "flashlight", 40 ],
       [ "heavy_flashlight", 30 ],
       [ "survival_kit", 35 ],
+      [ "premium_survival_kit", 8 ],
       [ "mess_kit", 9 ],
       [ "popcan_stove", 2 ],
       [ "denat_alcohol", 2 ],
@@ -1824,7 +1825,8 @@
       [ "briefs", 30 ],
       [ "yoghurt", 12 ],
       [ "vitamins", 10 ],
-      [ "aspirin", 10 ]
+      [ "aspirin", 10 ],
+      [ "fitness_band", 10 ]
     ]
   },
   {

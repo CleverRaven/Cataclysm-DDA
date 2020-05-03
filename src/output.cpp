@@ -46,8 +46,6 @@ int TERMX;
 int TERMY;
 int POSX;
 int POSY;
-int VIEW_OFFSET_X;
-int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
 int TERRAIN_WINDOW_HEIGHT;
 int TERRAIN_WINDOW_TERM_WIDTH;
@@ -681,7 +679,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
 {
     catacurses::window win =
         catacurses::newwin( iHeight, iWidth,
-                            point( iLeft + VIEW_OFFSET_X, iTop + VIEW_OFFSET_Y ) );
+                            point( iLeft, iTop ) );
 
 #if defined(TILES)
     clear_window_area( win );
@@ -1389,6 +1387,16 @@ void scrolling_text_view::scroll_down()
     }
 }
 
+void scrolling_text_view::page_up()
+{
+    offset_ = std::max( 0, offset_ - getmaxy( w_ ) );
+}
+
+void scrolling_text_view::page_down()
+{
+    offset_ = std::min( max_offset(), offset_ + getmaxy( w_ ) );
+}
+
 void scrolling_text_view::draw( const nc_color &base_color )
 {
     werase( w_ );
@@ -1458,13 +1466,8 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
 catacurses::window w_hit_animation;
 void hit_animation( const point &p, nc_color cColor, const std::string &cTile )
 {
-    /*
-    chtype chtOld = mvwinch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
-    mvwputch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X, cColor, cTile);
-    */
-
     catacurses::window w_hit =
-        catacurses::newwin( 1, 1, p + point( VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+        catacurses::newwin( 1, 1, p );
     if( !w_hit ) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }
@@ -1807,7 +1810,7 @@ std::pair<std::string, nc_color> get_light_level( const float light )
     };
     // Avoid magic number
     static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
-    const int light_level = clamp( static_cast< int >( ceil( light ) ), 0, maximum_light_level );
+    const int light_level = clamp( static_cast< int >( std::ceil( light ) ), 0, maximum_light_level );
     const size_t array_index = static_cast< size_t >( light_level );
     return pair_t{ _( strings[array_index].first ), strings[array_index].second };
 }
@@ -1883,14 +1886,14 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
 #if defined(TILES)
     iso_mode = tile_iso && use_tiles;
 #endif
-    oUp = iso_mode ? NORTHEAST : NORTH;
-    oUpRight = iso_mode ? EAST : NORTHEAST;
-    oRight = iso_mode ? SOUTHEAST : EAST;
-    oDownRight = iso_mode ? SOUTH : SOUTHEAST;
-    oDown = iso_mode ? SOUTHWEST : SOUTH;
-    oDownLeft = iso_mode ? WEST : SOUTHWEST;
-    oLeft = iso_mode ? NORTHWEST : WEST;
-    oUpLeft = iso_mode ? NORTH : NORTHWEST;
+    oUp = iso_mode ? direction::NORTHEAST : direction::NORTH;
+    oUpRight = iso_mode ? direction::EAST : direction::NORTHEAST;
+    oRight = iso_mode ? direction::SOUTHEAST : direction::EAST;
+    oDownRight = iso_mode ? direction::SOUTH : direction::SOUTHEAST;
+    oDown = iso_mode ? direction::SOUTHWEST : direction::SOUTH;
+    oDownLeft = iso_mode ? direction::WEST : direction::SOUTHWEST;
+    oLeft = iso_mode ? direction::NORTHWEST : direction::WEST;
+    oUpLeft = iso_mode ? direction::NORTH : direction::NORTHWEST;
 
     point pairDirXY = direction_XY( oDir );
 
@@ -1898,7 +1901,7 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
 
     if( dir == point_zero ) {
         // This would cause infinite loop otherwise
-        oDir = WEST;
+        oDir = direction::WEST;
         dir.x = -1;
     }
 
@@ -1933,26 +1936,29 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
             //Remove old HP bar
             removeCreatureHP();
 
-            if( p_oDir == WEST || p_oDir == NORTHWEST || p_oDir == ( iso_mode ? NORTH : SOUTHWEST ) ) {
-                p_oDir = ( iso_mode ? NORTHWEST : WEST );
+            if( p_oDir == direction::WEST || p_oDir == direction::NORTHWEST ||
+                p_oDir == ( iso_mode ? direction::NORTH : direction::SOUTHWEST ) ) {
+                p_oDir = ( iso_mode ? direction::NORTHWEST : direction::WEST );
             } else {
-                p_oDir = ( iso_mode ? SOUTHEAST : EAST );
+                p_oDir = ( iso_mode ? direction::SOUTHEAST : direction::EAST );
             }
 
         } else {
             //reserve Left/Right for creature hp display
-            if( p_oDir == ( iso_mode ? SOUTHEAST : EAST ) ) {
-                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? EAST : NORTHEAST ) : ( iso_mode ? SOUTH : SOUTHEAST );
+            if( p_oDir == ( iso_mode ? direction::SOUTHEAST : direction::EAST ) ) {
+                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? direction::EAST : direction::NORTHEAST ) :
+                         ( iso_mode ? direction::SOUTH : direction::SOUTHEAST );
 
-            } else if( p_oDir == ( iso_mode ? NORTHWEST : WEST ) ) {
-                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? NORTH : NORTHWEST ) : ( iso_mode ? WEST : SOUTHWEST );
+            } else if( p_oDir == ( iso_mode ? direction::NORTHWEST : direction::WEST ) ) {
+                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? direction::NORTH : direction::NORTHWEST ) :
+                         ( iso_mode ? direction::WEST : direction::SOUTHWEST );
             }
         }
 
         // in tiles, SCT that scroll downwards are inserted at the beginning of the vector to prevent
         // oversize ASCII tiles overdrawing messages below them.
-        if( tiled && ( p_oDir == SOUTHWEST || p_oDir == SOUTH ||
-                       p_oDir == ( iso_mode ? WEST : SOUTHEAST ) ) ) {
+        if( tiled && ( p_oDir == direction::SOUTHWEST || p_oDir == direction::SOUTH ||
+                       p_oDir == ( iso_mode ? direction::WEST : direction::SOUTHEAST ) ) ) {
 
             //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
             for( auto &iter : vSCT ) {

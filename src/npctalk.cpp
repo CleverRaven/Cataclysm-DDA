@@ -186,7 +186,7 @@ int npc_trading::cash_to_favor( const npc &, int cash )
     // TODO: It should affect different NPCs to a different degree
     // Square root of mission value in dollars
     // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
-    double scaled_mission_val = sqrt( cash / 100.0 );
+    double scaled_mission_val = std::sqrt( cash / 100.0 );
     return roll_remainder( scaled_mission_val );
 }
 

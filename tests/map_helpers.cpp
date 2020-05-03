@@ -19,6 +19,14 @@
 
 class vehicle;
 
+// Remove all vehicles from the map
+void clear_vehicles()
+{
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        g->m.destroy_vehicle( veh.v );
+    }
+}
+
 void wipe_map_terrain()
 {
     const int mapsize = g->m.getmapsize() * SEEX;
@@ -30,9 +38,7 @@ void wipe_map_terrain()
             }
         }
     }
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
-        g->m.destroy_vehicle( veh.v );
-    }
+    clear_vehicles();
     g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
 }
@@ -70,6 +76,16 @@ void clear_fields( const int zlevel )
     }
 }
 
+void clear_items( const int zlevel )
+{
+    const int mapsize = g->m.getmapsize() * SEEX;
+    for( int x = 0; x < mapsize; ++x ) {
+        for( int y = 0; y < mapsize; ++y ) {
+            g->m.i_clear( { x, y, zlevel } );
+        }
+    }
+}
+
 void clear_map()
 {
     // Clearing all z-levels is rather slow, so just clear the ones I know the
@@ -81,6 +97,9 @@ void clear_map()
     clear_npcs();
     clear_creatures();
     g->m.clear_traps();
+    for( int z = -2; z <= 0; ++z ) {
+        clear_items( z );
+    }
 }
 
 void clear_map_and_put_player_underground()
@@ -95,17 +114,6 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
     monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
     assert( added );
     return *added;
-}
-
-// Remove all vehicles from the map
-void clear_vehicles()
-{
-    VehicleList vehs = g->m.get_vehicles();
-    vehicle *veh_ptr;
-    for( auto &vehs_v : vehs ) {
-        veh_ptr = vehs_v.v;
-        g->m.destroy_vehicle( veh_ptr );
-    }
 }
 
 // Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given

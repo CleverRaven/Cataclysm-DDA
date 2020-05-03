@@ -47,7 +47,7 @@ static const skill_id skill_survival( "survival" );
 
 TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 {
-    g->u.empty_traits();
+    g->u.clear_mutations();
 
     GIVEN( "food with hidden poison" ) {
         item coffee = item( "coffee_pod" );
@@ -386,7 +386,7 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
         item gun( "hk_mp5" );
 
         // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
-        g->u.empty_traits();
+        g->u.clear_mutations();
         REQUIRE( gun.get_sizing( g-> u, true ) == item::sizing::human_sized_human_char );
         REQUIRE_FALSE( gun.has_flag( "OVERSIZE" ) );
         REQUIRE_FALSE( gun.has_flag( "UNDERSIZE" ) );

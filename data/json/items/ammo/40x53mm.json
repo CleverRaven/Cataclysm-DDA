@@ -12,7 +12,7 @@
     "count": 10,
     "stack_size": 1,
     "ammo_type": "40x53mm",
-    "range": 40,
+    "range": 60,
     "damage": { "damage_type": "stab", "amount": 80 },
     "dispersion": 30,
     "recoil": 225,
@@ -26,7 +26,6 @@
     "description": "40x53mm canister shot loaded with 17 grain flechettes.",
     "weight": "340 g",
     "volume": "137 ml",
-    "range": 12,
     "damage": { "damage_type": "stab", "amount": 150, "armor_penetration": 10 },
     "recoil": 1000,
     "casing": "40x53mm_m169_casing",
@@ -42,7 +41,7 @@
     "volume": "132 ml",
     "damage": { "damage_type": "stab", "amount": 250, "armor_penetration": 45 },
     "casing": "40x53mm_m169_casing",
-    "extend": { "effects": [ "EXPLOSIVE", "FRAG" ] }
+    "extend": { "effects": [ "EXPLOSIVE_m430a1" ] }
   },
   {
     "id": "40x53mm_buckshot_m169",

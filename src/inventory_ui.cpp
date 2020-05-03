@@ -1479,7 +1479,7 @@ void inventory_selector::resize_window( int width, int height )
 {
     if( !w_inv || width != getmaxx( w_inv ) || height != getmaxy( w_inv ) ) {
         w_inv = catacurses::newwin( height, width,
-                                    point( VIEW_OFFSET_X + ( TERMX - width ) / 2, VIEW_OFFSET_Y + ( TERMY - height ) / 2 ) );
+                                    point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
     }
 }
 
@@ -1500,7 +1500,7 @@ void inventory_selector::refresh_window() const
 void inventory_selector::set_filter()
 {
     string_input_popup spopup;
-    spopup.window( w_inv, 4, getmaxy( w_inv ) - 1, ( getmaxx( w_inv ) / 2 ) - 4 )
+    spopup.window( w_inv, point( 4, getmaxy( w_inv ) - 1 ), ( getmaxx( w_inv ) / 2 ) - 4 )
     .max_length( 256 )
     .text( filter );
 

@@ -55,6 +55,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
+#include "panels.h"
 #include "player.h"
 #include "player_activity.h"
 #include "popup.h"
@@ -381,7 +382,7 @@ input_context game::get_player_input( std::string &action )
     return ctxt;
 }
 
-static void rcdrive( int dx, int dy )
+inline static void rcdrive( const point &d )
 {
     player &u = g->u;
     map &m = g->m;
@@ -411,7 +412,7 @@ static void rcdrive( int dx, int dy )
     }
     item *rc_car = rc_pair->second;
 
-    tripoint dest( cx + dx, cy + dy, cz );
+    tripoint dest( cx + d.x, cy + d.y, cz );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
         sounds::sound( dest, 7, sounds::sound_t::combat,
@@ -430,12 +431,7 @@ static void rcdrive( int dx, int dy )
     }
 }
 
-inline static void rcdrive( point d )
-{
-    return rcdrive( d.x, d.y );
-}
-
-static void pldrive( int x, int y, int z = 0 )
+static void pldrive( const tripoint &p )
 {
     if( !g->check_safe_mode_allowed() ) {
         return;
@@ -478,33 +474,33 @@ static void pldrive( int x, int y, int z = 0 )
             return;
         }
     }
-    if( z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
+    if( p.z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
         u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
         return;
     }
-    if( z != 0 && !g->m.has_zlevels() ) {
+    if( p.z != 0 && !g->m.has_zlevels() ) {
         u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
         return;
     }
-    if( z == -1 ) {
+    if( p.z == -1 ) {
         if( veh->check_heli_descend( u ) ) {
             u.add_msg_if_player( m_info, _( "You steer the vehicle into a descent." ) );
         } else {
             return;
         }
-    } else if( z == 1 ) {
+    } else if( p.z == 1 ) {
         if( veh->check_heli_ascend( u ) ) {
             u.add_msg_if_player( m_info, _( "You steer the vehicle into an ascent." ) );
         } else {
             return;
         }
     }
-    veh->pldrive( point( x, y ), z );
+    veh->pldrive( p.xy(), p.z );
 }
 
 inline static void pldrive( point d )
 {
-    return pldrive( d.x, d.y );
+    return pldrive( tripoint( d, 0 ) );
 }
 
 static void open()
@@ -604,17 +600,17 @@ static void handbrake()
     vehicle *const veh = &vp->vehicle();
     add_msg( _( "You pull a handbrake." ) );
     veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < abs( veh->velocity ) ) {
+    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
         veh->skidding = true;
         add_msg( m_warning, _( "You lose control of %s." ), veh->name );
         veh->turn( veh->last_turn > 0 ? 60 : -60 );
     } else {
-        int braking_power = abs( veh->velocity ) / 2 + 10 * 100;
-        if( abs( veh->velocity ) < braking_power ) {
+        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
+        if( std::abs( veh->velocity ) < braking_power ) {
             veh->stop();
         } else {
             int sgn = veh->velocity > 0 ? 1 : -1;
-            veh->velocity = sgn * ( abs( veh->velocity ) - braking_power );
+            veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
         }
     }
     g->u.moves = 0;
@@ -800,10 +796,10 @@ static void smash()
                 add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
                 u.weapon.spill_contents( u.pos() );
                 sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
-                u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
+                u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 0, vol ) ) );
                 if( vol > 20 ) {
                     // Hurt left arm too, if it was big
-                    u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
+                    u.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_CUT, rng( 0,
                                    static_cast<int>( vol * .5 ) ) ) );
                 }
                 u.remove_weapon();
@@ -1283,17 +1279,16 @@ static void read()
     }
 }
 
-// Perform a reach attach
-// range - the range of the current weapon.
-// u - player
-static void reach_attack( int range, player &u )
+// Perform a reach attach using wielded weapon
+static void reach_attack( player &u )
 {
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,
-                                       range );
-    if( !trajectory.empty() ) {
-        u.reach_attack( trajectory.back() );
+
+    target_handler::trajectory traj = target_handler::mode_reach( u, u.weapon );
+
+    if( !traj.empty() ) {
+        u.reach_attack( traj.back() );
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
@@ -1353,31 +1348,17 @@ static void fire()
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( g->u, g->m );
-    } else if( u.weapon.has_flag( flag_REACH_ATTACK ) ) {
-        int range = u.weapon.has_flag( flag_REACH3 ) ? 3 : 2;
+    } else if( u.weapon.current_reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( range, u );
+                reach_attack( u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
                 add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
-            reach_attack( range, u );
-        }
-    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( flag_REACH_ATTACK ) ) {
-        int range = u.weapon.gun_current_mode().qty;
-        if( u.has_effect( effect_relax_gas ) ) {
-            if( one_in( 8 ) ) {
-                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( range, u );
-            } else {
-                u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
-            }
-        } else {
-            reach_attack( range, u );
+            reach_attack( u );
         }
     }
 }
@@ -1816,7 +1797,7 @@ bool game::handle_action()
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
                 } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
-                    pldrive( 0, 0, -1 );
+                    pldrive( tripoint_below );
                 }
                 break;
 
@@ -1831,7 +1812,7 @@ bool game::handle_action()
                 if( !u.in_vehicle ) {
                     vertical_move( 1, false );
                 } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
-                    pldrive( 0, 0, 1 );
+                    pldrive( tripoint_above );
                 }
                 break;
 
@@ -2298,7 +2279,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_SCORES:
-                show_scores_ui( stats(), get_kill_tracker() );
+                show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
                 break;
 
             case ACTION_FACTIONS:
@@ -2366,7 +2347,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_PANEL_ADM:
-                toggle_panel_adm();
+                panel_manager::get_manager().show_adm();
                 break;
 
             case ACTION_RELOAD_TILESET:

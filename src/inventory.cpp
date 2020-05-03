@@ -858,15 +858,15 @@ item *inventory::most_appropriate_painkiller( int pain )
         int diff = 9999;
         itype_id type = elem.front().typeId();
         if( type == "aspirin" ) {
-            diff = abs( pain - 15 );
+            diff = std::abs( pain - 15 );
         } else if( type == "codeine" ) {
-            diff = abs( pain - 30 );
+            diff = std::abs( pain - 30 );
         } else if( type == "oxycodone" ) {
-            diff = abs( pain - 60 );
+            diff = std::abs( pain - 60 );
         } else if( type == "heroin" ) {
-            diff = abs( pain - 100 );
+            diff = std::abs( pain - 100 );
         } else if( type == "tramadol" ) {
-            diff = abs( pain - 40 ) / 2; // Bonus since it's long-acting
+            diff = std::abs( pain - 40 ) / 2; // Bonus since it's long-acting
         }
 
         if( diff < difference ) {

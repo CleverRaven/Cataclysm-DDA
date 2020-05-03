@@ -552,11 +552,11 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
-    auto is_opaque = [&map_cache]( int x, int y ) {
-        return map_cache.transparency_cache[x][y] <= LIGHT_TRANSPARENCY_SOLID;
+    auto is_opaque = [&map_cache]( const point & p ) {
+        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
-    const bool p_opaque = is_opaque( p.x, p.y );
+    const bool p_opaque = is_opaque( p.xy() );
     float apparent_light;
 
     if( p_opaque && vis > 0 ) {
@@ -586,7 +586,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             if( !lightmap_boundaries.contains_half_open( neighbour ) ) {
                 continue;
             }
-            if( is_opaque( neighbour.x, neighbour.y ) ) {
+            if( is_opaque( neighbour ) ) {
                 continue;
             }
             if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
@@ -696,6 +696,7 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
 
 // For a direction vector defined by x, y, return the quadrant that's the
 // source of that direction.  Assumes x != 0 && y != 0
+// NOLINTNEXTLINE(cata-xy)
 static constexpr quadrant quadrant_from_x_y( int x, int y )
 {
     return ( x > 0 ) ?
@@ -1421,15 +1422,15 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
         if( trigdist ) {
             double fdist = ( ao * M_PI_2 ) / wangle;
             double orad = ( M_PI * ao / 180.0 );
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
                                           rad + orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
                                           rad + orad ) );
             apply_light_ray( lit, p, end, luminance );
 
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
                                           rad - orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
                                           rad - orad ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
@@ -1444,8 +1445,8 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
 void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                            const tripoint &s, const tripoint &e, float luminance )
 {
-    int ax = abs( e.x - s.x ) * 2;
-    int ay = abs( e.y - s.y ) * 2;
+    int ax = std::abs( e.x - s.x ) * 2;
+    int ay = std::abs( e.y - s.y ) * 2;
     int dx = ( s.x < e.x ) ? 1 : -1;
     int dy = ( s.y < e.y ) ? 1 : -1;
     int x = s.x;

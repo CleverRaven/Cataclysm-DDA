@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAPGEN_H
-#define MAPGEN_H
+#ifndef CATA_SRC_MAPGEN_H
+#define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
 #include <memory>
@@ -158,8 +158,7 @@ class jmapgen_piece
         virtual void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
-        virtual bool has_vehicle_collision( mapgendata &/*dat*/, int /*offset_x*/,
-                                            int /*offset_y*/ ) const {
+        virtual bool has_vehicle_collision( mapgendata &/*dat*/, const point &/*offset*/ ) const {
             return false;
         }
 };
@@ -468,4 +467,4 @@ void circle( map *m, const ter_id &type, const point &, int rad );
 void circle_furn( map *m, const furn_id &type, const point &, int rad );
 void add_corpse( map *m, const point & );
 
-#endif
+#endif // CATA_SRC_MAPGEN_H

@@ -52,10 +52,9 @@ readability-*,\
 -readability-magic-numbers,\
 -readability-named-parameter,\
 -readability-redundant-control-flow,\
--readability-redundant-declaration,\
 "
 WarningsAsErrors: '*'
-HeaderFilterRegex: '(src|test).*'
+HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle:     none
 CheckOptions:
   - key: readability-uppercase-literal-suffix.NewSuffixes

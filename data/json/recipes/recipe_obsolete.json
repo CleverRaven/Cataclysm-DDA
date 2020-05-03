@@ -67,6 +67,21 @@
     "obsolete": true
   },
   {
+    "result": "tool_rdx_charge",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "nail_bomb",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "fragment_bomb",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "type": "recipe",
     "result": "30gal_drum",
     "obsolete": true
@@ -2377,6 +2392,72 @@
   {
     "type": "recipe",
     "result": "q_solarpack_on",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "taint_tornado",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "drink_sewerbrew",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_chunk",
+    "id_suffix": "from_cash_cards",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvestsuper",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularveststeel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvestkevlar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvesthard",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "modularvestceramic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_bearing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_pebble",
     "obsolete": true
   }
 ]

@@ -87,11 +87,24 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     REQUIRE( bread.is_fresh() );
     REQUIRE_FALSE( bread.has_flag( flag_ALLERGEN_JUNK ) );
 
-    // Table/chair morale effects should not apply to non-ingestibles
-    item bandage( "bandages" );
-    item cig( "cig" );
-    REQUIRE( bandage.has_flag( "NO_INGEST" ) );
-    REQUIRE( cig.has_flag( "NO_INGEST" ) );
+    // Much of the below code is to support the "Rigid Table Manners" trait, notoriously prone to
+    // causing unexpected morale effects from bandages, aspirin, cigs etc. (#38698, #39580)
+    // Table-related morale effects should not apply to any of the following items:
+    const std::vector<std::string> no_table_eating_bonus = {
+        {
+            "aspirin",
+            "bandages",
+            "caffeine",
+            "cig",
+            "codeine",
+            "crack",
+            "dayquil",
+            "disinfectant",
+            "joint",
+            "oxycodone",
+            "weed"
+        }
+    };
 
     GIVEN( "no table or chair are nearby" ) {
         REQUIRE_FALSE( g->m.has_nearby_table( dummy.pos(), 1 ) );
@@ -111,23 +124,20 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
             dummy.toggle_trait( trait_TABLEMANNERS );
             REQUIRE( dummy.has_trait( trait_TABLEMANNERS ) );
 
-            THEN( "they get a morale penalty for eating without a table" ) {
+            THEN( "they get a morale penalty for eating food without a table" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( bread );
                 CHECK( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) <= -2 );
             }
 
-            THEN( "they do not get a morale penalty for applying a bandage without a table" ) {
-                // Regression test for #38698
-                dummy.clear_morale();
-                dummy.modify_morale( bandage );
-                CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) );
-            }
+            for( std::string item_name : no_table_eating_bonus ) {
+                item test_item( item_name );
 
-            THEN( "they do not get a morale penalty for smoking a cigarette without a table" ) {
-                dummy.clear_morale();
-                dummy.modify_morale( cig );
-                CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) );
+                THEN( "they get no morale penalty for using " + item_name + " at a table" ) {
+                    dummy.clear_morale();
+                    dummy.modify_morale( test_item );
+                    CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) );
+                }
             }
         }
     }
@@ -146,6 +156,16 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
                 dummy.modify_morale( bread );
                 CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 1 );
             }
+
+            for( std::string item_name : no_table_eating_bonus ) {
+                item test_item( item_name );
+
+                THEN( "they get no morale bonus for using " + item_name + " at a table" ) {
+                    dummy.clear_morale();
+                    dummy.modify_morale( test_item );
+                    CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITH_TABLE ) );
+                }
+            }
         }
 
         AND_GIVEN( "character has strict table manners" ) {
@@ -158,17 +178,14 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
                 CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 3 );
             }
 
-            THEN( "they do not get a morale bonus for applying a bandage with a table" ) {
-                // Regression test for #38698
-                dummy.clear_morale();
-                dummy.modify_morale( bandage );
-                CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITH_TABLE ) );
-            }
+            for( std::string item_name : no_table_eating_bonus ) {
+                item test_item( item_name );
 
-            THEN( "they do not get a morale bonus for smoking a cigarette with a table" ) {
-                dummy.clear_morale();
-                dummy.modify_morale( cig );
-                CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITH_TABLE ) );
+                THEN( "they get no morale bonus for using " + item_name + " at a table" ) {
+                    dummy.clear_morale();
+                    dummy.modify_morale( test_item );
+                    CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITH_TABLE ) );
+                }
             }
         }
     }
@@ -205,12 +222,14 @@ TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
     }
 }
 
+
 TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 {
     avatar dummy;
     std::pair<int, int> fun;
 
-    std::vector<std::string> drugs_to_test = {
+
+    const std::vector<std::string> drugs_to_test = {
         {
             "gum",
             "caff_gum",

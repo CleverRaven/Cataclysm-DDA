@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_UTILITY_H
-#define CATA_UTILITY_H
+#ifndef CATA_SRC_CATA_UTILITY_H
+#define CATA_SRC_CATA_UTILITY_H
 
 #include <fstream>
 #include <functional>
@@ -529,4 +529,4 @@ class on_out_of_scope
         }
 };
 
-#endif // CAT_UTILITY_H
+#endif // CATA_SRC_CATA_UTILITY_H

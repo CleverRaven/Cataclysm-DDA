@@ -21,8 +21,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 
 #pragma once
-#ifndef COLONY_H
-#define COLONY_H
+#ifndef CATA_SRC_COLONY_H
+#define CATA_SRC_COLONY_H
 
 // Compiler-specific defines used by colony:
 #define COLONY_CONSTEXPR
@@ -3514,4 +3514,4 @@ inline void swap( colony<element_type, element_allocator_type, element_skipfield
 #undef COLONY_ALLOCATE_INITIALIZATION
 #undef COLONY_DEALLOCATE
 
-#endif // COLONY_H
+#endif // CATA_SRC_COLONY_H

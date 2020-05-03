@@ -12,7 +12,7 @@
     "count": 6,
     "stack_size": 1,
     "ammo_type": "40x46mm",
-    "range": 40,
+    "range": 60,
     "damage": { "damage_type": "stab", "amount": 80 },
     "dispersion": 30,
     "recoil": 225,
@@ -38,7 +38,7 @@
     "weight": "230 g",
     "damage": { "damage_type": "stab", "amount": 200, "armor_penetration": 30 },
     "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "EXPLOSIVE", "FRAG" ] }
+    "extend": { "effects": [ "EXPLOSIVE_m433" ] }
   },
   {
     "id": "40x46mm_m576",

@@ -62,14 +62,14 @@
     "id": "reloaded_357mag_fmj",
     "copy-from": "357mag_fmj",
     "type": "AMMO",
-    "name": { "str": ".357 Magnum FMJ, reloaded", "str_pl": ".357 Magnum FMJ, reloaded" },
+    "name": { "str_sp": ".357 Magnum FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
   },
   {
     "id": "reloaded_357mag_jhp",
     "copy-from": "357mag_jhp",
     "type": "AMMO",
-    "name": { "str": ".357 Magnum JHP, reloaded", "str_pl": ".357 Magnum JHP, reloaded" },
+    "name": { "str_sp": ".357 Magnum JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
   }
 ]

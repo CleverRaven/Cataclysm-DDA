@@ -47,7 +47,6 @@
 #include <sstream>
 #include <string>
 
-bool trigdist;
 bool use_tiles;
 bool log_from_top;
 int message_ttl;
@@ -2145,8 +2144,8 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
-         translate_marker( "If true, experimental z-level maps will be enabled.  Turn this off if you experience excessive slowdown." ),
+    add( "ZLEVELS", "world_default", translate_marker( "Z-levels" ),
+         translate_marker( "If true, enables several features related to vertical movement, such as hauling items up stairs, climbing downspouts, and flying aircraft.  May cause problems if toggled mid-game." ),
          true
        );
 
@@ -2630,7 +2629,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
                 cLineColor = c_light_gray;
 
-            } else if( current_opt.getValue() == "false" ) {
+            } else if( current_opt.getValue() == "false" || current_opt.getValue() == "disabled" ||
+                       current_opt.getValue() == "off" ) {
                 cLineColor = c_light_red;
             }
 
@@ -3130,4 +3130,7 @@ void options_manager::update_global_locale()
     } catch( std::runtime_error &e ) {
         std::locale::global( std::locale() );
     }
+
+    DebugLog( D_INFO, DC_ALL ) << "[options] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[options] C++ locale set to " << std::locale().name();
 }

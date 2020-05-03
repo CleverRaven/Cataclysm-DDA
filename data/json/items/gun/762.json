@@ -6,8 +6,8 @@
     "reload_noise_volume": 10,
     "name": { "str": "AKM" },
     "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
-    "weight": "3300 g",
-    "volume": "1750 ml",
+    "weight": "3402 g",
+    "volume": "4414 ml",
     "price": 290000,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -20,7 +20,6 @@
     "dispersion": 180,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -29,21 +28,20 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
   },
   {
     "id": "arx160",
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Beretta ARX-160", "str_pl": "Beretta ARX-160" },
+    "name": { "str_sp": "Beretta ARX-160" },
     "//": "Total unloaded weight of gun 3000 grams.  Current weight of folding stock 200 grams.",
     "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.  This version is chambered for 7.62x39mm.",
     "weight": "3450 g",
@@ -76,7 +74,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ]
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40" ] ] ]
   },
   {
     "id": "sks",
@@ -118,5 +116,78 @@
     ],
     "magazines": [ [ "762", [ "762x39_clip" ] ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+  },
+  {
+    "id": "aksemi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "AK-47" },
+    "description": "Civilian-legal clones of the iconic Kalashnikov, like this one, were manufactured and imported by many different firms.  Even without full-auto function, their solid firepower and reliability in harsh conditions make them valuable weapons in this new world.",
+    "weight": "3402 g",
+    "volume": "4414 ml",
+    "price": 79500,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "762",
+    "skill": "rifle",
+    "dispersion": 180,
+    "durability": 8,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
+  },
+  {
+    "id": "draco",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "Mini Draco" },
+    "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy \"pistol\" has seen some popularity with civilian shooters and gangbangers alike.",
+    "weight": "2563 g",
+    "volume": "2167 ml",
+    "price": 72500,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "762",
+    "skill": "pistol",
+    "dispersion": 240,
+    "ranged_damage": -5,
+    "durability": 7,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
   }
 ]

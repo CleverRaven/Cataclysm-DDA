@@ -1,6 +1,6 @@
 #pragma once
-#ifndef AVATAR_H
-#define AVATAR_H
+#ifndef CATA_SRC_AVATAR_H
+#define CATA_SRC_AVATAR_H
 
 #include <cstddef>
 #include <string>
@@ -18,8 +18,6 @@
 #include "point.h"
 
 class faction;
-
-enum character_type : int;
 
 class JsonIn;
 class JsonObject;
@@ -290,4 +288,4 @@ struct points_left {
     std::string to_string();
 };
 
-#endif
+#endif // CATA_SRC_AVATAR_H

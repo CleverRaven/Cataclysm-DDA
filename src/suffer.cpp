@@ -97,6 +97,7 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
@@ -177,12 +178,12 @@ void Character::suffer_water_damage( const mutation_branch &mdata )
                                          drench_capacity[bp];
         const int dmg = mdata.weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
-            apply_damage( nullptr, bp, dmg );
+            apply_damage( nullptr, convert_bp( bp ).id(), dmg );
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                    _( "<npcname>'s %s is damaged by the water." ),
                                    body_part_name( bp ) );
         } else if( dmg < 0 && hp_cur[bp_to_hp( bp )] != hp_max[bp_to_hp( bp )] ) {
-            heal( bp, abs( dmg ) );
+            heal( bp, std::abs( dmg ) );
             add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                    _( "<npcname>'s %s is healed by the water." ),
                                    body_part_name( bp ) );
@@ -252,7 +253,7 @@ void Character::suffer_while_underwater()
             mod_power_level( -25_kJ );
         } else {
             add_msg_if_player( m_bad, _( "You're drowning!" ) );
-            apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
+            apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
         }
     }
     if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
@@ -603,7 +604,9 @@ void Character::suffer_from_schizophrenia()
 
 void Character::suffer_from_asthma( const int current_stim )
 {
-    if( has_effect( effect_adrenaline ) || has_effect( effect_datura ) ) {
+    if( has_effect( effect_adrenaline ) ||
+        has_effect( effect_datura ) ||
+        has_effect( effect_took_antiasthmatic ) ) {
         return;
     }
     if( !one_in( ( to_turns<int>( 6_hours ) - current_stim * 300 ) *
@@ -912,7 +915,7 @@ void Character::suffer_from_other_mutations()
             if( bp == bp_head ) {
                 continue;
             }
-            int sores_pain = 5 + 0.4 * abs( encumb( bp ) );
+            int sores_pain = 5 + 0.4 * std::abs( encumb( bp ) );
             if( get_pain() < sores_pain ) {
                 set_pain( sores_pain );
             }
@@ -1131,7 +1134,7 @@ void Character::suffer_from_radiation()
             }
             reactor_plut -= power_gen;
             while( power_gen >= 250 ) {
-                apply_damage( nullptr, bp_torso, 1 );
+                apply_damage( nullptr, bodypart_id( "torso" ), 1 );
                 mod_pain( 1 );
                 add_msg_if_player( m_bad,
                                    _( "Your chest burns as your power systems overload!" ) );
@@ -1570,13 +1573,13 @@ void Character::mend( int rate_multiplier )
     if( has_effect( effect_cig ) ) {
         healing_factor *= 0.5;
     } else {
-        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( ADD_CIG ) );
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( add_type::CIG ) );
     }
 
     if( has_effect( effect_drunk ) ) {
         healing_factor *= 0.5;
     } else {
-        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( ADD_ALCOHOL ) );
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( add_type::ALCOHOL ) );
     }
 
     if( get_rad() > 0 && !has_trait( trait_RADIOGENIC ) ) {
@@ -1599,8 +1602,8 @@ void Character::mend( int rate_multiplier )
 
     // Very hungry starts lowering the chance
     // square rooting the value makes the numbers drop off faster when below 1
-    healing_factor *= sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
-                            ( get_healthy_kcal() ) );
+    healing_factor *= std::sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
+                                 ( get_healthy_kcal() ) );
     // Similar for thirst - starts at very thirsty, drops to 0 ~halfway between two last statuses
     healing_factor *= 1.0f - clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
 
@@ -1809,7 +1812,7 @@ void Character::apply_wetness_morale( int temperature )
 
         if( bp_morale < 0 ) {
             // Damp, hot clothing on hot skin feels bad
-            scaled_temperature = fabs( scaled_temperature );
+            scaled_temperature = std::fabs( scaled_temperature );
         }
 
         // For an unmutated human swimming in deep water, this will add up to:
@@ -1836,7 +1839,7 @@ void Character::apply_wetness_morale( int temperature )
 
 void Character::add_addiction( add_type type, int strength )
 {
-    if( type == ADD_NULL ) {
+    if( type == add_type::NONE ) {
         return;
     }
     time_duration timer = 2_hours;

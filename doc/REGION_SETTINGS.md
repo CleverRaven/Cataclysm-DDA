@@ -368,6 +368,7 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 | `trail_width_offset_max`   | Trail width is mapgen offset by `rng(trail_width_offset_min, trail_width_offset_max)`.      |
 | `clear_trail_terrain`      | Clear all previously defined `trail_terrain`.                                               |
 | `trail_terrain`            | Weighted list of terrain that will used for the trail.                                      |
+| `trailheads`               | Weighted list of overmap specials / city buildings that will be placed as trailheads.       |
 
 ### Example
 
@@ -388,6 +389,9 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 		"clear_trail_terrain": false,
 		"trail_terrain": {
 			"t_dirt": 1
+		},
+		"trailheads": {
+			"trailhead_basic": 50
 		}
 	}
 }

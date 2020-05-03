@@ -1,6 +1,6 @@
 #pragma once
-#ifndef BODYPART_H
-#define BODYPART_H
+#ifndef CATA_SRC_BODYPART_H
+#define CATA_SRC_BODYPART_H
 
 #include <array>
 #include <bitset>
@@ -238,4 +238,4 @@ std::string get_body_part_id( body_part bp );
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
 
-#endif
+#endif // CATA_SRC_BODYPART_H

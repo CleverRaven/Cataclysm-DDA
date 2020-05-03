@@ -26,6 +26,12 @@ Monster types support the following properties (mandatory, except if noted other
 "name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
 ```
 
+or, if the singular and plural forms are the same:
+
+```JSON
+"name": { "ctxt": "fish", "str_sp": "bass" }
+```
+
 Name displayed in-game, and optionally the plural name and a translation context (ctxt).
 
 If the plural name is not specified, it defaults to singular name + "s".

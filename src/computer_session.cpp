@@ -649,7 +649,7 @@ void computer_session::action_amigara_log()
     reset_terminal();
     print_line( _( "SITE %d%d%d\n"
                    "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
-                g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
+                g->get_levx(), g->get_levy(), std::abs( g->get_levz() ) );
     print_text( "%s", SNIPPET.random_from_category( "amigara4" ).value_or( translation() ) );
     print_gibberish_line();
     print_gibberish_line();

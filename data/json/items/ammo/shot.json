@@ -172,7 +172,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 5,
     "damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 0 },
-    "extend": { "effects": [ "EXPLOSIVE_SMALL" ] }
+    "extend": { "effects": [ "EXPLOSIVE_HESHOT" ] }
   },
   {
     "id": "shot_scrap",

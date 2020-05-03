@@ -27,6 +27,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_ui.h"
 #include "input.h"
 #include "loading_ui.h"
 #include "main_menu.h"
@@ -577,6 +578,9 @@ int main( int argc, char *argv[] )
     }
 #endif
 
+    DebugLog( D_INFO, DC_ALL ) << "[main] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[main] C++ locale set to " << std::locale().name();
+
 #if defined(TILES)
     SDL_version compiled;
     SDL_VERSION( &compiled );
@@ -642,7 +646,7 @@ int main( int argc, char *argv[] )
 
     // Now we do the actual game.
 
-    g->init_ui();
+    game_ui::init_ui();
 
     catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 

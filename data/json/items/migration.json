@@ -1178,5 +1178,15 @@
     "id": "p226mag_15rd_357sig",
     "type": "MIGRATION",
     "replace": "p226mag_12rd_357sig"
+  },
+  {
+    "id": "akmmag",
+    "type": "MIGRATION",
+    "replace": "akmag30"
+  },
+  {
+    "id": "akmbigmag",
+    "type": "MIGRATION",
+    "replace": "akmag40"
   }
 ]

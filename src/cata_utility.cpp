@@ -126,7 +126,7 @@ bool match_include_exclude( const std::string &text, std::string filter )
 
 double logarithmic( double t )
 {
-    return 1 / ( 1 + exp( -t ) );
+    return 1 / ( 1 + std::exp( -t ) );
 }
 
 double logarithmic_range( int min, int max, int pos )

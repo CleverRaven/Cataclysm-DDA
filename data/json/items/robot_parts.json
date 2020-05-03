@@ -10,6 +10,7 @@
     "weight": "250 g",
     "volume": "500 ml",
     "price": 32000,
+    "price_postapoc": 100,
     "category": "spare_parts"
   },
   {
@@ -50,7 +51,7 @@
   {
     "type": "GENERIC",
     "id": "self_monitoring_module",
-    "name": { "str": "self monitoring sensors", "str_pl": "self monitoring sensors" },
+    "name": { "str_sp": "self monitoring sensors" },
     "description": "An array of sensors and diagnostic modules allowing the robot to perceive itself.",
     "copy-from": "robot_module_abstract"
   },
@@ -93,6 +94,7 @@
     "weight": "200 g",
     "volume": "500 ml",
     "price": 50000,
+    "price_postapoc": 100,
     "material": "steel",
     "category": "spare_parts"
   },
@@ -106,6 +108,7 @@
     "weight": "60000 g",
     "volume": "20 L",
     "price": 500000,
+    "price_postapoc": 250,
     "material": "steel",
     "category": "spare_parts"
   },
@@ -119,6 +122,7 @@
     "weight": "10000 g",
     "volume": "10 L",
     "price": 100000,
+    "price_postapoc": 100,
     "material": "steel",
     "category": "spare_parts"
   },
@@ -132,6 +136,7 @@
     "weight": "130 g",
     "volume": "500 ml",
     "price": 40000,
+    "price_postapoc": 100,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
@@ -145,6 +150,7 @@
     "weight": "10000 g",
     "volume": "10 L",
     "price": 100000,
+    "price_postapoc": 250,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
@@ -158,6 +164,7 @@
     "weight": "5000 g",
     "volume": "5 L",
     "price": 100000,
+    "price_postapoc": 250,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
@@ -171,32 +178,35 @@
     "weight": "60000 g",
     "volume": "30 L",
     "price": 600000,
+    "price_postapoc": 250,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
   {
     "type": "GENERIC",
     "id": "turret_chassis",
-    "name": { "str": "turret interior chassis", "str_pl": "turret interior chassis" },
+    "name": { "str_sp": "turret interior chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton of a turret.",
     "symbol": "c",
     "color": "light_gray",
     "weight": "10000 g",
     "volume": "10 L",
     "price": 100000,
+    "price_postapoc": 100,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
   {
     "type": "GENERIC",
     "id": "copbot_chassis",
-    "name": { "str": "police bot chassis", "str_pl": "police bot chassis" },
+    "name": { "str_sp": "police bot chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the police bot.",
     "symbol": "c",
     "color": "light_gray",
     "weight": "20000 g",
     "volume": "40000 ml",
     "price": 100000,
+    "price_postapoc": 100,
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -210,6 +220,7 @@
     "weight": "20000 g",
     "volume": "40000 ml",
     "price": 100000,
+    "price_postapoc": 100,
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   }

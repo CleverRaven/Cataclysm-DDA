@@ -14,6 +14,7 @@
     "bashing": 20,
     "category": "veh_parts",
     "price": 10000,
+    "price_postapoc": 50,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -24,6 +25,7 @@
     "weight": "4000 g",
     "volume": "6250 ml",
     "price": 16000,
+    "price_postapoc": 50,
     "category": "veh_parts",
     "material": [ "steel", "plastic" ],
     "symbol": "]",
@@ -42,7 +44,8 @@
     "category": "veh_parts",
     "weight": "500 g",
     "volume": "250 ml",
-    "price": 800
+    "price": 800,
+    "price_postapoc": 50
   },
   {
     "type": "GENERIC",
@@ -60,6 +63,7 @@
     "weight": "1200 g",
     "volume": "5 L",
     "price": 3500,
+    "price_postapoc": 50,
     "copy-from": "basket"
   },
   {
@@ -75,7 +79,8 @@
     "volume": "50 L",
     "bashing": 2,
     "category": "veh_parts",
-    "price": 40000
+    "price": 40000,
+    "price_postapoc": 500
   },
   {
     "id": "cargo_aisle",
@@ -89,7 +94,8 @@
     "bashing": 2,
     "material": [ "steel", "plastic" ],
     "category": "veh_parts",
-    "price": 20000
+    "price": 20000,
+    "price_postapoc": 500
   },
   {
     "id": "livestock_carrier",
@@ -99,6 +105,7 @@
     "weight": "96000 g",
     "volume": "62500 ml",
     "price": 48000,
+    "price_postapoc": 750,
     "category": "veh_parts",
     "material": [ "steel", "plastic" ],
     "symbol": "]",
@@ -119,7 +126,8 @@
     "category": "veh_parts",
     "weight": "27600 g",
     "volume": "18750 ml",
-    "price": 37500
+    "price": 37500,
+    "price_postapoc": 750
   },
   {
     "id": "animal_locker",

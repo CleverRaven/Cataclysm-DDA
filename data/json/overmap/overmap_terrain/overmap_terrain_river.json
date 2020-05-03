@@ -31,49 +31,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "river_c_not_ne",
-    "copy-from": "generic_river_bank",
-    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "river_c_not_nw",
-    "copy-from": "generic_river_bank",
-    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "river_c_not_se",
-    "copy-from": "generic_river_bank",
-    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "river_c_not_sw",
-    "copy-from": "generic_river_bank",
-    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "river_ne",
-    "copy-from": "generic_river_bank",
-    "mapgen": [ { "method": "builtin", "name": "river_curved" } ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "river_se",
-    "copy-from": "generic_river_bank",
-    "mapgen": [ { "method": "builtin", "name": "river_curved" } ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "river_sw",
-    "copy-from": "generic_river_bank",
-    "mapgen": [ { "method": "builtin", "name": "river_curved" } ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "river_nw",
+    "id": [
+      "river_c_not_ne",
+      "river_c_not_nw",
+      "river_c_not_se",
+      "river_c_not_sw",
+      "river_ne",
+      "river_nw",
+      "river_se",
+      "river_sw"
+    ],
     "copy-from": "generic_river_bank",
     "mapgen": [ { "method": "builtin", "name": "river_curved" } ]
   }

@@ -21,6 +21,7 @@ option(LOCALIZE     "Support for language localizations. Also enable UTF support
 option(LANGUAGES    "Compile localization files for specified languages."   "")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."   "ON")
 option(JSON_FORMAT  "Build JSON formatter" "OFF")
+option(CATA_CCACHE  "Try to find and build with ccache" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
@@ -54,7 +55,8 @@ ADD_DEFINITIONS(-DCMAKE)
 
 if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
-    FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
+    FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
+        "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
     MESSAGE(STATUS "${PROJECT_NAME} build version is : ${GIT_VERSION}\n")
     ADD_DEFINITIONS(-DGIT_VERSION)
 ELSE (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
@@ -390,9 +392,9 @@ ADD_CUSTOM_TARGET(uninstall
 )
 
 find_program(CCACHE_FOUND ccache)
-if(CCACHE_FOUND)
+if(CCACHE_FOUND AND CATA_CCACHE)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
-endif(CCACHE_FOUND)
+endif()
 
 # vim:noet
