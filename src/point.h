@@ -72,7 +72,7 @@ struct point {
         return point( x / rhs, y / rhs );
     }
 
-    point abs() const {
+    constexpr point abs() const {
         return point( std::abs( x ), std::abs( y ) );
     }
 
@@ -182,7 +182,7 @@ struct tripoint {
         return *this;
     }
 
-    tripoint abs() const {
+    constexpr tripoint abs() const {
         return tripoint( std::abs( x ), std::abs( y ), std::abs( z ) );
     }
 
