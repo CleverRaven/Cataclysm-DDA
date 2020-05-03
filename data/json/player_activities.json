@@ -864,5 +864,12 @@
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
+  },
+  {
+    "id": "ACT_CONSUME",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "Consuming",
+    "based_on": "neither"
   }
 ]

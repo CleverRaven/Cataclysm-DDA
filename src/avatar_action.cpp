@@ -1079,21 +1079,10 @@ void avatar_action::eat( avatar &you, item_location loc )
         add_msg( _( "Never mind." ) );
         return;
     }
-    item *it = loc.get_item();
-    if( loc.where() == item_location::type::character ) {
-        you.consume( loc );
 
-    } else if( you.consume_item( *it ) ) {
-        if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
-            it->remove_item( it->contents.front() );
-            add_msg( _( "You leave the empty %s." ), it->tname() );
-        } else {
-            loc.remove_item();
-        }
-    }
-    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
-    }
+      you.assign_activity( player_activity( consume_activity_actor(
+                                            loc
+                                        ) ) );    
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,

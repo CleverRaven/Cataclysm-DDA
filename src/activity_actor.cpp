@@ -409,12 +409,66 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
+void consume_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( 5_minutes );
+    act.moves_left = to_moves<int>( 5_minutes );
+}
+
+void consume_activity_actor::do_turn( player_activity &act, Character & )
+{
+    act.moves_left = act.moves_left-1;
+    g->u.moves -= 1;
+}
+
+void consume_activity_actor::finish( player_activity &act, Character &who )
+{
+    item *it = loc.get_item();
+    if( loc.where() == item_location::type::character ) {
+        g->u.consume( loc );
+
+    } else if( g->u.consume_item( *it ) ) {
+        if( it->is_food_container() || !g->u.can_consume_as_is( *it ) ) {
+            it->remove_item( it->contents.front() );
+            who.add_msg_if_player( _( "You leave the empty %s." ), it->tname() );
+        } else {
+            loc.remove_item();
+        }
+    }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
+    act.set_to_null();
+}
+
+void consume_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "loc", loc );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsin )
+{
+    item_location null;
+    consume_activity_actor actor( null );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "loc", actor.loc );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
 // Please keep this alphabetically sorted
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
+    { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
