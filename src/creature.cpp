@@ -899,7 +899,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     pain += roll_remainder( adjusted_damage / div );
 }
 
-void Creature::heal_bp( bodypart_id bp, int dam )
+void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
 }
 
