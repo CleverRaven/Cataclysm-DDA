@@ -554,7 +554,7 @@ class spellbook_callback : public uilist_callback
         std::vector<spell_type> spells;
     public:
         void add_spell( const spell_id &sp );
-        void select( int entnum, uilist *menu ) override;
+        void refresh( uilist *menu ) override;
 };
 
 // Utility structure to run area queries over weight map. It uses shortest-path-expanding-tree,

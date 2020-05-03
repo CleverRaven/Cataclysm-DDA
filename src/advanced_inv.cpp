@@ -1574,7 +1574,7 @@ class query_destination_callback : public uilist_callback
         void draw_squares( const uilist *menu );
     public:
         query_destination_callback( advanced_inventory &adv_inv ) : _adv_inv( adv_inv ) {}
-        void select( int /*entnum*/, uilist *menu ) override {
+        void refresh( uilist *menu ) override {
             draw_squares( menu );
         }
 };
@@ -1583,8 +1583,11 @@ void query_destination_callback::draw_squares( const uilist *menu )
 {
     assert( menu->entries.size() >= 9 );
     int ofs = -25 - 4;
-    int sel = _adv_inv.screen_relative_location(
+    int sel = 0;
+    if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < menu->entries.size() ) {
+        sel = _adv_inv.screen_relative_location(
                   static_cast <aim_location>( menu->selected + 1 ) );
+    }
     for( int i = 1; i < 10; i++ ) {
         aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
         std::string key = _adv_inv.get_location_key( loc );
@@ -1601,6 +1604,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
         wprintz( menu->window, kcolor, "%s", key );
         wprintz( menu->window, bcolor, "%c", bracket[1] );
     }
+    wrefresh( menu->window );
 }
 
 bool advanced_inventory::query_destination( aim_location &def )

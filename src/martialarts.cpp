@@ -1379,7 +1379,7 @@ std::string ma_technique::get_description() const
 }
 
 bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
-                             uilist *menu )
+                             uilist * )
 {
     const std::string &action = ctxt.input_to_action( event );
     if( action != "SHOW_DESCRIPTION" ) {
@@ -1540,8 +1540,6 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 selected--;
             }
         } while( true );
-
-        menu->redraw();
     }
     return true;
 }
