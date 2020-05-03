@@ -415,7 +415,7 @@
     "type": "MONSTER",
     "name": { "str": "fungal juggernaut" },
     "looks_like": "mon_skeleton_hulk",
-    "description": "Fungi bloom from the crevices in the ossified plates of this ponderous bone titan, and it seems even it's eyes are lost to it.  A dust of spores lands on the ground with every sluggish stomp of it's heavy legs.",
+    "description": "Fungi bloom from the crevices in the ossified plates of this ponderous bone titan, and it seems even its eyes are lost to it.  A dust of spores lands on the ground with every sluggish stomp of its heavy legs.",
     "default_faction": "fungus",
     "bodytype": "human",
     "species": [ "FUNGUS" ],

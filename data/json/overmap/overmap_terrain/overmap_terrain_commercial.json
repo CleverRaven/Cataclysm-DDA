@@ -1,140 +1,66 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "s_gas",
-    "name": "gas station",
+    "id": [ "s_gas", "s_gas_1", "s_gas_rural" ],
     "copy-from": "generic_city_building",
+    "name": "gas station",
     "color": "light_blue",
     "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_gas_1",
-    "name": "gas station",
+    "id": [ "s_gas_roof_1", "s_gas_rural_roof" ],
     "copy-from": "generic_city_building",
-    "color": "light_blue",
-    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gas_roof_1",
     "name": "gas station roof",
-    "copy-from": "generic_city_building",
     "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_pharm",
-    "name": "pharmacy",
+    "id": [ "s_pharm", "s_pharm_1" ],
     "copy-from": "generic_city_building",
+    "name": "pharmacy",
     "color": "light_red",
     "extend": { "flags": [ "SOURCE_MEDICINE" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_pharm_roof",
-    "name": "pharmacy roof",
+    "id": [ "s_pharm_roof", "s_pharm_roof_1" ],
     "copy-from": "generic_city_building",
+    "name": "pharmacy roof",
     "color": "light_red"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_pharm_1",
-    "name": "pharmacy",
+    "id": [ "office_doctor", "office_doctor_1", "office_doctor_2" ],
     "copy-from": "generic_city_building",
-    "color": "light_red",
-    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_pharm_roof_1",
-    "name": "pharmacy roof",
-    "copy-from": "generic_city_building",
-    "color": "light_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_doctor",
     "name": "doctor's office",
-    "copy-from": "generic_city_building",
     "color": "i_light_red",
     "extend": { "flags": [ "SOURCE_MEDICINE" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "office_doctor_roof",
-    "name": "doctor's office roof",
+    "id": [ "office_doctor_roof", "office_doctor_roof_1", "office_doctor_roof_2", "office_doctor_upper_roof_2" ],
     "copy-from": "generic_city_building",
+    "name": "doctor's office roof",
     "color": "i_light_red"
   },
   {
     "type": "overmap_terrain",
-    "id": "office_doctor_1",
-    "name": "doctor's office",
+    "id": [ "office_cubical", "office_cubical_1" ],
     "copy-from": "generic_city_building",
-    "color": "i_light_red",
-    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_doctor_roof_1",
-    "name": "doctor's office roof",
-    "copy-from": "generic_city_building",
-    "color": "i_light_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_doctor_2",
-    "name": "doctor's office",
-    "copy-from": "generic_city_building",
-    "color": "i_light_red",
-    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_doctor_roof_2",
-    "name": "doctor's office roof",
-    "copy-from": "generic_city_building",
-    "color": "i_light_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_doctor_upper_roof_2",
-    "name": "doctor's office roof",
-    "copy-from": "generic_city_building",
-    "color": "i_light_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_cubical",
     "name": "office",
-    "copy-from": "generic_city_building",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": "office_cubical_roof",
+    "id": [ "office_cubical_roof", "office_cubical_roof_1" ],
+    "copy-from": "generic_city_building",
     "name": "office roof",
-    "copy-from": "generic_city_building",
     "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": "office_cubical_1",
-    "name": "office",
-    "copy-from": "generic_city_building",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_cubical_roof_1",
-    "name": "office roof",
-    "copy-from": "generic_city_building",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_1_entrance",
+    "id": [ "office_tower_1_entrance", "office_tower_1" ],
     "name": "office tower",
     "sym": "T",
     "color": "i_light_gray",
@@ -154,7 +80,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_b_entrance",
+    "id": [ "office_tower_b_entrance", "office_tower_b" ],
     "name": "tower parking",
     "sym": "p",
     "color": "i_light_gray",
@@ -164,27 +90,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_b",
-    "name": "tower parking",
-    "sym": "p",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_2_a1",
-    "name": "office tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_2_a2",
+    "id": [
+      "office_tower_2_a1",
+      "office_tower_2_a2",
+      "office_tower_2_b1",
+      "office_tower_2_b2",
+      "office_tower_2_b3",
+      "office_tower_collapse_a1",
+      "office_tower_collapse_b_a1",
+      "office_tower_2_a1_tower_lab"
+    ],
     "name": "office tower",
     "sym": "t",
     "color": "i_light_gray",
@@ -204,48 +119,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_2_b1",
-    "name": "office tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_2_b2",
-    "name": "office tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_2_b3",
-    "name": "office tower",
-    "sym": "T",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_collapse_a0",
+    "id": [
+      "office_tower_collapse_a0",
+      "office_tower_collapse_b0",
+      "office_tower_collapse_b1",
+      "office_tower_collapse_b2",
+      "office_tower_collapse_b_a0",
+      "office_tower_collapse_b_b0",
+      "office_tower_collapse_b_b1",
+      "office_tower_collapse_b_b2"
+    ],
     "name": "collapsed tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_collapse_a1",
-    "name": "office tower",
     "sym": "t",
     "color": "i_light_gray",
     "see_cost": 5,
@@ -264,100 +148,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_collapse_b0",
-    "name": "collapsed tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_collapse_b1",
-    "name": "collapsed tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_collapse_b2",
-    "name": "collapsed tower",
-    "sym": "T",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_collapse_b_a0",
-    "name": "collapsed tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_collapse_b_a1",
-    "name": "office tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "office_tower_collapse_b_a2",
     "name": "collapsed tower",
     "sym": "t",
     "color": "light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_collapse_b_b0",
-    "name": "collapsed tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_collapse_b_b1",
-    "name": "collapsed tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_collapse_b_b2",
-    "name": "collapsed tower",
-    "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_2_a1_tower_lab",
-    "name": "office tower",
-    "sym": "t",
-    "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -371,122 +165,47 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_grocery",
-    "name": "grocery store",
+    "id": [ "s_grocery", "s_grocery_1" ],
     "copy-from": "generic_city_building",
+    "name": "grocery store",
     "color": "green",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_grocery_roof",
-    "name": "grocery store roof",
+    "id": [ "s_grocery_roof", "s_grocery_roof_1" ],
     "copy-from": "generic_city_building",
+    "name": "grocery store roof",
     "color": "green"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_grocery_1",
-    "name": "grocery store",
+    "id": [ "s_hardware", "s_hardware_1", "s_hardware_2", "s_hardware_3" ],
     "copy-from": "generic_city_building",
-    "color": "green",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_grocery_roof_1",
-    "name": "grocery store roof",
-    "copy-from": "generic_city_building",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_hardware",
     "name": "hardware store",
-    "copy-from": "generic_city_building",
     "color": "cyan",
     "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_hardware_roof",
-    "name": "hardware store roof",
+    "id": [ "s_hardware_roof", "s_hardware_roof_1", "s_hardware_roof_2", "s_hardware_roof_3" ],
     "copy-from": "generic_city_building",
+    "name": "hardware store roof",
     "color": "cyan"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_hardware_1",
-    "name": "hardware store",
+    "id": [ "s_electronics", "s_electronics_1" ],
     "copy-from": "generic_city_building",
-    "color": "cyan",
-    "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_hardware_roof_1",
-    "name": "hardware store roof",
-    "copy-from": "generic_city_building",
-    "color": "cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_hardware_2",
-    "name": "hardware store",
-    "copy-from": "generic_city_building",
-    "color": "cyan",
-    "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_hardware_roof_2",
-    "name": "hardware store roof",
-    "copy-from": "generic_city_building",
-    "color": "cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_hardware_3",
-    "name": "hardware store",
-    "copy-from": "generic_city_building",
-    "color": "cyan",
-    "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_hardware_roof_3",
-    "name": "hardware store roof",
-    "copy-from": "generic_city_building",
-    "color": "cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_electronics",
     "name": "electronics store",
-    "copy-from": "generic_city_building",
     "color": "yellow",
     "extend": { "flags": [ "SOURCE_ELECTRONICS", "SOURCE_FABRICATION", "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_electronics_roof",
+    "id": [ "s_electronics_roof", "s_electronics_roof_1" ],
+    "copy-from": "generic_city_building",
     "name": "electronics store roof",
-    "copy-from": "generic_city_building",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_electronics_1",
-    "name": "electronics store",
-    "copy-from": "generic_city_building",
-    "color": "yellow",
-    "extend": { "flags": [ "SOURCE_ELECTRONICS", "SOURCE_FABRICATION", "SOURCE_LUXURY" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_electronics_roof_1",
-    "name": "electronics store roof",
-    "copy-from": "generic_city_building",
     "color": "yellow"
   },
   {
@@ -521,64 +240,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_gun",
-    "name": "gun store",
+    "id": [ "s_gun", "s_gun_1", "s_gun_2", "s_gun_3", "s_gun_4" ],
     "copy-from": "generic_city_building",
+    "name": "gun store",
     "color": "red",
     "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_gun_roof",
+    "id": [ "s_gun_roof", "s_gun_roof_1", "s_gun_roof_3", "s_gun_roof_4" ],
     "name": "gun store roof",
     "copy-from": "generic_city_building",
     "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gun_1",
-    "name": "gun store",
-    "copy-from": "generic_city_building",
-    "color": "red",
-    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gun_roof_1",
-    "name": "gun store roof",
-    "copy-from": "generic_city_building",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gun_2",
-    "name": "gun store",
-    "copy-from": "generic_city_building",
-    "color": "red",
-    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gun_3",
-    "name": "gun store",
-    "copy-from": "generic_city_building",
-    "color": "red",
-    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gun_roof_3",
-    "name": "gun store roof",
-    "copy-from": "generic_city_building",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gun_4",
-    "name": "gun store",
-    "copy-from": "generic_city_building",
-    "color": "red",
-    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
@@ -589,529 +262,180 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_gun_roof_4",
-    "name": "gun store roof",
+    "id": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ],
     "copy-from": "generic_city_building",
-    "color": "red",
-    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes",
     "name": "clothing store",
-    "copy-from": "generic_city_building",
     "color": "blue",
     "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_clothes_roof",
+    "id": [
+      "s_clothes_roof",
+      "s_clothes_roof_1",
+      "s_clothes_roof_2",
+      "s_clothes_roof_3",
+      "s_clothes_roof_4",
+      "s_clothes_roof_5",
+      "s_clothes_roof_6",
+      "s_clothes_upper_roof_4"
+    ],
+    "copy-from": "generic_city_building",
     "name": "clothing store",
-    "copy-from": "generic_city_building",
     "color": "blue"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_clothes_1",
-    "name": "clothing store",
+    "id": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ],
     "copy-from": "generic_city_building",
-    "color": "blue",
-    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_roof_1",
-    "name": "clothing store roof",
-    "copy-from": "generic_city_building",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_2",
-    "name": "clothing store",
-    "copy-from": "generic_city_building",
-    "color": "blue",
-    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_roof_2",
-    "name": "clothing store roof",
-    "copy-from": "generic_city_building",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_3",
-    "name": "clothing store",
-    "copy-from": "generic_city_building",
-    "color": "blue",
-    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_roof_3",
-    "name": "clothing store roof",
-    "copy-from": "generic_city_building",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_4",
-    "name": "clothing store",
-    "copy-from": "generic_city_building",
-    "color": "blue",
-    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_roof_4",
-    "name": "clothing store roof",
-    "copy-from": "generic_city_building",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_upper_roof_4",
-    "name": "clothing store roof",
-    "copy-from": "generic_city_building",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_5",
-    "name": "clothing store",
-    "copy-from": "generic_city_building",
-    "color": "blue",
-    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_roof_5",
-    "name": "clothing store roof",
-    "copy-from": "generic_city_building",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_6",
-    "name": "clothing store",
-    "copy-from": "generic_city_building",
-    "color": "blue",
-    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_clothes_roof_6",
-    "name": "clothing store roof",
-    "copy-from": "generic_city_building",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_bookstore",
     "name": "bookstore",
-    "copy-from": "generic_city_building",
     "color": "i_brown",
     "extend": { "flags": [ "SOURCE_BOOKS" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_bookstore_roof",
-    "name": "bookstore roof",
+    "id": [
+      "s_bookstore_roof",
+      "s_bookstore_roof_1",
+      "s_bookstore_roof_2",
+      "s_bookstore_upper_roof",
+      "s_bookstore_upper_roof_1",
+      "s_bookstore_upper_roof_1"
+    ],
     "copy-from": "generic_city_building",
+    "name": "bookstore roof",
     "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_bookstore_upper_roof",
-    "name": "bookstore roof",
+    "id": [ "s_restaurant_foodplace", "s_restaurant", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ],
     "copy-from": "generic_city_building",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_bookstore_1",
-    "name": "bookstore",
-    "copy-from": "generic_city_building",
-    "color": "i_brown",
-    "extend": { "flags": [ "SOURCE_BOOKS" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_bookstore_roof_1",
-    "name": "bookstore roof",
-    "copy-from": "generic_city_building",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_bookstore_upper_roof_1",
-    "name": "bookstore roof",
-    "copy-from": "generic_city_building",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_bookstore_2",
-    "name": "bookstore",
-    "copy-from": "generic_city_building",
-    "color": "i_brown",
-    "extend": { "flags": [ "SOURCE_BOOKS" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_bookstore_roof_2",
-    "name": "bookstore roof",
-    "copy-from": "generic_city_building",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_foodplace",
     "name": "restaurant",
-    "copy-from": "generic_city_building",
     "color": "pink",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant_foodplace_roof",
-    "name": "restaurant roof",
+    "id": [
+      "s_restaurant_foodplace_roof",
+      "s_restaurant_foodplace_upper_roof",
+      "s_restaurant_roof",
+      "s_restaurant_roof_1",
+      "s_restaurant_roof_2",
+      "s_restaurant_roof_3"
+    ],
     "copy-from": "generic_city_building",
+    "name": "restaurant roof",
     "color": "pink"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant_foodplace_upper_roof",
-    "name": "restaurant roof",
+    "id": [ "s_restaurant_fast", "s_restaurant_fast_1" ],
     "copy-from": "generic_city_building",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant",
-    "name": "restaurant",
-    "copy-from": "generic_city_building",
-    "color": "pink",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_roof",
-    "name": "restaurant roof",
-    "copy-from": "generic_city_building",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_1",
-    "name": "restaurant",
-    "copy-from": "generic_city_building",
-    "color": "pink",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_roof_1",
-    "name": "restaurant roof",
-    "copy-from": "generic_city_building",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_2",
-    "name": "restaurant",
-    "copy-from": "generic_city_building",
-    "color": "pink",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_roof_2",
-    "name": "restaurant roof",
-    "copy-from": "generic_city_building",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_3",
-    "name": "restaurant",
-    "copy-from": "generic_city_building",
-    "color": "pink",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_roof_3",
-    "name": "restaurant roof",
-    "copy-from": "generic_city_building",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_fast",
     "name": "fast food restaurant",
-    "copy-from": "generic_city_building",
     "color": "yellow_magenta",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant_fast_roof",
-    "name": "fast food restaurant roof",
+    "id": [ "s_restaurant_fast_roof", "s_restaurant_fast_roof_1" ],
     "copy-from": "generic_city_building",
+    "name": "fast food restaurant roof",
     "color": "yellow_magenta"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant_fast_1",
-    "name": "fast food restaurant",
+    "id": [ "s_restaurant_coffee", "s_restaurant_coffee_1", "s_restaurant_coffee_2" ],
     "copy-from": "generic_city_building",
-    "color": "yellow_magenta",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_fast_roof_1",
-    "name": "fast food restaurant roof",
-    "copy-from": "generic_city_building",
-    "color": "yellow_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_coffee",
     "name": "coffee shop",
-    "copy-from": "generic_city_building",
     "color": "white_magenta",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant_coffee_roof",
-    "name": "coffee shop",
+    "id": [ "s_restaurant_coffee_roof", "s_restaurant_coffee_roof_1", "s_restaurant_coffee_roof_2" ],
     "copy-from": "generic_city_building",
+    "name": "coffee shop",
     "color": "white_magenta"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant_coffee_1",
-    "name": "coffee shop",
+    "id": [ "s_teashop", "s_teashop_1" ],
     "copy-from": "generic_city_building",
-    "color": "white_magenta",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_coffee_roof_1",
-    "name": "coffee shop",
-    "copy-from": "generic_city_building",
-    "color": "white_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_coffee_2",
-    "name": "coffee shop",
-    "copy-from": "generic_city_building",
-    "color": "white_magenta",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restaurant_coffee_roof_2",
-    "name": "coffee shop",
-    "copy-from": "generic_city_building",
-    "color": "white_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_teashop",
     "name": "teashop",
-    "copy-from": "generic_city_building",
     "color": "c_light_cyan_magenta",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_teashop_roof",
-    "name": "teashop roof",
+    "id": [ "s_teashop_roof", "s_teashop_roof_1", "s_teashop_upper_roof_1" ],
     "copy-from": "generic_city_building",
+    "name": "teashop roof",
     "color": "c_light_cyan_magenta"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_teashop_1",
-    "name": "teashop",
+    "id": [ "bar", "bar_1" ],
     "copy-from": "generic_city_building",
-    "color": "c_light_cyan_magenta",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_teashop_roof_1",
-    "name": "teashop roof",
-    "copy-from": "generic_city_building",
-    "color": "c_light_cyan_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_teashop_upper_roof_1",
-    "name": "teashop roof",
-    "copy-from": "generic_city_building",
-    "color": "c_light_cyan_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bar",
     "name": "bar",
-    "copy-from": "generic_city_building",
     "color": "i_magenta",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "bar_roof",
-    "name": "bar roof",
+    "id": [ "bar_roof", "bar_roof_1" ],
     "copy-from": "generic_city_building",
+    "name": "bar roof",
     "color": "i_magenta"
   },
   {
     "type": "overmap_terrain",
-    "id": "bar_1",
-    "name": "bar",
+    "id": [ "s_butcher", "s_butcher_1", "s_butcher_2" ],
     "copy-from": "generic_city_building",
-    "color": "i_magenta",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bar_roof_1",
-    "name": "bar roof",
-    "copy-from": "generic_city_building",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_butcher",
     "name": "butcher shop",
-    "copy-from": "generic_city_building",
     "color": "i_red",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_butcher_roof",
-    "name": "butcher shop roof",
+    "id": [ "s_butcher_roof", "s_butcher_roof_1", "s_butcher_roof_2", "s_butcher_upper_roof", "s_butcher_upper_roof_1" ],
     "copy-from": "generic_city_building",
+    "name": "butcher shop roof",
     "color": "i_red"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_butcher_upper_roof",
-    "name": "butcher shop roof",
+    "id": [ "s_bike_shop", "s_bike_shop_1" ],
     "copy-from": "generic_city_building",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_butcher_1",
-    "name": "butcher shop",
-    "copy-from": "generic_city_building",
-    "color": "i_red",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_butcher_roof_1",
-    "name": "butcher shop roof",
-    "copy-from": "generic_city_building",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_butcher_upper_roof_1",
-    "name": "butcher shop roof",
-    "copy-from": "generic_city_building",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_butcher_2",
-    "name": "butcher shop",
-    "copy-from": "generic_city_building",
-    "color": "i_red",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_butcher_roof_2",
-    "name": "butcher shop roof",
-    "copy-from": "generic_city_building",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_bike_shop",
     "name": "bike shop",
-    "copy-from": "generic_city_building",
     "color": "i_cyan",
     "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_bike_shop_roof",
-    "name": "bike shop roof",
+    "id": [ "s_bike_shop_roof", "s_bike_shop_roof_1" ],
     "copy-from": "generic_city_building",
+    "name": "bike shop roof",
     "color": "i_cyan"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_bike_shop_1",
-    "name": "bike shop",
+    "id": [ "s_pizza_parlor", "s_pizza_parlor_1" ],
     "copy-from": "generic_city_building",
-    "color": "i_cyan",
-    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_bike_shop_roof_1",
-    "name": "bike shop roof",
-    "copy-from": "generic_city_building",
-    "color": "i_cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_pizza_parlor",
     "name": "pizza parlor",
-    "copy-from": "generic_city_building",
     "color": "pink_magenta",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_pizza_parlor_roof",
-    "name": "pizza parlor roof",
+    "id": [ "s_pizza_parlor_roof", "s_pizza_parlor_roof_1" ],
     "copy-from": "generic_city_building",
+    "name": "pizza parlor roof",
     "color": "pink_magenta"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_pizza_parlor_1",
-    "name": "pizza parlor",
-    "copy-from": "generic_city_building",
-    "color": "pink_magenta",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_pizza_parlor_roof_1",
-    "name": "pizza parlor roof",
-    "copy-from": "generic_city_building",
-    "color": "pink_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bank",
+    "id": [ "bank", "bank_1" ],
     "name": "bank",
     "sym": "$",
     "color": "light_gray",
@@ -1121,7 +445,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bank_roof",
+    "id": [ "bank_roof", "bank_roof_1" ],
     "name": "bank roof",
     "sym": "$",
     "color": "light_gray",
@@ -1130,146 +454,49 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bank_1",
-    "name": "bank",
-    "sym": "$",
-    "color": "light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_LUXURY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bank_roof_1",
-    "name": "bank roof",
-    "sym": "$",
-    "color": "light_gray",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pawn",
-    "name": "pawn shop",
+    "id": [ "pawn", "pawn_1", "pawn_pf", "pawn_pf_under" ],
     "copy-from": "generic_city_building",
+    "name": "pawn shop",
     "color": "white",
     "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "pawn_roof",
+    "id": [ "pawn_roof", "pawn_roof_1", "pawn_pf_roof" ],
+    "copy-from": "generic_city_building",
     "name": "pawn shop roof",
-    "copy-from": "generic_city_building",
     "color": "white"
   },
   {
     "type": "overmap_terrain",
-    "id": "pawn_1",
-    "name": "pawn shop",
+    "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ],
     "copy-from": "generic_city_building",
-    "color": "white",
-    "extend": { "flags": [ "SOURCE_LUXURY" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pawn_roof_1",
-    "name": "pawn shop roof",
-    "copy-from": "generic_city_building",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pawn_pf",
-    "name": "pawn shop",
-    "copy-from": "generic_city_building",
-    "color": "white",
-    "extend": { "flags": [ "SOURCE_LUXURY" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pawn_pf_under",
-    "name": "pawn shop",
-    "copy-from": "generic_city_building",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pawn_pf_roof",
-    "name": "pawn shop roof",
-    "copy-from": "generic_city_building",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mil_surplus",
     "name": "mil. surplus",
     "sym": "M",
-    "copy-from": "generic_city_building",
     "color": "i_light_gray",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_CLOTHING" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "mil_surplus_roof",
+    "id": [ "mil_surplus_roof", "mil_surplus_roof_1", "mil_surplus_roof_2" ],
+    "copy-from": "generic_city_building",
     "name": "mil. surplus roof",
     "sym": "M",
-    "copy-from": "generic_city_building",
-    "color": "i_light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mil_surplus_1",
-    "name": "mil. surplus",
-    "sym": "M",
-    "copy-from": "generic_city_building",
-    "color": "i_light_gray",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_CLOTHING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mil_surplus_roof_1",
-    "name": "mil. surplus roof",
-    "sym": "M",
-    "copy-from": "generic_city_building",
-    "color": "i_light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mil_surplus_2",
-    "name": "mil. surplus",
-    "sym": "M",
-    "copy-from": "generic_city_building",
-    "color": "i_light_gray",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_CLOTHING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mil_surplus_roof_2",
-    "name": "mil. surplus roof",
-    "sym": "M",
-    "copy-from": "generic_city_building",
     "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": "furniture",
-    "name": "furniture store",
     "copy-from": "generic_city_building",
+    "name": "furniture store",
     "color": "brown",
     "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "furniture_roof",
-    "name": "furniture store roof",
+    "id": [ "furniture_roof", "furniture_upper_roof" ],
     "copy-from": "generic_city_building",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "furniture_upper_roof",
     "name": "furniture store roof",
-    "copy-from": "generic_city_building",
     "color": "brown"
   },
   {
@@ -1302,7 +529,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_0_0_0",
+    "id": [
+      "megastore_0_0_0",
+      "megastore_1_0_0",
+      "megastore_2_0_0",
+      "megastore_0_1_0",
+      "megastore_1_1_0",
+      "megastore_2_1_0",
+      "megastore_0_2_0",
+      "megastore_2_2_0"
+    ],
     "name": "megastore",
     "sym": "M",
     "color": "blue",
@@ -1310,36 +546,6 @@
     "see_cost": 2,
     "mondensity": 2,
     "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_1_0_0",
-    "copy-from": "megastore_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_2_0_0",
-    "copy-from": "megastore_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_0_1_0",
-    "copy-from": "megastore_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_1_1_0",
-    "copy-from": "megastore_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_2_1_0",
-    "copy-from": "megastore_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_0_2_0",
-    "copy-from": "megastore_0_0_0"
   },
   {
     "type": "overmap_terrain",
@@ -1372,12 +578,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_2_2_0",
-    "copy-from": "megastore_0_0_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_0_0_1",
+    "id": [
+      "megastore_0_0_1",
+      "megastore_0_1_1",
+      "megastore_0_2_1",
+      "megastore_1_0_1",
+      "megastore_1_1_1",
+      "megastore_1_2_1",
+      "megastore_2_0_1",
+      "megastore_2_1_1",
+      "megastore_2_2_1"
+    ],
     "name": "megastore, second floor",
     "sym": "M",
     "color": "blue",
@@ -1386,67 +597,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_1_0_1",
-    "copy-from": "megastore_0_0_1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_2_0_1",
-    "copy-from": "megastore_0_0_1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_0_1_1",
-    "copy-from": "megastore_0_0_1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_1_1_1",
-    "copy-from": "megastore_0_0_1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_2_1_1",
-    "copy-from": "megastore_0_0_1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_0_2_1",
-    "copy-from": "megastore_0_0_1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_1_2_1",
-    "copy-from": "megastore_0_0_1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_2_2_1",
-    "copy-from": "megastore_0_0_1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_0_0_roof",
+    "id": [
+      "megastore_0_0_roof",
+      "megastore_0_1_roof",
+      "megastore_0_2_roof",
+      "megastore_1_0_roof",
+      "megastore_1_2_roof",
+      "megastore_2_0_roof",
+      "megastore_2_1_roof",
+      "megastore_2_2_roof"
+    ],
     "name": "megastore roof",
     "sym": "M",
     "color": "blue",
     "extras": "build",
     "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_1_0_roof",
-    "copy-from": "megastore_0_0_roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_2_0_roof",
-    "copy-from": "megastore_0_0_roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_0_1_roof",
-    "copy-from": "megastore_0_0_roof"
   },
   {
     "type": "overmap_terrain",
@@ -1457,27 +622,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_2_1_roof",
-    "copy-from": "megastore_0_0_roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_0_2_roof",
-    "copy-from": "megastore_0_0_roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_1_2_roof",
-    "copy-from": "megastore_0_0_roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_2_2_roof",
-    "copy-from": "megastore_0_0_roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_1",
+    "id": [
+      "hotel_tower_1_1",
+      "hotel_tower_1_2",
+      "hotel_tower_1_3",
+      "hotel_tower_1_4",
+      "hotel_tower_flr2_1_4",
+      "hotel_tower_flr3_1_4",
+      "hotel_tower_flr4_1_4",
+      "hotel_tower_flr2_1_6",
+      "hotel_tower_flr3_1_6",
+      "hotel_tower_flr4_1_6"
+    ],
     "copy-from": "generic_city_building",
     "name": "hotel parking",
     "sym": "h",
@@ -1485,55 +641,31 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hotel_tower_1_2",
-    "copy-from": "generic_city_building",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_3",
-    "copy-from": "generic_city_building",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_4",
-    "copy-from": "generic_city_building",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr2_1_4",
-    "copy-from": "generic_city_building",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr3_1_4",
-    "copy-from": "generic_city_building",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr4_1_4",
-    "copy-from": "generic_city_building",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_roof_1_4",
+    "id": [
+      "hotel_tower_roof_1_4",
+      "hotel_tower_flr2_1_5",
+      "hotel_tower_flr3_1_5",
+      "hotel_tower_flr4_1_5",
+      "hotel_tower_flr2_1_5B",
+      "hotel_tower_flr2_1_5C",
+      "hotel_tower_1_6",
+      "hotel_tower_roof_1_6",
+      "hotel_tower_1_7",
+      "hotel_tower_1_8",
+      "hotel_tower_1_9",
+      "hotel_tower_flr2_1_7",
+      "hotel_tower_flr2_1_8",
+      "hotel_tower_flr2_1_9",
+      "hotel_tower_flr3_1_7",
+      "hotel_tower_flr3_1_8",
+      "hotel_tower_flr3_1_9",
+      "hotel_tower_flr4_1_7",
+      "hotel_tower_flr4_1_8",
+      "hotel_tower_flr4_1_9",
+      "hotel_tower_roof_1_7",
+      "hotel_tower_roof_1_8",
+      "hotel_tower_roof_1_9"
+    ],
     "copy-from": "generic_city_building",
     "name": "hotel",
     "sym": "h",
@@ -1541,7 +673,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hotel_tower_1_5",
+    "id": [ "hotel_tower_1_5", "hotel_tower_roof_1_5", "hotel_tower_1_5B", "hotel_tower_1_5C" ],
     "copy-from": "generic_city_building",
     "name": "hotel entrance",
     "sym": "H",
@@ -1549,231 +681,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hotel_tower_flr2_1_5",
-    "copy-from": "generic_city_building",
-    "name": "hotel",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr3_1_5",
-    "copy-from": "generic_city_building",
-    "name": "hotel",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr4_1_5",
-    "copy-from": "generic_city_building",
-    "name": "hotel",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_roof_1_5",
-    "copy-from": "generic_city_building",
-    "name": "hotel entrance",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_5B",
-    "copy-from": "generic_city_building",
-    "name": "hotel entrance",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr2_1_5B",
-    "copy-from": "generic_city_building",
-    "name": "hotel",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_5C",
-    "copy-from": "generic_city_building",
-    "name": "hotel entrance",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr2_1_5C",
-    "copy-from": "generic_city_building",
-    "name": "hotel",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_6",
-    "copy-from": "generic_city_building",
-    "name": "hotel",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr2_1_6",
-    "copy-from": "generic_city_building",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr3_1_6",
-    "copy-from": "generic_city_building",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr4_1_6",
-    "copy-from": "generic_city_building",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_roof_1_6",
-    "copy-from": "generic_city_building",
-    "name": "hotel",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_7",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr2_1_7",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr3_1_7",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr4_1_7",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_roof_1_7",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_8",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr2_1_8",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr3_1_8",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr4_1_8",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_roof_1_8",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_9",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr2_1_9",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr3_1_9",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_flr4_1_9",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_roof_1_9",
-    "copy-from": "generic_city_building",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_b_1",
+    "id": [ "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "hotel basement",
     "sym": "B",
@@ -1781,23 +689,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hotel_tower_b_2",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "hotel basement",
-    "sym": "B",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_b_3",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "hotel basement",
-    "sym": "B",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_twd_1",
+    "id": [ "motel_twd_1", "motel_entrance" ],
     "copy-from": "generic_city_building",
     "name": "motel",
     "sym": "h",
@@ -1806,7 +698,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "motel_twd_2",
+    "id": [ "motel_twd_2", "motel_twd_second_floor" ],
     "copy-from": "generic_city_building",
     "name": "motel",
     "sym": "h",
@@ -1814,24 +706,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "motel_twd_second_floor",
-    "copy-from": "generic_city_building",
-    "name": "motel",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_entrance",
-    "copy-from": "generic_city_building",
-    "name": "motel",
-    "sym": "h",
-    "color": "light_blue",
-    "extend": { "flags": [ "SOURCE_SAFETY" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_entrance_roof",
+    "id": [ "motel_entrance_roof", "motel_1_roof", "motel_2_roof", "motel_3_roof" ],
     "copy-from": "generic_city_building",
     "name": "motel roof",
     "sym": "h",
@@ -1839,70 +714,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "motel_1",
+    "id": [ "motel_1", "motel_2", "motel_3" ],
     "copy-from": "generic_city_building",
     "name": "motel",
     "sym": "h",
     "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_1_roof",
-    "copy-from": "generic_city_building",
-    "name": "motel roof",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_2",
-    "copy-from": "generic_city_building",
-    "name": "motel",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_2_roof",
-    "copy-from": "generic_city_building",
-    "name": "motel roof",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_3",
-    "copy-from": "generic_city_building",
-    "name": "motel",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_3_roof",
-    "copy-from": "generic_city_building",
-    "name": "motel roof",
-    "sym": "h",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gas_rural",
-    "name": "gas station",
-    "sym": "^",
-    "color": "light_blue",
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_FUEL", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gas_rural_roof",
-    "name": "gas station roof",
-    "sym": "^",
-    "color": "light_blue",
-    "extras": "build",
-    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -1915,7 +731,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hdwr_large_SW",
+    "id": [
+      "hdwr_large_SW",
+      "hdwr_large_0_0_0",
+      "hdwr_large_0_1_0",
+      "hdwr_large_0_2_0",
+      "hdwr_large_1_0_0",
+      "hdwr_large_1_1_0",
+      "hdwr_large_1_2_0",
+      "hdwr_large_NE",
+      "hdwr_large_NW",
+      "hdwr_large_backroom",
+      "hdwr_large_loadingbay"
+    ],
     "name": "home improvement superstore",
     "sym": "H",
     "color": "light_green_yellow",
@@ -1924,137 +752,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hdwr_large_NW",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_NE",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_backroom",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_loadingbay",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_0_0_0",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_1_0_0",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_0_1_0",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_1_1_0",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_0_2_0",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_1_2_0",
-    "name": "home improvement superstore",
-    "sym": "H",
-    "color": "light_green_yellow",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_0_0_1",
-    "name": "home improvement superstore",
-    "sym": ".",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_1_0_1",
-    "name": "home improvement superstore",
-    "sym": ".",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_0_1_1",
-    "name": "home improvement superstore",
-    "sym": ".",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_1_1_1",
-    "name": "home improvement superstore",
-    "sym": ".",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_0_2_1",
-    "name": "home improvement superstore",
-    "sym": ".",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_1_2_1",
+    "id": [
+      "hdwr_large_0_0_1",
+      "hdwr_large_1_0_1",
+      "hdwr_large_0_1_1",
+      "hdwr_large_1_1_1",
+      "hdwr_large_0_2_1",
+      "hdwr_large_1_2_1",
+      "hdwr_large_1_2_1"
+    ],
     "name": "home improvement superstore",
     "sym": ".",
     "color": "light_blue",
@@ -2063,21 +769,14 @@
   {
     "type": "overmap_terrain",
     "id": "garage_gas_1",
-    "name": "garage - gas station",
     "copy-from": "generic_city_building",
+    "name": "garage - gas station",
     "color": "light_blue",
     "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "garage_gas_roof_1",
-    "name": "garage - gas station roof",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "garage_gas_2",
+    "id": [ "garage_gas_2", "garage_gas_3" ],
     "copy-from": "generic_city_building",
     "name": "garage",
     "sym": "O",
@@ -2086,7 +785,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "garage_gas_roof_2",
+    "id": [ "garage_gas_roof_1", "garage_gas_roof_2", "garage_gas_roof_3" ],
     "copy-from": "generic_city_building",
     "name": "garage roof",
     "sym": "O",
@@ -2094,24 +793,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "garage_gas_3",
-    "copy-from": "generic_city_building",
-    "name": "garage",
-    "sym": "O",
-    "color": "white",
-    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "garage_gas_roof_3",
-    "copy-from": "generic_city_building",
-    "name": "garage roof",
-    "sym": "O",
-    "color": "white"
-  },
-  {
-    "id": "dispensary",
-    "type": "overmap_terrain",
+    "id": [ "dispensary", "dispensary_1", "dispensary_2" ],
     "copy-from": "generic_city_building",
     "name": "dispensary",
     "sym": "D",
@@ -2119,42 +801,8 @@
     "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
-    "id": "dispensary_roof",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "dispensary roof",
-    "sym": "D",
-    "color": "i_green"
-  },
-  {
-    "id": "dispensary_1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "dispensary",
-    "sym": "D",
-    "color": "i_green",
-    "extend": { "flags": [ "SOURCE_LUXURY" ] }
-  },
-  {
-    "id": "dispensary_roof_1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "dispensary roof",
-    "sym": "D",
-    "color": "i_green"
-  },
-  {
-    "id": "dispensary_2",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "dispensary",
-    "sym": "D",
-    "color": "i_green",
-    "extend": { "flags": [ "SOURCE_LUXURY" ] }
-  },
-  {
-    "id": "dispensary_roof_2",
-    "type": "overmap_terrain",
+    "id": [ "dispensary_roof", "dispensary_roof_1", "dispensary_roof_2" ],
     "copy-from": "generic_city_building",
     "name": "dispensary roof",
     "sym": "D",
@@ -2169,16 +817,8 @@
     "color": "brown"
   },
   {
-    "id": "small_office_roof",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "small office roof",
-    "sym": "o",
-    "color": "brown"
-  },
-  {
-    "id": "small_office_upper_roof",
-    "type": "overmap_terrain",
+    "id": [ "small_office_roof", "small_office_upper_roof" ],
     "copy-from": "generic_city_building",
     "name": "small office roof",
     "sym": "o",
@@ -2186,32 +826,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "candy_shop",
-    "name": "candy shop",
+    "id": [ "candy_shop", "candy_shop_1" ],
     "copy-from": "generic_city_building",
+    "name": "candy shop",
     "color": "c_red_white",
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "candy_shop_roof",
+    "id": [ "candy_shop_roof", "candy_shop_roof_1" ],
+    "copy-from": "generic_city_building",
     "name": "candy shop roof",
-    "copy-from": "generic_city_building",
-    "color": "c_red_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "candy_shop_1",
-    "name": "candy shop",
-    "copy-from": "generic_city_building",
-    "color": "c_red_white",
-    "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "candy_shop_roof_1",
-    "name": "candy shop roof",
-    "copy-from": "generic_city_building",
     "color": "c_red_white"
   },
   {
@@ -2253,7 +878,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dollarstore",
+    "id": [ "dollarstore", "dollarstore_1" ],
     "copy-from": "generic_city_building",
     "name": "dollar store",
     "sym": "$",
@@ -2261,23 +886,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dollarstore_roof",
-    "copy-from": "generic_city_building",
-    "name": "dollar store roof",
-    "sym": "$",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dollarstore_1",
-    "copy-from": "generic_city_building",
-    "name": "dollar store",
-    "sym": "$",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dollarstore_roof_1",
+    "id": [ "dollarstore_roof", "dollarstore_roof_1" ],
     "copy-from": "generic_city_building",
     "name": "dollar store roof",
     "sym": "$",
@@ -2389,49 +998,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_petstore",
+    "id": [ "s_petstore", "s_petstore_1", "s_petstore_2" ],
     "copy-from": "generic_city_building",
     "name": "pet supply store",
     "color": "i_yellow"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_petstore_roof",
+    "id": [ "s_petstore_roof", "s_petstore_roof_1", "s_petstore_roof_2" ],
     "copy-from": "generic_city_building",
     "name": "pet supply store roof",
     "color": "i_yellow"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_petstore_1",
-    "copy-from": "generic_city_building",
-    "name": "pet supply store",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_petstore_roof_1",
-    "copy-from": "generic_city_building",
-    "name": "pet supply store roof",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_petstore_2",
-    "copy-from": "generic_city_building",
-    "name": "pet supply store",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_petstore_roof_2",
-    "copy-from": "generic_city_building",
-    "name": "pet supply store roof",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a1",
+    "id": [ "s_shoppingplaza_a1", "s_shoppingplaza_a2", "s_shoppingplaza_a3", "s_shoppingplaza_a4", "s_shoppingplaza_a5" ],
     "copy-from": "generic_city_building",
     "name": "abandoned shopping plaza",
     "sym": "+",
@@ -2439,87 +1020,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a2",
-    "copy-from": "generic_city_building",
-    "name": "abandoned shopping plaza",
-    "sym": "+",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a3",
-    "copy-from": "generic_city_building",
-    "name": "abandoned shopping plaza",
-    "sym": "+",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a4",
-    "copy-from": "generic_city_building",
-    "name": "abandoned shopping plaza",
-    "sym": "+",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a5",
-    "copy-from": "generic_city_building",
-    "name": "abandoned shopping plaza",
-    "sym": "+",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a6",
-    "copy-from": "generic_city_building",
-    "name": "abandoned shopping plaza",
-    "sym": "M",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_b1",
-    "copy-from": "generic_city_building",
-    "name": "abandoned shopping plaza",
-    "sym": "M",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_b2",
-    "copy-from": "generic_city_building",
-    "name": "abandoned shopping plaza",
-    "sym": "M",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_b3",
-    "copy-from": "generic_city_building",
-    "name": "abandoned shopping plaza",
-    "sym": "M",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_b4",
-    "copy-from": "generic_city_building",
-    "name": "abandoned shopping plaza",
-    "sym": "M",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_b5",
-    "copy-from": "generic_city_building",
-    "name": "abandoned shopping plaza",
-    "sym": "M",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_b6",
+    "id": [
+      "s_shoppingplaza_a6",
+      "s_shoppingplaza_b1",
+      "s_shoppingplaza_b2",
+      "s_shoppingplaza_b3",
+      "s_shoppingplaza_b4",
+      "s_shoppingplaza_b5",
+      "s_shoppingplaza_b6"
+    ],
     "copy-from": "generic_city_building",
     "name": "abandoned shopping plaza",
     "sym": "M",
@@ -2542,32 +1051,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_laundromat",
-    "name": "laundromat",
+    "id": [ "s_laundromat", "s_laundromat_1" ],
     "copy-from": "generic_city_building",
+    "name": "laundromat",
     "color": "white_white",
     "extend": { "flags": [ "SOURCE_CLOTHING" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": "s_laundromat_roof",
+    "id": [ "s_laundromat_roof", "s_laundromat_roof_1" ],
+    "copy-from": "generic_city_building",
     "name": "laundromat roof",
-    "copy-from": "generic_city_building",
-    "color": "white_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_laundromat_1",
-    "name": "laundromat",
-    "copy-from": "generic_city_building",
-    "color": "white_white",
-    "extend": { "flags": [ "SOURCE_CLOTHING" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_laundromat_roof_1",
-    "name": "laundromat roof",
-    "copy-from": "generic_city_building",
     "color": "white_white"
   },
   {
@@ -2597,57 +1091,20 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "2fmotel_entrance",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_1",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_3",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_entrance_f2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_1_f2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_2_f2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_3_f2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_1_r",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_2_r",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_3_r",
+    "id": [
+      "2fmotel_entrance",
+      "2fmotel_1",
+      "2fmotel_2",
+      "2fmotel_3",
+      "2fmotel_entrance_f2",
+      "2fmotel_1_f2",
+      "2fmotel_2_f2",
+      "2fmotel_3_f2",
+      "2fmotel_3_f2",
+      "2fmotel_1_r",
+      "2fmotel_2_r",
+      "2fmotel_3_r"
+    ],
     "copy-from": "generic_motel"
   },
   {
@@ -2675,118 +1132,31 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "loffice_tower_1",
+    "id": [
+      "loffice_tower_1",
+      "loffice_tower_2",
+      "loffice_tower_3",
+      "loffice_tower_4",
+      "loffice_tower_5",
+      "loffice_tower_6",
+      "loffice_tower_7",
+      "loffice_tower_8",
+      "loffice_tower_9",
+      "loffice_tower_9b",
+      "loffice_tower_10",
+      "loffice_tower_10b",
+      "loffice_tower_11",
+      "loffice_tower_12",
+      "loffice_tower_13",
+      "loffice_tower_14",
+      "loffice_tower_15",
+      "loffice_tower_16"
+    ],
     "copy-from": "generic_large_office_tower"
   },
   {
     "type": "overmap_terrain",
-    "id": "loffice_tower_2",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_3",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_4",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_5",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_6",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_7",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_8",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_9",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_9b",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_10",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_10b",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_11",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_12",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_13",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_14",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_15",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_16",
-    "copy-from": "generic_large_office_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_17",
-    "name": "open air",
-    "sym": ".",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_18",
-    "name": "open air",
-    "sym": ".",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_19",
-    "name": "open air",
-    "sym": ".",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "loffice_tower_20",
+    "id": [ "loffice_tower_16", "loffice_tower_17", "loffice_tower_18", "loffice_tower_19", "loffice_tower_20" ],
     "name": "open air",
     "sym": ".",
     "color": "blue"
@@ -2844,20 +1214,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "craft_shop",
-    "name": "craft shop",
+    "id": [ "craft_shop", "craft_shop_1", "craft_shop_2" ],
     "copy-from": "generic_city_building",
+    "name": "craft shop",
     "sym": "s",
     "color": "cyan",
     "extend": { "flags": [ "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "craft_shop_roof",
-    "name": "craft shop roof",
-    "copy-from": "generic_city_building",
-    "sym": "s",
-    "color": "cyan"
   },
   {
     "type": "overmap_terrain",
@@ -2869,42 +1231,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "craft_shop_1",
-    "name": "craft shop",
+    "id": [ "craft_shop_roof", "craft_shop_roof_1", "craft_shop_roof_2" ],
     "copy-from": "generic_city_building",
-    "sym": "s",
-    "color": "cyan",
-    "extend": { "flags": [ "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "craft_shop_roof_1",
     "name": "craft shop roof",
-    "copy-from": "generic_city_building",
     "sym": "s",
     "color": "cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "craft_shop_2",
-    "name": "craft shop",
-    "copy-from": "generic_city_building",
-    "sym": "s",
-    "color": "cyan",
-    "extend": { "flags": [ "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
     "id": "craft_shop_2ndfloor_2",
     "name": "craft shop 2nd floor",
-    "copy-from": "generic_city_building",
-    "sym": "s",
-    "color": "cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "craft_shop_roof_2",
-    "name": "craft shop roof",
     "copy-from": "generic_city_building",
     "sym": "s",
     "color": "cyan"
@@ -2945,15 +1281,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cs_internet_cafe_roof",
-    "copy-from": "generic_city_building",
-    "name": "internet cafe roof",
-    "sym": "i",
-    "color": "light_green_cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_internet_cafe_upper_roof",
+    "id": [ "cs_internet_cafe_roof", "cs_internet_cafe_upper_roof" ],
     "copy-from": "generic_city_building",
     "name": "internet cafe roof",
     "sym": "i",
@@ -3029,7 +1357,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "headshop_roof",
+    "id": [ "headshop_roof", "headshop_upper_roof" ],
     "copy-from": "generic_city_building",
     "name": "head shop roof",
     "sym": "0",
@@ -3037,57 +1365,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "headshop_upper_roof",
+    "id": [ "abstorefront", "abstorefront_1", "abstorefront_2" ],
     "copy-from": "generic_city_building",
-    "name": "head shop roof",
-    "sym": "0",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abstorefront",
     "name": "abandoned storefront",
-    "copy-from": "generic_city_building",
     "color": "h_dark_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": "abstorefront_roof",
+    "id": [ "abstorefront_roof", "abstorefront_roof_1", "abstorefront_roof_2" ],
+    "copy-from": "generic_city_building",
     "name": "abandoned storefront roof",
-    "copy-from": "generic_city_building",
     "color": "h_dark_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": "abstorefront_1",
-    "name": "abandoned storefront",
-    "copy-from": "generic_city_building",
-    "color": "h_dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abstorefront_roof_1",
-    "name": "abandoned storefront roof",
-    "copy-from": "generic_city_building",
-    "color": "h_dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abstorefront_2",
-    "name": "abandoned storefront",
-    "copy-from": "generic_city_building",
-    "color": "h_dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abstorefront_roof_2",
-    "name": "abandoned storefront roof",
-    "copy-from": "generic_city_building",
-    "color": "h_dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "station_radio",
+    "id": [ "station_radio", "station_radio_1" ],
     "copy-from": "generic_city_building",
     "name": "radio station",
     "sym": "X",
@@ -3095,23 +1387,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "station_radio_roof",
-    "copy-from": "generic_city_building",
-    "name": "radio station roof",
-    "sym": "X",
-    "color": "i_light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "station_radio_1",
-    "copy-from": "generic_city_building",
-    "name": "radio station",
-    "sym": "X",
-    "color": "i_light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "station_radio_roof_1",
+    "id": [ "station_radio_roof", "station_radio_roof_1" ],
     "copy-from": "generic_city_building",
     "name": "radio station roof",
     "sym": "X",
@@ -3191,156 +1467,45 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "city_block2_1",
-    "name": "urban city block",
+    "id": [
+      "city_block2_1",
+      "city_block2_2",
+      "city_block2_3",
+      "city_block2_4",
+      "city_block2_flr2_1",
+      "city_block2_flr2_2",
+      "city_block2_flr2_3",
+      "city_block2_flr2_4",
+      "city_block2_roof_1",
+      "city_block2_roof_2",
+      "city_block2_roof_3",
+      "city_block2_roof_4"
+    ],
     "copy-from": "generic_city_building",
+    "name": "urban city block",
     "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
-    "id": "city_block2_2",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "city_block2_3",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "city_block2_4",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "city_block2_flr2_1",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "city_block2_flr2_2",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "city_block2_flr2_3",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "city_block2_flr2_4",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "city_block2_roof_1",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "city_block2_roof_2",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "city_block2_roof_3",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "city_block2_roof_4",
-    "name": "urban city block",
-    "copy-from": "generic_city_building",
-    "color": "light_blue"
-  },
-  {
-    "id": "urban_14_1",
-    "type": "overmap_terrain",
+    "id": [ "urban_14_1", "urban_14_2" ],
     "copy-from": "generic_city_house_basement"
   },
   {
-    "id": "urban_14_2",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_house_basement"
-  },
-  {
-    "id": "urban_14_3",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_4",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_5",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_6",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_7",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_8",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_9",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_10",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_11",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_12",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_13",
-    "type": "overmap_terrain",
-    "copy-from": "urban_13_3"
-  },
-  {
-    "id": "urban_14_14",
-    "type": "overmap_terrain",
+    "id": [
+      "urban_14_10",
+      "urban_14_11",
+      "urban_14_12",
+      "urban_14_13",
+      "urban_14_14",
+      "urban_14_3",
+      "urban_14_4",
+      "urban_14_5",
+      "urban_14_6",
+      "urban_14_7",
+      "urban_14_8",
+      "urban_14_9"
+    ],
     "copy-from": "urban_13_3"
   }
 ]

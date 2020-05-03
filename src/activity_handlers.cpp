@@ -43,7 +43,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "gates.h"
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -166,7 +165,6 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
-static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
@@ -380,7 +378,6 @@ activity_handlers::finish_functions = {
     { ACT_PULP, pulp_finish },
     { ACT_CRACKING, cracking_finish },
     { ACT_LOCKPICK, lockpicking_finish },
-    { ACT_OPEN_GATE, open_gate_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -1590,7 +1587,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 }
                 break;
             case LTT_CONTAINER:
-                p->pour_into( p->i_at( act_ref.values.at( 3 ) ), liquid );
+                p->pour_into( *act_ref.targets.at( 0 ), liquid );
                 break;
             case LTT_MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
@@ -2621,14 +2618,6 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::open_gate_finish( player_activity *act, player * )
-{
-    // Don't use reference and don't inline, because act can change
-    const tripoint pos = act->placement;
-    gates::open_gate( pos );
-    act->set_to_null();
-}
-
 enum repeat_type : int {
     // REPEAT_INIT should be zero. In some scenarios (veh welder), activity value default to zero.
     REPEAT_INIT = 0,    // Haven't found repeat value yet.
@@ -2992,7 +2981,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.put_in( p->i_rem( &mod ) );
+        gun.put_in( p->i_rem( &mod ), item_pocket::pocket_type::MOD );
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
@@ -3027,7 +3016,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
     mod.item_tags.insert( "IRREMOVABLE" );
-    tool.put_in( mod );
+    tool.put_in( mod, item_pocket::pocket_type::MOD );
     act->targets[1].remove_item();
 }
 
@@ -4715,14 +4704,13 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     const bool no_mana = act->get_value( 2 ) == 0;
 
     // choose target for spell (if the spell has a range > 0)
-
-    target_handler th;
     tripoint target = p->pos();
     bool target_is_valid = false;
     if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( target_none ) &&
         !spell_being_cast.has_flag( RANDOM_TARGET ) ) {
         do {
-            std::vector<tripoint> trajectory = th.target_ui( spell_being_cast, no_fail, no_mana );
+            std::vector<tripoint> trajectory = target_handler::mode_spell( *p, spell_being_cast, no_fail,
+                                               no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
                 target_is_valid = spell_being_cast.is_valid_target( *p, target );
@@ -4870,5 +4858,5 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear_items();
-    data_card.put_in( item( "mind_scan_robofac" ) );
+    data_card.put_in( item( "mind_scan_robofac" ), item_pocket::pocket_type::SOFTWARE );
 }

@@ -17,7 +17,7 @@
     "looks_like": "molle_pack",
     "coverage": 30,
     "encumbrance": 10,
-    "storage": "100 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "100 L", "max_contains_weight": "500 kg", "moves": 300 } ],
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM" ]
@@ -133,7 +133,6 @@
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 95,
     "encumbrance": 25,
-    "storage": "8 L",
     "warmth": 35,
     "material_thickness": 9,
     "valid_mods": [ "steel_padded" ],

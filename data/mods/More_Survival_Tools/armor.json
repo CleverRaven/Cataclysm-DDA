@@ -23,14 +23,6 @@
     "type": "ARMOR",
     "copy-from": "javelin_bag",
     "name": "javelin bag",
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash javelins",
-      "holster_msg": "You stash your %s.",
-      "multi": 10,
-      "max_volume": "500 ml",
-      "draw_cost": 30,
-      "flags": [ "JAVELIN" ]
-    }
+    "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." }
   }
 ]

@@ -93,6 +93,7 @@
         { "monster": "GROUP_ZOMBIE", "x": [ 4, 4 ], "y": [ 14, 14 ], "repeat": [ 1, 6 ], "density": 0.2 },
         { "monster": "GROUP_DOMESTIC", "x": [ 10, 12 ], "y": [ 15, 17 ], "repeat": [ 1, 2 ], "density": 0.2 }
       ],
+      "place_nested": [ { "chunks": [ [ "NC_FARMER_spawn", 10 ], [ "null", 90 ] ], "x": 23, "y": 3 } ],
       "palettes": [ "farm" ]
     }
   },

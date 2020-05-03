@@ -178,7 +178,7 @@ editmap::editmap()
 {
     width = 45;
     height = TERMY;
-    offsetX = VIEW_OFFSET_X;
+    offsetX = 0;
     infoHeight = 0;
     sel_field = -1;
     sel_field_intensity = -1;
@@ -1298,7 +1298,6 @@ void editmap::edit_itm()
                              pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );
             ilmenu.setup();
             ilmenu.filterlist();
-            ilmenu.refresh();
         }
     } while( ilmenu.ret != UILIST_CANCEL );
 }
@@ -1576,7 +1575,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
-    gmenu.redraw();
     gmenu.show();
 
     uilist gpmenu;
@@ -1758,11 +1756,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             if( gpmenu.ret_act == "LEFT" ) {
                 gmenu.scrollby( -1 );
                 gmenu.show();
-                gmenu.refresh();
             } else if( gpmenu.ret_act == "RIGHT" ) {
                 gmenu.scrollby( 1 );
                 gmenu.show();
-                gmenu.refresh();
             }
         }
         showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;
@@ -1774,7 +1770,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     }
     gmenu.border_color = c_magenta;
     gmenu.hilight_color = h_white;
-    gmenu.redraw();
     hilights["mapgentgt"].points.clear();
     cleartmpmap( tmpmap );
 }

@@ -344,7 +344,7 @@
     "name": { "str": "masterkey shotgun" },
     "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
     "weight": "2600 g",
-    "volume": "500 ml",
+    "volume": "1068 ml",
     "price": 95000,
     "price_postapoc": 1000,
     "material": [ "steel" ],
@@ -417,7 +417,6 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
-    "magazine_well": 1,
     "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },

@@ -1259,7 +1259,15 @@
     "material": "stone",
     "symbol": ";",
     "color": "dark_gray",
-    "container_data": { "contains": "1500 ml", "watertight": true },
+    "pocket_data": [
+      {
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -1843,7 +1851,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
-    "magazine_well": 1,
     "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ]
@@ -2382,19 +2389,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 7,
-    "storage": "2500 ml",
     "warmth": 15,
     "material_thickness": 4,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2416,19 +2413,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 15,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 9,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2450,19 +2437,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 25,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 5,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2484,19 +2461,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 12,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 6,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2518,19 +2485,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 20,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 7,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2552,19 +2509,103 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 15,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 6,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "shotcanister_scrap",
+    "price": 1000,
+    "price_postapoc": 250,
+    "name": { "str": "scrap shotcanister" },
+    "symbol": "=",
+    "color": "green",
+    "description": "This small paper canister resembling a crude shotshell is filled to the brim with assorted pieces of scrap metal.",
+    "material": [ "steel" ],
+    "volume": "250 ml",
+    "weight": "55 g",
+    "bashing": 2,
+    "cutting": 1,
+    "ammo_type": "shotcanister",
+    "looks_like": "shot_scrap",
+    "range": 1,
+    "damage": { "damage_type": "stab", "amount": 10 },
+    "dispersion": 250,
+    "loudness": 0,
+    "count": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "shotcanister_pebble",
+    "price": 1000,
+    "price_postapoc": 50,
+    "name": { "str": "pebble shotcanister" },
+    "symbol": "=",
+    "color": "green",
+    "description": "This small paper canister resembling a crude shotshell is filled to the brim with tiny pebbles.  Damage is pathetic but flight is much more stable than scrap.",
+    "material": [ "stone" ],
+    "volume": "250 ml",
+    "weight": "55 g",
+    "bashing": 2,
+    "cutting": 1,
+    "ammo_type": "shotcanister",
+    "looks_like": "shot_scrap",
+    "range": 2,
+    "damage": { "damage_type": "stab", "amount": 7, "armor_penetration": 1 },
+    "dispersion": 80,
+    "loudness": 0,
+    "count": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "shotcanister_flechette",
+    "price": 1000,
+    "price_postapoc": 250,
+    "name": { "str": "flechette shotcanister" },
+    "symbol": "=",
+    "color": "green",
+    "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade flechettes, giving it some armor piercing capabilities.",
+    "material": [ "steel" ],
+    "volume": "250 ml",
+    "weight": "55 g",
+    "bashing": 2,
+    "cutting": 1,
+    "ammo_type": "shotcanister",
+    "looks_like": "shot_scrap",
+    "range": 3,
+    "damage": { "damage_type": "stab", "amount": 13, "armor_penetration": 7 },
+    "dispersion": 50,
+    "loudness": 0,
+    "count": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "shotcanister_bearing",
+    "price": 1000,
+    "price_postapoc": 250,
+    "name": { "str": "bearing shotcanister" },
+    "symbol": "=",
+    "color": "green",
+    "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade bearings, stabilizing its flight pattern a tiny bit.",
+    "material": [ "steel" ],
+    "volume": "250 ml",
+    "weight": "55 g",
+    "bashing": 2,
+    "cutting": 1,
+    "ammo_type": "shotcanister",
+    "looks_like": "shot_scrap",
+    "range": 2,
+    "damage": { "damage_type": "stab", "amount": 12, "armor_penetration": 2 },
+    "dispersion": 100,
+    "loudness": 0,
+    "count": 10
+  },
+  {
+    "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
   }
 ]

@@ -21,7 +21,6 @@
     "durability": 8,
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazine_well": 1,
     "magazines": [ [ "50", [ "m107a1mag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   },
@@ -118,7 +117,6 @@
     "reload": 400,
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazine_well": 1,
     "magazines": [ [ "50", [ "as50mag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   },
@@ -144,7 +142,6 @@
     "reload": 450,
     "barrel_length": "1250 ml",
     "default_mods": [ "recoil_stock", "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazine_well": 1,
     "magazines": [ [ "50", [ "tac50mag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   },

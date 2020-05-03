@@ -22,6 +22,11 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
 {
     std::string os;
     std::vector<const achievement *> valid_achievements = achievements.valid_achievements();
+    valid_achievements.erase(
+        std::remove_if( valid_achievements.begin(), valid_achievements.end(),
+    [&]( const achievement * a ) {
+        return achievements.is_hidden( a );
+    } ), valid_achievements.end() );
     using sortable_achievement =
         std::tuple<achievement_completion, std::string, const achievement *>;
     std::vector<sortable_achievement> sortable_achievements;

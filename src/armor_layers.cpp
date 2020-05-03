@@ -303,8 +303,6 @@ std::vector<std::string> clothing_properties(
                                      width ) );
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
-    props.push_back( name_and_value( space + string_format( _( "Storage (%s):" ), volume_units_abbr() ),
-                                     format_volume( worn_item.get_storage() ), width ) );
     return props;
 }
 
@@ -601,8 +599,6 @@ void player::sort_armor()
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
-            right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
-                         format_volume( tmp_worn[itemindex]->get_storage() ) );
         }
 
         // Left footer

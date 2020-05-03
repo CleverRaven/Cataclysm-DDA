@@ -565,13 +565,13 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
-    const auto spawn_turret = [&]( int x, int y ) {
+    const auto spawn_turret = [&]( const point & p ) {
         if( one_in( 3 ) ) {
-            m.add_spawn( mon_turret_bmg, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_bmg, 1, { p, abs_sub.z } );
         } else if( one_in( 2 ) ) {
-            m.add_spawn( mon_turret_rifle, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_rifle, 1, { p, abs_sub.z } );
         } else {
-            m.add_spawn( mon_turret_riot, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
         }
     };
 
@@ -617,31 +617,31 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             // The truck's wrecked...with fuel.  Explosive barrel?
             m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, SEEY * 2 - 12 ), 0, 70, -1 );
             if( road_at_north ) {
-                spawn_turret( 12, 6 );
+                spawn_turret( point( 12, 6 ) );
             }
             if( road_at_east ) {
-                spawn_turret( 18, 12 );
+                spawn_turret( point( 18, 12 ) );
             }
             if( road_at_south ) {
-                spawn_turret( 12, 18 );
+                spawn_turret( point( 12, 18 ) );
             }
             if( road_at_west ) {
-                spawn_turret( 6, 12 );
+                spawn_turret( point( 6, 12 ) );
             }
         } else {  // Vehicle & turrets
             m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0, 70,
                            -1 );
             if( road_at_north ) {
-                spawn_turret( 12, 6 );
+                spawn_turret( point( 12, 6 ) );
             }
             if( road_at_east ) {
-                spawn_turret( 18, 12 );
+                spawn_turret( point( 18, 12 ) );
             }
             if( road_at_south ) {
-                spawn_turret( 12, 18 );
+                spawn_turret( point( 12, 18 ) );
             }
             if( road_at_west ) {
-                spawn_turret( 6, 12 );
+                spawn_turret( point( 6, 12 ) );
             }
         }
 
@@ -1539,12 +1539,12 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
+static void place_fumarole( map &m, const point &p1, const point &p2, std::set<point> &ignited )
 {
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;
 
-    std::vector<point> fumarole = line_to( point( x1, y1 ), point( x2, y2 ), 0 );
+    std::vector<point> fumarole = line_to( p1, p2, 0 );
     for( auto &i : fumarole ) {
         m.ter_set( i, t_lava );
 
@@ -1654,8 +1654,9 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 m.add_field( portal_location, fd_fatigue, 3 );
 
                 std::set<point> ignited;
-                place_fumarole( m, x1, y1, x2, y2, ignited );
-                place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
+                place_fumarole( m, point( x1, y1 ), point( x2, y2 ), ignited );
+                place_fumarole( m, point( x1 + x_extra, y1 + y_extra ), point( x2 + x_extra, y2 + y_extra ),
+                                ignited );
 
                 for( auto &i : ignited ) {
                     // Don't need to do anything to tiles that already have lava on them

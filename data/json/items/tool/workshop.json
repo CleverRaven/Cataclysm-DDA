@@ -81,8 +81,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "brick_kiln",
@@ -193,8 +192,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "cordless_drill",
@@ -218,8 +216,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "distaff_spindle",
@@ -416,8 +413,7 @@
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": 4
+    ]
   },
   {
     "id": "large_repairkit",
@@ -454,7 +450,6 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -689,8 +684,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "primitive_hammer",
@@ -782,7 +776,6 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -826,8 +819,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "toolbox",
@@ -974,8 +966,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "welder_crude",
@@ -1092,5 +1083,23 @@
     "symbol": ",",
     "color": "green",
     "use_action": "SIPHON"
+  },
+  {
+    "id": "makeshift_hand_drill",
+    "type": "TOOL",
+    "name": { "str": "makeshift hand drill" },
+    "description": "This is a makeshift manual drill made out of pipe and improvised drill bit.  It is very slow and it will exhaust you quickly.",
+    "weight": "1354 g",
+    "volume": "1 L",
+    "price": 100,
+    "price_postapoc": 50,
+    "to_hit": -3,
+    "bashing": 4,
+    "cutting": 1,
+    "material": [ "wood", "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "looks_like": "hand_drill",
+    "qualities": [ [ "DRILL", 1 ] ]
   }
 ]

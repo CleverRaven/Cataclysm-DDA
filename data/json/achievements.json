@@ -13,10 +13,60 @@
     "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 1 } ]
   },
   {
+    "id": "achievement_kill_10_monsters",
+    "type": "achievement",
+    "name": "Decamate",
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_kill_100_monsters",
+    "type": "achievement",
+    "name": "Centinel",
+    "hidden_by": [ "achievement_kill_10_monsters" ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 100 } ]
+  },
+  {
     "id": "achievement_survive_one_day",
     "type": "achievement",
     "name": "The first day of the rest of their unlives",
+    "description": "Survive for a day and find a safe place to sleep",
     "time_constraint": { "since": "game_start", "is": ">=", "target": "1 day" },
+    "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_survive_7_days",
+    "type": "achievement",
+    "name": "Thank God it's Friday",
+    "description": "Survive for a week",
+    "hidden_by": [ "achievement_survive_one_day" ],
+    "time_constraint": { "since": "game_start", "is": ">=", "target": "7 days" },
+    "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_survive_28_days",
+    "type": "achievement",
+    "name": "28 days later",
+    "description": "Survive for a month",
+    "hidden_by": [ "achievement_survive_7_days" ],
+    "time_constraint": { "since": "game_start", "is": ">=", "target": "28 days" },
+    "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_survive_91_days",
+    "type": "achievement",
+    "name": "A time to every purpose under heaven",
+    "description": "Survive for a season",
+    "hidden_by": [ "achievement_survive_28_days" ],
+    "time_constraint": { "since": "game_start", "is": ">=", "target": "91 days" },
+    "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_survive_365_days",
+    "type": "achievement",
+    "name": "Brighter days ahead?",
+    "description": "Survive for a year",
+    "hidden_by": [ "achievement_survive_91_days" ],
+    "time_constraint": { "since": "game_start", "is": ">=", "target": "365 days" },
     "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
   },
   {

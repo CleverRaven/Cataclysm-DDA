@@ -69,7 +69,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
     "magazines": [ [ "20x66mm", [ "20x66_20_mag", "20x66_40_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },

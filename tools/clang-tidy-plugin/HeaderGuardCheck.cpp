@@ -62,6 +62,7 @@ static std::string getHeaderGuard( StringRef Filename )
     Guard = Guard.substr( TopDir.length() + 1 );
 
     std::replace( Guard.begin(), Guard.end(), '/', '_' );
+    std::replace( Guard.begin(), Guard.end(), '\\', '_' );
     std::replace( Guard.begin(), Guard.end(), '.', '_' );
     std::replace( Guard.begin(), Guard.end(), '-', '_' );
 

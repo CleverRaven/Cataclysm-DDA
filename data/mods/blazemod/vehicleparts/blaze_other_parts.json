@@ -26,85 +26,116 @@
     "damage_reduction": { "all": 28 }
   },
   {
-    "id": "solar_array",
+    "id": "solar_array_part",
     "type": "vehicle_part",
     "name": { "str": "solar array" },
     "item": "solar_array",
-    "location": "center",
+    "location": "structure",
     "symbol": "#",
     "broken_symbol": "x",
     "color": "yellow",
     "broken_color": "yellow",
-    "durability": 250,
-    "epower": 600,
+    "durability": 20,
+    "epower": 145,
     "damage_modifier": 10,
-    "description": "A dozen solar panels set on a chassis reaching several meters high.  It keeps the fragile panels safely away from any potential threats and improves efficiency due to being able track the sun.  Will recharge the vehicle's electrical power when exposed to the sun.",
+    "folded_volume": "10 L",
+    "description": "A vertical array of three solar panels set on a chassis rising above one another on a metal pole with rudimentary tracking and motors.  Due to the flimsy nature of the hydraulics and high surface area profile to maximize sunlight, they can't really be installed onto an existing vehicle.  Requires a jumper cable or similar to pull power from.",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 6 ] },
-      { "item": "steel_chunk", "count": [ 6, 12 ] },
-      { "item": "scrap", "count": [ 8, 16 ] },
-      { "item": "solar_cell", "count": [ 10, 40 ] }
+      { "item": "steel_lump", "count": [ 2, 12 ] },
+      { "item": "steel_chunk", "count": [ 2, 12 ] },
+      { "item": "scrap", "count": [ 2, 12 ] },
+      { "item": "solar_cell", "count": [ 4, 12 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [ [ "mechanics", 99 ] ], "time": "999 h" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
+      "repair": {
+        "skills": [ [ "electronics", 6 ] ],
+        "time": "150 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 3 ], [ "soldering_standard", 8 ] ]
+      }
     },
-    "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "PROTRUSION", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
-    "id": "solar_array2",
+    "id": "reinforced_solar_array_part",
     "type": "vehicle_part",
-    "name": { "str": "upgraded solar array" },
-    "item": "solar_array2",
-    "location": "center",
-    "symbol": "#",
-    "broken_symbol": "x",
-    "color": "yellow",
-    "broken_color": "yellow",
-    "durability": 250,
-    "epower": 1200,
-    "damage_modifier": 10,
-    "description": "A dozen upgraded solar panels set on a chassis reaching several meters high.  It keeps the fragile panels safely away from any potential threats and improves efficiency due to being able track the sun.  Will recharge the vehicle's electrical power when exposed to the sun.",
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 6 ] },
-      { "item": "steel_chunk", "count": [ 6, 12 ] },
-      { "item": "scrap", "count": [ 8, 16 ] },
-      { "item": "solar_cell", "count": [ 20, 60 ] }
-    ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    },
-    "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
-  },
-  {
-    "id": "solar_array2r",
-    "type": "vehicle_part",
-    "name": { "str": "upgraded reinforced solar array" },
-    "item": "solar_array2r",
-    "location": "center",
-    "symbol": "#",
-    "broken_symbol": "x",
+    "copy-from": "solar_array_part",
+    "name": { "str": "reinforced solar array" },
+    "item": "reinforced_solar_array",
     "color": "light_blue",
     "broken_color": "light_gray",
-    "durability": 500,
-    "epower": 1080,
-    "damage_modifier": 10,
-    "description": "A dozen upgraded solar panels set on a chassis reaching several meters high.  It keeps the fragile panels safely away from any potential threats and improves efficiency due to being able track the sun.  Will recharge the vehicle's electrical power when exposed to the sun.",
+    "durability": 300,
+    "proportional": { "epower": 0.9 },
+    "folded_volume": "14 L",
+    "description": "A vertical array of three reinforced solar panels set on a chassis rising above one another on a metal pole with rudimentary tracking and motors.  Due to the flimsy nature of the hydraulics and high surface area profile to maximize sunlight, they can't really be installed onto an existing vehicle.  Requires a jumper cable or similar to pull power from.",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 11 ] },
-      { "item": "steel_chunk", "count": [ 12, 23 ] },
-      { "item": "scrap", "count": [ 16, 31 ] },
-      { "item": "solar_cell", "count": [ 20, 60 ] }
+      { "item": "steel_lump", "count": [ 2, 21 ] },
+      { "item": "steel_chunk", "count": [ 2, 21 ] },
+      { "item": "scrap", "count": [ 2, 21 ] },
+      { "item": "solar_cell", "count": [ 4, 12 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [ [ "mechanics", 99 ] ], "time": "999 h" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
+      "repair": {
+        "skills": [ [ "electronics", 6 ] ],
+        "time": "150 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 3 ], [ "soldering_standard", 8 ] ]
+      }
     },
-    "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "PROTRUSION", "FOLDABLE", "EXTRA_DRAG" ]
+  },
+  {
+    "id": "solar_array_v2_part",
+    "type": "vehicle_part",
+    "copy-from": "solar_array_part",
+    "name": { "str": "upgraded solar array" },
+    "item": "solar_array_v2",
+    "proportional": { "epower": 2.0 },
+    "folded_volume": "12 L",
+    "description": "A vertical array of three upgraded solar panels set on a chassis rising above one another on a metal pole with rudimentary tracking and motors.  Due to the flimsy nature of the hydraulics and high surface area profile to maximize sunlight, they can't really be installed onto an existing vehicle.  Requires a jumper cable or similar to pull power from.",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 12 ] },
+      { "item": "steel_chunk", "count": [ 2, 12 ] },
+      { "item": "scrap", "count": [ 2, 12 ] },
+      { "item": "solar_cell", "count": [ 4, 18 ] }
+    ],
+    "requirements": {
+      "repair": {
+        "skills": [ [ "electronics", 6 ] ],
+        "time": "150 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel_v2", 3 ], [ "soldering_standard", 8 ] ]
+      }
+    },
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "PROTRUSION", "FOLDABLE", "EXTRA_DRAG" ]
+  },
+  {
+    "id": "reinforced_solar_array_v2_part",
+    "type": "vehicle_part",
+    "copy-from": "solar_array_v2_part",
+    "name": { "str": "upgraded reinforced solar array" },
+    "item": "reinforced_solar_array_v2",
+    "color": "light_blue",
+    "broken_color": "light_gray",
+    "durability": 300,
+    "proportional": { "epower": 0.9 },
+    "folded_volume": "15 L",
+    "description": "A vertical array of three upgraded reinforced solar panels set on a chassis rising above one another on a metal pole with rudimentary tracking and motors.  Due to the flimsy nature of the hydraulics and high surface area profile to maximize sunlight, they can't really be installed onto an existing vehicle.  Requires a jumper cable or similar to pull power from.",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 21 ] },
+      { "item": "steel_chunk", "count": [ 2, 21 ] },
+      { "item": "scrap", "count": [ 2, 21 ] },
+      { "item": "solar_cell", "count": [ 4, 18 ] }
+    ],
+    "requirements": {
+      "repair": {
+        "skills": [ [ "electronics", 6 ] ],
+        "time": "150 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel_v2", 3 ], [ "soldering_standard", 8 ] ]
+      }
+    },
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "PROTRUSION", "FOLDABLE", "EXTRA_DRAG" ]
   },
   {
     "id": "wiring",
@@ -126,27 +157,5 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 s" }
     },
     "flags": [ "INITIAL_PART", "FOLDABLE", "AISLE" ]
-  },
-  {
-    "id": "stabilized_cargo_portal",
-    "type": "vehicle_part",
-    "name": { "str": "pocket dimension cargo" },
-    "//": "Keep away from Svarog detectors!",
-    "item": "stablilized_portal",
-    "location": "center",
-    "symbol": "O",
-    "broken_symbol": "O",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "durability": 400,
-    "size": 6000,
-    "cargo_weight_modifier": 0,
-    "breaks_into": [ { "item": "cargo_rack", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    },
-    "flags": [ "CARGO", "COVERED" ]
   }
 ]
