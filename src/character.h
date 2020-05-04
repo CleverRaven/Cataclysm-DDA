@@ -731,7 +731,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns the armor bonus against given type from martial arts buffs */
         int mabuff_armor_bonus( damage_type type ) const;
         /** Returns overall fire resistance for the body part */
-        int get_armor_fire( body_part bp ) const;
+        int get_armor_fire( const bodypart_id &bp ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -827,7 +827,7 @@ class Character : public Creature, public visitable<Character>
                              float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
-        nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
+        nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
 
         static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;

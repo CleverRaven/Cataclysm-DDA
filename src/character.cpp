@@ -5917,7 +5917,7 @@ hp_part Character::body_window( const std::string &menu_header,
      * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
     struct healable_bp {
         mutable bool allowed;
-        body_part bp;
+        bodypart_id bp;
         hp_part hp;
         std::string name; // Translated name as it appears in the menu.
         int bonus;
@@ -5925,12 +5925,12 @@ hp_part Character::body_window( const std::string &menu_header,
     /* The array of the menu entries show to the player. The entries are displayed in this order,
      * it may be changed here. */
     std::array<healable_bp, num_hp_parts> parts = { {
-            { false, bp_head, hp_head, _( "Head" ), head_bonus },
-            { false, bp_torso, hp_torso, _( "Torso" ), torso_bonus },
-            { false, bp_arm_l, hp_arm_l, _( "Left Arm" ), normal_bonus },
-            { false, bp_arm_r, hp_arm_r, _( "Right Arm" ), normal_bonus },
-            { false, bp_leg_l, hp_leg_l, _( "Left Leg" ), normal_bonus },
-            { false, bp_leg_r, hp_leg_r, _( "Right Leg" ), normal_bonus },
+            { false, bodypart_id( "head" ), hp_head, _( "Head" ), head_bonus },
+            { false, bodypart_id( "torso" ), hp_torso, _( "Torso" ), torso_bonus },
+            { false, bodypart_id( "arm_l" ), hp_arm_l, _( "Left Arm" ), normal_bonus },
+            { false, bodypart_id( "arm_r" ), hp_arm_r, _( "Right Arm" ), normal_bonus },
+            { false, bodypart_id( "leg_l" ), hp_leg_l, _( "Left Leg" ), normal_bonus },
+            { false, bodypart_id( "leg_r" ), hp_leg_r, _( "Right Leg" ), normal_bonus },
         }
     };
 
@@ -5948,7 +5948,8 @@ hp_part Character::body_window( const std::string &menu_header,
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const auto &e = parts[i];
-        const body_part bp = e.bp;
+        const bodypart_id &bp = e.bp;
+        const body_part bp_token = bp->token;
         const hp_part hp = e.hp;
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
@@ -5960,7 +5961,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( hp );
-        const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
+        const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp_token );
 
         if( show_all ) {
             e.allowed = true;
@@ -5977,16 +5978,16 @@ hp_part Character::body_window( const std::string &menu_header,
 
         std::string msg;
         std::string desc;
-        bool bleeding = has_effect( effect_bleed, e.bp );
-        bool bitten = has_effect( effect_bite, e.bp );
-        bool infected = has_effect( effect_infected, e.bp );
-        bool bandaged = has_effect( effect_bandaged, e.bp );
-        bool disinfected = has_effect( effect_disinfected, e.bp );
-        const int b_power = get_effect_int( effect_bandaged, e.bp );
-        const int d_power = get_effect_int( effect_disinfected, e.bp );
+        bool bleeding = has_effect( effect_bleed, bp_token );
+        bool bitten = has_effect( effect_bite, bp_token );
+        bool infected = has_effect( effect_infected, bp_token );
+        bool bandaged = has_effect( effect_bandaged, bp_token );
+        bool disinfected = has_effect( effect_disinfected, bp_token );
+        const int b_power = get_effect_int( effect_bandaged, bp_token );
+        const int d_power = get_effect_int( effect_disinfected, bp_token );
         int new_b_power = static_cast<int>( std::floor( bandage_power ) );
         if( bandaged ) {
-            const effect &eff = get_effect( effect_bandaged, e.bp );
+            const effect &eff = get_effect( effect_bandaged, bp_token );
             if( new_b_power > eff.get_max_intensity() ) {
                 new_b_power = eff.get_max_intensity();
             }
@@ -5999,7 +6000,7 @@ hp_part Character::body_window( const std::string &menu_header,
         if( limb_is_mending ) {
             desc += colorize( _( "It is broken but has been set and just needs time to heal." ),
                               c_blue ) + "\n";
-            const auto &eff = get_effect( effect_mending, bp );
+            const auto &eff = get_effect( effect_mending, bp_token );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             if( precise ) {
@@ -6032,8 +6033,8 @@ hp_part Character::body_window( const std::string &menu_header,
 
         // BLEEDING block
         if( bleeding ) {
-            desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, e.bp ).get_speed_name(),
-                                             get_effect( effect_bleed, e.bp ).disp_short_desc() ), c_red ) + "\n";
+            desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, bp_token ).get_speed_name(),
+                                             get_effect( effect_bleed, bp_token ).disp_short_desc() ), c_red ) + "\n";
             if( bleed > 0.0f ) {
                 desc += colorize( string_format( _( "Chance to stop: %d %%" ),
                                                  static_cast<int>( bleed * 100 ) ), c_light_green ) + "\n";
@@ -6058,7 +6059,7 @@ hp_part Character::body_window( const std::string &menu_header,
         // BITTEN block
         if( bitten ) {
             desc += colorize( string_format( "%s: ", get_effect( effect_bite,
-                                             e.bp ).get_speed_name() ), c_red );
+                                             bp_token ).get_speed_name() ), c_red );
             desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red ) + "\n";
             if( bite > 0 ) {
                 desc += colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
@@ -6070,7 +6071,7 @@ hp_part Character::body_window( const std::string &menu_header,
         // INFECTED block
         if( infected ) {
             desc += colorize( string_format( "%s: ", get_effect( effect_infected,
-                                             e.bp ).get_speed_name() ), c_red );
+                                             bp_token ).get_speed_name() ), c_red );
             desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
                               c_red ) + "\n";
             if( infect > 0 ) {
@@ -6126,21 +6127,21 @@ hp_part Character::body_window( const std::string &menu_header,
     }
 }
 
-nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect ) const
+nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const
 {
-    if( bp == num_bp ) {
+    if( bp == bodypart_id( "num_bp" ) ) {
         return c_light_gray;
     }
-
+    const body_part bp_token = bp->token;
     int color_bit = 0;
     nc_color i_color = c_light_gray;
-    if( bleed && has_effect( effect_bleed, bp ) ) {
+    if( bleed && has_effect( effect_bleed, bp_token ) ) {
         color_bit += 1;
     }
-    if( bite && has_effect( effect_bite, bp ) ) {
+    if( bite && has_effect( effect_bite, bp_token ) ) {
         color_bit += 10;
     }
-    if( infect && has_effect( effect_infected, bp ) ) {
+    if( infect && has_effect( effect_infected, bp_token ) ) {
         color_bit += 100;
     }
     switch( color_bit ) {
@@ -6714,7 +6715,7 @@ std::string Character::extended_description() const
 
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
-        const nc_color state_col = limb_color( bp->token, true, true, true );
+        const nc_color state_col = limb_color( bp, true, true, true );
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 
