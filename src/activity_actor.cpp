@@ -34,7 +34,6 @@ static const skill_id skill_computer( "computer" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
-// ADDED CODE
 void dig_channel_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -73,9 +72,12 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-/** @pre @p other is a dig_channel_activity_actor */ 
-bool dig_channel_activity_actor::can_resume_with( const activity_actor &other, const Character & ) const {
-    const dig_channel_activity_actor &dc_actor = dynamic_cast<const dig_channel_activity_actor &>( other );
+/** @pre @p other is a dig_channel_activity_actor */
+bool dig_channel_activity_actor::can_resume_with( const activity_actor &other,
+        const Character & ) const
+{
+    const dig_channel_activity_actor &dc_actor = dynamic_cast<const dig_channel_activity_actor &>
+            ( other );
     return *this == dc_actor;
 }
 
@@ -109,7 +111,6 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
 
     return actor.clone();
 }
-// END ADDED CODE
 
 void hacking_activity_actor::start( player_activity &act, Character & )
 {
@@ -463,6 +464,15 @@ void open_gate_activity_actor::finish( player_activity &act, Character & )
 {
     gates::open_gate( placement );
     act.set_to_null();
+}
+
+/** @pre @p other is an open_gate_activity_actor */
+bool open_gate_activity_actor::can_resume_with( const activity_actor &other,
+        const Character & ) const
+{
+    const open_gate_activity_actor &og_actor = dynamic_cast<const open_gate_activity_actor &>( other );
+
+    return *this == og_actor;
 }
 
 void open_gate_activity_actor::serialize( JsonOut &jsout ) const

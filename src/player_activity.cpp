@@ -8,6 +8,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "construction.h"
+#include "debug.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -149,6 +150,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
           ) {
+            
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
             extra_info = string_format( "%d%%", percentage );
@@ -170,9 +172,9 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                     get_verb().translated(), extra_info );
 }
 
-void player_activity::start( Character &who )
+void player_activity::start( Character &who, bool resuming )
 {
-    if( actor ) {
+    if( actor && !resuming ) {
         actor->start( *this, who );
     }
     if( rooted() ) {
@@ -292,9 +294,7 @@ bool containers_equal( const T &left, const T &right )
     return std::equal( left.begin(), left.end(), right.begin() );
 }
 
-// ADDED CODE
 bool player_activity::can_resume_with( const player_activity &other, const Character &who ) const
-// END ADDED CODE
 {
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
@@ -306,11 +306,9 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         return false;
     }
 
-    // ADDED CODE
-    if ( actor && other.actor && id() == other.id() ) {
-        return actor->can_resume_with( *other.actor, who);
+    if( actor && other.actor && id() == other.id() ) {
+        return actor->can_resume_with( *other.actor, who );
     }
-    // END ADDED CODE
 
     if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
         if( other.coords.empty() || other.coords[0] != coords[0] ) {
@@ -330,12 +328,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
-    // REMOVED CODE
-    /* } else if( id() == activity_id( "ACT_DIG" ) || id() == activity_id( "ACT_DIG_CHANNEL" ) ) { */
-    // END REMOVED CODE
-    // ADDED CODE
     } else if( id() == activity_id( "ACT_DIG" ) ) {
-    // END ADDED CODE
         // We must be digging in the same location.
         if( placement != other.placement ) {
             return false;

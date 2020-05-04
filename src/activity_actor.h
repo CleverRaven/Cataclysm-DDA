@@ -45,12 +45,12 @@ class activity_actor
          * already been set to null
          */
         virtual void finish( player_activity &act, Character &who ) = 0;
-        
+
         /**
-         * Called in player_activity::can_resume_with 
-         * @pre @p other should be the same type of actor
+         * Called in player_activity::can_resume_with
          * Returns true if activities are similar enough that this activity
          * can be resumed instead of starting the other activity.
+         * @pre @p other is the same type of actor
          */
         virtual bool can_resume_with( const activity_actor &other, const Character &who ) const = 0;
 
@@ -104,9 +104,9 @@ class dig_channel_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
-        bool can_resume_with( const activity_actor &other, const Character & ) const override; 
+        bool can_resume_with( const activity_actor &other, const Character & ) const override;
 
-        bool operator==(const dig_channel_activity_actor &other) const {
+        bool operator==( const dig_channel_activity_actor &other ) const {
             return  location == other.location &&
                     result_terrain == other.result_terrain &&
                     byproducts_location == other.byproducts_location &&
@@ -134,8 +134,8 @@ class hacking_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
-        bool can_resume_with( const activity_actor &, const Character & ) const override { 
-            return false; 
+        bool can_resume_with( const activity_actor &, const Character & ) const override {
+            return false;
         };
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -167,8 +167,8 @@ class move_items_activity_actor : public activity_actor
         void start( player_activity &, Character & ) override {};
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
-        bool can_resume_with( const activity_actor &, const Character & ) const override { 
-            return false; 
+        bool can_resume_with( const activity_actor &, const Character & ) const override {
+            return false;
         };
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -207,8 +207,8 @@ class pickup_activity_actor : public activity_actor
         void start( player_activity &, Character & ) override {};
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
-        bool can_resume_with( const activity_actor &, const Character & ) const override { 
-            return false; 
+        bool can_resume_with( const activity_actor &, const Character & ) const override {
+            return false;
         };
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -231,8 +231,8 @@ class migration_cancel_activity_actor : public activity_actor
         void start( player_activity &, Character & ) override {};
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
-        bool can_resume_with( const activity_actor &, const Character & ) const override { 
-            return false; 
+        bool can_resume_with( const activity_actor &, const Character & ) const override {
+            return false;
         };
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -260,6 +260,11 @@ class open_gate_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character & ) override;
+        bool can_resume_with( const activity_actor &, const Character & ) const override;
+
+        bool operator==( const open_gate_activity_actor &other ) const {
+            return  placement == other.placement;
+        }
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<open_gate_activity_actor>( *this );
