@@ -614,7 +614,7 @@ class Character : public Creature, public visitable<Character>
         void check_item_encumbrance_flag();
 
         /** Returns true if the character is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
-        bool natural_attack_restricted_on( body_part bp ) const;
+        bool natural_attack_restricted_on( const bodypart_id &bp ) const;
 
         int blocks_left;
         int dodges_left;

@@ -1790,10 +1790,11 @@ void Character::check_item_encumbrance_flag()
     }
 }
 
-bool Character::natural_attack_restricted_on( body_part bp ) const
+bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
 {
-    for( auto &i : worn ) {
-        if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) && !i.has_flag( "SEMITANGIBLE" ) &&
+    for( const item &i : worn ) {
+        if( i.covers( bp->token ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) &&
+            !i.has_flag( "SEMITANGIBLE" ) &&
             !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) ) {
             return true;
         }
