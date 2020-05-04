@@ -440,19 +440,14 @@ void consume_activity_actor::do_turn( player_activity &act, Character & )
     g->u.moves -= 100;
 }
 
-void consume_activity_actor::finish( player_activity &act, Character &who )
+void consume_activity_actor::finish( player_activity &act, Character &you )
 {
     item *it = loc.get_item();
     if( loc.where() == item_location::type::character ) {
-        g->u.consume( loc );
+        you.consume( loc );
 
-    } else if( g->u.consume_item( *it ) ) {
-        if( it->is_food_container() || !g->u.can_consume_as_is( *it ) ) {
-            it->remove_item( it->contents.front() );
-            who.add_msg_if_player( _( "You leave the empty %s." ), it->tname() );
-        } else {
-            loc.remove_item();
-        }
+    } else if( you.consume_item( *it ) ) {
+        loc.remove_item();
     }
     if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
         g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
