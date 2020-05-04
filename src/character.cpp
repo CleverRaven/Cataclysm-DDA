@@ -5395,53 +5395,52 @@ void Character::update_bodytemp()
         temp_conv[bp_token] -= blood_loss( bp_token ) * temp_conv[bp_token] / 200;
 
         // EQUALIZATION
-        switch( bp_token ) {
-            case bp_torso:
-                temp_equalizer( bp_torso, bp_arm_l );
-                temp_equalizer( bp_torso, bp_arm_r );
-                temp_equalizer( bp_torso, bp_leg_l );
-                temp_equalizer( bp_torso, bp_leg_r );
-                temp_equalizer( bp_torso, bp_head );
-                break;
-            case bp_head:
-                temp_equalizer( bp_head, bp_torso );
-                temp_equalizer( bp_head, bp_mouth );
-                break;
-            case bp_arm_l:
-                temp_equalizer( bp_arm_l, bp_torso );
-                temp_equalizer( bp_arm_l, bp_hand_l );
-                break;
-            case bp_arm_r:
-                temp_equalizer( bp_arm_r, bp_torso );
-                temp_equalizer( bp_arm_r, bp_hand_r );
-                break;
-            case bp_leg_l:
-                temp_equalizer( bp_leg_l, bp_torso );
-                temp_equalizer( bp_leg_l, bp_foot_l );
-                break;
-            case bp_leg_r:
-                temp_equalizer( bp_leg_r, bp_torso );
-                temp_equalizer( bp_leg_r, bp_foot_r );
-                break;
-            case bp_mouth:
-                temp_equalizer( bp_mouth, bp_head );
-                break;
-            case bp_hand_l:
-                temp_equalizer( bp_hand_l, bp_arm_l );
-                break;
-            case bp_hand_r:
-                temp_equalizer( bp_hand_r, bp_arm_r );
-                break;
-            case bp_foot_l:
-                temp_equalizer( bp_foot_l, bp_leg_l );
-                break;
-            case bp_foot_r:
-                temp_equalizer( bp_foot_r, bp_leg_r );
-                break;
-            default:
-                debugmsg( "Wacky body part temperature equalization!" );
-                break;
+        if( bp == bodypart_id( "torso" ) ) {
+            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "arm_l" ) );
+            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "arm_r" ) );
+            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_l" ) );
+            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_r" ) );
+            temp_equalizer( bodypart_id( "torso" ), bodypart_id( "head" ) );
         }
+        if( bp == bodypart_id( "head" ) ) {
+            temp_equalizer( bodypart_id( "head" ), bodypart_id( "torso" ) );
+            temp_equalizer( bodypart_id( "head" ), bodypart_id( "mouth" ) );
+        }
+        if( bp == bodypart_id( "arm_l" ) ) {
+            temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "torso" ) );
+            temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "hand_l" ) );
+        }
+        if( bp == bodypart_id( "arm_r" ) ) {
+            temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "torso" ) );
+            temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "hand_r" ) );
+        }
+        if( bp == bodypart_id( "leg_l" ) ) {
+            temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "torso" ) );
+            temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "foot_l" ) );
+        }
+        if( bp == bodypart_id( "leg_r" ) ) {
+            temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "torso" ) );
+            temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "foot_r" ) );
+        }
+        if( bp == bodypart_id( "mouth" ) ) {
+            temp_equalizer( bodypart_id( "mouth" ), bodypart_id( "head" ) );
+        }
+        if( bp == bodypart_id( "hand_l" ) ) {
+            temp_equalizer( bodypart_id( "hand_l" ), bodypart_id( "arm_l" ) );
+        }
+        if( bp == bodypart_id( "hand_r" ) ) {
+            temp_equalizer( bodypart_id( "hand_r" ), bodypart_id( "arm_r" ) );
+        }
+        if( bp == bodypart_id( "foot_l" ) ) {
+            temp_equalizer( bodypart_id( "foot_l" ), bodypart_id( "leg_l" ) );
+        }
+        if( bp == bodypart_id( "foot_r" ) ) {
+            temp_equalizer( bodypart_id( "foot_r" ), bodypart_id( "leg_r" ) );
+        }
+        if( bp == bodypart_id( "num_bp" ) ) {
+            debugmsg( "Wacky body part temperature equalization!" );
+        }
+
 
         // Climate Control eases the effects of high and low ambient temps
         if( has_climate_control ) {
@@ -5747,13 +5746,13 @@ void Character::update_bodytemp()
     }
 }
 
-void Character::temp_equalizer( body_part bp1, body_part bp2 )
+void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
 {
     // Body heat is moved around.
     // Shift in one direction only, will be shifted in the other direction separately.
-    int diff = static_cast<int>( ( temp_cur[bp2] - temp_cur[bp1] ) *
+    int diff = static_cast<int>( ( temp_cur[bp2->token] - temp_cur[bp1->token] ) *
                                  0.0001 ); // If bp1 is warmer, it will lose heat
-    temp_cur[bp1] += diff;
+    temp_cur[bp1->token] += diff;
 }
 
 Character::comfort_response_t Character::base_comfort_value( const tripoint &p ) const

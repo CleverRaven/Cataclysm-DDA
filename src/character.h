@@ -501,7 +501,7 @@ class Character : public Creature, public visitable<Character>
         void update_bodytemp();
 
         /** Equalizes heat between body parts */
-        void temp_equalizer( body_part bp1, body_part bp2 );
+        void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
 
         struct comfort_response_t {
             comfort_level level = comfort_level::neutral;
