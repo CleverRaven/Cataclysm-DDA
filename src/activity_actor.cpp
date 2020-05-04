@@ -412,7 +412,7 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
-void consume_activity_actor::start( player_activity &act, Character &who )
+void consume_activity_actor::start( player_activity &act, Character & )
 {
     const int charges = std::max( loc->charges, 1 );
     int volume = units::to_milliliter( loc->volume() ) / charges;
