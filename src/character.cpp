@@ -5318,7 +5318,7 @@ void Character::update_bodytemp()
         double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
         int clothing_warmth_adjustement = static_cast<int>( homeostasis_adjustement * warmth( bp ) );
         int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustement * bonus_item_warmth(
-                bp_token ) );
+                bp ) );
         // WINDCHILL
 
         bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) * ( 1 - get_wind_resistance(
@@ -9559,12 +9559,12 @@ int Character::bonus_item_warmth( const bodypart_id &bp ) const
     }
 
     // If the player's head is not encumbered, check if hood can be put up
-    if( bp == bodypart_id( "head" ) && encumb( bp_head ) < 10 ) {
+    if( bp == bodypart_id( "head" ) && encumb( bodypart_id( "head" )->token ) < 10 ) {
         ret += bestwarmth( worn, "HOOD" );
     }
 
     // If the player's mouth is not encumbered, check if collar can be put up
-    if( bp == bodypart_id( "mouth" ) && encumb( bp_mouth ) < 10 ) {
+    if( bp == bodypart_id( "mouth" ) && encumb( bodypart_id( "mouth" )->token ) < 10 ) {
         ret += bestwarmth( worn, "COLLAR" );
     }
 
