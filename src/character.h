@@ -513,7 +513,7 @@ class Character : public Creature, public visitable<Character>
         comfort_response_t base_comfort_value( const tripoint &p ) const;
 
         /** Define blood loss (in percents) */
-        int blood_loss( body_part bp ) const;
+        int blood_loss( const bodypart_id &bp ) const;
 
         /** Resets the value of all bonus fields to 0. */
         void reset_bonuses() override;
@@ -547,7 +547,7 @@ class Character : public Creature, public visitable<Character>
         bool in_climate_control();
 
         /** Returns wind resistance provided by armor, etc **/
-        int get_wind_resistance( body_part bp ) const;
+        int get_wind_resistance( const bodypart_id &bp ) const;
 
         /** Returns true if the player isn't able to see */
         bool is_blind() const;

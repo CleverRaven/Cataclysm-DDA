@@ -3694,7 +3694,7 @@ bool Character::in_climate_control()
     return regulated_area;
 }
 
-int Character::get_wind_resistance( body_part bp ) const
+int Character::get_wind_resistance( const bodypart_id &bp ) const
 {
     int coverage = 0;
     float totalExposed = 1.0;
@@ -3702,7 +3702,7 @@ int Character::get_wind_resistance( body_part bp ) const
     int penalty = 100;
 
     for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp->token ) ) {
             if( i.made_of( material_id( "leather" ) ) || i.made_of( material_id( "plastic" ) ) ||
                 i.made_of( material_id( "bone" ) ) ||
                 i.made_of( material_id( "chitin" ) ) || i.made_of( material_id( "nomex" ) ) ) {
@@ -5870,21 +5870,21 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     return comfort_response;
 }
 
-int Character::blood_loss( body_part bp ) const
+int Character::blood_loss( const bodypart_id &bp ) const
 {
     int hp_cur_sum = 1;
     int hp_max_sum = 1;
 
-    if( bp == bp_leg_l || bp == bp_leg_r ) {
+    if( bp == bodypart_id( "leg_l" ) || bp == bodypart_id( "leg_r" ) ) {
         hp_cur_sum = hp_cur[hp_leg_l] + hp_cur[hp_leg_r];
         hp_max_sum = hp_max[hp_leg_l] + hp_max[hp_leg_r];
-    } else if( bp == bp_arm_l || bp == bp_arm_r ) {
+    } else if( bp == bodypart_id( "arm_l" ) || bp == bodypart_id( "arm_r" ) ) {
         hp_cur_sum = hp_cur[hp_arm_l] + hp_cur[hp_arm_r];
         hp_max_sum = hp_max[hp_arm_l] + hp_max[hp_arm_r];
-    } else if( bp == bp_torso ) {
+    } else if( bp == bodypart_id( "torso" ) ) {
         hp_cur_sum = hp_cur[hp_torso];
         hp_max_sum = hp_max[hp_torso];
-    } else if( bp == bp_head ) {
+    } else if( bp == bodypart_id( "head" ) ) {
         hp_cur_sum = hp_cur[hp_head];
         hp_max_sum = hp_max[hp_head];
     }
