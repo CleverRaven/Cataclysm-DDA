@@ -8434,9 +8434,9 @@ float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) con
     return result;
 }
 
-int Character::get_armor_fire( body_part bp ) const
+int Character::get_armor_fire( const bodypart_id &bp ) const
 {
-    return get_armor_type( DT_HEAT, convert_bp( bp ).id() );
+    return get_armor_type( DT_HEAT, bp );
 }
 
 void Character::did_hit( Creature &target )
