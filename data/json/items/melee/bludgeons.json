@@ -551,8 +551,7 @@
         "battery",
         [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "l-stick_on",
@@ -564,8 +563,7 @@
     "revert_to": "l-stick",
     "power_draw": 5000,
     "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ],
-    "magazine_well": 2
+    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
   },
   {
     "id": "lucern_hammer",
@@ -976,8 +974,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "shocktonfa_off",
@@ -1004,8 +1001,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "shocktonfa_on",
@@ -1016,8 +1012,7 @@
     "power_draw": 15000,
     "revert_to": "shocktonfa_off",
     "use_action": "SHOCKTONFA_ON",
-    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
-    "magazine_well": 2
+    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "type": "GENERIC",

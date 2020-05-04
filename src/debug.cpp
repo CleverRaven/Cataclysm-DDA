@@ -1282,6 +1282,7 @@ std::string game_info::game_report()
     for( const options_manager::id_and_option &vItem : options_manager::lang_options ) {
         if( vItem.first == lang ) {
             lang_translated = vItem.second.translated();
+            break;
         }
     }
 

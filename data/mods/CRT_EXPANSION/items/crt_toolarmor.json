@@ -113,7 +113,10 @@
     "artifact_data": { "charge_type": "ARTC_SOLAR" },
     "coverage": 85,
     "encumbrance": 50,
-    "storage": "2500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 }
+    ],
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 4,
@@ -136,7 +139,10 @@
     "covers": [ "TORSO", "LEGS", "ARMS" ],
     "coverage": 100,
     "encumbrance": 5,
-    "storage": "2500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 40 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 40 }
+    ],
     "warmth": 75,
     "material_thickness": 6,
     "environmental_protection": 16,

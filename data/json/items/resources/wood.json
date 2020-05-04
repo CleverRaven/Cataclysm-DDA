@@ -79,8 +79,8 @@
     "techniques": "WBLOCK_1",
     "weight": "2250 g",
     "volume": "3750 ml",
-    "bashing": 25,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ],
+    "bashing": 19,
+    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "price": 4000,
     "price_postapoc": 50,
     "qualities": [ [ "HAMMER", 1 ] ]

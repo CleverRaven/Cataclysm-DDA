@@ -569,7 +569,9 @@ task_reason veh_interact::cant_do( char mode )
             // siphon mode
             valid_target = false;
             for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
-                if( vp.part().base.contents_made_of( LIQUID ) ) {
+                if( vp.part().base.has_item_with( []( const item & it ) {
+                return it.made_of( LIQUID );
+                } ) ) {
                     valid_target = true;
                     break;
                 }
@@ -1291,7 +1293,8 @@ bool veh_interact::do_refill( std::string &msg )
         auto validate = [&]( const item & obj ) {
             if( pt.is_tank() ) {
                 if( obj.is_container() && !obj.contents.empty() ) {
-                    return pt.can_reload( obj.contents.front() );
+                    // we are assuming only one pocket here, and it's a liquid so only one item
+                    return pt.can_reload( obj.contents.only_item() );
                 }
             } else if( pt.is_fuel_store() ) {
                 bool can_reload = pt.can_reload( obj );
@@ -1443,12 +1446,13 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         }
     }
 
-    for( auto &pt : veh->parts ) {
+    for( vehicle_part &pt : veh->parts ) {
         if( pt.is_tank() && pt.is_available() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_current() != "null" ) {
                     std::string specials;
-                    const item &it = pt.base.contents.front();
+                    // vehicle parts can only have one pocket, and we are showing a liquid, which can only be one.
+                    const item &it = pt.base.contents.legacy_front();
                     // a space isn't actually needed in front of the tags here,
                     // but item::display_name tags use a space so this prevents
                     // needing *second* translation for the same thing with a
@@ -1883,13 +1887,13 @@ bool veh_interact::do_siphon( std::string &msg )
     set_title( _( "Select part to siphon:" ) );
 
     auto sel = [&]( const vehicle_part & pt ) {
-        return( pt.is_tank() && pt.base.contents_made_of( LIQUID ) );
+        return( pt.is_tank() && pt.base.contents.legacy_front().made_of( LIQUID ) );
     };
 
     auto act = [&]( const vehicle_part & pt ) {
         const item &base = pt.get_base();
         const int idx = veh->find_part( base );
-        item liquid( base.contents.back() );
+        item liquid( base.contents.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
@@ -2790,7 +2794,7 @@ void act_vehicle_siphon( vehicle *veh )
     std::vector<itype_id> fuels;
     bool has_liquid = false;
     for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        if( vp.part().get_base().contents_made_of( LIQUID ) ) {
+        if( vp.part().get_base().contents.legacy_front().made_of( LIQUID ) ) {
             has_liquid = true;
             break;
         }
@@ -2802,13 +2806,13 @@ void act_vehicle_siphon( vehicle *veh )
 
     std::string title = _( "Select tank to siphon:" );
     auto sel = []( const vehicle_part & pt ) {
-        return pt.is_tank() && pt.get_base().contents_made_of( LIQUID );
+        return pt.is_tank() && pt.get_base().contents.legacy_front().made_of( LIQUID );
     };
     vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
     if( tank ) {
         const item &base = tank.get_base();
         const int idx = veh->find_part( base );
-        item liquid( base.contents.back() );
+        item liquid( base.contents.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
@@ -3018,11 +3022,11 @@ void veh_interact::complete_vehicle( player &p )
                 break;
             }
 
-            auto &src = p.activity.targets.front();
+            item_location &src = p.activity.targets.front();
             struct vehicle_part &pt = veh->parts[ vehicle_part ];
             if( pt.is_tank() && src->is_container() && !src->contents.empty() ) {
-
-                pt.base.fill_with( src->contents.front() );
+                item &contained = src->contents.legacy_front();
+                contained.charges -= pt.base.fill_with( *contained.type, contained.charges );
                 src->on_contents_changed();
 
                 if( pt.ammo_remaining() != pt.ammo_capacity() ) {
@@ -3033,8 +3037,8 @@ void veh_interact::complete_vehicle( player &p )
                     p.add_msg_if_player( m_good, _( "You completely refill the %1$s's %2$s." ), veh->name, pt.name() );
                 }
 
-                if( src->contents.front().charges == 0 ) {
-                    src->remove_item( src->contents.front() );
+                if( src->contents.legacy_front().charges == 0 ) {
+                    src->remove_item( src->contents.legacy_front() );
                 } else {
                     p.add_msg_if_player( m_good, _( "There's some left over!" ) );
                 }

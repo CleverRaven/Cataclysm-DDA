@@ -115,6 +115,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
+        case spell_flag::WITH_CONTAINER: return "WITH_CONTAINER";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
@@ -184,6 +185,8 @@ static damage_type damage_type_from_string( const std::string &str )
         return DT_COLD;
     } else if( str == "cut" ) {
         return DT_CUT;
+    } else if( str == "bullet" ) {
+        return DT_BULLET;
     } else if( str == "electric" ) {
         return DT_ELECTRIC;
     } else if( str == "stab" ) {
@@ -598,6 +601,22 @@ void spell::gain_level()
     gain_exp( exp_to_next_level() );
 }
 
+void spell::gain_levels( int gains )
+{
+    if( gains < 1 ) {
+        return;
+    }
+    for( int gained = 0; gained < gains || is_max_level(); gained++ ) {
+        gain_level();
+    }
+}
+
+void spell::set_level( int nlevel )
+{
+    experience = 0;
+    gain_levels( nlevel );
+}
+
 bool spell::is_max_level() const
 {
     return get_level() >= type->max_level;
@@ -988,6 +1007,8 @@ nc_color spell::damage_type_color() const
             return c_light_gray;
         case DT_ELECTRIC:
             return c_light_blue;
+        case DT_BULLET:
+        /* fallthrough */
         case DT_STAB:
             return c_light_red;
         case DT_TRUE:

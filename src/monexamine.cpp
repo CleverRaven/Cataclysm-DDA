@@ -528,7 +528,7 @@ void monexamine::attach_bag_to( monster &z )
     std::string pet_name = z.get_name();
 
     auto filter = []( const item & it ) {
-        return it.is_armor() && it.get_storage() > 0_ml;
+        return it.is_armor() && it.get_total_capacity() > 0_ml;
     };
 
     item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Bag item" ) );
@@ -586,7 +586,7 @@ bool monexamine::give_items_to( monster &z )
 
     item &storage = *z.storage_item;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
-    units::volume max_volume = storage.get_storage() - z.get_carried_volume();
+    units::volume max_volume = storage.get_total_capacity() - z.get_carried_volume();
 
     drop_locations items = game_menus::inv::multidrop( g->u );
     drop_locations to_move;

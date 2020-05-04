@@ -41,6 +41,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "lightmap.h"
 #include "line.h"
@@ -1839,11 +1840,19 @@ void player::process_items()
         weapon = item();
     }
 
-    std::vector<item *> inv_active = inv.active_items();
-    for( item *tmp_it : inv_active ) {
-        if( tmp_it->process( this, pos(), false ) ) {
-            inv.remove_item( tmp_it );
+    std::vector<item_location> removed_items;
+    for( item_location it : all_items_loc() ) {
+        if( !it ) {
+            continue;
         }
+        if( it->needs_processing() ) {
+            if( it->process( this, pos(), false ) ) {
+                removed_items.push_back( it );
+            }
+        }
+    }
+    for( item_location removed : removed_items ) {
+        removed.remove_item();
     }
 
     // worn items
@@ -2123,7 +2132,8 @@ bool player::consume_item( item &target )
         return false;
     }
 
-    item &comest = get_consumable_from( target );
+    // to try to reduce unecessary churn, this was left for now
+    item &comest = target;
 
     if( comest.is_null() || target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
@@ -2139,7 +2149,7 @@ bool player::consume_item( item &target )
         eat( comest ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
         fuel_bionic_with( comest ) ) {
 
-        if( target.is_container() ) {
+        if( &target != &comest ) {
             target.on_contents_changed();
         }
 
@@ -2152,47 +2162,14 @@ bool player::consume_item( item &target )
 bool player::consume( item_location loc )
 {
     item &target = *loc;
-    const bool wielding = is_wielding( target );
-    const bool worn = is_worn( target );
+    bool wielding = is_wielding( target );
+    bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
 
     if( consume_item( target ) ) {
 
-        const bool was_in_container = !can_consume_as_is( target );
+        i_rem( loc.get_item() );
 
-        if( was_in_container ) {
-            i_rem( &target.contents.front() );
-        } else {
-            i_rem( &target );
-        }
-
-        //Restack and sort so that we don't lie about target's invlet
-        if( inv_item ) {
-            inv.restack( *this );
-        }
-
-        if( was_in_container && wielding ) {
-            add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
-        } else if( was_in_container && worn ) {
-            add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
-        } else if( was_in_container && !is_npc() ) {
-            bool drop_it = false;
-            if( get_option<std::string>( "DROP_EMPTY" ) == "no" ) {
-                drop_it = false;
-            } else if( get_option<std::string>( "DROP_EMPTY" ) == "watertight" ) {
-                drop_it = !target.is_watertight_container();
-            } else if( get_option<std::string>( "DROP_EMPTY" ) == "all" ) {
-                drop_it = true;
-            }
-            if( drop_it ) {
-                add_msg( _( "You drop the empty %s." ), target.tname() );
-                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { inv.remove_item( &target ) } );
-            } else {
-                int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
-                char letter = target.invlet ? target.invlet : ' ';
-                add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ) );
-            }
-        }
     } else if( inv_item ) {
         if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
             i_rem( &target );
@@ -2285,8 +2262,8 @@ item::reload_option player::select_ammo( const item &base,
             }
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && is_worn( *e.ammo ) ) ) {
-            // worn ammo containers should be named by their contents with their location also updated below
-            return e.ammo->contents.front().display_name();
+            // worn ammo containers should be named by their ammo contents with their location also updated below
+            return e.ammo->contents.first_ammo().display_name();
 
         } else {
             return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
@@ -2346,7 +2323,7 @@ item::reload_option player::select_ammo( const item &base,
         row += string_format( " %-7d ", sel.moves() );
 
         if( base.is_gun() || base.is_magazine() ) {
-            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.front().ammo_data() :
+            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.first_ammo().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
                 const damage_instance &dam = ammo->ammo->damage;
@@ -2374,7 +2351,7 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     for( auto i = 0; i < static_cast<int>( opts.size() ); ++i ) {
-        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.front() :
+        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.first_ammo() :
                            *opts[ i ].ammo;
 
         char hotkey = -1;
@@ -2468,7 +2445,8 @@ item::reload_option player::select_ammo( const item &base,
 
     const item_location &sel = opts[ menu.ret ].ammo;
     uistate.lastreload[ ammotype( base.ammo_default() ) ] = sel->is_ammo_container() ?
-            sel->contents.front().typeId() :
+            // get first item in all magazine pockets
+            sel->contents.first_ammo().typeId() :
             sel->typeId();
     return opts[ menu.ret ];
 }
@@ -2476,14 +2454,14 @@ item::reload_option player::select_ammo( const item &base,
 bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
                         bool empty ) const
 {
-    auto opts = base.gunmods();
+    std::vector<const item *> opts = base.gunmods();
     opts.push_back( &base );
 
     if( base.magazine_current() ) {
         opts.push_back( base.magazine_current() );
     }
 
-    for( const auto mod : base.gunmods() ) {
+    for( const item *mod : base.gunmods() ) {
         if( mod->magazine_current() ) {
             opts.push_back( mod->magazine_current() );
         }
@@ -2491,15 +2469,10 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
 
     bool ammo_match_found = false;
     int ammo_search_range = is_mounted() ? -1 : 1;
-    for( const auto e : opts ) {
+    for( const item *e : opts ) {
         for( item_location &ammo : find_ammo( *e, empty, ammo_search_range ) ) {
-            // don't try to unload frozen liquids
-            if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
-                continue;
-            }
-            auto id = ( ammo->is_ammo_container() || ammo->is_container() )
-                      ? ammo->contents.front().typeId()
-                      : ammo->typeId();
+
+            itype_id id = ammo->typeId();
             if( e->can_reload_with( id ) ) {
                 // Speedloaders require an empty target.
                 if( !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
@@ -2532,7 +2505,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
                 if( base.ammo_data() ) {
                     name = base.ammo_data()->nname( 1 );
                 } else if( base.is_watertight_container() ) {
-                    name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
+                    name = base.is_container_empty() ? "liquid" : base.contents.legacy_front().tname();
                 } else {
                     name = enumerate_as_string( base.ammo_types().begin(),
                     base.ammo_types().end(), []( const ammotype & at ) {
@@ -2899,8 +2872,18 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
 {
     if( ammo.is_ammo() || ammo.is_frozen_liquid() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1 );
-    } else if( ammo.is_ammo_container() || ammo.is_container() ) {
-        qty = clamp( qty, ammo.contents.front().charges, 1 );
+    } else if( ammo.is_ammo_container() ) {
+        int min_clamp = 0;
+        // find the first ammo in the container to get its charges
+        ammo.visit_items( [&min_clamp]( const item * it ) {
+            if( it->is_ammo() ) {
+                min_clamp = it->charges;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+
+        qty = clamp( qty, min_clamp, 1 );
     } else if( ammo.is_magazine() ) {
         qty = 1;
     } else {
@@ -2978,9 +2961,17 @@ player::wear( item &to_wear, bool interactive )
     if( &to_wear == &weapon ) {
         weapon = item();
         was_weapon = true;
+    } else if( has_item( to_wear ) ) {
+        remove_item( to_wear );
+        was_weapon = false;
     } else {
-        inv.remove_item( &to_wear );
-        inv.restack( *this );
+        /**
+         * we actually know with certainty that if we're here the
+         * item was dropped to the ground and is at pos().
+         * ideally the parameter of this function should be an item_location instead of
+         * constructing it in place here.
+         */
+        item_location( map_cursor( pos() ), &to_wear ).remove_item();
         was_weapon = false;
     }
 
@@ -2989,7 +2980,7 @@ player::wear( item &to_wear, bool interactive )
         if( was_weapon ) {
             weapon = to_wear_copy;
         } else {
-            inv.add_item( to_wear_copy, true );
+            i_add( to_wear_copy );
         }
         return cata::nullopt;
     }
@@ -3046,31 +3037,21 @@ bool player::takeoff( item &it, std::list<item> *res )
         return &it == &wit;
     } );
 
+    item takeoff_copy( it );
+    worn.erase( iter );
+    takeoff_copy.on_takeoff( *this );
     if( res == nullptr ) {
-        if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
-            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
-                                      colorize( it.tname(), it.color_in_inventory() ) ) ) {
-                item_location loc( *this, &it );
-                drop( loc, pos() );
-                return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
-            } else {
-                return false;
-            }
-        }
-        iter->on_takeoff( *this );
-        inv.add_item_keep_invlet( it );
+        i_add( takeoff_copy, true, &it );
     } else {
-        iter->on_takeoff( *this );
-        res->push_back( it );
+        res->push_back( takeoff_copy );
     }
 
     add_msg_player_or_npc( _( "You take off your %s." ),
                            _( "<npcname> takes off their %s." ),
-                           it.tname() );
+                           takeoff_copy.tname() );
 
     // TODO: Make this variable
     mod_moves( -250 );
-    worn.erase( iter );
 
     recalc_sight_limits();
     reset_encumbrance();
@@ -3083,7 +3064,7 @@ bool player::takeoff( int pos )
     return takeoff( i_at( pos ) );
 }
 
-bool player::add_or_drop_with_msg( item &it, const bool unloading )
+bool player::add_or_drop_with_msg( item &it, const bool unloading, const item *avoid )
 {
     if( it.made_of( LIQUID ) ) {
         liquid_handler::consume_liquid( it, 1 );
@@ -3097,7 +3078,7 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
-        auto &ni = this->i_add( it );
+        auto &ni = this->i_add( it, true, avoid );
         add_msg( _( "You put the %s in your inventory." ), ni.tname() );
         add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname() );
     }
@@ -3107,7 +3088,7 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
 bool player::unload( item &it )
 {
     // Unload a container consuming moves per item successfully removed
-    if( it.is_container() || it.is_bandolier() ) {
+    if( it.is_container() ) {
         if( it.contents.empty() ) {
             add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
             return false;
@@ -3120,7 +3101,7 @@ bool player::unload( item &it )
         bool changed = false;
         for( item *contained : it.contents.all_items_top() ) {
             int old_charges = contained->charges;
-            const bool consumed = this->add_or_drop_with_msg( *contained, true );
+            const bool consumed = this->add_or_drop_with_msg( *contained, true, &it );
             changed = changed || consumed || contained->charges != old_charges;
             if( consumed ) {
                 this->mod_moves( -this->item_handling_cost( *contained ) );
@@ -3138,7 +3119,7 @@ bool player::unload( item &it )
     std::vector<std::string> msgs( 1, it.tname() );
     std::vector<item *> opts( 1, &it );
 
-    for( auto e : it.gunmods() ) {
+    for( item *e : it.gunmods() ) {
         if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
             ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
             msgs.emplace_back( e->tname() );
@@ -3223,9 +3204,8 @@ bool player::unload( item &it )
         int qty = target->ammo_remaining();
 
         if( target->ammo_current() == "plut_cell" ) {
-            qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
-            if( qty > 0 ) {
-                add_msg( _( "You recover %i unused plutonium." ), qty );
+            if( qty / PLUTONIUM_CHARGES > 0 ) {
+                add_msg( _( "You recover %i unused plutonium." ), qty / PLUTONIUM_CHARGES );
             } else {
                 add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
                 return false;
@@ -3252,10 +3232,6 @@ bool player::unload( item &it )
 
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
-
-        if( target->ammo_current() == "plut_cell" ) {
-            qty *= PLUTONIUM_CHARGES;
-        }
 
         target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
     }
@@ -3301,7 +3277,7 @@ hint_rating player::rate_action_reload( const item &it ) const
 
 hint_rating player::rate_action_unload( const item &it ) const
 {
-    if( ( it.is_container() || it.is_bandolier() ) && !it.contents.empty() &&
+    if( it.is_container() && !it.contents.empty() &&
         it.can_unload_liquid() ) {
         return hint_rating::good;
     }
@@ -3374,8 +3350,6 @@ hint_rating player::rate_action_use( const item &it ) const
         return hint_rating::iffy; //the rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
     } else if( it.type->has_use() ) {
         return hint_rating::good;
-    } else if( !it.is_container_empty() ) {
-        return rate_action_use( it.get_contained() );
     }
 
     return hint_rating::cant;
@@ -3391,13 +3365,12 @@ void player::use( int inventory_position )
 
 void player::use( item_location loc )
 {
-    item &used = *loc.get_item();
-
-    if( used.is_null() ) {
+    if( !loc ) {
         add_msg( m_info, _( "You do not have that item." ) );
         return;
     }
 
+    item &used = *loc;
     last_item = used.typeId();
 
     if( used.is_tool() ) {
@@ -3414,9 +3387,7 @@ void player::use( item_location loc )
         invoke_item( &used, loc.position() );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
-                                     ( used.is_food() ||
-                                       used.get_contained().is_food() ||
-                                       used.get_contained().is_medication() ) ) ) ) {
+                                     used.is_food() ) ) ) {
         consume( loc );
 
     } else if( used.is_book() ) {
@@ -3427,7 +3398,7 @@ void player::use( item_location loc )
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position() );
     } else if( used.has_flag( flag_SPLINT ) ) {
-        ret_val<bool> need_splint = can_wear( used );
+        ret_val<bool> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
             wear_item( used );
             loc.remove_item();
@@ -4235,10 +4206,6 @@ std::string player::weapname( unsigned int truncate ) const
         }
         return str;
 
-    } else if( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname(),
-                              weapon.contents.front().charges );
-
     } else if( !is_armed() ) {
         return _( "fists" );
 
@@ -4264,7 +4231,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
             }
             internal_item = *std::next( container_contents.begin(), pos );
         } else {
-            internal_item = &container.contents.front();
+            internal_item = container_contents.front();
         }
     }
 
@@ -4316,10 +4283,11 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     return true;
 }
 
-void player::store( item &container, item &put, bool penalties, int base_cost )
+void player::store( item &container, item &put, bool penalties, int base_cost,
+                    item_pocket::pocket_type pk_type )
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
-    container.put_in( i_rem( &put ) );
+    container.put_in( i_rem( &put ), pk_type );
     reset_encumbrance();
 }
 

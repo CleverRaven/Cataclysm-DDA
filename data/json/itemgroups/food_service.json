@@ -85,7 +85,8 @@
       { "item": "tea_raw", "prob": 70 },
       { "item": "ceramic_cup", "prob": 70 },
       { "item": "teapot", "prob": 70 },
-      { "item": "clay_teapot", "prob": 70 }
+      { "item": "clay_teapot", "prob": 70 },
+      { "group": "teabag_box", "prob": 70 }
     ]
   },
   {
@@ -332,7 +333,8 @@
       { "item": "coffee_raw", "prob": 50 },
       { "item": "coffee_syrup", "prob": 15 },
       { "item": "cookies", "prob": 35 },
-      { "item": "tea_raw", "prob": 50 }
+      { "item": "tea_raw", "prob": 50 },
+      { "group": "teabag_box", "prob": 30 }
     ]
   },
   {
@@ -349,7 +351,8 @@
       { "item": "salt", "prob": 15 },
       { "item": "sugar", "prob": 70 },
       { "item": "tea_raw", "prob": 15 },
-      { "item": "wrapper", "prob": 75 }
+      { "item": "wrapper", "prob": 75 },
+      { "group": "teabag_box", "prob": 10 }
     ]
   },
   {
@@ -693,7 +696,8 @@
       { "item": "curry_powder", "prob": 40 },
       { "item": "can_cheese", "prob": 30 },
       { "item": "sauce_red", "prob": 40 },
-      { "item": "sauce_pesto", "prob": 20 }
+      { "item": "sauce_pesto", "prob": 20 },
+      { "group": "teabag_box", "prob": 45 }
     ]
   },
   {

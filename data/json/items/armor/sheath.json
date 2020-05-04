@@ -16,14 +16,16 @@
     "coverage": 5,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath axe",
-      "holster_msg": "You sheath your %s",
-      "max_volume": "3250 ml",
-      "draw_cost": 10,
-      "flags": [ "SHEATH_AXE" ]
-    },
+    "pocket_data": [
+      {
+        "moves": 10,
+        "max_contains_volume": "3250 ml",
+        "max_contains_weight": "5 kg",
+        "holster": true,
+        "flag_restriction": [ "SHEATH_AXE" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath axe", "holster_msg": "You sheath your %s" },
     "flags": [ "NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -44,14 +46,16 @@
     "coverage": 10,
     "encumbrance": 3,
     "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath sword",
-      "holster_msg": "You sheath your %s",
-      "max_volume": "3 L",
-      "draw_cost": 10,
-      "flags": [ "SHEATH_SWORD" ]
-    },
+    "pocket_data": [
+      {
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "moves": 10,
+        "holster": true,
+        "flag_restriction": [ "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -72,14 +76,16 @@
     "coverage": 5,
     "encumbrance": 3,
     "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": "500 ml",
-      "draw_cost": 30,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 30,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
@@ -100,14 +106,16 @@
     "coverage": 10,
     "encumbrance": 3,
     "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath sword",
-      "holster_msg": "You sheath your %s",
-      "max_volume": "3750 ml",
-      "draw_cost": 20,
-      "flags": [ "SHEATH_SWORD" ]
-    },
+    "pocket_data": [
+      {
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "5 kg",
+        "holster": true,
+        "moves": 20,
+        "flag_restriction": [ "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -128,13 +136,10 @@
     "coverage": 15,
     "encumbrance": 3,
     "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath sword",
-      "holster_msg": "You sheath your %s",
-      "max_volume": "2 L",
-      "flags": [ "SHEATH_SWORD" ]
-    },
+    "pocket_data": [
+      { "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "holster": true, "flag_restriction": [ "SHEATH_SWORD" ] }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -153,14 +158,16 @@
     "covers": [ "LEG_EITHER" ],
     "coverage": 5,
     "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": "750 ml",
-      "draw_cost": 3,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -181,15 +188,16 @@
     "coverage": 5,
     "encumbrance": 4,
     "material_thickness": 1,
-    "rigid": false,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Holster spear",
-      "holster_msg": "You holster your %s.",
-      "max_volume": "3500 ml",
-      "draw_cost": 50,
-      "flags": [ "SHEATH_SPEAR" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "moves": 30,
+        "flag_restriction": [ "SHEATH_SPEAR" ],
+        "max_contains_volume": "3500 ml",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Holster spear", "holster_msg": "You holster your %s." },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   }
 ]

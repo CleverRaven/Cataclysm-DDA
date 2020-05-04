@@ -37,8 +37,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "afs_energy_saber_on",
@@ -64,8 +63,7 @@
       "type": "transform",
       "target": "afs_energy_saber_off",
       "msg": "The blade dissipates into particles."
-    },
-    "magazine_well": 1
+    }
   },
   {
     "id": "afs_hardlight_longbow",
@@ -87,12 +85,11 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 7 },
     "reload_noise_volume": 0,
     "loudness": 0,
-    "ranged_damage": 30,
+    "ranged_damage": { "damage_type": "stab", "amount": 30, "armor_penetration": 15 },
     "range": 30,
     "dispersion": 80,
     "durability": 6,
     "reload": 50,
-    "pierce": 15,
     "ups_charges": 20,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ] ]
   },
@@ -176,7 +173,7 @@
     "ammo": "battery",
     "skill": "rifle",
     "range": 10,
-    "ranged_damage": 20,
+    "ranged_damage": { "damage_type": "stab", "amount": 20 },
     "dispersion": 150,
     "durability": 10,
     "loudness": 8,

@@ -809,7 +809,7 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
-        void wield( item_location &loc );
+        void wield( item_location loc );
 
         void chat(); // Talk to a nearby NPC  'C'
 
@@ -972,8 +972,6 @@ class game
         catacurses::window w_minimap;
         catacurses::window w_pixel_minimap;
         //only a pointer, can refer to w_messages_short or w_messages_long
-
-        catacurses::window w_blackspace;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,

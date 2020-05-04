@@ -688,6 +688,12 @@
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
   },
   {
+    "id": "WITH_CONTAINER",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "items spawned by spells are put in their containers."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "context": [ "mutation" ],
@@ -710,6 +716,11 @@
   },
   {
     "id": "EFFECT_CUT_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_BULLET_IMMUNE",
     "context": [  ],
     "type": "json_flag"
   },

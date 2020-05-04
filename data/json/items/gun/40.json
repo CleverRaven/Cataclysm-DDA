@@ -19,7 +19,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "90two40mag" ] ] ]
   },
   {
@@ -40,7 +39,7 @@
     "color": "dark_gray",
     "ammo": "40",
     "skill": "pistol",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
@@ -59,7 +58,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "glock40mag", "glock40bigmag" ] ] ]
   },
   {
@@ -82,7 +80,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "px4_40mag" ] ] ]
   },
   {
@@ -102,7 +99,7 @@
     "color": "brown",
     "ammo": "40",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -158,7 +155,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "sig40mag" ] ] ]
   },
   {
@@ -178,7 +174,7 @@
     "material": "steel",
     "color": "dark_gray",
     "ammo": "40",
-    "ranged_damage": { "damage_type": "stab", "amount": -4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "dispersion": 590,
     "durability": 4,
     "blackpowder_tolerance": 24,
@@ -219,7 +215,7 @@
     "color": "dark_gray",
     "ammo": "40",
     "skill": "pistol",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 620,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -256,7 +252,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "10mm", "40" ],
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 320,
     "durability": 8,
     "blackpowder_tolerance": 56,
@@ -291,7 +287,6 @@
     "ammo": "40",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "bhp40mag" ] ] ]
   },
   {
@@ -311,7 +306,6 @@
     "ammo": "40",
     "dispersion": 480,
     "durability": 9,
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ] ] ]
   },
   {
@@ -332,7 +326,6 @@
     "ammo": "40",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "hptjcpmag" ] ] ]
   }
 ]

@@ -17,7 +17,7 @@
     "ammo_type": "380",
     "casing": "380_casing",
     "range": 13,
-    "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 2 },
+    "damage": { "damage_type": "bullet", "amount": 16, "armor_penetration": 2 },
     "dispersion": 60,
     "recoil": 300,
     "effects": [ "COOKOFF" ]
@@ -28,7 +28,7 @@
     "type": "AMMO",
     "name": { "str": ".380 ACP JHP" },
     "description": ".380 ACP ammunition with a 95gr jacketed hollow point bullet.  It is a popular round for small concealable backup pistols, and often the weakest recommended defensive caliber.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
-    "relative": { "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": -2 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -2 } }
   },
   {
     "id": "380_p",
@@ -40,7 +40,7 @@
     "price_postapoc": 1500,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 2 }, "dispersion": -15 },
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 2 }, "dispersion": -15 },
     "proportional": { "recoil": 1.1 }
   },
   {
@@ -50,7 +50,7 @@
     "name": { "str": ".380 ACP FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -64,7 +64,7 @@
     "name": { "str": ".380 ACP JHP, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -76,7 +76,7 @@
     "copy-from": "380_FMJ",
     "type": "AMMO",
     "name": { "str": ".380 ACP FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -85,7 +85,7 @@
     "copy-from": "380_JHP",
     "type": "AMMO",
     "name": { "str": ".380 ACP JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -94,7 +94,7 @@
     "copy-from": "380_p",
     "type": "AMMO",
     "name": { "str": ".380 ACP +P, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

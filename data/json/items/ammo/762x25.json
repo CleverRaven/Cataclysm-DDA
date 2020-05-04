@@ -17,7 +17,7 @@
     "ammo_type": "762x25",
     "casing": "762_25_casing",
     "range": 13,
-    "damage": { "damage_type": "stab", "amount": 24, "armor_penetration": 2 },
+    "damage": { "damage_type": "bullet", "amount": 24, "armor_penetration": 2 },
     "dispersion": 120,
     "recoil": 540,
     "effects": [ "COOKOFF" ]
@@ -28,7 +28,7 @@
     "type": "AMMO",
     "name": { "str": "7.62x25mm FMJ hot load" },
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  It is more powerful than the original.",
-    "relative": { "price": 500, "range": 2, "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 3 } },
+    "relative": { "price": 500, "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 3 } },
     "proportional": { "recoil": 1.4 }
   },
   {
@@ -43,7 +43,7 @@
     "relative": {
       "price": 2000,
       "range": -1,
-      "damage": { "damage_type": "stab", "amount": -9, "armor_penetration": 2 },
+      "damage": { "damage_type": "bullet", "amount": -9, "armor_penetration": 2 },
       "recoil": -270
     }
   },
@@ -54,7 +54,7 @@
     "name": { "str": "7.62x25mm FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -66,6 +66,6 @@
     "copy-from": "762_25hot",
     "type": "AMMO",
     "name": { "str": "7.62x25mm, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9, "armor_penetration": 0.9 }, "dispersion": 1.1 }
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.9 }, "dispersion": 1.1 }
   }
 ]

@@ -1079,7 +1079,6 @@ void avatar_action::eat( avatar &you, item_location loc )
         add_msg( _( "Never mind." ) );
         return;
     }
-
     you.assign_activity( player_activity( consume_activity_actor( loc ) ) );
 }
 

@@ -752,21 +752,22 @@ bool Character::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == bio_lockpick ) {
-        tmp_item = item( "pseudo_bio_picklock", 0 );
         g->refresh_all();
-        int charges = tmp_item.charges;
-        bool used = false;
-        if( invoke_item( &tmp_item ) ) {
-            if( tmp_item.charges != charges ) {
-                used = true;
+        const cata::optional<tripoint> pnt = choose_adjacent( _( "Use your lockpick where?" ) );
+        if( pnt && g->m.has_flag( "PICKABLE", *pnt ) ) {
+            g->u.i_add( item( "pseudo_bio_picklock" ) );
+            std::vector<item *> bio_picklocks = g->u.items_with( []( const item & itm ) {
+                return itm.typeId() == "pseudo_bio_picklock";
+            } );
+            if( !bio_picklocks.empty() ) {
+                add_msg_activate();
+                g->u.assign_activity( activity_id( "ACT_LOCKPICK" ), 400 );
+                g->u.activity.targets.push_back( item_location( g->u, bio_picklocks[0] ) );
+                g->u.activity.placement = *pnt;
             }
-        }
-
-        if( used ) {
-            add_msg_activate();
-            mod_moves( -100 );
         } else {
             refund_power();
+            add_msg_if_player( m_info, _( "There is nothing to lockpick nearby." ) );
             return false;
         }
     } else if( bio.id == bio_flashbang ) {
@@ -2425,6 +2426,28 @@ void Character::add_bionic( const bionic_id &b )
         add_bionic( inc_bid );
     }
 
+    for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
+        const spell_id learned_spell = spell_pair.first;
+        if( learned_spell->spell_class != trait_id( "NONE" ) ) {
+            const trait_id spell_class = learned_spell->spell_class;
+            // spells you learn from a bionic overwrite the opposite spell class.
+            // for best UX, include those spell classes in "canceled_mutations"
+            if( !has_trait( spell_class ) ) {
+                set_mutation( spell_class );
+                on_mutation_gain( spell_class );
+                add_msg_if_player( spell_class->desc() );
+            }
+        }
+        if( !magic.knows_spell( learned_spell ) ) {
+            magic.learn_spell( learned_spell, *this, true );
+        }
+        spell &known_spell = magic.get_spell( learned_spell );
+        // spells you learn from installing a bionic upgrade spells you know if they are the same
+        if( known_spell.get_level() < spell_pair.second ) {
+            known_spell.set_level( spell_pair.second );
+        }
+    }
+
     reset_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
@@ -2435,6 +2458,8 @@ void Character::add_bionic( const bionic_id &b )
 void Character::remove_bionic( const bionic_id &b )
 {
     bionic_collection new_my_bionics;
+    // any spells you should not forget due to still having a bionic installed that has it.
+    std::set<spell_id> cbm_spells;
     for( bionic &i : *my_bionics ) {
         if( b == i.id ) {
             continue;
@@ -2445,8 +2470,20 @@ void Character::remove_bionic( const bionic_id &b )
             continue;
         }
 
+        for( const std::pair<const spell_id, int> &spell_pair : i.id->learned_spells ) {
+            cbm_spells.emplace( spell_pair.first );
+        }
+
         new_my_bionics.push_back( bionic( i.id, i.invlet ) );
     }
+
+    // any spells you learn from installing a bionic you forget.
+    for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
+        if( cbm_spells.count( spell_pair.first ) == 0 ) {
+            magic.forget_spell( spell_pair.first );
+        }
+    }
+
     *my_bionics = new_my_bionics;
     reset_encumbrance();
     recalc_sight_limits();
@@ -2576,6 +2613,7 @@ void load_bionic( const JsonObject &jsobj )
     assign( jsobj, "coverage_power_gen_penalty", new_bionic.coverage_power_gen_penalty );
     assign( jsobj, "is_remote_fueled", new_bionic.is_remote_fueled );
 
+    assign( jsobj, "learned_spells", new_bionic.learned_spells );
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
     jsobj.read( "included", new_bionic.included );
@@ -2609,6 +2647,10 @@ void load_bionic( const JsonObject &jsobj )
     for( JsonArray ja : jsobj.get_array( "cut_protec" ) ) {
         new_bionic.cut_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
+    }
+    for( JsonArray ja : jsobj.get_array( "bullet_protec" ) ) {
+        new_bionic.bullet_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
+                                          ja.get_int( 1 ) );
     }
 
     new_bionic.activated = new_bionic.toggled ||

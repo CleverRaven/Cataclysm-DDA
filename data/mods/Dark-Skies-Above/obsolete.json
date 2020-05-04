@@ -60,7 +60,10 @@
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET", "HEAD" ],
     "coverage": 95,
     "encumbrance": 40,
-    "storage": "2500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 }
+    ],
     "warmth": 50,
     "material_thickness": 4,
     "environmental_protection": 6,

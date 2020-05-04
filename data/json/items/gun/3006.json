@@ -17,7 +17,7 @@
     "color": "brown",
     "ammo": "3006",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 90,
     "durability": 7,
     "blackpowder_tolerance": 24,
@@ -37,7 +37,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "magazine_well": 1,
     "magazines": [ [ "3006", [ "blrmag" ] ] ]
   },
   {
@@ -76,7 +75,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "3006", [ "garandclip" ] ] ]
   },
   {
@@ -199,7 +197,7 @@
     "color": "brown",
     "ammo": "3006",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,

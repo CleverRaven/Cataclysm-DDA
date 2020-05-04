@@ -18,7 +18,7 @@
     "ammo": "5x50",
     "skill": "smg",
     "range": 10,
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 220,
     "durability": 9,
     "barrel_length": "250 ml",
@@ -36,7 +36,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
     "magazines": [ [ "5x50", [ "5x50_100_mag", "5x50_50_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -72,7 +71,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
     "magazines": [ [ "5x50", [ "5x50_50_mag", "5x50_100_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   }

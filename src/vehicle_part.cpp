@@ -201,7 +201,7 @@ itype_id vehicle_part::ammo_current() const
     }
 
     if( is_tank() && !base.contents.empty() ) {
-        return base.contents.front().typeId();
+        return base.contents.legacy_front().typeId();
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
@@ -214,7 +214,7 @@ itype_id vehicle_part::ammo_current() const
 int vehicle_part::ammo_capacity() const
 {
     if( is_tank() ) {
-        return item::find_type( ammo_current() )->charges_per_volume( base.get_container_capacity() );
+        return item::find_type( ammo_current() )->charges_per_volume( base.get_total_capacity() );
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
@@ -227,7 +227,7 @@ int vehicle_part::ammo_capacity() const
 int vehicle_part::ammo_remaining() const
 {
     if( is_tank() ) {
-        return base.contents.empty() ? 0 : base.contents.back().charges;
+        return base.contents.empty() ? 0 : base.contents.legacy_front().charges;
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
@@ -246,7 +246,9 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
         base.contents.clear_items();
         const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
         const int limit = units::from_milliliter( ammo_capacity() ) / stack;
-        base.put_in( item( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit ) );
+        // assuming "ammo" isn't really going into a magazine as this is a vehicle part
+        base.put_in( item( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit ),
+                     item_pocket::pocket_type::CONTAINER );
         return qty;
     }
 
@@ -275,7 +277,7 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
 {
     if( is_tank() && !base.contents.empty() ) {
         const int res = std::min( ammo_remaining(), qty );
-        item &liquid = base.contents.back();
+        item &liquid = base.contents.legacy_front();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
             base.contents.clear_items();
@@ -291,7 +293,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
         return 0.0f;
     }
 
-    item &fuel = base.contents.back();
+    item &fuel = base.contents.legacy_front();
     if( fuel.typeId() == ftype ) {
         assert( fuel.is_fuel() );
         // convert energy density in MJ/L to J/ml
@@ -356,7 +358,9 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
 {
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
-    if( base.is_food_container() ) {
+    if( base.has_item_with( []( const item & it ) {
+    return it.needs_processing();
+    } ) ) {
         temperature_flag flag = temperature_flag::TEMP_NORMAL;
         if( e_heater ) {
             flag = temperature_flag::TEMP_HEATER;
@@ -371,7 +375,7 @@ bool vehicle_part::fill_with( item &liquid, int qty )
         return false;
     }
 
-    base.fill_with( liquid, qty );
+    liquid.charges -= base.fill_with( *liquid.type, qty );
     return true;
 }
 

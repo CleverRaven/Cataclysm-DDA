@@ -6100,10 +6100,11 @@
     "id": "PROF_HELI_PILOT",
     "name": "Helicopter Pilot",
     "points": 0,
-    "description": "You are a trained pilot, you wonder if you will ever have the chance to fly again.",
+    "description": "You are a trained helicopter pilot.  This makes you one of the few living people who can operate a helicopter after the Cataclysm.",
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "cancels": [ "WAYFARER" ]
   },
   {
     "type": "mutation",
@@ -6180,11 +6181,10 @@
     "type": "mutation",
     "id": "PROF_SKATER",
     "name": { "str": "Skater" },
-    "points": 0,
-    "description": "You spent a lot of time actively maneuvering on skates before the Cataclysm, and are better at staying on your feet when checked or blocked.",
-    "valid": false,
-    "purifiable": false,
-    "profession": true
+    "points": 1,
+    "description": "You are skilled in maneuvering on skates.  You suffer less dodging penalties and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
+    "starting_trait": true,
+    "valid": false
   },
   {
     "type": "mutation",
@@ -6559,6 +6559,7 @@
     "points": -8,
     "description": "Whether from personal choice or childhood trauma, traveling with vehicles is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "cancels": [ "PROF_HELI_PILOT" ]
   }
 ]

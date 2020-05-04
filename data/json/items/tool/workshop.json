@@ -81,8 +81,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "brick_kiln",
@@ -193,8 +192,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "cordless_drill",
@@ -218,8 +216,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "distaff_spindle",
@@ -416,8 +413,7 @@
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": 4
+    ]
   },
   {
     "id": "large_repairkit",
@@ -454,7 +450,6 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -471,7 +466,7 @@
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
+    "qualities": [ [ "HAMMER", 2 ] ],
     "use_action": "HAMMER",
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
@@ -689,8 +684,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "primitive_hammer",
@@ -706,7 +700,7 @@
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
+    "qualities": [ [ "HAMMER", 2 ] ],
     "use_action": "HAMMER",
     "flags": [ "BELT_CLIP" ]
   },
@@ -782,7 +776,6 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -826,8 +819,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "toolbox",
@@ -974,8 +966,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "welder_crude",

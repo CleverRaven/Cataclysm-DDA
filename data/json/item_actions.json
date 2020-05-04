@@ -991,11 +991,6 @@
   },
   {
     "type": "item_action",
-    "id": "bandolier",
-    "name": { "str": "Store/unload ammo" }
-  },
-  {
-    "type": "item_action",
     "id": "consume_drug",
     "name": { "str": "Consume" }
   },

@@ -17,7 +17,7 @@
     "looks_like": "molle_pack",
     "coverage": 30,
     "encumbrance": 10,
-    "storage": "100 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "100 L", "max_contains_weight": "500 kg", "moves": 300 } ],
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM" ]
@@ -70,6 +70,52 @@
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
+  },
+  {
+    "id": "xl_jeans",
+    "type": "ARMOR",
+    "name": { "str": "XL jeans", "str_pl": "pairs of XL jeans" },
+    "description": "A pair of XL blue jeans with two deep pockets.",
+    "weight": "900 g",
+    "volume": "3 L",
+    "copy-from": "jeans",
+    "storage": "750 ml",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_technician_pants_gray",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "XL work pants", "str_pl": "pairs of XL work pants" },
+    "description": "A pair of gray work pants.",
+    "copy-from": "technician_pants_gray",
+    "weight": "770 g",
+    "volume": "3 L",
+    "storage": "1700 ml",
+    "material_thickness": 2,
+    "snippet_category": [
+      { "id": "xl_technician_pants_blue", "text": "A pair of XL blue work pants." },
+      { "id": "xl_technician_pants_gray", "text": "A pair of XL gray work pants." },
+      { "id": "xl_technician_pants_lightblue", "text": "A pair of XL light-blue work pants." }
+    ],
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_technician_shirt_gray",
+    "repairs_like": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "work t-shirt" },
+    "description": "A gray XL work t-shirt with a small front pocket.",
+    "weight": "84 g",
+    "volume": "350 ml",
+    "copy-from": "technician_shirt_gray",
+    "snippet_category": [
+      { "id": "xl_technician_shirt_blue", "text": "An XL blue work t-shirt with a small front pocket." },
+      { "id": "xl_technician_shirt_gray", "text": "An XL gray work t-shirt with a small front pocket." },
+      { "id": "xl_technician_shirt_lightblue", "text": "An XL light-blue work t-shirt with a small front pocket." }
+    ],
+    "flags": [ "VARSIZE", "OVERSIZE" ]
   },
   {
     "id": "q_solarpack",
@@ -133,7 +179,6 @@
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 95,
     "encumbrance": 25,
-    "storage": "8 L",
     "warmth": 35,
     "material_thickness": 9,
     "valid_mods": [ "steel_padded" ],
@@ -247,5 +292,47 @@
     "warmth": 20,
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xlleather_belt",
+    "type": "ARMOR",
+    "name": { "str": "XL leather belt" },
+    "description": "An XL leather belt.  Useful for making your pair of pants fit if you need really big pants.",
+    "weight": "150 g",
+    "volume": "350 ml",
+    "copy-from": "leather_belt",
+    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+  },
+  {
+    "id": "police_belt",
+    "type": "ARMOR",
+    "name": { "str": "XL police duty belt" },
+    "description": "An XL black leather belt used by extremely large uplifted police officers.  It has several pouches and a holder for a baton.",
+    "weight": "450 g",
+    "volume": "2500 ml",
+    "copy-from": "police_belt",
+    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+  },
+  {
+    "id": "xltac_fullhelmet",
+    "repairs_like": "xlkevlar",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "XL tactical full helmet" },
+    "description": "An all-encompassing massive black helmet that covers your entire face and neck, providing excellent protection from all sorts of damage.",
+    "weight": "1324 g",
+    "volume": "2 L",
+    "copy-from": "tac_fullhelmet",
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "OVERSIZE" ]
+  },
+  {
+    "type": "ARMOR",
+    "id": "xllegpouch_large",
+    "name": { "str": "XL leg ammo pouch", "str_pl": "XL leg ammo pouches" },
+    "description": "An XL fabric ammo pouch that can be strapped to your leg and capable of holding two magazine close at hand.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "copy-from": "legpouch_large",
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   }
 ]

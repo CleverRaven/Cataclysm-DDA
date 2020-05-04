@@ -17,7 +17,7 @@
     "ammo_type": "762",
     "casing": "762_casing",
     "range": 30,
-    "damage": { "damage_type": "stab", "amount": 45, "armor_penetration": 8 },
+    "damage": { "damage_type": "bullet", "amount": 45, "armor_penetration": 8 },
     "dispersion": 35,
     "recoil": 2036,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
@@ -31,7 +31,7 @@
     "description": "7.62x39mm M67 rounds with 123gr bullets.  The inadequate terminal ballistics of the M43 round led to the development of the M67 round in Yugoslavia in the 1960s.  It destabilizes much faster than M43 after hitting a target leading to greater damage.",
     "price": 150,
     "price_postapoc": 6800,
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 2 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 2 } }
   },
   {
     "id": "reloaded_762_m43",
@@ -39,7 +39,7 @@
     "type": "AMMO",
     "name": { "str": "7.62x39mm M43, reloaded" },
     "description": "7.62x39mm ammunition with 121.9gr bullets.  Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular all over the world.  The bullet has poor wounding potential due to its stability, only beginning to yaw after 26cm.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -48,7 +48,7 @@
     "copy-from": "762_m87",
     "type": "AMMO",
     "name": { "str": "7.62x39mm M67, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

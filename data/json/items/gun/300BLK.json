@@ -16,7 +16,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "300blk",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1700,

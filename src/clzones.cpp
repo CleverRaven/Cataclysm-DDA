@@ -828,19 +828,17 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     }
 
     if( cat.get_id() == "food" ) {
-        const bool preserves = it.is_food_container() && it.type->container->preserves;
-
         // skip food without comestible, like MREs
         if( const item *it_food = it.get_food() ) {
             if( it_food->get_comestible()->comesttype == "DRINK" ) {
-                if( !preserves && it_food->goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
+                if( it_food->goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_PDRINK" );
                 } else if( has_near( zone_type_id( "LOOT_DRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_DRINK" );
                 }
             }
 
-            if( !preserves && it_food->goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
+            if( it_food->goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
                 return zone_type_id( "LOOT_PFOOD" );
             }
         }

@@ -14,9 +14,8 @@
     "phase": "liquid",
     "category": "fuel",
     "ammo_type": "dragon_blood",
-    "damage": 5,
+    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "pierce": 5,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
       "energy": 50,

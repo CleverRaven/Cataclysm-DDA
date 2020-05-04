@@ -1610,21 +1610,12 @@ bool npc::can_use_offensive_cbm() const
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
 {
-    invslice slice = inv.slice();
-    int index = -1;
-    for( size_t i = 0; i < slice.size(); i++ ) {
-        const item &it = slice[i]->front();
-        const item &real_item = it.is_container() ?  it.contents.front() : it;
-        if( filter( real_item ) ) {
-            index = i;
-            break;
-        }
-    }
-    if( index < 0 ) {
+    std::vector<item *> filtered_items = items_with( filter );
+    if( filtered_items.empty() ) {
         return false;
     }
     int old_moves = moves;
-    item_location loc = item_location( *this, &i_at( index ) );
+    item_location loc = item_location( *this, filtered_items.front() );
     return consume( loc ) && old_moves != moves;
 }
 
@@ -1647,7 +1638,7 @@ bool npc::recharge_cbm()
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
                 for( const itype_id &fid : bid->fuel_opts ) {
-                    return it.typeId() == fid || ( !it.is_container_empty() && it.contents.front().typeId() == fid );
+                    return it.typeId() == fid;
                 }
                 return false;
             };
@@ -3370,11 +3361,10 @@ bool npc::wield_better_weapon()
         // Only compare melee weapons, guns, or holstered items
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
+            return VisitResponse::SKIP;
         } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
-            const item &holstered = node->get_contained();
-            if( holstered.is_melee() || holstered.is_gun() ) {
-                compare_weapon( holstered );
-            }
+            // we just recur to the next farther down
+            return VisitResponse::NEXT;
         }
         return VisitResponse::SKIP;
     } );

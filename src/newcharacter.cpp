@@ -365,6 +365,38 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
 }
 
+void avatar::add_profession_items()
+{
+    std::list<item> prof_items = prof->items( male, get_mutations() );
+
+    for( item &it : prof_items ) {
+        if( it.has_flag( flag_WET ) ) {
+            it.active = true;
+            it.item_counter = 450; // Give it some time to dry off
+        }
+        // TODO: debugmsg if food that isn't a seed is inedible
+        if( it.has_flag( "no_auto_equip" ) ) {
+            it.unset_flag( "no_auto_equip" );
+            inv.push_back( it );
+        } else if( it.has_flag( "auto_wield" ) ) {
+            it.unset_flag( "auto_wield" );
+            if( !is_armed() ) {
+                wield( it );
+            } else {
+                inv.push_back( it );
+            }
+        } else if( it.is_armor() ) {
+            // TODO: debugmsg if wearing fails
+            wear_item( it, false );
+        } else {
+            inv.push_back( it );
+        }
+        if( it.is_book() ) {
+            items_identified.insert( it.typeId() );
+        }
+    }
+}
+
 bool avatar::create( character_type type, const std::string &tempname )
 {
     weapon = item( "null", 0 );
@@ -538,34 +570,10 @@ bool avatar::create( character_type type, const std::string &tempname )
         starting_vehicle = prof->vehicle();
     }
 
-    std::list<item> prof_items = prof->items( male, get_mutations() );
+    add_profession_items();
 
-    for( item &it : prof_items ) {
-        if( it.has_flag( flag_WET ) ) {
-            it.active = true;
-            it.item_counter = 450; // Give it some time to dry off
-        }
-        // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.has_flag( "no_auto_equip" ) ) {
-            it.unset_flag( "no_auto_equip" );
-            inv.push_back( it );
-        } else if( it.has_flag( "auto_wield" ) ) {
-            it.unset_flag( "auto_wield" );
-            if( !is_armed() ) {
-                wield( it );
-            } else {
-                inv.push_back( it );
-            }
-        } else if( it.is_armor() ) {
-            // TODO: debugmsg if wearing fails
-            wear_item( it, false );
-        } else {
-            inv.push_back( it );
-        }
-        if( it.is_book() ) {
-            items_identified.insert( it.typeId() );
-        }
-    }
+    // move items from the inventory. eventually the inventory should not contain items at all.
+    migrate_items_to_storage( true );
 
     std::vector<addiction> prof_addictions = prof->addictions();
     for( std::vector<addiction>::const_iterator iter = prof_addictions.begin();
