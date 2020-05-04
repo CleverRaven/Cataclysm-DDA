@@ -526,16 +526,16 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             _indent_entries = false;
 
-            append_cell( [ &p, this ]( const item_location & loc ) {
+            append_cell( [&p]( const item_location & loc ) {
                 const nutrients nutr = p.compute_effective_nutrients( *loc );
                 return good_bad_none( nutr.kcal );
             }, _( "CALORIES" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
+            append_cell( []( const item_location & loc ) {
                 return good_bad_none( loc->is_comestible() ? loc->get_comestible()->quench : 0 );
             }, _( "QUENCH" ) );
 
-            append_cell( [ &p, this ]( const item_location & loc ) {
+            append_cell( [&p]( const item_location & loc ) {
                 const item &it = *loc;
                 if( it.has_flag( flag_MUSHY ) ) {
                     return highlight_good_bad_none( p.fun_for( *loc ).first );
@@ -544,7 +544,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 }
             }, _( "JOY" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
+            append_cell( []( const item_location & loc ) {
                 const time_duration spoils = loc->is_comestible() ? loc->get_comestible()->spoils :
                                              calendar::INDEFINITELY_LONG_DURATION;
                 if( spoils > 0_turns ) {
@@ -554,7 +554,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string( _( "indefinite" ) );
             }, _( "SHELF LIFE" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
+            append_cell( []( const item_location & loc ) {
                 const item &it = *loc;
 
                 int converted_volume_scale = 0;
@@ -588,7 +588,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "SPOILS IN" ) );
 
-            append_cell( [ this, &p ]( const item_location & loc ) {
+            append_cell( [&p]( const item_location & loc ) {
                 std::string cbm_name;
 
                 switch( p.get_cbm_rechargeable_with( *loc ) ) {
@@ -616,7 +616,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "CBM" ) );
 
-            append_cell( [ this, &p ]( const item_location & loc ) {
+            append_cell( [&p]( const item_location & loc ) {
                 return good_bad_none( p.get_acquirable_energy( *loc ) );
             }, _( "ENERGY (kJ)" ) );
         }
