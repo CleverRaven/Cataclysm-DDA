@@ -13,7 +13,7 @@
     "stack_size": 1,
     "ammo_type": "40x46mm",
     "range": 60,
-    "damage": { "damage_type": "stab", "amount": 80 },
+    "damage": { "damage_type": "bullet", "amount": 80 },
     "dispersion": 30,
     "recoil": 225,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
@@ -25,7 +25,7 @@
     "name": { "str": "40x46mm M1006" },
     "description": "A low velocity less-lethal 40x46mm round with a foam and plastic projectile intended to cause pain and disorientation to the target.  May still injure or kill.",
     "weight": "68 g",
-    "damage": { "damage_type": "stab", "amount": 20 },
+    "damage": { "damage_type": "bullet", "amount": 20 },
     "casing": "40x46mm_m212_casing",
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },
@@ -36,7 +36,7 @@
     "name": { "str": "40x46mm M433" },
     "description": "A low velocity 40x46mm HEDP grenade.  It can penetrate 2 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
     "weight": "230 g",
-    "damage": { "damage_type": "stab", "amount": 200, "armor_penetration": 30 },
+    "damage": { "damage_type": "bullet", "amount": 200, "armor_penetration": 30 },
     "casing": "40x46mm_m118_casing",
     "extend": { "effects": [ "EXPLOSIVE_m433" ] }
   },
@@ -48,7 +48,7 @@
     "description": "A 40x46mm buckshot load, designed for use in thick vegetation or room clearing.",
     "weight": "120 g",
     "range": 12,
-    "damage": { "damage_type": "stab", "amount": 120, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 120, "armor_penetration": 4 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -60,7 +60,7 @@
     "name": { "str": "40x46mm M651" },
     "description": "A low velocity 40mm tear gas canister.  It is effective for riot control and driving infantry from entrenched positions",
     "weight": "290 g",
-    "damage": { "damage_type": "stab", "amount": 15 },
+    "damage": { "damage_type": "bullet", "amount": 15 },
     "drop": "gasbomb_act",
     "casing": "40x46mm_m195_casing",
     "extend": { "effects": [ "NO_EMBED" ] }
@@ -73,7 +73,7 @@
     "description": "An improvised 40x46mm buckshot load somewhat resembling M576.",
     "weight": "120 g",
     "range": 10,
-    "damage": { "damage_type": "stab", "amount": 90, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 90, "armor_penetration": 4 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -86,7 +86,7 @@
     "description": "An improvised 40x46mm buckshot load somewhat resembling M576.",
     "weight": "120 g",
     "range": 10,
-    "damage": { "damage_type": "stab", "amount": 90, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 90, "armor_penetration": 4 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -99,7 +99,7 @@
     "description": "An improvised 40x46mm load resembling an oversized shotgun slug.",
     "weight": "120 g",
     "range": 10,
-    "damage": { "damage_type": "stab", "amount": 120, "armor_penetration": 6 },
+    "damage": { "damage_type": "bullet", "amount": 120, "armor_penetration": 6 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing"
   },
@@ -111,7 +111,7 @@
     "description": "An improvised 40x46mm load resembling an oversized shotgun slug.",
     "weight": "120 g",
     "range": 10,
-    "damage": { "damage_type": "stab", "amount": 120, "armor_penetration": 6 },
+    "damage": { "damage_type": "bullet", "amount": 120, "armor_penetration": 6 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing"
   },
@@ -123,7 +123,7 @@
     "description": "An improvised 40x46mm flechette load containing 70 steel darts.",
     "weight": "120 g",
     "range": 10,
-    "damage": { "damage_type": "stab", "amount": 75, "armor_penetration": 6 },
+    "damage": { "damage_type": "bullet", "amount": 75, "armor_penetration": 6 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -136,7 +136,7 @@
     "description": "An improvised 40x46mm flechette load containing 70 steel darts.",
     "weight": "120 g",
     "range": 10,
-    "damage": { "damage_type": "stab", "amount": 75, "armor_penetration": 6 },
+    "damage": { "damage_type": "bullet", "amount": 75, "armor_penetration": 6 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
     "extend": { "effects": [ "SHOT" ] }

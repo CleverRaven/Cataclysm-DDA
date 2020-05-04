@@ -799,6 +799,10 @@ class Character : public Creature, public visitable<Character>
         void heal( hp_part healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
+
+        /** used for profession spawning and save migration for nested containers. remove after 0.F */
+        void migrate_items_to_storage( bool disintegrate );
+
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -874,7 +878,13 @@ class Character : public Creature, public visitable<Character>
         int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
+        /**
+          * What is the best pocket to put @it into?
+          * the pockets in @avoid do not count
+          */
+        item_pocket *best_pocket( const item &it, const item *avoid );
     protected:
+
         void do_skill_rust();
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
@@ -1211,6 +1221,9 @@ class Character : public Creature, public visitable<Character>
          */
         std::list<item> remove_worn_items_with( std::function<bool( item & )> filter );
 
+        // returns a list of all item_location the character has, including items contained in other items.
+        // only for CONTAINER pocket type; does not look for magazines
+        std::vector<item_location> all_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
@@ -1238,13 +1251,19 @@ class Character : public Creature, public visitable<Character>
         /*@}*/
 
         /**
-         * Try to find a container/s on character containing ammo of type it.typeId() and
-         * add charges until the container is full.
+         * Try to find containers that can contain @it and fills them up as much as possible.
+         * Does not work for items that are not count by charges.
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
-         * @return Remaining charges which could not be stored in a container.
+         * @return Remaining charges which could not be stored on the character.
          */
         int i_add_to_container( const item &it, bool unloading );
-        item &i_add( item it, bool should_stack = true );
+        /**
+         * Adds the item to the character's worn items or wields it, or prompts if the Character cannot pick it up.
+         * @avoid is the item to not put @it into
+         */
+        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr );
+        /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
+        item *try_add( item it, const item *avoid = nullptr );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
@@ -1352,13 +1371,16 @@ class Character : public Creature, public visitable<Character>
             const cata::optional<std::reference_wrapper<const inventory>> replace_inv;
         };
 
-        units::mass weight_carried_with_tweaks( const item_tweaks & ) const;
-        units::volume volume_carried_with_tweaks( const item_tweaks & ) const;
+        units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
+        units::mass weight_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
+                                                &locations ) const;
+        units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
+        units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
+                &locations )
+        const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
-        units::volume volume_capacity_reduced_by(
-            const units::volume &mod,
-            const std::map<const item *, int> &without_items = {} ) const;
+        units::volume free_space() const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
@@ -1675,6 +1697,7 @@ class Character : public Creature, public visitable<Character>
         void set_stashed_activity( const player_activity &act,
                                    const player_activity &act_back = player_activity() );
         bool has_stashed_activity() const;
+        bool can_stash( const item &it );
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */
@@ -1726,10 +1749,14 @@ class Character : public Creature, public visitable<Character>
         int get_armor_bash( bodypart_id bp ) const override;
         /** Returns overall cutting resistance for the body_part */
         int get_armor_cut( bodypart_id bp ) const override;
+        /** Returns overall bullet resistance for the body_part */
+        int get_armor_bullet( bodypart_id bp ) const override;
         /** Returns bashing resistance from the creature and armor only */
         int get_armor_bash_base( bodypart_id bp ) const override;
         /** Returns cutting resistance from the creature and armor only */
         int get_armor_cut_base( bodypart_id bp ) const override;
+        /** Returns cutting resistance from the creature and armor only */
+        int get_armor_bullet_base( bodypart_id bp ) const override;
         /** Returns overall env_resist on a body_part */
         int get_env_resist( bodypart_id bp ) const override;
         /** Returns overall acid resistance for the body part */
@@ -2028,6 +2055,8 @@ class Character : public Creature, public visitable<Character>
         void update_morale();
         /** Ensures persistent morale effects are up-to-date */
         void apply_persistent_morale();
+        // the morale penalty for hoarders
+        void hoarder_morale_penalty();
         /** Used to apply morale modifications from food and medication **/
         void modify_morale( item &food, int nutr = 0 );
         // Modified by traits, &c

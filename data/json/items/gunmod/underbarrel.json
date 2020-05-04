@@ -153,7 +153,7 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": 5,
+      "ranged_damage": { "damage_type": "bullet", "amount": 5 },
       "dispersion": 425,
       "durability": 7,
       "clip_size": 12,
@@ -417,7 +417,6 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
-    "magazine_well": 1,
     "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },

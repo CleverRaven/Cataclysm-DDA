@@ -75,7 +75,7 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
-    "damage_modifier": 1,
+    "damage_modifier": { "damage_type": "bullet", "amount": 1 },
     "dispersion_modifier": -90,
     "min_skills": [ [ "weapon", 4 ] ]
   },
@@ -108,7 +108,7 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "shotgun" ],
-    "damage_modifier": -8,
+    "damage_modifier": { "damage_type": "bullet", "amount": -8 },
     "dispersion_modifier": -200,
     "min_skills": [ [ "weapon", 5 ] ]
   },
@@ -478,7 +478,7 @@
     "color": "magenta",
     "skill": "pistol",
     "range": 30,
-    "ranged_damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 6 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 6 },
     "dispersion": 180,
     "durability": 4,
     "loudness": 7,
@@ -1007,7 +1007,7 @@
     "type": "AMMO",
     "name": { "str": "40mm slug" },
     "description": "A 40mm shell loaded with a massive bullet.  Say goodbye to your shoulder, I guess.",
-    "damage": { "damage_type": "stab", "amount": 130 },
+    "damage": { "damage_type": "bullet", "amount": 130 },
     "recoil": 875,
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },
@@ -1259,7 +1259,15 @@
     "material": "stone",
     "symbol": ";",
     "color": "dark_gray",
-    "container_data": { "contains": "1500 ml", "watertight": true },
+    "pocket_data": [
+      {
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -1751,7 +1759,7 @@
     "color": "light_gray",
     "ammo": "223",
     "range": -6,
-    "ranged_damage": -16,
+    "ranged_damage": { "damage_type": "bullet", "amount": -16 },
     "dispersion": 380,
     "durability": 8,
     "blackpowder_tolerance": 32,
@@ -1814,7 +1822,7 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
-    "damage_modifier": 3,
+    "damage_modifier": { "damage_type": "bullet", "amount": 3 },
     "dispersion_modifier": -45,
     "range_modifier": 3,
     "min_skills": [ [ "weapon", 4 ] ],
@@ -1843,7 +1851,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
-    "magazine_well": 1,
     "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ]
@@ -1998,7 +2005,7 @@
     "volume": "2750 ml",
     "bashing": 8,
     "to_hit": -1,
-    "ranged_damage": 15,
+    "ranged_damage": { "damage_type": "stab", "amount": 15 },
     "range": 15,
     "dispersion": 75,
     "durability": 7,
@@ -2036,7 +2043,7 @@
     "volume": "3 L",
     "bashing": 12,
     "to_hit": -1,
-    "ranged_damage": 5,
+    "ranged_damage": { "damage_type": "stab", "amount": 5 },
     "range": 20,
     "dispersion": 30,
     "durability": 7,
@@ -2073,7 +2080,7 @@
     "price_postapoc": 12000,
     "bashing": 8,
     "to_hit": -1,
-    "ranged_damage": 15,
+    "ranged_damage": { "damage_type": "stab", "amount": 15 },
     "range": 3,
     "dispersion": 350,
     "durability": 7,
@@ -2137,7 +2144,7 @@
     "ammo": "metal_rail",
     "skill": "rifle",
     "range": 40,
-    "ranged_damage": 40,
+    "ranged_damage": { "damage_type": "stab", "amount": 40 },
     "dispersion": 100,
     "durability": 7,
     "clip_size": 10,
@@ -2208,8 +2215,7 @@
     "ammo": "nail",
     "skill": "rifle",
     "range": 12,
-    "ranged_damage": 4,
-    "pierce": 20,
+    "ranged_damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 20 },
     "dispersion": 180,
     "durability": 5,
     "ups_charges": 5,
@@ -2248,7 +2254,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ],
-    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": 4 },
+    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
     "proportional": { "price": 3, "dispersion": 0.5 }
   },
   {
@@ -2301,7 +2307,7 @@
     "weight": "34500 g",
     "bashing": 8,
     "ammo_type": "mininuke_mod",
-    "damage": 14,
+    "damage": { "damage_type": "stab", "amount": 14 },
     "stack_size": 2,
     "effects": [ "MININUKE_MOD", "NEVER_MISFIRES" ]
   },
@@ -2383,19 +2389,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 7,
-    "storage": "2500 ml",
     "warmth": 15,
     "material_thickness": 4,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2417,19 +2413,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 15,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 9,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2451,19 +2437,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 25,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 5,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2485,19 +2461,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 12,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 6,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2519,19 +2485,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 20,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 7,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2553,19 +2509,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 15,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 6,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {

@@ -1321,14 +1321,18 @@ static void fire()
         std::vector<std::function<void()>> actions;
 
         for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) &&
-                !w.contents.empty() && w.contents.front().is_gun() ) {
+
+            std::vector<item *> guns = w.items_with( []( const item & it ) {
+                return it.is_gun();
+            } );
+
+            if( !guns.empty() && w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) ) {
                 //~ draw (first) gun contained in holster
                 //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
                 options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
-                                                  w.contents.front().tname(),
+                                                  guns.front()->tname(),
                                                   w.type_name(),
-                                                  w.contents.front().ammo_remaining() ) );
+                                                  guns.front()->ammo_remaining() ) );
 
                 actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
 

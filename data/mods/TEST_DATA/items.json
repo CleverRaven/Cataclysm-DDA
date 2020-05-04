@@ -13,7 +13,7 @@
     "weight": "657 g",
     "volume": "250 ml",
     "bashing": 7,
-    "damage": 7,
+    "damage": { "damage_type": "stab", "amount": 7 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
@@ -71,6 +71,61 @@
     "bashing": 12,
     "price": 7500,
     "price_postapoc": 300
+  },
+  {
+    "id": "test_tool_belt",
+    "type": "ARMOR",
+    "name": { "str": "tool belt" },
+    "description": "A common belt with pockets, loops and sheaths to store up to six tools or blades.  Widely used by handymen and electricians.",
+    "weight": "2000 g",
+    "volume": "2250 ml",
+    "price": 4500,
+    "price_postapoc": 1500,
+    "bashing": 5,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 2,
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "type": "GENERIC",
@@ -221,8 +276,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "test_jack_small",
@@ -332,7 +386,7 @@
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 10,
-    "ranged_damage": 18,
+    "ranged_damage": { "damage_type": "stab", "amount": 18 },
     "range": 18,
     "dispersion": 850,
     "durability": 6,
@@ -371,7 +425,7 @@
   },
   {
     "id": "test_jug_plastic",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "container",
     "name": "TEST gallon jug",
     "description": "A standard plastic jug used for milk and household cleaning chemicals.",
@@ -382,13 +436,11 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": "3750 ml",
-    "seals": true,
-    "watertight": true
+    "pocket_data": [ { "max_contains_volume": "3750 ml", "max_contains_weight": "5 kg", "watertight": true, "rigid": true } ]
   },
   {
     "id": "test_waterskin",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "container",
     "name": "TEST small waterskin",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
@@ -397,14 +449,11 @@
     "price": 2000,
     "to_hit": -1,
     "bashing": 1,
-    "rigid": false,
     "material": "leather",
     "symbol": ")",
     "color": "brown",
-    "contains": "1500 ml",
-    "seals": true,
-    "watertight": true,
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
+    "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "watertight": true } ],
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -416,7 +465,6 @@
     "volume": "2 L",
     "price": 3900,
     "price_postapoc": 16000,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -424,8 +472,7 @@
     "covers": [ "TORSO" ],
     "coverage": 30,
     "encumbrance": 2,
-    "max_encumbrance": 15,
-    "storage": "15 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "30 kg", "moves": 300 } ],
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ]
@@ -448,7 +495,7 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
     "encumbrance": 30,
-    "storage": "15 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "30 kg", "moves": 300 } ],
     "material_thickness": 2,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },

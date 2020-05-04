@@ -1211,7 +1211,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     } else if( g && w == g->w_terrain && map_font ) {
         // When the terrain updates, predraw a black space around its edge
         // to keep various former interface elements from showing through the gaps
-        // TODO: Maybe track down screen changes and use g->w_blackspace to draw this instead
 
         //calculate width differences between map_font and font
         int partial_width = std::max( TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH *
@@ -1244,15 +1243,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         int offsetx = win->pos.x * map_font->fontwidth;
         int offsety = win->pos.y * map_font->fontheight;
         update = map_font->draw_window( w, point( offsetx, offsety ) );
-    } else if( g && w == g->w_blackspace ) {
-        // fill-in black space window skips draw code
-        // so as not to confuse framebuffer any more than necessary
-        int offsetx = win->pos.x * font->fontwidth;
-        int offsety = win->pos.y * font->fontheight;
-        int wwidth = win->width * font->fontwidth;
-        int wheight = win->height * font->fontheight;
-        FillRectDIB( point( offsetx, offsety ), wwidth, wheight, catacurses::black );
-        update = true;
     } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn

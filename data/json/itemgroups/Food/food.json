@@ -243,7 +243,8 @@
       { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "group": "big_canned_food", "prob": 4 }
+      { "group": "big_canned_food", "prob": 4 },
+      { "group": "teabag_box", "prob": 20 }
     ]
   },
   {
@@ -456,7 +457,8 @@
       { "item": "coffee_syrup", "prob": 10 },
       { "item": "fruit_leather", "prob": 25 },
       { "item": "kernels", "prob": 25 },
-      { "item": "pine_nuts", "prob": 5 }
+      { "item": "pine_nuts", "prob": 5 },
+      { "group": "teabag_box", "prob": 10 }
     ]
   },
   {
@@ -777,7 +779,17 @@
       { "item": "restaurantmap", "prob": 5 },
       { "item": "touristmap", "prob": 2 },
       { "item": "noodles_fast", "prob": 30 },
-      { "item": "milkshake_fastfood", "prob": 15 }
+      { "item": "milkshake_fastfood", "prob": 15 },
+      { "group": "teabag_box", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "teabag_box",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tea_bag", "prob": 20, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "herbal_tea_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }
     ]
   }
 ]

@@ -41,6 +41,19 @@
     "components": [ [ [ "rag", 3 ] ] ]
   },
   {
+    "result": "xlboy_shorts",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "filament", 25 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "rag", 6 ] ] ]
+  },
+  {
     "result": "boxer_briefs",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -54,6 +67,19 @@
     "components": [ [ [ "rag", 3 ] ] ]
   },
   {
+    "result": "xlboxer_briefs",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "rag", 5 ] ] ]
+  },
+  {
     "result": "boxer_shorts",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -65,6 +91,19 @@
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "components": [ [ [ "rag", 5 ] ] ]
+  },
+  {
+    "result": "xlboxer_shorts",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "rag", 10 ] ] ]
   },
   {
     "result": "breeches",

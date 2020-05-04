@@ -166,10 +166,10 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 
 void item_contents::serialize( JsonOut &json ) const
 {
-    if( !items.empty() ) {
+    if( !contents.empty() ) {
         json.start_object();
 
-        json.member( "items", items );
+        json.member( "contents", contents );
 
         json.end_object();
     }
@@ -178,7 +178,38 @@ void item_contents::serialize( JsonOut &json ) const
 void item_contents::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    data.read( "items", items );
+    data.read( "contents", contents );
+}
+
+void item_pocket::serialize( JsonOut &json ) const
+{
+    if( !contents.empty() ) {
+        json.start_object();
+        json.member( "pocket_type", data->type );
+        json.member( "contents", contents );
+        json.end_object();
+    }
+}
+
+void item_pocket::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "contents", contents );
+    int saved_type_int;
+    data.read( "pocket_type", saved_type_int );
+    _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
+}
+
+void pocket_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
+
+void resealable_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2325,6 +2356,26 @@ void item::io( Archive &archive )
     }
 }
 
+void item::migrate_content_item( const item &contained )
+{
+    if( contained.is_gunmod() || contained.is_toolmod() ) {
+        put_in( contained, item_pocket::pocket_type::MOD );
+    } else if( !contained.made_of( LIQUID )
+               && ( contained.is_magazine() || contained.is_ammo() ) ) {
+        put_in( contained, item_pocket::pocket_type::MAGAZINE );
+    } else if( typeId() == "usb_drive" ) {
+        // as of this migration, only usb_drive has any software in it.
+        put_in( contained, item_pocket::pocket_type::SOFTWARE );
+    } else if( is_corpse() ) {
+        put_in( contained, item_pocket::pocket_type::CORPSE );
+    } else if( can_contain( contained ) ) {
+        put_in( contained, item_pocket::pocket_type::CONTAINER );
+    } else {
+        // we want this to silently fail - the contents will fall out later
+        put_in( contained, item_pocket::pocket_type::MIGRATION );
+    }
+}
+
 void item::deserialize( JsonIn &jsin )
 {
     const JsonObject data = jsin.get_object();
@@ -2334,17 +2385,27 @@ void item::deserialize( JsonIn &jsin )
     if( savegame_loading_version < 27 ) {
         legacy_fast_forward_time();
     }
+    contents = item_contents( type->pockets );
+    // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
         data.read( "contents", items );
-        contents = item_contents( items );
+        for( const item &it : items ) {
+            migrate_content_item( it );
+        }
     } else {
-        data.read( "contents", contents );
-    }
+        item_contents read_contents;
+        data.read( "contents", read_contents );
+        contents.combine( read_contents );
 
-    // Sealed item migration: items with "unseals_into" set should always have contents
-    if( contents.empty() && is_non_resealable_container() ) {
-        convert( type->container->unseals_into );
+        if( data.has_object( "contents" ) && data.get_object( "contents" ).has_array( "items" ) ) {
+            // migration for nested containers. leave until after 0.F
+            std::list<item> items;
+            data.get_object( "contents" ).read( "items", items );
+            for( const item &it : items ) {
+                migrate_content_item( it );
+            }
+        }
     }
 }
 
@@ -2990,6 +3051,7 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "armor_bash_bonus", armor_bash_bonus );
     jsout.member( "armor_cut_bonus", armor_cut_bonus );
+    jsout.member( "armor_bullet_bonus", armor_bullet_bonus );
 
     jsout.member( "speed", speed_base );
 
@@ -3053,6 +3115,7 @@ void Creature::load( const JsonObject &jsin )
 
     jsin.read( "armor_bash_bonus", armor_bash_bonus );
     jsin.read( "armor_cut_bonus", armor_cut_bonus );
+    jsin.read( "armor_bullet_bonus", armor_bullet_bonus );
 
     jsin.read( "speed", speed_base );
 

@@ -17,7 +17,7 @@
     "ammo_type": "223",
     "casing": "223_casing",
     "range": 36,
-    "damage": { "damage_type": "stab", "amount": 44, "armor_penetration": 2 },
+    "damage": { "damage_type": "bullet", "amount": 44, "armor_penetration": 2 },
     "dispersion": 30,
     "recoil": 1500,
     "effects": [ "COOKOFF" ]
@@ -31,7 +31,7 @@
     "price": 290,
     "price_postapoc": 900,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "relative": { "damage": { "damage_type": "stab", "amount": -2, "armor_penetration": 4 }, "dispersion": -10 },
+    "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 4 }, "dispersion": -10 },
     "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -50,7 +50,7 @@
     "name": { "str": ".223 Remington, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.57, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
       "recoil": 0.57,
       "dispersion": 1.2
     },
@@ -64,7 +64,7 @@
     "name": { "str": "5.56 NATO, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.57, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
       "recoil": 0.57,
       "dispersion": 1.2
     },
@@ -78,7 +78,7 @@
     "name": { "str": "5.56 NATO tracer, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.57, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
       "recoil": 0.57,
       "dispersion": 1.2
     },
@@ -90,7 +90,7 @@
     "copy-from": "223",
     "type": "AMMO",
     "name": { "str": ".223 Remington, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -99,7 +99,7 @@
     "copy-from": "556",
     "type": "AMMO",
     "name": { "str": "5.56 NATO, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -108,7 +108,7 @@
     "copy-from": "556_incendiary",
     "type": "AMMO",
     "name": { "str": "5.56 NATO tracer, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

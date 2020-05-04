@@ -721,5 +721,29 @@
     "price_postapoc": 0,
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
+  },
+  {
+    "id": "tea_bag",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str": "tea bag" },
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "INEDIBLE" ],
+    "weight": "5 g",
+    "volume": "10 ml",
+    "color": "white",
+    "symbol": "?",
+    "container": "box_tea",
+    "material": "paper",
+    "price": 50,
+    "price_postapoc": 200,
+    "description": "Paper sachet with tea leafs inside.  Put it into boiling water to get your cup of tea."
+  },
+  {
+    "id": "herbal_tea_bag",
+    "type": "COMESTIBLE",
+    "name": { "str": "herbal tea bag" },
+    "copy-from": "tea_bag",
+    "color": "green",
+    "description": "Paper sachet with dried wild herbs inside.  Put it into boiling water to make some healthy warm drink."
   }
 ]

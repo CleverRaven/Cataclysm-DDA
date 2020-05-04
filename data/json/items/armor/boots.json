@@ -440,7 +440,11 @@
     "price_postapoc": 750,
     "coverage": 95,
     "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
-    "use_action": { "type": "holster", "max_volume": "250 ml", "max_weight": 600, "draw_cost": 80, "multi": 2, "skills": [ "pistol" ] },
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 }
+    ],
+    "use_action": { "type": "holster" },
     "extend": { "flags": [ "FANCY" ] }
   },
   {
@@ -1246,6 +1250,16 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
   },
   {
+    "id": "xlnomex_socks",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
+    "description": "A snug fitting pair of stockings made from thin and lightweight Nomex fire-resistant fabric.  Tough yet breathable, they are light and comfortable to wear under clothing.",
+    "weight": "300 g",
+    "volume": "1000 ml",
+    "copy-from": "nomex_socks",
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+  },
+  {
     "id": "socks",
     "type": "ARMOR",
     "name": { "str": "pair of socks", "str_pl": "pairs of socks" },
@@ -1263,6 +1277,16 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "xlsocks",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
+    "description": "Socks.  Big ones.  Put 'em on your feet.",
+    "weight": "58 g",
+    "volume": "250 ml",
+    "copy-from": "socks",
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
     "id": "socks_ankle",
@@ -1339,6 +1363,16 @@
     "warmth": 30,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "xlsocks_wool",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
+    "description": "Warm socks made of wool for a larger than you'd previously thought possible human.",
+    "weight": "77 g",
+    "volume": "500 ml",
+    "copy-from": "socks_wool",
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
     "id": "stockings",

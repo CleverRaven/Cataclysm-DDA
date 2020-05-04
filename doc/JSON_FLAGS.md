@@ -238,6 +238,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
 - ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
+- ```BULLET_IMMNUE``` Wearing an item with this flag makes you immune to bullet damage
 - ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
 - ```DEAF``` Makes the player deaf.
@@ -566,6 +567,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
+- ```PICKABLE``` This terrain/furniture could be picked with lockpicks.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
 - ```PLANTABLE``` This terrain or furniture can have seeds planted in it.

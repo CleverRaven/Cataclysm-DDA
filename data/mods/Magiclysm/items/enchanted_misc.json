@@ -109,7 +109,7 @@
   {
     "name": { "str": "endless flask" },
     "id": "mflask_hip_whiskey",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "copy-from": "flask_hip",
     "category": "clothing",
     "use_action": {

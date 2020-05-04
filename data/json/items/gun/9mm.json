@@ -19,7 +19,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
   },
   {
@@ -41,7 +40,7 @@
     "color": "dark_gray",
     "ammo": "9mm",
     "skill": "smg",
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 450,
@@ -61,7 +60,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "calicomag" ] ] ]
   },
   {
@@ -83,7 +81,7 @@
     "ammo": "9mm",
     "skill": "rifle",
     "range": 20,
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
     "durability": 10,
     "min_cycle_recoil": 450,
@@ -103,7 +101,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9bigmag", "m9mag" ] ] ]
   },
   {
@@ -123,12 +120,11 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "9mm",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
   {
@@ -149,7 +145,7 @@
     "color": "dark_gray",
     "ammo": "9mm",
     "skill": "smg",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 240,
     "durability": 8,
     "min_cycle_recoil": 450,
@@ -268,6 +264,7 @@
     "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 10, "encumbrance": 30, "material_thickness": 2 },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
     "valid_mod_locations": [  ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "max_contains_volume": "1 L", "max_contains_weight": "10 kg", "holster": true } ],
     "magazines": [ [ "9mm", [ "mp5mag" ] ] ]
   },
   {
@@ -289,7 +286,7 @@
     "ammo": "9mm",
     "skill": "rifle",
     "range": 18,
-    "ranged_damage": { "damage_type": "stab", "amount": 3 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 180,
     "durability": 7,
     "min_cycle_recoil": 450,
@@ -308,7 +305,6 @@
       [ "sling", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
   {
@@ -332,7 +328,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
   },
   {
@@ -355,7 +350,6 @@
     "dispersion": 440,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "px4mag" ] ] ]
   },
   {
@@ -377,7 +371,7 @@
     "color": "brown",
     "ammo": "9mm",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -415,7 +409,7 @@
     "material": "steel",
     "color": "dark_gray",
     "ammo": "9mm",
-    "ranged_damage": { "damage_type": "stab", "amount": -3 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "dispersion": 590,
     "durability": 4,
     "blackpowder_tolerance": 24,
@@ -455,7 +449,7 @@
     "color": "dark_gray",
     "ammo": "9mm",
     "skill": "smg",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 360,
     "durability": 5,
     "blackpowder_tolerance": 24,
@@ -511,7 +505,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "tec9mag" ] ] ]
   },
   {
@@ -531,12 +524,11 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "9mm",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 400,
     "durability": 9,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
   },
   {
@@ -556,7 +548,7 @@
     "material": "steel",
     "color": "dark_gray",
     "ammo": "9mm",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 360,
     "durability": 7,
     "min_cycle_recoil": 450,
@@ -576,7 +568,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "uzimag" ] ] ]
   },
   {
@@ -595,12 +586,11 @@
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": "9mm",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
-    "magazine_well": 1,
     "//": "Glock 17s cannot load a 15 round magazine. See http://guns-of-fun.com/portals/0/LiveContent/Mounts/Glock-Mags-Comp.jpg and #33038",
     "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
   },
@@ -624,12 +614,11 @@
     "description": "The Kel-Tec PF-9 remains one of the most popular backup pistols due to its history of reliability, affordability, and concealability.  Chambered in 9x19mm, recoil is best described as unpleasant, and follow-up shots are difficult to place quickly.",
     "weight": "360 g",
     "volume": "218ml",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "price": 18000,
     "price_postapoc": 2000,
     "bashing": 2,
     "ammo": "9mm",
-    "magazine_well": "65 ml",
     "min_cycle_recoil": 450,
     "magazines": [ [ "9mm", [ "kpf9mag" ] ] ]
   },
@@ -652,7 +641,6 @@
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
   },
   {
@@ -673,7 +661,6 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "bhp9mag_13rd", "bhp9mag_15rd" ] ] ]
   },
   {
@@ -694,7 +681,6 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "p38mag" ] ] ]
   },
   {
@@ -714,7 +700,6 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 9,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ] ] ]
   },
   {
@@ -735,7 +720,6 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ] ] ]
   },
   {
@@ -756,7 +740,6 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ] ] ]
   },
   {
@@ -777,7 +760,6 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "ccpmag" ] ] ]
   }
 ]

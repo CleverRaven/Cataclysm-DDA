@@ -2742,11 +2742,12 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "5 h 40 m",
-    "book_learn": [ [ "textbook_weapeast", 6 ] ],
+    "book_learn": [ [ "textbook_weapeast", 4 ] ],
+    "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "//": "a long pole is a single piece of wood, and the heavy stick just isn't large enough.",
     "components": [
-      [ [ "log", 1 ] ],
+      [ [ "wood_beam", 1 ] ],
       [
         [ "any_tallow", 4, "LIST" ],
         [ "cooking_oil", 32 ],

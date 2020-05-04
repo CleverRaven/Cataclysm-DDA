@@ -80,6 +80,7 @@ static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
 static const mongroup_id GROUP_LAB( "GROUP_LAB" );
 static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
+static const mongroup_id GROUP_LAB_SECURITY( "GROUP_LAB_SECURITY" );
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
 static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
@@ -5755,7 +5756,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
     for( auto e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-                e->put_in( item( e->magazine_default(), e->birthday() ) );
+                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default(), e->ammo_capacity() );
@@ -6207,7 +6208,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->place_spawns( GROUP_TURRET, 1,
+                m->place_spawns( GROUP_LAB_SECURITY, 1,
                                  point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ),
                                  point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ), 1, true );
             } else {
@@ -6223,7 +6224,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->place_spawns( GROUP_TURRET, 1,
+                m->place_spawns( GROUP_LAB_SECURITY, 1,
                                  point( desk, static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
                                  point( desk, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), 1, true );
             }

@@ -14,7 +14,7 @@
     "location": "lens",
     "mod_targets": [ "rifle", "pistol" ],
     "range_modifier": -25,
-    "damage_modifier": 10,
+    "damage_modifier": { "damage_type": "bullet", "amount": 10 },
     "ammo_effects": [ "SHOT" ],
     "min_skills": [ [ "weapon", 4 ] ]
   },
@@ -33,8 +33,8 @@
     "location": "lens",
     "mod_targets": [ "rifle", "pistol" ],
     "range_modifier": 15,
+    "damage_modifier": { "damage_type": "bullet", "amount": 5 },
     "dispersion_modifier": 15,
-    "damage_modifier": 5,
     "min_skills": [ [ "weapon", 4 ] ]
   },
   {
@@ -52,7 +52,7 @@
     "location": "lens",
     "mod_targets": [ "pistol" ],
     "range_modifier": -25,
-    "damage_modifier": -8,
+    "damage_modifier": { "damage_type": "bullet", "amount": -8 },
     "ups_charges_multiplier": 1.2,
     "ammo_effects": [ "BEANBAG" ],
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
@@ -91,7 +91,7 @@
     "location": "emitter",
     "mod_targets": [ "pistol", "rifle" ],
     "range_modifier": 5,
-    "damage_modifier": 10,
+    "damage_modifier": { "damage_type": "bullet", "amount": 10 },
     "ups_charges_multiplier": 2.0,
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   }

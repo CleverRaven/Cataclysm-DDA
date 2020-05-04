@@ -293,7 +293,7 @@
     "coverage": 30,
     "required_str": 14,
     "max_volume": "250 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE", "PICKABLE" ],
     "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 40,
