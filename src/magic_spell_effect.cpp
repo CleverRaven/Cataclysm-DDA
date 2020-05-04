@@ -437,6 +437,8 @@ static void damage_targets( const spell &sp, Creature &caster,
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
         }
+        // TODO: randomize hit location
+        cr->add_damage_over_time( sp.damage_over_time( { bodypart_str_id( "torso" ) } ) );
     }
 }
 
