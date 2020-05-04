@@ -168,7 +168,6 @@
     "min_cycle_recoil": 1350,
     "default_mods": [ "factory_handguard" ],
     "magazines": [ [ "223", [ "stanag30" ] ] ],
-    "magazine_well": "228 ml",
     "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
     "valid_mod_locations": [
       [ "accessories", 2 ],
