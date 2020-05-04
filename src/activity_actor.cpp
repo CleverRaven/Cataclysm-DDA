@@ -440,7 +440,7 @@ void consume_activity_actor::do_turn( player_activity &act, Character & )
     g->u.moves -= 100;
 }
 
-void consume_activity_actor::finish( player_activity &act, Character &you )
+void consume_activity_actor::finish( player_activity &act, Character & )
 {
     item *it = loc.get_item();
     if( loc.where() == item_location::type::character ) {
