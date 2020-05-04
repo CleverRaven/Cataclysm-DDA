@@ -444,9 +444,9 @@ void consume_activity_actor::finish( player_activity &act, Character &you )
 {
     item *it = loc.get_item();
     if( loc.where() == item_location::type::character ) {
-        you.consume( loc );
+        g->u.consume( loc );
 
-    } else if( you.consume_item( *it ) ) {
+    } else if( g->u.consume_item( *it ) ) {
         loc.remove_item();
     }
     if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
