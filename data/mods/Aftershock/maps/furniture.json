@@ -170,8 +170,8 @@
     "type": "furniture",
     "id": "f_3dprinter",
     "name": "3D printer",
-    "symbol": "&",
-    "description": "A boxy looking device of arms, droppers and pipettes.  It was used pre-Cataclysm to do expirements in gene editing.",
+    "symbol": "?",
+    "description": "This box was used for rapid prototyping of products and for general entertainment purposes in the masses.",
     "color": "light_cyan",
     "looks_like": "f_robotic_arm",
     "move_cost_mod": -1,
@@ -189,7 +189,8 @@
         { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
         { "item": "afs_energy_storage_1", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "afs_material_1", "count": [ 6, 8 ] }
+        { "item": "afs_material_1", "count": [ 6, 8 ] },
+        { "item": "afs_material_2", "count": [ 3, 7 ] }
       ]
     },
     "bash": {
@@ -207,7 +208,8 @@
         { "item": "afs_energy_storage_1", "prob": 25 },
         { "item": "afs_energy_storage_2", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 }
+        { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 },
+        { "item": "afs_material_2", "count": [ 1, 4 ], "prob": 50 }
       ]
     }
   }
