@@ -58,7 +58,7 @@
     "color": "magenta",
     "skill": "pistol",
     "range": 30,
-    "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 15 },
+    "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 4 },
     "dispersion": 10,
     "durability": 10,
     "loudness": 7,
