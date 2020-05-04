@@ -110,7 +110,6 @@ TEST_CASE( "starting_items", "[slow]" )
         trait_id( "ANTIWHEAT" ),
         //trait_id( "ARM_TENTACLES" ),
         //trait_id( "BEAK" ),
-        trait_id( "CANNIBAL" ),
         //trait_id( "CARNIVORE" ),
         //trait_id( "HERBIVORE" ),
         //trait_id( "HOOVES" ),
