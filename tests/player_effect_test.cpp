@@ -66,7 +66,7 @@
 // effect_mending
 //
 // Applied to a body part, this effect indicates when a limb is mending from being broken.
-// Mending itself occurs in `Character::mend` (outside the scope of these tests).
+// Mending itself occurs in Character::mend (outside the scope of these tests).
 //
 // FIXME: This test (and the effect_disabled test) are kind of pointless and over-complicated,
 // considering their simplistic implementation. Consider removing these (maybe more maintenance than
@@ -106,7 +106,7 @@ TEST_CASE( "mending broken limbs", "[player][effect][mending]" )
         }
 
         WHEN( "it is no longer broken" ) {
-            // "Un-break" the leg, to avoid the complexity of `Character::mend`
+            // "Un-break" the leg, to avoid the complexity of Character::mend
             dummy.hp_cur[hp_leg_r] = 1;
             REQUIRE_FALSE( dummy.is_limb_broken( hp_leg_r ) );
 
@@ -158,7 +158,7 @@ TEST_CASE( "disabled body parts", "[player][effect][disabled]" )
         }
 
         WHEN( "it is no longer broken" ) {
-            // "Un-break" the leg, to avoid the complexity of `Character::mend`
+            // "Un-break" the leg, to avoid the complexity of Character::mend
             dummy.hp_cur[hp_leg_r] = 1;
             REQUIRE_FALSE( dummy.is_limb_broken( hp_leg_r ) );
 
@@ -255,7 +255,7 @@ TEST_CASE( "panacea heals the body and reduces pain", "[player][effect][panacea]
 // - mattack_actors.cpp on_damage (L360-368)
 // - character.cpp deal_damage (L8542-8550) "each point has a 1% chance of causing infection"
 
-// Return the percent chance of recovering from `effect_bite` within 6 hours, with one extra effect
+// Return the percent chance of recovering from effect_bite within 6 hours, with one extra effect
 static float bite_recovery_chance( const std::string with_effect_name )
 {
     // Total number of 6-hour bite-to-infection trials to run
@@ -271,15 +271,22 @@ static float bite_recovery_chance( const std::string with_effect_name )
 
     for( int i = 0; i < num_trials; i++ ) {
         dummy.clear_effects();
-        dummy.add_effect( effect_bite, 1_turns, torso );
+        // Get a fresh bite, and start at 1 turn to get the full six hours
+        dummy.add_effect( effect_bite, 1_turns, torso, true );
+
+        // Apply the additional effect
+        // TODO: Determine how duration may affect this
         dummy.add_effect( effect_also, 1_turns, torso );
+
+        // Keep track of the bite effect to know whether it recovers
         effect &bite_obj = dummy.get_effect( efftype_id( "bite" ), torso );
         bool recovered = false;
 
-        // Get a fresh bite every six hours, so it won't get infected
+        // Without recovery, infection is automatic at 6 hours; quit before then
         while( !recovered && bite_obj.get_duration() < 6_hours ) {
             dummy.hardcoded_effects( bite_obj );
 
+            // If duration reaches 0 turns, the bite has recovered
             if( bite_obj.get_duration() == 0_turns ) {
                 recovered = true;
                 recovery_count++;
@@ -296,11 +303,32 @@ TEST_CASE( "chance of recovering from bite", "[player][effect][bite][recovery]" 
     CHECK( 100.0f == bite_recovery_chance( "panacea" ) );
     CHECK( 100.0f == bite_recovery_chance( "strong_antibiotic" ) );
 
-    CHECK( Approx( 63.0f ).margin( 2.0f ) <= bite_recovery_chance( "antibiotic" ) );
+    // FIXME: These are flakier than golden-crusted butter croissants
+    CHECK( Approx( 62.0f ).margin( 2.0f ) <= bite_recovery_chance( "antibiotic" ) );
     CHECK( Approx( 48.0f ).margin( 2.0f ) <= bite_recovery_chance( "weak_antibiotic" ) );
-    CHECK( Approx( 28.0f ).margin( 2.0f ) <= bite_recovery_chance( "recover" ) );
+    CHECK( Approx( 26.0f ).margin( 2.0f ) <= bite_recovery_chance( "recover" ) );
 }
 
+
+// Bite effects are "permanent" until they either recover or become infected. When a bite is first
+// applied to a body part, it has a nonzero starting duration. In player::hardcoded_effects, that
+// bite duration may be modified up or down, depending on several factors.
+//
+// With no treatment, duration increases with every tick of the clock; if it exceeds six hours
+// without recovering, the bite becomes infected.
+//
+// The chance of recovery is randomized, influenced by other factors such as antibiotics, mutations,
+// and hidden health. These are tallied and rolled every 10 turns in hardcoded_effects to determine
+// whether the bite recovers. If so, the bite effect duration is set to 0, to indicate that the bite
+// effect shall no longer apply. The effect itself will later be removed by effect::decay,
+// invoked by Creature::process_effects (outside the scope of these tests, which are focused
+// on player::hardcoded_effects).
+//
+// When an effect is "permanent" like this, its duration is not the total *remaining* effect time,
+// but rather as a kind of flexible deadline, modified by the treatments used in the 6-ish-hour
+// interim. Antibiotics may slow (or even reverse) the tick rate towards infection, so the "6 hours"
+// of effect duration may amount to more or less actual in-game time.
+//
 TEST_CASE( "antibiotic effects on bites", "[player][effect][bite][antibiotic]" )
 {
     avatar dummy;
@@ -311,28 +339,75 @@ TEST_CASE( "antibiotic effects on bites", "[player][effect][bite][antibiotic]" )
 
     const efftype_id effect_bite( "bite" );
 
-    GIVEN( "player has been bitten" ) {
+    // Use starting bite duration at 3 hours (halfway to infected)
+    const time_duration start_bite_duration = 3_hours;
+    const int start_bite_turns = to_turns<int>( start_bite_duration );
+    // 3 h = 3x60x60 = 10,800 turns
+    REQUIRE( start_bite_turns == 10800 );
+
+    // How many turns to pass with each antibiotic to measure their effect
+    const int pass_turns = 800;
+
+    GIVEN( "player is bitten" ) {
         dummy.clear_effects();
 
-        // Just a nibble, only lasts 10 turns
-        // NB: hardcoded_effects only apply every 10 turns, so this is only good for 1 cycle
-        dummy.add_effect( effect_bite, 10_turns );
+        dummy.add_effect( effect_bite, start_bite_duration );
         effect &effect_obj = dummy.get_effect( effect_bite );
+
+        // FIXME: Condense these into a helper function
+        //
+        // Apply hardcoded effects N times, and measure the change in bite duration
+
+        WHEN( "they have no antibiotic effects" ) {
+            REQUIRE_FALSE( dummy.has_effect( effect_strong_antibiotic ) );
+            REQUIRE_FALSE( dummy.has_effect( effect_antibiotic ) );
+            REQUIRE_FALSE( dummy.has_effect( effect_weak_antibiotic ) );
+
+            THEN( "bite duration increases by 1 every turn" ) {
+                for( int i = 0; i < pass_turns; i++ ) {
+                    dummy.hardcoded_effects( effect_obj );
+                    calendar::turn = calendar::turn + 1_turns;
+                }
+                CHECK( to_turns<int>( effect_obj.get_duration() ) == start_bite_turns + pass_turns );
+            }
+        }
 
         WHEN( "they have strong antibiotic effects" ) {
             dummy.add_effect( effect_strong_antibiotic, 1_turns );
+            REQUIRE( dummy.has_effect( effect_strong_antibiotic ) );
 
-            THEN( "bite duration decreases by 1 every 10 turns" ) {
-                dummy.hardcoded_effects( effect_obj );
-                CHECK( to_turns<int>( effect_obj.get_duration() ) == 9 );
+            THEN( "bite duration decreases by 1 every turn" ) {
+                for( int i = 0; i < pass_turns; i++ ) {
+                    dummy.hardcoded_effects( effect_obj );
+                    calendar::turn = calendar::turn + 1_turns;
+                }
+                CHECK( to_turns<int>( effect_obj.get_duration() ) == start_bite_turns - pass_turns );
+            }
+        }
+
+        WHEN( "they have normal antibiotic effects" ) {
+            dummy.add_effect( effect_antibiotic, 1_turns );
+            REQUIRE( dummy.has_effect( effect_antibiotic ) );
+
+            THEN( "bite duration increases by 1 every 8 turns" ) {
+                for( int i = 0; i < pass_turns; i++ ) {
+                    dummy.hardcoded_effects( effect_obj );
+                    calendar::turn = calendar::turn + 1_turns;
+                }
+                CHECK( to_turns<int>( effect_obj.get_duration() ) == start_bite_turns + pass_turns / 8 );
             }
         }
 
         WHEN( "they have weak antibiotic effects" ) {
             dummy.add_effect( effect_weak_antibiotic, 1_turns );
+            REQUIRE( dummy.has_effect( effect_weak_antibiotic ) );
 
-            THEN( "bite duration increases by 1 every 20 turns" ) {
-                // TODO
+            THEN( "bite duration increases by 1 every 2 turns" ) {
+                for( int i = 0; i < pass_turns; i++ ) {
+                    dummy.hardcoded_effects( effect_obj );
+                    calendar::turn = calendar::turn + 1_turns;
+                }
+                CHECK( to_turns<int>( effect_obj.get_duration() ) == start_bite_turns + pass_turns / 2 );
             }
         }
     }
