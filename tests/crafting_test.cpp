@@ -544,6 +544,8 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
 
         std::vector<item> tools;
         tools.emplace_back( "hammer" );
+        tools.emplace_back( "wrench" );
+        tools.emplace_back( "hacksaw" );
 
         // Will interrupt after 2 turns, so craft needs to take at least that long
         REQUIRE( expected_turns_taken > 2 );
