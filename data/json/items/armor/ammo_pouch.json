@@ -363,7 +363,7 @@
     "coverage": 15,
     "encumbrance": 3,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
