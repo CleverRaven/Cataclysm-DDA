@@ -752,21 +752,22 @@ bool Character::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == bio_lockpick ) {
-        tmp_item = item( "pseudo_bio_picklock", 0 );
         g->refresh_all();
-        int charges = tmp_item.charges;
-        bool used = false;
-        if( invoke_item( &tmp_item ) ) {
-            if( tmp_item.charges != charges ) {
-                used = true;
+        const cata::optional<tripoint> pnt = choose_adjacent( _( "Use your lockpick where?" ) );
+        if( pnt && g->m.has_flag( "PICKABLE", *pnt ) ) {
+            g->u.i_add( item( "pseudo_bio_picklock" ) );
+            std::vector<item *> bio_picklocks = g->u.items_with( []( const item & itm ) {
+                return itm.typeId() == "pseudo_bio_picklock";
+            } );
+            if( !bio_picklocks.empty() ) {
+                add_msg_activate();
+                g->u.assign_activity( activity_id( "ACT_LOCKPICK" ), 400 );
+                g->u.activity.targets.push_back( item_location( g->u, bio_picklocks[0] ) );
+                g->u.activity.placement = *pnt;
             }
-        }
-
-        if( used ) {
-            add_msg_activate();
-            mod_moves( -100 );
         } else {
             refund_power();
+            add_msg_if_player( m_info, _( "There is nothing to lockpick nearby." ) );
             return false;
         }
     } else if( bio.id == bio_flashbang ) {
