@@ -510,9 +510,9 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    const bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
-    body_part bp_token = bp_hit->token;
-    block_hit( source, bp_token, d );
+    bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    const body_part bp_token = bp_hit->token;
+    block_hit( source, bp_hit, d );
 
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {

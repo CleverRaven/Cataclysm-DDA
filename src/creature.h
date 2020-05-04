@@ -216,7 +216,7 @@ class Creature
         double ranged_target_size() const;
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit( Creature *source, body_part &bp_hit,
+        virtual bool block_hit( Creature *source, bodypart_id &bp_hit,
                                 damage_instance &dam ) = 0;
 
         // handles armor absorption (including clothing damage etc)

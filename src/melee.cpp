@@ -1535,7 +1535,7 @@ item &Character::best_shield()
     return *best;
 }
 
-bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance &dam )
+bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
 {
 
     // Shouldn't block if player is asleep or winded
@@ -1603,30 +1603,30 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
     } else {
         //Choose which body part to block with, assume left side first
         if( martial_arts_data.can_leg_block( *this ) && martial_arts_data.can_arm_block( *this ) ) {
-            bp_hit = one_in( 2 ) ? bp_leg_l : bp_arm_l;
+            bp_hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "arm_l" );
         } else if( martial_arts_data.can_leg_block( *this ) ) {
-            bp_hit = bp_leg_l;
+            bp_hit = bodypart_id( "leg_l" );
         } else {
-            bp_hit = bp_arm_l;
+            bp_hit = bodypart_id( "arm_l" );
         }
 
         // Check if we should actually use the right side to block
-        if( bp_hit == bp_leg_l ) {
+        if( bp_hit == bodypart_id( "leg_l" ) ) {
             if( hp_cur[hp_leg_r] > hp_cur[hp_leg_l] ) {
-                bp_hit = bp_leg_r;
+                bp_hit = bodypart_id( "leg_r" );
             }
         } else {
             if( hp_cur[hp_arm_r] > hp_cur[hp_arm_l] ) {
-                bp_hit = bp_arm_r;
+                bp_hit = bodypart_id( "arm_r" );
             }
         }
 
-        thing_blocked_with = body_part_name( bp_hit );
+        thing_blocked_with = body_part_name( bp_hit->token );
     }
 
     if( has_shield ) {
         // Does our shield cover the limb we blocked with? If so, add the block bonus.
-        block_score += shield.covers( bp_hit ) ? block_bonus : 0;
+        block_score += shield.covers( bp_hit->token ) ? block_bonus : 0;
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
