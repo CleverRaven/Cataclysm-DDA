@@ -28,6 +28,8 @@ using itype_id = std::string;
 struct bionic_data {
     bionic_data();
 
+    bionic_id id;
+
     translation name;
     translation description;
     /** Power cost on activation */
@@ -156,6 +158,12 @@ struct bionic_data {
     std::set<bionic_id> available_upgrades;
 
     bool is_included( const bionic_id &id ) const;
+
+    bool was_loaded;
+    void load( const JsonObject &obj );
+    static void load_bionic( const JsonObject &jo, const std::string &src );
+    static const std::vector<bionic_data> &get_all();
+    static void check_bionic_consistency();
 };
 
 struct bionic {
@@ -210,11 +218,8 @@ class bionic_collection : public std::vector<bionic>
 /**List of bodyparts occupied by a bionic*/
 std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid );
 
-void check_bionics();
-void finalize_bionics();
 void reset_bionics();
-// load a bionic from JSON
-void load_bionic( const JsonObject &jsobj );
+
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
