@@ -5304,6 +5304,7 @@ void Character::update_bodytemp()
         if( bp == bodypart_id( "eyes" ) || bp == bodypart_id( "num_bp" ) ) {
             continue;
         }
+        const body_part &bp_token = bp->token;
 
         // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
@@ -5317,7 +5318,7 @@ void Character::update_bodytemp()
         double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
         int clothing_warmth_adjustement = static_cast<int>( homeostasis_adjustement * warmth( bp ) );
         int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustement * bonus_item_warmth(
-                bp ) );
+                bp_token ) );
         // WINDCHILL
 
         bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) * ( 1 - get_wind_resistance(
