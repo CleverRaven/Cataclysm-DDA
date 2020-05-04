@@ -2529,7 +2529,7 @@ bool mattack::tentacle( monster *z )
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
         return false;
     }
-    auto msg_type = target == &g->u ? m_bad : m_info;
+    game_message_type msg_type = target == &g->u ? m_bad : m_info;
     target->add_msg_player_or_npc( msg_type,
                                    _( "The %s lashes its tentacle at you!" ),
                                    _( "The %s lashes its tentacle at <npcname>!" ),
