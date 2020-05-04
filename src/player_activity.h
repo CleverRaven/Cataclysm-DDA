@@ -129,7 +129,7 @@ class player_activity
          * called whenever a Character starts a new activity.
          * When resuming an activity, do not call activity_actor::start
          */
-        void start( Character &who, bool resuming );
+        void start_or_resume( Character &who, bool resuming );
 
         /**
          * Performs the activity for a single turn. If the activity is complete

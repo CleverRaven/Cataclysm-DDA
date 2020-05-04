@@ -8,7 +8,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "construction.h"
-#include "debug.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -172,7 +171,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                     get_verb().translated(), extra_info );
 }
 
-void player_activity::start( Character &who, bool resuming )
+void player_activity::start_or_resume( Character &who, bool resuming )
 {
     if( actor && !resuming ) {
         actor->start( *this, who );
