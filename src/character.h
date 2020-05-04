@@ -727,7 +727,7 @@ class Character : public Creature, public visitable<Character>
          * Check for passive bionics that provide armor, and returns the armor bonus
          * This is called from player::passive_absorb_hit
          */
-        float bionic_armor_bonus( body_part bp, damage_type dt ) const;
+        float bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const;
         /** Returns the armor bonus against given type from martial arts buffs */
         int mabuff_armor_bonus( damage_type type ) const;
         /** Returns overall fire resistance for the body part */

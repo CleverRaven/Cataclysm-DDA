@@ -8143,7 +8143,7 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
             du.amount -= mutation_armor( bp_token, du );
         }
     }
-    du.amount -= bionic_armor_bonus( bp_token, du.type ); //Check for passive armor bionics
+    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
     du.amount -= mabuff_armor_bonus( du.type );
     du.amount = std::max( 0.0f, du.amount );
 }
@@ -8405,26 +8405,26 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
 }
 
-float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
+float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
 {
     float result = 0.0f;
     if( dt == DT_CUT || dt == DT_STAB ) {
         for( const bionic_id &bid : get_bionics() ) {
-            const auto cut_prot = bid->cut_protec.find( convert_bp( bp ) );
+            const auto cut_prot = bid->cut_protec.find( bp.id() );
             if( cut_prot != bid->cut_protec.end() ) {
                 result += cut_prot->second;
             }
         }
     } else if( dt == DT_BASH ) {
         for( const bionic_id &bid : get_bionics() ) {
-            const auto bash_prot = bid->bash_protec.find( convert_bp( bp ) );
+            const auto bash_prot = bid->bash_protec.find( bp.id() );
             if( bash_prot != bid->bash_protec.end() ) {
                 result += bash_prot->second;
             }
         }
     } else if( dt == DT_BULLET ) {
         for( const bionic_id &bid : get_bionics() ) {
-            const auto bullet_prot = bid->bullet_protec.find( convert_bp( bp ) );
+            const auto bullet_prot = bid->bullet_protec.find( bp.id() );
             if( bullet_prot != bid->bullet_protec.end() ) {
                 result += bullet_prot->second;
             }
