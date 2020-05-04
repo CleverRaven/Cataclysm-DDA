@@ -72,9 +72,11 @@ struct point {
         return point( x / rhs, y / rhs );
     }
 
+#ifndef CATA_NO_STL
     constexpr point abs() const {
         return point( std::abs( x ), std::abs( y ) );
     }
+#endif
 
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
@@ -182,9 +184,11 @@ struct tripoint {
         return *this;
     }
 
+#ifndef CATA_NO_STL
     constexpr tripoint abs() const {
         return tripoint( std::abs( x ), std::abs( y ), std::abs( z ) );
     }
+#endif
 
     constexpr point xy() const {
         return point( x, y );
