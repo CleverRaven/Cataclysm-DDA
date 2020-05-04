@@ -2789,11 +2789,9 @@ void target_ui::draw_controls_list( int text_y )
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%c] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ) ) )
-                         } );
+                                      bound_key( "SWITCH_MODE" ) ) )} );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%c] to reload/switch ammo." ),
-                                      bound_key( "SWITCH_AMMO" ) ) )
-                         } );
+                                      bound_key( "SWITCH_AMMO" ) ) )} );
     }
 
     // Shrink the list until it fits

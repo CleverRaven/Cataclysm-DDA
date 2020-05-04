@@ -536,7 +536,7 @@ std::string achievement_tracker::ui_text() const
             achievement_completion::failed,
             achievement_->time_constraint()->target(),
             current_values()
-        } . ui_text( achievement_ );
+        }. ui_text( achievement_ );
     }
 
     // First: the achievement name and description
