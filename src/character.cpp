@@ -9571,12 +9571,12 @@ int Character::bonus_item_warmth( const bodypart_id &bp ) const
     }
 
     // If the player's head is not encumbered, check if hood can be put up
-    if( bp == bodypart_id( "head" ) && encumb( bodypart_id( "head" )->token ) < 10 ) {
+    if( bp == bodypart_id( "head" ) && encumb( bp_head ) < 10 ) {
         ret += bestwarmth( worn, "HOOD" );
     }
 
     // If the player's mouth is not encumbered, check if collar can be put up
-    if( bp == bodypart_id( "mouth" ) && encumb( bodypart_id( "mouth" )->token ) < 10 ) {
+    if( bp == bodypart_id( "mouth" ) && encumb( bp_mouth ) < 10 ) {
         ret += bestwarmth( worn, "COLLAR" );
     }
 
