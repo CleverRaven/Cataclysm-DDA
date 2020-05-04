@@ -8496,10 +8496,10 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         // remove healing effects if damaged
         int remove_med = roll_remainder( dam / 5.0f );
         if( remove_med > 0 && has_effect( effect_bandaged, enum_bp ) ) {
-            remove_med -= reduce_healing_effect( effect_bandaged, remove_med, enum_bp );
+            remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt );
         }
         if( remove_med > 0 && has_effect( effect_disinfected, enum_bp ) ) {
-            reduce_healing_effect( effect_disinfected, remove_med, enum_bp );
+            reduce_healing_effect( effect_disinfected, remove_med, hurt );
         }
     }
 }
@@ -8656,22 +8656,25 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     return dealt_dams;
 }
 
-int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt )
+int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
+                                      const bodypart_id &hurt )
 {
-    effect &e = get_effect( eff_id, hurt );
+    const body_part hurt_token = hurt->token;
+    effect &e = get_effect( eff_id, hurt_token );
     int intensity = e.get_intensity();
     if( remove_med < intensity ) {
         if( eff_id == effect_bandaged ) {
-            add_msg_if_player( m_bad, _( "Bandages on your %s were damaged!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Bandages on your %s were damaged!" ), body_part_name( hurt_token ) );
         } else  if( eff_id == effect_disinfected ) {
             add_msg_if_player( m_bad, _( "You got some filth on your disinfected %s!" ),
-                               body_part_name( hurt ) );
+                               body_part_name( hurt_token ) );
         }
     } else {
         if( eff_id == effect_bandaged ) {
-            add_msg_if_player( m_bad, _( "Bandages on your %s were destroyed!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Bandages on your %s were destroyed!" ),
+                               body_part_name( hurt_token ) );
         } else  if( eff_id == effect_disinfected ) {
-            add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt_token ) );
         }
     }
     e.mod_duration( -6_hours * remove_med );
