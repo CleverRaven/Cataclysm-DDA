@@ -414,17 +414,15 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
 
 void consume_activity_actor::start( player_activity &act, Character &who )
 {
-    item &comest = who.get_consumable_from( *loc );
-
-    const int charges = std::max( comest.charges, 1 );
-    int volume = units::to_milliliter( comest.volume() ) / charges;
+    const int charges = std::max( loc->charges, 1 );
+    int volume = units::to_milliliter( loc->volume() ) / charges;
     time_duration time = 0_seconds;
-    const bool eat_verb  = comest.has_flag( flag_USE_EAT_VERB );
-    if( eat_verb || comest.get_comestible()->comesttype == "FOOD" ) {
+    const bool eat_verb  = loc->has_flag( flag_USE_EAT_VERB );
+    if( eat_verb || loc->get_comestible()->comesttype == "FOOD" ) {
         time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
-    } else if( !eat_verb && comest.get_comestible()->comesttype == "DRINK" ) {
+    } else if( !eat_verb && loc->get_comestible()->comesttype == "DRINK" ) {
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
-    } else if( comest.is_medication() ) {
+    } else if( loc->is_medication() ) {
         time = time_duration::from_seconds(
                    30 ); //Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
     } else {
