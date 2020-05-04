@@ -414,33 +414,33 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
 
 void consume_activity_actor::start( player_activity &act, Character &who )
 {
-    item &comest = who.get_consumable_from( *loc.get_item() );
+    item &comest = who.get_consumable_from( *loc );
 
     const int charges = std::max( comest.charges, 1 );
     int volume = units::to_milliliter( comest.volume() ) / charges;
-    int time = 0;
+    time_duration time = 0_seconds;
     const bool eat_verb  = comest.has_flag( flag_USE_EAT_VERB );
     if( eat_verb || comest.get_comestible()->comesttype == "FOOD" ) {
-        time = volume / 5;//Eat 5 mL (1 teaspoon) per second
+        time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
     } else if( !eat_verb && comest.get_comestible()->comesttype == "DRINK" ) {
-        time = volume / 15;//Drink 15 mL (1 tablespoon) per second
+        time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
     } else if( comest.is_medication() ) {
-        time = 30;//Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
+        time = time_duration::from_seconds(
+                   30 ); //Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
     } else {
         debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
     }
-    time *= 100; //Convert from seconds to moves
-    act.moves_total = time;
-    act.moves_left = time;
+
+    act.moves_total = to_moves<int>( time );
+    act.moves_left = to_moves<int>( time );
 }
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
-    item *it = loc.get_item();
     if( loc.where() == item_location::type::character ) {
         g->u.consume( loc );
 
-    } else if( g->u.consume_item( *it ) ) {
+    } else if( g->u.consume_item( *loc ) ) {
         loc.remove_item();
     }
     if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
