@@ -263,7 +263,8 @@
       "sks",
       "mosin44",
       "famas",
-      "aksemi"
+      "aksemi",
+      "fs2000"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
