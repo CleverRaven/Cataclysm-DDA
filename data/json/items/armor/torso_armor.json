@@ -319,7 +319,7 @@
     "coverage": 85,
     "encumbrance": 5,
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "STURDY", "SKINTIGHT" ]
   },
   {
