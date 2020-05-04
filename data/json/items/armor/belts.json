@@ -120,7 +120,7 @@
     "pocket_data": [
       {
         "holster": true,
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "400 g",
         "moves": 60,
         "flag_restriction": [ "BELT_CLIP" ]

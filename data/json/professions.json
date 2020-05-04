@@ -313,11 +313,6 @@
   },
   {
     "type": "profession_item_substitutions",
-    "item": "cookbook_human",
-    "bonus": { "present": [ "CANNIBAL" ] }
-  },
-  {
-    "type": "profession_item_substitutions",
     "item": "teleumbrella",
     "bonus": { "present": [ "ALBINO" ] }
   },
@@ -3217,7 +3212,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco" ],
+        "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco", "backpack" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": {
@@ -3271,7 +3266,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco" ],
+        "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco", "backpack" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [
