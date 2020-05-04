@@ -301,6 +301,42 @@ TEST_CASE( "chance of recovering from bite", "[player][effect][bite][recovery]" 
     CHECK( Approx( 28.0f ).margin( 2.0f ) <= bite_recovery_chance( "recover" ) );
 }
 
+TEST_CASE( "antibiotic effects on bites", "[player][effect][bite][antibiotic]" )
+{
+    avatar dummy;
+
+    const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
+    const efftype_id effect_antibiotic( "antibiotic" );
+    const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+
+    const efftype_id effect_bite( "bite" );
+
+    GIVEN( "player has been bitten" ) {
+        dummy.clear_effects();
+
+        // Just a nibble, only lasts 10 turns
+        // NB: hardcoded_effects only apply every 10 turns, so this is only good for 1 cycle
+        dummy.add_effect( effect_bite, 10_turns );
+        effect &effect_obj = dummy.get_effect( effect_bite );
+
+        WHEN( "they have strong antibiotic effects" ) {
+            dummy.add_effect( effect_strong_antibiotic, 1_turns );
+
+            THEN( "bite duration decreases by 1 every 10 turns" ) {
+                dummy.hardcoded_effects( effect_obj );
+                CHECK( to_turns<int>( effect_obj.get_duration() ) == 9 );
+            }
+        }
+
+        WHEN( "they have weak antibiotic effects" ) {
+            dummy.add_effect( effect_weak_antibiotic, 1_turns );
+
+            THEN( "bite duration increases by 1 every 20 turns" ) {
+                // TODO
+            }
+        }
+    }
+}
 
 // effect_infected (~50 lines)
 //
