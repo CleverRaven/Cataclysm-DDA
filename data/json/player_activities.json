@@ -870,6 +870,6 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "consuming",
-    "based_on": "neither"
+    "based_on": "time"
   }
 ]

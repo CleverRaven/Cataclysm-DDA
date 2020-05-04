@@ -429,15 +429,9 @@ void consume_activity_actor::start( player_activity &act, Character &who )
     } else {
         debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
     }
-
+    time *= 100; //Convert from seconds to moves
     act.moves_total = time;
     act.moves_left = time;
-}
-
-void consume_activity_actor::do_turn( player_activity &act, Character & )
-{
-    act.moves_left = act.moves_left - 1;
-    g->u.moves -= 100;
 }
 
 void consume_activity_actor::finish( player_activity &act, Character & )
