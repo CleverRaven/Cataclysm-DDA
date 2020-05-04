@@ -869,7 +869,7 @@
     "id": "ACT_CONSUME",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
-    "verb": "Consuming",
+    "verb": "consuming",
     "based_on": "neither"
   }
 ]
