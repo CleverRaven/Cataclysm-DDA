@@ -1758,6 +1758,7 @@ inventory_selector::inventory_selector( player &u, const inventory_selector_pres
     ctxt.register_action( "HOME", to_translation( "Home" ) );
     ctxt.register_action( "END", to_translation( "End" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "VIEW_CATEGORY_MODE" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
     ctxt.register_action( "INVENTORY_FILTER" );
 
@@ -1803,6 +1804,8 @@ void inventory_selector::on_input( const inventory_input &input )
         toggle_active_column( scroll_direction::BACKWARD );
     } else if( input.action == "RIGHT" ) {
         toggle_active_column( scroll_direction::FORWARD );
+    } else if( input.action == "VIEW_CATEGORY_MODE" ) {
+        toggle_categorize_contained();
     } else {
         for( auto &elem : columns ) {
             elem->on_input( input );
@@ -1875,6 +1878,36 @@ bool inventory_selector::are_columns_centered( size_t client_width ) const
 bool inventory_selector::is_overflown( size_t client_width ) const
 {
     return get_columns_occupancy_ratio( client_width ) > 1.0;
+}
+
+void inventory_selector::toggle_categorize_contained()
+{
+    const auto return_true = []( const inventory_entry & ) {
+        return true;
+    };
+    if( own_inv_column.empty() ) {
+        inventory_column replacement_column;
+        for( inventory_entry *entry : own_gear_column.get_entries(
+        []( const inventory_entry & entry ) {
+        return entry.is_item();
+
+        } ) ) {
+            if( entry->any_item().where() == item_location::type::container ) {
+                add_entry( own_inv_column, std::move( entry->locations ) );
+            } else {
+                replacement_column.add_entry( *entry );
+            }
+        }
+        own_gear_column.clear();
+        for( inventory_entry *entry : replacement_column.get_entries( return_true ) ) {
+            own_gear_column.add_entry( *entry );
+        }
+        own_inv_column.set_indent_entries_override( false );
+    }
+
+    resize_window( std::max( { get_layout_width() + 6, get_header_min_width() } ),
+                   get_layout_height() + get_header_height() );
+    own_gear_column.reset_width( columns );
 }
 
 void inventory_selector::toggle_active_column( scroll_direction dir )
