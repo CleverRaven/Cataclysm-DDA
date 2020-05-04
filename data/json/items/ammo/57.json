@@ -17,7 +17,7 @@
     "ammo_type": "57",
     "casing": "57mm_casing",
     "range": 14,
-    "damage": { "damage_type": "stab", "amount": 20, "armor_penetration": 18 },
+    "damage": { "damage_type": "bullet", "amount": 20, "armor_penetration": 18 },
     "dispersion": 40,
     "recoil": 90,
     "effects": [ "COOKOFF" ]
@@ -30,7 +30,7 @@
     "description": "5.7x28mm ammunition with 31gr AP FMJ bullets.  The 5.7x28mm cartridge was designed by FN Herstal to replace the 9x19mm round in NATO use.  Although the project to replace 9x19mm Parabellum was effectively canceled the 5.7x28mm round has seen action in many conflicts and has proven to be reliable.  It has very low recoil but no usual armor penetration due to using simple lead bullets rather than proper factory-made penetrator projectiles.",
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.56, "armor_penetration": 0.1 },
+      "damage": { "damage_type": "bullet", "amount": 0.56, "armor_penetration": 0.1 },
       "recoil": 0.56,
       "dispersion": 1.2
     },
@@ -43,7 +43,7 @@
     "type": "AMMO",
     "name": { "str": "5.7x28mm, reloaded" },
     "description": "5.7x28mm ammunition with 31gr AP FMJ bullets.  The 5.7x28mm cartridge was designed by FN Herstal to replace the 9x19mm round in NATO use.  Although the project to replace 9x19mm Parabellum was effectively canceled the 5.7x28mm round has seen action in many conflicts and has proven to be reliable.  It has very low recoil but no usual armor penetration due to using simple lead bullets rather than proper factory-made penetrator projectiles.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9, "armor_penetration": 0.2 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.2 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

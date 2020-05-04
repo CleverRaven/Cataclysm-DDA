@@ -978,6 +978,7 @@ class item : public visitable<item>
         int bash_resist( bool to_self = false ) const;
         int cut_resist( bool to_self = false )  const;
         int stab_resist( bool to_self = false ) const;
+        int bullet_resist( bool to_self = false ) const;
         /*@}*/
 
         /**
@@ -1538,7 +1539,7 @@ class item : public visitable<item>
         int get_warmth() const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
-         * relative value that affects the items resistance against bash / cutting damage.
+         * relative value that affects the items resistance against bash / cutting / bullet damage.
          */
         int get_thickness() const;
         /**

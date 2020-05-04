@@ -89,6 +89,7 @@
 struct dealt_projectile_attack;
 
 static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
@@ -6318,6 +6319,8 @@ bool Character::is_immune_damage( const damage_type dt ) const
         case DT_STAB:
             return has_effect_with_flag( "EFFECT_STAB_IMMUNE" ) ||
                    worn_with_flag( "STAB_IMMUNE" );
+        case DT_BULLET:
+            return has_effect_with_flag( "EFFECT_BULLET_IMMUNE" ) || worn_with_flag( "BULLET_IMMUNE" );
         case DT_HEAT:
             return has_trait( trait_M_SKIN2 ) ||
                    has_trait( trait_M_SKIN3 ) ||
@@ -6891,40 +6894,29 @@ float Character::healing_rate( float at_rest_quality ) const
 float Character::healing_rate_medicine( float at_rest_quality, const body_part bp ) const
 {
     float rate_medicine = 0.0f;
-    float bandaged_rate = 0.0f;
-    float disinfected_rate = 0.0f;
 
-    const effect &e_bandaged = get_effect( effect_bandaged, bp );
-    const effect &e_disinfected = get_effect( effect_disinfected, bp );
+    for( const std::pair<const efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
+         &elem : *effects ) {
+        for( const std::pair<const body_part, effect> &i : elem.second ) {
+            const effect &eff = i.second;
+            float tmp_rate = static_cast<float>( eff.get_amount( "HEAL_RATE" ) ) / to_turns<int>
+                             ( 24_hours );
 
-    if( !e_bandaged.is_null() ) {
-        bandaged_rate += static_cast<float>( e_bandaged.get_amount( "HEAL_RATE" ) ) / to_turns<int>
-                         ( 24_hours );
-        if( bp == bp_head ) {
-            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD" ) / 100.0f;
-        }
-        if( bp == bp_torso ) {
-            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO" ) / 100.0f;
-        }
-    }
-
-    if( !e_disinfected.is_null() ) {
-        disinfected_rate += static_cast<float>( e_disinfected.get_amount( "HEAL_RATE" ) ) / to_turns<int>
-                            ( 24_hours );
-        if( bp == bp_head ) {
-            disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD" ) / 100.0f;
-        }
-        if( bp == bp_torso ) {
-            disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO" ) / 100.0f;
+            if( bp == bp_head ) {
+                tmp_rate *= eff.get_amount( "HEAL_HEAD" ) / 100.0f;
+            }
+            if( bp == bp_torso ) {
+                tmp_rate *= eff.get_amount( "HEAL_TORSO" ) / 100.0f;
+            }
+            rate_medicine += tmp_rate;
         }
     }
 
-    rate_medicine += bandaged_rate + disinfected_rate;
     rate_medicine *= 1.0f + mutation_value( "healing_resting" );
     rate_medicine *= 1.0f + at_rest_quality;
 
     // increase healing if character has both effects
-    if( !e_bandaged.is_null() && !e_disinfected.is_null() ) {
+    if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
         rate_medicine *= 2;
     }
 
@@ -7168,6 +7160,11 @@ int Character::get_armor_cut( bodypart_id bp ) const
     return get_armor_cut_base( bp ) + armor_cut_bonus;
 }
 
+int Character::get_armor_bullet( bodypart_id bp ) const
+{
+    return get_armor_bullet_base( bp ) + armor_bullet_bonus;
+}
+
 int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     switch( dt ) {
@@ -7180,6 +7177,8 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
             return get_armor_cut( bp );
         case DT_STAB:
             return get_armor_cut( bp ) * 0.8f;
+        case DT_BULLET:
+            return get_armor_bullet( bp );
         case DT_ACID:
         case DT_HEAT:
         case DT_COLD:
@@ -7239,6 +7238,26 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
     }
 
     ret += mutation_armor( bp->token, DT_CUT );
+    return ret;
+}
+
+int Character::get_armor_bullet_base( bodypart_id bp ) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp->token ) ) {
+            ret += i.bullet_resist();
+        }
+    }
+
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto bullet_prot = bid->bullet_protec.find( bp.id() );
+        if( bullet_prot != bid->bullet_protec.end() ) {
+            ret += bullet_prot->second;
+        }
+    }
+
+    ret += mutation_armor( bp->token, DT_BULLET );
     return ret;
 }
 
@@ -7393,8 +7412,9 @@ void Character::update_stamina( int turns )
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
     // Mutated stamina works even when winded
+    // max stamina modifers from mutation also affect stamina multi
     float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
-                               mutation_value( stamina_regen_modifier );
+                               mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bp_mouth ) / 5.0f ) );
@@ -8180,6 +8200,9 @@ static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item
         case DT_STAB:
             du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_STAB );
             break;
+        case DT_BULLET:
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_BULLET );
+            break;
         default:
             return;
     }
@@ -8215,6 +8238,9 @@ static void armor_enchantment_adjust( Character &guy, damage_unit &du )
         case DT_STAB:
             du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_STAB );
             break;
+        case DT_BULLET:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_BULLET );
+            break;
         default:
             return;
     }
@@ -8240,7 +8266,7 @@ void Character::absorb_hit( body_part bp, damage_instance &dam )
                     elem.amount -= rng( 1, 8 );
                 } else if( elem.type == DT_CUT ) {
                     elem.amount -= rng( 1, 4 );
-                } else if( elem.type == DT_STAB ) {
+                } else if( elem.type == DT_STAB || elem.type == DT_BULLET ) {
                     elem.amount -= rng( 1, 2 );
                 }
                 mod_power_level( -25_kJ );
@@ -8404,6 +8430,13 @@ float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
             const auto bash_prot = bid->bash_protec.find( convert_bp( bp ) );
             if( bash_prot != bid->bash_protec.end() ) {
                 result += bash_prot->second;
+            }
+        }
+    } else if( dt == DT_BULLET ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto bullet_prot = bid->bullet_protec.find( convert_bp( bp ) );
+            if( bullet_prot != bid->bullet_protec.end() ) {
+                result += bullet_prot->second;
             }
         }
     }
@@ -9344,6 +9377,14 @@ void Character::cancel_activity()
     }
     if( has_activity( ACT_TRY_SLEEP ) ) {
         remove_value( "sleep_query" );
+    }
+    if( has_activity( ACT_LOCKPICK ) ) {
+        std::vector<item *> bio_picklocks = g->u.items_with( []( const item & itm ) {
+            return itm.typeId() == "pseudo_bio_picklock";
+        } );
+        if( !bio_picklocks.empty() ) {
+            g->u.i_rem( bio_picklocks[0] );
+        }
     }
     // Clear any backlog items that aren't auto-resume.
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {

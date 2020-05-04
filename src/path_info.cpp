@@ -35,6 +35,7 @@ static std::string autopickup_value;
 static std::string keymap_value;
 static std::string options_value;
 static std::string memorialdir_value;
+static std::string langdir_value;
 
 void PATH_INFO::init_base_path( std::string path )
 {
@@ -82,13 +83,16 @@ void PATH_INFO::set_standard_filenames()
 #if defined(DATA_DIR_PREFIX)
         datadir_value = base_path_value + "share/cataclysm-dda/";
         gfxdir_value = datadir_value + "gfx/";
+        langdir_value = datadir_value + "lang/";
 #else
         datadir_value = base_path_value + "data/";
         gfxdir_value = base_path_value + "gfx/";
+        langdir_value = base_path_value + "lang/";
 #endif
     } else {
         datadir_value = "data/";
         gfxdir_value = "gfx/";
+        langdir_value = "lang/";
     }
 
     // Shared dirs
@@ -371,6 +375,14 @@ std::string PATH_INFO::soundpack_conf()
 std::string PATH_INFO::gfxdir()
 {
     return gfxdir_value;
+}
+std::string PATH_INFO::langdir()
+{
+    return langdir_value;
+}
+std::string PATH_INFO::lang_file()
+{
+    return "cataclysm-dda.mo";
 }
 std::string PATH_INFO::data_sound()
 {

@@ -132,6 +132,16 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "xlboxer_briefs",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL boxer briefs" },
+    "description": "The age-old question, boxers or briefs?  Your answer?  Chonk!",
+    "weight": "50 g",
+    "volume": "350 ml",
+    "copy-from": "boxer_briefs",
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+  },
+  {
     "id": "boxer_shorts",
     "type": "ARMOR",
     "name": { "str_sp": "boxer shorts" },
@@ -151,6 +161,16 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "xlboxer_shorts",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL boxer shorts" },
+    "description": "Men's XL boxer shorts.  For the very big and tall.  More fashionable than briefs and just as comfortable.",
+    "weight": "72 g",
+    "volume": "500 ml",
+    "copy-from": "boxer_shorts",
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+  },
+  {
     "id": "boy_shorts",
     "type": "ARMOR",
     "name": { "str_sp": "boy shorts" },
@@ -168,6 +188,16 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "xlboy_shorts",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL boy shorts" },
+    "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.  This size is made for giants.",
+    "weight": "72 g",
+    "volume": "500 ml",
+    "copy-from": "boy_shorts",
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
     "id": "bra",
@@ -502,6 +532,16 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+  },
+  {
+    "id": "xlsports_bra",
+    "type": "ARMOR",
+    "name": { "str": "XL sports bra" },
+    "description": "A sturdy nylon bra to provide additional support during physical movement.  Typically worn when exercising, it clings to the skin and is easy to wear.  This one appears to have been made for a massive person.",
+    "weight": "160 g",
+    "volume": "750 ml",
+    "copy-from": "sports_bra",
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "OVERSIZE" ]
   },
   {
     "id": "tank_top",

@@ -3051,6 +3051,7 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "armor_bash_bonus", armor_bash_bonus );
     jsout.member( "armor_cut_bonus", armor_cut_bonus );
+    jsout.member( "armor_bullet_bonus", armor_bullet_bonus );
 
     jsout.member( "speed", speed_base );
 
@@ -3114,6 +3115,7 @@ void Creature::load( const JsonObject &jsin )
 
     jsin.read( "armor_bash_bonus", armor_bash_bonus );
     jsin.read( "armor_cut_bonus", armor_cut_bonus );
+    jsin.read( "armor_bullet_bonus", armor_bullet_bonus );
 
     jsin.read( "speed", speed_base );
 

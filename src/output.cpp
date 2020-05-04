@@ -1822,56 +1822,6 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
     return get_labeled_bar( val, width, label, ratings.begin(), ratings.end() );
 }
 
-/**
- * Display data in table, each cell contains one entry from the
- * data vector. Allows vertical scrolling if the data does not fit.
- * Data is displayed using fold_and_print_from, which allows coloring!
- * @param columns Number of columns, can be 1. Make sure each entry
- * of the data vector fits into one cell.
- * @param title The title text, displayed on top.
- * @param w The window to draw this in, the whole widow is used.
- * @param data Text data to fill.
- */
-void display_table( const catacurses::window &w, const std::string &title, int columns,
-                    const std::vector<std::string> &data )
-{
-    const int width = getmaxx( w ) - 2; // -2 for border
-    const int rows = getmaxy( w ) - 2 - 1; // -2 for border, -1 for title
-    const int col_width = width / columns;
-    int offset = 0;
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-#if defined(__ANDROID__)
-    // no bindings, but give it its own input context so stale buttons don't hang around.
-    input_context ctxt( "DISPLAY_TABLE" );
-#endif
-    for( ;; ) {
-        werase( w );
-        draw_border( w, BORDER_COLOR, title, c_white );
-        for( int i = 0; i < rows * columns; i++ ) {
-            if( i + offset * columns >= static_cast<int>( data.size() ) ) {
-                break;
-            }
-            const int x = 2 + ( i % columns ) * col_width;
-            const int y = ( i / columns ) + 2;
-            fold_and_print_from( w, point( x, y ), col_width, 0, c_white, data[i + offset * columns] );
-        }
-        draw_scrollbar( w, offset, rows, ( data.size() + columns - 1 ) / columns, point( 0, 2 ) );
-        wrefresh( w );
-        // TODO: use input context
-        int ch = inp_mngr.get_input_event().get_first_input();
-        if( ch == KEY_DOWN && ( ( offset + 1 ) * columns ) < static_cast<int>( data.size() ) ) {
-            offset++;
-        } else if( ch == KEY_UP && offset > 0 ) {
-            offset--;
-        } else if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE ) {
-            break;
-        }
-    }
-}
-
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,

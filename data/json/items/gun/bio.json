@@ -15,7 +15,7 @@
     "skill": "shotgun",
     "ammo": "shot",
     "//": "Damage is using a 6 inch barrel.",
-    "ranged_damage": -11,
+    "ranged_damage": { "damage_type": "bullet", "amount": -11 },
     "dispersion": 855,
     "durability": 6,
     "clip_size": 1,

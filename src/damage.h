@@ -28,6 +28,7 @@ enum damage_type : int {
     DT_HEAT, // e.g. fire, plasma
     DT_COLD, // e.g. heatdrain, cryogrenades
     DT_ELECTRIC, // e.g. electrical discharge
+    DT_BULLET, // bullets and other fast moving projectiles
     NUM_DT
 };
 

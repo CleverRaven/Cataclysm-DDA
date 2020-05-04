@@ -743,7 +743,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_overcharge_eyes",
     "//": "Technomancer spell",
-    "name": { "str": "Scroll of Overcharge", "str_pl": "Scrolls of Overcharge" },
+    "name": { "str": "Scroll of Optical Sneeze Beam", "str_pl": "Scrolls of Optical Sneeze Beam" },
     "description": "You overcharge your internal batteries to send a semi-directed beam from your face.",
     "use_action": { "type": "learn_spell", "spells": [ "overcharge_eyes" ] }
   },
