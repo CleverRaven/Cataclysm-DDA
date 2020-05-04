@@ -426,7 +426,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "enchantments", enchantments );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
-        no_cbm_on_bp.emplace( get_body_part_token( s ) );
+        no_cbm_on_bp.emplace( bodypart_str_id( s ) );
     }
 
     optional( jo, was_loaded, "category", category, string_reader{} );

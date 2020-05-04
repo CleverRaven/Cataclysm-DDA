@@ -4422,8 +4422,8 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
             if( info.has_flag( "BIONIC_SHOCKPROOF" ) || info.has_flag( "BIONIC_FAULTY" ) ) {
                 continue;
             }
-            const auto &bodyparts = info.occupied_bodyparts;
-            if( bodyparts.find( bp->token ) != bodyparts.end() ) {
+            const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
+            if( bodyparts.find( bp.id() ) != bodyparts.end() ) {
                 const int bp_hp = hp_cur[bp_to_hp( bp->token )];
                 // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
                 if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {

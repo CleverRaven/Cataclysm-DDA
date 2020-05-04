@@ -241,7 +241,7 @@ struct mutation_branch {
         std::set<std::string> allowed_category;
 
         /**List of body parts locked out of bionics*/
-        std::set<body_part> no_cbm_on_bp;
+        std::set<bodypart_str_id> no_cbm_on_bp;
 
         // amount of mana added or subtracted from max
         float mana_modifier = 0.0f;
