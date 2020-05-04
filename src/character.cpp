@@ -8128,8 +8128,9 @@ double Character::calculate_by_enchantment( double modify, enchantment::mod valu
     return modify;
 }
 
-void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
+void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const
 {
+    const body_part bp_token = bp->token;
     // >0 check because some mutations provide negative armor
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
@@ -8137,12 +8138,12 @@ void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
         if( du.type == DT_STAB ) {
             damage_unit du_copy = du;
             du_copy.type = DT_CUT;
-            du.amount -= mutation_armor( bp, du_copy );
+            du.amount -= mutation_armor( bp_token, du_copy );
         } else {
-            du.amount -= mutation_armor( bp, du );
+            du.amount -= mutation_armor( bp_token, du );
         }
     }
-    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
+    du.amount -= bionic_armor_bonus( bp_token, du.type ); //Check for passive armor bionics
     du.amount -= mabuff_armor_bonus( du.type );
     du.amount = std::max( 0.0f, du.amount );
 }
@@ -8320,7 +8321,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
             }
         }
 
-        passive_absorb_hit( bp->token, elem );
+        passive_absorb_hit( bp, elem );
 
         if( elem.type == DT_BASH ) {
             if( has_trait( trait_LIGHT_BONES ) ) {

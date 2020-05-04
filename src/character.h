@@ -715,7 +715,7 @@ class Character : public Creature, public visitable<Character>
          * @ref player::absorb_hit.  The damage amount will never be reduced to less than 0.
          * This is called from @ref player::absorb_hit
          */
-        void passive_absorb_hit( body_part bp, damage_unit &du ) const;
+        void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
         /**
