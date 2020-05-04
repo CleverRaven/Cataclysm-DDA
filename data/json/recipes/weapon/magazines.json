@@ -74,25 +74,6 @@
     "components": [ [ [ "pipe", 1 ], [ "scrap", 1 ] ] ]
   },
   {
-    "result": "nailmag",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MAGAZINES",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "skills_required": [ "gun", 2 ],
-    "time": "8 m",
-    "autolearn": true,
-    "tools": [ [ [ "nailgun", -1 ], [ "nailrifle", -1 ], [ "coilgun", -1 ] ], [ [ "nail", -1 ], [ "combatnail", -1 ] ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "duct_tape", 20 ] ]
-    ]
-  },
-  {
     "result": "pressurized_tank_chem",
     "type": "recipe",
     "category": "CC_WEAPON",

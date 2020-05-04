@@ -748,7 +748,8 @@
         [ "wild_herbs", 4 ],
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
-      ]
+      ],
+      [ [ "sausage_casings", 1 ] ]
     ]
   },
   {
@@ -1285,6 +1286,20 @@
   },
   {
     "type": "recipe",
+    "result": "popcorn3",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "kernels", 1 ] ], [ [ "ghee", 1 ] ], [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1294,7 +1309,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "tea_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "tea_raw", 1 ], [ "tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1308,7 +1323,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wild_herbs", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "wild_herbs", 10 ], [ "herbal_tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1418,6 +1433,50 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "lotus_tea",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "batch_time_factors": [ 80, 4 ],
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "mag_survival", 1 ],
+      [ "family_cookbook", 1 ]
+    ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "lotus", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "spurge_tea",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": "10 m",
+    "batch_time_factors": [ 80, 4 ],
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "mag_survival", 1 ],
+      [ "family_cookbook", 1 ]
+    ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "spurge", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3981,7 +4040,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ] ] ]
+    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "kernels", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4111,19 +4170,6 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [ [ [ "meth", 4 ] ], [ [ "cola", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "taint_tornado",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "cooking",
-    "difficulty": 5,
-    "time": "7 m",
-    "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "meat_tainted", 12 ] ], [ [ "hard_liquor_chem", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4407,7 +4453,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "hotdogs_frozen", 1 ] ] ]
+    "components": [ [ [ "hotdogs_frozen", 1 ], [ "homemade_hotdogs", 1 ], [ "bratwurst_sausage", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4421,7 +4467,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "hotdogs_frozen", 1 ] ],
+      [ [ "hotdogs_frozen", 1 ], [ "homemade_hotdogs", 1 ], [ "bratwurst_sausage", 1 ] ],
       [
         [ "flatbread", 1 ],
         [ "bread", 1 ],
@@ -4446,7 +4492,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "hotdogs_frozen", 2 ] ],
+      [ [ "hotdogs_frozen", 2 ], [ "homemade_hotdogs", 2 ], [ "bratwurst_sausage", 2 ] ],
       [ [ "chili", 1 ] ],
       [
         [ "flatbread", 2 ],
@@ -4515,6 +4561,26 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "corndogs_frozen", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "corndogs_homemade",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "1 m 45 s",
+    "charges": 1,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "hotdogs_frozen", 1 ], [ "hotdogs_cooked", 1 ], [ "bratwurst_sausage", 1 ], [ "sausage_wasteland", 1 ] ],
+      [ [ "splinter", 1 ] ],
+      [ [ "cornmeal", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -4919,7 +4985,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "5 m",
+    "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ] ],
@@ -5453,20 +5519,6 @@
   },
   {
     "type": "recipe",
-    "result": "drink_sewerbrew",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "cooking",
-    "skills_required": [ "survival", 1 ],
-    "difficulty": 5,
-    "time": "7 m",
-    "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "sewage", 1 ] ], [ [ "hard_liquor_chem", 1, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "pelmeni",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5747,7 +5799,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ] ] ]
+    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "kernels", 1 ] ] ]
   },
   {
     "result": "flour",
@@ -6067,7 +6119,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ] ] ]
+    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "kernels", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6416,6 +6468,58 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "fiddlehead_boiled", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "hominy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [
+      [ [ "kernels", 1 ] ],
+      [ [ "water", 8 ], [ "water_clean", 8 ] ],
+      [ [ "lye_powder", 15 ], [ "material_quicklime", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "kernels",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "charges": 1,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "popcorn_raw", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "horseradish",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "30 m",
+    "charges": 8,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "horseradish_root", 1 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "sugar", 4 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
   },
   {
     "type": "recipe",

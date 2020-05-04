@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAPDATA_H
-#define MAPDATA_H
+#ifndef CATA_SRC_MAPDATA_H
+#define CATA_SRC_MAPDATA_H
 
 #include <array>
 #include <bitset>
@@ -278,6 +278,10 @@ struct map_data_common_t {
         };
 
         bool transparent = false;
+
+        const std::set<std::string> &get_flags() const {
+            return flags;
+        }
 
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) > 0;
@@ -564,7 +568,8 @@ extern furn_id f_null,
        f_firering,
        f_tourist_table,
        f_camp_chair,
-       f_sign;
+       f_sign,
+       f_gunsafe_ml;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
@@ -574,4 +579,4 @@ void check_furniture_and_terrain();
 
 void finalize_furniture_and_terrain();
 
-#endif
+#endif // CATA_SRC_MAPDATA_H

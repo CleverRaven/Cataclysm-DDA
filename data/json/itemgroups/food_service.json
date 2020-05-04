@@ -85,7 +85,8 @@
       { "item": "tea_raw", "prob": 70 },
       { "item": "ceramic_cup", "prob": 70 },
       { "item": "teapot", "prob": 70 },
-      { "item": "clay_teapot", "prob": 70 }
+      { "item": "clay_teapot", "prob": 70 },
+      { "group": "teabag_box", "prob": 70 }
     ]
   },
   {
@@ -332,7 +333,8 @@
       { "item": "coffee_raw", "prob": 50 },
       { "item": "coffee_syrup", "prob": 15 },
       { "item": "cookies", "prob": 35 },
-      { "item": "tea_raw", "prob": 50 }
+      { "item": "tea_raw", "prob": 50 },
+      { "group": "teabag_box", "prob": 30 }
     ]
   },
   {
@@ -349,7 +351,8 @@
       { "item": "salt", "prob": 15 },
       { "item": "sugar", "prob": 70 },
       { "item": "tea_raw", "prob": 15 },
-      { "item": "wrapper", "prob": 75 }
+      { "item": "wrapper", "prob": 75 },
+      { "group": "teabag_box", "prob": 10 }
     ]
   },
   {
@@ -693,7 +696,8 @@
       { "item": "curry_powder", "prob": 40 },
       { "item": "can_cheese", "prob": 30 },
       { "item": "sauce_red", "prob": 40 },
-      { "item": "sauce_pesto", "prob": 20 }
+      { "item": "sauce_pesto", "prob": 20 },
+      { "group": "teabag_box", "prob": 45 }
     ]
   },
   {
@@ -760,6 +764,7 @@
       [ "currywurst", 5 ],
       [ "macaroni_cooked", 5 ],
       [ "lasagne", 5 ],
+      [ "foodplace_food", 2 ],
       [ "spaghetti_pesto", 5 ],
       [ "glazed_tenderloin", 5 ]
     ]
@@ -781,6 +786,7 @@
       [ "tomato", 20 ],
       [ "lettuce", 15 ],
       [ "zucchini", 15 ],
+      [ "foodplace_food", 20 ],
       [ "onion", 15 ],
       [ "chili_pepper", 15 ],
       [ "carrot", 15 ],
@@ -842,6 +848,7 @@
       [ "spaghetti_raw", 20 ],
       [ "lasagne_raw", 20 ],
       [ "macaroni_raw", 20 ],
+      [ "foodplace_food", 5 ],
       [ "knife_butcher", 10 ]
     ]
   },
@@ -1068,6 +1075,7 @@
     "entries": [
       { "item": "knife_steak", "prob": 20 },
       { "item": "knife_butcher", "prob": 30 },
+      { "item": "butchering_kit", "prob": 5 },
       { "item": "tongs", "prob": 10 },
       { "item": "carver_off", "prob": 5 },
       { "item": "meat", "prob": 1 },

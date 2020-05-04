@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DAMAGE_H
-#define DAMAGE_H
+#ifndef CATA_SRC_DAMAGE_H
+#define CATA_SRC_DAMAGE_H
 
 #include <array>
 #include <map>
@@ -28,6 +28,7 @@ enum damage_type : int {
     DT_HEAT, // e.g. fire, plasma
     DT_COLD, // e.g. heatdrain, cryogrenades
     DT_ELECTRIC, // e.g. electrical discharge
+    DT_BULLET, // bullets and other fast moving projectiles
     NUM_DT
 };
 
@@ -130,4 +131,4 @@ resistances load_resistances_instance( const JsonObject &jo );
 // Handles some shorthands
 std::array<float, NUM_DT> load_damage_array( const JsonObject &jo );
 
-#endif
+#endif // CATA_SRC_DAMAGE_H

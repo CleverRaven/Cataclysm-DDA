@@ -405,10 +405,10 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
-        clear_faults( it );
-        if( it.is_holster() && it.contents.num_item_stacks() == 1 ) {
-            clear_faults( it.contents.front() );
-        }
+        it.visit_items( []( item * it ) {
+            clear_faults( *it );
+            return VisitResponse::NEXT;
+        } );
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
@@ -431,43 +431,6 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
             } else {
                 ++inner;
             }
-        }
-    }
-
-    /*  Purpose:    Post processing on profession selection and generation on start.
-                    Professions are newly generated each time on selection, even
-                    if the profession has already been selected previously. The profession
-                    is even generated again after selection, and the game is started.
-                    The purpose of this loop is to provide default numbers for item charges
-                    and ammo. This extends to food as well, however due to the nature of
-                    the way these professions are generated, food items one see's on the profession
-                    screen will be different in-game, but still these charge numbers will be
-                    dictated by the default of said items.
-
-        Graphical Issue:    Currently, worn items can fluctuate between 0 and their default value
-                            upon entering the game this issue will resolve itself and the correct
-                            default value will be given to the player. This issue occurs
-                            on holding the enter key to make rapid selection of a profession.
-
-        TODO:   Currently the way magazines are implemented they do not contain a default value.
-                Professions contain a max charge value found in the JSON file however, this
-                does not help in choosing a default. Below is a compromise that takes the
-                half of the magazines capacity as a default. This was chosen because most
-                defaults are half of the items max value.
-       -- Ideally, the default value of a magazine would be defined in the profession JSON file. --
-    */
-    for( auto &item : result ) {
-        /* Set top level items that have a charge to their default states */
-        /* includes refillable liters */
-
-        item.charges = item::find_type( item.typeId() )->charges_default();
-
-        /* Top level item has a magazine */
-        if( item.is_magazine() ) {
-            //Check the TODO for more information as to why we are dividing by two here.
-            item.ammo_set( item.ammo_default(), item.ammo_capacity() / 2 );
-        } else {
-            item.contents.set_item_defaults();
         }
     }
 
@@ -713,7 +676,10 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
             while( result.charges > 0 ) {
                 const item pushed = result.in_its_container();
                 ret.push_back( pushed );
-                result.mod_charges( pushed.contents.empty() ? -pushed.charges : -pushed.contents.back().charges );
+                const int charges = pushed.contents.empty() ? -pushed.charges :
+                                    -pushed.contents.only_item().charges;
+                // get the first contained item (there's only one because of in_its_container())
+                result.mod_charges( charges );
             }
         }
     }

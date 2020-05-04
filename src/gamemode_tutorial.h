@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAMEMODE_TUTORIAL_H
-#define GAMEMODE_TUTORIAL_H
+#ifndef CATA_SRC_GAMEMODE_TUTORIAL_H
+#define CATA_SRC_GAMEMODE_TUTORIAL_H
 
 #include <functional>
 #include <iosfwd>
@@ -72,4 +72,4 @@ struct tutorial_game : public special_game {
         std::map<tut_lesson, bool> tutorials_seen;
 };
 
-#endif // GAMEMODE_TUTORIAL_H
+#endif // CATA_SRC_GAMEMODE_TUTORIAL_H

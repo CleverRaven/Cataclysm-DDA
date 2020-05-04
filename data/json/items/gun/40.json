@@ -19,7 +19,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "90two40mag" ] ] ]
   },
   {
@@ -27,7 +26,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Glock 22", "str_pl": "Glock 22" },
+    "name": { "str_sp": "Glock 22" },
     "description": "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue firearm of the FBI and of countless other law enforcement agencies worldwide.",
     "weight": "645 g",
     "volume": "443 ml",
@@ -40,7 +39,7 @@
     "color": "dark_gray",
     "ammo": "40",
     "skill": "pistol",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
@@ -59,7 +58,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "glock40mag", "glock40bigmag" ] ] ]
   },
   {
@@ -82,7 +80,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "px4_40mag" ] ] ]
   },
   {
@@ -102,7 +99,7 @@
     "color": "brown",
     "ammo": "40",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -128,7 +125,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "SIG Pro .40", "str_pl": "SIG Pro .40" },
+    "name": { "str_sp": "SIG Pro .40" },
     "description": "Originally marketed as a lightweight and compact alternative to older SIG handguns, the Pro .40 is popular among European police forces.",
     "weight": "822 g",
     "volume": "523 ml",
@@ -158,7 +155,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "sig40mag" ] ] ]
   },
   {
@@ -178,7 +174,7 @@
     "material": "steel",
     "color": "dark_gray",
     "ammo": "40",
-    "ranged_damage": { "damage_type": "stab", "amount": -4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "dispersion": 590,
     "durability": 4,
     "blackpowder_tolerance": 24,
@@ -219,7 +215,7 @@
     "color": "dark_gray",
     "ammo": "40",
     "skill": "pistol",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 620,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -244,7 +240,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": "S&W 610", "str_pl": "S&W 610" },
+    "name": { "str_sp": "S&W 610" },
     "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
     "weight": "1420 g",
     "volume": "754 ml",
@@ -256,7 +252,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "10mm", "40" ],
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 320,
     "durability": 8,
     "blackpowder_tolerance": 56,
@@ -291,7 +287,6 @@
     "ammo": "40",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "bhp40mag" ] ] ]
   },
   {
@@ -311,7 +306,6 @@
     "ammo": "40",
     "dispersion": 480,
     "durability": 9,
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ] ] ]
   },
   {
@@ -332,7 +326,6 @@
     "ammo": "40",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
     "magazines": [ [ "40", [ "hptjcpmag" ] ] ]
   }
 ]

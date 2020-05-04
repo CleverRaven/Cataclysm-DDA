@@ -4026,6 +4026,42 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ROOF_ANIMAL",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_crow", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_chipmunk", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_squirrel", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_squirrel_red", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_chicken", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_turkey", "freq": 10, "cost_multiplier": 1 },
+      {
+        "monster": "mon_raccoon",
+        "freq": 25,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 3 ],
+        "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_opossum",
+        "freq": 25,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 3 ],
+        "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_bat",
+        "freq": 20,
+        "cost_multiplier": 0,
+        "pack_size": [ 6, 12 ],
+        "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_POND_ANIMAL",
     "default": "mon_null",
     "is_animal": true,

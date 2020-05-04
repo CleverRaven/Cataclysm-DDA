@@ -12,8 +12,6 @@ function run_tests
     $WINE "$@" -d yes --use-colour yes --rng-seed time $EXTRA_TEST_OPTS | grep -Ev "^0\.0[0-9]{2} s:"
 }
 
-date +%s > build-start-time
-
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
 

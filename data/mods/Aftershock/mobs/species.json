@@ -1,0 +1,8 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "UPLIFT",
+    "description": "an intelligent animal created by man before the Cataclysm",
+    "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ]
+  }
+]

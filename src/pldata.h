@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PLDATA_H
-#define PLDATA_H
+#ifndef CATA_SRC_PLDATA_H
+#define CATA_SRC_PLDATA_H
 
 #include <string>
 
@@ -10,27 +10,25 @@ class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;
 
-using dis_type = std::string;
-
-enum character_type : int {
-    PLTYPE_CUSTOM,
-    PLTYPE_RANDOM,
-    PLTYPE_TEMPLATE,
-    PLTYPE_NOW,
-    PLTYPE_FULL_RANDOM,
+enum class character_type : int {
+    CUSTOM,
+    RANDOM,
+    TEMPLATE,
+    NOW,
+    FULL_RANDOM,
 };
 
-enum add_type : int {
-    ADD_NULL,
-    ADD_CAFFEINE, ADD_ALCOHOL, ADD_SLEEP, ADD_PKILLER, ADD_SPEED, ADD_CIG,
-    ADD_COKE, ADD_CRACK, ADD_MUTAGEN, ADD_DIAZEPAM, ADD_MARLOSS_R, ADD_MARLOSS_B,
-    ADD_MARLOSS_Y,
+enum class add_type : int {
+    NONE,
+    CAFFEINE, ALCOHOL, SLEEP, PKILLER, SPEED, CIG,
+    COKE, CRACK, MUTAGEN, DIAZEPAM,
+    MARLOSS_R, MARLOSS_B, MARLOSS_Y,
     NUM_ADD_TYPES // last
 };
 
 template<>
 struct enum_traits<add_type> {
-    static constexpr add_type last = NUM_ADD_TYPES;
+    static constexpr add_type last = add_type::NUM_ADD_TYPES;
 };
 
 enum hp_part : int {
@@ -51,8 +49,8 @@ struct enum_traits<hp_part> {
 class addiction
 {
     public:
-        add_type type      = ADD_NULL;
-        int      intensity = 0;
+        add_type type = add_type::NONE;
+        int intensity = 0;
         time_duration sated = 1_hours;
 
         addiction() = default;
@@ -62,4 +60,4 @@ class addiction
         void deserialize( JsonIn &jsin );
 };
 
-#endif
+#endif // CATA_SRC_PLDATA_H

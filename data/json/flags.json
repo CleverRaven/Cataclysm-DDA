@@ -333,6 +333,12 @@
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
   },
   {
+    "id": "POLEARM",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
+  },
+  {
     "id": "POWERED",
     "type": "json_flag",
     "context": [ "TOOL" ],
@@ -682,6 +688,12 @@
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
   },
   {
+    "id": "WITH_CONTAINER",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "items spawned by spells are put in their containers."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "context": [ "mutation" ],
@@ -704,6 +716,11 @@
   },
   {
     "id": "EFFECT_CUT_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_BULLET_IMMUNE",
     "context": [  ],
     "type": "json_flag"
   },

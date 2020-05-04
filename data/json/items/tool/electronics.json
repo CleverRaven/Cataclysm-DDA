@@ -7,6 +7,7 @@
     "weight": "453 g",
     "volume": "2 L",
     "price": 560000,
+    "price_postapoc": 3000,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "aluminum", "plastic" ],
@@ -24,6 +25,7 @@
     "weight": "907 g",
     "volume": "250 ml",
     "price": 20000,
+    "price_postapoc": 50,
     "bashing": 1,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
@@ -44,8 +46,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "camera_pro",
@@ -55,6 +56,7 @@
     "weight": "2268 g",
     "volume": "1250 ml",
     "price": 800000,
+    "price_postapoc": 100,
     "bashing": 1,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
@@ -76,8 +78,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "cell_phone",
@@ -87,7 +88,7 @@
     "weight": "226 g",
     "volume": "100 ml",
     "price": 9000,
-    "price_postapoc": 2000,
+    "price_postapoc": 100,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
@@ -115,8 +116,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "cell_phone_flashlight",
@@ -136,6 +136,7 @@
     "weight": "2721 g",
     "volume": "1 L",
     "price": 10000,
+    "price_postapoc": 8000,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "yellow",
@@ -147,8 +148,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "directional_antenna",
@@ -158,6 +158,7 @@
     "weight": "454 g",
     "volume": "500 ml",
     "price": 800,
+    "price_postapoc": 250,
     "to_hit": 1,
     "material": "aluminum",
     "symbol": ",",
@@ -167,11 +168,12 @@
   {
     "id": "e_handcuffs",
     "type": "TOOL",
-    "name": { "str": "electronic handcuffs", "str_pl": "electronic handcuffs" },
+    "name": { "str_sp": "electronic handcuffs" },
     "description": "A pair of electronic handcuffs, used by police and riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative…",
     "weight": "2000 g",
     "volume": "250 ml",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -8,
     "cutting": 1,
     "material": [ "plastic", "steel" ],
@@ -190,6 +192,7 @@
     "weight": "250 g",
     "volume": "250 ml",
     "price": 20000,
+    "price_postapoc": 100,
     "to_hit": -1,
     "material": "plastic",
     "symbol": ";",
@@ -211,8 +214,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "electrohack",
@@ -223,6 +225,7 @@
     "weight": "114 g",
     "volume": "500 ml",
     "price": 40000,
+    "price_postapoc": 500,
     "to_hit": 1,
     "bashing": 5,
     "material": [ "plastic", "aluminum" ],
@@ -242,8 +245,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "geiger_off",
@@ -253,6 +255,7 @@
     "weight": "225 g",
     "volume": "500 ml",
     "price": 15000,
+    "price_postapoc": 1000,
     "bashing": 2,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
@@ -273,8 +276,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "geiger_on",
@@ -285,8 +287,7 @@
     "power_draw": 200,
     "revert_to": "geiger_off",
     "use_action": "GEIGER",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "hand_crank_charger",
@@ -297,6 +298,7 @@
     "weight": "2000 g",
     "volume": "500 ml",
     "price": 1000,
+    "price_postapoc": 250,
     "material": "plastic",
     "symbol": ":",
     "color": "light_gray",
@@ -329,6 +331,7 @@
     "weight": "2721 g",
     "volume": "2500 ml",
     "price": 75000,
+    "price_postapoc": 250,
     "bashing": 6,
     "ammo": "battery",
     "charges_per_use": 1,
@@ -350,8 +353,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "laptop_screen_lit",
@@ -371,6 +373,7 @@
     "weight": "140 g",
     "volume": "50 ml",
     "price": 3000,
+    "price_postapoc": 100,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -390,8 +393,7 @@
           "light_minus_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "mp3_on",
@@ -402,8 +404,7 @@
     "power_draw": 1000,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "noise_emitter",
@@ -413,6 +414,7 @@
     "weight": "340 g",
     "volume": "1 L",
     "price": 0,
+    "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 6,
     "material": [ "plastic", "aluminum" ],
@@ -456,6 +458,7 @@
     "weight": "200 g",
     "volume": "500 ml",
     "price": 12000,
+    "price_postapoc": 100,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -474,8 +477,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "smart_phone",
@@ -485,7 +487,7 @@
     "weight": "230 g",
     "volume": "100 ml",
     "price": 20000,
-    "price_postapoc": 1900,
+    "price_postapoc": 200,
     "material": [ "plastic", "aluminum" ],
     "looks_like": "cell_phone",
     "symbol": ";",
@@ -517,8 +519,7 @@
     "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "magazine_well": 1
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "smart_phone_flashlight",
@@ -543,6 +544,7 @@
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,
+    "price_postapoc": 1500,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "aluminum", "plastic" ],
@@ -552,7 +554,6 @@
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "magazine_well": 6,
     "flags": [ "IS_UPS" ]
   },
   {
@@ -563,6 +564,7 @@
     "weight": "453 g",
     "volume": "500 ml",
     "price": 5500,
+    "price_postapoc": 100,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -582,7 +584,6 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   }
 ]

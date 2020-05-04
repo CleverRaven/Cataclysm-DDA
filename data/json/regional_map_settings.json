@@ -365,13 +365,14 @@
       "trail_width_offset_min": 1,
       "trail_width_offset_max": 3,
       "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 }
+      "trail_terrain": { "t_dirt": 1 },
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
       "forest": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 8,
+          "mx_helicopter": 1,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -398,7 +399,7 @@
       "forest_thick": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 8,
+          "mx_helicopter": 1,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -427,7 +428,7 @@
       "forest_water": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 8,
+          "mx_helicopter": 1,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -455,7 +456,7 @@
       "field": {
         "chance": 6,
         "extras": {
-          "mx_helicopter": 6,
+          "mx_helicopter": 1,
           "mx_military": 2,
           "mx_science": 1,
           "mx_collegekids": 3,
@@ -480,7 +481,7 @@
       "road": {
         "chance": 75,
         "extras": {
-          "mx_helicopter": 25,
+          "mx_helicopter": 1,
           "mx_military": 25,
           "mx_science": 40,
           "mx_collegekids": 50,
@@ -489,7 +490,6 @@
           "mx_drugdeal": 30,
           "mx_supplydrop": 10,
           "mx_portal": 5,
-          "mx_minefield": 80,
           "mx_crater": 10,
           "mx_portal_in": 4,
           "mx_roadworks": 100,
@@ -499,6 +499,7 @@
           "mx_prison_bus": 15
         }
       },
+      "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,
         "extras": {
@@ -524,7 +525,7 @@
       "research_facility_lot": {
         "chance": 3,
         "extras": {
-          "mx_helicopter": 65,
+          "mx_helicopter": 15,
           "mx_military": 65,
           "mx_collegekids": 1,
           "mx_portal": 200,
@@ -553,6 +554,7 @@
       "park_radius": 20,
       "park_sigma": 80,
       "houses": {
+        "2storyModern01": 5,
         "house_w_1": 50,
         "house_two_story_basement": 50,
         "house_crack1": 5,

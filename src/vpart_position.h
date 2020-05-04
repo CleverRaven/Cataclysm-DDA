@@ -1,6 +1,6 @@
 #pragma once
-#ifndef VPART_POSITION_H
-#define VPART_POSITION_H
+#ifndef CATA_SRC_VPART_POSITION_H
+#define CATA_SRC_VPART_POSITION_H
 
 #include <cstddef>
 #include <functional>
@@ -155,4 +155,4 @@ inline vehicle *veh_pointer_or_null( const optional_vpart_position &p )
     return p ? &p->vehicle() : nullptr;
 }
 
-#endif
+#endif // CATA_SRC_VPART_POSITION_H

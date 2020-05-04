@@ -1,6 +1,6 @@
 #pragma once
-#ifndef INVENTORY_UI_H
-#define INVENTORY_UI_H
+#ifndef CATA_SRC_INVENTORY_UI_H
+#define CATA_SRC_INVENTORY_UI_H
 
 #include <cassert>
 #include <climits>
@@ -427,6 +427,7 @@ class inventory_selector
         inventory_selector( player &u, const inventory_selector_preset &preset = default_preset );
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
+        void add_contained_items( item_location container );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
@@ -699,8 +700,9 @@ class inventory_drop_selector : public inventory_multiselector
         void process_selected( int &count, const std::vector<inventory_entry *> &selected );
 
     private:
-        std::map<const item *, int> dropping;
+        void deselect_contained_items();
+        std::vector<std::pair<item_location, int>> dropping;
         size_t max_chosen_count;
 };
 
-#endif
+#endif // CATA_SRC_INVENTORY_UI_H

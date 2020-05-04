@@ -1,8 +1,10 @@
 #pragma once
-#ifndef SOFTWARE_MINESWEEPER_H
-#define SOFTWARE_MINESWEEPER_H
+#ifndef CATA_SRC_IUSE_SOFTWARE_MINESWEEPER_H
+#define CATA_SRC_IUSE_SOFTWARE_MINESWEEPER_H
 
 #include <map>
+
+#include "point.h"
 
 namespace catacurses
 {
@@ -14,14 +16,10 @@ class minesweeper_game
     private:
         bool check_win();
         void new_level( const catacurses::window &w_minesweeper );
-        int iMaxX = 0;
-        int iMaxY = 0;
-        int iMinX = 0;
-        int iMinY = 0;
-        int iLevelX = 0;
-        int iLevelY = 0;
-        int iOffsetX = 0;
-        int iOffsetY = 0;
+        point max;
+        point min;
+        point level;
+        point offset;
         int iBombs = 0;
 
         std::map<int, std::map<int, int> > mLevel;
@@ -40,4 +38,4 @@ class minesweeper_game
         minesweeper_game();
 };
 
-#endif
+#endif // CATA_SRC_IUSE_SOFTWARE_MINESWEEPER_H

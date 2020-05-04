@@ -18,7 +18,7 @@
     "ammo": "762x25",
     "skill": "smg",
     "range": 2,
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 120,
     "durability": 8,
     "min_cycle_recoil": 270,
@@ -45,7 +45,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Tokarev TT-33", "str_pl": "Tokarev TT-33" },
+    "name": { "str_sp": "Tokarev TT-33" },
     "//": "And it's therefore expensive.",
     "description": "The Tokarev TT-33 is an antique Russian semiautomatic pistol, famous for its durability, accuracy, and uncomfortable grip angle.  It was chambered for the 7.62x25mm due to the popularity of the C96 pistol among Russian revolutionaries.",
     "weight": "870 g",
@@ -59,7 +59,6 @@
     "dispersion": 225,
     "durability": 7,
     "min_cycle_recoil": 270,
-    "magazine_well": 1,
     "magazines": [ [ "762x25", [ "tokarevmag" ] ] ]
   }
 ]

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SOUNDS_H
-#define SOUNDS_H
+#ifndef CATA_SRC_SOUNDS_H
+#define CATA_SRC_SOUNDS_H
 
 #include <string>
 #include <utility>
@@ -163,4 +163,4 @@ void do_fatigue();
 void do_obstacle( const std::string &obst = "" );
 } // namespace sfx
 
-#endif
+#endif // CATA_SRC_SOUNDS_H

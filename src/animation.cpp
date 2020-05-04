@@ -511,7 +511,7 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, const bool dead )
 
 namespace
 {
-void draw_hit_player_curses( const game &g, const player &p, const int dam )
+void draw_hit_player_curses( const game &g, const Character &p, const int dam )
 {
     const tripoint q = relative_view_pos( g.u, p.pos() );
     if( q.z == 0 ) {
@@ -523,7 +523,7 @@ void draw_hit_player_curses( const game &g, const player &p, const int dam )
 } //namespace
 
 #if defined(TILES)
-void game::draw_hit_player( const player &p, const int dam )
+void game::draw_hit_player( const Character &p, const int dam )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -546,7 +546,7 @@ void game::draw_hit_player( const player &p, const int dam )
     bullet_animation().progress();
 }
 #else
-void game::draw_hit_player( const player &p, const int dam )
+void game::draw_hit_player( const Character &p, const int dam )
 {
     draw_hit_player_curses( *this, p, dam );
 }

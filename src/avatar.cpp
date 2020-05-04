@@ -75,6 +75,7 @@ static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_watch( "bio_watch" );
 
+static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_depressants( "depressants" );
 static const efftype_id effect_happy( "happy" );
@@ -928,11 +929,11 @@ bool avatar::has_identified( const std::string &item_id ) const
 hint_rating avatar::rate_action_read( const item &it ) const
 {
     if( !it.is_book() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     std::vector<std::string> dummy;
-    return get_book_reader( it, dummy ) == nullptr ? HINT_IFFY : HINT_GOOD;
+    return get_book_reader( it, dummy ) == nullptr ? hint_rating::iffy : hint_rating::good;
 }
 
 void avatar::wake_up()
@@ -941,7 +942,11 @@ void avatar::wake_up()
         if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
             print_health();
         }
-        if( has_effect( effect_slept_through_alarm ) ) {
+        // alarm was set and player hasn't slept through the alarm.
+        if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
+            add_msg( _( "It looks like you woke up before your alarm." ) );
+            remove_effect( effect_alarm_clock );
+        } else if( has_effect( effect_slept_through_alarm ) ) {
             if( has_bionic( bio_watch ) ) {
                 add_msg( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
             } else {
@@ -1249,9 +1254,6 @@ void avatar::reset_stats()
         }
     }
 
-    // Hit-related effects
-    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit );
-
     // Apply static martial arts buffs
     martial_arts_data.ma_static_effects( *this );
 
@@ -1518,9 +1520,8 @@ bool avatar::wield( item &target )
 
     // Query whether to draw an item from a holster when attempting to wield the holster
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        //~ %1$s: weapon name, %2$s: holster name
-        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
-                      target.tname() ) ) {
+        //~ %1$s: weapon name
+        if( query_yn( pgettext( "holster", "Draw from %1$s?" ), target.tname() ) ) {
             invoke_item( &target );
             return false;
         }
@@ -1702,9 +1703,9 @@ std::string points_left::to_string()
                    _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
                    stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
                    trait_points >= 0 ? '+' : '-',
-                   trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
+                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
                    skill_points >= 0 ? '+' : '-',
-                   skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
+                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
                    is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
     } else if( limit == ONE_POOL ) {
         return string_format( _( "Points left: %4d" ), skill_points_left() );

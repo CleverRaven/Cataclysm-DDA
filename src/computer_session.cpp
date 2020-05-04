@@ -365,12 +365,9 @@ void computer_session::action_sample()
                 if( capa <= 0 ) {
                     continue;
                 }
-                capa = std::min( sewage.charges, capa );
-                if( elem.contents.empty() ) {
-                    elem.put_in( sewage );
-                    elem.contents.front().charges = capa;
-                } else {
-                    elem.contents.front().charges += capa;
+                sewage.charges = std::min( sewage.charges, capa );
+                if( elem.can_contain( sewage ) ) {
+                    elem.put_in( sewage, item_pocket::pocket_type::CONTAINER );
                 }
                 found_item = true;
                 break;
@@ -649,7 +646,7 @@ void computer_session::action_amigara_log()
     reset_terminal();
     print_line( _( "SITE %d%d%d\n"
                    "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
-                g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
+                g->get_levx(), g->get_levy(), std::abs( g->get_levz() ) );
     print_text( "%s", SNIPPET.random_from_category( "amigara4" ).value_or( translation() ) );
     print_gibberish_line();
     print_gibberish_line();
@@ -721,7 +718,7 @@ void computer_session::action_download_software()
         item software( miss->get_item_id(), 0 );
         software.mission_id = comp.mission_id;
         usb->contents.clear_items();
-        usb->put_in( software );
+        usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
         print_line( _( "Software downloaded." ) );
     } else {
         print_error( _( "USB drive required!" ) );
@@ -741,10 +738,10 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().contents.front().typeId() != "blood" ) {
+            } else if( items.only_item().contents.legacy_front().typeId() != "blood" ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
-                const item &blood = items.only_item().contents.front();
+                const item &blood = items.only_item().contents.legacy_front();
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
@@ -759,7 +756,7 @@ void computer_session::action_blood_anal()
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", 0 );
                             usb->contents.clear_items();
-                            usb->put_in( software );
+                            usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
                             print_line( _( "Software downloaded." ) );
                         } else {
                             print_error( _( "USB drive required!" ) );
@@ -1345,7 +1342,7 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().contents.front().typeId() != "blood" ) {
+            } else if( items.only_item().contents.legacy_front().typeId() != "blood" ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );

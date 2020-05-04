@@ -68,7 +68,8 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "10 s",
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ]
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "scrap_cotton",
@@ -80,10 +81,35 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
+    "result": "spatula",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "components": [ [ [ "chunk_rubber", 2 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "sole_rubber",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "4 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chunk_rubber", 3 ] ] ]
+  },
+  {
+    "result": "rubber_slug",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "chunk_rubber", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "earthbag",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "10 s",
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ]
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

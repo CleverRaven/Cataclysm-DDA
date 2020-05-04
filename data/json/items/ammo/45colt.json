@@ -17,7 +17,7 @@
     "ammo_type": "45colt",
     "casing": "45colt_casing",
     "range": 16,
-    "damage": { "damage_type": "stab", "amount": 25, "armor_penetration": 2 },
+    "damage": { "damage_type": "bullet", "amount": 25, "armor_penetration": 2 },
     "dispersion": 50,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
@@ -27,7 +27,7 @@
     "copy-from": "45colt_jhp",
     "type": "AMMO",
     "name": { "str": ".45 Colt JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

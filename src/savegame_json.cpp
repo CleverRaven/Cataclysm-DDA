@@ -166,10 +166,10 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 
 void item_contents::serialize( JsonOut &json ) const
 {
-    if( !items.empty() ) {
+    if( !contents.empty() ) {
         json.start_object();
 
-        json.member( "items", items );
+        json.member( "contents", contents );
 
         json.end_object();
     }
@@ -178,7 +178,38 @@ void item_contents::serialize( JsonOut &json ) const
 void item_contents::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    data.read( "items", items );
+    data.read( "contents", contents );
+}
+
+void item_pocket::serialize( JsonOut &json ) const
+{
+    if( !contents.empty() ) {
+        json.start_object();
+        json.member( "pocket_type", data->type );
+        json.member( "contents", contents );
+        json.end_object();
+    }
+}
+
+void item_pocket::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "contents", contents );
+    int saved_type_int;
+    data.read( "pocket_type", saved_type_int );
+    _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
+}
+
+void pocket_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
+
+void resealable_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -500,12 +531,12 @@ void Character::load( const JsonObject &data )
     if( savegame_loading_version <= 23 ) {
         std::unordered_set<trait_id> old_my_mutations;
         data.read( "mutations", old_my_mutations );
-        for( const auto &mut : old_my_mutations ) {
+        for( const trait_id &mut : old_my_mutations ) {
             my_mutations[mut]; // Creates a new entry with default values
         }
         std::map<trait_id, char> trait_keys;
         data.read( "mutation_keys", trait_keys );
-        for( const auto &k : trait_keys ) {
+        for( const std::pair<const trait_id, char> &k : trait_keys ) {
             my_mutations[k.first].key = k.second;
         }
         std::set<trait_id> active_muts;
@@ -517,14 +548,14 @@ void Character::load( const JsonObject &data )
         data.read( "mutations", my_mutations );
     }
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
-        const auto &mid = it->first;
+        const trait_id &mid = it->first;
         if( mid.is_valid() ) {
             on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
-            my_mutations.erase( it++ );
+            it = my_mutations.erase( it );
         }
     }
     size_class = calculate_size( *this );
@@ -565,14 +596,7 @@ void Character::load( const JsonObject &data )
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
-    std::string tmove_mode;
-    data.read( "move_mode", tmove_mode );
-    for( int i = 0; i < CMM_COUNT; ++i ) {
-        if( tmove_mode == character_movemode_str[i] ) {
-            move_mode = static_cast<character_movemode>( i );
-            break;
-        }
-    }
+    data.read( "move_mode", move_mode );
 
     if( has_effect( effect_riding ) ) {
         int temp_id;
@@ -625,6 +649,14 @@ void Character::load( const JsonObject &data )
     }
     data.read( "stomach", stomach );
     data.read( "guts", guts );
+    data.read( "automoveroute", auto_move_route );
+
+    known_traps.clear();
+    for( JsonObject pmap : data.get_array( "known_traps" ) ) {
+        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
+        const std::string t = pmap.get_string( "trap" );
+        known_traps.insert( trap_map::value_type( p, t ) );
+    }
 }
 
 /**
@@ -713,7 +745,7 @@ void Character::store( JsonOut &json ) const
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
 
-    json.member( "move_mode", character_movemode_str[ move_mode ] );
+    json.member_as_string( "move_mode",  move_mode );
 
     // storing the mount
     if( is_mounted() ) {
@@ -751,6 +783,18 @@ void Character::store( JsonOut &json ) const
     }
     json.member( "stomach", stomach );
     json.member( "guts", guts );
+    json.member( "automoveroute", auto_move_route );
+    json.member( "known_traps" );
+    json.start_array();
+    for( const auto &elem : known_traps ) {
+        json.start_object();
+        json.member( "x", elem.first.x );
+        json.member( "y", elem.first.y );
+        json.member( "z", elem.first.z );
+        json.member( "trap", elem.second );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -788,19 +832,6 @@ void player::store( JsonOut &json ) const
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
-    json.member( "known_traps" );
-    json.start_array();
-    for( const auto &elem : known_traps ) {
-        json.start_object();
-        json.member( "x", elem.first.x );
-        json.member( "y", elem.first.y );
-        json.member( "z", elem.first.z );
-        json.member( "trap", elem.second );
-        json.end_object();
-    }
-    json.end_array();
-
-    json.member( "automoveroute", auto_move_route );
 
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
@@ -877,14 +908,6 @@ void player::load( const JsonObject &data )
 
     data.read( "addictions", addictions );
     data.read( "followers", follower_ids );
-    known_traps.clear();
-    for( JsonObject pmap : data.get_array( "known_traps" ) ) {
-        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        const std::string t = pmap.get_string( "trap" );
-        known_traps.insert( trap_map::value_type( p, t ) );
-    }
-
-    data.read( "automoveroute", auto_move_route );
 
     // Add the earplugs.
     if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
@@ -976,10 +999,10 @@ void avatar::store( JsonOut &json ) const
     json.member( "focus_pool", focus_pool );
 
     // stats through kills
-    json.member( "str_upgrade", abs( str_upgrade ) );
-    json.member( "dex_upgrade", abs( dex_upgrade ) );
-    json.member( "int_upgrade", abs( int_upgrade ) );
-    json.member( "per_upgrade", abs( per_upgrade ) );
+    json.member( "str_upgrade", std::abs( str_upgrade ) );
+    json.member( "dex_upgrade", std::abs( dex_upgrade ) );
+    json.member( "int_upgrade", std::abs( int_upgrade ) );
+    json.member( "per_upgrade", std::abs( per_upgrade ) );
 
     // targeting
     if( activity.id() == ACT_AIM ) {
@@ -2333,6 +2356,26 @@ void item::io( Archive &archive )
     }
 }
 
+void item::migrate_content_item( const item &contained )
+{
+    if( contained.is_gunmod() || contained.is_toolmod() ) {
+        put_in( contained, item_pocket::pocket_type::MOD );
+    } else if( !contained.made_of( LIQUID )
+               && ( contained.is_magazine() || contained.is_ammo() ) ) {
+        put_in( contained, item_pocket::pocket_type::MAGAZINE );
+    } else if( typeId() == "usb_drive" ) {
+        // as of this migration, only usb_drive has any software in it.
+        put_in( contained, item_pocket::pocket_type::SOFTWARE );
+    } else if( is_corpse() ) {
+        put_in( contained, item_pocket::pocket_type::CORPSE );
+    } else if( can_contain( contained ) ) {
+        put_in( contained, item_pocket::pocket_type::CONTAINER );
+    } else {
+        // we want this to silently fail - the contents will fall out later
+        put_in( contained, item_pocket::pocket_type::MIGRATION );
+    }
+}
+
 void item::deserialize( JsonIn &jsin )
 {
     const JsonObject data = jsin.get_object();
@@ -2342,17 +2385,27 @@ void item::deserialize( JsonIn &jsin )
     if( savegame_loading_version < 27 ) {
         legacy_fast_forward_time();
     }
+    contents = item_contents( type->pockets );
+    // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
         data.read( "contents", items );
-        contents = item_contents( items );
+        for( const item &it : items ) {
+            migrate_content_item( it );
+        }
     } else {
-        data.read( "contents", contents );
-    }
+        item_contents read_contents;
+        data.read( "contents", read_contents );
+        contents.combine( read_contents );
 
-    // Sealed item migration: items with "unseals_into" set should always have contents
-    if( contents.empty() && is_non_resealable_container() ) {
-        convert( type->container->unseals_into );
+        if( data.has_object( "contents" ) && data.get_object( "contents" ).has_array( "items" ) ) {
+            // migration for nested containers. leave until after 0.F
+            std::list<item> items;
+            data.get_object( "contents" ).read( "items", items );
+            for( const item &it : items ) {
+                migrate_content_item( it );
+            }
+        }
     }
 }
 
@@ -2998,6 +3051,7 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "armor_bash_bonus", armor_bash_bonus );
     jsout.member( "armor_cut_bonus", armor_cut_bonus );
+    jsout.member( "armor_bullet_bonus", armor_bullet_bonus );
 
     jsout.member( "speed", speed_base );
 
@@ -3061,6 +3115,7 @@ void Creature::load( const JsonObject &jsin )
 
     jsin.read( "armor_bash_bonus", armor_bash_bonus );
     jsin.read( "armor_cut_bonus", armor_cut_bonus );
+    jsin.read( "armor_bullet_bonus", armor_bullet_bonus );
 
     jsin.read( "speed", speed_base );
 

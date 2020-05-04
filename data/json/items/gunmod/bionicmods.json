@@ -7,6 +7,7 @@
     "weight": "1 g",
     "volume": "0 ml",
     "price": 85000,
+    "price_postapoc": 0,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",

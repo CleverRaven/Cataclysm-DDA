@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef CATA_SRC_DEBUG_H
+#define CATA_SRC_DEBUG_H
 
 #include "string_formatter.h"
 
@@ -203,4 +203,4 @@ void debug_write_backtrace( std::ostream &out );
 #endif
 
 // vim:tw=72:sw=4:fdm=marker:fdl=0:
-#endif
+#endif // CATA_SRC_DEBUG_H

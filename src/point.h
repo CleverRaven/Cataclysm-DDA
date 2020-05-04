@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_POINT_H
-#define CATA_POINT_H
+#ifndef CATA_SRC_POINT_H
+#define CATA_SRC_POINT_H
 
 // The CATA_NO_STL macro is used by the cata clang-tidy plugin tests so they
 // can include this header when compiling with -nostdinc++
@@ -313,12 +313,12 @@ std::vector<point> closest_points_first( const point &center, int min_dist, int 
 
 inline point abs( const point &p )
 {
-    return point( abs( p.x ), abs( p.y ) );
+    return point( std::abs( p.x ), std::abs( p.y ) );
 }
 
 inline tripoint abs( const tripoint &p )
 {
-    return tripoint( abs( p.x ), abs( p.y ), abs( p.z ) );
+    return tripoint( std::abs( p.x ), std::abs( p.y ), std::abs( p.z ) );
 }
 
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
@@ -396,4 +396,4 @@ static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
 
 #endif // CATA_NO_STL
 
-#endif // CATA_POINT_H
+#endif // CATA_SRC_POINT_H

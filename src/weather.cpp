@@ -207,17 +207,29 @@ void item::add_rain_to_container( bool acid, int charges )
     }
     item ret( acid ? "water_acid" : "water", calendar::turn );
     const int capa = get_remaining_capacity_for_liquid( ret, true );
-    if( contents.empty() ) {
+    ret.charges = std::min( charges, capa );
+    if( contents.can_contain( ret ).success() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if( !acid ) {
             // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
             ret.poison = one_in( 10 ) ? 1 : 0;
         }
-        ret.charges = std::min( charges, capa );
-        put_in( ret );
+        put_in( ret, item_pocket::pocket_type::CONTAINER );
     } else {
+        static const std::set<std::string> allowed_liquid_types{
+            "water",
+            "water_acid",
+            "water_acid_weak"
+        };
+        item *found_liq = contents.get_item_with( [&]( const item & liquid ) {
+            return allowed_liquid_types.count( liquid.typeId() );
+        } );
+        if( found_liq == nullptr ) {
+            debugmsg( "Rainwater failed to add to container" );
+            return;
+        }
         // The container already has a liquid.
-        item &liq = contents.front();
+        item &liq = *found_liq;
         int orig = liq.charges;
         int added = std::min( charges, capa );
         if( capa > 0 ) {
@@ -240,7 +252,7 @@ void item::add_rain_to_container( bool acid, int charges )
             const bool transmute = x_in_y( 2 * added, liq.charges );
 
             if( transmute ) {
-                contents.front() = item( "water_acid_weak", calendar::turn, liq.charges );
+                liq = item( "water_acid_weak", calendar::turn, liq.charges );
             } else if( liq.typeId() == "water" ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
@@ -704,8 +716,8 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
         // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
-        windchill_f = 35.74 + 0.6215 * temperature_f - 35.75 * pow( wind_mph,
-                      0.16 ) + 0.4275 * temperature_f * pow( wind_mph, 0.16 ) - temperature_f;
+        windchill_f = 35.74 + 0.6215 * temperature_f - 35.75 * std::pow( wind_mph,
+                      0.16 ) + 0.4275 * temperature_f * std::pow( wind_mph, 0.16 ) - temperature_f;
         if( wind_mph < 3 ) {
             // This model fails when wind is less than 3 mph
             windchill_f = 0;
@@ -724,7 +736,7 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
         // model being designed for reasonable ambient temperature values,
         // rather than extremely high ones.
         double windchill_c = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
-                             exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) ) - 0.70 *
+                             std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) ) - 0.70 *
                              wind_meters_per_sec - 4.00;
         // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
         windchill_f = windchill_c * 9 / 5;

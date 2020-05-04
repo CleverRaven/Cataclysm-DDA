@@ -8,6 +8,7 @@
     "weight": "78 g",
     "volume": "250 ml",
     "price": 3500,
+    "price_postapoc": 100,
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",

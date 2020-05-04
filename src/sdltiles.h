@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SDLTILES_H
-#define CATA_SDLTILES_H
+#ifndef CATA_SRC_SDLTILES_H
+#define CATA_SRC_SDLTILES_H
 
 #include <array>
 #if defined(TILES)
@@ -39,7 +39,10 @@ struct window_dimensions {
     point window_size_pixel;
 };
 window_dimensions get_window_dimensions( const catacurses::window &win );
+// Get dimensional info of an imaginary normal catacurses::window with the given
+// position and size. Unlike real catacurses::window, size can be zero.
+window_dimensions get_window_dimensions( const point &pos, const point &size );
 
 #endif // TILES
 
-#endif // CATA_SDLTILES_H
+#endif // CATA_SRC_SDLTILES_H

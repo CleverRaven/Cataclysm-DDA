@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_KILL_TRACKER_H
-#define CATA_KILL_TRACKER_H
+#ifndef CATA_SRC_KILL_TRACKER_H
+#define CATA_SRC_KILL_TRACKER_H
 
 #include <map>
 #include <string>
@@ -44,4 +44,4 @@ class kill_tracker : public event_subscriber
         std::vector<std::string> npc_kills;    // names of NPCs the player killed
 };
 
-#endif // CATA_KILL_TRACKER_H
+#endif // CATA_SRC_KILL_TRACKER_H

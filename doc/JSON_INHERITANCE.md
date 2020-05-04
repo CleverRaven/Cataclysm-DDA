@@ -81,13 +81,14 @@ TOOL (but not TOOL_ARMOR)
 COMESTIBLE
 BOOK
 ENGINE
+MATERIAL
 ```
 
 To find out if a types supports copy-from, you need to know if it has implemented generic_factory. To find out if this is the case, do the following:
 * Open [init.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/init.cpp)
 * Find the line that mentions your type, for example `add( "gate", &gates::load );`
 * Copy the load function, in this case it would be *gates::load*
-* Use this in [the search bar on github](https://github.com/CleverRaven/Cataclysm-DDA/search?q=%22gates%3A%3Aload%22&unscoped_q=%22gates%3A%3Aload%22&type=Code) to find the file that contains *gates::load*
+* Use this in [the search bar on github](https://github.com/CleverRaven/Cataclysm-DDA/search?q=%22gates%3A%3Aload%22&unscoped_q=%22gates%3A%3Aload%22&type=Code) to find the file that contains *gates::load* (Note, you cannot search for ":" in file finder.  The search will simply ignore this symbol.)
 * In the search results you find [gates.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/gates.cpp). open it.
 * In gates.cpp, find the generic_factory line, it looks like this: `generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );`
 * Since the generic_factory line is present, you can now conclude that it supports copy-from. 

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TEXT_SNIPPETS_H
-#define TEXT_SNIPPETS_H
+#ifndef CATA_SRC_TEXT_SNIPPETS_H
+#define CATA_SRC_TEXT_SNIPPETS_H
 
 #include <map>
 #include <string>
@@ -114,4 +114,4 @@ class snippet_library
 
 extern snippet_library SNIPPET;
 
-#endif
+#endif // CATA_SRC_TEXT_SNIPPETS_H

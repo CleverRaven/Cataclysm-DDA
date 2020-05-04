@@ -142,7 +142,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_world_modfiles( ui );
 
     g->u = avatar();
-    g->u.create( PLTYPE_NOW );
+    g->u.create( character_type::NOW );
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );
 
@@ -215,7 +215,7 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
 {
     std::string option_user_dir = extract_argument( arg_vec, "--user-dir=" );
     if( option_user_dir.empty() ) {
-        return "./";
+        return "./test_user_dir/";
     }
     if( !string_ends_with( option_user_dir, "/" ) ) {
         option_user_dir += "/";

@@ -31,7 +31,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
     "magazines": [ [ "8x40mm", [ "8x40_10_mag", "8x40_25_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -54,7 +53,7 @@
     "ammo": "8x40mm",
     "skill": "rifle",
     "range": 20,
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 10,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 2 ] ],
@@ -105,7 +104,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
     "magazines": [ [ "8x40mm", [ "8x40_25_mag", "8x40_10_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -127,13 +125,12 @@
     "ammo": "8x40mm",
     "skill": "rifle",
     "range": -6,
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 90,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "reload": 400,
     "barrel_length": "1500 ml",
-    "magazine_well": 6,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "magazines": [ [ "8x40mm", [ "8x40_500_mag", "8x40_250_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
@@ -155,7 +152,7 @@
     "color": "dark_gray",
     "ammo": "8x40mm",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 50,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
@@ -170,7 +167,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
     "magazines": [ [ "8x40mm", [ "8x40_50_mag", "8x40_100_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -191,7 +187,7 @@
     "color": "dark_gray",
     "ammo": "8x40mm",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 70,
     "durability": 9,
     "reload": 200,
@@ -208,7 +204,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
     "magazines": [ [ "8x40mm", [ "8x40_250_mag", "8x40_500_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -228,7 +223,7 @@
     "color": "dark_gray",
     "ammo": "8x40mm",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 30,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
@@ -243,7 +238,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
     "magazines": [ [ "8x40mm", [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -265,7 +259,7 @@
     "color": "dark_gray",
     "ammo": "8x40mm",
     "skill": "pistol",
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 175,
     "durability": 9,
     "clip_size": 5,

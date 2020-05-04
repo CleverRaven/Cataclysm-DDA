@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MOD_MANAGER_H
-#define MOD_MANAGER_H
+#ifndef CATA_SRC_MOD_MANAGER_H
+#define CATA_SRC_MOD_MANAGER_H
 
 #include <cstddef>
 #include <map>
@@ -182,4 +182,4 @@ class mod_ui
         bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );
 };
 
-#endif
+#endif // CATA_SRC_MOD_MANAGER_H

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef CATA_SRC_OUTPUT_H
+#define CATA_SRC_OUTPUT_H
 
 #include <algorithm>
 #include <cassert>
@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "item.h"
+#include "line.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -26,7 +27,6 @@
 
 struct input_event;
 
-enum direction : unsigned;
 namespace catacurses
 {
 class window;
@@ -138,8 +138,6 @@ extern int TERMX; // width available for display
 extern int TERMY; // height available for display
 extern int POSX; // X position of '@' inside terrain window
 extern int POSY; // Y position of '@' inside terrain window
-extern int VIEW_OFFSET_X; // X position of terrain window
-extern int VIEW_OFFSET_Y; // Y position of terrain window
 extern int TERRAIN_WINDOW_WIDTH; // width of terrain window
 extern int TERRAIN_WINDOW_HEIGHT; // height of terrain window
 extern int TERRAIN_WINDOW_TERM_WIDTH; // width of terrain window in terminal characters
@@ -325,8 +323,6 @@ void center_print( const catacurses::window &w, int y, const nc_color &FG,
                    const std::string &text );
 int right_print( const catacurses::window &w, int line, int right_indent,
                  const nc_color &FG, const std::string &text );
-void display_table( const catacurses::window &w, const std::string &title, int columns,
-                    const std::vector<std::string> &data );
 void scrollable_text( const catacurses::window &w, const std::string &title,
                       const std::string &text );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
@@ -816,6 +812,8 @@ class scrolling_text_view
         void set_text( const std::string & );
         void scroll_up();
         void scroll_down();
+        void page_up();
+        void page_down();
         void draw( const nc_color &base_color );
     private:
         int text_width();
@@ -839,7 +837,14 @@ class scrollingcombattext
             private:
                 point pos;
                 direction oDir;
-                direction oUp, oUpRight, oRight, oDownRight, oDown, oDownLeft, oLeft, oUpLeft;
+                direction oUp;
+                direction oUpRight;
+                direction oRight;
+                direction oDownRight;
+                direction oDown;
+                direction oDownLeft;
+                direction oLeft;
+                direction oUpLeft;
                 point dir;
                 int iStep;
                 int iStepOffset;
@@ -983,4 +988,4 @@ std::string colorize_symbols( const std::string &str, F color_of )
     return res;
 }
 
-#endif
+#endif // CATA_SRC_OUTPUT_H

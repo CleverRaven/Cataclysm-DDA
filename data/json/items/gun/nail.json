@@ -1,38 +1,5 @@
 [
   {
-    "id": "coilgun",
-    "copy-from": "gun_base",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "coilgun" },
-    "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
-    "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
-    "weight": "3341 g",
-    "volume": "2750 ml",
-    "price": 75000,
-    "price_postapoc": 5000,
-    "to_hit": -2,
-    "bashing": 10,
-    "material": [ "copper", "steel" ],
-    "ammo": "nail",
-    "skill": "rifle",
-    "range": 12,
-    "ranged_damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 20 },
-    "dispersion": 180,
-    "durability": 5,
-    "ups_charges": 5,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "magazines": [ [ "nail", [ "nailmag" ] ] ]
-  },
-  {
     "id": "nailgun",
     "looks_like": "glock_17",
     "type": "GUN",
@@ -56,32 +23,5 @@
     "clip_size": 20,
     "reload": 50,
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ]
-  },
-  {
-    "id": "nailrifle",
-    "copy-from": "nailgun",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "nail rifle" },
-    "description": "This is a nailgun that has been extensively modified with the addition of a short barrel, stock and hand guard.  It can be reloaded using detachable magazines and is an overall much more effective weapon.",
-    "to_hit": -1,
-    "bashing": 12,
-    "price_postapoc": 750,
-    "skill": "rifle",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "clip_size": 0,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "magazines": [ [ "nail", [ "nailmag" ] ] ],
-    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
-    "proportional": { "price": 3, "dispersion": 0.5 }
   }
 ]

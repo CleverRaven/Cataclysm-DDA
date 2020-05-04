@@ -1,6 +1,6 @@
 #pragma once
-#ifndef INVENTORY_H
-#define INVENTORY_H
+#ifndef CATA_SRC_INVENTORY_H
+#define CATA_SRC_INVENTORY_H
 
 #include <array>
 #include <bitset>
@@ -247,4 +247,4 @@ class inventory : public visitable<inventory>
         mutable itype_bin binned_items;
 };
 
-#endif
+#endif // CATA_SRC_INVENTORY_H

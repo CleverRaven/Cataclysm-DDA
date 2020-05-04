@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DISEASE_H
-#define DISEASE_H
+#ifndef CATA_SRC_DISEASE_H
+#define CATA_SRC_DISEASE_H
 
 #include <set>
 #include <string>
@@ -34,5 +34,5 @@ class disease_type
         efftype_id symptoms;
 
 };
-#endif
+#endif // CATA_SRC_DISEASE_H
 

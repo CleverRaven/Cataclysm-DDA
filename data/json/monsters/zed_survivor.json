@@ -23,6 +23,7 @@
     "dodge": 3,
     "armor_bash": 7,
     "armor_cut": 7,
+    "armor_bullet": 6,
     "armor_acid": 4,
     "vision_day": 50,
     "vision_night": 3,
@@ -49,6 +50,7 @@
     "color": "light_red_green",
     "armor_bash": 15,
     "armor_cut": 25,
+    "armor_bullet": 20,
     "death_drops": "mon_zombie_survivor_elite_death_drops"
   }
 ]

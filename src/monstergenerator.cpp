@@ -328,6 +328,14 @@ void load_monster_adjustment( const JsonObject &jsobj )
     adjustments.push_back( adj );
 }
 
+static void build_behavior_tree( mtype &type )
+{
+    type.set_strategy();
+    if( type.has_flag( MF_ABSORBS ) || type.has_flag( MF_ABSORBS_SPLITS ) ) {
+        type.add_goal( "absorb_items" );
+    }
+}
+
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
@@ -358,6 +366,9 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_stab < 0 ) {
             mon.armor_stab = mon.armor_cut * 0.8;
         }
+        if( mon.armor_bullet < 0 ) {
+            mon.armor_bullet = 0;
+        }
         if( mon.armor_acid < 0 ) {
             mon.armor_acid = mon.armor_cut * 0.5;
         }
@@ -368,6 +379,7 @@ void MonsterGenerator::finalize_mtypes()
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
 
+        build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
     }
 
@@ -659,14 +671,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     MonsterGenerator &gen = MonsterGenerator::generator();
 
-    if( jo.has_string( "name_plural" ) && jo.has_string( "name" ) ) {
-        // Legacy format
-        // NOLINTNEXTLINE(cata-json-translation-input)
-        name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
-    } else {
-        name.make_plural();
-        mandatory( jo, was_loaded, "name", name );
-    }
+    name.make_plural();
+    mandatory( jo, was_loaded, "name", name );
+
     optional( jo, was_loaded, "description", description );
 
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
@@ -715,6 +722,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "dodge", sk_dodge, strict, 0 );
     assign( jo, "armor_bash", armor_bash, strict, 0 );
     assign( jo, "armor_cut", armor_cut, strict, 0 );
+    assign( jo, "armor_bullet", armor_bullet, strict, 0 );
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
@@ -1186,7 +1194,7 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
 
-        for( const std::pair<emit_id, time_duration> &e : mon.emit_fields ) {
+        for( const std::pair<const emit_id, time_duration> &e : mon.emit_fields ) {
             const emit_id emid = e.first;
             if( !emid.is_valid() ) {
                 debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), emid.c_str() );

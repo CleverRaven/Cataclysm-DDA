@@ -253,7 +253,7 @@ stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &meta
         rates.water = 250_ml;
         rates.min_kcal = roll_remainder( metabolic_rates.kcal / 24.0 * metabolic_rates.hunger );
         rates.percent_kcal = 0.05f * metabolic_rates.hunger;
-        rates.min_vitamin = round( 100.0 / 24.0 * metabolic_rates.hunger );
+        rates.min_vitamin = std::round( 100.0 / 24.0 * metabolic_rates.hunger );
         rates.percent_vitamin = 0.05f * metabolic_rates.hunger;
     }
     return rates;
@@ -271,7 +271,7 @@ void stomach_contents::mod_calories( int cal )
 void stomach_contents::mod_nutr( int nutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_calories( -1 * round( nutr * 2500.0f / ( 12 * 24 ) ) );
+    mod_calories( -1 * std::round( nutr * 2500.0f / ( 12 * 24 ) ) );
 }
 
 void stomach_contents::mod_water( units::volume h2o )

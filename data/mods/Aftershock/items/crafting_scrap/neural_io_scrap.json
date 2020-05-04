@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "afs_neural_io_1",
     "copy-from": "afs_scrap_1",
-    "name": "peripheral electrode",
+    "name": { "str": "peripheral electrode" },
     "description": "A thin strand of wire and a clamp, meant to be spliced into the smaller nerves of the human body.",
     "looks_like": "scrap"
   },
@@ -11,7 +11,7 @@
     "type": "GENERIC",
     "id": "afs_neural_io_2",
     "copy-from": "afs_scrap_2",
-    "name": "neural electrode",
+    "name": { "str": "neural electrode" },
     "description": "A small array of metallic needles allows complex communication between machine and human mind.",
     "looks_like": "scrap"
   },
@@ -19,7 +19,7 @@
     "type": "GENERIC",
     "id": "afs_neural_io_3",
     "copy-from": "afs_scrap_3",
-    "name": "brain implant prod",
+    "name": { "str": "brain implant prod" },
     "description": "A complexly etched rod of metal interfaces with the corpus callosum of the patient, granting increased control of bionic functions.",
     "looks_like": "scrap"
   },
@@ -27,7 +27,7 @@
     "type": "GENERIC",
     "id": "afs_neural_io_4",
     "copy-from": "afs_scrap_4",
-    "name": "artificial neural tissue",
+    "name": { "str": "artificial neural tissue" },
     "description": "Photonic axons process thought at speeds far surpassing primitive, chemical-driven communication.",
     "looks_like": "scrap"
   },
@@ -35,7 +35,7 @@
     "type": "GENERIC",
     "id": "afs_neural_io_5",
     "copy-from": "afs_scrap_5",
-    "name": "neurosynaptic interface matrix",
+    "name": { "str": "neurosynaptic interface matrix", "str_pl": "neurosynaptic interface matrices" },
     "description": "A membrane of artificial neurons envelops the cerebral cortex, melding machine and human intellect into a gestalt much greater than its individual parts.",
     "looks_like": "scrap"
   }

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DEPENDENCY_TREE_H
-#define DEPENDENCY_TREE_H
+#ifndef CATA_SRC_DEPENDENCY_TREE_H
+#define CATA_SRC_DEPENDENCY_TREE_H
 
 #include <map>
 #include <stack>
@@ -93,4 +93,4 @@ class dependency_tree
 
 };
 
-#endif
+#endif // CATA_SRC_DEPENDENCY_TREE_H

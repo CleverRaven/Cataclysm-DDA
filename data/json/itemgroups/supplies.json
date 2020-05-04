@@ -508,6 +508,7 @@
       [ "hat_ball", 10 ],
       [ "helmet_ball", 20 ],
       [ "bat", 80 ],
+      [ "bat_nerf", 80 ],
       [ "football", 100 ],
       [ "football_armor", 20 ],
       [ "helmet_football", 20 ],
