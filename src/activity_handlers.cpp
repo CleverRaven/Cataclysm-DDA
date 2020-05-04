@@ -3056,17 +3056,17 @@ void activity_handlers::eat_menu_do_turn( player_activity *, player * )
     avatar_action::eat( g->u );
 }
 
-void activity_handlers::consume_food_menu_do_turn( player_activity *, player *p )
+void activity_handlers::consume_food_menu_do_turn( player_activity *, player * )
 {
     avatar_action::eat( g->u, game_menus::inv::consume_food( g->u ) );
 }
 
-void activity_handlers::consume_drink_menu_do_turn( player_activity *, player *p )
+void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * )
 {
     avatar_action::eat( g->u, game_menus::inv::consume_drink( g->u ) );
 }
 
-void activity_handlers::consume_meds_menu_do_turn( player_activity *, player *p )
+void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
     avatar_action::eat( g->u, game_menus::inv::consume_meds( g->u ) );
 }
