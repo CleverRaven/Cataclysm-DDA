@@ -10,8 +10,8 @@
 #include <utility>
 #include <vector>
 
-#include "calendar.h"
 #include "color.h"
+#include "damage.h"
 #include "enums.h"
 #include "explosion.h"
 #include "game_constants.h"
@@ -260,6 +260,9 @@ class consume_drug_iuse : public iuse_actor
 
         /** Modify player vitamin_levels by random amount between min (first) and max (second) */
         std::map<vitamin_id, std::pair<int, int>> vitamins;
+
+        /**List of damage over time applyed by this drug, negative damage heals*/
+        std::vector<damage_over_time_data> damage_over_time;
 
         /** How many move points this action takes. */
         int moves = 100;

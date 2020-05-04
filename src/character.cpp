@@ -8691,6 +8691,11 @@ int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med, 
     return intensity;
 }
 
+void Character::heal_bp( bodypart_id bp, int dam )
+{
+    heal( bp->token, dam );
+}
+
 void Character::heal( body_part healed, int dam )
 {
     hp_part healpart;

@@ -153,6 +153,8 @@ void Creature::process_turn()
 
     process_effects();
 
+    process_damage_over_time();
+
     // Call this in case any effects have changed our stats
     reset_stats();
 
@@ -896,6 +898,10 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
+}
+
+void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
+{
 }
 
 /*
@@ -1682,6 +1688,31 @@ body_part Creature::select_body_part( Creature *source, int hit_roll ) const
     add_msg( m_debug, "difference = %d", szdif );
 
     return human_anatomy->select_body_part( szdif, hit_roll )->token;
+}
+
+void Creature::add_damage_over_time( const damage_over_time_data &DoT )
+{
+    damage_over_time_map.emplace_back( DoT );
+}
+
+void Creature::process_damage_over_time()
+{
+    for( auto DoT = damage_over_time_map.begin(); DoT != damage_over_time_map.end(); ) {
+        if( DoT->duration > 0_turns ) {
+            for( const bodypart_str_id &bp : DoT->bps ) {
+                const int dmg_amount = DoT->amount;
+                if( dmg_amount < 0 ) {
+                    heal_bp( bp.id(), -dmg_amount );
+                } else {
+                    deal_damage( nullptr, bp.id(), damage_instance( DoT->type, dmg_amount ) );
+                }
+            }
+            DoT->duration -= 1_turns;
+            ++DoT;
+        } else {
+            damage_over_time_map.erase( DoT );
+        }
+    }
 }
 
 void Creature::check_dead_state()

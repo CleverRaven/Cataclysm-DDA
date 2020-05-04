@@ -12,6 +12,7 @@
 
 #include "anatomy.h"
 #include "bodypart.h"
+#include "damage.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -264,6 +265,8 @@ class Creature
         // increase pain, apply effects, etc
         virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
                                    bool bypass_med = false ) = 0;
+
+        virtual void heal_bp( bodypart_id bp, int dam );
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -754,6 +757,9 @@ class Creature
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
         pimpl<effects_map> effects;
+
+        std::vector<damage_over_time_data> damage_over_time_map;
+
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
@@ -799,6 +805,9 @@ class Creature
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
+
+        void add_damage_over_time( const damage_over_time_data &DoT );
+        void process_damage_over_time();
 
         static void load_hit_range( const JsonObject & );
         // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.

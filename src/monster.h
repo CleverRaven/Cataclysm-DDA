@@ -320,6 +320,8 @@ class monster : public Creature
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
+
+        void heal_bp( bodypart_id bp, int dam ) override;
         /**
          * Flat addition to the monsters @ref hp. If `overheal` is true, this is not capped by max hp.
          * Returns actually healed hp.

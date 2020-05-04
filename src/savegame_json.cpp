@@ -48,6 +48,7 @@
 #include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
 #include "enum_conversions.h"
@@ -3042,6 +3043,7 @@ void Creature::store( JsonOut &jsout ) const
     }
     jsout.member( "effects", tmp_map );
 
+    jsout.member( "damage_over_time_map", damage_over_time_map );
     jsout.member( "values", values );
 
     jsout.member( "blocks_left", num_blocks );
@@ -3107,6 +3109,8 @@ void Creature::load( const JsonObject &jsin )
         }
     }
     jsin.read( "values", values );
+
+    jsin.read( "damage_over_time_map", damage_over_time_map );
 
     jsin.read( "blocks_left", num_blocks );
     jsin.read( "dodges_left", num_dodges );
