@@ -473,9 +473,10 @@ const inventory_column::entry_cell_cache_t &inventory_column::get_entry_cell_cac
     return entries_cell_cache[index];
 }
 
-void inventory_column::set_width( const size_t new_width )
+void inventory_column::set_width( const size_t new_width,
+                                  const std::vector<inventory_column *> &all_columns )
 {
-    reset_width();
+    reset_width( all_columns );
     int width_gap = get_width() - new_width;
     // Now adjust the width if we must
     while( width_gap != 0 ) {
@@ -551,7 +552,7 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
     }
 }
 
-void inventory_column::reset_width()
+void inventory_column::reset_width( const std::vector<inventory_column *> & )
 {
     for( auto &elem : cells ) {
         elem = cell_t();
@@ -743,6 +744,7 @@ void inventory_column::prepare_paging( const std::string &filter )
         return preset.get_filter( filter );
     } );
 
+    // FIXME: toggled status of multiselect menu resets when filtering the menu
     // First, remove all non-items
     const auto new_end = std::remove_if( entries.begin(),
     entries.end(), [&filter_fn]( const inventory_entry & entry ) {
@@ -995,6 +997,25 @@ selection_column::selection_column( const std::string &id, const std::string &na
 
 selection_column::~selection_column() = default;
 
+void selection_column::reset_width( const std::vector<inventory_column *> &all_columns )
+{
+    inventory_column::reset_width( all_columns );
+
+    const auto always_yes = []( const inventory_entry & ) {
+        return true;
+    };
+
+    for( const inventory_column *const col : all_columns ) {
+        if( col && !dynamic_cast<const selection_column *>( col ) ) {
+            for( const inventory_entry *const ent : col->get_entries( always_yes ) ) {
+                if( ent ) {
+                    expand_to_fit( *ent );
+                }
+            }
+        }
+    }
+}
+
 void selection_column::prepare_paging( const std::string &filter )
 {
     inventory_column::prepare_paging( filter );
@@ -1137,9 +1158,11 @@ void inventory_selector::add_entry( inventory_column &target_column,
                            preset.get_denial( locations.front() ).empty() );
 
     target_column.add_entry( entry );
-    on_entry_add( entry );
 
-    layout_is_valid = false;
+    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    if( current_ui ) {
+        current_ui->mark_resize();
+    }
 }
 
 void inventory_selector::add_item( inventory_column &target_column,
@@ -1295,6 +1318,8 @@ inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
     return nullptr;
 }
 
+// FIXME: if columns are merged due to low screen width, they will not be splitted
+// once screen width becomes enough for the columns.
 void inventory_selector::rearrange_columns( size_t client_width )
 {
     while( is_overflown( client_width ) ) {
@@ -1313,6 +1338,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
     // This block adds categories and should go before any width evaluations
     for( auto &elem : columns ) {
         elem->set_height( client_height );
+        elem->reset_width( columns );
         elem->prepare_paging( filter );
     }
     // Handle screen overflow
@@ -1321,7 +1347,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
     // the available with -> expand it
     auto visible_columns = get_visible_columns();
     if( visible_columns.size() == 1 && are_columns_centered( client_width ) ) {
-        visible_columns.front()->set_width( client_width );
+        visible_columns.front()->set_width( client_width, columns );
     }
 
     int custom_invlet = '0';
@@ -1335,14 +1361,6 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 
 void inventory_selector::prepare_layout()
 {
-    for( auto &elem : columns ) {
-        elem->prepare_paging();
-    }
-
-    if( layout_is_valid ) {
-        return;
-    }
-
     const auto snap = []( size_t cur_dim, size_t max_dim ) {
         return cur_dim + 2 * max_win_snap_distance >= max_dim ? max_dim : cur_dim;
     };
@@ -1359,7 +1377,23 @@ void inventory_selector::prepare_layout()
     prepare_layout( win_width - nc_width, win_height - nc_height );
 
     resize_window( win_width, win_height );
-    layout_is_valid = true;
+}
+
+shared_ptr_fast<ui_adaptor> inventory_selector::create_or_get_ui_adaptor()
+{
+    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    if( !current_ui ) {
+        ui = current_ui = make_shared_fast<ui_adaptor>();
+        current_ui->on_screen_resize( [this]( ui_adaptor & ) {
+            prepare_layout();
+        } );
+        current_ui->mark_resize();
+
+        current_ui->on_redraw( [this]( const ui_adaptor & ) {
+            refresh_window();
+        } );
+    }
+    return current_ui;
 }
 
 size_t inventory_selector::get_layout_width() const
@@ -1509,9 +1543,14 @@ std::vector<std::string> inventory_selector::get_stats() const
 
 void inventory_selector::resize_window( int width, int height )
 {
-    if( !w_inv || width != getmaxx( w_inv ) || height != getmaxy( w_inv ) ) {
-        w_inv = catacurses::newwin( height, width,
-                                    point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
+    w_inv = catacurses::newwin( height, width,
+                                point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
+    if( spopup ) {
+        spopup->window( w_inv, point( 4, getmaxy( w_inv ) - 1 ), ( getmaxx( w_inv ) / 2 ) - 4 );
+    }
+    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    if( current_ui ) {
+        current_ui->position_from_window( w_inv );
     }
 }
 
@@ -1531,58 +1570,51 @@ void inventory_selector::refresh_window() const
 
 void inventory_selector::set_filter()
 {
-    string_input_popup spopup;
-    spopup.window( w_inv, point( 4, getmaxy( w_inv ) - 1 ), ( getmaxx( w_inv ) / 2 ) - 4 )
-    .max_length( 256 )
+    spopup = std::make_unique<string_input_popup>();
+    spopup->max_length( 256 )
     .text( filter );
+
+    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    if( current_ui ) {
+        current_ui->mark_resize();
+    }
 
     ime_sentry sentry;
 
     do {
-        mvwprintz( w_inv, point( 2, getmaxy( w_inv ) - 1 ), c_cyan, "< " );
-        mvwprintz( w_inv, point( ( getmaxx( w_inv ) / 2 ) - 4, getmaxy( w_inv ) - 1 ), c_cyan, " >" );
+        ui_manager::redraw();
+        spopup->query_string( /*loop=*/false );
+    } while( !spopup->confirmed() && !spopup->canceled() );
 
-        std::string new_filter = spopup.query_string( false );
-        if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
-            filter.clear();
-        } else {
-            filter = new_filter;
+    if( spopup->confirmed() ) {
+        filter = spopup->text();
+        for( const auto elem : columns ) {
+            elem->set_filter( filter );
         }
-
-        wrefresh( w_inv );
-    } while( spopup.context().get_raw_input().get_first_input() != '\n' &&
-             spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
-
-    for( const auto elem : columns ) {
-        elem->set_filter( filter );
+        if( current_ui ) {
+            current_ui->mark_resize();
+        }
     }
-    layout_is_valid = false;
+
+    spopup.reset();
 }
 
 void inventory_selector::set_filter( const std::string &str )
 {
+    prepare_layout();
     filter = str;
     for( const auto elem : columns ) {
         elem->set_filter( filter );
     }
-    layout_is_valid = false;
+    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    if( current_ui ) {
+        current_ui->mark_resize();
+    }
 }
 
 std::string inventory_selector::get_filter() const
 {
     return filter;
-}
-
-void inventory_selector::update( bool &need_refresh )
-{
-    if( need_refresh ) {
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->draw_panels( true );
-        need_refresh = false;
-    }
-    prepare_layout();
-    refresh_window();
 }
 
 void inventory_selector::draw_columns( const catacurses::window &w ) const
@@ -1644,30 +1676,37 @@ std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode
 
 void inventory_selector::draw_footer( const catacurses::window &w ) const
 {
-    int filter_offset = 0;
-    if( has_available_choices() || !filter.empty() ) {
-        std::string text = string_format( filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
-                                          ctxt.get_desc( "INVENTORY_FILTER" ) );
-        filter_offset = utf8_width( text + filter ) + 6;
+    if( spopup ) {
+        mvwprintz( w_inv, point( 2, getmaxy( w_inv ) - 1 ), c_cyan, "< " );
+        mvwprintz( w_inv, point( ( getmaxx( w_inv ) / 2 ) - 4, getmaxy( w_inv ) - 1 ), c_cyan, " >" );
 
-        mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );
-        wprintz( w, c_light_gray, text );
-        wprintz( w, c_white, filter );
-        wprintz( w, c_light_gray, " >" );
-    }
+        std::string new_filter = spopup->query_string( /*loop=*/false, /*draw_only=*/true );
+    } else {
+        int filter_offset = 0;
+        if( has_available_choices() || !filter.empty() ) {
+            std::string text = string_format( filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
+                                              ctxt.get_desc( "INVENTORY_FILTER" ) );
+            filter_offset = utf8_width( text + filter ) + 6;
 
-    const auto footer = get_footer( mode );
-    if( !footer.first.empty() ) {
-        const int string_width = utf8_width( footer.first );
-        const int x1 = filter_offset + std::max( getmaxx( w ) - string_width - filter_offset, 0 ) / 2;
-        const int x2 = x1 + string_width - 1;
-        const int y = getmaxy( w ) - border;
+            mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );
+            wprintz( w, c_light_gray, text );
+            wprintz( w, c_white, filter );
+            wprintz( w, c_light_gray, " >" );
+        }
 
-        mvwprintz( w, point( x1, y ), footer.second, footer.first );
-        mvwputch( w, point( x1 - 1, y ), c_light_gray, ' ' );
-        mvwputch( w, point( x2 + 1, y ), c_light_gray, ' ' );
-        mvwputch( w, point( x1 - 2, y ), c_light_gray, LINE_XOXX );
-        mvwputch( w, point( x2 + 2, y ), c_light_gray, LINE_XXXO );
+        const auto footer = get_footer( mode );
+        if( !footer.first.empty() ) {
+            const int string_width = utf8_width( footer.first );
+            const int x1 = filter_offset + std::max( getmaxx( w ) - string_width - filter_offset, 0 ) / 2;
+            const int x2 = x1 + string_width - 1;
+            const int y = getmaxy( w ) - border;
+
+            mvwprintz( w, point( x1, y ), footer.second, footer.first );
+            mvwputch( w, point( x1 - 1, y ), c_light_gray, ' ' );
+            mvwputch( w, point( x2 + 1, y ), c_light_gray, ' ' );
+            mvwputch( w, point( x1 - 2, y ), c_light_gray, LINE_XOXX );
+            mvwputch( w, point( x2 + 2, y ), c_light_gray, LINE_XXXO );
+        }
     }
 }
 
@@ -1866,17 +1905,15 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
 
 item_location inventory_pick_selector::execute()
 {
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-    bool need_refresh = true;
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
     while( true ) {
-        update( need_refresh );
+        ui_manager::redraw();
+
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
             if( select( input.entry->any_item() ) ) {
-                refresh_window();
+                ui_manager::redraw();
             }
             return input.entry->any_item();
         } else if( input.action == "QUIT" ) {
@@ -1894,10 +1931,6 @@ item_location inventory_pick_selector::execute()
 
         if( input.action == "TOGGLE_FAVORITE" ) {
             return item_location();
-        }
-
-        if( input.action == "HELP_KEYBINDINGS" || input.action == "INVENTORY_FILTER" ) {
-            need_refresh = true;
         }
     }
 }
@@ -1924,24 +1957,14 @@ void inventory_multiselector::rearrange_columns( size_t client_width )
     selection_col->set_visibility( !is_overflown( client_width ) );
 }
 
-void inventory_multiselector::on_entry_add( const inventory_entry &entry )
-{
-    if( entry.is_item() ) {
-        dynamic_cast<selection_column *>( selection_col.get() )->expand_to_fit( entry );
-    }
-}
-
 inventory_compare_selector::inventory_compare_selector( player &p ) :
     inventory_multiselector( p, default_preset, _( "ITEMS TO COMPARE" ) ) {}
 
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-    bool need_refresh = true;
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
     while( true ) {
-        update( need_refresh );
+        ui_manager::redraw();
 
         const inventory_input input = get_input();
 
@@ -2016,13 +2039,11 @@ inventory_iuse_selector::inventory_iuse_selector(
 {}
 drop_locations inventory_iuse_selector::execute()
 {
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
     int count = 0;
-    bool need_refresh = true;
     while( true ) {
-        update( need_refresh );
+        ui_manager::redraw();
 
         const inventory_input input = get_input();
 
@@ -2182,13 +2203,11 @@ void inventory_drop_selector::deselect_contained_items()
 
 drop_locations inventory_drop_selector::execute()
 {
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
     int count = 0;
-    bool need_refresh = true;
     while( true ) {
-        update( need_refresh );
+        ui_manager::redraw();
 
         const inventory_input input = get_input();
 
@@ -2260,7 +2279,6 @@ drop_locations inventory_drop_selector::execute()
             return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
-            need_refresh = true;
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
