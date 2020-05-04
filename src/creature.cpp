@@ -891,7 +891,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
             break;
     }
 
-    on_damage_of_type( adjusted_damage, du.type, bp->token );
+    on_damage_of_type( adjusted_damage, du.type, bp );
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );

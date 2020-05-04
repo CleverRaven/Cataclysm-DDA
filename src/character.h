@@ -1782,7 +1782,7 @@ class Character : public Creature, public visitable<Character>
         void update_stamina( int turns );
 
     protected:
-        void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
+        void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
     public:
         /** Called when an item is worn */
         void on_item_wear( const item &it );
@@ -1894,7 +1894,7 @@ class Character : public Creature, public visitable<Character>
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
         /** Returns warmth provided by armor, etc. */
-        int warmth( body_part bp ) const;
+        int warmth( const bodypart_id &bp ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
         int bonus_item_warmth( body_part bp ) const;
         /** Can the player lie down and cover self with blankets etc. **/
