@@ -714,7 +714,32 @@ void inventory_column::add_entry( const inventory_entry &entry )
         return cur_cat == new_cat || ( cur_cat != nullptr && new_cat != nullptr
                                        && ( *cur_cat == *new_cat || *cur_cat < *new_cat ) );
     } );
-    entries.insert( iter.base(), entry );
+    bool has_loc = false;
+    if( entry.is_item() && entry.locations.front().where() == item_location::type::container ) {
+        item_location entry_item = entry.locations.front();
+
+        auto entry_with_loc = std::find_if( entries.begin(),
+        entries.end(), [&entry_item]( const inventory_entry & entry ) {
+            if( !entry.is_item() ) {
+                return false;
+            }
+            item_location found_entry_item = entry.locations.front();
+            return found_entry_item.where() == item_location::type::container &&
+                   entry_item->display_stacked_with( *found_entry_item ) &&
+                   entry_item.parent_item() == found_entry_item.parent_item();
+        } );
+        if( entry_with_loc != entries.end() ) {
+            has_loc = true;
+            std::vector<item_location> locations = iter->locations;
+            locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
+            entries.erase( entry_with_loc );
+            inventory_entry nentry( locations, entry.get_category_ptr() );
+            add_entry( nentry );
+        }
+    }
+    if( !has_loc ) {
+        entries.insert( iter.base(), entry );
+    }
     entries_cell_cache.clear();
     expand_to_fit( entry );
     paging_is_valid = false;
@@ -2218,7 +2243,7 @@ drop_locations inventory_drop_selector::execute()
         } else if( input.entry != nullptr ) {
             select( input.entry->any_item() );
             if( count == 0 && input.entry->chosen_count == 0 ) {
-                count = max_chosen_count;
+                count = INT_MAX;
             }
             set_chosen_count( *input.entry, count );
             count = 0;
@@ -2236,7 +2261,7 @@ drop_locations inventory_drop_selector::execute()
 
             // No amount entered, select all
             if( count == 0 ) {
-                count = max_chosen_count;
+                count = INT_MAX;
 
                 // Any non favorite item to select?
                 const bool select_nonfav = std::any_of( selected.begin(), selected.end(),
@@ -2302,16 +2327,27 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
 
     if( count == 0 ) {
         entry.chosen_count = 0;
-        for( auto iter = dropping.begin(); iter != dropping.end(); ) {
-            if( iter->first == it ) {
-                dropping.erase( iter );
-            } else {
-                ++iter;
+        for( item_location loc : entry.locations ) {
+            for( auto iter = dropping.begin(); iter != dropping.end(); ) {
+                if( iter->first == loc ) {
+                    dropping.erase( iter );
+                } else {
+                    ++iter;
+                }
             }
         }
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
-        dropping.emplace_back( it, entry.chosen_count );
+        if( it->count_by_charges() ) {
+            dropping.emplace_back( it, entry.chosen_count );
+        } else {
+            for( item_location loc : entry.locations ) {
+                if( count == 0 ) {
+                    break;
+                }
+                dropping.emplace_back( loc, 1 );
+            }
+        }
     }
 
     on_change( entry );
