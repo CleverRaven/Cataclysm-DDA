@@ -5576,7 +5576,14 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "stomach", 1 ], [ "stomach_large", 1 ], [ "hstomach", 1 ], [ "hstomach_large", 1 ] ],
+      [
+        [ "stomach", 1 ],
+        [ "stomach_large", 1 ],
+        [ "hstomach", 1 ],
+        [ "hstomach_large", 1 ],
+        [ "demihuman_stomach", 1 ],
+        [ "demihuman_stomach_large", 1 ]
+      ],
       [ [ "offal", 1 ], [ "liver", 2 ], [ "lung", 2 ], [ "kidney", 2 ] ],
       [ [ "oatmeal", 2 ], [ "buckwheat", 1 ] ]
     ]
@@ -5599,7 +5606,14 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "stomach", 2 ], [ "stomach_large", 1 ], [ "hstomach", 2 ], [ "hstomach_large", 1 ] ],
+      [
+        [ "stomach", 2 ],
+        [ "stomach_large", 1 ],
+        [ "hstomach", 2 ],
+        [ "hstomach_large", 1 ],
+        [ "demihuman_stomach", 2 ],
+        [ "demihuman_stomach_large", 1 ]
+      ],
       [ [ "offal", 2 ], [ "liver", 4 ], [ "lung", 4 ], [ "kidney", 4 ] ],
       [ [ "oatmeal", 4 ], [ "buckwheat", 1 ] ]
     ]
@@ -6468,6 +6482,74 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "fiddlehead_boiled", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "demihuman_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "demihuman_flesh", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "demihuman_tallow",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "10 m",
+    "charges": 6,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "demihuman_fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "demihuman_lard",
+    "byproducts": [ [ "cracklins" ] ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "10 m",
+    "charges": 3,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "demihuman_fat", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "demihuman_stomach_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "demihuman_stomach_large", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "small_demihuman_stomach_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "demihuman_stomach", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",

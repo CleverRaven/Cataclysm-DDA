@@ -399,7 +399,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 4,
-    "harvest": "mammal_leather",
+    "harvest": "demihuman",
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
   },

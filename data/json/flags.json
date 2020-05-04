@@ -784,5 +784,11 @@
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
     "craft_inherit": true
+  },
+  {
+    "id": "STRICT_HUMANITARIANISM",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "craft_inherit": true
   }
 ]

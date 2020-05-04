@@ -197,6 +197,11 @@
     "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
+      {
+        "type": "FLAG",
+        "condition": "STRICT_HUMANITARIANISM",
+        "name": { "str": "satyr sandwich", "str_pl": "satyr sandwiches" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "weight": "233 g",

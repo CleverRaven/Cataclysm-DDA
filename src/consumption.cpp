@@ -72,6 +72,7 @@ static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
@@ -125,6 +126,7 @@ static const std::string flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 static const std::string flag_BIRD( "BIRD" );
 static const std::string flag_BYPRODUCT( "BYPRODUCT" );
 static const std::string flag_CANNIBALISM( "CANNIBALISM" );
+static const std::string flag_STRICT_HUMANITARIANISM( "STRICT_HUMANITARIANISM" );
 static const std::string flag_CARNIVORE_OK( "CARNIVORE_OK" );
 static const std::string flag_CATTLE( "CATTLE" );
 static const std::string flag_COLD( "COLD" );
@@ -744,6 +746,10 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         if( !saprophage && !saprovore ) {
             add_consequence( _( "This is rotten and smells awful!" ), ROTTEN );
         }
+    }
+
+    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) && !has_trait_flag( "STRICT_HUMANITARIAN" ) ) {
+        add_consequence( _( "The thought of eating demihuman flesh makes you feel sick." ), CANNIBALISM );
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
