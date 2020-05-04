@@ -882,7 +882,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
         }
 
         int contained_offset = 0;
-        if( entry.is_item() ) {
+        if( entry.is_item() && indent_entries() ) {
             // indent items that are contained
             contained_offset = num_parents( entry.locations.front() );
         }
