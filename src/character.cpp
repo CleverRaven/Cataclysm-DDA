@@ -6894,40 +6894,29 @@ float Character::healing_rate( float at_rest_quality ) const
 float Character::healing_rate_medicine( float at_rest_quality, const body_part bp ) const
 {
     float rate_medicine = 0.0f;
-    float bandaged_rate = 0.0f;
-    float disinfected_rate = 0.0f;
 
-    const effect &e_bandaged = get_effect( effect_bandaged, bp );
-    const effect &e_disinfected = get_effect( effect_disinfected, bp );
+    for( const std::pair<const efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
+         &elem : *effects ) {
+        for( const std::pair<const body_part, effect> &i : elem.second ) {
+            const effect &eff = i.second;
+            float tmp_rate = static_cast<float>( eff.get_amount( "HEAL_RATE" ) ) / to_turns<int>
+                             ( 24_hours );
 
-    if( !e_bandaged.is_null() ) {
-        bandaged_rate += static_cast<float>( e_bandaged.get_amount( "HEAL_RATE" ) ) / to_turns<int>
-                         ( 24_hours );
-        if( bp == bp_head ) {
-            bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD" ) / 100.0f;
-        }
-        if( bp == bp_torso ) {
-            bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO" ) / 100.0f;
-        }
-    }
-
-    if( !e_disinfected.is_null() ) {
-        disinfected_rate += static_cast<float>( e_disinfected.get_amount( "HEAL_RATE" ) ) / to_turns<int>
-                            ( 24_hours );
-        if( bp == bp_head ) {
-            disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD" ) / 100.0f;
-        }
-        if( bp == bp_torso ) {
-            disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO" ) / 100.0f;
+            if( bp == bp_head ) {
+                tmp_rate *= eff.get_amount( "HEAL_HEAD" ) / 100.0f;
+            }
+            if( bp == bp_torso ) {
+                tmp_rate *= eff.get_amount( "HEAL_TORSO" ) / 100.0f;
+            }
+            rate_medicine += tmp_rate;
         }
     }
 
-    rate_medicine += bandaged_rate + disinfected_rate;
     rate_medicine *= 1.0f + mutation_value( "healing_resting" );
     rate_medicine *= 1.0f + at_rest_quality;
 
     // increase healing if character has both effects
-    if( !e_bandaged.is_null() && !e_disinfected.is_null() ) {
+    if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
         rate_medicine *= 2;
     }
 
