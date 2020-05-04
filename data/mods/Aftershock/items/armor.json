@@ -79,7 +79,7 @@
     "weight": "900 g",
     "volume": "3 L",
     "copy-from": "jeans",
-    "storage": "750 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "750 ml", "max_contains_weight": "1 kg" } ],
     "material_thickness": 4,
     "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
   },
@@ -92,7 +92,7 @@
     "copy-from": "technician_pants_gray",
     "weight": "770 g",
     "volume": "3 L",
-    "storage": "1700 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "1700 ml", "max_contains_weight": "2 kg" } ],
     "material_thickness": 2,
     "snippet_category": [
       { "id": "xl_technician_pants_blue", "text": "A pair of XL blue work pants." },
