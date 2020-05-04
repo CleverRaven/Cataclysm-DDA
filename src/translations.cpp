@@ -703,7 +703,10 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
                      kCFStringEncodingUTF8, kCFAllocatorNull );
     CFStringRef rr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, r.c_str(),
                      kCFStringEncodingUTF8, kCFAllocatorNull );
-    return CFStringCompare( lr, rr, kCFCompareLocalized ) < 0;
+    bool result = CFStringCompare( lr, rr, kCFCompareLocalized ) < 0;
+    CFRelease( lr );
+    CFRelease( rr );
+    return result;
 #endif
     return std::locale()( l, r );
 }
