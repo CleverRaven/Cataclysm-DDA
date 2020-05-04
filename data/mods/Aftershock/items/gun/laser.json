@@ -12,7 +12,6 @@
     "color": "cyan",
     "range": 10,
     "ranged_damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 15 },
-    "ranged_damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 15 },
     "dispersion": 500,
     "ups_charges": 25,
     "ammo_effects": [ "LASER", "BEANBAG" ],
