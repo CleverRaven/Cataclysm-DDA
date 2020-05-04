@@ -5323,7 +5323,7 @@ void Character::update_bodytemp()
         double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
         int clothing_warmth_adjustement = static_cast<int>( homeostasis_adjustement * warmth( bp ) );
         int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustement * bonus_item_warmth(
-                bp_token ) );
+                bp ) );
         // WINDCHILL
 
         bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) * ( 1 - get_wind_resistance(
@@ -9560,22 +9560,23 @@ static int bestwarmth( const std::list< item > &its, const std::string &flag )
     return best;
 }
 
-int Character::bonus_item_warmth( body_part bp ) const
+int Character::bonus_item_warmth( const bodypart_id &bp ) const
 {
     int ret = 0;
 
     // If the player is not wielding anything big, check if hands can be put in pockets
-    if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 500_ml ) {
+    if( ( bp == bodypart_id( "hand_l" ) || bp == bodypart_id( "hand_r" ) ) &&
+        weapon.volume() < 500_ml ) {
         ret += bestwarmth( worn, "POCKETS" );
     }
 
     // If the player's head is not encumbered, check if hood can be put up
-    if( bp == bp_head && encumb( bp_head ) < 10 ) {
+    if( bp == bodypart_id( "head" ) && encumb( bodypart_id( "head" )->token ) < 10 ) {
         ret += bestwarmth( worn, "HOOD" );
     }
 
     // If the player's mouth is not encumbered, check if collar can be put up
-    if( bp == bp_mouth && encumb( bp_mouth ) < 10 ) {
+    if( bp == bodypart_id( "mouth" ) && encumb( bodypart_id( "mouth" )->token ) < 10 ) {
         ret += bestwarmth( worn, "COLLAR" );
     }
 

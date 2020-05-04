@@ -1896,7 +1896,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns warmth provided by armor, etc. */
         int warmth( const bodypart_id &bp ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        int bonus_item_warmth( body_part bp ) const;
+        int bonus_item_warmth( const bodypart_id &bp ) const;
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
         /**
