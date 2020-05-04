@@ -255,10 +255,10 @@ TEST_CASE( "panacea heals the body and reduces pain", "[player][effect][panacea]
 // - mattack_actors.cpp on_damage (L360-368)
 // - character.cpp deal_damage (L8542-8550) "each point has a 1% chance of causing infection"
 
-// Return the percent chance of recovering from effect_bite within 6 hours, with one extra effect
-static float bite_recovery_chance( const std::string with_effect_name )
+static float bite_recovery_chance( const time_duration time_to_recover,
+                                   const std::string with_effect_name )
 {
-    // Total number of 6-hour bite-to-infection trials to run
+    // Total number of bite-to-infection trials to run
     const int num_trials = 1000;
     // How many times we recover
     int recovery_count = 0;
@@ -267,16 +267,20 @@ static float bite_recovery_chance( const std::string with_effect_name )
     const efftype_id effect_also( with_effect_name );
     const body_part torso = bodypart_id( "torso" )->token;
 
+    // Start bites with enough duration to give the desired recovery time (up to 6 full hours)
+    const time_duration start_bite_duration = 6_hours - time_to_recover + 1_turns;
+    REQUIRE( to_turns<int>( start_bite_duration ) > 0 );
+
     avatar dummy;
 
     for( int i = 0; i < num_trials; i++ ) {
         dummy.clear_effects();
-        // Get a fresh bite, and start at 1 turn to get the full six hours
-        dummy.add_effect( effect_bite, 1_turns, torso, true );
+        calendar::turn = calendar::turn_zero;
+        // Get a fresh bite with the given starting duration
+        dummy.add_effect( effect_bite, start_bite_duration, torso, true );
 
         // Apply the additional effect
-        // TODO: Determine how duration may affect this
-        dummy.add_effect( effect_also, 1_turns, torso );
+        dummy.add_effect( effect_also, 12_hours, torso );
 
         // Keep track of the bite effect to know whether it recovers
         effect &bite_obj = dummy.get_effect( efftype_id( "bite" ), torso );
@@ -285,6 +289,7 @@ static float bite_recovery_chance( const std::string with_effect_name )
         // Without recovery, infection is automatic at 6 hours; quit before then
         while( !recovered && bite_obj.get_duration() < 6_hours ) {
             dummy.hardcoded_effects( bite_obj );
+            calendar::turn = calendar::turn + 1_turns;
 
             // If duration reaches 0 turns, the bite has recovered
             if( bite_obj.get_duration() == 0_turns ) {
@@ -298,15 +303,28 @@ static float bite_recovery_chance( const std::string with_effect_name )
     return static_cast<float>( 100.0f * recovery_count / num_trials );
 }
 
-TEST_CASE( "chance of recovering from bite", "[player][effect][bite][recovery]" )
+TEST_CASE( "chance of recovering from bite", "[player][effect][bite][recovery][slow][!mayfail]" )
 {
-    CHECK( 100.0f == bite_recovery_chance( "panacea" ) );
-    CHECK( 100.0f == bite_recovery_chance( "strong_antibiotic" ) );
+    // FIXME: This test with panacea is boring and a waste of cycles
+    //CHECK( 100.0f == bite_recovery_chance( "panacea" ) );
+
+    // Antibiotics work better with more time to recover (6 hours max)
+
+    CHECK( 100.0f == bite_recovery_chance( 1_hours, "strong_antibiotic" ) );
 
     // FIXME: These are flakier than golden-crusted butter croissants
-    CHECK( Approx( 62.0f ).margin( 2.0f ) <= bite_recovery_chance( "antibiotic" ) );
-    CHECK( Approx( 48.0f ).margin( 2.0f ) <= bite_recovery_chance( "weak_antibiotic" ) );
-    CHECK( Approx( 26.0f ).margin( 2.0f ) <= bite_recovery_chance( "recover" ) );
+    const float marg = 2.0f;
+    CHECK( Approx( 100.0f ).margin( marg ) == bite_recovery_chance( 6_hours, "antibiotic" ) );
+    CHECK( Approx( 98.3f ).margin( marg ) == bite_recovery_chance( 3_hours, "antibiotic" ) );
+    CHECK( Approx( 73.3f ).margin( marg ) == bite_recovery_chance( 1_hours, "antibiotic" ) );
+
+    CHECK( Approx( 73.4f ).margin( marg ) == bite_recovery_chance( 6_hours, "weak_antibiotic" ) );
+    CHECK( Approx( 49.1f ).margin( marg ) == bite_recovery_chance( 3_hours, "weak_antibiotic" ) );
+    CHECK( Approx( 19.8f ).margin( marg ) == bite_recovery_chance( 1_hours, "weak_antibiotic" ) );
+
+    CHECK( Approx( 27.9f ).margin( marg ) == bite_recovery_chance( 6_hours, "recover" ) );
+    CHECK( Approx( 15.6f ).margin( marg ) == bite_recovery_chance( 3_hours, "recover" ) );
+    CHECK( Approx( 5.3f ).margin( marg ) == bite_recovery_chance( 1_hours, "recover" ) );
 }
 
 
