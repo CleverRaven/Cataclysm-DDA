@@ -376,7 +376,8 @@
     "copy-from": "mre_entree",
     "name": "spinach fettuccine entree",
     "description": "The creamy spinach fettuccine entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "material": [ "veggy", "milk" ]
+    "material": [ "veggy", "milk" ],
+    "fun": -2
   },
   {
     "type": "COMESTIBLE",
@@ -384,7 +385,8 @@
     "copy-from": "mre_entree",
     "name": "ratatouille entree",
     "description": "The ratatouille entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "material": [ "veggy", "tomato", "wheat" ]
+    "material": [ "veggy", "tomato", "wheat" ],
+    "fun": 0
   },
   {
     "type": "COMESTIBLE",
