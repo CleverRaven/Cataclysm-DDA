@@ -22,6 +22,7 @@
 #include "npc.h"
 #include "output.h"
 #include "pickup.h"
+#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "timed_event.h"
@@ -32,6 +33,8 @@ static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const skill_id skill_computer( "computer" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+
+static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 void hacking_activity_actor::start( player_activity &act, Character & )
 {
@@ -409,16 +412,32 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
-void consume_activity_actor::start( player_activity &act, Character & )
+void consume_activity_actor::start( player_activity &act, Character &who )
 {
-    act.moves_total = to_moves<int>( 5_minutes );
-    act.moves_left = to_moves<int>( 5_minutes );
+    item &comest = who.get_consumable_from( *loc.get_item() );
+
+    const int charges = std::max( comest.charges, 1 );
+    int volume = units::to_milliliter( comest.volume() ) / charges;
+    int time = 0;
+    const bool eat_verb  = comest.has_flag( flag_USE_EAT_VERB );
+    if( eat_verb || comest.get_comestible()->comesttype == "FOOD" ) {
+        time = volume / 5;//Eat 5 mL (1 teaspoon) per second
+    } else if( !eat_verb && comest.get_comestible()->comesttype == "DRINK" ) {
+        time = volume / 15;//Drink 15 mL (1 tablespoon) per second
+    } else if( comest.is_medication() ) {
+        time = 30;//Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
+    } else {
+        debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
+    }
+
+    act.moves_total = time;
+    act.moves_left = time;
 }
 
 void consume_activity_actor::do_turn( player_activity &act, Character & )
 {
-    act.moves_left = act.moves_left-1;
-    g->u.moves -= 1;
+    act.moves_left = act.moves_left - 1;
+    g->u.moves -= 100;
 }
 
 void consume_activity_actor::finish( player_activity &act, Character &who )

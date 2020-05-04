@@ -1080,9 +1080,9 @@ void avatar_action::eat( avatar &you, item_location loc )
         return;
     }
 
-      you.assign_activity( player_activity( consume_activity_actor(
-                                            loc
-                                        ) ) );    
+    you.assign_activity( player_activity( consume_activity_actor(
+            loc
+                                          ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
