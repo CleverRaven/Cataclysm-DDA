@@ -2015,7 +2015,7 @@ bool player::can_interface_armor() const
 {
     bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
     []( const bionic & b ) {
-        return b.powered && b.info().armor_interface;
+        return b.powered && b.info().has_flag( "BIONIC_ARMOR_INTERFACE" );
     } );
     return okay;
 }
