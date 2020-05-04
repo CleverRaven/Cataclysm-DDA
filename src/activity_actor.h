@@ -75,10 +75,59 @@ class activity_actor
         virtual void serialize( JsonOut &jsout ) const = 0;
 };
 
+class dig_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        /** location of the dig **/
+        tripoint location;
+        std::string result_terrain;
+        tripoint byproducts_location;
+        int byproducts_count;
+        std::string byproducts_item_group;
+
+    public:
+        dig_activity_actor(
+            int dig_moves, const tripoint &dig_loc,
+            const std::string &resulting_ter, const tripoint &dump_loc,
+            int dump_spawn_count, const std::string &dump_item_group
+        ):
+            moves_total( dig_moves ), location( dig_loc ),
+            result_terrain( resulting_ter ),
+            byproducts_location( dump_loc ),
+            byproducts_count( dump_spawn_count ),
+            byproducts_item_group( dump_item_group ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_DIG" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &act, Character &who ) override;
+        bool can_resume_with( const activity_actor &other, const Character & ) const override;
+
+        bool operator==( const dig_activity_actor &other ) const {
+            return  location == other.location &&
+                    result_terrain == other.result_terrain &&
+                    byproducts_location == other.byproducts_location &&
+                    byproducts_count == other.byproducts_count &&
+                    byproducts_item_group == other.byproducts_item_group;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<dig_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class dig_channel_activity_actor : public activity_actor
 {
     private:
-        int moves;
+        int moves_total;
+        /** location of the dig **/
         tripoint location;
         std::string result_terrain;
         tripoint byproducts_location;
@@ -91,7 +140,7 @@ class dig_channel_activity_actor : public activity_actor
             const std::string &resulting_ter, const tripoint &dump_loc,
             int dump_spawn_count, const std::string &dump_item_group
         ):
-            moves( dig_moves ), location( dig_loc ),
+            moves_total( dig_moves ), location( dig_loc ),
             result_terrain( resulting_ter ),
             byproducts_location( dump_loc ),
             byproducts_count( dump_spawn_count ),
@@ -246,12 +295,12 @@ class migration_cancel_activity_actor : public activity_actor
 class open_gate_activity_actor : public activity_actor
 {
     private:
-        int moves;
+        int moves_total;
         tripoint placement;
 
     public:
         open_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
-            moves( gate_moves ), placement( gate_placement ) {}
+            moves_total( gate_moves ), placement( gate_placement ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_OPEN_GATE" );
