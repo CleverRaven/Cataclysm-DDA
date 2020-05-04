@@ -1,8 +1,11 @@
 #include "avatar.h"
 #include "effect.h"
+#include "game.h"
 #include "player.h"
 
 #include "catch/catch.hpp"
+#include "player_helpers.h"
+#include "map_helpers.h"
 
 /* Test effects used in player_hardcoded_effects
 - effect_alarm_clock
@@ -198,6 +201,30 @@ TEST_CASE( "panacea heals the body and reduces pain", "[player][effect][panacea]
 // - (ignored) "Your alarm went off."
 
 
+/* Recovery chances, use binomial distributions if balancing here. Healing in the bite
+ * stage provides additional benefits, so both the bite stage chance of healing and
+ * the cumulative chances for spontaneous healing are both given.
+ * Cumulative heal chances for the bite + infection stages:
+ * -200 health - 38.6%
+ *    0 health - 46.8%
+ *  200 health - 53.7%
+ *
+ * Heal chances in the bite stage:
+ * -200 health - 23.4%
+ *    0 health - 28.3%
+ *  200 health - 32.9%
+ *
+ * Cumulative heal chances the bite + infection stages with the resistant mutation:
+ * -200 health - 82.6%
+ *    0 health - 84.5%
+ *  200 health - 86.1%
+ *
+ * Heal chances in the bite stage with the resistant mutation:
+ * -200 health - 60.7%
+ *    0 health - 63.2%
+ *  200 health - 65.6%
+ */
+
 // effect_bite
 //
 // Every 10 turns, check for recovery:
@@ -228,20 +255,55 @@ TEST_CASE( "panacea heals the body and reduces pain", "[player][effect][panacea]
 // - mattack_actors.cpp on_damage (L360-368)
 // - character.cpp deal_damage (L8542-8550) "each point has a 1% chance of causing infection"
 
-TEST_CASE( "bite", "[player][effect][bite]" )
+// Return the percent chance of recovering from `effect_bite` within 6 hours, with one extra effect
+static float bite_recovery_chance( const std::string with_effect_name )
 {
-    avatar dummy;
+    // Total number of 6-hour bite-to-infection trials to run
+    const int num_trials = 1000;
+    // How many times we recover
+    int recovery_count = 0;
 
     const efftype_id effect_bite( "bite" );
+    const efftype_id effect_also( with_effect_name );
+    const body_part torso = bodypart_id( "torso" )->token;
 
-    dummy.add_effect( effect_bite, 5_turns );
-    REQUIRE( dummy.has_effect( effect_bite ) );
-    REQUIRE( dummy.get_effect_dur( effect_bite ) == 5_turns );
+    avatar dummy;
 
-    // TODO: Fill in the rest
+    for( int i = 0; i < num_trials; i++ ) {
+        dummy.clear_effects();
+        dummy.add_effect( effect_bite, 1_turns, torso );
+        dummy.add_effect( effect_also, 1_turns, torso );
+        effect &bite_obj = dummy.get_effect( efftype_id( "bite" ), torso );
+        bool recovered = false;
+
+        // Get a fresh bite every six hours, so it won't get infected
+        while( !recovered && bite_obj.get_duration() < 6_hours ) {
+            dummy.hardcoded_effects( bite_obj );
+
+            if( bite_obj.get_duration() == 0_turns ) {
+                recovered = true;
+                recovery_count++;
+            }
+        }
+    }
+
+    // Return percentage of times healed within the six-hour infection limit
+    return static_cast<float>( 100.0f * recovery_count / num_trials );
 }
 
+TEST_CASE( "chance of recovering from bite", "[player][effect][bite][recovery]" )
+{
+    CHECK( 100.0f == bite_recovery_chance( "panacea" ) );
+    CHECK( 100.0f == bite_recovery_chance( "strong_antibiotic" ) );
+
+    CHECK( Approx( 63.0f ).margin( 2.0f ) <= bite_recovery_chance( "antibiotic" ) );
+    CHECK( Approx( 48.0f ).margin( 2.0f ) <= bite_recovery_chance( "weak_antibiotic" ) );
+    CHECK( Approx( 28.0f ).margin( 2.0f ) <= bite_recovery_chance( "recover" ) );
+}
+
+
 // effect_infected (~50 lines)
+//
 // Almost a straight copy/paste of effect_bite
 //
 // If factor in 5,184,000, recover!
@@ -255,14 +317,53 @@ TEST_CASE( "bite", "[player][effect][bite]" )
 // - Otherwise: mod_duration +1 turn
 
 
-// effect_sleep
+// effect_lying_down
 //
 // If lying down:
-// - If can sleep, fall asleep
-// - After 1 turn, if not sleeping, "You try to sleep, but can't..."
+// - Sets moves to 0
+// - If can sleep, fall asleep; lying_down duration = 0
+// - If lying_down duration == 1 turn AND was not already sleeping, "You try to sleep, but can't..."
+TEST_CASE( "lying down", "[effect][lying]" )
+{
+    player &dummy = g->u;
+    clear_map();
+    clear_character( dummy );
+
+    const efftype_id effect_lying_down( "lying_down" );
+    const efftype_id effect_sleep( "sleep" );
+    const efftype_id effect_meth( "meth" );
+
+    GIVEN( "player cannot sleep" ) {
+        dummy.add_effect( effect_meth, 1_days );
+        REQUIRE_FALSE( dummy.can_sleep() );
+
+        WHEN( "lying down" ) {
+            dummy.add_effect( effect_lying_down, 1_turns );
+            effect &effect_obj = dummy.get_effect( effect_lying_down );
+            REQUIRE( dummy.has_effect( effect_lying_down ) );
+
+            dummy.hardcoded_effects( effect_obj );
+
+            THEN( "they do not fall asleep" ) {
+                REQUIRE_FALSE( dummy.has_effect( effect_sleep ) );
+                AND_THEN( "they are still lying down" ) {
+                    REQUIRE( to_turns<int>( effect_obj.get_duration() ) == 1 );
+                }
+            }
+        }
+    }
+
+    GIVEN( "player can sleep" ) {
+        // TODO: Find a way to ensure can_sleep is true
+        //REQUIRE( dummy.can_sleep() );
+    }
+}
+
+// effect_sleep
 //
 // WHILE SLEEPING (1032-1259)
-// - Intensity < 1, set to 1
+// - Sets moves to 0
+// - Intensity < 1, set to 1 (minimum)
 // - Intensity 1-24, add 1
 // Waking up
 // - Prevent waking up naturally while under anesthesia
