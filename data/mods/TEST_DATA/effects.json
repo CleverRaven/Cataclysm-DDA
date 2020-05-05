@@ -6,11 +6,21 @@
     "desc": [ "You have been debugged!\nEverything is working perfectly now." ],
     "apply_message": "Diving into your source, you find a rubber duck, and talk it to death.",
     "rating": "good",
-    "int_dur_factor": "1 m",
     "max_duration": "1 h",
     "max_intensity": 10,
-    "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 200 ], "healing_torso": [ 150 ] },
-    "scaling_mods": { "per_mod": [ 5 ], "int_mod": [ 10 ] },
+    "base_mods": { "per_mod": [ 3 ], "healing_rate": [ 2 ], "healing_head": [ 200 ], "healing_torso": [ 150 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "intensified",
+    "name": [ "Whoa", "Wut?", "Wow!" ],
+    "apply_message": "!!Intensity intensifies!!",
+    "rating": "good",
+    "int_dur_factor": "1 m",
+    "max_duration": "10 m",
+    "max_intensity": 3,
+    "scaling_mods": { "int_mod": [ -1 ] },
     "show_in_info": true
   }
 ]
