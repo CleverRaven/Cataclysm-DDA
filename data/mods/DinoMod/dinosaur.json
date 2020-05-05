@@ -952,5 +952,17 @@
       { "monster": "mon_dimorphodon", "freq": 500, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_dilophosaurus", "freq": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [ { "monster": "mon_deinonychus", "freq": 200, "cost_multiplier": 15, "pack_size": [ 2, 3 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [ { "monster": "mon_deinonychus", "freq": 500, "cost_multiplier": 15, "pack_size": [ 2, 3 ] } ]
   }
 ]
