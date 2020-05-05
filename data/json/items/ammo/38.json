@@ -5,7 +5,7 @@
     "type": "AMMO",
     "name": { "str": ".38 FMJ" },
     "description": ".38 Special ammunition with brass jacketed 130gr bullets.  The .38 Special round has been known from its inception for its accuracy and low recoil.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -2, "armor_penetration": 4 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 4 } }
   },
   {
     "id": "38_special",
@@ -25,7 +25,7 @@
     "ammo_type": "38",
     "casing": "38_casing",
     "range": 14,
-    "damage": { "damage_type": "stab", "amount": 22 },
+    "damage": { "damage_type": "bullet", "amount": 22 },
     "dispersion": 30,
     "recoil": 250,
     "effects": [ "COOKOFF" ]
@@ -40,7 +40,7 @@
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 20,
-    "relative": { "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 4 }, "dispersion": -10 },
+    "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 4 }, "dispersion": -10 },
     "proportional": { "recoil": 1.5 }
   },
   {
@@ -48,7 +48,7 @@
     "copy-from": "38_fmj",
     "type": "AMMO",
     "name": { "str": ".38 FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -57,7 +57,7 @@
     "copy-from": "38_special",
     "type": "AMMO",
     "name": { "str": ".38 Special, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -66,7 +66,7 @@
     "copy-from": "38_super",
     "type": "AMMO",
     "name": { "str": ".38 Super, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -77,7 +77,7 @@
     "name": { "str": ".38 FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -91,7 +91,7 @@
     "name": { "str": ".38 Special, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },

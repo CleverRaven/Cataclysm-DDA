@@ -273,9 +273,6 @@ void tutorial_game::post_action( action_id act )
                 if( it.get_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
                 }
-                if( it.get_storage() >= units::from_liter( 5 ) ) {
-                    add_message( tut_lesson::LESSON_WORE_STORAGE );
-                }
                 if( it.get_env_resist() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_MASK );
                 }

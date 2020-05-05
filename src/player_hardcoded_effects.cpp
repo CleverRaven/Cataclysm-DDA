@@ -484,7 +484,6 @@ void player::hardcoded_effects( effect &it )
         return;
     }
 
-    const time_point start = it.get_start_time();
     const time_duration dur = it.get_duration();
     int intense = it.get_intensity();
     body_part bp = it.get_bp();
@@ -1235,25 +1234,10 @@ void player::hardcoded_effects( effect &it )
             }
         }
 
-        // A bit of a hack: check if we are about to wake up for any reason, including regular timing out of sleep
+        // A bit of a hack: check if we are about to wake up for any reason, including regular
+        // timing out of sleep
         if( dur == 1_turns || woke_up ) {
-            g->events().send<event_type::character_wakes_up>( getID() );
-            if( calendar::turn - start > 2_hours ) {
-                print_health();
-            }
-            // alarm was set and player hasn't slept through the alarm.
-            if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
-                add_msg_if_player( _( "It looks like you woke up just before your alarm." ) );
-                remove_effect( effect_alarm_clock );
-            } else if( has_effect( effect_slept_through_alarm ) ) { // slept though the alarm.
-                if( has_bionic( bio_watch ) ) {
-                    add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
-                } else {
-                    add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm…" ) );
-                }
-                get_effect( effect_slept_through_alarm ).set_duration( 0_turns );
-                remove_effect( effect_alarm_clock );
-            }
+            wake_up();
         }
     } else if( id == effect_alarm_clock ) {
         if( in_sleep_state() ) {
@@ -1323,12 +1307,6 @@ void player::hardcoded_effects( effect &it )
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();
         }
-    } else if( id == effect_panacea ) {
-        // restore health all body parts, dramatically reduce pain
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            hp_cur[i] += 10;
-        }
-        mod_pain( -10 );
     } else if( id == effect_toxin_buildup ) {
         // Loosely based on toxic man-made compounds (mostly pesticides) which don't degrade
         // easily, leading to build-up in muscle and fat tissue through bioaccumulation.

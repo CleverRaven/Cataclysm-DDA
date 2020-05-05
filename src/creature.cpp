@@ -126,6 +126,7 @@ void Creature::reset_bonuses()
 
     armor_bash_bonus = 0;
     armor_cut_bonus = 0;
+    armor_bullet_bonus = 0;
 
     speed_bonus = 0;
     dodge_bonus = 0;
@@ -151,6 +152,8 @@ void Creature::process_turn()
     reset_bonuses();
 
     process_effects();
+
+    process_damage_over_time();
 
     // Call this in case any effects have changed our stats
     reset_stats();
@@ -897,6 +900,10 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     pain += roll_remainder( adjusted_damage / div );
 }
 
+void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
+{
+}
+
 /*
  * State check functions
  */
@@ -1365,6 +1372,10 @@ int Creature::get_armor_cut( bodypart_id ) const
 {
     return armor_cut_bonus;
 }
+int Creature::get_armor_bullet( bodypart_id ) const
+{
+    return armor_bullet_bonus;
+}
 int Creature::get_armor_bash_base( bodypart_id ) const
 {
     return armor_bash_bonus;
@@ -1372,6 +1383,10 @@ int Creature::get_armor_bash_base( bodypart_id ) const
 int Creature::get_armor_cut_base( bodypart_id ) const
 {
     return armor_cut_bonus;
+}
+int Creature::get_armor_bullet_base( bodypart_id ) const
+{
+    return armor_bullet_bonus;
 }
 int Creature::get_armor_bash_bonus() const
 {
@@ -1381,6 +1396,11 @@ int Creature::get_armor_cut_bonus() const
 {
     return armor_cut_bonus;
 }
+int Creature::get_armor_bullet_bonus() const
+{
+    return armor_bullet_bonus;
+}
+
 
 int Creature::get_speed() const
 {
@@ -1518,6 +1538,10 @@ void Creature::set_armor_bash_bonus( int nbasharm )
 void Creature::set_armor_cut_bonus( int ncutarm )
 {
     armor_cut_bonus = ncutarm;
+}
+void Creature::set_armor_bullet_bonus( int nbulletarm )
+{
+    armor_bullet_bonus = nbulletarm;
 }
 
 void Creature::set_speed_base( int nspeed )
@@ -1664,6 +1688,31 @@ body_part Creature::select_body_part( Creature *source, int hit_roll ) const
     add_msg( m_debug, "difference = %d", szdif );
 
     return human_anatomy->select_body_part( szdif, hit_roll )->token;
+}
+
+void Creature::add_damage_over_time( const damage_over_time_data &DoT )
+{
+    damage_over_time_map.emplace_back( DoT );
+}
+
+void Creature::process_damage_over_time()
+{
+    for( auto DoT = damage_over_time_map.begin(); DoT != damage_over_time_map.end(); ) {
+        if( DoT->duration > 0_turns ) {
+            for( const bodypart_str_id &bp : DoT->bps ) {
+                const int dmg_amount = DoT->amount;
+                if( dmg_amount < 0 ) {
+                    heal_bp( bp.id(), -dmg_amount );
+                } else {
+                    deal_damage( nullptr, bp.id(), damage_instance( DoT->type, dmg_amount ) );
+                }
+            }
+            DoT->duration -= 1_turns;
+            ++DoT;
+        } else {
+            damage_over_time_map.erase( DoT );
+        }
+    }
 }
 
 void Creature::check_dead_state()

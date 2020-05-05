@@ -24,6 +24,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "player has some unidentified books" ) {
         item &book1 = dummy.i_add( item( "novel_western" ) );
@@ -47,6 +48,7 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "a fun book" ) {
         item &book = dummy.i_add( item( "novel_western" ) );
@@ -116,6 +118,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 TEST_CASE( "character reading speed", "[reading][character][speed]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     // Note: read_speed() returns number of moves;
     // 6000 == 60 seconds
@@ -160,6 +163,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     // Easy, medium, and hard books
     item &child = dummy.i_add( item( "child_book" ) );
@@ -246,6 +250,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;
 

@@ -6,6 +6,7 @@
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     item &gun = dummy.i_add( item( "sw_619", 0, 0 ) );
     item &ammo = dummy.i_add( item( "38_special", 0, gun.ammo_capacity() ) );
@@ -24,7 +25,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
             ammo_location );
     CHECK( speedloader_option.qty() == speedloader.ammo_capacity() );
 
-    speedloader.put_in( ammo );
+    speedloader.put_in( ammo, item_pocket::pocket_type::MAGAZINE );
     item_location speedloader_location( dummy, &speedloader );
     const item::reload_option gun_speedloader_option( &dummy, &gun, &gun,
             speedloader_location );
@@ -34,6 +35,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     item &magazine = dummy.i_add( item( "glockmag", 0, 0 ) );
     item &ammo = dummy.i_add( item( "9mm", 0, magazine.ammo_capacity() ) );
@@ -43,7 +45,7 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
             ammo_location );
     CHECK( magazine_option.qty() == magazine.ammo_capacity() );
 
-    magazine.put_in( ammo );
+    magazine.put_in( ammo, item_pocket::pocket_type::MAGAZINE );
     item_location magazine_location( dummy, &magazine );
     item &gun = dummy.i_add( item( "glock_19", 0, 0 ) );
     const item::reload_option gun_option( &dummy, &gun, &gun, magazine_location );
@@ -53,6 +55,7 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     item &belt = dummy.i_add( item( "belt308", 0, 0 ) );
     item &ammo = dummy.i_add( item( "308", 0, belt.ammo_capacity() ) );
@@ -65,7 +68,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
     const item::reload_option belt_option( &dummy, &belt, &belt, ammo_location );
     CHECK( belt_option.qty() == belt.ammo_capacity() );
 
-    belt.put_in( ammo );
+    belt.put_in( ammo, item_pocket::pocket_type::MAGAZINE );
     item_location belt_location( dummy, &ammo );
     item &gun = dummy.i_add( item( "m134", 0, 0 ) );
 
@@ -77,21 +80,22 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
-    item &water = dummy.i_add( item( "water_clean", 0, 2 ) );
     item &bottle = dummy.i_add( item( "bottle_plastic" ) );
-    item_location water_location( dummy, &water );
+    item water( "water_clean", 0, 2 );
+    // add an extra bottle with water
+    item_location water_bottle( dummy, &dummy.i_add( bottle ) );
+    water_bottle->put_in( water, item_pocket::pocket_type::CONTAINER );
 
-    const item::reload_option bottle_option( &dummy, &bottle, &bottle, water_location );
+    const item::reload_option bottle_option( &dummy, &bottle, &bottle, water_bottle );
     CHECK( bottle_option.qty() == bottle.get_remaining_capacity_for_liquid( water, true ) );
 
-    // Add water to bottle?
-    bottle.fill_with( water, 2 );
     item &canteen = dummy.i_add( item( "2lcanteen" ) );
-    item_location bottle_location( dummy, &bottle );
 
     const item::reload_option canteen_option( &dummy, &canteen, &canteen,
-            bottle_location );
+            water_bottle );
 
     CHECK( canteen_option.qty() == 2 );
 }
+

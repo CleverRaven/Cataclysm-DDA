@@ -262,7 +262,8 @@
         "prob": 60
       },
       { "item": "spoon", "count": [ 1, 6 ] },
-      { "item": "ceramic_mug", "count": [ 1, 6 ] }
+      { "item": "ceramic_mug", "count": [ 1, 6 ] },
+      { "group": "teabag_box", "prob": 60 }
     ]
   },
   {

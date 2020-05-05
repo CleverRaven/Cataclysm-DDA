@@ -63,7 +63,7 @@
     "price_postapoc": 1500,
     "to_hit": -1,
     "bashing": 6,
-    "//": "Yes, this is smaller than it's magazine well. Go with it.",
+    "//": "Yes, this is smaller than its magazine well. Go with it.",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -75,7 +75,6 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   }
 ]

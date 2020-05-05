@@ -18,15 +18,23 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -49,15 +57,23 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -79,15 +95,23 @@
     "warmth": 35,
     "material_thickness": 4,
     "environmental_protection": 8,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -110,15 +134,23 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "STURDY" ]
   },
   {
@@ -141,15 +173,23 @@
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -172,15 +212,23 @@
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 10,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -202,15 +250,23 @@
     "warmth": 60,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -233,15 +289,23 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 10,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ]
   },
   {
@@ -263,15 +327,23 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -294,15 +366,23 @@
     "warmth": 15,
     "material_thickness": 6,
     "environmental_protection": 5,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -325,15 +405,23 @@
     "warmth": 25,
     "material_thickness": 5,
     "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -356,15 +444,23 @@
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -387,15 +483,23 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -416,15 +520,23 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 12,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "WATERPROOF" ]
   },
   {
@@ -446,15 +558,23 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -477,15 +597,23 @@
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -507,15 +635,23 @@
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -536,15 +672,23 @@
     "warmth": 80,
     "material_thickness": 6,
     "environmental_protection": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -567,15 +711,23 @@
     "warmth": 75,
     "material_thickness": 6,
     "environmental_protection": 5,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -598,15 +750,23 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -628,15 +788,23 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -657,15 +825,23 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -687,15 +863,23 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "max_volume": 1,
-      "draw_cost": 80,
-      "multi": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      },
+      {
+        "holster": true,
+        "flag_restriction": [ "SHEATH_KNIFE" ],
+        "moves": 80,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath knife" },
     "flags": [ "VARSIZE", "WATERPROOF" ]
   }
 ]

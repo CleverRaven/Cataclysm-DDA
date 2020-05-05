@@ -352,10 +352,7 @@
     "volume": 45,
     "bashing": 5,
     "to_hit": -3,
-    "contains": 45,
-    "material": [ "steel" ],
-    "watertight": true,
-    "seals": true
+    "material": [ "steel" ]
   },
   {
     "id": "nx17",

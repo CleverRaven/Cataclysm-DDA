@@ -19,6 +19,7 @@ enum clothing_mod_type : int {
     clothing_mod_type_fire,
     clothing_mod_type_bash,
     clothing_mod_type_cut,
+    clothing_mod_type_bullet,
     clothing_mod_type_encumbrance,
     clothing_mod_type_warmth,
     clothing_mod_type_storage,
@@ -60,11 +61,12 @@ struct clothing_mod {
 namespace clothing_mods
 {
 
-constexpr std::array<clothing_mod_type, 8> all_clothing_mod_types = {{
+constexpr std::array<clothing_mod_type, 9> all_clothing_mod_types = {{
         clothing_mod_type_acid,
         clothing_mod_type_fire,
         clothing_mod_type_bash,
         clothing_mod_type_cut,
+        clothing_mod_type_bullet,
         clothing_mod_type_encumbrance,
         clothing_mod_type_warmth,
         clothing_mod_type_storage,

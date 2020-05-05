@@ -15,7 +15,7 @@
     "ammo_type": "5x50",
     "casing": "5x50_hull",
     "range": 60,
-    "damage": { "damage_type": "stab", "amount": 20, "armor_penetration": 30 },
+    "damage": { "damage_type": "bullet", "amount": 20, "armor_penetration": 30 },
     "dispersion": 60,
     "recoil": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
@@ -31,7 +31,7 @@
     "weight": "9 g",
     "price": 1688,
     "price_postapoc": 2400,
-    "relative": { "range": -10, "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 20 }, "dispersion": 20 },
+    "relative": { "range": -10, "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 20 }, "dispersion": 20 },
     "proportional": { "recoil": 1.1 }
   },
   {
@@ -43,6 +43,6 @@
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.  This one has been hand-reloaded.",
     "effects": [ "COOKOFF", "RECYCLED" ],
     "relative": { "range": -15, "dispersion": 40 },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9, "armor_penetration": 0.7 }, "recoil": 0.9 }
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.7 }, "recoil": 0.9 }
   }
 ]

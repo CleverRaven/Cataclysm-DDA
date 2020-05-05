@@ -183,6 +183,7 @@ static void update_note_preview( const std::string &note,
 
     const int npm_offset_x = 1;
     const int npm_offset_y = 1;
+    werase( *w_preview_map );
     draw_border( *w_preview_map, c_yellow );
     for( int i = 0; i < npm_height; i++ ) {
         for( int j = 0; j < npm_width; j++ ) {
@@ -322,19 +323,42 @@ class map_notes_callback : public uilist_callback
         overmapbuffer::t_notes_vector _notes;
         int _z;
         int _selected = 0;
+
+        catacurses::window w_preview;
+        catacurses::window w_preview_title;
+        catacurses::window w_preview_map;
+        std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows;
+        ui_adaptor ui;
+
         point point_selected() {
             return _notes[_selected].first;
         }
         tripoint note_location() {
             return tripoint( point_selected(), _z );
         }
-        std::string old_note() {
-            return overmap_buffer.note( note_location() );
-        }
     public:
-        map_notes_callback( const overmapbuffer::t_notes_vector &notes, int z ) {
-            _notes = notes;
-            _z = z;
+        map_notes_callback( const overmapbuffer::t_notes_vector &notes, int z )
+            : _notes( notes ), _z( z ) {
+            ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+                w_preview = catacurses::newwin( npm_height + 2, max_note_display_length - npm_width - 1,
+                                                point( npm_width + 2, 2 ) );
+                w_preview_title = catacurses::newwin( 2, max_note_display_length + 1, point_zero );
+                w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, point( 0, 2 ) );
+                preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+
+                ui.position( point_zero, point( max_note_display_length + 1, npm_height + 4 ) );
+            } );
+            ui.mark_resize();
+
+            ui.on_redraw( [this]( const ui_adaptor & ) {
+                if( _selected >= 0 && static_cast<size_t>( _selected ) < _notes.size() ) {
+                    const tripoint note_pos = note_location();
+                    const auto map_around = get_overmap_neighbors( note_pos );
+                    update_note_preview( overmap_buffer.note( note_pos ), map_around, preview_windows );
+                } else {
+                    update_note_preview( {}, {}, preview_windows );
+                }
+            } );
         }
         bool key( const input_context &ctxt, const input_event &event, int, uilist *menu ) override {
             _selected = menu->selected;
@@ -378,19 +402,9 @@ class map_notes_callback : public uilist_callback
             }
             return false;
         }
-        void select( int, uilist *menu ) override {
+        void select( uilist *menu ) override {
             _selected = menu->selected;
-            const auto map_around = get_overmap_neighbors( note_location() );
-            catacurses::window w_preview =
-                catacurses::newwin( npm_height + 2, max_note_display_length - npm_width - 1,
-                                    point( npm_width + 2, 2 ) );
-            catacurses::window w_preview_title =
-                catacurses::newwin( 2, max_note_display_length + 1, point_zero );
-            catacurses::window w_preview_map =
-                catacurses::newwin( npm_height + 2, npm_width + 2, point( 0, 2 ) );
-            const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
-                std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
-            update_note_preview( old_note(), map_around, preview_windows );
+            ui.invalidate_ui();
         }
 };
 
@@ -403,7 +417,6 @@ static point draw_notes( const tripoint &origin )
     while( refresh ) {
         refresh = false;
         nmenu.init();
-        g->refresh_all();
         nmenu.desc_enabled = true;
         nmenu.input_category = "OVERMAP_NOTES";
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
@@ -1072,15 +1085,29 @@ void create_note( const tripoint &curs )
     std::string new_note = old_note;
     auto map_around = get_overmap_neighbors( curs );
 
-    catacurses::window w_preview = catacurses::newwin( npm_height + 2,
-                                   max_note_display_length - npm_width - 1,
-                                   point( npm_width + 2, 2 ) );
-    catacurses::window w_preview_title = catacurses::newwin( 2, max_note_display_length + 1,
-                                         point_zero );
-    catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, point( 0,
-                                       2 ) );
-    std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
-        std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+    catacurses::window w_preview;
+    catacurses::window w_preview_title;
+    catacurses::window w_preview_map;
+    std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w_preview = catacurses::newwin( npm_height + 2,
+                                        max_note_display_length - npm_width - 1,
+                                        point( npm_width + 2, 2 ) );
+        w_preview_title = catacurses::newwin( 2, max_note_display_length + 1,
+                                              point_zero );
+        w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2,
+                                            point( 0, 2 ) );
+        preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+
+        ui.position( point_zero, point( max_note_display_length + 1, npm_height + 4 ) );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        update_note_preview( new_note, map_around, preview_windows );
+    } );
 
     // this implies enable_ime() and ensures that ime mode is always restored on return
     ime_sentry sentry;
@@ -1097,19 +1124,14 @@ void create_note( const tripoint &curs )
     .string_color( c_yellow )
     .identifier( "map_note" );
 
-    update_note_preview( old_note, map_around, preview_windows );
-
     do {
         new_note = input_popup.query_string( false );
-        const int first_input = input_popup.context().get_raw_input().get_first_input();
-        if( first_input == KEY_ESCAPE ) {
+        if( input_popup.canceled() ) {
             new_note = old_note;
             esc_pressed = true;
             break;
-        } else if( first_input == '\n' ) {
+        } else if( input_popup.confirmed() ) {
             break;
-        } else {
-            update_note_preview( new_note, map_around, preview_windows );
         }
     } while( true );
 
@@ -1125,8 +1147,7 @@ void create_note( const tripoint &curs )
 }
 
 // if false, search yielded no results
-static bool search( tripoint &curs, const tripoint &orig, const bool show_explored,
-                    const bool fast_scroll, std::string &action )
+static bool search( const ui_adaptor &om_ui, tripoint &curs, const tripoint &orig )
 {
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
@@ -1173,8 +1194,17 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     int i = 0;
     //Navigate through results
-    tripoint tmp = curs;
-    catacurses::window w_search = catacurses::newwin( 13, 27, point( TERMX - 27, 3 ) );
+    const tripoint prev_curs = curs;
+
+    catacurses::window w_search;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w_search = catacurses::newwin( 13, 27, point( TERMX - 27, 3 ) );
+
+        ui.position_from_window( w_search );
+    } );
+    ui.mark_resize();
 
     input_context ctxt( "OVERMAP_SEARCH" );
     ctxt.register_leftright();
@@ -1185,15 +1215,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-    do {
-        tmp.x = locations[i].x;
-        tmp.y = locations[i].y;
-        draw( g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored,
-              fast_scroll, nullptr,
-              draw_data_t() );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         //Draw search box
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_search, point( 1, 1 ), c_light_blue, _( "Search:" ) );
@@ -1213,6 +1235,14 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
         mvwprintz( w_search, point( 1, 11 ), c_white, _( "q or ESC to return." ) );
         draw_border( w_search );
         wrefresh( w_search );
+    } );
+
+    std::string action;
+    do {
+        curs.x = locations[i].x;
+        curs.y = locations[i].y;
+        om_ui.invalidate_ui();
+        ui_manager::redraw();
         action = ctxt.handle_input( BLINK_SPEED );
         if( uistate.overmap_blinking ) {
             uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
@@ -1221,21 +1251,21 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
             i = ( i + 1 ) % locations.size();
         } else if( action == "PREV_TAB" || action == "LEFT" ) {
             i = ( i + locations.size() - 1 ) % locations.size();
-        } else if( action == "CONFIRM" ) {
-            curs = tmp;
+        } else if( action == "QUIT" ) {
+            curs = prev_curs;
+            om_ui.invalidate_ui();
         }
     } while( action != "CONFIRM" && action != "QUIT" );
-    action.clear();
     return true;
 }
 
-static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bool show_explored,
-                                  const bool fast_scroll, std::string &action )
+static void place_ter_or_special( const ui_adaptor &om_ui, tripoint &curs,
+                                  const std::string &om_action )
 {
     uilist pmenu;
     // This simplifies overmap_special selection using uilist
     std::vector<const overmap_special *> oslist;
-    const bool terrain = action == "PLACE_TERRAIN";
+    const bool terrain = om_action == "PLACE_TERRAIN";
 
     if( terrain ) {
         pmenu.title = _( "Select terrain to place:" );
@@ -1261,12 +1291,22 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
     pmenu.query();
 
     if( pmenu.ret >= 0 ) {
-        catacurses::window w_editor = catacurses::newwin( 15, 27, point( TERMX - 27, 3 ) );
+        catacurses::window w_editor;
+
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            w_editor = catacurses::newwin( 15, 27, point( TERMX - 27, 3 ) );
+
+            ui.position_from_window( w_editor );
+        } );
+        ui.mark_resize();
+
         input_context ctxt( "OVERMAP_EDITOR" );
         ctxt.register_directions();
         ctxt.register_action( "CONFIRM" );
         ctxt.register_action( "ROTATE" );
         ctxt.register_action( "QUIT" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "ANY_INPUT" );
 
         if( terrain ) {
@@ -1289,14 +1329,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
             }
         }
 
-        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-        do {
-            // overmap::draw will handle actually showing the preview
-            draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
-                  fast_scroll, nullptr, draw_data_t() );
-
+        ui.on_redraw( [&]( const ui_adaptor & ) {
             draw_border( w_editor );
             if( terrain ) {
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1328,6 +1361,12 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                        ctxt.get_desc( "CONFIRM" ) );
             mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
             wrefresh( w_editor );
+        } );
+
+        std::string action;
+        do {
+            om_ui.invalidate_ui();
+            ui_manager::redraw();
 
             action = ctxt.handle_input( BLINK_SPEED );
 
@@ -1359,26 +1398,22 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
 
         uistate.place_terrain = nullptr;
         uistate.place_special = nullptr;
-        action.clear();
     }
 }
 
 static tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() )
 {
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    ui_adaptor ui;
+    ui.on_screen_resize( []( ui_adaptor & ui ) {
+        /* please do not change point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) to point( OVERMAP_WINDOW_WIDTH, 0 ) */
+        /* because overmap legend will be absent */
+        g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH,
+                                            point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) );
+        g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point_zero );
 
-    /* please do not change point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) to point( OVERMAP_WINDOW_WIDTH, 0 ) */
-    /* because overmap legend will be absent */
-    g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH,
-                                        point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) );
-    g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point_zero );
-
-    // Draw black padding space to avoid gap between map and legend
-    // also clears the pixel minimap in TILES
-    g->w_blackspace = catacurses::newwin( TERMY, TERMX, point_zero );
-    mvwputch( g->w_blackspace, point_zero, c_black, ' ' );
-    wrefresh( g->w_blackspace );
+        ui.position_from_window( catacurses::stdscr );
+    } );
+    ui.mark_resize();
 
     tripoint ret = overmap::invalid_tripoint;
     tripoint curs( orig );
@@ -1425,14 +1460,17 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
     cata::optional<tripoint> mouse_pos;
-    bool redraw = true;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        catacurses::erase();
+        catacurses::refresh();
+        draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
+              show_explored, fast_scroll, &ictxt, data );
+    } );
+
     do {
-        if( redraw ) {
-            draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
-                  show_explored, fast_scroll, &ictxt, data );
-        }
-        redraw = true;
+        ui_manager::redraw();
 #if (defined TILES || defined _WIN32 || defined WINDOWS )
         int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
         // If EDGE_SCROLL is disabled, it will have a value of -1.
@@ -1450,9 +1488,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             curs.y += vec->y * scroll_d;
         } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
             tripoint edge_scroll = g->mouse_edge_scrolling_overmap( ictxt );
-            if( edge_scroll == tripoint_zero ) {
-                redraw = false;
-            } else {
+            if( edge_scroll != tripoint_zero ) {
                 if( action == "MOUSE_MOVE" ) {
                     edge_scroll *= 2;
                 }
@@ -1565,11 +1601,11 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
         } else if( action == "TOGGLE_FOREST_TRAILS" ) {
             uistate.overmap_show_forest_trails = !uistate.overmap_show_forest_trails;
         } else if( action == "SEARCH" ) {
-            if( !search( curs, orig, show_explored, fast_scroll, action ) ) {
+            if( !search( ui, curs, orig ) ) {
                 continue;
             }
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
-            place_ter_or_special( curs, orig, show_explored, fast_scroll, action );
+            place_ter_or_special( ui, curs, action );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }
@@ -1578,15 +1614,10 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
         if( now > last_blink + std::chrono::milliseconds( BLINK_SPEED ) ) {
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
-                redraw = true;
             }
             last_blink = now;
         }
     } while( action != "QUIT" && action != "CONFIRM" );
-    werase( g->w_overmap );
-    werase( g->w_omlegend );
-    catacurses::erase();
-    g->init_ui( true );
     return ret;
 }
 

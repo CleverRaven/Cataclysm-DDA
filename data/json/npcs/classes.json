@@ -111,6 +111,19 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_FARMER",
+    "name": { "str": "Farmer" },
+    "job_description": "I made things grow before, I bet I can do it again once things calm down.",
+    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 2 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_MARLOSS_VOICE",
     "name": { "str": "Marloss Voice" },
     "job_description": "I spread the Hymns so that peace and unity return to our world.",

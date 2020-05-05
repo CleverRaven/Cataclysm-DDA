@@ -158,7 +158,6 @@ class Item_factory
         void load_tool_armor( const JsonObject &jo, const std::string &src );
         void load_book( const JsonObject &jo, const std::string &src );
         void load_comestible( const JsonObject &jo, const std::string &src );
-        void load_container( const JsonObject &jo, const std::string &src );
         void load_engine( const JsonObject &jo, const std::string &src );
         void load_wheel( const JsonObject &jo, const std::string &src );
         void load_fuel( const JsonObject &jo, const std::string &src );
@@ -168,6 +167,16 @@ class Item_factory
         void load_generic( const JsonObject &jo, const std::string &src );
         void load_bionic( const JsonObject &jo, const std::string &src );
         /*@}*/
+
+        /**
+          *  a temporary function to aid in nested container migration of magazine and gun json
+          *  - creates a magazine pocket if none is specified and the islot is loaded
+          */
+        void check_and_create_magazine_pockets( itype &def );
+        /**
+         * adds the pockets that are not encoded in json - CORPSE, MOD, etc.
+         */
+        void add_special_pockets( itype &def );
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
         void finalize();
@@ -280,7 +289,6 @@ class Item_factory
                                  const std::string &member, const std::string &src );
 
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_container &slot, const JsonObject &jo, const std::string &src );
         void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
         void load( islot_brewable &slot, const JsonObject &jo, const std::string &src );
         void load( islot_armor &slot, const JsonObject &jo, const std::string &src );

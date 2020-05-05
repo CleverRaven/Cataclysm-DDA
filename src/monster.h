@@ -320,6 +320,8 @@ class monster : public Creature
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
+
+        void heal_bp( bodypart_id bp, int dam ) override;
         /**
          * Flat addition to the monsters @ref hp. If `overheal` is true, this is not capped by max hp.
          * Returns actually healed hp.
@@ -352,6 +354,7 @@ class monster : public Creature
         int get_worn_armor_val( damage_type dt ) const;
         int  get_armor_cut( bodypart_id bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_bash( bodypart_id bp ) const override; // Natural armor, plus any worn armor
+        int  get_armor_bullet( bodypart_id bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_type( damage_type dt, bodypart_id bp ) const override;
 
         float get_hit_base() const override;

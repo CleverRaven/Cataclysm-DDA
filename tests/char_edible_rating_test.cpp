@@ -477,12 +477,12 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
     }
 }
 
-TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
+TEST_CASE( "who will eat cooked human flesh", "[will_eat][edible_rating][cannibal]" )
 {
     avatar dummy;
 
-    GIVEN( "some human flesh" ) {
-        item flesh( "human_flesh" );
+    GIVEN( "some cooked human flesh" ) {
+        item flesh( "human_cooked" );
         REQUIRE( flesh.has_flag( "CANNIBALISM" ) );
 
         WHEN( "character is not a cannibal" ) {

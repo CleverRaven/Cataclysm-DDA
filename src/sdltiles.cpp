@@ -42,6 +42,7 @@
 #include "game.h"
 #include "game_ui.h"
 #include "get_version.h"
+#include "hash_utils.h"
 #include "input.h"
 #include "json.h"
 #include "optional.h"
@@ -151,9 +152,18 @@ class CachedTTFFont : public Font
             std::string   codepoints;
             unsigned char color;
 
-            // Operator overload required to use in std::map.
-            bool operator<( const key_t &rhs ) const noexcept {
-                return ( color == rhs.color ) ? codepoints < rhs.codepoints : color < rhs.color;
+            std::pair<std::string, unsigned char> as_pair() const {
+                return std::make_pair( codepoints, color );
+            }
+
+            friend bool operator==( const key_t &lhs, const key_t &rhs ) noexcept {
+                return lhs.as_pair() == rhs.as_pair();
+            }
+        };
+
+        struct key_t_hash {
+            size_t operator()( const key_t &k ) const {
+                return cata::auto_hash<std::pair<std::string, unsigned char>>()( k.as_pair() );
             }
         };
 
@@ -162,7 +172,7 @@ class CachedTTFFont : public Font
             int          width;
         };
 
-        std::map<key_t, cached_t> glyph_cache_map;
+        std::unordered_map<key_t, cached_t, key_t_hash> glyph_cache_map;
 
         const bool fontblending;
 };
@@ -1201,7 +1211,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     } else if( g && w == g->w_terrain && map_font ) {
         // When the terrain updates, predraw a black space around its edge
         // to keep various former interface elements from showing through the gaps
-        // TODO: Maybe track down screen changes and use g->w_blackspace to draw this instead
 
         //calculate width differences between map_font and font
         int partial_width = std::max( TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH *
@@ -1234,15 +1243,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         int offsetx = win->pos.x * map_font->fontwidth;
         int offsety = win->pos.y * map_font->fontheight;
         update = map_font->draw_window( w, point( offsetx, offsety ) );
-    } else if( g && w == g->w_blackspace ) {
-        // fill-in black space window skips draw code
-        // so as not to confuse framebuffer any more than necessary
-        int offsetx = win->pos.x * font->fontwidth;
-        int offsety = win->pos.y * font->fontheight;
-        int wwidth = win->width * font->fontwidth;
-        int wheight = win->height * font->fontheight;
-        FillRectDIB( point( offsetx, offsety ), wwidth, wheight, catacurses::black );
-        update = true;
     } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn

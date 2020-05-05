@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
+#include "gates.h"
 #include "iexamine.h"
 #include "item.h"
 #include "item_location.h"
@@ -21,6 +22,7 @@
 #include "npc.h"
 #include "output.h"
 #include "pickup.h"
+#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "timed_event.h"
@@ -31,6 +33,8 @@ static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const skill_id skill_computer( "computer" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+
+static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 void hacking_activity_actor::start( player_activity &act, Character & )
 {
@@ -374,15 +378,107 @@ std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( Js
     return migration_cancel_activity_actor().clone();
 }
 
+void open_gate_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void open_gate_activity_actor::finish( player_activity &act, Character & )
+{
+    gates::open_gate( placement );
+    act.set_to_null();
+}
+
+void open_gate_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "placement", placement );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &jsin )
+{
+    open_gate_activity_actor actor( 0, tripoint_zero );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "placement", actor.placement );
+
+    return actor.clone();
+}
+
+void consume_activity_actor::start( player_activity &act, Character & )
+{
+    const int charges = std::max( loc->charges, 1 );
+    int volume = units::to_milliliter( loc->volume() ) / charges;
+    time_duration time = 0_seconds;
+    const bool eat_verb  = loc->has_flag( flag_USE_EAT_VERB );
+    if( eat_verb || loc->get_comestible()->comesttype == "FOOD" ) {
+        time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
+    } else if( !eat_verb && loc->get_comestible()->comesttype == "DRINK" ) {
+        time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
+    } else if( loc->is_medication() ) {
+        time = time_duration::from_seconds(
+                   30 ); //Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
+    } else {
+        debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
+    }
+
+    act.moves_total = to_moves<int>( time );
+    act.moves_left = to_moves<int>( time );
+}
+
+void consume_activity_actor::finish( player_activity &act, Character & )
+{
+    if( loc.where() == item_location::type::character ) {
+        g->u.consume( loc );
+
+    } else if( g->u.consume_item( *loc ) ) {
+        loc.remove_item();
+    }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
+    act.set_to_null();
+}
+
+void consume_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "loc", loc );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsin )
+{
+    item_location null;
+    consume_activity_actor actor( null );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "loc", actor.loc );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
 // Please keep this alphabetically sorted
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
+    { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
+    { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
 };
 } // namespace activity_actors

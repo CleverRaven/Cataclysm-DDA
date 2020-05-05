@@ -15,8 +15,7 @@
     "charges_per_use": 1,
     "ammo": "crystallized_mana",
     "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 5, "need_wielding": true },
-    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ],
-    "magazine_well": 1
+    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ]
   },
   {
     "id": "wand_magic_missile",
@@ -34,7 +33,6 @@
     "charges_per_use": 1,
     "ammo": "crystallized_mana",
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 10, "need_wielding": true },
-    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ],
-    "magazine_well": 1
+    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ]
   }
 ]

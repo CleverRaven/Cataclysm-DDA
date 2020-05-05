@@ -80,8 +80,7 @@ static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
 static const mongroup_id GROUP_LAB( "GROUP_LAB" );
 static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
-static const mongroup_id GROUP_LAB_FEMA( "GROUP_LAB_FEMA" );
-static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
+static const mongroup_id GROUP_LAB_SECURITY( "GROUP_LAB_SECURITY" );
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
 static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
@@ -2846,8 +2845,6 @@ void map::draw_map( mapgendata &dat )
             draw_spiral( dat );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( dat );
-        } else if( is_ot_match( "fema", terrain_type, ot_match_type::prefix ) ) {
-            draw_fema( dat );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
             draw_mine( dat );
         } else if( is_ot_match( "anthill", terrain_type, ot_match_type::contains ) ) {
@@ -5204,233 +5201,6 @@ void map::draw_spiral( mapgendata &dat )
     }
 }
 
-void map::draw_fema( mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "fema_entrance" ) {
-        fill_background( this, t_dirt );
-        // Left wall
-        line( this, t_chainfence, point( 0, 23 ), point( 23, 23 ) );
-        line( this, t_chaingate_l, point( 10, 23 ), point( 14, 23 ) );
-        line( this, t_chainfence,  point_zero,  point( 0, 23 ) );
-        line( this, t_chainfence,  point( 23, 0 ),  point( 23, 23 ) );
-        line( this, t_fence_barbed, point( 1, 4 ), point( 9, 12 ) );
-        line( this, t_fence_barbed, point( 1, 5 ), point( 8, 12 ) );
-        line( this, t_fence_barbed, point( 22, 4 ), point( 15, 12 ) );
-        line( this, t_fence_barbed, point( 22, 5 ), point( 16, 12 ) );
-        square( this, t_wall_wood, point( 2, 13 ), point( 9, 21 ) );
-        square( this, t_floor, point( 3, 14 ), point( 8, 20 ) );
-        line( this, t_reinforced_glass, point( 5, 13 ), point( 6, 13 ) );
-        line( this, t_reinforced_glass, point( 5, 21 ), point( 6, 21 ) );
-        line( this, t_reinforced_glass, point( 9, 15 ), point( 9, 18 ) );
-        line( this, t_door_c, point( 9, 16 ), point( 9, 17 ) );
-        line_furn( this, f_locker, point( 3, 16 ), point( 3, 18 ) );
-        line_furn( this, f_chair, point( 5, 16 ), point( 5, 18 ) );
-        line_furn( this, f_desk, point( 6, 16 ), point( 6, 18 ) );
-        line_furn( this, f_chair, point( 7, 16 ), point( 7, 18 ) );
-        place_items( "office", 80, point( 3, 16 ), point( 3, 18 ), false, calendar::start_of_cataclysm );
-        place_items( "office", 80, point( 6, 16 ), point( 6, 18 ), false, calendar::start_of_cataclysm );
-        place_spawns( GROUP_MIL_WEAK, 1, point( 3, 15 ), point( 4, 17 ), 0.2 );
-
-        // Rotate to face the road
-        if( is_ot_match( "road", dat.east(), ot_match_type::type ) ||
-            is_ot_match( "bridge", dat.east(), ot_match_type::type ) ) {
-            rotate( 1 );
-        }
-        if( is_ot_match( "road", dat.south(), ot_match_type::type ) ||
-            is_ot_match( "bridge", dat.south(), ot_match_type::type ) ) {
-            rotate( 2 );
-        }
-        if( is_ot_match( "road", dat.west(), ot_match_type::type ) ||
-            is_ot_match( "bridge", dat.west(), ot_match_type::type ) ) {
-            rotate( 3 );
-        }
-    } else if( terrain_type == "fema" ) {
-        fill_background( this, t_dirt );
-        // check all sides for non fema/fema entrance, place fence on those sides
-        if( dat.north() != "fema" && dat.north() != "fema_entrance" ) {
-            line( this, t_chainfence, point_zero, point( 23, 0 ) );
-        }
-        if( dat.south() != "fema" && dat.south() != "fema_entrance" ) {
-            line( this, t_chainfence, point( 0, 23 ), point( 23, 23 ) );
-        }
-        if( dat.west() != "fema" && dat.west() != "fema_entrance" ) {
-            line( this, t_chainfence, point_zero, point( 0, 23 ) );
-        }
-        if( dat.east() != "fema" && dat.east() != "fema_entrance" ) {
-            line( this, t_chainfence, point( 23, 0 ), point( 23, 23 ) );
-        }
-        if( dat.west() == "fema" && dat.east() == "fema" && dat.south() != "fema" ) {
-            //lab bottom side
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            square( this, t_dirt, point( 1, 1 ), point( 22, 22 ) );
-            square( this, t_floor, point( 4, 4 ), point( 19, 19 ) );
-            line( this, t_concrete_wall, point( 4, 4 ), point( 19, 4 ) );
-            line( this, t_concrete_wall, point( 4, 19 ), point( 19, 19 ) );
-            line( this, t_concrete_wall, point( 4, 5 ), point( 4, 18 ) );
-            line( this, t_concrete_wall, point( 19, 5 ), point( 19, 18 ) );
-            line( this, t_door_metal_c, point( 11, 4 ), point( 12, 4 ) );
-            line_furn( this, f_glass_fridge, point( 6, 5 ), point( 9, 5 ) );
-            line_furn( this, f_glass_fridge, point( 14, 5 ), point( 17, 5 ) );
-            square( this, t_grate, point( 6, 8 ), point( 8, 9 ) );
-            line_furn( this, f_table, point( 7, 8 ), point( 7, 9 ) );
-            square( this, t_grate, point( 6, 12 ), point( 8, 13 ) );
-            line_furn( this, f_table, point( 7, 12 ), point( 7, 13 ) );
-            square( this, t_grate, point( 6, 16 ), point( 8, 17 ) );
-            line_furn( this, f_table, point( 7, 16 ), point( 7, 17 ) );
-            line_furn( this, f_counter, point( 10, 8 ), point( 10, 17 ) );
-            line_furn( this, f_chair, point( 14, 8 ), point( 14, 10 ) );
-            line_furn( this, f_chair, point( 17, 8 ), point( 17, 10 ) );
-            square( this, t_console_broken, point( 15, 8 ), point( 16, 10 ) );
-            line_furn( this, f_desk, point( 15, 11 ), point( 16, 11 ) );
-            line_furn( this, f_chair, point( 15, 12 ), point( 16, 12 ) );
-            line( this, t_reinforced_glass, point( 13, 14 ), point( 18, 14 ) );
-            line( this, t_reinforced_glass, point( 13, 14 ), point( 13, 18 ) );
-            ter_set( point( 15, 14 ), t_door_metal_locked );
-            place_items( "dissection", 90, point( 10, 8 ), point( 10, 17 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( "hospital_lab", 70, point( 5, 5 ), point( 18, 18 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( "harddrugs", 50, point( 6, 5 ), point( 9, 5 ), false, calendar::start_of_cataclysm );
-            place_items( "harddrugs", 50, point( 14, 5 ), point( 17, 5 ), false, calendar::start_of_cataclysm );
-            place_items( "hospital_samples", 50, point( 6, 5 ), point( 9, 5 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( "hospital_samples", 50, point( 14, 5 ), point( 17, 5 ), false,
-                         calendar::start_of_cataclysm );
-            place_spawns( GROUP_LAB_FEMA, 1, point( 11, 12 ), point( 16, 17 ), 0.1 );
-        } else if( dat.west() == "fema_entrance" ) {
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            square( this, t_dirt, point( 1, 1 ), point( 22, 22 ) ); //Supply tent
-            line_furn( this, f_canvas_wall, point( 4, 4 ), point( 19, 4 ) );
-            line_furn( this, f_canvas_wall, point( 4, 4 ), point( 4, 19 ) );
-            line_furn( this, f_canvas_wall, point( 19, 19 ), point( 19, 4 ) );
-            line_furn( this, f_canvas_wall, point( 19, 19 ), point( 4, 19 ) );
-            square_furn( this, f_fema_groundsheet, point( 5, 5 ), point( 8, 18 ) );
-            square_furn( this, f_fema_groundsheet, point( 10, 5 ), point( 13, 5 ) );
-            square_furn( this, f_fema_groundsheet, point( 10, 18 ), point( 13, 18 ) );
-            square_furn( this, f_fema_groundsheet, point( 15, 5 ), point( 18, 7 ) );
-            square_furn( this, f_fema_groundsheet, point( 15, 16 ), point( 18, 18 ) );
-            square_furn( this, f_fema_groundsheet, point( 16, 10 ), point( 17, 14 ) );
-            square_furn( this, f_fema_groundsheet, point( 9, 7 ), point( 14, 16 ) );
-            line_furn( this, f_canvas_door, point( 11, 4 ), point( 12, 4 ) );
-            line_furn( this, f_canvas_door, point( 11, 19 ), point( 12, 19 ) );
-            square_furn( this, f_crate_c, point( 5, 6 ), point( 7, 7 ) );
-            square_furn( this, f_crate_c, point( 5, 11 ), point( 7, 12 ) );
-            square_furn( this, f_crate_c, point( 5, 16 ), point( 7, 17 ) );
-            line( this, t_chainfence, point( 9, 6 ), point( 14, 6 ) );
-            line( this, t_chainfence, point( 9, 17 ), point( 14, 17 ) );
-            ter_set( point( 9, 5 ), t_chaingate_c );
-            ter_set( point( 14, 18 ), t_chaingate_c );
-            ter_set( point( 14, 5 ), t_chainfence );
-            ter_set( point( 9, 18 ), t_chainfence );
-            furn_set( point( 12, 17 ), f_counter );
-            furn_set( point( 11, 6 ), f_counter );
-            line_furn( this, f_chair, point( 10, 10 ), point( 13, 10 ) );
-            square_furn( this, f_desk, point( 10, 11 ), point( 13, 12 ) );
-            line_furn( this, f_chair, point( 10, 13 ), point( 13, 13 ) );
-            line( this, t_chainfence, point( 15, 8 ), point( 18, 8 ) );
-            line( this, t_chainfence, point( 15, 15 ), point( 18, 15 ) );
-            line( this, t_chainfence, point( 15, 9 ), point( 15, 14 ) );
-            line( this, t_chaingate_c, point( 15, 11 ), point( 15, 12 ) );
-            line_furn( this, f_locker, point( 18, 9 ), point( 18, 14 ) );
-            place_items( "allclothes", 90, point( 5, 6 ), point( 7, 7 ), false, calendar::start_of_cataclysm );
-            place_items( "softdrugs", 90, point( 5, 11 ), point( 7, 12 ), false, calendar::start_of_cataclysm );
-            place_items( "hardware", 90, point( 5, 16 ), point( 7, 17 ), false, calendar::start_of_cataclysm );
-            if( one_in( 3 ) ) {
-                place_items( "guns_rifle_milspec", 90, point( 18, 9 ), point( 18, 14 ), false,
-                             calendar::start_of_cataclysm, 100, 100 );
-            }
-            place_items( "office", 80, point( 10, 11 ), point( 13, 12 ), false, calendar::start_of_cataclysm );
-            place_spawns( GROUP_MIL_WEAK, 1, point( 3, 15 ), point( 4, 17 ), 0.2 );
-        } else {
-            switch( rng( 1, 5 ) ) {
-                case 1:
-                case 2:
-                case 3:
-                    // NOLINTNEXTLINE(cata-use-named-point-constants)
-                    square( this, t_dirt, point( 1, 1 ), point( 22, 22 ) );
-                    square_furn( this, f_canvas_wall, point( 4, 4 ), point( 19, 19 ) ); //Lodging
-                    square_furn( this, f_fema_groundsheet, point( 5, 5 ), point( 18, 18 ) );
-                    line_furn( this, f_canvas_door, point( 11, 4 ), point( 12, 4 ) );
-                    line_furn( this, f_canvas_door, point( 11, 19 ), point( 12, 19 ) );
-                    line_furn( this, f_makeshift_bed, point( 6, 6 ), point( 6, 17 ) );
-                    line_furn( this, f_makeshift_bed, point( 8, 6 ), point( 8, 17 ) );
-                    line_furn( this, f_makeshift_bed, point( 10, 6 ), point( 10, 17 ) );
-                    line_furn( this, f_makeshift_bed, point( 13, 6 ), point( 13, 17 ) );
-                    line_furn( this, f_makeshift_bed, point( 15, 6 ), point( 15, 17 ) );
-                    line_furn( this, f_makeshift_bed, point( 17, 6 ), point( 17, 17 ) );
-                    line_furn( this, f_fema_groundsheet, point( 6, 8 ), point( 17, 8 ) );
-                    line_furn( this, f_fema_groundsheet, point( 6, 8 ), point( 17, 8 ) );
-                    square_furn( this, f_fema_groundsheet, point( 6, 11 ), point( 17, 12 ) );
-                    line_furn( this, f_fema_groundsheet, point( 6, 15 ), point( 17, 15 ) );
-                    line_furn( this, f_crate_o, point( 6, 7 ), point( 17, 7 ) );
-                    line_furn( this, f_crate_o, point( 6, 10 ), point( 17, 10 ) );
-                    line_furn( this, f_crate_o, point( 6, 14 ), point( 17, 14 ) );
-                    line_furn( this, f_crate_o, point( 6, 17 ), point( 17, 17 ) );
-                    line_furn( this, f_fema_groundsheet, point( 7, 5 ), point( 7, 18 ) );
-                    line_furn( this, f_fema_groundsheet, point( 9, 5 ), point( 9, 18 ) );
-                    square_furn( this, f_fema_groundsheet, point( 11, 5 ), point( 12, 18 ) );
-                    line_furn( this, f_fema_groundsheet, point( 14, 5 ), point( 14, 18 ) );
-                    line_furn( this, f_fema_groundsheet, point( 16, 5 ), point( 16, 18 ) );
-                    place_items( "livingroom", 80, point( 5, 5 ), point( 18, 18 ), false,
-                                 calendar::start_of_cataclysm );
-                    place_spawns( GROUP_PLAIN, 1, point( 11, 12 ), point( 13, 14 ), 0.1 );
-                    break;
-                case 4:
-                    // NOLINTNEXTLINE(cata-use-named-point-constants)
-                    square( this, t_dirt, point( 1, 1 ), point( 22, 22 ) );
-                    square_furn( this, f_canvas_wall, point( 4, 4 ), point( 19, 19 ) ); //Mess hall/tent
-                    square_furn( this, f_fema_groundsheet, point( 5, 5 ), point( 18, 18 ) );
-                    line_furn( this, f_canvas_door, point( 11, 4 ), point( 12, 4 ) );
-                    line_furn( this, f_canvas_door, point( 11, 19 ), point( 12, 19 ) );
-                    line_furn( this, f_crate_c, point( 5, 5 ), point( 5, 6 ) );
-                    square_furn( this, f_counter, point( 6, 6 ), point( 10, 8 ) );
-                    square( this, t_rock_floor, point( 6, 5 ), point( 9, 7 ) );
-                    furn_set( point( 7, 6 ), f_woodstove );
-                    line_furn( this, f_bench, point( 13, 6 ), point( 17, 6 ) );
-                    line_furn( this, f_table, point( 13, 7 ), point( 17, 7 ) );
-                    line_furn( this, f_bench, point( 13, 8 ), point( 17, 8 ) );
-
-                    line_furn( this, f_bench, point( 13, 11 ), point( 17, 11 ) );
-                    line_furn( this, f_table, point( 13, 12 ), point( 17, 12 ) );
-                    line_furn( this, f_bench, point( 13, 13 ), point( 17, 13 ) );
-
-                    line_furn( this, f_bench, point( 13, 15 ), point( 17, 15 ) );
-                    line_furn( this, f_table, point( 13, 16 ), point( 17, 16 ) );
-                    line_furn( this, f_bench, point( 13, 17 ), point( 17, 17 ) );
-
-                    line_furn( this, f_bench, point( 6, 11 ), point( 10, 11 ) );
-                    line_furn( this, f_table, point( 6, 12 ), point( 10, 12 ) );
-                    line_furn( this, f_bench, point( 6, 13 ), point( 10, 13 ) );
-
-                    line_furn( this, f_bench, point( 6, 15 ), point( 10, 15 ) );
-                    line_furn( this, f_table, point( 6, 16 ), point( 10, 16 ) );
-                    line_furn( this, f_bench, point( 6, 17 ), point( 10, 17 ) );
-
-                    place_items( "mil_food_nodrugs", 80, point( 5, 5 ), point( 5, 6 ), false,
-                                 calendar::start_of_cataclysm );
-                    place_items( "snacks", 80, point( 5, 5 ), point( 18, 18 ), false, calendar::start_of_cataclysm );
-                    place_items( "kitchen", 70, point( 6, 5 ), point( 10, 8 ), false, calendar::start_of_cataclysm );
-                    place_items( "dining", 80, point( 13, 7 ), point( 17, 7 ), false, calendar::start_of_cataclysm );
-                    place_items( "dining", 80, point( 13, 12 ), point( 17, 12 ), false, calendar::start_of_cataclysm );
-                    place_items( "dining", 80, point( 13, 16 ), point( 17, 16 ), false, calendar::start_of_cataclysm );
-                    place_items( "dining", 80, point( 6, 12 ), point( 10, 12 ), false, calendar::start_of_cataclysm );
-                    place_items( "dining", 80, point( 6, 16 ), point( 10, 16 ), false, calendar::start_of_cataclysm );
-                    place_spawns( GROUP_PLAIN, 1, point( 11, 12 ), point( 13, 14 ), 0.1 );
-                    break;
-                case 5:
-                    // NOLINTNEXTLINE(cata-use-named-point-constants)
-                    square( this, t_dirt, point( 1, 1 ), point( 22, 22 ) );
-                    square( this, t_fence_barbed, point( 4, 4 ), point( 19, 19 ) );
-                    square( this, t_dirt, point( 5, 5 ), point( 18, 18 ) );
-                    square( this, t_pit_corpsed, point( 6, 6 ), point( 17, 17 ) );
-                    place_spawns( GROUP_PLAIN, 1, point( 11, 12 ), point( 13, 14 ), 0.5 );
-                    break;
-            }
-        }
-    }
-}
-
 void map::draw_spider_pit( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
@@ -5986,7 +5756,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
     for( auto e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-                e->put_in( item( e->magazine_default(), e->birthday() ) );
+                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default(), e->ammo_capacity() );
@@ -6438,7 +6208,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->place_spawns( GROUP_TURRET, 1,
+                m->place_spawns( GROUP_LAB_SECURITY, 1,
                                  point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ),
                                  point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ), 1, true );
             } else {
@@ -6454,7 +6224,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->place_spawns( GROUP_TURRET, 1,
+                m->place_spawns( GROUP_LAB_SECURITY, 1,
                                  point( desk, static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
                                  point( desk, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), 1, true );
             }

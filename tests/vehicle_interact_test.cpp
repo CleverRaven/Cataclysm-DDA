@@ -62,14 +62,14 @@ TEST_CASE( "repair_vehicle_part" )
 {
     SECTION( "welder" ) {
         std::vector<item> tools;
-        tools.emplace_back( "welder", -1, 500 );
+        tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
         std::vector<item> tools;
         item welder( "welder", -1, 0 );
-        welder.put_in( item( "battery_ups" ) );
+        welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
         tools.emplace_back( "UPS_off", -1, 500 );
         tools.emplace_back( "goggles_welding" );
@@ -77,19 +77,19 @@ TEST_CASE( "repair_vehicle_part" )
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
-        tools.emplace_back( "welder", -1, 500 );
+        tools.push_back( tool_with_ammo( "welder", 500 ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_charge" ) {
         std::vector<item> tools;
-        tools.emplace_back( "welder", -1, 5 );
+        tools.push_back( tool_with_ammo( "welder", 5 ) );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }
     SECTION( "UPS_modded_welder_missing_charges" ) {
         std::vector<item> tools;
         item welder( "welder", -1, 0 );
-        welder.put_in( item( "battery_ups" ) );
+        welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
         tools.emplace_back( "UPS_off", -1, 5 );
         tools.emplace_back( "goggles_welding" );

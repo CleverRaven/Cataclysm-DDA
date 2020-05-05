@@ -939,12 +939,8 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     // current recipe result
     std::vector<std::pair<itype_id, std::string>> related_results;
     item tmp = current->create_result();
-    itype_id tid;
-    if( tmp.contents.empty() ) { // use this item
-        tid = tmp.typeId();
-    } else { // use the contained item
-        tid = tmp.contents.front().typeId();
-    }
+    // use this item
+    const itype_id tid = tmp.typeId();
     const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
     for( const auto &b : known_recipes ) {
         if( available.contains( b ) ) {

@@ -22,7 +22,6 @@ Some of the currently supported languages are:
 * Chinese (Simplified)
 * Chinese (Traditional)
 * Dutch
-* Esperanto
 * French
 * German
 * Italian (Italy)

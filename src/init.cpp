@@ -284,9 +284,6 @@ void DynamicDataLoader::initialize()
     add( "COMESTIBLE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_comestible( jo, src );
     } );
-    add( "CONTAINER", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_container( jo, src );
-    } );
     add( "ENGINE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_engine( jo, src );
     } );
@@ -481,78 +478,75 @@ void DynamicDataLoader::unload_data()
 {
     finalized = false;
 
-    harvest_list::reset();
-    json_flag::reset();
-    requirement_data::reset();
-    vitamin::reset();
-    field_types::reset();
-    ammo_effects::reset();
-    emit::reset();
+    achievement::reset();
     activity_type::reset();
-    fault::reset();
-    materials::reset();
-    profession::reset();
-    Skill::reset();
-    dreams.clear();
-    // clear techniques, martial arts, and ma buffs
+    ammo_effects::reset();
+    ammunition_type::reset();
+    anatomy::reset();
+    behavior::reset();
+    body_part_type::reset();
     clear_techniques_and_martial_arts();
-    // Mission types are not loaded from json, but they depend on
-    // the overmap terrain + items and that gets loaded from json.
-    mission_type::reset();
-    item_controller->reset();
-    mutations_category.clear();
-    mutation_category_trait::reset();
-    mutation_branch::reset_all();
-    spell_type::reset_all();
-    reset_bionics();
-    reset_furn_ter();
-    MonsterGroupManager::ClearMonsterGroups();
-    SNIPPET.clear_snippets();
-    vehicle_prototype::reset();
-    vpart_info::reset();
-    MonsterGenerator::generator().reset();
-    reset_recipe_categories();
-    recipe_dictionary::reset();
-    recipe_group::reset();
-    faction_template::reset();
-    quality::reset();
-    trap::reset();
+    clothing_mods::reset();
     construction_categories::reset();
-    reset_constructions();
-    overmap_terrains::reset();
-    reset_region_settings();
-    reset_mapgens();
-    reset_effect_types();
-    reset_speech();
-    reset_scenarios_blacklist();
-    overmap_land_use_codes::reset();
+    dreams.clear();
+    emit::reset();
+    event_statistic::reset();
+    event_transformation::reset();
+    faction_template::reset();
+    fault::reset();
+    field_types::reset();
+    gates::reset();
+    harvest_list::reset();
+    item_controller->reset();
+    json_flag::reset();
+    materials::reset();
+    mission_type::reset();
+    MonsterGenerator::generator().reset();
+    MonsterGroupManager::ClearMonsterGroups();
+    morale_type_data::reset();
+    mutation_branch::reset_all();
+    mutation_category_trait::reset();
+    mutations_category.clear();
+    npc_class::reset_npc_classes();
+    npc_template::reset();
     overmap_connections::reset();
+    overmap_land_use_codes::reset();
     overmap_locations::reset();
     overmap_specials::reset();
-    ammunition_type::reset();
-    unload_talk_topics();
-    behavior::reset();
-    start_locations::reset();
-    scenario::reset();
-    gates::reset();
-    reset_overlay_ordering();
-    npc_class::reset_npc_classes();
-    rotatable_symbols::reset();
-    body_part_type::reset();
-    npc_template::reset();
-    anatomy::reset();
+    overmap_terrains::reset();
+    profession::reset();
+    quality::reset();
+    recipe_dictionary::reset();
+    recipe_group::reset();
+    requirement_data::reset();
+    reset_bionics();
+    reset_constructions();
+    reset_effect_types();
+    reset_furn_ter();
+    reset_mapgens();
     reset_mod_tileset();
+    reset_overlay_ordering();
+    reset_recipe_categories();
+    reset_region_settings();
+    reset_scenarios_blacklist();
+    reset_speech();
+    rotatable_symbols::reset();
+    scenario::reset();
+    scent_type::reset();
+    score::reset();
+    Skill::reset();
+    skill_boost::reset();
+    SNIPPET.clear_snippets();
+    spell_type::reset_all();
+    start_locations::reset();
+    trap::reset();
+    unload_talk_topics();
     VehicleGroup::reset();
     VehiclePlacement::reset();
     VehicleSpawn::reset();
-    event_transformation::reset();
-    event_statistic::reset();
-    score::reset();
-    achievement::reset();
-    scent_type::reset();
-
-    // TODO:
-    //    Name::clear();
+    vehicle_prototype::reset();
+    vitamin::reset();
+    vpart_info::reset();
 }
 
 void DynamicDataLoader::finalize_loaded_data()

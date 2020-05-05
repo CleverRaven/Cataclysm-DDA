@@ -218,6 +218,10 @@ class time_duration
         static constexpr time_duration from_days( const T d ) {
             return from_hours( d * 24 );
         }
+        template<typename T>
+        static constexpr time_duration from_weeks( const T d ) {
+            return from_days( d * 7 );
+        }
         /**@}*/
 
         /**
@@ -356,6 +360,10 @@ constexpr time_duration operator"" _hours( const unsigned long long int v )
 constexpr time_duration operator"" _days( const unsigned long long int v )
 {
     return time_duration::from_days( v );
+}
+constexpr time_duration operator"" _weeks( const unsigned long long int v )
+{
+    return time_duration::from_weeks( v );
 }
 /**@}*/
 

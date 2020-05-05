@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "debug.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "json.h"
 #include "monster.h"
@@ -206,6 +207,7 @@ resistances::resistances( monster &monster ) : resistances()
     set_resist( DT_BASH, monster.type->armor_bash );
     set_resist( DT_CUT,  monster.type->armor_cut );
     set_resist( DT_STAB, monster.type->armor_stab );
+    set_resist( DT_BULLET, monster.type->armor_bullet );
     set_resist( DT_ACID, monster.type->armor_acid );
     set_resist( DT_HEAT, monster.type->armor_fire );
 }
@@ -239,6 +241,7 @@ static const std::map<std::string, damage_type> dt_map = {
     { translate_marker_context( "damage type", "cut" ), DT_CUT },
     { translate_marker_context( "damage type", "acid" ), DT_ACID },
     { translate_marker_context( "damage type", "stab" ), DT_STAB },
+    { translate_marker_context( "damage_type", "bullet" ), DT_BULLET },
     { translate_marker_context( "damage type", "heat" ), DT_HEAT },
     { translate_marker_context( "damage type", "cold" ), DT_COLD },
     { translate_marker_context( "damage type", "electric" ), DT_ELECTRIC }
@@ -404,6 +407,7 @@ std::array<float, NUM_DT> load_damage_array( const JsonObject &jo )
     ret[ DT_BASH ] = jo.get_float( "bash", phys );
     ret[ DT_CUT ] = jo.get_float( "cut", phys );
     ret[ DT_STAB ] = jo.get_float( "stab", phys );
+    ret[ DT_BULLET ] = jo.get_float( "bullet", phys );
 
     float non_phys = jo.get_float( "non_physical", init_val );
     ret[ DT_BIOLOGICAL ] = jo.get_float( "biological", non_phys );
@@ -422,4 +426,38 @@ resistances load_resistances_instance( const JsonObject &jo )
     resistances ret;
     ret.resist_vals = load_damage_array( jo );
     return ret;
+}
+
+void damage_over_time_data::load( const JsonObject &obj )
+{
+    std::string tmp_string;
+    mandatory( obj, was_loaded, "damage_type", tmp_string );
+    type = dt_by_name( tmp_string );
+    mandatory( obj, was_loaded, "amount", amount );
+    mandatory( obj, was_loaded, "bodyparts", bps );
+
+    if( obj.has_string( "duration" ) ) {
+        duration = read_from_json_string<time_duration>( *obj.get_raw( "duration" ), time_duration::units );
+    } else {
+        duration = time_duration::from_turns( obj.get_int( "duration", 0 ) );
+    }
+}
+
+void damage_over_time_data::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "damage_type", name_by_dt( type ) );
+    jsout.member( "duration", duration );
+    jsout.member( "amount", amount );
+    jsout.member( "bodyparts", bps );
+    jsout.end_object();
+}
+
+void damage_over_time_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    type = dt_by_name( jo.get_string( "damage_type" ) );
+    jo.read( "amount", amount );
+    jo.read( "duration", duration );
+    jo.read( "bodyparts", bps );
 }

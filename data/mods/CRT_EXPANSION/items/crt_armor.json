@@ -90,11 +90,10 @@
     "name": "CRIT backpack",
     "description": "C.R.I.T standard-issue pack.  Based on the MOLLE backpack's design, this smaller pack strikes a fine balance between storage space and encumbrance and allows a larger weapon to be holstered, drawing and holstering is still rather awkward even with the magnetized clips, but practice helps.",
     "color": "dark_gray",
-    "storage": "9 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "9 L", "max_contains_weight": "27 kg", "moves": 200 } ],
     "encumbrance": 7,
     "material_thickness": 2,
     "material": [ "leather", "kevlar" ],
-    "use_action": { "type": "holster", "max_volume": 13, "draw_cost": 150, "skills": [ "smg", "shotgun", "rifle" ] },
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ]
   },
   {
@@ -169,7 +168,12 @@
     "covers": [ "TORSO", "ARMS", "LEGS" ],
     "coverage": 100,
     "encumbrance": 20,
-    "storage": "4500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 9,
@@ -214,7 +218,10 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
-    "storage": "12500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "30 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "30 kg", "moves": 80 }
+    ],
     "material_thickness": 3,
     "environmental_protection": 18,
     "use_action": "WEATHER_TOOL",
@@ -238,7 +245,10 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 25,
-    "storage": "1250 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
     "material_thickness": 5,
     "environmental_protection": 25,
     "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "COLLAR", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
@@ -257,7 +267,10 @@
     "covers": [ "LEGS" ],
     "coverage": 30,
     "encumbrance": 3,
-    "storage": "1500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF" ]
   },
@@ -279,7 +292,10 @@
     "coverage": 90,
     "encumbrance": 35,
     "warmth": 20,
-    "storage": "1750 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
     "material_thickness": 4,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "STURDY", "BELTED" ]
@@ -322,7 +338,10 @@
     "coverage": 100,
     "encumbrance": 7,
     "warmth": 20,
-    "storage": "2500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
     "material_thickness": 2,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "STURDY" ]
@@ -343,10 +362,12 @@
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 25,
-    "storage": "4 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
     "material_thickness": 3,
     "environmental_protection": 10,
-    "use_action": { "type": "holster", "max_volume": 15, "draw_cost": 155, "skills": [ "smg", "shotgun", "rifle", "launcher" ] },
     "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW" ]
   }
 ]

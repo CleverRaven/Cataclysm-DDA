@@ -592,11 +592,8 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
     const auto sort_morale = []( const morale_point & lhs, const morale_point & rhs ) -> bool {
         const int lhs_percent = lhs.get_percent_contribution();
         const int rhs_percent = rhs.get_percent_contribution();
-        if( lhs_percent != rhs_percent )
-        {
-            return lhs_percent > rhs_percent;
-        }
-        return lhs.get_name() < rhs.get_name();
+        return localized_compare( std::make_pair( -lhs_percent, lhs.get_name() ),
+                                  std::make_pair( -rhs_percent, rhs.get_name() ) );
     };
     std::sort( positive_morale.begin(), positive_morale.end(), sort_morale );
     std::sort( negative_morale.begin(), negative_morale.end(), sort_morale );
