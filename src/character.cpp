@@ -5401,46 +5401,34 @@ void Character::update_bodytemp()
             temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_l" ) );
             temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_r" ) );
             temp_equalizer( bodypart_id( "torso" ), bodypart_id( "head" ) );
-        }
-        if( bp == bodypart_id( "head" ) ) {
+        } else if( bp == bodypart_id( "head" ) ) {
             temp_equalizer( bodypart_id( "head" ), bodypart_id( "torso" ) );
             temp_equalizer( bodypart_id( "head" ), bodypart_id( "mouth" ) );
-        }
-        if( bp == bodypart_id( "arm_l" ) ) {
+        } else if( bp == bodypart_id( "arm_l" ) ) {
             temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "torso" ) );
             temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "hand_l" ) );
-        }
-        if( bp == bodypart_id( "arm_r" ) ) {
+        } else if( bp == bodypart_id( "arm_r" ) ) {
             temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "torso" ) );
             temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "hand_r" ) );
-        }
-        if( bp == bodypart_id( "leg_l" ) ) {
+        } else if( bp == bodypart_id( "leg_l" ) ) {
             temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "torso" ) );
             temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "foot_l" ) );
-        }
-        if( bp == bodypart_id( "leg_r" ) ) {
+        } else if( bp == bodypart_id( "leg_r" ) ) {
             temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "torso" ) );
             temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "foot_r" ) );
-        }
-        if( bp == bodypart_id( "mouth" ) ) {
+        } else if( bp == bodypart_id( "mouth" ) ) {
             temp_equalizer( bodypart_id( "mouth" ), bodypart_id( "head" ) );
-        }
-        if( bp == bodypart_id( "hand_l" ) ) {
+        } else if( bp == bodypart_id( "hand_l" ) ) {
             temp_equalizer( bodypart_id( "hand_l" ), bodypart_id( "arm_l" ) );
-        }
-        if( bp == bodypart_id( "hand_r" ) ) {
+        } else if( bp == bodypart_id( "hand_r" ) ) {
             temp_equalizer( bodypart_id( "hand_r" ), bodypart_id( "arm_r" ) );
-        }
-        if( bp == bodypart_id( "foot_l" ) ) {
+        } else if( bp == bodypart_id( "foot_l" ) ) {
             temp_equalizer( bodypart_id( "foot_l" ), bodypart_id( "leg_l" ) );
-        }
-        if( bp == bodypart_id( "foot_r" ) ) {
+        } else if( bp == bodypart_id( "foot_r" ) ) {
             temp_equalizer( bodypart_id( "foot_r" ), bodypart_id( "leg_r" ) );
-        }
-        if( bp == bodypart_id( "num_bp" ) ) {
+        } else {
             debugmsg( "Wacky body part temperature equalization!" );
         }
-
 
         // Climate Control eases the effects of high and low ambient temps
         if( has_climate_control ) {
