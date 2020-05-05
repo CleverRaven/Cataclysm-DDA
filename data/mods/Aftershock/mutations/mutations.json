@@ -527,7 +527,8 @@
     "type": "mutation",
     "id": "HUGE_OK",
     "copy-from": "HUGE_OK",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": [ "MASTODON" ] },
+    "extend": { "threshreq": [ "THRESH_MASTODON" ] }
   },
   {
     "type": "mutation",
