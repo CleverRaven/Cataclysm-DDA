@@ -280,36 +280,60 @@ void bionic_data::load( const JsonObject &jsobj, const std::string )
 
     optional( jsobj, was_loaded, "available_upgrades", available_upgrades );
 
-    for( JsonArray ja : jsobj.get_array( "stat_bonus" ) ) {
-        stat_bonus.emplace( io::string_to_enum<Character::stat>( ja.get_string( 0 ) ),
-                            ja.get_int( 1 ) );
+    if( jsobj.has_array( "stat_bonus" ) ) {
+        // clear data first so that copy-from can override it
+        stat_bonus.clear();
+        for( JsonArray ja : jsobj.get_array( "stat_bonus" ) ) {
+            stat_bonus.emplace( io::string_to_enum<Character::stat>( ja.get_string( 0 ) ),
+                                ja.get_int( 1 ) );
+        }
     }
-
-    for( JsonArray ja : jsobj.get_array( "encumbrance" ) ) {
-        encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                             ja.get_int( 1 ) );
+    if( jsobj.has_array( "encumbrance" ) ) {
+        // clear data first so that copy-from can override it
+        encumbrance.clear();
+        for( JsonArray ja : jsobj.get_array( "encumbrance" ) ) {
+            encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                 ja.get_int( 1 ) );
+        }
     }
-
-    for( JsonArray ja : jsobj.get_array( "occupied_bodyparts" ) ) {
-        occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                    ja.get_int( 1 ) );
+    if( jsobj.has_array( "occupied_bodyparts" ) ) {
+        // clear data first so that copy-from can override it
+        occupied_bodyparts.clear();
+        for( JsonArray ja : jsobj.get_array( "occupied_bodyparts" ) ) {
+            occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                        ja.get_int( 1 ) );
+        }
     }
-
-    for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {
-        env_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
+    if( jsobj.has_array( "env_protec" ) ) {
+        // clear data first so that copy-from can override it
+        env_protec.clear();
+        for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {
+            env_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
+        }
     }
-
-    for( JsonArray ja : jsobj.get_array( "bash_protec" ) ) {
-        bash_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                             ja.get_int( 1 ) );
+    if( jsobj.has_array( "bash_protec" ) ) {
+        // clear data first so that copy-from can override it
+        bash_protec.clear();
+        for( JsonArray ja : jsobj.get_array( "bash_protec" ) ) {
+            bash_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
+                                 ja.get_int( 1 ) );
+        }
     }
-    for( JsonArray ja : jsobj.get_array( "cut_protec" ) ) {
-        cut_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                            ja.get_int( 1 ) );
+    if( jsobj.has_array( "cut_protec" ) ) {
+        // clear data first so that copy-from can override it
+        cut_protec.clear();
+        for( JsonArray ja : jsobj.get_array( "cut_protec" ) ) {
+            cut_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
+                                ja.get_int( 1 ) );
+        }
     }
-    for( JsonArray ja : jsobj.get_array( "bullet_protec" ) ) {
-        bullet_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                               ja.get_int( 1 ) );
+    if( jsobj.has_array( "bullet_protec" ) ) {
+        // clear data first so that copy-from can override it
+        bullet_protec.clear();
+        for( JsonArray ja : jsobj.get_array( "bullet_protec" ) ) {
+            bullet_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
+                                   ja.get_int( 1 ) );
+        }
     }
 
     activated = has_flag( flag_BIO_TOGGLED ) ||
