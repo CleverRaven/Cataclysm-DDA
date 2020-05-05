@@ -542,7 +542,7 @@ template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> cube_to_volume(
     const quantity<value_type, volume_in_milliliter_tag> &v )
 {
-    return units::from_millimeter<int>(
+    return units::from_centimeter<int>(
                std::round(
                    std::cbrt( units::to_milliliter( v ) ) ) );
 }
