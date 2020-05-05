@@ -608,7 +608,6 @@
     "occupied_bodyparts": [ [ "HAND_R", 1 ] ],
     "act_cost": "30 kJ",
     "fake_item": "bio_laser_gun",
-"capacity": "50 kJ",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
