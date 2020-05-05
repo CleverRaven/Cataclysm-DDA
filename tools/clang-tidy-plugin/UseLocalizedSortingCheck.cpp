@@ -33,14 +33,54 @@ namespace tidy
 namespace cata
 {
 
-inline bool IsString( QualType T )
+static bool IsStringish( QualType T );
+
+static bool IsStringish( const TemplateArgument &Arg )
+{
+    switch( Arg.getKind() ) {
+        case TemplateArgument::Type:
+            if( IsStringish( Arg.getAsType() ) ) {
+                return true;
+            }
+            break;
+        case TemplateArgument::Pack:
+            for( const TemplateArgument &PackArg : Arg.getPackAsArray() ) {
+                if( IsStringish( PackArg ) ) {
+                    return true;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    return false;
+}
+
+static bool IsStringish( QualType T )
 {
     const TagDecl *TTag = T.getTypePtr()->getAsTagDecl();
     if( !TTag ) {
         return false;
     }
     StringRef Name = TTag->getName();
-    return Name == "basic_string";
+    if( Name == "basic_string" ) {
+        return true;
+    }
+    if( Name == "pair" || Name == "tuple" ) {
+        const ClassTemplateSpecializationDecl *SpecDecl =
+            dyn_cast<ClassTemplateSpecializationDecl>( TTag );
+        if( !SpecDecl ) {
+            fprintf( stderr, "Not a spec: %s\n", TTag->getKindName().str().c_str() );
+            return false;
+        }
+        const TemplateArgumentList &Args = SpecDecl->getTemplateArgs();
+        for( const TemplateArgument &Arg : Args.asArray() ) {
+            if( IsStringish( Arg ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void UseLocalizedSortingCheck::registerMatchers( MatchFinder *Finder )
@@ -81,7 +121,7 @@ static void CheckOpCall( UseLocalizedSortingCheck &Check, const MatchFinder::Mat
         return;
     }
 
-    if( !IsString( *Arg0Type ) ) {
+    if( !IsStringish( *Arg0Type ) ) {
         return;
     }
 
@@ -123,7 +163,7 @@ static void CheckSortCall( UseLocalizedSortingCheck &Check, const MatchFinder::M
         ValueType = *BoundValueType;
     }
 
-    if( !IsString( ValueType ) ) {
+    if( !IsStringish( ValueType ) ) {
         return;
     }
 
