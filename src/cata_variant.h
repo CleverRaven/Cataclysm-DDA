@@ -324,7 +324,7 @@ class cata_variant
     }
         CATA_VARIANT_OPERATOR( == );
         CATA_VARIANT_OPERATOR( != );
-        CATA_VARIANT_OPERATOR( < );
+        CATA_VARIANT_OPERATOR( < ); // NOLINT( cata-use-localized-sorting )
         CATA_VARIANT_OPERATOR( <= );
         CATA_VARIANT_OPERATOR( > );
         CATA_VARIANT_OPERATOR( >= );
