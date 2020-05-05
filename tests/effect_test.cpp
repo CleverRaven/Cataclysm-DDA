@@ -238,6 +238,84 @@ TEST_CASE( "display short description", "[effect][desc]" )
            "Everything is working perfectly now." );
 }
 
+// effect::disp_name
+// effect::get_speed_name
+//
+// From EFFECTS_JSON.md:
+//
+// "name":
+// """If "max_intensity" > 1 and the number of entries in "name" >= "max_intensity" then it will
+// attempt to use the proper intensity name."""
+//
+// "speed_name":
+// """This is the value used in the list of modifiers on a player's speed. It will default to the
+// first entry in "name" if it doesn't exist, and if neither one exists or if "speed_name" is the
+// empty string (""), then it will not appear in the list of modifiers on the players speed (though
+// the effect might still have an effect)."""
+//
+TEST_CASE( "effect display and speed name may vary with intensity",
+           "[effect][intensity][disp_name][speed_name]" )
+{
+    GIVEN( "effect with names for each intensity level" ) {
+        // "intensified" effect (data/mods/TEST_DATA/effects.json) has 3 names:
+        // "name": [ "Whoa", "Wut?", "Wow!" ]
+        // "max_intensity": 3
+        const efftype_id eid_intensified( "intensified" );
+        effect eff_intense( &eid_intensified.obj(), 1_turns, num_bp, false, 1, calendar::turn );
+        REQUIRE( eff_intense.get_max_intensity() == 3 );
+
+        // use_name_ints is true if there are names for each intensity
+        const effect_type *etype_intense = eff_intense.get_effect_type();
+        REQUIRE( etype_intense->use_name_ints() );
+
+        THEN( "disp_name has the name for the current intensity" ) {
+            eff_intense.set_intensity( 1 );
+            CHECK( eff_intense.disp_name() == "Whoa" );
+            eff_intense.set_intensity( 2 );
+            CHECK( eff_intense.disp_name() == "Wut?" );
+            eff_intense.set_intensity( 3 );
+            CHECK( eff_intense.disp_name() == "Wow!" );
+        }
+
+        // For this effect, "speed_name" is not explicitly defined, so
+        // get_speed_name is the same as disp_name for each intensity.
+        THEN( "get_speed_name has the name for the current intensity" ) {
+            eff_intense.set_intensity( 1 );
+            CHECK( eff_intense.get_speed_name() == "Whoa" );
+            eff_intense.set_intensity( 2 );
+            CHECK( eff_intense.get_speed_name() == "Wut?" );
+            eff_intense.set_intensity( 3 );
+            CHECK( eff_intense.get_speed_name() == "Wow!" );
+        }
+    }
+
+    GIVEN( "effect with a single name and explicit speed_name" ) {
+        // "debugged" effect has only one name and a speed_name:
+        // "name": [ "Debugged" ]
+        // "speed_name": "Optimized"
+        const efftype_id eid_debugged( "debugged" );
+        effect eff_debugged( &eid_debugged.obj(), 1_minutes, num_bp, false, 1, calendar::turn );
+
+        THEN( "disp_name has the name, and current intensity if > 1" ) {
+            eff_debugged.set_intensity( 1 );
+            CHECK( eff_debugged.disp_name() == "Debugged" );
+            eff_debugged.set_intensity( 2 );
+            CHECK( eff_debugged.disp_name() == "Debugged [2]" );
+            eff_debugged.set_intensity( 3 );
+            CHECK( eff_debugged.disp_name() == "Debugged [3]" );
+        }
+
+        THEN( "get_speed_name is the speed name for all intensity levels" ) {
+            eff_debugged.set_intensity( 1 );
+            CHECK( eff_debugged.get_speed_name() == "Optimized" );
+            eff_debugged.set_intensity( 2 );
+            CHECK( eff_debugged.get_speed_name() == "Optimized" );
+            eff_debugged.set_intensity( 3 );
+            CHECK( eff_debugged.get_speed_name() == "Optimized" );
+        }
+    }
+}
+
 // Effect permanence
 // -----------------
 // effect::is_permanent
@@ -293,9 +371,7 @@ TEST_CASE( "effect body part", "[effect][bodypart]" )
 // Effect modifiers
 // ----------------
 // TODO:
-// effect::get_mod
 // effect::get_avg_mod
-// effect::get_amount
 // effect::get_min_val
 // effect::get_max_val
 // effect::get_sizing
@@ -307,7 +383,10 @@ TEST_CASE( "effect modifiers", "[effect][modifier]" )
         const efftype_id eff_id( "debugged" );
         effect eff_debugged( &eff_id.obj(), 1_minutes, num_bp, false, 1, calendar::turn );
 
+        CHECK( eff_debugged.get_mod( "STR" ) == 1 );
+        CHECK( eff_debugged.get_mod( "DEX" ) == 2 );
         CHECK( eff_debugged.get_mod( "PER" ) == 3 );
+        CHECK( eff_debugged.get_mod( "INT" ) == 4 );
         CHECK( eff_debugged.get_amount( "HEAL_RATE" ) == 2 );
         CHECK( eff_debugged.get_amount( "HEAL_HEAD" ) == 200 );
         CHECK( eff_debugged.get_amount( "HEAL_TORSO" ) == 150 );
@@ -319,13 +398,20 @@ TEST_CASE( "effect modifiers", "[effect][modifier]" )
         effect eff_intense( &eff_id.obj(), 1_turns, num_bp, false, 1, calendar::turn );
         REQUIRE( eff_intense.get_max_intensity() == 3 );
 
-        // Subtracts 1 INT(elligence) per intensity > 1
+        // Subtracts 1 INT and 2 PER per intensity greater than 1
         eff_intense.set_intensity( 1 );
         CHECK( eff_intense.get_mod( "INT" ) == 0 );
+        CHECK( eff_intense.get_mod( "PER" ) == 0 );
         eff_intense.set_intensity( 2 );
         CHECK( eff_intense.get_mod( "INT" ) == -1 );
+        CHECK( eff_intense.get_mod( "PER" ) == -2 );
         eff_intense.set_intensity( 3 );
         CHECK( eff_intense.get_mod( "INT" ) == -2 );
+        CHECK( eff_intense.get_mod( "PER" ) == -4 );
+        // Max intensity is 3
+        eff_intense.set_intensity( 4 );
+        CHECK( eff_intense.get_mod( "INT" ) == -2 );
+        CHECK( eff_intense.get_mod( "PER" ) == -4 );
     }
 }
 
