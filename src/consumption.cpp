@@ -18,6 +18,7 @@
 #include "game.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
@@ -1631,8 +1632,31 @@ time_duration Character::get_consume_time( const item &it )
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
     } else if( it.is_medication() ) {
-        time = time_duration::from_seconds(
-                   30 ); //Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
+        const use_function *consume_drug = it.type->get_use( "consume_drug" );
+        const use_function *smoking = it.type->get_use( "SMOKING" );
+        const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
+        const use_function *heal = it.type->get_use( "heal" );
+        if( consume_drug != nullptr ) { //its a drug
+            const auto consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                                          ( consume_drug->get_actor_ptr() );
+            if( consume_drug_use->tools_needed.find( "syringe" ) != consume_drug_use->tools_needed.end() ) {
+                time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
+            } else if( consume_drug_use->tools_needed.find( "apparatus" ) !=
+                       consume_drug_use->tools_needed.end() ||
+                       consume_drug_use->tools_needed.find( "dab_pen_on" ) != consume_drug_use->tools_needed.end() ) {
+                time = time_duration::from_seconds( 30 );//smoke a bowl
+            } else {
+                time = time_duration::from_seconds( 5 );//popping a pill is quick
+            }
+        } else if( smoking != nullptr ) {
+            time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
+        } else if( adrenaline_injector != nullptr ) {
+            time = time_duration::from_seconds( 15 );//epi-pens are fairly quick
+        } else if( heal != nullptr ) {
+            time = time_duration::from_seconds( 15 );//bandages and disinfectant are fairly quick
+        } else {
+            time = time_duration::from_seconds( 5 ); //probably pills so quick
+        }
     } else {
         debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
     }
