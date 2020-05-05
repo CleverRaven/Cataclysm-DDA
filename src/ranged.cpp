@@ -221,6 +221,10 @@ class target_ui
         // List of vehicle turrets in range (out of those listed in 'vturrets')
         std::vector<turret_with_lof> turrets_in_range;
 
+        // If true, draws turret lines
+        // relevant for TargetMode::Turrets
+        bool draw_turret_lines;
+
         // Create window and set up input context
         void init_window_and_input( player &pc );
 
@@ -1858,6 +1862,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     // Load settings
     allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
+    draw_turret_lines = false;
 
     // Create window
     init_window_and_input( pc );
@@ -1934,6 +1939,8 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             continue;
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             toggle_snap_to_target( pc );
+        } else if( action == "TOGGLE_TURRET_LINES" ) {
+            draw_turret_lines = !draw_turret_lines;
         } else if( action == "zoom_in" ) {
             g->zoom_in();
         } else if( action == "zoom_out" ) {
@@ -2110,6 +2117,9 @@ void target_ui::init_window_and_input( player &pc )
             }
         }
         aim_mode = aim_types.begin();
+    }
+    if( mode == TargetMode::Turrets ) {
+        ctxt.register_action( "TOGGLE_TURRET_LINES" );
     }
 }
 
@@ -2625,11 +2635,11 @@ void target_ui::draw_terrain( player &pc )
         return this_z;
     };
 
-    // Draw trajectory
     // FIXME: TILES version of g->draw_line helpfully draws a cursor at last point.
     //        This creates a fake cursor if 'dst' is on a z-level we cannot see.
-    if( mode == TargetMode::Turrets ) {
-        // Or, rather, approximate line of fire for each turret in range
+
+    // Draw approximate line of fire for each turret in range
+    if( mode == TargetMode::Turrets && draw_turret_lines ) {
         // TODO: TILES version doesn't know how to draw more than 1 line at a time.
         //       We merge all lines together and draw them as a big malformed one
         std::set<tripoint> points;
@@ -2648,7 +2658,10 @@ void target_ui::draw_terrain( player &pc )
             l.push_back( dst );
         }
         g->draw_line( src, center, l, true );
-    } else if( dst != src ) {
+    }
+
+    // Draw trajectory
+    if( mode != TargetMode::Turrets && dst != src ) {
         std::vector<tripoint> this_z = filter_this_z( traj );
 
         // Draw a highlighted trajectory only if we can see the endpoint.
@@ -2844,6 +2857,12 @@ void target_ui::draw_controls_list( int text_y )
                                       bound_key( "SWITCH_MODE" ) ) )} );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%c] to reload/switch ammo." ),
                                       bound_key( "SWITCH_AMMO" ) ) )} );
+    }
+    if( mode == TargetMode::Turrets ) {
+        const std::string label = to_translation( "[Hotkey] Show/Hide turrets' lines of fire",
+                                  "[%c] %s lines of fire" ).translated();
+        const std::string showhide = draw_turret_lines ? "Hide" : "Show";
+        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ), showhide ) )} );
     }
 
     // Shrink the list until it fits
