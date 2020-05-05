@@ -73,7 +73,7 @@ struct point {
     }
 
 #ifndef CATA_NO_STL
-    inline point abs() const {
+    point abs() const {
         return point( std::abs( x ), std::abs( y ) );
     }
 #endif
@@ -185,7 +185,7 @@ struct tripoint {
     }
 
 #ifndef CATA_NO_STL
-    inline tripoint abs() const {
+    tripoint abs() const {
         return tripoint( std::abs( x ), std::abs( y ), std::abs( z ) );
     }
 #endif
