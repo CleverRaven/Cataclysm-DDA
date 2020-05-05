@@ -105,7 +105,7 @@
     "id": "xl_technician_shirt_gray",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": { "str": "work t-shirt" },
+    "name": { "str": "XL work t-shirt" },
     "description": "A gray XL work t-shirt with a small front pocket.",
     "weight": "84 g",
     "volume": "350 ml",
