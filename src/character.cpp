@@ -5304,7 +5304,6 @@ void Character::update_bodytemp()
         if( bp == bodypart_id( "eyes" ) || bp == bodypart_id( "num_bp" ) ) {
             continue;
         }
-        const body_part &bp_token = bp->token;
 
         // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
