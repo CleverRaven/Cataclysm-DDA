@@ -5889,8 +5889,13 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     // Cover percentage from terrain and furniture next.
     fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover: %d%%" ),
                     m.coverage( lp ) );
-    // Terrain and furniture flags next.
-    mvwprintz( w_look, point( column, ++line ), c_light_gray, "%s", m.features( lp ) );
+    // Terrain and furniture flags next. These can be several lines for some combinations of
+    // furnitures and terrains.
+    std::vector<std::string> lines = foldstring( m.features(lp), max_width );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines; i++ ) {
+        mvwprintz( w_look, point( column, ++line ), c_light_gray, lines[i] );
+    }
 
     // Move cost from terrain and furntiure and vehicle parts.
     // Vehicle part information is printed in a different function.
