@@ -42,6 +42,7 @@
 #include "game.h"
 #include "game_ui.h"
 #include "get_version.h"
+#include "hash_utils.h"
 #include "input.h"
 #include "json.h"
 #include "optional.h"
@@ -118,7 +119,7 @@ class Font
                                  unsigned char color, float opacity = 1.0f ) = 0;
         virtual void draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const;
         bool draw_window( const catacurses::window &w );
-        bool draw_window( const catacurses::window &w, int offsetx, int offsety );
+        bool draw_window( const catacurses::window &w, const point &offset );
 
         static std::unique_ptr<Font> load_font( const std::string &typeface, int fontsize, int fontwidth,
                                                 int fontheight, bool fontblending );
@@ -151,9 +152,18 @@ class CachedTTFFont : public Font
             std::string   codepoints;
             unsigned char color;
 
-            // Operator overload required to use in std::map.
-            bool operator<( const key_t &rhs ) const noexcept {
-                return ( color == rhs.color ) ? codepoints < rhs.codepoints : color < rhs.color;
+            std::pair<std::string, unsigned char> as_pair() const {
+                return std::make_pair( codepoints, color );
+            }
+
+            friend bool operator==( const key_t &lhs, const key_t &rhs ) noexcept {
+                return lhs.as_pair() == rhs.as_pair();
+            }
+        };
+
+        struct key_t_hash {
+            size_t operator()( const key_t &k ) const {
+                return cata::auto_hash<std::pair<std::string, unsigned char>>()( k.as_pair() );
             }
         };
 
@@ -162,7 +172,7 @@ class CachedTTFFont : public Font
             int          width;
         };
 
-        std::map<key_t, cached_t> glyph_cache_map;
+        std::unordered_map<key_t, cached_t, key_t_hash> glyph_cache_map;
 
         const bool fontblending;
 };
@@ -1006,11 +1016,11 @@ void Font::draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) 
     }
 }
 
-static void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, int y, int width,
+static void invalidate_framebuffer( std::vector<curseline> &framebuffer, const point &p, int width,
                                     int height )
 {
-    for( int j = 0, fby = y; j < height; j++, fby++ ) {
-        std::fill_n( framebuffer[fby].chars.begin() + x, width, cursecell( "" ) );
+    for( int j = 0, fby = p.y; j < height; j++, fby++ ) {
+        std::fill_n( framebuffer[fby].chars.begin() + p.x, width, cursecell( "" ) );
     }
 }
 
@@ -1067,7 +1077,7 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
         const int mapfont_y2 = std::min( termpixel_y2 / map_font->fontheight, oversized_height - 1 );
         const int mapfont_width = mapfont_x2 - mapfont_x + 1;
         const int mapfont_height = mapfont_y2 - mapfont_y + 1;
-        invalidate_framebuffer( oversized_framebuffer, mapfont_x, mapfont_y, mapfont_width,
+        invalidate_framebuffer( oversized_framebuffer, point( mapfont_x, mapfont_y ), mapfont_width,
                                 mapfont_height );
     }
 
@@ -1079,7 +1089,8 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
                                              oversized_height - 1 );
         const int overmapfont_width = overmapfont_x2 - overmapfont_x + 1;
         const int overmapfont_height = overmapfont_y2 - overmapfont_y + 1;
-        invalidate_framebuffer( oversized_framebuffer, overmapfont_x, overmapfont_y, overmapfont_width,
+        invalidate_framebuffer( oversized_framebuffer, point( overmapfont_x, overmapfont_y ),
+                                overmapfont_width,
                                 overmapfont_height );
     }
 }
@@ -1193,14 +1204,13 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             x_offset = width;
         }
 
-        invalidate_framebuffer( terminal_framebuffer, win->pos.x, win->pos.y,
+        invalidate_framebuffer( terminal_framebuffer, win->pos,
                                 TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT );
 
         update = true;
     } else if( g && w == g->w_terrain && map_font ) {
         // When the terrain updates, predraw a black space around its edge
         // to keep various former interface elements from showing through the gaps
-        // TODO: Maybe track down screen changes and use g->w_blackspace to draw this instead
 
         //calculate width differences between map_font and font
         int partial_width = std::max( TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH *
@@ -1232,16 +1242,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // The offset must not use the global font, but the map font
         int offsetx = win->pos.x * map_font->fontwidth;
         int offsety = win->pos.y * map_font->fontheight;
-        update = map_font->draw_window( w, offsetx, offsety );
-    } else if( g && w == g->w_blackspace ) {
-        // fill-in black space window skips draw code
-        // so as not to confuse framebuffer any more than necessary
-        int offsetx = win->pos.x * font->fontwidth;
-        int offsety = win->pos.y * font->fontheight;
-        int wwidth = win->width * font->fontwidth;
-        int wheight = win->height * font->fontheight;
-        FillRectDIB( point( offsetx, offsety ), wwidth, wheight, catacurses::black );
-        update = true;
+        update = map_font->draw_window( w, point( offsetx, offsety ) );
     } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn
@@ -1270,10 +1271,10 @@ bool Font::draw_window( const catacurses::window &w )
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
     // font used for this window.
-    return draw_window( w, win->pos.x * ::fontwidth, win->pos.y * ::fontheight );
+    return draw_window( w, point( win->pos.x * ::fontwidth, win->pos.y * ::fontheight ) );
 }
 
-bool Font::draw_window( const catacurses::window &w, const int offsetx, const int offsety )
+bool Font::draw_window( const catacurses::window &w, const point &offset )
 {
     if( scaling_factor > 1 ) {
         SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor,
@@ -1355,8 +1356,8 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
 
             const cursecell &cell = win->line[j].chars[i];
 
-            const int drawx = offsetx + i * fontwidth;
-            const int drawy = offsety + j * fontheight;
+            const int drawx = offset.x + i * fontwidth;
+            const int drawy = offset.y + j * fontheight;
             if( drawx + fontwidth > WindowWidth || drawy + fontheight > WindowHeight ) {
                 // Outside of the display area, would not render anyway
                 continue;

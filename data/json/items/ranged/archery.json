@@ -167,7 +167,7 @@
     "bashing": 6,
     "cutting": 2,
     "ammo_type": "arrow",
-    "prop_damage": 1.25,
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "dispersion": 150,
     "loudness": 0,
     "count": 10,

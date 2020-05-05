@@ -23,6 +23,7 @@
     "dodge": 3,
     "armor_bash": 10,
     "armor_cut": 16,
+    "armor_bullet": 13,
     "harvest": "zombie",
     "special_attacks": [ [ "TENTACLE", 2 ], [ "scratch", 10 ] ],
     "death_function": [ "NORMAL" ],

@@ -180,8 +180,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "miner_hat_on",
@@ -195,8 +194,7 @@
     "revert_to": "miner_hat",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "miner_hat" },
     "covers": [ "HEAD" ],
-    "techniques": [ "WBLOCK_1" ],
-    "magazine_well": 1
+    "techniques": [ "WBLOCK_1" ]
   },
   {
     "id": "welding_mask",
@@ -427,8 +425,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "thermal_socks_on",
@@ -441,8 +438,7 @@
     "power_draw": 7500,
     "revert_to": "thermal_socks",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_socks" },
-    "warmth": 60,
-    "magazine_well": 1
+    "warmth": 60
   },
   {
     "id": "thermal_suit",
@@ -485,8 +481,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "thermal_suit_on",
@@ -499,8 +494,7 @@
     "power_draw": 120000,
     "revert_to": "thermal_suit",
     "warmth": 60,
-    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_suit" },
-    "magazine_well": 1
+    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_suit" }
   },
   {
     "id": "thermal_gloves",
@@ -543,8 +537,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "thermal_gloves_on",
@@ -557,8 +550,7 @@
     "power_draw": 7500,
     "revert_to": "thermal_gloves",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_gloves" },
-    "warmth": 60,
-    "magazine_well": 1
+    "warmth": 60
   },
   {
     "id": "thermal_mask",
@@ -601,8 +593,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "thermal_mask_on",
@@ -615,8 +606,7 @@
     "power_draw": 7500,
     "revert_to": "thermal_mask",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_mask" },
-    "warmth": 60,
-    "magazine_well": 1
+    "warmth": 60
   },
   {
     "id": "binoculars",
@@ -681,8 +671,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "wearable_light_on",
@@ -695,8 +684,7 @@
     "power_draw": 10000,
     "revert_to": "wearable_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" },
-    "covers": [ "HEAD" ],
-    "magazine_well": 1
+    "covers": [ "HEAD" ]
   },
   {
     "id": "survivor_light",
@@ -739,8 +727,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "survivor_light_on",
@@ -753,8 +740,7 @@
     "power_draw": 10000,
     "revert_to": "survivor_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" },
-    "covers": [ "HEAD" ],
-    "magazine_well": 1
+    "covers": [ "HEAD" ]
   },
   {
     "id": "wearable_atomic_light",
@@ -820,7 +806,6 @@
     "ammo": "plutonium",
     "use_action": "RM13ARMOR_OFF",
     "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "storage": "8 L",
     "warmth": 30,
     "environmental_protection": 15,
     "encumbrance": 30,
@@ -923,7 +908,6 @@
     "material": [ "carbide" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "storage": "8 L",
     "ammo": "plutonium",
     "max_charges": 2500,
     "initial_charges": 1000,
@@ -1464,8 +1448,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "goggles_nv_on",
@@ -1480,8 +1463,7 @@
     "revert_to": "goggles_nv",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
     "warmth": 25,
-    "encumbrance": 20,
-    "magazine_well": 1
+    "encumbrance": 20
   },
   {
     "id": "goggles_ir",
@@ -1527,8 +1509,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "goggles_ir_on",
@@ -1543,8 +1524,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
     "covers": [ "EYES" ],
     "warmth": 25,
-    "encumbrance": 20,
-    "magazine_well": 1
+    "encumbrance": 20
   },
   {
     "id": "wearable_rx12",
@@ -1789,7 +1769,6 @@
     "weight": "3390 g",
     "color": "brown",
     "covers": [ "TORSO" ],
-    "storage": "500 ml",
     "symbol": "[",
     "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "price": 50000,
@@ -1800,19 +1779,17 @@
     "coverage": 15,
     "encumbrance": 4,
     "material_thickness": 2,
-    "use_action": [
+    "pocket_data": [
       {
-        "type": "holster",
-        "holster_prompt": "Sheath blade",
-        "holster_msg": "You sheath your %s",
-        "draw_cost": 3,
-        "min_volume": "250 ml",
-        "max_volume": "1 L",
-        "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-      },
-      "CROWBAR",
-      "HAMMER"
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      }
     ],
+    "use_action": [ { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" }, "CROWBAR", "HAMMER" ],
     "qualities": [
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],
@@ -2362,8 +2339,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "thermal_outfit_on",
@@ -2377,8 +2353,7 @@
     "revert_to": "thermal_outfit",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_outfit" },
     "covers": [ "HEAD", "MOUTH", "TORSO", "ARMS", "LEGS", "HANDS", "FEET" ],
-    "warmth": 60,
-    "magazine_well": 2
+    "warmth": 60
   },
   {
     "type": "TOOL_ARMOR",
@@ -2731,8 +2706,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "powered_earmuffs_on",
@@ -2758,8 +2732,7 @@
     "warmth": 5,
     "encumbrance": 5,
     "coverage": 10,
-    "material_thickness": 2,
-    "magazine_well": 1
+    "material_thickness": 2
   },
   {
     "id": "stethoscope",
@@ -3042,8 +3015,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "electric_blanket_on",
@@ -3055,8 +3027,7 @@
     "warmth": 90,
     "power_draw": 100000,
     "revert_to": "electric_blanket",
-    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" },
-    "magazine_well": 2
+    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" }
   },
   {
     "id": "foodperson_mask",
@@ -3095,7 +3066,6 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
     "flags": [ "OUTER", "SUN_GLASSES" ]
   },
   {

@@ -1100,8 +1100,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "shock_epee",
@@ -1121,8 +1120,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "shock_sabre",
@@ -1142,8 +1140,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "hollow_cane",
@@ -1159,14 +1156,16 @@
     "volume": "1531 ml",
     "bashing": 3,
     "looks_like": "cane",
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath sword",
-      "holster_msg": "You sheath your %s",
-      "max_volume": "1531 ml",
-      "draw_cost": 80,
-      "flags": [ "SHEATH_SWORD" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1531 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "flag_restriction": [ "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ]
   },
   {
@@ -1578,8 +1577,7 @@
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": 4
+    ]
   },
   {
     "id": "ecs_lajatang_on",
@@ -1594,8 +1592,7 @@
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
     "use_action": "ECS_LAJATANG_ON",
-    "flags": [ "MESSY", "HURT_WHEN_PULLED", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
-    "magazine_well": 4
+    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "cutlass",
@@ -1698,8 +1695,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "e_combatsaw_on",
@@ -1714,7 +1710,6 @@
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "E_COMBATSAW_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ],
-    "magazine_well": 2
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
   }
 ]

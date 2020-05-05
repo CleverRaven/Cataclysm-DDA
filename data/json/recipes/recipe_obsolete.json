@@ -2439,5 +2439,25 @@
     "type": "recipe",
     "result": "modularvestceramic",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_bearing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_pebble",
+    "obsolete": true
   }
 ]

@@ -67,12 +67,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "shotcanister",
-    "name": "shotcanisters",
-    "default": "shotcanister_scrap"
-  },
-  {
-    "type": "ammunition_type",
     "id": "shot",
     "name": "shot",
     "default": "shot_00"

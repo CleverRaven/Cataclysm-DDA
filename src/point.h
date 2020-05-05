@@ -72,6 +72,12 @@ struct point {
         return point( x / rhs, y / rhs );
     }
 
+#ifndef CATA_NO_STL
+    point abs() const {
+        return point( std::abs( x ), std::abs( y ) );
+    }
+#endif
+
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
      * around the center of a rectangle with the dimensions specified
@@ -177,6 +183,12 @@ struct tripoint {
         z -= rhs.z;
         return *this;
     }
+
+#ifndef CATA_NO_STL
+    tripoint abs() const {
+        return tripoint( std::abs( x ), std::abs( y ), std::abs( z ) );
+    }
+#endif
 
     constexpr point xy() const {
         return point( x, y );
@@ -310,16 +322,6 @@ std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_d
 
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
-
-inline point abs( const point &p )
-{
-    return point( std::abs( p.x ), std::abs( p.y ) );
-}
-
-inline tripoint abs( const tripoint &p )
-{
-    return tripoint( std::abs( p.x ), std::abs( p.y ), std::abs( p.z ) );
-}
 
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };

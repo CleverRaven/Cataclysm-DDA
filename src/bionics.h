@@ -102,12 +102,14 @@ struct bionic_data {
     /**Type of field emitted by this bionic when it produces energy*/
     emit_id power_gen_emission = emit_id::NULL_ID();
     /**Amount of environemental protection offered by this bionic*/
-    std::map<body_part, size_t> env_protec;
+    std::map<bodypart_str_id, size_t> env_protec;
 
     /**Amount of bash protection offered by this bionic*/
-    std::map<body_part, size_t> bash_protec;
+    std::map<bodypart_str_id, size_t> bash_protec;
     /**Amount of cut protection offered by this bionic*/
-    std::map<body_part, size_t> cut_protec;
+    std::map<bodypart_str_id, size_t> cut_protec;
+    /**Amount of bullet protection offered by this bionic*/
+    std::map<bodypart_str_id, size_t> bullet_protec;
 
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
@@ -130,6 +132,12 @@ struct bionic_data {
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
      */
     std::vector<trait_id> canceled_mutations;
+
+    /**
+     * The spells you learn when you install this bionic, and what level you learn them at.
+     */
+    std::map<spell_id, int> learned_spells;
+
     /**
      * Additional bionics that are installed automatically when this
      * bionic is installed. This can be used to install several bionics

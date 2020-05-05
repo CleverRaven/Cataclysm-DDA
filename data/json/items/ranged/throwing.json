@@ -111,8 +111,8 @@
     "color": "light_gray",
     "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
     "material": "steel",
-    "volume": "250 ml",
-    "weight": "268 g",
+    "volume": "100 ml",
+    "weight": "460 g",
     "bashing": 1,
     "cutting": 10,
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]

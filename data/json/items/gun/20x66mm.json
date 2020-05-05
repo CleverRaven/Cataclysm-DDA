@@ -19,7 +19,7 @@
     "ammo": "20x66mm",
     "skill": "shotgun",
     "range": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 285,
     "durability": 9,
     "clip_size": 5,
@@ -69,7 +69,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
     "magazines": [ [ "20x66mm", [ "20x66_20_mag", "20x66_40_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },

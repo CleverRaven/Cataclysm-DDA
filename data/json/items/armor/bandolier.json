@@ -16,32 +16,32 @@
     "coverage": 10,
     "encumbrance": 1,
     "material_thickness": 1,
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 18,
-      "ammo": [
-        "32",
-        "762x25",
-        "38",
-        "357mag",
-        "357sig",
-        "380",
-        "38super",
-        "40",
-        "10mm",
-        "44",
-        "45",
-        "45colt",
-        "46",
-        "57",
-        "9x18",
-        "9mm",
-        "454",
-        "460",
-        "500"
-      ],
-      "draw_cost": 20
-    },
+    "pocket_data": [
+      {
+        "ammo_restriction": {
+          "32": 18,
+          "762x25": 18,
+          "38": 18,
+          "357mag": 18,
+          "357sig": 18,
+          "380": 18,
+          "38super": 18,
+          "40": 18,
+          "10mm": 18,
+          "44": 18,
+          "45": 18,
+          "45colt": 18,
+          "46": 18,
+          "57": 18,
+          "9x18": 18,
+          "9mm": 18,
+          "454": 18,
+          "460": 18,
+          "500": 18
+        },
+        "moves": 20
+      }
+    ],
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE", "FANCY" ]
   },
   {
@@ -61,28 +61,28 @@
     "coverage": 10,
     "encumbrance": 1,
     "material_thickness": 1,
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 16,
-      "ammo": [
-        "22",
-        "223",
-        "270win",
-        "300blk",
-        "5x50",
-        "545x39",
-        "3006",
-        "308",
-        "300",
-        "762",
-        "762R",
-        "8x40mm",
-        "4570",
-        "50",
-        "700nx"
-      ],
-      "draw_cost": 20
-    },
+    "pocket_data": [
+      {
+        "ammo_restriction": {
+          "22": 16,
+          "223": 16,
+          "270win": 16,
+          "300blk": 16,
+          "5x50": 16,
+          "545x39": 16,
+          "3006": 16,
+          "308": 16,
+          "300": 16,
+          "762": 16,
+          "762R": 16,
+          "8x40mm": 16,
+          "4570": 16,
+          "50": 16,
+          "700nx": 16
+        },
+        "moves": 20
+      }
+    ],
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
   {
@@ -102,7 +102,7 @@
     "coverage": 10,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 25, "ammo": [ "410shot", "shot", "20x66mm", "signal_flare" ], "draw_cost": 25 },
+    "pocket_data": [ { "ammo_restriction": { "410shot": 25, "shot": 25, "20x66mm": 25, "signal_flare": 25 }, "moves": 25 } ],
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
   {
@@ -122,7 +122,7 @@
     "coverage": 12,
     "encumbrance": 3,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 50, "ammo": [ "410shot", "shot", "20x66mm", "signal_flare" ], "draw_cost": 35 },
+    "pocket_data": [ { "ammo_restriction": { "410shot": 50, "shot": 50, "20x66mm": 50, "signal_flare": 50 }, "moves": 35 } ],
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
   },
   {
@@ -142,12 +142,12 @@
     "coverage": 10,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 14,
-      "ammo": [ "flintlock", "36paper", "44paper", "blunderbuss", "shotcanister", "shotpaper" ],
-      "draw_cost": 20
-    },
+    "pocket_data": [
+      {
+        "ammo_restriction": { "flintlock": 14, "36paper": 14, "44paper": 14, "blunderbuss": 14, "shotcanister": 14, "shotpaper": 14 },
+        "moves": 20
+      }
+    ],
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
   {
@@ -167,28 +167,28 @@
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 1,
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 4,
-      "ammo": [
-        "22",
-        "223",
-        "270win",
-        "300blk",
-        "5x50",
-        "545x39",
-        "3006",
-        "308",
-        "300",
-        "762",
-        "762R",
-        "8x40mm",
-        "4570",
-        "50",
-        "700nx"
-      ],
-      "draw_cost": 20
-    },
+    "pocket_data": [
+      {
+        "ammo_restriction": {
+          "22": 4,
+          "223": 4,
+          "270win": 4,
+          "300blk": 4,
+          "5x50": 4,
+          "545x39": 4,
+          "3006": 4,
+          "308": 4,
+          "300": 4,
+          "762": 4,
+          "762R": 4,
+          "8x40mm": 4,
+          "4570": 4,
+          "50": 4,
+          "700nx": 40
+        },
+        "moves": 20
+      }
+    ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -208,7 +208,7 @@
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 4, "ammo": [ "40x46mm", "40x53mm" ], "draw_cost": 20 },
+    "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
@@ -220,7 +220,6 @@
     "volume": "250 ml",
     "price": 5900,
     "price_postapoc": 750,
-    "rigid": false,
     "material": [ "cotton", "leather" ],
     "symbol": "[",
     "looks_like": "ammo_satchel",
@@ -229,7 +228,7 @@
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 10, "ammo": [ "rock" ], "draw_cost": 20 },
+    "pocket_data": [ { "ammo_restriction": { "rock": 10 }, "moves": 20 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
@@ -241,7 +240,6 @@
     "volume": "1250 ml",
     "price": 3000,
     "price_postapoc": 1250,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "leather_belt",
@@ -249,15 +247,37 @@
     "covers": [ "TORSO" ],
     "coverage": 15,
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash grenades",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "max_volume": "750 ml",
-      "draw_cost": 30,
-      "flags": [ "GRENADE" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash grenades", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   }
 ]

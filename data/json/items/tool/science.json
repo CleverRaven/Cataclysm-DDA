@@ -59,8 +59,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "chemistry_set_basic",
@@ -96,8 +95,7 @@
         "battery",
         [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
       ]
-    ],
-    "magazine_well": 0
+    ]
   },
   {
     "id": "vac_oven_small",
@@ -746,8 +744,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "analytical_set_basic",
@@ -771,8 +768,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "balance_small",
@@ -811,8 +807,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "cuvettes",
@@ -859,8 +854,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "voltmeter",
@@ -891,8 +885,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "melting_point",
@@ -923,8 +916,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "vortex",
@@ -1142,8 +1134,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "stopcock",

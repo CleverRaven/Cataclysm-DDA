@@ -218,6 +218,10 @@ class time_duration
         static constexpr time_duration from_days( const T d ) {
             return from_hours( d * 24 );
         }
+        template<typename T>
+        static constexpr time_duration from_weeks( const T d ) {
+            return from_days( d * 7 );
+        }
         /**@}*/
 
         /**
@@ -356,6 +360,10 @@ constexpr time_duration operator"" _hours( const unsigned long long int v )
 constexpr time_duration operator"" _days( const unsigned long long int v )
 {
     return time_duration::from_days( v );
+}
+constexpr time_duration operator"" _weeks( const unsigned long long int v )
+{
+    return time_duration::from_weeks( v );
 }
 /**@}*/
 
@@ -540,12 +548,14 @@ time_point sunset( const time_point &p );
 time_point daylight_time( const time_point &p );
 /** Returns the time it gets dark based on sunset */
 time_point night_time( const time_point &p );
-/** Returns whether it's currently after sunset + TWILIGHT_SECONDS or before sunrise - TWILIGHT_SECONDS. */
+/** Returns true if it's currently night time - after dusk and before dawn. */
 bool is_night( const time_point &p );
-/** Returns true if it's currently after sunset and before sunset + TWILIGHT_SECONDS. */
-bool is_sunset_now( const time_point &p );
-/** Returns true if it's currently after sunrise and before sunrise + TWILIGHT_SECONDS. */
-bool is_sunrise_now( const time_point &p );
+/** Returns true if it's currently day time - after dawn and before dusk. */
+bool is_day( const time_point &p );
+/** Returns true if it's currently dusk - between sunset and and twilight_duration after sunset. */
+bool is_dusk( const time_point &p );
+/** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
+bool is_dawn( const time_point &p );
 /** Returns the current seasonally-adjusted maximum daylight level */
 double current_daylight_level( const time_point &p );
 /** How much light is provided in full daylight */

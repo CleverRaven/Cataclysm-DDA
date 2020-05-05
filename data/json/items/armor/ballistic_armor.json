@@ -39,7 +39,7 @@
     "coverage": 85,
     "encumbrance": 10,
     "warmth": 15,
-    "material_thickness": 20,
+    "material_thickness": 16,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ]
   },
   {

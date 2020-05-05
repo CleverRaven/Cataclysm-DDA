@@ -17,7 +17,7 @@
     "color": "light_gray",
     "ammo": "22",
     "skill": "smg",
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 39,
@@ -58,7 +58,7 @@
     "color": "brown",
     "ammo": "22",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 90,
     "durability": 8,
     "blackpowder_tolerance": 56,
@@ -97,7 +97,7 @@
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": "22",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 520,
     "durability": 6,
     "blackpowder_tolerance": 96,
@@ -133,7 +133,7 @@
     "color": "brown",
     "ammo": "22",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -172,7 +172,7 @@
     "color": "brown",
     "ammo": "22",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 110,
     "durability": 8,
     "min_cycle_recoil": 39,
@@ -192,7 +192,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ] ]
   },
   {
@@ -224,7 +223,7 @@
     "color": "dark_gray",
     "ammo": "22",
     "skill": "pistol",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 39,
@@ -242,7 +241,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "22", [ "mosquitomag" ] ] ]
   },
   {
@@ -264,7 +262,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "magazine_well": 1,
     "magazines": [ [ "22", [ "sw22mag" ] ] ]
   },
   {
@@ -308,7 +305,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "magazine_well": 1,
     "magazines": [ [ "22", [ "wp22mag" ] ] ]
   }
 ]

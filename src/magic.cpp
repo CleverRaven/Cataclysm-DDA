@@ -115,6 +115,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
+        case spell_flag::WITH_CONTAINER: return "WITH_CONTAINER";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
@@ -184,6 +185,8 @@ static damage_type damage_type_from_string( const std::string &str )
         return DT_COLD;
     } else if( str == "cut" ) {
         return DT_CUT;
+    } else if( str == "bullet" ) {
+        return DT_BULLET;
     } else if( str == "electric" ) {
         return DT_ELECTRIC;
     } else if( str == "stab" ) {
@@ -495,6 +498,31 @@ int spell::damage() const
     }
 }
 
+int spell::min_leveled_dot() const
+{
+    return type->min_dot + std::round( get_level() * type->dot_increment );
+}
+
+int spell::damage_dot() const
+{
+    const int leveled_dot = min_leveled_dot();
+    if( type->min_dot >= 0 || type->max_dot >= type->min_dot ) {
+        return std::min( leveled_dot, type->max_dot );
+    } else { // if it's negative, min and max work differently
+        return std::max( leveled_dot, type->max_dot );
+    }
+}
+
+damage_over_time_data spell::damage_over_time( const std::vector<bodypart_str_id> &bps ) const
+{
+    damage_over_time_data temp;
+    temp.bps = bps;
+    temp.duration = duration_turns();
+    temp.amount = damage_dot();
+    temp.type = dmg_type();
+    return temp;
+}
+
 std::string spell::damage_string() const
 {
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
@@ -596,6 +624,22 @@ time_duration spell::duration_turns() const
 void spell::gain_level()
 {
     gain_exp( exp_to_next_level() );
+}
+
+void spell::gain_levels( int gains )
+{
+    if( gains < 1 ) {
+        return;
+    }
+    for( int gained = 0; gained < gains || is_max_level(); gained++ ) {
+        gain_level();
+    }
+}
+
+void spell::set_level( int nlevel )
+{
+    experience = 0;
+    gain_levels( nlevel );
 }
 
 bool spell::is_max_level() const
@@ -988,6 +1032,8 @@ nc_color spell::damage_type_color() const
             return c_light_gray;
         case DT_ELECTRIC:
             return c_light_blue;
+        case DT_BULLET:
+        /* fallthrough */
         case DT_STAB:
             return c_light_red;
         case DT_TRUE:
@@ -1518,7 +1564,7 @@ class spellcasting_callback : public uilist_callback
             return false;
         }
 
-        void select( int entnum, uilist *menu ) override {
+        void refresh( uilist *menu ) override {
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, 0 ), c_magenta, LINE_OXXX );
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, menu->w_height - 1 ), c_magenta,
                       LINE_XXOX );
@@ -1532,7 +1578,10 @@ class spellcasting_callback : public uilist_callback
             const std::string assign_letter = _( "Assign Hotkey [=]" );
             mvwprintz( menu->window, point( menu->w_width - assign_letter.length() - 1, 0 ), c_yellow,
                        assign_letter );
-            draw_spell_info( *known_spells[entnum], menu );
+            if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
+                draw_spell_info( *known_spells[menu->selected], menu );
+            }
+            wrefresh( menu->window );
         }
 };
 
@@ -1684,9 +1733,14 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
         fx == "line_attack" ) {
         if( damage > 0 ) {
-            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( sp.damage_string(),
-                                           sp.damage_type_color() ),
-                                           colorize( sp.damage_type_string(), sp.damage_type_color() ) );
+            std::string dot_string;
+            if( sp.damage_dot() != 0 ) {
+                //~ amount of damage per second, abbreviated
+                dot_string = string_format( _( ", %d/sec" ), sp.damage_dot() );
+            }
+            damage_string = string_format( "%s: %s %s%s", _( "Damage" ), sp.damage_string(),
+                                           sp.damage_type_string(), dot_string );
+            damage_string = colorize( damage_string, sp.damage_type_color() );
         } else if( damage < 0 ) {
             damage_string = string_format( "%s: %s", _( "Healing" ), colorize( sp.damage_string(),
                                            light_green ) );
@@ -1957,14 +2011,17 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 }
 
-void spellbook_callback::select( int entnum, uilist *menu )
+void spellbook_callback::refresh( uilist *menu )
 {
     mvwputch( menu->window, point( menu->pad_left, 0 ), c_magenta, LINE_OXXX );
     mvwputch( menu->window, point( menu->pad_left, menu->w_height - 1 ), c_magenta, LINE_XXOX );
     for( int i = 1; i < menu->w_height - 1; i++ ) {
         mvwputch( menu->window, point( menu->pad_left, i ), c_magenta, LINE_XOXO );
     }
-    draw_spellbook_info( spells[entnum], menu );
+    if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
+        draw_spellbook_info( spells[menu->selected], menu );
+    }
+    wrefresh( menu->window );
 }
 
 void fake_spell::load( const JsonObject &jo )

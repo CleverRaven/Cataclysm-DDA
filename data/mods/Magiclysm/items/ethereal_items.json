@@ -243,7 +243,7 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 10,
-    "storage": "25 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60 } ],
     "material_thickness": 3,
     "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ]
   },
@@ -302,7 +302,7 @@
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": 29,
+    "ranged_damage": { "damage_type": "stab", "amount": 29 },
     "range": 12,
     "dispersion": 950,
     "durability": 6,

@@ -873,5 +873,12 @@
     "rooted": true,
     "based_on": "time",
     "auto_needs": true
+  },
+  {
+    "id": "ACT_CONSUME",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "consuming",
+    "based_on": "time"
   }
 ]

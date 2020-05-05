@@ -233,7 +233,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     // Clockwise Perpendicular of Delta vector
     const point delta_perp( -delta.y, delta.x );
 
-    const point abs_delta = abs( delta );
+    const point abs_delta = delta.abs();
     // Primary axis of delta vector
     const point axis_delta = abs_delta.x > abs_delta.y ? point( delta.x, 0 ) : point( 0, delta.y );
     // Clockwise Perpendicular of axis vector
@@ -437,6 +437,8 @@ static void damage_targets( const spell &sp, Creature &caster,
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
         }
+        // TODO: randomize hit location
+        cr->add_damage_over_time( sp.damage_over_time( { bodypart_str_id( "torso" ) } ) );
     }
 }
 
@@ -672,6 +674,9 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     }
     if( granted.count_by_charges() && sp.damage() > 0 ) {
         granted.charges = sp.damage();
+    }
+    if( sp.has_flag( spell_flag::WITH_CONTAINER ) ) {
+        granted = granted.in_its_container();
     }
     if( g->u.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );

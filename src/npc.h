@@ -962,7 +962,11 @@ class npc : public player
         bool has_artifact_with( const art_effect_passive ) const override {
             return false;
         }
-        /** Is the item safe or does the NPC trust you enough? */
+        /**
+         * Is the item safe or does the NPC trust you enough?
+         * Is not recursive, only checks the item that is the parameter.
+         * to check contents, call this on the items inside the item.
+         */
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;

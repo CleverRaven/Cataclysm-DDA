@@ -373,11 +373,6 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            if( node->is_gun() || node->is_magazine() ) {
-                // Content of guns and magazines are accessible only via their specific accessors
-                return VisitResponse::NEXT;
-            }
-
             if( node->contents.visit_contents( func, node ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
@@ -394,7 +389,25 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
 VisitResponse item_contents::visit_contents( const std::function<VisitResponse( item *, item * )>
         &func, item *parent )
 {
-    for( item &e : items ) {
+    for( item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            // anything that is not CONTAINER is accessible only via its specific accessor
+            return VisitResponse::NEXT;
+        }
+        switch( pocket.visit_contents( func, parent ) ) {
+            case VisitResponse::ABORT:
+                return VisitResponse::ABORT;
+            default:
+                break;
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
+VisitResponse item_pocket::visit_contents( const std::function<VisitResponse( item *, item * )>
+        &func, item *parent )
+{
+    for( item &e : contents ) {
         switch( visit_internal( func, &e, parent ) ) {
             case VisitResponse::ABORT:
                 return VisitResponse::ABORT;
@@ -531,23 +544,6 @@ item visitable<T>::remove_item( item &it )
         debugmsg( "Tried removing item from object which did not contain it" );
         return item();
     }
-}
-
-bool item_contents::remove_internal( const std::function<bool( item & )> &filter,
-                                     int &count, std::list<item> &res )
-{
-    for( auto it = items.begin(); it != items.end(); ) {
-        if( filter( *it ) ) {
-            res.splice( res.end(), items, it++ );
-            if( --count == 0 ) {
-                return true;
-            }
-        } else {
-            it->contents.remove_internal( filter, count, res );
-            ++it;
-        }
-    }
-    return false;
 }
 
 /** @relates visitable */

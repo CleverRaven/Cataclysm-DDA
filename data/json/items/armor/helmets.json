@@ -186,7 +186,7 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "HEAD", "EYES" ],
     "coverage": 90,
     "encumbrance": 30,
     "warmth": 10,

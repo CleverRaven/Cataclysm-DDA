@@ -24,6 +24,7 @@
     "melee_cut": 2,
     "armor_bash": 3,
     "armor_cut": 8,
+    "armor_bullet": 6,
     "vision_night": 3,
     "luminance": 16,
     "harvest": "CBM_SUBS",

@@ -76,7 +76,7 @@
     "bashing": 6,
     "cutting": 2,
     "ammo_type": "bolt",
-    "prop_damage": 1.25,
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "dispersion": 180,
     "loudness": 0,
     "count": 10,

@@ -42,5 +42,71 @@
     "//": "Mi-go base defenders for major boss battles.",
     "default": "mon_mi_go_guard",
     "monsters": [ { "monster": "afs_mon_migoturret", "freq": 50, "cost_multiplier": 3, "pack_size": [ 2, 3 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_uplifted_bear", "freq": 1, "cost_multiplier": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_zombie_upliftedbear", "freq": 1, "cost_multiplier": 10, "starts": 72 },
+      { "monster": "mon_uplifted_ape_zed", "freq": 1, "cost_multiplier": 10, "starts": 72 },
+      {
+        "monster": "mon_uplifted_bear",
+        "freq": 3,
+        "cost_multiplier": 10,
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_uplifted_ape",
+        "freq": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      {
+        "monster": "mon_uplifted_ape",
+        "freq": 3,
+        "cost_multiplier": 10,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAVE",
+    "default": "mon_null",
+    "monsters": [ { "monster": "mon_uplifted_bear", "freq": 50, "cost_multiplier": 10, "pack_size": [ 1, 3 ] } ]
+  },
+  {
+    "name": "GROUP_PARK_SCENIC",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_zombie_upliftedbear", "freq": 10, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_uplifted_ape_zed", "freq": 10, "cost_multiplier": 1, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BRUTE",
+    "default": "mon_zombie_brute",
+    "//": "Brute upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_upliftedbear", "freq": 112, "cost_multiplier": 10 },
+      { "monster": "mon_uplifted_ape_zed", "freq": 100, "cost_multiplier": 50 },
+      { "monster": "mon_zombie_oliphant", "freq": 70, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_zombie_upliftedbear", "freq": 3, "cost_multiplier": 10 },
+      { "monster": "mon_uplifted_ape_zed", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_oliphant", "freq": 1, "cost_multiplier": 50 }
+    ]
   }
 ]

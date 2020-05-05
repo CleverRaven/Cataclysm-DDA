@@ -16,7 +16,10 @@
     "covers": [ "TORSO", "LEGS" ],
     "coverage": 70,
     "encumbrance": 5,
-    "storage": "2 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
@@ -38,7 +41,12 @@
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 85,
     "encumbrance": 20,
-    "storage": "500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 120 }
+    ],
     "warmth": 20,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
@@ -83,7 +91,7 @@
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 90,
     "encumbrance": 5,
-    "storage": "250 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "FANCY" ]
@@ -231,7 +239,11 @@
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 95,
     "encumbrance": 12,
-    "storage": "2250 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
+    ],
     "warmth": 30,
     "material_thickness": 3,
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
@@ -414,7 +426,10 @@
     "covers": [ "TORSO", "ARMS", "LEGS" ],
     "coverage": 75,
     "encumbrance": 7,
-    "storage": "500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "FANCY" ]
@@ -455,7 +470,10 @@
     "color": "light_blue",
     "covers": [ "TORSO" ],
     "coverage": 90,
-    "storage": "1 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 }
+    ],
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
@@ -477,7 +495,7 @@
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 90,
     "encumbrance": 5,
-    "storage": "500 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
@@ -582,7 +600,7 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 5,
-    "storage": "250 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 8,
     "material_thickness": 1,
     "snippet_category": [
@@ -700,7 +718,12 @@
     "covers": [ "TORSO" ],
     "coverage": 90,
     "encumbrance": 8,
-    "storage": "1 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
@@ -723,7 +746,11 @@
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 95,
     "encumbrance": 12,
-    "storage": "2250 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
+    ],
     "warmth": 45,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
