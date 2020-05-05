@@ -33,11 +33,6 @@ namespace tidy
 namespace cata
 {
 
-inline auto isStringType()
-{
-    return qualType( anyOf( asString( "const std::string" ), asString( "std::string" ) ) );
-}
-
 inline bool IsString( QualType T )
 {
     const TagDecl *TTag = T.getTypePtr()->getAsTagDecl();
@@ -54,7 +49,7 @@ void UseLocalizedSortingCheck::registerMatchers( MatchFinder *Finder )
         cxxOperatorCallExpr(
             hasArgument(
                 0,
-                expr( hasType( isStringType().bind( "arg0Type" ) ) ).bind( "arg0Expr" )
+                expr( hasType( qualType().bind( "arg0Type" ) ) ).bind( "arg0Expr" )
             ),
             hasOverloadedOperatorName( "<" )
         ).bind( "opCall" ),
@@ -68,7 +63,7 @@ void UseLocalizedSortingCheck::registerMatchers( MatchFinder *Finder )
             hasArgument(
                 0,
                 expr( hasType( qualType( anyOf(
-                        pointerType( pointee( isStringType().bind( "valueType" ) ) ),
+                        pointerType( pointee( qualType().bind( "valueType" ) ) ),
                         hasDeclaration( decl().bind( "iteratorDecl" ) )
                                          ) ) ) )
             )
@@ -83,6 +78,10 @@ static void CheckOpCall( UseLocalizedSortingCheck &Check, const MatchFinder::Mat
     const QualType *Arg0Type = Result.Nodes.getNodeAs<QualType>( "arg0Type" );
     const Expr *Arg0Expr = Result.Nodes.getNodeAs<Expr>( "arg0Expr" );
     if( !Call || !Arg0Type || !Arg0Expr ) {
+        return;
+    }
+
+    if( !IsString( *Arg0Type ) ) {
         return;
     }
 
@@ -118,14 +117,14 @@ static void CheckSortCall( UseLocalizedSortingCheck &Check, const MatchFinder::M
                 }
             }
         }
-
-        if( !IsString( ValueType ) ) {
-            return;
-        }
     }
 
     if( BoundValueType ) {
         ValueType = *BoundValueType;
+    }
+
+    if( !IsString( ValueType ) ) {
+        return;
     }
 
     Check.diag( Call->getBeginLoc(),
