@@ -257,6 +257,8 @@ class pocket_data
         item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold
         units::volume max_contains_volume = 0_ml;
+        // max volume of item that can be contained, otherwise it spills
+        cata::optional<units::volume> max_item_volume = cata::nullopt;
         // min volume of item that can be contained, otherwise it spills
         units::volume min_item_volume = 0_ml;
         // max weight of stuff the pocket can hold
