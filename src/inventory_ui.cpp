@@ -1256,6 +1256,10 @@ void inventory_selector::add_character_items( Character &character )
             }
         }
     }
+    // this is a little trick; we want the default behavior for contained items to be in own_inv_column
+    // and this function iterates over all the entries after we added them to the inventory selector
+    // to put them in the right place
+    toggle_categorize_contained();
 }
 
 void inventory_selector::add_map_items( const tripoint &target )
