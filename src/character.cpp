@@ -5322,7 +5322,7 @@ void Character::update_bodytemp()
         // WINDCHILL
 
         bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) * ( 1 - get_wind_resistance(
-                                             bp->token ) / 100.0 ) );
+                                             bp ) / 100.0 ) );
         // Calculate windchill
         int windchill = get_local_windchill( player_local_temp,
                                              get_local_humidity( weather.humidity, g->weather.weather,
@@ -5366,7 +5366,7 @@ void Character::update_bodytemp()
         // BLISTERS : Skin gets blisters from intense heat exposure.
         // Fire protection protects from blisters.
         // Heatsinks give near-immunity.
-        if( blister_count - get_armor_fire( bp->token ) - ( has_heatsink ? 20 : 0 ) > 0 ) {
+        if( blister_count - get_armor_fire( bp ) - ( has_heatsink ? 20 : 0 ) > 0 ) {
             add_effect( effect_blisters, 1_turns, bp->token );
             if( pyromania ) {
                 add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
@@ -5388,7 +5388,7 @@ void Character::update_bodytemp()
             temp_conv[bp->token] -= 750;
         }
         // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
-        temp_conv[bp->token] -= blood_loss( bp->token ) * temp_conv[bp->token] / 200;
+        temp_conv[bp->token] -= blood_loss( bp ) * temp_conv[bp->token] / 200;
 
         // EQUALIZATION
         if( bp == bodypart_id( "torso" ) ) {
@@ -5604,7 +5604,7 @@ void Character::update_bodytemp()
             int Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
             // Windchill reduced by your armor
             int FBwindPower = static_cast<int>(
-                                  total_windpower * ( 1 - get_wind_resistance( bp->token ) / 100.0 ) );
+                                  total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
 
             int intense = get_effect_int( effect_frostbite, bp->token );
 
