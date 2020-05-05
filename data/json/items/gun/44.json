@@ -17,7 +17,7 @@
     "color": "light_gray",
     "ammo": "44",
     "skill": "pistol",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 1413,
@@ -35,7 +35,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "44", [ "deaglemag" ] ] ]
   },
   {
@@ -54,7 +53,7 @@
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": "44",
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
     "durability": 8,
     "blackpowder_tolerance": 32,
@@ -91,7 +90,7 @@
     "color": "brown",
     "ammo": "44",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -162,7 +161,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "44",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 280,
     "durability": 8,
     "blackpowder_tolerance": 56,

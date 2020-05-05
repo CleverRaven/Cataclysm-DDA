@@ -133,8 +133,6 @@ void uilist::init()
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
-    // TODO:
-    textalign = MENU_ALIGN_LEFT;
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
     window = catacurses::window();         // our window
@@ -147,8 +145,6 @@ void uilist::init()
     desc_enabled = false;  // don't show option description by default
     desc_lines = 6;        // default number of lines for description
     footer_text.clear();   // takes precedence over per-entry descriptions.
-    // TODO: always true.
-    border = true;
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -159,7 +155,6 @@ void uilist::init()
     allow_anykey = false;    // do not return on unbound keys
     allow_cancel = true;     // allow canceling with "QUIT" action
     allow_additional = false; // do not return on unhandled additional actions
-    hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
     vshift = 0;              // scrolling menu offset
@@ -170,15 +165,8 @@ void uilist::init()
     fselected = 0;           // fentries[selected]
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
-    max_entry_len = 0;       // does nothing but can be read
+    max_entry_len = 0;
     max_column_len = 0;      // for calculating space for second column
-
-    scrollbar_auto =
-        true;   // there is no force-on; true will only render scrollbar if entries > vertical height
-    scrollbar_nopage_color =
-        c_light_gray;    // color of '|' line for the entire area that isn't current page.
-    scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
-    scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
     hotkeys = DEFAULT_HOTKEYS;
     input_category = "UILIST";
@@ -234,6 +222,9 @@ void uilist::filterlist()
     // scroll to top of screen if all remaining entries fit the screen.
     if( static_cast<int>( fentries.size() ) <= vmax ) {
         vshift = 0;
+    }
+    if( callback != nullptr ) {
+        callback->select( this );
     }
 }
 
@@ -489,12 +480,6 @@ void uilist::setup()
         w_y = static_cast<int>( ( TERMY - w_height ) / 2 );
     }
 
-    if( scrollbar_side == -1 ) {
-        scrollbar_side = ( pad_left > 0 ? 1 : 0 );
-    }
-    if( static_cast<int>( entries.size() ) <= vmax ) {
-        scrollbar_auto = false;
-    }
     window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
         debugmsg( "Window not created; probably trying to use uilist in test mode." );
@@ -514,6 +499,9 @@ void uilist::setup()
                 break;
             }
         }
+    }
+    if( callback != nullptr ) {
+        callback->select( this );
     }
     started = true;
 }
@@ -549,11 +537,7 @@ void uilist::reposition( ui_adaptor &ui )
 
 void uilist::apply_scrollbar()
 {
-    if( !scrollbar_auto ) {
-        return;
-    }
-
-    int sbside = ( scrollbar_side == 0 ? 0 : w_width - 1 );
+    int sbside = ( pad_left <= 0 ? 0 : w_width - 1 );
     int estart = textformatted.size();
     if( estart > 0 ) {
         estart += 2;
@@ -569,8 +553,8 @@ void uilist::apply_scrollbar()
     .viewport_size( vmax )
     .border_color( border_color )
     .arrow_color( border_color )
-    .slot_color( scrollbar_nopage_color )
-    .bar_color( scrollbar_page_color )
+    .slot_color( c_light_gray )
+    .bar_color( c_cyan_cyan )
     .scroll_to_last( false )
     .apply( window );
 }
@@ -623,9 +607,7 @@ void uilist::show()
                               disabled_color )
                           );
 
-            if( hilight_full ) {
-                mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
-            }
+            mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
             if( entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
                 const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
                 mvwprintz( window, point( pad_left + 2, estart + si ), entries[ ei ].enabled ? hotkey_co : co,
@@ -656,9 +638,6 @@ void uilist::show()
             if( menu_entry_extra_text.sym != 0 ) {
                 mvwputch( window, point( pad_left + 1 + menu_entry_extra_text.left, estart + si ),
                           menu_entry_extra_text.color, menu_entry_extra_text.sym );
-            }
-            if( callback != nullptr && ei == selected ) {
-                callback->select( ei, this );
             }
         } else {
             mvwprintz( window, point( pad_left + 1, estart + si ), c_light_gray, padspaces );
@@ -698,43 +677,10 @@ void uilist::show()
     }
     apply_scrollbar();
 
-    this->refresh( true );
-}
-
-/**
- * wrefresh + wrefresh callback's window
- */
-void uilist::refresh( bool refresh_callback )
-{
     wrefresh( window );
-    if( refresh_callback && callback != nullptr ) {
+    if( callback != nullptr ) {
         callback->refresh( this );
     }
-}
-
-/**
- * redraw borders, which is required in some cases ( look_around() )
- */
-void uilist::redraw( bool /*redraw_callback*/ )
-{
-    draw_border( window, border_color );
-    if( !title.empty() ) {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( window, point( 1, 0 ), border_color, "< " );
-        wprintz( window, title_color, title );
-        wprintz( window, border_color, " >" );
-    }
-    if( !filter.empty() ) {
-        mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
-        mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
-    }
-    // TODO: something with the redraw_callback
-    /*
-    // pending tests on if this is needed
-        if ( redraw_callback && callback != NULL ) {
-            callback->redraw(this);
-        }
-    */
 }
 
 int uilist::scroll_amount_from_key( const int key )
@@ -821,6 +767,9 @@ bool uilist::scrollby( const int scrollby )
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
         selected = fentries [ fselected ];
+        if( callback != nullptr ) {
+            callback->select( this );
+        }
     }
     return true;
 }
@@ -891,6 +840,9 @@ void uilist::query( bool loop, int timeout )
                 ret = entries[ selected ].retval; // valid
             } else if( allow_disabled ) {
                 ret = entries[selected].retval; // disabled
+            }
+            if( callback != nullptr ) {
+                callback->select( this );
             }
         } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
@@ -969,11 +921,6 @@ pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )
     last_view = g->u.view_offset;
 }
 
-void pointmenu_cb::select( int /*num*/, uilist * /*menu*/ )
-{
-    g->u.view_offset = last_view;
-}
-
 void pointmenu_cb::refresh( uilist *menu )
 {
     if( last == menu->selected ) {
@@ -985,7 +932,6 @@ void pointmenu_cb::refresh( uilist *menu )
         g->draw_ter();
         wrefresh( g->w_terrain );
         g->draw_panels();
-        menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;
     }
@@ -996,7 +942,6 @@ void pointmenu_cb::refresh( uilist *menu )
     // TODO: Remove this line when it's safe
     g->u.view_offset.z = 0;
     g->draw_trail_to_square( g->u.view_offset, true );
-    menu->redraw( false );
     menu->show();
 }
 

@@ -88,8 +88,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "carver_on",
@@ -104,8 +103,7 @@
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "use_action": "CARVER_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "magazine_well": 2
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
     "id": "char_purifier",
@@ -180,7 +178,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": "2 L", "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -214,7 +212,7 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": "750 ml", "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -240,8 +238,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "dehydrator",
@@ -264,8 +261,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "eggs_ferment",
@@ -360,8 +356,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "gasoline_cooker",
@@ -459,8 +454,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "jar_eggs_pickled",
@@ -578,8 +572,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "mess_tin",
@@ -663,8 +656,7 @@
         "battery",
         [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "mortar_pestle",
@@ -704,8 +696,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "multi_cooker_filled",
@@ -813,7 +804,7 @@
     "symbol": ")",
     "color": "light_gray",
     "looks_like": "pot_canning",
-    "container_data": { "contains": "2 L", "seals": true, "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -939,7 +930,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
-    "container_data": { "contains": "500 ml", "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -963,8 +954,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "waffleiron",
@@ -1014,7 +1004,6 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   }
 ]

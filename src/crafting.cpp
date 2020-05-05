@@ -106,8 +106,6 @@ static const std::string flag_VARSIZE( "VARSIZE" );
 
 class basecamp;
 
-void drop_or_handle( const item &newit, player &p );
-
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
@@ -411,13 +409,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
                 break;
             }
 
-            if( !cont->is_container_empty() ) {
-                if( cont->contents.front().typeId() == prod.typeId() ) {
-                    charges_to_store -= cont->get_remaining_capacity_for_liquid( cont->contents.front(), true );
-                }
-            } else {
-                charges_to_store -= cont->get_remaining_capacity_for_liquid( prod, true );
-            }
+            charges_to_store -= cont->get_remaining_capacity_for_liquid( prod, true );
         }
 
         // also check if we're currently in a vehicle that has the necessary storage
@@ -448,7 +440,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
 static bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
-    if( cont.is_watertight_container() || ( allow_bucket && cont.is_bucket() ) ) {
+    if( cont.is_watertight_container() || ( allow_bucket && cont.will_spill() ) ) {
         return !cont.is_container_full( allow_bucket );
     }
 
@@ -542,10 +534,17 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
+    cached_crafting_inventory.clear();
     cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
-    cached_crafting_inventory += inv;
-    cached_crafting_inventory += weapon;
-    cached_crafting_inventory += worn;
+
+    for( const item_location &it : all_items_loc() ) {
+        // can't craft with containers that have items in them
+        if( !it->contents.empty_container() ) {
+            continue;
+        }
+        cached_crafting_inventory.add_item( *it );
+    }
+
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
@@ -1102,8 +1101,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
         // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
-        item &food_contained = ( newit.is_container() && !newit.contents.empty() ) ?
-                               newit.contents.back() : newit;
+        item &food_contained = !newit.contents.empty() ? newit.contents.only_item() : newit;
 
         // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
@@ -2325,7 +2323,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
     }
 }
 
-void drop_or_handle( const item &newit, player &p )
+void drop_or_handle( const item &newit, Character &p )
 {
     if( newit.made_of( LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );

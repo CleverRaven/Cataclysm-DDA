@@ -54,7 +54,7 @@
     "type": "GUN",
     "name": { "str": "pipe magnum" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
-    "ranged_damage": -2,
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "description": "A firearm made from a stout pipe, reinforced at the chamber.  It holds a single a round of standard or magnum pistol ammunition, and has a crude assembly to fire it.  There's no extractor, so it might be slow to reload, and its construction makes for poor reliability and longevity.",
     "dispersion": 440,
     "reload": 110

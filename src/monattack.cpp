@@ -661,7 +661,7 @@ bool mattack::acid_barf( monster *z )
             body_part_name_accusative( hit ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, convert_bp( hit ).id(),  z->type->melee_skill );
 
     return true;
 }
@@ -1823,7 +1823,7 @@ bool mattack::fungus_inject( monster *z )
                  body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit->token,  z->type->melee_skill );
+    target->on_hit( z, hit,  z->type->melee_skill );
     g->u.check_dead_state();
 
     return true;
@@ -1881,7 +1881,7 @@ bool mattack::fungus_bristle( monster *z )
                                    body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit->token,  z->type->melee_skill );
+    target->on_hit( z, hit,  z->type->melee_skill );
 
     return true;
 }
@@ -2046,7 +2046,7 @@ bool mattack::fungus_fortify( monster *z )
                  body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit->token,  z->type->melee_skill );
+    target->on_hit( z, hit,  z->type->melee_skill );
     g->u.check_dead_state();
     return true;
 }
@@ -2087,7 +2087,7 @@ bool mattack::impale( monster *z )
                                        _( "The %1$s impales <npcname>'s torso!" ),
                                        z->name() );
 
-        target->on_hit( z, bp_torso,  z->type->melee_skill );
+        target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
         if( one_in( 60 / ( dam + 20 ) ) ) {
             if( target->is_player() || target->is_npc() ) {
                 target->as_character()->make_bleed( bp_torso, rng( 75_turns, 125_turns ), true );
@@ -2171,11 +2171,11 @@ bool mattack::dermatik( monster *z )
     }
 
     // Can the bug penetrate our armor?
-    body_part targeted = target->get_random_body_part()->token;
+    const bodypart_id targeted = target->get_random_body_part();
     if( 4 < g->u.get_armor_cut( targeted ) / 3 ) {
         //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
         target->add_msg_if_player( _( "The %1$s lands on your %2$s, but can't penetrate your armor." ),
-                                   z->name(), body_part_name_accusative( targeted ) );
+                                   z->name(), body_part_name_accusative( targeted->token ) );
         z->moves -= 150; // Attempted laying takes a while
         return true;
     }
@@ -2185,9 +2185,9 @@ bool mattack::dermatik( monster *z )
     //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
     target->add_msg_if_player( m_bad, _( "The %1$s sinks its ovipositor into your %2$s!" ),
                                z->name(),
-                               body_part_name_accusative( targeted ) );
+                               body_part_name_accusative( targeted->token ) );
     if( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
-        foe->add_effect( effect_dermatik, 1_turns, targeted, true );
+        foe->add_effect( effect_dermatik, 1_turns, targeted->token, true );
         g->events().send<event_type::dermatik_eggs_injected>( foe->getID() );
     }
 
@@ -2525,14 +2525,18 @@ bool mattack::tentacle( monster *z )
         // TODO: handle friendly monsters
         return false;
     }
-    Creature *target = &g->u;
-    if( !z->sees( g->u ) ) {
+    Creature *target = z->attack_target();
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
         return false;
     }
-    add_msg( m_bad, _( "The %s lashes its tentacle at you!" ), z->name() );
+    game_message_type msg_type = target == &g->u ? m_bad : m_info;
+    target->add_msg_player_or_npc( msg_type,
+                                   _( "The %s lashes its tentacle at you!" ),
+                                   _( "The %s lashes its tentacle at <npcname>!" ),
+                                   z->name() );
     z->moves -= 100;
 
-    if( g->u.uncanny_dodge() ) {
+    if( target->uncanny_dodge() ) {
         return true;
     }
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
@@ -2544,12 +2548,28 @@ bool mattack::tentacle( monster *z )
     }
 
     const bodypart_id hit = target->get_random_body_part();
+    const body_part hit_token = hit->token;
     int dam = rng( 10, 20 );
-    //~ 1$s is bodypart name, 2$d is damage value.
-    add_msg( m_bad, _( "Your %1$s is hit for %2$d damage!" ), body_part_name( hit->token ), dam );
-    g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
-    target->on_hit( z, hit->token,  z->type->melee_skill );
-    g->u.check_dead_state();
+    dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
+
+    if( dam > 0 ) {
+        target->add_msg_player_or_npc( msg_type,
+                                       //~ 1$s is bodypart name, 2$d is damage value.
+                                       _( "Your %1$s is hit for %2$d damage!" ),
+                                       //~ 1$s is bodypart name, 2$d is damage value.
+                                       _( "<npcname>'s %1$s is hit for %2$d damage!" ),
+                                       body_part_name( hit_token ),
+                                       dam );
+    } else {
+        target->add_msg_player_or_npc(
+            _( "The %1$s lashes its tentacle at your %2$s, but glances off your armor!" ),
+            _( "The %1$s lashes its tentacle at <npcname>'s %2$s, but glances off their armor!" ),
+            z->name(),
+            body_part_name_accusative( hit_token ) );
+    }
+
+    target->on_hit( z, hit,  z->type->melee_skill );
+    target->check_dead_state();
 
     return true;
 }
@@ -4108,7 +4128,7 @@ bool mattack::stretch_bite( monster *z )
                                        body_part_name_accusative( hit_token ) );
     }
 
-    target->on_hit( z, hit_token,  z->type->melee_skill );
+    target->on_hit( z, hit,  z->type->melee_skill );
 
     return true;
 }
@@ -4188,7 +4208,7 @@ bool mattack::flesh_golem( monster *z )
     //~ 1$s is bodypart name, 2$d is damage value.
     target->add_msg_if_player( m_bad, _( "Your %1$s is battered for %2$d damage!" ),
                                body_part_name( hit->token ), dam );
-    target->on_hit( z, hit->token,  z->type->melee_skill );
+    target->on_hit( z, hit,  z->type->melee_skill );
 
     return true;
 }
@@ -4315,7 +4335,7 @@ bool mattack::lunge( monster *z )
     if( one_in( 6 ) ) {
         target->add_effect( effect_downed, 3_turns );
     }
-    target->on_hit( z, hit->token,  z->type->melee_skill );
+    target->on_hit( z, hit,  z->type->melee_skill );
     target->check_dead_state();
     return true;
 }
@@ -4383,7 +4403,7 @@ bool mattack::longswipe( monster *z )
                     z->name(),
                     body_part_name_accusative( hit->token ) );
             }
-            target->on_hit( z, hit->token,  z->type->melee_skill );
+            target->on_hit( z, hit,  z->type->melee_skill );
             return true;
         }
         return false;
@@ -4423,7 +4443,7 @@ bool mattack::longswipe( monster *z )
                                        z->name(),
                                        body_part_name_accusative( bp_head ) );
     }
-    target->on_hit( z, bp_head,  z->type->melee_skill );
+    target->on_hit( z, bodypart_id( "head" ),  z->type->melee_skill );
     target->check_dead_state();
 
     return true;
@@ -5141,31 +5161,31 @@ bool mattack::bio_op_takedown( monster *z )
         return true;
     }
     // Yes, it has the CQC bionic.
-    body_part hit = num_bp;
+    bodypart_id hit( "num_bp" );
     if( one_in( 2 ) ) {
-        hit = bp_leg_l;
+        hit = bodypart_id( "leg_l" );
     } else {
-        hit = bp_leg_r;
+        hit = bodypart_id( "leg_r" );
     }
     // Weak kick to start with, knocks you off your footing
 
     // TODO: Literally "The zombie kicks" vvvvv | Fix message or comment why Literally.
     //~ 1$s is bodypart name in accusative, 2$d is damage value.
     target->add_msg_if_player( m_bad, _( "The zombie kicks your %1$s for %2$d damage…" ),
-                               body_part_name_accusative( hit ), dam );
-    foe->deal_damage( z, convert_bp( hit ).id(), damage_instance( DT_BASH, dam ) );
+                               body_part_name_accusative( hit->token ), dam );
+    foe->deal_damage( z,  hit, damage_instance( DT_BASH, dam ) );
     // At this point, Judo or Tentacle Bracing can make this much less painful
     if( !foe->is_throw_immune() ) {
         if( !target->is_immune_effect( effect_downed ) ) {
             if( one_in( 4 ) ) {
-                hit = bp_head;
+                hit = bodypart_id( "head" );
                 // 50% damage buff for the headshot.
                 dam = rng( 9, 21 );
                 target->add_msg_if_player( m_bad, _( "and slams you, face first, to the ground for %d damage!" ),
                                            dam );
                 foe->deal_damage( z, bodypart_id( "head" ), damage_instance( DT_BASH, dam ) );
             } else {
-                hit = bp_torso;
+                hit = bodypart_id( "torso" );
                 dam = rng( 6, 18 );
                 target->add_msg_if_player( m_bad, _( "and slams you to the ground for %d damage!" ), dam );
                 foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
@@ -5176,7 +5196,7 @@ bool mattack::bio_op_takedown( monster *z )
                  foe->martial_arts_data.selected_has_weapon( foe->weapon.typeId() ) ) &&
                !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
-        hit = bp_torso;
+        hit = bodypart_id( "torso" );
         dam = rng( 3, 9 );
         target->add_msg_if_player( m_bad, _( "and slams you for %d damage!" ), dam );
         foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
@@ -5262,7 +5282,7 @@ bool mattack::bio_op_impale( monster *z )
                                        _( "but fails to penetrate <npcname>'s armor!" ) );
     }
 
-    target->on_hit( z, hit->token, z->type->melee_skill );
+    target->on_hit( z, hit, z->type->melee_skill );
     foe->check_dead_state();
 
     return true;
@@ -5704,7 +5724,7 @@ bool mattack::stretch_attack( monster *z )
                                        body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit->token,  z->type->melee_skill );
+    target->on_hit( z, hit,  z->type->melee_skill );
 
     return true;
 }

@@ -74,7 +74,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "roadstop",
+    "id": [ "roadstop", "roadstop_roof" ],
     "name": "roadstop",
     "sym": "^",
     "color": "light_blue",
@@ -83,16 +83,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "roadstop_roof",
-    "name": "roadstop roof",
-    "sym": "^",
-    "color": "light_blue",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "roadstop_a",
+    "id": [ "roadstop_a", "roadstop_a_roof" ],
     "name": "public washroom",
     "sym": "^",
     "color": "light_blue",
@@ -101,26 +92,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "roadstop_a_roof",
-    "name": "public washroom roof",
-    "sym": "^",
-    "color": "light_blue",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "roadstop_b",
+    "id": [ "roadstop_b", "roadstop_b_roof" ],
     "name": "roadside foodcart",
-    "sym": "^",
-    "color": "magenta",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "roadstop_b_roof",
-    "name": "roadside foodcart roof",
     "sym": "^",
     "color": "magenta",
     "mondensity": 2,
@@ -189,97 +162,31 @@
     "color": "dark_gray"
   },
   {
-    "id": "railroad_station_0_1",
     "type": "overmap_terrain",
+    "id": [ "railroad_station_0_1", "railroad_station_0_2", "railroad_station_0_3", "railroad_station_0_4" ],
     "copy-from": "generic_railroad_station",
     "sym": "│"
   },
   {
-    "id": "railroad_station_0_2",
     "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station",
-    "sym": "│"
-  },
-  {
-    "id": "railroad_station_0_3",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station",
-    "sym": "│"
-  },
-  {
-    "id": "railroad_station_0_4",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station",
-    "sym": "│"
-  },
-  {
-    "id": "railroad_station_1_1",
-    "type": "overmap_terrain",
+    "id": [ "railroad_station_1_1", "railroad_station_1_2", "railroad_station_1_3", "railroad_station_1_4" ],
     "copy-from": "generic_railroad_station"
   },
   {
-    "id": "railroad_station_1_2",
     "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station"
-  },
-  {
-    "id": "railroad_station_1_3",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station"
-  },
-  {
-    "id": "railroad_station_1_4",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station"
-  },
-  {
-    "id": "railroad_station_2_1",
-    "type": "overmap_terrain",
+    "id": [ "railroad_station_2_1", "railroad_station_2_2", "railroad_station_2_3", "railroad_station_2_4" ],
     "copy-from": "generic_railroad_station_parking_lot"
   },
   {
-    "id": "railroad_station_2_2",
     "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station_parking_lot"
-  },
-  {
-    "id": "railroad_station_2_3",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station_parking_lot"
-  },
-  {
-    "id": "railroad_station_2_4",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station_parking_lot"
-  },
-  {
-    "id": "railroad_station_under_0_1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station_under"
-  },
-  {
-    "id": "railroad_station_under_0_2",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station_under"
-  },
-  {
-    "id": "railroad_station_under_0_3",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station_under"
-  },
-  {
-    "id": "railroad_station_under_1_1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station_under"
-  },
-  {
-    "id": "railroad_station_under_1_2",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station_under"
-  },
-  {
-    "id": "railroad_station_under_1_3",
-    "type": "overmap_terrain",
+    "id": [
+      "railroad_station_under_0_1",
+      "railroad_station_under_0_2",
+      "railroad_station_under_0_3",
+      "railroad_station_under_1_1",
+      "railroad_station_under_1_2",
+      "railroad_station_under_1_3"
+    ],
     "copy-from": "generic_railroad_station_under"
   },
   {
@@ -367,7 +274,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_reststop_1",
+    "id": [ "s_reststop_1", "s_reststop_2" ],
     "copy-from": "generic_city_building",
     "name": "rest area",
     "sym": "#",
@@ -375,7 +282,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_reststop_1_roof",
+    "id": [ "s_reststop_1_roof", "s_reststop_2_roof" ],
     "copy-from": "generic_city_building",
     "name": "rest area roof",
     "sym": "#",
@@ -383,23 +290,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_reststop_2",
-    "copy-from": "generic_city_building",
-    "name": "rest area",
-    "sym": "#",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_reststop_2_roof",
-    "copy-from": "generic_city_building",
-    "name": "rest area roof",
-    "sym": "#",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restparking_1",
+    "id": [ "s_restparking_1", "s_restparking_2" ],
     "copy-from": "generic_city_building",
     "name": "rest area parking",
     "sym": "+",
@@ -407,33 +298,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restparking_2",
-    "copy-from": "generic_city_building",
-    "name": "rest area parking",
-    "sym": "+",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "control_tower_0",
-    "name": "control tower",
-    "sym": "X",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "control_tower_1",
-    "name": "control tower",
-    "sym": "X",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "control_tower_2",
+    "id": [ "control_tower_0", "control_tower_1", "control_tower_2" ],
     "name": "control tower",
     "sym": "X",
     "color": "i_light_gray",
@@ -451,7 +316,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "runway",
+    "id": [ "runway", "runway_carts", "runway_hangar", "runway_hangar2", "runway_wild", "runway_start", "runway_end" ],
     "name": "runway",
     "sym": "─",
     "color": "light_gray",
@@ -460,71 +325,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "runway_carts",
-    "name": "runway",
-    "sym": "─",
-    "color": "light_gray",
-    "see_cost": 5,
-    "extras": "road"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "runway_hangar",
-    "name": "runway",
-    "sym": "─",
-    "color": "light_gray",
-    "see_cost": 5,
-    "extras": "road"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "runway_hangar2",
-    "name": "runway",
-    "sym": "─",
-    "color": "light_gray",
-    "see_cost": 5,
-    "extras": "road"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "runway_wild",
-    "name": "runway",
-    "sym": "─",
-    "color": "light_gray",
-    "see_cost": 5,
-    "extras": "road"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "runway_start",
-    "name": "runway",
-    "sym": "─",
-    "color": "light_gray",
-    "see_cost": 5,
-    "extras": "road"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "runway_end",
-    "name": "runway",
-    "sym": "─",
-    "color": "light_gray",
-    "see_cost": 5,
-    "extras": "road"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "runway_fuel",
-    "name": "runway",
-    "sym": "─",
-    "color": "light_gray",
-    "see_cost": 5,
-    "extras": "road",
-    "flags": [ "SOURCE_FUEL" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "runway_fuel2",
+    "id": [ "runway_fuel", "runway_fuel2" ],
     "name": "runway",
     "sym": "─",
     "color": "light_gray",
@@ -553,16 +354,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "airport_lot_0",
-    "name": "parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airport_lot_1",
+    "id": [ "airport_lot_0", "airport_lot_1" ],
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
@@ -607,7 +399,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bus_stat_0",
+    "id": [ "bus_stat_0", "bus_stat_1" ],
     "name": "bus station",
     "sym": "B",
     "color": "i_light_cyan",
@@ -617,17 +409,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bus_stat_1",
-    "name": "bus station",
-    "sym": "B",
-    "color": "i_light_cyan",
-    "see_cost": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bus_stat_0_roof",
+    "id": [ "bus_stat_0_roof", "bus_stat_1_roof" ],
     "name": "bus station roof",
     "sym": "B",
     "color": "i_light_cyan",
@@ -636,108 +418,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bus_stat_1_roof",
-    "name": "bus station roof",
-    "sym": "B",
-    "color": "i_light_cyan",
-    "see_cost": 2,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_down_0",
-    "name": "parking garage",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_down_1",
-    "name": "parking garage",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_0_0",
-    "name": "parking garage",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_0_1",
-    "name": "parking garage",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_1_0",
-    "name": "parking garage",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_1_1",
-    "name": "parking garage",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_2_0",
-    "name": "parking garage",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_2_1",
-    "name": "parking garage",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_roof_0",
-    "name": "parking garage",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_roof_1",
-    "name": "parking garage",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_garage_roof_top",
+    "id": [
+      "parking_garage_down_0",
+      "parking_garage_down_1",
+      "parking_garage_0_0",
+      "parking_garage_0_1",
+      "parking_garage_1_0",
+      "parking_garage_1_1",
+      "parking_garage_2_0",
+      "parking_garage_2_1",
+      "parking_garage_roof_0",
+      "parking_garage_roof_1",
+      "parking_garage_roof_top"
+    ],
     "name": "parking garage",
     "sym": "O",
     "color": "dark_gray",

@@ -901,13 +901,10 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
         }
     }
 
-    int range = gun.target->gun_range( &you );
-    const itype *ammo = gun->ammo_data();
-
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( you, TARGET_MODE_FIRE, weapon, range,
-                                       ammo );
+    bool reload_requested;
+    target_handler::trajectory trajectory = target_handler::mode_fire( you, *weapon, reload_requested );
 
     //may be changed in target_ui
     gun = weapon->gun_current_mode();
@@ -922,6 +919,11 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
             you.moves = previous_moves;
         }
         g->reenter_fullscreen();
+
+        if( reload_requested ) {
+            // Reload the gun / select different arrows
+            g->reload_wielded( true );
+        }
         return;
     }
     // Recenter our view
@@ -982,18 +984,9 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
         return;
     }
 
-    item *turret_base = &*turret.base();
-
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, you.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui(
-                                           you,
-                                           TARGET_MODE_TURRET_MANUAL,
-                                           turret_base,
-                                           turret.range(),
-                                           turret.ammo_data(),
-                                           &turret
-                                       );
+    target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
 
     if( !trajectory.empty() ) {
         // Recenter our view
@@ -1091,12 +1084,7 @@ void avatar_action::eat( avatar &you, item_location loc )
         you.consume( loc );
 
     } else if( you.consume_item( *it ) ) {
-        if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
-            it->remove_item( it->contents.front() );
-            add_msg( _( "You leave the empty %s." ), it->tname() );
-        } else {
-            loc.remove_item();
-        }
+        loc.remove_item();
     }
     if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
         g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
@@ -1187,12 +1175,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, you.pos() );
 
-    const target_mode throwing_target_mode = blind_throw_from_pos ? TARGET_MODE_THROW_BLIND :
-            TARGET_MODE_THROW;
-    // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode,
-                                       &you.weapon,
-                                       range );
+    target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
+                                            blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
     if( blind_throw_from_pos ) {

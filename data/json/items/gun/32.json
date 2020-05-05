@@ -34,7 +34,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "32", [ "sigp230mag" ] ] ]
   },
   {
@@ -113,7 +112,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "32", [ "ppkmag" ] ] ]
   },
   {
@@ -132,7 +130,6 @@
     "material": [ "steel", "plastic", "aluminum" ],
     "color": "dark_gray",
     "ammo": "32",
-    "magazine_well": "41 ml",
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 135,

@@ -57,6 +57,8 @@ std::string worldoptions();
 std::string crash();
 std::string tileset_conf();
 std::string gfxdir();
+std::string langdir();
+std::string lang_file();
 std::string user_gfx();
 std::string data_sound();
 std::string user_sound();

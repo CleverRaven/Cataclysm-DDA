@@ -1310,6 +1310,8 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return type->sp_defense == &mdefense::zapback ||
                    has_flag( MF_ELECTRIC ) ||
                    has_flag( MF_ELECTRIC_FIELD );
+        case DT_BULLET:
+            return false;
         default:
             return true;
     }
@@ -1537,11 +1539,11 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bp_torso, INT_MIN, &attack );
+        on_hit( source, bodypart_id( "torso" ), INT_MIN, &attack );
     }
 }
 
-void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                        int &pain )
 {
     switch( du.type ) {
@@ -1576,12 +1578,13 @@ void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int 
         // internal damage, like from smoke or poison
         case DT_CUT:
         case DT_STAB:
+        case DT_BULLET:
         case DT_HEAT:
         default:
             break;
     }
 
-    Creature::deal_damage_handle_type( du, bp, damage, pain );
+    Creature::deal_damage_handle_type( du,  bp, damage, pain );
 }
 
 int monster::heal( const int delta_hp, bool overheal )
@@ -1622,6 +1625,11 @@ void monster::die_in_explosion( Creature *source )
 {
     hp = -9999; // huge to trigger explosion and prevent corpse item
     die( source );
+}
+
+void monster::heal_bp( bodypart_id, int dam )
+{
+    heal( dam );
 }
 
 bool monster::movement_impaired()
@@ -1807,20 +1815,27 @@ int monster::get_worn_armor_val( damage_type dt ) const
     return 0;
 }
 
-int monster::get_armor_cut( body_part bp ) const
+int monster::get_armor_cut( bodypart_id bp ) const
 {
     ( void ) bp;
     // TODO: Add support for worn armor?
     return static_cast<int>( type->armor_cut ) + armor_cut_bonus + get_worn_armor_val( DT_CUT );
 }
 
-int monster::get_armor_bash( body_part bp ) const
+int monster::get_armor_bash( bodypart_id bp ) const
 {
     ( void ) bp;
     return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val( DT_BASH );
 }
 
-int monster::get_armor_type( damage_type dt, body_part bp ) const
+int monster::get_armor_bullet( bodypart_id bp ) const
+{
+    ( void ) bp;
+    return static_cast<int>( type->armor_bullet ) + armor_bullet_bonus + get_worn_armor_val(
+               DT_BULLET );
+}
+
+int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     int worn_armor = get_worn_armor_val( dt );
 
@@ -1832,6 +1847,8 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
             return get_armor_bash( bp );
         case DT_CUT:
             return get_armor_cut( bp );
+        case DT_BULLET:
+            return get_armor_bullet( bp );
         case DT_ACID:
             return worn_armor + static_cast<int>( type->armor_acid );
         case DT_STAB:
@@ -1968,12 +1985,12 @@ int monster::impact( const int force, const tripoint &p )
     const float mod = fall_damage_mod();
     int total_dealt = 0;
     if( g->m.has_flag( TFLAG_SHARP, p ) ) {
-        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bp_torso ) );
+        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bodypart_id( "torso" ) ) );
         apply_damage( nullptr, bodypart_id( "torso" ), cut_damage );
         total_dealt += 10 * mod;
     }
 
-    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bp_torso ) );
+    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bodypart_id( "torso" ) ) );
     apply_damage( nullptr, bodypart_id( "torso" ), bash_damage );
     total_dealt += force * mod;
 
@@ -2421,7 +2438,7 @@ void monster::process_one_effect( effect &it, bool is_new )
             dam = rng( 5, 10 );
         }
 
-        dam -= get_armor_type( DT_HEAT, bp_torso );
+        dam -= get_armor_type( DT_HEAT, bodypart_id( "torso" ) );
         if( dam > 0 ) {
             apply_damage( nullptr, bodypart_id( "torso" ), dam );
         } else {
@@ -2794,7 +2811,7 @@ void monster::on_dodge( Creature *, float )
     // Currently does nothing, later should handle faction relations
 }
 
-void monster::on_hit( Creature *source, body_part,
+void monster::on_hit( Creature *source, bodypart_id,
                       float, dealt_projectile_attack const *const proj )
 {
     if( is_hallucination() ) {

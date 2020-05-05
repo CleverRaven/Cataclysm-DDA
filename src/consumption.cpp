@@ -72,6 +72,7 @@ static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
@@ -125,6 +126,7 @@ static const std::string flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 static const std::string flag_BIRD( "BIRD" );
 static const std::string flag_BYPRODUCT( "BYPRODUCT" );
 static const std::string flag_CANNIBALISM( "CANNIBALISM" );
+static const std::string flag_STRICT_HUMANITARIANISM( "STRICT_HUMANITARIANISM" );
 static const std::string flag_CARNIVORE_OK( "CARNIVORE_OK" );
 static const std::string flag_CATTLE( "CATTLE" );
 static const std::string flag_COLD( "COLD" );
@@ -391,7 +393,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 
         item result_it = rec->create_result();
         if( result_it.contents.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.contents.front();
+            const item alt_result = result_it.contents.legacy_front();
             if( alt_result.typeId() == comest_it.typeId() ) {
                 result_it = alt_result;
             }
@@ -746,9 +748,18 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
     }
 
+    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) && !has_trait_flag( "STRICT_HUMANITARIAN" ) ) {
+        add_consequence( _( "The thought of eating demihuman flesh makes you feel sick." ), CANNIBALISM );
+    }
+
     const bool carnivore = has_trait( trait_CARNIVORE );
     if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( "CANNIBAL" ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
+    }
+
+    if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
+        !( has_bionic( bio_digestion ) || has_trait( trait_PARAIMMUNE ) ) ) {
+        add_consequence( _( "Eating this raw meat probably isn't very healthy." ), PARASITES );
     }
 
     const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
@@ -1335,14 +1346,12 @@ bool Character::consume_effects( item &food )
         set_hunger( capacity );
     }
 
-    // Set up food for ingestion
-    const item &contained_food = food.is_container() ? food.get_contained() : food;
     // TODO: Move quench values to mL and remove the magic number here
-    units::volume water = contained_food.type->comestible->quench * 5_ml;
+    units::volume water = food.type->comestible->quench * 5_ml;
     food_summary ingested{
         water,
-        contained_food.base_volume() - std::max( water, 0_ml ),
-        compute_effective_nutrients( contained_food )
+        food.base_volume() - std::max( water, 0_ml ),
+        compute_effective_nutrients( food )
     };
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
@@ -1613,17 +1622,25 @@ bool Character::can_consume( const item &it ) const
     if( can_consume_as_is( it ) ) {
         return true;
     }
-    // Checking NO_RELOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)
-    return !it.is_container_empty() && !it.has_flag( flag_NO_RELOAD ) &&
-           can_consume_as_is( it.contents.front() );
+    return has_item_with( [&]( const item & consumable ) {
+        // Checking NO_RELOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)
+        return !consumable.has_flag( flag_NO_RELOAD ) && can_consume_as_is( consumable );
+    } );
 }
 
 item &Character::get_consumable_from( item &it ) const
 {
-    if( !it.is_container_empty() && can_consume_as_is( it.contents.front() ) ) {
-        return it.contents.front();
-    } else if( can_consume_as_is( it ) ) {
-        return it;
+    item *ret = nullptr;
+    it.visit_items( [&]( item * it ) {
+        if( can_consume_as_is( *it ) ) {
+            ret = it;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    if( ret != nullptr ) {
+        return *ret;
     }
 
     static item null_comestible;

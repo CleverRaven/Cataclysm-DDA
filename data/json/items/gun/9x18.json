@@ -32,7 +32,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
     "magazines": [ [ "9x18", [ "makarovmag" ] ] ]
   },
   {

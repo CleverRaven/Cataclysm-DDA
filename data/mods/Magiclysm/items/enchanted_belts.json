@@ -14,15 +14,10 @@
     "covers": [ "TORSO" ],
     "coverage": 5,
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stick what into your belt",
-      "holster_msg": "You tuck your %s into your %s",
-      "max_volume": "500 ml",
-      "max_weight": 400,
-      "draw_cost": 60,
-      "flags": [ "BELT_CLIP" ]
-    },
+    "pocket_data": [
+      { "max_contains_volume": "500 ml", "max_contains_weight": "400 g", "moves": 60, "flag_restriction": [ "BELT_CLIP" ] }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
   },
   {
@@ -57,7 +52,12 @@
     "coverage": 10,
     "encumbrance": 4,
     "weight_capacity_bonus": "5 kg",
-    "storage": "10 L"
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 }
+    ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -68,7 +68,12 @@
     "coverage": 10,
     "encumbrance": 6,
     "weight_capacity_bonus": "10 kg",
-    "storage": "15 L"
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 }
+    ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -78,34 +83,31 @@
     "description": "A wide girdle that fits around your waist, you can sheath or holster any weapon into it in the blink of an eye, and it seemingly stores them somewhere else.",
     "coverage": 10,
     "encumbrance": 3,
-    "weight_capacity_bonus": "10 kg",
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stick what into your belt",
-      "holster_msg": "You tuck your %s into your %s",
-      "min_volume": "1 ml",
-      "max_volume": "4 L",
-      "max_weight": "5 kg",
-      "draw_cost": 5,
-      "multi": 4,
-      "skills": [
-        "pistol",
-        "shotgun",
-        "cutting",
-        "archery",
-        "bashing",
-        "launcher",
-        "melee",
-        "rifle",
-        "smg",
-        "stabbing",
-        "throw",
-        "ALL",
-        "gun",
-        "unarmed"
-      ],
-      "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD", "BELT_CLIP", "SHEATH_SPEAR" ]
-    }
+    "pocket_data": [
+      { "holster": true, "moves": 5, "max_contains_volume": "4 L", "max_contains_weight": "2500 g", "weight_multiplier": 0.0 },
+      {
+        "holster": true,
+        "moves": 5,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "2500 g",
+        "weight_multiplier": 0.0
+      },
+      {
+        "holster": true,
+        "moves": 5,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "2500 g",
+        "weight_multiplier": 0.0
+      },
+      {
+        "holster": true,
+        "moves": 5,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "2500 g",
+        "weight_multiplier": 0.0
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" }
   },
   {
     "type": "ARMOR",
@@ -114,7 +116,9 @@
     "weight": "2000 g",
     "color": "brown",
     "covers": [ "TORSO" ],
-    "storage": "1 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 2, "holster": true }
+    ],
     "symbol": "[",
     "description": "A custom-built leather utility belt that instantly creates any tool that you reach for.  Activate to sheathe/draw a weapon.",
     "price": 500000,
@@ -124,18 +128,7 @@
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 4,
-    "use_action": [
-      {
-        "type": "holster",
-        "holster_prompt": "Sheath blade",
-        "holster_msg": "You sheath your %s",
-        "draw_cost": 3,
-        "min_volume": "250 ml",
-        "max_volume": "1 L",
-        "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-      },
-      "CROWBAR"
-    ],
+    "use_action": [ { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" }, "CROWBAR" ],
     "qualities": [
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],

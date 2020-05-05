@@ -1279,17 +1279,16 @@ static void read()
     }
 }
 
-// Perform a reach attach
-// range - the range of the current weapon.
-// u - player
-static void reach_attack( int range, player &u )
+// Perform a reach attach using wielded weapon
+static void reach_attack( player &u )
 {
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,
-                                       range );
-    if( !trajectory.empty() ) {
-        u.reach_attack( trajectory.back() );
+
+    target_handler::trajectory traj = target_handler::mode_reach( u, u.weapon );
+
+    if( !traj.empty() ) {
+        u.reach_attack( traj.back() );
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
@@ -1322,14 +1321,18 @@ static void fire()
         std::vector<std::function<void()>> actions;
 
         for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) &&
-                !w.contents.empty() && w.contents.front().is_gun() ) {
+
+            std::vector<item *> guns = w.items_with( []( const item & it ) {
+                return it.is_gun();
+            } );
+
+            if( !guns.empty() && w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) ) {
                 //~ draw (first) gun contained in holster
                 //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
                 options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
-                                                  w.contents.front().tname(),
+                                                  guns.front()->tname(),
                                                   w.type_name(),
-                                                  w.contents.front().ammo_remaining() ) );
+                                                  guns.front()->ammo_remaining() ) );
 
                 actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
 
@@ -1349,31 +1352,17 @@ static void fire()
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( g->u, g->m );
-    } else if( u.weapon.has_flag( flag_REACH_ATTACK ) ) {
-        int range = u.weapon.has_flag( flag_REACH3 ) ? 3 : 2;
+    } else if( u.weapon.current_reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( range, u );
+                reach_attack( u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
                 add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
-            reach_attack( range, u );
-        }
-    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( flag_REACH_ATTACK ) ) {
-        int range = u.weapon.gun_current_mode().qty;
-        if( u.has_effect( effect_relax_gas ) ) {
-            if( one_in( 8 ) ) {
-                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( range, u );
-            } else {
-                u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
-            }
-        } else {
-            reach_attack( range, u );
+            reach_attack( u );
         }
     }
 }

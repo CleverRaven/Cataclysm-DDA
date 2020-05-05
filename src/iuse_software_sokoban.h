@@ -9,7 +9,7 @@
 #include <vector>
 #include <utility>
 
-struct point;
+#include "point.h"
 
 namespace catacurses
 {
@@ -22,20 +22,17 @@ class sokoban_game
         class cUndo
         {
             public:
-                int iOldY = 0;
-                int iOldX = 0;
+                point old;
                 std::string sTileOld;
 
                 cUndo() {
-                    iOldY = 0;
-                    iOldX = 0;
+                    old = point_zero;
 
                     sTileOld = " ";
                 }
 
                 cUndo( const int arg_y, const int arg_x, const std::string &arg_tile ) {
-                    iOldY = arg_y;
-                    iOldX = arg_x;
+                    old = point( arg_x, arg_y );
                     sTileOld = arg_tile;
                 }
         };

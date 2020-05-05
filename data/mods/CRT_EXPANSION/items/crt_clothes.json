@@ -97,15 +97,16 @@
     "description": "C.R.I.T standard-issue belt.  Keeps your trousers up and your tools on your hip.",
     "color": "blue",
     "material": [ "leather", "brass" ],
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath blade",
-      "holster_msg": "You sheath your %s",
-      "min_volume": 0,
-      "max_volume": "1 L",
-      "draw_cost": 5,
-      "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "SHEATH_SWORD" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE", "SHEATH_SWORD" ],
+        "moves": 5,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
     "flags": [ "STURDY", "WAIST" ]
   },
   {
@@ -124,7 +125,12 @@
     "covers": [ "TORSO", "ARMS", "LEGS" ],
     "coverage": 100,
     "encumbrance": 13,
-    "storage": "1250 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
+    ],
     "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 2,

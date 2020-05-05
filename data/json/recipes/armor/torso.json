@@ -913,6 +913,18 @@
     "components": [ [ [ "lycra_patch", 2 ] ] ]
   },
   {
+    "result": "xlsports_bra",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "55 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 25 ] ],
+    "components": [ [ [ "lycra_patch", 4 ] ] ]
+  },
+  {
     "result": "sundress",
     "type": "recipe",
     "category": "CC_ARMOR",

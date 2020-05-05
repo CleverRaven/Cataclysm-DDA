@@ -336,6 +336,7 @@
     "name": { "str_sp": "meat jerky" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "jerk jerky" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking animal jerky" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "monster jerky" } }
     ],
     "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
@@ -377,6 +378,7 @@
     "name": "smoked meat",
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "smoked sucker" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "smoked Narnian" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
@@ -725,6 +727,14 @@
     "flags": [ "CANNIBALISM" ]
   },
   {
+    "type": "GENERIC",
+    "id": "bone_demihuman",
+    "copy-from": "bone",
+    "name": { "str": "demihuman bone" },
+    "description": "A bone from a demihuman being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
     "type": "COMESTIBLE",
     "id": "fat_tainted",
     "category": "other",
@@ -852,6 +862,15 @@
     "name": "raw human skin",
     "description": "A carefully folded raw skin harvested from a human.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "raw_demihumanleather",
+    "copy-from": "raw_leather",
+    "name": "raw demihuman skin",
+    "description": "A carefully folded raw skin harvested from a demihuman.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "material": "flesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "type": "COMESTIBLE",
@@ -996,5 +1015,92 @@
     "description": "Dry and tough bark matter harvested from an alien plant.  It is slightly translucent, and if placed against the light you can distinguish glistening blue veins running through it.",
     "price_postapoc": 10,
     "vitamins": [ [ "vitA", 6 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 8 ], [ "vitB", 6 ], [ "mutant_toxin", 12 ] ]
+  },
+  {
+    "id": "demihuman_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": "demihuman stomach",
+    "description": "The stomach of an intelligent demihuman.  It is surprisingly durable.",
+    "material": "flesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "id": "demihuman_stomach_large",
+    "copy-from": "stomach_large",
+    "type": "COMESTIBLE",
+    "name": "large demihuman stomach",
+    "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 },
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "id": "demihuman_fat",
+    "copy-from": "fat",
+    "type": "COMESTIBLE",
+    "name": "chunk of demihuman fat",
+    "description": "Freshly harvested from a human body.",
+    "material": "flesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "demihuman_tallow",
+    "name": "demihuman tallow",
+    "copy-from": "tallow",
+    "description": "A smooth white block of cleaned and rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "price": 500,
+    "//": "*May* have been commercially traded.",
+    "material": "flesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "demihuman_lard",
+    "name": "demihuman lard",
+    "copy-from": "human_tallow",
+    "description": "A smooth white block of dry-rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "id": "demihuman_flesh",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "cooks_like": "demihuman_cooked",
+    "name": "demihuman flesh",
+    "description": "Freshly butchered from a demihuman body.",
+    "material": "flesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "id": "demihuman_cooked",
+    "copy-from": "demihuman_flesh",
+    "type": "COMESTIBLE",
+    "name": "cooked mongrel",
+    "description": "A freshly cooked slice of something close to being a real person.  Tastes like long pig.",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "healthy": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT", "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "demihuman_stomach_boiled",
+    "copy-from": "stomach_boiled",
+    "name": "boiled demihuman stomach",
+    "calories": 240,
+    "description": "A boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
+    "material": "flesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "small_demihuman_stomach_boiled",
+    "copy-from": "small_stomach_boiled",
+    "name": { "str": "boiled demihuman stomach" },
+    "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
+    "material": "flesh",
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   }
 ]

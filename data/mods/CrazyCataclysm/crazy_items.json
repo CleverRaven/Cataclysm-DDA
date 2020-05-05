@@ -69,8 +69,7 @@
     "color": "cyan",
     "skill": "rifle",
     "range": 45,
-    "ranged_damage": 250,
-    "pierce": 20,
+    "ranged_damage": { "damage_type": "stab", "amount": 250, "armor_penetration": 20 },
     "dispersion": 10,
     "recoil": 100,
     "durability": 10,
@@ -95,7 +94,6 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ] ] ]
   },
   {

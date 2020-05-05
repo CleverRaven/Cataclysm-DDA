@@ -9,6 +9,8 @@
 #include <clang/Basic/DiagnosticIDs.h>
 #include <clang/Basic/Specifiers.h>
 
+#include "Utils.h"
+
 using namespace clang::ast_matchers;
 
 namespace clang
@@ -23,13 +25,21 @@ void XYCheck::registerMatchers( MatchFinder *Finder )
     Finder->addMatcher(
         fieldDecl(
             hasType( asString( "int" ) ),
-            matchesName( "x$" ),
+            isXParam(),
             hasParent(
                 cxxRecordDecl(
-                    forEachDescendant( fieldDecl( matchesName( "y$" ) ).bind( "yfield" ) )
+                    forEachDescendant( fieldDecl( isYParam() ).bind( "yfield" ) )
                 ).bind( "record" )
             )
         ).bind( "xfield" ),
+        this
+    );
+    Finder->addMatcher(
+        parmVarDecl(
+            hasType( asString( "int" ) ),
+            isXParam(),
+            hasAncestor( functionDecl().bind( "function" ) )
+        ).bind( "xparam" ),
         this
     );
 }
@@ -42,16 +52,14 @@ static void CheckField( XYCheck &Check, const MatchFinder::MatchResult &Result )
     if( !XVar || !YVar || !Record ) {
         return;
     }
-    llvm::StringRef XPrefix = XVar->getName().drop_back();
-    llvm::StringRef YPrefix = YVar->getName().drop_back();
-    if( XPrefix != YPrefix ) {
+    const NameConvention NameMatcher( XVar->getName() );
+    if( NameMatcher.Match( YVar->getName() ) != NameConvention::YName ) {
         return;
     }
 
     const FieldDecl *ZVar = nullptr;
     for( FieldDecl *Field : Record->fields() ) {
-        StringRef Name = Field->getName();
-        if( Name.endswith( "z" ) && Name.drop_back() == XPrefix ) {
+        if( NameMatcher.Match( Field->getName() ) == NameConvention::ZName ) {
             ZVar = Field;
             break;
         }
@@ -79,9 +87,66 @@ static void CheckField( XYCheck &Check, const MatchFinder::MatchResult &Result )
     }
 }
 
+static void CheckParam( XYCheck &Check, const MatchFinder::MatchResult &Result )
+{
+    const ParmVarDecl *XParam = Result.Nodes.getNodeAs<ParmVarDecl>( "xparam" );
+    const FunctionDecl *Function = Result.Nodes.getNodeAs<FunctionDecl>( "function" );
+    if( !XParam || !Function ) {
+        return;
+    }
+    // Don't mess with the methods of point and tripoint themselves
+    if( isPointMethod( Function ) ) {
+        return;
+    }
+    const NameConvention NameMatcher( XParam->getName() );
+
+    const ParmVarDecl *YParam = nullptr;
+    const ParmVarDecl *ZParam = nullptr;
+    for( ParmVarDecl *Parameter : Function->parameters() ) {
+        switch( NameMatcher.Match( Parameter->getName() ) ) {
+            case NameConvention::ZName:
+                ZParam = Parameter;
+                break;
+            case NameConvention::YName:
+                YParam = Parameter;
+                break;
+            default:
+                break;
+        }
+    }
+
+    if( !YParam ) {
+        return;
+    }
+
+    TemplateSpecializationKind tsk = Function->getTemplateSpecializationKind();
+    if( tsk != TSK_Undeclared ) {
+        // Avoid duplicate warnings for specializations
+        return;
+    }
+
+    if( ZParam ) {
+        Check.diag(
+            Function->getLocation(),
+            "%0 has parameters %1, %2, and %3.  Consider combining into a single tripoint "
+            "parameter." ) << Function << XParam << YParam << ZParam;
+    } else {
+        Check.diag(
+            Function->getLocation(),
+            "%0 has parameters %1 and %2.  Consider combining into a single point "
+            "parameter." ) << Function << XParam << YParam;
+    }
+    Check.diag( XParam->getLocation(), "declaration of %0", DiagnosticIDs::Note ) << XParam;
+    Check.diag( YParam->getLocation(), "declaration of %0", DiagnosticIDs::Note ) << YParam;
+    if( ZParam ) {
+        Check.diag( ZParam->getLocation(), "declaration of %0", DiagnosticIDs::Note ) << ZParam;
+    }
+}
+
 void XYCheck::check( const MatchFinder::MatchResult &Result )
 {
     CheckField( *this, Result );
+    CheckParam( *this, Result );
 }
 
 } // namespace cata

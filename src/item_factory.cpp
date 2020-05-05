@@ -26,6 +26,7 @@
 #include "explosion.h"
 #include "flat_set.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "init.h"
 #include "item.h"
 #include "item_contents.h"
@@ -65,8 +66,6 @@ static item_category_id calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
-
-static const int ascii_art_width = 42;
 
 bool item_is_blacklisted( const std::string &id )
 {
@@ -195,12 +194,6 @@ void Item_factory::finalize_pre( itype &obj )
         if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
             obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
         }
-    }
-
-    // Set max volume for containers to prevent integer overflow
-    if( obj.container && obj.container->contains > 10000_liter ) {
-        debugmsg( obj.id + " storage volume is too large, reducing to 10000 liters" );
-        obj.container->contains = 10000_liter;
     }
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
@@ -506,13 +499,6 @@ void Item_factory::finalize_post( itype &obj )
             if( !dtype.is_valid() ) {
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.", obj.id, dtype.c_str() );
             }
-        }
-    }
-    for( std::string &line : obj.ascii_picture ) {
-        if( utf8_width( remove_color_tags( line ) ) > ascii_art_width ) {
-            line = trim_by_length( line, ascii_art_width );
-            debugmsg( "ascii_picture in %s contains a line too long to be displayed (>%i char).", obj.id,
-                      ascii_art_width );
         }
     }
 }
@@ -930,7 +916,6 @@ void Item_factory::init()
     add_iuse( "BREAK_STICK", &iuse::break_stick );
 
     add_actor( std::make_unique<ammobelt_actor>() );
-    add_actor( std::make_unique<bandolier_actor>() );
     add_actor( std::make_unique<cauterize_actor>() );
     add_actor( std::make_unique<consume_drug_iuse>() );
     add_actor( std::make_unique<delayed_transform_iuse>() );
@@ -1287,19 +1272,6 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->container ) {
-            if( type->container->seals && type->container->unseals_into != "null" ) {
-                msg += string_format( "resealable container unseals_into %s\n",
-                                      type->container->unseals_into.c_str() );
-            }
-            if( type->container->contains <= 0_ml ) {
-                msg += string_format( "\"contains\" (%d) must be >0\n", type->container->contains.value() );
-            }
-            if( !has_template( type->container->unseals_into ) ) {
-                msg += string_format( "unseals_into invalid id %s\n", type->container->unseals_into.c_str() );
-            }
-        }
-
         for( const auto &elem : type->use_methods ) {
             const iuse_actor *actor = elem.second.get_actor_ptr();
 
@@ -1437,6 +1409,7 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
     if( base != m_templates.end() ) {
         def = base->second;
         def.looks_like = jo.get_string( "copy-from" );
+        def.was_loaded = true;
         return true;
     }
 
@@ -1446,6 +1419,7 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
         if( def.looks_like.empty() ) {
             def.looks_like = jo.get_string( "copy-from" );
         }
+        def.was_loaded = true;
         return true;
     }
 
@@ -1471,25 +1445,29 @@ void Item_factory::load( islot_artifact &slot, const JsonObject &jo, const std::
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-void Item_factory::load( islot_ammo &slot, const JsonObject &jo, const std::string &src )
+void islot_ammo::load( const JsonObject &jo )
 {
-    bool strict = src == "dda";
-
-    assign( jo, "ammo_type", slot.type, strict );
-    assign( jo, "casing", slot.casing, strict );
-    assign( jo, "drop", slot.drop, strict );
-    assign( jo, "drop_chance", slot.drop_chance, strict, 0.0f, 1.0f );
-    assign( jo, "drop_active", slot.drop_active, strict );
+    mandatory( jo, was_loaded, "ammo_type", type );
+    optional( jo, was_loaded, "casing", casing, cata::nullopt );
+    optional( jo, was_loaded, "drop", drop, "null" );
+    optional( jo, was_loaded, "drop_chance", drop_chance, 1.0f );
+    optional( jo, was_loaded, "drop_active", drop_active, true );
     // Damage instance assign reader handles pierce and prop_damage
-    assign( jo, "damage", slot.damage, strict );
-    assign( jo, "range", slot.range, strict, 0 );
-    assign( jo, "dispersion", slot.dispersion, strict, 0 );
-    assign( jo, "recoil", slot.recoil, strict, 0 );
-    assign( jo, "count", slot.def_charges, strict, 1 );
-    assign( jo, "loudness", slot.loudness, strict, 0 );
-    assign( jo, "effects", slot.ammo_effects, strict );
-    assign( jo, "critical_multiplier", slot.critical_multiplier, strict );
-    assign( jo, "show_stats", slot.force_stat_display, strict );
+    assign( jo, "damage", damage );
+    optional( jo, was_loaded, "range", range, 0 );
+    optional( jo, was_loaded, "dispersion", dispersion, 0 );
+    optional( jo, was_loaded, "recoil", recoil, 0 );
+    optional( jo, was_loaded, "count", def_charges, 1 );
+    optional( jo, was_loaded, "loudness", loudness, -1 );
+    optional( jo, was_loaded, "effects", ammo_effects );
+    optional( jo, was_loaded, "critical_multiplier", critical_multiplier, 2.0 );
+    optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
+}
+
+void islot_ammo::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
@@ -1497,7 +1475,17 @@ void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
-        load_slot( def.ammo, jo, src );
+        if( def.was_loaded ) {
+            if( def.ammo ) {
+                def.ammo->was_loaded = true;
+            } else {
+                def.ammo = cata::make_value<islot_ammo>();
+                def.ammo->was_loaded = true;
+            }
+        } else {
+            def.ammo = cata::make_value<islot_ammo>();
+        }
+        def.ammo->load( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -1647,7 +1635,6 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
     assign( jo, "warmth", slot.warmth, strict, 0 );
-    assign( jo, "storage", slot.storage, strict, 0_ml );
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
     assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
     assign( jo, "power_armor", slot.power_armor, strict );
@@ -1939,15 +1926,6 @@ void Item_factory::load_comestible( const JsonObject &jo, const std::string &src
     }
 }
 
-void Item_factory::load_container( const JsonObject &jo, const std::string &src )
-{
-    itype def;
-    if( load_definition( jo, src, def ) ) {
-        load_slot( def.container, jo, src );
-        load_basic_info( jo, def, src );
-    }
-}
-
 void Item_factory::load( islot_seed &slot, const JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
@@ -1956,15 +1934,6 @@ void Item_factory::load( islot_seed &slot, const JsonObject &jo, const std::stri
     slot.fruit_id = jo.get_string( "fruit" );
     slot.spawn_seeds = jo.get_bool( "seeds", true );
     slot.byproducts = jo.get_string_array( "byproducts" );
-}
-
-void Item_factory::load( islot_container &slot, const JsonObject &jo, const std::string & )
-{
-    assign( jo, "contains", slot.contains );
-    assign( jo, "seals", slot.seals );
-    assign( jo, "watertight", slot.watertight );
-    assign( jo, "preserves", slot.preserves );
-    assign( jo, "unseals_into", slot.unseals_into );
 }
 
 void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
@@ -2185,6 +2154,66 @@ void npc_implied_flags( itype &item_template )
     }
 }
 
+void Item_factory::check_and_create_magazine_pockets( itype &def )
+{
+    if( !def.pockets.empty() ) {
+        // this means pockets were defined in json already
+        // we assume they're good to go, or error elsewhere
+        return;
+    }
+    if( def.magazine ) {
+        pocket_data mag_data;
+        mag_data.type = item_pocket::pocket_type::MAGAZINE;
+        for( const ammotype &amtype : def.magazine->type ) {
+            mag_data.ammo_restriction.emplace( amtype, def.magazine->capacity );
+        }
+        mag_data.fire_protection = def.magazine->protects_contents;
+        mag_data.max_contains_volume = 200_liter;
+        mag_data.max_contains_weight = 400_kilogram;
+        mag_data.rigid = true;
+        mag_data.watertight = true;
+        def.pockets.push_back( mag_data );
+        return;
+    } else if( def.gun || !def.magazines.empty() ) {
+        pocket_data mag_data;
+        mag_data.type = item_pocket::pocket_type::MAGAZINE;
+        // only one magazine in a pocket, for now
+        mag_data.holster = true;
+        // guns are, in code terms, nonrigid objects with optional magazine_wells.
+        mag_data.rigid = false;
+        mag_data.watertight = true;
+        mag_data.max_contains_volume = 200_liter;
+        mag_data.max_contains_weight = 400_kilogram;
+        // the magazine pocket does not use can_contain like normal CONTAINER pockets
+        // so we don't have to worry about having random items be put into the mag
+        def.pockets.push_back( mag_data );
+        return;
+    }
+}
+
+static bool has_pocket_type( const std::vector<pocket_data> &data, item_pocket::pocket_type pk )
+{
+    for( const pocket_data &pocket : data ) {
+        if( pocket.type == pk ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Item_factory::add_special_pockets( itype &def )
+{
+    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CORPSE ) ) {
+        def.pockets.emplace_back( item_pocket::pocket_type::CORPSE );
+    }
+    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MOD ) ) {
+        def.pockets.emplace_back( item_pocket::pocket_type::MOD );
+    }
+    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION ) ) {
+        def.pockets.emplace_back( item_pocket::pocket_type::MIGRATION );
+    }
+}
+
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
     bool strict = src == "dda";
@@ -2201,17 +2230,15 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );
     assign( jo, "to_hit", def.m_to_hit, strict );
     assign( jo, "container", def.default_container );
-    assign( jo, "rigid", def.rigid );
     assign( jo, "min_strength", def.min_str );
     assign( jo, "min_dexterity", def.min_dex );
     assign( jo, "min_intelligence", def.min_int );
     assign( jo, "min_perception", def.min_per );
     assign( jo, "emits", def.emits );
-    assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
-    assign( jo, "ascii_picture", def.ascii_picture );
+    assign( jo, "ascii_picture", def.picture_id );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
@@ -2388,13 +2415,12 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
-    load_slot_optional( def.container, jo, "container_data", src );
     load_slot_optional( def.armor, jo, "armor_data", src );
     load_slot_optional( def.pet_armor, jo, "pet_armor_data", src );
     load_slot_optional( def.book, jo, "book_data", src );
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );
-    load_slot_optional( def.ammo, jo, "ammo_data", src );
+    assign( jo, "ammo_data", def.ammo, src == "dda" );
     load_slot_optional( def.seed, jo, "seed_data", src );
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
@@ -2409,6 +2435,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         load_slot( def.gunmod, jo_gunmod, src );
         load_slot( def.mod, jo_gunmod, src );
     }
+
+    assign( jo, "pocket_data", def.pockets );
+    check_and_create_magazine_pockets( def );
+    add_special_pockets( def );
 
     if( jo.has_string( "abstract" ) ) {
         def.id = jo.get_string( "abstract" );
@@ -2471,13 +2501,6 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
         }
 
         obj.contents.migrate_item( obj, iter->second.contents );
-
-        // check contents of migrated containers do not exceed capacity
-        if( obj.is_container() && !obj.contents.empty() ) {
-            item &child = obj.contents.back();
-            const int capacity = child.charges_per_volume( obj.get_container_capacity() );
-            child.charges = std::min( child.charges, capacity );
-        }
     }
 }
 
