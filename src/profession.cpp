@@ -389,10 +389,12 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     result.insert( result.begin(), group_both.begin(), group_both.end() );
     result.insert( result.begin(), group_gender.begin(), group_gender.end() );
 
-    std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
-    for( const itype_id &elem : bonus ) {
-        if( elem != no_bonus ) {
-            result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+    if( !has_flag( "NO_BONUS_ITEMS" ) ) {
+        std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
+        for( const itype_id &elem : bonus ) {
+            if( elem != no_bonus ) {
+                result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+            }
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {

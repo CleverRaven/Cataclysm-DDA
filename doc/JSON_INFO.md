@@ -965,6 +965,8 @@ player will start with this as a nearby vehicle.
 
 A list of flags. TODO: document those flags here.
 
+- ```NO_BONUS_ITEMS``` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession 
+
 Mods can modify this via `add:flags` and `remove:flags`.
 
 #### `cbms`
