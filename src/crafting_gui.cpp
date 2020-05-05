@@ -949,7 +949,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     }
     std::stable_sort( related_results.begin(), related_results.end(),
     []( const std::pair<std::string, std::string> &a, const std::pair<std::string, std::string> &b ) {
-        return a.second < b.second;
+        return localized_compare( a.second, b.second );
     } );
 
     uilist rel_menu;

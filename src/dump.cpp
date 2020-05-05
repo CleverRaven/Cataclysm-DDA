@@ -330,7 +330,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     if( scol >= 0 ) {
         std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string> &lhs,
         const std::vector<std::string> &rhs ) {
-            return lhs[ scol ] < rhs[ scol ];
+            return localized_compare( lhs[ scol ], rhs[ scol ] );
         } );
     }
 
