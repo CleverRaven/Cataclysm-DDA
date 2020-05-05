@@ -291,12 +291,6 @@ class player : public Character
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
-        // Mental skills and stats
-        /** Returns a value used when attempting to convince NPC's of something */
-        int talk_skill() const;
-        /** Returns a value used when attempting to intimidate NPC's */
-        int intimidation() const;
-
         /**
          * Check if a given body part is immune to a given damage type
          *
