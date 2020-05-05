@@ -70,7 +70,7 @@
     "material": [ "fruit", "veggy" ],
     "symbol": "%",
     "color": "green",
-    "container": "wrapper",
+    "container": "wrapper_pr",
     "calories": 400,
     "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
   },
