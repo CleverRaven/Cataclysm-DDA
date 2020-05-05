@@ -588,7 +588,7 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
 void consume_activity_actor::start( player_activity &act, Character &guy )
 {
     int moves = to_moves<int>( guy.get_consume_time( *loc ) );
-    g->u.add_msg_if_player( m_info, _( "consume moves %d" ), moves );
+
     act.moves_total = moves;
     act.moves_left = moves;
 }
