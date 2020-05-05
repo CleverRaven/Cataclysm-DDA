@@ -149,7 +149,6 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
           ) {
-
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
             extra_info = string_format( "%d%%", percentage );
@@ -297,9 +296,6 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 {
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
-
-    // TODO: Once activity_handler_actors exist, the less ugly method of using a
-    // pure virtual can_resume_with should be used
 
     if( !*this || !other || type->no_resume() ) {
         return false;

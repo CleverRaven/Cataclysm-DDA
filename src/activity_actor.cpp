@@ -168,8 +168,6 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                           calendar::turn ) );
     }
 
-    //TODO: Should we consider helpers like in dig_activity_actor::finish?
-    // And should we use mod_stored_nutr instead of mod_hunger?
     who.mod_hunger( 5 );
     who.mod_thirst( 5 );
     who.mod_fatigue( 10 );
