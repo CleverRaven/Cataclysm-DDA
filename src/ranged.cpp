@@ -223,7 +223,7 @@ class target_ui
 
         // If true, draws turret lines
         // relevant for TargetMode::Turrets
-        bool draw_turret_lines;
+        bool draw_turret_lines = false;
 
         // Create window and set up input context
         void init_window_and_input( player &pc );
@@ -1862,7 +1862,11 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     // Load settings
     allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
-    draw_turret_lines = false;
+    if( mode == TargetMode::Turrets ) {
+        // Due to how cluttered the display would become, disable it by default
+        // unless aiming a single turret.
+        draw_turret_lines = vturrets->size() == 1;
+    }
 
     // Create window
     init_window_and_input( pc );
