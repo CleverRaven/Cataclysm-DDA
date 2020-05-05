@@ -166,6 +166,125 @@ TEST_CASE( "antibiotic effects on bites", "[player][effect][bite][antibiotic]" )
     }
 }
 
+// effect_bite
+//
+// Every 10 turns, check for recovery:
+// - Base factor: 100
+// - If effect_recover, REDUCE recovery factor by effect_recover duration / 1 hour (??)
+// - Trait INFRESIST +200
+// stacking with one of:
+// - panacea to MAX (cannot fail)
+// - strong_antibiotic +400
+// - antibiotic +200
+// - weak_antibiotic +100
+// Stacking with
+// - ++get_healthy/10
+//
+// If factor in 648,000, recover!
+//
+// If not recovered:
+// - After 6 hours, infected
+// Else, get one of:
+// - strong_antibiotic effect -1 turn
+// - antibiotic effect: +1 turn every 8 hours
+// - weak_antibiotic effect: +1 turn every 2 turns
+// - Otherwise: mod_duration +1 turn
+//
+// effect_bite usage notes
+// REFACTOR duplicate bite logic (40m, 25m, 1t)
+// - monattack.cpp stretch_bite (L4095-4103)
+// - mattack_actors.cpp on_damage (L360-368)
+// - character.cpp deal_damage (L8542-8550) "each point has a 1% chance of causing infection"
+
+static float bite_recovery_chance( const time_duration time_to_recover,
+                                   const std::string with_effect_name )
+{
+    // Total number of bite-to-infection trials to run
+    const int num_trials = 1000;
+    // How many times we recover
+    int recovery_count = 0;
+
+    const efftype_id effect_bite( "bite" );
+    const efftype_id effect_also( with_effect_name );
+    const body_part torso = bodypart_id( "torso" )->token;
+
+    // Start bites with enough duration to give the desired recovery time (up to 6 full hours)
+    const time_duration start_bite_duration = 6_hours - time_to_recover + 1_turns;
+    REQUIRE( to_turns<int>( start_bite_duration ) > 0 );
+
+    avatar dummy;
+
+    for( int i = 0; i < num_trials; i++ ) {
+        dummy.clear_effects();
+        calendar::turn = calendar::turn_zero;
+        // Get a fresh bite with the given starting duration
+        dummy.add_effect( effect_bite, start_bite_duration, torso, true );
+
+        // Apply the additional effect
+        dummy.add_effect( effect_also, 12_hours, torso );
+
+        // Keep track of the bite effect to know whether it recovers
+        effect &bite_obj = dummy.get_effect( efftype_id( "bite" ), torso );
+        bool recovered = false;
+
+        // Without recovery, infection is automatic at 6 hours; quit before then
+        while( !recovered && bite_obj.get_duration() < 6_hours ) {
+            dummy.hardcoded_effects( bite_obj );
+            calendar::turn = calendar::turn + 1_turns;
+
+            // If duration reaches 0 turns, the bite has recovered
+            if( bite_obj.get_duration() == 0_turns ) {
+                recovered = true;
+                recovery_count++;
+            }
+        }
+    }
+
+    // Return percentage of times healed within the six-hour infection limit
+    return static_cast<float>( 100.0f * recovery_count / num_trials );
+}
+
+TEST_CASE( "chance of recovering from bite", "[player][effect][bite][recovery][slow][!mayfail]" )
+{
+    // FIXME: This test with panacea is boring and a waste of cycles
+    //CHECK( 100.0f == bite_recovery_chance( "panacea" ) );
+
+    // Antibiotics work better with more time to recover (6 hours max)
+
+    CHECK( 100.0f == bite_recovery_chance( 1_hours, "strong_antibiotic" ) );
+
+    // FIXME: These are flakier than golden-crusted butter croissants
+    const float marg = 2.0f;
+    CHECK( Approx( 100.0f ).margin( marg ) == bite_recovery_chance( 6_hours, "antibiotic" ) );
+    CHECK( Approx( 98.3f ).margin( marg ) == bite_recovery_chance( 3_hours, "antibiotic" ) );
+    CHECK( Approx( 73.3f ).margin( marg ) == bite_recovery_chance( 1_hours, "antibiotic" ) );
+
+    CHECK( Approx( 73.4f ).margin( marg ) == bite_recovery_chance( 6_hours, "weak_antibiotic" ) );
+    CHECK( Approx( 49.1f ).margin( marg ) == bite_recovery_chance( 3_hours, "weak_antibiotic" ) );
+    CHECK( Approx( 19.8f ).margin( marg ) == bite_recovery_chance( 1_hours, "weak_antibiotic" ) );
+
+    CHECK( Approx( 27.9f ).margin( marg ) == bite_recovery_chance( 6_hours, "recover" ) );
+    CHECK( Approx( 15.6f ).margin( marg ) == bite_recovery_chance( 3_hours, "recover" ) );
+    CHECK( Approx( 5.3f ).margin( marg ) == bite_recovery_chance( 1_hours, "recover" ) );
+}
+
+
+// effect_infected (~50 lines)
+//
+// Almost a straight copy/paste of effect_bite
+//
+// If factor in 5,184,000, recover!
+//
+// If not recovered:
+// - After 1 day, death ("You succumb to the infection."
+// Else, get one of:
+// - strong_antibiotic effect -1 turn
+// - antibiotic effect: +1 turn every 8 hours
+// - weak_antibiotic effect: +1 turn every 2 turns
+// - Otherwise: mod_duration +1 turn
+
+
+
 // effect_mending
 //
 // Applied to a body part, this effect indicates when a limb is mending from being broken.
@@ -277,15 +396,6 @@ TEST_CASE( "disabled body parts", "[player][effect][disabled]" )
     }
 }
 
-// effect_panacea
-//
-TEST_CASE( "panacea heals the body and reduces pain", "[player][effect][panacea]" )
-{
-    // GIVEN player has the panacea effect
-    // THEN all body parts are healed
-    // AND pain is reduced
-}
-
 // effect_alarm_clock
 //
 // IF in_sleep_state
@@ -302,149 +412,6 @@ TEST_CASE( "panacea heals the body and reduces pain", "[player][effect][panacea]
 // - "beep-beep-beep!"
 // - "Your alarm is going off."
 // - (ignored) "Your alarm went off."
-
-
-/* Recovery chances, use binomial distributions if balancing here. Healing in the bite
- * stage provides additional benefits, so both the bite stage chance of healing and
- * the cumulative chances for spontaneous healing are both given.
- * Cumulative heal chances for the bite + infection stages:
- * -200 health - 38.6%
- *    0 health - 46.8%
- *  200 health - 53.7%
- *
- * Heal chances in the bite stage:
- * -200 health - 23.4%
- *    0 health - 28.3%
- *  200 health - 32.9%
- *
- * Cumulative heal chances the bite + infection stages with the resistant mutation:
- * -200 health - 82.6%
- *    0 health - 84.5%
- *  200 health - 86.1%
- *
- * Heal chances in the bite stage with the resistant mutation:
- * -200 health - 60.7%
- *    0 health - 63.2%
- *  200 health - 65.6%
- */
-
-// effect_bite
-//
-// Every 10 turns, check for recovery:
-// - Base factor: 100
-// - If effect_recover, REDUCE recovery factor by effect_recover duration / 1 hour (??)
-// - Trait INFRESIST +200
-// stacking with one of:
-// - panacea to MAX (cannot fail)
-// - strong_antibiotic +400
-// - antibiotic +200
-// - weak_antibiotic +100
-// Stacking with
-// - ++get_healthy/10
-//
-// If factor in 648,000, recover!
-//
-// If not recovered:
-// - After 6 hours, infected
-// Else, get one of:
-// - strong_antibiotic effect -1 turn
-// - antibiotic effect: +1 turn every 8 hours
-// - weak_antibiotic effect: +1 turn every 2 turns
-// - Otherwise: mod_duration +1 turn
-//
-// effect_bite usage notes
-// REFACTOR duplicate bite logic (40m, 25m, 1t)
-// - monattack.cpp stretch_bite (L4095-4103)
-// - mattack_actors.cpp on_damage (L360-368)
-// - character.cpp deal_damage (L8542-8550) "each point has a 1% chance of causing infection"
-
-static float bite_recovery_chance( const time_duration time_to_recover,
-                                   const std::string with_effect_name )
-{
-    // Total number of bite-to-infection trials to run
-    const int num_trials = 1000;
-    // How many times we recover
-    int recovery_count = 0;
-
-    const efftype_id effect_bite( "bite" );
-    const efftype_id effect_also( with_effect_name );
-    const body_part torso = bodypart_id( "torso" )->token;
-
-    // Start bites with enough duration to give the desired recovery time (up to 6 full hours)
-    const time_duration start_bite_duration = 6_hours - time_to_recover + 1_turns;
-    REQUIRE( to_turns<int>( start_bite_duration ) > 0 );
-
-    avatar dummy;
-
-    for( int i = 0; i < num_trials; i++ ) {
-        dummy.clear_effects();
-        calendar::turn = calendar::turn_zero;
-        // Get a fresh bite with the given starting duration
-        dummy.add_effect( effect_bite, start_bite_duration, torso, true );
-
-        // Apply the additional effect
-        dummy.add_effect( effect_also, 12_hours, torso );
-
-        // Keep track of the bite effect to know whether it recovers
-        effect &bite_obj = dummy.get_effect( efftype_id( "bite" ), torso );
-        bool recovered = false;
-
-        // Without recovery, infection is automatic at 6 hours; quit before then
-        while( !recovered && bite_obj.get_duration() < 6_hours ) {
-            dummy.hardcoded_effects( bite_obj );
-            calendar::turn = calendar::turn + 1_turns;
-
-            // If duration reaches 0 turns, the bite has recovered
-            if( bite_obj.get_duration() == 0_turns ) {
-                recovered = true;
-                recovery_count++;
-            }
-        }
-    }
-
-    // Return percentage of times healed within the six-hour infection limit
-    return static_cast<float>( 100.0f * recovery_count / num_trials );
-}
-
-TEST_CASE( "chance of recovering from bite", "[player][effect][bite][recovery][slow][!mayfail]" )
-{
-    // FIXME: This test with panacea is boring and a waste of cycles
-    //CHECK( 100.0f == bite_recovery_chance( "panacea" ) );
-
-    // Antibiotics work better with more time to recover (6 hours max)
-
-    CHECK( 100.0f == bite_recovery_chance( 1_hours, "strong_antibiotic" ) );
-
-    // FIXME: These are flakier than golden-crusted butter croissants
-    const float marg = 2.0f;
-    CHECK( Approx( 100.0f ).margin( marg ) == bite_recovery_chance( 6_hours, "antibiotic" ) );
-    CHECK( Approx( 98.3f ).margin( marg ) == bite_recovery_chance( 3_hours, "antibiotic" ) );
-    CHECK( Approx( 73.3f ).margin( marg ) == bite_recovery_chance( 1_hours, "antibiotic" ) );
-
-    CHECK( Approx( 73.4f ).margin( marg ) == bite_recovery_chance( 6_hours, "weak_antibiotic" ) );
-    CHECK( Approx( 49.1f ).margin( marg ) == bite_recovery_chance( 3_hours, "weak_antibiotic" ) );
-    CHECK( Approx( 19.8f ).margin( marg ) == bite_recovery_chance( 1_hours, "weak_antibiotic" ) );
-
-    CHECK( Approx( 27.9f ).margin( marg ) == bite_recovery_chance( 6_hours, "recover" ) );
-    CHECK( Approx( 15.6f ).margin( marg ) == bite_recovery_chance( 3_hours, "recover" ) );
-    CHECK( Approx( 5.3f ).margin( marg ) == bite_recovery_chance( 1_hours, "recover" ) );
-}
-
-
-
-// effect_infected (~50 lines)
-//
-// Almost a straight copy/paste of effect_bite
-//
-// If factor in 5,184,000, recover!
-//
-// If not recovered:
-// - After 1 day, death ("You succumb to the infection."
-// Else, get one of:
-// - strong_antibiotic effect -1 turn
-// - antibiotic effect: +1 turn every 8 hours
-// - weak_antibiotic effect: +1 turn every 2 turns
-// - Otherwise: mod_duration +1 turn
 
 
 // effect_lying_down
