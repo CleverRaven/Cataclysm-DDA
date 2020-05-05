@@ -555,8 +555,8 @@ void game::draw_hit_player( const Character &p, const int dam )
 /* Line drawing code, not really an animation but should be separated anyway */
 namespace
 {
-void draw_line_curses( game &g, const tripoint &/*pos*/, const tripoint &center,
-                       const std::vector<tripoint> &ret, bool noreveal )
+void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoint> &ret,
+                       bool noreveal )
 {
     for( const tripoint &p : ret ) {
         const auto critter = g.critter_at( p, true );
@@ -589,7 +589,7 @@ void game::draw_line( const tripoint &p, const tripoint &center,
     }
 
     if( !use_tiles ) {
-        draw_line_curses( *this, p, center, points, noreveal );
+        draw_line_curses( *this, center, points, noreveal );
         return;
     }
 
@@ -603,7 +603,7 @@ void game::draw_line( const tripoint &p, const tripoint &center,
         return;
     }
 
-    draw_line_curses( *this, p, center, points, noreveal );
+    draw_line_curses( *this, center, points, noreveal );
 }
 #endif
 
