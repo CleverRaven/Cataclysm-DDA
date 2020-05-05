@@ -165,11 +165,11 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Uplifted SWAT armor" },
-    "//": "This is well within the pricing structure I found for ballistic vest, shins, and LBE.  LEO gear ain't cheap.",
     "description": "An extra large suit of black bulletproof armor with lots of pockets.  The word SWAT is emblazoned across the back.  Specifically designed for Uplifted officers such as Mastodons.",
     "weight": "10 kg",
     "volume": "20 L",
     "price": 585000,
+    "price_postapoc": 5000,
     "to_hit": -3,
     "bashing": 6,
     "material": [ "kevlar", "cotton" ],
@@ -183,7 +183,11 @@
     "material_thickness": 9,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 4,
-    "flags": [ "OVERSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "OVERSIZE", "POCKETS", "STURDY" ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
+    ]
   },
   {
     "id": "xlballistic_vest_empty",
@@ -304,7 +308,7 @@
     "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
-    "id": "police_belt",
+    "id": "xlpolice_belt",
     "type": "ARMOR",
     "name": { "str": "XL police duty belt" },
     "description": "An XL black leather belt used by extremely large uplifted police officers.  It has several pouches and a holder for a baton.",
