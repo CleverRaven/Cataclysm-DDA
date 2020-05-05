@@ -10,8 +10,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "faction_base_camp_new_0" ],
+    "copy-from": "faction_base_camp_0",
+    "name": "survivor camp",
+    "delete": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
-      "faction_base_camp_new_0",
       "faction_base_camp_1",
       "faction_base_camp_2",
       "faction_base_camp_3",
@@ -28,8 +34,7 @@
       "faction_base_camp_14"
     ],
     "copy-from": "faction_base_camp_0",
-    "name": "survivor camp",
-    "delete": { "flags": [ "NO_ROTATE" ] }
+    "name": "survivor camp"
   },
   {
     "type": "overmap_terrain",
