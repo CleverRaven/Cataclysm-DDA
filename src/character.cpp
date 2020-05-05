@@ -9340,7 +9340,9 @@ void Character::assign_activity( const activity_id &type, int moves, int index, 
 
 void Character::assign_activity( const player_activity &act, bool allow_resume )
 {
+    bool resuming = false;
     if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
+        resuming = true;
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();
         backlog.pop_front();
@@ -9352,7 +9354,7 @@ void Character::assign_activity( const player_activity &act, bool allow_resume )
         activity = act;
     }
 
-    activity.start( *this );
+    activity.start_or_resume( *this, resuming );
 
     if( is_npc() ) {
         cancel_stashed_activity();
