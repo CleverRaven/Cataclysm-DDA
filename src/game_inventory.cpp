@@ -561,6 +561,11 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
+            append_cell( []( const item_location & loc ) {
+                time_duration time = g->u.get_consume_time( *loc );
+                return string_format( _( "%s" ), to_string( time ) );
+            }, _( "CONSUME TIME" ) );
+
             append_cell( [this]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {

@@ -2148,6 +2148,8 @@ class Character : public Creature, public visitable<Character>
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
 
+        time_duration get_consume_time( const item &it );
+
     protected:
         Character();
         Character( Character && );

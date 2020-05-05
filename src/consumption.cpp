@@ -1616,3 +1616,26 @@ item &Character::get_consumable_from( item &it ) const
     null_comestible = item();
     return null_comestible;
 }
+
+time_duration Character::get_consume_time( const item &it )
+{
+    const int charges = std::max( it.charges, 1 );
+    int volume = units::to_milliliter( it.volume() ) / charges;
+    time_duration time = 0_seconds;
+    float consume_time_modifier = 1;//only for food and drinks
+    const bool eat_verb  = it.has_flag( flag_USE_EAT_VERB );
+    if( eat_verb || it.get_comestible()->comesttype == "FOOD" ) {
+        time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
+        consume_time_modifier = mutation_value( "consume_time_modifier" );
+    } else if( !eat_verb && it.get_comestible()->comesttype == "DRINK" ) {
+        time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
+        consume_time_modifier = mutation_value( "consume_time_modifier" );
+    } else if( it.is_medication() ) {
+        time = time_duration::from_seconds(
+                   30 ); //Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
+    } else {
+        debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
+    }
+
+    return time * consume_time_modifier;
+}
