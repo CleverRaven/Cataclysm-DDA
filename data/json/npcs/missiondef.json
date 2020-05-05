@@ -582,7 +582,7 @@
     "type": "mission_definition",
     "name": { "str": "Reach The Mansion And Finish This Delivery" },
     "goal": "MGOAL_GO_TO_TYPE",
-    "destination": "mansion_c3_north",
+    "destination": "mansion_c3",
     "difficulty": 1,
     "value": 0,
     "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Wild", "search_range": 200 } },
