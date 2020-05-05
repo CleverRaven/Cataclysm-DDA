@@ -264,7 +264,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string )
     optional( jsobj, was_loaded, "enchantments", enchantments );
 
     optional( jsobj, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0 );
-    optional( jsobj, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, 0_gram );
+    assign( jsobj,  "weight_capacity_bonus", weight_capacity_bonus );
     optional( jsobj, was_loaded, "exothermic_power_gen", exothermic_power_gen );
     optional( jsobj, was_loaded, "power_gen_emission", power_gen_emission );
     optional( jsobj, was_loaded, "coverage_power_gen_penalty", coverage_power_gen_penalty );
