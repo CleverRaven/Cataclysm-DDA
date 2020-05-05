@@ -218,6 +218,9 @@ struct mutation_branch {
         // Multiplier for skill rust, defaulting to 1.
         float skill_rust_multiplier = 1.0f;
 
+        // Multiplier for consume time, defaulting to 1.
+        float consume_time_modifier = 1.0f;
+
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 

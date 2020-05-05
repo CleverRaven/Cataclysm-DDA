@@ -585,16 +585,19 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
-void consume_activity_actor::start( player_activity &act, Character & )
+void consume_activity_actor::start( player_activity &act, Character &guy )
 {
     const int charges = std::max( loc->charges, 1 );
     int volume = units::to_milliliter( loc->volume() ) / charges;
     time_duration time = 0_seconds;
+    float consume_speed_modifier = 1;//only for food and drinks
     const bool eat_verb  = loc->has_flag( flag_USE_EAT_VERB );
     if( eat_verb || loc->get_comestible()->comesttype == "FOOD" ) {
         time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
+        consume_speed_modifier = guy.mutation_value( "consume_time_modifier" );
     } else if( !eat_verb && loc->get_comestible()->comesttype == "DRINK" ) {
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
+        consume_speed_modifier = guy.mutation_value( "consume_time_modifier" );
     } else if( loc->is_medication() ) {
         time = time_duration::from_seconds(
                    30 ); //Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
@@ -602,8 +605,10 @@ void consume_activity_actor::start( player_activity &act, Character & )
         debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
     }
 
-    act.moves_total = to_moves<int>( time );
-    act.moves_left = to_moves<int>( time );
+    int moves = to_moves<int>( time ) * consume_speed_modifier;
+
+    act.moves_total = moves;
+    act.moves_left = moves;
 }
 
 void consume_activity_actor::finish( player_activity &act, Character & )
