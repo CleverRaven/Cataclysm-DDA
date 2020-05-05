@@ -2003,7 +2003,8 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             break;
         }
         case ExitCode::Fire: {
-            on_target_accepted( pc, true );
+            bool harmful = !( mode == TargetMode::Spell && casting->damage() <= 0 );
+            on_target_accepted( pc, harmful );
             break;
         }
         case ExitCode::Timeout: {
