@@ -305,7 +305,9 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         return false;
     }
 
-    if( actor && other.actor && id() == other.id() ) {
+    // if actor XOR other.actor then id() != other.id() so
+    // we will correctly return false based on final return statement
+    if( actor && other.actor ) {
         return actor->can_resume_with( *other.actor, who );
     }
 
