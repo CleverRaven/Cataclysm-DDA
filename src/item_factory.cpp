@@ -57,6 +57,7 @@ struct tripoint;
 
 using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;
+static t_string_set item_whitelist;
 
 static DynamicDataLoader::deferred_json deferred;
 
@@ -637,9 +638,36 @@ void Item_factory::finalize_item_blacklist()
     }
 }
 
+
 void Item_factory::load_item_blacklist( const JsonObject &json )
 {
-    add_array_to_set( item_blacklist, json, "items" );
+    if( json.has_string( "mode" ) && json.get_string( "mode" ) == "ITEM_WHITELIST" ) {
+		add_array_to_set( item_whitelist, json, "items" );
+	}
+	else {
+	add_array_to_set( item_blacklist, json, "items" );
+	}
+	
+	t_string_set full_item_listset;
+
+	for( const auto &e : m_templates ) {
+		full_item_listset.emplace( e.first );
+	}
+//	full_item_listset.emplace("mag_animecon");
+
+	std::vector<itype_id> white_to_blacklist;
+	for (const std::string &whiteout : full_item_listset){
+		if (item_whitelist.count(whiteout)>0) {
+			continue;
+		}
+		else {
+			white_to_blacklist.emplace_back(whiteout);
+		}	
+	}	
+		
+	for( const std::string line : white_to_blacklist ) {
+		item_blacklist.insert( line );
+	}
 }
 
 Item_factory::~Item_factory() = default;
@@ -2572,7 +2600,7 @@ void Item_factory::clear()
     m_runtimes.clear();
 
     item_blacklist.clear();
-
+	item_whitelist.clear();
     tool_subtypes.clear();
 
     repair_tools.clear();
