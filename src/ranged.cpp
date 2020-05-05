@@ -2626,24 +2626,34 @@ void target_ui::draw_terrain( player &pc )
     };
 
     // Draw trajectory
+    // FIXME: TILES version of g->draw_line helpfully draws a cursor at last point.
+    //        This creates a fake cursor if 'dst' is on a z-level we cannot see.
     if( mode == TargetMode::Turrets ) {
         // Or, rather, approximate line of fire for each turret in range
+        // TODO: TILES version doesn't know how to draw more than 1 line at a time.
+        //       We merge all lines together and draw them as a big malformed one
+        std::set<tripoint> points;
         for( const turret_with_lof &it : turrets_in_range ) {
             std::vector<tripoint> this_z = filter_this_z( it.line );
-            // Since "trajectory" for each turret is just a straight line,
-            // we can draw it even if the player can't see some parts
-            // FIXME: TILES version doesn't know how to draw more than 1 line
-            //        at a time. Nice.
-            g->draw_line( src, center, this_z, true );
+            for( const tripoint &p : this_z ) {
+                points.insert( p );
+            }
         }
+        // Since "trajectory" for each turret is just a straight line,
+        // we can draw it even if the player can't see some parts
+        points.erase( dst ); // Workaround for fake cursor on TILES
+        std::vector<tripoint> l( points.begin(), points.end() );
+        if( dst.z == center.z ) {
+            // Workaround for fake cursor bug on TILES
+            l.push_back( dst );
+        }
+        g->draw_line( src, center, l, true );
     } else if( dst != src ) {
         std::vector<tripoint> this_z = filter_this_z( traj );
 
         // Draw a highlighted trajectory only if we can see the endpoint.
         // Provides feedback to the player, but avoids leaking information
         // about tiles they can't see.
-        // FIXME: TILES version of this function helpfully draws a cursor at 'this_z.back()'.
-        //        This creates a fake cursor if 'dst' is on a z-level we cannot see.
         g->draw_line( dst, center, this_z );
     }
 
