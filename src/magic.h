@@ -295,6 +295,7 @@ class spell
 
         // minimum damage including levels
         int min_leveled_damage() const;
+        int min_leveled_dot() const;
         // minimum aoe including levels
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
@@ -334,6 +335,8 @@ class spell
         int field_intensity() const;
         // how much damage does the spell do
         int damage() const;
+        int damage_dot() const;
+        damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps ) const;
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
         // how big is the spell's radius

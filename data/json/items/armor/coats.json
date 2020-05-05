@@ -11,7 +11,7 @@
     "price": 91000,
     "price_postapoc": 1500,
     "to_hit": -1,
-    "material": [ "nomex", "kevlar" ],
+    "material": [ "nomex", "kevlar", "lycra" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "yellow",

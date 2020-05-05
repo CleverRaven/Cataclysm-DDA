@@ -1307,12 +1307,6 @@ void player::hardcoded_effects( effect &it )
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();
         }
-    } else if( id == effect_panacea ) {
-        // restore health all body parts, dramatically reduce pain
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            hp_cur[i] += 10;
-        }
-        mod_pain( -10 );
     } else if( id == effect_toxin_buildup ) {
         // Loosely based on toxic man-made compounds (mostly pesticides) which don't degrade
         // easily, leading to build-up in muscle and fat tissue through bioaccumulation.

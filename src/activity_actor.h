@@ -358,6 +358,31 @@ class open_gate_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class consume_activity_actor : public activity_actor
+{
+    private:
+        item_location loc;
+
+    public:
+        consume_activity_actor( const item_location &loc ) :
+            loc( loc ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CONSUME" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<consume_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 namespace activity_actors
 {
 

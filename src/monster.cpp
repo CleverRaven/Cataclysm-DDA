@@ -1627,6 +1627,11 @@ void monster::die_in_explosion( Creature *source )
     die( source );
 }
 
+void monster::heal_bp( bodypart_id, int dam )
+{
+    heal( dam );
+}
+
 bool monster::movement_impaired()
 {
     return effect_cache[MOVEMENT_IMPAIRED];

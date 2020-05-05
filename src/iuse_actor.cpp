@@ -25,6 +25,7 @@
 #include "clothing_mod.h"
 #include "crafting.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
 #include "enum_conversions.h"
@@ -34,6 +35,7 @@
 #include "flat_set.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "generic_factory.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
@@ -702,6 +704,7 @@ void consume_drug_iuse::load( const JsonObject &obj )
             effects.push_back( load_effect_data( e ) );
         }
     }
+    optional( obj, false, "damage_over_time", damage_over_time );
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
     obj.read( "moves", moves );
@@ -777,6 +780,10 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
             dur *= 1.2;
         }
         p.add_effect( eff.id, dur, eff.bp, eff.permanent );
+    }
+    //Apply the various damage_over_time
+    for( const damage_over_time_data &Dot : damage_over_time ) {
+        p.add_damage_over_time( Dot );
     }
     for( const auto &stat_adjustment : stat_adjustments ) {
         p.mod_stat( stat_adjustment.first, stat_adjustment.second );

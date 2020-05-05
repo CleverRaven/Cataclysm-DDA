@@ -25,8 +25,8 @@
     "description": "A powerful tri-barreled laser weapon, still mounted to the robotic hand of the wraitheon drone it originally belonged too.  Can still be fired when connected to an UPS.",
     "color": "red",
     "range": 10,
-    "ranged_damage": { "damage_type": "stab", "amount": 25, "armor_penetration": 15 },
-    "ups_charges": 50,
+    "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 4 },
+    "ups_charges": 30,
     "modes": [ [ "MULTI", "trilaser", 3 ] ],
     "ammo_effects": [ "LASER" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]

@@ -498,6 +498,31 @@ int spell::damage() const
     }
 }
 
+int spell::min_leveled_dot() const
+{
+    return type->min_dot + std::round( get_level() * type->dot_increment );
+}
+
+int spell::damage_dot() const
+{
+    const int leveled_dot = min_leveled_dot();
+    if( type->min_dot >= 0 || type->max_dot >= type->min_dot ) {
+        return std::min( leveled_dot, type->max_dot );
+    } else { // if it's negative, min and max work differently
+        return std::max( leveled_dot, type->max_dot );
+    }
+}
+
+damage_over_time_data spell::damage_over_time( const std::vector<bodypart_str_id> &bps ) const
+{
+    damage_over_time_data temp;
+    temp.bps = bps;
+    temp.duration = duration_turns();
+    temp.amount = damage_dot();
+    temp.type = dmg_type();
+    return temp;
+}
+
 std::string spell::damage_string() const
 {
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
@@ -1708,9 +1733,14 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
         fx == "line_attack" ) {
         if( damage > 0 ) {
-            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( sp.damage_string(),
-                                           sp.damage_type_color() ),
-                                           colorize( sp.damage_type_string(), sp.damage_type_color() ) );
+            std::string dot_string;
+            if( sp.damage_dot() != 0 ) {
+                //~ amount of damage per second, abbreviated
+                dot_string = string_format( _( ", %d/sec" ), sp.damage_dot() );
+            }
+            damage_string = string_format( "%s: %s %s%s", _( "Damage" ), sp.damage_string(),
+                                           sp.damage_type_string(), dot_string );
+            damage_string = colorize( damage_string, sp.damage_type_color() );
         } else if( damage < 0 ) {
             damage_string = string_format( "%s: %s", _( "Healing" ), colorize( sp.damage_string(),
                                            light_green ) );

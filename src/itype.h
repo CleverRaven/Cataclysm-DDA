@@ -822,39 +822,6 @@ struct itype {
         cata::value_ptr<relic> relic_data;
         /*@}*/
 
-    private:
-        /** Can item be combined with other identical items? */
-        bool stackable_ = false;
-
-        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
-        // TODO: create and use a MinMax class or similar to put both values into one object.
-        /// @{
-        int damage_min_ = -1000;
-        int damage_max_ = +4000;
-        /// @}
-
-    protected:
-        std::string id = "null"; /** unique string identifier for this type */
-
-        // private because is should only be accessed through itype::nname!
-        // nname() is used for display purposes
-        translation name = no_translation( "none" );
-
-    public:
-        itype() {
-            melee.fill( 0 );
-        }
-
-        int damage_min() const {
-            return count_by_charges() ? 0 : damage_min_;
-        }
-        int damage_max() const {
-            return count_by_charges() ? 0 : damage_max_;
-        }
-
-        // used for generic_factory for copy-from
-        bool was_loaded = false;
-
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         std::string looks_like;
 
@@ -992,6 +959,39 @@ struct itype {
          * Efficiency of solar energy conversion for solarpacks.
          */
         float solar_efficiency = 0;
+
+        // used for generic_factory for copy-from
+        bool was_loaded = false;
+
+    private:
+        /** Can item be combined with other identical items? */
+        bool stackable_ = false;
+
+        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
+        // TODO: create and use a MinMax class or similar to put both values into one object.
+        /// @{
+        int damage_min_ = -1000;
+        int damage_max_ = +4000;
+        /// @}
+
+    protected:
+        std::string id = "null"; /** unique string identifier for this type */
+
+        // private because is should only be accessed through itype::nname!
+        // nname() is used for display purposes
+        translation name = no_translation( "none" );
+
+    public:
+        itype() {
+            melee.fill( 0 );
+        }
+
+        int damage_min() const {
+            return count_by_charges() ? 0 : damage_min_;
+        }
+        int damage_max() const {
+            return count_by_charges() ? 0 : damage_max_;
+        }
 
         std::string get_item_type_string() const {
             if( tool ) {

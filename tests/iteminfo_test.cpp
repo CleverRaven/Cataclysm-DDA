@@ -11,6 +11,7 @@
 #include "player_helpers.h"
 #include "options_helpers.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -530,11 +531,14 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES } );
     const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
     g->u.clear_mutations();
+    recipe_subset &known_recipes = const_cast<recipe_subset &>( g->u.get_learned_recipes() );
+    known_recipes.clear();
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
         g->u.worn.push_back( item( "backpack" ) );
         item &iodine = g->u.i_add( item( "iodine" ) );
         g->u.empty_skills();
+        REQUIRE( !g->u.knows_recipe( purtab ) );
 
         THEN( "nothing is craftable from it" ) {
             test_info_equals(
@@ -566,7 +570,11 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
             }
 
             WHEN( "they have the recipe in a book, but not memorized" ) {
-                g->u.i_add( item( "textbook_chemistry" ) );
+                item &textbook = g->u.i_add( item( "textbook_chemistry" ) );
+                g->u.do_read( textbook );
+                REQUIRE( g->u.has_identified( "textbook_chemistry" ) );
+                // update the crafting inventory cache
+                g->u.moves++;
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
                     test_info_equals(

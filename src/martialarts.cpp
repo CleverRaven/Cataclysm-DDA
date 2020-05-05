@@ -1465,7 +1465,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             std::transform( ma.weapons.begin(), ma.weapons.end(),
                             std::back_inserter( weapons ), []( const std::string & wid )-> std::string { return item::nname( wid ); } );
             // Sorting alphabetically makes it easier to find a specific weapon
-            std::sort( weapons.begin(), weapons.end() );
+            std::sort( weapons.begin(), weapons.end(), localized_compare );
             // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
             auto last = std::unique( weapons.begin(), weapons.end() );
             weapons.erase( last, weapons.end() );
