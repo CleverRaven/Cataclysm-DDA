@@ -1490,6 +1490,12 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   iteminfo::lower_is_better | iteminfo::is_decimal,
                                   convert_weight( weight() ) * batch ) );
     }
+    if( parts->test( iteminfo_parts::BASE_LENGTH ) ) {
+        info.push_back( iteminfo( "BASE", _( "Length: " ),
+                                  string_format( "<num> %s", length_units( length() ) ),
+                                  iteminfo::lower_is_better,
+                                  convert_length( length() ) ) );
+    }
     if( !owner.is_null() ) {
         info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ),
                                   _( get_owner_name() ) ) ) );
@@ -4648,6 +4654,11 @@ units::mass item::weight( bool, bool integral ) const
     }
 
     return ret;
+}
+
+units::length item::length() const
+{
+    return type->longest_side;
 }
 
 units::volume item::corpse_volume( const mtype *corpse ) const

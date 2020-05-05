@@ -232,6 +232,15 @@ double convert_velocity( int velocity, units_type vel_units );
  */
 double convert_weight( const units::mass &weight );
 
+/**
+ * converts length to largest unit available
+ * 1000 mm = 1 meter for example
+ * assumed to be used in conjunction with unit string functions
+ * also works for imperial units
+ */
+int convert_length( const units::length &length );
+std::string length_units( const units::length &length );
+
 /** convert a mass unit to a string readable by a human */
 std::string weight_to_string( const units::mass &weight );
 
