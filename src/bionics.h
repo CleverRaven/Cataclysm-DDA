@@ -51,7 +51,7 @@ struct bionic_data {
     */
     bool included = false;
     /**Factor modifiying weight capacity*/
-    float weight_capacity_modifier = 0.0f;
+    float weight_capacity_modifier = 1.0f;
     /**Bonus to weight capacity*/
     units::mass weight_capacity_bonus = 0_gram;
     /**Map of stats and their corresponding bonuses passively granted by a bionic*/
