@@ -1425,7 +1425,7 @@ class Character : public Creature, public visitable<Character>
         void drop( item_location loc, const tripoint &where );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
 
-        virtual bool has_artifact_with( art_effect_passive effect ) const;
+        bool has_artifact_with( art_effect_passive effect ) const;
 
         bool is_wielding( const item &target ) const;
 
