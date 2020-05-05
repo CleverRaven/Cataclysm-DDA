@@ -515,6 +515,7 @@
     "covers": [ "LEGS" ],
     "coverage": 20,
     "encumbrance": 5,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2250 ml", "max_contains_weight": "2 kg", "moves": 200 } ],
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ]
   },
