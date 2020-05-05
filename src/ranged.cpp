@@ -212,8 +212,14 @@ class target_ui
         // relevant for TargetMode::Spell
         std::set<tripoint> spell_aoe;
 
+        // Represents a turret and a straight line from that turret to target
+        struct turret_with_lof {
+            vehicle_part *turret;
+            std::vector<tripoint> line;
+        };
+
         // List of vehicle turrets in range (out of those listed in 'vturrets')
-        std::vector<vehicle_part *> turrets_in_range;
+        std::vector<turret_with_lof> turrets_in_range;
 
         // Create window and set up input context
         void init_window_and_input( player &pc );
@@ -2460,8 +2466,10 @@ void target_ui::update_turrets_in_range()
 {
     turrets_in_range.clear();
     for( vehicle_part *t : *vturrets ) {
-        if( veh->turret_query( *t ).in_range( dst ) ) {
-            turrets_in_range.push_back( t );
+        turret_data td = veh->turret_query( *t );
+        if( td.in_range( dst ) ) {
+            tripoint src = veh->global_part_pos3( *t );
+            turrets_in_range.push_back( {t, line_to( src, dst )} );
         }
     }
 }
@@ -2607,14 +2615,29 @@ void target_ui::draw_terrain( player &pc )
     tripoint center = pc.pos() + pc.view_offset;
     g->draw_ter( center, true );
 
-    // Draw trajectory
-    if( dst != src ) {
-        // But only points on this Z-level
+    // Removes parts that don't belong to currently visible Z level
+    const auto filter_this_z = [&center]( const std::vector<tripoint> &traj ) {
         std::vector<tripoint> this_z = traj;
         this_z.erase( std::remove_if( this_z.begin(), this_z.end(),
         [&center]( const tripoint & p ) {
             return p.z != center.z;
         } ), this_z.end() );
+        return this_z;
+    };
+
+    // Draw trajectory
+    if( mode == TargetMode::Turrets ) {
+        // Or, rather, approximate line of fire for each turret in range
+        for( const turret_with_lof &it : turrets_in_range ) {
+            std::vector<tripoint> this_z = filter_this_z( it.line );
+            // Since "trajectory" for each turret is just a straight line,
+            // we can draw it even if the player can't see some parts
+            // FIXME: TILES version doesn't know how to draw more than 1 line
+            //        at a time. Nice.
+            g->draw_line( src, center, this_z, true );
+        }
+    } else if( dst != src ) {
+        std::vector<tripoint> this_z = filter_this_z( traj );
 
         // Draw a highlighted trajectory only if we can see the endpoint.
         // Provides feedback to the player, but avoids leaking information
@@ -3030,8 +3053,8 @@ void target_ui::panel_turret_list( int &text_y )
     mvwprintw( w_target, point( 1, text_y++ ), _( "Turrets in range: %d/%d" ), turrets_in_range.size(),
                vturrets->size() );
 
-    for( vehicle_part *t : turrets_in_range ) {
-        std::string str = string_format( "* %s", t->name() );
+    for( const turret_with_lof &it : turrets_in_range ) {
+        std::string str = string_format( "* %s", it.turret->name() );
         nc_color clr = c_white;
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     }
