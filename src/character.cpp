@@ -5306,10 +5306,9 @@ void Character::update_bodytemp()
     // Current temperature and converging temperature calculations
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Skip eyes
-        if( bp == bodypart_id( "eyes" ) ) {
+        if( bp == bodypart_id( "eyes" ) || bp == bodypart_id( "num_bp" ) ) {
             continue;
         }
-        const body_part &bp_token = bp->token;
 
         // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
@@ -5318,7 +5317,7 @@ void Character::update_bodytemp()
         // Represents the fact that the body generates heat when it is cold.
         // TODO: : should this increase hunger?
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
-                                    temp_cur[bp_token] );
+                                    temp_cur[bp->token] );
         // Produces a smooth curve between 30.0 and 60.0.
         double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
         int clothing_warmth_adjustement = static_cast<int>( homeostasis_adjustement * warmth( bp ) );
@@ -5327,7 +5326,7 @@ void Character::update_bodytemp()
         // WINDCHILL
 
         bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) * ( 1 - get_wind_resistance(
-                                             bp_token ) / 100.0 ) );
+                                             bp->token ) / 100.0 ) );
         // Calculate windchill
         int windchill = get_local_windchill( player_local_temp,
                                              get_local_humidity( weather.humidity, g->weather.weather,
@@ -5348,19 +5347,20 @@ void Character::update_bodytemp()
 
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
-        temp_conv[bp_token] = BODYTEMP_NORM + adjusted_temp + windchill * 100 + clothing_warmth_adjustement;
+        temp_conv[bp->token] = BODYTEMP_NORM + adjusted_temp + windchill * 100 +
+                               clothing_warmth_adjustement;
         // HUNGER / STARVATION
-        temp_conv[bp_token] += hunger_warmth;
+        temp_conv[bp->token] += hunger_warmth;
         // FATIGUE
-        temp_conv[bp_token] += fatigue_warmth;
+        temp_conv[bp->token] += fatigue_warmth;
         // Mutations
-        temp_conv[bp_token] += mutation_heat_low;
+        temp_conv[bp->token] += mutation_heat_low;
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
 
-        if( frostbite_timer[bp_token] > 0 ) {
-            frostbite_timer[bp_token] -= std::max( 5, h_radiation );
+        if( frostbite_timer[bp->token] > 0 ) {
+            frostbite_timer[bp->token] -= std::max( 5, h_radiation );
         }
         // 111F (44C) is a temperature in which proteins break down: https://en.wikipedia.org/wiki/Burn
         blister_count += h_radiation - 111 > 0 ?
@@ -5370,8 +5370,8 @@ void Character::update_bodytemp()
         // BLISTERS : Skin gets blisters from intense heat exposure.
         // Fire protection protects from blisters.
         // Heatsinks give near-immunity.
-        if( blister_count - get_armor_fire( bp_token ) - ( has_heatsink ? 20 : 0 ) > 0 ) {
-            add_effect( effect_blisters, 1_turns, bp_token );
+        if( blister_count - get_armor_fire( bp->token ) - ( has_heatsink ? 20 : 0 ) > 0 ) {
+            add_effect( effect_blisters, 1_turns, bp->token );
             if( pyromania ) {
                 add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
                             30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
@@ -5383,16 +5383,16 @@ void Character::update_bodytemp()
             rem_morale( MORALE_PYROMANIA_NOFIRE );
         }
 
-        temp_conv[bp_token] += sunlight_warmth;
+        temp_conv[bp->token] += sunlight_warmth;
         // DISEASES
         if( bp == bodypart_id( "head" ) && has_effect( effect_flu ) ) {
-            temp_conv[bp_token] += 1500;
+            temp_conv[bp->token] += 1500;
         }
         if( has_common_cold ) {
-            temp_conv[bp_token] -= 750;
+            temp_conv[bp->token] -= 750;
         }
         // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
-        temp_conv[bp_token] -= blood_loss( bp_token ) * temp_conv[bp_token] / 200;
+        temp_conv[bp->token] -= blood_loss( bp->token ) * temp_conv[bp->token] / 200;
 
         // EQUALIZATION
         if( bp == bodypart_id( "torso" ) ) {
@@ -5444,7 +5444,7 @@ void Character::update_bodytemp()
 
         // Climate Control eases the effects of high and low ambient temps
         if( has_climate_control ) {
-            temp_conv[bp_token] = temp_corrected_by_climate_control( temp_conv[bp_token] );
+            temp_conv[bp->token] = temp_corrected_by_climate_control( temp_conv[bp->token] );
         }
 
         // FINAL CALCULATION : Increments current body temperature towards convergent.
@@ -5452,7 +5452,7 @@ void Character::update_bodytemp()
         if( !has_sleep_state && best_fire > 0 ) {
             // Warming up over a fire
             // Extremities are easier to extend over a fire
-            switch( bp_token ) {
+            switch( bp->token ) {
                 case bp_head:
                 case bp_torso:
                 case bp_mouth:
@@ -5489,21 +5489,21 @@ void Character::update_bodytemp()
         if( bonus_warmth > 0 ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
-            int desired = 501 * BODYTEMP_NORM - 499 * temp_cur[bp_token];
+            int desired = 501 * BODYTEMP_NORM - 499 * temp_cur[bp->token];
             if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
                 desired = BODYTEMP_NORM; // Ensure that it converges
             } else if( desired > BODYTEMP_HOT ) {
                 desired = BODYTEMP_HOT; // Cap excess at sane temperature
             }
 
-            if( desired < temp_conv[bp_token] ) {
+            if( desired < temp_conv[bp->token] ) {
                 // Too hot, can't help here
-            } else if( desired < temp_conv[bp_token] + bonus_warmth ) {
+            } else if( desired < temp_conv[bp->token] + bonus_warmth ) {
                 // Use some heat, but not all of it
-                temp_conv[bp_token] = desired;
+                temp_conv[bp->token] = desired;
             } else {
                 // Use all the heat
-                temp_conv[bp_token] += bonus_warmth;
+                temp_conv[bp->token] += bonus_warmth;
             }
 
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
@@ -5511,16 +5511,16 @@ void Character::update_bodytemp()
             if( comfortable_warmth > 0 &&
                 // TODO: make this simpler and use time_duration/time_point
                 to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
-                ( 1_minutes * bp_token ) / to_turns<int>( 1_minutes * num_bp ) &&
+                ( 1_minutes * bp->token ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
                 get_effect_int( effect_hot, num_bp ) == 0 &&
-                temp_cur[bp_token] > BODYTEMP_COLD && temp_cur[bp_token] <= BODYTEMP_NORM ) {
+                temp_cur[bp->token] > BODYTEMP_COLD && temp_cur[bp->token] <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
             }
         }
 
-        int temp_before = temp_cur[bp_token];
-        int temp_difference = temp_before - temp_conv[bp_token]; // Negative if the player is warming up.
+        int temp_before = temp_cur[bp->token];
+        int temp_difference = temp_before - temp_conv[bp->token]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
         // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
         int rounding_error = 0;
@@ -5528,56 +5528,58 @@ void Character::update_bodytemp()
         if( temp_difference < 0 && temp_difference > -600 ) {
             rounding_error = 1;
         }
-        if( temp_cur[bp_token] != temp_conv[bp_token] ) {
-            temp_cur[bp_token] = static_cast<int>( temp_difference * std::exp( -0.002 ) + temp_conv[bp_token] +
-                                                   rounding_error );
+        if( temp_cur[bp->token] != temp_conv[bp->token] ) {
+            temp_cur[bp->token] = static_cast<int>( temp_difference * std::exp( -0.002 ) + temp_conv[bp->token]
+                                                    +
+                                                    rounding_error );
         }
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
         if( clothing_warmth_adjusted_bonus != 0 &&
-            ( ( temp_conv[bp_token] + clothing_warmth_adjusted_bonus ) < BODYTEMP_HOT ||
-              temp_cur[bp_token] < BODYTEMP_COLD ) ) {
-            temp_conv[bp_token] += clothing_warmth_adjusted_bonus;
+            ( ( temp_conv[bp->token] + clothing_warmth_adjusted_bonus ) < BODYTEMP_HOT ||
+              temp_cur[bp->token] < BODYTEMP_COLD ) ) {
+            temp_conv[bp->token] += clothing_warmth_adjusted_bonus;
             rounding_error = 0;
             if( temp_difference < 0 && temp_difference > -600 ) {
                 rounding_error = 1;
             }
-            if( temp_before != temp_conv[bp_token] ) {
-                temp_difference = temp_before - temp_conv[bp_token];
-                temp_cur[bp_token] = static_cast<int>( temp_difference * std::exp( -0.002 ) + temp_conv[bp_token] +
-                                                       rounding_error );
+            if( temp_before != temp_conv[bp->token] ) {
+                temp_difference = temp_before - temp_conv[bp->token];
+                temp_cur[bp->token] = static_cast<int>( temp_difference * std::exp( -0.002 ) + temp_conv[bp->token]
+                                                        +
+                                                        rounding_error );
             }
         }
-        int temp_after = temp_cur[bp_token];
+        int temp_after = temp_cur[bp->token];
         // PENALTIES
-        if( temp_cur[bp_token] < BODYTEMP_FREEZING ) {
-            add_effect( effect_cold, 1_turns, bp_token, true, 3 );
-        } else if( temp_cur[bp_token] < BODYTEMP_VERY_COLD ) {
-            add_effect( effect_cold, 1_turns, bp_token, true, 2 );
-        } else if( temp_cur[bp_token] < BODYTEMP_COLD ) {
-            add_effect( effect_cold, 1_turns, bp_token, true, 1 );
-        } else if( temp_cur[bp_token] > BODYTEMP_SCORCHING ) {
-            add_effect( effect_hot, 1_turns, bp_token, true, 3 );
-            if( mutate_to_main_part( bp_token ) == bp_token ) {
-                add_effect( effect_hot_speed, 1_turns, bp_token, true, 3 );
+        if( temp_cur[bp->token] < BODYTEMP_FREEZING ) {
+            add_effect( effect_cold, 1_turns, bp->token, true, 3 );
+        } else if( temp_cur[bp->token] < BODYTEMP_VERY_COLD ) {
+            add_effect( effect_cold, 1_turns, bp->token, true, 2 );
+        } else if( temp_cur[bp->token] < BODYTEMP_COLD ) {
+            add_effect( effect_cold, 1_turns, bp->token, true, 1 );
+        } else if( temp_cur[bp->token] > BODYTEMP_SCORCHING ) {
+            add_effect( effect_hot, 1_turns, bp->token, true, 3 );
+            if( mutate_to_main_part( bp->token ) == bp->token ) {
+                add_effect( effect_hot_speed, 1_turns, bp->token, true, 3 );
             }
-        } else if( temp_cur[bp_token] > BODYTEMP_VERY_HOT ) {
-            add_effect( effect_hot, 1_turns, bp_token, true, 2 );
-            if( mutate_to_main_part( bp_token ) == bp_token ) {
-                add_effect( effect_hot_speed, 1_turns, bp_token, true, 2 );
+        } else if( temp_cur[bp->token] > BODYTEMP_VERY_HOT ) {
+            add_effect( effect_hot, 1_turns, bp->token, true, 2 );
+            if( mutate_to_main_part( bp->token ) == bp->token ) {
+                add_effect( effect_hot_speed, 1_turns, bp->token, true, 2 );
             }
-        } else if( temp_cur[bp_token] > BODYTEMP_HOT ) {
-            add_effect( effect_hot, 1_turns, bp_token, true, 1 );
-            if( mutate_to_main_part( bp_token ) == bp_token ) {
-                add_effect( effect_hot_speed, 1_turns, bp_token, true, 1 );
+        } else if( temp_cur[bp->token] > BODYTEMP_HOT ) {
+            add_effect( effect_hot, 1_turns, bp->token, true, 1 );
+            if( mutate_to_main_part( bp->token ) == bp->token ) {
+                add_effect( effect_hot_speed, 1_turns, bp->token, true, 1 );
             }
         } else {
-            if( temp_cur[bp_token] >= BODYTEMP_COLD ) {
-                remove_effect( effect_cold, bp_token );
+            if( temp_cur[bp->token] >= BODYTEMP_COLD ) {
+                remove_effect( effect_cold, bp->token );
             }
-            if( temp_cur[bp_token] <= BODYTEMP_HOT ) {
-                remove_effect( effect_hot, bp_token );
-                remove_effect( effect_hot_speed, bp_token );
+            if( temp_cur[bp->token] <= BODYTEMP_HOT ) {
+                remove_effect( effect_hot, bp->token );
+                remove_effect( effect_hot_speed, bp->token );
             }
         }
         // FROSTBITE - only occurs to hands, feet, face
@@ -5611,106 +5613,106 @@ void Character::update_bodytemp()
             bp == bodypart_id( "foot_l" ) || bp == bodypart_id( "hand_r" ) || bp == bodypart_id( "hand_l" ) ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * body_wetness[bp_token] / drench_capacity[bp_token]; // 0 - 100
+            int wetness_percentage = 100 * body_wetness[bp->token] / drench_capacity[bp->token]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
             double adjusted_warmth = warmth( bp ) - wetness_percentage;
             int Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
             // Windchill reduced by your armor
             int FBwindPower = static_cast<int>(
-                                  total_windpower * ( 1 - get_wind_resistance( bp_token ) / 100.0 ) );
+                                  total_windpower * ( 1 - get_wind_resistance( bp->token ) / 100.0 ) );
 
-            int intense = get_effect_int( effect_frostbite, bp_token );
+            int intense = get_effect_int( effect_frostbite, bp->token );
 
             // This has been broken down into 8 zones
             // Low risk zones (stops at frostnip)
-            if( temp_cur[bp_token] < BODYTEMP_COLD &&
+            if( temp_cur[bp->token] < BODYTEMP_COLD &&
                 ( ( Ftemperature < 30 && Ftemperature >= 10 ) ||
                   ( Ftemperature < 10 && Ftemperature >= -5 &&
                     FBwindPower < 20 && -4 * Ftemperature + 3 * FBwindPower - 20 >= 0 ) ) ) {
-                if( frostbite_timer[bp_token] < 2000 ) {
-                    frostbite_timer[bp_token] += 3;
+                if( frostbite_timer[bp->token] < 2000 ) {
+                    frostbite_timer[bp->token] += 3;
                 }
-                if( one_in( 100 ) && !has_effect( effect_frostbite, bp_token ) ) {
+                if( one_in( 100 ) && !has_effect( effect_frostbite, bp->token ) ) {
                     add_msg( m_warning, _( "Your %s will be frostnipped in the next few hours." ),
-                             body_part_name( bp_token ) );
+                             body_part_name( bp->token ) );
                 }
                 // Medium risk zones
-            } else if( temp_cur[bp_token] < BODYTEMP_COLD &&
+            } else if( temp_cur[bp->token] < BODYTEMP_COLD &&
                        ( ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
                            -4 * Ftemperature + 3 * FBwindPower - 20 < 0 ) ||
                          ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20 ) ||
                          ( Ftemperature < -5 && FBwindPower < 10 ) ||
                          ( Ftemperature < -5 && FBwindPower >= 10 &&
                            -4 * Ftemperature + 3 * FBwindPower - 170 >= 0 ) ) ) {
-                frostbite_timer[bp_token] += 8;
+                frostbite_timer[bp->token] += 8;
                 if( one_in( 100 ) && intense < 2 ) {
                     add_msg( m_warning, _( "Your %s will be frostbitten within the hour!" ),
-                             body_part_name( bp_token ) );
+                             body_part_name( bp->token ) );
                 }
                 // High risk zones
-            } else if( temp_cur[bp_token] < BODYTEMP_COLD &&
+            } else if( temp_cur[bp->token] < BODYTEMP_COLD &&
                        ( ( Ftemperature < -5 && FBwindPower >= 10 &&
                            -4 * Ftemperature + 3 * FBwindPower - 170 < 0 ) ||
                          ( Ftemperature < -35 && FBwindPower >= 10 ) ) ) {
-                frostbite_timer[bp_token] += 72;
+                frostbite_timer[bp->token] += 72;
                 if( one_in( 100 ) && intense < 2 ) {
                     add_msg( m_warning, _( "Your %s will be frostbitten any minute now!" ),
-                             body_part_name( bp_token ) );
+                             body_part_name( bp->token ) );
                 }
                 // Risk free, so reduce frostbite timer
             } else {
-                frostbite_timer[bp_token] -= 3;
+                frostbite_timer[bp->token] -= 3;
             }
 
             // Handle the bestowing of frostbite
-            if( frostbite_timer[bp_token] < 0 ) {
-                frostbite_timer[bp_token] = 0;
-            } else if( frostbite_timer[bp_token] > 4200 ) {
+            if( frostbite_timer[bp->token] < 0 ) {
+                frostbite_timer[bp->token] = 0;
+            } else if( frostbite_timer[bp->token] > 4200 ) {
                 // This ensures that the player will recover in at most 3 hours.
-                frostbite_timer[bp_token] = 4200;
+                frostbite_timer[bp->token] = 4200;
             }
             // Frostbite, no recovery possible
-            if( frostbite_timer[bp_token] >= 3600 ) {
-                add_effect( effect_frostbite, 1_turns, bp_token, true, 2 );
-                remove_effect( effect_frostbite_recovery, bp_token );
+            if( frostbite_timer[bp->token] >= 3600 ) {
+                add_effect( effect_frostbite, 1_turns, bp->token, true, 2 );
+                remove_effect( effect_frostbite_recovery, bp->token );
                 // Else frostnip, add recovery if we were frostbitten
-            } else if( frostbite_timer[bp_token] >= 1800 ) {
+            } else if( frostbite_timer[bp->token] >= 1800 ) {
                 if( intense == 2 ) {
-                    add_effect( effect_frostbite_recovery, 1_turns, bp_token, true );
+                    add_effect( effect_frostbite_recovery, 1_turns, bp->token, true );
                 }
-                add_effect( effect_frostbite, 1_turns, bp_token, true, 1 );
+                add_effect( effect_frostbite, 1_turns, bp->token, true, 1 );
                 // Else fully recovered
-            } else if( frostbite_timer[bp_token] == 0 ) {
-                remove_effect( effect_frostbite, bp_token );
-                remove_effect( effect_frostbite_recovery, bp_token );
+            } else if( frostbite_timer[bp->token] == 0 ) {
+                remove_effect( effect_frostbite, bp->token );
+                remove_effect( effect_frostbite_recovery, bp->token );
             }
         }
         // Warn the player if condition worsens
         if( temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s beginning to go numb from the cold!" ),
-                     body_part_name( bp_token ) );
+                     body_part_name( bp->token ) );
         } else if( temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting very cold." ),
-                     body_part_name( bp_token ) );
+                     body_part_name( bp->token ) );
         } else if( temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting chilly." ),
-                     body_part_name( bp_token ) );
+                     body_part_name( bp->token ) );
         } else if( temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING ) {
             //~ %s is bodypart
             add_msg( m_bad, _( "You feel your %s getting red hot from the heat!" ),
-                     body_part_name( bp_token ) );
+                     body_part_name( bp->token ) );
         } else if( temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting very hot." ),
-                     body_part_name( bp_token ) );
+                     body_part_name( bp->token ) );
         } else if( temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting warm." ),
-                     body_part_name( bp_token ) );
+                     body_part_name( bp->token ) );
         }
 
         // Note: Numbers are based off of BODYTEMP at the top of weather.h
@@ -5719,7 +5721,7 @@ void Character::update_bodytemp()
         // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() ) {
-            int curr_temperature = temp_cur[bp_token];
+            int curr_temperature = temp_cur[bp->token];
             if( bp == bodypart_id( "torso" ) && curr_temperature <= BODYTEMP_COLD ) {
                 add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
                 wake_up();
@@ -5732,16 +5734,16 @@ void Character::update_bodytemp()
 
         // Warn the player that wind is going to be a problem.
         // But only if it can be a problem, no need to spam player with "wind chills your scorching body"
-        if( temp_conv[bp_token] <= BODYTEMP_COLD && windchill < -10 && one_in( 200 ) ) {
+        if( temp_conv[bp->token] <= BODYTEMP_COLD && windchill < -10 && one_in( 200 ) ) {
             add_msg( m_bad, _( "The wind is making your %s feel quite cold." ),
-                     body_part_name( bp_token ) );
-        } else if( temp_conv[bp_token] <= BODYTEMP_COLD && windchill < -20 && one_in( 100 ) ) {
+                     body_part_name( bp->token ) );
+        } else if( temp_conv[bp->token] <= BODYTEMP_COLD && windchill < -20 && one_in( 100 ) ) {
             add_msg( m_bad,
                      _( "The wind is very strong, you should find some more wind-resistant clothing for your %s." ),
-                     body_part_name( bp_token ) );
-        } else if( temp_conv[bp_token] <= BODYTEMP_COLD && windchill < -30 && one_in( 50 ) ) {
+                     body_part_name( bp->token ) );
+        } else if( temp_conv[bp->token] <= BODYTEMP_COLD && windchill < -30 && one_in( 50 ) ) {
             add_msg( m_bad, _( "Your clothing is not providing enough protection from the wind for your %s!" ),
-                     body_part_name( bp_token ) );
+                     body_part_name( bp->token ) );
         }
     }
 }
@@ -8530,8 +8532,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     //block reduction should be by applied this point
     int dam = dealt_dams.total_damage();
 
-    const body_part bp_token = bp->token;
-
     // TODO: Pre or post blit hit tile onto "this"'s location here
     if( dam > 0 && g->u.sees( pos() ) ) {
         g->draw_hit_player( *this, dam );
@@ -8540,8 +8540,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             //monster hits player melee
             SCT.add( point( posx(), posy() ),
                      direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
-                     get_hp_bar( dam, get_hp_max( player::bp_to_hp( bp_token ) ) ).first, m_bad,
-                     body_part_name( bp_token ), m_neutral );
+                     get_hp_bar( dam, get_hp_max( player::bp_to_hp( bp->token ) ) ).first, m_bad,
+                     body_part_name( bp->token ), m_neutral );
         }
     }
 
@@ -8643,7 +8643,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
         int sum_cover = 0;
         for( const item &i : worn ) {
-            if( i.covers( bp_token ) && i.is_filthy() ) {
+            if( i.covers( bp->token ) && i.is_filthy() ) {
                 sum_cover += i.get_coverage();
             }
         }
@@ -8656,12 +8656,12 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
             const int infection_chance = ( combined_dam * sum_cover ) / 100;
             if( x_in_y( infection_chance, 100 ) ) {
-                if( has_effect( effect_bite, bp_token ) ) {
-                    add_effect( effect_bite, 40_minutes, bp_token, true );
-                } else if( has_effect( effect_infected, bp_token ) ) {
-                    add_effect( effect_infected, 25_minutes, bp_token, true );
+                if( has_effect( effect_bite, bp->token ) ) {
+                    add_effect( effect_bite, 40_minutes, bp->token, true );
+                } else if( has_effect( effect_infected, bp->token ) ) {
+                    add_effect( effect_infected, 25_minutes, bp->token, true );
                 } else {
-                    add_effect( effect_bite, 1_turns, bp_token, true );
+                    add_effect( effect_bite, 1_turns, bp->token, true );
                 }
                 add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
             }
@@ -9531,20 +9531,18 @@ int Character::warmth( const bodypart_id &bp ) const
     int ret = 0;
     int warmth = 0;
 
-    const body_part bp_token = bp->token;
-
     for( const item &i : worn ) {
-        if( i.covers( bp_token ) ) {
+        if( i.covers( bp->token ) ) {
             warmth = i.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
             if( !i.made_of( material_id( "wool" ) ) ) {
-                warmth *= 1.0 - 0.66 * body_wetness[bp_token] / drench_capacity[bp_token];
+                warmth *= 1.0 - 0.66 * body_wetness[bp->token] / drench_capacity[bp->token];
             }
             ret += warmth;
         }
     }
-    ret += get_effect_int( effect_heating_bionic, bp_token );
+    ret += get_effect_int( effect_heating_bionic, bp->token );
     return ret;
 }
 
