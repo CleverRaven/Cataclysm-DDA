@@ -19,6 +19,20 @@ class player_activity;
 
 class activity_actor
 {
+    private:
+        /**
+         * Returns true if `this` activity is resumable, and `this` and @p other
+         * are "equivalent" i.e. similar enough that `this` activity
+         * can be resumed instead of starting @p other.
+         * Many activities are not resumable, so the default is returning
+         * false.
+         * @pre @p other is the same type of actor as `this`
+         */
+        virtual bool can_resume_with_internal( const activity_actor &,
+                                               const Character & ) const {
+            return false;
+        }
+
     public:
         virtual ~activity_actor() = default;
 
@@ -48,11 +62,18 @@ class activity_actor
 
         /**
          * Called in player_activity::can_resume_with
-         * Returns true if activities are similar enough that this activity
-         * can be resumed instead of starting the other activity.
-         * @pre @p other is the same type of actor
+         * which allows suspended activities to be resumed instead of
+         * starting a new activity in certain cases.
+         * Checks that @p other has the same type as `this` so that
+         * `can_resume_with_internal` can safely `static_cast` @p other.
          */
-        virtual bool can_resume_with( const activity_actor &other, const Character &who ) const = 0;
+        bool can_resume_with( const activity_actor &other, const Character &who ) const {
+            if( other.get_type() == get_type() ) {
+                return can_resume_with_internal( other, who );
+            }
+
+            return false;
+        }
 
         /**
          * Returns a deep copy of this object. Example implementation:
@@ -86,6 +107,26 @@ class dig_activity_actor : public activity_actor
         int byproducts_count;
         std::string byproducts_item_group;
 
+        /**
+         * Returns true if @p other and `this` are "equivalent" in the sense that
+         *  `this` can be resumed instead of starting @p other.
+         */
+        bool equivalent_activity( const dig_activity_actor &other ) const {
+            return  location == other.location &&
+                    result_terrain == other.result_terrain &&
+                    byproducts_location == other.byproducts_location &&
+                    byproducts_count == other.byproducts_count &&
+                    byproducts_item_group == other.byproducts_item_group;
+        }
+
+        /**
+         * @pre @p other is a `dig_activity_actor`
+         */
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
+            const dig_activity_actor &d_actor = static_cast<const dig_activity_actor &>( other );
+            return equivalent_activity( d_actor );
+        }
+
     public:
         dig_activity_actor(
             int dig_moves, const tripoint &dig_loc,
@@ -105,15 +146,6 @@ class dig_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
-        bool can_resume_with( const activity_actor &other, const Character & ) const override;
-
-        bool operator==( const dig_activity_actor &other ) const {
-            return  location == other.location &&
-                    result_terrain == other.result_terrain &&
-                    byproducts_location == other.byproducts_location &&
-                    byproducts_count == other.byproducts_count &&
-                    byproducts_item_group == other.byproducts_item_group;
-        }
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<dig_activity_actor>( *this );
@@ -134,6 +166,27 @@ class dig_channel_activity_actor : public activity_actor
         int byproducts_count;
         std::string byproducts_item_group;
 
+        /**
+         * Returns true if @p other and `this` are "equivalent" in the sense that
+         *  `this` can be resumed instead of starting @p other.
+         */
+        bool equivalent_activity( const dig_channel_activity_actor &other ) const {
+            return  location == other.location &&
+                    result_terrain == other.result_terrain &&
+                    byproducts_location == other.byproducts_location &&
+                    byproducts_count == other.byproducts_count &&
+                    byproducts_item_group == other.byproducts_item_group;
+        }
+
+        /**
+         * @pre @p other is a `dig_activity_actor`
+         */
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
+            const dig_channel_activity_actor &dc_actor = static_cast<const dig_channel_activity_actor &>
+                    ( other );
+            return equivalent_activity( dc_actor );
+        }
+
     public:
         dig_channel_activity_actor(
             int dig_moves, const tripoint &dig_loc,
@@ -153,15 +206,6 @@ class dig_channel_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
-        bool can_resume_with( const activity_actor &other, const Character & ) const override;
-
-        bool operator==( const dig_channel_activity_actor &other ) const {
-            return  location == other.location &&
-                    result_terrain == other.result_terrain &&
-                    byproducts_location == other.byproducts_location &&
-                    byproducts_count == other.byproducts_count &&
-                    byproducts_item_group == other.byproducts_item_group;
-        }
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<dig_channel_activity_actor>( *this );
@@ -183,9 +227,6 @@ class hacking_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
-        bool can_resume_with( const activity_actor &, const Character & ) const override {
-            return false;
-        };
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<hacking_activity_actor>( *this );
@@ -216,9 +257,6 @@ class move_items_activity_actor : public activity_actor
         void start( player_activity &, Character & ) override {};
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
-        bool can_resume_with( const activity_actor &, const Character & ) const override {
-            return false;
-        };
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<move_items_activity_actor>( *this );
@@ -256,9 +294,6 @@ class pickup_activity_actor : public activity_actor
         void start( player_activity &, Character & ) override {};
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
-        bool can_resume_with( const activity_actor &, const Character & ) const override {
-            return false;
-        };
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<pickup_activity_actor>( *this );
@@ -280,9 +315,6 @@ class migration_cancel_activity_actor : public activity_actor
         void start( player_activity &, Character & ) override {};
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
-        bool can_resume_with( const activity_actor &, const Character & ) const override {
-            return false;
-        };
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<migration_cancel_activity_actor>( *this );
@@ -298,6 +330,14 @@ class open_gate_activity_actor : public activity_actor
         int moves_total;
         tripoint placement;
 
+        /**
+         * @pre @p other is a open_gate_activity_actor
+         */
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
+            const open_gate_activity_actor &og_actor = static_cast<const open_gate_activity_actor &>( other );
+            return placement == og_actor.placement;
+        }
+
     public:
         open_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
             moves_total( gate_moves ), placement( gate_placement ) {}
@@ -309,11 +349,6 @@ class open_gate_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character & ) override;
-        bool can_resume_with( const activity_actor &, const Character & ) const override;
-
-        bool operator==( const open_gate_activity_actor &other ) const {
-            return  placement == other.placement;
-        }
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<open_gate_activity_actor>( *this );

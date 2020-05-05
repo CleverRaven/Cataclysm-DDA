@@ -109,20 +109,11 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-/** @pre @p other is a dig_activity_actor */
-bool dig_activity_actor::can_resume_with( const activity_actor &other,
-        const Character & ) const
-{
-    const dig_activity_actor &d_actor = dynamic_cast<const dig_activity_actor &>
-                                        ( other );
-    return *this == d_actor;
-}
-
 void dig_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "moves_total", moves_total );
+    jsout.member( "moves", moves_total );
     jsout.member( "location", location );
     jsout.member( "result_terrain", result_terrain );
     jsout.member( "byproducts_location", byproducts_location );
@@ -139,7 +130,7 @@ std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
 
     JsonObject data = jsin.get_object();
 
-    data.read( "moves_total", actor.moves_total );
+    data.read( "moves", actor.moves_total );
     data.read( "location", actor.location );
     data.read( "result_terrain", actor.result_terrain );
     data.read( "byproducts_location", actor.byproducts_location );
@@ -185,20 +176,11 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-/** @pre @p other is a dig_channel_activity_actor */
-bool dig_channel_activity_actor::can_resume_with( const activity_actor &other,
-        const Character & ) const
-{
-    const dig_channel_activity_actor &dc_actor = dynamic_cast<const dig_channel_activity_actor &>
-            ( other );
-    return *this == dc_actor;
-}
-
 void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "moves_total", moves_total );
+    jsout.member( "moves", moves_total );
     jsout.member( "location", location );
     jsout.member( "result_terrain", result_terrain );
     jsout.member( "byproducts_location", byproducts_location );
@@ -215,7 +197,7 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
 
     JsonObject data = jsin.get_object();
 
-    data.read( "moves_total", actor.moves_total );
+    data.read( "moves", actor.moves_total );
     data.read( "location", actor.location );
     data.read( "result_terrain", actor.result_terrain );
     data.read( "byproducts_location", actor.byproducts_location );
@@ -579,20 +561,11 @@ void open_gate_activity_actor::finish( player_activity &act, Character & )
     act.set_to_null();
 }
 
-/** @pre @p other is an open_gate_activity_actor */
-bool open_gate_activity_actor::can_resume_with( const activity_actor &other,
-        const Character & ) const
-{
-    const open_gate_activity_actor &og_actor = dynamic_cast<const open_gate_activity_actor &>( other );
-
-    return *this == og_actor;
-}
-
 void open_gate_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "moves_total", moves_total );
+    jsout.member( "moves", moves_total );
     jsout.member( "placement", placement );
 
     jsout.end_object();
@@ -604,7 +577,7 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
 
     JsonObject data = jsin.get_object();
 
-    data.read( "moves_total", actor.moves_total );
+    data.read( "moves", actor.moves_total );
     data.read( "placement", actor.placement );
 
     return actor.clone();
