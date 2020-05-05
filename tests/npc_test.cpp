@@ -1,37 +1,34 @@
-#include <cstddef>
-#include <string>
 #include <memory>
 #include <set>
+#include <sstream>
+#include <string>
 #include <utility>
 #include <vector>
-#include <sstream>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "memory_fast.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "optional.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player_helpers.h"
+#include "point.h"
 #include "text_snippets.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "line.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "point.h"
-#include "memory_fast.h"
-
-#include "player_helpers.h"
-#include "cata_string_consts.h"
 
 class Creature;
 
@@ -309,6 +306,8 @@ TEST_CASE( "npc-movement" )
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
     const furn_id f_null( "f_null" );
+    const vpart_id vpart_frame_vertical( "frame_vertical" );
+    const vpart_id vpart_seat( "seat" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
@@ -382,9 +381,9 @@ TEST_CASE( "npc-movement" )
                 REQUIRE( g->m.passable( p ) );
             }
             if( type == 'R' ) {
-                REQUIRE( g->m.has_flag( flag_UNSTABLE, p ) );
+                REQUIRE( g->m.has_flag( "UNSTABLE", p ) );
             } else {
-                REQUIRE( !g->m.has_flag( flag_UNSTABLE, p ) );
+                REQUIRE( !g->m.has_flag( "UNSTABLE", p ) );
             }
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 REQUIRE( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
@@ -430,7 +429,7 @@ TEST_CASE( "npc_can_target_player" )
 
     g->faction_manager_ptr->create_if_needed();
 
-    g->place_player( tripoint( 10, 10, 0 ) );
+    g->place_player( tripoint_zero );
 
     clear_npcs();
     clear_creatures();

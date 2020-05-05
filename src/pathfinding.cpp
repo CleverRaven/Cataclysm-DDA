@@ -23,7 +23,6 @@
 #include "line.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 enum astar_state {
     ASL_NONE,
@@ -58,8 +57,8 @@ struct path_data_layer {
 struct pathfinder {
     point min;
     point max;
-    pathfinder( int _minx, int _miny, int _maxx, int _maxy ) :
-        min( _minx, _miny ), max( _maxx, _maxy ) {
+    pathfinder( const point &_min, const point &_max ) :
+        min( _min ), max( _max ) {
     }
 
     std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp_first >
@@ -239,7 +238,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     clip_to_bounds( minx, miny, minz );
     clip_to_bounds( maxx, maxy, maxz );
 
-    pathfinder pf( minx, miny, maxx, maxy );
+    pathfinder pf( point( minx, miny ), point( maxx, maxy ) );
     // Make NPCs not want to path through player
     // But don't make player pathing stop working
     for( const auto &p : pre_closed ) {
@@ -335,7 +334,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         // Climbing fences
                         newg += climb_cost;
                     } else if( doors && ( terrain.open || furniture.open ) &&
-                               ( !terrain.has_flag( flag_OPENCLOSE_INSIDE ) || !furniture.has_flag( flag_OPENCLOSE_INSIDE ) ||
+                               ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !furniture.has_flag( "OPENCLOSE_INSIDE" ) ||
                                  !is_outside( cur ) ) ) {
                         // Only try to open INSIDE doors from the inside
                         // To open and then move onto the tile
@@ -345,7 +344,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         part = vpobst ? vpobst->part_index() : -1;
                         int dummy = -1;
                         if( doors && veh->part_flag( part, VPFLAG_OPENABLE ) &&
-                            ( !veh->part_flag( part, flag_OPENCLOSE_INSIDE ) ||
+                            ( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) ||
                               veh_at_internal( cur, dummy ) == veh ) ) {
                             // Handle car doors, but don't try to path through curtains
                             newg += 10; // One turn to open, 4 to move there
@@ -484,7 +483,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             ret.push_back( cur );
             // Jumps are acceptable on 1 z-level changes
             // This is because stairs teleport the player too
-            if( rl_dist( cur, par ) > 1 && abs( cur.z - par.z ) != 1 ) {
+            if( rl_dist( cur, par ) > 1 && std::abs( cur.z - par.z ) != 1 ) {
                 debugmsg( "Jump in our route!  %d:%d:%d->%d:%d:%d",
                           cur.x, cur.y, cur.z, par.x, par.y, par.z );
                 return ret;

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef STRING_ID_H
-#define STRING_ID_H
+#ifndef CATA_SRC_STRING_ID_H
+#define CATA_SRC_STRING_ID_H
 
 #include <string>
 #include <type_traits>
@@ -25,6 +25,8 @@ class int_id;
  *
  * Example:
  * \code
+ * struct itype;
+ * using itype_id = string_id<itype>;
  * struct mtype;
  * using mtype_id = string_id<mtype>;
  * \endcode
@@ -206,4 +208,4 @@ struct hash< string_id<T> > {
 };
 } // namespace std
 
-#endif
+#endif // CATA_SRC_STRING_ID_H

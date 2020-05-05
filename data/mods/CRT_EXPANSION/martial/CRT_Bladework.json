@@ -3,8 +3,7 @@
     "id": "manual_crt_blade",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "C.R.I.T Blade-work manual",
-    "name_plural": "C.R.I.T Blade-work manuals",
+    "name": { "str": "C.R.I.T Blade-work manual" },
     "description": "An advanced military manual on C.R.I.T Blade-work.",
     "book_data": { "martial_art": "style_crt_blade" }
   },
@@ -29,7 +28,12 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
-        "flat_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ], [ "arpen", "stab", 1 ], [ "arpen", "cut", 1 ] ]
+        "flat_bonuses": [
+          { "stat": "damage", "type": "stab", "scale": 1.0 },
+          { "stat": "damage", "type": "cut", "scale": 1.0 },
+          { "stat": "arpen", "type": "stab", "scale": 1.0 },
+          { "stat": "arpen", "type": "cut", "scale": 1.0 }
+        ]
       }
     ],
     "onhit_buffs": [
@@ -42,7 +46,11 @@
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "buff_duration": 1,
         "max_stacks": 4,
-        "flat_bonuses": [ [ "damage", "stab", 0.25 ], [ "damage", "cut", 0.5 ], [ "arpen", "cut", 1 ] ]
+        "flat_bonuses": [
+          { "stat": "damage", "type": "stab", "scale": 0.25 },
+          { "stat": "damage", "type": "cut", "scale": 0.5 },
+          { "stat": "arpen", "type": "cut", "scale": 1.0 }
+        ]
       }
     ],
     "techniques": [ "tec_crt_blade_normal", "tec_crt_blade_rapid", "tec_crt_blade_precise", "tec_crt_blade_arpen", "tec_feint" ],
@@ -81,7 +89,11 @@
     "skill_requirements": [ { "name": "unarmed", "level": 1 }, { "name": "melee", "level": 1 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 0.8 ], [ "damage", "cut", 0.7 ], [ "damage", "stab", 0.6 ] ],
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 0.8 },
+      { "stat": "damage", "type": "cut", "scale": 0.7 },
+      { "stat": "damage", "type": "stab", "scale": 0.6 }
+    ],
     "messages": [ "You release a blindingly fast slash at %s", "<npcname> slashes at %s" ]
   },
   {
@@ -91,7 +103,12 @@
     "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "melee", "level": 2 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.77 ], [ "damage", "bash", 0.55 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.88 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.77 },
+      { "stat": "damage", "type": "bash", "scale": 0.55 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.88 }
+    ],
     "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ]
   },
   {
@@ -101,7 +118,12 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "melee", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.0 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.8 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 1.05 },
+      { "stat": "damage", "type": "stab", "scale": 1.0 }
+    ],
     "crit_tec": true,
     "messages": [ "You release a debilitating swipe at %s", "<npcname> releases a debilitating swipe at %s" ],
     "down_dur": 2
@@ -115,11 +137,11 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      [ "damage", "bash", 0.5 ],
-      [ "damage", "cut", 1.1 ],
-      [ "damage", "stab", 1.1 ],
-      [ "arpen", "stab", 0.25 ],
-      [ "arpen", "cut", 0.5 ]
+      { "stat": "damage", "type": "bash", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
+      { "stat": "damage", "type": "stab", "scale": 1.1 },
+      { "stat": "arpen", "type": "stab", "scale": 0.25 },
+      { "stat": "arpen", "type": "cut", "scale": 0.5 }
     ],
     "crit_tec": true,
     "messages": [

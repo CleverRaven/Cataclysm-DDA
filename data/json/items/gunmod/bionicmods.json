@@ -7,6 +7,7 @@
     "weight": "1 g",
     "volume": "0 ml",
     "price": 85000,
+    "price_postapoc": 0,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -14,7 +15,7 @@
     "gun_data": {
       "skill": "rifle",
       "range": 30,
-      "ranged_damage": 1,
+      "ranged_damage": { "damage_type": "stab", "amount": 1 },
       "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NPC_AVOID" ],
       "durability": 10
     },

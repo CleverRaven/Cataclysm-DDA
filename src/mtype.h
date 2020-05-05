@@ -1,18 +1,20 @@
 #pragma once
-#ifndef MTYPE_H
-#define MTYPE_H
+#ifndef CATA_SRC_MTYPE_H
+#define CATA_SRC_MTYPE_H
 
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
+#include "behavior.h"
+#include "calendar.h"
 #include "color.h"
-#include "optional.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
+#include "optional.h"
 #include "pathfinding.h"
 #include "translations.h"
 #include "type_id.h"
@@ -20,9 +22,9 @@
 
 class Creature;
 class monster;
-template <typename E> struct enum_traits;
 struct dealt_projectile_attack;
 struct species_type;
+template <typename E> struct enum_traits;
 
 enum body_part : int;
 enum m_size : int;
@@ -33,6 +35,8 @@ using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_at
 using bodytype_id = std::string;
 class JsonArray;
 class JsonObject;
+
+using itype_id = std::string;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
@@ -97,6 +101,7 @@ enum m_flag : int {
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
+    MF_COLDPROOF,           // Immune to cold damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
@@ -106,7 +111,9 @@ enum m_flag : int {
     MF_FEATHER,             // May produce feather when butchered
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
+    MF_CONSOLE_DESPAWN,     // Despawns when a nearby console is properly hacked
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
+    MF_ID_CARD_DESPAWN,      // Despawns when a science ID card is used on a nearby console
     MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
     MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
     MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
@@ -160,6 +167,7 @@ enum m_flag : int {
     MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
+    MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
@@ -205,6 +213,8 @@ struct mtype {
         enum_bitset<mon_trigger> anger;
         enum_bitset<mon_trigger> fear;
         enum_bitset<mon_trigger> placate;
+
+        behavior::node_t goals;
 
         void add_special_attacks( const JsonObject &jo, const std::string &member_name,
                                   const std::string &src );
@@ -273,6 +283,7 @@ struct mtype {
         int armor_bash = -1;    /** innate armor vs. bash */
         int armor_cut  = -1;    /** innate armor vs. cut */
         int armor_stab = -1;    /** innate armor vs. stabbing */
+        int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
 
@@ -351,7 +362,7 @@ struct mtype {
         int mech_str_bonus = 0;
 
         /** Emission sources that cycle each turn the monster remains alive */
-        std::set<emit_id> emit_fields;
+        std::map<emit_id, time_duration> emit_fields;
 
         pathfinding_settings path_settings;
 
@@ -378,6 +389,9 @@ struct mtype {
         int get_meat_chunks_count() const;
         std::string get_description() const;
         std::string get_footsteps() const;
+        void set_strategy();
+        void add_goal( const std::string &goal_id );
+        const behavior::node_t *get_goals() const;
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );
@@ -385,4 +399,4 @@ struct mtype {
 
 mon_effect_data load_mon_effect_data( const JsonObject &e );
 
-#endif
+#endif // CATA_SRC_MTYPE_H

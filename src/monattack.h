@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONATTACK_H
-#define MONATTACK_H
+#ifndef CATA_SRC_MONATTACK_H
+#define CATA_SRC_MONATTACK_H
 
 class monster;
 class Creature;
@@ -89,7 +89,10 @@ bool leech_spawner( monster *z );
 bool mon_leech_evolution( monster *z );
 bool tindalos_teleport( monster *z );
 bool flesh_tendril( monster *z );
+bool bio_op_random_biojutsu( monster *z );
 bool bio_op_takedown( monster *z );
+bool bio_op_impale( monster *z );
+bool bio_op_disarm( monster *z );
 bool ranged_pull( monster *z );
 bool grab( monster *z );
 bool grab_drag( monster *z );
@@ -113,4 +116,4 @@ void flame( monster *z, Creature *target );
 bool dodge_check( monster *z, Creature *target );
 } //namespace mattack
 
-#endif
+#endif // CATA_SRC_MONATTACK_H

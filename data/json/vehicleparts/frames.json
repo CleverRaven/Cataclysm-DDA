@@ -2,7 +2,7 @@
   {
     "id": "folding_frame",
     "type": "vehicle_part",
-    "name": "foldable light frame",
+    "name": { "str": "foldable light frame" },
     "item": "foldframe",
     "location": "structure",
     "symbol": "h",
@@ -21,7 +21,7 @@
   {
     "id": "folding_wooden_frame",
     "type": "vehicle_part",
-    "name": "foldable wooden frame",
+    "name": { "str": "foldable wooden frame" },
     "item": "foldwoodframe",
     "location": "structure",
     "symbol": "h",
@@ -42,7 +42,7 @@
   {
     "abstract": "frame",
     "type": "vehicle_part",
-    "name": "frame",
+    "name": { "str": "frame" },
     "item": "frame",
     "location": "structure",
     "durability": 400,
@@ -59,7 +59,7 @@
   {
     "abstract": "frame_wood",
     "type": "vehicle_part",
-    "name": "wooden frame",
+    "name": { "str": "wooden frame" },
     "item": "frame_wood",
     "location": "structure",
     "color": "brown",
@@ -77,7 +77,7 @@
   {
     "abstract": "frame_wood_light",
     "type": "vehicle_part",
-    "name": "light wooden frame",
+    "name": { "str": "light wooden frame" },
     "item": "frame_wood_light",
     "location": "structure",
     "color": "brown",
@@ -94,7 +94,7 @@
   {
     "abstract": "hdframe",
     "type": "vehicle_part",
-    "name": "heavy duty frame",
+    "name": { "str": "heavy duty frame" },
     "item": "hdframe",
     "location": "structure",
     "color": "dark_gray",
@@ -112,7 +112,7 @@
   {
     "abstract": "xlframe",
     "type": "vehicle_part",
-    "name": "extra light frame",
+    "name": { "str": "extra light frame" },
     "item": "xlframe",
     "location": "structure",
     "color": "light_gray",

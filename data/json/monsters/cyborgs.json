@@ -2,7 +2,7 @@
   {
     "id": "mon_broken_cyborg",
     "type": "MONSTER",
-    "name": "broken cyborg",
+    "name": { "str": "broken cyborg" },
     "description": "A robot body with the head of a human.  All kinds of electronic wires and devices are implanted in its head.  Patches of skin look diseased or rotting.  This cyborg moves erratically and has a confused and deranged look in its eyes.",
     "default_faction": "science",
     "bodytype": "human",
@@ -23,6 +23,7 @@
     "dodge": 5,
     "armor_bash": 14,
     "armor_cut": 10,
+    "armor_bullet": 8,
     "vision_day": 50,
     "revert_to_itype": "bot_broken_cyborg",
     "special_attacks": [ [ "PARROT", 80 ] ],
@@ -45,7 +46,7 @@
   {
     "id": "mon_prototype_cyborg",
     "type": "MONSTER",
-    "name": "prototype cyborg",
+    "name": { "str": "prototype cyborg" },
     "description": "A human fused with a mess of metal parts and wires.  While its eyes are empty, flashes of pain pass across its face reminiscent of the person trapped in this grotesque body.  With enough surgical skills one might be able to give them back some humanity.  If only they cared…",
     "default_faction": "science",
     "bodytype": "human",
@@ -66,6 +67,7 @@
     "dodge": 2,
     "armor_bash": 10,
     "armor_cut": 6,
+    "armor_bullet": 5,
     "vision_day": 50,
     "revert_to_itype": "bot_prototype_cyborg",
     "special_attacks": [ [ "PARROT", 80 ] ],

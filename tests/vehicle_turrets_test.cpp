@@ -4,29 +4,28 @@
 #include <utility>
 #include <vector>
 
+#include "ammo.h"
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "ammo.h"
 #include "game.h"
-#include "itype.h"
-#include "map.h"
-#include "veh_type.h"
-#include "vehicle.h"
 #include "item.h"
 #include "item_location.h"
-#include "optional.h"
-#include "string_id.h"
-#include "units.h"
-#include "type_id.h"
+#include "itype.h"
+#include "map.h"
 #include "point.h"
-#include "cata_string_consts.h"
+#include "string_id.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vehicle.h"
 
 static std::vector<const vpart_info *> turret_types()
 {
     std::vector<const vpart_info *> res;
 
     for( const auto &e : vpart_info::all() ) {
-        if( e.second.has_flag( flag_TURRET ) ) {
+        if( e.second.has_flag( "TURRET" ) ) {
             res.push_back( &e.second );
         }
     }
@@ -70,12 +69,12 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             const int idx = veh->install_part( point_zero, e->get_id(), true );
             REQUIRE( idx >= 0 );
 
-            REQUIRE( veh->install_part( point_zero, vpart_storage_battery, true ) >= 0 );
+            REQUIRE( veh->install_part( point_zero, vpart_id( "storage_battery" ), true ) >= 0 );
             veh->charge_battery( 10000 );
 
             auto ammo = ammotype( veh->turret_query( veh->parts[idx] ).base()->ammo_default() );
 
-            if( veh->part_flag( idx, flag_USE_TANKS ) ) {
+            if( veh->part_flag( idx, "USE_TANKS" ) ) {
                 auto *tank = biggest_tank( ammo );
                 REQUIRE( tank );
                 INFO( tank->get_id().str() );

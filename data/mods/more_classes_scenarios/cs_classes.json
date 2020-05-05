@@ -68,60 +68,6 @@
   },
   {
     "type": "profession",
-    "ident": "wasteland_cyborg",
-    "name": "Wasteland Cyborg",
-    "description": "After months of reading, experimentation, severe injuries, and countless supply raids you emerge a self-made cyborg with the some of the best crafted weapons and armor in the wasteland.",
-    "points": 8,
-    "CBMs": [
-      "bio_flashlight",
-      "bio_tools",
-      "bio_ups",
-      "bio_sunglasses",
-      "bio_ears",
-      "bio_carbon",
-      "bio_targeting",
-      "bio_metabolics",
-      "bio_power_storage_mkII",
-      "bio_power_storage_mkII"
-    ],
-    "skills": [
-      { "level": 3, "name": "fabrication" },
-      { "level": 3, "name": "mechanics" },
-      { "level": 3, "name": "electronics" },
-      { "level": 3, "name": "firstaid" },
-      { "level": 3, "name": "tailor" },
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "bashing" }
-    ],
-    "items": {
-      "both": {
-        "items": [
-          "socks",
-          "hood_lsurvivor",
-          "mask_lsurvivor",
-          "lsurvivor_suit",
-          "chestpouch",
-          "survivor_vest",
-          "gloves_lsurvivor",
-          "legpouch_large",
-          "legpouch_large",
-          "boots_lsurvivor"
-        ],
-        "entries": [
-          { "item": "shocktonfa_off", "contents-item": "battery_ups" },
-          { "item": "coilgun", "ammo-item": "combatnail", "charges": 50, "contents-item": [ "shoulder_strap" ] },
-          { "item": "nailmag", "ammo-item": "combatnail", "charges": 50 }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
-  },
-  {
-    "type": "profession",
     "ident": "seasoned_tourist",
     "name": "Seasoned Tourist",
     "description": "Due to your thirst for adventure, hunger for good food, and disposable income, you have been able to travel extensively.  You've traveled here to get a taste of New England; now you hope New England won't get a taste of you!",

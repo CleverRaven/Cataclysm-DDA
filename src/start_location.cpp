@@ -1,76 +1,67 @@
 #include "start_location.h"
 
-#include <climits>
 #include <algorithm>
+#include <climits>
 #include <memory>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "field.h"
+#include "enum_conversions.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
 #include "generic_factory.h"
+#include "int_id.h"
+#include "json.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "output.h"
-#include "map_iterator.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "calendar.h"
-#include "game_constants.h"
-#include "int_id.h"
 #include "pldata.h"
-#include "rng.h"
-#include "translations.h"
 #include "point.h"
-#include "cata_string_consts.h"
+#include "rng.h"
+#include "string_id.h"
 
 class item;
 
 namespace
 {
-generic_factory<start_location> all_starting_locations( "starting location", "ident" );
+generic_factory<start_location> all_start_locations( "start locations" );
 } // namespace
 
 /** @relates string_id */
 template<>
 const start_location &string_id<start_location>::obj() const
 {
-    return all_starting_locations.obj( *this );
+    return all_start_locations.obj( *this );
 }
 
 /** @relates string_id */
 template<>
 bool string_id<start_location>::is_valid() const
 {
-    return all_starting_locations.is_valid( *this );
-}
-
-start_location::start_location()
-    : _name( "null" ), _target( "shelter" )
-{
-}
-
-const string_id<start_location> &start_location::ident() const
-{
-    return id;
+    return all_start_locations.is_valid( *this );
 }
 
 std::string start_location::name() const
 {
-    return _( _name );
+    return _name.translated();
 }
 
-std::string start_location::target() const
+int start_location::targets_count() const
 {
-    return _target;
+    return _omt_types.size();
 }
 
-const std::vector<start_location> &start_location::get_all()
+std::pair<std::string, ot_match_type> start_location::random_target() const
 {
-    return all_starting_locations.get_all();
+    return random_entry( _omt_types );
 }
 
 const std::set<std::string> &start_location::flags() const
@@ -78,21 +69,30 @@ const std::set<std::string> &start_location::flags() const
     return _flags;
 }
 
-void start_location::load_location( const JsonObject &jo, const std::string &src )
-{
-    all_starting_locations.load( jo, src );
-}
-
 void start_location::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", _name );
-    mandatory( jo, was_loaded, "target", _target );
+    std::string ter;
+    ot_match_type ter_match_type = ot_match_type::type;
+    for( const JsonValue entry : jo.get_array( "terrain" ) ) {
+        if( entry.test_string() ) {
+            ter = entry.get_string();
+        } else {
+            JsonObject jot = entry.get_object();
+            ter = jot.get_string( "om_terrain" );
+            ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
+        }
+        _omt_types.emplace_back( ter, ter_match_type );
+    }
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
 
-void start_location::reset()
+void start_location::check() const
 {
-    all_starting_locations.reset();
+}
+
+void start_location::finalize()
+{
 }
 
 // check if tile at p should be boarded with some kind of furniture.
@@ -186,7 +186,7 @@ static void board_up( map &m, const tripoint_range &range )
 void start_location::prepare_map( tinymap &m ) const
 {
     const int z = m.get_abs_sub().z;
-    if( flags().count( flag_BOARDED ) > 0 ) {
+    if( flags().count( "BOARDED" ) > 0 ) {
         m.build_outside_cache( z );
         board_up( m, m.points_on_zlevel( z ) );
     } else {
@@ -196,13 +196,12 @@ void start_location::prepare_map( tinymap &m ) const
 
 tripoint start_location::find_player_initial_location() const
 {
-    popup_nowait( _( "Please wait as we build your world" ) );
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 3;
     for( const point &omp : closest_points_first( point_zero, radius ) ) {
         overmap &omap = overmap_buffer.get( omp );
-        const tripoint omtstart = omap.find_random_omt( target() );
+        const tripoint omtstart = omap.find_random_omt( random_target() );
         if( omtstart != overmap::invalid_tripoint ) {
             return omtstart + point( omp.x * OMAPX, omp.y * OMAPY );
         }
@@ -269,7 +268,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         checked[cur.x][cur.y] = attempt;
         if( cur.x == 0 || cur.x == MAPSIZE_X - 1 ||
             cur.y == 0 || cur.y == MAPSIZE_Y - 1 ||
-            m.has_flag( flag_GOES_UP, cur ) ) {
+            m.has_flag( "GOES_UP", cur ) ) {
             return INT_MAX;
         }
 
@@ -296,7 +295,7 @@ void start_location::place_player( player &u ) const
     u.setz( g->get_levz() );
     m.invalidate_map_cache( m.get_abs_sub().z );
     m.build_map_cache( m.get_abs_sub().z );
-    const bool must_be_inside = flags().count( flag_ALLOW_OUTSIDE ) == 0;
+    const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
     const int bash = u.get_str();
@@ -350,8 +349,7 @@ void start_location::place_player( player &u ) const
     }
 }
 
-void start_location::burn( const tripoint &omtstart,
-                           const size_t count, const int rad ) const
+void start_location::burn( const tripoint &omtstart, const size_t count, const int rad ) const
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
@@ -361,11 +359,11 @@ void start_location::burn( const tripoint &omtstart,
     const int uy = g->u.posy() % HALF_MAPSIZE_Y;
     std::vector<tripoint> valid;
     for( const tripoint &p : m.points_on_zlevel() ) {
-        if( !( m.has_flag_ter( flag_DOOR, p ) ||
-               m.has_flag_ter( flag_OPENCLOSE_INSIDE, p ) ||
+        if( !( m.has_flag_ter( "DOOR", p ) ||
+               m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
                m.is_outside( p ) ||
                ( p.x >= ux - rad && p.x <= ux + rad && p.y >= uy - rad && p.y <= uy + rad ) ) ) {
-            if( m.has_flag( flag_FLAMMABLE, p ) || m.has_flag( flag_FLAMMABLE_ASH, p ) ) {
+            if( m.has_flag( "FLAMMABLE", p ) || m.has_flag( "FLAMMABLE_ASH", p ) ) {
                 valid.push_back( p );
             }
         }
@@ -377,8 +375,7 @@ void start_location::burn( const tripoint &omtstart,
     m.save();
 }
 
-void start_location::add_map_extra( const tripoint &omtstart,
-                                    const std::string &map_extra ) const
+void start_location::add_map_extra( const tripoint &omtstart, const std::string &map_extra ) const
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
@@ -408,7 +405,7 @@ void start_location::handle_heli_crash( player &u ) const
                 const auto maxHp = u.get_hp_max( part );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
-                u.apply_damage( nullptr, bp_part, dmg );
+                u.apply_damage( nullptr, convert_bp( bp_part ).id(), dmg );
                 break;
             }
             // No damage
@@ -437,4 +434,32 @@ void start_location::surround_with_monsters( const tripoint &omtstart, const mon
             add_monsters( p, type, roll_remainder( expected_points / 8.0f ) );
         }
     }
+}
+
+void start_locations::load( const JsonObject &jo, const std::string &src )
+{
+    all_start_locations.load( jo, src );
+}
+
+void start_locations::finalize_all()
+{
+    all_start_locations.finalize();
+    for( const start_location &start_loc : all_start_locations.get_all() ) {
+        const_cast<start_location &>( start_loc ).finalize();
+    }
+}
+
+void start_locations::check_consistency()
+{
+    all_start_locations.check();
+}
+
+void start_locations::reset()
+{
+    all_start_locations.reset();
+}
+
+const std::vector<start_location> &start_locations::get_all()
+{
+    return all_start_locations.get_all();
 }

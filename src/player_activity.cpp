@@ -1,18 +1,38 @@
 #include "player_activity.h"
 
 #include <algorithm>
+#include <memory>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
-#include "cata_string_consts.h"
-#include "construction.h"
-#include "map.h"
-#include "game.h"
-#include "player.h"
-#include "sounds.h"
 #include "avatar.h"
+#include "calendar.h"
+#include "construction.h"
+#include "game.h"
+#include "item.h"
 #include "itype.h"
+#include "map.h"
+#include "player.h"
+#include "rng.h"
 #include "skill.h"
+#include "sounds.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "units.h"
+#include "value_ptr.h"
+
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_FISH( "ACT_FISH" );
+static const activity_id ACT_ATM( "ACT_ATM" );
+static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -23,6 +43,29 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     position( pos ), name( name_in ),
     placement( tripoint_min ), auto_resume( false )
 {
+}
+
+player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
+    actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+{
+}
+
+void player_activity::migrate_item_position( Character &guy )
+{
+    const bool simple_action_replace =
+        type == ACT_FIRSTAID || type == ACT_GAME ||
+        type == ACT_PICKAXE || type == ACT_START_FIRE ||
+        type == ACT_HAND_CRANK || type == ACT_VIBE ||
+        type == ACT_OXYTORCH || type == ACT_FISH ||
+        type == ACT_ATM;
+
+    if( simple_action_replace ) {
+        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+    } else if( type == ACT_GUNMOD_ADD ) {
+        // this activity has two indices; "position" = gun and "values[0]" = mod
+        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+        targets.push_back( item_location( guy, &guy.i_at( values[0] ) ) );
+    }
 }
 
 void player_activity::set_to_null()
@@ -68,16 +111,16 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 
 cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
-    if( type == ACT_NULL || get_verb().empty() ) {
+    if( type == activity_id( "ACT_NULL" ) || get_verb().empty() ) {
         return cata::optional<std::string>();
     }
 
     std::string extra_info;
-    if( type == ACT_CRAFT ) {
+    if( type == activity_id( "ACT_CRAFT" ) ) {
         if( const item *craft = targets.front().get_item() ) {
             extra_info = craft->tname();
         }
-    } else if( type == ACT_READ ) {
+    } else if( type == activity_id( "ACT_READ" ) ) {
         if( const item *book = targets.front().get_item() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
@@ -94,24 +137,24 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             }
         }
     } else if( moves_total > 0 ) {
-        if( type == ACT_BURROW ||
-            type == ACT_HACKSAW ||
-            type == ACT_JACKHAMMER ||
-            type == ACT_PICKAXE ||
-            type == ACT_DISASSEMBLE ||
-            type == ACT_FILL_PIT ||
-            type == ACT_DIG ||
-            type == ACT_DIG_CHANNEL ||
-            type == ACT_CHOP_TREE ||
-            type == ACT_CHOP_LOGS ||
-            type == ACT_CHOP_PLANKS
+        if( type == activity_id( "ACT_BURROW" ) ||
+            type == activity_id( "ACT_HACKSAW" ) ||
+            type == activity_id( "ACT_JACKHAMMER" ) ||
+            type == activity_id( "ACT_PICKAXE" ) ||
+            type == activity_id( "ACT_DISASSEMBLE" ) ||
+            type == activity_id( "ACT_FILL_PIT" ) ||
+            type == activity_id( "ACT_DIG" ) ||
+            type == activity_id( "ACT_DIG_CHANNEL" ) ||
+            type == activity_id( "ACT_CHOP_TREE" ) ||
+            type == activity_id( "ACT_CHOP_LOGS" ) ||
+            type == activity_id( "ACT_CHOP_PLANKS" )
           ) {
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
             extra_info = string_format( "%d%%", percentage );
         }
 
-        if( type == ACT_BUILD ) {
+        if( type == activity_id( "ACT_BUILD" ) ) {
             partial_con *pc = g->m.partial_con_at( g->m.getlocal( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
@@ -127,11 +170,37 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                     get_verb().translated(), extra_info );
 }
 
+void player_activity::start( Character &who )
+{
+    if( actor ) {
+        actor->start( *this, who );
+    }
+    if( rooted() ) {
+        who.rooted_message();
+    }
+}
+
 void player_activity::do_turn( player &p )
 {
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
+    }
+    if( calendar::once_every( 30_minutes ) ) {
+        no_food_nearby_for_auto_consume = false;
+        no_drink_nearby_for_auto_consume = false;
+    }
+    if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
+        if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
+            if( !find_auto_consume( p, true ) ) {
+                no_food_nearby_for_auto_consume = true;
+            }
+        }
+        if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
+            if( !find_auto_consume( p, false ) ) {
+                no_drink_nearby_for_auto_consume = true;
+            }
+        }
     }
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
@@ -159,23 +228,28 @@ void player_activity::do_turn( player &p )
         p.drop_invalid_inventory();
         return;
     }
-    const bool travel_activity = id() == ACT_TRAVELLING;
+    const bool travel_activity = id() == "ACT_TRAVELLING";
     // This might finish the activity (set it to null)
-    type->call_do_turn( this, &p );
+    if( actor ) {
+        actor->do_turn( *this, p );
+    } else {
+        // Use the legacy turn function
+        type->call_do_turn( this, &p );
+    }
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
     // it just sets a destination, clears the activity, then moves afterwards
     // so set stamina -1 if that is the case
     // to simulate that the next step will surely use up some stamina anyway
-    // this is to ensure that resting will occur when travelling overburdened
+    // this is to ensure that resting will occur when traveling overburdened
     const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
     if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
         auto_resume = true;
-        player_activity new_act( ACT_WAIT_STAMINA, to_moves<int>( 1_minutes ) );
+        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
         new_act.values.push_back( 200 + p.get_stamina_max() / 3 );
         p.assign_activity( new_act );
         return;
@@ -188,9 +262,13 @@ void player_activity::do_turn( player &p )
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
-        if( !type->call_finish( this, &p ) ) {
-            // "Finish" is never a misnomer for any activity without a finish function
-            set_to_null();
+        if( actor ) {
+            actor->finish( *this, p );
+        } else {
+            if( !type->call_finish( this, &p ) ) {
+                // "Finish" is never a misnomer for any activity without a finish function
+                set_to_null();
+            }
         }
     }
     if( !*this ) {
@@ -226,11 +304,11 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         return false;
     }
 
-    if( id() == ACT_CLEAR_RUBBLE ) {
+    if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
         if( other.coords.empty() || other.coords[0] != coords[0] ) {
             return false;
         }
-    } else if( id() == ACT_READ ) {
+    } else if( id() == activity_id( "ACT_READ" ) ) {
         // Return false if any NPCs joined or left the study session
         // the vector {1, 2} != {2, 1}, so we'll have to check manually
         if( values.size() != other.values.size() ) {
@@ -244,7 +322,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
-    } else if( id() == ACT_DIG || id() == ACT_DIG_CHANNEL ) {
+    } else if( id() == activity_id( "ACT_DIG" ) || id() == activity_id( "ACT_DIG_CHANNEL" ) ) {
         // We must be digging in the same location.
         if( placement != other.placement ) {
             return false;

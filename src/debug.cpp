@@ -1,39 +1,44 @@
 #include "debug.h"
 
-#include <sys/stat.h>
-#include <cctype>
-#include <cstdio>
 #include <algorithm>
 #include <cassert>
+#include <cctype>
+#include <cerrno>
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <fstream>
 #include <iomanip>
-#include <cstdint>
 #include <iterator>
 #include <locale>
 #include <map>
 #include <memory>
 #include <set>
 #include <sstream>
+#include <sys/stat.h>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
+#include "cata_utility.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "get_version.h"
 #include "input.h"
+#include "mod_manager.h"
+#include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "cata_utility.h"
-#include "color.h"
-#include "optional.h"
+#include "point.h"
 #include "translations.h"
-#include "worldfactory.h"
-#include "mod_manager.h"
 #include "type_id.h"
+#include "ui_manager.h"
+#include "worldfactory.h"
 
 #if !defined(_MSC_VER)
 #include <sys/time.h>
@@ -143,31 +148,45 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         );
 #endif
 
-    fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
-                    "\n\n" // Looks nicer with some space
-                    " %s\n" // translated user string: error notification
-                    " -----------------------------------------------------------\n"
-                    "%s"
-                    " -----------------------------------------------------------\n"
+    // temporarily disable redrawing and resizing of previous uis since they
+    // could be in an unknown state.
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    const auto init_window = []( ui_adaptor & ui ) {
+        ui.position_from_window( catacurses::stdscr );
+    };
+    init_window( ui );
+    ui.on_screen_resize( init_window );
+    const std::string message = string_format(
+                                    "\n\n" // Looks nicer with some space
+                                    " %s\n" // translated user string: error notification
+                                    " -----------------------------------------------------------\n"
+                                    "%s"
+                                    " -----------------------------------------------------------\n"
 #if defined(BACKTRACE)
-                    " %s\n" // translated user string: where to find backtrace
+                                    " %s\n" // translated user string: where to find backtrace
 #endif
-                    " %s\n" // translated user string: space to continue
-                    " %s\n" // translated user string: ignore key
+                                    " %s\n" // translated user string: space to continue
+                                    " %s\n" // translated user string: ignore key
 #if defined(TILES)
-                    " %s\n" // translated user string: copy
+                                    " %s\n" // translated user string: copy
 #endif // TILES
-                    , _( "An error has occurred!  Written below is the error report:" ),
-                    formatted_report,
+                                    , _( "An error has occurred!  Written below is the error report:" ),
+                                    formatted_report,
 #if defined(BACKTRACE)
-                    backtrace_instructions,
+                                    backtrace_instructions,
 #endif
-                    _( "Press <color_white>space bar</color> to continue the game." ),
-                    _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
+                                    _( "Press <color_white>space bar</color> to continue the game." ),
+                                    _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
 #if defined(TILES)
-                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
+                                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
 #endif // TILES
-                  );
+                                );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        catacurses::erase();
+        fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
+                        "%s", message );
+        catacurses::refresh();
+    } );
 
 #if defined(__ANDROID__)
     input_context ctxt( "DEBUG_MSG" );
@@ -176,6 +195,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     ctxt.register_manual_key( ' ' );
 #endif
     for( bool stop = false; !stop; ) {
+        ui_manager::redraw();
         switch( inp_mngr.get_input_event().get_first_input() ) {
 #if defined(TILES)
             case 'c':
@@ -192,9 +212,6 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
                 break;
         }
     }
-
-    werase( catacurses::stdscr );
-    catacurses::refresh();
 }
 
 // Normal functions                                                 {{{1
@@ -273,7 +290,7 @@ static time_info get_time() noexcept
     const auto current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( lround( tv.tv_usec / 1000.0 ) )
+                       static_cast<int>( std::lround( tv.tv_usec / 1000.0 ) )
                      };
 }
 #endif
@@ -969,7 +986,7 @@ std::string game_info::operating_system()
 #endif
 }
 
-#if !defined(__CYGWIN__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) ) // linux; unix; MacOs; BSD
+#if !defined(__CYGWIN__) && !defined (__ANDROID__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) ) // linux; unix; MacOs; BSD
 /** Execute a command with the shell by using `popen()`.
  * @param command The full command to execute.
  * @note The output buffer is limited to 512 characters.
@@ -1259,11 +1276,22 @@ std::string game_info::game_report()
         os_version = "<unknown>";
     }
     std::stringstream report;
+
+    std::string lang = get_option<std::string>( "USE_LANG" );
+    std::string lang_translated;
+    for( const options_manager::id_and_option &vItem : options_manager::lang_options ) {
+        if( vItem.first == lang ) {
+            lang_translated = vItem.second.translated();
+            break;
+        }
+    }
+
     report <<
            "- OS: " << operating_system() << "\n" <<
            "    - OS Version: " << os_version << "\n" <<
            "- Game Version: " << game_version() << " [" << bitness() << "]\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
+           "- Game Language: " << lang_translated << " [" << lang << "]\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
 
     return report.str();

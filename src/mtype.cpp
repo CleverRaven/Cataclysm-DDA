@@ -3,15 +3,16 @@
 #include <algorithm>
 #include <cmath>
 
+#include "behavior_strategy.h"
 #include "creature.h"
-#include "field.h"
+#include "field_type.h"
 #include "item.h"
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
 #include "translations.h"
-#include "mapdata.h"
-#include "cata_string_consts.h"
+
+static const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {
@@ -22,7 +23,7 @@ mtype::mtype()
     size = MS_MEDIUM;
     volume = 62499_ml;
     weight = 81499_gram;
-    mat = { material_flesh };
+    mat = { material_id( "flesh" ) };
     phase = SOLID;
     def_chance = 0;
     upgrades = false;
@@ -152,13 +153,13 @@ field_type_id mtype::bloodType() const
     if( has_flag( MF_LARVA ) || has_flag( MF_ARTHROPOD_BLOOD ) ) {
         return fd_blood_invertebrate;
     }
-    if( made_of( material_veggy ) ) {
+    if( made_of( material_id( "veggy" ) ) ) {
         return fd_blood_veggy;
     }
-    if( made_of( material_iflesh ) ) {
+    if( made_of( material_id( "iflesh" ) ) ) {
         return fd_blood_insect;
     }
-    if( has_flag( MF_WARM ) && made_of( material_flesh ) ) {
+    if( has_flag( MF_WARM ) && made_of( material_id( "flesh" ) ) ) {
         return fd_blood;
     }
     return fd_null;
@@ -166,16 +167,16 @@ field_type_id mtype::bloodType() const
 
 field_type_id mtype::gibType() const
 {
-    if( has_flag( MF_LARVA ) || in_species( species_MOLLUSK ) ) {
+    if( has_flag( MF_LARVA ) || in_species( MOLLUSK ) ) {
         return fd_gibs_invertebrate;
     }
-    if( made_of( material_veggy ) ) {
+    if( made_of( material_id( "veggy" ) ) ) {
         return fd_gibs_veggy;
     }
-    if( made_of( material_iflesh ) ) {
+    if( made_of( material_id( "iflesh" ) ) ) {
         return fd_gibs_insect;
     }
-    if( made_of( material_flesh ) ) {
+    if( made_of( material_id( "flesh" ) ) ) {
         return fd_gibs_flesh;
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
@@ -185,18 +186,18 @@ field_type_id mtype::gibType() const
 itype_id mtype::get_meat_itype() const
 {
     if( has_flag( MF_POISON ) ) {
-        if( made_of( material_flesh ) || made_of( material_hflesh ) ) {
+        if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
             return "meat_tainted";
-        } else if( made_of( material_iflesh ) ) {
+        } else if( made_of( material_id( "iflesh" ) ) ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return "meat_tainted";
-        } else if( made_of( material_veggy ) ) {
+        } else if( made_of( material_id( "veggy" ) ) ) {
             return "veggy_tainted";
-        } else if( made_of( material_bone ) ) {
+        } else if( made_of( material_id( "bone" ) ) ) {
             return "bone_tainted";
         }
     } else {
-        if( made_of( material_flesh ) || made_of( material_hflesh ) ) {
+        if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
             if( has_flag( MF_HUMAN ) ) {
                 return "human_flesh";
             } else if( has_flag( MF_AQUATIC ) ) {
@@ -204,12 +205,12 @@ itype_id mtype::get_meat_itype() const
             } else {
                 return "meat";
             }
-        } else if( made_of( material_iflesh ) ) {
+        } else if( made_of( material_id( "iflesh" ) ) ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return "meat";
-        } else if( made_of( material_veggy ) ) {
+        } else if( made_of( material_id( "veggy" ) ) ) {
             return "veggy";
-        } else if( made_of( material_bone ) ) {
+        } else if( made_of( material_id( "bone" ) ) ) {
             return "bone";
         }
     }
@@ -218,7 +219,7 @@ itype_id mtype::get_meat_itype() const
 
 int mtype::get_meat_chunks_count() const
 {
-    const float ch = to_gram( weight ) * ( 0.40f - 0.02f * log10f( to_gram( weight ) ) );
+    const float ch = to_gram( weight ) * ( 0.40f - 0.02f * std::log10( to_gram( weight ) ) );
     const itype *chunk = item::find_type( get_meat_itype() );
     return static_cast<int>( ch / to_gram( chunk->weight ) );
 }
@@ -234,4 +235,19 @@ std::string mtype::get_footsteps() const
         return s.obj().get_footsteps();
     }
     return _( "footsteps." );
+}
+
+void mtype::set_strategy()
+{
+    goals.set_strategy( behavior::strategy_map[ "sequential_until_done" ] );
+}
+
+void mtype::add_goal( const std::string &goal_id )
+{
+    goals.add_child( &string_id<behavior::node_t>( goal_id ).obj() );
+}
+
+const behavior::node_t *mtype::get_goals() const
+{
+    return &goals;
 }

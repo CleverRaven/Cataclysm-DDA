@@ -1,30 +1,31 @@
 #pragma once
-#ifndef MAPDATA_H
-#define MAPDATA_H
+#ifndef CATA_SRC_MAPDATA_H
+#define CATA_SRC_MAPDATA_H
 
-#include <cstddef>
 #include <array>
 #include <bitset>
+#include <cstddef>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
+#include "calendar.h"
 #include "color.h"
-#include "int_id.h"
-#include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 class JsonObject;
+class player;
+struct furn_t;
 struct itype;
 struct ter_t;
-struct furn_t;
-class player;
 struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
+
+using itype_id = std::string;
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -37,18 +38,25 @@ struct map_bash_info {
     int sound_vol;          // sound volume of breaking terrain/furniture
     int sound_fail_vol;     // sound volume on fail
     int collapse_radius;    // Radius of the tent supported by this tile
+    int fd_bash_move_cost = 100; // cost to bash a field
     bool destroy_only;      // Only used for destroying, not normally bashable
     bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
     std::string drop_group; // item group of items that are dropped when the object is bashed
     translation sound;      // sound made on success ('You hear a "smash!"')
     translation sound_fail; // sound  made on fail
+    translation field_bash_msg_success; // message upon successfully bashing a field
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
     map_bash_info();
-    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
+    enum map_object_type {
+        furniture = 0,
+        terrain,
+        field
+    };
+    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -101,6 +109,7 @@ struct plant_data {
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
  * NO_SIGHT - When on this tile sight is reduced to 1
+ * NO_SCENT - Scent on this tile (and thus scent diffusing through it) is reduced to 0. This acts like a wall for scent
  * MOUNTABLE - Player can fire mounted weapons from here (e.g. M2 Browning)
  * DESTROY_ITEM - Items that land here are destroyed
  * GOES_DOWN - Can use '>' to go down a level
@@ -159,6 +168,7 @@ enum ter_bitflags : int {
     TFLAG_MINEABLE,
     TFLAG_NOITEM,
     TFLAG_NO_SIGHT,
+    TFLAG_NO_SCENT,
     TFLAG_SEALED,
     TFLAG_ALLOW_FIELD_EFFECT,
     TFLAG_LIQUID,
@@ -240,20 +250,23 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
-        int light_emitted;
-        int movecost;   // The amount of movement points required to pass this terrain by default.
-        int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
+        int light_emitted = 0;
+        // The amount of movement points required to pass this terrain by default.
+        int movecost = 0;
+        // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
+        int coverage = 0;
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 
         translation description;
 
-        std::array<nc_color, NUM_SEASONS> color_; //The color the sym will draw in on the GUI.
+        // The color the sym will draw in on the GUI.
+        std::array<nc_color, NUM_SEASONS> color_;
         void load_symbol( const JsonObject &jo );
 
         std::string looks_like;
 
-        iexamine_function examine; //What happens when the terrain/furniture is examined
+        iexamine_function examine; // What happens when the terrain/furniture is examined
 
         /**
          * When will this terrain/furniture get harvested and what will drop?
@@ -264,7 +277,11 @@ struct map_data_common_t {
             }
         };
 
-        bool transparent;
+        bool transparent = false;
+
+        const std::set<std::string> &get_flags() const {
+            return flags;
+        }
 
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) > 0;
@@ -276,7 +293,7 @@ struct map_data_common_t {
 
         void set_flag( const std::string &flag );
 
-        int connect_group;
+        int connect_group = 0;
 
         void set_connects( const std::string &connect_group_string );
 
@@ -354,11 +371,13 @@ struct furn_t : map_data_common_t {
     int bonus_fire_warmth_feet = 300;
     itype_id deployed_item; // item id string used to create furniture
 
-    int move_str_req; //The amount of strength required to move through this furniture easily.
+    int move_str_req = 0; //The amount of strength required to move through this furniture easily.
 
-    cata::optional<furn_workbench_info> workbench;
+    cata::value_ptr<furn_workbench_info> workbench;
 
-    cata::optional<plant_data> plant;
+    cata::value_ptr<plant_data> plant;
+
+    cata::value_ptr<float> surgery_skill_multiplier;
 
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
@@ -548,7 +567,9 @@ extern furn_id f_null,
        f_brazier,
        f_firering,
        f_tourist_table,
-       f_camp_chair;
+       f_camp_chair,
+       f_sign,
+       f_gunsafe_ml;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
@@ -558,4 +579,4 @@ void check_furniture_and_terrain();
 
 void finalize_furniture_and_terrain();
 
-#endif
+#endif // CATA_SRC_MAPDATA_H

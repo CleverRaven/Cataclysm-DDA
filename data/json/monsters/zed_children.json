@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_anklebiter",
     "type": "MONSTER",
-    "name": "anklebiter",
+    "name": { "str": "anklebiter" },
     "description": "This horrifying little mutated wretch looks to have once been a child, but its massive gaping jaws are now far more suggestive of a predatory beast.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -84,7 +84,7 @@
   {
     "id": "mon_zombie_creepy",
     "type": "MONSTER",
-    "name": "creepy crawler",
+    "name": { "str": "creepy crawler" },
     "description": "What was once a child is now a mutant beast with blackened skin and massive eyes.  This abomination's vile form makes mockery of its human origin.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -129,7 +129,7 @@
   {
     "id": "mon_zombie_shriekling",
     "type": "MONSTER",
-    "name": "shriekling",
+    "name": { "str": "shriekling" },
     "description": "This heavily mutated child zombie twitches and flails its limbs in painful looking spasms as it runs about.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -175,7 +175,7 @@
   {
     "id": "mon_zombie_snotgobbler",
     "type": "MONSTER",
-    "name": "snotgobbler",
+    "name": { "str": "snotgobbler" },
     "description": "This swollen, gooey looking mutant child looks bad, even for a zombie.  Maybe that's why it seems to want a hug so badly.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -208,7 +208,7 @@
   {
     "id": "mon_zombie_sproglodyte",
     "type": "MONSTER",
-    "name": "sproglodyte",
+    "name": { "str": "sproglodyte" },
     "description": "This crouching child-mutant's face is dominated by a pair of huge black eyes and its fingertips end in sharp claws.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -253,7 +253,7 @@
   {
     "id": "mon_zombie_waif",
     "type": "MONSTER",
-    "name": "howling waif",
+    "name": { "str": "howling waif" },
     "description": "Undeath has not been kind to the children of the apocalypse.  This one is little more than a reanimated membrane of skin stretched across tiny brittle bones.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -274,6 +274,7 @@
     "melee_cut": 1,
     "dodge": 2,
     "armor_cut": 5,
+    "armor_bullet": 4,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie",

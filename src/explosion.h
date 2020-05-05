@@ -1,11 +1,11 @@
 #pragma once
-#ifndef EXPLOSION_H
-#define EXPLOSION_H
+#ifndef CATA_SRC_EXPLOSION_H
+#define CATA_SRC_EXPLOSION_H
 
 #include <map>
 #include <string>
 
-#include "type_id.h"
+using itype_id = std::string;
 
 struct tripoint;
 class JsonObject;
@@ -59,7 +59,7 @@ namespace explosion_handler
     If factor <= 0, no blast is produced */
 void explosion(
     const tripoint &p, float power, float factor = 0.8f,
-    bool fire = false, int casing_mass = 0, float fragment_mass = 0.05
+    bool fire = false, int casing_mass = 0, float frag_mass = 0.05
 );
 
 void explosion( const tripoint &p, const explosion_data &ex );
@@ -85,4 +85,4 @@ void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color
 shrapnel_data load_shrapnel_data( const JsonObject &jo );
 explosion_data load_explosion_data( const JsonObject &jo );
 
-#endif
+#endif // CATA_SRC_EXPLOSION_H

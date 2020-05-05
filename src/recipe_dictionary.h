@@ -1,6 +1,6 @@
 #pragma once
-#ifndef RECIPE_DICTIONARY_H
-#define RECIPE_DICTIONARY_H
+#ifndef CATA_SRC_RECIPE_DICTIONARY_H
+#define CATA_SRC_RECIPE_DICTIONARY_H
 
 #include <cstddef>
 #include <algorithm>
@@ -17,6 +17,8 @@
 class JsonIn;
 class JsonOut;
 class JsonObject;
+
+using itype_id = std::string;
 
 class recipe_dictionary
 {
@@ -184,4 +186,4 @@ class recipe_subset
 void serialize( const recipe_subset &value, JsonOut &jsout );
 void deserialize( recipe_subset &value, JsonIn &jsin );
 
-#endif
+#endif // CATA_SRC_RECIPE_DICTIONARY_H

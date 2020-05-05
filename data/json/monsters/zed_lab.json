@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_scientist",
     "type": "MONSTER",
-    "name": "zombie scientist",
+    "name": { "str": "zombie scientist" },
     "description": "Apart from the jet-black eyes, this zombie looks less decomposed and inhuman than most.  Clad in a tattered lab coat, it seems to have a glimmer of awareness - not a human awareness, but something more sinister.  As you watch it, its movements look almost marionette-like.",
     "default_faction": "science",
     "bodytype": "human",
@@ -46,7 +46,6 @@
       "REVIVES",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "FILTHY"
     ]
@@ -54,7 +53,7 @@
   {
     "id": "mon_zombie_labsecurity",
     "type": "MONSTER",
-    "name": "zombie security guard",
+    "name": { "str": "zombie security guard" },
     "description": "A shambling human corpse wearing a gray uniform and bulletproof vest with \"SECURITY\" emblazoned across the front.  It looks like the guard was quite physically fit before its death; it moves quickly and powerfully, albeit clumsily.",
     "default_faction": "science",
     "//": "guards are recognised as friendly by the lab's defense system",
@@ -76,6 +75,7 @@
     "melee_cut": 0,
     "armor_bash": 4,
     "armor_cut": 6,
+    "armor_bullet": 4,
     "armor_stab": 4,
     "vision_day": 30,
     "vision_night": 3,

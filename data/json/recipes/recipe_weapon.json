@@ -94,6 +94,20 @@
   },
   {
     "type": "recipe",
+    "result": "knife_baselard",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "5 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 1 ], [ "leather", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "pointy_stick",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -217,6 +231,43 @@
   },
   {
     "type": "recipe",
+    "result": "pike_wood",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "long_pole", 1 ] ],
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "pike_copper",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "40 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "long_pole", 1 ] ],
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ],
+      [ [ "copper_scrap_equivalent", 12, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "spear_wood",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -228,7 +279,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
-      [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
+      [ [ "stick_long", 1 ] ],
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
@@ -483,19 +534,6 @@
   },
   {
     "type": "recipe",
-    "result": "reflexrecurvebow",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 7 ] ],
-    "difficulty": 5,
-    "time": "25 m",
-    "book_learn": [ [ "recipe_bows", 6 ], [ "manual_archery", 7 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "compositebow",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -507,52 +545,6 @@
     "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "recurbow",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 2 ] ],
-    "difficulty": 5,
-    "time": "30 m",
-    "book_learn": [ [ "recipe_bows", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [
-      [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "adhesive", 2, "LIST" ] ],
-      [ [ "cordage_superior", 2, "LIST" ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "compbow",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ] ],
-    "difficulty": 7,
-    "time": "4 h",
-    "book_learn": [ [ "recipe_bows", 8 ], [ "welding_book", 7 ], [ "textbook_mechanics", 7 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_standard", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 10 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
-      [ [ "cordage_superior", 6, "LIST" ] ]
-    ]
   },
   {
     "type": "recipe",
@@ -716,126 +708,6 @@
   },
   {
     "type": "recipe",
-    "result": "mosin91_30",
-    "byproducts": [ [ "mn_ebr_kit" ] ],
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "3 h",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "mosin91_30_ebr", 1 ] ], [ [ "mn_classic_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "mosin44",
-    "byproducts": [ [ "mn_ebr_kit" ] ],
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "3 h",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "mosin44_ebr", 1 ] ], [ [ "mn_classic_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "mosin91_30_ebr",
-    "byproducts": [ [ "mn_classic_kit" ] ],
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "3 h",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "mosin91_30", 1 ] ], [ [ "mn_ebr_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "mosin44_ebr",
-    "byproducts": [ [ "mn_classic_kit" ] ],
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "3 h",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "mosin44", 1 ] ], [ [ "mn_ebr_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "l_car_223",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "1 h 30 m",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "l_base_223", 1 ] ], [ [ "l_car_223_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "l_mbr_223",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "1 h 35 m",
-    "reversible": true,
-    "autolearn": true,
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "l_base_223", 1 ] ], [ [ "l_mbr_223_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "l_dsr_223",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 6 ] ],
-    "difficulty": 6,
-    "time": "2 h",
-    "reversible": true,
-    "autolearn": true,
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "l_base_223", 1 ] ], [ [ "l_dsr_223_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "l_lmg_223",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 5 ] ],
-    "difficulty": 7,
-    "time": "1 h 40 m",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "l_base_223", 1 ] ], [ [ "l_lmg_223_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "hand_crossbow",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -887,38 +759,16 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "mechanics", 3 ] ],
     "difficulty": 5,
-    "time": "15 m",
-    "autolearn": true,
-    "book_learn": [ [ "recipe_bows", 5 ], [ "manual_archery", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "compcrossbow",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ] ],
-    "difficulty": 7,
-    "time": "4 h",
-    "book_learn": [ [ "recipe_bows", 9 ], [ "welding_book", 8 ], [ "textbook_mechanics", 8 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
+    "time": "1 h",
+    "book_learn": [
+      [ "recipe_bows", 5 ],
+      [ "manual_archery", 6 ],
+      [ "book_archery", 6 ],
+      [ "scots_cookbook", 6 ],
+      [ "textbook_armschina", 6 ]
     ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_standard", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 15 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
-      [ [ "cordage_superior", 6, "LIST" ] ]
-    ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1182,28 +1032,6 @@
   },
   {
     "type": "recipe",
-    "result": "aux_flamer",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ "fabrication", 3 ],
-    "difficulty": 6,
-    "time": "18 m",
-    "reversible": true,
-    "decomp_learn": 5,
-    "autolearn": true,
-    "book_learn": [ [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "duct_tape", 50 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "hose", 2 ] ],
-      [ [ "metal_tank_little", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "combatsaw_off",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -1241,21 +1069,6 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "coilgun",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "electronics",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": "25 m",
-    "reversible": true,
-    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ], [ "textbook_anarch", 4 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 6 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -1732,26 +1545,6 @@
   },
   {
     "type": "recipe",
-    "result": "tihar",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 2 ],
-    "difficulty": 6,
-    "time": "2 h 40 m",
-    "autolearn": true,
-    "using": [ [ "welding_standard", 15 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [
-      [ [ "pipe", 4 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
-      [ [ "2x4", 1 ], [ "stick", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "bigun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -1770,75 +1563,14 @@
     "components": [
       [ [ "xlframe", 1 ] ],
       [ [ "foot_crank", 1 ] ],
-      [ [ "spring", 1 ] ],
       [ [ "sheet_metal_small", 12 ] ],
       [ [ "pipe", 6 ] ],
       [ [ "chain", 1 ] ],
       [ [ "motor_small", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "cable", 4 ] ],
-      [ [ "spring", 6 ] ],
+      [ [ "spring", 7 ] ],
       [ [ "scrap", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "helsing",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 8,
-    "time": "3 h",
-    "autolearn": true,
-    "using": [ [ "welding_standard", 30 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [
-      [ [ "pipe", 8 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
-      [ [ "2x4", 1 ], [ "stick", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "pneumatic_shotgun",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 7,
-    "time": "3 h",
-    "autolearn": true,
-    "using": [ [ "welding_standard", 30 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [
-      [ [ "pipe", 3 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
-      [ [ "2x4", 1 ], [ "stick", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "mininuke_launcher",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 8,
-    "time": "4 h",
-    "book_learn": [ [ "recipe_mininuke_launch", 5 ] ],
-    "using": [ [ "welding_standard", 20 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [
-      [ [ "pipe", 2 ], [ "rebar", 2 ] ],
-      [ [ "duct_tape", 200 ] ],
-      [ [ "2x4", 2 ], [ "stick", 2 ] ],
-      [ [ "spring", 2 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
     ]
   },
   {
@@ -1860,32 +1592,6 @@
     ],
     "tools": [ [ [ "oxy_torch", 20 ], [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ] ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "scrap", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "rebar_rifle",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "electronics",
-    "skills_required": [ "mechanics", 6 ],
-    "difficulty": 9,
-    "time": "6 h",
-    "autolearn": true,
-    "qualities": [
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 }
-    ],
-    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
-    "components": [
-      [ [ "cable", 80 ] ],
-      [ [ "2x4", 1 ], [ "stick", 1 ] ],
-      [ [ "power_supply", 2 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 18 ] ],
-      [ [ "rebar", 1 ], [ "pipe", 1 ] ],
-      [ [ "e_scrap", 20 ] ]
-    ]
   },
   {
     "type": "recipe",
@@ -2274,6 +1980,29 @@
   },
   {
     "type": "recipe",
+    "result": "bone_knife",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "survival",
+    "skills_required": [ "survival", 1 ],
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sharp_toothbrush",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+    "components": [ [ [ "toothbrush_plain", 1 ], [ "hairbrush", 1 ], [ "comb_pocket", 1 ], [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "sword_crude",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -2657,7 +2386,7 @@
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2964,45 +2693,6 @@
   },
   {
     "type": "recipe",
-    "result": "heavy_rail_rifle",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 10 ], [ "electronics", 9 ], [ "computer", 2 ] ],
-    "using": [
-      [ "soldering_standard", 20 ],
-      [ "welding_standard", 50 ],
-      [ "blacksmithing_standard", 12 ],
-      [ "surface_heat", 30 ],
-      [ "steel_standard", 3 ]
-    ],
-    "difficulty": 10,
-    "time": "12 h",
-    "autolearn": true,
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [
-      [ [ "plastic_chunk", 20 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "cable", 240 ] ],
-      [ [ "amplifier", 11 ] ],
-      [ [ "power_supply", 11 ] ],
-      [ [ "e_scrap", 30 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "small_lcd_screen", 1 ] ],
-      [ [ "battery_ups", 1 ] ],
-      [ [ "small_storage_battery", 2 ], [ "UPS_off", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "2h_flail_wood",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -3052,11 +2742,12 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "5 h 40 m",
-    "book_learn": [ [ "textbook_weapeast", 6 ] ],
+    "book_learn": [ [ "textbook_weapeast", 4 ] ],
+    "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "//": "a long pole is a single piece of wood, and the heavy stick just isn't large enough.",
     "components": [
-      [ [ "log", 1 ] ],
+      [ [ "wood_beam", 1 ] ],
       [
         [ "any_tallow", 4, "LIST" ],
         [ "cooking_oil", 32 ],
@@ -3079,5 +2770,18 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bullwhip_razor",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "4 h",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ] ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
   }
 ]

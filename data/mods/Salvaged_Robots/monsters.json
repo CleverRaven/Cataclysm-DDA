@@ -140,7 +140,7 @@
     "morale": 10,
     "dodge": 8,
     "armor_cut": 4,
-    "emit_fields": [ "emit_sparks" ],
+    "emit_fields": [ { "emit_id": "emit_sparks", "delay": "1 s" } ],
     "revert_to_itype": "bot_distract_hack",
     "death_function": [ "MELT" ],
     "special_attacks": [ [ "PARROT", 0 ] ],
@@ -160,7 +160,7 @@
     "aggression": 10,
     "morale": 0,
     "dodge": 4,
-    "emit_fields": [ "emit_fire_plume" ],
+    "emit_fields": [ { "emit_id": "emit_fire_plume", "delay": "1 s" } ],
     "death_function": [ "MELT" ],
     "extend": { "flags": [ "STUMBLES", "HARDTOSHOOT", "PET_WONT_FOLLOW", "FIREY" ] }
   },
@@ -243,7 +243,7 @@
     "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of warm air to heat an enclosed space.",
     "revert_to_itype": "bot_eyebot_heater",
     "fear_triggers": [ "HURT" ],
-    "emit_fields": [ "emit_hot_air2_stream" ],
+    "emit_fields": [ { "emit_id": "emit_hot_air2_stream", "delay": "1 s" } ],
     "extend": { "flags": [ "PET_WONT_FOLLOW", "WARM" ] }
   },
   {
@@ -410,7 +410,7 @@
     "morale": 10,
     "fear_triggers": [ "HURT" ],
     "revert_to_itype": "bot_utilibot_digester",
-    "emit_fields": [ "emit_acid_trail" ],
+    "emit_fields": [ { "emit_id": "emit_acid_trail", "delay": "1 s" } ],
     "extend": { "flags": [ "STUMBLES", "ABSORBS", "ACIDPROOF" ] }
   },
   {
@@ -533,7 +533,7 @@
     "description": "A salvaged medibot stuffed with marijuana, covered in multicolored blinking lights, and programmed to dance.  Why on Earth would you build this crazy thing?",
     "color": "yellow",
     "luminance": 100,
-    "emit_fields": [ "emit_weed_puff" ],
+    "emit_fields": [ { "emit_id": "emit_weed_puff", "delay": "1 s" } ],
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 4,
@@ -1205,7 +1205,7 @@
     "vision_day": 20,
     "revert_to_itype": "bot_defbot_samurai",
     "special_when_hit": [ "ZAPBACK", 5 ],
-    "emit_fields": [ "emit_electric_arcs" ],
+    "emit_fields": [ { "emit_id": "emit_electric_arcs", "delay": "1 s" } ],
     "extend": { "flags": [ "ELECTRIC" ] }
   },
   {
@@ -1229,7 +1229,7 @@
     "dodge": 3,
     "vision_day": 50,
     "revert_to_itype": "bot_defbot_paladin",
-    "emit_fields": [ "emit_smoke_trail" ],
+    "emit_fields": [ { "emit_id": "emit_smoke_trail", "delay": "1 s" } ],
     "starting_ammo": { "gasoline": 1000 },
     "special_attacks": [
       [ "PARROT", 0 ],
@@ -1281,7 +1281,7 @@
     "id": "mon_milbot_deluxe",
     "type": "MONSTER",
     "copy-from": "mon_milbot_gaurdian",
-    "name": { "str": "robote deluxe", "str_pl": "robote deluxe" },
+    "name": { "str_sp": "robote deluxe" },
     "//": "the extra E makes it European.",
     "description": "A diamond-studded gold-plated robot armed with a pair of integrated 9mm firearms.  An opulent luxury-bot suitable for those who wish to survive the apocalypse in style.",
     "color": "yellow",
@@ -1368,7 +1368,7 @@
     "luminance": 200,
     "armor_bash": 8,
     "revert_to_itype": "bot_advbot_glitter",
-    "emit_fields": [ "emit_dazzle_trail" ],
+    "emit_fields": [ { "emit_id": "emit_dazzle_trail", "delay": "1 s" } ],
     "special_attacks": [
       {
         "type": "gun",
@@ -1397,7 +1397,7 @@
     "melee_damage": [ { "damage_type": "acid", "amount": 8 } ],
     "armor_bash": 8,
     "armor_cut": 8,
-    "emit_fields": [ "emit_acid_trail" ],
+    "emit_fields": [ { "emit_id": "emit_acid_trail", "delay": "1 s" } ],
     "special_when_hit": [ "ACIDSPLASH", 100 ],
     "special_attacks": [
       [ "ACID_BARF", 10 ],
@@ -1588,7 +1588,7 @@
     "attack_effs": [ { "id": "downed", "chance": 20, "duration": 10 }, { "id": "irradiated", "chance": 50 } ],
     "vision_day": 20,
     "revert_to_itype": "bot_tankbot_sultan",
-    "emit_fields": [ "emit_nuclear_trail" ],
+    "emit_fields": [ { "emit_id": "emit_nuclear_trail", "delay": "1 s" } ],
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 20 ] ],
     "extend": { "flags": [ "STUMBLES", "GRABS" ] }
   }

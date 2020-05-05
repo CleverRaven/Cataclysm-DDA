@@ -130,11 +130,22 @@
     "type": "recipe",
     "result": "afs_survivor_belt",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
     "time": 1000,
     "autolearn": true,
     "components": [ [ [ "survivor_belt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "id_suffix": "form_afs",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "autolearn": true,
+    "components": [ [ [ "afs_survivor_belt", 1 ] ] ]
   },
   {
     "type": "recipe",

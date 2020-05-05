@@ -1,60 +1,135 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
-#include <climits>
 #include <algorithm>
-#include <list>
-#include <iostream>
-#include <vector>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
 #include <iterator>
+#include <list>
 #include <memory>
+#include <set>
 #include <string>
+#include <tuple>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
-#include "construction.h"
+#include "avatar_action.h"
+#include "calendar.h"
+#include "character.h"
 #include "clzones.h"
+#include "colony.h"
+#include "construction.h"
+#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"
+#include "field_type.h"
 #include "fire.h"
+#include "flat_set.h"
 #include "game.h"
-#include "iuse.h"
+#include "game_constants.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_location.h"
+#include "itype.h"
+#include "iuse.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point.h"
 #include "requirements.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "character.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "line.h"
-#include "units.h"
-#include "flat_set.h"
-#include "int_id.h"
-#include "item_location.h"
-#include "point.h"
-#include "string_id.h"
-#include "cata_string_consts.h"
+#include "weather.h"
 
-struct construction_category;
+static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
+static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
+static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
+static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
+static const activity_id ACT_CHURN( "ACT_CHURN" );
+static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
+static const activity_id ACT_FISH( "ACT_FISH" );
+static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
+static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
+static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_nausea( "nausea" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const zone_type_id zone_type_source_firewood( "SOURCE_FIREWOOD" );
+
+static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
+static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
+static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
+static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
+static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
+static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
+static const zone_type_id zone_type_MINING( "MINING" );
+static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
+static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
+static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
+static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
+static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
+
+static const quality_id qual_AXE( "AXE" );
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_FISHING( "FISHING" );
+static const quality_id qual_SAW_M( "SAW_M" );
+static const quality_id qual_SAW_W( "SAW_W" );
+static const quality_id qual_WELD( "WELD" );
+
+static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
+static const std::string flag_DIG_TOOL( "DIG_TOOL" );
+static const std::string flag_FISHABLE( "FISHABLE" );
+static const std::string flag_FISH_GOOD( "FISH_GOOD" );
+static const std::string flag_FISH_POOR( "FISH_POOR" );
+static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
+static const std::string flag_PLANT( "PLANT" );
+static const std::string flag_PLANTABLE( "PLANTABLE" );
+static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_POWERED( "POWERED" );
+static const std::string flag_TREE( "TREE" );
 
 void cancel_aim_processing();
-
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
 
@@ -96,7 +171,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     int fallen_count = 0;
     int into_vehicle_count = 0;
 
-    // cant use constant reference here because of the spill_contents()
+    // can't use constant reference here because of the spill_contents()
     for( auto it : items ) {
         if( Pickup::handle_spillable_contents( c, it, g->m ) ) {
             continue;
@@ -209,7 +284,7 @@ static void pass_to_ownership_handling( item obj, player *p )
 
 static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
-    units::volume remaining_volume = pet.storage_item->get_storage() - pet.get_carried_volume();
+    units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
     units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
 
     for( const item &it : items ) {
@@ -334,9 +409,9 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
     drop_on_map( c, reason, items, where );
 }
 
-static drop_locations convert_to_locations( const player_activity &act )
+static std::list<act_item> convert_to_act_item( const player_activity &act, Character &guy )
 {
-    drop_locations res;
+    std::list<act_item> res;
 
     if( act.values.size() != act.targets.size() ) {
         debugmsg( "Drop/stash activity contains an odd number of values." );
@@ -348,127 +423,8 @@ static drop_locations convert_to_locations( const player_activity &act )
         if( !act.targets[i] || !act.targets[i].get_item() ) {
             continue;
         }
-        res.emplace_back( act.targets[i], act.values[i] );
+        res.emplace_back( act.targets[i], act.values[i], act.targets[i].obtain_cost( guy, act.values[i] ) );
     }
-    return res;
-}
-
-static std::list<act_item> convert_to_items( Character &p, const drop_locations &drop,
-        std::function<bool( item_location loc )> filter )
-{
-    std::list<act_item> res;
-
-    for( const drop_location &rec : drop ) {
-        const item_location loc = rec.first;
-        const int count = rec.second;
-
-        if( !filter( loc ) ) {
-            continue;
-        } else if( !p.is_worn( *loc ) && !p.is_wielding( *loc ) ) {
-            // Special case. After dropping the first few items, the remaining items are already separated.
-            // That means: `drop` already contains references to each of the items in
-            // `p.inv.const_stack`, and `count` will be 1 for each of them.
-            // If we continued without this check, we iterate over `p.inv.const_stack` multiple times,
-            // but each time stopping after visiting the first item.
-            // In the end, we would add references to the same item (the first one in the stack) multiple times.
-            if( count == 1 ) {
-                res.emplace_back( loc, 1, loc.obtain_cost( p, 1 ) );
-                continue;
-            }
-            int obtained = 0;
-            for( const item &it : p.inv.const_stack( p.get_item_position( &*loc ) ) ) {
-                if( obtained >= count ) {
-                    break;
-                }
-                const int qty = it.count_by_charges() ? std::min<int>( it.charges, count - obtained ) : 1;
-                obtained += qty;
-                item_location loc( p, const_cast<item *>( &it ) );
-                res.emplace_back( loc, qty, loc.obtain_cost( p, qty ) );
-            }
-        } else {
-            res.emplace_back( loc, count, p.is_wielding( *loc ) ? 0 : loc.obtain_cost( p ) );
-        }
-    }
-
-    return res;
-}
-
-// Prepares items for dropping by reordering them so that the drop
-// cost is minimal and "dependent" items get taken off first.
-// Implements the "backpack" logic.
-static std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop )
-{
-    std::list<act_item> res = convert_to_items( p, drop,
-    [&p]( item_location loc ) {
-        return p.is_wielding( *loc );
-    } );
-    std::list<act_item> inv = convert_to_items( p, drop,
-    [&p]( item_location loc ) {
-        return !p.is_wielding( *loc ) && !p.is_worn( *loc );
-    } );
-    std::list<act_item> worn = convert_to_items( p, drop,
-    [&p]( item_location loc ) {
-        return p.is_worn( *loc );
-    } );
-
-    // Sort inventory items by volume in ascending order
-    inv.sort( []( const act_item & first, const act_item & second ) {
-        return first.loc->volume() < second.loc->volume();
-    } );
-    // Add missing dependent worn items (if any).
-    for( const auto &wait : worn ) {
-        for( item *dit : p.get_dependent_worn_items( *wait.loc ) ) {
-            const auto iter = std::find_if( worn.begin(), worn.end(),
-            [dit]( const act_item & ait ) {
-                return &*ait.loc == dit;
-            } );
-
-            if( iter == worn.end() ) {
-                // TODO: Use a calculated cost
-                const item_location loc( p, dit );
-                act_item act( loc, loc->count(), loc.obtain_cost( p, loc->count() ) );
-                worn.emplace_front( loc, loc->count(), loc.obtain_cost( p ) );
-            }
-        }
-    }
-    // Sort worn items by storage in descending order, but dependent items always go first.
-    worn.sort( []( const act_item & first, const act_item & second ) {
-        return first.loc->is_worn_only_with( *second.loc )
-               || ( first.loc->get_storage() > second.loc->get_storage()
-                    && !second.loc->is_worn_only_with( *first.loc ) );
-    } );
-
-    // Cumulatively increases
-    units::volume storage_loss = 0_ml;
-    // Cumulatively decreases
-    units::volume remaining_storage = p.volume_capacity();
-
-    while( !worn.empty() && !inv.empty() ) {
-        storage_loss += worn.front().loc->get_storage();
-        remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
-        units::volume inventory_item_volume = inv.front().loc->volume();
-        // Does not fit
-        if( remaining_storage < inventory_item_volume ) {
-            break;
-        }
-
-        while( !inv.empty() && remaining_storage >= inventory_item_volume ) {
-            remaining_storage -= inventory_item_volume;
-
-            res.push_back( inv.front() );
-            // Free of charge
-            res.back().consumed_moves = 0;
-
-            inv.pop_front();
-        }
-
-        res.push_back( worn.front() );
-        worn.pop_front();
-    }
-    // Now insert everything that remains
-    std::copy( inv.begin(), inv.end(), std::back_inserter( res ) );
-    std::copy( worn.begin(), worn.end(), std::back_inserter( res ) );
-
     return res;
 }
 
@@ -491,8 +447,7 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
     std::list<item> res;
 
-    std::list<act_item> items = reorder_for_dropping( p, convert_to_locations( act ) );
-
+    std::list<act_item> items = convert_to_act_item( act, p );
     debug_drop_list( items );
 
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
@@ -513,12 +468,7 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 
         items.pop_front();
     }
-    // Avoid tumbling to the ground. Unload cleanly.
-    const units::volume excessive_volume = p.volume_carried() - p.volume_capacity();
-    if( excessive_volume > 0_ml ) {
-        const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
-        res.insert( res.begin(), excess.begin(), excess.end() );
-    }
+
     // Load anything that remains (if any) into the activity
     act.targets.clear();
     act.values.clear();
@@ -554,7 +504,7 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
 
 void activity_on_turn_wear( player_activity &act, player &p )
 {
-    // ACT_WEAR has item_location targets, and int quatities
+    // ACT_WEAR has item_location targets, and int quantities
     while( p.moves > 0 && !act.targets.empty() ) {
         item_location target = std::move( act.targets.back() );
         int quantity = act.values.back();
@@ -599,7 +549,7 @@ void activity_on_turn_wear( player_activity &act, player &p )
 
 void activity_handlers::washing_finish( player_activity *act, player *p )
 {
-    std::list<act_item> items = reorder_for_dropping( *p, convert_to_locations( *act ) );
+    std::list<act_item> items = convert_to_act_item( *act, *p );
 
     // Check again that we have enough water and soap incase the amount in our inventory changed somehow
     // Consume the water and soap
@@ -611,8 +561,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
     const auto is_liquid_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) ||
-                                                it.contents_made_of( LIQUID ) );
+        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) );
     };
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( "water", required.water, is_liquid_crafting_component ) &&
@@ -631,7 +580,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     for( const auto &ait : items ) {
         item *filthy_item = const_cast<item *>( &*ait.loc );
-        filthy_item->item_tags.erase( flag_FILTHY );
+        filthy_item->item_tags.erase( "FILTHY" );
         p->on_worn_item_washed( *filthy_item );
     }
 
@@ -666,146 +615,9 @@ void activity_handlers::stash_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_on_turn_pickup()
-{
-    // ACT_PICKUP has item_locations of target items and quantities of the same.
-
-    // If we don't have target items bail out
-    if( g->u.activity.targets.empty() ) {
-        g->u.cancel_activity();
-        return;
-    }
-
-    // If the player moves while picking up (ie: in a moving vehicle) cancel the activity, only populate coords when grabbing from the ground
-    if( !g->u.activity.coords.empty() && g->u.activity.coords.at( 0 ) != g->u.pos() ) {
-        g->u.cancel_activity();
-        if( g->u.is_player() ) {
-            g->u.add_msg_if_player( _( "Moving cancelled auto-pickup." ) );
-        }
-        return;
-    }
-
-    // Auto_resume implies autopickup.
-    const bool autopickup = g->u.activity.auto_resume;
-
-    // False indicates that the player canceled pickup when met with some prompt
-    const bool keep_going = Pickup::do_pickup( g->u.activity.targets, g->u.activity.values,
-                            autopickup );
-
-    // If there are items left we ran out of moves, so continue the activity
-    // Otherwise, we are done.
-    if( !keep_going || g->u.activity.targets.empty() ) {
-        g->u.cancel_activity();
-        if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-            g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
-        }
-    }
-
-    // TODO: Move this to advanced inventory instead of hacking it in here
-
-    if( !keep_going ) {
-        // The user canceled the activity, so we're done
-        g->u.cancel_activity();
-        // AIM might have more pickup activities pending, also cancel them.
-        // TODO: Move this to advanced inventory instead of hacking it in here
-        cancel_aim_processing();
-    } else if( g->u.activity.targets.empty() ) {
-        // The user did not cancel, but there's no item left
-        g->u.cancel_activity();
-        // But do not cancel AIM processing as it might have more pickup activities
-        // pending for other locations.
-    }
-}
-
-// I'd love to have this not duplicate so much code from Pickup::pick_one_up(),
-// but I don't see a clean way to do that.
-static void move_items( player &p, const tripoint &relative_dest, bool to_vehicle,
-                        std::vector<item_location> &targets, std::vector<int> &quantities )
-{
-    const tripoint dest = relative_dest + p.pos();
-
-    while( p.moves > 0 && !targets.empty() ) {
-        item_location target = std::move( targets.back() );
-        int quantity = quantities.back();
-        targets.pop_back();
-        quantities.pop_back();
-
-        if( !target ) {
-            debugmsg( "Lost target item of ACT_MOVE_ITEMS" );
-            continue;
-        }
-
-        // Don't need to make a copy here since movement can't be canceled
-        item &leftovers = *target;
-        // Make a copy to be put in the destination location
-        item newit = leftovers;
-
-        // Handle charges, quantity == 0 means move all
-        if( quantity != 0 && newit.count_by_charges() ) {
-            newit.charges = std::min( newit.charges, quantity );
-            leftovers.charges -= quantity;
-        } else {
-            leftovers.charges = 0;
-        }
-
-        // Check that we can pick it up.
-        if( !newit.made_of_from_type( LIQUID ) ) {
-            // This is for hauling across zlevels, remove when going up and down stairs
-            // is no longer teleportation
-            if( newit.is_owned_by( p, true ) ) {
-                newit.set_owner( p );
-            } else {
-                continue;
-            }
-            const tripoint src = target.position();
-            int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            p.mod_moves( -Pickup::cost_to_move_item( p, newit ) * distance );
-            if( to_vehicle ) {
-                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { newit }, dest );
-            } else {
-                drop_on_map( p, item_drop_reason::deliberate, { newit }, dest );
-            }
-            // If we picked up a whole stack, remove the leftover item
-            if( leftovers.charges <= 0 ) {
-                target.remove_item();
-            }
-        }
-    }
-}
-
-/*      values explanation
- *      0: items to a vehicle?
- *      1: amount 0 <-+
- *      2: amount 1   |
- *      n: ^----------+
- *
- *      targets correspond to amounts
- */
-void activity_on_turn_move_items( player_activity &act, player &p )
-{
-    // Drop activity if we don't know destination coordinates or have target items.
-    if( act.coords.empty() || act.targets.empty() ) {
-        act.set_to_null();
-        return;
-    }
-
-    // Move activity has source square, target square,
-    // item_locations of targets, and quantities of same.
-    const tripoint relative_dest = act.coords.front();
-    const bool to_vehicle = act.values.front();
-
-    // *puts on 3d glasses from 90s cereal box*
-    move_items( p, relative_dest, to_vehicle, act.targets, act.values );
-
-    if( act.targets.empty() ) {
-        // Nuke the current activity, leaving the backlog alone.
-        act.set_to_null();
-    }
-}
-
 static double get_capacity_fraction( int capacity, int volume )
 {
-    // fration of capacity the item would occupy
+    // fraction of capacity the item would occupy
     // fr = 1 is for capacity smaller than is size of item
     // in such case, let's assume player does the trip for full cost with item in hands
     double fr = 1;
@@ -823,7 +635,7 @@ static int move_cost_inv( const item &it, const tripoint &src, const tripoint &d
     const int MAX_COST = 500;
 
     // it seems that pickup cost is flat 100
-    // in function pick_one_up, varible moves_taken has initial value of 100
+    // in function pick_one_up, variable moves_taken has initial value of 100
     // and never changes until it is finally used in function
     // remove_from_map_or_vehicle
     const int pickup_cost = 100;
@@ -895,22 +707,24 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
     return move_cost_inv( it, src, dest );
 }
 
-static void vehicle_activity( player &p, const tripoint &src_loc, int vpindex, char type )
+// return true if activity was assigned.
+// return false if it was not possible.
+static bool vehicle_activity( player &p, const tripoint &src_loc, int vpindex, char type )
 {
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
     if( !veh ) {
-        return;
+        return false;
     }
     int time_to_take = 0;
     if( vpindex >= static_cast<int>( veh->parts.size() ) ) {
-        // if parts got removed dduring our work, we cant just carry on removing, we want to repair parts!
-        // so just bail out, as we dont know if th enext shifted part is suitable for repair.
+        // if parts got removed during our work, we can't just carry on removing, we want to repair parts!
+        // so just bail out, as we don't know if the next shifted part is suitable for repair.
         if( type == 'r' ) {
-            return;
+            return false;
         } else if( type == 'o' ) {
             vpindex = veh->get_next_shifted_index( vpindex, p );
             if( vpindex == -1 ) {
-                return;
+                return false;
             }
         }
     }
@@ -948,11 +762,12 @@ static void vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
     p.activity.targets.emplace_back( std::move( target ) );
     p.activity.placement = g->m.getabs( src_loc );
     p.activity_vehicle_part_index = -1;
+    return true;
 }
 
 static void move_item( player &p, item &it, const int quantity, const tripoint &src,
                        const tripoint &dest, vehicle *src_veh, int src_part,
-                       activity_id activity_to_restore = activity_id::NULL_ID() )
+                       const activity_id &activity_to_restore = activity_id::NULL_ID() )
 {
     item leftovers = it;
 
@@ -1035,45 +850,45 @@ static activity_reason_info find_base_construction(
     if( !build.post_terrain.empty() ) {
         if( build.post_is_furniture ) {
             if( furn_id( build.post_terrain ) == furn ) {
-                return activity_reason_info::build( ALREADY_DONE, false, idx );
+                return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, idx );
             }
         } else {
             if( ter_id( build.post_terrain ) == ter ) {
-                return activity_reason_info::build( ALREADY_DONE, false, idx );
+                return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, idx );
             }
         }
     }
-    //if theres an apropriate partial construction on the tile, then we can work on it, no need to check inventories.
+    //if there's an appropriate partial construction on the tile, then we can work on it, no need to check inventories.
     const bool has_skill = p.meets_skill_requirements( build );
     if( part_con_idx && *part_con_idx == idx ) {
         if( !has_skill ) {
-            return activity_reason_info::build( DONT_HAVE_SKILL, false, idx );
+            return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, idx );
         }
-        return activity_reason_info::build( CAN_DO_CONSTRUCTION, true, idx );
+        return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, idx );
     }
     //can build?
     const bool cc = can_construct( build, loc );
     const bool pcb = player_can_build( p, inv, build );
     if( !has_skill ) {
-        return activity_reason_info::build( DONT_HAVE_SKILL, false, idx );
+        return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, idx );
     }
     if( cc ) {
         if( pcb ) {
-            return activity_reason_info::build( CAN_DO_CONSTRUCTION, true, idx );
+            return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, idx );
         }
         //can't build with current inventory, do not look for pre-req
-        return activity_reason_info::build( NO_COMPONENTS, false, idx );
+        return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
     }
 
     // there are no pre-requisites.
     // so we need to potentially fetch components
     if( build.pre_terrain.empty() && build.pre_special( loc ) ) {
-        return activity_reason_info::build( NO_COMPONENTS, false, idx );
+        return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
     } else if( !build.pre_special( loc ) ) {
-        return activity_reason_info::build( BLOCKING_TILE, false, idx );
+        return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
     }
 
-    // cant build it
+    // can't build it
     // maybe we can build the pre-requisite instead
     // see if the reason is because of pre-terrain requirement
     if( !build.pre_terrain.empty() &&
@@ -1082,7 +897,7 @@ static activity_reason_info find_base_construction(
           ( !build.pre_is_furniture &&
             ter_id( build.pre_terrain ) == ter ) ) ) {
         // the pre-req is already built, so the reason is due to lack of tools/components
-        return activity_reason_info::build( NO_COMPONENTS, false, idx );
+        return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
     }
 
     //we can't immediately build it, looking for pre-req
@@ -1114,14 +929,15 @@ static activity_reason_info find_base_construction(
             activity_reason_info act_info_pre = find_base_construction( list_constructions,
                                                 p, inv, loc, part_con_idx, pre_build.id, used );
             if( act_info_pre.can_do ) {
-                return activity_reason_info::build( CAN_DO_PREREQ, true, *act_info_pre.con_idx );
+                return activity_reason_info::build( do_activity_reason::CAN_DO_PREREQ, true,
+                                                    *act_info_pre.con_idx );
             }
             //find first pre-req failed reason
             if( !reason ) {
                 reason = act_info_pre.reason;
                 pre_req_idx = *act_info_pre.con_idx;
             }
-            if( act_info_pre.reason == ALREADY_DONE ) {
+            if( act_info_pre.reason == do_activity_reason::ALREADY_DONE ) {
                 //pre-req is already here, but we still can't build over it
                 reason.reset();
                 break;
@@ -1130,30 +946,30 @@ static activity_reason_info find_base_construction(
     }
     //have a partial construction which is not leading to the required construction
     if( part_con_idx ) {
-        return activity_reason_info::build( BLOCKING_TILE, false, idx );
+        return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
     }
     //pre-req failed?
     if( reason ) {
-        if( *reason == NO_COMPONENTS ) {
-            return activity_reason_info::build( NO_COMPONENTS_PREREQ, false, pre_req_idx );
+        if( *reason == do_activity_reason::NO_COMPONENTS ) {
+            return activity_reason_info::build( do_activity_reason::NO_COMPONENTS_PREREQ, false, pre_req_idx );
         }
         return activity_reason_info::build( *reason, false, pre_req_idx );
     }
     if( !pcb ) {
-        return activity_reason_info::build( NO_COMPONENTS, false, idx );
+        return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
     }
     //only cc failed, no pre-req
-    return activity_reason_info::build( BLOCKING_TILE, false, idx );
+    return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
 }
 
 static std::string random_string( size_t length )
 {
     auto randchar = []() -> char {
-        const char charset[] =
+        static constexpr char charset[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";
-        const size_t max_index = ( sizeof( charset ) - 1 );
-        return charset[rand() % max_index];
+        static constexpr size_t num_chars = sizeof( charset ) - 1;
+        return charset[rng( 0, num_chars - 1 )];
     };
     std::string str( length, 0 );
     std::generate_n( str.begin(), length, randchar );
@@ -1162,7 +978,7 @@ static std::string random_string( size_t length )
 
 static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                                      const requirement_id &needed_things, player &p, const activity_id &activity_to_restore,
-                                     const bool in_loot_zones, tripoint src_loc )
+                                     const bool in_loot_zones, const tripoint &src_loc )
 {
     zone_manager &mgr = zone_manager::get_manager();
     inventory temp_inv;
@@ -1181,17 +997,19 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                               p.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
                               activity_to_restore == ACT_MULTIPLE_CHOP_TREES ||
                               p.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                              activity_to_restore == ACT_MULTIPLE_FISH;
+                              activity_to_restore == ACT_MULTIPLE_FISH ||
+                              p.backlog.front().id() == ACT_MULTIPLE_MINE ||
+                              activity_to_restore == ACT_MULTIPLE_MINE;
     bool found_welder = false;
     for( item *elem : p.inv_dump() ) {
-        if( elem->has_quality( quality_WELD ) ) {
+        if( elem->has_quality( qual_WELD ) ) {
             found_welder = true;
         }
         temp_inv += *elem;
     }
     for( const tripoint &elem : loot_spots ) {
-        // if we are searching for things to fetch, we can skip certain thngs.
-        // if, however they are already near the work spot, then the crafting / inventory fucntions will have their own method to use or discount them.
+        // if we are searching for things to fetch, we can skip certain things.
+        // if, however they are already near the work spot, then the crafting / inventory functions will have their own method to use or discount them.
         if( in_loot_zones ) {
             // skip tiles in IGNORE zone and tiles on fire
             // (to prevent taking out wood off the lit brazier)
@@ -1235,12 +1053,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
                     item welder( "welder", 0 );
-                    welder.charges = veh.fuel_left( fuel_type_battery, true );
-                    welder.item_tags.insert( flag_PSEUDO );
+                    welder.charges = veh.fuel_left( "battery", true );
+                    welder.item_tags.insert( "PSEUDO" );
                     temp_inv.add_item( welder );
                     item soldering_iron( "soldering_iron", 0 );
-                    soldering_iron.charges = veh.fuel_left( fuel_type_battery, true );
-                    soldering_iron.item_tags.insert( flag_PSEUDO );
+                    soldering_iron.charges = veh.fuel_left( "battery", true );
+                    soldering_iron.item_tags.insert( "PSEUDO" );
                     temp_inv.add_item( soldering_iron );
                 }
             }
@@ -1249,7 +1067,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
 
-static bool has_skill_for_vehicle_work( std::map<skill_id, int> required_skills, player &p )
+static bool has_skill_for_vehicle_work( const std::map<skill_id, int> &required_skills, player &p )
 {
     for( const auto &e : required_skills ) {
         bool hasSkill = p.get_skill_level( e.first ) >= e.second;
@@ -1272,26 +1090,26 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         std::vector<int> already_working_indexes;
         vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
         if( !veh ) {
-            return activity_reason_info::fail( NO_ZONE );
+            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
-        if( abs( veh->velocity ) > 100 || veh->player_in_control( g->u ) ) {
-            return activity_reason_info::fail( NO_ZONE );
+        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( g->u ) ) {
+            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         for( const npc &guy : g->all_npcs() ) {
             if( &guy == &p ) {
                 continue;
             }
-            // If the NPC has an activity - make sure theyre not duplicating work.
+            // If the NPC has an activity - make sure they're not duplicating work.
             tripoint guy_work_spot;
             if( guy.has_player_activity() && guy.activity.placement != tripoint_min ) {
                 guy_work_spot = g->m.getlocal( guy.activity.placement );
             }
             // If their position or intended position or player position/intended position
-            // then discount, dont need to move each other out of the way.
+            // then discount, don't need to move each other out of the way.
             if( g->m.getlocal( g->u.activity.placement ) == src_loc ||
                 guy_work_spot == src_loc || guy.pos() == src_loc || ( p.is_npc() && g->u.pos() == src_loc ) ) {
-                return activity_reason_info::fail( ALREADY_WORKING );
+                return activity_reason_info::fail( do_activity_reason::ALREADY_WORKING );
             }
             if( guy_work_spot != tripoint_zero ) {
                 vehicle *other_veh = veh_pointer_or_null( g->m.veh_at( guy_work_spot ) );
@@ -1319,7 +1137,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                                vpindex ) != already_working_indexes.end() ) {
                     continue;
                 }
-                // dont have skill to remove it
+                // don't have skill to remove it
                 if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
                     continue;
                 }
@@ -1329,8 +1147,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 const int max_lift = p.best_nearby_lifting_assist( src_loc );
-                const int lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                                      TOOL_LIFT_FACTOR );
+                const int lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
+                                           TOOL_LIFT_FACTOR );
                 const bool use_aid = max_lift >= lvl;
                 const bool use_str = p.can_lift( base );
                 if( !( use_aid || use_str ) ) {
@@ -1341,12 +1159,12 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
 
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 p.set_value( "veh_index_type", vpinfo.name() );
-                // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
+                // temporarily store the intended index, we do this so two NPCs don't try and work on the same part at same time.
                 p.activity_vehicle_part_index = vpindex;
                 if( !can_make ) {
-                    return activity_reason_info::fail( NEEDS_VEH_DECONST );
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_VEH_DECONST );
                 } else {
-                    return activity_reason_info::ok( NEEDS_VEH_DECONST );
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_VEH_DECONST );
                 }
             }
         } else if( act == ACT_VEHICLE_REPAIR ) {
@@ -1364,7 +1182,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                                vpindex ) != already_working_indexes.end() ) {
                     continue;
                 }
-                // dont have skill to repair it
+                // don't have skill to repair it
                 if( !has_skill_for_vehicle_work( vpinfo.repair_skills, p ) ) {
                     continue;
                 }
@@ -1372,41 +1190,55 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 const inventory &inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 p.set_value( "veh_index_type", vpinfo.name() );
-                // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
+                // temporarily store the intended index, we do this so two NPCs don't try and work on the same part at same time.
                 p.activity_vehicle_part_index = vpindex;
                 if( !can_make ) {
-                    return activity_reason_info::fail( NEEDS_VEH_REPAIR );
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_VEH_REPAIR );
                 } else {
-                    return activity_reason_info::ok( NEEDS_VEH_REPAIR );
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_VEH_REPAIR );
                 }
             }
         }
         p.activity_vehicle_part_index = -1;
-        return activity_reason_info::fail( NO_ZONE );
+        return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+    }
+    if( act == ACT_MULTIPLE_MINE ) {
+        if( !g->m.has_flag( "MINEABLE", src_loc ) ) {
+            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+        }
+        std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
+            return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
+                   ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+        } );
+        if( mining_inv.empty() ) {
+            return activity_reason_info::fail( do_activity_reason::NEEDS_MINING );
+        } else {
+            return activity_reason_info::ok( do_activity_reason::NEEDS_MINING );
+        }
     }
     if( act == ACT_MULTIPLE_FISH ) {
         if( !g->m.has_flag( flag_FISHABLE, src_loc ) ) {
-            return activity_reason_info::fail( NO_ZONE );
+            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         std::vector<item *> rod_inv = p.items_with( []( const item & itm ) {
             return itm.has_flag( flag_FISH_POOR ) || itm.has_flag( flag_FISH_GOOD );
         } );
         if( rod_inv.empty() ) {
-            return activity_reason_info::fail( NEEDS_FISHING );
+            return activity_reason_info::fail( do_activity_reason::NEEDS_FISHING );
         } else {
-            return activity_reason_info::ok( NEEDS_FISHING );
+            return activity_reason_info::ok( do_activity_reason::NEEDS_FISHING );
         }
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
         if( g->m.has_flag( flag_TREE, src_loc ) || g->m.ter( src_loc ) == t_trunk ||
             g->m.ter( src_loc ) == t_stump ) {
-            if( p.has_quality( quality_AXE ) ) {
-                return activity_reason_info::ok( NEEDS_TREE_CHOPPING );
+            if( p.has_quality( qual_AXE ) ) {
+                return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
             } else {
-                return activity_reason_info::fail( NEEDS_TREE_CHOPPING );
+                return activity_reason_info::fail( do_activity_reason::NEEDS_TREE_CHOPPING );
             }
         } else {
-            return activity_reason_info::fail( NO_ZONE );
+            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
     }
     if( act == ACT_MULTIPLE_BUTCHER ) {
@@ -1434,45 +1266,46 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         if( !corpses.empty() ) {
             if( big_count > 0 && small_count == 0 ) {
                 if( !b_rack_present || !g->m.has_nearby_table( src_loc, 2 ) ) {
-                    return activity_reason_info::fail( NO_ZONE );
+                    return activity_reason_info::fail( do_activity_reason::NO_ZONE );
                 }
-                if( p.has_quality( quality_id( quality_BUTCHER ), 1 ) && ( p.has_quality( quality_SAW_W ) ||
-                        p.has_quality( quality_SAW_M ) ) ) {
-                    return activity_reason_info::ok( NEEDS_BIG_BUTCHERING );
+                if( p.has_quality( quality_id( qual_BUTCHER ), 1 ) && ( p.has_quality( qual_SAW_W ) ||
+                        p.has_quality( qual_SAW_M ) ) ) {
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_BIG_BUTCHERING );
                 } else {
-                    return activity_reason_info::fail( NEEDS_BIG_BUTCHERING );
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_BIG_BUTCHERING );
                 }
             }
             if( ( big_count > 0 && small_count > 0 ) || ( big_count == 0 ) ) {
                 // there are small corpses here, so we can ignore any big corpses here for the moment.
-                if( p.has_quality( quality_BUTCHER, 1 ) ) {
-                    return activity_reason_info::ok( NEEDS_BUTCHERING );
+                if( p.has_quality( qual_BUTCHER, 1 ) ) {
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_BUTCHERING );
                 } else {
-                    return activity_reason_info::fail( NEEDS_BUTCHERING );
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_BUTCHERING );
                 }
             }
         }
-        return activity_reason_info::fail( NO_ZONE );
+        return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_MULTIPLE_CHOP_PLANKS ) {
         //are there even any logs there?
         for( auto &i : g->m.i_at( src_loc ) ) {
             if( i.typeId() == "log" ) {
                 // do we have an axe?
-                if( p.has_quality( quality_AXE, 1 ) ) {
-                    return activity_reason_info::ok( NEEDS_CHOPPING );
+                if( p.has_quality( qual_AXE, 1 ) ) {
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_CHOPPING );
                 } else {
-                    return activity_reason_info::fail( NEEDS_CHOPPING );
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_CHOPPING );
                 }
             }
         }
-        return activity_reason_info::fail( NO_ZONE );
+        return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_TIDY_UP ) {
-        if( mgr.has_near( z_loot_unsorted, g->m.getabs( src_loc ), distance ) ) {
-            return activity_reason_info::ok( CAN_DO_FETCH );
+        if( mgr.has_near( zone_type_LOOT_UNSORTED, g->m.getabs( src_loc ), distance ) ||
+            mgr.has_near( z_camp_storage, g->m.getabs( src_loc ), distance ) ) {
+            return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
         }
-        return activity_reason_info::fail( NO_ZONE );
+        return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_MULTIPLE_CONSTRUCTION ) {
         const std::vector<construction> &list_constructions = get_constructions();
@@ -1488,10 +1321,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
         for( const zone_data &zone : zones ) {
-            const blueprint_options options = dynamic_cast<const blueprint_options &>( zone.get_options() );
+            const blueprint_options &options = dynamic_cast<const blueprint_options &>( zone.get_options() );
             const construction_id index = options.get_index();
             if( !stuff_there.empty() ) {
-                return activity_reason_info::build( BLOCKING_TILE, false, index );
+                return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index );
             }
             std::set<construction_id> used_idx;
             const activity_reason_info act_info = find_base_construction( list_constructions, p, pre_inv,
@@ -1504,57 +1337,73 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         for( const zone_data &zone : zones ) {
             if( g->m.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
-                return activity_reason_info::ok( NEEDS_HARVESTING );
+                return activity_reason_info::ok( do_activity_reason::NEEDS_HARVESTING );
             } else if( g->m.has_flag( flag_PLOWABLE, src_loc ) && !g->m.has_furn( src_loc ) ) {
-                if( p.has_quality( quality_DIG, 1 ) ) {
+                if( p.has_quality( qual_DIG, 1 ) ) {
                     // we have a shovel/hoe already, great
-                    return activity_reason_info::ok( NEEDS_TILLING );
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_TILLING );
                 } else {
                     // we need a shovel/hoe
-                    return activity_reason_info::fail( NEEDS_TILLING );
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
             } else if( g->m.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) &&
                        warm_enough_to_plant( src_loc ) ) {
                 if( g->m.has_items( src_loc ) ) {
-                    return activity_reason_info::fail( BLOCKING_TILE );
+                    return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
                 } else {
                     // do we have the required seed on our person?
-                    const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
+                    const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
                     const std::string seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
-                    if( seed == "No seed" ) {
-                        return activity_reason_info::fail( ALREADY_DONE );
+                    if( seed.empty() ) {
+                        return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
                     }
                     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
                         return itm.is_seed();
                     } );
                     for( const auto elem : seed_inv ) {
                         if( elem->typeId() == itype_id( seed ) ) {
-                            return activity_reason_info::ok( NEEDS_PLANTING );
+                            return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
                         }
                     }
-                    // didnt find the seed, but maybe there are overlapping farm zones
+                    // didn't find the seed, but maybe there are overlapping farm zones
                     // and another of the zones is for a seed that we have
                     // so loop again, and return false once all zones done.
                 }
 
             } else {
-                // cant plant, till or harvest
-                return activity_reason_info::fail( ALREADY_DONE );
+                // can't plant, till or harvest
+                return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
             }
 
         }
         // looped through all zones, and only got here if its plantable, but have no seeds.
-        return activity_reason_info::fail( NEEDS_PLANTING );
+        return activity_reason_info::fail( do_activity_reason::NEEDS_PLANTING );
     } else if( act == ACT_FETCH_REQUIRED ) {
         // we check if its possible to get all the requirements for fetching at two other places.
         // 1. before we even assign the fetch activity and;
         // 2. when we form the src_set to loop through at the beginning of the fetch activity.
-        return activity_reason_info::ok( CAN_DO_FETCH );
+        return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
     }
-    // Shouldnt get here because the zones were checked previously. if it does, set enum reason as "no zone"
-    return activity_reason_info::fail( NO_ZONE );
+    // Shouldn't get here because the zones were checked previously. if it does, set enum reason as "no zone"
+    return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+}
+
+static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tripoint &src_loc,
+        player &p, std::vector<tripoint> &loot_zone_spots, std::vector<tripoint> &combined_spots )
+{
+    if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
+        if( guy->assigned_camp &&
+            mgr.has_near( z_camp_storage, g->m.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
+            std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
+                    g->m.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
+            for( const tripoint &elem : bc_storage_set ) {
+                loot_zone_spots.push_back( g->m.getlocal( elem ) );
+                combined_spots.push_back( g->m.getlocal( elem ) );
+            }
+        }
+    }
 }
 
 static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player &p,
@@ -1578,7 +1427,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                              p.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
                              p.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
                              p.backlog.front().id() == ACT_VEHICLE_REPAIR ||
-                             p.backlog.front().id() == ACT_MULTIPLE_FISH;
+                             p.backlog.front().id() == ACT_MULTIPLE_FISH ||
+                             p.backlog.front().id() == ACT_MULTIPLE_MINE;
     // where it is, what it is, how much of it, and how much in total is required of that item.
     std::vector<std::tuple<tripoint, itype_id, int>> final_map;
     std::vector<tripoint> loot_spots;
@@ -1593,12 +1443,12 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     }
     for( const tripoint &elem : mgr.get_point_set_loot( g->m.getabs( p.pos() ), distance,
             p.is_npc() ) ) {
-        // if there is a loot zone thats already near the work spot, we dont want it to be added twice.
+        // if there is a loot zone that's already near the work spot, we don't want it to be added twice.
         if( std::find( already_there_spots.begin(), already_there_spots.end(),
                        elem ) != already_there_spots.end() ) {
-            // construction tasks dont need the loot spot *and* the already_there/cmbined spots both added.
+            // construction tasks don't need the loot spot *and* the already_there/combined spots both added.
             // but a farming task will need to go and fetch the tool no matter if its near the work spot.
-            // wheras the construction will automaticlaly use whats nearby anyway.
+            // whereas the construction will automatically use what's nearby anyway.
             if( pickup_task ) {
                 loot_spots.push_back( elem );
             } else {
@@ -1609,7 +1459,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             combined_spots.push_back( elem );
         }
     }
-    // if the requirements arent available, then stop.
+    add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_spots, combined_spots );
+    // if the requirements aren't available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task, src_loc ) ) {
         return requirement_map;
@@ -1649,7 +1500,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                             comp_elem.count -= stack_elem.count();
                         }
                         if( comp_elem.by_charges() ) {
-                            // we dont care if there are 10 welders with 5 charges each
+                            // we don't care if there are 10 welders with 5 charges each
                             // we only want the one welder that has the required charge.
                             if( stack_elem.ammo_remaining() >= comp_elem.count ) {
                                 temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining();
@@ -1679,7 +1530,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         for( const auto &map_elem : temp_map ) {
             total_map[map_elem.first] += map_elem.second;
             // if its a construction/crafting task, we can discount any items already near the work spot.
-            // we dont need to fetch those, they will be used automatically in the construction.
+            // we don't need to fetch those, they will be used automatically in the construction.
             // a shovel for tilling, for example, however, needs to be picked up, no matter if its near the spot or not.
             if( !pickup_task ) {
                 if( std::find( already_there_spots.begin(), already_there_spots.end(),
@@ -1753,10 +1604,10 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     for( const std::vector<tool_comp> &elem : tool_comps ) {
         bool line_found = false;
         for( const tool_comp &comp_elem : elem ) {
-            if( line_found || comp_elem.count <= 0 ) {
+            if( line_found || comp_elem.count < -1 ) {
                 break;
             }
-            int quantity_required = comp_elem.count;
+            int quantity_required = std::max( 1, comp_elem.count );
             int item_quantity = 0;
             auto it = requirement_map.begin();
             int remainder = 0;
@@ -1837,15 +1688,14 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     return final_map;
 }
 
-static void construction_activity( player &p, const zone_data *zone, const tripoint &src_loc,
+static bool construction_activity( player &p, const zone_data * /*zone*/, const tripoint &src_loc,
                                    const activity_reason_info &act_info,
-                                   activity_id activity_to_restore )
+                                   const activity_id &activity_to_restore )
 {
-    const blueprint_options options = dynamic_cast<const blueprint_options &>( zone->get_options() );
     // the actual desired construction
     if( !act_info.con_idx ) {
         debugmsg( "no construction selected" );
-        return;
+        return false;
     }
     const construction &built_chosen = act_info.con_idx->obj();
     std::list<item> used;
@@ -1870,6 +1720,7 @@ static void construction_activity( player &p, const zone_data *zone, const tripo
     p.backlog.push_front( activity_to_restore );
     p.assign_activity( ACT_BUILD );
     p.activity.placement = g->m.getabs( src_loc );
+    return true;
 }
 
 static bool tidy_activity( player &p, const tripoint &src_loc,
@@ -1878,8 +1729,8 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
     auto &mgr = zone_manager::get_manager();
     tripoint loot_abspos = g->m.getabs( src_loc );
     tripoint loot_src_lot;
-    if( mgr.has_near( z_loot_unsorted, loot_abspos, distance ) ) {
-        const auto &zone_src_set = mgr.get_near( zone_type_LOOT_UNSORTED, loot_abspos, distance );
+    const auto &zone_src_set = mgr.get_near( zone_type_LOOT_UNSORTED, loot_abspos, distance );
+    if( !zone_src_set.empty() ) {
         const auto &zone_src_sorted = get_sorted_tiles_by_distance( loot_abspos, zone_src_set );
         // Find the nearest unsorted zone to dump objects at
         for( auto &src_elem : zone_src_sorted ) {
@@ -1913,23 +1764,23 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
         }
     }
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
-    if( mgr.has( zone_type_id( z_loot_unsorted ), g->m.getabs( src_loc ) ) ) {
+    if( mgr.has( zone_type_LOOT_UNSORTED, g->m.getabs( src_loc ) ) ) {
         for( item *inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
-                item_location loc( p, inv_elem );
-                p.drop( loc, src_loc );
+                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { *inv_elem }, src_loc );
+                p.i_rem( inv_elem );
             }
         }
     }
     return true;
 }
 
-static void fetch_activity( player &p, const tripoint &src_loc,
+static bool fetch_activity( player &p, const tripoint &src_loc,
                             const activity_id &activity_to_restore, const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
     if( !g->m.can_put_items_ter_furn( g->m.getlocal( p.backlog.front().coords.back() ) ) ) {
-        return;
+        return false;
     }
     const std::vector<std::tuple<tripoint, itype_id, int>> mental_map_2 = requirements_map( p,
             distance );
@@ -1952,7 +1803,7 @@ static void fetch_activity( player &p, const tripoint &src_loc,
                     if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
                         move_item( p, veh_elem, veh_elem.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                    g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
-                        return;
+                        return true;
                     }
                 }
             }
@@ -1962,11 +1813,11 @@ static void fetch_activity( player &p, const tripoint &src_loc,
         item &it = *item_iter;
         for( auto elem : mental_map_2 ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
-                // construction/crafting tasks want the requred item moved near the work spot.
+                // construction/crafting tasks want the required item moved near the work spot.
                 if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
                     move_item( p, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
-                    return;
+                    return true;
                     // other tasks want the tool picked up
                 } else if( !p.backlog.empty() && ( p.backlog.front().id() == ACT_MULTIPLE_FARM ||
                                                    p.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
@@ -1974,12 +1825,12 @@ static void fetch_activity( player &p, const tripoint &src_loc,
                                                    p.backlog.front().id() == ACT_VEHICLE_REPAIR ||
                                                    p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
                                                    p.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
-                                                   p.backlog.front().id() == ACT_MULTIPLE_FISH ) ) {
+                                                   p.backlog.front().id() == ACT_MULTIPLE_FISH ||
+                                                   p.backlog.front().id() == ACT_MULTIPLE_MINE ) ) {
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
                         continue;
                     }
                     item leftovers = it;
-
                     if( pickup_count != 1 && it.count_by_charges() ) {
                         // Reinserting leftovers happens after item removal to avoid stacking issues.
                         leftovers.charges = it.charges - pickup_count;
@@ -1990,24 +1841,32 @@ static void fetch_activity( player &p, const tripoint &src_loc,
                         leftovers.charges = 0;
                     }
                     it.set_var( "activity_var", p.name );
+                    const std::string item_name = it.tname();
                     p.i_add( it );
+                    if( p.is_npc() ) {
+                        if( pickup_count == 1 ) {
+                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), item_name );
+                        } else {
+                            add_msg( _( "%s picks up several items." ),  p.disp_name() );
+                        }
+                    }
                     items_there.erase( item_iter );
                     // If we didn't pick up a whole stack, put the remainder back where it came from.
                     if( leftovers.charges > 0 ) {
                         g->m.add_item_or_charges( src_loc, leftovers );
                     }
-                    if( p.is_npc() ) {
-                        if( pickup_count == 1 ) {
-                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), it.tname() );
-                        } else {
-                            add_msg( _( "%s picks up several items." ), p.disp_name() );
-                        }
-                    }
-                    return;
+                    return true;
                 }
             }
         }
     }
+    // if we got here, then the fetch failed for reasons that werent predicted before setting it.
+    // nothing was moved or picked up, and nothing can be moved or picked up
+    // so call the whole thing off to stop it looping back to this point ad nauseum.
+    p.set_moves( 0 );
+    p.activity = player_activity();
+    p.backlog.clear();
+    return false;
 }
 
 static bool butcher_corpse_activity( player &p, const tripoint &src_loc,
@@ -2017,7 +1876,7 @@ static bool butcher_corpse_activity( player &p, const tripoint &src_loc,
     for( auto &elem : items ) {
         if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
             const mtype corpse = *elem.get_mtype();
-            if( corpse.size >= MS_MEDIUM && reason != NEEDS_BIG_BUTCHERING ) {
+            if( corpse.size >= MS_MEDIUM && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
                 continue;
             }
             elem.set_var( "activity_var", p.name );
@@ -2030,23 +1889,9 @@ static bool butcher_corpse_activity( player &p, const tripoint &src_loc,
     return false;
 }
 
-static item *best_quality_item( player &p, const quality_id &qual )
-{
-    std::vector<item *> qual_inv = p.items_with( [qual]( const item & itm ) {
-        return itm.has_quality( qual );
-    } );
-    item *best_qual = random_entry( qual_inv );
-    for( const auto elem : qual_inv ) {
-        if( elem->get_quality( qual ) > best_qual->get_quality( qual ) ) {
-            best_qual = elem;
-        }
-    }
-    return best_qual;
-}
-
 static bool chop_plank_activity( player &p, const tripoint &src_loc )
 {
-    item *best_qual = best_quality_item( p, quality_AXE );
+    item *best_qual = p.best_quality_item( qual_AXE );
     if( !best_qual ) {
         return false;
     }
@@ -2162,8 +2007,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                     route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(),
                                         p.get_path_avoid() );
                 } else {
-                    // immpassable source tile (locker etc.),
-                    // get route to nerest adjacent tile instead
+                    // impassable source tile (locker etc.),
+                    // get route to nearest adjacent tile instead
                     route = route_adjacent( p, src_loc );
                     adjacent = true;
                 }
@@ -2306,7 +2151,6 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
         guy->revert_after_activity();
-        guy->current_activity_id = activity_id::NULL_ID();
     }
     p.activity.set_to_null();
 }
@@ -2314,7 +2158,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 static int chop_moves( player &p, item *it )
 {
     // quality of tool
-    const int quality = it->get_quality( quality_AXE );
+    const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
     const int attr = it->has_flag( flag_POWERED ) ? p.dex_cur : p.str_cur;
@@ -2325,9 +2169,55 @@ static int chop_moves( player &p, item *it )
     return moves;
 }
 
+static bool mine_activity( player &p, const tripoint &src_loc )
+{
+    std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
+        return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
+               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+    } );
+    if( mining_inv.empty() || p.is_mounted() || p.is_underwater() || g->m.veh_at( src_loc ) ||
+        !g->m.has_flag( "MINEABLE", src_loc ) ) {
+        return false;
+    }
+    item *chosen_item = nullptr;
+    bool powered = false;
+    // is it a pickaxe or jackhammer?
+    for( item *elem : mining_inv ) {
+        if( chosen_item == nullptr ) {
+            chosen_item = elem;
+            if( elem->type->can_use( "JACKHAMMER" ) ) {
+                powered = true;
+            }
+        } else {
+            // prioritise powered tools
+            if( chosen_item->type->can_use( "PICKAXE" ) && elem->type->can_use( "JACKHAMMER" ) ) {
+                chosen_item = elem;
+                powered = true;
+                break;
+            }
+        }
+    }
+    if( chosen_item == nullptr ) {
+        return false;
+    }
+    int moves = to_moves<int>( powered ? 30_minutes : 20_minutes );
+    if( !powered ) {
+        moves += ( ( MAX_STAT + 4 ) - std::min( p.str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    }
+    if( g->m.move_cost( src_loc ) == 2 ) {
+        // We're breaking up some flat surface like pavement, which is much easier
+        moves /= 2;
+    }
+    p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves, -1,
+                       p.get_item_position( chosen_item ) );
+    p.activity.placement = g->m.getabs( src_loc );
+    return true;
+
+}
+
 static bool chop_tree_activity( player &p, const tripoint &src_loc )
 {
-    item *best_qual = best_quality_item( p, quality_AXE );
+    item *best_qual = p.best_quality_item( qual_AXE );
     if( !best_qual ) {
         return false;
     }
@@ -2386,6 +2276,9 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
     if( act_id == ACT_MULTIPLE_FISH ) {
         ret = zone_type_FISHING_SPOT;
     }
+    if( act_id == ACT_MULTIPLE_MINE ) {
+        ret = zone_type_MINING;
+    }
     if( src_loc != tripoint_zero && act_id == ACT_FETCH_REQUIRED ) {
         const zone_data *zd = mgr.get_zone_at( g->m.getabs( src_loc ) );
         if( zd ) {
@@ -2406,24 +2299,44 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
     zone_manager &mgr = zone_manager::get_manager();
     const tripoint localpos = p.pos();
     const tripoint abspos = g->m.getabs( localpos );
-
     if( act_id == ACT_TIDY_UP ) {
         dark_capable = true;
         tripoint unsorted_spot;
-        for( const tripoint &elem : g->m.points_in_radius( g->m.getlocal( abspos ),
+        std::unordered_set<tripoint> unsorted_set = mgr.get_near( zone_type_LOOT_UNSORTED, abspos,
+                ACTIVITY_SEARCH_DISTANCE );
+        if( !unsorted_set.empty() ) {
+            unsorted_spot = g->m.getlocal( random_entry( unsorted_set ) );
+        }
+        bool found_one_point = false;
+        bool found_route = true;
+        for( const tripoint &elem : g->m.points_in_radius( localpos,
                 ACTIVITY_SEARCH_DISTANCE ) ) {
-            if( mgr.has( zone_type_id( z_loot_unsorted ), g->m.getabs( elem ) ) ) {
-                // it already has a unsorted loot spot, and therefore dont need to go and pick up items there.
-                if( unsorted_spot == tripoint_zero ) {
-                    unsorted_spot = elem;
-                }
+            // There's no point getting the entire list of all items to tidy up now.
+            // the activity will run again after pathing to the first tile anyway.
+            // tidy up activity has no requirements that will discount a square and
+            // have the requirement to skip and scan the next one, ( other than checking path )
+            // shortcircuiting the need to scan the entire map continuously can improve performance
+            // especially if NPCs have a backlog of moves or there is a lot of them
+            if( !found_route ) {
+                found_route = true;
                 continue;
+            }
+            if( found_one_point ) {
+                break;
             }
             for( const item &stack_elem : g->m.i_at( elem ) ) {
                 if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == p.name ) {
                     const furn_t &f = g->m.furn( elem ).obj();
                     if( !f.has_flag( flag_PLANT ) ) {
                         src_set.insert( g->m.getabs( elem ) );
+                        found_one_point = true;
+                        // only check for a valid path, as that is all that is needed to tidy something up.
+                        if( square_dist( p.pos(), elem ) > 1 ) {
+                            std::vector<tripoint> route = route_adjacent( p, elem );
+                            if( route.empty() ) {
+                                found_route = false;
+                            }
+                        }
                         break;
                     }
                 }
@@ -2438,9 +2351,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
                 }
             }
         }
-    }
-    zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
-    if( act_id != ACT_FETCH_REQUIRED ) {
+    } else if( act_id != ACT_FETCH_REQUIRED ) {
+        zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
         src_set = mgr.get_near( zone_type_id( zone_type ), abspos, ACTIVITY_SEARCH_DISTANCE );
         // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
         if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
@@ -2450,7 +2362,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
                     src_set.insert( g->m.getabs( elem ) );
                 }
             }
-            // farming activies encompass tilling, planting, harvesting.
+            // farming activities encompass tilling, planting, harvesting.
         } else if( act_id == ACT_MULTIPLE_FARM ) {
             dark_capable = true;
         }
@@ -2473,7 +2385,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         const tripoint set_pt = g->m.getlocal( *it2 );
         if( g->m.dangerous_field_at( set_pt ) ) {
             it2 = src_set.erase( it2 );
-            // remove tiles in darkness, if we arent lit-up ourselves
+            // remove tiles in darkness, if we aren't lit-up ourselves
         } else if( !dark_capable && p.fine_detail_vision_mod( set_pt ) > 4.0 ) {
             it2 = src_set.erase( it2 );
         } else if( act_id == ACT_MULTIPLE_FISH ) {
@@ -2495,10 +2407,10 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
 }
 
 /** Check if this activity can not be done immediately because it has some requirements */
-/** Returns true if this multi activity may be processed further */
-static bool generic_multi_activity_check_requirement( player &p, const activity_id &act_id,
-        activity_reason_info &act_info,
-        const tripoint &src, const tripoint &src_loc, const std::unordered_set<tripoint> &src_set )
+static requirement_check_result generic_multi_activity_check_requirement( player &p,
+        const activity_id &act_id, activity_reason_info &act_info,
+        const tripoint &src, const tripoint &src_loc, const std::unordered_set<tripoint> &src_set,
+        const bool check_only = false )
 {
     const tripoint abspos = g->m.getabs( p.pos() );
     zone_manager &mgr = zone_manager::get_manager();
@@ -2515,32 +2427,42 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
                                      act_id == ACT_VEHICLE_DECONSTRUCTION ||
                                      act_id == ACT_VEHICLE_REPAIR ||
                                      act_id == ACT_MULTIPLE_FISH ||
+                                     act_id == ACT_MULTIPLE_MINE ||
                                      ( act_id == ACT_MULTIPLE_CONSTRUCTION &&
                                        !g->m.partial_con_at( src_loc ) );
     // some activities require the target tile to be part of a zone.
-    // tidy up activity dosnt - it wants things that may not be in a zone already - things that may have been left lying around.
+    // tidy up activity doesn't - it wants things that may not be in a zone already - things that may have been left lying around.
     if( needs_to_be_in_zone && !zone ) {
         can_do_it = false;
-        return true;
+        return SKIP_LOCATION;
     }
     if( can_do_it ) {
-        return true;
+        return CAN_DO_LOCATION;
     }
-    if( reason == DONT_HAVE_SKILL || reason == NO_ZONE || reason == ALREADY_DONE ||
-        reason == BLOCKING_TILE || reason == UNKNOWN_ACTIVITY ) {
+    if( reason == do_activity_reason::DONT_HAVE_SKILL ||
+        reason == do_activity_reason::NO_ZONE ||
+        reason == do_activity_reason::ALREADY_DONE ||
+        reason == do_activity_reason::BLOCKING_TILE ||
+        reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
         // we can discount this tile, the work can't be done.
-        if( reason == DONT_HAVE_SKILL ) {
+        if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
             p.add_msg_if_player( m_info, _( "You don't have the skill for this task." ) );
-        } else if( reason == BLOCKING_TILE ) {
+        } else if( reason == do_activity_reason::BLOCKING_TILE ) {
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
         }
-        return true;
-    } else if( reason == NO_COMPONENTS || reason == NO_COMPONENTS_PREREQ ||
-               reason == NO_COMPONENTS_PREREQ_2 || reason == NEEDS_PLANTING ||
-               reason == NEEDS_TILLING || reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING ||
-               reason == NEEDS_BIG_BUTCHERING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ||
-               reason == NEEDS_TREE_CHOPPING ||
-               reason == NEEDS_FISHING ) {
+        return SKIP_LOCATION;
+    } else if( reason == do_activity_reason::NO_COMPONENTS ||
+               reason == do_activity_reason::NO_COMPONENTS_PREREQ ||
+               reason == do_activity_reason::NO_COMPONENTS_PREREQ_2 ||
+               reason == do_activity_reason::NEEDS_PLANTING ||
+               reason == do_activity_reason::NEEDS_TILLING ||
+               reason == do_activity_reason::NEEDS_CHOPPING ||
+               reason == do_activity_reason::NEEDS_BUTCHERING ||
+               reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
+               reason == do_activity_reason::NEEDS_VEH_DECONST ||
+               reason == do_activity_reason::NEEDS_VEH_REPAIR ||
+               reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
+               reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_MINING ) {
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
         requirement_id what_we_need;
@@ -2554,58 +2476,70 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
         for( const tripoint &elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
             combined_spots.push_back( elem );
         }
-        if( ( reason == NO_COMPONENTS || reason == NO_COMPONENTS_PREREQ ||
-              reason == NO_COMPONENTS_PREREQ_2 ) &&
+        add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_zone_spots, combined_spots );
+
+        if( ( reason == do_activity_reason::NO_COMPONENTS ||
+              reason == do_activity_reason::NO_COMPONENTS_PREREQ ||
+              reason == do_activity_reason::NO_COMPONENTS_PREREQ_2 ) &&
             act_id == ACT_MULTIPLE_CONSTRUCTION ) {
             if( !act_info.con_idx ) {
                 debugmsg( "no construction selected" );
-                return true;
+                return SKIP_LOCATION;
             }
             // its a construction and we need the components.
             const construction &built_chosen = act_info.con_idx->obj();
             what_we_need = built_chosen.requirements;
-        } else if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
+        } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
+                   reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
             const vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
             // we already checked this in can_do_activity() but check again just incase.
             if( !veh ) {
                 p.activity_vehicle_part_index = 1;
-                return true;
+                return SKIP_LOCATION;
             }
             const vpart_info &vpinfo = veh->part_info( p.activity_vehicle_part_index );
             requirement_data reqs;
-            if( reason == NEEDS_VEH_DECONST ) {
+            if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
                 reqs = vpinfo.removal_requirements();
-            } else if( reason == NEEDS_VEH_REPAIR ) {
+            } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
                 reqs = vpinfo.repair_requirements();
             }
             const std::string ran_str = random_string( 10 );
             const requirement_id req_id( ran_str );
             requirement_data::save_requirement( reqs, req_id );
             what_we_need = req_id;
-        } else if( reason == NEEDS_TILLING || reason == NEEDS_PLANTING || reason == NEEDS_CHOPPING ||
-                   reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING || reason == NEEDS_TREE_CHOPPING ||
-                   reason == NEEDS_FISHING ) {
+        } else if( reason == do_activity_reason::NEEDS_MINING ) {
+            what_we_need = requirement_id( "mining_standard" );
+        } else if( reason == do_activity_reason::NEEDS_TILLING ||
+                   reason == do_activity_reason::NEEDS_PLANTING ||
+                   reason == do_activity_reason::NEEDS_CHOPPING ||
+                   reason == do_activity_reason::NEEDS_BUTCHERING ||
+                   reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
+                   reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
+                   reason == do_activity_reason::NEEDS_FISHING ) {
             std::vector<std::vector<item_comp>> requirement_comp_vector;
             std::vector<std::vector<quality_requirement>> quality_comp_vector;
             std::vector<std::vector<tool_comp>> tool_comp_vector;
-            if( reason == NEEDS_TILLING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_DIG, 1, 1 ) } );
-            } else if( reason == NEEDS_CHOPPING || reason == NEEDS_TREE_CHOPPING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_AXE, 1, 1 ) } );
-            } else if( reason == NEEDS_PLANTING ) {
+            if( reason == do_activity_reason::NEEDS_TILLING ) {
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_DIG, 1, 1 ) } );
+            } else if( reason == do_activity_reason::NEEDS_CHOPPING ||
+                       reason == do_activity_reason::NEEDS_TREE_CHOPPING ) {
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_AXE, 1, 1 ) } );
+            } else if( reason == do_activity_reason::NEEDS_PLANTING ) {
                 requirement_comp_vector.push_back( std::vector<item_comp> { item_comp( itype_id( dynamic_cast<const plot_options &>
                                                    ( zone->get_options() ).get_seed() ), 1 )
                                                                           } );
-            } else if( reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_BUTCHER, 1, 1 ) } );
-                if( reason == NEEDS_BIG_BUTCHERING ) {
-                    quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_SAW_M, 1, 1 ), quality_requirement( quality_SAW_W, 1, 1 ) } );
+            } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
+                       reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_BUTCHER, 1, 1 ) } );
+                if( reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
+                    quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_SAW_M, 1, 1 ), quality_requirement( qual_SAW_W, 1, 1 ) } );
                 }
 
-            } else if( reason == NEEDS_FISHING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( quality_FISHING, 1, 1 )} );
+            } else if( reason == do_activity_reason::NEEDS_FISHING ) {
+                quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( qual_FISHING, 1, 1 )} );
             }
-            // ok, we need a shovel/hoe/axe/etc
+            // ok, we need a shovel/hoe/axe/etc.
             // this is an activity that only requires this one tool, so we will fetch and wield it.
             requirement_data reqs_data = requirement_data( tool_comp_vector, quality_comp_vector,
                                          requirement_comp_vector );
@@ -2614,53 +2548,61 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             requirement_data::save_requirement( reqs_data, req_id );
             what_we_need = req_id;
         }
-        bool tool_pickup = reason == NEEDS_TILLING || reason == NEEDS_PLANTING ||
-                           reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ||
-                           reason == NEEDS_TREE_CHOPPING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR;
-        // is it even worth fetching anything if there isnt enough nearby?
+        bool tool_pickup = reason == do_activity_reason::NEEDS_TILLING ||
+                           reason == do_activity_reason::NEEDS_PLANTING ||
+                           reason == do_activity_reason::NEEDS_CHOPPING ||
+                           reason == do_activity_reason::NEEDS_BUTCHERING ||
+                           reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
+                           reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
+                           reason == do_activity_reason::NEEDS_VEH_DECONST ||
+                           reason == do_activity_reason::NEEDS_VEH_REPAIR ||
+                           reason == do_activity_reason::NEEDS_MINING;
+        // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                       act_id, tool_pickup, src_loc ) ) {
             p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
-            if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
+            if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
+                reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
                 p.activity_vehicle_part_index = -1;
             }
-            return true;
+            return SKIP_LOCATION;
         } else {
-            p.backlog.push_front( act_id );
-            p.assign_activity( ACT_FETCH_REQUIRED );
-            player_activity &act_prev = p.backlog.front();
-            act_prev.str_values.push_back( what_we_need.str() );
-            act_prev.values.push_back( reason );
-            // come back here after succesfully fetching your stuff
-            std::vector<tripoint> candidates;
-            if( act_prev.coords.empty() ) {
-                std::vector<tripoint> local_src_set;
-                for( const tripoint &elem : src_set ) {
-                    local_src_set.push_back( g->m.getlocal( elem ) );
-                }
-                std::vector<tripoint> candidates;
-                for( const tripoint &point_elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
-                    // we dont want to place the components where they could interfere with our ( or someone elses ) construction spots
-                    if( !p.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
-                                                   point_elem ) != local_src_set.end() ) || !g->m.can_put_items_ter_furn( point_elem ) ) {
-                        continue;
+            if( !check_only ) {
+                p.backlog.push_front( act_id );
+                p.assign_activity( ACT_FETCH_REQUIRED );
+                player_activity &act_prev = p.backlog.front();
+                act_prev.str_values.push_back( what_we_need.str() );
+                act_prev.values.push_back( static_cast<int>( reason ) );
+                // come back here after successfully fetching your stuff
+                if( act_prev.coords.empty() ) {
+                    std::vector<tripoint> local_src_set;
+                    for( const tripoint &elem : src_set ) {
+                        local_src_set.push_back( g->m.getlocal( elem ) );
                     }
-                    candidates.push_back( point_elem );
+                    std::vector<tripoint> candidates;
+                    for( const tripoint &point_elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
+                        // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
+                        if( !p.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
+                                                       point_elem ) != local_src_set.end() ) || !g->m.can_put_items_ter_furn( point_elem ) ) {
+                            continue;
+                        }
+                        candidates.push_back( point_elem );
+                    }
+                    if( candidates.empty() ) {
+                        p.activity = player_activity();
+                        p.backlog.clear();
+                        check_npc_revert( p );
+                        return SKIP_LOCATION;
+                    }
+                    act_prev.coords.push_back( g->m.getabs( candidates[std::max( 0,
+                                                                      static_cast<int>( candidates.size() / 2 ) )] ) );
                 }
-                if( candidates.empty() ) {
-                    p.activity = player_activity();
-                    p.backlog.clear();
-                    check_npc_revert( p );
-                    return false;
-                }
-                act_prev.coords.push_back( g->m.getabs( candidates[std::max( 0,
-                                                                  static_cast<int>( candidates.size() / 2 ) )] ) );
+                act_prev.placement = src;
             }
-            act_prev.placement = src;
-            return false;
+            return RETURN_EARLY;
         }
     }
-    return true;
+    return SKIP_LOCATION;
 }
 
 /** Do activity at this location */
@@ -2669,22 +2611,25 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                                        const activity_reason_info &act_info,
                                        const tripoint &src, const tripoint &src_loc )
 {
+    // If any of the following activities return without processing
+    // then they MUST return true here, to stop infinite loops.
     zone_manager &mgr = zone_manager::get_manager();
 
     const do_activity_reason &reason = act_info.reason;
     const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, act_id ) );
-
     // something needs to be done, now we are there.
     // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
-    if( reason == NEEDS_HARVESTING && g->m.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
+    if( reason == do_activity_reason::NEEDS_HARVESTING &&
+        g->m.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
         iexamine::harvest_plant( p, src_loc, true );
-    } else if( reason == NEEDS_TILLING && g->m.has_flag( flag_PLOWABLE, src_loc ) &&
-               p.has_quality( quality_DIG, 1 ) && !g->m.has_furn( src_loc ) ) {
+    } else if( reason == do_activity_reason::NEEDS_TILLING && g->m.has_flag( flag_PLOWABLE, src_loc ) &&
+               p.has_quality( qual_DIG, 1 ) && !g->m.has_furn( src_loc ) ) {
         p.assign_activity( ACT_CHURN, 18000, -1 );
         p.backlog.push_front( act_id );
         p.activity.placement = src;
         return false;
-    } else if( reason == NEEDS_PLANTING && g->m.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) ) {
+    } else if( reason == do_activity_reason::NEEDS_PLANTING &&
+               g->m.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) ) {
         std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT,
                                        g->m.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {
@@ -2692,95 +2637,113 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
             std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
                 return itm.typeId() == itype_id( seed );
             } );
-            // we dont have the required seed, even though we should at this point.
+            // we don't have the required seed, even though we should at this point.
             // move onto the next tile, and if need be that will prompt a fetch seeds activity.
             if( seed_inv.empty() ) {
                 continue;
             }
             iexamine::plant_seed( p, src_loc, itype_id( seed ) );
-            break;
+            p.backlog.push_front( act_id );
+            return false;
         }
-    } else if( reason == NEEDS_CHOPPING && p.has_quality( quality_AXE, 1 ) ) {
+    } else if( reason == do_activity_reason::NEEDS_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {
             p.backlog.push_front( act_id );
             return false;
         }
-    } else if( reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ) {
-        p.backlog.push_front( act_id );
+    } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
+               reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         if( butcher_corpse_activity( p, src_loc, reason ) ) {
+            p.backlog.push_front( act_id );
             return false;
         }
-    } else if( reason == CAN_DO_CONSTRUCTION || reason == CAN_DO_PREREQ ) {
+    } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ||
+               reason == do_activity_reason::CAN_DO_PREREQ ) {
         if( g->m.partial_con_at( src_loc ) ) {
             p.backlog.push_front( act_id );
             p.assign_activity( ACT_BUILD );
             p.activity.placement = src;
             return false;
         }
-        construction_activity( p, zone, src_loc, act_info, act_id );
-        return false;
-    } else if( reason == CAN_DO_FETCH && act_id == ACT_TIDY_UP ) {
+        if( construction_activity( p, zone, src_loc, act_info, act_id ) ) {
+            return false;
+        }
+    } else if( reason == do_activity_reason::CAN_DO_FETCH && act_id == ACT_TIDY_UP ) {
         if( !tidy_activity( p, src_loc, act_id, ACTIVITY_SEARCH_DISTANCE ) ) {
             return false;
         }
-    } else if( reason == CAN_DO_FETCH && act_id == ACT_FETCH_REQUIRED ) {
-        fetch_activity( p, src_loc, act_id, ACTIVITY_SEARCH_DISTANCE );
-        // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
-        // Because some player activities are necessarily not marked as auto-resume.
-        activity_handlers::resume_for_multi_activities( p );
-        return false;
-    } else if( reason == NEEDS_TREE_CHOPPING && p.has_quality( quality_AXE, 1 ) ) {
-        p.backlog.push_front( act_id );
-        if( chop_tree_activity( p, src_loc ) ) {
+    } else if( reason == do_activity_reason::CAN_DO_FETCH && act_id == ACT_FETCH_REQUIRED ) {
+        if( fetch_activity( p, src_loc, act_id, ACTIVITY_SEARCH_DISTANCE ) ) {
+            if( !p.is_npc() ) {
+                // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
+                // Because some player activities are necessarily not marked as auto-resume.
+                activity_handlers::resume_for_multi_activities( p );
+            }
             return false;
         }
-    } else if( reason == NEEDS_FISHING && p.has_quality( quality_FISHING, 1 ) ) {
+    } else if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
+        if( chop_tree_activity( p, src_loc ) ) {
+            p.backlog.push_front( act_id );
+            return false;
+        }
+    } else if( reason == do_activity_reason::NEEDS_FISHING && p.has_quality( qual_FISHING, 1 ) ) {
         p.backlog.push_front( act_id );
-        // we dont want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
+        // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         p.activity = player_activity();
-        item *best_rod = best_quality_item( p, quality_FISHING );
+        item *best_rod = p.best_quality_item( qual_FISHING );
         p.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                           p.get_item_position( best_rod ), best_rod->tname() );
+                           0, best_rod->tname() );
+        p.activity.targets.push_back( item_location( p, best_rod ) );
         p.activity.coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
         return false;
-    } else if( reason == NEEDS_VEH_DECONST ) {
+    } else if( reason == do_activity_reason::NEEDS_MINING ) {
+        // if have enough batteries to continue etc.
         p.backlog.push_front( act_id );
-        vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'o' );
+        if( mine_activity( p, src_loc ) ) {
+            return false;
+        }
+    } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
+        if( vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'o' ) ) {
+            p.backlog.push_front( act_id );
+            return false;
+        }
         p.activity_vehicle_part_index = -1;
-        return false;
-    } else if( reason == NEEDS_VEH_REPAIR ) {
-        p.backlog.push_front( act_id );
-        vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'r' );
+    } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
+        if( vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'r' ) ) {
+            p.backlog.push_front( act_id );
+            return false;
+        }
         p.activity_vehicle_part_index = -1;
-        return false;
     }
     return true;
 }
 
-void generic_multi_activity_handler( player_activity &act, player &p )
+bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only )
 {
     const tripoint abspos = g->m.getabs( p.pos() );
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     activity_id activity_to_restore = act.id();
     // Nuke the current activity, leaving the backlog alone
-    p.activity = player_activity();
-    // now we setup the target spots based on whch activity is occuring
-    // the set of target work spots - potentally after we have fetched required tools.
+    if( !check_only ) {
+        p.activity = player_activity();
+    }
+    // now we setup the target spots based on which activity is occurring
+    // the set of target work spots - potentially after we have fetched required tools.
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-    // now loop through the work-spot tiles and judge whether its worth travelling to it yet
+    // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );
-        if( !g->m.inbounds( src_loc ) ) {
+        if( !g->m.inbounds( src_loc ) && !check_only ) {
             if( !g->m.inbounds( p.pos() ) ) {
                 // p is implicitly an NPC that has been moved off the map, so reset the activity
                 // and unload them
                 p.assign_activity( activity_to_restore );
                 p.set_moves( 0 );
                 g->reload_npcs();
-                return;
+                return false;
             }
             const std::vector<tripoint> route = route_adjacent( p, src_loc );
             if( route.empty() ) {
@@ -2789,41 +2752,40 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             }
             p.set_moves( 0 );
             p.set_destination( route, player_activity( activity_to_restore ) );
-            return;
+            return false;
         }
         activity_reason_info act_info = can_do_activity_there( activity_to_restore, p,
                                         src_loc, ACTIVITY_SEARCH_DISTANCE );
-        //check activity requirement
-        if( !generic_multi_activity_check_requirement( p, activity_to_restore, act_info, src, src_loc,
-                src_set ) ) {
-            return;
-        }
-        //skip this location if doing activity here is impossible
-        if( !act_info.can_do ) {
+        // see activity_handlers.h enum for requirement_check_result
+        const requirement_check_result req_res = generic_multi_activity_check_requirement( p,
+                activity_to_restore, act_info, src, src_loc, src_set, check_only );
+        if( req_res == SKIP_LOCATION ) {
             continue;
+        } else if( req_res == RETURN_EARLY ) {
+            return true;
         }
 
-        //move to location is required?
-        // not adjacent
         if( square_dist( p.pos(), src_loc ) > 1 ) {
             std::vector<tripoint> route = route_adjacent( p, src_loc );
 
             // check if we found path to source / adjacent tile
             if( route.empty() ) {
                 check_npc_revert( p );
-                return;
+                continue;
             }
-            if( p.moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p.assign_activity( activity_to_restore );
-                return;
+            if( !check_only ) {
+                if( p.moves <= 0 ) {
+                    // Restart activity and break from cycle.
+                    p.assign_activity( activity_to_restore );
+                    return true;
+                }
+                // set the destination and restart activity after player arrives there
+                // we don't need to check for safe mode,
+                // activity will be restarted only if
+                // player arrives on destination tile
+                p.set_destination( route, player_activity( activity_to_restore ) );
+                return true;
             }
-            // set the destination and restart activity after player arrives there
-            // we don't need to check for safe mode,
-            // activity will be restarted only if
-            // player arrives on destination tile
-            p.set_destination( route, player_activity( activity_to_restore ) );
-            return;
         }
         // we checked if the work spot was in darkness earlier
         // but there is a niche case where the player is in darkness but the work spot is not
@@ -2834,28 +2796,38 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             activity_to_restore != ACT_MOVE_LOOT &&
             p.fine_detail_vision_mod( p.pos() ) > 4.0 ) {
             p.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
-            return;
+            return false;
         }
-        //do the activity and continue if possible
-        if( !generic_multi_activity_do( p, activity_to_restore, act_info, src, src_loc ) ) {
-            return;
+        if( !check_only ) {
+            if( !generic_multi_activity_do( p, activity_to_restore, act_info, src, src_loc ) ) {
+                // if the activity was succesful
+                // then a new activity was assigned
+                // and the backlog was given the multi-act
+                return false;
+            }
+        } else {
+            return true;
         }
     }
-    if( p.moves <= 0 ) {
-        // Restart activity and break from cycle.
-        p.assign_activity( activity_to_restore );
+    if( !check_only ) {
+        if( p.moves <= 0 ) {
+            // Restart activity and break from cycle.
+            p.assign_activity( activity_to_restore );
+            p.activity_vehicle_part_index = -1;
+            return false;
+        }
+        // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
+        if( p.backlog.empty() || src_set.empty() ) {
+            check_npc_revert( p );
+            // tidy up leftover moved parts and tools left lying near the work spots.
+            if( player_activity( activity_to_restore ).is_multi_type() ) {
+                p.assign_activity( ACT_TIDY_UP );
+            }
+        }
         p.activity_vehicle_part_index = -1;
-        return;
     }
-    // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
-    if( p.backlog.empty() || src_set.empty() ) {
-        check_npc_revert( p );
-        // tidy up leftover moved parts and tools left lying near the work spots.
-        if( player_activity( activity_to_restore ).is_multi_type() ) {
-            p.assign_activity( ACT_TIDY_UP );
-        }
-    }
-    p.activity_vehicle_part_index = -1;
+    // scanned every location, tried every path.
+    return false;
 }
 
 static cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from,
@@ -2897,7 +2869,7 @@ static cata::optional<tripoint> find_refuel_spot_zone( const tripoint &center )
     const tripoint center_abs = g->m.getabs( center );
 
     const std::unordered_set<tripoint> &tiles_abs_unordered =
-        mgr.get_near( zone_source_firewood, center_abs, PICKUP_RANGE );
+        mgr.get_near( zone_type_source_firewood, center_abs, PICKUP_RANGE );
     const std::vector<tripoint> &tiles_abs =
         get_sorted_tiles_by_distance( center_abs, tiles_abs_unordered );
 
@@ -2927,6 +2899,79 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
     return {};
 }
 
+bool find_auto_consume( player &p, const bool food )
+{
+    // return false if there is no point searching again while the activity is still happening.
+    if( p.is_npc() ) {
+        return false;
+    }
+    if( p.has_effect( effect_nausea ) ) {
+        return true;
+    }
+    static const std::string flag_MELTS( "MELTS" );
+    static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
+    const tripoint pos = p.pos();
+    zone_manager &mgr = zone_manager::get_manager();
+    zone_type_id consume_type_zone( "" );
+    if( food ) {
+        consume_type_zone = zone_type_id( "AUTO_EAT" );
+    } else {
+        consume_type_zone = zone_type_id( "AUTO_DRINK" );
+    }
+    const std::unordered_set<tripoint> &dest_set = mgr.get_near( consume_type_zone, g->m.getabs( pos ),
+            ACTIVITY_SEARCH_DISTANCE );
+    if( dest_set.empty() ) {
+        return false;
+    }
+    for( const tripoint loc : dest_set ) {
+        if( loc.z != p.pos().z ) {
+            continue;
+        }
+        map_stack food_there = g->m.i_at( g->m.getlocal( loc ) );
+        for( item &it : food_there ) {
+            item &comest = p.get_consumable_from( it );
+            if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
+                p.fun_for( comest ).first < -5 ) {
+                // not good eatings.
+                continue;
+            }
+            if( !p.can_consume( it ) ) {
+                continue;
+            }
+            if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {
+                // not filling enough
+                continue;
+            }
+            if( !p.will_eat( comest, false ).success() ) {
+                // wont like it, cannibal meat etc
+                continue;
+            }
+            if( !it.is_owned_by( p, true ) ) {
+                // it aint ours.
+                continue;
+            }
+            if( !food && comest.get_comestible()->quench < 15 ) {
+                // not quenching enough
+                continue;
+            }
+            if( !food && it.is_watertight_container() && comest.made_of( SOLID ) ) {
+                // its frozen
+                continue;
+            }
+            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
+                         g->m.getlocal( loc ) ), 1 ) );
+            item_location item_loc( map_cursor( g->m.getlocal( loc ) ), &it );
+            avatar_action::eat( g->u, item_loc );
+            // eat() may have removed the item, so check its still there.
+            if( item_loc.get_item() && item_loc->is_container() ) {
+                item_loc->on_contents_changed();
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
@@ -2948,7 +2993,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         }
     }
 
-    // Special case: fire containers allow burning logs, so use them as fuel iif fire is contained
+    // Special case: fire containers allow burning logs, so use them as fuel if fire is contained
     bool contained = g->m.has_flag_furn( TFLAG_FIRE_CONTAINER, *best_fire );
     fire_data fd( 1, contained );
     time_duration fire_age = g->m.get_field_age( *best_fire, fd_fire );

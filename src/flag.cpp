@@ -24,6 +24,7 @@ void json_flag::load( const JsonObject &jo )
     jo.read( "conflicts", f.conflicts_ );
     jo.read( "inherit", f.inherit_ );
     jo.read( "craft_inherit", f.craft_inherit_ );
+    jo.read( "requires_flag", f.requires_flag_ );
     jo.read( "taste_mod", f.taste_mod_ );
 
     // FIXME: most flags have a "context" field that isn't used for anything

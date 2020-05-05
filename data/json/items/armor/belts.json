@@ -2,11 +2,12 @@
   {
     "id": "fireman_belt",
     "type": "ARMOR",
-    "name": "firefighter belt",
+    "name": { "str": "firefighter belt" },
     "description": "A stout firefighter's belt.  Useful for keeping your bunker gear up, it also doubles as an equipment belt with a reinforced loop for holding a large tool.",
     "weight": "210 g",
     "volume": "500 ml",
     "price": 9000,
+    "price_postapoc": 750,
     "bashing": 5,
     "material": [ "leather", "steel" ],
     "symbol": "[",
@@ -14,26 +15,27 @@
     "color": "yellow",
     "covers": [ "TORSO" ],
     "encumbrance": 4,
-    "storage": "1 L",
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Attach what to belt loop?",
-      "holster_msg": "You clip your %s to your %s",
-      "max_volume": "2 L",
-      "max_weight": 3600,
-      "draw_cost": 50,
-      "flags": [ "BELT_CLIP" ]
-    },
+    "pocket_data": [
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "holster": true
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
     "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "abstract": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "judo belt template",
+    "name": { "str": "judo belt template" },
     "description": "This is a template for judo belts.  If found in a game, it is a bug.",
     "weight": "200 g",
     "volume": "250 ml",
     "price": 1000,
+    "price_postapoc": 25,
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -47,7 +49,7 @@
     "id": "judo_belt_black",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "black belt",
+    "name": { "str": "black belt" },
     "description": "A belt worn by martial arts practitioners, advertising a master.",
     "color": "dark_gray"
   },
@@ -55,7 +57,7 @@
     "id": "judo_belt_blue",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "blue belt",
+    "name": { "str": "blue belt" },
     "description": "A belt worn by martial arts practitioners, advertising a strong intermediate.",
     "color": "blue"
   },
@@ -63,7 +65,7 @@
     "id": "judo_belt_brown",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "brown belt",
+    "name": { "str": "brown belt" },
     "description": "A belt worn by martial arts practitioners, advertising a near-master.",
     "color": "brown"
   },
@@ -71,7 +73,7 @@
     "id": "judo_belt_green",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "green belt",
+    "name": { "str": "green belt" },
     "description": "A belt worn by martial arts practitioners, advertising an intermediate.",
     "color": "green"
   },
@@ -79,7 +81,7 @@
     "id": "judo_belt_orange",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "orange belt",
+    "name": { "str": "orange belt" },
     "description": "A belt worn by martial arts practitioners, advertising a fresh intermediate.",
     "color": "light_red"
   },
@@ -87,7 +89,7 @@
     "id": "judo_belt_white",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "white belt",
+    "name": { "str": "white belt" },
     "description": "A belt worn by martial arts practitioners, advertising a novice.",
     "color": "white"
   },
@@ -95,18 +97,19 @@
     "id": "judo_belt_yellow",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "yellow belt",
+    "name": { "str": "yellow belt" },
     "description": "A belt worn by martial arts practitioners, advertising a moderate novice.",
     "color": "yellow"
   },
   {
     "id": "leather_belt",
     "type": "ARMOR",
-    "name": "leather belt",
+    "name": { "str": "leather belt" },
     "description": "A leather belt.  Useful for making your pair of pants fit.",
     "weight": "102 g",
     "volume": "250 ml",
     "price": 9000,
+    "price_postapoc": 250,
     "bashing": 5,
     "material": [ "leather" ],
     "symbol": "[",
@@ -114,25 +117,27 @@
     "covers": [ "TORSO" ],
     "coverage": 5,
     "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stick what into your belt",
-      "holster_msg": "You tuck your %s into your %s",
-      "max_volume": "500 ml",
-      "max_weight": 400,
-      "draw_cost": 60,
-      "flags": [ "BELT_CLIP" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "400 g",
+        "moves": 60,
+        "flag_restriction": [ "BELT_CLIP" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "obi_gi",
     "type": "ARMOR",
-    "name": "obi",
+    "name": { "str": "obi" },
     "description": "A broad, black obi gi.",
     "weight": "200 g",
     "volume": "250 ml",
     "price": 2000,
+    "price_postapoc": 50,
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -141,11 +146,12 @@
   {
     "id": "police_belt",
     "type": "ARMOR",
-    "name": "police duty belt",
+    "name": { "str": "police duty belt" },
     "description": "Black leather belt used by police officers.  It has several pouches and a holder for a baton.",
     "weight": "250 g",
     "volume": "2 L",
     "price": 10000,
+    "price_postapoc": 750,
     "bashing": 5,
     "material": [ "leather", "steel" ],
     "symbol": "[",
@@ -153,26 +159,27 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "encumbrance": 6,
-    "storage": "2 L",
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Attach what to holder?",
-      "holster_msg": "You attach your %s to your %s.",
-      "max_volume": "2250 ml",
-      "max_weight": 3600,
-      "draw_cost": 50,
-      "flags": [ "BELT_CLIP" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "2250 ml",
+        "max_contains_weight": "3600 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Attach what to holder?", "holster_msg": "You attach your %s to your %s." },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "survivor_belt_notools",
     "type": "ARMOR",
-    "name": "survivor belt",
+    "name": { "str": "survivor belt" },
     "description": "A custom-built leather utility belt covered with straps and pouches with a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "weight": "1249 g",
     "volume": "2250 ml",
     "price": 15000,
+    "price_postapoc": 2500,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -180,27 +187,29 @@
     "covers": [ "TORSO" ],
     "coverage": 15,
     "encumbrance": 4,
-    "storage": "3 L",
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath blade",
-      "holster_msg": "You sheath your %s",
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 3,
-      "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ]
   },
   {
     "id": "tool_belt",
     "type": "ARMOR",
-    "name": "tool belt",
-    "description": "A common belt with pockets and four small belt loops.  Widely used by handymen and electricians.",
-    "weight": "960 g",
-    "volume": "1750 ml",
+    "name": { "str": "tool belt" },
+    "description": "A common belt with pockets, loops and sheaths to store up to six tools or blades.  Widely used by handymen and electricians.",
+    "weight": "2000 g",
+    "volume": "2250 ml",
     "price": 4500,
+    "price_postapoc": 1500,
     "bashing": 5,
     "material": [ "leather" ],
     "symbol": "[",
@@ -208,29 +217,63 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 20,
-    "storage": "1 L",
-    "encumbrance": 10,
+    "encumbrance": 2,
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Attach what to belt loop?",
-      "holster_msg": "You clip your %s to your %s",
-      "multi": 4,
-      "max_volume": "1 L",
-      "max_weight": 1000,
-      "draw_cost": 50,
-      "flags": [ "BELT_CLIP" ]
-    },
+    "pocket_data": [
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "id": "webbing_belt",
     "type": "ARMOR",
-    "name": "webbing belt",
+    "name": { "str": "webbing belt" },
     "description": "A 2-inch nylon webbing belt commonly used by military forces.",
     "weight": "210 g",
     "volume": "500 ml",
     "price": 1000,
+    "price_postapoc": 50,
     "material": [ "nylon", "steel" ],
     "symbol": "[",
     "looks_like": "leather_belt",

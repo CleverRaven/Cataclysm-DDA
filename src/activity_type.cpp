@@ -1,19 +1,22 @@
 #include "activity_type.h"
 
+#include <algorithm>
+#include <functional>
 #include <map>
 #include <unordered_map>
-#include <functional>
 #include <utility>
 
+#include "activity_actor.h"
 #include "activity_handlers.h"
 #include "assign.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "json.h"
-#include "sounds.h"
-#include "translations.h"
 #include "player.h"
-#include "player_activity.h"
+#include "sounds.h"
 #include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
 
 // activity_type functions
 static std::map< activity_id, activity_type > activity_type_all;
@@ -56,6 +59,7 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "no_resume", result.no_resume_, true );
     assign( jo, "multi_activity", result.multi_activity_, false );
     assign( jo, "refuel_fires", result.refuel_fires, false );
+    assign( jo, "auto_needs", result.auto_needs, false );
 
     std::string activity_level = jo.get_string( "activity_level", "" );
     if( activity_level.empty() ) {
@@ -80,10 +84,13 @@ void activity_type::check_consistency()
         if( pair.second.verb_.empty() ) {
             debugmsg( "%s doesn't have a verb", pair.first.c_str() );
         }
-        if( pair.second.based_on_ == based_on_type::NEITHER &&
-            activity_handlers::do_turn_functions.find( pair.second.id_ ) ==
-            activity_handlers::do_turn_functions.end() ) {
-            debugmsg( "%s needs a do_turn function if it's not based on time or speed.",
+        const bool has_actor = activity_actors::deserialize_functions.find( pair.second.id_ ) !=
+                               activity_actors::deserialize_functions.end();
+        const bool has_turn_func = activity_handlers::do_turn_functions.find( pair.second.id_ ) !=
+                                   activity_handlers::do_turn_functions.end();
+
+        if( pair.second.based_on_ == based_on_type::NEITHER && !( has_turn_func || has_actor ) ) {
+            debugmsg( "%s needs a do_turn function or activity actor if it's not based on time or speed.",
                       pair.second.id_.c_str() );
         }
     }

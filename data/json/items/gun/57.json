@@ -4,11 +4,12 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "FN Five-Seven",
+    "name": { "str": "FN Five-Seven" },
     "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-Seven is a lightweight pistol with a very high capacity, best used against armored opponents.",
     "weight": "600 g",
     "volume": "551 ml",
     "price": 124900,
+    "price_postapoc": 2750,
     "to_hit": -2,
     "bashing": 6,
     "material": [ "steel", "plastic" ],
@@ -16,7 +17,7 @@
     "color": "light_gray",
     "ammo": "57",
     "skill": "pistol",
-    "ranged_damage": -2,
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 440,
     "durability": 8,
     "min_cycle_recoil": 81,
@@ -32,7 +33,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "57", [ "fn57mag" ] ] ]
   },
@@ -41,11 +41,12 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "FN P90",
+    "name": { "str": "FN P90" },
     "description": "The first in a new genre of guns, termed \"personal defense weapons.\"  FN designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made for firing bursts manageably.",
     "weight": "2640 g",
     "volume": "3817 ml",
     "price": 350000,
+    "price_postapoc": 3500,
     "to_hit": -2,
     "bashing": 10,
     "material": [ "steel", "plastic" ],
@@ -70,7 +71,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "57", [ "fnp90mag" ] ] ]
   }

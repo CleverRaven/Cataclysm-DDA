@@ -1,14 +1,20 @@
 #include "fungal_effects.h"
 
-#include <memory>
 #include <algorithm>
+#include <memory>
 #include <ostream>
 #include <string>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "creature.h"
-#include "field.h"
+#include "debug.h"
+#include "enums.h"
+#include "field_type.h"
 #include "game.h"
+#include "item.h"
+#include "item_stack.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -16,19 +22,37 @@
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "enums.h"
-#include "item.h"
-#include "item_stack.h"
+#include "point.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "colony.h"
-#include "debug.h"
-#include "point.h"
-#include "string_formatter.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_spores( "spores" );
+static const efftype_id effect_stunned( "stunned" );
+
+static const skill_id skill_melee( "melee" );
+
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_spore( "mon_spore" );
+
+static const species_id FUNGUS( "FUNGUS" );
+
+static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_FLAMMABLE( "FLAMMABLE" );
+static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_FLOWER( "FLOWER" );
+static const std::string flag_FUNGUS( "FUNGUS" );
+static const std::string flag_ORGANIC( "ORGANIC" );
+static const std::string flag_PLANT( "PLANT" );
+static const std::string flag_SHRUB( "SHRUB" );
+static const std::string flag_THIN_OBSTACLE( "THIN_OBSTACLE" );
+static const std::string flag_TREE( "TREE" );
+static const std::string flag_WALL( "WALL" );
+static const std::string flag_YOUNG( "YOUNG" );
 
 fungal_effects::fungal_effects( game &g, map &mp )
     : gm( g ), m( mp )
@@ -40,19 +64,18 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
     if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
         if( gm.u.sees( p ) &&
-            !critter.type->in_species( species_FUNGUS ) ) {
+            !critter.type->in_species( FUNGUS ) ) {
             add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
         }
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
             critter.add_effect( effect_stunned, rng( 1_turns, 3_turns ) );
-            critter.apply_damage( origin, bp_torso, rng( 25, 50 ) );
+            critter.apply_damage( origin, bodypart_id( "torso" ), rng( 25, 50 ) );
         }
     } else if( gm.u.pos() == p ) {
         // TODO: Make this accept NPCs when they understand fungals
         player &pl = gm.u;
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
-
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
         if( pl.has_trait( trait_TAIL_CATTLE ) &&
             one_in( 20 - pl.dex_cur - pl.get_skill_level( skill_melee ) ) ) {

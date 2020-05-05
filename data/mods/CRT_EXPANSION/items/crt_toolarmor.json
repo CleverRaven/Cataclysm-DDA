@@ -4,7 +4,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "CRIT gasmask (off)", "str_pl": "CRIT gasmasks (off)" },
-    "description": "This is the C.R.I.T Spec Ops modified gasmask, fitted with top-of-the-line electronics and lined with kevlar for extra protection in order to keep one's head where it should be.  Various filters and other high tech wizardry allow for enhanced oxygen intake and safety even under bombardment.  It has an integrated HUD and the option to turn it on for more features.",
+    "description": "This is the C.R.I.T Spec Ops modified gasmask, fitted with top-of-the-line electronics and lined with Kevlar for extra protection in order to keep one's head where it should be.  Various filters and other high tech wizardry allow for enhanced oxygen intake and safety even under bombardment.  It has an integrated HUD and the option to turn it on for more features.",
     "weight": "5 kg",
     "volume": "1 L",
     "price": 2500000,
@@ -29,7 +29,17 @@
     "material_thickness": 3,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "VARSIZE", "GAS_PROOF", "USE_UPS", "NO_UNLOAD" ]
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "PARTIAL_DEAF",
+      "SUN_GLASSES",
+      "VARSIZE",
+      "GAS_PROOF",
+      "USE_UPS",
+      "NO_UNLOAD",
+      "SLEEP_IGNORE"
+    ]
   },
   {
     "id": "crt_gasmask_on",
@@ -70,7 +80,8 @@
       "TRADER_AVOID",
       "GAS_PROOF",
       "USE_UPS",
-      "NO_UNLOAD"
+      "NO_UNLOAD",
+      "SLEEP_IGNORE"
     ]
   },
   {
@@ -102,7 +113,10 @@
     "artifact_data": { "charge_type": "ARTC_SOLAR" },
     "coverage": 85,
     "encumbrance": 50,
-    "storage": "2500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 }
+    ],
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 4,
@@ -125,7 +139,10 @@
     "covers": [ "TORSO", "LEGS", "ARMS" ],
     "coverage": 100,
     "encumbrance": 5,
-    "storage": "2500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 40 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 40 }
+    ],
     "warmth": 75,
     "material_thickness": 6,
     "environmental_protection": 16,

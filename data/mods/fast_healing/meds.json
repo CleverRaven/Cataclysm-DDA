@@ -10,8 +10,7 @@
     "id": "antibiotics",
     "type": "COMESTIBLE",
     "copy-from": "antibiotics",
-    "name": "antibiotics",
-    "name_plural": "antibiotics",
+    "name": { "str_sp": "antibiotics" },
     "use_action": "STRONG_ANTIBIOTIC"
   }
 ]

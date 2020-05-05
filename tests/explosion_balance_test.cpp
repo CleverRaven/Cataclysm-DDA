@@ -1,25 +1,26 @@
-#include <sstream>
 #include <algorithm>
+#include <cstddef>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "creature.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "test_statistics.h"
-#include "vehicle.h"
-#include "veh_type.h"
-#include "vpart_position.h"
-#include "creature.h"
-#include "string_id.h"
-#include "type_id.h"
 #include "point.h"
+#include "string_id.h"
+#include "test_statistics.h"
+#include "type_id.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 enum class outcome_type {
     Kill, Casualty
@@ -122,9 +123,11 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     // We don't expect any destroyed parts.
     REQUIRE( before_hp.size() == after_hp.size() );
     for( size_t i = 0; i < before_hp.size(); ++i ) {
+        CAPTURE( i );
         INFO( target_vehicle->parts[ i ].name() );
-        if( target_vehicle->parts[ i ].info().get_id() == "windshield" ||
-            target_vehicle->parts[ i ].info().get_id() == "headlight" ) {
+        if( target_vehicle->parts[ i ].info().get_id() == "battery_car" ||
+            target_vehicle->parts[ i ].info().get_id() == "headlight" ||
+            target_vehicle->parts[ i ].info().get_id() == "windshield" ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
         } else if( !( target_vehicle->parts[ i ].info().get_id() == "vehicle_clock" ) ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
@@ -132,7 +135,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     }
 }
 
-TEST_CASE( "grenade_lethality", "[grenade],[explosion],[balance]" )
+TEST_CASE( "grenade_lethality", "[grenade],[explosion],[balance],[slow]" )
 {
     check_lethality( "grenade_act", 5, 0.95, 0.06, outcome_type::Kill );
     check_lethality( "grenade_act", 15, 0.40, 0.06, outcome_type::Casualty );

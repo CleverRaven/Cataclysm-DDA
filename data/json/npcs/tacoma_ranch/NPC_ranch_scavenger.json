@@ -45,7 +45,7 @@
   {
     "id": "MISSION_RANCH_SCAVENGER_1",
     "type": "mission_definition",
-    "name": "Make 12 Knife Spears",
+    "name": { "str": "Make 12 Knife Spears" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -68,7 +68,7 @@
   {
     "id": "MISSION_RANCH_SCAVENGER_2",
     "type": "mission_definition",
-    "name": "Make 5 Wearable Flashlights",
+    "name": { "str": "Make 5 Wearable Flashlights" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -92,7 +92,7 @@
   {
     "id": "MISSION_RANCH_SCAVENGER_3",
     "type": "mission_definition",
-    "name": "Make 3 Leather Body Armor",
+    "name": { "str": "Make 3 Leather Body Armor" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -116,7 +116,7 @@
   {
     "id": "MISSION_RANCH_SCAVENGER_4",
     "type": "mission_definition",
-    "name": "Make 12 Molotov Cocktails",
+    "name": { "str": "Make 12 Molotov Cocktails" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

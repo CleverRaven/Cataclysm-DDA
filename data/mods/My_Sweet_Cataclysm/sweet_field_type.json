@@ -58,6 +58,15 @@
     "priority": 2,
     "phase": "solid",
     "half_life": "2 h",
+    "bash": {
+      "str_min": 1,
+      "str_max": 3,
+      "sound_vol": 2,
+      "sound_fail_vol": 2,
+      "sound": "shwip",
+      "sound_fail": "shwomp",
+      "msg_success": "You brush the gum web aside."
+    },
     "display_items": false,
     "display_field": true
   },

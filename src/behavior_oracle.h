@@ -1,12 +1,10 @@
 #pragma once
-#ifndef BEHAVIOR_ORACLE_H
-#define BEHAVIOR_ORACLE_H
+#ifndef CATA_SRC_BEHAVIOR_ORACLE_H
+#define CATA_SRC_BEHAVIOR_ORACLE_H
 
 #include <functional>
 #include <string>
 #include <unordered_map>
-
-class Character;
 
 namespace behavior
 {
@@ -25,28 +23,7 @@ class oracle_t
 
 status_t return_running( const oracle_t * );
 
-class character_oracle_t : public oracle_t
-{
-    public:
-        character_oracle_t( const Character *subject ) {
-            this->subject = subject;
-        }
-        /**
-         * Predicates used by AI to determine goals.
-         */
-        status_t needs_warmth_badly() const;
-        status_t needs_water_badly() const;
-        status_t needs_food_badly() const;
-        status_t can_wear_warmer_clothes() const;
-        status_t can_make_fire() const;
-        status_t can_take_shelter() const;
-        status_t has_water() const;
-        status_t has_food() const;
-    private:
-        const Character *subject;
-};
-
 extern std::unordered_map<std::string, std::function<status_t( const oracle_t * )>> predicate_map;
 
 } // namespace behavior
-#endif
+#endif // CATA_SRC_BEHAVIOR_ORACLE_H

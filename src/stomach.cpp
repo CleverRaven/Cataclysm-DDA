@@ -1,14 +1,22 @@
+#include <algorithm>
+#include <cmath>
 #include <string>
+#include <utility>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "compatibility.h"
 #include "json.h"
+#include "player.h"
+#include "rng.h"
 #include "stomach.h"
 #include "units.h"
-#include "game.h"
-#include "itype.h"
 #include "vitamin.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_GIZZARD( "GIZZARD" );
+static const trait_id trait_GOURMAND( "GOURMAND" );
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 
 void nutrients::min_in_place( const nutrients &r )
 {
@@ -204,12 +212,12 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
 
     // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
     // and no less than percentage_kcal of what's in stomach.
-    int kcal_fraction = lround( nutr.kcal * rates.percent_kcal );
+    int kcal_fraction = std::lround( nutr.kcal * rates.percent_kcal );
     digested.nutr.kcal = half_hours * clamp( rates.min_kcal, kcal_fraction, nutr.kcal );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
     for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins ) {
-        int vit_fraction = lround( vit.second * rates.percent_vitamin );
+        int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
         digested.nutr.vitamins[vit.first] =
             half_hours * clamp( rates.min_vitamin, vit_fraction, vit.second );
     }
@@ -245,7 +253,7 @@ stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &meta
         rates.water = 250_ml;
         rates.min_kcal = roll_remainder( metabolic_rates.kcal / 24.0 * metabolic_rates.hunger );
         rates.percent_kcal = 0.05f * metabolic_rates.hunger;
-        rates.min_vitamin = round( 100.0 / 24.0 * metabolic_rates.hunger );
+        rates.min_vitamin = std::round( 100.0 / 24.0 * metabolic_rates.hunger );
         rates.percent_vitamin = 0.05f * metabolic_rates.hunger;
     }
     return rates;
@@ -263,7 +271,7 @@ void stomach_contents::mod_calories( int cal )
 void stomach_contents::mod_nutr( int nutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_calories( -1 * round( nutr * 2500.0f / ( 12 * 24 ) ) );
+    mod_calories( -1 * std::round( nutr * 2500.0f / ( 12 * 24 ) ) );
 }
 
 void stomach_contents::mod_water( units::volume h2o )

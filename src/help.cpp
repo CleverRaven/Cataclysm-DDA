@@ -1,25 +1,29 @@
 #include "help.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <vector>
 #include <array>
+#include <cstddef>
 #include <iterator>
 #include <list>
+#include <numeric>
+#include <vector>
 
 #include "action.h"
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "input.h"
 #include "json.h"
+#include "optional.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
-#include "cata_utility.h"
-#include "color.h"
-#include "debug.h"
-#include "string_formatter.h"
+#include "ui_manager.h"
 
 help &get_help()
 {
@@ -130,12 +134,21 @@ std::string help::get_note_colors()
 
 void help::display_help()
 {
-    catacurses::window w_help_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                               TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
-    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
-                                       1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
+    catacurses::window w_help_border;
+    catacurses::window w_help;
+
+    ui_adaptor ui;
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        w_help_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                            point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                                    TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+        w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                     point( 1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
+                                            1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
+        ui.position_from_window( w_help_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
@@ -145,11 +158,14 @@ void help::display_help()
 
     std::string action;
 
-    do {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_help_border, BORDER_COLOR, _( " HELP " ), c_black_white );
         wrefresh( w_help_border );
         draw_menu( w_help );
-        catacurses::refresh();
+    } );
+
+    do {
+        ui_manager::redraw();
 
         action = ctxt.handle_input();
         std::string sInput = ctxt.get_raw_input().text;
@@ -180,12 +196,21 @@ void help::display_help()
                     } );
 
                     if( !i18n_help_texts.empty() ) {
-                        scrollable_text( w_help_border, _( " HELP " ),
+                        ui.on_screen_resize( nullptr );
+
+                        const auto get_w_help_border = [&]() {
+                            init_windows( ui );
+                            return w_help_border;
+                        };
+
+                        scrollable_text( get_w_help_border, _( " HELP " ),
                                          std::accumulate( i18n_help_texts.begin() + 1, i18n_help_texts.end(),
                                                           i18n_help_texts.front(),
                         []( const std::string & lhs, const std::string & rhs ) {
                             return lhs + "\n\n" + rhs;
                         } ) );
+
+                        ui.on_screen_resize( init_windows );
                     }
                     action = "CONFIRM";
                     break;

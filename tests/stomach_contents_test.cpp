@@ -11,7 +11,6 @@
 #include "stomach.h"
 #include "units.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
 
 static void reset_time()
 {
@@ -38,11 +37,11 @@ static void clear_stomach( player &p )
 
 static void set_all_vitamins( int target, player &p )
 {
-    p.vitamin_set( vitamin_vitA, target );
-    p.vitamin_set( vitamin_vitB, target );
-    p.vitamin_set( vitamin_vitC, target );
-    p.vitamin_set( vitamin_iron, target );
-    p.vitamin_set( vitamin_calcium, target );
+    p.vitamin_set( vitamin_id( "vitA" ), target );
+    p.vitamin_set( vitamin_id( "vitB" ), target );
+    p.vitamin_set( vitamin_id( "vitC" ), target );
+    p.vitamin_set( vitamin_id( "iron" ), target );
+    p.vitamin_set( vitamin_id( "calcium" ), target );
 }
 
 // time (in minutes) it takes for the player to feel hungry
@@ -86,40 +85,46 @@ static void eat_all_nutrients( player &p )
 
 // how long does it take to starve to death
 // player does not thirst or tire or require vitamins
-TEST_CASE( "starve_test" )
+TEST_CASE( "starve_test", "[starve][slow]" )
 {
-    // change this bool when editing the test
-    const bool print_tests = false;
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
-    if( print_tests ) {
-        printf( "\n\n" );
-    }
+
+    CAPTURE( dummy.metabolic_rate_base() );
+    CAPTURE( dummy.activity_level_str() );
+    CAPTURE( dummy.base_height() );
+    CAPTURE( dummy.get_size() );
+    CAPTURE( dummy.height() );
+    CAPTURE( dummy.get_bmi() );
+    CAPTURE( dummy.bodyweight() );
+    CAPTURE( dummy.age() );
+    CAPTURE( dummy.get_bmr() );
+
+    // A specific BMR isn't the real target of this test, the number of days
+    // is, but it helps to debug the test faster if this value is wrong.
+    REQUIRE( dummy.get_bmr() == 2087 );
+
     constexpr int expected_day = 30;
     int day = 0;
+    std::vector<std::string> results;
+
     do {
-        if( print_tests ) {
-            printf( "day %d: %d\n", day, dummy.get_stored_kcal() );
-        }
+        results.push_back( string_format( "\nday %d: %d", day, dummy.get_stored_kcal() ) );
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
         dummy.set_fatigue( 0 );
         set_all_vitamins( 0, dummy );
         day++;
     } while( dummy.get_stored_kcal() > 0 && day < expected_day * 2 );
-    if( print_tests ) {
-        printf( "\n\n" );
-    }
+    CAPTURE( results );
     CHECK( day == expected_day );
 }
 
 // how long does it take to starve to death with extreme metabolism
 // player does not thirst or tire or require vitamins
-TEST_CASE( "starve_test_hunger3" )
+TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
 {
-    // change this bool when editing the test
-    const bool print_tests = false;
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
@@ -127,29 +132,35 @@ TEST_CASE( "starve_test_hunger3" )
         dummy.mutate_towards( trait_id( "HUNGER3" ) );
     }
     clear_stomach( dummy );
-    if( print_tests ) {
-        printf( "\n\n" );
-    }
+
+    CAPTURE( dummy.metabolic_rate_base() );
+    CAPTURE( dummy.activity_level_str() );
+    CAPTURE( dummy.base_height() );
+    CAPTURE( dummy.height() );
+    CAPTURE( dummy.get_bmi() );
+    CAPTURE( dummy.bodyweight() );
+    CAPTURE( dummy.age() );
+    CAPTURE( dummy.get_bmr() );
+
+    std::vector<std::string> results;
     unsigned int day = 0;
+
     do {
-        if( print_tests ) {
-            printf( "day %d: %d\n", day, dummy.get_stored_kcal() );
-        }
+        results.push_back( string_format( "\nday %d: %d", day, dummy.get_stored_kcal() ) );
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
         dummy.set_fatigue( 0 );
         set_all_vitamins( 0, dummy );
         day++;
     } while( dummy.get_stored_kcal() > 0 );
-    if( print_tests ) {
-        printf( "\n\n" );
-    }
+
+    CAPTURE( results );
     CHECK( day <= 11 );
     CHECK( day >= 10 );
 }
 
 // does eating enough food per day keep you alive
-TEST_CASE( "all_nutrition_starve_test" )
+TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
 {
     // change this bool when editing the test
     const bool print_tests = false;
@@ -163,7 +174,7 @@ TEST_CASE( "all_nutrition_starve_test" )
 
     for( unsigned int day = 0; day <= 20; day++ ) {
         if( print_tests ) {
-            printf( "day %d: %d\n", day, dummy.get_stored_kcal() );
+            printf( "day %u: %d\n", day, dummy.get_stored_kcal() );
         }
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
@@ -173,9 +184,9 @@ TEST_CASE( "all_nutrition_starve_test" )
     }
     if( print_tests ) {
         printf( "vitamins: vitA %d vitB %d vitC %d calcium %d iron %d\n",
-                dummy.vitamin_get( vitamin_vitA ), dummy.vitamin_get( vitamin_vitB ),
-                dummy.vitamin_get( vitamin_vitC ), dummy.vitamin_get( vitamin_calcium ),
-                dummy.vitamin_get( vitamin_iron ) );
+                dummy.vitamin_get( vitamin_id( "vitA" ) ), dummy.vitamin_get( vitamin_id( "vitB" ) ),
+                dummy.vitamin_get( vitamin_id( "vitC" ) ), dummy.vitamin_get( vitamin_id( "calcium" ) ),
+                dummy.vitamin_get( vitamin_id( "iron" ) ) );
         printf( "\n" );
         print_stomach_contents( dummy, print_tests );
         printf( "\n" );
@@ -183,11 +194,11 @@ TEST_CASE( "all_nutrition_starve_test" )
     CHECK( dummy.get_stored_kcal() >= dummy.get_healthy_kcal() );
     // We need to account for a day's worth of error since we're passing a day at a time and we are
     // close to 0 which is the max value for some vitamins
-    CHECK( dummy.vitamin_get( vitamin_vitA ) >= -100 );
-    CHECK( dummy.vitamin_get( vitamin_vitB ) >= -100 );
-    CHECK( dummy.vitamin_get( vitamin_vitC ) >= -100 );
-    CHECK( dummy.vitamin_get( vitamin_iron ) >= -100 );
-    CHECK( dummy.vitamin_get( vitamin_calcium ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "vitA" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "vitB" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "vitC" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "iron" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "calcium" ) ) >= -100 );
 }
 
 TEST_CASE( "tape_worm_halves_nutrients" )

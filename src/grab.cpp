@@ -14,7 +14,8 @@
 #include "tileray.h"
 #include "translations.h"
 #include "units.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_harnessed( "harnessed" );
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {
@@ -25,7 +26,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
-    if( !grabbed_vehicle->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+    if( !grabbed_vehicle ||
+        !grabbed_vehicle->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
         return false;
     }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
@@ -53,7 +55,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     if( dp == prev_grab ) {
         // We are pushing in the direction of vehicle
         dp_veh = dp;
-    } else if( abs( dp.x + dp_veh.x ) != 2 && abs( dp.y + dp_veh.y ) != 2 ) {
+    } else if( std::abs( dp.x + dp_veh.x ) != 2 && std::abs( dp.y + dp_veh.y ) != 2 ) {
         // Not actually moving the vehicle, don't do the checks
         u.grab_point = -( dp + dp_veh );
         return false;
@@ -183,7 +185,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
 
-    if( grabbed_vehicle == nullptr ) {
+    if( !grabbed_vehicle ) {
         debugmsg( "Grabbed vehicle disappeared" );
         return false;
     }

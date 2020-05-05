@@ -1,0 +1,48 @@
+<!DOCTYPE qhelp PUBLIC
+  "-//Semmle//qhelp//EN"
+  "qhelp.dtd">
+<qhelp>
+
+<overview>
+<p>The C++ standard library provides a large selection of math functions.
+These functions are available for use either in the std namespace or in the global namespace.</p>
+
+<p>In order to highlight invocations of the standard library and avoid occasional
+definitional differences of these functions, we prefer to avoid use of the functions in the global namespace.</p>
+
+</overview>
+<recommendation>
+
+<p>Prefer to invoke the functions defined in the std namespace.</p>
+
+</recommendation>
+<example>
+
+<p>Most current c++ standard libraries will allow invoking math functions in the global namespace</p>
+<sample language="cpp">
+#include &lt;cmath&gt;
+
+float my_pow( float base, float exp ) {
+    return pow( base, exp );
+}
+</sample>
+
+<p>Prefer invoking the version in the std namespace.</p>
+<sample language="cpp">
+#include &lt;cmath&gt;
+
+float my_pow( float base, float exp ) {
+    return std::pow( base, exp );
+}
+</sample>
+
+</example>
+<references>
+
+<li>
+  Informative Stack Exchange Answer:
+  <a href="https://stackoverflow.com/a/8734292/280690">Differences between math.h and cmath</a>.
+</li>
+
+</references>
+</qhelp>

@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Guneet",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Guneet is the Singhs' sixteen year old son.  Like his parents, he is wracked with survivor's guilt for his family having made it out intact.",

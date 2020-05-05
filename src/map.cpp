@@ -1,89 +1,103 @@
 #include "map.h"
 
-#include <climits>
 #include <algorithm>
 #include <cassert>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <limits>
+#include <ostream>
 #include <queue>
+#include <type_traits>
 #include <unordered_map>
 
+#include "active_item_cache.h"
 #include "ammo.h"
 #include "ammo_effect.h"
 #include "artifact.h"
 #include "avatar.h"
+#include "basecamp.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "colony.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
+#include "color.h"
+#include "construction.h"
+#include "coordinate_conversions.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "drawing_primitives.h"
-#include "emit.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
+#include "item_location.h"
+#include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map_iterator.h"
+#include "map_memory.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "submap.h"
+#include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "active_item_cache.h"
-#include "basecamp.h"
-#include "bodypart.h"
-#include "character.h"
-#include "color.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "damage.h"
-#include "field.h"
-#include "item_location.h"
-#include "itype.h"
-#include "iuse.h"
-#include "map_memory.h"
-#include "math_defines.h"
-#include "optional.h"
-#include "tileray.h"
 #include "weighted_list.h"
-#include "enums.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "construction.h"
-#include "flat_set.h"
-#include "cata_string_consts.h"
+
+static const mtype_id mon_zombie( "mon_zombie" );
+
+static const skill_id skill_traps( "traps" );
+
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_crushed( "crushed" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -119,9 +133,9 @@ map::map( int mapsize, bool zlev )
     my_MAPSIZE = mapsize;
     zlevels = zlev;
     if( zlevels ) {
-        grid.resize( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS, nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
     } else {
-        grid.resize( my_MAPSIZE * my_MAPSIZE, nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
     }
 
     for( auto &ptr : caches ) {
@@ -306,7 +320,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             unboard_vehicle( part, passenger );
         }
     }
-
+    veh->invalidate_towing( true );
     submap *const current_submap = get_submap_at_grid( veh->sm_pos );
     auto &ch = get_cache( z );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
@@ -404,7 +418,7 @@ bool map::vehproceed( VehicleList &vehicle_list )
     // Then vertical-only movement
     if( cur_veh == nullptr ) {
         for( wrapped_vehicle &vehs_v : vehicle_list ) {
-            if( vehs_v.v->is_falling ) {
+            if( vehs_v.v->is_falling || ( vehs_v.v->is_rotorcraft() && vehs_v.v->get_z_change() != 0 ) ) {
                 cur_veh = &vehs_v;
                 break;
             }
@@ -435,11 +449,10 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     if( dp == tripoint_zero ) {
         debugmsg( "Empty displacement vector" );
         return &veh;
-    } else if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) {
+    } else if( std::abs( dp.x ) > 1 || std::abs( dp.y ) > 1 || std::abs( dp.z ) > 1 ) {
         debugmsg( "Invalid displacement vector: %d, %d, %d", dp.x, dp.y, dp.z );
         return &veh;
     }
-
     // Split the movement into horizontal and vertical for easier processing
     if( dp.xy() != point_zero && dp.z != 0 ) {
         vehicle *const new_pointer = move_vehicle( veh, tripoint( dp.xy(), 0 ), facing );
@@ -478,7 +491,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // Split into vertical and horizontal movement
     const int &coll_velocity = vertical ? veh.vertical_velocity : veh.velocity;
     const int velocity_before = coll_velocity;
-    if( velocity_before == 0 ) {
+    if( velocity_before == 0 && !veh.is_rotorcraft() && !veh.is_flying_in_air() ) {
         debugmsg( "%s tried to move %s with no velocity",
                   veh.name, vertical ? "vertically" : "horizontally" );
         return &veh;
@@ -512,33 +525,35 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             if( coll.type == veh_coll_veh ) {
                 continue;
             }
-            if( static_cast<size_t>( coll.part ) > veh.parts.size() ) {
+            if( static_cast<size_t>( coll.part ) > veh.parts.size() ||
+                veh.parts[coll.part].removed ) {
                 continue;
             }
 
             const point &collision_point = veh.parts[coll.part].mount;
             const int coll_dmg = coll.imp;
-            impulse += coll_dmg;
-            // Shock damage
-            veh.damage( coll.part, coll_dmg, DT_BASH );
-            veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
+            // Shock damage, if the target part is a rotor treat as an aimed hit.
+            if( veh.part_info( coll.part ).rotor_diameter() > 0 ) {
+                veh.damage( coll.part, coll_dmg, DT_BASH, true );
+            } else {
+                impulse += coll_dmg;
+                veh.damage( coll.part, coll_dmg, DT_BASH );
+                veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
+            }
         }
-    } while( collision_attempts-- > 0 &&
+    } while( collision_attempts-- > 0 && coll_velocity != 0 &&
              sgn( coll_velocity ) == sgn( velocity_before ) &&
              !collisions.empty() && !veh_veh_coll_flag );
 
-    if( vertical && !collisions.empty() ) {
-        // A big hack, should be removed when possible
-        veh.vertical_velocity = 0;
-    }
-
     const int velocity_after = coll_velocity;
-    const bool can_move = velocity_after != 0 && sgn( velocity_after ) == sgn( velocity_before );
-
+    bool can_move = velocity_after != 0 && sgn( velocity_after ) == sgn( velocity_before );
+    if( dp.z != 0 && veh.is_rotorcraft() ) {
+        can_move = true;
+    }
     int coll_turn = 0;
     if( impulse > 0 ) {
         coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
-        const int volume = std::min<int>( 100, sqrtf( impulse ) );
+        const int volume = std::min<int>( 100, std::sqrt( impulse ) );
         // TODO: Center the sound at weighted (by impulse) average of collisions
         sounds::sound( veh.global_pos3(), volume, sounds::sound_t::combat, _( "crash!" ),
                        false, "smash_success", "hit_vehicle" );
@@ -550,7 +565,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     }
 
     // If not enough wheels, mess up the ground a bit.
-    if( !vertical && !veh.valid_wheel_config() && !veh.is_in_water() ) {
+    if( !vertical && !veh.valid_wheel_config() && !veh.is_in_water() && !veh.is_flying_in_air() &&
+        dp.z == 0 ) {
         veh.velocity += veh.velocity < 0 ? 2000 : -2000;
         for( const auto &p : veh.get_points() ) {
             const ter_id &pter = ter( p );
@@ -622,7 +638,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             }
 
             veh.handle_trap( wheel_p, w );
-            if( !has_flag( flag_SEALED, wheel_p ) ) {
+            if( !has_flag( "SEALED", wheel_p ) ) {
                 const float wheel_area =  veh.parts[ w ].wheel_area();
 
                 // Damage is calculated based on the weight of the vehicle,
@@ -634,6 +650,14 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
                 //~ %1$s: vehicle name
                 smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
             }
+        }
+    }
+    if( veh.is_towing() ) {
+        veh.do_towing_move();
+        if( veh.tow_data.get_towed()->tow_cable_too_far() ) {
+            add_msg( m_info, _( "A towing cable snaps off of the %s." ),
+                     veh.tow_data.get_towed()->disp_name() );
+            veh.tow_data.get_towed()->invalidate_towing( true );
         }
     }
     // Redraw scene
@@ -753,7 +777,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m1 = to_kilogram( veh.total_mass() );
         // Collision is perfectly inelastic for simplicity
         // Assume veh2 is standing still
-        dmg = abs( veh.vertical_velocity / 100 ) * m1 / 10;
+        dmg = std::abs( veh.vertical_velocity / 100 ) * m1 / 10;
         veh.vertical_velocity = 0;
     }
 
@@ -1124,15 +1148,25 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
         src_submap->vehicles.erase( src_submap_veh_it );
         dst_submap->is_uniform = false;
     }
-
     update_vehicle_cache( &veh, src.z );
-
     if( need_update ) {
         g->update_map( g->u );
     }
 
     if( z_change != 0 ) {
         g->vertical_move( z_change, true );
+        // I don't know why all this is needed, but the cache does not update properly without.
+        update_vehicle_list( dst_submap, dst.z );
+        update_vehicle_cache( &veh, src.z );
+        level_cache &ch2 = get_cache( src.z );
+        for( const vehicle *elem : ch2.vehicle_list ) {
+            if( elem == &veh ) {
+                ch2.vehicle_list.erase( &veh );
+                ch2.zone_vehicles.erase( &veh );
+                break;
+            }
+        }
+        veh.check_is_heli_landed();
     }
 
     if( remote ) {
@@ -1152,7 +1186,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
 bool map::displace_water( const tripoint &p )
 {
     // Check for shallow water
-    if( has_flag( flag_SWIMMABLE, p ) && !has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( has_flag( "SWIMMABLE", p ) && !has_flag( TFLAG_DEEP_WATER, p ) ) {
         int dis_places = 0;
         int sel_place = 0;
         for( int pass = 0; pass < 2; pass++ ) {
@@ -1262,7 +1296,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
             c->remove_effect( effect_crushed );
         }
     }
-    if( new_t.has_flag( flag_EMITTER ) ) {
+    if( new_t.has_flag( "EMITTER" ) ) {
         field_furn_locs.push_back( p );
     }
     if( old_t.transparent != new_t.transparent ) {
@@ -1315,7 +1349,7 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
 std::string map::furnname( const tripoint &p )
 {
     const furn_t &f = furn( p ).obj();
-    if( f.has_flag( flag_PLANT ) ) {
+    if( f.has_flag( "PLANT" ) ) {
         // Can't use item_stack::only_item() since there might be fertilizer
         map_stack items = i_at( p );
         const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
@@ -1558,14 +1592,14 @@ std::string map::features( const tripoint &p )
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
     add_if( is_bashable( p ), _( "Smashable." ) );
-    add_if( has_flag( flag_DIGGABLE, p ), _( "Diggable." ) );
-    add_if( has_flag( flag_PLOWABLE, p ), _( "Plowable." ) );
-    add_if( has_flag( flag_ROUGH, p ), _( "Rough." ) );
-    add_if( has_flag( flag_UNSTABLE, p ), _( "Unstable." ) );
-    add_if( has_flag( flag_SHARP, p ), _( "Sharp." ) );
-    add_if( has_flag( flag_FLAT, p ), _( "Flat." ) );
-    add_if( has_flag( flag_EASY_DECONSTRUCT, p ), _( "Simple." ) );
-    add_if( has_flag( flag_MOUNTABLE, p ), _( "Mountable." ) );
+    add_if( has_flag( "DIGGABLE", p ), _( "Diggable." ) );
+    add_if( has_flag( "PLOWABLE", p ), _( "Plowable." ) );
+    add_if( has_flag( "ROUGH", p ), _( "Rough." ) );
+    add_if( has_flag( "UNSTABLE", p ), _( "Unstable." ) );
+    add_if( has_flag( "SHARP", p ), _( "Sharp." ) );
+    add_if( has_flag( "FLAT", p ), _( "Flat." ) );
+    add_if( has_flag( "EASY_DECONSTRUCT", p ), _( "Simple." ) );
+    add_if( has_flag( "MOUNTABLE", p ), _( "Mountable." ) );
     return result;
 }
 
@@ -1694,7 +1728,8 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     assert( to.z > std::numeric_limits<int>::min() );
     // Note: no need to check inbounds here, because maptile_at will do that
     // If oob tile is supplied, the maptile_at will be an unpassable "null" tile
-    if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ) {
+    if( std::abs( from.x - to.x ) > 1 || std::abs( from.y - to.y ) > 1 ||
+        std::abs( from.z - to.z ) > 1 ) {
         return false;
     }
 
@@ -1739,7 +1774,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     if( !up_ter.has_flag( TFLAG_NO_FLOOR ) && !up_ter.has_flag( TFLAG_GOES_DOWN ) && !up_is_ledge ) {
         // Can't move from up to down
-        if( abs( from.x - to.x ) == 1 || abs( from.y - to.y ) == 1 ) {
+        if( std::abs( from.x - to.x ) == 1 || std::abs( from.y - to.y ) == 1 ) {
             // Break the move into two - vertical then horizontal
             tripoint midpoint( down_p.xy(), up_p.z );
             return valid_move( down_p, midpoint, bash, flying ) &&
@@ -1802,7 +1837,7 @@ int map::climb_difficulty( const tripoint &p ) const
 
     int best_difficulty = INT_MAX;
     int blocks_movement = 0;
-    if( has_flag( flag_LADDER, p ) ) {
+    if( has_flag( "LADDER", p ) ) {
         // Really easy, but you have to stand on the tile
         return 1;
     } else if( has_flag( TFLAG_RAMP, p ) ) {
@@ -1821,7 +1856,7 @@ int map::climb_difficulty( const tripoint &p ) const
             best_difficulty = std::min( best_difficulty, 7 );
         }
 
-        if( best_difficulty > 5 && has_flag( flag_CLIMBABLE, pt ) ) {
+        if( best_difficulty > 5 && has_flag( "CLIMBABLE", pt ) ) {
             best_difficulty = 5;
         }
     }
@@ -1914,7 +1949,7 @@ void map::drop_furniture( const tripoint &p )
         if( frn_id != f_null ) {
             const furn_t &frn = frn_id.obj();
             // Allow crushing tiny/nocollide furniture
-            if( !frn.has_flag( flag_TINY ) && !frn.has_flag( flag_NOCOLLIDE ) ) {
+            if( !frn.has_flag( "TINY" ) && !frn.has_flag( "NOCOLLIDE" ) ) {
                 return SS_BAD_SUPPORT;
             }
         }
@@ -1961,13 +1996,13 @@ void map::drop_furniture( const tripoint &p )
 
     // Approximate weight/"bulkiness" based on strength to drag
     int weight;
-    if( frn_obj.has_flag( flag_TINY ) || frn_obj.has_flag( flag_NOCOLLIDE ) ) {
+    if( frn_obj.has_flag( "TINY" ) || frn_obj.has_flag( "NOCOLLIDE" ) ) {
         weight = 5;
     } else {
         weight = frn_obj.is_movable() ? frn_obj.move_str_req : 20;
     }
 
-    if( frn_obj.has_flag( flag_ROUGH ) || frn_obj.has_flag( flag_SHARP ) ) {
+    if( frn_obj.has_flag( "ROUGH" ) || frn_obj.has_flag( "SHARP" ) ) {
         weight += 5;
     }
 
@@ -2000,15 +2035,21 @@ void map::drop_furniture( const tripoint &p )
         player *pl = dynamic_cast<player *>( critter );
         monster *mon = dynamic_cast<monster *>( critter );
         if( pl != nullptr ) {
-            pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0, 0.5f ) );
-            pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0, 0.5f ) );
-            pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
-            pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
-            pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
-            pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0,
+                             0.5f ) );
+            pl->deal_damage( nullptr, bodypart_id( "head" ),  damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0,
+                             0.5f ) );
+            pl->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+                             0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+                             0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+                             0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+                             0.4f ) );
         } else if( mon != nullptr ) {
             // TODO: Monster's armor and size - don't crush hulks with chairs
-            mon->apply_damage( nullptr, bp_torso, rng( dmg, dmg * 2 ) );
+            mon->apply_damage( nullptr, bodypart_id( "torso" ), rng( dmg, dmg * 2 ) );
         }
     }
 
@@ -2122,7 +2163,7 @@ bool map::can_put_items( const tripoint &p ) const
 
 bool map::can_put_items_ter_furn( const tripoint &p ) const
 {
-    return !has_flag( flag_NOITEM, p ) && !has_flag( flag_SEALED, p );
+    return !has_flag( "NOITEM", p ) && !has_flag( "SEALED", p );
 }
 
 bool map::has_flag_ter( const std::string &flag, const tripoint &p ) const
@@ -2368,12 +2409,12 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
 
 bool map::is_water_shallow_current( const tripoint &p ) const
 {
-    return has_flag( flag_CURRENT, p ) && !has_flag( TFLAG_DEEP_WATER, p );
+    return has_flag( "CURRENT", p ) && !has_flag( TFLAG_DEEP_WATER, p );
 }
 
 bool map::is_divable( const tripoint &p ) const
 {
-    return has_flag( flag_SWIMMABLE, p ) && has_flag( TFLAG_DEEP_WATER, p );
+    return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
 }
 
 bool map::is_outside( const tripoint &p ) const
@@ -2392,16 +2433,16 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
     int xmov = 0;
     int ymov = 0;
     switch( dir ) {
-        case NORTH:
+        case direction::NORTH:
             ymov = -1;
             break;
-        case SOUTH:
+        case direction::SOUTH:
             ymov = 1;
             break;
-        case WEST:
+        case direction::WEST:
             xmov = -1;
             break;
-        case EAST:
+        case direction::EAST:
             xmov = 1;
             break;
         default:
@@ -2411,16 +2452,16 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
     int y2 = p.y;
     bool result = true;
     bool loop = true;
-    while( ( loop ) && ( ( dir == NORTH && y2 >= 0 ) ||
-                         ( dir == SOUTH && y2 < max.y ) ||
-                         ( dir == WEST  && x2 >= 0 ) ||
-                         ( dir == EAST  && x2 < max.x ) ) ) {
+    while( ( loop ) && ( ( dir == direction::NORTH && y2 >= 0 ) ||
+                         ( dir == direction::SOUTH && y2 < max.y ) ||
+                         ( dir == direction::WEST  && x2 >= 0 ) ||
+                         ( dir == direction::EAST  && x2 < max.x ) ) ) {
         if( no_furn && has_furn( point( x2, y2 ) ) ) {
             loop = false;
             result = false;
-        } else if( !has_flag_ter( flag_FLAT, point( x2, y2 ) ) ) {
+        } else if( !has_flag_ter( "FLAT", point( x2, y2 ) ) ) {
             loop = false;
-            if( !has_flag_ter( flag_WALL, point( x2, y2 ) ) ) {
+            if( !has_flag_ter( "WALL", point( x2, y2 ) ) ) {
                 result = false;
             }
         }
@@ -2433,7 +2474,7 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
 bool map::tinder_at( const tripoint &p )
 {
     for( const auto &i : i_at( p ) ) {
-        if( i.has_flag( flag_TINDER ) ) {
+        if( i.has_flag( "TINDER" ) ) {
             return true;
         }
     }
@@ -2463,11 +2504,11 @@ bool map::is_flammable( const tripoint &p )
         return true;
     }
 
-    if( has_flag( flag_FLAMMABLE, p ) ) {
+    if( has_flag( "FLAMMABLE", p ) ) {
         return true;
     }
 
-    if( has_flag( flag_FLAMMABLE_ASH, p ) ) {
+    if( has_flag( "FLAMMABLE_ASH", p ) ) {
         return true;
     }
 
@@ -2574,7 +2615,7 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
         if( get_field( pt, fd_fire ) != nullptr ) {
             return true;
         }
-        if( has_flag_ter_or_furn( flag_USABLE_FIRE, p ) ) {
+        if( has_flag_ter_or_furn( "USABLE_FIRE", p ) ) {
             return true;
         }
     }
@@ -2585,7 +2626,7 @@ bool map::has_nearby_table( const tripoint &p, int radius )
 {
     for( const tripoint &pt : points_in_radius( p, radius ) ) {
         const optional_vpart_position vp = veh_at( p );
-        if( has_flag( flag_FLAT_SURF, pt ) ) {
+        if( has_flag( "FLAT_SURF", pt ) ) {
             return true;
         }
         if( vp && ( vp->vehicle().has_part( "KITCHEN" ) || vp->vehicle().has_part( "FLAT_SURF" ) ) ) {
@@ -2599,7 +2640,7 @@ bool map::has_nearby_chair( const tripoint &p, int radius )
 {
     for( const tripoint &pt : points_in_radius( p, radius ) ) {
         const optional_vpart_position vp = veh_at( pt );
-        if( has_flag( flag_CAN_SIT, pt ) ) {
+        if( has_flag( "CAN_SIT", pt ) ) {
             return true;
         }
         if( vp && vp->vehicle().has_part( "SEAT" ) ) {
@@ -2613,7 +2654,7 @@ bool map::mop_spills( const tripoint &p )
 {
     bool retval = false;
 
-    if( !has_flag( flag_LIQUIDCONT, p ) ) {
+    if( !has_flag( "LIQUIDCONT", p ) ) {
         auto items = i_at( p );
         auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
             return it.made_of( LIQUID );
@@ -2666,14 +2707,17 @@ bool map::mop_spills( const tripoint &p )
 
 int map::collapse_check( const tripoint &p )
 {
+    const bool collapses = has_flag( "COLLAPSES", p );
+    const bool supports_roof = has_flag( "SUPPORTS_ROOF", p );
+
     int num_supports = p.z == OVERMAP_DEPTH ? 0 : -5;
     // if there's support below, things are less likely to collapse
     if( p.z > -OVERMAP_DEPTH ) {
         const tripoint &pbelow = tripoint( p.xy(), p.z - 1 );
         for( const tripoint &tbelow : points_in_radius( pbelow, 1 ) ) {
-            if( has_flag( flag_SUPPORTS_ROOF, pbelow ) ) {
+            if( has_flag( "SUPPORTS_ROOF", pbelow ) ) {
                 num_supports += 1;
-                if( has_flag( flag_WALL, pbelow ) ) {
+                if( has_flag( "WALL", pbelow ) ) {
                     num_supports = 2;
                 }
                 if( tbelow == pbelow ) {
@@ -2688,17 +2732,17 @@ int map::collapse_check( const tripoint &p )
             continue;
         }
 
-        if( has_flag( flag_COLLAPSES, p ) ) {
-            if( has_flag( flag_COLLAPSES, t ) ) {
+        if( collapses ) {
+            if( has_flag( "COLLAPSES", t ) ) {
                 num_supports++;
-            } else if( has_flag( flag_SUPPORTS_ROOF, t ) ) {
+            } else if( has_flag( "SUPPORTS_ROOF", t ) ) {
                 num_supports += 2;
             }
-        } else if( has_flag( flag_SUPPORTS_ROOF, p ) ) {
-            if( has_flag( flag_SUPPORTS_ROOF, t ) ) {
-                if( has_flag( flag_WALL, t ) ) {
+        } else if( supports_roof ) {
+            if( has_flag( "SUPPORTS_ROOF", t ) ) {
+                if( has_flag( "WALL", t ) ) {
                     num_supports += 4;
-                } else if( !has_flag( flag_COLLAPSES, t ) ) {
+                } else if( !has_flag( "COLLAPSES", t ) ) {
                     num_supports += 3;
                 }
             }
@@ -2713,15 +2757,15 @@ int map::collapse_check( const tripoint &p )
 void map::collapse_at( const tripoint &p, const bool silent, const bool was_supporting,
                        const bool destroy_pos )
 {
-    const bool supports = was_supporting || has_flag( flag_SUPPORTS_ROOF, p );
-    const bool wall = was_supporting || has_flag( flag_WALL, p );
+    const bool supports = was_supporting || has_flag( "SUPPORTS_ROOF", p );
+    const bool wall = was_supporting || has_flag( "WALL", p );
     // don't bash again if the caller already bashed here
     if( destroy_pos ) {
         destroy( p, silent );
         crush( p );
         make_rubble( p );
     }
-    const bool still_supports = has_flag( flag_SUPPORTS_ROOF, p );
+    const bool still_supports = has_flag( "SUPPORTS_ROOF", p );
 
     // If something supporting the roof collapsed, see what else collapses
     if( supports && !still_supports ) {
@@ -2734,12 +2778,12 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             }
             // if a wall collapses, walls without support from below risk collapsing and
             //propogate the collapse upwards
-            if( zlevels && wall && p == t && has_flag( flag_WALL, tz ) ) {
+            if( zlevels && wall && p == t && has_flag( "WALL", tz ) ) {
                 collapse_at( tz, silent );
             }
             // floors without support from below risk collapsing into open air and can propogate
             // the collapse horizontally but not vertically
-            if( p != t && ( has_flag( flag_SUPPORTS_ROOF, t ) && has_flag( flag_COLLAPSES, t ) ) ) {
+            if( p != t && ( has_flag( "SUPPORTS_ROOF", t ) && has_flag( "COLLAPSES", t ) ) ) {
                 collapse_at( t, silent );
             }
             // this tile used to support a roof, now it doesn't, which means there is only
@@ -2767,8 +2811,12 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     std::string damaged_item_name;
 
     std::vector<item> contents;
-    auto items = i_at( p );
+    map_stack items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
+        if( i->made_of( LIQUID ) ) {
+            i++;
+            continue;
+        }
         if( i->active ) {
             // Get the explosion item actor
             if( i->type->get_use( "explosion" ) != nullptr ) {
@@ -2839,9 +2887,9 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         // Remove them if they were damaged too much
         if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents, except for irremovable gunmods
-            for( auto &elem : i->contents ) {
-                if( !elem.is_irremovable() ) {
-                    contents.push_back( elem );
+            for( item *elem : i->contents.all_items_top() ) {
+                if( !elem->is_irremovable() ) {
+                    contents.push_back( item( *elem ) );
                 }
             }
 
@@ -2919,7 +2967,7 @@ static bool furn_is_supported( const map &m, const tripoint &p )
         const int adj_x = p.x + cx[i];
         const int adj_y = p.y + cy[i];
         if( m.has_furn( tripoint( adj_x, adj_y, p.z ) ) &&
-            m.furn( tripoint( adj_x, adj_y, p.z ) ).obj().has_flag( flag_BLOCKSDOOR ) ) {
+            m.furn( tripoint( adj_x, adj_y, p.z ) ).obj().has_flag( "BLOCKSDOOR" ) ) {
             return true;
         }
     }
@@ -2973,7 +3021,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     // TODO: what if silent is true?
-    if( has_flag( flag_ALARMED, p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+    if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
         sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
                        false, "environment", "alarm" );
         // Blame nearby player
@@ -3018,7 +3066,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
         if( bash->str_min_supported != -1 || bash->str_max_supported != -1 ) {
             tripoint below( p.xy(), p.z - 1 );
-            if( !zlevels || has_flag( flag_SUPPORTS_ROOF, below ) ) {
+            if( !zlevels || has_flag( "SUPPORTS_ROOF", below ) ) {
                 if( bash->str_min_supported != -1 ) {
                     smin = bash->str_min_supported;
                 }
@@ -3058,12 +3106,12 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     // Clear out any partially grown seeds
-    if( has_flag_ter_or_furn( flag_PLANT, p ) ) {
+    if( has_flag_ter_or_furn( "PLANT", p ) ) {
         i_clear( p );
     }
 
-    if( ( smash_furn && has_flag_furn( flag_FUNGUS, p ) ) ||
-        ( smash_ter && has_flag_ter( flag_FUNGUS, p ) ) ) {
+    if( ( smash_furn && has_flag_furn( "FUNGUS", p ) ) ||
+        ( smash_ter && has_flag_ter( "FUNGUS", p ) ) ) {
         fungal_effects( *g, *this ).create_spores( p );
     }
 
@@ -3080,8 +3128,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     soundfxid = "smash_success";
     sound = bash->sound;
     // Set this now in case the ter_set below changes this
-    const bool will_collapse = smash_ter && has_flag( flag_SUPPORTS_ROOF, p ) &&
-                               !has_flag( flag_INDOORS, p );
+    const bool will_collapse = smash_ter && has_flag( "SUPPORTS_ROOF", p ) && !has_flag( "INDOORS", p );
     const bool tent = smash_furn && !bash->tent_centers.empty();
 
     // Special code to collapse the tent if destroyed
@@ -3161,7 +3208,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     } else {
         tripoint below( p.xy(), p.z - 1 );
         const auto &ter_below = ter( below ).obj();
-        if( bash->bash_below && ter_below.has_flag( flag_SUPPORTS_ROOF ) ) {
+        if( bash->bash_below && ter_below.has_flag( "SUPPORTS_ROOF" ) ) {
             // When bashing the tile below, don't allow bashing the floor
             bash_params params_below = params; // Make a copy
             params_below.bashing_from_above = true;
@@ -3190,7 +3237,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         explosion_handler::explosion( p, bash->explosive, 0.8, false );
     }
 
-    if( will_collapse && !has_flag( flag_SUPPORTS_ROOF, p ) ) {
+    if( will_collapse && !has_flag( "SUPPORTS_ROOF", p ) ) {
         collapse_at( p, params.silent, true, bash->explosive > 0 );
     }
 
@@ -3215,7 +3262,7 @@ bash_params map::bash( const tripoint &p, const int str,
     }
 
     bool bashed_sealed = false;
-    if( has_flag( flag_SEALED, p ) ) {
+    if( has_flag( "SEALED", p ) ) {
         bash_ter_furn( p, bsh );
         bashed_sealed = true;
     }
@@ -3251,11 +3298,11 @@ void map::bash_items( const tripoint &p, bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        if( bashed_item->made_of( material_glass ) && !bashed_item->active && one_in( 2 ) ) {
+        if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in( 2 ) ) {
             params.did_bash = true;
             smashed_glass = true;
-            for( const item &bashed_content : bashed_item->contents ) {
-                smashed_contents.push_back( bashed_content );
+            for( const item *bashed_content : bashed_item->contents.all_items_top() ) {
+                smashed_contents.push_back( item( *bashed_content ) );
             }
             bashed_item = bashed_items.erase( bashed_item );
         } else {
@@ -3342,20 +3389,20 @@ void map::crush( const tripoint &p )
             // TODO: Make this depend on the ceiling material
             const int dam = rng( 0, 40 );
             // Torso and head take the brunt of the blow
-            body_part hit = bp_head;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
-            hit = bp_torso;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .45 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( DT_BASH,
+                                         dam * .25 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                                         dam * .45 ) );
             // Legs take the next most through transferred force
-            hit = bp_leg_l;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
-            hit = bp_leg_r;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_BASH,
+                                         dam * .10 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_BASH,
+                                         dam * .10 ) );
             // Arms take the least
-            hit = bp_arm_l;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
-            hit = bp_arm_r;
-            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( DT_BASH,
+                                         dam * .05 ) );
+            crushed_player->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( DT_BASH,
+                                         dam * .05 ) );
 
             // Pin whoever got hit
             crushed_player->add_effect( effect_crushed, 1_turns, num_bp, true );
@@ -3365,7 +3412,7 @@ void map::crush( const tripoint &p )
 
     if( monster *const monhit = g->critter_at<monster>( p ) ) {
         // 25 ~= 60 * .45 (torso)
-        monhit->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( 0, 25 ) ) );
+        monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH, rng( 0, 25 ) ) );
 
         // Pin whoever got hit
         monhit->add_effect( effect_crushed, 1_turns, num_bp, true );
@@ -3381,7 +3428,11 @@ void map::crush( const tripoint &p )
 void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
     // TODO: Make bashing count fully, but other types much less
-    const float initial_damage = proj.impact.total_damage();
+    float initial_damage = 0.0;
+    for( damage_unit dam : proj.impact ) {
+        initial_damage += dam.amount;
+        initial_damage += dam.res_pen;
+    }
     if( initial_damage < 0 ) {
         return;
     }
@@ -3389,7 +3440,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     float dam = initial_damage;
     const auto &ammo_effects = proj.proj_effects;
 
-    if( has_flag( flag_ALARMED, p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+    if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
         sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
@@ -3674,7 +3725,7 @@ bool map::hit_with_fire( const tripoint &p )
     }
 
     // non passable but flammable terrain, set it on fire
-    if( has_flag( flag_FLAMMABLE, p ) || has_flag( flag_FLAMMABLE_ASH, p ) ) {
+    if( has_flag( "FLAMMABLE", p ) || has_flag( "FLAMMABLE_ASH", p ) ) {
         add_field( p, fd_fire, 3 );
     }
     return true;
@@ -3685,7 +3736,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
     const auto &ter = this->ter( p ).obj();
     const auto &furn = this->furn( p ).obj();
     if( ter.open ) {
-        if( has_flag( flag_OPENCLOSE_INSIDE, p ) && !inside ) {
+        if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
             return false;
         }
 
@@ -3694,8 +3745,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( ( g->u.has_trait( trait_SCHIZOPHRENIC ) || g->u.has_artifact_with( AEP_SCHIZO ) )
-                && one_in( 50 ) && !ter.has_flag( flag_TRANSPARENT ) ) {
+            if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) )
+                && one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
                 tripoint mp = p + -2 * g->u.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
             }
@@ -3703,7 +3754,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
 
         return true;
     } else if( furn.open ) {
-        if( has_flag( flag_OPENCLOSE_INSIDE, p ) && !inside ) {
+        if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
             return false;
         }
 
@@ -3776,7 +3827,7 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 
 bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
 {
-    if( has_flag( flag_OPENCLOSE_INSIDE, p ) && !inside ) {
+    if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
         return false;
     }
 
@@ -3953,8 +4004,8 @@ item &map::spawn_an_item( const tripoint &p, item new_item,
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container();
-    if( ( new_item.made_of( LIQUID ) && has_flag( flag_SWIMMABLE, p ) ) ||
-        has_flag( flag_DESTROY_ITEM, p ) ) {
+    if( ( new_item.made_of( LIQUID ) && has_flag( "SWIMMABLE", p ) ) ||
+        has_flag( "DESTROY_ITEM", p ) ) {
         return null_item_reference();
     }
 
@@ -3966,10 +4017,10 @@ item &map::spawn_an_item( const tripoint &p, item new_item,
 std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item> &new_items )
 {
     std::vector<item *> ret;
-    if( !inbounds( p ) || has_flag( flag_DESTROY_ITEM, p ) ) {
+    if( !inbounds( p ) || has_flag( "DESTROY_ITEM", p ) ) {
         return ret;
     }
-    const bool swimmable = has_flag( flag_SWIMMABLE, p );
+    const bool swimmable = has_flag( "SWIMMABLE", p );
     for( const item &new_item : new_items ) {
 
         if( new_item.made_of( LIQUID ) && swimmable ) {
@@ -4011,7 +4062,7 @@ void map::spawn_item( const tripoint &p, const std::string &type_id,
     }
     // spawn the item
     item new_item( type_id, birthday );
-    if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
+    if( one_in( 3 ) && new_item.has_flag( "VARSIZE" ) ) {
         new_item.item_tags.insert( "FIT" );
     }
 
@@ -4045,12 +4096,12 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         }
 
         // Some tiles destroy items (e.g. lava)
-        if( has_flag( flag_DESTROY_ITEM, e ) ) {
+        if( has_flag( "DESTROY_ITEM", e ) ) {
             return false;
         }
 
         // Cannot drop liquids into tiles that are comprised of liquid
-        if( obj.made_of_from_type( LIQUID ) && has_flag( flag_SWIMMABLE, e ) ) {
+        if( obj.made_of_from_type( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
             return false;
         }
 
@@ -4078,7 +4129,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     };
 
     // Some items never exist on map as a discrete item (must be contained by another item)
-    if( obj.has_flag( flag_NO_DROP ) ) {
+    if( obj.has_flag( "NO_DROP" ) ) {
         return null_item_reference();
     }
 
@@ -4087,11 +4138,10 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         return null_item_reference();
     }
 
-    if( ( !has_flag( flag_NOITEM, pos ) || ( has_flag( flag_LIQUIDCONT, pos ) &&
-            obj.made_of( LIQUID ) ) )
+    if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
         && valid_limits( pos ) ) {
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
-        if( obj.made_of( LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
+        if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
             if( obj.on_drop( pos, *this ) ) {
                 return null_item_reference();
             }
@@ -4116,14 +4166,14 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             if( route( pos, e, setting ).empty() ) {
                 continue;
             }
-            if( obj.made_of( LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
+            if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
                 if( obj.on_drop( e, *this ) ) {
                     return null_item_reference();
                 }
             }
 
             if( !valid_tile( e ) || !valid_limits( e ) ||
-                has_flag( flag_NOITEM, e ) || has_flag( flag_SEALED, e ) ) {
+                has_flag( "NOITEM", e ) || has_flag( "SEALED", e ) ) {
                 continue;
             }
             return place_item( e );
@@ -4148,16 +4198,16 @@ item &map::add_item( const tripoint &p, item new_item )
         new_item.process( nullptr, p, false );
     }
 
-    if( new_item.made_of( LIQUID ) && has_flag( flag_SWIMMABLE, p ) ) {
+    if( new_item.made_of( LIQUID ) && has_flag( "SWIMMABLE", p ) ) {
         return null_item_reference();
     }
 
-    if( has_flag( flag_DESTROY_ITEM, p ) ) {
+    if( has_flag( "DESTROY_ITEM", p ) ) {
         return null_item_reference();
     }
 
-    if( new_item.has_flag( flag_ACT_IN_FIRE ) && get_field( p, fd_fire ) != nullptr ) {
-        if( new_item.has_flag( flag_BOMB ) && new_item.is_transformable() ) {
+    if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
+        if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
             //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
             new_item.convert( dynamic_cast<const iuse_transform *>
                               ( new_item.type->get_use( "transform" )->get_actor_ptr() )->target );
@@ -4185,7 +4235,7 @@ item &map::add_item( const tripoint &p, item new_item )
 
 item map::water_from( const tripoint &p )
 {
-    if( has_flag( flag_SALT_WATER, p ) ) {
+    if( has_flag( "SALT_WATER", p ) ) {
         return item( "salt_water", 0, item::INFINITE_CHARGES );
     }
 
@@ -4263,11 +4313,10 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-static bool process_item( item_stack &items, safe_reference<item> &item_ref,
-                          const tripoint &location,
-                          const bool activate, const float insulation, const temperature_flag flag )
+static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
+                               const tripoint &location, const float insulation, const temperature_flag flag )
 {
-    if( item_ref->process( nullptr, location, activate, insulation, flag ) ) {
+    if( item_ref->process( nullptr, location, false, insulation, flag ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
@@ -4277,13 +4326,6 @@ static bool process_item( item_stack &items, safe_reference<item> &item_ref,
     }
     // Item not destroyed
     return false;
-}
-
-static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
-                               const tripoint &location, const std::string &,
-                               const float insulation, const temperature_flag flag )
-{
-    return process_item( items, item_ref, location, false, insulation, flag );
 }
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
@@ -4326,7 +4368,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             const time_duration time_left = cycle_time - n.age();
             static const std::string no_sterile( "NO_STERILE" );
             if( time_left <= 0_turns ) {
-                if( !n.has_flag( flag_NO_PACKED ) ) {
+                if( !n.has_flag( "NO_PACKED" ) ) {
                     n.item_tags.erase( no_sterile );
                 }
                 autoclave_finished = true;
@@ -4342,39 +4384,35 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         }
     }
 
-    if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true ) >= 0 &&
-        cur_veh.has_part( "RECHARGE", true ) ) {
+    const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
+    vehicle_part recharge_part;
+    if( recharge_part_idx >= 0 && ( recharge_part = cur_veh.parts[recharge_part_idx] ) &&
+        !recharge_part.removed && !recharge_part.is_broken() &&
+        ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {
-            if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
+            if( !n.has_flag( "RECHARGE" ) && !n.has_flag( "USE_UPS" ) ) {
                 continue;
             }
             // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
             if( n.ammo_capacity() > n.ammo_remaining() ||
                 ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
-                // Around 85% efficient, so double discharge once every 7 seconds
-                const int per_charge = one_in( 7 ) ? 2 : 1;
-                const int missing = cur_veh.discharge_battery( per_charge, false );
-                if( missing < per_charge &&
-                    ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
-                    if( n.is_battery() ) {
-                        n.set_energy( 1_kJ );
-                    } else {
-                        n.ammo_set( fuel_type_battery, n.ammo_remaining() + 1 );
+                int power = recharge_part.info().bonus;
+                while( power >= 1000 || x_in_y( power, 1000 ) ) {
+                    const int missing = cur_veh.discharge_battery( 1, false );
+                    // Around 85% efficient; a few of the discharges don't actually recharge
+                    if( missing == 0 && !one_in( 7 ) ) {
+                        if( n.is_battery() ) {
+                            n.set_energy( 1_kJ );
+                        } else {
+                            n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                        }
                     }
+                    power -= 1000;
                 }
-
-                if( missing > 0 ) {
-                    // Not enough charge - stop charging
-                    break;
-                }
+                break;
             }
         }
     }
-}
-
-void map::process_active_items()
-{
-    process_items( true, process_map_items, std::string {} );
 }
 
 std::vector<tripoint> map::check_submap_active_item_consistency()
@@ -4403,8 +4441,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
     return result;
 }
 
-void map::process_items( const bool active, map::map_process_func processor,
-                         const std::string &signal )
+void map::process_items()
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
@@ -4418,7 +4455,7 @@ void map::process_items( const bool active, map::map_process_func processor,
         for( const tripoint &pos : submaps_with_vehicles ) {
             submap *const current_submap = get_submap_at_grid( pos );
             // Vehicles first in case they get blown up and drop active items on the map.
-            process_items_in_vehicles( *current_submap, pos.z, processor, signal );
+            process_items_in_vehicles( *current_submap );
         }
     }
     // Making a copy, in case the original variable gets modified during `process_items_in_submap`
@@ -4426,14 +4463,13 @@ void map::process_items( const bool active, map::map_process_func processor,
     for( const tripoint &abs_pos : submaps_with_active_items_copy ) {
         const tripoint local_pos = abs_pos - abs_sub.xy();
         submap *const current_submap = get_submap_at_grid( local_pos );
-        if( !active || !current_submap->active_items.empty() ) {
-            process_items_in_submap( *current_submap, local_pos, processor, signal );
+        if( !current_submap->active_items.empty() ) {
+            process_items_in_submap( *current_submap, local_pos );
         }
     }
 }
 
-void map::process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                   map::map_process_func processor, const std::string &signal )
+void map::process_items_in_submap( submap &current_submap, const tripoint &gridp )
 {
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
@@ -4453,12 +4489,11 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
         map_stack items = i_at( map_location );
-        processor( items, active_item_ref.item_ref, map_location, signal, 1, flag );
+        process_map_items( items, active_item_ref.item_ref, map_location, 1, flag );
     }
 }
 
-void map::process_items_in_vehicles( submap &current_submap, const int gridz,
-                                     map::map_process_func processor, const std::string &signal )
+void map::process_items_in_vehicles( submap &current_submap )
 {
     // a copy, important if the vehicle list changes because a
     // vehicle got destroyed by a bomb (an active item!), this list
@@ -4475,12 +4510,11 @@ void map::process_items_in_vehicles( submap &current_submap, const int gridz,
             continue;
         }
 
-        process_items_in_vehicle( *cur_veh, current_submap, gridz, processor, signal );
+        process_items_in_vehicle( *cur_veh, current_submap );
     }
 }
 
-void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int /*gridz*/,
-                                    map::map_process_func processor, const std::string &signal )
+void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
@@ -4530,7 +4564,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
                 flag = temperature_flag::TEMP_FREEZER;
             }
         }
-        if( !processor( items, active_item_ref.item_ref, item_loc, signal, it_insulation, flag ) ) {
+        if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -4585,9 +4619,9 @@ bool map::could_see_items( const tripoint &p, const tripoint &from ) const
     if( container ) {
         // can see inside of containers if adjacent or
         // on top of the container
-        return ( abs( p.x - from.x ) <= 1 &&
-                 abs( p.y - from.y ) <= 1 &&
-                 abs( p.z - from.z ) <= 1 );
+        return ( std::abs( p.x - from.x ) <= 1 &&
+                 std::abs( p.y - from.y ) <= 1 &&
+                 std::abs( p.z - from.z ) <= 1 );
     }
     return true;
 }
@@ -4674,7 +4708,7 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id &type, int &
 static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &quantity,
                                    map *m, const tripoint &p, std::list<item> &ret, const std::function<bool( const item & )> &filter )
 {
-    if( m->has_flag( flag_LIQUIDCONT, p ) ) {
+    if( m->has_flag( "LIQUIDCONT", p ) ) {
         auto item_list = m->i_at( p );
         auto current_item = item_list.begin();
         for( ; current_item != item_list.end(); ++current_item ) {
@@ -4937,7 +4971,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
             }
             auto items = i_at( pos );
             for( auto &elem : items ) {
-                if( elem.has_flag( flag_RADIO_ACTIVATION ) || elem.has_flag( flag_RADIO_CONTAINER ) ) {
+                if( elem.has_flag( "RADIO_ACTIVATION" ) || elem.has_flag( "RADIO_CONTAINER" ) ) {
                     rc_pairs.push_back( std::make_pair( pos, &elem ) );
                 }
             }
@@ -5353,6 +5387,21 @@ computer *map::computer_at( const tripoint &p )
     return sm->get_computer( l );
 }
 
+bool map::point_within_camp( const tripoint &point_check ) const
+{
+    const tripoint omt_check = ms_to_omt_copy( point_check );
+    const int x = omt_check.x;
+    const int y = omt_check.y;
+    for( int x2 = x - 2; x2 < x + 2; x2++ ) {
+        for( int y2 = y - 2; y2 < y + 2; y2++ ) {
+            if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) ) ) {
+                return ( *bcp )->camp_omt_pos().z == point_check.z;
+            }
+        }
+    }
+    return false;
+}
+
 void map::remove_submap_camp( const tripoint &p )
 {
     get_submap_at( p )->camp.reset();
@@ -5593,6 +5642,12 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             x++;
         }
     }
+}
+
+void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
+                  bool invert, bool show_items ) const
+{
+    drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
 }
 
 void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, const bool invert_arg,
@@ -5952,8 +6007,9 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     tripoint last_point = F;
     bresenham( F, T, bresenham_slope, 0,
     [this, &visible, &T, &last_point]( const tripoint & new_point ) {
-        // Exit before checking the last square, it's still visible even if opaque.
-        if( new_point == T ) {
+        // Exit before checking the last square if it's not a vertical transition,
+        // it's still visible even if opaque.
+        if( new_point == T && last_point.z == T.z ) {
             return false;
         }
 
@@ -6067,7 +6123,8 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
 
     // temp buffer for grid
     const int grid_dim = range * 2 + 1;
-    std::vector< int > t_grid( grid_dim * grid_dim, -1 ); // init to -1 as "not visited yet"
+    // init to -1 as "not visited yet"
+    std::vector< int > t_grid( static_cast<size_t>( grid_dim * grid_dim ), -1 );
     const tripoint origin_offset = {range, range, 0};
     const int initial_visit_distance = range * range; // Large unreachable value
 
@@ -6132,7 +6189,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
             }
         }
     }
-    std::vector<char> o_grid( grid_dim * grid_dim, 0 );
+    std::vector<char> o_grid( static_cast<size_t>( grid_dim * grid_dim ), 0 );
     for( int y = 0, ndx = 0; y < grid_dim; ++y ) {
         for( int x = 0; x < grid_dim; ++x, ++ndx ) {
             if( t_grid[ ndx ] != -1 && t_grid[ ndx ] < initial_visit_distance ) {
@@ -6244,7 +6301,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
 
 bool map::accessible_items( const tripoint &t ) const
 {
-    return !has_flag( flag_SEALED, t ) || has_flag( flag_LIQUIDCONT, t );
+    return !has_flag( "SEALED", t ) || has_flag( "LIQUIDCONT", t );
 }
 
 std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t ) const
@@ -6377,7 +6434,7 @@ void map::shift( const point &sp )
         return; // Skip this?
     }
 
-    if( abs( sp.x ) > 1 || abs( sp.y ) > 1 ) {
+    if( std::abs( sp.x ) > 1 || std::abs( sp.y ) > 1 ) {
         debugmsg( "map::shift called with a shift of more than one submap" );
     }
 
@@ -6665,45 +6722,11 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     abs_sub.z = old_abs_z;
 }
 
-bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
-{
-    if( itm.is_corpse() && itm.goes_bad() ) {
-        itm.process_temperature_rot( 1, pnt, nullptr );
-        return itm.get_rot() > 10_days && !itm.can_revive();
-    } else if( itm.goes_bad() ) {
-        itm.process_temperature_rot( 1, pnt, nullptr );
-        return itm.has_rotten_away();
-    } else if( itm.type->container && itm.type->container->preserves ) {
-        // Containers like tin cans preserves all items inside, they do not rot at all.
-        return false;
-    } else if( itm.type->container && itm.type->container->seals ) {
-        // Items inside rot but do not vanish as the container seals them in.
-        for( auto &c : itm.contents ) {
-            if( c.goes_bad() ) {
-                c.process_temperature_rot( 1, pnt, nullptr );
-            }
-        }
-        return false;
-    } else {
-        // Check and remove rotten contents, but always keep the container.
-        for( auto it = itm.contents.begin(); it != itm.contents.end(); ) {
-            if( has_rotten_away( *it, pnt ) ) {
-                it = itm.contents.erase( it );
-            } else {
-                ++it;
-            }
-        }
-
-        return false;
-    }
-}
-
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt )
 {
-    const tripoint abs_pnt = getabs( pnt );
     for( auto it = items.begin(); it != items.end(); ) {
-        if( has_rotten_away( *it, abs_pnt ) ) {
+        if( it->has_rotten_away( pnt ) ) {
             if( it->is_comestible() ) {
                 rotten_item_spawn( *it, pnt );
             }
@@ -6764,7 +6787,7 @@ void map::fill_funnels( const tripoint &p, const time_point &since )
 void map::grow_plant( const tripoint &p )
 {
     const auto &furn = this->furn( p ).obj();
-    if( !furn.has_flag( flag_PLANT ) ) {
+    if( !furn.has_flag( "PLANT" ) ) {
         return;
     }
     // Can't use item_stack::only_item() since there might be fertilizer
@@ -6782,15 +6805,15 @@ void map::grow_plant( const tripoint &p )
     }
     const time_duration plantEpoch = seed->get_plant_epoch();
     if( seed->age() >= plantEpoch * furn.plant->growth_multiplier &&
-        !furn.has_flag( flag_GROWTH_HARVEST ) ) {
+        !furn.has_flag( "GROWTH_HARVEST" ) ) {
         if( seed->age() < plantEpoch * 2 ) {
-            if( has_flag_furn( flag_GROWTH_SEEDLING, p ) ) {
+            if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 return;
             }
 
             // Remove fertilizer if any
             map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( flag_FERTILIZER );
+                return it.has_flag( "FERTILIZER" );
             } );
             if( fertilizer != items.end() ) {
                 items.erase( fertilizer );
@@ -6799,13 +6822,13 @@ void map::grow_plant( const tripoint &p )
             rotten_item_spawn( *seed, p );
             furn_set( p, furn_str_id( furn.plant->transform ) );
         } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
-            if( has_flag_furn( flag_GROWTH_MATURE, p ) ) {
+            if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 return;
             }
 
             // Remove fertilizer if any
             map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( flag_FERTILIZER );
+                return it.has_flag( "FERTILIZER" );
             } );
             if( fertilizer != items.end() ) {
                 items.erase( fertilizer );
@@ -6813,17 +6836,17 @@ void map::grow_plant( const tripoint &p )
 
             rotten_item_spawn( *seed, p );
             //You've skipped the seedling stage so roll monsters twice
-            if( !has_flag_furn( flag_GROWTH_SEEDLING, p ) ) {
+            if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 rotten_item_spawn( *seed, p );
             }
             furn_set( p, furn_str_id( furn.plant->transform ) );
         } else {
             //You've skipped two stages so roll monsters two times
-            if( has_flag_furn( flag_GROWTH_SEEDLING, p ) ) {
+            if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 rotten_item_spawn( *seed, p );
                 rotten_item_spawn( *seed, p );
                 //One stage change
-            } else if( has_flag_furn( flag_GROWTH_MATURE, p ) ) {
+            } else if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 rotten_item_spawn( *seed, p );
                 //Goes from seed to harvest in one check
             } else {
@@ -6932,7 +6955,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     // Is there a proper container?
     auto items = i_at( p );
     for( auto &it : items ) {
-        if( it.is_bucket() || it.is_watertight_container() ) {
+        if( it.will_spill() || it.is_watertight_container() ) {
             const int capacity = it.get_remaining_capacity_for_liquid( sap, true );
             if( capacity > 0 ) {
                 new_charges = std::min( new_charges, capacity );
@@ -6941,7 +6964,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
                 sap.poison = one_in( 10 ) ? 1 : 0;
                 sap.charges = new_charges;
 
-                it.fill_with( sap );
+                it.put_in( sap, item_pocket::pocket_type::CONTAINER );
             }
             // Only fill up the first container.
             break;
@@ -6964,7 +6987,7 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     // First destroy the farmable plants (those are furniture)
     // TODO: Rad-resistant mutant plants (that produce radioactive fruit)
     const furn_t &fid = furn( p ).obj();
-    if( fid.has_flag( flag_PLANT ) ) {
+    if( fid.has_flag( "PLANT" ) ) {
         i_clear( p );
         furn_set( p, f_null );
     }
@@ -6972,13 +6995,13 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     const ter_id tid = ter( p );
     // TODO: De-hardcode this
     static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_dirt},
-            {t_tree_young, ter_dirt},
-            {t_tree_pine, ter_tree_deadpine},
-            {t_tree_birch, ter_tree_birch_harvested},
-            {t_tree_willow, ter_tree_willow_harvested},
-            {t_tree_hickory, ter_tree_hickory_dead},
-            {t_tree_hickory_harvested, ter_tree_hickory_dead},
+            {t_grass, ter_str_id( "t_dirt" )},
+            {t_tree_young, ter_str_id( "t_dirt" )},
+            {t_tree_pine, ter_str_id( "t_tree_deadpine" )},
+            {t_tree_birch, ter_str_id( "t_tree_birch_harvested" )},
+            {t_tree_willow, ter_str_id( "t_tree_willow_harvested" )},
+            {t_tree_hickory, ter_str_id( "t_tree_hickory_dead" )},
+            {t_tree_hickory_harvested, ter_str_id( "t_tree_hickory_dead" )},
         }};
 
     const auto iter = dies_into.find( tid );
@@ -6988,10 +7011,10 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     }
 
     const ter_t &tr = tid.obj();
-    if( tr.has_flag( flag_SHRUB ) ) {
+    if( tr.has_flag( "SHRUB" ) ) {
         ter_set( p, t_dirt );
-    } else if( tr.has_flag( flag_TREE ) ) {
-        ter_set( p, ter_tree_dead );
+    } else if( tr.has_flag( "TREE" ) ) {
+        ter_set( p, ter_str_id( "t_tree_dead" ) );
     }
 }
 
@@ -7031,11 +7054,11 @@ void map::actualize( const tripoint &grid )
             const tripoint pnt = sm_to_ms_copy( grid ) + point( x, y );
             const point p( x, y );
             const auto &furn = this->furn( pnt ).obj();
-            if( furn.has_flag( flag_EMITTER ) ) {
+            if( furn.has_flag( "EMITTER" ) ) {
                 field_furn_locs.push_back( pnt );
             }
             // plants contain a seed item which must not be removed under any circumstances
-            if( !furn.has_flag( flag_DONT_REMOVE_ROTTEN ) ) {
+            if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
                 remove_rotten_items( tmpsub->get_items( { x, y } ), pnt );
             }
 
@@ -7717,30 +7740,16 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         seen_cache_dirty |= build_floor_cache( z );
         do_vehicle_caching( z );
     }
-
-    const tripoint &p = g->u.pos();
-    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
-    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
-        if( loc == p ) {
-            // The tile player is standing on should always be transparent
-            if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
-                get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
-            }
-        } else if( is_crouching && coverage( loc ) >= 30 ) {
-            // If we're crouching behind an obstacle, we can't see past it.
-            get_cache( loc.z ).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
-            get_cache( loc.z ).transparency_cache_dirty = true;
-            seen_cache_dirty = true;
-        }
-    }
+    seen_cache_dirty |= build_vision_transparency_cache( zlev );
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
     }
     // Initial value is illegal player position.
+    const tripoint &p = g->u.pos();
     static tripoint player_prev_pos;
     if( seen_cache_dirty || player_prev_pos != p ) {
-        build_seen_cache( g->u.pos(), zlev );
+        build_seen_cache( p, zlev );
         player_prev_pos = p;
     }
     if( !skip_lightmap ) {
@@ -8047,7 +8056,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
                           const point &min, const point &max )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
-    auto block = TFLAG_WALL;
+    auto block = TFLAG_NO_SCENT;
     auto fill_values = [&]( const tripoint & gp, const submap * sm, const point & lp ) {
         // We need to generate the x/y coordinates, because we can't get them "for free"
         const int x = gp.x * SEEX + lp.x;
@@ -8239,6 +8248,7 @@ level_cache::level_cache()
     std::fill_n( &outside_cache[0][0], map_dimensions, false );
     std::fill_n( &floor_cache[0][0], map_dimensions, false );
     std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
+    std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );

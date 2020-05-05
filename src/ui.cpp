@@ -1,10 +1,10 @@
 #include "ui.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cctype>
 #include <climits>
 #include <cstdlib>
-#include <algorithm>
 #include <iterator>
 #include <memory>
 
@@ -18,6 +18,8 @@
 #include "output.h"
 #include "player.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "ui_manager.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -106,6 +108,8 @@ uilist::uilist( const point &start, int width, const std::string &msg,
     query();
 }
 
+uilist::~uilist() = default;
+
 /*
  * Enables oneshot construction -> running -> exit
  */
@@ -129,8 +133,6 @@ void uilist::init()
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
-    // TODO:
-    textalign = MENU_ALIGN_LEFT;
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
     window = catacurses::window();         // our window
@@ -143,8 +145,6 @@ void uilist::init()
     desc_enabled = false;  // don't show option description by default
     desc_lines = 6;        // default number of lines for description
     footer_text.clear();   // takes precedence over per-entry descriptions.
-    // TODO: always true.
-    border = true;
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -153,9 +153,8 @@ void uilist::init()
     disabled_color = c_dark_gray; // disabled menu entry
     allow_disabled = false;  // disallow selecting disabled options
     allow_anykey = false;    // do not return on unbound keys
-    allow_cancel = true;     // allow cancelling with "QUIT" action
+    allow_cancel = true;     // allow canceling with "QUIT" action
     allow_additional = false; // do not return on unhandled additional actions
-    hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
     vshift = 0;              // scrolling menu offset
@@ -166,15 +165,8 @@ void uilist::init()
     fselected = 0;           // fentries[selected]
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
-    max_entry_len = 0;       // does nothing but can be read
+    max_entry_len = 0;
     max_column_len = 0;      // for calculating space for second column
-
-    scrollbar_auto =
-        true;   // there is no force-on; true will only render scrollbar if entries > vertical height
-    scrollbar_nopage_color =
-        c_light_gray;    // color of '|' line for the entire area that isn't current page.
-    scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
-    scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
     hotkeys = DEFAULT_HOTKEYS;
     input_category = "UILIST";
@@ -231,62 +223,35 @@ void uilist::filterlist()
     if( static_cast<int>( fentries.size() ) <= vmax ) {
         vshift = 0;
     }
+    if( callback != nullptr ) {
+        callback->select( this );
+    }
 }
 
-/**
- * Call string_input_win / ui_element_input::input_filter and filter the entries list interactively
- */
-std::string uilist::inputfilter()
+void uilist::inputfilter()
 {
-    // TODO: uilist.filter_identifier ?
-    std::string identifier;
-    mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
-    mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
-    /*
-    //debatable merit
-        std::string origfilter = filter;
-        int origselected = selected;
-        int origfselected = fselected;
-        int origvshift = vshift;
-    */
-    string_input_popup popup;
-    popup.text( filter )
+    filter_popup = std::make_unique<string_input_popup>();
+    filter_popup->text( filter )
     .max_length( 256 )
-    .window( window, 4, w_height - 1, w_width - 4 )
-    .identifier( identifier );
+    .window( window, point( 4, w_height - 1 ), w_width - 4 );
     input_event event;
     ime_sentry sentry;
     do {
-        // filter=filter_input->query(filter, false);
-        filter = popup.query_string( false );
-        event = popup.context().get_raw_input();
-        // key = filter_input->keypress;
+        ui_manager::redraw();
+        filter = filter_popup->query_string( false );
+        event = filter_popup->context().get_raw_input();
         if( event.get_first_input() != KEY_ESCAPE ) {
             if( !scrollby( scroll_amount_from_key( event.get_first_input() ) ) ) {
                 filterlist();
             }
-            show();
         }
     } while( event.get_first_input() != '\n' && event.get_first_input() != KEY_ESCAPE );
 
     if( event.get_first_input() == KEY_ESCAPE ) {
-        /*
-        //perhaps as an option
-                filter = origfilter;
-                selected = origselected;
-                fselected = origfselected;
-                vshift = origvshift;
-        */
         filterlist();
     }
 
-    wattron( window, border_color );
-    for( int i = 1; i < w_width - 1; i++ ) {
-        mvwaddch( window, point( i, w_height - 1 ), LINE_OXOX );
-    }
-    wattroff( window, border_color );
-
-    return filter;
+    filter_popup.reset();
 }
 
 /**
@@ -506,19 +471,15 @@ void uilist::setup()
         }
     }
 
-    if( w_x == -1 ) {
+    w_x_autoassigned = w_x == MENU_AUTOASSIGN;
+    if( w_x_autoassigned ) {
         w_x = static_cast<int>( ( TERMX - w_width ) / 2 );
     }
-    if( w_y == -1 ) {
+    w_y_autoassigned = w_y == MENU_AUTOASSIGN;
+    if( w_y_autoassigned ) {
         w_y = static_cast<int>( ( TERMY - w_height ) / 2 );
     }
 
-    if( scrollbar_side == -1 ) {
-        scrollbar_side = ( pad_left > 0 ? 1 : 0 );
-    }
-    if( static_cast<int>( entries.size() ) <= vmax ) {
-        scrollbar_auto = false;
-    }
     window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
         debugmsg( "Window not created; probably trying to use uilist in test mode." );
@@ -539,16 +500,44 @@ void uilist::setup()
             }
         }
     }
+    if( callback != nullptr ) {
+        callback->select( this );
+    }
     started = true;
+}
+
+void uilist::reposition( ui_adaptor &ui )
+{
+    if( !started ) {
+        setup();
+    } else if( w_x_autoassigned || w_y_autoassigned ) {
+        // because the way `setup()` works we cannot call it again here,
+        // so just move the window to the center of the screen instead.
+        if( w_x_autoassigned ) {
+            if( w_width >= TERMX ) {
+                w_x = 0;
+            } else {
+                w_x = ( TERMX - w_width ) / 2;
+            }
+        }
+        if( w_y_autoassigned ) {
+            if( w_height > TERMY ) {
+                w_y = 0;
+            } else {
+                w_y = ( TERMY - w_height ) / 2;
+            }
+        }
+        window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
+        if( filter_popup ) {
+            filter_popup->window( window, point( 4, w_height - 1 ), w_width - 4 );
+        }
+    }
+    ui.position_from_window( window );
 }
 
 void uilist::apply_scrollbar()
 {
-    if( !scrollbar_auto ) {
-        return;
-    }
-
-    int sbside = ( scrollbar_side == 0 ? 0 : w_width - 1 );
+    int sbside = ( pad_left <= 0 ? 0 : w_width - 1 );
     int estart = textformatted.size();
     if( estart > 0 ) {
         estart += 2;
@@ -564,8 +553,8 @@ void uilist::apply_scrollbar()
     .viewport_size( vmax )
     .border_color( border_color )
     .arrow_color( border_color )
-    .slot_color( scrollbar_nopage_color )
-    .bar_color( scrollbar_page_color )
+    .slot_color( c_light_gray )
+    .bar_color( c_cyan_cyan )
     .scroll_to_last( false )
     .apply( window );
 }
@@ -618,9 +607,7 @@ void uilist::show()
                               disabled_color )
                           );
 
-            if( hilight_full ) {
-                mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
-            }
+            mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
             if( entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
                 const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
                 mvwprintz( window, point( pad_left + 2, estart + si ), entries[ ei ].enabled ? hotkey_co : co,
@@ -652,9 +639,6 @@ void uilist::show()
                 mvwputch( window, point( pad_left + 1 + menu_entry_extra_text.left, estart + si ),
                           menu_entry_extra_text.color, menu_entry_extra_text.sym );
             }
-            if( callback != nullptr && ei == selected ) {
-                callback->select( ei, this );
-            }
         } else {
             mvwprintz( window, point( pad_left + 1, estart + si ), c_light_gray, padspaces );
         }
@@ -681,50 +665,22 @@ void uilist::show()
         }
     }
 
-    if( !filter.empty() ) {
-        mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
-        mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
+    if( filter_popup ) {
+        mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
+        mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
+        filter_popup->query( /*loop=*/false, /*draw_only=*/true );
+    } else {
+        if( !filter.empty() ) {
+            mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
+            mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
+        }
     }
     apply_scrollbar();
 
-    this->refresh( true );
-}
-
-/**
- * wrefresh + wrefresh callback's window
- */
-void uilist::refresh( bool refresh_callback )
-{
     wrefresh( window );
-    if( refresh_callback && callback != nullptr ) {
+    if( callback != nullptr ) {
         callback->refresh( this );
     }
-}
-
-/**
- * redraw borders, which is required in some cases ( look_around() )
- */
-void uilist::redraw( bool redraw_callback )
-{
-    draw_border( window, border_color );
-    if( !title.empty() ) {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( window, point( 1, 0 ), border_color, "< " );
-        wprintz( window, title_color, title );
-        wprintz( window, border_color, " >" );
-    }
-    if( !filter.empty() ) {
-        mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
-        mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
-    }
-    // TODO: something
-    ( void )redraw_callback;
-    /*
-    // pending tests on if this is needed
-        if ( redraw_callback && callback != NULL ) {
-            callback->redraw(this);
-        }
-    */
 }
 
 int uilist::scroll_amount_from_key( const int key )
@@ -811,6 +767,9 @@ bool uilist::scrollby( const int scrollby )
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
         selected = fentries [ fselected ];
+        if( callback != nullptr ) {
+            callback->select( this );
+        }
     }
     return true;
 }
@@ -846,7 +805,16 @@ void uilist::query( bool loop, int timeout )
     }
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
-    show();
+    ui_adaptor ui;
+    ui.on_redraw( [this]( const ui_adaptor & ) {
+        show();
+    } );
+    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        reposition( ui );
+    } );
+    reposition( ui );
+
+    ui_manager::redraw();
 
 #if defined(__ANDROID__)
     for( const auto &entry : entries ) {
@@ -872,6 +840,9 @@ void uilist::query( bool loop, int timeout )
                 ret = entries[ selected ].retval; // valid
             } else if( allow_disabled ) {
                 ret = entries[selected].retval; // disabled
+            }
+            if( callback != nullptr ) {
+                callback->select( this );
             }
         } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
@@ -899,7 +870,7 @@ void uilist::query( bool loop, int timeout )
             }
         }
 
-        show();
+        ui_manager::redraw();
     } while( loop && ret == UILIST_WAIT_INPUT );
 }
 
@@ -950,11 +921,6 @@ pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )
     last_view = g->u.view_offset;
 }
 
-void pointmenu_cb::select( int /*num*/, uilist * /*menu*/ )
-{
-    g->u.view_offset = last_view;
-}
-
 void pointmenu_cb::refresh( uilist *menu )
 {
     if( last == menu->selected ) {
@@ -966,7 +932,6 @@ void pointmenu_cb::refresh( uilist *menu )
         g->draw_ter();
         wrefresh( g->w_terrain );
         g->draw_panels();
-        menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;
     }
@@ -977,7 +942,6 @@ void pointmenu_cb::refresh( uilist *menu )
     // TODO: Remove this line when it's safe
     g->u.view_offset.z = 0;
     g->draw_trail_to_square( g->u.view_offset, true );
-    menu->redraw( false );
     menu->show();
 }
 

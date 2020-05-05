@@ -1,8 +1,8 @@
 #include <cstddef>
-#include <sstream>
 #include <list>
 #include <map>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -11,18 +11,17 @@
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
-#include "map.h"
-#include "options_helpers.h"
-#include "options.h"
-#include "player.h"
-#include "map_helpers.h"
 #include "inventory.h"
 #include "item.h"
-#include "player_activity.h"
-#include "type_id.h"
 #include "item_location.h"
+#include "map.h"
+#include "map_helpers.h"
 #include "map_selector.h"
+#include "options_helpers.h"
+#include "player.h"
+#include "player_activity.h"
 #include "point.h"
+#include "type_id.h"
 #include "visitable.h"
 
 const trait_id trait_debug_storage( "DEBUG_STORAGE" );
@@ -262,9 +261,8 @@ static void pick_up_from_feet( player &p, int id )
     REQUIRE( found );
 
     p.moves = 100;
-    p.assign_activity( activity_id( "ACT_PICKUP" ) );
-    p.activity.targets.emplace_back( map_cursor( p.pos() ), found );
-    p.activity.values.push_back( 0 );
+    p.assign_activity( player_activity( pickup_activity_actor( { item_location( map_cursor( p.pos() ), found ) }, { 0 },
+                                        p.pos() ) ) );
     p.activity.do_turn( p );
 
     REQUIRE( items.size() == size_before - 1 );
@@ -466,6 +464,7 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
         dummy.worn.clear();
         dummy.remove_weapon();
         g->m.i_clear( dummy.pos() );
+        dummy.worn.push_back( item( "backpack" ) );
 
         // some two items that can be wielded, worn, and picked up
         item tshirt( "tshirt" );
@@ -547,6 +546,7 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     dummy.worn.clear();
     dummy.remove_weapon();
     g->m.i_clear( dummy.pos() );
+    dummy.worn.push_back( item( "backpack" ) );
 
     // some stackable item that can be wielded and worn
     item tshirt1( "tshirt" );
@@ -682,6 +682,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
         dummy.worn.clear();
         dummy.remove_weapon();
         g->m.i_clear( dummy.pos() );
+        dummy.worn.push_back( item( "backpack" ) );
 
         // some stackable item
         item tshirt1( "tshirt" );
@@ -747,7 +748,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
         merge_invlet_test( dummy, from ); \
     }
 
-TEST_CASE( "Inventory letter test", "[invlet]" )
+TEST_CASE( "Inventory letter test", "[.invlet]" )
 {
     player &dummy = g->u;
     const tripoint spot( 60, 60, 0 );
@@ -787,7 +788,7 @@ static void verify_invlet_consistency( const invlet_favorites &fav )
     }
 }
 
-TEST_CASE( "invlet_favourites_can_erase", "[invlet]" )
+TEST_CASE( "invlet_favourites_can_erase", "[.invlet]" )
 {
     invlet_favorites fav;
     fav.set( 'a', "a" );
@@ -798,7 +799,7 @@ TEST_CASE( "invlet_favourites_can_erase", "[invlet]" )
     CHECK( fav.invlets_for( "a" ).empty() );
 }
 
-TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
+TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[.invlet]" )
 {
     invlet_favorites fav;
     fav.set( 'a', "a" );
@@ -811,7 +812,7 @@ TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
     CHECK( fav.invlets_for( "b" ) == "a" );
 }
 
-TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[invlet]" )
+TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[.invlet]" )
 {
     invlet_favorites fav;
     fav.set( 'a', "a" );

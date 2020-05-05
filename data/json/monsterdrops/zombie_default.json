@@ -31,9 +31,9 @@
                   },
                   { "item": "suit", "prob": 5, "damage": [ 1, 4 ] },
                   { "item": "tux", "prob": 5, "damage": [ 1, 4 ] },
-                  { "item": "thawb", "prob": 10, "damage": [ 1, 4 ] },
-                  { "item": "cassock", "prob": 10, "damage": [ 1, 4 ] },
-                  { "item": "haori", "prob": 10, "damage": [ 1, 4 ] }
+                  { "item": "thawb", "prob": 1, "damage": [ 1, 4 ] },
+                  { "item": "cassock", "prob": 1, "damage": [ 1, 4 ] },
+                  { "item": "haori", "prob": 1, "damage": [ 1, 4 ] }
                 ]
               },
               { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
@@ -70,7 +70,11 @@
                         "distribution": [
                           { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
                           { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
-                          { "item": "sundress", "prob": 50, "damage": [ 1, 4 ] }
+                          { "item": "sundress", "prob": 45, "damage": [ 1, 4 ] },
+                          {
+                            "collection": [ { "item": "dress_wedding", "damage": [ 1, 4 ] }, { "item": "veil_wedding", "damage": [ 1, 4 ] } ],
+                            "prob": 5
+                          }
                         ]
                       },
                       { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
@@ -79,19 +83,7 @@
                       },
                       { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
                     ],
-                    "prob": 20
-                  },
-                  {
-                    "collection": [
-                      { "item": "dress_wedding", "damage": [ 1, 4 ] },
-                      { "item": "veil_wedding", "damage": [ 1, 4 ] },
-                      { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
-                      {
-                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
-                      },
-                      { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
-                    ],
-                    "prob": 10
+                    "prob": 30
                   }
                 ]
               }
@@ -119,7 +111,7 @@
       { "group": "homebooks", "prob": 30 },
       { "group": "alcohol_bottled_canned", "prob": 10 },
       { "group": "vending_drink_items", "prob": 25 },
-      { "item": "laptop", "prob": 10 },
+      { "item": "laptop", "prob": 10, "charges-min": 0, "charges-max": 500 },
       { "item": "eink_tablet_pc", "prob": 10, "charges-min": 0, "charges-max": 50 },
       { "item": "vibrator", "prob": 5, "charges-min": 0, "charges-max": 50 },
       { "item": "teleumbrella", "prob": 10 },

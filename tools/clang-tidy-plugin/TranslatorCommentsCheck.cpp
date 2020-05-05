@@ -1,9 +1,33 @@
 #include "TranslatorCommentsCheck.h"
 
-#include <map>
-
+#include <ClangTidyDiagnosticConsumer.h>
+#include <clang/AST/ASTContext.h>
+#include <clang/AST/Expr.h>
+#include <clang/ASTMatchers/ASTMatchers.h>
+#include <clang/ASTMatchers/ASTMatchersInternal.h>
+#include <clang/ASTMatchers/ASTMatchersMacros.h>
+#include <clang/Basic/DiagnosticIDs.h>
+#include <clang/Basic/IdentifierTable.h>
+#include <clang/Basic/SourceManager.h>
 #include <clang/Frontend/CompilerInstance.h>
+#include <clang/Lex/Lexer.h>
 #include <clang/Lex/MacroArgs.h>
+#include <clang/Lex/PPCallbacks.h>
+#include <clang/Lex/Preprocessor.h>
+#include <clang/Lex/Token.h>
+#include <llvm/ADT/STLExtras.h>
+#include <llvm/Support/Regex.h>
+#include <iterator>
+#include <map>
+#include <utility>
+
+#include "clang/Basic/TokenKinds.h"
+
+namespace clang
+{
+class CXXConstructExpr;
+class MacroDefinition;
+}  // namespace clang
 
 using namespace clang::ast_matchers;
 

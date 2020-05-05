@@ -1,8 +1,7 @@
 #pragma once
-#ifndef GAME_CONSTANTS_H
-#define GAME_CONSTANTS_H
+#ifndef CATA_SRC_GAME_CONSTANTS_H
+#define CATA_SRC_GAME_CONSTANTS_H
 
-#include "calendar.h"
 #include "units.h"
 
 // Fixed window sizes.
@@ -107,9 +106,6 @@ constexpr int freezer = 23; // -5 Celsius
 constexpr int freezing = 32; // 0 Celsius
 } // namespace temperatures
 
-// Shelf life of corpse. This should be kept same as raw flesh.
-constexpr time_duration CORPSE_ROT_TIME = 24_hours;
-
 // Weight per level of LIFT/JACK tool quality.
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
 
@@ -128,7 +124,7 @@ constexpr time_duration CORPSE_ROT_TIME = 24_hours;
 #define MAX_SKILL 20
 
 // Maximum (effective) level for a stat.
-#define MAX_STAT 20
+#define MAX_STAT 14
 
 // Maximum range at which ranged attacks can be executed.
 #define RANGE_HARD_CAP 60
@@ -139,6 +135,10 @@ constexpr double accuracy_critical = 0.2;
 constexpr double accuracy_goodhit  = 0.5;
 constexpr double accuracy_standard = 0.8;
 constexpr double accuracy_grazing  = 1.0;
+
+// The maximum level recoil will ever reach.
+// This corresponds to the level of accuracy of a "snap" or "hip" shot.
+constexpr double MAX_RECOIL = 3000;
 
 // Minimum item damage output of relevant type to allow using with relevant weapon skill.
 #define MELEE_STAT 5
@@ -195,4 +195,4 @@ constexpr float very_obese = 35.0f;
 constexpr float morbidly_obese = 40.0f;
 } // namespace character_weight_category
 
-#endif
+#endif // CATA_SRC_GAME_CONSTANTS_H

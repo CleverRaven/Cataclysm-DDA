@@ -1,36 +1,39 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <exception>
 #include <iostream>
 #include <iterator>
-#include <exception>
 #include <set>
 #include <utility>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "damage.h"
+#include "flat_set.h"
 #include "init.h"
+#include "item.h"
 #include "item_factory.h"
+#include "itype.h"
 #include "loading_ui.h"
+#include "material.h"
 #include "npc.h"
+#include "output.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "stomach.h"
+#include "translations.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-#include "bodypart.h"
-#include "damage.h"
-#include "itype.h"
-#include "recipe.h"
-#include "ret_val.h"
-#include "translations.h"
-#include "units.h"
-#include "material.h"
-#include "output.h"
-#include "flat_set.h"
-#include "item.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_VARSIZE( "VARSIZE" );
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -67,7 +70,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( "9mm" );
     test_items[ "G3" ] = item( "ar15" ).ammo_set( "223" );
     test_items[ "G4" ] = item( "remington_700" ).ammo_set( "270" );
-    test_items[ "G4" ].emplace_back( "rifle_scope" );
+    test_items[ "G4" ].put_in( item( "rifle_scope" ), item_pocket::pocket_type::MOD );
 
     if( what == "AMMO" ) {
         header = {
@@ -87,7 +90,6 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             damage_instance damage = obj.type->ammo->damage;
             r.push_back( to_string( damage.total_damage() ) );
             r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
-            r.push_back( obj.type->ammo->prop_damage ? to_string( *obj.type->ammo->prop_damage ) : "---" );
             rows.push_back( r );
         };
         for( const itype *e : item_controller->all() ) {
@@ -98,7 +100,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     } else if( what == "ARMOR" ) {
         header = {
-            "Name", "Encumber (fit)", "Warmth", "Weight", "Storage", "Coverage", "Bash", "Cut", "Acid", "Fire"
+            "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
         };
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
@@ -106,10 +108,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.get_encumber( g->u ) ) );
             r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.get_storage() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.get_coverage() ) );
             r.push_back( to_string( obj.bash_resist() ) );
             r.push_back( to_string( obj.cut_resist() ) );
+            r.push_back( to_string( obj.bullet_resist() ) );
             r.push_back( to_string( obj.acid_resist() ) );
             r.push_back( to_string( obj.fire_resist() ) );
             rows.push_back( r );
@@ -122,7 +124,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 item obj( e );
                 if( bp == num_bp || obj.covers( bp ) ) {
                     if( obj.has_flag( flag_VARSIZE ) ) {
-                        obj.item_tags.insert( flag_FIT );
+                        obj.item_tags.insert( "FIT" );
                     }
                     dump( obj );
                 }
@@ -212,14 +214,14 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( e->gun ) {
                 item gun( e );
                 if( !gun.magazine_integral() ) {
-                    gun.emplace_back( gun.magazine_default() );
+                    gun.put_in( item( gun.magazine_default() ), item_pocket::pocket_type::MAGAZINE );
                 }
                 gun.ammo_set( gun.ammo_default( false ), gun.ammo_capacity() );
 
                 dump( test_npcs[ "S1" ], gun );
 
                 if( gun.type->gun->barrel_length > 0_ml ) {
-                    gun.emplace_back( "barrel_small" );
+                    gun.put_in( item( "barrel_small" ), item_pocket::pocket_type::MOD );
                     dump( test_npcs[ "S1" ], gun );
                 }
             }
@@ -307,7 +309,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             std::vector<std::string> r;
             r.push_back( obj.name() );
             r.push_back( obj.location );
-            r.push_back( to_string( static_cast<int>( ceil( to_gram( item( obj.item ).weight() ) /
+            r.push_back( to_string( static_cast<int>( std::ceil( to_gram( item( obj.item ).weight() ) /
                                     1000.0 ) ) ) );
             r.push_back( to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );

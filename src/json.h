@@ -1,21 +1,23 @@
 #pragma once
-#ifndef JSON_H
-#define JSON_H
+#ifndef CATA_SRC_JSON_H
+#define CATA_SRC_JSON_H
 
-#include <cstddef>
-#include <type_traits>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <bitset>
 #include <array>
+#include <bitset>
+#include <cstddef>
+#include <cstdint>
+#include <iostream>
 #include <map>
 #include <set>
 #include <stdexcept>
+#include <string>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "colony.h"
 #include "enum_conversions.h"
-#include "optional.h"
+#include "string_id.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -31,14 +33,17 @@
  * Further documentation can be found below.
  */
 
-class JsonObject;
 class JsonArray;
-class JsonSerializer;
 class JsonDeserializer;
+class JsonObject;
+class JsonSerializer;
 class JsonValue;
 
+namespace cata
+{
 template<typename T>
-class string_id;
+class optional;
+} // namespace cata
 
 class JsonError : public std::runtime_error
 {
@@ -715,6 +720,10 @@ class JsonOut
             member( name );
             write( value );
         }
+        template <typename T> void member_as_string( const std::string &name, const T &value ) {
+            member( name );
+            write_as_string( value );
+        }
 };
 
 /* JsonObject
@@ -782,12 +791,12 @@ class JsonOut
  *
  * By default, when a JsonObject is destroyed (or when you call finish) it will
  * check to see whether every member of the object was referenced in some way
- * (even simply checking for the existence of the member is suffucient).
+ * (even simply checking for the existence of the member is sufficient).
  *
  * If not all the members were referenced, then an error will be written to the
  * log (which in particular will cause the tests to fail).
  *
- * If you don't want this behaviour, then call allow_omitted_members() before
+ * If you don't want this behavior, then call allow_omitted_members() before
  * the JsonObject is destroyed.  Calling str() also suppresses it (on the basis
  * that you may be intending to re-parse that string later).
  */
@@ -822,6 +831,7 @@ class JsonObject
         }
 
         class const_iterator;
+
         friend const_iterator;
 
         const_iterator begin() const;
@@ -899,7 +909,7 @@ class JsonObject
         // non-fatally read values by reference
         // return true if the value was set.
         // return false if the member is not found.
-        // throw_on_error dictates the behaviour when the member was present
+        // throw_on_error dictates the behavior when the member was present
         // but the read fails.
         template <typename T>
         bool read( const std::string &name, T &t, bool throw_on_error = true ) const {
@@ -1402,8 +1412,8 @@ void deserialize( cata::optional<T> &obj, JsonIn &jsin )
         obj.reset();
     } else {
         obj.emplace();
-        jsin.read( *obj );
+        jsin.read( *obj, true );
     }
 }
 
-#endif
+#endif // CATA_SRC_JSON_H

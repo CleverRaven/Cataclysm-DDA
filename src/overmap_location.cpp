@@ -1,14 +1,16 @@
 #include "overmap_location.h"
 
 #include <algorithm>
+#include <map>
 #include <set>
+#include <utility>
 
+#include "debug.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "omdata.h"
 #include "overmap.h"
 #include "rng.h"
-#include "debug.h"
-#include "json.h"
 
 namespace
 {

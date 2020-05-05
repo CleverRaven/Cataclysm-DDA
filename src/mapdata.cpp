@@ -1,33 +1,40 @@
 #include "mapdata.h"
 
-#include <unordered_map>
 #include <algorithm>
+#include <cstdlib>
 #include <iterator>
 #include <map>
+#include <memory>
+#include <unordered_map>
 #include <utility>
 
+#include "assign.h"
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "item_group.h"
+#include "json.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
-#include "assign.h"
-#include "json.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_TRANSPARENT( "TRANSPARENT" );
 
 namespace
 {
 
 const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
 
-generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
-generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
+generic_factory<ter_t> terrain_data( "terrain" );
+generic_factory<furn_t> furniture_data( "furniture" );
 
 } // namespace
 
@@ -150,7 +157,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
         { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
-        { "WALL",                     TFLAG_WALL },           // smells
+        { "WALL",                     TFLAG_WALL },           // connects to other walls
+        { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
         { "CURRENT",                  TFLAG_CURRENT },        // Water is flowing.
         { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
@@ -183,9 +191,9 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     }
 };
 
-static void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers )
+static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
-    for( const std::string line : ja ) {
+    for( const std::string &line : ja ) {
         centers.emplace_back( line );
     }
 }
@@ -198,7 +206,8 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     drop_group( "EMPTY_GROUP" ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_bash_info::load( const JsonObject &jsobj, const std::string &member, bool is_furniture )
+bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
+                          map_object_type obj_type )
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -230,13 +239,19 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member, bo
     j.read( "sound", sound );
     j.read( "sound_fail", sound_fail );
 
-    if( is_furniture ) {
-        furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
-    } else {
-        const std::string ter_set_string = j.get_string( "ter_set" );
-        ter_set = ter_str_id( ter_set_string );
-        ter_set_bashed_from_above = ter_str_id( j.get_string( "ter_set_bashed_from_above",
-                                                ter_set_string ) );
+    switch( obj_type ) {
+        case map_bash_info::furniture:
+            furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
+            break;
+        case map_bash_info::terrain:
+            ter_set = ter_str_id( j.get_string( "ter_set" ) );
+            ter_set_bashed_from_above = ter_str_id( j.get_string( "ter_set_bashed_from_above",
+                                                    ter_set.c_str() ) );
+            break;
+        case map_bash_info::field:
+            fd_bash_move_cost = j.get_int( "move_cost", 100 );
+            j.read( "msg_success", field_bash_msg_success );
+            break;
     }
 
     if( j.has_member( "items" ) ) {
@@ -931,6 +946,7 @@ furn_id f_null,
         f_washer, f_dryer,
         f_vending_c, f_vending_o, f_dumpster, f_dive_block,
         f_crate_c, f_crate_o, f_coffin_c, f_coffin_o,
+        f_gunsafe_ml,
         f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet,
         f_fema_groundsheet, f_large_groundsheet,
         f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
@@ -955,7 +971,8 @@ furn_id f_null,
         f_brazier,
         f_firering,
         f_tourist_table,
-        f_camp_chair;
+        f_camp_chair,
+        f_sign;
 
 void set_furn_ids()
 {
@@ -1070,6 +1087,8 @@ void set_furn_ids()
     f_firering = furn_id( "f_firering" );
     f_tourist_table = furn_id( "f_tourist_table" );
     f_camp_chair = furn_id( "f_camp_chair" );
+    f_sign = furn_id( "f_sign" );
+    f_gunsafe_ml = furn_id( "f_gunsafe_ml" );
 }
 
 size_t ter_t::count()
@@ -1166,7 +1185,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
-    bash.load( jo, "bash", false );
+    bash.load( jo, "bash", map_bash_info::terrain );
     deconstruct.load( jo, "deconstruct", false );
 }
 
@@ -1269,16 +1288,19 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
 
-    bash.load( jo, "bash", true );
+    bash.load( jo, "bash", map_bash_info::furniture );
     deconstruct.load( jo, "deconstruct", true );
 
     if( jo.has_object( "workbench" ) ) {
-        workbench = furn_workbench_info();
+        workbench = cata::make_value<furn_workbench_info>();
         workbench->load( jo, "workbench" );
     }
     if( jo.has_object( "plant_data" ) ) {
-        plant = plant_data();
+        plant = cata::make_value<plant_data>();
         plant->load( jo, "plant_data" );
+    }
+    if( jo.has_float( "surgery_skill_multiplier" ) ) {
+        surgery_skill_multiplier = cata::make_value<float>( jo.get_float( "surgery_skill_multiplier" ) );
     }
 }
 
@@ -1303,7 +1325,7 @@ void furn_t::check() const
     if( !close.is_valid() ) {
         debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
     }
-    if( has_flag( flag_EMITTER ) ) {
+    if( has_flag( "EMITTER" ) ) {
         if( emissions.empty() ) {
             debugmsg( "furn %s has the EMITTER flag, but no emissions were set", id.c_str() );
         } else {

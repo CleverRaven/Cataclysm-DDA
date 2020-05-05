@@ -1,20 +1,19 @@
 #include "material.h"
 
-#include <map>
-#include <string>
 #include <algorithm>
 #include <iterator>
+#include <map>
 #include <set>
+#include <string>
 
 #include "assign.h"
-#include "damage.h" // damage_type
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
+#include "mapdata.h"
+#include "string_id.h"
 #include "translations.h"
-#include "player.h"
-#include "field.h"
 
 namespace
 {
@@ -65,6 +64,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "acid_resist", _acid_resist );
     mandatory( jsobj, was_loaded, "elec_resist", _elec_resist );
     mandatory( jsobj, was_loaded, "fire_resist", _fire_resist );
+    mandatory( jsobj, was_loaded, "bullet_resist", _bullet_resist );
     mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
     mandatory( jsobj, was_loaded, "density", _density );
 
@@ -166,6 +166,11 @@ int material_type::bash_resist() const
 int material_type::cut_resist() const
 {
     return _cut_resist;
+}
+
+int material_type::bullet_resist() const
+{
+    return _bullet_resist;
 }
 
 std::string material_type::bash_dmg_verb() const

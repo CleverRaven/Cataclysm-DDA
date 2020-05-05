@@ -37,8 +37,7 @@
     "copy-from": "copper_bracelet",
     "type": "ARMOR",
     "qualities": [ [ "MANA_INFUSE", 1 ] ],
-    "name": "copper infusion bracelet",
-    "name_plural": "copper infusion bracelets",
+    "name": { "str": "copper infusion bracelet" },
     "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
   },
   {
@@ -46,16 +45,14 @@
     "copy-from": "silver_bracelet",
     "type": "ARMOR",
     "qualities": [ [ "MANA_INFUSE", 2 ] ],
-    "name": "silver infusion bracelet",
-    "name_plural": "silver infusion bracelets",
+    "name": { "str": "silver infusion bracelet" },
     "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
   },
   {
     "id": "copper_circlet",
     "type": "ARMOR",
     "category": "armor",
-    "name": "copper circlet",
-    "name_plural": "copper circlets",
+    "name": { "str": "copper circlet" },
     "description": "A wooden band with copper trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
     "weight": "700 g",
     "volume": "600ml",
@@ -75,8 +72,7 @@
   {
     "id": "stone_chisel",
     "type": "TOOL",
-    "name": "stone chisel",
-    "name_plural": "stone chisels",
+    "name": { "str": "stone chisel" },
     "looks_like": "chisel",
     "description": "This is a short stone chisel.  It can be used to engrave on stone, wood, or soft metals.",
     "weight": "660 g",
@@ -99,11 +95,17 @@
     "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form.  You can still drink it, if you want."
   },
   {
+    "id": "potion_starter_superior",
+    "copy-from": "chem_ethanol",
+    "type": "COMESTIBLE",
+    "name": "superior potion starter",
+    "description": "Pure ethanol saturated with magical energy.  The sheer power concentrated within causes the surface of the potion to ripple continuously."
+  },
+  {
     "id": "adrenal_gland_large",
     "copy-from": "meat",
     "type": "COMESTIBLE",
-    "name": "large adrenal gland",
-    "name_plural": "large adrenal glands",
+    "name": { "str": "large adrenal gland" },
     "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone.  This one is huge, whether by nature or mutation.",
     "delete": { "flags": [ "SMOKABLE" ] },
     "price": 2000
@@ -143,8 +145,7 @@
     "id": "glow_light_off",
     "type": "GENERIC",
     "category": "tools",
-    "name": "magical reading light (covered)",
-    "name_plural": "magical reading lights (covered)",
+    "name": { "str": "magical reading light (covered)", "str_pl": "magical reading lights (covered)" },
     "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  The cover is closed.  Use it to open the cover and show the light.",
     "weight": "270 g",
     "volume": "250 ml",
@@ -195,8 +196,7 @@
   {
     "id": "stirge_proboscis",
     "type": "GENERIC",
-    "name": "stirge proboscis",
-    "name_plural": "stirge proboscises",
+    "name": { "str": "stirge proboscis", "str_pl": "stirge proboscises" },
     "description": "A long sucking apparatus harvested from stirge corpse.  Makes a poor melee weapon.",
     "volume": "100 ml",
     "weight": "100 g",
@@ -214,8 +214,7 @@
     "category": "spare_parts",
     "symbol": ",",
     "color": "red",
-    "name": "chunk of demon chitin",
-    "name_plural": "chunks of demon chitin",
+    "name": { "str": "chunk of demon chitin", "str_pl": "chunks of demon chitin" },
     "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
     "price": 0,
     "material": "demon_chitin",
@@ -254,5 +253,32 @@
     "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
     "price": 1500
+  },
+  {
+    "type": "AMMO",
+    "id": "alumentum",
+    "category": "spare_parts",
+    "price": 900,
+    "name": { "str_sp": "alumentum" },
+    "symbol": "=",
+    "color": "light_blue",
+    "description": "Alumentum is magically processed coal or charcoal.  It burns as hot as magnesium, and for a significantly longer period of time.  One of the very few magical materials that is still produced in any quantity today due to its usefulness.",
+    "phase": "solid",
+    "volume": "250 ml",
+    "weight": "11 g",
+    "ammo_type": "alumentum",
+    "count": 50,
+    "stack_size": 10,
+    "fuel": { "energy": 3 }
+  },
+  {
+    "id": "mana_dust",
+    "type": "GENERIC",
+    "symbol": "*",
+    "color": "blue",
+    "name": "mana dust",
+    "description": "Crystallized mana in powdered form.  It faintly pulses with arcane energy.",
+    "material": "powder",
+    "volume": "100 ml"
   }
 ]

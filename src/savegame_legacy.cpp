@@ -1,35 +1,13 @@
 #include <cstddef>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <array>
-#include <list>
-#include <map>
-#include <memory>
-#include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "debug.h"
-// for legacy classdata loaders
-#include "item.h"
-#include "calendar.h"
-#include "itype.h"
-#include "json.h"
-#include "mongroup.h"
 #include "npc.h"
-#include "options.h"
-#include "overmap.h"
 #include "player_activity.h"
-#include "cata_utility.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "monster.h"
-#include "regional_settings.h"
-#include "rng.h"
 #include "type_id.h"
-#include "flat_set.h"
-#include "point.h"
-#include "cata_string_consts.h"
 
 namespace std
 {
@@ -198,49 +176,49 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
 {
     static const std::vector< activity_id > legacy_map = {
         activity_id::NULL_ID(),
-        ACT_RELOAD,
-        ACT_READ,
-        ACT_GAME,
-        ACT_WAIT,
-        ACT_CRAFT,
+        activity_id( "ACT_RELOAD" ),
+        activity_id( "ACT_READ" ),
+        activity_id( "ACT_GAME" ),
+        activity_id( "ACT_WAIT" ),
+        activity_id( "ACT_CRAFT" ),
         activity_id::NULL_ID(), // ACT_LONGCRAFT is deprecated
-        ACT_DISASSEMBLE,
-        ACT_BUTCHER,
-        ACT_LONGSALVAGE,
-        ACT_FORAGE,
-        ACT_BUILD,
-        ACT_VEHICLE,
+        activity_id( "ACT_DISASSEMBLE" ),
+        activity_id( "ACT_BUTCHER" ),
+        activity_id( "ACT_LONGSALVAGE" ),
+        activity_id( "ACT_FORAGE" ),
+        activity_id( "ACT_BUILD" ),
+        activity_id( "ACT_VEHICLE" ),
         activity_id::NULL_ID(), // ACT_REFILL_VEHICLE is deprecated
-        ACT_TRAIN,
-        ACT_WAIT_WEATHER,
-        ACT_FIRSTAID,
-        ACT_FISH,
-        ACT_PICKAXE,
-        ACT_BURROW,
-        ACT_PULP,
-        ACT_VIBE,
-        ACT_MAKE_ZLAVE,
-        ACT_DROP,
-        ACT_STASH,
-        ACT_PICKUP,
-        ACT_MOVE_ITEMS,
-        ACT_ADV_INVENTORY,
-        ACT_ARMOR_LAYERS,
-        ACT_START_FIRE,
-        ACT_OPEN_GATE,
-        ACT_FILL_LIQUID,
-        ACT_HOTWIRE_CAR,
-        ACT_AIM,
-        ACT_ATM,
-        ACT_START_ENGINES,
-        ACT_OXYTORCH,
-        ACT_CRACKING,
-        ACT_REPAIR_ITEM,
-        ACT_MEND_ITEM,
-        ACT_GUNMOD_ADD,
-        ACT_WAIT_NPC,
-        ACT_CLEAR_RUBBLE,
-        ACT_MEDITATE,
+        activity_id( "ACT_TRAIN" ),
+        activity_id( "ACT_WAIT_WEATHER" ),
+        activity_id( "ACT_FIRSTAID" ),
+        activity_id( "ACT_FISH" ),
+        activity_id( "ACT_PICKAXE" ),
+        activity_id( "ACT_BURROW" ),
+        activity_id( "ACT_PULP" ),
+        activity_id( "ACT_VIBE" ),
+        activity_id( "ACT_MAKE_ZLAVE" ),
+        activity_id( "ACT_DROP" ),
+        activity_id( "ACT_STASH" ),
+        activity_id( "ACT_PICKUP" ),
+        activity_id( "ACT_MOVE_ITEMS" ),
+        activity_id( "ACT_ADV_INVENTORY" ),
+        activity_id( "ACT_ARMOR_LAYERS" ),
+        activity_id( "ACT_START_FIRE" ),
+        activity_id( "ACT_OPEN_GATE" ),
+        activity_id( "ACT_FILL_LIQUID" ),
+        activity_id( "ACT_HOTWIRE_CAR" ),
+        activity_id( "ACT_AIM" ),
+        activity_id( "ACT_ATM" ),
+        activity_id( "ACT_START_ENGINES" ),
+        activity_id( "ACT_OXYTORCH" ),
+        activity_id( "ACT_CRACKING" ),
+        activity_id( "ACT_REPAIR_ITEM" ),
+        activity_id( "ACT_MEND_ITEM" ),
+        activity_id( "ACT_GUNMOD_ADD" ),
+        activity_id( "ACT_WAIT_NPC" ),
+        activity_id( "ACT_CLEAR_RUBBLE" ),
+        activity_id( "ACT_MEDITATE" ),
         activity_id::NULL_ID() // NUM_ACTIVITIES
     };
 

@@ -24,6 +24,7 @@
     "dodge": 5,
     "armor_bash": 2,
     "armor_cut": 12,
+    "armor_bullet": 10,
     "armor_stab": 6,
     "harvest": "lizardfolk",
     "death_function": [ "NORMAL" ],
@@ -92,7 +93,7 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "special_attacks": [ { "type": "spell", "spell_id": "spell_shaman_base", "cooldown": 5 }, [ "scratch", 5 ] ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_shaman_base" }, "cooldown": 5 }, [ "scratch", 5 ] ],
     "death_drops": {
       "subtype": "distribution",
       "items": [

@@ -9,6 +9,7 @@
 #include "posix_time.h"
 #include "rng.h"
 #include "translations.h"
+#include "ui_manager.h"
 
 #define EMPTY (-1)
 #define ROBOT 0
@@ -325,6 +326,10 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
     point old_pos = robot.pos;
 
     wrefresh( w );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     /* Now the fun begins. */
     // TODO: use input context
     int input = inp_mngr.get_input_event().get_first_input();

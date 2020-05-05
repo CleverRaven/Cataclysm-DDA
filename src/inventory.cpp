@@ -33,7 +33,11 @@
 #include "colony.h"
 #include "flat_set.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
+static const std::string flag_LEAK_DAM( "LEAK_DAM" );
+static const std::string flag_WATERPROOF( "WATERPROOF" );
+static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 
 struct itype;
 
@@ -255,7 +259,7 @@ char inventory::find_usable_cached_invlet( const std::string &item_type )
             continue;
         }
         // Check if anything is using this invlet.
-        if( g->u.invlet_to_position( invlet ) != INT_MIN ) {
+        if( g->u.invlet_to_item( invlet ) != nullptr ) {
             continue;
         }
         return invlet;
@@ -334,8 +338,9 @@ void inventory::restack( player &p )
         std::list<item> &stack = *iter;
         item &topmost = stack.front();
 
-        const int ipos = p.invlet_to_position( topmost.invlet );
-        if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
+        const item *invlet_item = p.invlet_to_item( topmost.invlet );
+        if( !inv_chars.valid( topmost.invlet ) || ( invlet_item != nullptr &&
+                position_by_item( invlet_item ) != idx ) ) {
             assign_empty_invlet( topmost, p );
             for( auto &stack_iter : stack ) {
                 stack_iter.invlet = topmost.invlet;
@@ -439,15 +444,15 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             if( type != nullptr ) {
                 const itype *ammo = f.crafting_ammo_item_type();
                 item furn_item( type, calendar::turn, 0 );
-                furn_item.item_tags.insert( flag_PSEUDO );
+                furn_item.item_tags.insert( "PSEUDO" );
                 furn_item.charges = ammo ? count_charges_in_list( ammo, m.i_at( p ) ) : 0;
                 add_item( furn_item );
             }
         }
         if( m.accessible_items( p ) ) {
             for( auto &i : m.i_at( p ) ) {
-                // if its *the* player requesting this from from map inventory
-                // then dont allow items owned by another faction to be factored into recipe components etc.
+                // if it's *the* player requesting this from from map inventory
+                // then don't allow items owned by another faction to be factored into recipe components etc.
                 if( pl && !i.is_owned_by( *pl, true ) ) {
                     continue;
                 }
@@ -532,70 +537,70 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         if( kpart ) {
             item hotplate( "hotplate", 0 );
-            hotplate.charges = veh->fuel_left( fuel_type_battery, true );
-            hotplate.item_tags.insert( flag_PSEUDO );
+            hotplate.charges = veh->fuel_left( "battery", true );
+            hotplate.item_tags.insert( "PSEUDO" );
             add_item( hotplate );
 
             item pot( "pot", 0 );
-            pot.item_tags.insert( flag_PSEUDO );
+            pot.item_tags.insert( "PSEUDO" );
             add_item( pot );
             item pan( "pan", 0 );
-            pan.item_tags.insert( flag_PSEUDO );
+            pan.item_tags.insert( "PSEUDO" );
             add_item( pan );
         }
         if( weldpart ) {
             item welder( "welder", 0 );
-            welder.charges = veh->fuel_left( fuel_type_battery, true );
-            welder.item_tags.insert( flag_PSEUDO );
+            welder.charges = veh->fuel_left( "battery", true );
+            welder.item_tags.insert( "PSEUDO" );
             add_item( welder );
 
             item soldering_iron( "soldering_iron", 0 );
-            soldering_iron.charges = veh->fuel_left( fuel_type_battery, true );
-            soldering_iron.item_tags.insert( flag_PSEUDO );
+            soldering_iron.charges = veh->fuel_left( "battery", true );
+            soldering_iron.item_tags.insert( "PSEUDO" );
             add_item( soldering_iron );
         }
         if( craftpart ) {
             item vac_sealer( "vac_sealer", 0 );
-            vac_sealer.charges = veh->fuel_left( fuel_type_battery, true );
-            vac_sealer.item_tags.insert( flag_PSEUDO );
+            vac_sealer.charges = veh->fuel_left( "battery", true );
+            vac_sealer.item_tags.insert( "PSEUDO" );
             add_item( vac_sealer );
 
             item dehydrator( "dehydrator", 0 );
-            dehydrator.charges = veh->fuel_left( fuel_type_battery, true );
-            dehydrator.item_tags.insert( flag_PSEUDO );
+            dehydrator.charges = veh->fuel_left( "battery", true );
+            dehydrator.item_tags.insert( "PSEUDO" );
             add_item( dehydrator );
 
             item food_processor( "food_processor", 0 );
-            food_processor.charges = veh->fuel_left( fuel_type_battery, true );
-            food_processor.item_tags.insert( flag_PSEUDO );
+            food_processor.charges = veh->fuel_left( "battery", true );
+            food_processor.item_tags.insert( "PSEUDO" );
             add_item( food_processor );
 
             item press( "press", 0 );
-            press.charges = veh->fuel_left( fuel_type_battery, true );
-            press.item_tags.insert( flag_PSEUDO );
+            press.charges = veh->fuel_left( "battery", true );
+            press.item_tags.insert( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {
             item forge( "forge", 0 );
-            forge.charges = veh->fuel_left( fuel_type_battery, true );
-            forge.item_tags.insert( flag_PSEUDO );
+            forge.charges = veh->fuel_left( "battery", true );
+            forge.item_tags.insert( "PSEUDO" );
             add_item( forge );
         }
         if( kilnpart ) {
             item kiln( "kiln", 0 );
-            kiln.charges = veh->fuel_left( fuel_type_battery, true );
-            kiln.item_tags.insert( flag_PSEUDO );
+            kiln.charges = veh->fuel_left( "battery", true );
+            kiln.item_tags.insert( "PSEUDO" );
             add_item( kiln );
         }
         if( chempart ) {
             item chemistry_set( "chemistry_set", 0 );
-            chemistry_set.charges = veh->fuel_left( fuel_type_battery, true );
-            chemistry_set.item_tags.insert( flag_PSEUDO );
+            chemistry_set.charges = veh->fuel_left( "battery", true );
+            chemistry_set.item_tags.insert( "PSEUDO" );
             add_item( chemistry_set );
 
             item electrolysis_kit( "electrolysis_kit", 0 );
-            electrolysis_kit.charges = veh->fuel_left( fuel_type_battery, true );
-            electrolysis_kit.item_tags.insert( flag_PSEUDO );
+            electrolysis_kit.charges = veh->fuel_left( "battery", true );
+            electrolysis_kit.item_tags.insert( "PSEUDO" );
             add_item( electrolysis_kit );
         }
     }
@@ -853,15 +858,15 @@ item *inventory::most_appropriate_painkiller( int pain )
         int diff = 9999;
         itype_id type = elem.front().typeId();
         if( type == "aspirin" ) {
-            diff = abs( pain - 15 );
+            diff = std::abs( pain - 15 );
         } else if( type == "codeine" ) {
-            diff = abs( pain - 30 );
+            diff = std::abs( pain - 30 );
         } else if( type == "oxycodone" ) {
-            diff = abs( pain - 60 );
+            diff = std::abs( pain - 60 );
         } else if( type == "heroin" ) {
-            diff = abs( pain - 100 );
+            diff = std::abs( pain - 100 );
         } else if( type == "tramadol" ) {
-            diff = abs( pain - 40 ) / 2; // Bonus since it's long-acting
+            diff = std::abs( pain - 40 ) / 2; // Bonus since it's long-acting
         }
 
         if( diff < difference ) {
@@ -876,7 +881,7 @@ void inventory::rust_iron_items()
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.made_of( material_iron ) &&
+            if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
                 !elem_stack_iter.has_flag( flag_WATERPROOF_GUN ) &&
                 !elem_stack_iter.has_flag( flag_WATERPROOF ) &&
                 elem_stack_iter.damage() < elem_stack_iter.max_damage() / 2 &&
@@ -1089,7 +1094,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
     if( newit.invlet ) {
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
-        if( g->u.invlet_to_position( tmp_invlet ) == INT_MIN ) {
+        if( g->u.invlet_to_item( tmp_invlet ) == nullptr ) {
             newit.invlet = tmp_invlet;
         }
     }

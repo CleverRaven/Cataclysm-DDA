@@ -1,43 +1,48 @@
 #include "lightmap.h" // IWYU pragma: associated
 #include "shadowcasting.h" // IWYU pragma: associated
 
-#include <cstdint>
-#include <cstdlib>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include <memory>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "colony.h"
+#include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
-#include "math_defines.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
+#include "player.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "submap.h"
+#include "tileray.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "calendar.h"
-#include "field.h"
-#include "item.h"
-#include "line.h"
-#include "optional.h"
-#include "player.h"
-#include "string_formatter.h"
-#include "tileray.h"
-#include "type_id.h"
-#include "colony.h"
-#include "item_stack.h"
-#include "point.h"
-#include "cata_string_consts.h"
+
+static const bionic_id bio_night( "bio_night" );
+
+static const efftype_id effect_haslight( "haslight" );
+static const efftype_id effect_onfire( "onfire" );
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y
@@ -141,6 +146,40 @@ bool map::build_transparency_cache( const int zlev )
     }
     map_cache.transparency_cache_dirty = false;
     return true;
+}
+
+bool map::build_vision_transparency_cache( const int zlev )
+{
+    auto &map_cache = get_cache( zlev );
+    auto &transparency_cache = map_cache.transparency_cache;
+    auto &vision_transparency_cache = map_cache.vision_transparency_cache;
+
+    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+
+    const tripoint &p = g->u.pos();
+
+    if( p.z != zlev ) {
+        return false;
+    }
+
+    bool dirty = false;
+
+    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
+    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
+        if( loc == p ) {
+            // The tile player is standing on should always be visible
+            if( ( has_furn( p ) && !furn( p )->transparent ) || !ter( p )->transparent ) {
+                vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+            }
+        } else if( is_crouching && coverage( loc ) >= 30 ) {
+            // If we're crouching behind an obstacle, we can't see past it.
+            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            map_cache.transparency_cache_dirty = true;
+            dirty = true;
+        }
+    }
+
+    return dirty;
 }
 
 void map::apply_character_light( player &p )
@@ -353,7 +392,7 @@ void map::generate_lightmap( const int zlev )
                 apply_light_source( mp, 8 );
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
-            // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
+            // TODO: [lightmap] Allow creatures to have light attacks (i.e.: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
             if( critter.type->luminance > 0 ) {
                 apply_light_source( mp, critter.type->luminance );
@@ -513,11 +552,11 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
-    auto is_opaque = [&map_cache]( int x, int y ) {
-        return map_cache.transparency_cache[x][y] <= LIGHT_TRANSPARENCY_SOLID;
+    auto is_opaque = [&map_cache]( const point & p ) {
+        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
-    const bool p_opaque = is_opaque( p.x, p.y );
+    const bool p_opaque = is_opaque( p.xy() );
     float apparent_light;
 
     if( p_opaque && vis > 0 ) {
@@ -547,7 +586,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             if( !lightmap_boundaries.contains_half_open( neighbour ) ) {
                 continue;
             }
-            if( is_opaque( neighbour.x, neighbour.y ) ) {
+            if( is_opaque( neighbour ) ) {
                 continue;
             }
             if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
@@ -657,6 +696,7 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
 
 // For a direction vector defined by x, y, return the quadrant that's the
 // source of that direction.  Assumes x != 0 && y != 0
+// NOLINTNEXTLINE(cata-xy)
 static constexpr quadrant quadrant_from_x_y( int x, int y )
 {
     return ( x > 0 ) ?
@@ -670,9 +710,9 @@ template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
          bool( *check )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
 void cast_zlight_segment(
-    const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<T> &output_caches,
+    const array_of_grids_of<const T> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &offset, int offset_distance,
     T numerator = 1.0f, int row = 1,
     float start_major = 0.0f, float end_major = 1.0f,
@@ -684,9 +724,9 @@ template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
          bool( *check )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
 void cast_zlight_segment(
-    const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<T> &output_caches,
+    const array_of_grids_of<const T> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &offset, const int offset_distance,
     const T numerator, const int row,
     float start_major, const float end_major,
@@ -877,9 +917,9 @@ template<typename T, T( *calc )( const T &, const T &, const int & ),
          bool( *check )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
 void cast_zlight(
-    const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<T> &output_caches,
+    const array_of_grids_of<const T> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, const int offset_distance, const T numerator )
 {
     // Down
@@ -928,16 +968,15 @@ void cast_zlight(
 // I can't figure out how to make implicit instantiation work when the parameters of
 // the template-supplied function pointers are involved, so I'm explicitly instantiating instead.
 template void cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-    const std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<float> &output_caches,
+    const array_of_grids_of<const float> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, int offset_distance, float numerator );
 
 template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
-    const std::array<fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>
-    &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<fragment_cloud> &output_caches,
+    const array_of_grids_of<const fragment_cloud> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, int offset_distance, fragment_cloud numerator );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
@@ -977,9 +1016,8 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         float away = start - ( -distance + 0.5f ) / ( -distance -
                      0.5f ); //The distance between our first leadingEdge and start
 
-        //We initialise delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
-        delta.x = -distance + std::max( static_cast<int>( ceil( away * ( -distance - 0.5f ) ) ),
-                                        0 );
+        //We initialize delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
+        delta.x = -distance + std::max( static_cast<int>( std::ceil( away * ( -distance - 0.5f ) ) ), 0 );
 
         for( ; delta.x <= 0; delta.x++ ) {
             int currentX = offset.x + delta.x * xx + delta.y * xy;
@@ -1103,7 +1141,7 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
 void map::build_seen_cache( const tripoint &origin, const int target_z )
 {
     auto &map_cache = get_cache( target_z );
-    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.transparency_cache;
+    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vision_transparency_cache;
     float ( &seen_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.seen_cache;
     float ( &camera_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.camera_cache;
 
@@ -1121,12 +1159,12 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_cache, transparency_cache, origin.xy(), 0 );
     } else {
         // Cache the caches (pointers to them)
-        std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> transparency_caches;
-        std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> seen_caches;
-        std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> floor_caches;
+        array_of_grids_of<const float> transparency_caches;
+        array_of_grids_of<float> seen_caches;
+        array_of_grids_of<const bool> floor_caches;
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             auto &cur_cache = get_cache( z );
-            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
+            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
             seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
             std::uninitialized_fill_n(
@@ -1155,10 +1193,10 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         const tripoint mirror_pos = vp.pos();
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
-        if( !vp.info().has_flag( flag_CAMERA ) &&
+        if( !vp.info().has_flag( "CAMERA" ) &&
             seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
-        } else if( !vp.info().has_flag( flag_CAMERA_CONTROL ) ) {
+        } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( static_cast<int>( vp.part_index() ) );
         } else {
             if( square_dist( origin, mirror_pos ) <= 1 && veh->camera_on ) {
@@ -1168,7 +1206,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     }
 
     for( int mirror : mirrors ) {
-        bool is_camera = veh->part_info( mirror ).has_flag( flag_CAMERA );
+        bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
         if( is_camera && cam_control < 0 ) {
             continue; // Player not at camera control, so cameras don't work
         }
@@ -1204,8 +1242,13 @@ float fastexp( float x )
         float f;
         int i;
     } u, v;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
     u.i = static_cast<long long>( 6051102 * x + 1056478197 );
     v.i = static_cast<long long>( 1056478197 - 6051102 * x );
+#pragma GCC diagnostic pop
     return u.f / v.f;
 }
 
@@ -1379,15 +1422,15 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
         if( trigdist ) {
             double fdist = ( ao * M_PI_2 ) / wangle;
             double orad = ( M_PI * ao / 180.0 );
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
                                           rad + orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
                                           rad + orad ) );
             apply_light_ray( lit, p, end, luminance );
 
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
                                           rad - orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
                                           rad - orad ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
@@ -1402,8 +1445,8 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
 void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                            const tripoint &s, const tripoint &e, float luminance )
 {
-    int ax = abs( e.x - s.x ) * 2;
-    int ay = abs( e.y - s.y ) * 2;
+    int ax = std::abs( e.x - s.x ) * 2;
+    int ay = std::abs( e.y - s.y ) * 2;
     int dx = ( s.x < e.x ) ? 1 : -1;
     int dy = ( s.y < e.y ) ? 1 : -1;
     int x = s.x;

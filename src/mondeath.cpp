@@ -1,53 +1,86 @@
 #include "mondeath.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <cmath>
-#include <vector>
 #include <array>
+#include <cmath>
+#include <cstdlib>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "colony.h"
+#include "creature.h"
+#include "enums.h"
 #include "explosion.h"
-#include "timed_event.h"
-#include "field.h"
+#include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
+#include "item.h"
+#include "item_stack.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mattack_actors.h"
+#include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "timed_event.h"
 #include "translations.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "creature.h"
-#include "enums.h"
-#include "item.h"
-#include "item_stack.h"
-#include "iuse.h"
-#include "pldata.h"
-#include "units.h"
-#include "weighted_list.h"
 #include "type_id.h"
-#include "colony.h"
-#include "point.h"
-#include "mattack_actors.h"
-#include "cata_string_consts.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "weighted_list.h"
+
+static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_no_ammo( "no_ammo" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_rat( "rat" );
+
+static const species_id species_BLOB( "BLOB" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
+static const mtype_id mon_halfworm( "mon_halfworm" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_thing( "mon_thing" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+
+static const trait_id trait_KILLER( "KILLER" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 void mdeath::normal( monster &z )
 {
@@ -55,7 +88,7 @@ void mdeath::normal( monster &z )
         return;
     }
 
-    if( z.type->in_species( species_ZOMBIE ) ) {
+    if( z.type->in_species( ZOMBIE ) ) {
         sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
     }
 
@@ -93,7 +126,7 @@ static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monste
     pile_size = std::max( pile_size, 1 );
     // can't have more items in a pile than total items
     pile_size = std::min( chunk_amt, pile_size );
-    distance = abs( distance );
+    distance = std::abs( distance );
     const item chunk( chunk_name, calendar::turn, pile_size );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
         bool drop_chunks = true;
@@ -161,15 +194,15 @@ void mdeath::splatter( monster &z )
         }
     }
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
-    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
-                                       ( overflow_damage / max_hp + 1 ) ) );
+    int gibbed_weight = rng( 0, std::round( to_gram( z.get_weight() ) / 100.0 *
+                                            ( overflow_damage / max_hp + 1 ) ) );
     const int z_weight = to_gram( z.get_weight() );
     // limit gibbing to 15%
     gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
-        int gib_distance = round( rng( 2, 4 ) );
+        int gib_distance = std::round( rng( 2, 4 ) );
         for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
@@ -189,7 +222,7 @@ void mdeath::splatter( monster &z )
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
-        corpse.set_flag( flag_GIBBED );
+        corpse.set_flag( "GIBBED" );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
@@ -214,11 +247,11 @@ void mdeath::boomer( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
+    for( const tripoint &dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
-        if( monster *const z = g->critter_at<monster>( dest ) ) {
-            z->stumble();
-            z->moves -= 250;
+        if( monster *const target = g->critter_at<monster>( dest ) ) {
+            target->stumble();
+            target->moves -= 250;
         }
     }
 
@@ -234,18 +267,18 @@ void mdeath::boomer_glow( monster &z )
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
 
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
+    for( const tripoint &dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
-        if( monster *const z = g->critter_at<monster>( dest ) ) {
-            z->stumble();
-            z->moves -= 250;
+        if( monster *const target = g->critter_at<monster>( dest ) ) {
+            target->stumble();
+            target->moves -= 250;
         }
         if( Creature *const critter = g->critter_at( dest ) ) {
             critter->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
                 body_part bp = random_body_part();
                 critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
-                if( critter != nullptr && critter->has_effect( effect_glowing ) ) {
+                if( critter->has_effect( effect_glowing ) ) {
                     break;
                 }
             }
@@ -287,9 +320,9 @@ void mdeath::vine_cut( monster &z )
         if( tmp == z.pos() ) {
             continue; // Skip ourselves
         }
-        if( monster *const z = g->critter_at<monster>( tmp ) ) {
-            if( z->type->id == mon_creeper_vine ) {
-                vines.push_back( z );
+        if( monster *const neighbor = g->critter_at<monster>( tmp ) ) {
+            if( neighbor->type->id == mon_creeper_vine ) {
+                vines.push_back( neighbor );
             }
         }
     }
@@ -327,7 +360,7 @@ void mdeath::fungus( monster &z )
     sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
 
     fungal_effects fe( *g, g->m );
-    for( auto &&sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
+    for( const tripoint &sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->m.impassable( sporep ) ) {
             continue;
         }
@@ -381,8 +414,8 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[50] = _( "You regret killing %s." );
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
-    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait_flag( flag_PRED3 ) ||
-        g->u.has_trait_flag( flag_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
+    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait_flag( "PRED3" ) ||
+        g->u.has_trait_flag( "PRED4" ) || g->u.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -401,7 +434,7 @@ void mdeath::guilt( monster &z )
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( g->u.has_trait_flag( flag_PRED1 ) ) || ( g->u.has_trait_flag( flag_PRED2 ) ) ) {
+    } else if( ( g->u.has_trait_flag( "PRED1" ) ) || ( g->u.has_trait_flag( "PRED2" ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
@@ -420,13 +453,13 @@ void mdeath::guilt( monster &z )
     int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     time_duration duration = 30_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    if( z.type->in_species( species_ZOMBIE ) ) {
+    if( z.type->in_species( ZOMBIE ) ) {
         moraleMalus /= 10;
         if( g->u.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
-        } else if( g->u.has_trait_flag( flag_PRED1 ) ) {
+        } else if( g->u.has_trait_flag( "PRED1" ) ) {
             moraleMalus /= 4;
-        } else if( g->u.has_trait_flag( flag_PRED2 ) ) {
+        } else if( g->u.has_trait_flag( "PRED2" ) ) {
             moraleMalus /= 5;
         }
     }
@@ -700,17 +733,17 @@ void mdeath::jabberwock( monster &z )
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  ch->weapon.has_flag( flag_DIAMOND ) &&
+                  ch->weapon.has_flag( "DIAMOND" ) &&
                   ch->weapon.volume() > 750_ml;
 
-    if( vorpal && !ch->weapon.has_technique( matec_VORPAL ) ) {
+    if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {
             ch->add_msg_if_player( m_info,
                                    //~ %s is the possessive form of the monster's name
                                    _( "As the flames in %s eyes die out, your weapon seems to shine slightly brighter." ),
                                    z.disp_name( true ) );
         }
-        ch->weapon.add_technique( matec_VORPAL );
+        ch->weapon.add_technique( matec_id( "VORPAL" ) );
     }
 
     mdeath::normal( z );
@@ -722,9 +755,8 @@ void mdeath::gameover( monster &z )
     g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers( monster &z )
+void mdeath::kill_breathers( monster &/*z*/ )
 {
-    ( void )z; //unused
     for( monster &critter : g->all_monsters() ) {
         const mtype_id &monID = critter.type->id;
         if( monID == mon_breather_hub || monID == mon_breather ) {
@@ -824,7 +856,7 @@ void make_mon_corpse( monster &z, int damageLvl )
         corpse.set_item_temperature( 310.15 );
     }
     corpse.set_damage( damageLvl );
-    if( z.has_effect( effect_pacified ) && z.type->in_species( species_ZOMBIE ) ) {
+    if( z.has_effect( effect_pacified ) && z.type->in_species( ZOMBIE ) ) {
         // Pacified corpses have a chance of becoming unpacified when regenerating.
         corpse.set_var( "zlave", one_in( 2 ) ? "zlave" : "mutilated" );
     }
