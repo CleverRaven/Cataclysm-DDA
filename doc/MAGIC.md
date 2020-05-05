@@ -60,7 +60,7 @@ For example, this is the formula for spell failure chance:
 
 ```( ( ( ( spell_level - spell_difficulty ) * 2 + intelligence + spellcraft_skill ) - 30 ) / 30 ) ^ 2```
 
-(Just to make it clear, this is not the resultant value of failure chance, for more detail, see function spell_fail in magic.cpp.)
+(Just to make it clear, the actual calculation doesn't really look like this, for more detail, see function spell_fail in magic.cpp.)
 
 Meaning a spell with difficulty 0 cast by a player with 8 intelligence, 0 spellcraft, and level 0 in the spell will have a 53% spell failure chance.
 On the other hand, a player with 12 intelligence, 6 spellcraft, and level 6 in the same spell will have a 0% spell failure chance.
