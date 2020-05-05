@@ -903,6 +903,11 @@ struct itype {
          */
         units::volume integral_volume = -1_ml;
 
+        /**
+         * How long the longest side of this item is. If undefined, calculated from volume instead.
+         */
+        units::length longest_side = -1_mm;
+
         /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
 
