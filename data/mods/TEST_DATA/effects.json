@@ -3,7 +3,7 @@
     "type": "effect_type",
     "id": "debugged",
     "name": [ "Debugged" ],
-    "desc": [ "You have been debugged!\nEverything is working perfectly now.." ],
+    "desc": [ "You have been debugged!\nEverything is working perfectly now." ],
     "apply_message": "Diving into your source, you find a rubber duck, and talk it to death.",
     "rating": "good",
     "int_dur_factor": "1 m",

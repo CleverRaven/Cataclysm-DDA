@@ -177,17 +177,17 @@ TEST_CASE( "effect decay", "[effect][decay]" )
 //
 TEST_CASE( "display short description", "[effect][desc]" )
 {
-    const efftype_id eff_id( "grabbed" );
+    const efftype_id eff_id( "debugged" );
     const body_part arm_r = bodypart_id( "arm_r" )->token;
-    effect grabbed( &eff_id.obj(), 1_turns, arm_r, false, 1, calendar::turn );
+    effect debugged( &eff_id.obj(), 1_turns, arm_r, false, 1, calendar::turn );
 
     // TODO: Determine a case where `reduced` makes a difference
 
-    CHECK( grabbed.disp_short_desc( false ) == "You have been grabbed by an attack.\n"
-           "You are being held in place, and dodging and blocking are very difficult." );
+    CHECK( debugged.disp_short_desc( false ) == "You have been debugged!\n"
+           "Everything is working perfectly now." );
 
-    CHECK( grabbed.disp_short_desc( true ) == "You have been grabbed by an attack.\n"
-           "You are being held in place, and dodging and blocking are very difficult." );
+    CHECK( debugged.disp_short_desc( true ) == "You have been debugged!\n"
+           "Everything is working perfectly now." );
 }
 
 // Effect permanence
