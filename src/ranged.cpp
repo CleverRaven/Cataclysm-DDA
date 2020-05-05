@@ -2200,6 +2200,8 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
                             clamp( delta.z, -range, range )
                         );
         }
+    } else {
+        new_traj.push_back( src );
     }
 
     if( valid_pos == dst ) {
@@ -2362,8 +2364,9 @@ void target_ui::update_status()
     } else if( ( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) && range == 0 ) {
         // Selected gun mode is empty
         status = Status::OutOfAmmo;
-    } else if( src == dst ) {
-        // TODO: consider allowing targeting yourself with spells/turrets
+    } else if( ( src == dst ) && !( mode == TargetMode::Spell &&
+                                    casting->is_valid_target( target_self ) ) ) {
+        // TODO: consider allowing targeting yourself with turrets
         status = Status::BadTarget;
     } else if( dist_fn( dst ) > range ) {
         // We're out of range. This can happen if we switch from long-ranged
