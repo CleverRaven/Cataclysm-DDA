@@ -485,7 +485,9 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
             iter = vec.erase( iter );
 
             const auto &to_inline = getter( multiplied );
-            vec.insert( iter, to_inline.front().begin(), to_inline.front().end() );
+            if( !to_inline.empty() ) {
+                vec.insert( iter, to_inline.front().begin(), to_inline.front().end() );
+            }
         }
     }
 }
