@@ -12,7 +12,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "44",
+    "ammo_type": [ "44" ],
     "capacity": 6,
     "flags": [ "SPEEDLOADER" ]
   },
@@ -29,7 +29,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "44",
+    "ammo_type": [ "44" ],
     "capacity": 8,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]

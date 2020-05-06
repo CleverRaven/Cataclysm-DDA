@@ -40,6 +40,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
 
     public static boolean mIsResumedCalled, mHasFocus;
     public static final boolean mHasMultiWindow = (Build.VERSION.SDK_INT >= 24);
+    public static boolean mAllowSDLOrientationChanges = false;
 
     // Cursor types
     private static final int SDL_SYSTEM_CURSOR_NONE = -1;
@@ -892,7 +893,9 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         }
 
         Log.v("SDL", "setOrientation() requestedOrientation=" + req + " width=" + w +" height="+ h +" resizable=" + resizable + " hint=" + hint);
-        mSingleton.setRequestedOrientation(req);
+        if (mAllowSDLOrientationChanges && req != -1) {
+            mSingleton.setRequestedOrientation(req);
+        }
     }
 
     /**
@@ -1826,7 +1829,7 @@ class SDLSurface extends SurfaceView implements SurfaceHolder.Callback,
         // Prevent a screen distortion glitch,
         // for instance when the device is in Landscape and a Portrait App is resumed.
         boolean skip = false;
-        int requestedOrientation = SDLActivity.mSingleton.getRequestedOrientation();
+        int requestedOrientation = SDLActivity.mAllowSDLOrientationChanges ? SDLActivity.mSingleton.getRequestedOrientation() : ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
 
         if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
         {

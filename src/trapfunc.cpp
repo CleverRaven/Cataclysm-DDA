@@ -476,7 +476,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit->token ) );
-                c->deal_damage( nullptr, hit, damage_instance( DT_CUT, rng( 40 * shots, 60 * shots ) ) );
+                c->deal_damage( nullptr, hit, damage_instance( DT_BULLET, rng( 40 * shots, 60 * shots ) ) );
             } else {
                 n->add_msg_player_or_npc( m_neutral, _( "You dodge the shot!" ),
                                           _( "<npcname> dodges the shot!" ) );
@@ -508,7 +508,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
             if( seen ) {
                 add_msg( m_bad, _( "A shotgun fires and hits the %s!" ), z->name() );
             }
-            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_CUT, rng( 40 * shots,
+            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BULLET, rng( 40 * shots,
                             60 * shots ) ) );
         }
         c->check_dead_state();

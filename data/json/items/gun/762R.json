@@ -11,7 +11,7 @@
     "relative": {
       "volume": -2,
       "range": -6,
-      "ranged_damage": { "damage_type": "stab", "amount": -3 },
+      "ranged_damage": { "damage_type": "bullet", "amount": -3 },
       "dispersion": 60,
       "barrel_length": -2
     }
@@ -56,7 +56,7 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "762R",
+    "ammo": [ "762R" ],
     "range": 3,
     "dispersion": 90,
     "durability": 10,

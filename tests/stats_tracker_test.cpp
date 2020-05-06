@@ -486,6 +486,26 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         CHECK( achievements_completed.count( a_survive_one_day ) );
     }
 
+    SECTION( "hidden_kills" ) {
+        const character_id u_id = g->u.getID();
+        const mtype_id mon_zombie( "mon_zombie" );
+        const cata::event avatar_zombie_kill =
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+
+        string_id<achievement> a_kill_10( "achievement_kill_10_monsters" );
+        string_id<achievement> a_kill_100( "achievement_kill_100_monsters" );
+
+        b.send<event_type::game_start>( u_id );
+
+        CHECK( !a.is_hidden( &*a_kill_10 ) );
+        CHECK( a.is_hidden( &*a_kill_100 ) );
+        for( int i = 0; i < 10; ++i ) {
+            b.send( avatar_zombie_kill );
+        }
+        CHECK( !a.is_hidden( &*a_kill_10 ) );
+        CHECK( !a.is_hidden( &*a_kill_100 ) );
+    }
+
     SECTION( "kills" ) {
         time_duration time_since_game_start = GENERATE( 30_seconds, 10_minutes );
         CAPTURE( time_since_game_start );
@@ -537,7 +557,32 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_light_gray>Rude awakening</color>\n"
                    "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
+                   "  <color_c_yellow>0/1 monster killed</color>\n" );
+        }
+
+        // Advance a minute and kill again
+        calendar::turn += 1_minutes;
+        b.send( avatar_zombie_kill );
+
+        if( time_since_game_start < 1_minutes ) {
+            CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
+                   "<color_c_light_green>One down, billions to go…</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_green>1/1 zombie killed</color>\n" );
+            CHECK( a.ui_text_for( achievements_completed.at( a_kill_in_first_minute ) ) ==
+                   "<color_c_light_green>Rude awakening</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
                    "  <color_c_green>1/1 monster killed</color>\n" );
+        } else {
+            CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
+                   "<color_c_light_green>One down, billions to go…</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_green>1/1 zombie killed</color>\n" );
+            CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
+            CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
+                   "<color_c_light_gray>Rude awakening</color>\n"
+                   "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
+                   "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
     }
 

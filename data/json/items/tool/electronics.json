@@ -13,7 +13,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_green",
-    "ammo": "plutonium",
+    "ammo": [ "plutonium" ],
     "max_charges": 2500,
     "flags": [ "IS_UPS" ]
   },
@@ -30,7 +30,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": "CAMERA",
     "magazines": [
@@ -46,8 +46,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "camera_pro",
@@ -62,7 +61,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": "CAMERA",
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
@@ -79,8 +78,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "cell_phone",
@@ -94,7 +92,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "cell_phone_flashlight",
@@ -118,8 +116,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "cell_phone_flashlight",
@@ -143,7 +140,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
     "magazines": [
@@ -151,8 +148,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "directional_antenna",
@@ -201,7 +197,7 @@
     "material": "plastic",
     "symbol": ";",
     "color": "blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": "EINKTABLETPC",
     "flags": [ "WATCH" ],
@@ -218,8 +214,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "electrohack",
@@ -236,7 +231,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "green",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "magazines": [
       [
         "battery",
@@ -250,8 +245,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "geiger_off",
@@ -266,7 +260,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": "GEIGER",
     "magazines": [
@@ -282,8 +276,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "geiger_on",
@@ -294,8 +287,7 @@
     "power_draw": 200,
     "revert_to": "geiger_off",
     "use_action": "GEIGER",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "hand_crank_charger",
@@ -310,7 +302,7 @@
     "material": "plastic",
     "symbol": ":",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": "HAND_CRANK",
     "magazines": [
       [
@@ -341,7 +333,7 @@
     "price": 75000,
     "price_postapoc": 250,
     "bashing": 6,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
@@ -361,8 +353,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "laptop_screen_lit",
@@ -386,7 +377,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": "MP3",
     "charges_per_use": 1,
     "magazines": [
@@ -402,8 +393,7 @@
           "light_minus_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "mp3_on",
@@ -414,8 +404,7 @@
     "power_draw": 1000,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "noise_emitter",
@@ -431,7 +420,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": "NOISE_EMITTER_OFF",
     "flags": [ "RADIO_MODABLE" ],
@@ -473,7 +462,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": "PORTABLE_GAME",
     "magazines": [
       [
@@ -488,8 +477,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "smart_phone",
@@ -504,7 +492,7 @@
     "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "initial_charges": 110,
     "max_charges": 120,
     "charges_per_use": 1,
@@ -531,8 +519,7 @@
     "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "magazine_well": 1
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "smart_phone_flashlight",
@@ -563,11 +550,10 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "magazine_well": 6,
     "flags": [ "IS_UPS" ]
   },
   {
@@ -582,7 +568,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 10,
     "use_action": "VIBE",
     "magazines": [
@@ -598,7 +584,6 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   }
 ]

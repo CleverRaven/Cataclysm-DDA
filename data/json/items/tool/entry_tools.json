@@ -78,7 +78,7 @@
     "id": "picklocks",
     "type": "TOOL",
     "name": { "str": "locksmith kit" },
-    "description": "This is a locksmith's set of sturdy steel lock picks and torsion wrenches.  It is essential for silently and quickly opening locks, provided you have some mechanical skill.",
+    "description": "This is a locksmith's set of sturdy steel lock picks and torsion wrenches.  It is essential for silently and quickly opening locks, provided you have some lock picking and mechanical skills.",
     "weight": "544 g",
     "volume": "100 ml",
     "price": 20000,
@@ -103,6 +103,7 @@
     "max_charges": 1,
     "charges_per_use": 1,
     "qualities": [ [ "LOCKPICK", 40 ] ],
+    "flags": [ "PSEUDO" ],
     "use_action": { "type": "picklock", "pick_quality": 40 }
   }
 ]

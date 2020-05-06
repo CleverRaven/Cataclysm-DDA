@@ -368,7 +368,7 @@
       {
         "id": "buff_fencing_onblock",
         "name": "Parry",
-        "description": "Your next strike will find it's mark much easier from your parry.\n\n+1 Accuracy.\nLasts 1 turn.",
+        "description": "Your next strike will find its mark much easier from your parry.\n\n+1 Accuracy.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -954,6 +954,7 @@
       "shillelagh_weighted",
       "shock_staff",
       "sickle",
+      "survivor_machete",
       "switchblade",
       "sword_bayonet",
       "sword_crude",

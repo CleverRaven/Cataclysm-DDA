@@ -170,9 +170,9 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                     get_verb().translated(), extra_info );
 }
 
-void player_activity::start( Character &who )
+void player_activity::start_or_resume( Character &who, bool resuming )
 {
-    if( actor ) {
+    if( actor && !resuming ) {
         actor->start( *this, who );
     }
     if( rooted() ) {
@@ -292,16 +292,19 @@ bool containers_equal( const T &left, const T &right )
     return std::equal( left.begin(), left.end(), right.begin() );
 }
 
-bool player_activity::can_resume_with( const player_activity &other, const Character & ) const
+bool player_activity::can_resume_with( const player_activity &other, const Character &who ) const
 {
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    // TODO: Once activity_handler_actors exist, the less ugly method of using a
-    // pure virtual can_resume_with should be used
-
     if( !*this || !other || type->no_resume() ) {
         return false;
+    }
+
+    // if actor XOR other.actor then id() != other.id() so
+    // we will correctly return false based on final return statement
+    if( actor && other.actor ) {
+        return actor->can_resume_with( *other.actor, who );
     }
 
     if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
@@ -320,24 +323,6 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
             }
         }
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
-            return false;
-        }
-    } else if( id() == activity_id( "ACT_DIG" ) || id() == activity_id( "ACT_DIG_CHANNEL" ) ) {
-        // We must be digging in the same location.
-        if( placement != other.placement ) {
-            return false;
-        }
-
-        // And all our parameters must be the same.
-        if( !std::equal( values.begin(), values.end(), other.values.begin() ) ) {
-            return false;
-        }
-
-        if( !std::equal( str_values.begin(), str_values.end(), other.str_values.begin() ) ) {
-            return false;
-        }
-
-        if( !std::equal( coords.begin(), coords.end(), other.coords.begin() ) ) {
             return false;
         }
     }

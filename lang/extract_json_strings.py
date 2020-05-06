@@ -62,6 +62,7 @@ ignore_files = {os.path.normpath(i) for i in {
 
 # these objects have no translatable strings
 ignorable = {
+    "ascii_art",
     "ammo_effect",
     "behavior",
     "charge_removal_blacklist",

@@ -15,7 +15,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "32",
+    "ammo": [ "32" ],
     "skill": "pistol",
     "dispersion": 480,
     "durability": 8,
@@ -34,7 +34,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "32", [ "sigp230mag" ] ] ]
   },
   {
@@ -54,7 +53,7 @@
     "material": "steel",
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "32",
+    "ammo": [ "32" ],
     "skill": "smg",
     "dispersion": 360,
     "durability": 6,
@@ -94,7 +93,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "32",
+    "ammo": [ "32" ],
     "skill": "pistol",
     "dispersion": 480,
     "durability": 8,
@@ -113,7 +112,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "32", [ "ppkmag" ] ] ]
   },
   {
@@ -131,8 +129,7 @@
     "bashing": 1,
     "material": [ "steel", "plastic", "aluminum" ],
     "color": "dark_gray",
-    "ammo": "32",
-    "magazine_well": "41 ml",
+    "ammo": [ "32" ],
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 135,

@@ -12,7 +12,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "32",
+    "ammo_type": [ "32" ],
     "capacity": 8,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -30,7 +30,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "32",
+    "ammo_type": [ "32" ],
     "capacity": 8,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -48,7 +48,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "32",
+    "ammo_type": [ "32" ],
     "capacity": 20,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -66,7 +66,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "32",
+    "ammo_type": [ "32" ],
     "capacity": 7,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]

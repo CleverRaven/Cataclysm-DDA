@@ -151,7 +151,7 @@
     "symbol": ";",
     "color": "green",
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "target": "electric_lantern_on",
@@ -174,8 +174,7 @@
           "light_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "electric_lantern_on",
@@ -200,7 +199,7 @@
     "price": 500,
     "price_postapoc": 100,
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -222,8 +221,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "flashlight_on",
@@ -249,7 +247,7 @@
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
@@ -382,7 +380,7 @@
     "symbol": ";",
     "color": "blue",
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -404,8 +402,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "heavy_flashlight_on",
@@ -455,7 +452,7 @@
     "copy-from": "lightstrip_base",
     "description": "This is a light-emitting circuit that can be wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "target": "lightstrip",
       "msg": "You irreversibly activate the lightstrip.",
@@ -476,8 +473,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 0
+    ]
   },
   {
     "id": "oil_lamp",
@@ -493,7 +489,7 @@
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "lamp_oil",
+    "ammo": [ "lamp_oil" ],
     "initial_charges": 750,
     "max_charges": 750,
     "charges_per_use": 1,
@@ -532,7 +528,7 @@
     "color": "red",
     "material": [ "copper", "glass" ],
     "charges_per_use": 1,
-    "ammo": "weldgas",
+    "ammo": [ "weldgas" ],
     "use_action": {
       "type": "transform",
       "msg": "You light the %s.",
@@ -565,7 +561,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "reading_light_on",
@@ -575,8 +571,7 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
-    "magazine_well": 1
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "reading_light_on",
@@ -603,7 +598,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": "&",
     "color": "blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "smart_lamp_on",
@@ -627,8 +622,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "smart_lamp_on",
@@ -639,8 +633,7 @@
     "power_draw": 10000,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
     "id": "torch",

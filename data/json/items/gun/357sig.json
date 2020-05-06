@@ -15,10 +15,9 @@
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "357sig",
+    "ammo": [ "357sig" ],
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
     "magazines": [ [ "357sig", [ "p226mag_12rd_357sig" ] ] ]
   },
   {
@@ -48,10 +47,9 @@
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "357sig",
+    "ammo": [ "357sig" ],
     "dispersion": 480,
     "durability": 6,
-    "magazine_well": 1,
     "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ]
   }
 ]

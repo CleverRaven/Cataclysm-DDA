@@ -15,7 +15,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "blunderbuss",
+    "ammo": [ "blunderbuss" ],
     "skill": "shotgun",
     "dispersion": 855,
     "durability": 3,

@@ -26,6 +26,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "memory_fast.h"
 #include "monster.h"
 #include "optional.h"
@@ -36,6 +37,7 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "weighted_list.h"
 
 class basecamp;
 class effect;
@@ -253,7 +255,7 @@ class player : public Character
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
-        void on_hit( Creature *source, body_part bp_hit = num_bp,
+        void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
 
@@ -288,12 +290,6 @@ class player : public Character
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
-
-        // Mental skills and stats
-        /** Returns a value used when attempting to convince NPC's of something */
-        int talk_skill() const;
-        /** Returns a value used when attempting to intimidate NPC's */
-        int intimidation() const;
 
         /**
          * Check if a given body part is immune to a given damage type
@@ -431,8 +427,11 @@ class player : public Character
         bool takeoff( item &it, std::list<item> *res = nullptr );
         bool takeoff( int pos );
 
-        /** So far only called by unload() from game.cpp */
-        bool add_or_drop_with_msg( item &it, bool unloading = false );
+        /**
+          * So far only called by unload() from game.cpp
+          * @avoid - do not put @it into @avoid
+          */
+        bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
 
         bool unload( item &it );
 
@@ -453,7 +452,8 @@ class player : public Character
          * @param base_cost Cost due to storage type.
          */
         void store( item &container, item &put, bool penalties = true,
-                    int base_cost = INVENTORY_HANDLING_PENALTY );
+                    int base_cost = INVENTORY_HANDLING_PENALTY,
+                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */

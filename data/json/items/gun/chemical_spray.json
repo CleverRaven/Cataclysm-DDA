@@ -16,7 +16,7 @@
     "material": [ "steel", "plastic" ],
     "flags": [ "FIRE_50", "NEVER_JAMS", "NON-FOULING" ],
     "skill": "launcher",
-    "ammo": "chemical_spray",
+    "ammo": [ "chemical_spray" ],
     "dispersion": 300,
     "durability": 6,
     "magazines": [ [ "chemical_spray", [ "pressurized_tank_chem" ] ] ],

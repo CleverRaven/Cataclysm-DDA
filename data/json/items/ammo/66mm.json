@@ -14,7 +14,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "1338 g",
     "ammo_type": "m235",
-    "damage": { "damage_type": "stab", "amount": 60, "armor_penetration": 10 },
+    "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 10 },
     "range": 70,
     "dispersion": 150,
     "recoil": 150,

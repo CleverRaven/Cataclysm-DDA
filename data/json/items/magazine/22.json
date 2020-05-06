@@ -12,7 +12,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 8,
     "flags": [ "SPEEDLOADER" ]
   },
@@ -29,7 +29,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 165,
     "reliability": 7,
     "reload_time": 150,
@@ -48,7 +48,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 19,
     "flags": [ "SPEEDLOADER" ]
   },
@@ -65,7 +65,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -83,7 +83,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 25,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -101,7 +101,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
     "reliability": 9,
     "reload_time": 160,
@@ -120,7 +120,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -138,7 +138,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 6,
     "reliability": 6,
     "flags": [ "MAG_COMPACT" ]
@@ -156,7 +156,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]

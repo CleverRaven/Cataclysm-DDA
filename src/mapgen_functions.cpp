@@ -1044,7 +1044,7 @@ void mapgen_subway( mapgendata &dat )
     switch( num_dirs ) {
         case 4:
             // 4-way intersection
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         "..^/D^^/D^....^D/^^D/^..\n"
                                         ".^/DX^/DX......XD/^XD/^.\n"
                                         "^/D^X/D^X......X^D/X^D/^\n"
@@ -1086,7 +1086,7 @@ void mapgen_subway( mapgendata &dat )
             break;
         case 3:
             // tee
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         "..^/D^^/D^...^/D^^/D^...\n"
                                         ".^/D^^/D^...^/D^^/D^....\n"
                                         "^/D^^/D^...^/D^^/D^.....\n"
@@ -1133,7 +1133,7 @@ void mapgen_subway( mapgendata &dat )
         case 2:
             // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
-                mapf::formatted_set_simple( m, 0, 0,
+                mapf::formatted_set_simple( m, point_zero,
                                             "...^DD^^DD^...^DD^^DD^..\n"
                                             "....^DD^^DD^...^DD^^DD^.\n"
                                             ".....^DD^^DD^...^DD^^DD^\n"
@@ -1169,7 +1169,7 @@ void mapgen_subway( mapgendata &dat )
                                                     f_null,
                                                     f_null ) );
             } else { // normal subway drawing
-                mapf::formatted_set_simple( m, 0, 0,
+                mapf::formatted_set_simple( m, point_zero,
                                             "...^X^^^X^....^X^^^X^...\n"
                                             "...-x---x-....-x---x-...\n"
                                             "...^X^^^X^....^X^^^X^...\n"
@@ -1212,7 +1212,7 @@ void mapgen_subway( mapgendata &dat )
             break;
         case 1:
             // dead end
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         "...^X^^^X^..../D^^/D^...\n"
                                         "...-x---x-.../DX^/DX^...\n"
                                         "...^X^^^X^../D^X/D^X^...\n"
@@ -1534,7 +1534,7 @@ void mapgen_railroad( mapgendata &dat )
     switch( num_dirs ) {
         case 4:
             // 4-way intersection
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         ".DD^^DD^........^DD^^DD.\n"
                                         "DD^^DD^..........^DD^^DD\n"
                                         "D^^DD^............^DD^^D\n"
@@ -1570,7 +1570,7 @@ void mapgen_railroad( mapgendata &dat )
             break;
         case 3:
             // tee
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         ".DD^^DD^........^DD^^DD.\n"
                                         "DD^^DD^..........^DD^^DD\n"
                                         "D^^DD^............^DD^^D\n"
@@ -1616,7 +1616,7 @@ void mapgen_railroad( mapgendata &dat )
             // straight or diagonal
             if( diag ) {
                 // diagonal railroads get drawn differently from all other types
-                mapf::formatted_set_simple( m, 0, 0,
+                mapf::formatted_set_simple( m, point_zero,
                                             ".^DD^^DD^.......^DD^^DD^\n"
                                             "..^DD^^DD^.......^DD^^DD\n"
                                             "...^DD^^DD^.......^DD^^D\n"
@@ -1650,7 +1650,7 @@ void mapgen_railroad( mapgendata &dat )
                                                     f_null,
                                                     f_null ) );
             } else { // normal railroads drawing
-                mapf::formatted_set_simple( m, 0, 0,
+                mapf::formatted_set_simple( m, point_zero,
                                             ".^X^^^X^........^X^^^X^.\n"
                                             ".-x---x-........-x---x-.\n"
                                             ".^X^^^X^........^X^^^X^.\n"
@@ -1691,7 +1691,7 @@ void mapgen_railroad( mapgendata &dat )
             break;
         case 1:
             // dead end
-            mapf::formatted_set_simple( m, 0, 0,
+            mapf::formatted_set_simple( m, point_zero,
                                         ".^X^^^X^........^X^^^X^.\n"
                                         ".-x---x-........-x---x-.\n"
                                         ".^X^^^X^........^X^^^X^.\n"
@@ -1739,7 +1739,7 @@ void mapgen_railroad( mapgendata &dat )
 void mapgen_railroad_bridge( mapgendata &dat )
 {
     map *const m = &dat.m;
-    mapf::formatted_set_simple( m, 0, 0,
+    mapf::formatted_set_simple( m, point_zero,
                                 "r^X^^^X^________^X^^^X^r\n"
                                 "r-x---x-________-x---x-r\n"
                                 "r^X^^^X^________^X^^^X^r\n"
@@ -2579,7 +2579,7 @@ void mapgen_forest( mapgendata &dat )
     static constexpr int margin_y = SEEY * 2 / 3;
 
     const auto get_blended_feature = [&no_ter_furn, &max_factor, &factor,
-                  &get_feature_for_neighbor, &dat]( int x, int y ) {
+                  &get_feature_for_neighbor, &dat]( const point & p ) {
         // Pick one random feature from each biome according to the biome defs and save it into a lookup.
         // We'll blend these features together below based on the current and adjacent terrains.
         std::map<oter_id, ter_furn_id> biome_features;
@@ -2612,25 +2612,25 @@ void mapgen_forest( mapgendata &dat )
         //      ---------------
         //           SOUTH      (SEEX * 2, SEEY * 2)
 
-        const int west_weight = std::max( margin_x - x, 0 );
-        const int east_weight = std::max( x - ( SEEX * 2 - margin_x ) + 1, 0 );
-        const int north_weight = std::max( margin_y - y, 0 );
-        const int south_weight = std::max( y - ( SEEY * 2 - margin_y ) + 1, 0 );
+        const int west_weight = std::max( margin_x - p.x, 0 );
+        const int east_weight = std::max( p.x - ( SEEX * 2 - margin_x ) + 1, 0 );
+        const int north_weight = std::max( margin_y - p.y, 0 );
+        const int south_weight = std::max( p.y - ( SEEY * 2 - margin_y ) + 1, 0 );
 
         // We'll build a weighted list of features to pull from at the end.
         weighted_int_list<const ter_furn_id> feature_pool;
 
         // W sections
-        if( x < margin_x ) {
+        if( p.x < margin_x ) {
             // NW corner - blend N, W, and self
-            if( y < margin_y ) {
+            if( p.y < margin_y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.w_fac + factor * 2 ) );
                 feature_pool.add( self_feature, 1 );
                 feature_pool.add( west_feature, west_weight );
                 feature_pool.add( north_feature, north_weight );
             }
             // SW corner - blend S, W, and self
-            else if( y > SEEY * 2 - margin_y ) {
+            else if( p.y > SEEY * 2 - margin_y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.s_fac + dat.w_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( west_feature, west_weight );
@@ -2644,16 +2644,16 @@ void mapgen_forest( mapgendata &dat )
             }
         }
         // E sections
-        else if( x > SEEX * 2 - margin_x ) {
+        else if( p.x > SEEX * 2 - margin_x ) {
             // NE corner - blend N, E, and self
-            if( y < margin_y ) {
+            if( p.y < margin_y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.e_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( east_feature, east_weight );
                 feature_pool.add( north_feature, north_weight );
             }
             // SE corner - blend S, E, and self
-            else if( y > SEEY * 2 - margin_y ) {
+            else if( p.y > SEEY * 2 - margin_y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.s_fac + dat.e_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( east_feature, east_weight );
@@ -2669,13 +2669,13 @@ void mapgen_forest( mapgendata &dat )
         // Central sections
         else {
             // N edge - blend N and self
-            if( y < margin_y ) {
+            if( p.y < margin_y ) {
                 feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.n_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( north_feature, north_weight );
             }
             // S edge - blend S, and self
-            else if( y > SEEY * 2 - margin_y ) {
+            else if( p.y > SEEY * 2 - margin_y ) {
                 feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.s_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( south_feature, south_weight );
@@ -2743,7 +2743,7 @@ void mapgen_forest( mapgendata &dat )
     // terrain dependent furniture.
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
-            const ter_furn_id feature = get_blended_feature( x, y );
+            const ter_furn_id feature = get_blended_feature( point( x, y ) );
             ter_or_furn_set( m, x, y, feature );
             set_terrain_dependent_furniture( feature.ter, x, y );
         }

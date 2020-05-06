@@ -15,7 +15,7 @@
     "bashing": 1,
     "ammo_type": "atgm",
     "casing": "atgm_spent",
-    "damage": { "damage_type": "stab", "amount": 2400, "armor_penetration": 600 },
+    "damage": { "damage_type": "bullet", "amount": 2400, "armor_penetration": 600 },
     "range": 100,
     "recoil": 6000,
     "effects": [ "EXPLOSIVE_ATGMHEAT", "NEVER_MISFIRES" ]

@@ -313,11 +313,6 @@
   },
   {
     "type": "profession_item_substitutions",
-    "item": "cookbook_human",
-    "bonus": { "present": [ "CANNIBAL" ] }
-  },
-  {
-    "type": "profession_item_substitutions",
     "item": "teleumbrella",
     "bonus": { "present": [ "ALBINO" ] }
   },
@@ -671,7 +666,7 @@
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" } ],
     "items": {
       "both": {
-        "items": [ "tank_top", "jersey", "b_shorts", "socks_ankle", "sneakers", "basketball", "sports_drink" ],
+        "items": [ "tank_top", "jersey", "b_shorts", "socks_ankle", "sneakers", "basketball", "sports_drink", "runner_bag" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],
@@ -697,6 +692,7 @@
           "legguard_hard",
           "gloves_rubber",
           "socks",
+          "mbag",
           "chestguard_hard",
           "boots_rubber"
         ],
@@ -704,7 +700,7 @@
           { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" },
           { "group": "snacks_fancy" },
           { "group": "snacks" },
-          { "item": "bat" }
+          { "item": "bat", "custom-flags": [ "auto_wield" ] }
         ]
       }
     }
@@ -1065,8 +1061,8 @@
     "points": -1,
     "items": {
       "both": [ "crackpipe", "crack", "crack", "ref_lighter", "tank_top" ],
-      "male": [ "pants", "flip_flops" ],
-      "female": [ "skirt", "heels" ]
+      "male": [ "jeans", "flip_flops" ],
+      "female": [ "jeans", "heels" ]
     },
     "addictions": [ { "intensity": 20, "type": "crack" } ]
   },
@@ -1632,6 +1628,7 @@
     "name": "Shower Victim",
     "description": "You were in the middle of a nice, hot shower when the Cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever…  a towel.",
     "points": -1,
+    "flags": [ "NO_BONUS_ITEMS" ],
     "items": { "both": { "items": [ "towel_wet" ], "entries": [ { "item": "soap", "custom-flags": [ "auto_wield" ] } ] } }
   },
   {
@@ -2257,7 +2254,8 @@
     "name": "Lost Submissive",
     "description": "Early in the rush to safety, you were separated from your master by cruel fate.  Now you are on your own with nothing to your name but a suit of really kinky black leather.  Unfortunately, there's no safewords in the apocalypse.",
     "points": -1,
-    "items": { "both": [ "bondage_suit", "bondage_mask", "boots", "leather_belt", "candle", "matches" ] }
+    "flags": [ "NO_BONUS_ITEMS" ],
+    "items": { "both": [ "bondage_suit", "bondage_mask", "boots", "leather_belt", "matches" ] }
   },
   {
     "type": "profession",
@@ -2722,18 +2720,7 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "leather_belt",
-          "dress_shirt",
-          "socks",
-          "kittel",
-          "kippah",
-          "dress_shoes",
-          "holy_symbol",
-          "holybook_talmud",
-          "holybook_tanakh"
-        ],
+        "items": [ "pants", "leather_belt", "dress_shirt", "socks", "kittel", "kippah", "dress_shoes", "holy_symbol", "holybook_talmud" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -2971,6 +2958,7 @@
       "both": {
         "items": [
           "under_armor_shorts",
+          "purse",
           "under_armor",
           "socks",
           "elbow_pads",
@@ -3194,10 +3182,10 @@
           "socks",
           "fishing_waders",
           "knit_scarf",
-          "fishing_rod_professional",
           "vest",
           "hat_boonie",
           "wristwatch",
+          "backpack",
           "jacket_flannel"
         ],
         "entries": [
@@ -3205,7 +3193,8 @@
           { "item": "fish_trap", "ammo-item": "fish_bait", "charges": 5 },
           { "item": "fish_bait", "charges": 15 },
           { "item": "lighter", "charges": 100 },
-          { "item": "knife_hunting", "container-item": "sheath" }
+          { "item": "knife_hunting", "container-item": "sheath" },
+          { "item": "fishing_rod_professional", "custom-flags": [ "auto_wield" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3226,7 +3215,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco" ],
+        "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco", "backpack" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": {
@@ -3280,7 +3269,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco" ],
+        "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco", "backpack" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [

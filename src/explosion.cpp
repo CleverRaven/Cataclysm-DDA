@@ -307,7 +307,7 @@ static void do_blast( const tripoint &p, const float power,
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
             // TODO: player's fault?
-            const double dmg = std::max( force - critter->get_armor_bash( bp_torso ) / 2.0, 0.0 );
+            const double dmg = std::max( force - critter->get_armor_bash( bodypart_id( "torso" ) ) / 2.0, 0.0 );
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();

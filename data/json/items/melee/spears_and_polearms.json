@@ -291,7 +291,7 @@
     "description": "This is a dull, cheaply made replica of a polearm with an axe blade, a spike, and other fun things attached to a long stick.",
     "price": 5000,
     "material": [ "wood", "aluminum" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "weight": "1644 g",
     "volume": "3750 ml",
@@ -369,7 +369,7 @@
     "bashing": 12,
     "cutting": 2,
     "to_hit": 1,
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
     "price": 8000,
     "price_postapoc": 500
   },
@@ -450,7 +450,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike_copper",
@@ -470,7 +470,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike",
@@ -489,7 +489,7 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "pike_fake",
@@ -510,7 +510,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ]
   },
   {
     "id": "pike_inferior",

@@ -283,6 +283,7 @@ struct mtype {
         int armor_bash = -1;    /** innate armor vs. bash */
         int armor_cut  = -1;    /** innate armor vs. cut */
         int armor_stab = -1;    /** innate armor vs. stabbing */
+        int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
 

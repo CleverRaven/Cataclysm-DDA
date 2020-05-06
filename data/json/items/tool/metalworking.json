@@ -64,7 +64,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "charcoal",
+    "ammo": [ "charcoal" ],
     "sub": "forge",
     "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -150,12 +150,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": 4
+    ]
   },
   {
     "id": "kiln_done",

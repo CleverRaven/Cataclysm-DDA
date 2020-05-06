@@ -46,11 +46,10 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 10,
     "use_action": "HAIRKIT",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ],
-    "magazine_well": 1
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   },
   {
     "id": "mop",
@@ -111,7 +110,7 @@
     "material": "plastic",
     "symbol": ";",
     "color": "white",
-    "ammo": "soap",
+    "ammo": [ "soap" ],
     "initial_charges": 5,
     "max_charges": 10,
     "charges_per_use": 1,
@@ -162,7 +161,7 @@
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": "soap",
+    "ammo": [ "soap" ],
     "max_charges": 10,
     "charges_per_use": 1,
     "use_action": "SHAVEKIT"

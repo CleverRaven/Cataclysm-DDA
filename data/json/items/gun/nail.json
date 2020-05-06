@@ -15,7 +15,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
-    "ammo": "nail",
+    "ammo": [ "nail" ],
     "skill": "pistol",
     "dispersion": 800,
     "durability": 8,

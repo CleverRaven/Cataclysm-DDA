@@ -160,19 +160,23 @@ class teleporter_callback : public uilist_callback
         std::map<int, tripoint> index_pairs;
     public:
         teleporter_callback( std::map<int, tripoint> &ip ) : index_pairs( ip ) {}
-        void select( int entnum, uilist *menu ) override {
+        void refresh( uilist *menu ) override {
+            const int entnum = menu->selected;
             const int start_x = menu->w_width - menu->pad_right;
             mvwputch( menu->window, point( start_x, 0 ), c_magenta, LINE_OXXX );
             mvwputch( menu->window, point( start_x, menu->w_height - 1 ), c_magenta, LINE_XXOX );
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, point( start_x, i ), c_magenta, LINE_XOXO );
             }
-            overmap_ui::draw_overmap_chunk( menu->window, g->u, index_pairs[entnum], point( start_x + 1, 1 ),
-                                            29, 21 );
-            mvwprintz( menu->window, point( start_x + 2, 1 ), c_white,
-                       string_format( _( "Distance: %d (%d, %d)" ),
-                                      rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
-                                      index_pairs[entnum].x, index_pairs[entnum].y ) );
+            if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
+                overmap_ui::draw_overmap_chunk( menu->window, g->u, index_pairs[entnum], point( start_x + 1, 1 ),
+                                                29, 21 );
+                mvwprintz( menu->window, point( start_x + 2, 1 ), c_white,
+                           string_format( _( "Distance: %d (%d, %d)" ),
+                                          rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
+                                          index_pairs[entnum].x, index_pairs[entnum].y ) );
+            }
+            wrefresh( menu->window );
         }
 };
 

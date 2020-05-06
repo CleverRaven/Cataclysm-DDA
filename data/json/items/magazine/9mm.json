@@ -12,7 +12,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 50,
     "reliability": 7,
     "reload_time": 160,
@@ -31,7 +31,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 30,
     "reliability": 7,
     "reload_time": 140,
@@ -50,7 +50,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -68,7 +68,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 17,
     "reliability": 7,
     "reload_time": 140,
@@ -87,7 +87,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 22,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -105,7 +105,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 50,
     "reliability": 8,
     "flags": [ "MAG_BULKY" ]
@@ -123,7 +123,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 100,
     "reliability": 8,
     "flags": [ "MAG_BULKY" ]
@@ -141,7 +141,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 30,
     "reliability": 7,
     "reload_time": 140,
@@ -160,7 +160,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -178,7 +178,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 50,
     "reliability": 8,
     "reload_time": 160,
@@ -197,7 +197,8 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 30 } } ],
+    "ammo_type": [ "9mm" ],
     "capacity": 30,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -215,7 +216,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 17,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -233,7 +234,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 32,
     "reliability": 6,
     "flags": [ "MAG_COMPACT" ]
@@ -251,7 +252,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 20,
     "reliability": 1,
     "reload_time": 160,
@@ -270,7 +271,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 32,
     "reliability": 7,
     "flags": [ "MAG_COMPACT" ]
@@ -288,7 +289,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 10,
     "flags": [ "MAG_COMPACT" ]
@@ -306,7 +307,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 32,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -324,7 +325,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 7,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -342,7 +343,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 17,
     "reliability": 7,
     "reload_time": 140,
@@ -361,7 +362,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 13,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -379,7 +380,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -397,7 +398,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 8,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -415,7 +416,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 10,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -433,7 +434,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -451,7 +452,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 17,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -469,7 +470,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 8,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -487,7 +488,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 10,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -505,7 +506,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -523,7 +524,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 12,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -541,7 +542,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 20,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -559,7 +560,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 26,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -577,7 +578,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 8,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]

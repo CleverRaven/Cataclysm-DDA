@@ -152,7 +152,6 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
-        friend class target_handler;
     public:
         game();
         ~game();
@@ -787,7 +786,7 @@ class game
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
         void reload_item(); // Reload an item
-        void reload_wielded();
+        void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
@@ -810,7 +809,7 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
-        void wield( item_location &loc );
+        void wield( item_location loc );
 
         void chat(); // Talk to a nearby NPC  'C'
 
@@ -973,8 +972,6 @@ class game
         catacurses::window w_minimap;
         catacurses::window w_pixel_minimap;
         //only a pointer, can refer to w_messages_short or w_messages_long
-
-        catacurses::window w_blackspace;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,

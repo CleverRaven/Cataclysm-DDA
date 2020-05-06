@@ -382,7 +382,7 @@ input_context game::get_player_input( std::string &action )
     return ctxt;
 }
 
-static void rcdrive( int dx, int dy )
+inline static void rcdrive( const point &d )
 {
     player &u = g->u;
     map &m = g->m;
@@ -412,7 +412,7 @@ static void rcdrive( int dx, int dy )
     }
     item *rc_car = rc_pair->second;
 
-    tripoint dest( cx + dx, cy + dy, cz );
+    tripoint dest( cx + d.x, cy + d.y, cz );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
         sounds::sound( dest, 7, sounds::sound_t::combat,
@@ -431,12 +431,7 @@ static void rcdrive( int dx, int dy )
     }
 }
 
-inline static void rcdrive( point d )
-{
-    return rcdrive( d.x, d.y );
-}
-
-static void pldrive( int x, int y, int z = 0 )
+static void pldrive( const tripoint &p )
 {
     if( !g->check_safe_mode_allowed() ) {
         return;
@@ -479,33 +474,33 @@ static void pldrive( int x, int y, int z = 0 )
             return;
         }
     }
-    if( z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
+    if( p.z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
         u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
         return;
     }
-    if( z != 0 && !g->m.has_zlevels() ) {
+    if( p.z != 0 && !g->m.has_zlevels() ) {
         u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
         return;
     }
-    if( z == -1 ) {
+    if( p.z == -1 ) {
         if( veh->check_heli_descend( u ) ) {
             u.add_msg_if_player( m_info, _( "You steer the vehicle into a descent." ) );
         } else {
             return;
         }
-    } else if( z == 1 ) {
+    } else if( p.z == 1 ) {
         if( veh->check_heli_ascend( u ) ) {
             u.add_msg_if_player( m_info, _( "You steer the vehicle into an ascent." ) );
         } else {
             return;
         }
     }
-    veh->pldrive( point( x, y ), z );
+    veh->pldrive( p.xy(), p.z );
 }
 
 inline static void pldrive( point d )
 {
-    return pldrive( d.x, d.y );
+    return pldrive( tripoint( d, 0 ) );
 }
 
 static void open()
@@ -1284,17 +1279,16 @@ static void read()
     }
 }
 
-// Perform a reach attach
-// range - the range of the current weapon.
-// u - player
-static void reach_attack( int range, player &u )
+// Perform a reach attach using wielded weapon
+static void reach_attack( player &u )
 {
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,
-                                       range );
-    if( !trajectory.empty() ) {
-        u.reach_attack( trajectory.back() );
+
+    target_handler::trajectory traj = target_handler::mode_reach( u, u.weapon );
+
+    if( !traj.empty() ) {
+        u.reach_attack( traj.back() );
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
@@ -1327,14 +1321,18 @@ static void fire()
         std::vector<std::function<void()>> actions;
 
         for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) &&
-                !w.contents.empty() && w.contents.front().is_gun() ) {
+
+            std::vector<item *> guns = w.items_with( []( const item & it ) {
+                return it.is_gun();
+            } );
+
+            if( !guns.empty() && w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) ) {
                 //~ draw (first) gun contained in holster
                 //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
                 options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
-                                                  w.contents.front().tname(),
+                                                  guns.front()->tname(),
                                                   w.type_name(),
-                                                  w.contents.front().ammo_remaining() ) );
+                                                  guns.front()->ammo_remaining() ) );
 
                 actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
 
@@ -1354,31 +1352,17 @@ static void fire()
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( g->u, g->m );
-    } else if( u.weapon.has_flag( flag_REACH_ATTACK ) ) {
-        int range = u.weapon.has_flag( flag_REACH3 ) ? 3 : 2;
+    } else if( u.weapon.current_reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( range, u );
+                reach_attack( u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
                 add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
-            reach_attack( range, u );
-        }
-    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( flag_REACH_ATTACK ) ) {
-        int range = u.weapon.gun_current_mode().qty;
-        if( u.has_effect( effect_relax_gas ) ) {
-            if( one_in( 8 ) ) {
-                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( range, u );
-            } else {
-                u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
-            }
-        } else {
-            reach_attack( range, u );
+            reach_attack( u );
         }
     }
 }
@@ -1817,7 +1801,7 @@ bool game::handle_action()
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
                 } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
-                    pldrive( 0, 0, -1 );
+                    pldrive( tripoint_below );
                 }
                 break;
 
@@ -1832,7 +1816,7 @@ bool game::handle_action()
                 if( !u.in_vehicle ) {
                     vertical_move( 1, false );
                 } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
-                    pldrive( 0, 0, 1 );
+                    pldrive( tripoint_above );
                 }
                 break;
 

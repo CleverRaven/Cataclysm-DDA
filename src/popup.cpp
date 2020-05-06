@@ -250,11 +250,7 @@ std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor()
         ui->on_screen_resize( [this]( ui_adaptor & ) {
             init();
         } );
-        if( win ) {
-            ui->position_from_window( win );
-        } else {
-            ui->mark_resize();
-        }
+        ui->mark_resize();
     }
     return ui;
 }

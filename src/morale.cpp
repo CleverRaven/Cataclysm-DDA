@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <numeric>
 #include <set>
 #include <utility>
 
@@ -204,7 +205,7 @@ void player_morale::morale_point::set_percent_contribution( double contribution 
     percent_contribution = contribution;
 }
 
-double player_morale::morale_point::get_percent_contribution()
+double player_morale::morale_point::get_percent_contribution() const
 {
     return percent_contribution;
 }
@@ -476,157 +477,306 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
      */
     calculate_percentage();
 
-    const char *morale_gain_caption = _( "Total morale:" );
-    const char *pain_caption = _( "Pain level:" );
-    const char *fatigue_caption = _( "Fatigue level:" );
-    const char *focus_equilibrium = _( "Focus trends towards:" );
-    const char *points_is_empty = _( "Nothing affects your morale" );
+    constexpr int left_padding = 2; // including border
+    constexpr int right_padding = 2; // including border
+    constexpr int middle_padding_min = 2;
+    constexpr int middle_padding_max = 12;
 
-    int w_extra = 16;
+    class morale_line
+    {
+        public:
+            enum class number_format {
+                normal,
+                signed_or_dash,
+                percent,
+            };
 
-    // Figure out how wide the source column needs to be.
-    int source_column_width = std::max( utf8_width( morale_gain_caption ),
-                                        utf8_width( focus_equilibrium ) ) + w_extra;
-    if( points.empty() ) {
-        source_column_width = std::max( utf8_width( points_is_empty ), source_column_width );
-    } else {
-        for( auto &i : points ) {
-            source_column_width = std::max( utf8_width( i.get_name() ) + w_extra, source_column_width );
-        }
-    }
+            enum class line_color {
+                normal,
+                green_gray_red,
+                red_gray_green,
+            };
 
-    const int win_w = std::min( source_column_width + 4, FULL_SCREEN_WIDTH );
-    const int win_h = FULL_SCREEN_HEIGHT;
-    const int win_x = ( TERMX - win_w ) / 2;
-    const int win_y = ( TERMY - win_h ) / 2;
+            struct separation_line {};
 
-    catacurses::window w = catacurses::newwin( win_h, win_w, point( win_x, win_y ) );
-    //lambda function used to print almost everything to the window
-    const auto print_line = [ w ]( int y, const char *label, int value, bool isPercentage = false,
-    nc_color color_override = c_unset ) -> int {
-        nc_color color;
-        if( value != 0 )
-        {
-            if( color_override == c_unset ) {
-                color = ( value > 0 ) ? c_green : c_light_red;
-            } else {
-                color = color_override;
+        private:
+            bool sep_line = false;
+            std::string left;
+            std::string right;
+            nc_color color;
+
+        public:
+            morale_line() = default;
+            morale_line( const separation_line ) : sep_line( true ) {}
+            morale_line( const std::string &text, const nc_color &color )
+                : left( text ), color( color ) {}
+            morale_line( const std::string &left, const std::string &right,
+                         const nc_color &color )
+                : left( left ), right( right ), color( color ) {}
+            morale_line( const std::string &text, const int num,
+                         const number_format num_fmt, const line_color col )
+                : left( text ) {
+                switch( num_fmt ) {
+                    case number_format::normal:
+                        right = string_format( "%d", num );
+                        break;
+                    case number_format::signed_or_dash:
+                        if( num == 0 ) {
+                            right = "-";
+                        } else {
+                            right = string_format( "%+d", num );
+                        }
+                        break;
+                    case number_format::percent:
+                        right = string_format( "%d%%", num );
+                        break;
+                }
+                switch( col ) {
+                    case line_color::normal:
+                        color = c_white;
+                        break;
+                    case line_color::green_gray_red:
+                    case line_color::red_gray_green:
+                        if( num == 0 ) {
+                            color = c_dark_gray;
+                        } else if( ( num > 0 ) ^ ( col == line_color::red_gray_green ) ) {
+                            color = c_green;
+                        } else {
+                            color = c_light_red;
+                        }
+                        break;
+                }
             }
-            if( isPercentage ) {
-                mvwprintz( w, point( getmaxx( w ) - 8, y ), color, "%d%%", value );
-            } else {
-                mvwprintz( w, point( getmaxx( w ) - 8, y ), color, "%+d", value );
+
+            int max_width() const {
+                if( sep_line ) {
+                    return 0;
+                } else if( right.empty() ) {
+                    return left_padding + utf8_width( left ) + right_padding;
+                } else {
+                    return left_padding + utf8_width( left ) + middle_padding_max
+                           + utf8_width( right ) + right_padding;
+                }
             }
 
-        } else
-        {
-            color = c_dark_gray;
-            mvwprintz( w, point( getmaxx( w ) - 3, y ), color, "-" );
-        }
-        return fold_and_print_from( w, point( 2, y ), getmaxx( w ) - 9, 0, color, label );
+            void draw( catacurses::window &w, const int posy ) const {
+                int width = getmaxx( w );
+                if( sep_line ) {
+                    mvwhline( w, point( 0, posy ), LINE_XXXO, 1 );
+                    mvwhline( w, point( 1, posy ), 0, width - 2 );
+                    mvwhline( w, point( width - 1, posy ), LINE_XOXX, 1 );
+                } else {
+                    int text_width = width - left_padding - right_padding;
+                    if( !right.empty() ) {
+                        right_print( w, posy, right_padding, color, right );
+                        text_width -= middle_padding_min + utf8_width( right );
+                    }
+                    trim_and_print( w, point( left_padding, posy ), text_width, color, left );
+                }
+            }
     };
 
-    int offset = 0;
-    int rows_total = points.size();
-    int penalty_rows = 0;
+    // Separate and sort positive and negative morale
+    const morale_mult mult = get_temper_mult();
+    std::vector<morale_point> positive_morale;
+    std::vector<morale_point> negative_morale;
+    for( const morale_point &mp : points ) {
+        const int bonus = mp.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            positive_morale.emplace_back( mp );
+        } else if( bonus < 0 ) {
+            negative_morale.emplace_back( mp );
+        }
+    }
+
+    const auto sort_morale = []( const morale_point & lhs, const morale_point & rhs ) -> bool {
+        const int lhs_percent = lhs.get_percent_contribution();
+        const int rhs_percent = rhs.get_percent_contribution();
+        return localized_compare( std::make_pair( -lhs_percent, lhs.get_name() ),
+                                  std::make_pair( -rhs_percent, rhs.get_name() ) );
+    };
+    std::sort( positive_morale.begin(), positive_morale.end(), sort_morale );
+    std::sort( negative_morale.begin(), negative_morale.end(), sort_morale );
+
+    // Initialize lines
+    const std::vector<morale_line> top_lines {
+        {},
+        { _( "Morale" ), c_white },
+        { morale_line::separation_line {} },
+
+        positive_morale.empty() &&negative_morale.empty() ?
+        morale_line( _( "Nothing affects your morale" ), c_dark_gray ) :
+        morale_line( _( "Source" ), _( "Value" ), c_light_gray ),
+    };
+
+    struct middle_morale_line {
+        bool is_caption;
+        morale_line ml;
+
+        middle_morale_line( const bool is_caption, const morale_line &ml )
+            : is_caption( is_caption ), ml( ml ) {}
+    };
+
+    std::vector<middle_morale_line> middle_lines;
+    if( !positive_morale.empty() || !negative_morale.empty() ) {
+        middle_lines.emplace_back( true, morale_line(
+                                       _( "Total positive morale" ), get_total_positive_value(),
+                                       morale_line::number_format::signed_or_dash,
+                                       morale_line::line_color::green_gray_red
+                                   ) );
+        for( const morale_point &mp : positive_morale ) {
+            middle_lines.emplace_back( false, morale_line(
+                                           mp.get_name(), mp.get_percent_contribution(),
+                                           morale_line::number_format::percent,
+                                           morale_line::line_color::green_gray_red
+                                       ) );
+        }
+        middle_lines.emplace_back( false, morale_line() );
+        middle_lines.emplace_back( true, morale_line(
+                                       _( "Total negative morale" ), -get_total_negative_value(),
+                                       morale_line::number_format::signed_or_dash,
+                                       morale_line::line_color::green_gray_red
+                                   ) );
+        for( const morale_point &mp : negative_morale ) {
+            middle_lines.emplace_back( false, morale_line(
+                                           mp.get_name(), mp.get_percent_contribution(),
+                                           morale_line::number_format::percent,
+                                           morale_line::line_color::red_gray_green
+                                       ) );
+        }
+    }
+
+    std::vector<morale_line> bottom_lines;
+    bottom_lines.emplace_back( morale_line::separation_line {} );
+    bottom_lines.emplace_back(
+        _( "Total morale:" ), get_level(),
+        morale_line::number_format::signed_or_dash,
+        morale_line::line_color::green_gray_red
+    );
     if( pain_penalty != 0 ) {
-        penalty_rows++;
+        bottom_lines.emplace_back(
+            _( "Pain level:" ), -pain_penalty,
+            morale_line::number_format::signed_or_dash,
+            morale_line::line_color::green_gray_red
+        );
     }
     if( fatigue_penalty != 0 ) {
-        penalty_rows++;
+        bottom_lines.emplace_back(
+            _( "Fatigue level:" ), -fatigue_penalty,
+            morale_line::number_format::signed_or_dash,
+            morale_line::line_color::green_gray_red
+        );
     }
-    int rows_visible = std::max( win_h - 8 - penalty_rows, 0 );
+    bottom_lines.emplace_back(
+        _( "Focus trends towards:" ), focus_eq,
+        morale_line::number_format::normal,
+        morale_line::line_color::normal
+    );
+    bottom_lines.emplace_back();
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    const auto calc_max_width = []( const int width, const morale_line & ml ) -> int {
+        return std::max( width, ml.max_width() );
+    };
+    const int max_window_width = std::max( {
+        std::accumulate( top_lines.begin(), top_lines.end(), 0, calc_max_width ),
+        std::accumulate( middle_lines.begin(), middle_lines.end(), 0,
+        []( const int width, const middle_morale_line & ml ) -> int {
+            return std::max( width, ml.ml.max_width() );
+        } ),
+        std::accumulate( bottom_lines.begin(), bottom_lines.end(), 0, calc_max_width )
+    } );
 
-    for( ;; ) {
+    const int static_lines_height = top_lines.size() + bottom_lines.size();
 
-        //creates the window
+    int win_w = 0;
+    int win_h = 0;
+
+    const int rows_total = middle_lines.size();
+    int rows_visible = 0;
+    int offset = 0;
+
+    catacurses::window w;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        win_w = std::min( max_window_width, FULL_SCREEN_WIDTH );
+        win_h = FULL_SCREEN_HEIGHT;
+        const int win_x = ( TERMX - win_w ) / 2;
+        const int win_y = ( TERMY - win_h ) / 2;
+
+        rows_visible = std::max( win_h - static_lines_height, 0 );
+        if( rows_total < rows_visible ) {
+            offset = 0;
+        } else if( offset + rows_visible > rows_total ) {
+            offset = rows_total - rows_visible;
+        }
+
+        w = catacurses::newwin( win_h, win_w, point( win_x, win_y ) );
+
+        ui.position_from_window( w );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
 
         draw_border( w );
 
-        mvwprintz( w, point( 2, 1 ), c_white, _( "Morale" ) );
+        int line = 0;
+        for( const morale_line &ml : top_lines ) {
+            ml.draw( w, line );
+            ++line;
+        }
 
-        mvwhline( w, point( 0, 2 ), LINE_XXXO, 1 );
-        mvwhline( w, point( 1, 2 ), 0, win_w - 2 );
-        mvwhline( w, point( win_w - 1, 2 ), LINE_XOXX, 1 );
+        line = win_h - static_cast<int>( bottom_lines.size() );
+        for( const morale_line &ml : bottom_lines ) {
+            ml.draw( w, line );
+            ++line;
+        }
 
-        mvwhline( w, point( 0, win_h - 4 - penalty_rows ), LINE_XXXO, 1 );
-        mvwhline( w, point( 1, win_h - 4 - penalty_rows ), 0, win_w - 2 );
-        mvwhline( w, point( win_w - 1, win_h - 4 - penalty_rows ), LINE_XOXX, 1 );
-
-        if( !points.empty() ) {
-            const char *source_column = _( "Source" );
-            const char *value_column = _( "Value" );
-            const char *total_positve_label = _( "Total positive morale" );
-            const char *total_negitive_label = _( "Total negative morale" );
-
-            mvwprintz( w, point( 2, 3 ), c_light_gray, source_column );
-            mvwprintz( w, point( win_w - utf8_width( value_column ) - 2, 3 ), c_light_gray, value_column );
-
-            const morale_mult mult = get_temper_mult();
-
-            int line = 0;
-            line += print_line( 4 + line, total_positve_label, get_total_positive_value(), false,
-                                c_light_green );
-            //prints out all the positive morale effects
-            for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
-                const int bonus = points[i].get_net_bonus( mult );
-                if( bonus > 0 ) {
-                    const std::string name = points[i].get_name();
-                    line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true );
-                }
-
-                if( line >= rows_visible ) {
-                    break;  // This prevents overflowing (unlikely, but just in case)
+        bool caption_drawn = false;
+        for( int mid_line = 0; offset + mid_line >= 0; --mid_line ) {
+            if( offset + mid_line < rows_total ) {
+                const middle_morale_line &ml = middle_lines[offset + mid_line];
+                if( ml.is_caption ) {
+                    ml.ml.draw( w, top_lines.size() );
+                    caption_drawn = true;
+                    break;
                 }
             }
-            line++; //adds a space in the GUI
-            //prints out all the negitve morale effects
-            line += print_line( 4 + line, total_negitive_label, -1 * get_total_negative_value(), false, c_red );
-
-            for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
-                const int bonus = points[i].get_net_bonus( mult );
-                if( bonus < 0 ) {
-                    const std::string name = points[i].get_name();
-                    line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true,
-                                        c_light_red );
-                }
-                if( line >= rows_visible ) {
-                    break;  // This prevents overflowing (unlikely, but just in case)
-                }
+        }
+        for( int mid_line = caption_drawn ? 1 : 0;
+             mid_line < rows_visible && offset + mid_line < rows_total;
+             ++mid_line ) {
+            if( offset + mid_line >= 0 ) {
+                const middle_morale_line &ml = middle_lines[offset + mid_line];
+                ml.ml.draw( w, static_cast<int>( top_lines.size() ) + mid_line );
             }
-        } else {
-            fold_and_print_from( w, point( 2, 3 ), win_w - 4, 0, c_dark_gray, points_is_empty );
         }
 
-        print_line( win_h - 3 - penalty_rows, morale_gain_caption, get_level() );
-        if( pain_penalty != 0 ) {
-            print_line( win_h - 2 - penalty_rows, pain_caption, -pain_penalty, false, c_light_red );
-        }
-        if( fatigue_penalty != 0 ) {
-            print_line( win_h - 3, fatigue_caption, -fatigue_penalty, false, c_light_red );
-        }
-        //manual line as lambda will not do it properly here
-        mvwprintz( w, point( getmaxx( w ) - 8, win_h - 2 ), c_white, "%d", focus_eq );
-        fold_and_print_from( w, point( 2, win_h - 2 ), getmaxx( w ) - 9, 0, c_white, focus_equilibrium );
-
-        draw_scrollbar( w, offset, rows_visible, rows_total, point( 0, 4 ) );
+        draw_scrollbar( w, offset, rows_visible, rows_total,
+                        point( 0, top_lines.size() ), c_white, true );
 
         wrefresh( w );
+    } );
 
-        // TODO: use input context
-        int ch = inp_mngr.get_input_event().get_first_input();
-        if( ch == KEY_DOWN && offset < std::max( 0, rows_total - rows_visible ) ) {
+    input_context ctxt( "MORALE" );
+    ctxt.register_action( "UP" );
+    ctxt.register_action( "DOWN" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    std::string action;
+    do {
+        ui_manager::redraw();
+        action = ctxt.handle_input();
+        if( action == "DOWN" && offset < std::max( 0, rows_total - rows_visible ) ) {
             offset++;
-        } else if( ch == KEY_UP && offset > 0 ) {
+        } else if( action == "UP" && offset > 0 ) {
             offset--;
-        } else if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE ) {
-            break;
         }
-    }
+    } while( action != "CONFIRM" && action != "QUIT" );
 }
 
 bool player_morale::consistent_with( const player_morale &morale ) const

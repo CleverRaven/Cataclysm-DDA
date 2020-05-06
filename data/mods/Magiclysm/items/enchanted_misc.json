@@ -109,7 +109,7 @@
   {
     "name": { "str": "endless flask" },
     "id": "mflask_hip_whiskey",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "copy-from": "flask_hip",
     "category": "clothing",
     "use_action": {
@@ -180,7 +180,7 @@
     "material": [ "glass" ],
     "symbol": ";",
     "color": "red",
-    "ammo": "thread",
+    "ammo": [ "thread" ],
     "initial_charges": 500,
     "max_charges": 1000,
     "artifact_data": { "charge_type": "ARTC_TIME" }

@@ -281,7 +281,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             units::volume maxvolume = 0_ml;
             auto &s = squares[pane.get_area()];
             if( pane.get_area() == AIM_CONTAINER && s.get_container( pane.in_vehicle() ) != nullptr ) {
-                maxvolume = s.get_container( pane.in_vehicle() )->get_container_capacity();
+                maxvolume = s.get_container( pane.in_vehicle() )->get_total_capacity();
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor );
             } else {
@@ -918,9 +918,47 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
         g->u.drop( dropped, g->u.pos() + darea.off );
     } else {
-        if( dpane.get_area() == AIM_WORN ) {
-            // TODO: Start ACT_WEAR in this case
-            debugmsg( "Wearing clothes using move all is not yet implemented" );
+        if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
+            g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+            g->u.activity.coords.push_back( g->u.pos() );
+
+            item_stack::iterator stack_begin, stack_end;
+            if( panes[src].in_vehicle() ) {
+                vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
+                stack_begin = targets.begin();
+                stack_end = targets.end();
+            } else {
+                map_stack targets = g->m.i_at( sarea.pos );
+                stack_begin = targets.begin();
+                stack_end = targets.end();
+            }
+
+            // If moving to inventory or worn, silently filter buckets
+            // Moving them would cause tons of annoying prompts or spills
+            const bool filter_buckets = dpane.get_area() == AIM_INVENTORY ||
+                                        dpane.get_area() == AIM_WORN;
+            bool filtered_any_bucket = false;
+            // Push item_locations and item counts for all items at placement
+            for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
+                if( spane.is_filtered( *it ) ) {
+                    continue;
+                }
+                if( filter_buckets && it->is_bucket_nonempty() ) {
+                    continue;
+                }
+                if( spane.in_vehicle() ) {
+                    g->u.activity.targets.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                } else {
+                    g->u.activity.targets.emplace_back( map_cursor( sarea.pos ), &*it );
+                }
+                // quantity of 0 means move all
+                g->u.activity.values.push_back( 0 );
+            }
+
+            if( filtered_any_bucket ) {
+                add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
+            }
+
         } else {
             // Vehicle and map destinations are handled the same.
             // Check first if the destination area still have enough room for moving all.
@@ -946,7 +984,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             }
-
             // If moving to vehicle, silently filter buckets
             // Moving them would cause tons of annoying prompts or spills
             const bool filter_buckets = dpane.in_vehicle();
@@ -973,20 +1010,12 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
             }
 
-            if( dpane.get_area() == AIM_INVENTORY ) {
-                g->u.assign_activity( player_activity( pickup_activity_actor(
-                        target_items,
-                        quantities,
-                        panes[src].in_vehicle() ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
-                                                       ) ) );
-            } else {
-                g->u.assign_activity( player_activity( move_items_activity_actor(
-                        target_items,
-                        quantities,
-                        dpane.in_vehicle(),
-                        relative_destination
-                                                       ) ) );
-            }
+            g->u.assign_activity( player_activity( move_items_activity_actor(
+                    target_items,
+                    quantities,
+                    dpane.in_vehicle(),
+                    relative_destination
+                                                   ) ) );
         }
 
     }
@@ -1317,6 +1346,10 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             }
         }
     } else {
+        if( destarea == AIM_INVENTORY && !g->u.can_stash( *sitem->items.front() ) ) {
+            popup( _( "You have no space for %s" ), sitem->items.front()->tname() );
+            return false;
+        }
         // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
         // Make sure advanced inventory is reopened after activity completion.
         do_return_entry();
@@ -1574,7 +1607,7 @@ class query_destination_callback : public uilist_callback
         void draw_squares( const uilist *menu );
     public:
         query_destination_callback( advanced_inventory &adv_inv ) : _adv_inv( adv_inv ) {}
-        void select( int /*entnum*/, uilist *menu ) override {
+        void refresh( uilist *menu ) override {
             draw_squares( menu );
         }
 };
@@ -1583,8 +1616,11 @@ void query_destination_callback::draw_squares( const uilist *menu )
 {
     assert( menu->entries.size() >= 9 );
     int ofs = -25 - 4;
-    int sel = _adv_inv.screen_relative_location(
+    int sel = 0;
+    if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < menu->entries.size() ) {
+        sel = _adv_inv.screen_relative_location(
                   static_cast <aim_location>( menu->selected + 1 ) );
+    }
     for( int i = 1; i < 10; i++ ) {
         aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
         std::string key = _adv_inv.get_location_key( loc );
@@ -1601,6 +1637,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
         wprintz( menu->window, kcolor, "%s", key );
         wprintz( menu->window, bcolor, "%c", bracket[1] );
     }
+    wrefresh( menu->window );
 }
 
 bool advanced_inventory::query_destination( aim_location &def )
@@ -1675,7 +1712,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
-    item &src_contents = src_container.contents.front();
+    item &src_contents = src_container.contents.legacy_front();
 
     if( !src_contents.made_of( LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
@@ -1689,16 +1726,9 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         popup( err );
         return false;
     }
-    if( src_container.is_non_resealable_container() ) {
-        if( src_contents.charges > amount ) {
-            popup( _( "You can't partially unload liquids from unsealable container." ) );
-            return false;
-        }
-        src_container.on_contents_changed();
-    }
-    dest_container.fill_with( src_contents, amount );
+    dest_container.fill_with( *src_contents.type, amount );
 
-    uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
+    uistate.adv_inv_container_content_type = dest_container.contents.legacy_front().typeId();
     if( src_contents.charges <= 0 ) {
         src_container.contents.clear_items();
     }

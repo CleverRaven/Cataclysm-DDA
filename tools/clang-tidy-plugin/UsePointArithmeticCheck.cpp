@@ -472,13 +472,8 @@ static void CheckConstructor( UsePointArithmeticCheck &Check,
     }
 
     // Don't mess with the methods of point and tripoint themselves
-    if( const FunctionDecl *ContainingFunc = getContainingFunction( Result, ConstructorCall ) ) {
-        if( const CXXMethodDecl *ContainingMethod = dyn_cast<CXXMethodDecl>( ContainingFunc ) ) {
-            const CXXRecordDecl *ContainingRecord = ContainingMethod->getParent();
-            if( isPointType( ContainingRecord ) ) {
-                return;
-            }
-        }
+    if( isPointMethod( getContainingFunction( Result, ConstructorCall ) ) ) {
+        return;
     }
 
     std::string Joined;
