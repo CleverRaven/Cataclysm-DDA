@@ -4128,6 +4128,10 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         return add_item( tile, obj );
     };
 
+    if( item_is_blacklisted( obj.typeId() ) ) {
+        return null_item_reference();
+    }
+
     // Some items never exist on map as a discrete item (must be contained by another item)
     if( obj.has_flag( "NO_DROP" ) ) {
         return null_item_reference();
@@ -4186,6 +4190,10 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
 item &map::add_item( const tripoint &p, item new_item )
 {
+    if( item_is_blacklisted( new_item.typeId() ) ) {
+        return null_item_reference();
+    }
+
     if( !inbounds( p ) ) {
         return null_item_reference();
     }
