@@ -11,7 +11,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40x53mm",
+    "ammo_type": [ "40x53mm" ],
     "capacity": 50,
     "count": 25,
     "reliability": 6,

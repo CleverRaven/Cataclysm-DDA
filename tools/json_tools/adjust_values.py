@@ -14,10 +14,9 @@ def gen_new(path):
     with open(path, "r") as json_file:
         json_data = json.load(json_file)
         for jo in json_data:
-            if "ammo" in jo and type(jo["ammo"]) != list and (
-                    jo["type"] == "TOOL" or jo["type"] == "GUN"):
-                ammo_list = [jo["ammo"]]
-                jo["ammo"] = ammo_list
+            if "ammo_type" in jo and type(jo["ammo_type"]) != list and jo["type"] == "MAGAZINE":
+                ammo_list = [jo["ammo_type"]]
+                jo["ammo_type"] = ammo_list
                 change = True
 
     return json_data if change else None
