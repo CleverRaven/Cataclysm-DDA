@@ -1,15 +1,16 @@
 #pragma once
-#ifndef FIELD_H
-#define FIELD_H
+#ifndef CATA_SRC_FIELD_H
+#define CATA_SRC_FIELD_H
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "color.h"
+#include "enums.h"
 #include "field_type.h"
-
-class effect;
+#include "type_id.h"
 
 /**
  * An active or passive effect existing on a tile.
@@ -199,4 +200,4 @@ class field
         field_type_id _displayed_field_type;
 };
 
-#endif
+#endif // CATA_SRC_FIELD_H

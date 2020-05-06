@@ -1,32 +1,33 @@
 #pragma once
-#ifndef CATA_TILES_H
-#define CATA_TILES_H
+#ifndef CATA_SRC_CATA_TILES_H
+#define CATA_SRC_CATA_TILES_H
 
 #include <cstddef>
-#include <memory>
 #include <map>
+#include <memory>
 #include <string>
-#include <vector>
+#include <tuple>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
-#include "sdl_wrappers.h"
 #include "animation.h"
 #include "creature.h"
+#include "enums.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map_memory.h"
 #include "options.h"
-#include "weather.h"
-#include "enums.h"
-#include "weighted_list.h"
-#include "point.h"
 #include "pimpl.h"
+#include "point.h"
+#include "sdl_wrappers.h"
+#include "type_id.h"
+#include "weather.h"
+#include "weighted_list.h"
 
-class Creature;
-class player;
-class pixel_minimap;
+class Character;
 class JsonObject;
+class pixel_minimap;
 
 using itype_id = std::string;
 
@@ -237,10 +238,10 @@ class tileset_loader
         void load( const std::string &tileset_id, bool precheck );
 };
 
-enum text_alignment {
-    TEXT_ALIGNMENT_LEFT,
-    TEXT_ALIGNMENT_CENTER,
-    TEXT_ALIGNMENT_RIGHT,
+enum class text_alignment : int {
+    left,
+    center,
+    right,
 };
 
 struct formatted_text {
@@ -252,7 +253,7 @@ struct formatted_text {
         : text( text ), color( color ), alignment( alignment ) {
     }
 
-    formatted_text( const std::string &text, int color, direction direction );
+    formatted_text( const std::string &text, int color, direction text_direction );
 };
 
 /** type used for color blocks overlays.
@@ -479,19 +480,19 @@ class cata_tiles
         static std::vector<options_manager::id_and_option> build_display_list();
     protected:
         template <typename maptype>
-        void tile_loading_report( const maptype &tiletypemap, const std::string &label,
+        void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
                                   const std::string &prefix = "" );
         template <typename arraytype>
-        void tile_loading_report( const arraytype &array, int array_length, const std::string &label,
+        void tile_loading_report( const arraytype &array, int array_length, TILE_CATEGORY category,
                                   const std::string &prefix = "" );
         template <typename basetype>
-        void tile_loading_report( size_t count, const std::string &label, const std::string &prefix );
+        void tile_loading_report( size_t count, TILE_CATEGORY category, const std::string &prefix );
         /**
          * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
          * to an id string (result of id_func must be convertible to string).
          */
         template<typename Iter, typename Func>
-        void lr_generic( Iter begin, Iter end, Func id_func, const std::string &label,
+        void lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY category,
                          const std::string &prefix );
         /** Lighting */
         void init_light();
@@ -581,4 +582,4 @@ class cata_tiles
         std::string memory_map_mode = "color_pixel_sepia";
 };
 
-#endif
+#endif // CATA_SRC_CATA_TILES_H

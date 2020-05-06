@@ -1,13 +1,13 @@
 #pragma once
-#ifndef VEH_TYPE_H
-#define VEH_TYPE_H
+#ifndef CATA_SRC_VEH_TYPE_H
+#define CATA_SRC_VEH_TYPE_H
 
 #include <array>
 #include <bitset>
 #include <map>
 #include <memory>
-#include <string>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -15,17 +15,17 @@
 #include "color.h"
 #include "damage.h"
 #include "optional.h"
-#include "string_id.h"
+#include "point.h"
+#include "requirements.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "requirements.h"
-#include "point.h"
-#include "translations.h"
+
+class player;
 
 using itype_id = std::string;
 
 class JsonObject;
-class Character;
 class vehicle;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
@@ -48,6 +48,7 @@ enum vpart_bitflags : int {
     VPFLAG_SPACE_HEATER,
     VPFLAG_COOLER,
     VPFLAG_WHEEL,
+    VPFLAG_ROTOR,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
     VPFLAG_DOME_LIGHT,
@@ -117,6 +118,10 @@ struct vpslot_wheel {
     float or_rating = 0.0f;
 };
 
+struct vpslot_rotor {
+    int rotor_diameter = 1;
+};
+
 struct vpslot_workbench {
     // Base multiplier applied for crafting here
     float multiplier = 1.0f;
@@ -142,6 +147,7 @@ class vpart_info
 
         cata::optional<vpslot_engine> engine_info;
         cata::optional<vpslot_wheel> wheel_info;
+        cata::optional<vpslot_rotor> rotor_info;
         cata::optional<vpslot_workbench> workbench_info;
 
     public:
@@ -269,7 +275,7 @@ class vpart_info
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */
@@ -306,7 +312,9 @@ class vpart_info
         int wheel_area() const;
         std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
         float wheel_or_rating() const;
-
+        /** @name rotor specific functions
+        */
+        int rotor_diameter() const;
         /**
          * Getter for optional workbench info
          */
@@ -332,6 +340,9 @@ class vpart_info
         // Display order in vehicle interact display
         int list_order = 0;
 
+        const std::set<std::string> &get_flags() const {
+            return flags;
+        }
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) != 0;
         }
@@ -344,6 +355,7 @@ class vpart_info
                                  const itype_id &fuel_type );
         static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
         static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
+        static void load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
@@ -399,4 +411,4 @@ struct vehicle_prototype {
     static std::vector<vproto_id> get_all();
 };
 
-#endif
+#endif // CATA_SRC_VEH_TYPE_H

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OMDATA_H
-#define OMDATA_H
+#ifndef CATA_SRC_OMDATA_H
+#define CATA_SRC_OMDATA_H
 
 #include <climits>
 #include <cstddef>
@@ -509,4 +509,4 @@ void load( const JsonObject &jo, const std::string &src );
 
 } // namespace city_buildings
 
-#endif
+#endif // CATA_SRC_OMDATA_H

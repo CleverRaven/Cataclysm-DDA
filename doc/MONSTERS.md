@@ -26,6 +26,12 @@ Monster types support the following properties (mandatory, except if noted other
 "name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
 ```
 
+or, if the singular and plural forms are the same:
+
+```JSON
+"name": { "ctxt": "fish", "str_sp": "bass" }
+```
+
 Name displayed in-game, and optionally the plural name and a translation context (ctxt).
 
 If the plural name is not specified, it defaults to singular name + "s".
@@ -78,7 +84,7 @@ List of scenttype_id ignored by this monster. scent_types are defined in scent_t
 ## "symbol", "color"
 (string)
 
-Symbol and color representing monster in-game. The symbol must be a UTF-8 string, that is exactly one console cell width (may be several Unicode characters). The color must be a valid color id, see TODO: find or create a list of color ids.
+Symbol and color representing monster in-game. The symbol must be a UTF-8 string, that is exactly one console cell width (may be several Unicode characters). See [COLOR.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COLOR.md) for details.
 
 ## "size"
 (string, optional)
@@ -107,26 +113,29 @@ The id of the faction the monster belongs to, this affects what other monsters i
 The id of the monster's bodytype, which is a general description of the layout of the monster's body.
 
 Value should be one of:
-angel - a winged human
-bear - a four legged animal that can stand on its hind legs
-bird - a two legged animal with two wings
-blob - a blob of material
-crab - a multilegged animal with two large arms
-dog - a four legged animal with a short neck elevating the head above the line of the body
-elephant - a very large quadruped animal with a large head and torso with equal sized limbs
-fish - an aquatic animal with a streamlined body and fins
-flying insect - a six legged animal with a head and two body segments and wings
-frog - a four legged animal with a neck and with very large rear legs and small forelegs
-gator - a four legged animal with a very long body and short legs
-horse - a four legged animal with a long neck elevating the head above the line of the body
-human - a bipedal animal with two arms
-insect - a six legged animal with a head and two body segments
-kangaroo - a pentapedal animal that utilizes a large tail for stability with very large rear legs and smaller forearms
-lizard - a smaller form of 'gator'
-migo - whatever form migos have
-pig - a four legged animal with the head in the same line as the body
-spider - an eight legged animal with a small head on a large abdomen
-snake - an animal with a long body and no limbs
+
+| value | description
+| --- | ---
+| angel | a winged human
+| bear | a four legged animal that can stand on its hind legs
+| bird | a two legged animal with two wings
+| blob | a blob of material
+| crab | a multilegged animal with two large arms
+| dog | a four legged animal with a short neck elevating the head above the line of the body
+| elephant | a very large quadruped animal with a large head and torso with equal sized limbs
+| fish | an aquatic animal with a streamlined body and fins
+| flying insect | a six legged animal with a head and two body segments and wings
+| frog | a four legged animal with a neck and with very large rear legs and small forelegs
+| gator | a four legged animal with a very long body and short legs
+| horse | a four legged animal with a long neck elevating the head above the line of the body
+| human | a bipedal animal with two arms
+| insect | a six legged animal with a head and two body segments
+| kangaroo | a pentapedal animal that utilizes a large tail for stability with very large rear legs and smaller forearms
+| lizard | a smaller form of 'gator'
+| migo | whatever form migos have
+| pig | a four legged animal with the head in the same line as the body
+| spider | an eight legged animal with a small head on a large abdomen
+| snake | an animal with a long body and no limbs
 
 ## "attack_cost"
 (integer, optional)
@@ -137,12 +146,15 @@ Number of moves per regular attack.
 (integer, optional)
 
 Monster baseline difficulty.  Impacts the shade used to label the monster, and if it is above 30 a kill will be recorded in the memorial log.  Monster difficult is calculated based on expected melee damage, dodge, armor, hit points, speed, morale, aggression, and vision ranges.  The calculation does not handle ranged special attacks or unique special attacks very well, and baseline difficulty can be used to account for that.  Suggested values:
-2 - a limited defensive ability such as a skitterbot's taser, or a weak special like a shrieker zombie's special ability to alert nearby monsters, or a minor bonus to attack like poison or venom.
-5 - a limited ranged attack weaker than spitter zombie's spit, or a powerful defensive ability like a shocker zombie's zapback or an acid zombie's acid spray.
-10 - a powerful ranged attack, like a spitters zombie's spit or an turret's 9mm SMG.
-15 - a powerful ranged attack with additional hazards, like a corrosize zombie's spit
-20 - a very powerful ranged attack, like a laser turret or military turret's 5.56mm rifle, or a powerful special ability, like a zombie necromancer's ability to raise other zombies.
-30 - a ranged attack that is deadly even for armored characters, like an anti-material turret's .50 BMG rifle.
+
+| value | description
+| --- | ---
+| 2 | a limited defensive ability such as a skitterbot's taser, or a weak special like a shrieker zombie's special ability to alert nearby monsters, or a minor bonus to attack like poison or venom.
+| 5 | a limited ranged attack weaker than spitter zombie's spit, or a powerful defensive ability like a shocker zombie's zapback or an acid zombie's acid spray.
+| 10 | a powerful ranged attack, like a spitters zombie's spit or an turret's 9mm SMG.
+| 15 | a powerful ranged attack with additional hazards, like a corrosize zombie's spit
+| 20 | a very powerful ranged attack, like a laser turret or military turret's 5.56mm rifle, or a powerful special ability, like a zombie necromancer's ability to raise other zombies.
+| 30 | a ranged attack that is deadly even for armored characters, like an anti-material turret's .50 BMG rifle.
 
 Most monsters should have difficulty 0 - even dangerous monsters like a zombie hulk or razorclaw alpha.  Difficulty should only be used for exceptional, ranged, special attacks.
 
@@ -255,35 +267,35 @@ Monster regenerates very quickly in poorly lit tiles.
 
 Will stop fleeing if at max hp, and regen anger and morale.
 
-## "special_attack"
+## "special_attacks"
 (array of special attack definitions, optional)
 
 Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
 
 The old style array should contain 2 elements: the id of the attack (see JSON_FLAGS.md for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
 ```JSON
-"special_attack": [ [ "GRAB", 10 ] ]
+"special_attacks": [ [ "GRAB", 10 ] ]
 ```
 
 The new style object should contain at least a "type" member (string) and "cooldown" member (integer). It may contain additional members as required by the specific type. Possible types are listed below. Example:
 ```JSON
-"special_attack": [
+"special_attacks": [
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 
-"special_attack" may contain any mixture of old and new style entries:
+"special_attacks" may contain any mixture of old and new style entries:
 ```JSON
-"special_attack": [
+"special_attacks": [
     [ "GRAB", 10 ],
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 
-One can add entries with "add:death_function", which takes the same content as the "special_attack" member and remove entries with "remove:death_function", which requires an array of attack types. Example:
+One can add entries with "add:death_function", which takes the same content as the "special_attacks" member and remove entries with "remove:death_function", which requires an array of attack types. Example:
 ```JSON
-"remove:special_attack": [ "GRAB" ],
-"add:special_attack": [ [ "SHRIEK", 20 ] ]
+"remove:special_attacks": [ "GRAB" ],
+"add:special_attacks": [ [ "SHRIEK", 20 ] ]
 ```
 
 ## "flags"
@@ -446,7 +458,7 @@ Modifying a type overrides the properties with the new values, this example sets
     "type": "MONSTER",
     "edit-mode": "modify",
     "id": "mon_zombie",
-    "special_attack": [ [ "SHRIEK", 20 ] ]
+    "special_attacks": [ [ "SHRIEK", 20 ] ]
 }
 ```
 Some properties allow adding and removing entries, as documented above, usually via members with the "add:"/"remove:" prefix.
@@ -454,7 +466,7 @@ Some properties allow adding and removing entries, as documented above, usually 
 
 
 # Monster special attack types
-The listed attack types can be as monster special attacks (see "special_attack").
+The listed attack types can be as monster special attacks (see "special_attacks").
 
 ## "leap"
 Makes the monster leap a few tiles. It supports the following additional properties:

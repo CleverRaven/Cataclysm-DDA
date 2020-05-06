@@ -100,7 +100,16 @@
     "id": "cheap_wine",
     "type": "requirement",
     "//": "Cheap and improvised wines.",
-    "components": [ [ [ "fruit_wine", 1 ], [ "bum_wine", 1 ], [ "dandelion_wine", 1 ], [ "pine_wine", 1 ], [ "bum_wine", 1 ] ] ]
+    "components": [
+      [
+        [ "fruit_wine", 1 ],
+        [ "bum_wine", 1 ],
+        [ "dandelion_wine", 1 ],
+        [ "burdock_wine", 1 ],
+        [ "pine_wine", 1 ],
+        [ "bum_wine", 1 ]
+      ]
+    ]
   },
   {
     "id": "worthy_wine",
@@ -256,6 +265,7 @@
         [ "raw_beans", 1 ],
         [ "dry_rice", 1 ],
         [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
         [ "acorns_cooked", 1 ],
         [ "dry_lentils", 1 ],
         [ "raw_lentils", 1 ]
@@ -275,6 +285,7 @@
         [ "veggy_any", 1, "LIST" ],
         [ "sauerkraut", 1 ],
         [ "can_corn", 1 ],
+        [ "hominy", 1 ],
         [ "dry_veggy", 1 ],
         [ "con_milk", 1 ],
         [ "flatbread", 1 ],
@@ -351,6 +362,7 @@
         [ "raw_lentils", 2 ],
         [ "dry_rice", 2 ],
         [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
         [ "mushroom", 2 ],
         [ "dry_mushroom", 2 ],
         [ "mushroom_cooked", 2 ],
@@ -419,6 +431,22 @@
         [ "wild_herbs", 1 ],
         [ "soysauce", 1 ],
         [ "garlic_clove", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "salt_preservation",
+    "type": "requirement",
+    "//": "Salt-like ingredients that can be used to preserve foods",
+    "components": [
+      [
+        [ "salt_water", 1 ],
+        [ "saline", 1 ],
+        [ "salt", 1 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "pepper", 2 ],
+        [ "chem_saltpetre", 1 ]
       ]
     ]
   },
@@ -528,7 +556,9 @@
         [ "cattail_stalk", 1 ],
         [ "lettuce", 1 ],
         [ "irradiated_lettuce", 1 ],
+        [ "horseradish_greens", 1 ],
         [ "raw_dandelion", 1 ],
+        [ "raw_burdock", 1 ],
         [ "rehydrated_veggy", 1 ],
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
@@ -570,6 +600,7 @@
         [ "pumpkin", 1 ],
         [ "irradiated_pumpkin", 1 ],
         [ "raw_dandelion", 1 ],
+        [ "raw_burdock", 1 ],
         [ "rhubarb", 1 ],
         [ "irradiated_rhubarb", 1 ],
         [ "sugar_beet", 1 ],
@@ -591,6 +622,7 @@
       [
         [ "fiddlehead_boiled", 1 ],
         [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
         [ "salsify_baked", 1 ],
         [ "veggy_any_uncooked", 1, "LIST" ],
         [ "veggy_canned", 1 ],
@@ -657,6 +689,7 @@
         [ "can_beans", 1 ],
         [ "beans_cooked", 1 ],
         [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
         [ "acorns_cooked", 1 ],
         [ "tofu", 1 ],
         [ "dry_tofu", 1 ],

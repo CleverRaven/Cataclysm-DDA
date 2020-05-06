@@ -13,7 +13,8 @@
     "volume": "10 L",
     "bashing": 15,
     "category": "veh_parts",
-    "price": 4000
+    "price": 4000,
+    "price_postapoc": 100
   },
   {
     "type": "GENERIC",
@@ -26,7 +27,7 @@
   {
     "type": "GENERIC",
     "id": "frame",
-    "name": "steel frame",
+    "name": { "str": "steel frame" },
     "description": "A large frame made of steel.  Useful for crafting.",
     "weight": "20000 g",
     "to_hit": -5,
@@ -34,6 +35,7 @@
     "volume": "15 L",
     "bashing": 20,
     "price": 5500,
+    "price_postapoc": 100,
     "copy-from": "foldframe"
   },
   {
@@ -48,13 +50,14 @@
     "volume": "20 L",
     "bashing": 25,
     "price": 12000,
+    "price_postapoc": 250,
     "qualities": [ [ "ANVIL", 1 ] ],
     "copy-from": "foldframe"
   },
   {
     "type": "GENERIC",
     "id": "frame_wood",
-    "name": "wooden frame",
+    "name": { "str": "wooden frame" },
     "description": "A large frame made of wood.  Useful for crafting.",
     "weight": "8000 g",
     "to_hit": -5,
@@ -64,6 +67,7 @@
     "bashing": 16,
     "cutting": 4,
     "price": 3500,
+    "price_postapoc": 100,
     "copy-from": "foldframe"
   },
   {
@@ -90,6 +94,7 @@
     "bashing": 8,
     "cutting": 1,
     "price": 1000,
+    "price_postapoc": 50,
     "copy-from": "foldframe"
   }
 ]

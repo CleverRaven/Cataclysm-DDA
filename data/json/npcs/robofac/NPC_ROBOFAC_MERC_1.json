@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_ROBOFAC_MERC_1",
-    "name": "Hub Mercenary",
+    "name": { "str": "Hub Mercenary" },
     "job_description": "Fighting for the all-mighty dollar.",
     "common": false,
     "traits": [ { "trait": "TOUGH" }, { "trait": "QUICK" }, { "group": "Appearance_demographics" } ],
@@ -37,7 +37,7 @@
     "id": "NC_ROBOFAC_MERC_1_worn",
     "subtype": "collection",
     "items": [
-      { "item": "modularvestkevlar", "contents-group": "army_mags_m4" },
+      { "item": "ballistic_vest_esapi" },
       { "item": "chestrig", "contents-group": "army_mags_m4" },
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
@@ -192,7 +192,7 @@
   {
     "id": "MISSION_ROBOFAC_MERC_1_GOLD",
     "type": "mission_definition",
-    "name": "Retrieve chunks of gold",
+    "name": { "str": "Retrieve chunks of gold" },
     "description": "Find 200 units of gold.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,

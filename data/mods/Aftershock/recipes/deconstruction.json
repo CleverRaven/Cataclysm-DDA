@@ -135,5 +135,49 @@
       [ [ "spike", 2 ] ],
       [ [ "identification_module", 1 ] ]
     ]
+  },
+  {
+    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
+    "result": "q_solarpack",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 10,
+    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
+    "time": "50 m",
+    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "solar_panel_v3", 1 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "rope_6", 1 ] ]
+    ]
+  },
+  {
+    "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
+    "result": "q_solarpack_on",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 10,
+    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
+    "time": "50 m",
+    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "solar_panel_v3", 1 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "rope_6", 1 ] ]
+    ]
   }
 ]

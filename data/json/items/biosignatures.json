@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_bird",
-    "name": { "str": "bird litter", "str_pl": "bird litter" },
+    "name": { "str_sp": "bird litter" },
     "category": "chems",
     "weight": "40 g",
     "color": "brown",
@@ -14,6 +14,7 @@
     "calories": 26,
     "description": "Bird dropping, feathers, and soiled bits of rubbish.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "feces",
     "volume": "250 ml",
     "charges": 4,

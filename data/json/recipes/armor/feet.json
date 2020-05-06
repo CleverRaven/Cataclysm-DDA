@@ -388,6 +388,18 @@
     "components": [ [ [ "nomex", 9 ] ] ]
   },
   {
+    "result": "xlnomex_socks",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "37 m",
+    "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "nomex", 18 ] ] ]
+  },
+  {
     "result": "shoes_birchbark",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -412,6 +424,17 @@
     "components": [ [ [ "rag", 2 ] ] ]
   },
   {
+    "result": "xlsocks",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "time": "15 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 4 ] ],
+    "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
     "result": "socks_bag",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -433,6 +456,18 @@
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 75 ] ] ]
+  },
+  {
+    "result": "socks_wool",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "components": [ [ [ "yarn", 150 ] ] ]
   },
   {
     "result": "socks_ankle",

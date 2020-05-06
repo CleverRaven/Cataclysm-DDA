@@ -790,6 +790,11 @@
     "replace": "10mm_fmj"
   },
   {
+    "id": "reloaded_10mm",
+    "type": "MIGRATION",
+    "replace": "reloaded_10mm_fmj"
+  },
+  {
     "id": "locket",
     "type": "MIGRATION",
     "replace": "silver_locket"
@@ -1055,61 +1060,6 @@
     "replace": "m320_mod"
   },
   {
-    "id": "lead_stabilizer",
-    "type": "MIGRATION",
-    "replace": "stabilizer"
-  },
-  {
-    "id": "lead_barrel_small",
-    "type": "MIGRATION",
-    "replace": "barrel_small"
-  },
-  {
-    "id": "lead_red_dot_sight",
-    "type": "MIGRATION",
-    "replace": "red_dot_sight"
-  },
-  {
-    "id": "lead_rifle_scope",
-    "type": "MIGRATION",
-    "replace": "rifle_scope"
-  },
-  {
-    "id": "lead_acog_scope",
-    "type": "MIGRATION",
-    "replace": "acog_scope"
-  },
-  {
-    "id": "lead_holo_sight",
-    "type": "MIGRATION",
-    "replace": "holo_sight"
-  },
-  {
-    "id": "lead_laser_sight",
-    "type": "MIGRATION",
-    "replace": "rail_laser_sight"
-  },
-  {
-    "id": "lead_grip",
-    "type": "MIGRATION",
-    "replace": "offset_sight_rail"
-  },
-  {
-    "id": "lead_bipod",
-    "type": "MIGRATION",
-    "replace": "bipod"
-  },
-  {
-    "id": "lead_u_shotgun",
-    "type": "MIGRATION",
-    "replace": "masterkey"
-  },
-  {
-    "id": "lead_glm",
-    "type": "MIGRATION",
-    "replace": "m320"
-  },
-  {
     "id": "l_sp_9mm",
     "type": "MIGRATION",
     "replace": "glock_17"
@@ -1198,5 +1148,45 @@
     "id": "lw12mag",
     "type": "MIGRATION",
     "replace": "m1911mag"
+  },
+  {
+    "id": "solar_panel_v3",
+    "type": "MIGRATION",
+    "replace": "solar_panel_v2"
+  },
+  {
+    "id": "q_solarpack",
+    "type": "MIGRATION",
+    "replace": "solarpack"
+  },
+  {
+    "id": "q_solarpack_on",
+    "type": "MIGRATION",
+    "replace": "solarpack_on"
+  },
+  {
+    "id": "bio_solar",
+    "type": "MIGRATION",
+    "replace": "potato"
+  },
+  {
+    "id": "p320mag_14rd_357sig",
+    "type": "MIGRATION",
+    "replace": "p320mag_13rd_357sig"
+  },
+  {
+    "id": "p226mag_15rd_357sig",
+    "type": "MIGRATION",
+    "replace": "p226mag_12rd_357sig"
+  },
+  {
+    "id": "akmmag",
+    "type": "MIGRATION",
+    "replace": "akmag30"
+  },
+  {
+    "id": "akmbigmag",
+    "type": "MIGRATION",
+    "replace": "akmag40"
   }
 ]

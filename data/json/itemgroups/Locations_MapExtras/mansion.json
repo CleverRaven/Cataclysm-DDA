@@ -660,6 +660,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "items": [
+      [ "bat_nerf", 100 ],
       [ "marble", 60 ],
       [ "talking_doll", 50 ],
       [ "basketball", 50 ],
@@ -728,6 +729,7 @@
       [ "bondage_mask", 10 ],
       [ "zentai", 2 ],
       [ "bullwhip", 10 ],
+      [ "bullwhip_razor", 10 ],
       [ "leather_cat_ears", 5 ],
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
@@ -747,6 +749,8 @@
       [ "helmet_football", 10 ],
       [ "football", 60 ],
       [ "basketball", 50 ],
+      [ "beach_volleyball", 40 ],
+      [ "indoor_volleyball", 40 ],
       [ "helmet_bike", 25 ],
       [ "helmet_ball", 25 ],
       [ "headgear", 20 ],
@@ -758,8 +762,6 @@
       [ "rollerskates", 10 ],
       [ "longbow", 5 ],
       [ "compbow", 1 ],
-      [ "hybridbow", 1 ],
-      [ "compositebow", 3 ],
       [ "shortbow", 5 ],
       [ "recurbow", 2 ],
       [ "reflexbow", 2 ],
@@ -810,6 +812,7 @@
       [ "tongs", 25 ],
       [ "coffeemaker", 10 ],
       [ "cookbook_daintydishes", 40 ],
+      [ "cookbook_indian", 10 ],
       [ "cookbook_foodfashions", 18 ]
     ]
   },
@@ -1021,7 +1024,8 @@
       [ "yoghurt", 12 ],
       [ "vitamins", 10 ],
       [ "aspirin", 15 ],
-      { "group": "corpse_mansion", "prob": 1 }
+      { "group": "corpse_mansion", "prob": 1 },
+      [ "fitness_band", 3 ]
     ]
   },
   {
@@ -1102,7 +1106,8 @@
       [ "vitamins", 10 ],
       [ "aspirin", 10 ],
       [ "karate_gi", 10 ],
-      [ "judo_gi", 5 ]
+      [ "judo_gi", 5 ],
+      [ "fitness_band", 5 ]
     ]
   },
   {

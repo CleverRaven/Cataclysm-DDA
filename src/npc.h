@@ -1,57 +1,59 @@
 #pragma once
-#ifndef NPC_H
-#define NPC_H
+#ifndef CATA_SRC_NPC_H
+#define CATA_SRC_NPC_H
 
+#include <algorithm>
+#include <array>
+#include <functional>
+#include <iosfwd>
+#include <iterator>
+#include <list>
 #include <map>
-#include <memory>
 #include <set>
 #include <string>
-#include <vector>
-#include <array>
-#include <iosfwd>
-#include <list>
 #include <unordered_map>
 #include <utility>
-#include <functional>
+#include <vector>
 
+#include "auto_pickup.h"
 #include "calendar.h"
-#include "faction.h"
-#include "line.h"
-#include "lru_cache.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player.h"
+#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "inventory.h"
+#include "item.h"
 #include "item_location.h"
+#include "line.h"
+#include "lru_cache.h"
+#include "memory_fast.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
+#include "point.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
-#include "material.h"
+#include "translations.h"
 #include "type_id.h"
-#include "int_id.h"
-#include "item.h"
-#include "point.h"
-#include "memory_fast.h"
-#include "sounds.h"
+#include "units.h"
 
-namespace auto_pickup
-{
-class npc_settings;
-} // namespace auto_pickup
-struct bionic_data;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
-struct overmap_location;
-class Character;
 class mission;
-class vehicle;
-struct pathfinding_settings;
 class monfaction;
+class monster;
 class npc_class;
+class vehicle;
+struct bionic_data;
 struct mission_type;
+struct overmap_location;
+struct pathfinding_settings;
 
 enum game_message_type : int;
 class gun_mode;
@@ -112,39 +114,67 @@ enum class attitude_group : int {
     friendly // Follow, defend, listen
 };
 
-// a job assigned to an NPC when they are stationed at a basecamp.
-// this governs what tasks they will periodically scan to do.
-// some duties arent implemented yet
-// but are more indications of what category that duty will fall under when it is implemented.
-enum npc_job : int {
-    NPCJOB_NULL = 0,   // a default job of no particular responsibility.
-    NPCJOB_COOKING,    // includes cooking crafts and butchery
-    NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc )
-    NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refuelling vehicles
-    NPCJOB_CONSTRUCTING, // building stuff from blueprint zones
-    NPCJOB_CRAFTING, // crafting stuff generally. currently placeholder
-    NPCJOB_SECURITY,  // patrolling - currently placeholder
-    NPCJOB_FARMING,   // tilling, planting, harvesting, fertilizing, making seeds
-    NPCJOB_LUMBERJACK, // chopping trees down, chopping logs into planks, other wood-related tasks
-    NPCJOB_HUSBANDRY, // feeding animals, shearing sheep, collecting eggs/milk, training animals
-    NPCJOB_HUNTING,  // hunting for meat ( this is currently handled by off-screen companion_mission )
-    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission ) currently placeholder
-    NPCJOB_END
-};
+// jobs assigned to an NPC when they are stationed at a basecamp.
+class job_data
+{
+    private:
+        std::map<activity_id, int> task_priorities = {
+            { activity_id( "ACT_MULTIPLE_BUTCHER" ), 0 },
+            { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), 0 },
+            { activity_id( "ACT_VEHICLE_REPAIR" ), 0 },
+            { activity_id( "ACT_VEHICLE_DECONSTRUCTION" ), 0 },
+            { activity_id( "ACT_MULTIPLE_FARM" ), 0 },
+            { activity_id( "ACT_MULTIPLE_CHOP_TREES" ), 0 },
+            { activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ), 0 },
+            { activity_id( "ACT_MULTIPLE_FISH" ), 0 },
+            { activity_id( "ACT_MOVE_LOOT" ), 0 },
+            { activity_id( "ACT_TIDY_UP" ), 0 },
+        };
+    public:
+        bool set_task_priority( const activity_id &task, int new_priority ) {
+            auto it = task_priorities.find( task );
+            if( it != task_priorities.end() ) {
+                task_priorities[task] = new_priority;
+                return true;
+            }
+            return false;
+        }
+        void clear_all_priorities() {
+            for( auto &elem : task_priorities ) {
+                elem.second = 0;
+            }
+        }
+        bool has_job() const {
+            for( auto &elem : task_priorities ) {
+                if( elem.second > 0 ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        int get_priority_of_job( const activity_id &req_job ) const {
+            auto it = task_priorities.find( req_job );
+            if( it != task_priorities.end() ) {
+                return it->second;
+            } else {
+                return 0;
+            }
+        }
+        std::vector<activity_id> get_prioritised_vector() const {
+            std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
 
-std::vector<std::string> all_jobs();
-std::string npc_job_id( npc_job job );
-std::string npc_job_name( npc_job job );
-
-static std::map<npc_job, std::vector<activity_id>> job_duties = {
-    { NPCJOB_NULL, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } },
-    { NPCJOB_COOKING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_BUTCHER" ) } },
-    { NPCJOB_MENIAL, std::vector<activity_id>{ activity_id( "ACT_MOVE_LOOT" ), activity_id( "ACT_TIDY_UP" ) } },
-    { NPCJOB_VEHICLES, std::vector<activity_id>{ activity_id( "ACT_VEHICLE_REPAIR" ), activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) } },
-    { NPCJOB_CONSTRUCTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) } },
-    { NPCJOB_FARMING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FARM" ) } },
-    { NPCJOB_LUMBERJACK, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CHOP_TREES" ), activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) } },
-    { NPCJOB_HUNTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FISH" ) } },
+            std::vector<activity_id> ret;
+            sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
+            const std::pair<activity_id, int> &b ) {
+                return a.second > b.second;
+            } );
+            for( std::pair<activity_id, int> elem : pairs ) {
+                ret.push_back( elem.first );
+            }
+            return ret;
+        }
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 enum npc_mission : int {
@@ -160,8 +190,7 @@ enum npc_mission : int {
     NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
-    NPC_MISSION_TRAVELLING,
-    NPC_MISSION_ASSIGNED_CAMP, // this npc is assigned to a camp.
+    NPC_MISSION_TRAVELLING
 };
 
 struct npc_companion_mission {
@@ -245,46 +274,46 @@ struct npc_opinion {
     void deserialize( JsonIn &jsin );
 };
 
-enum combat_engagement {
-    ENGAGE_NONE = 0,
-    ENGAGE_CLOSE,
-    ENGAGE_WEAK,
-    ENGAGE_HIT,
-    ENGAGE_ALL,
-    ENGAGE_FREE_FIRE,
-    ENGAGE_NO_MOVE
+enum class combat_engagement : int {
+    NONE = 0,
+    CLOSE,
+    WEAK,
+    HIT,
+    ALL,
+    FREE_FIRE,
+    NO_MOVE
 };
 const std::unordered_map<std::string, combat_engagement> combat_engagement_strs = { {
-        { "ENGAGE_NONE", ENGAGE_NONE },
-        { "ENGAGE_CLOSE", ENGAGE_CLOSE },
-        { "ENGAGE_WEAK", ENGAGE_WEAK },
-        { "ENGAGE_HIT", ENGAGE_HIT },
-        { "ENGAGE_ALL", ENGAGE_ALL },
-        { "ENGAGE_FREE_FIRE", ENGAGE_FREE_FIRE },
-        { "ENGAGE_NO_MOVE", ENGAGE_NO_MOVE }
+        { "ENGAGE_NONE", combat_engagement::NONE },
+        { "ENGAGE_CLOSE", combat_engagement::CLOSE },
+        { "ENGAGE_WEAK", combat_engagement::WEAK },
+        { "ENGAGE_HIT", combat_engagement::HIT },
+        { "ENGAGE_ALL", combat_engagement::ALL },
+        { "ENGAGE_FREE_FIRE", combat_engagement::FREE_FIRE },
+        { "ENGAGE_NO_MOVE", combat_engagement::NO_MOVE }
     }
 };
 
-enum aim_rule {
+enum class aim_rule : int {
     // Aim some
-    AIM_WHEN_CONVENIENT = 0,
+    WHEN_CONVENIENT = 0,
     // No concern for ammo efficiency
-    AIM_SPRAY,
+    SPRAY,
     // Aim when possible, then shoot
-    AIM_PRECISE,
+    PRECISE,
     // If you can't aim, don't shoot
-    AIM_STRICTLY_PRECISE
+    STRICTLY_PRECISE
 };
 const std::unordered_map<std::string, aim_rule> aim_rule_strs = { {
-        { "AIM_WHEN_CONVENIENT", AIM_WHEN_CONVENIENT },
-        { "AIM_SPRAY", AIM_SPRAY },
-        { "AIM_PRECISE", AIM_PRECISE },
-        { "AIM_STRICTLY_PRECISE", AIM_STRICTLY_PRECISE }
+        { "AIM_WHEN_CONVENIENT", aim_rule::WHEN_CONVENIENT },
+        { "AIM_SPRAY", aim_rule::SPRAY },
+        { "AIM_PRECISE", aim_rule::PRECISE },
+        { "AIM_STRICTLY_PRECISE", aim_rule::STRICTLY_PRECISE }
     }
 };
 
 // How much CBM power should remain before attempting to recharge, values are percents of power
-enum cbm_recharge_rule {
+enum class cbm_recharge_rule : int {
     CBM_RECHARGE_ALL = 90,
     CBM_RECHARGE_MOST = 75,
     CBM_RECHARGE_SOME = 50,
@@ -292,16 +321,16 @@ enum cbm_recharge_rule {
     CBM_RECHARGE_NONE = 10
 };
 const std::unordered_map<std::string, cbm_recharge_rule> cbm_recharge_strs = { {
-        { "CBM_RECHARGE_ALL", CBM_RECHARGE_ALL },
-        { "CBM_RECHARGE_MOST", CBM_RECHARGE_MOST },
-        { "CBM_RECHARGE_SOME", CBM_RECHARGE_SOME },
-        { "CBM_RECHARGE_LITTLE", CBM_RECHARGE_LITTLE },
-        { "CBM_RECHARGE_NONE", CBM_RECHARGE_NONE }
+        { "CBM_RECHARGE_ALL", cbm_recharge_rule::CBM_RECHARGE_ALL },
+        { "CBM_RECHARGE_MOST", cbm_recharge_rule::CBM_RECHARGE_MOST },
+        { "CBM_RECHARGE_SOME", cbm_recharge_rule::CBM_RECHARGE_SOME },
+        { "CBM_RECHARGE_LITTLE", cbm_recharge_rule::CBM_RECHARGE_LITTLE },
+        { "CBM_RECHARGE_NONE", cbm_recharge_rule::CBM_RECHARGE_NONE }
     }
 };
 
 // How much CBM power to reserve for defense, values are percents of total power
-enum cbm_reserve_rule {
+enum class cbm_reserve_rule : int {
     CBM_RESERVE_ALL = 100,
     CBM_RESERVE_MOST = 75,
     CBM_RESERVE_SOME = 50,
@@ -309,11 +338,11 @@ enum cbm_reserve_rule {
     CBM_RESERVE_NONE = 0
 };
 const std::unordered_map<std::string, cbm_reserve_rule> cbm_reserve_strs = { {
-        { "CBM_RESERVE_ALL", CBM_RESERVE_ALL },
-        { "CBM_RESERVE_MOST", CBM_RESERVE_MOST },
-        { "CBM_RESERVE_SOME", CBM_RESERVE_SOME },
-        { "CBM_RESERVE_LITTLE", CBM_RESERVE_LITTLE },
-        { "CBM_RESERVE_NONE", CBM_RESERVE_NONE }
+        { "CBM_RESERVE_ALL", cbm_reserve_rule::CBM_RESERVE_ALL },
+        { "CBM_RESERVE_MOST", cbm_reserve_rule::CBM_RESERVE_MOST },
+        { "CBM_RESERVE_SOME", cbm_reserve_rule::CBM_RESERVE_SOME },
+        { "CBM_RESERVE_LITTLE", cbm_reserve_rule::CBM_RESERVE_LITTLE },
+        { "CBM_RESERVE_NONE", cbm_reserve_rule::CBM_RESERVE_NONE }
     }
 };
 
@@ -461,9 +490,9 @@ const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
 
 struct npc_follower_rules {
     combat_engagement engagement;
-    aim_rule aim = AIM_WHEN_CONVENIENT;
-    cbm_recharge_rule cbm_recharge = CBM_RECHARGE_SOME;
-    cbm_reserve_rule cbm_reserve = CBM_RESERVE_SOME;
+    aim_rule aim = aim_rule::WHEN_CONVENIENT;
+    cbm_recharge_rule cbm_recharge = cbm_recharge_rule::CBM_RECHARGE_SOME;
+    cbm_reserve_rule cbm_reserve = cbm_reserve_rule::CBM_RESERVE_SOME;
     ally_rule flags;
     ally_rule override_enable;
     ally_rule overrides;
@@ -498,8 +527,8 @@ struct dangerous_sound {
     int volume;
 };
 
-const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
-                                      SOUTHEAST, SOUTH, SOUTHWEST, WEST
+const direction npc_threat_dir[8] = { direction::NORTHWEST, direction::NORTH, direction::NORTHEAST, direction::EAST,
+                                      direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST
                                     };
 
 struct healing_options {
@@ -790,9 +819,9 @@ class npc : public player
         faction_id get_fac_id() const;
         /**
          * Set @ref submap_coords and @ref pos.
-         * @param mx,my,mz are global submap coordinates.
+         * @param m global submap coordinates.
          */
-        void spawn_at_sm( int mx, int my, int mz );
+        void spawn_at_sm( const tripoint &p );
         /**
          * As spawn_at, but also sets position within the submap.
          * Note: final submap may differ from submap_offset if @ref square has
@@ -862,7 +891,7 @@ class npc : public player
 
         bool is_hallucination() const override; // true if the NPC isn't actually real
 
-        // Ally of or travelling with p
+        // Ally of or traveling with p
         bool is_friendly( const player &p ) const;
         // Leading the player
         bool is_leader() const;
@@ -878,7 +907,7 @@ class npc : public player
         bool is_guarding() const;
         // Has a guard patrol mission
         bool is_patrolling() const;
-        bool is_assigned_to_camp() const;
+        bool within_boundaries_of_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         bool is_travelling() const;
@@ -933,7 +962,11 @@ class npc : public player
         bool has_artifact_with( const art_effect_passive ) const override {
             return false;
         }
-        /** Is the item safe or does the NPC trust you enough? */
+        /**
+         * Is the item safe or does the NPC trust you enough?
+         * Is not recursive, only checks the item that is the parameter.
+         * to check contents, call this on the items inside the item.
+         */
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
@@ -1027,7 +1060,7 @@ class npc : public player
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
          */
-        void shift( int sx, int sy );
+        void shift( const point &s );
 
         // Movement; the following are defined in npcmove.cpp
         void move(); // Picks an action & a target and calls execute_action
@@ -1108,6 +1141,9 @@ class npc : public player
         void move_away_from( const tripoint &p, bool no_bash_atk = false,
                              std::set<tripoint> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
+        // workers at camp relaxing/wandering
+        void worker_downtime();
+        bool find_job_to_perform();
         // Same as if the player pressed '.'
         void move_pause();
 
@@ -1172,19 +1208,20 @@ class npc : public player
         // Message related stuff
         using player::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
-        void add_msg_if_npc( game_message_type type, const std::string &msg ) const override;
+        void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
         using player::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         using player::add_msg_if_player;
         void add_msg_if_player( const std::string &/*msg*/ ) const override {}
-        void add_msg_if_player( game_message_type /*type*/, const std::string &/*msg*/ ) const override {}
+        void add_msg_if_player( const game_message_params &/*type*/,
+                                const std::string &/*msg*/ ) const override {}
         using player::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
-        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
         // The preceding are in npcmove.cpp
@@ -1207,12 +1244,11 @@ class npc : public player
         void travel_overmap( const tripoint &pos );
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );
-        npc_job get_job() const;
-        void set_job( npc_job new_job );
-        bool has_job() const;
-        void remove_job();
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
+        bool has_job() const {
+            return job.has_job();
+        }
         npc_attitude get_previous_attitude();
         npc_mission get_previous_mission();
         void revert_after_activity();
@@ -1224,10 +1260,10 @@ class npc : public player
         std::string idz;
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
+        cata::optional<tripoint> assigned_camp = cata::nullopt;
 
     private:
         npc_attitude attitude; // What we want to do to the player
-        npc_job job = NPCJOB_NULL; // what is our job at camp
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
         /**
@@ -1266,13 +1302,14 @@ class npc : public player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
+        tripoint chair_pos = no_goal_point; // This is the spot the NPC wants to move to to sit and relax.
         cata::optional<tripoint> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
          */
         tripoint goal;
-        tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
+        tripoint wander_pos = no_goal_point;
         int wander_time;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
@@ -1308,7 +1345,7 @@ class npc : public player
         cata::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint no_goal_point = tripoint_min;
-
+        job_data job;
         time_point last_updated;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.
@@ -1396,4 +1433,4 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
 
-#endif
+#endif // CATA_SRC_NPC_H

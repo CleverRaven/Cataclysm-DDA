@@ -28,6 +28,7 @@
     "type": "terrain",
     "id": "t_gas_pump",
     "name": "gasoline pump",
+    "looks_like": "t_machinery_heavy",
     "description": "Precious GASOLINE.  The former world bowed to their petroleum god as it led them to their ruin.  There's plenty left over to fuel your inner road warrior.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
     "symbol": "&",
     "color": "red",
@@ -218,6 +219,7 @@
     "type": "terrain",
     "id": "t_ticket_machine",
     "name": "ticket machine",
+    "looks_like": "t_ticket_vendor",
     "description": "This machine will provide you access to whatever is beyond it - for the price of a ticket, of course.",
     "symbol": "&",
     "color": "blue",
@@ -231,6 +233,27 @@
       "ter_set": "t_floor",
       "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_ventilation_shutter",
+    "name": "ventilation shutters",
+    "description": "A large wall mounted panel, covered fragile metal sheets that regulate airflow.",
+    "symbol": "=",
+    "color": "light_gray",
+    "looks_like": "t_chainfence_v",
+    "move_cost": 0,
+    "coverage": 90,
+    "flags": [ "NOITEM", "WALL" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor_no_roof",
+      "items": [ { "item": "scrap", "count": [ 8, 16 ] } ]
+    },
+    "deconstruct": { "ter_set": "t_metal_floor_no_roof", "items": [ { "item": "scrap", "count": [ 8, 16 ] } ] }
   },
   {
     "type": "terrain",
@@ -443,7 +466,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 65,
-    "flags": [ "NOITEM", "WALL" ],
+    "flags": [ "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 6,
       "str_max": 150,
@@ -611,6 +634,7 @@
     "type": "terrain",
     "id": "t_water_pump",
     "name": "water pump",
+    "looks_like": "t_machinery_heavy",
     "description": "Deep well collecting ground water.  Installed water pump allows to draw water from it.",
     "symbol": "&",
     "color": "light_gray",
@@ -636,6 +660,7 @@
     "type": "terrain",
     "id": "t_water_dispenser",
     "name": "water dispenser",
+    "looks_like": "f_sink",
     "description": "A machine with several taps that dispenses clean water.",
     "symbol": "W",
     "color": "light_blue",
@@ -1037,7 +1062,7 @@
     "type": "terrain",
     "id": "t_potential_trans",
     "name": "potential transformer",
-    "description": "A specialised type of electrical transformer, ",
+    "description": "A specialized type of electrical transformer, ",
     "symbol": "8",
     "color": "i_light_gray",
     "looks_like": "t_machinery_electronic",

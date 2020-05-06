@@ -3,7 +3,14 @@
     "name": "GROUP_ANIMALPOUND_CATS",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [ { "monster": "mon_cat", "freq": 300, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_cat", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_tabby", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_longhair", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_siamese", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_persian", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_chonker", "freq": 20, "cost_multiplier": 0 }
+    ]
   },
   {
     "name": "GROUP_ANIMALPOUND_DOGS",

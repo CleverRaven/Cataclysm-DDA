@@ -482,7 +482,7 @@
   {
     "id": "SKIN_DARK",
     "type": "mutation",
-    "name": "Skin tone: dark brown",
+    "name": { "str": "Skin tone: dark brown" },
     "description": "You have a dark brown skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -494,7 +494,7 @@
   {
     "id": "SKIN_LIGHT",
     "type": "mutation",
-    "name": "Skin tone: light",
+    "name": { "str": "Skin tone: light" },
     "description": "You have a light peach skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -506,7 +506,7 @@
   {
     "id": "SKIN_MEDIUM",
     "type": "mutation",
-    "name": "Skin tone: light brown",
+    "name": { "str": "Skin tone: light brown" },
     "description": "You have a light brown skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -518,7 +518,7 @@
   {
     "id": "SKIN_PINK",
     "type": "mutation",
-    "name": "Skin tone: rose",
+    "name": { "str": "Skin tone: rose" },
     "description": "You have a rosy pink skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -530,7 +530,7 @@
   {
     "id": "SKIN_TAN",
     "type": "mutation",
-    "name": "Skin tone: bronze",
+    "name": { "str": "Skin tone: bronze" },
     "description": "You have a bronze or tan skin tone.",
     "points": 0,
     "starting_trait": true,

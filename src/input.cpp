@@ -30,6 +30,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "color.h"
 #include "point.h"
 
@@ -1014,13 +1015,32 @@ action_id input_context::display_menu( const bool permit_execute_action )
 
     std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
 
-    int maxwidth = max( FULL_SCREEN_WIDTH, TERMX );
-    int width = min( 80, maxwidth );
-    int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
-    int height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
+    ui_adaptor ui;
+    int width = 0;
+    int height = 0;
+    catacurses::window w_help;
+    size_t display_height = 0;
+    size_t legwidth = 0;
+    string_input_popup spopup;
+    const auto recalc_size = [&]( ui_adaptor & ui ) {
+        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
+        width = min( 80, maxwidth );
+        int maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
+        height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
-    catacurses::window w_help = catacurses::newwin( height - 2, width - 2,
-                                point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
+        w_help = catacurses::newwin( height - 2, width - 2,
+                                     point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
+        // height of the area usable for display of keybindings, excludes headers & borders
+        display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
+        // width of the legend
+        legwidth = width - 4 - BORDER_SPACE;
+        spopup.window( w_help, point( 4, 8 ), legwidth )
+        .max_length( legwidth )
+        .context( ctxt );
+        ui.position_from_window( w_help );
+    };
+    recalc_size( ui );
+    ui.on_screen_resize( recalc_size );
 
     // has the user changed something?
     bool changed = false;
@@ -1042,10 +1062,6 @@ action_id input_context::display_menu( const bool permit_execute_action )
     static const nc_color unbound_key = c_light_red;
     // (vertical) scroll offset
     size_t scroll_offset = 0;
-    // height of the area usable for display of keybindings, excludes headers & borders
-    const size_t display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
-    // width of the legend
-    const size_t legwidth = width - 4 - BORDER_SPACE;
     // keybindings help
     std::string legend;
     legend += colorize( _( "Unbound keys" ), unbound_key ) + "\n";
@@ -1060,14 +1076,8 @@ action_id input_context::display_menu( const bool permit_execute_action )
     std::string filter_phrase;
     std::string action;
     int raw_input_char = 0;
-    string_input_popup spopup;
-    spopup.window( w_help, 4, 8, legwidth )
-    .max_length( legwidth )
-    .context( ctxt );
 
-    // do not switch IME mode now, but restore previous mode on return
-    ime_sentry sentry( ime_sentry::keep );
-    while( true ) {
+    const auto redraw = [&]( const ui_adaptor & ) {
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
@@ -1115,14 +1125,20 @@ action_id input_context::display_menu( const bool permit_execute_action )
         }
 
         // spopup.query_string() will call wrefresh( w_help )
-        catacurses::refresh();
-
         spopup.text( filter_phrase );
+        spopup.query_string( false, true );
+    };
+    ui.on_redraw( redraw );
+
+    // do not switch IME mode now, but restore previous mode on return
+    ime_sentry sentry( ime_sentry::keep );
+    while( true ) {
+        ui_manager::redraw();
+
         if( status == s_show ) {
             filter_phrase = spopup.query_string( false );
             action = ctxt.input_to_action( ctxt.get_raw_input() );
         } else {
-            spopup.query_string( false, true );
             action = ctxt.handle_input();
         }
         raw_input_char = ctxt.get_raw_input().get_first_input();
@@ -1322,8 +1338,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
     const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
-    const point win_min( getbegx( capture_win ) - VIEW_OFFSET_X,
-                         getbegy( capture_win ) - VIEW_OFFSET_Y );
+    const point win_min( getbegx( capture_win ),
+                         getbegy( capture_win ) );
     const rectangle win_bounds( win_min, win_min + view_size );
     if( !win_bounds.contains_half_open( coordinate ) ) {
         return cata::nullopt;

@@ -32,6 +32,7 @@
       { "item": "duct_tape", "prob": 13, "charges-min": 20, "charges-max": 200 },
       [ "screwdriver", 8 ],
       [ "screwdriver_set", 2 ],
+      [ "hd_tow_cable", 5 ],
       [ "toolbox", 1 ]
     ]
   },

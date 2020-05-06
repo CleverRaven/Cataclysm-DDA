@@ -189,8 +189,7 @@
         "|-------"
       ],
       "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
-      "terrain": { "M": "t_wall_metal" },
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": 5, "y": 3, "chance": 25 } ]
+      "terrain": { "M": "t_wall_metal" }
     }
   },
   {
@@ -211,8 +210,7 @@
         "|#######"
       ],
       "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
-      "terrain": { "M": "t_wall_metal" },
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": 5, "y": 3, "chance": 10 } ]
+      "terrain": { "M": "t_wall_metal" }
     }
   },
   {
@@ -435,14 +433,14 @@
         "g,,,,,,,,,",
         "|,,,,,,,,,",
         "g,,,,,,,,,",
-        "|x,,,7,,,x",
+        "|x,,,,,,,x",
         "g,,,,,,,,,",
         "|,,,,,,,,,",
         "g,,,,,,,,,",
         "|x,,,x,,,x"
       ],
       "palettes": [ "lab_palette" ],
-      "monster": { "7": { "monster": "mon_turret_rifle" } },
+      "place_monsters": [ { "monster": "GROUP_LAB_SECURITY", "x": [ 1, 9 ], "y": [ 1, 9 ] } ],
       "terrain": { "g": "t_wall_glass", "G": "t_door_glass_lab_c", "7": "t_thconc_floor" }
     }
   },

@@ -1,13 +1,16 @@
 #pragma once
-#ifndef FIELD_TYPE_H
-#define FIELD_TYPE_H
+#ifndef CATA_SRC_FIELD_TYPE_H
+#define CATA_SRC_FIELD_TYPE_H
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
-#include <algorithm>
-#include <vector>
-#include <memory>
+#include <set>
 #include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
@@ -15,11 +18,12 @@
 #include "color.h"
 #include "effect.h"
 #include "enums.h"
-#include "type_id.h"
-#include "string_id.h"
+#include "mapdata.h"
 #include "translations.h"
+#include "type_id.h"
 
 class JsonObject;
+template <typename E> struct enum_traits;
 
 enum phase_id : int;
 enum body_part : int;
@@ -143,6 +147,7 @@ struct field_type {
         bool has_elec = false;
         bool has_fume = false;
         description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
+        map_bash_info bash_info;
 
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
@@ -314,4 +319,4 @@ extern field_type_id fd_null,
        fd_tindalos_rift
        ;
 
-#endif
+#endif // CATA_SRC_FIELD_TYPE_H

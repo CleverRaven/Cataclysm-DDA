@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAP_ITERATOR_H
-#define MAP_ITERATOR_H
+#ifndef CATA_SRC_MAP_ITERATOR_H
+#define CATA_SRC_MAP_ITERATOR_H
 
 #include <cstddef>
 
@@ -125,4 +125,4 @@ inline tripoint_range points_in_radius( const tripoint &center, const int radius
     return tripoint_range( center - offset, center + offset );
 }
 
-#endif
+#endif // CATA_SRC_MAP_ITERATOR_H

@@ -1,15 +1,17 @@
 #pragma once
-#ifndef MAPGENFORMAT_H
-#define MAPGENFORMAT_H
+#ifndef CATA_SRC_MAPGENFORMAT_H
+#define CATA_SRC_MAPGENFORMAT_H
 
 #include <cstddef>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
+#include "int_id.h"
 #include "type_id.h"
 
 class map;
+struct point;
 
 namespace mapf
 {
@@ -25,9 +27,9 @@ class format_effect;
  *   one tile on the map. It will be looked up in \p ter_b and \p furn_b to get the terrain/
  *   furniture to place there (if that lookup returns a null id, nothing is set on the map).
  *   A newline character continues on the next line (resets `x` to \p startx and increments `y`).
- * @param startx,starty Coordinates in the map where to start drawing \p cstr.
+ * @param start Coordinates in the map where to start drawing \p cstr.
  */
-void formatted_set_simple( map *m, int startx, int starty, const char *cstr,
+void formatted_set_simple( map *m, const point &start, const char *cstr,
                            const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b );
 
 template<typename ID>
@@ -84,4 +86,4 @@ inline format_effect<furn_id> furn_bind( const char ( &characters )[N], Args... 
 
 } //END NAMESPACE mapf
 
-#endif
+#endif // CATA_SRC_MAPGENFORMAT_H

@@ -2,8 +2,7 @@
   {
     "type": "AMMO",
     "id": "dragon_blood",
-    "name": "dragon blood",
-    "name_plural": "dragon blood",
+    "name": { "str_sp": "dragon blood" },
     "weight": "2 g",
     "color": "red",
     "container": "flask_glass",
@@ -15,9 +14,8 @@
     "phase": "liquid",
     "category": "fuel",
     "ammo_type": "dragon_blood",
-    "damage": 5,
+    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "pierce": 5,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
       "energy": 50,
@@ -27,8 +25,7 @@
   {
     "type": "AMMO",
     "id": "tainted_blood",
-    "name": "tainted blood",
-    "name_plural": "tainted blood",
+    "name": { "str_sp": "tainted blood" },
     "weight": "2 g",
     "color": "black",
     "container": "flask_glass",
@@ -45,8 +42,7 @@
   {
     "type": "AMMO",
     "id": "blood",
-    "name": "blood",
-    "name_plural": "blood",
+    "name": { "str_sp": "blood" },
     "weight": "265 g",
     "color": "red",
     "container": "flask_glass",
@@ -59,5 +55,24 @@
     "category": "fuel",
     "ammo_type": "blood",
     "fuel": { "energy": 1 }
+  },
+  {
+    "id": "mana_infused_blood",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "mana infused blood", "str_pl": "mana_infused_blood" },
+    "description": "Blood that is filled to the brim with arcane energy.  It releases a faint blue glow.",
+    "weight": "265 g",
+    "volume": "250 ml",
+    "price": 0,
+    "symbol": "~",
+    "color": "light_blue",
+    "phase": "liquid",
+    "container": "flask_glass",
+    "tool": "syringe",
+    "quench": 50,
+    "ammo_data": { "ammo_type": "mana_infused_blood" },
+    "flags": [ "NO_INGEST" ],
+    "use_action": { "type": "cast_spell", "spell_id": "mana_doping", "no_fail": true, "level": 0 }
   }
 ]

@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "solar_panel",
-    "name": "solar panel",
+    "name": { "str": "solar panel" },
     "description": "Electronic device that can convert solar radiation into electric power.  Useful for a vehicle.",
     "weight": "14000 g",
     "to_hit": -4,
@@ -13,7 +13,8 @@
     "bashing": 1,
     "flags": [ "NO_REPAIR" ],
     "category": "veh_parts",
-    "price": 90000
+    "price": 90000,
+    "price_postapoc": 1000
   },
   {
     "type": "GENERIC",
@@ -25,50 +26,43 @@
     "material": [ "glass", "steel" ],
     "volume": "6500 ml",
     "price": 120000,
+    "price_postapoc": 1500,
     "copy-from": "solar_panel"
   },
   {
     "type": "GENERIC",
     "id": "solar_panel_v2",
-    "name": "upgraded solar panel",
+    "name": { "str": "upgraded solar panel" },
     "description": "Electronic device that can convert solar radiation into electric power.  This panel has been upgraded to convert more sunlight into power.  Useful for a vehicle.",
     "weight": "18494 g",
     "volume": "4500 ml",
     "price": 190000,
+    "price_postapoc": 3000,
     "copy-from": "solar_panel"
   },
   {
     "type": "GENERIC",
     "id": "reinforced_solar_panel_v2",
-    "name": "upgraded reinforced solar panel",
+    "name": { "str": "upgraded reinforced solar panel" },
     "description": "An upgraded solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal upgraded panel.  Useful for a vehicle.",
     "weight": "29062 g",
     "to_hit": -5,
     "volume": "7500 ml",
     "price": 240000,
+    "price_postapoc": 3500,
     "copy-from": "reinforced_solar_panel"
   },
   {
     "type": "GENERIC",
-    "id": "solar_panel_v3",
-    "name": { "str": "quantum solar panel" },
-    "description": "This solar panel is obviously cutting-edge technology and given where you found it, should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
-    "to_hit": -5,
-    "material": [ "glass", "steel" ],
-    "volume": "4500 ml",
-    "price": 900000,
-    "copy-from": "solar_panel"
-  },
-  {
-    "type": "GENERIC",
     "id": "solar_cell",
-    "name": "solar cell",
+    "name": { "str": "solar cell" },
     "description": "A small electronic device that can convert solar radiation into electric power.  Useful for crafting.",
     "weight": "500 g",
     "symbol": ";",
     "volume": "250 ml",
     "category": "spare_parts",
     "price": 5000,
+    "price_postapoc": 100,
     "copy-from": "solar_panel"
   }
 ]

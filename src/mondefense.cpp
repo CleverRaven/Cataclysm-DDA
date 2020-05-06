@@ -1,10 +1,13 @@
 #include "mondefense.h"
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
+#include <list>
+#include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -13,21 +16,28 @@
 #include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
+#include "enums.h"
 #include "game.h"
-#include "map.h"
-#include "map_iterator.h"
+#include "gun_mode.h"
+#include "item.h"
+#include "line.h"
 #include "mattack_actors.h"
+#include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "player.h"
+#include "point.h"
 #include "projectile.h"
 #include "rng.h"
+#include "sounds.h"
+#include "string_id.h"
 #include "translations.h"
-#include "enums.h"
-#include "item.h"
-#include "point.h"
-#include "cata_string_consts.h"
+#include "type_id.h"
+
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_rifle( "rifle" );
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
@@ -76,8 +86,8 @@ void mdefense::zapback( monster &m, Creature *const source,
     const damage_instance shock {
         DT_ELECTRIC, static_cast<float>( rng( 1, 5 ) )
     };
-    source->deal_damage( &m, bp_arm_l, shock );
-    source->deal_damage( &m, bp_arm_r, shock );
+    source->deal_damage( &m, bodypart_id( "arm_l" ), shock );
+    source->deal_damage( &m, bodypart_id( "arm_r" ), shock );
 
     source->check_dead_state();
 }
@@ -108,7 +118,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
                 const damage_instance acid_burn{
                     DT_ACID, static_cast<float>( rng( 1, 5 ) )
                 };
-                source->deal_damage( &m, one_in( 2 ) ? bp_hand_l : bp_hand_r, acid_burn );
+                source->deal_damage( &m, one_in( 2 ) ? bodypart_id( "hand_l" ) : bodypart_id( "hand_r" ),
+                                     acid_burn );
                 source->add_msg_if_player( m_bad, _( "Acid covering %s burns your hand!" ), m.disp_name() );
             }
         }
@@ -126,7 +137,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.impact.add_damage( DT_ACID, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint &target = random_entry( pts );
-        projectile_attack( prj, m.pos(), target, { 1200 }, &m );
+        projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );
     }
 
     if( g->u.sees( m.pos() ) ) {

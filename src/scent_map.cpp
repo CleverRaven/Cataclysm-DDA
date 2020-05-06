@@ -1,17 +1,19 @@
 #include "scent_map.h"
 
-#include <cstdlib>
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+#include <cstdlib>
 
 #include "assign.h"
 #include "calendar.h"
 #include "color.h"
+#include "cursesdef.h"
+#include "debug.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "map.h"
 #include "output.h"
-#include "cursesdef.h"
+#include "string_id.h"
 
 static constexpr int SCENT_RADIUS = 40;
 
@@ -77,12 +79,12 @@ void scent_map::draw( const catacurses::window &win, const int div, const tripoi
     }
 }
 
-void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
+void scent_map::shift( const point &sm_shift )
 {
     scent_array<int> new_scent;
     for( size_t x = 0; x < MAPSIZE_X; ++x ) {
         for( size_t y = 0; y < MAPSIZE_Y; ++y ) {
-            const point p( x + sm_shift_x, y + sm_shift_y );
+            const point p = point( x, y ) + sm_shift;
             new_scent[x][y] = inbounds( p ) ? grscent[ p.x ][ p.y ] : 0;
         }
     }
@@ -166,7 +168,7 @@ void scent_map::update( const tripoint &center, map &m )
     scent_array<int> squares_used_y;
 
     // these are for caching flag lookups
-    scent_array<bool> blocks_scent; // currently only TFLAG_WALL blocks scent
+    scent_array<bool> blocks_scent; // currently only TFLAG_NO_SCENT blocks scent
     scent_array<bool> reduces_scent;
 
     // for loop constants
@@ -227,7 +229,7 @@ void scent_map::update( const tripoint &center, map &m )
                 }
                 // take the old scent and subtract what diffuses out
                 int temp_scent = scent_here * ( 10 * 1000 - squares_used * this_diffusivity );
-                // neighboring walls and reduce_scent squares absorb some scent
+                // neighboring REDUCE_SCENT squares absorb some scent
                 temp_scent -= scent_here * this_diffusivity * ( 90 - squares_used ) / 5;
                 // we've already summed neighboring scent values in the y direction in the previous
                 // loop. Now we do it for the x direction, multiply by diffusion, and this is what
@@ -239,7 +241,7 @@ void scent_map::update( const tripoint &center, map &m )
                                              + sum_3_scent_y[y][x + 1] )
                     ) / ( 1000 * 10 );
             } else {
-                // this cell blocks scent
+                // this cell blocks scent via NO_SCENT (in json)
                 scent_here = 0;
             }
         }

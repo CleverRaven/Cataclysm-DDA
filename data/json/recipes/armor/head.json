@@ -156,7 +156,7 @@
         [ "flask_hip", 1 ]
       ],
       [ [ "wire", 1 ] ],
-      [ [ "hose", 1 ] ]
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ]
     ],
     "flags": [ "BLIND_HARD" ]
   },

@@ -18,11 +18,6 @@
   },
   {
     "type": "overmap_terrain",
-    "abstract": "generic_city_building_no_rotate",
-    "copy-from": "generic_city_building"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "park",
     "copy-from": "park",
     "sym": "\u00EE"
@@ -641,13 +636,6 @@
     "id": "bandit_garage_2",
     "copy-from": "bandit_garage_2",
     "sym": "\u00E8"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mass_grave",
-    "copy-from": "mass_grave",
-    "sym": "\u00C4",
-    "color": "red"
   },
   {
     "type": "overmap_terrain",

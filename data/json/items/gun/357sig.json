@@ -9,6 +9,7 @@
     "weight": "964 g",
     "volume": "549 ml",
     "price": 50000,
+    "price_postapoc": 2250,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "aluminum", "plastic" ],
@@ -17,8 +18,7 @@
     "ammo": "357sig",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
-    "magazines": [ [ "357sig", [ "p226mag_15rd_357sig" ] ] ]
+    "magazines": [ [ "357sig", [ "p226mag_12rd_357sig" ] ] ]
   },
   {
     "id": "glock_31",
@@ -28,6 +28,7 @@
     "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel.",
     "weight": "660 g",
     "volume": "443 ml",
+    "price_postapoc": 2250,
     "ammo": [ "357sig" ],
     "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag" ] ] ]
   },
@@ -36,11 +37,12 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "SIG P320" },
-    "description": "The P320 is a semi-automatic, short recoil operated pistol.  This one is chambered for .357 SIG.",
+    "name": { "str": "SIG P320 Compact" },
+    "description": "The P320 Compact is a semi-automatic, short recoil operated pistol.  This one is chambered for .357 SIG.",
     "weight": "731 g",
     "volume": "462 ml",
     "price": 69000,
+    "price_postapoc": 2250,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
@@ -48,7 +50,6 @@
     "ammo": "357sig",
     "dispersion": 480,
     "durability": 6,
-    "magazine_well": 1,
-    "magazines": [ [ "357sig", [ "p320mag_14rd_357sig" ] ] ]
+    "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ]
   }
 ]

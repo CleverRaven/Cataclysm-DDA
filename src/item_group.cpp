@@ -2,21 +2,27 @@
 
 #include <algorithm>
 #include <cassert>
-#include <list>
 #include <set>
 
+#include "calendar.h"
+#include "compatibility.h"
 #include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "rng.h"
-#include "calendar.h"
-#include "compatibility.h"
-#include "enums.h"
 #include "type_id.h"
-#include "flat_set.h"
-#include "cata_string_consts.h"
+#include "value_ptr.h"
+
+static const std::string null_item_id( "null" );
+
+static const std::string flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
+static const std::string flag_NON_FOULING( "NON-FOULING" );
+static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
+static const std::string flag_VARSIZE( "VARSIZE" );
 
 Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
 {
@@ -267,7 +273,7 @@ void Item_modifier::modify( item &new_item ) const
 
     if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( LIQUID ) ||
             ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
-        max_capacity = new_item.charges_per_volume( cont.get_container_capacity() );
+        max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
     }
 
     const bool charges_not_set = charges.first == -1 && charges.second == -1;
@@ -276,7 +282,7 @@ void Item_modifier::modify( item &new_item ) const
         int charges_min = charges.first == -1 ? 0 : charges.first;
         int charges_max = charges.second == -1 ? max_capacity : charges.second;
 
-        if( charges_max != -1 ) {
+        if( charges_min == -1 && charges_max != -1 ) {
             charges_min = 0;
         }
 
@@ -337,7 +343,8 @@ void Item_modifier::modify( item &new_item ) const
                           !new_item.magazine_current();
 
         if( spawn_mag ) {
-            new_item.contents.emplace_back( new_item.magazine_default(), new_item.birthday() );
+            new_item.put_in( item( new_item.magazine_default(), new_item.birthday() ),
+                             item_pocket::pocket_type::MAGAZINE );
         }
 
         if( spawn_ammo ) {
@@ -351,13 +358,15 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( !cont.is_null() ) {
-        cont.put_in( new_item );
+        cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
         new_item = cont;
     }
 
     if( contents != nullptr ) {
         Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
-        new_item.contents.insert( new_item.contents.end(), contentitems.begin(), contentitems.end() );
+        for( const item &it : contentitems ) {
+            new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
+        }
     }
 
     for( auto &flag : custom_flags ) {

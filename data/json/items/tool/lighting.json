@@ -8,6 +8,7 @@
     "weight": "1438 g",
     "volume": "1 L",
     "price": 175000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "aluminum" ],
@@ -25,6 +26,7 @@
     "weight": "1438 g",
     "volume": "1 L",
     "price": 175000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "aluminum" ],
@@ -48,6 +50,7 @@
     "weight": "214 g",
     "volume": "250 ml",
     "price": 125000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 4,
     "material": [ "plastic", "aluminum" ],
@@ -70,6 +73,7 @@
     "weight": "214 g",
     "volume": "250 ml",
     "price": 125000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 4,
     "material": [ "plastic", "aluminum" ],
@@ -92,6 +96,7 @@
     "weight": "225 g",
     "volume": "250 ml",
     "price": 100,
+    "price_postapoc": 50,
     "to_hit": -2,
     "material": "veggy",
     "symbol": ",",
@@ -111,11 +116,12 @@
   {
     "id": "candle_lit",
     "type": "TOOL",
-    "name": { "str": "candle", "str_pl": "candles" },
+    "name": { "str": "candle" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
     "weight": "225 g",
     "volume": "250 ml",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -2,
     "material": "veggy",
     "symbol": ",",
@@ -138,6 +144,7 @@
     "weight": "980 g",
     "volume": "1 L",
     "price": 1000,
+    "price_postapoc": 100,
     "bashing": 1,
     "to_hit": 2,
     "material": [ "plastic" ],
@@ -167,8 +174,7 @@
           "light_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "electric_lantern_on",
@@ -191,6 +197,7 @@
     "weight": "400 g",
     "volume": "500 ml",
     "price": 500,
+    "price_postapoc": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -214,8 +221,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "flashlight_on",
@@ -235,6 +241,7 @@
     "weight": "1400 g",
     "volume": "750 ml",
     "price": 3000,
+    "price_postapoc": 100,
     "to_hit": 2,
     "bashing": 1,
     "material": [ "glass", "iron" ],
@@ -274,6 +281,7 @@
     "weight": "29 g",
     "volume": "250 ml",
     "price": 100,
+    "price_postapoc": 10,
     "to_hit": -1,
     "material": "plastic",
     "symbol": ";",
@@ -297,6 +305,7 @@
     "weight": "29 g",
     "volume": "250 ml",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -1,
     "bashing": 2,
     "material": "plastic",
@@ -320,7 +329,7 @@
     "turns_per_charge": 30,
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
-    "flags": [ "LIGHT_8", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_8", "TRADER_AVOID", "SLEEP_IGNORE" ]
   },
   {
     "id": "handflare",
@@ -333,6 +342,7 @@
     "weight": "128 g",
     "volume": "250 ml",
     "price": 400,
+    "price_postapoc": 100,
     "max_charges": 300,
     "initial_charges": 300,
     "use_action": {
@@ -364,8 +374,8 @@
     "weight": "650 g",
     "volume": "750 ml",
     "price": 950,
+    "price_postapoc": 200,
     "bashing": 8,
-    "to_hit": 2,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",
@@ -392,8 +402,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "heavy_flashlight_on",
@@ -417,6 +426,7 @@
     "weight": "27 g",
     "volume": "250 ml",
     "price": 500,
+    "price_postapoc": 25,
     "to_hit": 2,
     "bashing": 1,
     "material": [ "plastic", "aluminum" ],
@@ -463,8 +473,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 0
+    ]
   },
   {
     "id": "oil_lamp",
@@ -474,6 +483,7 @@
     "weight": "1720 g",
     "volume": "1 L",
     "price": 1000,
+    "price_postapoc": 100,
     "to_hit": 2,
     "bashing": 1,
     "material": [ "glass", "iron" ],
@@ -513,6 +523,7 @@
     "weight": "800 g",
     "volume": "500 ml",
     "price": 6500,
+    "price_postapoc": 100,
     "symbol": ";",
     "color": "red",
     "material": [ "copper", "glass" ],
@@ -541,11 +552,12 @@
   {
     "id": "reading_light",
     "type": "TOOL",
-    "name": { "str": "reading light", "str_pl": "reading lights" },
+    "name": { "str": "reading light" },
     "description": "A little clip-on LED light, meant for reading books in the dark.",
     "weight": "90 g",
     "volume": "100 ml",
     "price": 100,
+    "price_postapoc": 100,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
@@ -559,8 +571,7 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
-    "magazine_well": 1
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "reading_light_on",
@@ -581,6 +592,7 @@
     "weight": "400 g",
     "volume": "500 ml",
     "price": 500,
+    "price_postapoc": 100,
     "to_hit": -1,
     "bashing": 1,
     "material": [ "plastic", "aluminum" ],
@@ -610,8 +622,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "smart_lamp_on",
@@ -622,8 +633,7 @@
     "power_draw": 10000,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
     "id": "torch",
@@ -633,6 +643,7 @@
     "weight": "831 g",
     "volume": "750 ml",
     "price": 0,
+    "price_postapoc": 50,
     "to_hit": 1,
     "bashing": 8,
     "material": "wood",
@@ -659,6 +670,7 @@
     "weight": "831 g",
     "volume": "750 ml",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": 1,
     "bashing": 8,
     "material": "wood",

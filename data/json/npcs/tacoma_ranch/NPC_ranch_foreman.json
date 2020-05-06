@@ -81,7 +81,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_1",
     "type": "mission_definition",
-    "name": "Cut 200 2x4's",
+    "name": { "str": "Cut 200 2x4's" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -136,7 +136,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_2",
     "type": "mission_definition",
-    "name": "Find 25 Blankets",
+    "name": { "str": "Find 25 Blankets" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -200,7 +200,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_3",
     "type": "mission_definition",
-    "name": "Gather 2500 Nails",
+    "name": { "str": "Gather 2500 Nails" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -258,7 +258,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_4",
     "type": "mission_definition",
-    "name": "Gather 300 Salt",
+    "name": { "str": "Gather 300 Salt" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -322,7 +322,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_5",
     "type": "mission_definition",
-    "name": "30 Liquid Fertilizer",
+    "name": { "str": "30 Liquid Fertilizer" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -367,7 +367,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_6",
     "type": "mission_definition",
-    "name": "Gather 75 Rocks",
+    "name": { "str": "Gather 75 Rocks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -414,7 +414,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_7",
     "type": "mission_definition",
-    "name": "Gather 50 Pipes",
+    "name": { "str": "Gather 50 Pipes" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -464,7 +464,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_8",
     "type": "mission_definition",
-    "name": "Gather 2 Electric Motors",
+    "name": { "str": "Gather 2 Electric Motors" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -524,7 +524,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_9",
     "type": "mission_definition",
-    "name": "Gather 150 Bleach",
+    "name": { "str": "Gather 150 Bleach" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -562,7 +562,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_10",
     "type": "mission_definition",
-    "name": "Gather 6 First Aid Kits",
+    "name": { "str": "Gather 6 First Aid Kits" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -594,7 +594,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_11",
     "type": "mission_definition",
-    "name": "Find 2 Arc Welders",
+    "name": { "str": "Find 2 Arc Welders" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -644,7 +644,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_12",
     "type": "mission_definition",
-    "name": "Find 12 Car Batteries",
+    "name": { "str": "Find 12 Car Batteries" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -681,7 +681,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_13",
     "type": "mission_definition",
-    "name": "Find 2 Two-Way Radios",
+    "name": { "str": "Find 2 Two-Way Radios" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -715,7 +715,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_14",
     "type": "mission_definition",
-    "name": "Gather 5 Backpacks",
+    "name": { "str": "Gather 5 Backpacks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -755,7 +755,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_15",
     "type": "mission_definition",
-    "name": "Find Homebrewer's Bible",
+    "name": { "str": "Find Homebrewer's Bible" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -781,7 +781,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_16",
     "type": "mission_definition",
-    "name": "Gather 80 Sugar",
+    "name": { "str": "Gather 80 Sugar" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -813,7 +813,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_17",
     "type": "mission_definition",
-    "name": "Collect 30 Glass Sheets",
+    "name": { "str": "Collect 30 Glass Sheets" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

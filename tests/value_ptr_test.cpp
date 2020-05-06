@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "catch/catch.hpp"
 #include "value_ptr.h"
 

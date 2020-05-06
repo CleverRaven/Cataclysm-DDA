@@ -2,7 +2,7 @@
   {
     "type": "mutation",
     "id": "MARTIAL_ARTS4",
-    "name": "Venom Mob Protege",
+    "name": { "str": "Venom Mob Protege" },
     "points": 2,
     "description": "You are a pupil of the Venom Clan.  You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.",
     "starting_trait": true,
@@ -12,11 +12,27 @@
   {
     "type": "mutation",
     "id": "MMA_MARTIAL_ARTS_PANZER",
-    "name": "Künstler",
+    "name": { "str": "Künstler" },
     "points": 3,
     "description": "You have lingering memories of training to fight cyborgs and war machines in zero gravity using the obscure Panzer Kunst.",
     "starting_trait": true,
     "initial_ma_styles": [ "style_mma_panzer" ],
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "DRUNKEN",
+    "name": { "str": "Drunken Master" },
+    "points": 1,
+    "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "LIGHTWEIGHT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTWEIGHT",
+    "copy-from": "LIGHTWEIGHT",
+    "extend": { "cancels": [ "DRUNKEN" ] }
   }
 ]

@@ -46,6 +46,7 @@
     "luminance": 16,
     "armor_bash": 2,
     "armor_cut": 2,
+    "armor_bullet": 2,
     "vision_day": 30,
     "vision_night": 30,
     "material": [ "steel" ],

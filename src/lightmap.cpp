@@ -1,43 +1,48 @@
 #include "lightmap.h" // IWYU pragma: associated
 #include "shadowcasting.h" // IWYU pragma: associated
 
-#include <cstdint>
-#include <cstdlib>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include <memory>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "colony.h"
+#include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
-#include "math_defines.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
+#include "player.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "submap.h"
+#include "tileray.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "calendar.h"
-#include "field.h"
-#include "item.h"
-#include "line.h"
-#include "optional.h"
-#include "player.h"
-#include "string_formatter.h"
-#include "tileray.h"
-#include "type_id.h"
-#include "colony.h"
-#include "item_stack.h"
-#include "point.h"
-#include "cata_string_consts.h"
+
+static const bionic_id bio_night( "bio_night" );
+
+static const efftype_id effect_haslight( "haslight" );
+static const efftype_id effect_onfire( "onfire" );
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y
@@ -387,7 +392,7 @@ void map::generate_lightmap( const int zlev )
                 apply_light_source( mp, 8 );
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
-            // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
+            // TODO: [lightmap] Allow creatures to have light attacks (i.e.: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
             if( critter.type->luminance > 0 ) {
                 apply_light_source( mp, critter.type->luminance );
@@ -547,11 +552,11 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
-    auto is_opaque = [&map_cache]( int x, int y ) {
-        return map_cache.transparency_cache[x][y] <= LIGHT_TRANSPARENCY_SOLID;
+    auto is_opaque = [&map_cache]( const point & p ) {
+        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
-    const bool p_opaque = is_opaque( p.x, p.y );
+    const bool p_opaque = is_opaque( p.xy() );
     float apparent_light;
 
     if( p_opaque && vis > 0 ) {
@@ -581,7 +586,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             if( !lightmap_boundaries.contains_half_open( neighbour ) ) {
                 continue;
             }
-            if( is_opaque( neighbour.x, neighbour.y ) ) {
+            if( is_opaque( neighbour ) ) {
                 continue;
             }
             if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
@@ -691,6 +696,7 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
 
 // For a direction vector defined by x, y, return the quadrant that's the
 // source of that direction.  Assumes x != 0 && y != 0
+// NOLINTNEXTLINE(cata-xy)
 static constexpr quadrant quadrant_from_x_y( int x, int y )
 {
     return ( x > 0 ) ?
@@ -1010,9 +1016,8 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         float away = start - ( -distance + 0.5f ) / ( -distance -
                      0.5f ); //The distance between our first leadingEdge and start
 
-        //We initialise delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
-        delta.x = -distance + std::max( static_cast<int>( ceil( away * ( -distance - 0.5f ) ) ),
-                                        0 );
+        //We initialize delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
+        delta.x = -distance + std::max( static_cast<int>( std::ceil( away * ( -distance - 0.5f ) ) ), 0 );
 
         for( ; delta.x <= 0; delta.x++ ) {
             int currentX = offset.x + delta.x * xx + delta.y * xy;
@@ -1237,8 +1242,13 @@ float fastexp( float x )
         float f;
         int i;
     } u, v;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
     u.i = static_cast<long long>( 6051102 * x + 1056478197 );
     v.i = static_cast<long long>( 1056478197 - 6051102 * x );
+#pragma GCC diagnostic pop
     return u.f / v.f;
 }
 
@@ -1412,15 +1422,15 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
         if( trigdist ) {
             double fdist = ( ao * M_PI_2 ) / wangle;
             double orad = ( M_PI * ao / 180.0 );
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
                                           rad + orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
                                           rad + orad ) );
             apply_light_ray( lit, p, end, luminance );
 
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
                                           rad - orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
                                           rad - orad ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
@@ -1435,8 +1445,8 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
 void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                            const tripoint &s, const tripoint &e, float luminance )
 {
-    int ax = abs( e.x - s.x ) * 2;
-    int ay = abs( e.y - s.y ) * 2;
+    int ax = std::abs( e.x - s.x ) * 2;
+    int ay = std::abs( e.y - s.y ) * 2;
     int dx = ( s.x < e.x ) ? 1 : -1;
     int dy = ( s.y < e.y ) ? 1 : -1;
     int x = s.x;

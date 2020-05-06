@@ -1,0 +1,186 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_firebreak" ] ],
+    "method": "json",
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "||||||            ||||||",
+        "|####|            |####|",
+        "|####|            |####|",
+        "|####|            |####|",
+        "|####|            |####|",
+        "|#||||            ||||#|",
+        "|#|XX=            =XX|#|",
+        "|#|XX=            =XX|#|",
+        "|#|XX=dddd    dddd=XX|#|",
+        "|#||||  hd    dh  ||||#|",
+        "|####|            |####|",
+        "|####|---6-55-----|####|",
+        "|#######---  -#########|",
+        "|#########-  -#########|",
+        "|#########-  -#########|",
+        "|#########-  ---#######|",
+        "|####|-----55-6---|####|",
+        "|#|||| h        h ||||#|",
+        "|#|XX=ddd     dddd=XX|#|",
+        "|#|XX=            =XX|#|",
+        "|#|XX=            =XX|#|",
+        "|#||||            ||||#|",
+        "|####| PP  PP  PP |####|",
+        "|||||| PP  PP  PP ||||||"
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "computers": {
+        "6": {
+          "name": "Security Terminal",
+          "security": 5,
+          "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_firebreak" ] ],
+    "method": "json",
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "||||||            ||||||",
+        "|####|            |####|",
+        "|####|            |####|",
+        "|####|ddd      ddd|####|",
+        "|####| hd      d  |####|",
+        "|#||||  d PPPP d h|####|",
+        "|#|XX=    PPPP    |####|",
+        "|#|XX=    PPPP    |####|",
+        "|#|XX=dddd    dddd|####|",
+        "|#||||  hd    dh  |####|",
+        "|####|            |####|",
+        "|####|---6-55-----|####|",
+        "|#######---  -#########|",
+        "|#########-  -#########|",
+        "|#########-  -#########|",
+        "|#########-  ---#######|",
+        "|####|-----55-6---|####|",
+        "|####|XXX=      h |####|",
+        "|####|==== YY dddd|####|",
+        "|####|            |####|",
+        "|####|            |####|",
+        "|####|            |####|",
+        "|####| PP  PP  PP |####|",
+        "|||||| PP  PP  PP ||||||"
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "computers": {
+        "6": {
+          "name": "Security Terminal",
+          "security": 5,
+          "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_firebreak" ] ],
+    "method": "json",
+    "weight": 75,
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "||||||            ||||||",
+        "|####|            |####|",
+        "|####|            |####|",
+        "|####|            |####|",
+        "|####|            |####|",
+        "|#||||    M       ||||#|",
+        "|#|XX=      ü     =XX|#|",
+        "|#|XX=            =XX|#|",
+        "|#|XX=dddd    dddd=XX|#|",
+        "|#||||  hd  M dh  ||||#|",
+        "|####|            |####|",
+        "|####|---6-55-----|####|",
+        "|#######---  -#########|",
+        "|#########-  -#########|",
+        "|#########-  -#########|",
+        "|#########-  ---#######|",
+        "|####|-----55-6---|####|",
+        "|#|||| h        h ||||#|",
+        "|#|XX=ddd     dddd=XX|#|",
+        "|#|XX=            =XX|#|",
+        "|#|XX=            =XX|#|",
+        "|#||||            ||||#|",
+        "|####| PP  PP  PP |####|",
+        "|||||| PP  PP  PP ||||||"
+      ],
+      "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
+      "palettes": [ "microlab" ],
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "monster": { "M": { "monster": "mon_mutant_experimental" }, "ü": { "monster": "mon_mutant_evolved" } },
+      "computers": {
+        "6": {
+          "name": "Security Terminal",
+          "security": 5,
+          "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_firebreak" ] ],
+    "method": "json",
+    "weight": 75,
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "||||||            ||||||",
+        "|####|            |####|",
+        "|####|            |####|",
+        "|####|           ü|####|",
+        "|####|            |####|",
+        "|#||||            ||||#|",
+        "|#|XX=            =XX|#|",
+        "|#|XX=            =XX|#|",
+        "|#|XX=dddd    dddd=XX|#|",
+        "|#||||  hd    dh  ||||#|",
+        "|####|ü           |####|",
+        "|####|---6-55-----|####|",
+        "|#######---M -#########|",
+        "|#########- M-#########|",
+        "|#########-  -#########|",
+        "|#########-  ---#######|",
+        "|####|-----55-6---|####|",
+        "|#|||| h        h ||||#|",
+        "|#|XX=ddd     dddd=XX|#|",
+        "|#|XXü            =XX|#|",
+        "|#|XX=            =üX|#|",
+        "|#||||            ||||#|",
+        "|####| PP  PP  PP |####|",
+        "|||||| PP  PP  PP ||||||"
+      ],
+      "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
+      "palettes": [ "microlab" ],
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "monster": { "M": { "monster": "mon_hunting_horror" }, "ü": { "monster": "mon_breather_hub" } },
+      "computers": {
+        "6": {
+          "name": "Security Terminal",
+          "security": 5,
+          "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
+      }
+    }
+  }
+]

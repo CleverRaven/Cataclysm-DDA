@@ -1,80 +1,113 @@
 #include "dialogue.h" // IWYU pragma: associated
 
-#include <climits>
+#include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstddef>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <array>
 #include <iterator>
 #include <list>
 #include <map>
 #include <memory>
+#include <ostream>
+#include <string>
 #include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
 #include "activity_type.h"
+#include "auto_pickup.h"
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "character_id.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "clzones.h"
+#include "color.h"
 #include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
 #include "debug.h"
+#include "enums.h"
+#include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "help.h"
 #include "input.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "magic.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
+#include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
-#include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "point.h"
 #include "recipe.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "auto_pickup.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "character.h"
-#include "color.h"
-#include "enums.h"
-#include "faction.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "mapdata.h"
-#include "material.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
-#include "player.h"
-#include "point.h"
-#include "cata_string_consts.h"
+#include "vpart_range.h"
 
-class basecamp;
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
+
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_under_op( "under_operation" );
+
+static const itype_id fuel_type_animal( "animal" );
+
+static const zone_type_id zone_type_npc_investigate_only( "NPC_INVESTIGATE_ONLY" );
+static const zone_type_id zone_type_npc_no_investigate( "NPC_NO_INVESTIGATE" );
+
+static const skill_id skill_speech( "speech" );
+
+static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
+static const bionic_id bio_deformity( "bio_deformity" );
+static const bionic_id bio_face_mask( "bio_face_mask" );
+static const bionic_id bio_voice( "bio_voice" );
+
+static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
@@ -153,7 +186,7 @@ int npc_trading::cash_to_favor( const npc &, int cash )
     // TODO: It should affect different NPCs to a different degree
     // Square root of mission value in dollars
     // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
-    double scaled_mission_val = sqrt( cash / 100.0 );
+    double scaled_mission_val = std::sqrt( cash / 100.0 );
     return roll_remainder( scaled_mission_val );
 }
 
@@ -177,7 +210,9 @@ enum npc_chat_menu {
     NPC_CHAT_FORBID_ENGAGE,
     NPC_CHAT_CLEAR_OVERRIDES,
     NPC_CHAT_ANIMAL_VEHICLE_FOLLOW,
-    NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW
+    NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW,
+    NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW,
+    NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW
 };
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
@@ -306,8 +341,8 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static void tell_veh_stop_following()
 {
-    for( auto &veh : g->m.get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->is_following = false;
             v->engine_on = false;
@@ -317,10 +352,43 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
-    for( auto &veh : g->m.get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->activate_animal_follow();
+        }
+    }
+}
+
+static void tell_magic_veh_to_follow()
+{
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
+        if( v->magic ) {
+            for( const vpart_reference &vp : v->get_all_parts() ) {
+                const vpart_info &vpi = vp.info();
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) && v->is_owned_by( g->u ) ) {
+                    v->activate_magical_follow();
+                    break;
+                }
+            }
+        }
+    }
+}
+
+static void tell_magic_veh_stop_following()
+{
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
+        if( v->magic ) {
+            for( const vpart_reference &vp : v->get_all_parts() ) {
+                const vpart_info &vpi = vp.info();
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) ) {
+                    v->is_following = false;
+                    v->engine_on = false;
+                    break;
+                }
+            }
         }
     }
 }
@@ -353,12 +421,26 @@ void game::chat()
     }
     std::vector<vehicle *> animal_vehicles;
     std::vector<vehicle *> following_vehicles;
+    std::vector<vehicle *> magic_vehicles;
+    std::vector<vehicle *> magic_following_vehicles;
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             animal_vehicles.push_back( v );
             if( v->is_following ) {
                 following_vehicles.push_back( v );
+            }
+        }
+        if( v->magic ) {
+            for( const vpart_reference &vp : v->get_all_parts() ) {
+                const vpart_info &vpi = vp.info();
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) ) {
+                    magic_vehicles.push_back( v );
+                    if( v->is_following ) {
+                        magic_following_vehicles.push_back( v );
+                    }
+                    break;
+                }
             }
         }
     }
@@ -377,6 +459,14 @@ void game::chat()
     if( !animal_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
                         _( "Whistle at your animals pulling vehicles to follow you." ) );
+    }
+    if( !magic_vehicles.empty() ) {
+        nmenu.addentry( NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW, true, 'Q',
+                        _( "Utter a magical command that will order your magical vehicles to follow you." ) );
+    }
+    if( !magic_following_vehicles.empty() ) {
+        nmenu.addentry( NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW, true, 'q',
+                        _( "Utter a magical command that will order your magical vehicles to stop following you." ) );
     }
     if( !following_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW, true, 'S',
@@ -514,6 +604,12 @@ void game::chat()
         case NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW:
             tell_veh_stop_following();
             break;
+        case NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW:
+            tell_magic_veh_to_follow();
+            break;
+        case NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW:
+            tell_magic_veh_stop_following();
+            break;
         default:
             return;
     }
@@ -599,10 +695,10 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             bool should_check = rl_dist( pos(), spos ) < investigate_dist;
             if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
-                if( mgr.has( zone_no_investigate, s_abs_pos, fac_id ) ) {
+                if( mgr.has( zone_type_npc_no_investigate, s_abs_pos, fac_id ) ) {
                     should_check = false;
-                } else if( mgr.has( zone_investigate_only, my_abs_pos, fac_id ) &&
-                           !mgr.has( zone_investigate_only, s_abs_pos, fac_id ) ) {
+                } else if( mgr.has( zone_type_npc_investigate_only, my_abs_pos, fac_id ) &&
+                           !mgr.has( zone_type_npc_investigate_only, s_abs_pos, fac_id ) ) {
                     should_check = false;
                 }
             }
@@ -1675,6 +1771,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int ch = text_only ? 'a' + responses.size() - 1 : ' ';
     bool okay;
     do {
@@ -1952,7 +2051,7 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             }
         } else {
             item container( container_name, calendar::turn );
-            container.emplace_back( item_name, calendar::turn, count );
+            container.put_in( item( item_name, calendar::turn, count ), item_pocket::pocket_type::CONTAINER );
             u.i_add( container );
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
@@ -2542,6 +2641,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_chop_trees ),
             WRAP( do_fishing ),
             WRAP( do_construction ),
+            WRAP( do_mining ),
             WRAP( do_read ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
@@ -3125,11 +3225,11 @@ enum consumption_result {
 };
 
 // Returns true if we destroyed the item through consumption
+// does not try to consume contents
 static consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // TODO: Unify this with 'player::consume_item()'
-    bool consuming_contents = it.is_container() && !it.contents.empty();
-    item &to_eat = consuming_contents ? it.contents.front() : it;
+    item &to_eat = it;
     const auto &comest = to_eat.get_comestible();
     if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
@@ -3150,7 +3250,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
         } else {
             reason = _( "Thanks, that hit the spot." );
         }
-    } else if( to_eat.is_medication() || to_eat.get_contained().is_medication() ) {
+    } else if( to_eat.is_medication() ) {
         if( comest->tool != "null" ) {
             bool has = p.has_amount( comest->tool, 1 );
             if( item::count_by_charges( comest->tool ) ) {
@@ -3170,6 +3270,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
                 reason = _( "It doesn't look like a good idea to consume this…" );
                 return REFUSED;
             }
+            reason = _( "Thanks, I used it." );
         }
 
         to_eat.charges -= amount_used;
@@ -3180,11 +3281,6 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( to_eat.charges > 0 ) {
-        return CONSUMED_SOME;
-    }
-
-    if( consuming_contents ) {
-        it.contents.erase( it.contents.begin() );
         return CONSUMED_SOME;
     }
 

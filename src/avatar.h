@@ -1,32 +1,42 @@
 #pragma once
-#ifndef AVATAR_H
-#define AVATAR_H
+#ifndef CATA_SRC_AVATAR_H
+#define CATA_SRC_AVATAR_H
 
 #include <cstddef>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "player.h"
-#include "magic_teleporter_list.h"
 #include "calendar.h"
+#include "character.h"
+#include "enums.h"
+#include "item.h"
+#include "magic_teleporter_list.h"
 #include "map_memory.h"
+#include "memory_fast.h"
+#include "player.h"
 #include "point.h"
 
-enum character_type : int;
+class faction;
+
+class advanced_inv_listitem;
+class advanced_inv_area;
+class advanced_inventory_pane;
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
 class mission;
-class npc;
 class monster;
+class npc;
+
 namespace debug_menu
 {
 class mission_debug;
 }  // namespace debug_menu
-struct points_left;
 struct mtype;
+struct points_left;
+struct targeting_data;
 
 // Monster visible in different directions (safe mode & compass)
 struct monster_visible_info {
@@ -58,6 +68,7 @@ class avatar : public player
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
+        void add_profession_items();
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
         void save_template( const std::string &name, const points_left &points );
@@ -197,6 +208,10 @@ class avatar : public player
 
         bool wield( item &target ) override;
 
+        /** gets the inventory from the avatar that is interactible via advanced inventory management */
+        std::vector<advanced_inv_listitem> get_AIM_inventory( const advanced_inventory_pane &pane,
+                advanced_inv_area &square );
+
         using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt ) override;
         bool invoke_item( item * ) override;
@@ -246,6 +261,16 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        /** Targeting data used for aiming the player's weapon across turns. */
+        shared_ptr_fast<targeting_data> tdata;
+
+    public:
+        /** Accessor method for weapon targeting data. */
+        targeting_data &get_targeting_data();
+
+        /** Mutator method for weapon targeting data. */
+        void set_targeting_data( const targeting_data &td );
 };
 
 struct points_left {
@@ -272,4 +297,4 @@ struct points_left {
     std::string to_string();
 };
 
-#endif
+#endif // CATA_SRC_AVATAR_H

@@ -1,12 +1,14 @@
 #pragma once
-#ifndef OPTIONS_H
-#define OPTIONS_H
+#ifndef CATA_SRC_OPTIONS_H
+#define CATA_SRC_OPTIONS_H
 
+#include <functional>
 #include <map>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <unordered_set>
 #include <tuple>
 
 #include "translations.h"
@@ -28,6 +30,7 @@ class options_manager
                     : std::pair<std::string, translation>( first, second ) {
                 }
         };
+        static const std::vector<id_and_option> lang_options;
     private:
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
@@ -35,6 +38,8 @@ class options_manager
             const std::string &path );
         static std::vector<id_and_option> load_soundpack_from(
             const std::string &path );
+        static std::unordered_set<std::string> get_langs_with_translation_files();
+        static std::vector<id_and_option> get_lang_options();
 
         bool load_legacy();
 
@@ -196,7 +201,8 @@ class options_manager
         void add_options_android();
         void load();
         bool save();
-        std::string show( bool ingame = false, bool world_options_only = false );
+        std::string show( bool ingame = false, bool world_options_only = false,
+                          const std::function<bool()> &on_quit = nullptr );
 
         void add_value( const std::string &lvar, const std::string &lval,
                         const translation &lvalname );
@@ -320,4 +326,4 @@ inline T get_option( const std::string &name )
     return get_options().get_option( name ).value_as<T>();
 }
 
-#endif
+#endif // CATA_SRC_OPTIONS_H

@@ -1,30 +1,41 @@
 #include "mattack_actors.h"
 
 #include <algorithm>
+#include <limits>
 #include <memory>
 
 #include "avatar.h"
-#include "game.h"
-#include "generic_factory.h"
-#include "gun_mode.h"
-#include "line.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "messages.h"
-#include "monster.h"
-#include "npc.h"
-#include "sounds.h"
-#include "translations.h"
 #include "calendar.h"
 #include "creature.h"
 #include "enums.h"
+#include "game.h"
+#include "generic_factory.h"
+#include "gun_mode.h"
 #include "item.h"
 #include "json.h"
-#include "player.h"
-#include "rng.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "npc.h"
+#include "player.h"
 #include "point.h"
-#include "cata_string_consts.h"
+#include "rng.h"
+#include "sounds.h"
+#include "translations.h"
+
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_targeted( "targeted" );
+static const efftype_id effect_was_laserlocked( "was_laserlocked" );
+
+static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 
 // Simplified version of the function in monattack.cpp
 static bool is_adjacent( const monster &z, const Creature &target )
@@ -291,8 +302,8 @@ bool melee_actor::call( monster &z ) const
                        target->select_body_part( &z, hitspread ) :
                        *body_parts.pick();
 
-    target->on_hit( &z, bp_hit );
-    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit, damage );
+    target->on_hit( &z, convert_bp( bp_hit ).id() );
+    dealt_damage_instance dealt_damage = target->deal_damage( &z, convert_bp( bp_hit ).id(), damage );
     dealt_damage.bp_hit = bp_hit;
 
     int damage_total = dealt_damage.total_damage();
@@ -532,6 +543,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
 
     standard_npc tmp( _( "The " ) + z.name(), z.pos(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
+    tmp.worn.push_back( item( "backpack" ) );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
     tmp.recoil = 0; // no need to aim

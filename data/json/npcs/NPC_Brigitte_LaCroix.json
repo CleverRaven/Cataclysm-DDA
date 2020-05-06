@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_BONE_SEER",
-    "name": "Bone Seer",
+    "name": { "str": "Bone Seer" },
     "job_description": "I wish to sing the song of the Bones",
     "traits": [
       { "trait": "OUTDOORSMAN" },
@@ -38,18 +38,16 @@
     "id": "BONE_SEER_Brigitte_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "loincloth_leather" },
+      { "item": "boxer_briefs" },
       { "item": "socks" },
-      { "item": "cloak" },
-      { "item": "hsurvivor_suit" },
-      { "item": "balclava" },
+      { "item": "tshirt_tour" },
+      { "item": "jacket_leather_bone" },
       { "item": "gloves_liner" },
-      { "item": "tac_helmet" },
-      { "item": "gloves_lsurvivor" },
-      { "item": "boots_hsurvivor" },
-      { "item": "elbow_pads" },
-      { "item": "survivor_goggles" },
-      { "item": "survivor_pack" }
+      { "item": "helmet_skull" },
+      { "item": "gloves_leather" },
+      { "item": "pants_leather" },
+      { "item": "boots_bone" },
+      { "item": "backpack_leather" }
     ]
   },
   {
@@ -61,19 +59,20 @@
   {
     "type": "item_group",
     "id": "NC_BONE_SEER_misc",
-    "items": [
-      [ "needle_bone", 40 ],
-      [ "bone_glue", 20 ],
-      [ "bone_flute", 10 ],
-      [ "bone_human", 10 ],
-      [ "broth_bone", 60 ],
-      [ "water_clean", 90 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "needle_bone", "prob": 40 },
+      { "item": "bone_glue", "prob": 20 },
+      { "item": "bone_flute", "prob": 10 },
+      { "item": "bone_human", "prob": 10 },
+      { "item": "broth_bone", "prob": 60 },
+      { "item": "water_clean", "prob": 90 }
     ]
   },
   {
     "type": "mutation",
     "id": "seer_mark",
-    "name": "Mark of the Seer",
+    "name": { "str": "Mark of the Seer" },
     "points": 1,
     "description": "A strange occult symbol carved into your hand by Brigitte LaCroix.",
     "starting_trait": false,
@@ -211,7 +210,7 @@
   {
     "id": "MISSION_SEER_GATHER_BONE",
     "type": "mission_definition",
-    "name": "Gather bones for Brigitte LaCroix.  About 8 should do it.",
+    "name": { "str": "Gather bones for Brigitte LaCroix.  About 8 should do it." },
     "difficulty": 1,
     "value": 10000,
     "goal": "MGOAL_FIND_ITEM",

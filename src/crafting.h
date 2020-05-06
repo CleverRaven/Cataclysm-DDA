@@ -1,12 +1,12 @@
 #pragma once
-#ifndef CRAFTING_H
-#define CRAFTING_H
+#ifndef CATA_SRC_CRAFTING_H
+#define CATA_SRC_CRAFTING_H
 
 #include <list>
 
+class Character;
 class item;
 class player;
-class recipe;
 
 enum class craft_flags : int {
     none = 0,
@@ -24,4 +24,5 @@ void remove_ammo( item &dis_item, player &p );
 // same as above but for each item in the list
 void remove_ammo( std::list<item> &dis_items, player &p );
 
-#endif
+void drop_or_handle( const item &newit, Character &p );
+#endif // CATA_SRC_CRAFTING_H

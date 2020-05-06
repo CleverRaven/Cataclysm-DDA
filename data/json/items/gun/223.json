@@ -9,20 +9,40 @@
     "weight": "3590 g",
     "volume": "2 L",
     "price": 234300,
+    "price_postapoc": 6000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": -1,
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "ar15",
@@ -34,6 +54,7 @@
     "weight": "3500 g",
     "volume": "2 L",
     "price": 125000,
+    "price_postapoc": 4000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -43,7 +64,120 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
+  },
+  {
+    "id": "ar_pistol",
+    "copy-from": "rifle_semi",
+    "looks_like": "skorpion_61",
+    "type": "GUN",
+    "name": { "str": "AR pistol" },
+    "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.",
+    "weight": "2267 g",
+    "volume": "1758 ml",
+    "price": 91400,
+    "price_postapoc": 3500,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "223",
+    "range": -6,
+    "ranged_damage": { "damage_type": "bullet", "amount": -9 },
+    "dispersion": 380,
+    "durability": 6,
+    "min_cycle_recoil": 1350,
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+  },
+  {
+    "id": "famas",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str_sp": "MAS 223" },
+    "description": "A bullpup assault rifle that was used by French armed forces only until recently.  While the FAMAS was famous for its high fire rate, the MAS .223 is a semi-auto only variation imported to the US in the late eighties.  It retains the integral bipod, though.",
+    "weight": "3800 g",
+    "volume": "4162 ml",
+    "price": 2800000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "223",
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "dispersion": 180,
+    "durability": 8,
+    "min_cycle_recoil": 1350,
+    "built_in_mods": [ "bipod" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "magazines": [ [ "223", [ "famasmag" ] ] ]
+  },
+  {
+    "id": "fs2000",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": "FS2000",
+    "description": "A sleek bullpup carbine designed by FN Herstal, complete with an integrated sight accessory rail.  The forward ejecting action and ambidextrous controls make firing comfortable for both left and right-handed shooting.  The whole rifle is well sealed from mud and dust for reliability, but this makes it incompatible with many aftermarket magazines.",
+    "weight": "3319 g",
+    "volume": "7986 ml",
+    "price": 125000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "223",
+    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "dispersion": 150,
+    "durability": 9,
+    "min_cycle_recoil": 1350,
+    "default_mods": [ "factory_handguard" ],
+    "magazines": [ [ "223", [ "stanag30" ] ] ],
+    "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "h&k416a5",
@@ -56,18 +190,38 @@
     "weight": "3490 g",
     "volume": "1750 ml",
     "price": 540000,
+    "price_postapoc": 2250,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": -2,
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "hk_g36",
@@ -79,6 +233,7 @@
     "weight": "3630 g",
     "volume": "2500 ml",
     "price": 210000,
+    "price_postapoc": 6000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -89,7 +244,7 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "g36mag_30rd", "g36mag_100rd" ] ] ]
   },
   {
     "id": "m249",
@@ -101,6 +256,7 @@
     "weight": "7330 g",
     "volume": "3 L",
     "price": 750000,
+    "price_postapoc": 8000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -126,7 +282,27 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "belt223",
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "m27iar",
@@ -136,8 +312,27 @@
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": "3710 g",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
-    "relative": { "ranged_damage": 1, "durability": 1 }
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ],
+    "relative": { "ranged_damage": { "damage_type": "bullet", "amount": 1 }, "durability": 1 }
   },
   {
     "id": "m4a1",
@@ -149,18 +344,38 @@
     "weight": "3160 g",
     "volume": "1750 ml",
     "price": 240000,
+    "price_postapoc": 5000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": -2,
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 180,
     "durability": 6,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "m16a4",
@@ -172,6 +387,7 @@
     "weight": "3510 g",
     "volume": "1750 ml",
     "price": 240000,
+    "price_postapoc": 5000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -182,6 +398,49 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
+  },
+  {
+    "id": "oa93",
+    "copy-from": "rifle_semi",
+    "looks_like": "skorpion_61",
+    "type": "GUN",
+    "name": { "str": "OA-93" },
+    "description": "An AR-15 derivative pistol manufactured by Olympic Arms in the nineties.  The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",
+    "weight": "2023 g",
+    "volume": "2135 ml",
+    "price": 125000,
+    "price_postapoc": 5500,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "223",
+    "range": -6,
+    "ranged_damage": { "damage_type": "bullet", "amount": -11 },
+    "dispersion": 380,
+    "durability": 6,
+    "min_cycle_recoil": 1350,
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
@@ -194,6 +453,7 @@
     "weight": "4080 g",
     "volume": "3 L",
     "price": 110000,
+    "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
@@ -201,7 +461,7 @@
     "color": "brown",
     "ammo": "223",
     "skill": "rifle",
-    "ranged_damage": -2,
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -232,13 +492,14 @@
     "weight": "3180 g",
     "volume": "2 L",
     "price": 92100,
+    "price_postapoc": 3750,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
     "ammo": "223",
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 100,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -257,7 +518,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "ruger5", "stanag10", "ruger30", "ruger_makeshiftmag" ] ] ]
+    "magazines": [ [ "223", [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]
   },
   {
     "id": "scar_l",
@@ -269,18 +530,38 @@
     "weight": "3300 g",
     "volume": "2250 ml",
     "price": 280000,
+    "price_postapoc": 6000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": -2,
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "sig552",
@@ -292,6 +573,7 @@
     "weight": "3000 g",
     "volume": "1750 ml",
     "price": 320000,
+    "price_postapoc": 6000,
     "to_hit": -1,
     "bashing": 10,
     "material": [ "steel", "plastic" ],
@@ -301,7 +583,26 @@
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "steyr_aug",
@@ -313,6 +614,7 @@
     "weight": "3500 g",
     "volume": "1500 ml",
     "price": 490000,
+    "price_postapoc": 6000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -338,7 +640,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ] ] ]
   },
   {
     "id": "surv_carbine_223",
@@ -351,13 +653,14 @@
     "weight": "1950 g",
     "volume": "1500 ml",
     "price": 10000,
+    "price_postapoc": 2750,
     "to_hit": -1,
     "bashing": 6,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
     "ammo": "223",
-    "ranged_damage": -4,
+    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 32,
@@ -375,6 +678,25 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "survivor223mag", "stanag30", "stanag50" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "survivor223mag",
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150"
+        ]
+      ]
+    ]
   }
 ]

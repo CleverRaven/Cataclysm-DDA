@@ -1,35 +1,38 @@
 #pragma once
-#ifndef MAGIC_H
-#define MAGIC_H
+#ifndef CATA_SRC_MAGIC_H
+#define CATA_SRC_MAGIC_H
 
-#include <cstddef>
+#include <functional>
 #include <map>
+#include <memory>
+#include <queue>
 #include <set>
 #include <string>
 #include <vector>
-#include <queue>
 
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
+#include "event_bus.h"
+#include "optional.h"
+#include "point.h"
+#include "sounds.h"
+#include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "string_id.h"
-#include "translations.h"
-#include "event_bus.h"
-#include "sounds.h"
 
-struct tripoint;
 class Creature;
-class player;
-class spell;
+class JsonIn;
 class JsonObject;
 class JsonOut;
-class JsonIn;
-class spell;
-class teleporter_list;
-class time_duration;
 class nc_color;
+class Character;
+class spell;
+class time_duration;
+namespace cata
+{
+class event;
+}  // namespace cata
 template <typename E> struct enum_traits;
 
 enum spell_flag {
@@ -53,6 +56,7 @@ enum spell_flag {
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
+    WITH_CONTAINER, // items spawned with container
     LAST
 };
 
@@ -96,6 +100,12 @@ struct fake_spell {
     int level = 0;
     // target tripoint is source (true) or target (false)
     bool self = false;
+    // a chance to trigger the enchantment spells
+    int trigger_once_in = 1;
+    // a message when the enchantment is triggered
+    translation trigger_message;
+    // a message when the enchantment is triggered and is on npc
+    translation npc_trigger_message;
 
     fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
@@ -133,6 +143,7 @@ class spell_type
         translation message;
         // spell sound effect
         translation sound_description;
+        skill_id skill;
         sounds::sound_t sound_type = sounds::sound_t::_LAST;
         bool sound_ambient = false;
         std::string sound_id;
@@ -228,6 +239,8 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time = 0;
+        // If spell is to summon a vehicle, the vproto_id of the vehicle
+        std::string vehicle_id;
         // increment of casting time per level
         float casting_time_increment = 0.0f;
         // max or min casting time
@@ -282,6 +295,7 @@ class spell
 
         // minimum damage including levels
         int min_leveled_damage() const;
+        int min_leveled_dot() const;
         // minimum aoe including levels
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
@@ -304,11 +318,14 @@ class spell
         void gain_exp( int nxp );
         void set_exp( int nxp );
         // how much xp you get if you successfully cast the spell
-        int casting_exp( const player &p ) const;
+        int casting_exp( const Character &guy ) const;
         // modifier for gaining exp
-        float exp_modifier( const player &p ) const;
+        float exp_modifier( const Character &guy ) const;
         // level up!
         void gain_level();
+        // gains a number of levels, or until max. 0 or less just returns early.
+        void gain_levels( int gains );
+        void set_level( int nlevel );
         // is the spell at max level?
         bool is_max_level() const;
         // what is the max level of the spell
@@ -318,6 +335,8 @@ class spell
         int field_intensity() const;
         // how much damage does the spell do
         int damage() const;
+        int damage_dot() const;
+        damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps ) const;
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
         // how big is the spell's radius
@@ -325,21 +344,21 @@ class spell
         // distance spell can be cast
         int range() const;
         // how much energy does the spell cost
-        int energy_cost( const player &p ) const;
+        int energy_cost( const Character &guy ) const;
         // how long does this spell's effect last
         int duration() const;
         time_duration duration_turns() const;
         // how often does the spell fail
         // based on difficulty, level of spell, spellcraft skill, intelligence
-        float spell_fail( const player &p ) const;
-        std::string colorized_fail_percent( const player &p ) const;
+        float spell_fail( const Character &guy ) const;
+        std::string colorized_fail_percent( const Character &guy ) const;
         // how long does it take to cast the spell
-        int casting_time( const player &p ) const;
+        int casting_time( const Character &guy ) const;
 
-        // can the player cast this spell?
-        bool can_cast( const player &p ) const;
-        // can the player learn this spell?
-        bool can_learn( const player &p ) const;
+        // can the Character cast this spell?
+        bool can_cast( const Character &guy ) const;
+        // can the Character learn this spell?
+        bool can_learn( const Character &guy ) const;
         // is this spell valid
         bool is_valid() const;
         // is the bodypart affected by the effect
@@ -355,10 +374,14 @@ class spell
         spell_id id() const;
         // get spell class (from type)
         trait_id spell_class() const;
+        // get skill id
+        skill_id skill() const;
         // get spell effect string (from type)
         std::string effect() const;
         // get spell effect_str data
         std::string effect_data() const;
+        // get spell summon vehicle id
+        vproto_id summon_vehicle_id() const;
         // name of spell (translated)
         std::string name() const;
         // description of spell (translated)
@@ -368,9 +391,9 @@ class spell
         // energy source as a string (translated)
         std::string energy_string() const;
         // energy cost returned as a string
-        std::string energy_cost_string( const player &p ) const;
-        // current energy the player has available as a string
-        std::string energy_cur_string( const player &p ) const;
+        std::string energy_cost_string( const Character &guy ) const;
+        // current energy the Character has available as a string
+        std::string energy_cur_string( const Character &guy ) const;
         // prints out a list of valid targets separated by commas
         std::string enumerate_targets() const;
         // returns the name string of all list of all targeted monster id
@@ -397,13 +420,16 @@ class spell
         // makes a spell sound at the location
         void make_sound( const tripoint &target ) const;
         void make_sound( const tripoint &target, int loudness ) const;
-        // heals the critter at the location, returns amount healed (player heals each body part)
+        // heals the critter at the location, returns amount healed (Character heals each body part)
         int heal( const tripoint &target ) const;
 
         // casts the spell effect. returns true if successful
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
+
+        // checks if a target point is in spell range
+        bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
@@ -423,7 +449,7 @@ class known_magic
         std::map<spell_id, spell> spellbook;
         // invlets assigned to spell_id
         std::map<spell_id, int> invlets;
-        // the base mana a player would start with
+        // the base mana a Character would start with
         int mana_base = 0;
         // current mana
         int mana = 0;
@@ -433,40 +459,40 @@ class known_magic
 
         known_magic();
 
-        void learn_spell( const std::string &sp, player &p, bool force = false );
-        void learn_spell( const spell_id &sp, player &p, bool force = false );
-        void learn_spell( const spell_type *sp, player &p, bool force = false );
+        void learn_spell( const std::string &sp, Character &guy, bool force = false );
+        void learn_spell( const spell_id &sp, Character &guy, bool force = false );
+        void learn_spell( const spell_type *sp, Character &guy, bool force = false );
         void forget_spell( const std::string &sp );
         void forget_spell( const spell_id &sp );
-        // time in moves for the player to memorize the spell
-        int time_to_learn_spell( const player &p, const spell_id &sp ) const;
-        int time_to_learn_spell( const player &p, const std::string &str ) const;
-        bool can_learn_spell( const player &p, const spell_id &sp ) const;
+        // time in moves for the Character to memorize the spell
+        int time_to_learn_spell( const Character &guy, const spell_id &sp ) const;
+        int time_to_learn_spell( const Character &guy, const std::string &str ) const;
+        bool can_learn_spell( const Character &guy, const spell_id &sp ) const;
         bool knows_spell( const std::string &sp ) const;
         bool knows_spell( const spell_id &sp ) const;
-        // does the player know a spell?
+        // does the Character know a spell?
         bool knows_spell() const;
-        // spells known by player
+        // spells known by Character
         std::vector<spell_id> spells() const;
         // gets the spell associated with the spell_id to be edited
         spell &get_spell( const spell_id &sp );
-        // opens up a ui that the player can choose a spell from
+        // opens up a ui that the Character can choose a spell from
         // returns the index of the spell in the vector of spells
-        int select_spell( const player &p );
+        int select_spell( const Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
         // how much mana is available to use to cast spells
         int available_mana() const;
         // max mana vailable
-        int max_mana( const player &p ) const;
-        void mod_mana( const player &p, int add_mana );
+        int max_mana( const Character &guy ) const;
+        void mod_mana( const Character &guy, int add_mana );
         void set_mana( int new_mana );
-        void update_mana( const player &p, float turns );
-        // does the player have enough energy to cast this spell?
+        void update_mana( const Character &guy, float turns );
+        // does the Character have enough energy to cast this spell?
         // not specific to mana
-        bool has_enough_energy( const player &p, spell &sp ) const;
+        bool has_enough_energy( const Character &guy, spell &sp ) const;
 
-        void on_mutation_gain( const trait_id &mid, player &p );
+        void on_mutation_gain( const trait_id &mid, Character &guy );
         void on_mutation_loss( const trait_id &mid );
 
         void serialize( JsonOut &json ) const;
@@ -511,6 +537,7 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
 void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
+void spawn_summoned_vehicle( const spell &sp, Creature &caster, const tripoint &target );
 void translocate( const spell &sp, Creature &caster, const tripoint &target );
 // adds a timed event to the caster only
 void timed_event( const spell &sp, Creature &caster, const tripoint & );
@@ -534,7 +561,7 @@ class spellbook_callback : public uilist_callback
         std::vector<spell_type> spells;
     public:
         void add_spell( const spell_id &sp );
-        void select( int entnum, uilist *menu ) override;
+        void refresh( uilist *menu ) override;
 };
 
 // Utility structure to run area queries over weight map. It uses shortest-path-expanding-tree,
@@ -589,4 +616,4 @@ struct area_expander {
     void sort_descending();
 };
 
-#endif
+#endif // CATA_SRC_MAGIC_H

@@ -3,10 +3,11 @@
     "abstract": "vehicle_rig",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": "vehicle crafting rig",
+    "name": { "str": "vehicle crafting rig" },
     "weight": "40000 g",
     "volume": "20 L",
     "price": 40000,
+    "price_postapoc": 2000,
     "material": "steel",
     "symbol": "&",
     "color": "light_cyan"
@@ -29,14 +30,14 @@
     "id": "forgerig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "vehicle forge rig",
+    "name": { "str": "vehicle forge rig" },
     "description": "A forge rig made to run off a vehicle's storage battery with integrated tool storage for metalworking equipment."
   },
   {
     "id": "kilnrig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "vehicle kiln",
+    "name": { "str": "vehicle kiln" },
     "description": "An electric kiln made to run off a vehicle's storage battery."
   },
   {
@@ -50,7 +51,7 @@
     "id": "weldrig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "vehicle welding rig",
+    "name": { "str": "vehicle welding rig" },
     "description": "A welding rig made to run off a vehicle's storage battery.  It has a soldering iron attachment for delicate work, and a compartment to store your extra tools in."
   }
 ]

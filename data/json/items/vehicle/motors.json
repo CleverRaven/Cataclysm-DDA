@@ -11,7 +11,8 @@
     "volume": "5 L",
     "bashing": 4,
     "category": "veh_parts",
-    "price": 12000
+    "price": 12000,
+    "price_postapoc": 1500
   },
   {
     "type": "GENERIC",
@@ -22,16 +23,18 @@
     "material": [ "superalloy" ],
     "volume": "20 L",
     "price": 68000,
+    "price_postapoc": 2500,
     "copy-from": "motor"
   },
   {
     "type": "GENERIC",
     "id": "motor_super",
-    "name": "super electric motor",
+    "name": { "str": "super electric motor" },
     "description": "The most powerfull electric motor on the market.  Useful for crafting.",
     "weight": "125 kg",
     "volume": "25 L",
     "price": 80000,
+    "price_postapoc": 3500,
     "copy-from": "motor"
   },
   {
@@ -45,23 +48,25 @@
     "volume": "15 L",
     "bashing": 9,
     "price": 22000,
+    "price_postapoc": 1500,
     "copy-from": "motor"
   },
   {
     "type": "GENERIC",
     "id": "motor_small",
-    "name": "small electric motor",
+    "name": { "str": "small electric motor" },
     "description": "A small electric motor.  Useful for crafting.",
     "weight": "5 kg",
     "volume": "1 L",
     "bashing": 1,
     "price": 2000,
+    "price_postapoc": 500,
     "copy-from": "motor"
   },
   {
     "type": "GENERIC",
     "id": "motor_tiny",
-    "name": "tiny electric motor",
+    "name": { "str": "tiny electric motor" },
     "description": "A tiny electric motor.  Useful for crafting.",
     "weight": "625 g",
     "color": "light_cyan",
@@ -69,6 +74,7 @@
     "material": [ "steel", "plastic" ],
     "volume": "125 ml",
     "category": "veh_parts",
-    "price": 2000
+    "price": 2000,
+    "price_postapoc": 100
   }
 ]

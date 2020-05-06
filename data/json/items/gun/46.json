@@ -9,6 +9,7 @@
     "weight": "1800 g",
     "volume": "2034 ml",
     "price": 175000,
+    "price_postapoc": 3000,
     "to_hit": -2,
     "bashing": 7,
     "material": [ "steel", "plastic" ],
@@ -35,7 +36,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ] ]
   }
 ]

@@ -1,34 +1,50 @@
 #include "condition.h"
 
+#include <climits>
+#include <cstddef>
 #include <functional>
+#include <map>
+#include <memory>
 #include <set>
 #include <string>
-#include <type_traits>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
+#include "debug.h"
 #include "dialogue.h"
-#include "faction_camp.h"
+#include "enum_conversions.h"
 #include "game.h"
-#include "item_category.h"
 #include "item.h"
-#include "auto_pickup.h"
+#include "item_category.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
+#include "mapdata.h"
 #include "mission.h"
 #include "npc.h"
+#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "recipe.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "point.h"
 #include "recipe_groups.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "cata_string_consts.h"
+
+class basecamp;
+class recipe;
+
+static const efftype_id effect_currently_busy( "currently_busy" );
 
 // throws an error on failure, so no need to return
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
@@ -142,7 +158,7 @@ template<class T>
 void conditional_t<T>::set_is_riding( bool is_npc )
 {
     condition = [is_npc]( const T & d ) {
-        return ( is_npc ? d.alpha : d.beta )->is_mounted();
+        return ( is_npc ? d.beta : d.alpha )->is_mounted();
     };
 }
 

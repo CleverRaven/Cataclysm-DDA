@@ -4,55 +4,74 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <sstream>
-#include <memory>
-#include <tuple>
 #include <list>
+#include <memory>
+#include <sstream>
+#include <tuple>
 
 #include "action.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "clzones.h"
+#include "color.h"
 #include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "iexamine.h"
+#include "input.h"
+#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse.h"
 #include "json.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "monster.h"
+#include "mtype.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
+#include "player.h"
+#include "player_activity.h"
+#include "requirements.h"
+#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "string_input_popup.h"
-#include "color.h"
-#include "input.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "iuse.h"
-#include "player.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "requirements.h"
-#include "rng.h"
-#include "string_id.h"
-#include "field.h"
-#include "bodypart.h"
-#include "enums.h"
-#include "monster.h"
-#include "mtype.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
+static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
+
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_none( "null" );
+static const itype_id fuel_type_wind( "wind" );
+
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_tied( "tied" );
+
+static const fault_id fault_diesel( "fault_engine_pump_diesel" );
+static const fault_id fault_glowplug( "fault_engine_glow_plug" );
+static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
+static const fault_id fault_pump( "fault_engine_pump_fuel" );
+static const fault_id fault_starter( "fault_engine_starter" );
+
+static const skill_id skill_mechanics( "mechanics" );
 
 enum change_types : int {
     OPENCURTAINS = 0,
@@ -350,7 +369,7 @@ void vehicle::control_engines()
         }
         dirty = true;
         adjust_engine( e_toggle );
-    } while( e_toggle >= 0 && e_toggle < fuel_count );
+    } while( e_toggle < fuel_count );
 
     if( !dirty ) {
         return;
@@ -507,6 +526,7 @@ void vehicle::toggle_autopilot()
     uilist smenu;
     enum autopilot_option : int {
         PATROL,
+        FOLLOW,
         STOP
     };
     smenu.desc_enabled = true;
@@ -514,6 +534,9 @@ void vehicle::toggle_autopilot()
     smenu.addentry_col( PATROL, true, 'P', _( "Patrol…" ),
                         "", string_format( _( "Program the autopilot to patrol a nearby vehicle patrol zone.  "
                                            "If no zones are nearby, you will be prompted to create one." ) ) );
+    smenu.addentry_col( FOLLOW, true, 'F', _( "Follow…" ),
+                        "", string_format(
+                            _( "Program the autopilot to follow you.  It might be a good idea to have a remote control available to tell it to stop, too." ) ) );
     smenu.addentry_col( STOP, true, 'S', _( "Stop…" ),
                         "", string_format( _( "Stop all autopilot related activities." ) ) );
     smenu.query();
@@ -529,6 +552,13 @@ void vehicle::toggle_autopilot()
             autodrive_local_target = tripoint_zero;
             stop_engines();
             break;
+        case FOLLOW:
+            autopilot_on = true;
+            is_following = true;
+            is_patrolling = false;
+            is_autodriving = true;
+            start_engines();
+            refresh();
         default:
             return;
     }
@@ -715,14 +745,14 @@ void vehicle::use_controls( const tripoint &pos )
 
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
         options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.push_back( [&] { turrets_aim_and_fire( true, false ); refresh(); } );
+        actions.push_back( [&] { turrets_aim_and_fire_all_manual( true ); refresh(); } );
 
         // This lets us manually override and set the target for the automatic turrets instead.
         options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.push_back( [&] { turrets_aim( false, true ); refresh(); } );
+        actions.push_back( [&] { turrets_override_automatic_aim(); refresh(); } );
 
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.push_back( [&] { turrets_aim_single(); refresh(); } );
+        actions.push_back( [&] { turrets_aim_and_fire_single(); refresh(); } );
     }
 
     uilist menu;
@@ -897,7 +927,7 @@ bool vehicle::start_engine( const int e )
     }
 
     const double dmg = parts[engines[e]].damage_percent();
-    const int engine_power = abs( part_epower_w( engines[e] ) );
+    const int engine_power = std::abs( part_epower_w( engines[e] ) );
     const double cold_factor = engine_cold_factor( e );
     const int start_moves = engine_start_time( e );
 
@@ -1231,7 +1261,7 @@ void vehicle::transform_terrain()
                 g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
-            const int speed = abs( velocity );
+            const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
@@ -1262,9 +1292,11 @@ void vehicle::operate_reaper()
             continue;
         }
         g->m.furn_set( reaper_pos, f_null );
+        // Secure the seed type before i_clear destroys the item.
+        const itype &seed_type = *seed->type;
         g->m.i_clear( reaper_pos );
         for( auto &i : iexamine::get_harvest_items(
-                 *seed->type, plant_produced, seed_produced, false ) ) {
+                 seed_type, plant_produced, seed_produced, false ) ) {
             g->m.add_item_or_charges( reaper_pos, i );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
@@ -1468,6 +1500,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     }
 
     coeff_air_changed = true;
+    coeff_air_dirty = true;
 }
 
 void vehicle::use_autoclave( int p )

@@ -3,14 +3,14 @@
     "id": "afs_solderers_item",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "precision solderers", "str_pl": "precision solderers" },
+    "name": { "str_sp": "precision solderers" },
     "flags": "TRADER_AVOID",
-    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ] ]
+    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ], [ "BIONIC_ASSEMBLY", 2 ] ]
   },
   {
     "type": "GENERIC",
     "id": "crypto_coin",
-    "name": { "str": "Crypto coin", "str_pl": "Crypto coins" },
+    "name": { "str": "Crypto coin" },
     "description": "PrepNet had been heavily involved in avoiding taxes by using untraceable internet currencies.  These however are physical coins with random numbers sequences embossed on them and RFID chips inside.",
     "price": 12000,
     "price_postapoc": 15000,
@@ -23,7 +23,7 @@
   },
   {
     "id": "afs_basin",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "name": { "ctxt": "container", "str": "basin" },
     "description": "A wide, shallow basin used to hold liquid, hammered from a piece of sheet metal.  Ideal for collecting water.",
     "weight": "5 kg",
@@ -35,8 +35,17 @@
     "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
-    "contains": "2500 ml",
-    "watertight": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "10 kg",
+        "open_container": true,
+        "moves": 400
+      }
+    ],
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -44,7 +53,7 @@
     "id": "afs_fridge",
     "category": "veh_parts",
     "type": "GENERIC",
-    "name": "vehicle refrigerator",
+    "name": { "str": "vehicle refrigerator" },
     "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
     "symbol": "{",
     "color": "white",
@@ -62,7 +71,7 @@
     "id": "afs_freezer",
     "category": "veh_parts",
     "type": "GENERIC",
-    "name": "vehicle freezer",
+    "name": { "str": "vehicle freezer" },
     "copy-from": "afs_fridge",
     "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
     "color": "light_blue"
@@ -72,8 +81,7 @@
     "id": "afs_scrap_titanium",
     "symbol": ",",
     "color": "light_gray",
-    "name": "scrap titanium",
-    "name_plural": "scrap titanium",
+    "name": { "str_sp": "scrap titanium" },
     "category": "spare_parts",
     "description": "A piece of light titanium, usable for crafting or repairs.",
     "price": 1000,
@@ -86,49 +94,29 @@
   },
   {
     "type": "GENERIC",
-    "id": "afs_titanium_frame",
-    "name": "ultralight frame",
-    "description": "A sturdy, lightweight frame made from titanium.  Useful for crafting.",
-    "weight": "1 kg",
-    "to_hit": -3,
-    "color": "light_gray",
-    "symbol": "]",
-    "material": [ "titanium" ],
-    "looks_like": "xlframe",
-    "techniques": [ "DEF_DISARM" ],
-    "volume": "7500 ml",
-    "bashing": 15,
-    "category": "veh_parts",
-    "price": 4000
-  },
-  {
-    "type": "GENERIC",
     "id": "afs_metal_rig",
     "copy-from": "vehicle_rig",
-    "name": "MetalMaster forge buddy",
-    "name_plural": "MetalMaster forge buddies",
+    "name": { "str": "MetalMaster forge buddy", "str_pl": "MetalMaster forge buddies" },
     "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
   },
   {
     "type": "GENERIC",
     "id": "afs_kitchen_rig",
     "copy-from": "vehicle_rig",
-    "name": "KitchenMaster cooking buddy",
-    "name_plural": "KitchenMaster cooking buddies",
+    "name": { "str": "KitchenMaster cooking buddy", "str_pl": "KitchenMaster cooking buddies" },
     "description": "Because it *clearly* needed one, this large all-in-one station provides the functions of FOODCO's kitchen buddy, now with complementary fume hoods and chemistry materials.  Why a chef would need a chemical rig is anyone's guess, but you can mount it on a vehicle to make use of it."
   },
   {
     "type": "GENERIC",
     "id": "afs_cooking_rig",
     "copy-from": "vehicle_rig",
-    "name": "cooking rig",
-    "name_plural": "cooking rigs",
+    "name": { "str": "cooking rig" },
     "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
   },
   {
     "id": "nuclear_waste",
     "type": "GENERIC",
-    "name": "nuclear waste",
+    "name": { "str_sp": "nuclear waste" },
     "description": "A small pellet of silvery metal, still warm to the touch.",
     "looks_like": "medium_atomic_battery_cell",
     "weight": "30 g",
@@ -143,24 +131,34 @@
     "id": "nuclear_fuel",
     "copy-from": "nuclear_waste",
     "type": "GENERIC",
-    "name": "nuclear fuel pellet",
+    "name": { "str": "nuclear fuel pellet" },
     "description": "A small pellet of fissile material.  Handle carefully."
   },
   {
     "id": "hazardous_waste_drum",
     "copy-from": "55gal_drum",
-    "type": "CONTAINER",
-    "name": "hazardous waste drum",
+    "type": "GENERIC",
+    "name": { "str": "hazardous waste drum" },
     "description": "A yellow drum meant for the storage of hazardous substances.",
     "material": [ "steel", "lead" ],
     "symbol": "0",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "500 kg",
+        "moves": 400
+      }
+    ],
     "color": "yellow"
   },
   {
     "id": "atomic_butterchurn",
     "type": "GENERIC",
     "category": "tools",
-    "name": "folded atomic butter churn",
+    "name": { "str": "folded atomic butter churn" },
     "description": "The Rivtech Churninator 4000, the only churn to be banned by 13 religious sects.  The legs are currently folded up for travel.  Unlike a standard churn that requires cream separated from raw milk this churn requires only raw milk, salt and a healthy respect for glowing objects.",
     "weight": "6464 g",
     "volume": "11356 ml",
@@ -179,7 +177,7 @@
   {
     "id": "atomic_pseudo_churn",
     "type": "TOOL",
-    "name": "pseudo atomic butter churn",
+    "name": { "str": "pseudo atomic butter churn" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "6464 g",
     "volume": "11356 ml",
@@ -196,8 +194,7 @@
     "id": "afs_titanium_small",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": "titanium",
-    "name_plural": "titanium",
+    "name": { "str_sp": "titanium" },
     "description": "A strong, durable metal.  Highly valued for its weight to strength ratio, it was an excellent upgrade to aluminum for those properties albeit a lot more expensive due to rarity.  More commonly used in jewelery and medical implants.",
     "weight": "1 g",
     "//": "Density 4.506g/cm³ ~ 1.127kg/250ml @ stack 1000 = 1g/unit",
@@ -215,7 +212,7 @@
   {
     "id": "afs_titanium_implant",
     "type": "GENERIC",
-    "name": "titanium implant",
+    "name": { "str": "titanium implant" },
     "description": "An internal implant to correct a musculoskeletal problem such as a bad hip or back.  It is made of titanium due to its biocompatibility.",
     "price": 9500,
     "price_postapoc": 1500,
@@ -229,7 +226,7 @@
   {
     "id": "afs_titanium_tooth",
     "type": "GENERIC",
-    "name": "titanium tooth",
+    "name": { "str": "titanium tooth" },
     "description": "A dental implant made of pure titanium, used to replace teeth due to its bio-compatibility and durability.",
     "price": 5000,
     "price_postapoc": 50,
@@ -242,8 +239,7 @@
   {
     "id": "afs_titanium_watch",
     "type": "ARMOR",
-    "name": "titanium watch",
-    "name_plural": "titanium watches",
+    "name": { "str": "titanium watch", "str_pl": "titanium watches" },
     "description": "A thick, masculine watch made out of titanium.  It is durable, light-weight and water-resistant, an excellent watch to have in a hostile environment.",
     "weight": "50 g",
     "volume": "250 ml",
@@ -260,10 +256,10 @@
   {
     "id": "afs_titanium_ring",
     "type": "ARMOR",
-    "name": "titanium ring",
+    "name": { "str": "titanium ring" },
     "description": "A thick, masculine ring made out of titanium.  Made in a variety of styles and finishes, they're valued for their durability.",
     "weight": "13 g",
-    "volume": 0,
+    "volume": "5 ml",
     "price": 700,
     "price_postapoc": 500,
     "material": [ "titanium" ],

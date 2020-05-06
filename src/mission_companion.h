@@ -1,26 +1,24 @@
 #pragma once
-#ifndef MISSION_COMPANION_H
-#define MISSION_COMPANION_H
+#ifndef CATA_SRC_MISSION_COMPANION_H
+#define CATA_SRC_MISSION_COMPANION_H
 
 #include <map>
-#include <memory>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
-#include "memory_fast.h"
 
-class npc;
 class item;
-struct tripoint;
-struct comp_rank;
+class monster;
+class npc;
 class npc_template;
+struct comp_rank;
 template<typename T>
 class string_id;
-class monster;
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
@@ -42,10 +40,10 @@ class mission_data
 
         mission_data();
         /**
-        * Adds the id's to the correct vectors (ie tabs) in the UI.
+        * Adds the id's to the correct vectors (i.e. tabs) in the UI.
         * @param id is the mission reference
         * @param name_display is string displayed
-        * @param dir is the direction of the expansion from the central camp, ie "[N]"
+        * @param dir is the direction of the expansion from the central camp, i.e. "[N]"
         * @param priority turns the mission key yellow and pushes to front of main tab
         * @param possible grays the mission key when false and makes it impossible to select
         */
@@ -152,4 +150,4 @@ void companion_return( npc &comp );
 void loot_building( const tripoint &site );
 
 } // namespace talk_function
-#endif
+#endif // CATA_SRC_MISSION_COMPANION_H

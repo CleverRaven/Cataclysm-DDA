@@ -249,7 +249,7 @@
       ],
       "palettes": [ "airport_palette" ],
       "place_terrain": [ { "ter": "t_gas_tank", "x": 13, "y": 4 } ],
-      "place_liquids": [ { "liquid": "gasoline", "x": 13, "y": 4, "repeat": [ 100, 500 ] } ],
+      "place_liquids": [ { "liquid": "avgas", "x": 13, "y": 4, "repeat": [ 100, 500 ] } ],
       "gaspumps": { "J": {  } },
       "place_monsters": [ { "monster": "GROUP_SMALL_STATION", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.05 } ],
       "place_loot": [
@@ -440,6 +440,7 @@
         "/%fss_,___________,_ssf/",
         "/%fss_,___________,_ssf/"
       ],
+      "place_vehicles": [ { "vehicle": "helicopters", "chance": 30, "fuel": -1, "rotation": 180, "status": -1, "x": 8, "y": 12 } ],
       "palettes": [ "airport_palette" ]
     }
   },
