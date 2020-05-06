@@ -109,6 +109,36 @@
     "damage_reduction": { "all": 28, "stab": 12 }
   },
   {
+    "id": "fridgetank",
+    "type": "vehicle_part",
+    "name": { "str": "refrigerated tank (60L)" },
+    "item": "fridgetank",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "durability": 150,
+    "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
+    "size": 60000,
+    "damage_modifier": 80,
+    "epower": -40,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "90 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "FLUIDTANK", "FRIDGE", "ENABLED_DRAINS_EPOWER" ],
+    "damage_reduction": { "all": 28, "stab": 12 }
+  },
+  {
     "id": "external_tank_small",
     "type": "vehicle_part",
     "name": { "str": "external tank (100L)" },
