@@ -299,6 +299,11 @@ struct islot_pet_armor {
      * Whether this is a power armor item.
      */
     bool power_armor = false;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_book {
