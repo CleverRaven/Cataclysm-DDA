@@ -1235,6 +1235,10 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
         window_width -= bars_pad;
     }
+	
+    std::string label_m = _( "Moves" );
+    std::vector<std::string> t_aims( 4 ), t_confidence( 16 );
+    int aim_iter = 0, conf_iter = 0;
 
     nc_color col = c_dark_gray;
 
@@ -1267,6 +1271,19 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
         line_number++;
     }
+	if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type == "numbers" ) {
+        std::string symbols = _( "<color_green>Great</color> - <color_light_gray>Normal</color>"
+                                 " - <color_magenta>Graze</color> - <color_light_blue>Moves</color>" );
+        fold_and_print( w, point( 1, line_number++ ), window_width + bars_pad,
+                        c_dark_gray, symbols );
+        int len = utf8_width( symbols ) - 96; // 96 to subtract color codes
+        if( len > window_width + bars_pad ) {
+            line_number++;
+        }
+        for( int i = 0; i < window_width; i++ ) {
+            mvwprintw( w, point( i + 1, line_number ), "-" );
+		}
+	}
 
     const auto front_or = [&]( const std::string & s, const char fallback ) {
         const auto keys = ctxt.keys_bound_to( s );
@@ -1295,11 +1312,16 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
-        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
-            print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
-                                aim_l ) );
-            right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
-            right_print( w, line_number, 1, c_light_blue, string_format( "%d", moves_to_fire ) );
+        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+			if( display_type == "numbers" ) {
+                t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", label );
+                t_confidence[( aim_iter * 4 ) + 3] = string_format( "<color_light_blue>%d</color>", moves_to_fire );
+			} else {
+				print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
+									aim_l ) );
+				right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
+				right_print( w, line_number, 1, c_light_blue, string_format( "%d", moves_to_fire ) );
+			}
         } else {
             print_colored_text( w, point( 1, line_number++ ), col, col,
                                 string_format( _( "<color_white>[%s]</color> %s %s: Moves to fire: "
@@ -1310,6 +1332,19 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         double confidence = confidence_estimate( range, target_size, current_dispersion );
 
         if( display_type == "numbers" ) {
+			if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+                int last_chance = 0;
+                for( const confidence_rating &cr : confidence_config ) {
+                    int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * confidence ) - last_chance;
+                    last_chance += chance;
+                    t_confidence[conf_iter] = string_format( "<color_%s>%3d%%</color>", cr.color, chance );
+                    conf_iter++;
+                    if( conf_iter == ( aim_iter * 4 ) + 3 ) {
+                        conf_iter++;
+                    }
+                }
+                aim_iter++;
+			} else }
             int last_chance = 0;
             std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
             [&]( const confidence_rating & config ) {
@@ -1337,6 +1372,15 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
     }
 
+    // Draw tables for compact Numbers display
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" )
+        && display_type == "numbers" ) {
+        const std::string divider = "|";
+        int left_pad = 10, columns = 4;
+        insert_table( w, left_pad, ++line_number, columns, c_light_gray, divider, true, t_confidence );
+        insert_table( w, 0, line_number, 1, c_light_gray, "", false, t_aims );
+        line_number = line_number + 4; // 4 to account for the tables
+    }
     return line_number;
 }
 
@@ -2033,10 +2077,9 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 
 void target_ui::init_window_and_input( player &pc )
 {
-    // TODO: make 'narrow' layout work for 'numbers' display type
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
     std::string panel_type = panel_manager::get_manager().get_current_layout_id();
-    narrow = ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers";
+    narrow = ( panel_type == "compact" || panel_type == "labels-narrow" );
 
     int top = 0;
     int width;
