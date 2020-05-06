@@ -711,7 +711,7 @@
     "id": "mon_zombie_necro_boomer",
     "type": "MONSTER",
     "name": { "str": "zombie necro-boomer" },
-    "description": "This zombie looks like the zombie necromancer, but it blisters with oozing black pustules and bloats to an enormous size.  It seems ready to pop.",
+    "description": "At first this creature looks like nothing more than a grotesque and oleaginous husk, bloated and punctured by jet-black pustules. When approached its glowing red eyes and an aching grin take form; its skin tears and guts teem with unmatched fecundity, as its gaze inspires fear of nothing less than cosmic, inhuman ecstasy.",
     "copy-from": "mon_zombie_necro",
     "diff": 25,
     "death_function": [ "NECRO_BOOMER" ]
