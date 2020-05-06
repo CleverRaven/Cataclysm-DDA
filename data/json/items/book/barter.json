@@ -6,6 +6,7 @@
     "description": "Normally this glossy, ad-filled magazine about cars would be pointless, but it has a series of articles on haggling techniques.",
     "price_postapoc": 50,
     "fun": 0,
+    "skill": "barter",
     "copy-from": "book_magazine"
   },
   {

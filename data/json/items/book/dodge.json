@@ -4,19 +4,10 @@
     "type": "BOOK",
     "name": { "str": "Dance Dance Dance!", "str_pl": "issues of Dance Dance Dance!" },
     "description": "Learn the moves of the trendiest dances right now.",
-    "weight": "250 g",
-    "volume": "482 ml",
-    "longest_side": "28 cm",
-    "price": 490,
     "price_postapoc": 250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "dodge",
-    "max_level": 1,
     "intelligence": 2,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_dodge",

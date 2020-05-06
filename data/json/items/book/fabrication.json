@@ -41,19 +41,10 @@
     "type": "BOOK",
     "name": { "str": "Crafty Crafter's Quarterly", "str_pl": "Crafty Crafter's Quarterlies" },
     "description": "A fun quarterly magazine all about macaroni art and things you can make by supergluing found objects together.",
-    "weight": "250 g",
-    "volume": "482 ml",
-    "longest_side": "28 cm",
-    "price": 450,
     "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "fabrication",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m",
-    "fun": 2
+    "fun": 2,
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_fabrication",
@@ -395,18 +386,9 @@
     "type": "BOOK",
     "name": { "str": "Birdhouse Monthly", "str_pl": "Birdhouse Monthlies" },
     "description": "A riveting periodical all about birdhouses and their construction.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 450,
     "price_postapoc": 250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "fabrication",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_carpentry",
