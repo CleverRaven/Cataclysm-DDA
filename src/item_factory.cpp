@@ -1787,30 +1787,46 @@ void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src
     }
 }
 
-void Item_factory::load( islot_book &slot, const JsonObject &jo, const std::string &src )
+void islot_book::load( const JsonObject &jo )
 {
-    bool strict = src == "dda";
+    optional( jo, was_loaded, "max_level", level, 0 );
+    optional( jo, was_loaded, "required_level", req, 0 );
+    optional( jo, was_loaded, "fun", fun, 0 );
+    optional( jo, was_loaded, "intelligence", intel, 0 );
 
-    assign( jo, "max_level", slot.level, strict, 0, MAX_SKILL );
-    assign( jo, "required_level", slot.req, strict, 0, MAX_SKILL );
-    assign( jo, "fun", slot.fun, strict );
-    assign( jo, "intelligence", slot.intel, strict, 0 );
     if( jo.has_int( "time" ) ) {
-        slot.time = jo.get_int( "time" );
+        time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
-        slot.time = to_minutes<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
-                                     time_duration::units ) );
+        time = to_minutes<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+                                time_duration::units ) );
     }
-    assign( jo, "skill", slot.skill, strict );
-    assign( jo, "martial_art", slot.martial_art, strict );
-    assign( jo, "chapters", slot.chapters, strict, 0 );
+
+    optional( jo, was_loaded, "skill", skill, skill_id::NULL_ID() );
+    optional( jo, was_loaded, "martial_art", martial_art, matype_id::NULL_ID() );
+    optional( jo, was_loaded, "chapters", chapters, 0 );
+}
+
+void islot_book::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void Item_factory::load_book( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.book, jo, src );
+        if( def.was_loaded ) {
+            if( def.book ) {
+                def.book->was_loaded = true;
+            } else {
+                def.book = cata::make_value<islot_book>();
+                def.book->was_loaded = true;
+            }
+        } else {
+            def.book = cata::make_value<islot_book>();
+        }
+        def.book->load( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -2444,7 +2460,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     assign( jo, "armor_data", def.armor, src == "dda" );
     assign( jo, "pet_armor_data", def.pet_armor, src == "dda" );
-    load_slot_optional( def.book, jo, "book_data", src );
+    assign( jo, "book_data", def.book, src == "dda" );
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );
     assign( jo, "ammo_data", def.ammo, src == "dda" );

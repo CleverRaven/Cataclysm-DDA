@@ -369,6 +369,11 @@ struct islot_book {
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_mod {
