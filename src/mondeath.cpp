@@ -911,12 +911,13 @@ void mdeath::necro_boomer( monster &z )
             }
             if( g->revive_corpse( aoe, corpse ) ) {
                 g->m.i_rem( aoe, &corpse );
+                break;
             }
         }
     }
     for( const tripoint &aoe : g->m.points_in_radius( z.pos(), 10 ) ) {
         monster *mon = g->critter_at<monster>( aoe );
-        if( mon != nullptr ) {
+        if( mon != nullptr && one_in( 10 ) ) {
             mon->allow_upgrade();
             mon->try_upgrade( false );
         }
