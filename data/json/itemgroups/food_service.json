@@ -605,12 +605,19 @@
     "subtype": "distribution",
     "entries": [
       { "item": "oatmeal", "prob": 50 },
-      { "item": "cereal", "prob": 65 },
+      { "item": "cereal", "prob": 25 },
       { "item": "cereal2", "prob": 55 },
-      { "item": "cereal3", "prob": 65 },
-      { "item": "toastem", "prob": 30 },
-      { "item": "toastem2", "prob": 25 },
-      { "item": "toastem3", "prob": 20 }
+      { "item": "cereal3", "prob": 55 },
+      { "item": "cereal_fp1", "prob": 50 },
+      { "item": "cereal_fp2", "prob": 50 },
+      { "item": "cereal_fp3", "prob": 50 },
+      { "item": "cereal_fp4", "prob": 25 },
+      { "item": "cereal_fp5", "prob": 25 },
+      { "item": "cereal_fp6", "prob": 25 },
+      { "item": "cereal_fp7", "prob": 25 },
+      { "item": "toastem", "prob": 40 },
+      { "item": "toastem2", "prob": 32 },
+      { "item": "toastem3", "prob": 25 }
     ]
   },
   {
