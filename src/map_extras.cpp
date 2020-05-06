@@ -2852,7 +2852,7 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_city_trap( map &m, const tripoint &abs_sub )
+static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 {
     //First, find a city
     const city_reference c = overmap_buffer.closest_city( abs_sub );
