@@ -1061,19 +1061,20 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 1_turns * dice( 3, 100 ) );
         }
 
-        // TODO: Move this to update_needs when NPCs can mutate
-        bool compatible_weather_types = g->weather.weather == WEATHER_CLEAR ||
-                                        g->weather.weather == WEATHER_SUNNY
-                                        || g->weather.weather == WEATHER_DRIZZLE || g->weather.weather == WEATHER_RAINY ||
-                                        g->weather.weather == WEATHER_FLURRIES
-                                        || g->weather.weather == WEATHER_CLOUDY || g->weather.weather == WEATHER_SNOW;
-
-        if( calendar::once_every( 10_minutes ) && ( has_trait( trait_CHLOROMORPH ) ||
-                has_trait( trait_M_SKIN3 ) || has_trait( trait_WATERSLEEP ) ) &&
-            g->m.is_outside( pos() ) ) {
+        if( calendar::once_every( 10_minutes ) && g->m.is_outside( pos() ) ) {
             if( has_trait( trait_CHLOROMORPH ) ) {
+                // Check for compatible weather for Chloromorphs
+                // TODO: Move this to update_needs when NPCs can mutate
+                bool weather_ok = g->weather.weather == WEATHER_CLEAR ||
+                                  g->weather.weather == WEATHER_SUNNY ||
+                                  g->weather.weather == WEATHER_DRIZZLE ||
+                                  g->weather.weather == WEATHER_RAINY ||
+                                  g->weather.weather == WEATHER_FLURRIES ||
+                                  g->weather.weather == WEATHER_CLOUDY ||
+                                  g->weather.weather == WEATHER_SNOW;
+
                 // Hunger and thirst fall before your Chloromorphic physiology!
-                if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
+                if( g->natural_light_level( posz() ) >= 12 && weather_ok ) {
                     if( get_hunger() >= -30 ) {
                         mod_hunger( -5 );
                         // photosynthesis warrants absorbing kcal directly
@@ -1140,28 +1141,28 @@ void player::hardcoded_effects( effect &it )
         bool woke_up = false;
         int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( get_fatigue() * 2 * 5 ) );
         if( !is_blind() && !has_effect( effect_narcosis ) ) {
-            if( !has_trait(
-                    trait_SEESLEEP ) ) { // People who can see while sleeping are acclimated to the light.
+            if( !has_trait( trait_SEESLEEP ) ) {
+                float ambient_light = g->m.ambient_light_at( pos() );
+                bool fatigue_low = get_fatigue() < 10 || one_in( get_fatigue() / 2 );
+
+                // People who can see while sleeping are acclimated to the light.
                 if( has_trait( trait_HEAVYSLEEPER2 ) && !has_trait( trait_HIBERNATE ) ) {
                     // So you can too sleep through noon
-                    if( ( tirednessVal * 1.25 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                            one_in( get_fatigue() / 2 ) ) ) {
+                    if( ( tirednessVal * 1.25 ) < ambient_light && fatigue_low ) {
                         add_msg_if_player( _( "It's too bright to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );
                         woke_up = true;
                     }
-                    // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
                 } else if( has_trait( trait_HIBERNATE ) ) {
-                    if( ( tirednessVal * 5 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                            one_in( get_fatigue() / 2 ) ) ) {
+                    // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+                    if( ( tirednessVal * 5 ) < ambient_light && fatigue_low ) {
                         add_msg_if_player( _( "It's too bright to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );
                         woke_up = true;
                     }
-                } else if( tirednessVal < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
-                           one_in( get_fatigue() / 2 ) ) ) {
+                } else if( tirednessVal < ambient_light && fatigue_low ) {
                     add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
