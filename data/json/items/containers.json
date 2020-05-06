@@ -1239,8 +1239,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg"
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "100 kg"
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -1265,8 +1265,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg"
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "120 kg"
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
