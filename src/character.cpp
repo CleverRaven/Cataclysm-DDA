@@ -641,7 +641,7 @@ double Character::aim_cap_from_volume( const item &gun ) const
     } else if( gun_skill == "pistol" ) {
         aim_cap = std::max( 15.0, aim_cap * 1.25 );
     } else if( gun_skill == "rifle" ) {
-        aim_cap = std::max( 7.0, aim_cap - 5.0 );
+        aim_cap = std::max( 7.0, aim_cap - 7.0 );
     } else if( gun_skill == "archery" ) {
         aim_cap = std::max( 13.0, aim_cap );
     } else { // Launchers, etc.
