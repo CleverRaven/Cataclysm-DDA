@@ -118,7 +118,7 @@
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 2, "holster": true }
     ],
-    "description": "A custom-built-and-enchanted leather utility belt that instantly creates any tool that you reach for. Activate to sheathe/draw a weapon.",
+    "description": "A custom-built-and-enchanted leather utility belt that instantly creates any tool that you reach for.  Activate to sheathe/draw a weapon.",
     "price": 500000,
     "material_thickness": 3,
     "qualities": [
