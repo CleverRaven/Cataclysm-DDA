@@ -1344,7 +1344,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                     }
                 }
                 aim_iter++;
-			} else }
+			} else {
             int last_chance = 0;
             std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
             [&]( const confidence_rating & config ) {
@@ -1356,6 +1356,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
             }, enumeration_conjunction::none );
             line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
                                                 c_dark_gray, confidence_s );
+			}
         } else {
             std::vector<std::tuple<double, char, std::string>> confidence_ratings;
             std::transform( confidence_config.begin(), confidence_config.end(),
