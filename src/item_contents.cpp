@@ -241,6 +241,11 @@ ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ||
+            pocket.is_type( item_pocket::pocket_type::CORPSE ) ||
+            pocket.is_type( item_pocket::pocket_type::MIGRATION ) ) {
+            continue;
+        }
         if( !pocket.rigid() ) {
             ret = ret_val<bool>::make_failure( _( "is not rigid" ) );
             continue;
