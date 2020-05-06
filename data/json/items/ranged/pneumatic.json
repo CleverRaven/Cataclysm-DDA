@@ -14,7 +14,7 @@
     "material": [ "aluminum", "wood" ],
     "flags": [ "NEVER_JAMS", "NON-FOULING" ],
     "skill": "rifle",
-    "ammo": "BB",
+    "ammo": [ "BB" ],
     "weight": "1723 g",
     "volume": "1500 ml",
     "bashing": 9,

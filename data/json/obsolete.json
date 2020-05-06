@@ -469,7 +469,7 @@
     "flags": [ "NEVER_JAMS" ],
     "ups_charges": 5,
     "skill": "rifle",
-    "ammo": "fusion",
+    "ammo": [ "fusion" ],
     "weight": "2267 g",
     "volume": "3500 ml",
     "bashing": 10,

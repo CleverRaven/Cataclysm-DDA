@@ -89,7 +89,7 @@
     "weight": "5140 g",
     "volume": "1500 ml",
     "price": 400000,
-    "ammo": "acidic_bore",
+    "ammo": [ "acidic_bore" ],
     "to_hit": -1,
     "bashing": 4,
     "material": [ "alien_resin" ],

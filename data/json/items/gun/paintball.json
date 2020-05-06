@@ -13,7 +13,7 @@
     "material": [ "aluminum", "plastic" ],
     "flags": [ "NEVER_JAMS", "NON-FOULING" ],
     "skill": "smg",
-    "ammo": "paintball",
+    "ammo": [ "paintball" ],
     "weight": "1600 g",
     "volume": "1250 ml",
     "bashing": 5,

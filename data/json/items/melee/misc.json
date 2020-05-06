@@ -67,7 +67,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 100,
     "use_action": "TAZER",
     "magazines": [
