@@ -1,14 +1,22 @@
 #pragma once
-#ifndef UNITS_H
-#define UNITS_H
+#ifndef CATA_SRC_UNITS_H
+#define CATA_SRC_UNITS_H
 
+#include <algorithm>
+#include <cctype>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
+#include <map>
 #include <ostream>
+#include <string>
+#include <type_traits>
 #include <utility>
+#include <vector>
 
-#include "calendar.h"
+#include "compatibility.h"
 #include "json.h"
+#include "translations.h"
 
 namespace units
 {
@@ -342,6 +350,12 @@ inline constexpr quantity<value_type, mass_in_milligram_tag> from_kilogram(
 }
 
 template<typename value_type>
+inline constexpr value_type to_milligram( const quantity<value_type, mass_in_milligram_tag> &v )
+{
+    return v.value();
+}
+
+template<typename value_type>
 inline constexpr value_type to_gram( const quantity<value_type, mass_in_milligram_tag> &v )
 {
     return v.value() / 1000.0;
@@ -374,13 +388,22 @@ inline constexpr quantity<value_type, energy_in_millijoule_tag> from_millijoule(
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_joule( const value_type v )
 {
-    return from_millijoule<value_type>( v * 1000 );
+    const value_type max_energy_joules = std::numeric_limits<value_type>::max() / 1000;
+    // Check for overflow - if the energy provided is greater than max energy, then it
+    // if overflow when converted to millijoules
+    const value_type energy = v > max_energy_joules ? max_energy_joules : v;
+    return from_millijoule<value_type>( energy * 1000 );
 }
 
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_kilojoule( const value_type v )
 {
-    return from_joule<value_type>( v * 1000 );
+    const value_type max_energy_joules = std::numeric_limits<value_type>::max() / 1000;
+    // This checks for value_type overflow - if the energy we are given in Joules is greater
+    // than the max energy in Joules, overflow will occur when it is converted to millijoules
+    // The value we are given is in kJ, multiply by 1000 to convert it to joules, for use in from_joule
+    value_type energy = v * 1000 > max_energy_joules ? max_energy_joules : v * 1000;
+    return from_joule<value_type>( energy );
 }
 
 template<typename value_type>
@@ -479,6 +502,22 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
     return o << v.value() << tag_type{};
 }
 
+inline std::string display( const units::energy v )
+{
+    const int kj = units::to_kilojoule( v );
+    const int j = units::to_joule( v );
+    // at least 1 kJ and there is no fraction
+    if( kj >= 1 && float( j ) / kj == 1000 ) {
+        return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
+    }
+    const int mj = units::to_millijoule( v );
+    // at least 1 J and there is no fraction
+    if( j >= 1 && float( mj ) / j  == 1000 ) {
+        return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
+    }
+    return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
+}
+
 } // namespace units
 
 // Implicitly converted to volume, which has int as value_type!
@@ -491,6 +530,18 @@ inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operat
     const long double v )
 {
     return units::from_milliliter( v );
+}
+
+// Implicitly converted to volume, which has int as value_type!
+inline constexpr units::volume operator"" _liter( const unsigned long long v )
+{
+    return units::from_milliliter( v * 1000 );
+}
+
+inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _liter(
+    const long double v )
+{
+    return units::from_milliliter( v * 1000 );
 }
 
 // Implicitly converted to mass, which has int as value_type!
@@ -612,6 +663,11 @@ static const std::vector<std::pair<std::string, money>> money_units = { {
         { "kUSD", 1_kUSD },
     }
 };
+static const std::vector<std::pair<std::string, volume>> volume_units = { {
+        { "ml", 1_ml },
+        { "L", 1_liter }
+    }
+};
 } // namespace units
 
 template<typename T>
@@ -644,7 +700,8 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
             }
         }
         error( "invalid quantity string: unknown unit" );
-        throw; // above always throws
+        // above always throws but lambdas cannot be marked [[noreturn]]
+        throw;
     };
 
     if( skip_spaces() ) {
@@ -671,4 +728,51 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
     return result;
 }
 
-#endif
+template<typename T>
+void dump_to_json_string( T t, JsonOut &jsout,
+                          const std::vector<std::pair<std::string, T>> &units )
+{
+    // deduplicate unit strings and choose the shortest representations
+    std::map<T, std::string> sorted_units;
+    for( const auto &p : units ) {
+        const auto it = sorted_units.find( p.second );
+        if( it != sorted_units.end() ) {
+            if( p.first.length() < it->second.length() ) {
+                it->second = p.first;
+            }
+        } else {
+            sorted_units.emplace( p.second, p.first );
+        }
+    }
+    std::string str;
+    bool written = false;
+    for( auto it = sorted_units.rbegin(); it != sorted_units.rend(); ++it ) {
+        const int val = static_cast<int>( t / it->first );
+        if( val != 0 ) {
+            if( written ) {
+                str += ' ';
+            }
+            int tmp = val;
+            if( tmp < 0 ) {
+                str += '-';
+                tmp = -tmp;
+            }
+            const size_t val_beg = str.size();
+            while( tmp != 0 ) {
+                str += static_cast<char>( '0' + tmp % 10 );
+                tmp /= 10;
+            }
+            std::reverse( str.begin() + val_beg, str.end() );
+            str += ' ';
+            str += it->second;
+            written = true;
+            t -= it->first * val;
+        }
+    }
+    if( str.empty() ) {
+        str = "0 " + sorted_units.begin()->second;
+    }
+    jsout.write( str );
+}
+
+#endif // CATA_SRC_UNITS_H

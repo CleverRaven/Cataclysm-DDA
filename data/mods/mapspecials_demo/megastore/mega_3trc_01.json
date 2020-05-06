@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "mega_3trc",
-    "comment": "third floor. top right corner",
+    "//": "third floor. top right corner",
     "weight": 10,
     "method": "json",
     "object": {

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "bandit_tower_1gate",
-    "comment": "gate at the top left corner of the whole compound",
+    "//": "gate at the top left corner of the whole compound",
     "weight": 0,
     "method": "json",
     "object": {

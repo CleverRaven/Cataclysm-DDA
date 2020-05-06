@@ -1,14 +1,17 @@
 #pragma once
-#ifndef LINE_H
-#define LINE_H
+#ifndef CATA_SRC_LINE_H
+#define CATA_SRC_LINE_H
 
 #include <cmath>
 #include <functional>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "math_defines.h"
 #include "point.h"
+
+extern bool trigdist;
 
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )
@@ -31,7 +34,7 @@ constexpr double ARCMIN( double v )
 inline double iso_tangent( double distance, double vertex )
 {
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
-    return sqrt( 2 * pow( distance, 2 ) * ( 1 - cos( ARCMIN( vertex ) ) ) );
+    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - std::cos( ARCMIN( vertex ) ) ) );
 }
 
 //! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
@@ -49,7 +52,7 @@ inline constexpr unsigned make_xyz_unit( const int x, const int y, const int z )
 // This more general version of this function gives correct values for larger inputs.
 unsigned make_xyz( const tripoint & );
 
-enum direction : unsigned {
+enum class direction : unsigned {
     ABOVENORTHWEST = make_xyz_unit( -1, -1, -1 ),
     NORTHWEST      = make_xyz_unit( -1, -1,  0 ),
     BELOWNORTHWEST = make_xyz_unit( -1, -1,  1 ),
@@ -81,6 +84,42 @@ enum direction : unsigned {
     BELOWSOUTHEAST = make_xyz_unit( 1,  1,  1 ),
 };
 
+template< class T >
+constexpr inline direction operator%( const direction &lhs, const T &rhs )
+{
+    return static_cast<direction>( static_cast<T>( lhs ) % rhs );
+}
+
+template< class T >
+constexpr inline T operator+( const direction &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) + rhs;
+}
+
+template< class T >
+constexpr inline bool operator==( const direction &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) == rhs;
+}
+
+template< class T >
+constexpr inline bool operator==( const T &lhs, const direction &rhs )
+{
+    return operator==( rhs, lhs );
+}
+
+template< class T >
+constexpr inline bool operator!=( const T &lhs, const direction &rhs )
+{
+    return !operator==( rhs, lhs );
+}
+
+template< class T >
+constexpr inline bool operator!=( const direction &lhs, const T &rhs )
+{
+    return !operator==( lhs, rhs );
+}
+
 direction direction_from( const point &p ) noexcept;
 direction direction_from( const tripoint &p ) noexcept;
 direction direction_from( const point &p1, const point &p2 ) noexcept;
@@ -109,14 +148,99 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 // t and t2 decide which Bresenham line is used.
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
-float trig_dist( const point &loc1, const point &loc2 );
-float trig_dist( const tripoint &loc1, const tripoint &loc2 );
-// Roguelike distance; minimum of dX and dY
-int square_dist( const point &loc1, const point &loc2 );
-int square_dist( const tripoint &loc1, const tripoint &loc2 );
+
+inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
+{
+    return std::sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
+                      ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
+                      ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
+}
+inline float trig_dist( const point &loc1, const point &loc2 )
+{
+    return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
+}
+
+// Roguelike distance; maximum of dX and dY
+inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
+{
+    const tripoint d = ( loc1 - loc2 ).abs();
+    return std::max( { d.x, d.y, d.z } );
+}
+inline int square_dist( const point &loc1, const point &loc2 )
+{
+    const point d = ( loc1 - loc2 ).abs();
+    return std::max( d.x, d.y );
+}
+
 // Choose between the above two according to the "circular distances" option
-int rl_dist( const point &a, const point &b );
-int rl_dist( const tripoint &loc1, const tripoint &loc2 );
+inline int rl_dist( const tripoint &loc1, const tripoint &loc2 )
+{
+    if( trigdist ) {
+        return trig_dist( loc1, loc2 );
+    }
+    return square_dist( loc1, loc2 );
+}
+inline int rl_dist( const point &a, const point &b )
+{
+    return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
+}
+
+/**
+ * Helper type for the return value of dist_fast().
+ *
+ * This lets us delay the sqrt() call of trigdist until the actual length is needed.
+ */
+struct FastDistanceApproximation {
+    private:
+        int value;
+    public:
+        inline FastDistanceApproximation( int value ) : value( value ) { }
+        template<typename T>
+        inline bool operator<=( const T &rhs ) const {
+            if( trigdist ) {
+                return value <= rhs * rhs;
+            }
+            return value <= rhs;
+        }
+        template<typename T>
+        inline bool operator>=( const T &rhs ) const {
+            if( trigdist ) {
+                return value >= rhs * rhs;
+            }
+            return value >= rhs;
+        }
+        inline operator int() const {
+            if( trigdist ) {
+                return std::sqrt( value );
+            }
+            return value;
+        }
+};
+
+inline FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+{
+    return ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) +
+           ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) +
+           ( loc1.z - loc2.z ) * ( loc1.z - loc2.z );
+}
+inline FastDistanceApproximation square_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+{
+    const tripoint d = ( loc1 - loc2 ).abs();
+    return std::max( { d.x, d.y, d.z } );
+}
+inline FastDistanceApproximation rl_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+{
+    if( trigdist ) {
+        return trig_dist_fast( loc1, loc2 );
+    }
+    return square_dist_fast( loc1, loc2 );
+}
+inline FastDistanceApproximation rl_dist_fast( const point &a, const point &b )
+{
+    return rl_dist_fast( tripoint( a, 0 ), tripoint( b, 0 ) );
+}
+
+float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
 // Sum of distance in both axes
 int manhattan_dist( const point &loc1, const point &loc2 );
 
@@ -194,4 +318,4 @@ struct rl_vec3d {
     rl_vec3d operator+ ( const rl_vec3d &rhs ) const;
 };
 
-#endif
+#endif // CATA_SRC_LINE_H

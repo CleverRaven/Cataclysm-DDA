@@ -7,6 +7,7 @@
     "maintainers": [ "Rivet-the-Zombie" ],
     "description": "Adds a set of professions which correspond to classic Roguelike character archetypes.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

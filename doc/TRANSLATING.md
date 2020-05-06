@@ -1,5 +1,15 @@
 # Translating Cataclysm: DDA
 
+* [Translators](#translators)
+  * [Getting Started](#getting-Started)
+  * [Grammatical gender](#grammatical-gender)
+  * [Tips](#tips)
+* [Developers](#developers)
+  * [Translation Functions](#translation-functions)
+  * [`translation`](#translation)
+  * [Recommendations](#recommendations)
+* [Maintainers](#maintainers)
+
 ## Translators
 
 The official location for translating Cataclysm: DDA is the
@@ -12,7 +22,6 @@ Some of the currently supported languages are:
 * Chinese (Simplified)
 * Chinese (Traditional)
 * Dutch
-* Esperanto
 * French
 * German
 * Italian (Italy)
@@ -246,8 +255,15 @@ JSON using the appropriate JSON functions. The JSON syntax is as follows:
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
-In the above code, `"ctxt"` and `"str_pl"` are both optional. Additionally,
-`"str_pl"` will only be read if the translation object is constructed using
+or
+
+```JSON
+"name": { "ctxt": "foo", "str_sp": "foo" }
+```
+
+In the above code, `"ctxt"` and `"str_pl"` are both optional, whereas `"str_sp"`
+is equivalent to specifying `"str"` and `"str_pl"` with the same string. Additionally,
+`"str_pl"` and `"str_sp"` will only be read if the translation object is constructed using
 `plural_tag` or `pl_translation()`, or converted using `make_plural()`. Here's
 an example:
 
@@ -255,6 +271,9 @@ an example:
 translation name{ translation::plural_tag() };
 jsobj.read( "name", name );
 ```
+
+If neither "str_pl" nor "str_sp" is specified, the plural form defaults to the
+singular form + "s".
 
 You can also add comments for translators by writing it like below (the order
 of the entries does not matter):
@@ -270,7 +289,8 @@ Do note that currently the JSON syntax is only supported for some JSON values,
 which are listed below. If you want other json strings to use this format,
 refer to `translations.h|cpp` and migrate the corresponding code. Afterwards
 you may also want to test `update_pot.sh` to ensure that the strings are
-correctly extracted for translation.
+correctly extracted for translation, and run the unit test to fix text styling
+issues reported by the `translation` class.
 
 | Supported JSON values
 |---
@@ -310,7 +330,12 @@ correctly extracted for translation.
 | Recipe group recipe descriptions
 | Item names (plural supported) and descriptions
 | Recipe descriptions
+| Inscribe use action verbs/gerunds
 | Monster names (plural supported) and descriptions
+| Snippets
+| Bodypart names
+| Keybinding action names
+| Field level names
 
 ### Recommendations
 

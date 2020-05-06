@@ -1,7 +1,8 @@
 #pragma once
-#ifndef HARVEST_H
-#define HARVEST_H
+#ifndef CATA_SRC_HARVEST_H
+#define CATA_SRC_HARVEST_H
 
+#include <algorithm>
 #include <list>
 #include <map>
 #include <set>
@@ -9,7 +10,7 @@
 #include <utility>
 #include <vector>
 
-#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 using itype_id = std::string;
@@ -27,7 +28,7 @@ struct harvest_entry {
     std::string type = "null";
     float mass_ratio = 0.00f;
 
-    static harvest_entry load( JsonObject &jo, const std::string &src );
+    static harvest_entry load( const JsonObject &jo, const std::string &src );
 
     std::vector<std::string> flags;
     std::vector<fault_id> faults;
@@ -68,7 +69,7 @@ class harvest_list
         std::list<harvest_entry>::const_reverse_iterator rend() const;
 
         /** Load harvest data, create relevant global entries, then return the id of the new list */
-        static const harvest_id &load( JsonObject &jo, const std::string &src,
+        static const harvest_id &load( const JsonObject &jo, const std::string &src,
                                        const std::string &force_id = "" );
 
         /** Get all currently loaded harvest data */
@@ -86,9 +87,9 @@ class harvest_list
         harvest_id id_;
         std::list<harvest_entry> entries_;
         std::set<std::string> names_;
-        std::string message_;
+        translation message_;
 
         void finalize();
 };
 
-#endif
+#endif // CATA_SRC_HARVEST_H

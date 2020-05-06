@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Draco",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Draco is a middle-aged musician, and generally a pretty nice guy.  He's always been a wanderer and this isn't his first time living basically homeless.",
@@ -128,7 +128,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_1_firstmeet",
-    "dynamic_line": "Nice to meet you too.  What brings you to these parts?  Got any stories to share?  Happy ones, hopefully... we've had our fill of sadness around here.",
+    "dynamic_line": "Nice to meet you too.  What brings you to these parts?  Got any stories to share?  Happy ones, hopefully… we've had our fill of sadness around here.",
     "responses": [
       { "text": "What about you, how're you doing?", "topic": "TALK_REFUGEE_Draco_2" },
       { "text": "Yeah, it's tough everywhere.  Well, bye.", "topic": "TALK_DONE" }
@@ -137,7 +137,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_2",
-    "dynamic_line": "Well, look at you.  Asking after random folks like some sort of shepherd!  No, don't take offense now... I mean it well.  We could use more folks askin' after other folks.  I figure it makes the world go round, now, more than ever.  I'm well, friend, considering I have both of my legs and much of my health left to me.  A bit of pain in the back, but can't really complain much if that's the worst of it, right?  You look like you've had a story of your own to tell, just getting here.  I'm writing it in my imagination right now.  Fought through countless hordes, run ragged, chased at every turn, yeah, no thank-you any more of that for me!",
+    "dynamic_line": "Well, look at you.  Asking after random folks like some sort of shepherd!  No, don't take offense now… I mean it well.  We could use more folks askin' after other folks.  I figure it makes the world go round, now, more than ever.  I'm well, friend, considering I have both of my legs and much of my health left to me.  A bit of pain in the back, but can't really complain much if that's the worst of it, right?  You look like you've had a story of your own to tell, just getting here.  I'm writing it in my imagination right now.  Fought through countless hordes, run ragged, chased at every turn, yeah, no thank-you any more of that for me!",
     "responses": [
       {
         "text": "What about you, what's your story?",
@@ -153,7 +153,7 @@
     "dynamic_line": "Oh you don't have time for all that, do you?  Well, I'll give you the short version.  I've gotten kinda tired of it in the telling.  Frankly, it's not as heroic, not as inspiring, not as tragic, and certainly not as funny as some of the tales around here.  But it's mine, ya know?  I'm a musician.  Guitar's my baby.  You like folk and the blues, friend?  Well, that was my bag and I sure could please my own ear with em, anyway.  Folks who's bein' generous might also say it pleased theirs.  Problem is, I seem to be between guitars right now, you know? Temporarily guitar-light, if you get my saying.  Problem is, in the run for my life, I had to use old Jasmine as a bit of a billy club.  Had to curb some rowdy dudes on my way here.  It was her or me, you understand?  You wouldn't begrudge a man breakin' his instrument to save his life, would ya?",
     "responses": [
       { "text": "I think I would've done the same.  Nobody around here has a guitar?", "topic": "TALK_REFUGEE_Draco_4" },
-      { "text": "Yes, yes I would... you monster.", "topic": "TALK_DONE" }
+      { "text": "Yes, yes I would… you monster.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -257,9 +257,9 @@
       "context": "mission",
       "value": "yes",
       "yes": "My savior!  My patron of the arts!  You're always welcome here, friend.",
-      "no": "Man, just imagine what I could do with a new guitar.",
-      "speaker_effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
+      "no": "Man, just imagine what I could do with a new guitar."
     },
+    "speaker_effect": { "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" } },
     "responses": [
       {
         "text": "Let's talk about getting you that guitar.",
@@ -335,7 +335,7 @@
     "dynamic_line": {
       "npc_has_effect": "u_sold_to_Draco",
       "yes": "Yeah, no worries, though.  I'm good at the moment.  Ask me again later and maybe I'll have scrounged up some more cash for you.",
-      "no": "Amazing!  My lucky day.  Let's see here.  What can I offer... I can scrounge up some Merch bucks for, say, five joints or joints-worth of the good stuff."
+      "no": "Amazing!  My lucky day.  Let's see here.  What can I offer… I can scrounge up some Merch bucks for, say, five joints or joints-worth of the good stuff."
     },
     "responses": [
       {
@@ -432,7 +432,7 @@
   {
     "id": "MISSION_REFUGEE_Draco_GET_GUITAR",
     "type": "mission_definition",
-    "name": "Bring an acoustic guitar",
+    "name": { "str": "Bring an acoustic guitar" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -443,11 +443,11 @@
       "describe": "Yeah, sure, imagine how things would be if we had some live music around here?  I don't know how much I could thank you, though, if you're looking for payment.  You'd sure be improving the mood, though.",
       "offer": "I just want a functional acoustic guitar.  Preferably one that hasn't been used to cave in any zombie skulls.",
       "accepted": "Great!  We'll be makin' music in no time!",
-      "rejected": "Oh well.  I understand your reluctancy... I guess.",
+      "rejected": "Oh well.  I understand your reluctancy… I guess.",
       "advice": "Well, I'll let you in on a little secret.  Guitars COULD be found at a music store.  Let that one sink in a bit.",
       "inquire": "How's my guitar comin', friend?",
       "success": "Hell yeah, bud!  You just made a lot of people really happy!  In thanks, I'll have enough cash to offer you more recompense for our little dealings.",
-      "success_lie": "Huh.  This... is something, isn't it.",
+      "success_lie": "Huh.  This… is something, isn't it.",
       "failure": "No worries.  They don't grow from trees, but we have time."
     }
   }

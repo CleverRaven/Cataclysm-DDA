@@ -1,12 +1,22 @@
-#include "catch/catch.hpp"
+#include <cstddef>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
-#include "enum_conversions.h"
+#include "bodypart.h"
+#include "catch/catch.hpp"
+#include "character_id.h"
+#include "event.h"
 #include "game.h"
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "output.h"
 #include "player_helpers.h"
+#include "pldata.h"
+#include "type_id.h"
+
+class event_bus;
 
 template<event_type Type, typename... Args>
 void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
@@ -42,7 +52,7 @@ TEST_CASE( "memorials" )
 {
     memorial_logger &m = g->memorial();
     m.clear();
-    clear_player();
+    clear_avatar();
 
     event_bus &b = g->events();
 
@@ -92,7 +102,7 @@ TEST_CASE( "memorials" )
         "afterwards.", ch, ch2, "victim_name" );
 
     check_memorial<event_type::character_kills_monster>(
-        m, b, "Killed a kevlar hulk.", ch, mon );
+        m, b, "Killed a Kevlar hulk.", ch, mon );
 
     check_memorial<event_type::character_loses_effect>(
         m, b, "Put out the fire.", ch, eff );
@@ -101,7 +111,7 @@ TEST_CASE( "memorials" )
         m, b, "Fell in a pit.", ch, trap_str_id( "tr_pit" ) );
 
     check_memorial<event_type::consumes_marloss_item>(
-        m, b, "Consumed a marloss seed.", ch, it );
+        m, b, "Consumed a Marloss seed.", ch, it );
 
     check_memorial<event_type::crosses_marloss_threshold>(
         m, b, "Opened the Marloss Gateway.", ch );
@@ -164,7 +174,7 @@ TEST_CASE( "memorials" )
         m, b, "The fuel tank of the vehicle_name exploded!", "vehicle_name" );
 
     check_memorial<event_type::gains_addiction>(
-        m, b, "Became addicted to alcohol.", ch, ADD_ALCOHOL );
+        m, b, "Became addicted to alcohol.", ch, add_type::ALCOHOL );
 
     check_memorial<event_type::gains_mutation>(
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
@@ -184,14 +194,11 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::installs_faulty_cbm>(
         m, b, "Installed bad bionic: Alarm System.", ch, cbm );
 
-    check_memorial<event_type::launches_nuke>(
-        m, b, "Launched a nuke at a garage.", oter_id( "s_garage_north" ) );
-
     check_memorial<event_type::learns_martial_art>(
         m, b, "Learned Aikido.", ch, matype_id( "style_aikido" ) );
 
     check_memorial<event_type::loses_addiction>(
-        m, b, "Overcame addiction to alcohol.", ch, ADD_ALCOHOL );
+        m, b, "Overcame addiction to alcohol.", ch, add_type::ALCOHOL );
 
     check_memorial<event_type::npc_becomes_hostile>(
         m, b, "npc_name became hostile.", ch2, "npc_name" );

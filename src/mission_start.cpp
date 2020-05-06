@@ -1,12 +1,16 @@
 #include "mission.h" // IWYU pragma: associated
 
-#include <vector>
+#include <algorithm>
 #include <memory>
+#include <vector>
 
 #include "avatar.h"
 #include "computer.h"
 #include "debug.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -16,28 +20,21 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
+#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "item.h"
-#include "optional.h"
-#include "rng.h"
 
-const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
-const mtype_id mon_dog( "mon_dog" );
-const mtype_id mon_jabberwock( "mon_jabberwock" );
-const mtype_id mon_zombie( "mon_zombie" );
-const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-const mtype_id mon_zombie_electric( "mon_zombie_electric" );
-const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-const mtype_id mon_zombie_master( "mon_zombie_master" );
-const mtype_id mon_zombie_necro( "mon_zombie_necro" );
+static const mtype_id mon_dog( "mon_dog" );
 
-const efftype_id effect_infection( "infection" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
+static const mtype_id mon_zombie_dog( "mon_zombie_dog" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+static const mtype_id mon_zombie_master( "mon_zombie_master" );
+static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
@@ -53,7 +50,7 @@ void mission_start::place_dog( mission *miss )
     const tripoint house = mission_util::random_house_in_closest_city();
     npc *dev = g->find_npc( miss->npc_id );
     if( dev == nullptr ) {
-        debugmsg( "Couldn't find NPC! %d", miss->npc_id.get_value() );
+        debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
     g->u.i_add( item( "dog_whistle", 0 ) );
@@ -64,7 +61,7 @@ void mission_start::place_dog( mission *miss )
 
     tinymap doghouse;
     doghouse.load( tripoint( house.x * 2, house.y * 2, house.z ), false );
-    doghouse.add_spawn( mon_dog, 1, point( SEEX, SEEY ), true, -1, miss->uid );
+    doghouse.add_spawn( mon_dog, 1, { SEEX, SEEY, house.z }, true, -1, miss->uid );
     doghouse.save();
 }
 
@@ -77,7 +74,7 @@ void mission_start::place_zombie_mom( mission *miss )
 
     tinymap zomhouse;
     zomhouse.load( tripoint( house.x * 2, house.y * 2, house.z ), false );
-    zomhouse.add_spawn( mon_zombie, 1, point( SEEX, SEEY ), false, -1, miss->uid,
+    zomhouse.add_spawn( mon_zombie, 1, { SEEX, SEEY, house.z }, false, -1, miss->uid,
                         Name::get( nameIsFemaleName | nameIsGivenName ) );
     zomhouse.save();
 }
@@ -107,21 +104,21 @@ void mission_start::kill_horde_master( mission *miss )
     overmap_buffer.reveal( site, 6 );
     tinymap tile;
     tile.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    tile.add_spawn( mon_zombie_master, 1, point( SEEX, SEEY ), false, -1, miss->uid,
+    tile.add_spawn( mon_zombie_master, 1, { SEEX, SEEY, site.z }, false, -1, miss->uid,
                     _( "Demonic Soul" ) );
-    tile.add_spawn( mon_zombie_brute, 3, point( SEEX, SEEY ) );
-    tile.add_spawn( mon_zombie_dog, 3, point( SEEX, SEEY ) );
+    tile.add_spawn( mon_zombie_brute, 3, { SEEX, SEEY, site.z } );
+    tile.add_spawn( mon_zombie_dog, 3, { SEEX, SEEY, site.z } );
 
     if( overmap::inbounds( tripoint( SEEX, SEEY, 0 ), 1 ) ) {
         for( int x = SEEX - 1; x <= SEEX + 1; x++ ) {
             for( int y = SEEY - 1; y <= SEEY + 1; y++ ) {
-                tile.add_spawn( mon_zombie, rng( 3, 10 ), point( x, y ) );
+                tile.add_spawn( mon_zombie, rng( 3, 10 ), { x, y, site.z } );
             }
-            tile.add_spawn( mon_zombie_dog, rng( 0, 2 ), point( SEEX, SEEY ) );
+            tile.add_spawn( mon_zombie_dog, rng( 0, 2 ), { SEEX, SEEY, site.z } );
         }
     }
-    tile.add_spawn( mon_zombie_necro, 2, point( SEEX, SEEY ) );
-    tile.add_spawn( mon_zombie_hulk, 1, point( SEEX, SEEY ) );
+    tile.add_spawn( mon_zombie_necro, 2, { SEEX, SEEY, site.z } );
+    tile.add_spawn( mon_zombie_hulk, 1, { SEEX, SEEY, site.z } );
     tile.save();
 }
 
@@ -159,10 +156,10 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
                 }
             }
             if( wall == 5 ) {
-                if( compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), NORTH ) &&
-                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), SOUTH ) &&
-                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), WEST ) &&
-                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), EAST ) ) {
+                if( compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::NORTH ) &&
+                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::SOUTH ) &&
+                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::WEST ) &&
+                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::EAST ) ) {
                     potential.emplace_back( p );
                 }
             }
@@ -188,7 +185,7 @@ void mission_start::place_npc_software( mission *miss )
 {
     npc *dev = g->find_npc( miss->npc_id );
     if( dev == nullptr ) {
-        debugmsg( "Couldn't find NPC! %d", miss->npc_id.get_value() );
+        debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
     g->u.i_add( item( "usb_drive", 0 ) );
@@ -230,7 +227,7 @@ void mission_start::place_npc_software( mission *miss )
     compmap.ter_set( comppoint, t_console );
     computer *tmpcomp = compmap.add_computer( comppoint, string_format( _( "%s's Terminal" ),
                         dev->name ), 0 );
-    tmpcomp->mission_id = miss->uid;
+    tmpcomp->set_mission( miss->get_id() );
     tmpcomp->add_option( _( "Download Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
     compmap.save();
 }
@@ -606,7 +603,7 @@ void mission_start::reveal_refugee_center( mission *miss )
     const cata::optional<tripoint> target_pos = mission_util::assign_mission_target( t );
 
     if( !target_pos ) {
-        add_msg( _( "You don't know where the address could be..." ) );
+        add_msg( _( "You don't know where the address could be…" ) );
         return;
     }
 
@@ -615,9 +612,9 @@ void mission_start::reveal_refugee_center( mission *miss )
     const tripoint dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
-        add_msg( _( "You mark the refugee center and the road that leads to it..." ) );
+        add_msg( _( "You mark the refugee center and the road that leads to it…" ) );
     } else {
-        add_msg( _( "You mark the refugee center, but you have no idea how to get there by road..." ) );
+        add_msg( _( "You mark the refugee center, but you have no idea how to get there by road…" ) );
     }
 }
 
@@ -636,7 +633,7 @@ void static create_lab_consoles( mission *miss, const tripoint &place, const std
         tripoint comppoint = find_potential_computer_point( compmap );
 
         computer *tmpcomp = compmap.add_computer( comppoint, _( comp_name ), security );
-        tmpcomp->mission_id = miss->get_id();
+        tmpcomp->set_mission( miss->get_id() );
         tmpcomp->add_option( _( download_name ), COMPACT_DOWNLOAD_SOFTWARE, security );
         tmpcomp->add_failure( COMPFAIL_ALARM );
         tmpcomp->add_failure( COMPFAIL_DAMAGE );
@@ -717,7 +714,7 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     }
 
     computer *tmpcomp = compmap.computer_at( *comppoint );
-    tmpcomp->mission_id = miss->uid;
+    tmpcomp->set_mission( miss->get_id() );
     tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
 
     compmap.save();

@@ -1,0 +1,151 @@
+[
+  {
+    "result": "pistol_tiny_zip",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "type": "recipe",
+    "skill_used": "mechanics",
+    "difficulty": 2,
+    "time": "12 m",
+    "reversible": true,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "tiny_pistol_ball", -1 ],
+        [ "tiny_pistol_jhp", -1 ],
+        [ "bp_tiny_pistol_ball", -1 ],
+        [ "bp_tiny_pistol_jhp", -1 ],
+        [ "reloaded_tiny_pistol_ball", -1 ],
+        [ "reloaded_tiny_pistol_jhp", -1 ],
+        [ "pistol_tiny_casing", -1 ]
+      ]
+    ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "result": "pistol_magnum_pipe",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "14 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [
+      [
+        [ "pistol_ball", -1 ],
+        [ "pistol_jhp", -1 ],
+        [ "reloaded_pistol_ball", -1 ],
+        [ "reloaded_pistol_jhp", -1 ],
+        [ "bp_pistol_ball", -1 ],
+        [ "bp_pistol_jhp", -1 ],
+        [ "pistol_magnum_ball", -1 ],
+        [ "pistol_magnum_jhp", -1 ],
+        [ "reloaded_pistol_magnum_ball", -1 ],
+        [ "reloaded_pistol_magnum_jhp", -1 ],
+        [ "bp_pistol_magnum_ball", -1 ],
+        [ "bp_pistol_magnum_jhp", -1 ],
+        [ "pistol_casing", -1 ],
+        [ "pistol_magnum_casing", -1 ]
+      ]
+    ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "steel_chunk", 1 ] ], [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "result": "rifle_pipe_rifle",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "rifle_ball", -1 ],
+        [ "rifle_AP", -1 ],
+        [ "bp_rifle_ball", -1 ],
+        [ "bp_rifle_AP", -1 ],
+        [ "reloaded_rifle_ball", -1 ],
+        [ "reloaded_rifle_AP", -1 ],
+        [ "rifle_casing", -1 ]
+      ]
+    ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "shot_pipe_double",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "18 m",
+    "reversible": true,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "shot_buck", -1 ],
+        [ "shot_bean", -1 ],
+        [ "shot_fowl", -1 ],
+        [ "shot_foster", -1 ],
+        [ "shot_pyro", -1 ],
+        [ "bp_shot_junk", -1 ],
+        [ "bp_shot_buck", -1 ],
+        [ "bp_shot_fowl", -1 ],
+        [ "bp_shot_foster", -1 ],
+        [ "bp_shot_pyro", -1 ],
+        [ "bp_shot_dart", -1 ],
+        [ "reloaded_shot_junk", -1 ],
+        [ "reloaded_shot_buck", -1 ],
+        [ "reloaded_shot_fowl", -1 ],
+        [ "reloaded_shot_foster", -1 ],
+        [ "reloaded_shot_pyro", -1 ],
+        [ "reloaded_shot_dart", -1 ],
+        [ "shot_casing", -1 ]
+      ]
+    ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "scrap", 3 ] ], [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "result": "black_powder_pistol",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "difficulty": 4,
+    "skill_used": "fabrication",
+    "skills_required": [ "pistol", 4 ],
+    "time": "80 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_pistol", 5 ], [ "mag_pistol", 6 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 3 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
+  },
+  {
+    "result": "black_powder_rifle",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "difficulty": 5,
+    "skill_used": "fabrication",
+    "skills_required": [ "rifle", 3 ],
+    "time": "100 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_standard", 1 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
+  }
+]

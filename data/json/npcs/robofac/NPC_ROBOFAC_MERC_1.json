@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_ROBOFAC_MERC_1",
-    "name": "Hub Mercenary",
+    "name": { "str": "Hub Mercenary" },
     "job_description": "Fighting for the all-mighty dollar.",
     "common": false,
     "traits": [ { "trait": "TOUGH" }, { "trait": "QUICK" }, { "group": "Appearance_demographics" } ],
@@ -37,7 +37,7 @@
     "id": "NC_ROBOFAC_MERC_1_worn",
     "subtype": "collection",
     "items": [
-      { "item": "modularvestkevlar", "contents-group": "army_mags_m4" },
+      { "item": "ballistic_vest_esapi" },
       { "item": "chestrig", "contents-group": "army_mags_m4" },
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
@@ -55,7 +55,7 @@
     "items": [
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
       { "item": "stanag30", "ammo-item": "556", "charges": 30 },
-      { "item": "EMPbomb" },
+      { "item": "grenade_emp" },
       { "item": "bot_grenade_hack", "count": 2 }
     ]
   },
@@ -70,7 +70,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1",
     "type": "talk_topic",
-    "dynamic_line": [ "Something to say?", "I charge hourly, so be quick...", "Hey.", "...", "Yes?", "What's up?", "Good to see you." ],
+    "dynamic_line": [ "Something to say?", "I charge hourly, so be quick…", "Hey.", "…", "Yes?", "What's up?", "Good to see you." ],
     "responses": [
       {
         "text": "Who are you?",
@@ -121,9 +121,9 @@
       "Well?",
       "Good to have some company, I guess.",
       "Have something to say?",
-      "...",
+      "…",
       "Didn't you want something?",
-      "..."
+      "…"
     ],
     "responses": [
       { "text": "Anything interesting going on?", "topic": "TALK_ROBOFAC_MERC_1_GOING_ON" },
@@ -156,14 +156,14 @@
     "id": "TALK_ROBOFAC_MERC_1_GOING_ON",
     "type": "talk_topic",
     "dynamic_line": [ "Just came back from a job.  Trying to rest for a short while." ],
-    "responses": [ { "text": "...", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+    "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_1_COINS",
     "type": "talk_topic",
     "dynamic_line": "Have you noticed they pay us in tiny little gold coins, it's bizarre I say.  One would think they have a gold mine in there, but no, they don't, so they make me cross the damned world grabbing gold bars. ",
     "responses": [
-      { "text": "I guess I could help with that...", "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION" },
+      { "text": "I guess I could help with that…", "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION" },
       { "text": "Now that you mention it, it does seem rather strange.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
     ]
   },
@@ -174,11 +174,11 @@
       "Thinking I should go hunt something soon...",
       "Wondering if things will get better someday...",
       "Hmm? Nothing, I guess I just like resting in this place.",
-      "Have you ever noticed how... wait no, never mind.",
+      "Have you ever noticed how… wait no, never mind.",
       "I heard some strange dimensional resonance caused all this, do you think it has happened to other places?",
       "You noticed this place has working WI-FI?  Well not the rest of the net works anyways."
     ],
-    "responses": [ { "text": "...", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+    "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_1_GOLD_MISSION",
@@ -192,7 +192,7 @@
   {
     "id": "MISSION_ROBOFAC_MERC_1_GOLD",
     "type": "mission_definition",
-    "name": "Retrieve chunks of gold",
+    "name": { "str": "Retrieve chunks of gold" },
     "description": "Find 200 units of gold.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
@@ -203,7 +203,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "describe": "I could do with some help...",
+      "describe": "I could do with some help…",
       "offer": "I'm still supposed to scavenge for gold, I can offer you the same deal as last time.",
       "accepted": "Wonderful.",
       "rejected": "Well I'll look for the gold myself.",

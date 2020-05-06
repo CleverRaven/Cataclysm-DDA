@@ -1,0 +1,74 @@
+[
+  {
+    "result": "40x53mm_buckshot_m169",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "launcher", 2 ],
+    "time": "10 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "shot_forming", 2 ], [ "ammo_bullet", 16 ] ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal_small", 1 ] ],
+      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "gunpowder_shotgun", 35 ] ],
+      [ [ "40x53mm_m169_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ]
+    ]
+  },
+  {
+    "result": "40x53mm_slug_m169",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "launcher", 2 ],
+    "time": "10 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 16 ] ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal_small", 1 ] ],
+      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "gunpowder_shotgun", 35 ] ],
+      [ [ "40x53mm_m169_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ]
+    ]
+  },
+  {
+    "result": "40x53mm_flechette_m169",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "launcher", 2 ],
+    "time": "10 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
+    "charges": 1,
+    "reversible": true,
+    "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal_small", 1 ] ],
+      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "combatnail", 100 ] ],
+      [ [ "gunpowder_shotgun", 35 ] ],
+      [ [ "40x53mm_m169_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ]
+    ]
+  }
+]

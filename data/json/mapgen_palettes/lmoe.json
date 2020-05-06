@@ -81,7 +81,7 @@
       "w": { "item": "allclothes", "chance": 80, "repeat": [ 2, 4 ] },
       "Y": [ { "item": "jackets", "chance": 15 }, { "item": "hatstore_hats", "chance": 15 }, { "item": "winter", "chance": 10 } ],
       "^": { "item": "shelter", "chance": 30 },
-      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo", "y": 3, "chance": 5, "repeat": [ 3, 7 ] } ],
+      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo", "chance": 5, "repeat": [ 3, 7 ] } ],
       "}": { "item": "novels", "chance": 90, "repeat": [ 3, 8 ] }
     }
   },
@@ -89,31 +89,17 @@
     "type": "palette",
     "id": "bunker_ext",
     "terrain": {
-      " ": [ [ "t_grass", 10 ], [ "t_grass_long", 2 ], [ "t_shrub", 1 ], [ "t_dirt", 5 ] ],
-      "_": "t_dirt",
+      " ": [ [ "t_region_groundcover", 60 ], [ "t_region_shrub", 2 ], "t_region_tree" ],
+      "_": [ "t_region_groundcover", [ "t_region_groundcover_barren", 9 ] ],
       "#": "t_rock",
-      "$": [
-        "t_tree",
-        "t_tree_apple",
-        "t_tree_peach",
-        "t_tree_pear",
-        "t_tree_hickory",
-        "t_tree_beech",
-        "t_tree_coffee",
-        [ "t_tree_young", 14 ],
-        [ "t_shrub", 20 ]
-      ],
+      "$": [ "t_region_tree_fruit", "t_region_tree_nut", "t_region_shrub_fruit", "t_region_shrub" ],
       "S": [
-        [ "t_grass", 15 ],
-        [ "t_tree_young", 2 ],
-        [ "t_shrub", 2 ],
-        "t_tree",
-        "t_tree_apple",
-        "t_tree_peach",
-        "t_tree_pear",
-        "t_tree_hickory",
-        "t_tree_beech",
-        "t_tree_coffee"
+        [ "t_region_groundcover", 5 ],
+        "t_region_tree_fruit",
+        "t_region_tree_nut",
+        "t_region_tree",
+        "t_region_shrub_fruit",
+        "t_region_shrub"
       ],
       "v": "t_open_air",
       "+": "t_door_metal_c",
@@ -121,7 +107,7 @@
       ">": "t_stairs_down",
       ")": "t_slope_up",
       "(": "t_slope_down",
-      "T": [ "t_tree", "t_tree_apple", "t_tree_peach", "t_tree_pear", "t_tree_hickory", "t_tree_beech", "t_tree_coffee" ]
+      "T": [ "t_region_tree_fruit", "t_region_tree_nut" ]
     },
     "items": { " ": [ { "item": "forest", "chance": 1 }, { "item": "field", "chance": 2 } ] }
   }

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "bandit_tower_2blc",
-    "comment": "bottom left corner, second story and even levels",
+    "//": "bottom left corner, second story and even levels",
     "weight": 150,
     "method": "json",
     "object": {

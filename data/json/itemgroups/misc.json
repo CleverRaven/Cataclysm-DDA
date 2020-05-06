@@ -4,7 +4,7 @@
     "type": "item_group",
     "subtype": "collection",
     "//": "Smokable item and something to light it with",
-    "items": [
+    "entries": [
       {
         "distribution": [
           { "item": "cig", "prob": 70, "charges": [ 1, 10 ] },
@@ -51,6 +51,7 @@
       [ "glass_plate", 20 ],
       [ "glass_bowl", 20 ],
       [ "ceramic_plate", 10 ],
+      [ "wine_glass", 10 ],
       [ "ceramic_bowl", 10 ],
       [ "ceramic_cup", 10 ]
     ]
@@ -143,9 +144,51 @@
     ]
   },
   {
+    "id": "premium_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Items generated from a premium survival kit",
+    "items": [
+      { "item": "knife_folding" },
+      { "item": "flint_steel" },
+      { "item": "whistle_multitool" },
+      { "item": "bottle_folding" },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "picklocks" },
+      { "item": "lifestraw" },
+      { "item": "pocket_survival" },
+      { "item": "solarpack" },
+      { "item": "handflare", "count": 4 }
+    ]
+  },
+  {
     "id": "horse_gear",
     "type": "item_group",
     "//": "Horse vehicle items",
-    "items": [ [ "riding_saddle", 50 ], [ "yoke_harness", 50 ] ]
+    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "maps",
+    "items": [ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tobacco_products",
+    "items": [
+      [ "cig", 60 ],
+      [ "tobacco", 20 ],
+      [ "chaw", 20 ],
+      [ "cigar", 10 ],
+      [ "ecig", 10 ],
+      [ "advanced_ecig", 8 ],
+      [ "nicotine_liquid", 15 ],
+      [ "pipe_tobacco", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spiral",
+    "items": [ [ "spiral_stone", 20 ], [ "vortex_stone", 2 ] ]
   }
 ]

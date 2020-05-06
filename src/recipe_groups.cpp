@@ -1,15 +1,16 @@
 #include "recipe_groups.h"
 
-#include <string>
-#include <vector>
 #include <set>
+#include <string>
 #include <utility>
+#include <vector>
 
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "debug.h"
 #include "overmap.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 // recipe_groups namespace
@@ -26,32 +27,27 @@ struct recipe_group_data {
     std::string building_type = "NONE";
     std::map<recipe_id, translation> recipes;
     std::map<recipe_id, std::set<std::string>> om_terrains;
-    bool was_loaded;
+    bool was_loaded = false;
 
-    void load( JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string &src );
     void check() const;
 };
 
-generic_factory<recipe_group_data> recipe_groups_data( "recipe group type", "name",
-        "other_handles" );
+generic_factory<recipe_group_data> recipe_groups_data( "recipe group type" );
 
 } // namespace
 
-void recipe_group_data::load( JsonObject &jo, const std::string & )
+void recipe_group_data::load( const JsonObject &jo, const std::string & )
 {
     building_type = jo.get_string( "building_type" );
-    JsonArray jsarr = jo.get_array( "recipes" );
-    while( jsarr.has_more() ) {
-        JsonObject ordering = jsarr.next_object();
+    for( JsonObject ordering : jo.get_array( "recipes" ) ) {
         recipe_id name_id;
         ordering.read( "id", name_id );
         translation desc;
         ordering.read( "description", desc );
         recipes.emplace( name_id, desc );
         om_terrains[name_id] = std::set<std::string>();
-        JsonArray js_terr = ordering.get_array( "om_terrains" );
-        while( js_terr.has_more() ) {
-            const std::string ter_type = js_terr.next_string();
+        for( const std::string ter_type : ordering.get_array( "om_terrains" ) ) {
             om_terrains[name_id].insert( ter_type );
         }
     }
@@ -61,7 +57,7 @@ void recipe_group_data::check() const
 {
     for( const auto &a : recipes ) {
         if( !a.first.is_valid() ) {
-            debugmsg( "%s is not a valid recipe", a.second );
+            debugmsg( "%s is not a valid recipe", a.first.c_str() );
         }
     }
 }
@@ -110,7 +106,7 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
     return group.recipes;
 }
 
-void recipe_group::load( JsonObject &jo, const std::string &src )
+void recipe_group::load( const JsonObject &jo, const std::string &src )
 {
     recipe_groups_data.load( jo, src );
 }

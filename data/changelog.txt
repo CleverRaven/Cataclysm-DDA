@@ -1,24 +1,79 @@
-# 0.E (2019-08-31)
+# 0.E (Ellison)
+
+## Highlights:
+Long distance automove feature for walking, driving and boating.
+Extensive bugfixes to inter-level interactivity, on by default.
+Riding animals and animal-pulled vehicles.
+More flexible Basecamp construction options.
+Default starting date changed to mid-spring for better survivability.
+Time advancement is rationalized, a turn is now one second.
+Extensive river and lake systems, and boat support for navigating them.
+Expanded NPC usefulness and interactivity.
+Massive increases in location variety and consistency, especially rooftops.
+Expansion of mi-go faction with new enemies and locations.
+Batteries now store charge instead of being pseudo-items.
+Overhaul and rebalance of martial arts.
+Zombie grabbing and biting more manageable and predictable.
+Overhauled stamina and damage recovery for grittier gameplay.
+Crouching movement mode allows hiding.
+Magiclysm and Aftershock mods have first class support within the game.
+
+## Statistics:
+4429 files changed, 4175739 insertions(+), 2881113 deletions(-)
+13,507 commits
+~400 contributors
+
+New game entities (core): 12,290
+MAPGEN: 7350
+3535 overmap terrains, 2300 mapgen entries, 515 item groups, 294 city buildings, 161 terrains,
+137 mapgen palettes, 133 furnitures, 58 field types, 56 monster groups, 48 overmap specials,
+41 map extras, 29 field emmisions, 16 overmap locations, 13 vehicle groups, 9 traps
+CRAFTING: 1896
+1368 recipes, 305 uncraft recipes, 103 constructions, 99 requirements, 10 tool qualities
+ITEMS: 1402
+393 articles of clothing, 178 ammunitions, 130 tools, 92 magazines, 86 guns, 78 comestibles,
+38 books, 34 gunmods, 16 pet armors, 15 containers
+NPC DATA: 702
+438 talk topics, 127 speech entries, 46 missions, 36 NPC definitions, 35 NPC classes, 9 factions
+MONSTERS: 96 monsters, 5 monster factions
+PLAYER TRAITS: 393
+98 mutations, 64 techniques, 45 spells, 44 effects, 28 activities, 19 professions,
+19 start locations, 12 morale types, 8 bionics, 4 martial arts, 3 scent types, 3 mutations
+ITEM TRAITS: 122
+31 ammo effects, 25 ammunition types, 20 materials, 19 item actions, 14 harvest entries, 6 faults
+VEHICLES: 59 vehicle parts, 24 vehicles
+MISC:
+93 migrations, 44 json flags, 31 loot zones
+
+New mod entities
+MAPGEN: 5778
+5459 overmap terrains, 133 item groups, 71 terrains, 25 monster groups, 19 furnitures,
+19 vehicle groups, 16 overmap specials, 13 city buildings, 9 gates, 3 field types,
+3 overmap locations, 3 mapgen palettes, 3 traps, 2 field emmisions
+CRAFTING: 540
+491 recipes, 22 uncraft recipes, 15 constructions, 12 requirements
+ITEMS: 703
+327 generic, 147 armors, 90 tools, 48 comestibles, 28 ammo,
+24 magazines, 19 books, 14 gunmods, 6 guns
+NPC DATA: 42 speech, 19 talk topics, 12 npc classes, 11 npcs, 8 missions, 5 factions
+MONSTERS: 101 monsters, 13 monster factions, 9 species, 2 monster attacks
+PLAYER TRAITS: 395
+144 spells, 71 mutations, 47 professions, 34 techniques, 27 martial arts, 24 bionics, 24 effects,
+9 start locations, 8 dreams, 3 mutation categories, 3 mutation types, 1 skill
+ITEM TRAITS: 34 harvest entries, 10 ammo types, 7 materials, 5 tool qualities
+VEHICLES: 45 vehicle parts, 13 vehicles
+MISC: 140 migrations, 11 snippets
 
 ## Features:
-Correctly set liquids as solid when they freeze.
-Adds ability to flag gunmods as 'CONSUMABLE'.
-Adds new flag: NO_SIGHT.
-Adds USABLE_FIRE tag for terrain or furniture to make it usable as a nearby fire for crafting.
-Allow partial consumption of large item stacks with Internal Furnace CBM.
-Let ursine mutants gain PRED mutations without becoming carnivores.
+Allow terrain and furniture to be used as a nearby fire for crafting.
 Adds ranged attacks mutations (using fake guns).
 Added ability to write messages on signs with markers too.
 Allow starting at a non-default date without advancing rot and monster scaling.
 NPCs will move to investigate sounds.
-Update digging to leave excavated materials adjacent to dig location.
 Faction camp: menial labor uses the zone autosort feature.
-Wind will now affect the spread of smoke/gas/fire/hot air.
-Auto-use oxygen tanks in asthma attack.
-Reload all guns and magazines in inventory if reload command is repeatedly triggered.
+Wind will now affect the spread of smoke/gas/fire/hot air and move wind powered vehicles.
 Npcmove: improve NPC pathfinding when running from fire or threats.
 Add support for NPCs fleeing and following a player who is fleeing.
-Allow to set NPC's attitude via debug menu.
 Monsters: allow pets to wear armor.
 Bulletin board to control faction camps, camp overseer resigns.
 Guarding NPCs are now available for camp missions and doctoring.
@@ -27,12 +82,10 @@ Follower / Faction camp summary menu and migrate to overmap.
 Selfie description includes one of the items nearby.
 NPCs can assist with player activities.
 Land Use Codes infrastructure.
-Added Debug wind menu, refactored wind functions.
 Differentiate river from puddles, add water wheels.
 Ability to view weather around player position.
 NPC followers on guard and in vicinity can read with/assist with crafting.
 Make skill gain during crafting incremental throughout the activity.
-Wind mills and water mills to process grain into flour.
 Add NPC retreat, no investigate, and investigate limit zones.
 Draw highlights in tiles (e.g. when examining).
 Allow specifying starting missions in scenarios.
@@ -51,17 +104,14 @@ Add the ability to turn prototype cyborg into NPC via Autodoc surgery.
 Npcs: improve NPC bandaging.
 Any NPC at camp can start missions etc, even by radio contact.
 NPC shouts: add danger zone override shout.
-Adds a fully functional item favoriting system.
+Adds an item favoriting system.
 Hunger becomes based on stomach volume instead of kCal.
 Represent in progress crafts as an item.
-Scuba tanks for diving underwater.
 Adds ability to exhume graves, adds graves, adds body bag.
-Adds wind-powered sailboats.
 Allow monsters to shove vehicles on their way to player.
 Added nickname to random name generator.
 Radio contact with followers, NPC overmap movement.
 Use fuel from firewood source when starting fires.
-The Integrated Toolset now includes an auxiliary Extended Toolset bionic.
 Eyebots speak to suspects, doing police activity.
 NPCs: Allow NPCs to use holsters.
 Npctalk: add JSON support for bulk trade/donate.
@@ -76,11 +126,12 @@ Basecamps: Use normal recipes and fake resources.
 Allow professions to have starting pets.
 Make crafting failure non-absolute.
 Player now burns calories when doing activities.
-Model NPC needs as a behavior tree based on Maslow's heirarchy of needs.
+Model NPC needs as a behavior tree based on Maslow's hierarchy of needs.
 Boats push creatures in water out of the way.
 CBMs for NPCs 2: Active CBMs with AI control.
 Allows trains to move and turn on railroad tiles.
 Raytrace sunlight.
+Power gen bionic can emit heat, fields and warm part they occupy.
 NPCs: support faction tagged zones.
 Size mutations affect player size.
 Add game information report and SDL screenshot.
@@ -92,7 +143,6 @@ Player overmap auto-travel.
 Allow rotation of most overmap specials and terrains.
 More features in photos. Allows centered on any tile, captures all creatures.
 Blueprint zones for freeform construction planning.
-Jsonize species footsteps sound.
 Npctrade: trade multiple items at once.
 Implement blackpowder fouling mechanics.
 Allow items to use multiple ammotypes.
@@ -101,62 +151,95 @@ NPC will say what their current activity is + some infrastructure.
 Added ability to splint broken limbs to autodoc.
 Factions: start to implement useful faction relationship API.
 Riding animals and animal-pulled vehicles.
-Allow quenching fires with any bashing item instead of wielded.
-Add new mission type MGOAL_TALK_TO_NPC.
-Way to manually put out controlled fire in a fireplace.
-Adds skeletal shocker zombies.
-Add furniture that can emit fields.
-Give dynamic NPCs proper overmap pathing/travel.
+Faction ownership of vehicles.
+Allow any rope-type item to tie animals up.
 Gutter downspouts to act as funnels.
-Faction ownership vehicles.
-Implements baffle strikes on suppressors.
-Use zone for designating a firewood source.
-Add new mission/talk effect u_learn_recipe.
-NPC activity rework - farming and generic multi-activity loop.
-Add u_buy_monster talk effect.
+Give dynamic NPCs proper overmap pathing/travel.
+Add furniture that can emit fields.
+Way to manually put out controlled fire in a fireplace.
+Adds vehicle part cargo weight percentage modifier.
+Allow quenching fires with any bashing item instead of wielded.
+Dogs only bark when they see danger.
 Pilotable combat and utility mech-suits.
+Custom Filter loot zone.
+Make secubots/turrets drop ammo and a salvageable robot carcass.
+Allow different tiles for mounted creatures.
+Dialogue writers can now directly add missions from JSON.
+Add new mapgen piece jmapgen_ter_furn_transform.
+Allow player to pick up and handle frozen liquids.
+Don't prompt for a direction for an action if there is only one direction possible.
+Show needs in the comestible inventory windows.
+Add u_buy_monster talk effect.
+NPC activity rework - farming and generic multi-activity loop.
+Add new mission/talk effect u_learn_recipe.
+Use zone for designating a firewood source.
+Add peeking through vehicle curtains.
+NPC Fishing, Chopping logs and trees, and NPC butchery.
+Charge bionics from UPS via Cable Charger System CBM.
+Vehicle deconstruct zone for NPCs to work on.
+Allow animal-drawn vehicles to follow a walking player.
+NPCs: Improve the tactical AI and NPC QoL.
+Implements Damage Immunity Flags and Effects.
+Add known factions to faction menu.
+DROPS_AMMO monsters will drop their remaining ammo in magazines.
+Create dynamic micro-factions for dynamic NPCs.
+NPCs: friendly NPCs consume from nearby camp stores.
+Adds a NON_THRESHOLD flag to mutations so they don't count toward thresholds.
+Adds RANDOM_ spell flags for duration, damage, and aoe.
+Basecamps: Basecamps anywhere.
+Allow NPC to read books and learn on their own, and repair vehicles.
+Allow player to use more multi-zone activities - chopping, deconstructing etc.
+Adds REGEN_MANA and MAX_MANA to available enchantment values.
+Allow martial arts techniques to target humanoids.
+Add querry to stop trying to fall of sleep after 30min of trying.
+Sleeping in a vehicle has the same features as sleeping on furnitures.
+Basecamps: add an emergency recall option.
+Allow shooting out lights in the lab.
+Add auto start and safe fuel modes to power gen bionics.
+Create template from already existing character.
+Allow extend to work for mutation_branch::category.
+Basecamp storage zone : to populate camp inventory.
+Added an ability to geiger-scan NPCs.
+Dynamic NPC spawn anywhere on overmap - not just near player.
+Spawn some chemicals with random charges.
+Added auto-picklock on examine.
+Vehicles: allow multiple vehicles on a bike rack.
+Vehicle autopilot part for patrolling / auto-farming etc.
+Allow auto targeting mode for turrets only with installed turret control unit.
+Running/crouching while swimming will result in faster/slower swim speed.
+Make vehicles deal damage to items based on their mass and wheel area.
+Turrets return fire at unseen ranged attackers.
+Creatures can ride along elevators with you.
+Changes mechanics of MUSHY flag from from causing insta-rot on next thaw to making rot progress faster.
+Abandon camp NPC talk and bulletin board mission.
+Scale learning speed based on INT stat.
+Added ups_charges_modifier handling for gunmods.
+Adds random town name string.
 
 ## Content:
-Adds refluffed and modified plasma gun.
-Moves allergen handling vitamin absorption to JSON.
 Alternative night vision intensity.
-Adds the possiblitiy to find an evil moose in the kitten finding game.
+Adds the possibility to find an evil moose in the kitten finding game.
 Add "classic literature" and "collector's edition" books.
 Adds Free Merchant currency.
 Joint Servo CBM - movement enhancer CBM.
 Added new z levels to apartments.
 Adds basement with a hidden methlab.
-Add missing items to some professions.
 Massive roof addition project.
-Makes 4" Casters craftable.
 Adds new item groups for labs (especially surface labs) and a lot of equipment and chemical reagents for them.
-Adds a children's tricycle with appropriate wheels and spawn locations.
-Add sheet metal forging and welding recipes
-Replace copper cable recipe with a more sensible one
-Mainline many items from More Survival Tools mod.
-Mainline many items from Medieval Stuff mod.
+Add sheet metal forging and welding recipes.
 Adds facial hair that can be chosen at chargen.
-Make the craftable wooden table placeable.
 Deprecate fictional martial arts.
-Split "accessory" gunmod slot into separate slots
 Adds a new large facility to be the surface entrance for secret Labs.
-Adds a new two-tile motel.
-Add almond milk, soy milk, and a method to produce almond milk using shelled almonds and water.
 Added a bandits' forest roadblock made of tree trunks.
 Adds 'headless' zombie + upgrades.
 Adds new evolutionary lines for zombie soldiers.
 Adds new furnitures, nested mapgen, palettes, and more content to abandoned barns.
 Made many multitile-buildings exclusively spawn inside cities.
-Allows the spawning of certain multitile buildings inside cities as well as outside.
-Jsonified outpost and added two new variants of outpost.
-Add 3 new buildings for cities.  Metalworkshop, Pottery/Sewing Shop and Glassworkshop.
 Adds some less dangerous but still thematic zombies for labs.
 Adds food irradiator computer console and location.
-Improved punctuation in NPC dialogue.
 Add new negative trait: Nomad.
 Killer Drive starting trait, Death Row Convict profession.
 Adds new monster - Thorny Shamblers.
-Add Plant trait that lets you commune with trees.
 Add workbench functionality.
 Adds new zombie - Gasoline Zombie.
 Add `skeletal brute` zombies.
@@ -172,15 +255,12 @@ Adds begging and begins adding a storyline to refugee center beggars.
 Extended descriptions for terrain and furniture.
 Make robots salvageable.
 Basic Marloss Evangelist faction.
-Minefields are more dangerous and interesting.
 Adds the Robofac.
 Lakes and lots of lake content.
 Adds new large gas turbine engines for military vehicles.
 Construct a grave and bury your fallen companions or pets.
 Updated kitchen unit requirements
 Radio station broadcast audio archives.
-Adds Draco Dune surface refugee.
-Random casings all over the world.
 Dogs are noisy and bark a lot.
 Adds new regional dump variation for an NPC faction.
 Fix martial arts buff duration and intensity stacking
@@ -193,40 +273,62 @@ Bathtubs can be used like kegs or water heaters to store liquids.
 Added a metal motor boat with a single gasoline engine.
 Minefields will spawn only at the entry of the bridges.
 Adds in many missing descriptions for furniture and terrain.
+Adds skeletal shocker zombies.
+Prevent martial arts message when not using martial arts.
 Add deployable workspaces, and UI support for them.
-Added several new types of portal environment.
-Adds refluffed and modified plasma gun.
-Change scenarios to be less restrictive and more generic.
-Creates some monsters to inhabit mi-go encampments, adds prisoner NPCs, and adds mi-go camps to map spawns.
-Adds polearm martial arts and one new weapon.
-Adds new basic alien terrain types and a basic mi-go encampment map, does not yet spawn in-game.
-Giant insects spawned from artifacts are now pets. Added CANPLAY flag to JSON to support it.
-Added new "looters" map extra.
-Ensure proper road connections, add subway connector level.
-Add noise vehicle parts deconstruct (muffler, chimes, stereo, beeper).
-Add sixty science fiction book snippets.
-Add mi-go scout tower.
+Added crashed airliner location.
 Adds steel mill location to the game.
-Adds new foes to the collapsed tower.
-Adds new absurdist texts.
-Jsonify sewage treatment plant.
-Adds speedloaders for shotguns.
+Add mi-go scout tower and encampment with new mi-go variants and custom alien terrain.
+Ensure proper road connections, add subway connector level.
+Some Free Merchant missions will lead to minor changes around the Refugee Center.
+Adds microlabs, small 4x4 labs that open only to the subway network.
+Rework secubot into a TALON UGV.
+Added new human corpses types.
+Add a new M240 equipped CROWS II to outposts.
+Adds a new spell that provides invisibility.
+Adds the Hounds of Tindalos, tough Nether monsters that can appear from teleglow.
+Adds new faction camp expansion options, livestock area and modular saltworks.
+Adds new faction expansion: storage house, includes: stone, log, wood panel, scrap metal and wattle/daub palettes.
+Add blackpowder loads for some cartridges.
+Expand randomly-generated music descriptions.
+Adds parrot speech options for more mi-go monsters.
+Adds street light, traffic lights and utility pole.
+Replace outpost laser turrets with M2HB turrets.
+Changes CRT TVs to LCD TVs.
+NPCs: Update the NPC tutorial including faction camps.
+Add miniature railway location with small rails.
+Looks_like campaign to decrease tileset workload.
+Dozens of new epilogues.
+Tailoring system overhaul.
+Faction currency overhaul, no more dollars.
+Adds dimensional anchor item and some related fluff content.
+Adds buildable small railroad rail.
+Makes gun cleaning more realistic.
+Removes long grass from random spawns in fields, adds new field map extras.
+Rabbits as livestock.
+Dry/Fieldstone walls.
+Obsolete fictional combat robots.
+Adds new leech plant monster family.
+Add fetid goop that can change your scent.
+Adds rammed earth and mi-go resin building options for the faction camp.
+Obsolete flaming weapons.
+Obsolete survivor helmets.
+Realistic gun volume campaign.
+Migrates+obsoletes firearms incongruent with lore.
+Tameable Piglets.
+Cat Reproduction.
 
 ## Interface:
 Corpses (not underwear) will be shown on top at the places of death in map extras.
-Update ASCIITiles - remove most non-ascii tiles, fix unknowns
-Update RetroDays - Hulks
+Auto-use oxygen tanks in asthma attack.
+Reload all guns and magazines in inventory if reload command is repeatedly triggered.
 Render critters below current z-level in Tiles mode.
-Adds ability to mark favorite items in inventory.
 Preselect last played world and character in the load menu.
 Additional mode to allow diagonal movement with cursor keys using CTRL and SHIFT modifiers.
 Multiple Sidebar Panel Layouts.
 Allow sorting items by ammo/charge type in Advanced Inventory Management.
 Examine fireplaces, braziers, etc to start fires.
 Adds display scent map to tiles version.
-Add option for emulating the numpad using Ctrl and arrow keys.
-There's now an option in Graphics to enable or disable projectile animations.
-Help file: update the vehicle help.
 Monsters now have different footstep sounds, depending on species.
 Mutated poppies and some fungal things have descriptions now.
 Add a slew of movement mode keybindings. Make move_mode properly private.
@@ -238,11 +340,8 @@ Randomize scenaro in New Game -> Random Character.
 Allow switching firing mode and reload from [f]ire menu.
 Automatically craft on best adjacent workbench.
 Game window now resizes based on sidebar size.
-Y/N on furnace burning favorited item.
-Coverage value for tiles description.
 [E]ating menu now stays open on the last consume item.
 Allow repairing items outside of the player's inventory.
-Adds new command in drop menu to mark all non-favorite and non-worn items.
 Fix vehicle zones not updating when trying to sort loot after moving vehicle
 Turns static/scenario NPCs and 'experimental' z-levels on by default.
 Added possibility to change font size settings in game options.
@@ -251,36 +350,102 @@ Add guidelines to vehicle interface for easier cursor location.
 Message cool-down - reduce similar message appearances.
 Wait option: Wait until you regain stamina.
 Auto-notes for map extras.
-You can now view your missions from the overmap.
-Add otpion to sepia tint remembered tiles instead of simply darkening them.
-Selecting vehicle controls has been made smarter, and it won't prompt you if it doesn't need to.
-Overmap mission UI improvements.
-Adjust malnourishment to use bmi values.
-Adjust mana panel code to only appear when the player knows spells.
 Show best tool quality when selecting butchering.
-Show needs in the comestible inventory windows.
-Don't prompt for a direction for an action if there is only one direction possible.
-Allow different tiles for mounted creatures.
-Fixed the Labels sidebar style.
-Custom Filter loot zone.
-Allow mission descriptions to refer to the effects of the mission.
-Implement selective auto note preferences and a manager GUI to modify them.
-Wait til Dawn/Dusk is changed to Daylight/Night.
-Reordering and grouping skills list in @ menu.
+Adjust mana panel code to only appear when the player knows spells.
+Adjust malnourishment to use bmi values.
+Genericize butchery messages for dissectables.
+Overmap mission UI improvements.
+Selecting vehicle controls has been made smarter, and it won't prompt you if it doesn't need to.
+Added an option to position the item pickup panel.
+You can now view your missions from the overmap.
+Make windowed borderless fullscreen mode default on non-curses non-Android versions.
+Debug tool for viewing map radiation.
+Add movement mode coloration to panels, standardize mode letter fetching.
+Tweaked @-menu (player stats description submenu) UI.
+Allow map memory drawing mode selection through options.
+Add new wide labels sidebar layout. refactor many panels functions.
+Items inspected on the trade screen now show their description in addition to stats.
+NPC trades will check for confirmation and inform players if they may not get full value.
 Show if monsters and NPCs are aware of the player in their description (visible when x - looking at them).
+Reordering and grouping skills list in @ menu.
+Wait til Dawn/Dusk is changed to Daylight/Night.
+Implement selective auto note preferences and a manager GUI to modify them.
+Allow mission descriptions to refer to the effects of the mission.
+Map editor overhaul.
+Always prompt before climbing or vaulting over terrain.
+Fix water wheels and wind turbines not showing charge rate on vehicle overview.
+Replace kills window with new scores window showing additional info.
+Fixed "add/remove monster from safemode blacklist" text not visible in Look Around mode.
+Show correct info about transform target's fitness.
+Display craft name and % finished on top of screen.
+Remove progress messages in exchange for progress popups. Add progress popup for disassembly.
+Added ability to toggle minimap on and off in Look Around window.
+Add visual indicators for dead zombies that can still revive.
+Add run and crouch colors for the player's symbol in ASCII.
+Display status for all long activities.
+Enable autosave by default.
+Include placeholder text on job categories.
+Add 'n:' prefix for item filtering, to search through an items note.
+Make AIM window width customizable.
+Allow saving starting location as part of character template.
+Display power capacity in mJ in item description.
+Show acid and fire protection in the relayer armor screen.
+Adds pain and fatigue penalties on the morale screen, when applicable
+Display current power in bionic menu with appropriate unit.
+Bionic UI: power displayed in kJ, J or mJ.
+Eat menu: Display volume per serving.
+Limits "this task is too simple to train" messages to once per craft or batch craft.
+Pump SDL events during player sleep to avoid bad window behavior.
+Reading: Progress on top of screen.
+Display list of useable fuels in cbm item description.
+Make constructions in progress display the progress percentage.
+Add sort by barter value to the advanced inventory screen.
+Fallback fonts can now be specified for the tiles build.
+Crafting menu shows range of possible nutrients for food crafts.
+Adds new safemode rule category for ignoring sounds.
+Return the default font to Terminus and slightly improve fallback handling.
+Improve directional highlight prompts.
+Blind firing at unseen targets won't show info about hits and "Really attack?" query.
+Fixed translated strings sometimes not fitting in character creation menu.
+Updated terminus font to latest version and set it as new default font.
+Make ESC key stop trying to sleep.
+Skimming through book's contents won't show skill progress indicator.
+Adjust display of item value precision.
+Add the option to display ascii art in item description.
+Added 'destroys' message when items are destroyed (rather than just damaged).
+Tainted tallow and poppy buds are now in the chemicals category (was 'other').
+Added basic controls help to Android prelaunch menu.
+Made can't-fire-gun messages more consistent.
+Made aiming UI controls more consistent.
+Change message for consuming liquid fuel to "Fuel bionic with it".
+Add water clearance to vehicle interaction. adjust sink/float phrasing.
+Ignoring far-away monsters re-warns when dangerously close.
 
 ## Mods:
 Re-adds fictional martial arts as a mod.
 Added Aftershock sci-fi mod.
-Adds Mod: Buildable Hydroponics bays as furniture and adds Hydroponics in Labs.
 Adds the Magiclysm Mod.
 Add graphical mods category, put mods in it.
-Adjust 'fast healing' mod name/description, fix duration data error.
-Magiclysm: Black Dragons and related gear
-Add Stats Through Kills Mod
+Add Stats Through Kills Mod.
+Adds Bulettes and will-o-wisps to Magiclysm.
 Add personal and outer aura layers, as well as the intangible flag.
+Magiclysm: Adds a new monster - black pudding.
+Add Blood Power Generator CBM to Magiclysm.
+My Sweet Cataclysm adds the ability to play as an humanoid made of sugar.
+Adds Graphical Overmap mod.
+Adding a bionic prepper faction to Aftershock.
+Add Fuji's Military Professions Mod.
+Adds ARMOR enchantment values for each damage type.
+Added hit_you_effect and hit_me_effect fields to enchantments.
+Adds the ability to pick letters in the spellcasting menu.
+Creates clairvoyance spells in magiclysm.
+Mythological Replicas mod works with martial arts.
+Completely overhauls generic guns.
+Adds the Ultica tileset to mainline.
+Add BrownLikeBears to the list of tilesets.
 
 ## Balance:
+Overhaul of all Martial arts.
 Remove reinforcement of non-cloth items.
 Allowed moving furniture over spilled liquids.
 Anesthetic kit is now a tool, it uses anesthesia as charges.
@@ -301,22 +466,58 @@ Player's weight varies with BMI and size.
 Nerf outlandish drug effects.
 Surgery consumes anesthetic at a rate of 2mL/mn.
 Reduce turn time to 1 second.
-Changes game default start date to 30 days after Spring.
-Salvaged CBM needs to be sterilized and re-conditioned.
-Having a threshold mutation prerequisite no longer makes a particular mutation slightly less likely to occur.
-Being grabbed drastically reduce your dodging ability.
+Adjust turrets to reflect real world remote weapon systems.
 Vehicle wheels require vehicle mounts.
 Armored creatures won't take damage from stepping on a sharp or rough terrain types.
-Handmade mags and clips require handfitting.
 Separates gunpowders by type.
-Martial Arts rebalance project.
-Tweaked turrets and military outpost mapgen.
-Bionics add weight to character.
-Makes vehicles and parts resistant to damage.
+Make most bugs avoid fire and some avoid falling.
+Cbms harvested from NPC are filthy and faulty.
+Changes game default start date to 30 days after Spring.
+Being grabbed drastically reduce your dodging ability.
+Allow zombies to push each other when blocked.
+Raw food provides fewer calories compared to cooked.
+Triple damage from falling.
+Adds controlled burst modes to machine guns.
+Exchanged M202A1_talon to M16A4 robots in military outpost.
+More realistic temperature, precipitation, humidity, and pressure.
+Giant animals drop mutant meat, has negative effects if relied upon.
+Balanced bio repair nanobots.
+Standardized chemical powders for 1 unit = 1/100 mol.
+Apply item spawn scaling factor to monster drops.
+Balance bionic power use for realistic values.
+Allow large and huge creatures to move through underbrush.
+Mouse view was truncating last row of information.
+Draw debug vehicle autopilot AI and restore previous behavior.
+Fix accidental IR vision.
+Can create camps in buildings that don't face North.
+Fixes martial arts initiate message when equipping an item.
+Fixes crashes involving bayonet type items.
+Terranian sonar allow to see digging monsters behind walls.
+Stops large critters from using tight passages.
+Prevent counterattacks if tired or dead.
+Allow low strength characters to drag furniture within a reasonable range of their strength.
+Dramatically slow fungal sporeling maturation rate.
+Replaced sleep effects for fatigue effects for infected and recover status effects.
+Monster/pet carry weight changed to 1/5th of body weight.
+Factor in animal carry weight when determining yoke-and-harness power.
+Incorporate human meat and fat into existing recipes, remove dedicated recipes.
+Revamp EMP grenade recipe.
+Limit the kinds of terrain that are vulnerable to mattack::growplants.
+Only apply speed penalty from heat to main body parts, fixes extreme slowdown from overheating.
+Increased mass and decreased volume and prying ability of makeshift crowbar.
+Eating same food repeatedly gives less fun.
+Greatly reduce ranged weapon firing times.
+Cable charger CBM don't draw power when you're full.
+Increase bicycle, dirt bike, and electric bicycle spawn rates.
+Adjust MRE caloric value to reflect real MREs.
+Lower max stat cap in character creation to 14.
+Overhaul archery balance.
+Greatly reduce vines reproduction rate.
+Horses now spook and refuse to approach enemies.
 
 ## Bugfixes:
+Correctly set liquids as solid when they freeze.
 Fixed long overmap location name being overwritten by "Distance to target:" string.
-Silence error message when monster AI traverses an off-map vehicle.
 Fixed NPC dialog around lying and succeeding at missions.
 NPC AI: Increase minimum priority for close monsters.
 Adjust view offsets and re-enable sidebars for look, aim, etc.
@@ -329,21 +530,102 @@ Ambient sound won't be heard by players wearing earplugs or otherwise deafened.
 Don't bash items inside sealed terrain or furniture.
 Disallow rotten components in non-perishable crafts.
 Prevents occasional inappropriate vision across z-levels.
-Replace zombie grenadier with dispatch bot in remaining locations
 Consume tool charges incrementally during crafting.
-Fixed bugs related to starting time, item rot and monster evolution.
 Refuel fires while waiting.
 Extreme cold and heat won't be damaging bandages or contaminate disinfected wounds no more.
-Swapping profession in character creation removes previous traits.
-Land zombies ignore fish in water.
-Electric engines won't fail to start.
-fix unpurifiable traits being mutated away.
-Fix long durations displaying as 'forever'.
-NPC running off fix.
-Stop random NPC spawning in lakes and rivers.
-Fix items spawning with bday at 0.
-Vehicles: watercraft move in shallow water with sensible stamina loss.
+Prevent fire from spreading through non-flammable walls.
+Fixed the issue of NPCs shooting through you to get to zombies.
+Fix NPCs reverting to the unrecruited state when asked to stop activity after save and load.
+Fix crash observed when encountering Mi-go slavers with Magiclysm loaded.
 Fixed infinite loop on auto-sorting.
+Avoid bug where monsters would sometimes go nuts with unnecessary movement.
+vehicles: always apply a minimal slowdown.
+Fix pulped Z raising anyway.
+Fields are not spreading north-west when they shouldn't anymore.
+Fix horses making engine sounds.
+Fix items lying in furniture get damaged if one is throwing something at them.
+Items piled up beyond a tile's limit can pass through walls.
+You are still stuck in rubble even if you clear it with a shovel after getting stuck in it.
+Correct magazine inside guns/monsters.
+Load migration ID strings from the right JSON object.
+Nerf Smoke field so that Filter mask protects from smoke.
+Mouth encumbrance doesn't drain stamina while walking.
+Stop basement parachuting zombies.
+Prevent bicycle archery.
+Fix for resuming after stamina recovery was interrupted.
+Fix starting season calculation.
+Maps: stop tunneling tree-felling.
+Fix damaged weapons having zero range.
+Fixed targeting UI issue for reach attack.
+Make environmental protection really protect from fields.
+Attacking shocker with worn non-conductive gloves won't zapback you.
+Fixed infinite z-level raging firetower bug.
+Fix for infinite counterattacks at low speed.
+Stop lasers, plasma, and bolts of electricity from being referred to as 'flying projectiles'.
+Fix vanishing pet carriers on release.
+Npctrade: fix crash when trading with Free Merchant merchant.
+NPCs now properly open furniture doors.
+Fixed inactive incendiary grenades not exploding if thrown in fire.
+Fixes check for broken limbs when using muscle engines.
+Fix unarmed experience gain calculation.
+Maps: rework collapsing to prevent weird lab collapses.
+Shockwaves don't cross z-levels.
+Fix ground disappearing upon terrain destruction with experimental z-levels disabled.
+Adjusts the heat and toxic atmosphere of mi-go bases.
+NPCs faint when infinite looping, instead of dying.
+Weather Tweaks - new light drizzle category and fix wind.
+Fix an active item cache bug that occurred upon map shift.
+Giant worms can't be detected by IR vision anymore.
+Unboard NPC before vertical shift.
+Prevent autoattack through floors and ceilings.
+Close exploit that allowed peeking through floors and ceilings.
+Consistent NPC reach range with trigdist.
+Stop autodrive on any collision, not just damaging ones.
+Fix NPCs running out of stamina.
+Make copy of item to be thrown - fix throwing bugs.
+Heat slowdown shouldn't stick around when character is not HOT anymore.
+Fixed impossible to sleep on hard ground.
+Make 100% spawns always spawn even with low spawn density.
+Make safemode work if compass is hidden.
+Fixed body window to show broken limb healing progress.
+Fixed NPCs being able to be pushed into danger.
+Fix monsters spawning on the player's level when intended for other levels.
+Stop ant tunnels stomping over other map terrain underground and removing staircases.
+Prevent attacking with items that take very many moves to attack with.
+Fix time travel due to 1s turns.
+Correctly predict craftability of recipes with overlapping item requirements.
+Fix monster evolution delay bug.
+Fix first intercom mission dialogue tree.
+Stop Hulks teleporting after shoving vehicle.
+Fix infinite NPC love exploit.
+Allow zombies to smash.
+Prevent auto attacking allies.
+Migrate direct item spawns.
+Always prompt for direction if autoselect disabled.
+Fix NPC equip due to mutation fail message.
+Fix dangerous pickups and auto forage not working together.
+Rebalance stamina and pain penalties for dragging wheeled vehicles.
+Auto-travel; prompt when overburdened, and allow stamina-resting.
+Make vehicle dragging not slow for strong-enough characters.
+Prevent monsters from leaping to their death in water.
+Clear up item ownership for dead factions.
+Recalculate vehicle viability after part destruction.
+Monsters randomly select targets instead of preferring to attack the player.
+Fix player monster interactions when climbing between levels.
+Prevent endless deathcam loop when dying while asleep.
+Spawn vehicles and junk in junkyard.
+Fix firing accuracy calculation when entering aiming UI with no target in sight.
+Fix infinite loops and performance of NPC catching up on moves from time spent outside reality bubble.
+Make NPC overmap spawning weakly relative to player omt pos.
+Fix crash when detaching vehicle from bike rack in old saves.
+Allow drugs to modify morale again.
+Fix check for monster blocking stairs.
+Prevent monsters from seeing each other across z-levels.
+Fix NPC backlog of activity moves freeze.
+Fix savegame migration of obsolete house overmap terrains.
+Fix throwing movement cost for stacking items like bola/net/throwing stick.
+Stamina recovery no longer modified by move mode.
+Fix infinite aim loop when aiming with IR vision.
 
 ## Performance:
 Limit start location search radius.
@@ -355,8 +637,7 @@ Implement flat_set container to improve performance where appropriate.
 Do not translate debug-only message strings.
 Make square roots static in simplex noise implementation.
 Speed up scent adjustments during field processing.
-Speed up calls to get_local_windpower.
-Speed up calls to get_heat_radiation.
+Speed up calls to get_local_windpower, get_heat_radiation and get_wind_blockers.
 Build bitmap cache of field locations.
 Increase performance when in-game debug mode is disabled.
 Increase performance of effects with empty memorial log messages.
@@ -366,11 +647,21 @@ Avoid recalculating vision and lightmap unnecessarily.
 Only retrieve vehicle list once a turn.
 Increase performance by removing check for recipe every crafting turn.
 Allow member access to weather_datum to bypass unnecessary translation.
-Speed up item::process_temperature_rot.
-Defer testing validity of scent grid modification points until modification commit.
-Remove dynamic_cast from Creature::sees and map::creature_in_field.
+Improve performance when fishing.
 Avoid unecessarally enumerating monsters.
-Introduce a faster linked list implementation.
+Defer testing validity of scent grid modification points until modification commit.
+Speed up item::process_temperature_rot.
+Makes tests go vrooom. Makes it easier to read and understand the code.
+Optimize many NPC AI operations, throttle item search.
+Optimize vine growth special attack.
+Add adjustable 3D vision Z-level cap.
+Speed up monster action planning.
+Refactor monster regeneration flags.
+Reduce memory usage of itype.
+Remove superfluous refresh calls from list views.
+Improve recipe loading speed.
+Fix out of control vehicle processing overhead.
+Fix low UI performance on Windows build when using the English language.
 
 ## Infrastructure:
 Npctalk: Complete overhaul of NPC conversation infrastructure.
@@ -396,36 +687,118 @@ Save map extras with overmap.
 Use custom clang-tidy plugin for Cata-specific code checks.
 Use colony for map and vehicle item storage.
 Use enum_bitset instead of std::set for spell flags.
-Jsonize construction categories.
 one_turn_in(time_duration) function added.
 Remove most uses of long and unsigned long from the code.
 Add colony data structure.
 Overhaul implementation of map fields.
 basecamps: add support for automatic calculation of blueprint ingredients.
 basecamps: add support for blueprint_excludes.
-Cloaking is now tied to a json flag, allowing mods to introduce their own cloaking devices.
 Mandate description of terrain and furniture.
 Basecamps: add a namespace and calculate workdays.
 Significant progress toward rationizing character/player/NPC classes.
-Makes surgery a player_activity.
-Add custom clang-tidy check to enforce consistent point initialization
-Allow aliasing extendable lake shore terrain
-Time audit. Saner calendar field names.
-Use time_durations instead of ints for faults
-Jsonize clothing mod.
-Implement new item type for batteries.
-Jsonize memory-related mutation modifiers.
-Use point/tripoint rather than individual coordinates in overmapbuffer functions.
-Add Spell fields as new members of spell_type.
-Use time duration strings for effects.
-Monsters can cast spells as a special attack.
-JSON-ize terrain and furniture that produce light.
-Change vehicle padding to a more optimal configuration.
+Added weather change effect for carrying artifact with AEP_BAD_WEATHER property.
+Add lighting overlay (debug menu).
 Add energy units using units::quantity.
-Add u/npc_adjust_var and u/npc_compare_var effects and conditions.
-Introduce dedicated class to manage memorial log.
+Refactor player::calc_focus_equilibrium, disp_morale, update_mental_focus, reset_stats
+Template read_from_json_string.
+Monsters can cast spells as a special attack.
+Use time duration strings for effects.
+Introduce a faster linked list implementation.
+Add Spell fields as new members of spell_type.
+Implement new item type for batteries.
+Use time_durations instead of ints for faults.
+Time audit. Saner calendar field names.
+Unify spell effect functions to deprecate the if else ladder.
+Allow aliasing extendable lake shore terrain.
+Add custom clang-tidy check to enforce consistent point initialization.
+Convert calendar into a namespace.
+Add static analysis check for fields that could be replaced by points.
+Enforce use of point / tripoint overloads where available via a custom clang-tidy check.
+Moved windows and flora (trees, shrubs, grass) into new files from terrain.json
+Report a verbose error message in case of backtrace failing to grab the symbols.
+Added support of various generator types for map extras.
+Items in trades are better checked for errors.
+Changed mutagen craft tools to crafting requirements.
+clang-tidy now checks for use of point arithmetic and suggest refactoring to make more use thereof.
+Introduce character_id type (rather than just using int).
+Change all instances of 'volume' in JSONs to be a metric string.
+Allow spawning exactly one monster from a monster group and set it mission target.
 Add a prototype event bus and Cata-specific variant type.
-Jsonize Cbm power generation.
+Overhaul of enum <-> string conversion code.
+Track kills through event_bus in new dedicated kill_tracker class.
+Allow missions to specify if they provide generic rewards.
+Introduce dedicated class to manage memorial log.
+Weight and weight_integral can be defined using a string.
+Add u/npc_adjust_var and u/npc_compare_var effects and conditions.
+Use mass strings for item weight.
+Improve built-in support for (de)serialization of containers.
+Show charges, damage, active, tags and item variables of items in debug mode.
+Add new object to track event statistics for use in calculating scores.
+NPCs: annotate talk_tags with the usage.
+NPC can used fueled CBMs.
+Refactor object cloning to improve memory safety and simplify implementation.
+Stricter json parsing; errors will occur in more places.
+Support json-defined scores as a function of events.
+Use clang-tidy to check gettext calls in static variables.
+Introduce functions to assist with drawing tabbed windows.
+Allow auto-wielding of items in professions.
+Enable Magiclysm on one Travis job.
+Preliminary tagging of all overmap locations for NPC AI.
+Make possible to define `item_transform` and `cast_spell` item actions which are only allowed when wielding or wearing item.
+Rework and unify teleport methods.
+Create enchantment cache for use with enchantment values.
+Adds JSON capability to range_with_even_chance_of_good_hit.
+Uses the units::energy infrastructure for bionic power.
+Clarify some documentation relevant to monsters and basecamp recipes.
+Add a clang-tidy check to check for text style in the c++ code and json.
+Remove all of the legacy vehicleparts JSON.
+Refactor fields: allow multiple effects.
+Add regional terrain/furniture resolution to mapgen.
+Change snippets to use string ids instead of hashes.
+Adds support for different mending methods for a single fault.
+item: refactor info() to break it into multiple smaller functions.
+Add the ability to load tilesets from user_dir/gfx.
+Detect unsed json object members when parsing json data.
+Add infrastructure to support using vitamin system for toxins.
+Simplify generic multiple activity handler.
+Tilesets: add tools to automatically create tilesheets.
+Easier charges setting for json item spawns/groups.
+Scents can have a type.
+Can set up clothing mods to be valid only for certain items.
+Allow compose.py to function when tile JSON is missing the 'bg' key.
+Reduce submap size by changing submap's camp member to unique_ptr.
+Automatically create user_gfx directory.
+Adds a few more biome-dependent terrain types.
+Holiday title screens.
+Max_volume for terrain and furniture can be defined with strings.
+New JSON recipe property for overriding inheritance of specified flags.
+Further expands regional pseudoterrains and works them into some map palettes.
+Retire procedurally generated houses and basements.
+Allow random tile variants for immobile furniture.
+Implement volume_reader and mass_reader for read and write.
+Allow spawning npc via iuse action.
+Add MAINLINE_MODS.md to document mod inclusion criteria and procedures.
+Improve overmapbuffer searching routines.
+Added repair_like property to prevent unreasonably difficult to repair items.
+Add scenario whitelist/blacklist capability.
+Adds a getting started type of guide for mapgen.
+Add debug menu item for spawning nested mapgen.
+Add script to generate tags for CDDA json data for easier navigation in standard text editors.
+Use github's code owner system to alert mod maintainers to changes.
+Added support for user font directory.
+Improve submap encapsulation.
+Add a multitude of tests for item display and effects.
+Pass CLI arguments from cataclysm-launcher shell script to cataclysm binary.
+Clean some exothermic CBM code.
+Added override_option class to help write tests which require a particular option to be set.
+Can specify delay in emit_fields for monsters.
+CONSOLE_DESPAWN flag to despawn turrets with a console.
+Moved entity definitions to JSON: zone types, loot zones, scent neutralization, ammo effects,
+flag inheritance in crafting, comestible enjoyability, gunmod weight modifier, allergen handling,
+species footsteps sound, bionic slots, swim speed modifiers, construction categories,
+martial arts skill and damage requirements, hunger messages, artifact effects and food morale modifiers.
+Large numbers of unit tests added to enhance stability.
+Expand testing doc with examples and tips.
 
 ## Build:
 Npctalk: add a python dialogue validator.
@@ -433,11 +806,31 @@ Update homebrew install instructions.
 Adds Flatpak build recipe.
 Clarify the compiling directions for Visual Studio.
 Enable github bot that automates closing stale issues.
-Fixed compilation with gcc 7.4.
+Add cygwin to COMPILING.md, also add short descriptions of each option.
+Allow building with Clang using MinGW-w64 libs.
+Check translator comments with clang-tidy.
+Document how to build and run the custom clang-tidy checks on Windows.
+Provide NOOPT=1 build option for make.
+Made JSON formatter conserve escape sequences.
+Use libbacktrace to generate readable backtrace on Windows.
+Fix -Wrange-loop-analysis warnings with Clang 10.x.
+Save build artifacts from github actions CI.
+Include additional files to binary distribution.
+Updated Android build process.
 
 ## I18N and A11Y:
 Use translation markers to increase performance.
 Make the translation for field name display.
+Automatically switch IME mode between text input and raw input on Windows.
+Correctly extract npc dialogue lines for translation.
+Allow translation of non-character key names.
+Add position marker to some format strings.
+Support plural strings in the translation class.
+Add nickname for zh-cn translation.
+Adding ru translation notes.
+Fix footsteps translation.
+Extract all npc dialogue lines for translation.
+Add Portuguese (Brazil) to language selection menu.
 
 # 0.D (Danny)
 
@@ -807,7 +1200,7 @@ Adds new vehicle part : a wind turbine.
 Adds Free Merchant currency.
 Adds methanol and ether as a possible Molotov components.
 Add "classic literature" and "collector's edition" books, move choice book spawns to library, and adjust library/mansion book spawns overall.
-Adds the possiblitiy to find an evil moose in the kitten finding game.
+Adds the possibility to find an evil moose in the kitten finding game.
 Adds new furniture flag that restricts vision when in the furniture.
 
 ## Interface:
@@ -885,7 +1278,7 @@ Vision and targeting changes, 3D-ification.
 Display moves when disposing of items.
 Escapable menu for sorting items in advanced inventory.
 Prevent window minimize on fullscreen borderless when focus lost.
-Rearange main rendering method to place curses cursor on @ at the end.
+Rearrange main rendering method to place curses cursor on @ at the end.
 Add a cache refresh before drawing pixel minimap.
 Add option to select which video display is used.
 Add option to limit lifetime of sidebar messages.
@@ -1037,7 +1430,7 @@ Have vehicles become dark inside when that makes sense.
 Allow toggling display of forest trails on the overmap.
 Added 'center' action for look around mode.
 Vehicle: display engine power and electrical drain/production.
-Bandage/Disinfactant display/compare/apply improvements.
+Bandage/Disinfectant display/compare/apply improvements.
 Allow hiding of recipe categories from crafting menu.
 Player: don't create the reload prompt if there's only one option.
 Better scrolling through requirements list in crafting GUI.
@@ -1130,7 +1523,10 @@ Adds new mod Growable pots.
 Mainlined Tall Buildings mod.
 Add urban development buildings to city spawns.
 Salvaged Robots: More robot themed professions.
-USABLE_FIRE tag makes terrain or furniture usable as a nearby fire for crafting.
+Creates clairvoyance spells in magiclysm
+Adds the ability to pick letters in the spellcasting menu
+Magicylsm: NPCs can now teach spells
+Added hit_you_effect and hit_me_effect fields to enchantments
 
 ## Balance:
 
@@ -1195,8 +1591,8 @@ Redesign bionics lab room to fix computer successful hack.
 Limit turret to its actual range.
 Make missed ranged attacks miss more realistically.
 Adds lifting capacity to Cantilevers description.
-Add "makeshift_kevlar" to recipes that include the kevlar vests.
-Bleeding also causes anaemia.
+Add "makeshift_kevlar" to recipes that include the Kevlar vests.
+Bleeding also causes anemia.
 Change chisel requirement to CHISEL quality requirement.
 Remove memorization of recipes from reading books.
 Nerf Sensory Dulling.
@@ -1733,6 +2129,7 @@ JSONnizing CBM slot feature.
 Land Use Codes infrastructure.
 Moves allergen handling vitamin absorption to JSON.
 Refactor advanced inventory item movement to use activities.
+USABLE_FIRE tag makes terrain or furniture usable as a nearby fire for crafting.
 
 ## Build:
 
@@ -1820,7 +2217,7 @@ Implement printing aim accuracy as numbers.
 Textual vehicle facing indicator.
 Translatable moon phase.
 Fix of untranslated (sub)category in crafting gui.
-Dont' dynamically initialize using gettext.
+Don't dynamically initialize using gettext.
 Make vitamin and fault and mod targets translatable.
 Fixed terrain name translation.
 UI improvements (for easier translation).
@@ -2702,7 +3099,7 @@ Fix div0 on bad option setting.
 * Zombies will revive after a time, if not butchered (or otherwise dealt with).
 * The Android trait now behaves the way that the description indicates.
 * Gasoline can be siphoned from vehicles. Requires a rubber hose for now - these are easier to acquire.
-* Sewing requires materials other than thread - rags for cloth, leather patches for leather, kevlar bricks, plastic chunks.
+* Sewing requires materials other than thread - rags for cloth, leather patches for leather, Kevlar bricks, plastic chunks.
 * Leather/Kevlar/plastic/fur repair/reinforcement actually possible!
 * Inventory management UI improvements, and a new screen to organize worn items.
 * NPCs continue to be less buggy, but are still prone to crashes.

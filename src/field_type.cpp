@@ -1,13 +1,61 @@
 #include "field_type.h"
 
-#include <set>
+#include <cstdlib>
 
 #include "bodypart.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "int_id.h"
+#include "json.h"
+#include "string_id.h"
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<game_message_type>( game_message_type data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case game_message_type::m_good: return "good";
+        case game_message_type::m_bad: return "bad";
+        case game_message_type::m_mixed: return "mixed";
+        case game_message_type::m_warning: return "warning";
+        case game_message_type::m_info: return "info";
+        case game_message_type::m_neutral: return "neutral";
+        case game_message_type::m_debug: return "debug";
+        case game_message_type::m_headshot: return "headshot";
+        case game_message_type::m_critical: return "critical";
+        case game_message_type::m_grazing: return "grazing";
+            // *INDENT-ON*
+        case game_message_type::num_game_message_type:
+            break;
+    }
+    debugmsg( "Invalid game_message_type" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<description_affix>( description_affix data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case description_affix::DESCRIPTION_AFFIX_IN: return "in";
+        case description_affix::DESCRIPTION_AFFIX_COVERED_IN: return "covered_in";
+        case description_affix::DESCRIPTION_AFFIX_ON: return "on";
+        case description_affix::DESCRIPTION_AFFIX_UNDER: return "under";
+        case description_affix::DESCRIPTION_AFFIX_ILLUMINTED_BY: return "illuminated_by";
+        // *INDENT-ON*
+        case description_affix::DESCRIPTION_AFFIX_NUM:
+            break;
+    }
+    debugmsg( "Invalid description affix value '%d'.", data );
+    return "invalid";
+}
+
+} // namespace io
 
 namespace
 {
@@ -74,17 +122,13 @@ const field_intensity_level &field_type::get_intensity_level( int level ) const
     return intensity_levels[level];
 }
 
-void field_type::load( JsonObject &jo, const std::string & )
+void field_type::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
-    JsonArray ja = jo.get_array( "intensity_levels" );
-    if( !jo.has_array( "intensity_levels" ) || ja.empty() ) {
-        jo.throw_error( "No intensity levels defined for field type", "id" );
-    }
-    for( size_t i = 0; i < ja.size(); ++i ) {
+    for( const JsonObject jao : jo.get_array( "intensity_levels" ) ) {
         field_intensity_level intensity_level;
-        field_intensity_level fallback_intensity_level = i > 0 ? intensity_levels[i - 1] : intensity_level;
-        JsonObject jao = ja.get_object( i );
+        field_intensity_level fallback_intensity_level = !intensity_levels.empty() ? intensity_levels.back()
+                : intensity_level;
         optional( jao, was_loaded, "name", intensity_level.name, fallback_intensity_level.name );
         optional( jao, was_loaded, "sym", intensity_level.symbol, unicode_codepoint_from_symbol_reader,
                   fallback_intensity_level.symbol );
@@ -124,19 +168,37 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.translucency );
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
                   fallback_intensity_level.convection_temperature_mod );
-        optional( jao, was_loaded, "effect_id", intensity_level.field_effect.id,
-                  fallback_intensity_level.field_effect.id );
-        optional( jao, was_loaded, "effect_min_duration", intensity_level.field_effect.min_duration,
-                  fallback_intensity_level.field_effect.min_duration );
-        optional( jao, was_loaded, "effect_max_duration", intensity_level.field_effect.max_duration,
-                  fallback_intensity_level.field_effect.max_duration );
-        optional( jao, was_loaded, "effect_intensity", intensity_level.field_effect.intensity,
-                  fallback_intensity_level.field_effect.intensity );
-        optional( jao, was_loaded, "effect_body_part", intensity_level.field_effect.bp,
-                  fallback_intensity_level.field_effect.bp );
-        optional( jao, was_loaded, "inside_immune", intensity_level.field_effect.inside_immune,
-                  fallback_intensity_level.field_effect.inside_immune );
+        if( jao.has_array( "effects" ) ) {
+            for( const JsonObject joe : jao.get_array( "effects" ) ) {
+                field_effect fe;
+                mandatory( joe, was_loaded, "effect_id", fe.id );
+                optional( joe, was_loaded, "min_duration", fe.min_duration );
+                optional( joe, was_loaded, "max_duration", fe.max_duration );
+                optional( joe, was_loaded, "intensity", fe.intensity );
+                optional( joe, was_loaded, "body_part", fe.bp );
+                optional( joe, was_loaded, "is_environmental", fe.is_environmental );
+                optional( joe, was_loaded, "immune_in_vehicle", fe.immune_in_vehicle );
+                optional( joe, was_loaded, "immune_inside_vehicle", fe.immune_inside_vehicle );
+                optional( joe, was_loaded, "immune_outside_vehicle", fe.immune_outside_vehicle );
+                optional( joe, was_loaded, "chance_in_vehicle", fe.chance_in_vehicle );
+                optional( joe, was_loaded, "chance_inside_vehicle", fe.chance_inside_vehicle );
+                optional( joe, was_loaded, "chance_outside_vehicle", fe.chance_outside_vehicle );
+                optional( joe, was_loaded, "message", fe.message );
+                optional( joe, was_loaded, "message_npc", fe.message_npc );
+                const auto game_message_type_reader = enum_flags_reader<game_message_type> { "game message types" };
+                optional( joe, was_loaded, "message_type", fe.env_message_type, game_message_type_reader );
+                intensity_level.field_effects.emplace_back( fe );
+            }
+        } else {
+            // Use effects from previous intensity level
+            intensity_level.field_effects = fallback_intensity_level.field_effects;
+        }
+        optional( jao, was_loaded, "scent_neutralization", intensity_level.scent_neutralization,
+                  fallback_intensity_level.scent_neutralization );
         intensity_levels.emplace_back( intensity_level );
+    }
+    if( intensity_levels.empty() ) {
+        jo.throw_error( "No intensity levels defined for field type", "id" );
     }
 
     if( jo.has_object( "npc_complain" ) ) {
@@ -153,16 +215,14 @@ void field_type::load( JsonObject &jo, const std::string & )
     }
 
     JsonObject jid = jo.get_object( "immunity_data" );
-    JsonArray jidt = jid.get_array( "traits" );
-    while( jidt.has_more() ) {
-        immunity_data_traits.emplace_back( trait_id( jidt.next_string() ) );
+    for( const std::string id : jid.get_array( "traits" ) ) {
+        immunity_data_traits.emplace_back( id );
     }
-    JsonArray jidr = jid.get_array( "body_part_env_resistance" );
-    while( jidr.has_more() ) {
-        JsonArray jao = jidr.next_array();
+    for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
         immunity_data_body_part_env_resistance.emplace_back( std::make_pair( get_body_part_token(
                     jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
     }
+    optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
@@ -177,6 +237,9 @@ void field_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "has_fume", has_fume, false );
     optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "half_life", half_life, 0_turns );
+    const auto description_affix_reader = enum_flags_reader<description_affix> { "description affixes" };
+    optional( jo, was_loaded, "description_affix", desc_affix, description_affix_reader,
+              description_affix::DESCRIPTION_AFFIX_IN );
     if( jo.has_member( "phase" ) ) {
         phase = jo.get_enum_value<phase_id>( "phase", PNULL );
     }
@@ -184,12 +247,23 @@ void field_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
     optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
+
+    bash_info.load( jo, "bash", map_bash_info::field );
+    if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
+        looks_like = jo.get_string( "copy-from" );
+    }
+    jo.read( "looks_like", looks_like );
 }
 
 void field_type::finalize()
 {
     wandering_field = field_type_id( wandering_field_id );
     wandering_field_id.clear();
+    for( const mtype_id &m_id : immune_mtypes ) {
+        if( !m_id.is_valid() ) {
+            debugmsg( "Invalid mtype_id %s in immune_mtypes for field %s.", m_id.c_str(), id.c_str() );
+        }
+    }
 }
 
 void field_type::check() const
@@ -208,7 +282,7 @@ size_t field_type::count()
     return all_field_types.size();
 }
 
-void field_types::load( JsonObject &jo, const std::string &src )
+void field_types::load( const JsonObject &jo, const std::string &src )
 {
     all_field_types.load( jo, src );
 }

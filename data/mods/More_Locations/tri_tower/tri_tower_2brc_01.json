@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "tri_tower_2brc",
-    "comment": "bottom right corner, second story and even levels",
+    "//": "bottom right corner, second story and even levels",
     "weight": 250,
     "method": "json",
     "object": {

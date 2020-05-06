@@ -6,14 +6,18 @@
     "entries": [
       { "item": "rock", "count": [ 0, 2 ] },
       { "item": "wood_panel", "count": [ 0, 1 ] },
-      { "item": "nail", "charges": [ 2, 8 ] },
-      { "item": "splinter", "count": [ 1, 5 ] }
+      { "item": "nail", "charges": [ 4, 16 ] },
+      { "item": "splinter", "count": [ 1, 5 ] },
+      { "item": "2x4", "count": [ 1, 2 ], "prob": 25 },
+      { "item": "pipe", "count": [ 0, 2 ], "prob": 10 },
+      { "item": "cu_pipe", "count": [ 0, 2 ], "prob": 10 },
+      { "item": "cable", "charges": [ 0, 200 ], "prob": 10 }
     ]
   },
   {
     "type": "terrain",
     "id": "t_wall",
-    "aliases": [ "t_wall_h", "t_wall_v" ],
+    "alias": [ "t_wall_h", "t_wall_v" ],
     "name": "wall",
     "description": "The stereotypical wall with wooden support structure filled with insulation and drywalled.  Paint job is the all too common and neutral off-white or cream color, it could use more vibrant paint.  Appears as though the material is still flammable.",
     "symbol": "LINE_OXOX",
@@ -21,7 +25,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -59,7 +63,7 @@
   {
     "type": "terrain",
     "id": "t_ponywall",
-    "aliases": [ "t_ponywall_h", "t_ponywall_v" ],
+    "alias": [ "t_ponywall_h", "t_ponywall_v" ],
     "name": "pony wall",
     "description": "A short divider wall with wooden support structure with drywall.  Paint job is the all too common and neutral off-white or cream color.  Appears as though the material is flammable.",
     "symbol": "LINE_OXOX",
@@ -93,7 +97,7 @@
   {
     "type": "terrain",
     "id": "t_wall_r",
-    "aliases": [ "t_wall_h_r", "t_wall_v_r" ],
+    "alias": [ "t_wall_h_r", "t_wall_v_r" ],
     "name": "red wall",
     "description": "Wall painted red.",
     "symbol": "LINE_OXOX",
@@ -101,7 +105,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -114,7 +118,7 @@
   {
     "type": "terrain",
     "id": "t_wall_w",
-    "aliases": [ "t_wall_h_w", "t_wall_v_w" ],
+    "alias": [ "t_wall_h_w", "t_wall_v_w" ],
     "name": "white wall",
     "description": "Wall painted white.",
     "symbol": "LINE_OXOX",
@@ -122,7 +126,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -135,7 +139,7 @@
   {
     "type": "terrain",
     "id": "t_wall_b",
-    "aliases": [ "t_wall_h_b", "t_wall_v_b" ],
+    "alias": [ "t_wall_h_b", "t_wall_v_b" ],
     "name": "blue wall",
     "description": "Wall painted blue.",
     "symbol": "LINE_OXOX",
@@ -143,7 +147,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -156,7 +160,7 @@
   {
     "type": "terrain",
     "id": "t_wall_g",
-    "aliases": [ "t_wall_h_g", "t_wall_v_g" ],
+    "alias": [ "t_wall_h_g", "t_wall_v_g" ],
     "name": "green wall",
     "description": "Wall painted green.",
     "symbol": "LINE_OXOX",
@@ -164,7 +168,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -177,7 +181,7 @@
   {
     "type": "terrain",
     "id": "t_wall_y",
-    "aliases": [ "t_wall_h_y", "t_wall_v_y" ],
+    "alias": [ "t_wall_h_y", "t_wall_v_y" ],
     "name": "yellow wall",
     "description": "Wall painted yellow.",
     "symbol": "LINE_OXOX",
@@ -185,7 +189,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -198,14 +202,14 @@
   {
     "type": "terrain",
     "id": "t_wall_P",
-    "aliases": [ "t_wall_h_P", "t_wall_v_P" ],
+    "alias": [ "t_wall_h_P", "t_wall_v_P" ],
     "name": "pink wall",
     "description": "Wall painted pink.",
     "symbol": "LINE_OXOX",
     "color": "pink",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -218,7 +222,7 @@
   {
     "type": "terrain",
     "id": "t_wall_p",
-    "aliases": [ "t_wall_h_p", "t_wall_v_p" ],
+    "alias": [ "t_wall_h_p", "t_wall_v_p" ],
     "name": "purple wall",
     "description": "Wall painted purple.",
     "symbol": "LINE_OXOX",
@@ -226,7 +230,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -265,7 +269,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 60,
@@ -286,7 +290,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 80,
@@ -328,7 +332,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 120,
@@ -369,7 +373,7 @@
     "looks_like": "t_brick_wall",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 40,
@@ -383,7 +387,7 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall",
-    "aliases": [ "t_concrete_h", "t_concrete_v" ],
+    "alias": [ "t_concrete_h", "t_concrete_v" ],
     "name": "concrete wall",
     "description": "An aesthetically pleasing design with simple lines, this type of concrete was used with a weaker chemical mixture in order to have faster setting times.  Not ideal for multi-story buildings, but still capable of supporting a roof.",
     "symbol": "LINE_OXOX",
@@ -391,7 +395,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
       "str_max": 300,
@@ -404,7 +408,7 @@
   {
     "type": "terrain",
     "id": "t_wall_metal",
-    "aliases": [ "t_wall_metal_h", "t_wall_metal_v" ],
+    "alias": [ "t_wall_metal_h", "t_wall_metal_v" ],
     "name": "metal wall",
     "description": "An industrially fabricated thick sheet carefully positioned and joined seamlessly with perimeter sealant, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching will require specialized tools or industrial vehicles.",
     "symbol": "LINE_OXOX",
@@ -412,7 +416,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -436,7 +440,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 90,
@@ -477,7 +481,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 120,
@@ -537,7 +541,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 80,
@@ -577,7 +581,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 12,
@@ -602,7 +606,7 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 8,
@@ -672,7 +676,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 60,
@@ -692,7 +696,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 40,
@@ -746,7 +750,7 @@
     "name": "wattle-and-daub wall",
     "description": "A relatively primitive wall made by daubing together a lattice of wooden strips using some combination of wet soil, clay, sand, animal dung and straw.",
     "symbol": "LINE_OXOX",
-    "color": [ "light_red" ],
+    "color": "light_red",
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_thatch_roof",
@@ -758,7 +762,7 @@
       "sound_fail": "whump!",
       "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 0, 6 ] } ]
     },
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
     "id": "t_wall_wattle_broken",
@@ -766,7 +770,7 @@
     "name": "broken wattle-and-daub wall",
     "description": "This wattle-and-daub wall section has been destroyed, leaving mostly just frame, and is barely held together.",
     "symbol": "&",
-    "color": [ "light_red" ],
+    "color": "light_red",
     "move_cost": 0,
     "bash": {
       "str_min": 4,
@@ -784,7 +788,7 @@
     "name": "half-built wattle-and-daub wall",
     "description": "This wattle-and-daub wall has some of the wooden strip lattice in place, and still requires the rest of the lattice and supporting wet compound to be filled in.",
     "symbol": "#",
-    "color": [ "light_red" ],
+    "color": "light_red",
     "move_cost": 4,
     "coverage": 60,
     "bash": {
@@ -807,7 +811,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "NOITEM", "WALL", "SUPPORTS_ROOF", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "WALL", "PERMEABLE", "SUPPORTS_ROOF", "AUTO_WALL_SYMBOL", "MINEABLE" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 60,
@@ -832,7 +836,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 60,
@@ -853,7 +857,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 60,
-    "flags": [ "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "WALL", "PERMEABLE", "AUTO_WALL_SYMBOL", "MINEABLE" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 30,
@@ -867,7 +871,7 @@
   {
     "type": "terrain",
     "id": "t_wall_glass",
-    "aliases": [ "t_wall_glass_h", "t_wall_glass_v" ],
+    "alias": [ "t_wall_glass_h", "t_wall_glass_v" ],
     "name": "glass wall",
     "description": "A barrier made of glass, it's nothing complicated, and looks extremely fragile.  Some contain glass break sensors or window sensors that trigger if the glass is tampered.",
     "symbol": "LINE_OXOX",
@@ -875,7 +879,7 @@
     "move_cost": 0,
     "coverage": 90,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 4,
       "str_max": 12,
@@ -890,14 +894,15 @@
   {
     "type": "terrain",
     "id": "t_wall_glass_alarm",
-    "aliases": [ "t_wall_glass_h_alarm", "t_wall_glass_v_alarm" ],
+    "alias": [ "t_wall_glass_h_alarm", "t_wall_glass_v_alarm" ],
+    "looks_like": "t_wall_glass",
     "name": "glass wall",
     "description": "A barrier made of glass, it's nothing complicated, and looks extremely fragile.  Some contain glass break sensors or window sensors that trigger if the glass is tampered.",
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 4,
       "str_max": 12,
@@ -912,7 +917,7 @@
   {
     "type": "terrain",
     "id": "t_laminated_glass",
-    "aliases": [ "t_laminated_glass_h", "t_laminated_glass_v" ],
+    "alias": [ "t_laminated_glass_h", "t_laminated_glass_v" ],
     "name": "laminated glass",
     "looks_like": "t_reinforced_glass",
     "description": "Laminated glass is composed layers of glass and plastic held together by an interlayer.",
@@ -920,7 +925,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 180,
@@ -935,7 +940,7 @@
   {
     "type": "terrain",
     "id": "t_ballistic_glass",
-    "aliases": [ "t_ballistic_glass_h", "t_ballistic_glass_v" ],
+    "alias": [ "t_ballistic_glass_h", "t_ballistic_glass_v" ],
     "name": "ballistic glass",
     "looks_like": "t_reinforced_glass",
     "description": "Ballistic glass consists of layers of laminated glass.",
@@ -943,7 +948,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 200,
       "str_max": 400,
@@ -958,14 +963,14 @@
   {
     "type": "terrain",
     "id": "t_reinforced_glass",
-    "aliases": [ "t_reinforced_glass_h", "t_reinforced_glass_v" ],
+    "alias": [ "t_reinforced_glass_h", "t_reinforced_glass_v" ],
     "name": "reinforced glass",
     "description": "A thicker pane of glass with thin metal wires embedded throughout, strengthening the structural properties.  Still weaker than other types of walls, and not made to support a roof either.",
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 40,
       "str_max": 210,
@@ -986,7 +991,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_reinforced_glass_shutter_open",
     "bash": {
       "str_min": 60,
@@ -1007,12 +1012,13 @@
     "type": "terrain",
     "id": "t_reinforced_glass_shutter_open",
     "name": "reinforced glass with open shutters",
+    "looks_like": "t_reinforced_glass",
     "description": "Hanging metal shutters that haven't been deployed, exposing the reinforced glass.  It appears as though the metal shutters can only be activated from the inside.",
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "close": "t_reinforced_glass_shutter",
     "bash": {
       "str_min": 40,
@@ -1056,12 +1062,12 @@
     "type": "terrain",
     "id": "t_paper",
     "name": "paper wall",
-    "description": "A huge wall of pulpy mass that has been salvaged from nearby buildings, covered in sticky wasp saliva.  Whatever structure was underneath has been reformed and long gone.  You could smash it down effortlessly.",
+    "description": "A huge wall of pulpy mass, covered in sticky wasp saliva.  You could smash it down effortlessly.",
     "symbol": "#",
     "color": "white",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 1,
       "str_max": 6,
@@ -1082,7 +1088,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_dirt",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -1102,7 +1108,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_floor_wax",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "PLACE_ITEM", "WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "PLACE_ITEM", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -1121,7 +1127,7 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "roof": "t_rock_floor",
     "bash": {
       "str_min": 100,
@@ -1201,12 +1207,13 @@
     "type": "terrain",
     "id": "t_little_column",
     "name": "little column",
+    "looks_like": "t_column",
     "description": "A small support column.",
     "symbol": "1",
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "WALL", "TRANSPARENT" ],
+    "flags": [ "WALL", "PERMEABLE", "TRANSPARENT" ],
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -1220,11 +1227,11 @@
     "type": "terrain",
     "id": "t_column_halfway",
     "name": "half-built column",
-    "description": "An empty wooden frame in the shape of a column, built around a concrete and rebar foundation. It isn't capable of supporting roofs or shelter, and appears to need more resources before being considered complete.",
+    "description": "An empty wooden frame in the shape of a column, built around a concrete and rebar foundation.  It isn't capable of supporting roofs or shelter, and appears to need more resources before being considered complete.",
     "symbol": "*",
     "color": "light_gray",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "PERMEABLE", "MINEABLE" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 60,
@@ -1244,7 +1251,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "WALL", "MINEABLE" ],
+    "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
     "bash": {
       "str_min": 120,
       "str_max": 200,
@@ -1264,7 +1271,7 @@
     "move_cost": 0,
     "coverage": 80,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "WALL", "SUPPORTS_ROOF", "MINEABLE" ],
+    "flags": [ "NOITEM", "WALL", "REDUCE_SCENT", "SUPPORTS_ROOF", "MINEABLE" ],
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -1297,7 +1304,7 @@
     "move_cost": 0,
     "coverage": 55,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "WALL", "SUPPORTS_ROOF", "MINEABLE" ],
+    "flags": [ "NOITEM", "WALL", "PERMEABLE", "SUPPORTS_ROOF", "MINEABLE" ],
     "bash": {
       "str_min": 20,
       "str_max": 120,
@@ -1318,6 +1325,47 @@
         { "item": "steel_chunk", "count": [ 1, 6 ] },
         { "item": "scrap", "count": [ 2, 4 ] }
       ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_drystone_wall",
+    "name": "field stone wall",
+    "description": "A sturdy dry stone wall.  Just rocks fitted together without mortar.",
+    "symbol": "LINE_OXOX",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 50,
+      "str_max": 200,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "rock", "count": [ 8, 18 ] }, { "item": "pebble", "count": [ 20, 38 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_drystone_wall_half",
+    "name": "field stone half-wall",
+    "description": "A half height sturdy dry stone wall.  Just rocks fitted together without mortar.  Complete as is or with extensive work it could be doubled in height.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 4,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 30,
+      "str_max": 120,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "rock", "count": [ 3, 8 ] }, { "item": "pebble", "count": [ 20, 38 ] } ]
     }
   }
 ]

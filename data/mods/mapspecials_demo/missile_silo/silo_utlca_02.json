@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "silo_utlca" ],
-    "comment": "underground. top left corner. A stairs",
+    "//": "underground. top left corner. A stairs",
     "method": "json",
     "weight": 100,
     "object": {
@@ -13,7 +13,7 @@
         "#################-------",
         "################-|....D.",
         "###############-|....c6.",
-        "###############|6..D...D.",
+        "###############|6..D..D.",
         "##---------####|4.c6....",
         "##|...|eee|####|6..D..D.",
         "##|.<.|eee|####-|....c6.",

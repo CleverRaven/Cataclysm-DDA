@@ -1,0 +1,272 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room0_rammed_earth_northeast",
+    "description": "We can use a rammed earth workshop.  Let's start by building a spot to protect the workers from the rain.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room0_rammed_earth_northeast",
+    "blueprint_name": "northeast wall",
+    "blueprint_requires": [ { "id": "fbmw_0" } ],
+    "blueprint_provides": [ { "id": "fbmw_northeast" } ],
+    "blueprint_excludes": [ { "id": "fbmw_northeast" } ],
+    "blueprint_needs": {
+      "time": "3 d 11 h 45 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 230 ] ],
+          [ [ "concrete", 9 ], [ "material_quicklime", 180 ], [ "material_sand", 180 ] ],
+          [ [ "material_soil", 2160 ] ],
+          [ [ "nail", 560 ] ],
+          [ [ "pointy_stick", 18 ], [ "spear_wood", 18 ] ],
+          [ [ "water", 900 ], [ "water_clean", 900 ] ],
+          [ [ "wood_panel", 25 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room3_rammed_earth_north",
+    "description": "Let's extend the north rammed earth wall to the west and add some storage space.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room3_rammed_earth_north",
+    "blueprint_name": "north wall",
+    "blueprint_requires": [ { "id": "fbmw_northeast", "amount": 3 } ],
+    "blueprint_provides": [ { "id": "fbmw_north" } ],
+    "blueprint_excludes": [ { "id": "fbmw_north" } ],
+    "blueprint_needs": {
+      "time": "2 d 6 h 40 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 135 ] ],
+          [ [ "concrete", 6 ], [ "material_quicklime", 120 ], [ "material_sand", 120 ] ],
+          [ [ "material_soil", 1440 ] ],
+          [ [ "nail", 382 ] ],
+          [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
+          [ [ "water", 600 ], [ "water_clean", 600 ] ],
+          [ [ "wood_panel", 22 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room4_rammed_earth_east",
+    "description": "Let's expand our production by adding another charcoal kiln.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room4_rammed_earth_east",
+    "blueprint_name": "east forage wall",
+    "blueprint_requires": [ { "id": "fbmw_north" } ],
+    "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
+    "blueprint_excludes": [ { "id": "fbmw_east" } ],
+    "blueprint_needs": {
+      "time": "2 d 14 h 25 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 285 ] ],
+          [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
+          [ [ "material_soil", 960 ] ],
+          [ [ "nail", 734 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
+          [ [ "water", 400 ], [ "water_clean", 400 ] ],
+          [ [ "wood_panel", 38 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room5_rammed_earth_center",
+    "description": "Let's expand work area with a rammed earth wall, and add add a bookshelf for our reference books.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room5_rammed_earth_center",
+    "blueprint_name": "west forage wall",
+    "blueprint_requires": [ { "id": "fbmw_east" } ],
+    "blueprint_provides": [ { "id": "fbmw_center" } ],
+    "blueprint_excludes": [ { "id": "fbmw_center" } ],
+    "blueprint_needs": {
+      "time": "1 d 19 h 5 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ], [ "tailor", 3 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 152 ] ],
+          [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
+          [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
+          [ [ "material_soil", 960 ] ],
+          [ [ "nail", 372 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "water", 400 ], [ "water_clean", 400 ] ],
+          [ [ "wood_panel", 19 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room6_rammed_earth_north",
+    "description": "Let's expand our production by adding a rammed earth walled pottery kiln area.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room6_rammed_earth_north",
+    "blueprint_name": "north pottery wall",
+    "blueprint_requires": [ { "id": "fbmw_center" } ],
+    "blueprint_provides": [ { "id": "fbmw_north" }, { "id": "blacksmith_recipes_4" } ],
+    "blueprint_excludes": [ { "id": "fbmw_north", "amount": 2 } ],
+    "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
+    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
+    "blueprint_needs": {
+      "time": "1 d 16 h 55 m",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [
+          [ [ "frame_wood_light", -1 ] ],
+          [ [ "log", -1 ] ],
+          [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ]
+        ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 132 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
+          [ [ "concrete", 3 ], [ "material_quicklime", 60 ], [ "material_sand", 60 ] ],
+          [ [ "material_soil", 720 ] ],
+          [ [ "nail", 380 ] ],
+          [ [ "pipe", 16 ] ],
+          [ [ "pointy_stick", 6 ], [ "spear_wood", 6 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "sheet_metal_small", 8 ] ],
+          [ [ "water", 302 ], [ "water_clean", 302 ] ],
+          [ [ "wood_panel", 23 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room7to9_rammed_earth_northwest",
+    "description": "Let's enclose this pottery with rammed earth walls and get some more storage set up.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room7to9_rammed_earth_northwest",
+    "blueprint_name": "northwest and south pottery wall",
+    "blueprint_requires": [ { "id": "fbmw_north", "amount": 2 } ],
+    "blueprint_provides": [ { "id": "fbmw_northwest" }, { "id": "blacksmith_recipes_5" } ],
+    "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
+    "blueprint_needs": {
+      "time": "3 d 19 h 13 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [
+          [ [ "frame_wood_light", -1 ] ],
+          [ [ "log", -1 ] ],
+          [
+            [ "machete", -1 ],
+            [ "makeshift_machete", -1 ],
+            [ "scythe", -1 ],
+            [ "sickle", -1 ],
+            [ "survivor_machete", -1 ]
+          ]
+        ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 170 ] ],
+          [ [ "concrete", 11 ], [ "material_quicklime", 220 ], [ "material_sand", 220 ] ],
+          [ [ "material_soil", 2640 ] ],
+          [ [ "nail", 514 ] ],
+          [ [ "pointy_stick", 22 ], [ "spear_wood", 22 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
+          [ [ "water", 1100 ], [ "water_clean", 1100 ] ],
+          [ [ "wood_panel", 30 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room11to12_rammed_earth_southeast",
+    "description": "Let's expand the workspace for larger projects and add a drop hammer for productivity.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room11to12_rammed_earth_southeast",
+    "blueprint_name": "openair, covered work space",
+    "blueprint_requires": [ { "id": "fbmw_northeast", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmw_southeast" }, { "id": "fbmw_south" }, { "id": "blacksmith_recipes_7" } ],
+    "blueprint_excludes": [ { "id": "fbmw_northsoutheast" }, { "id": "fbmw_south" } ],
+    "blueprint_resources": [ "wrench", "pliers", "fake_drop_hammer" ],
+    "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ],
+    "blueprint_needs": {
+      "time": "4 d 12 h 30 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "pointy_stick", 20 ], [ "spear_wood", 20 ] ],
+          [ [ "material_soil", 2400 ] ],
+          [ [ "water", 1000 ], [ "water_clean", 1000 ] ],
+          [ [ "material_sand", 200 ], [ "material_quicklime", 200 ], [ "concrete", 10 ] ],
+          [ [ "metal_tank", 2 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "anvil", 1 ] ],
+          [ [ "chain", 4 ] ],
+          [ [ "pipe", 3 ] ],
+          [ [ "wood_panel", 44 ] ],
+          [ [ "2x4", 352 ] ],
+          [ [ "nail", 880 ] ]
+        ]
+      }
+    }
+  }
+]

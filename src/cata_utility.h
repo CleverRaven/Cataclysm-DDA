@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_UTILITY_H
-#define CATA_UTILITY_H
+#ifndef CATA_SRC_CATA_UTILITY_H
+#define CATA_SRC_CATA_UTILITY_H
 
 #include <fstream>
 #include <functional>
@@ -232,6 +232,9 @@ double convert_velocity( int velocity, units_type vel_units );
  */
 double convert_weight( const units::mass &weight );
 
+/** convert a mass unit to a string readable by a human */
+std::string weight_to_string( const units::mass &weight );
+
 /**
  * Convert volume from ml to units defined by user.
  */
@@ -242,6 +245,9 @@ double convert_volume( int volume );
  * optionally returning the units preferred scale.
  */
 double convert_volume( int volume, int *out_scale );
+
+/** convert a volume unit to a string readable by a human */
+std::string vol_to_string( const units::volume &vol );
 
 /**
  * Convert a temperature from degrees Fahrenheit to degrees Celsius.
@@ -340,7 +346,8 @@ class list_circularizer
 
         /** Return list element at the current location */
         T &cur() const {
-            return ( *_list )[_index]; // list could be null, but it would be a design time mistake and really, the callers fault.
+            // list could be null, but it would be a design time mistake and really, the callers fault.
+            return ( *_list )[_index];
         }
 };
 
@@ -509,4 +516,23 @@ std::string join( const std::vector<std::string> &strings, const std::string &jo
 
 int modulo( int v, int m );
 
-#endif // CAT_UTILITY_H
+class on_out_of_scope
+{
+    private:
+        std::function<void()> func;
+    public:
+        on_out_of_scope( const std::function<void()> &func ) : func( func ) {
+        }
+
+        ~on_out_of_scope() {
+            if( func ) {
+                func();
+            }
+        }
+
+        void cancel() {
+            func = nullptr;
+        }
+};
+
+#endif // CATA_SRC_CATA_UTILITY_H

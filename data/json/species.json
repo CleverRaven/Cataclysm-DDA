@@ -2,93 +2,117 @@
   {
     "type": "SPECIES",
     "id": "MAMMAL",
+    "description": "a mammal",
     "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ]
   },
   {
     "type": "SPECIES",
     "id": "AMPHIBIAN",
+    "description": "an amphibian",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "BIRD",
+    "description": "a bird",
     "fear_triggers": [ "HURT", "SOUND" ]
   },
   {
     "type": "SPECIES",
     "id": "REPTILE",
+    "description": "a reptile",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "FISH",
+    "description": "a fish",
     "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ]
   },
   {
     "type": "SPECIES",
     "id": "MUTANT",
+    "description": "a mutant",
     "fear_triggers": [ "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "NETHER",
+    "description": "a nether creature",
     "fear_triggers": [ "HURT" ]
   },
   {
     "type": "SPECIES",
     "id": "BLOB",
+    "description": "a blob",
     "footsteps": "plop."
   },
   {
     "type": "SPECIES",
     "id": "FUNGUS",
+    "description": "a fungus",
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "LEECH_PLANT",
+    "description": "a leech plant",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "INSECT",
+    "description": "an insect",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "SPIDER",
+    "description": "a spider",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "PLANT",
+    "description": "a plant",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "MOLLUSK",
+    "description": "a mollusk",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "WORM",
+    "description": "a worm",
     "footsteps": "rustle.",
     "fear_triggers": [ "HURT" ]
   },
   {
     "type": "SPECIES",
     "id": "ZOMBIE",
+    "description": "a zombie",
     "footsteps": "shuffling."
   },
   {
     "type": "SPECIES",
     "id": "ROBOT",
+    "description": "a robot",
     "footsteps": "mechanical whirring."
   },
   {
     "type": "SPECIES",
-    "id": "HORROR"
+    "id": "HORROR",
+    "description": "a horror"
   },
   {
     "type": "SPECIES",
-    "id": "ABERRATION"
+    "id": "ABERRATION",
+    "description": "an aberration"
   },
   {
     "type": "SPECIES",
@@ -96,7 +120,8 @@
   },
   {
     "type": "SPECIES",
-    "id": "HUMAN"
+    "id": "HUMAN",
+    "description": "a human"
   },
   {
     "type": "SPECIES",

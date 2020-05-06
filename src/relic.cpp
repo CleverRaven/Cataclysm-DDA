@@ -1,13 +1,14 @@
 #include "relic.h"
 
-#include "creature.h"
-#include "magic_enchantment.h"
-#include "json.h"
-#include "point.h"
-#include "magic.h"
-#include "translations.h"
-
+#include <algorithm>
 #include <cmath>
+
+#include "creature.h"
+#include "json.h"
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "translations.h"
+#include "type_id.h"
 
 void relic::add_active_effect( const fake_spell &sp )
 {
@@ -24,23 +25,22 @@ void relic::add_passive_effect( const enchantment &nench )
     passive_effects.emplace_back( nench );
 }
 
-void relic::load( JsonObject &jo )
+void relic::load( const JsonObject &jo )
 {
     if( jo.has_array( "active_effects" ) ) {
-        JsonArray jarray = jo.get_array( "active_effects" );
-        while( jarray.has_more() ) {
+        for( JsonObject jobj : jo.get_array( "active_effects" ) ) {
             fake_spell sp;
-            JsonObject jobj = jarray.next_object();
             sp.load( jobj );
             add_active_effect( sp );
         }
     }
     if( jo.has_array( "passive_effects" ) ) {
-        JsonArray jarray = jo.get_array( "passive_effects" );
-        while( jarray.has_more() ) {
+        for( JsonObject jobj : jo.get_array( "passive_effects" ) ) {
             enchantment ench;
-            JsonObject jobj = jarray.next_object();
             ench.load( jobj );
+            if( !ench.id.is_empty() ) {
+                ench = ench.id.obj();
+            }
             add_passive_effect( ench );
         }
     }
@@ -105,9 +105,9 @@ int relic::modify_value( const enchantment::mod value_type, const int value ) co
     multiply_modifier = std::max( multiply_modifier + 1.0, 0.0 );
     int modified_value;
     if( multiply_modifier < 1.0 ) {
-        modified_value = floor( multiply_modifier * value );
+        modified_value = std::floor( multiply_modifier * value );
     } else {
-        modified_value = ceil( multiply_modifier * value );
+        modified_value = std::ceil( multiply_modifier * value );
     }
     return modified_value + add_modifier;
 }

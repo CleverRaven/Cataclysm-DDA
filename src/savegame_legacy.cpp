@@ -1,42 +1,20 @@
 #include <cstddef>
-#include <sstream>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <array>
-#include <list>
-#include <map>
-#include <memory>
-#include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "debug.h"
-// for legacy classdata loaders
-#include "item.h"
-#include "calendar.h"
-#include "itype.h"
-#include "json.h"
-#include "mongroup.h"
 #include "npc.h"
-#include "options.h"
-#include "overmap.h"
 #include "player_activity.h"
-#include "cata_utility.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "monster.h"
-#include "regional_settings.h"
-#include "rng.h"
 #include "type_id.h"
-#include "flat_set.h"
-#include "point.h"
 
 namespace std
 {
 template <>
 struct hash<talk_topic_enum> {
     // Operator overload required by std API.
-    std::size_t operator()( const talk_topic_enum &k ) const {
+    std::size_t operator()( const talk_topic_enum &k ) const noexcept {
         return k; // the most trivial hash of them all
     }
 };
@@ -245,7 +223,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
     };
 
     if( legacy_type < 0 || static_cast<size_t>( legacy_type ) >= legacy_map.size() ) {
-        debugmsg( "Bad legacy activity data. Got %d, expected something from 0 to %d", legacy_type,
+        debugmsg( "Bad legacy activity data.  Got %d, expected something from 0 to %d", legacy_type,
                   legacy_map.size() );
         dest = activity_id::NULL_ID();
         return;

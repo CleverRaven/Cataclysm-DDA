@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "FEMA_tlc",
-    "comment": "top left corner.",
+    "//": "top left corner.",
     "weight": 200,
     "method": "json",
     "object": {

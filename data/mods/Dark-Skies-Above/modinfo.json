@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "darkskies",
+    "name": "Dark Skies Above",
+    "authors": [ "ephemeral_storyteller" ],
+    "description": "A total conversion that shifts the Cataclysm towards an XCOM 2 style alien occupation. Use other mods at your own risk!",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]

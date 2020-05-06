@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "estate_mid",
-    "comment": "any floor, middle area",
+    "//": "any floor, middle area",
     "weight": 0,
     "method": "json",
     "object": {

@@ -62,49 +62,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmw_room1_metal",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "  ftL ",
-        "      ",
-        "      ",
-        "      ",
-        "    x "
-      ],
-      "palettes": [ "fbmw_metal_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmw_room1_metal_northeast",
-    "method": "json",
-    "object": {
-      "place_nested": [ { "chunks": [ "fbmw_room1_metal" ], "x": 15, "y": 3 } ],
-      "place_loot": [ { "item": "crucible", "x": 18, "y": 4, "chance": 100 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmw_room2_metal",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "r     ",
-        "    c ",
-        "  A c ",
-        "    c ",
-        "      "
-      ],
-      "palettes": [ "fbmw_metal_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
     "update_mapgen_id": "fbmw_room2_metal_northeast",
     "method": "json",
     "object": {
@@ -272,36 +229,6 @@
         { "chunks": [ "fbmw_room7_metal" ], "x": 3, "y": 3 },
         { "chunks": [ "fbmw_room8_metal" ], "x": 3, "y": 9 },
         { "chunks": [ "fbmw_room9_metal" ], "x": 9, "y": 9 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmw_room10_metal",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        " Q    ",
-        "      ",
-        "      ",
-        "      ",
-        "      "
-      ],
-      "palettes": [ "fbmw_metal_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmw_room10_metal_northeast",
-    "method": "json",
-    "object": {
-      "place_nested": [ { "chunks": [ "fbmw_room10_metal" ], "x": 15, "y": 3 } ],
-      "place_loot": [
-        { "item": "hammer_sledge", "x": 19, "y": 6, "chance": 100 },
-        { "item": "knife_combat", "x": 19, "y": 6, "chance": 100 },
-        { "item": "copper_knife", "x": 19, "y": 6, "chance": 100 }
       ]
     }
   },

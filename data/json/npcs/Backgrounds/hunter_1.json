@@ -12,7 +12,7 @@
   {
     "id": "BGSS_HUNTER_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, it was like a ...  like a soft shelled crab, with tentacle mouths, and it kept talking in different voices.  I saw it before it saw me, and I capped it with my Remington.  That just pissed it off, but I got another couple shots off while it charged me.  Third or fourth shot took it down.  I figured out shit had hit the fan, somehow.  Headed to my cabin and camped out there for a while, but I had to skip out when a bunch of <zombies> showed up and trashed the place.  I ran into you not much later.",
+    "dynamic_line": "Yeah, it was like a …  like a soft shelled crab, with tentacle mouths, and it kept talking in different voices.  I saw it before it saw me, and I capped it with my Remington.  That just pissed it off, but I got another couple shots off while it charged me.  Third or fourth shot took it down.  I figured out shit had hit the fan, somehow.  Headed to my cabin and camped out there for a while, but I had to skip out when a bunch of <zombies> showed up and trashed the place.  I ran into you not much later.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" } ]
   }
 ]

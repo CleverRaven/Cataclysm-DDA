@@ -12,16 +12,34 @@
     "components": [ [ [ "lead", 1 ] ] ]
   },
   {
+    "id": "copper_scrap_equivalent",
+    "type": "requirement",
+    "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",
+    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 25 ] ] ]
+  },
+  {
     "id": "cordage",
     "type": "requirement",
-    "//": "Materials used for tying items, bowstrings, and other uses involving string or makeshift cordage",
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 6 ], [ "withered", 12 ], [ "straw_pile", 12 ] ] ]
+    "//": "Materials used for tying items, primitive bowstrings, and other uses involving string or makeshift cordage, 36 g/90 cm of cordage per unit.",
+    "components": [ [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_short", 6, "LIST" ] ] ]
   },
   {
     "id": "cordage_short",
     "type": "requirement",
-    "//": "Materials used for tying smaller items requiring less string",
-    "components": [ [ [ "string_6", 1 ], [ "withered", 2 ], [ "straw_pile", 2 ] ] ]
+    "//": "Materials used for tying smaller items requiring less string, 6 g/15 cm of cordage per unit.",
+    "components": [ [ [ "string_6", 1 ], [ "cordage_6", 1 ], [ "filament", 50, "LIST" ] ] ]
+  },
+  {
+    "id": "cordage_superior",
+    "type": "requirement",
+    "//": "Superior materials used for tying items where more durability and/or flexibility are required (like good-quality bowstrings), 36 g/90 cm of string per unit.",
+    "components": [ [ [ "string_36", 1 ], [ "cordage_superior_short", 6, "LIST" ] ] ]
+  },
+  {
+    "id": "cordage_superior_short",
+    "type": "requirement",
+    "//": "Superior materials used for tying smaller items requiring less string where more durability and/or flexibility are required (like good-quality bowstrings), 6 g/15 cm of string per unit.",
+    "components": [ [ [ "string_6", 1 ], [ "filament", 50, "LIST" ] ] ]
   },
   {
     "id": "cvd_diamond",
@@ -50,8 +68,20 @@
   {
     "id": "fabric_standard",
     "type": "requirement",
-    "//": "Materials used for crafting or repairing clothing or sheeting",
-    "components": [ [ [ "rag", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
+    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+  },
+  {
+    "id": "fabric_standard_permeable",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing woven fabrics",
+    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+  },
+  {
+    "id": "fabric_standard_nostretch",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing non-form fitting clothing",
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
   },
   {
     "id": "filament",
@@ -65,11 +95,12 @@
     "//": "Materials for glazing pottery",
     "components": [
       [
-        [ "tallow", 1 ],
+        [ "edible_tallow", 1, "LIST" ],
         [ "cooking_oil", 8 ],
         [ "cooking_oil2", 8 ],
         [ "wax", 1 ],
         [ "lamp_oil", 200 ],
+        [ "motor_oil", 200 ],
         [ "salt_water", 5 ],
         [ "ash", 50 ],
         [ "tin", 50 ]
@@ -79,23 +110,26 @@
   {
     "id": "rope_natural",
     "type": "requirement",
-    "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible",
-    "components": [
-      [
-        [ "rope_6", 5 ],
-        [ "rope_30", 1 ],
-        [ "rope_makeshift_6", 5 ],
-        [ "rope_makeshift_30", 1 ],
-        [ "vine_30", 1 ],
-        [ "grapnel", 1 ]
-      ]
-    ]
+    "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible, per 1080 g/9 m of rope",
+    "components": [ [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "rope_natural_short", 5, "LIST" ] ] ]
   },
   {
     "id": "rope_natural_short",
     "type": "requirement",
-    "//": "Materials used for lashing, when choice of makeshift rope is sensible",
-    "components": [ [ [ "rope_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+    "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+  },
+  {
+    "id": "rope_superior",
+    "type": "requirement",
+    "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 1080 g/9 m of rope.",
+    "components": [ [ [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_superior_short", 5, "LIST" ] ] ]
+  },
+  {
+    "id": "rope_superior_short",
+    "type": "requirement",
+    "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 216 g/180 cm of rope.",
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
   },
   {
     "id": "steel_standard",
@@ -123,10 +157,9 @@
       [
         [ "feather", 10 ],
         [ "duct_tape", 40 ],
-        [ "paper", 40 ],
+        [ "cardboard", 10 ],
         [ "bag_plastic", 1 ],
         [ "bottle_plastic_small", 1 ],
-        [ "box_small", 1 ],
         [ "plastic_chunk", 1 ],
         [ "aluminum_foil", 40 ],
         [ "cash_card", 2 ]
@@ -144,5 +177,17 @@
     "type": "requirement",
     "//": "Materials used for plastic and rubber things.",
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "id": "solar_panel",
+    "type": "requirement",
+    "//": "Materials used for repairing solar panels",
+    "components": [ [ [ "solar_cell", 3 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
+    "id": "solar_panel_v2",
+    "type": "requirement",
+    "//": "Materials used for repairing upgraded solar panels",
+    "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
   }
 ]

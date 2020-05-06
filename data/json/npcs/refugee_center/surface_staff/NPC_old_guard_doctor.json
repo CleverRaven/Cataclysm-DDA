@@ -30,7 +30,7 @@
     "dynamic_line": "I'm a doctor, one of the several at the outpost.  We were the lucky ones.  Came here right went things started to go wrong, never left.",
     "responses": [
       { "text": "So what are you doing right now?", "topic": "TALK_SCIENCE_REP_NEW_DOING" },
-      { "text": "Never mind...", "topic": "TALK_SCIENCE_REP" }
+      { "text": "Never mind…", "topic": "TALK_SCIENCE_REP" }
     ]
   },
   {
@@ -39,31 +39,31 @@
     "dynamic_line": "The Old Guard--that's what's left of the feds--set me up here to screen any new arrivals for infection risks.  Can't be too paranoid these days.  Sad to have to turn people away, but I like the assignment for the chance to get news about the outside world.",
     "responses": [
       { "text": "What kind of news?", "topic": "TALK_SCIENCE_REP_NEW_NEWS" },
-      { "text": "Never mind...", "topic": "TALK_SCIENCE_REP" }
+      { "text": "Never mind…", "topic": "TALK_SCIENCE_REP" }
     ]
   },
   {
     "id": "TALK_SCIENCE_REP_NEW_NEWS",
     "type": "talk_topic",
     "dynamic_line": "Sightings of unusual living dead or new mutations.  The more we know about what's happening, the closer we can get to a treatment or maybe even a cure.  It's a long shot, but you have hope to survive.",
-    "responses": [ { "text": "Good luck with that...", "topic": "TALK_SCIENCE_REP" } ]
+    "responses": [ { "text": "Good luck with that…", "topic": "TALK_SCIENCE_REP" } ]
   },
   {
     "id": "TALK_SCIENCE_REP_WORLD",
     "type": "talk_topic",
-    "dynamic_line": "This is no classic zombie outbreak.  The dead seem to be getting stronger as the days go on.  Some survivors too, come in here with... adaptations.  Maybe they're related.",
-    "responses": [ { "text": "Never mind...", "topic": "TALK_SCIENCE_REP" } ]
+    "dynamic_line": "This is no classic zombie outbreak.  The dead seem to be getting stronger as the days go on.  Some survivors too, come in here with… adaptations.  Maybe they're related.",
+    "responses": [ { "text": "Never mind…", "topic": "TALK_SCIENCE_REP" } ]
   },
   {
     "id": "TALK_SCIENCE_REP_ASK_TRADE",
     "type": "talk_topic",
     "dynamic_line": "We can't.  There's nothing we can spare to sell and I've got no budget to buy from you.  I don't suppose you want to donate?",
-    "responses": [ { "text": "...", "topic": "TALK_SCIENCE_REP" } ]
+    "responses": [ { "text": "…", "topic": "TALK_SCIENCE_REP" } ]
   },
   {
     "id": "MISSION_SCIENCE_REP_1",
     "type": "mission_definition",
-    "name": "Analyze Zombie Blood",
+    "name": { "str": "Analyze Zombie Blood" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -75,21 +75,21 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_2",
     "dialogue": {
-      "describe": "It could be very informative to perform an analysis of zombie blood...",
+      "describe": "It could be very informative to perform an analysis of zombie blood…",
       "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  I need you to get a fresh sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.",
       "accepted": "Excellent.  Take this blood draw kit; once you've found a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
-      "rejected": "Are you sure?  The scientific value of that blood data could be priceless...",
+      "rejected": "Are you sure?  The scientific value of that blood data could be priceless…",
       "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
       "inquire": "Well, do you have the data yet?",
       "success": "Excellent!  This may be the key to removing the infection.",
       "success_lie": "Wait, you couldn't possibly have the data!  Liar!",
-      "failure": "What a shame, that data could have proved invaluable..."
+      "failure": "What a shame, that data could have proved invaluable…"
     }
   },
   {
     "id": "MISSION_SCIENCE_REP_2",
     "type": "mission_definition",
-    "name": "Download Workstation Data",
+    "name": { "str": "Download Workstation Data" },
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -98,7 +98,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_3",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.",
       "accepted": "Great!  I've mapped out a route to the address.",
       "rejected": "Can't blame you, but come back if you change your mind.",
@@ -106,13 +106,13 @@
       "inquire": "Have you completed your mission?",
       "success": "Thanks!  This data looks damaged, but maybe I can make something out of it.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
     "id": "MISSION_SCIENCE_REP_3",
     "type": "mission_definition",
-    "name": "Download Encryption Codes",
+    "name": { "str": "Download Encryption Codes" },
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -121,7 +121,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_4",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "Unfortunately the data you got was incomplete and mostly encrypted.  There may be a way to get encryption codes, though.  I found a complaint by the infosec team that they were unable to deliver critical security updates to one research site.  It was some kind of more restricted secondary site hidden beneath a town, they weren't allowed in.  That means it should have unsecured computers we can get the codes from.",
       "accepted": "Great!  I've mapped out a route, it should look like a normal house.  Bring back anything you find on a USB drive.",
       "rejected": "Can't blame you, but come back if you change your mind.",
@@ -129,13 +129,13 @@
       "inquire": "Have you completed your mission?",
       "success": "Wonderful!  Now I just need to get an undamaged, complete archive, and we can really figure out what happened.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
     "id": "MISSION_SCIENCE_REP_4",
     "type": "mission_definition",
-    "name": "Download Research Archives",
+    "name": { "str": "Download Research Archives" },
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -144,21 +144,21 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_5",
     "dialogue": {
-      "describe": "We need help...",
-      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did found communications from a lab that had some kind of freezing portal open during the cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.",
+      "describe": "We need help…",
+      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did found communications from a lab that had some kind of freezing portal open during the Cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.",
       "accepted": "Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you go and it looks like the archives were on the fourth basement level.",
       "rejected": "Can't blame you, but come back if you change your mind.",
       "advice": "That lab is going to start freezing and just get colder the deeper you go.  You'll really need special equipment to survive that far down.  Bring back anything you find on a USB drive.",
       "inquire": "Have you completed your mission?",
       "success": "Thanks!  This is a lot of data to go through.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   },
   {
     "id": "MISSION_SCIENCE_REP_5",
     "type": "mission_definition",
-    "name": "Find Lab Tunnels",
+    "name": { "str": "Find Lab Tunnels" },
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -166,7 +166,7 @@
     "start": "reveal_lab_train_depot",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "In the data we found a major contract for tunneling and train equipment, ordered a long time ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
       "accepted": "So glad for your help.",
       "rejected": "Can't blame you, but come back if you change your mind.",
@@ -174,7 +174,7 @@
       "inquire": "Have you completed your mission?",
       "success": "Fantastic!  I should be able to reconstruct what cargo moved between which labs.  I wonder what was really going on down there.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   }
 ]

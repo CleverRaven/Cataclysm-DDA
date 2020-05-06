@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "silo_ubrc" ],
-    "comment": "underground. bottom right corner",
+    "//": "underground. bottom right corner",
     "method": "json",
     "weight": 100,
     "object": {

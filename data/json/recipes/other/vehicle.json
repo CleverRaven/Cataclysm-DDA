@@ -52,7 +52,7 @@
     "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_6", 1 ] ], [ [ "duct_tape", 20 ] ] ]
+    "components": [ [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_superior_short", 1, "LIST" ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {
     "result": "filter_air_makeshift",
@@ -107,9 +107,9 @@
     "difficulty": 4,
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "rope_natural", 4 ], [ "welding_standard", 12 ] ],
+    "using": [ [ "rope_natural", 4 ], [ "welding_standard", 12 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "frame", 4 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "pipe", 12 ] ] ]
+    "components": [ [ [ "frame", 4 ] ], [ [ "pipe", 11 ] ] ]
   },
   {
     "type": "recipe",
@@ -120,9 +120,9 @@
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
-    "time": "60 m",
+    "time": "30 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 2 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "cargo_rack", 1 ] ] ]
   },

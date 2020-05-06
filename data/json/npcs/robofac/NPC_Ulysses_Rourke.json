@@ -9,14 +9,14 @@
     "class": "NC_ROBOFAC_SECURITY_HEAD",
     "attitude": 0,
     "mission": 8,
-    "//": "He needs unique dialogue.  But for now he's just the boss enemy of Hub 01, if the player attmepts to invade the lab.",
+    "//": "He needs unique dialogue.  But for now he's just the boss enemy of Hub 01, if the player attempts to invade the lab.",
     "chat": "TALK_HUB_SECURITY",
     "faction": "robofac"
   },
   {
     "type": "npc_class",
     "id": "NC_ROBOFAC_SECURITY_HEAD",
-    "name": "Head of security",
+    "name": { "str": "Head of security" },
     "job_description": "I'm part of the Hub security team.",
     "common": false,
     "//": "Needs his own unique background.",
@@ -70,7 +70,7 @@
     "id": "NC_robofac_security_head_misc",
     "subtype": "collection",
     "entries": [
-      { "item": "EMPbomb" },
+      { "item": "grenade_emp" },
       { "item": "needlegun", "charges": 100, "ammo-item": "5x50heavy" },
       { "item": "goggles_nv" },
       { "item": "flashbang", "count": 2 },

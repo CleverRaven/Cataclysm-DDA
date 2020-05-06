@@ -1,0 +1,42 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "afs_circuitry_1",
+    "copy-from": "afs_scrap_1",
+    "name": { "str_sp": "scrap photonics" },
+    "description": "Small circuits blue and gold, transmitting signals through light.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_circuitry_2",
+    "copy-from": "afs_scrap_2",
+    "name": { "str": "photonic circuitry", "str_pl": "photonic circuitries" },
+    "description": "A resplendent golden grid inlaid on dark blue substrate.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_circuitry_3",
+    "copy-from": "afs_scrap_3",
+    "name": { "str": "photonic computation core" },
+    "description": "A monolithic circuit shaped as a glowing cube of crystal.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_circuitry_4",
+    "copy-from": "afs_scrap_4",
+    "name": { "str_sp": "hypergeometric photonics" },
+    "description": "In your hands lies a self-contained digital universe.  Its programs glowing like stars fixed on computational shells infinitely layered.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_circuitry_5",
+    "copy-from": "afs_scrap_5",
+    "name": { "str": "acausal logic permutator" },
+    "description": "It has given you an answer, but you are yet to ask anything.",
+    "looks_like": "scrap"
+  }
+]

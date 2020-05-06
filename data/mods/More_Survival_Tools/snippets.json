@@ -2,7 +2,12 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Shoot elfy mutants.  Carve more bolts outta their bones.  Rinse and repeat.\"" ],
-    "//": "Dwarf Fortress reference."
+    "text": [
+      {
+        "id": "note_more_survival_tools_1",
+        "text": "\"Shoot elfy mutants.  Carve more bolts outta their bones.  Rinse and repeat.\"",
+        "//": "Dwarf Fortress reference."
+      }
+    ]
   }
 ]

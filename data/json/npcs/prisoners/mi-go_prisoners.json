@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "mi-go_prisoner",
-    "//": "A naked prisoner trapped in a horrifing cage, watching horrible things happen.",
+    "//": "A naked prisoner trapped in a horrifying cage, watching horrible things happen.",
     "name_suffix": "prisoner",
     "class": "NC_PRISONER",
     "attitude": 0,
@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_PRISONER",
-    "name": "Prisoner",
+    "name": { "str": "Prisoner" },
     "common": false,
     "job_description": "I'm just trying to survive.",
     "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
@@ -31,7 +31,7 @@
     "type": "talk_topic",
     "id": "TALK_MI-GO_PRISONER1",
     "dynamic_line": [
-      "My god, you've got to get me out of here.  The things... the things they've done... please help.",
+      "My god, you've got to get me out of here.  The things… the things they've done… please help.",
       "Aren't you a little short to be a stormtrooper?",
       "Please, help me.",
       "Can you get me out of this hell hole?",
@@ -39,7 +39,7 @@
       "Can you please save me?  I have to get out of here.",
       "Hallelujah, rescue!",
       "I can't believe my eyes.  Thank you, thank you!",
-      "You're... you're actually real!",
+      "You're… you're actually real!",
       "How are you here?  Are you one of them, somehow?  What's going on?"
     ],
     "responses": [

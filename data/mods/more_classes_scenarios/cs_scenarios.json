@@ -4,8 +4,8 @@
     "ident": "fema_help",
     "name": "Challenge-FEMA Death Camp",
     "points": -6,
-    "description": "You were one of the many law-enforcement and military personnel alike called in to keep order on one of the FEMA camps.  It all went to shit fast...wounded, infected, surrounded by fire you lie on the ground...and they just keep coming...",
-    "allowed_locs": [ "fema_entrance_s", "fema_s" ],
+    "description": "You were one of the many law-enforcement and military personnel alike called in to keep order on one of the FEMA camps.  It all went to shit fast… wounded, infected, surrounded by fire you lie on the ground… and they just keep coming…",
+    "allowed_locs": [ "sloc_fema_entrance", "sloc_fema" ],
     "professions": [
       "cop",
       "sniper_police",
@@ -28,22 +28,10 @@
     "name": "Mansion Holdout",
     "points": -1,
     "description": "While the world ended, you felt relatively safe inside the mansion you have serviced for years.  Now the dead have come knocking at your doorstep, and it might be time to leave.",
-    "allowed_locs": [ "mansion_e2_s", "mansion_+2_s" ],
+    "allowed_locs": [ "sloc_mansion", "sloc_mansion_entrance" ],
     "professions": [ "maid" ],
     "start_name": "Mansion",
     "flags": [ "SUR_START" ]
-  },
-  {
-    "type": "scenario",
-    "ident": "summer_advanced_start",
-    "copy-from": "summer_advanced_start",
-    "extend": { "professions": [ "wasteland_cyborg" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "ambushed",
-    "copy-from": "ambushed",
-    "extend": { "professions": [ "wasteland_cyborg" ] }
   },
   {
     "type": "scenario",
@@ -56,18 +44,24 @@
     "type": "scenario",
     "ident": "missed",
     "copy-from": "missed",
-    "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s", "bank", "pawn", "s_gun", "s_gas_s" ] }
+    "extend": {
+      "allowed_locs": [ "sloc_electronics_store", "sloc_clothes_store", "sloc_bank", "sloc_pawn_shop", "sloc_gun_store", "sloc_gas_station" ]
+    }
   },
   {
     "type": "scenario",
     "ident": "infected",
     "copy-from": "infected",
-    "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s", "bank", "pawn", "s_gun", "s_gas_s" ] }
+    "extend": {
+      "allowed_locs": [ "sloc_electronics_store", "sloc_clothes_store", "sloc_bank", "sloc_pawn_shop", "sloc_gun_store", "sloc_gas_station" ]
+    }
   },
   {
     "type": "scenario",
     "ident": "fire",
     "copy-from": "fire",
-    "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s", "bank", "pawn", "s_gun", "s_gas_s" ] }
+    "extend": {
+      "allowed_locs": [ "sloc_electronics_store", "sloc_clothes_store", "sloc_bank", "sloc_pawn_shop", "sloc_gun_store", "sloc_gas_station" ]
+    }
   }
 ]

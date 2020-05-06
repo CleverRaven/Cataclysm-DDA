@@ -1,13 +1,15 @@
 [
   {
     "id": "m3_carlgustav",
+    "looks_like": "m79",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
-    "name": "M3 recoilless rifle",
+    "name": { "str": "M3 recoilless rifle" },
     "description": "Manufactured in Sweden, the Carl Gustav M3 is a breech-loading 84 millimeter man-portable, reusable, multi-role recoilless rifle commonly used by the US military.",
     "price": 1300000,
+    "price_postapoc": 6000,
     "material": "steel",
     "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS" ],
     "skill": "launcher",
@@ -33,16 +35,16 @@
   {
     "id": "AT4",
     "type": "GUN",
-    "copy-from": "LAW",
-    "name": "AT4",
+    "copy-from": "m3_carlgustav",
+    "name": { "str": "AT4" },
     "description": "Mil-Spec rocket launcher.  An 84-mm unguided, portable, single-shot recoilless smoothbore weapon used primarily by the US military.",
     "extend": { "flags": [ "FIRE_TWOHAND", "NO_REPAIR" ] },
     "ammo": "84x246mm",
     "weight": "6803 g",
     "volume": "3500 ml",
+    "price_postapoc": 6000,
     "bashing": 4,
     "dispersion": 200,
-    "durability": 7,
-    "loudness": 200
+    "durability": 7
   }
 ]

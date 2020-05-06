@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LIVE_VIEW_H
-#define LIVE_VIEW_H
+#ifndef CATA_SRC_LIVE_VIEW_H
+#define CATA_SRC_LIVE_VIEW_H
 
 #include "point.h"
 
@@ -17,6 +17,7 @@ class live_view
         void init();
         int draw( const catacurses::window &win, int max_height );
         void show( const tripoint &p );
+        bool is_enabled();
         void hide();
 
     private:
@@ -25,4 +26,4 @@ class live_view
         bool enabled = false;
 };
 
-#endif
+#endif // CATA_SRC_LIVE_VIEW_H

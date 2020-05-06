@@ -26,6 +26,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::character_loses_effect: return "character_loses_effect";
         case event_type::character_takes_damage: return "character_takes_damage";
         case event_type::character_triggers_trap: return "character_triggers_trap";
+        case event_type::character_wakes_up: return "character_wakes_up";
         case event_type::consumes_marloss_item: return "consumes_marloss_item";
         case event_type::crosses_marloss_threshold: return "crosses_marloss_threshold";
         case event_type::crosses_mutation_threshold: return "crosses_mutation_threshold";
@@ -54,7 +55,6 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::game_start: return "game_start";
         case event_type::installs_cbm: return "installs_cbm";
         case event_type::installs_faulty_cbm: return "installs_faulty_cbm";
-        case event_type::launches_nuke: return "launches_nuke";
         case event_type::learns_martial_art: return "learns_martial_art";
         case event_type::loses_addiction: return "loses_addiction";
         case event_type::npc_becomes_hostile: return "npc_becomes_hostile";
@@ -115,6 +115,7 @@ DEFINE_EVENT_FIELDS( character_kills_monster )
 DEFINE_EVENT_FIELDS( character_loses_effect )
 DEFINE_EVENT_FIELDS( character_takes_damage )
 DEFINE_EVENT_FIELDS( character_triggers_trap )
+DEFINE_EVENT_FIELDS( character_wakes_up )
 DEFINE_EVENT_FIELDS( consumes_marloss_item )
 DEFINE_EVENT_FIELDS( crosses_mutation_threshold )
 DEFINE_EVENT_FIELDS( dies_from_drug_overdose )
@@ -129,7 +130,6 @@ DEFINE_EVENT_FIELDS( game_over )
 DEFINE_EVENT_FIELDS( game_start )
 DEFINE_EVENT_FIELDS( installs_cbm )
 DEFINE_EVENT_FIELDS( installs_faulty_cbm )
-DEFINE_EVENT_FIELDS( launches_nuke )
 DEFINE_EVENT_FIELDS( learns_martial_art )
 DEFINE_EVENT_FIELDS( loses_addiction )
 DEFINE_EVENT_FIELDS( npc_becomes_hostile )
@@ -140,7 +140,7 @@ DEFINE_EVENT_FIELDS( teleports_into_wall )
 } // namespace event_detail
 
 template<event_type Type>
-static void get_fields_if_match( event_type type, std::map<std::string, cata_variant_type> &out )
+static void get_fields_if_match( event_type type, event::fields_type &out )
 {
     if( Type == type ) {
         out = { event_detail::event_spec<Type>::fields.begin(),
@@ -150,10 +150,10 @@ static void get_fields_if_match( event_type type, std::map<std::string, cata_var
 }
 
 template<int... I>
-static std::map<std::string, cata_variant_type>
+static event::fields_type
 get_fields_helper( event_type type, std::integer_sequence<int, I...> )
 {
-    std::map<std::string, cata_variant_type> result;
+    event::fields_type result;
     bool discard[] = {
         ( get_fields_if_match<static_cast<event_type>( I )>( type, result ), true )...
     };
@@ -161,7 +161,7 @@ get_fields_helper( event_type type, std::integer_sequence<int, I...> )
     return result;
 }
 
-std::map<std::string, cata_variant_type> event::get_fields( event_type type )
+event::fields_type event::get_fields( event_type type )
 {
     return get_fields_helper(
                type, std::make_integer_sequence<int, static_cast<int>( event_type::num_event_types )> {} );

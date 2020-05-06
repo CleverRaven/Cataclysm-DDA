@@ -87,12 +87,12 @@
       "items": {
         "I": { "item": "office", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
-        "r": { "item": "farming_tools", "chance": 20, "repeat": [ 1, 2 ] },
-        "#": { "item": "flower_pots", "chance": 20 },
+        "r": { "item": "farming_tools", "chance": 60, "repeat": [ 1, 2 ] },
+        "#": { "item": "flower_pots", "chance": 70, "repeat": [ 2, 8 ] },
         "U": { "item": "trash", "chance": 20 },
-        "@": { "item": "flower_pots", "chance": 20 },
+        "@": { "item": "flower_pots", "chance": 70, "repeat": [ 2, 8 ] },
         "s": { "item": "softdrugs", "chance": 20 },
-        "t": { "item": "farming_seeds", "chance": 30, "repeat": [ 1, 2 ] }
+        "t": { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] }
       }
     }
   },

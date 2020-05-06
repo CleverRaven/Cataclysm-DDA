@@ -78,7 +78,7 @@ cata::optional<int> cata::string_formatter::read_number_or_argument_index()
         if( !consume_next_input_if( '$' ) ) {
             throw_error( "expected '$' after field precision" );
         }
-        return index ;
+        return index;
     }
     while( has_digit() ) {
         current_format.push_back( consume_next_input() );

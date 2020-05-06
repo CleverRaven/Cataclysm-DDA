@@ -41,6 +41,19 @@
     "components": [ [ [ "rag", 3 ] ] ]
   },
   {
+    "result": "xlboy_shorts",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "filament", 25 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "rag", 6 ] ] ]
+  },
+  {
     "result": "boxer_briefs",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -54,6 +67,19 @@
     "components": [ [ [ "rag", 3 ] ] ]
   },
   {
+    "result": "xlboxer_briefs",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "rag", 5 ] ] ]
+  },
+  {
     "result": "boxer_shorts",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -65,6 +91,19 @@
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "components": [ [ [ "rag", 5 ] ] ]
+  },
+  {
+    "result": "xlboxer_shorts",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "rag", 10 ] ] ]
   },
   {
     "result": "breeches",
@@ -226,6 +265,19 @@
     "components": [ [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ] ]
   },
   {
+    "result": "leggings",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "35 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "lycra_patch", 10 ] ] ]
+  },
+  {
     "result": "legguard_hard",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -247,12 +299,10 @@
     "difficulty": 7,
     "time": "190 m",
     "book_learn": [ [ "textbook_armwest", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
-    "components": [
-      [ [ "steel_lump", 7 ], [ "steel_chunk", 28 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 7 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "legguard_metal",
@@ -264,12 +314,9 @@
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "cordage", 4 ] ],
+    "using": [ [ "cordage", 4 ], [ "steel_tiny", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
-    ]
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "legguard_paper",
@@ -470,7 +517,7 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
       [ [ "pants_army", 1 ], [ "pants_cargo", 1 ], [ "shorts_cargo", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 12 ] ],
+      [ [ "kevlar", 1 ], [ "kevlar_plate", 12 ] ],
       [ [ "rag", 12 ] ],
       [
         [ "tacvest", 1 ],
@@ -545,6 +592,7 @@
     "time": "20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "jeans", 1 ] ] ]
   },
   {
@@ -571,6 +619,19 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 24 ] ],
     "components": [ [ [ "rag", 30 ] ] ]
+  },
+  {
+    "result": "under_armor_shorts",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "25 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "lycra_patch", 5 ] ] ]
   },
   {
     "result": "chainmail_legs",

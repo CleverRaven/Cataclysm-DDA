@@ -247,8 +247,7 @@
         { "vehicle": "fire_truck", "x": 5, "y": 5, "rotation": 270, "chance": 20 },
         { "vehicle": "fire_engine", "x": 14, "y": 5, "rotation": 270, "chance": 20 }
       ]
-    },
-    "flags": [ "SIDEWALK" ]
+    }
   },
   {
     "type": "mapgen",

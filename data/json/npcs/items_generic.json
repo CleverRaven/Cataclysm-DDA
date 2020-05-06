@@ -2,32 +2,36 @@
   {
     "type": "item_group",
     "id": "npc_underwear_bottom_male",
-    "groups": [ [ "male_underwear_bottom", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "male_underwear_bottom", 95 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_bottom_female",
-    "groups": [ [ "female_underwear_bottom", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "female_underwear_bottom", 95 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_top_male",
-    "groups": [ [ "male_underwear_top", 50 ], [ "null", 50 ] ]
+    "subtype": "collection",
+    "groups": [ [ "male_underwear_top", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_top_female",
-    "groups": [ [ "female_underwear_top", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "female_underwear_top", 95 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_feet_male",
-    "items": [ [ "socks", 80 ], [ "socks_wool", 20 ], [ "null", 5 ] ]
+    "items": [ [ "socks", 80 ], [ "socks_ankle", 60 ], [ "socks_wool", 20 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_feet_female",
-    "items": [ [ "socks", 50 ], [ "socks_wool", 10 ], [ "stockings", 20 ], [ "tights", 20 ], [ "null", 5 ] ]
+    "items": [ [ "socks", 50 ], [ "socks_ankle", 30 ], [ "socks_wool", 10 ], [ "stockings", 20 ], [ "tights", 20 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
@@ -281,7 +285,7 @@
       [ "vest", 10 ],
       [ "vest_leather", 5 ],
       [ "kevlar", 10 ],
-      [ "modularvest", 5 ],
+      [ "ballistic_vest_esapi", 5 ],
       [ "waistcoat", 5 ],
       [ "flotation_vest", 10 ],
       [ "chainmail_vest", 5 ]
@@ -493,7 +497,7 @@
       [ "diveknife", 1 ],
       [ "diving_watch", 1 ],
       [ "dog_whistle", 3 ],
-      { "item": "dogfood", "prob": 3, "container-item": "can_food" },
+      { "item": "dogfood", "prob": 3, "container-item": "can_medium" },
       [ "doublespeargun", 1 ],
       [ "drink_boozeberry", 1 ],
       [ "drink_rumcola", 1 ],
@@ -563,6 +567,7 @@
       [ "glowstick", 10 ],
       [ "goggles_ir", 1 ],
       [ "goggles_nv", 1 ],
+      [ "balloon", 1 ],
       [ "goggles_welding", 3 ],
       [ "gold_watch", 5 ],
       [ "golf_club", 1 ],
@@ -583,7 +588,10 @@
       [ "halligan", 1 ],
       [ "hamburger", 1 ],
       [ "hammer", 7 ],
-      [ "hammer_sledge", 3 ],
+      [ "hammer_sledge", 1 ],
+      [ "hammer_sledge_short", 1 ],
+      [ "hammer_sledge_engineer", 1 ],
+      [ "hammer_sledge_heavy", 1 ],
       [ "hand_drill", 2 ],
       [ "handflare", 3 ],
       [ "hardtack", 2 ],
@@ -603,6 +611,7 @@
       [ "holybook_mormon", 1 ],
       [ "holybook_pastafarian", 1 ],
       [ "holybook_quran", 2 ],
+      [ "holybook_satanic", 1 ],
       [ "holybook_scientology", 1 ],
       [ "holybook_slack", 1 ],
       [ "holybook_sutras", 2 ],
@@ -764,7 +773,6 @@
       [ "mask_bal", 1 ],
       [ "mask_dust", 4 ],
       [ "mask_filter", 1 ],
-      [ "matchbomb", 2 ],
       [ "maltballs", 1 ],
       [ "maple_candy", 2 ],
       [ "marshmallow", 2 ],
@@ -785,7 +793,7 @@
       [ "minispeargun", 1 ],
       [ "mintpatties", 3 ],
       [ "misc_repairkit", 5 ],
-      [ "modularvest", 1 ],
+      [ "ballistic_vest_empty", 1 ],
       [ "molasses", 3 ],
       [ "money_bundle", 10 ],
       [ "moonshine", 5 ],
@@ -880,7 +888,7 @@
       [ "pipe", 4 ],
       [ "pipe_glass", 1 ],
       [ "pipe_tobacco", 1 ],
-      [ "pipebomb", 3 ],
+      [ "improvised_pipebomb", 3 ],
       [ "pistol_bayonet", 1 ],
       [ "pistol_grip", 1 ],
       [ "pistol_scope", 1 ],
@@ -997,12 +1005,14 @@
       [ "sm_extinguisher", 2 ],
       [ "small_lcd_screen", 1 ],
       [ "small_repairkit", 3 ],
+      [ "smart_lamp", 2 ],
       [ "smokebomb", 2 ],
       [ "smoxygen_tank", 1 ],
       [ "smpistol_primer", 2 ],
       [ "smrifle_primer", 2 ],
       [ "soap", 10 ],
       [ "socks", 10 ],
+      [ "socks_ankle", 10 ],
       [ "socks_wool", 10 ],
       [ "solder_wire", 5 ],
       [ "soldering_iron", 5 ],

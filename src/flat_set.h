@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_FLAT_SET
-#define CATA_FLAT_SET
+#ifndef CATA_SRC_FLAT_SET_H
+#define CATA_SRC_FLAT_SET_H
 
 #include <algorithm>
 #include <vector>
@@ -147,11 +147,11 @@ class flat_set : private Compare, Data
         }
 
         iterator insert( iterator, const value_type &value ) {
-            /// @todo Use insertion hint
+            /// TODO: Use insertion hint
             return insert( value ).first;
         }
         iterator insert( iterator, value_type &&value ) {
-            /// @todo Use insertion hint
+            /// TODO: Use insertion hint
             return insert( std::move( value ) ).first;
         }
         std::pair<iterator, bool> insert( const value_type &value ) {
@@ -171,7 +171,7 @@ class flat_set : private Compare, Data
 
         template<typename InputIt>
         void insert( InputIt first, InputIt last ) {
-            /// @todo could be faster when inserting only a few elements
+            /// TODO: could be faster when inserting only a few elements
             Data::insert( end(), first, last );
             sort_data();
         }
@@ -216,4 +216,4 @@ class flat_set : private Compare, Data
 
 } // namespace cata
 
-#endif // CATA_FLAT_SET
+#endif // CATA_SRC_FLAT_SET_H

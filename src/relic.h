@@ -1,15 +1,15 @@
 #pragma once
-#ifndef RELIC_H
-#define RELIC_H
-
-#include "magic.h"
-#include "magic_enchantment.h"
+#ifndef CATA_SRC_RELIC_H
+#define CATA_SRC_RELIC_H
 
 #include <string>
 #include <vector>
 
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "translations.h"
+
 class Creature;
-class islot_relic;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -32,7 +32,7 @@ class relic
         // returns number of charges that should be consumed
         int activate( Creature &caster, const tripoint &target ) const;
 
-        void load( JsonObject &jo );
+        void load( const JsonObject &jo );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -45,4 +45,4 @@ class relic
         int modify_value( enchantment::mod value_type, int value ) const;
 };
 
-#endif // !RELIC_H
+#endif // CATA_SRC_RELIC_H

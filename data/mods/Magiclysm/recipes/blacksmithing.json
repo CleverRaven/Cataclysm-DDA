@@ -1,0 +1,54 @@
+[
+  {
+    "result": "orichalcum_ingot",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "180 m",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "welding_book", 4 ] ],
+    "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [ [ [ "orichalcum_sliver", 8 ], [ "orichalcum_lump", 2 ] ], [ [ "mercury", 100 ] ] ]
+  },
+  {
+    "result": "orichalcum_ingot",
+    "id_suffix": "with_bronze",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "180 m",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "welding_book", 4 ] ],
+    "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [ [ [ "scrap_bronze", 9 ] ], [ [ "mercury", 400 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fireproof_mortar",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "20 m",
+    "book_learn": [ [ "metal_legends", 2 ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
+    "tools": [ [ [ "con_mix", 50 ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ], [ [ "demon_chitin_piece", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "alumentum",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "spellcraft",
+    "difficulty": 3,
+    "time": "16 m",
+    "autolearn": true,
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "DISTILL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "charcoal", 50 ] ], [ [ "crystallized_mana", 10 ] ], [ [ "denat_alcohol", 10 ] ] ]
+  }
+]

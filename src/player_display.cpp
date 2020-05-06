@@ -1,13 +1,18 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <cstdlib>
 #include <algorithm>
+#include <array>
 #include <cstddef>
+#include <cstdlib>
+#include <memory>
+#include <unordered_map>
 
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "debug.h"
 #include "effect.h"
 #include "game.h"
 #include "input.h"
@@ -17,14 +22,13 @@
 #include "profession.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
-#include "catacharset.h"
-#include "translations.h"
-#include "string_id.h"
-#include "enums.h"
 
-const skill_id skill_swimming( "swimming" );
+static const skill_id skill_swimming( "swimming" );
 
 static const std::string title_STATS = translate_marker( "STATS" );
 static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );
@@ -33,8 +37,6 @@ static const std::string title_SPEED = translate_marker( "SPEED" );
 static const std::string title_SKILLS = translate_marker( "SKILLS" );
 static const std::string title_BIONICS = translate_marker( "BIONICS" );
 static const std::string title_TRAITS = translate_marker( "TRAITS" );
-
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
@@ -129,7 +131,8 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
                               ( highlighted ? c_green : c_light_gray );
         mvwprintz( win, point( 1, 1 + i ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d", e.armor_encumbrance );
+        mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d",
+                   e.encumbrance - e.layer_penalty );
         // separator in low toned color
         mvwprintz( win, point( 11, 1 + i ), c_light_gray, "+" );
         // take into account the new encumbrance system for layers
@@ -153,39 +156,40 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
 
 static std::string swim_cost_text( int moves )
 {
-    return string_format( ngettext( "Swimming costs %+d movement point. ",
-                                    "Swimming costs %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format( _( "Swimming movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
 static std::string run_cost_text( int moves )
 {
-    return string_format( ngettext( "Running costs %+d movement point. ",
-                                    "Running costs %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format( _( "Running movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
 static std::string reload_cost_text( int moves )
 {
-    return string_format( ngettext( "Reloading costs %+d movement point. ",
-                                    "Reloading costs %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format( _( "Reloading movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
 static std::string melee_cost_text( int moves )
 {
-    return string_format( ngettext( "Melee and thrown attacks cost %+d movement point. ",
-                                    "Melee and thrown attacks cost %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format(
+               _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
 }
-
+static std::string melee_stamina_cost_text( int cost )
+{
+    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+}
+static std::string mouth_stamina_cost_text( int cost )
+{
+    return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
+}
+static std::string ranged_cost_text( double disp )
+{
+    return string_format( _( "Dispersion when using ranged attacks: <color_white>%+.1f</color>\n" ),
+                          disp );
+}
 static std::string dodge_skill_text( double mod )
 {
-    return string_format( _( "Dodge skill %+.1f. " ), mod );
+    return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
 }
 
 static int get_encumbrance( const player &p, body_part bp, bool combine )
@@ -205,7 +209,7 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
     switch( bp ) {
         case bp_torso: {
             const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
-            s += string_format( _( "Melee attack rolls %+d%%; " ), melee_roll_pen );
+            s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
             s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
                                      skill_swimming ) * 3 ) );
@@ -213,29 +217,34 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
             break;
         }
         case bp_head:
-            s += _( "Head encumbrance has no effect; it simply limits how much you can put on." );
+            s += _( "<color_magenta>Head encumbrance has no effect; it simply limits how much you can put on.</color>" );
             break;
         case bp_eyes:
-            s += string_format( _( "Perception %+d when checking traps or firing ranged weapons;\n"
-                                   "Dispersion %+d when throwing items." ),
-                                -( eff_encumbrance / 10 ),
-                                eff_encumbrance * 10 );
+            s += string_format(
+                     _( "Perception when checking traps or firing ranged weapons: <color_white>%+d</color>\n"
+                        "Dispersion when throwing items: <color_white>%+d</color>" ),
+                     -( eff_encumbrance / 10 ),
+                     eff_encumbrance * 10 );
             break;
         case bp_mouth:
-            s += _( "Covering your mouth will make it more difficult to breathe and catch your breath." );
+            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
+            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
             break;
         case bp_arm_l:
         case bp_arm_r:
-            s += _( "Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons." );
+            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
+            s += melee_stamina_cost_text( eff_encumbrance * 2 );
+            s += ranged_cost_text( eff_encumbrance / 5.0 );
             break;
         case bp_hand_l:
         case bp_hand_r:
-            s += _( "Reduces the speed at which you can handle or manipulate items\n" );
+            s += _( "<color_magenta>Reduces the speed at which you can handle or manipulate items.</color>\n\n" );
             s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
-            s += string_format( _( "Dexterity %+.1f when throwing items;\n" ), -( eff_encumbrance / 10.0f ) );
+            s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
+                                -( eff_encumbrance / 10.0f ) );
             s += melee_cost_text( eff_encumbrance / 2 );
-            s += "\n";
-            s += string_format( _( "Reduces aim speed of guns by %.1f." ), p.aim_speed_encumbrance_modifier() );
+            s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
+                                p.aim_speed_encumbrance_modifier() );
             break;
         case bp_leg_l:
         case bp_leg_r:
@@ -277,14 +286,13 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     center_print( w_stats, 0, h_light_gray, _( title_STATS ) );
 
     // Clear bonus/penalty menu.
-    mvwprintz( w_stats, point( 0, 7 ), c_light_gray, "%26s", "" );
-    mvwprintz( w_stats, point( 0, 8 ), c_light_gray, "%26s", "" );
-
+    mvwprintz( w_stats, point( 0, 8 ), c_light_gray, std::string( 26, ' ' ) );
     nc_color col_temp = c_light_gray;
 
     if( line == 0 ) {
         // Display information on player strength in appropriate window
-        mvwprintz( w_stats, point( 1, 2 ), h_light_gray, _( "Strength:" ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_stats, point( 1, 1 ), h_light_gray, _( "Strength:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Strength affects your melee damage, the amount of weight you can carry, your total HP, "
@@ -298,37 +306,37 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                             string_format( _( "Melee damage: <color_white>%.1f</color>" ), you.bonus_damage( false ) ) );
     } else if( line == 1 ) {
         // Display information on player dexterity in appropriate window
-        mvwprintz( w_stats, point( 1, 3 ), h_light_gray, _( "Dexterity:" ) );
+        mvwprintz( w_stats, point( 1, 2 ), h_light_gray, _( "Dexterity:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_hit_base() ) );
+                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_melee_hit_base() ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
-                                           -abs( you.ranged_dex_mod() ) ) );
+                                           -std::abs( you.ranged_dex_mod() ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
                             string_format( _( "Throwing penalty per target's dodge: <color_white>%+d</color>" ),
                                            you.throw_dispersion_per_dodge( false ) ) );
     } else if( line == 2 ) {
         // Display information on player intelligence in appropriate window
-        mvwprintz( w_stats, point( 1, 4 ), h_light_gray, _( "Intelligence:" ) );
+        mvwprintz( w_stats, point( 1, 3 ), h_light_gray, _( "Intelligence:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Intelligence is less important in most situations, but it is vital for more complex tasks like "
                            "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
-        print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
-        print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
-                            string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
         if( you.rust_rate() ) {
-            print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
-                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate( false ) ) );
+            print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
+                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate() ) );
         }
+        print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
+                            string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
+        print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
+                            string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
     } else if( line == 3 ) {
         // Display information on player perception in appropriate window
-        mvwprintz( w_stats, point( 1, 5 ), h_light_gray, _( "Perception:" ) );
+        mvwprintz( w_stats, point( 1, 4 ), h_light_gray, _( "Perception:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Perception is the most important stat for ranged combat.  It's also used for "
@@ -340,16 +348,34 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                                 string_format( _( "Aiming penalty: <color_white>%+d</color>" ), -you.ranged_per_mod() ) );
         }
     } else if( line == 4 ) {
-        mvwprintz( w_stats, point( 1, 6 ), h_light_gray, _( "Weight:" ) );
-        mvwprintz( w_stats, point( 25 - you.get_weight_string().size(), 6 ), h_light_gray,
+        mvwprintz( w_stats, point( 1, 5 ), h_light_gray, _( "Weight:" ) );
+        mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), h_light_gray,
                    you.get_weight_string() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "Your weight is a general indicator of how much fat your body has stored up,"
                                              " which in turn shows how prepared you are to survive for a time without food."
-                                             "Having too much, or too little, can be unhealthy." ) );
-        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                                             "  Having too much, or too little, can be unhealthy." ) );
+        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.get_weight_description() );
+    } else if( line == 5 ) {
+        mvwprintz( w_stats, point( 1, 6 ), h_light_gray, _( "Height:" ) );
+        mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), h_light_gray,
+                   you.height_string() );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                                          _( "Your height.  Simply how tall you are." ) );
+        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        you.height_string() );
+    } else if( line == 6 ) {
+        mvwprintz( w_stats, point( 1, 7 ), h_light_gray, _( "Age:" ) );
+        mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), h_light_gray,
+                   you.age_string() );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                                          _( "This is how old you are." ) );
+        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        you.age_string() );
     }
     wrefresh( w_stats );
     wrefresh( w_info );
@@ -357,12 +383,12 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     action = ctxt.handle_input();
     if( action == "DOWN" ) {
         line++;
-        if( line == 5 ) {
+        if( line == 7 ) {
             line = 0;
         }
     } else if( action == "UP" ) {
         if( line == 0 ) {
-            line = 4;
+            line = 6;
         } else {
             line--;
         }
@@ -378,13 +404,20 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                you.is_player() ) {
         g->u.upgrade_stat_prompt( static_cast<Character::stat>( line ) );
     }
-    mvwprintz( w_stats, point( 1, 2 ), c_light_gray, _( "Strength:" ) );
-    mvwprintz( w_stats, point( 1, 3 ), c_light_gray, _( "Dexterity:" ) );
-    mvwprintz( w_stats, point( 1, 4 ), c_light_gray, _( "Intelligence:" ) );
-    mvwprintz( w_stats, point( 1, 5 ), c_light_gray, _( "Perception:" ) );
-    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - you.get_weight_string().size(), 6 ), c_light_gray,
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w_stats, point( 1, 1 ), c_light_gray, _( "Strength:" ) );
+    mvwprintz( w_stats, point( 1, 2 ), c_light_gray, _( "Dexterity:" ) );
+    mvwprintz( w_stats, point( 1, 3 ), c_light_gray, _( "Intelligence:" ) );
+    mvwprintz( w_stats, point( 1, 4 ), c_light_gray, _( "Perception:" ) );
+    mvwprintz( w_stats, point( 1, 5 ), c_light_gray, _( "Weight:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), c_light_gray,
                you.get_weight_string() );
+    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Height:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
+               you.height_string() );
+    mvwprintz( w_stats, point( 1, 7 ), c_light_gray, _( "Age:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
+               you.age_string() );
     wrefresh( w_stats );
 }
 
@@ -408,7 +441,7 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
     }
     const std::string s = get_encumbrance_description( you, bp, combined_here );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, s );
+    fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, s );
     wrefresh( w_info );
 
     action = ctxt.handle_input();
@@ -469,7 +502,7 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
     if( line < traitslist.size() ) {
         const auto &mdata = traitslist[line].obj();
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, string_format(
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, string_format(
                             "%s: %s", colorize( mdata.name(), mdata.get_display_color() ), traitslist[line]->desc() ) );
     }
     wrefresh( w_traits );
@@ -513,8 +546,9 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     center_print( w_bionics, 0, h_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
-                                   units::to_kilojoule( you.power_level ), units::to_kilojoule( you.max_power_level ) ) );
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                      " / <color_light_blue>%2$d</color>" ),
+                                   units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
 
     const size_t useful_y = bionics_win_size_y - 1;
     const size_t half_y = useful_y / 2;
@@ -539,7 +573,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     }
     if( line < bionicslist.size() ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_white, "%s",
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, "%s",
                         bionicslist[line].info().description );
     }
     wrefresh( w_bionics );
@@ -560,8 +594,9 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                        string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
-                                       units::to_kilojoule( you.power_level ), units::to_kilojoule( you.max_power_level ) ) );
+                        string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                          " / <color_light_blue>%2$d</color>" ),
+                                       units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
         for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
             mvwprintz( w_bionics, point( 1, static_cast<int>( i + 2 ) ), c_black, "                         " );
             trim_and_print( w_bionics, point( 1, static_cast<int>( i + 2 ) ), getmaxx( w_bionics ) - 1,
@@ -577,9 +612,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
 
 static void draw_effects_tab( const catacurses::window &w_effects, const catacurses::window &w_info,
                               unsigned int &line, int &curtab, input_context &ctxt, bool &done,
-                              std::string &action, std::vector<std::string> &effect_name,
-                              const size_t effect_win_size_y,
-                              const std::vector<std::string> &effect_text )
+                              std::string &action, std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
+                              const size_t effect_win_size_y )
 {
     mvwprintz( w_effects, point_zero, h_light_gray, header_spaces );
     center_print( w_effects, 0, h_light_gray, _( title_EFFECTS ) );
@@ -589,37 +623,40 @@ static void draw_effects_tab( const catacurses::window &w_effects, const catacur
     size_t min = 0;
     size_t max = 0;
 
+    const size_t actual_size = effect_name_and_text.size();
+
     if( line <= half_y ) {
         min = 0;
         max = effect_win_size_y;
-        if( effect_name.size() < max ) {
-            max = effect_name.size();
+        if( actual_size < max ) {
+            max = actual_size;
         }
-    } else if( line >= effect_name.size() - half_y ) {
-        min = ( effect_name.size() < effect_win_size_y ? 0 : effect_name.size() - effect_win_size_y );
-        max = effect_name.size();
+    } else if( line >= actual_size - half_y ) {
+        min = ( actual_size < effect_win_size_y ? 0 : actual_size - effect_win_size_y );
+        max = actual_size;
     } else {
         min = line - half_y;
         max = line - half_y + effect_win_size_y;
-        if( effect_name.size() < max ) {
-            max = effect_name.size();
+        if( actual_size < max ) {
+            max = actual_size;
         }
     }
 
     for( size_t i = min; i < max; i++ ) {
         trim_and_print( w_effects, point( 0, static_cast<int>( 1 + i - min ) ), getmaxx( w_effects ) - 1,
-                        i == line ? h_light_gray : c_light_gray, effect_name[i] );
+                        i == line ? h_light_gray : c_light_gray, effect_name_and_text[i].first );
     }
-    if( line < effect_text.size() ) {
+    if( line < actual_size ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, effect_text[line] );
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        effect_name_and_text[line].second );
     }
     wrefresh( w_effects );
     wrefresh( w_info );
 
     action = ctxt.handle_input();
     if( action == "DOWN" ) {
-        if( line < effect_name.size() - 1 ) {
+        if( line < actual_size - 1 ) {
             line++;
         }
         return;
@@ -630,10 +667,10 @@ static void draw_effects_tab( const catacurses::window &w_effects, const catacur
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         mvwprintz( w_effects, point_zero, c_light_gray, header_spaces );
         center_print( w_effects, 0, c_light_gray, _( title_EFFECTS ) );
-        for( size_t i = 0; i < effect_name.size() && i < 7; i++ ) {
+        for( size_t i = 0; i < actual_size && i < 7; i++ ) {
             trim_and_print( w_effects, point( 0, static_cast<int>( i ) + 1 ), getmaxx( w_effects ) - 1,
                             c_light_gray,
-                            effect_name[i] );
+                            effect_name_and_text[i].first );
         }
         wrefresh( w_effects );
         line = 0;
@@ -718,7 +755,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
                 } else {
                     cstatus = training ? h_light_blue : h_blue;
                 }
-                mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%*s", col_width, "" );
+                mvwprintz( w_skills, point( 1, y_pos ), cstatus, std::string( col_width, ' ' ) );
             } else {
                 if( locked ) {
                     cstatus = c_yellow;
@@ -729,7 +766,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
                 } else {
                     cstatus = training ? c_light_blue : c_blue;
                 }
-                mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, "%*s", col_width, "" );
+                mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( col_width, ' ' ) );
             }
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
             if( aSkill->ident() == skill_id( "dodge" ) ) {
@@ -764,7 +801,7 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
 
     if( selectedSkill ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         selectedSkill->description() );
     }
     wrefresh( w_info );
@@ -921,7 +958,8 @@ static void draw_initial_windows( const catacurses::window &w_stats,
                                   const catacurses::window &w_bionics, const catacurses::window &w_effects,
                                   const catacurses::window &w_skills, const catacurses::window &w_speed, player &you,
                                   unsigned int &line, std::vector<trait_id> &traitslist, std::vector<bionic> &bionicslist,
-                                  std::vector<std::string> &effect_name, std::vector<HeaderSkill> &skillslist,
+                                  std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
+                                  std::vector<HeaderSkill> &skillslist,
                                   const size_t bionics_win_size_y, const size_t effect_win_size_y, const size_t trait_win_size_y,
                                   const size_t skill_win_size_y )
 {
@@ -950,13 +988,19 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         mvwprintz( w_stats, point( 21, line_n ), c_light_gray, "(%2d)", max );
     };
 
-    display_stat( _( "Strength:" ), you.get_str(), you.get_str_base(), 2 );
-    display_stat( _( "Dexterity:" ), you.get_dex(), you.get_dex_base(), 3 );
-    display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 4 );
-    display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 5 );
-    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - you.get_weight_string().size(), 6 ), c_light_gray,
+    display_stat( _( "Strength:" ), you.get_str(), you.get_str_base(), 1 );
+    display_stat( _( "Dexterity:" ), you.get_dex(), you.get_dex_base(), 2 );
+    display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 3 );
+    display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 4 );
+    mvwprintz( w_stats, point( 1, 5 ), c_light_gray, _( "Weight:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), c_light_gray,
                you.get_weight_string() );
+    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Height:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
+               you.height_string() );
+    mvwprintz( w_stats, point( 1, 7 ), c_light_gray, _( "Age:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
+               you.age_string() );
 
     wrefresh( w_stats );
 
@@ -980,8 +1024,9 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
-                                   units::to_kilojoule( you.power_level ), units::to_kilojoule( you.max_power_level ) ) );
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                      " / <color_light_blue>%2$d</color>" ),
+                                   units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
         trim_and_print( w_bionics, point( 1, static_cast<int>( i ) + 2 ), getmaxx( w_bionics ) - 1, c_white,
                         "%s", bionicslist[i].info().name );
@@ -990,10 +1035,10 @@ static void draw_initial_windows( const catacurses::window &w_stats,
 
     // Next, draw effects.
     center_print( w_effects, 0, c_light_gray, _( title_EFFECTS ) );
-    for( size_t i = 0; i < effect_name.size() && i < effect_win_size_y; i++ ) {
+    for( size_t i = 0; i < effect_name_and_text.size() && i < effect_win_size_y; i++ ) {
         trim_and_print( w_effects, point( 0, static_cast<int>( i ) + 1 ), getmaxx( w_effects ) - 1,
                         c_light_gray,
-                        effect_name[i] );
+                        effect_name_and_text[i].first );
     }
     wrefresh( w_effects );
 
@@ -1012,34 +1057,35 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     line = 3;
     if( you.weight_carried() > you.weight_capacity() ) {
         pen = 25 * ( you.weight_carried() - you.weight_capacity() ) / ( you.weight_capacity() );
-        mvwprintz( w_speed, point( 1, line ), c_red, _( "Overburdened        -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
+        mvwprintz( w_speed, point( 1, line ), c_red,
+                   pgettext( "speed penalty", "Overburdened        -%2d%%" ), pen );
         line++;
     }
     pen = you.get_pain_penalty().speed;
     if( pen >= 1 ) {
-        mvwprintz( w_speed, point( 1, line ), c_red, _( "Pain                -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
+        mvwprintz( w_speed, point( 1, line ), c_red,
+                   pgettext( "speed penalty", "Pain                -%2d%%" ), pen );
         line++;
     }
     if( you.get_thirst() > 40 ) {
-        pen = abs( player::thirst_speed_penalty( you.get_thirst() ) );
-        mvwprintz( w_speed, point( 1, line ), c_red, _( "Thirst              -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
+        pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
+        mvwprintz( w_speed, point( 1, line ), c_red,
+                   pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
         line++;
     }
     if( you.kcal_speed_penalty() < 0 ) {
-        pen = abs( you.kcal_speed_penalty() );
+        pen = std::abs( you.kcal_speed_penalty() );
         const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
                                       _( "Starving" ) : _( "Underfed" );
-        mvwprintz( w_speed, point( 1, line ), c_red, _( "%-20s-%s%d%%" ), inanition,
-                   ( pen < 10 ? " " : "" ), pen );
+        //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
+        mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
+                   left_justify( inanition, 20 ), pen );
         line++;
     }
     if( you.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( you.pos() ) ) {
         pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
-        mvwprintz( w_speed, point( 1, line ), c_red, _( "Out of Sunlight     -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
+        mvwprintz( w_speed, point( 1, line ), c_red,
+                   pgettext( "speed penalty", "Out of Sunlight     -%2d%%" ), pen );
         line++;
     }
 
@@ -1048,7 +1094,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         nc_color pen_color;
         std::string pen_sign;
         const auto player_local_temp = g->weather.get_temperature( you.pos() );
-        if( you.has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
+        if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
             pen_color = c_green;
             pen_sign = "+";
         } else if( player_local_temp < 65 ) {
@@ -1057,8 +1103,9 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         }
         if( !pen_sign.empty() ) {
             pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
-            mvwprintz( w_speed, point( 1, line ), pen_color, _( "Cold-Blooded        %s%s%d%%" ), pen_sign,
-                       ( pen < 10 ? " " : "" ), pen );
+            mvwprintz( w_speed, point( 1, line ), pen_color,
+                       //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
+                       pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );
             line++;
         }
     }
@@ -1070,21 +1117,21 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         std::swap( quick_bonus, bio_speed_bonus );
     }
     if( you.has_trait( trait_id( "QUICK" ) ) ) {
-        mvwprintz( w_speed, point( 1, line ), c_green, _( "Quick               +%s%d%%" ),
-                   ( quick_bonus < 10 ? " " : "" ), quick_bonus );
+        mvwprintz( w_speed, point( 1, line ), c_green,
+                   pgettext( "speed bonus", "Quick               +%2d%%" ), quick_bonus );
         line++;
     }
     if( you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        mvwprintz( w_speed, point( 1, line ), c_green, _( "Bionic Speed        +%s%d%%" ),
-                   ( bio_speed_bonus < 10 ? " " : "" ), bio_speed_bonus );
+        mvwprintz( w_speed, point( 1, line ), c_green,
+                   pgettext( "speed bonus", "Bionic Speed        +%2d%%" ), bio_speed_bonus );
     }
 
     int runcost = you.run_cost( 100 );
     nc_color col = ( runcost <= 100 ? c_green : c_red );
-    mvwprintz( w_speed, point( runcost >= 100 ? 21 : ( runcost < 10 ? 23 : 22 ), 1 ), col,
+    mvwprintz( w_speed, point( 21 + ( runcost >= 100 ? 0 : ( runcost < 10 ? 2 : 1 ) ), 1 ), col,
                "%d", runcost );
     col = ( newmoves >= 100 ? c_green : c_red );
-    mvwprintz( w_speed, point( newmoves >= 100 ? 21 : ( newmoves < 10 ? 23 : 22 ), 2 ), col,
+    mvwprintz( w_speed, point( 21 + ( newmoves >= 100 ? 0 : ( newmoves < 10 ? 2 : 1 ) ), 2 ), col,
                "%d", newmoves );
     wrefresh( w_speed );
 }
@@ -1092,19 +1139,17 @@ static void draw_initial_windows( const catacurses::window &w_stats,
 void player::disp_info()
 {
     unsigned int line = 0;
-    std::vector<std::string> effect_name;
-    std::vector<std::string> effect_text;
+    std::vector<std::pair<std::string, std::string>> effect_name_and_text;
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const std::string tmp = _effect_it.second.disp_name();
-            if( !tmp.empty() ) {
-                effect_name.push_back( tmp );
-                effect_text.push_back( _effect_it.second.disp_desc() );
+            if( tmp.empty() ) {
+                continue;
             }
+            effect_name_and_text.push_back( { tmp, _effect_it.second.disp_desc() } );
         }
     }
     if( get_perceived_pain() > 0 ) {
-        effect_name.push_back( _( "Pain" ) );
         const auto ppen = get_pain_penalty();
         std::string pain_text;
         const auto add_if = [&]( const int amount, const char *const name ) {
@@ -1117,61 +1162,67 @@ void player::disp_info()
         add_if( ppen.intelligence, _( "Intelligence -%d" ) );
         add_if( ppen.perception, _( "Perception -%d" ) );
         add_if( ppen.speed, _( "Speed -%d %%" ) );
-        effect_text.push_back( pain_text );
+        effect_name_and_text.push_back( { _( "Pain" ), pain_text } );
     }
 
     const float bmi = get_bmi();
 
     if( bmi < character_weight_category::underweight ) {
-        std::stringstream starvation_text;
+        std::string starvation_name;
+        std::string starvation_text;
 
         if( bmi < character_weight_category::emaciated ) {
-            effect_name.push_back( _( "Severely Malnourished" ) );
-            starvation_text <<
-                            _( "Your body is severely weakened by starvation. You might die if you don't start eating regular meals!\n \n" );
+            starvation_name = _( "Severely Malnourished" );
+            starvation_text =
+                _( "Your body is severely weakened by starvation.  You might die if you don't start eating regular meals!\n\n" );
         } else {
-            effect_name.push_back( _( "Malnourished" ) );
-            starvation_text <<
-                            _( "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n" );
+            starvation_name = _( "Malnourished" );
+            starvation_text =
+                _( "Your body is weakened by starvation.  Only time and regular meals will help you recover.\n\n" );
         }
 
         if( bmi < character_weight_category::underweight ) {
             const float str_penalty = 1.0f - ( ( bmi - 13.0f ) / 3.0f );
-            starvation_text << _( "Strength" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 100.0f );
-            starvation_text << _( "Dexterity" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 50.0f );
-            starvation_text << _( "Intelligence" ) << " -" << string_format( "%2.0f%%", str_penalty * 50.0f );
+            starvation_text += std::string( _( "Strength" ) ) + " -" + string_format( "%2.0f%%\n",
+                               str_penalty * 100.0f );
+            starvation_text += std::string( _( "Dexterity" ) ) + " -" + string_format( "%2.0f%%\n",
+                               str_penalty * 50.0f );
+            starvation_text += std::string( _( "Intelligence" ) ) + " -" + string_format( "%2.0f%%",
+                               str_penalty * 50.0f );
         }
 
-        effect_text.push_back( starvation_text.str() );
+        effect_name_and_text.push_back( { starvation_name, starvation_text } );
     }
 
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather.weather == WEATHER_SUNNY ) ||
         ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather.weather != WEATHER_SUNNY ) ) {
-        effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you.\n"
-                                  "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
+        effect_name_and_text.push_back( { _( "In Sunlight" ),
+                                          _( "The sunlight irritates you.\n"
+                                             "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
+                                        } );
     } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you badly.\n"
-                                  "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" ) );
+        effect_name_and_text.push_back( { _( "In Sunlight" ),
+                                          _( "The sunlight irritates you badly.\n"
+                                             "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
+                                        } );
     } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you terribly.\n"
-                                  "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
+        effect_name_and_text.push_back( { _( "In Sunlight" ),
+                                          _( "The sunlight irritates you terribly.\n"
+                                             "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
+                                        } );
     }
 
     for( auto &elem : addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effect_name.push_back( addiction_name( elem ) );
-            effect_text.push_back( addiction_text( elem ) );
+            effect_name_and_text.push_back( { addiction_name( elem ), addiction_text( elem ) } );
         }
     }
 
     unsigned int maxy = static_cast<unsigned>( TERMY );
 
-    unsigned int effect_win_size_y = 1 + static_cast<unsigned>( effect_name.size() );
+    unsigned int effect_win_size_y = 1 + static_cast<unsigned>( effect_name_and_text.size() );
 
     std::vector<trait_id> traitslist = get_mutations( false );
     unsigned int trait_win_size_y = 1 + static_cast<unsigned>( traitslist.size() );
@@ -1179,16 +1230,13 @@ void player::disp_info()
     std::vector<bionic> bionicslist = *my_bionics;
     unsigned int bionics_win_size_y = 2 + bionicslist.size();
 
-    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by( [&]( const Skill & a,
-    const Skill & b ) {
+    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
+    [&]( const Skill & a, const Skill & b ) {
         skill_displayType_id type_a = a.display_category();
         skill_displayType_id type_b = b.display_category();
 
-        if( type_a != type_b ) {
-            return type_a < type_b;
-        } else {
-            return a.name() < b.name();
-        }
+        return localized_compare( std::make_pair( type_a, a.name() ),
+                                  std::make_pair( type_b, b.name() ) );
     } );
 
     std::vector<HeaderSkill> skillslist;
@@ -1228,45 +1276,45 @@ void player::disp_info()
 
     catacurses::window w_grid_top =
         catacurses::newwin( infooffsetybottom, FULL_SCREEN_WIDTH + 1,
-                            point( VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+                            point_zero );
     catacurses::window w_grid_skill =
         catacurses::newwin( skill_win_size_y + 1, 27,
-                            point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 0, infooffsetybottom ) );
     catacurses::window w_grid_trait =
         catacurses::newwin( trait_win_size_y + 1, 27,
-                            point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 27, infooffsetybottom ) );
     catacurses::window w_grid_bionics =
         catacurses::newwin( bionics_win_size_y + 1, 27,
-                            point( 27 + VIEW_OFFSET_X,
-                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
+                            point( 27,
+                                   infooffsetybottom + trait_win_size_y + 1 ) );
     catacurses::window w_grid_effect =
         catacurses::newwin( effect_win_size_y + 1, 28,
-                            point( 53 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 53, infooffsetybottom ) );
 
     catacurses::window w_tip =
-        catacurses::newwin( 1, FULL_SCREEN_WIDTH,  point( 0 + VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+        catacurses::newwin( 1, FULL_SCREEN_WIDTH, point_zero );
     catacurses::window w_stats =
-        catacurses::newwin( 9, 26,  point( 0 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+        catacurses::newwin( 9, 26, point( 0, 1 ) ); //NOLINT(cata-use-named-point-constants)
     catacurses::window w_traits =
         catacurses::newwin( trait_win_size_y, 26,
-                            point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 27, infooffsetybottom ) );
     catacurses::window w_bionics =
         catacurses::newwin( bionics_win_size_y, 26,
-                            point( 27 + VIEW_OFFSET_X,
-                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
+                            point( 27,
+                                   infooffsetybottom + trait_win_size_y + 1 ) );
     catacurses::window w_encumb =
-        catacurses::newwin( 9, 26, point( 27 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+        catacurses::newwin( 9, 26, point( 27, 1 ) );
     catacurses::window w_effects =
         catacurses::newwin( effect_win_size_y, 26,
-                            point( 54 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 54, infooffsetybottom ) );
     catacurses::window w_speed =
-        catacurses::newwin( 9, 26,  point( 54 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+        catacurses::newwin( 9, 26,  point( 54, 1 ) );
     catacurses::window w_skills =
         catacurses::newwin( skill_win_size_y, 26,
-                            point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 0, infooffsetybottom ) );
     catacurses::window w_info =
         catacurses::newwin( info_win_size_y, FULL_SCREEN_WIDTH,
-                            point( 0 + VIEW_OFFSET_X, infooffsetytop + VIEW_OFFSET_Y ) );
+                            point( 0, infooffsetytop ) );
 
     draw_grid_borders( w_grid_top, w_grid_skill, w_grid_trait, w_grid_bionics, w_grid_effect,
                        info_win_size_y, infooffsetybottom, skill_win_size_y, trait_win_size_y,
@@ -1281,43 +1329,43 @@ void player::disp_info()
     // Post-humanity trumps your pre-Cataclysm life.
     if( crossed_threshold() ) {
         std::string race;
-        for( auto &mut : my_mutations ) {
-            const auto &mdata = mut.first.obj();
+        for( const trait_id &mut : get_mutations() ) {
+            const mutation_branch &mdata = mut.obj();
             if( mdata.threshold ) {
                 race = mdata.name();
                 break;
             }
         }
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
+        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
                    male ? _( "Male" ) : _( "Female" ), race );
     } else if( prof == nullptr || prof == profession::generic() ) {
         // Regular person. Nothing interesting.
-        //~ player info window: 1s - name, 2s - gender, '|' - field separator.
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s" ), name, male ? _( "Male" ) : _( "Female" ) );
+        //~ player info window: 1s - name, 2s - gender '|' - field separator.
+        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ) );
     } else {
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
+        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
                    male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
     }
 
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_updown();
-    ctxt.register_action( "NEXT_TAB", translate_marker( "Cycle to next category" ) );
-    ctxt.register_action( "PREV_TAB", translate_marker( "Cycle to previous category" ) );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Cycle to next category" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "CONFIRM", translate_marker( "Toggle skill training" ) );
+    ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
-    std::string help_msg = string_format( _( "Press %s for help." ),
-                                          ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-    mvwprintz( w_tip, point( FULL_SCREEN_WIDTH - utf8_width( help_msg ), 0 ), c_light_red, help_msg );
-    help_msg.clear();
+    right_print( w_tip, 0, 0, c_white, string_format(
+                     _( "[<color_yellow>%s</color>]" ),
+                     ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
     wrefresh( w_tip );
 
     draw_initial_windows( w_stats, w_encumb, w_traits, w_bionics, w_effects, w_skills, w_speed, *this,
-                          line, traitslist, bionicslist, effect_name, skillslist, bionics_win_size_y, effect_win_size_y,
-                          trait_win_size_y, skill_win_size_y );
+                          line, traitslist, bionicslist, effect_name_and_text, skillslist, bionics_win_size_y,
+                          effect_win_size_y, trait_win_size_y, skill_win_size_y );
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : *effects ) {
@@ -1336,8 +1384,8 @@ void player::disp_info()
         nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
         mvwprintz( w_speed, point( 1, line ), col, "%s", speed_effect.first );
         mvwprintz( w_speed, point( 21, line ), col, ( speed_effect.second > 0 ? "+" : "-" ) );
-        mvwprintz( w_speed, point( abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
-                   abs( speed_effect.second ) );
+        mvwprintz( w_speed, point( std::abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
+                   std::abs( speed_effect.second ) );
         line++;
     }
 
@@ -1347,34 +1395,43 @@ void player::disp_info()
     line = 0;
     bool done = false;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     // Initial printing is DONE.  Now we give the player a chance to scroll around
     // and "hover" over different items for more info.
     do {
         werase( w_info );
         switch( curtab ) {
-            case 1: // Stats tab
+            case 1:
+                // Stats tab
                 draw_stats_tab( w_stats, w_info, *this, line, curtab, ctxt, done, action );
                 break;
-            case 2: // Encumbrance tab
+            case 2:
+                // Encumbrance tab
                 draw_encumbrance_tab( w_encumb, w_info, *this, line, curtab, ctxt, done, action );
                 break;
 
-            case 4: // Traits tab
+            case 4:
+                // Traits tab
                 draw_traits_tab( w_traits, w_info, line, curtab, ctxt, done, action,
                                  traitslist, trait_win_size_y );
                 break;
 
-            case 5: // Bionics tab
+            case 5:
+                // Bionics tab
                 draw_bionics_tab( w_bionics, w_info, *this, line, curtab, ctxt, done, action,
                                   bionicslist, bionics_win_size_y );
                 break;
 
-            case 6: // Effects tab
+            case 6:
+                // Effects tab
                 draw_effects_tab( w_effects, w_info, line, curtab, ctxt, done, action,
-                                  effect_name, effect_win_size_y, effect_text );
+                                  effect_name_and_text, effect_win_size_y );
                 break;
 
-            case 3: // Skills tab
+            case 3:
+                // Skills tab
                 draw_skills_tab( w_skills, w_info, *this, line, curtab, ctxt, done, action,
                                  skillslist, skill_win_size_y );
 

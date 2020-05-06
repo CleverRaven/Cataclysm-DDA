@@ -12,21 +12,24 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "using": [ [ "welding_standard", 40 ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "hose", 2 ] ], [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+    ]
   },
   {
-    "result": "nailrifle",
     "type": "recipe",
+    "result": "staff_sling",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
-    "difficulty": 1,
-    "skills_required": [ "gun", 2 ],
-    "time": "12 m",
-    "reversible": true,
+    "difficulty": 3,
+    "skills_required": [ "throw", 1 ],
+    "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "nailgun", 1 ] ], [ [ "pipe", 1 ] ], [ [ "2x4", 2 ], [ "stick", 3 ] ] ]
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "sling", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -117,6 +120,28 @@
       { "id": "CHISEL", "level": 3 }
     ],
     "using": [ [ "forging_standard", 4 ], [ "steel_standard", 3 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "longrifle_flintlock",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ "rifle", 4 ],
+    "difficulty": 9,
+    "time": "360 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "using": [ [ "forging_standard", 6 ], [ "steel_standard", 3 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },

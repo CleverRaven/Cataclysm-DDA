@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_bird",
-    "name": "bird litter",
+    "name": { "str_sp": "bird litter" },
     "category": "chems",
     "weight": "40 g",
     "color": "brown",
@@ -14,6 +14,7 @@
     "calories": 26,
     "description": "Bird dropping, feathers, and soiled bits of rubbish.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "feces",
     "volume": "250 ml",
     "charges": 4,
@@ -51,5 +52,23 @@
     "name": "roach dirt",
     "copy-from": "feces_bird",
     "description": "Large black pellets of rotting material."
+  },
+  {
+    "type": "GENERIC",
+    "id": "fetid_goop",
+    "symbol": "~",
+    "color": "white",
+    "name": { "str": "fetid goop" },
+    "weight": "750 g",
+    "volume": "1 L",
+    "description": "A foul smelling goop.  It has a disgusting texture and a powerful smell that overrides every other smell around it.",
+    "use_action": {
+      "type": "change_scent",
+      "scent_typeid": "sc_fetid",
+      "moves": 200,
+      "duration": "1 h",
+      "charges_to_use": 1,
+      "effects": [ { "id": "fetid_goop", "duration": 3600 } ]
+    }
   }
 ]

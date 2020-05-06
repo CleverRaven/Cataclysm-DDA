@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DISPERSION_H
-#define DISPERSION_H
+#ifndef CATA_SRC_DISPERSION_H
+#define CATA_SRC_DISPERSION_H
 
 #include <iosfwd>
 #include <vector>
@@ -12,7 +12,7 @@ class dispersion_sources
         std::vector<double> linear_sources;
         std::vector<double> multipliers;
     public:
-        dispersion_sources( double normal_source = 0.0 ) {
+        explicit dispersion_sources( double normal_source = 0.0 ) {
             if( normal_source != 0.0 ) {
                 normal_sources.push_back( normal_source );
             }
@@ -30,4 +30,4 @@ class dispersion_sources
         friend std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources );
 };
 
-#endif
+#endif // CATA_SRC_DISPERSION_H

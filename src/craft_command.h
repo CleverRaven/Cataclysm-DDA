@@ -1,19 +1,20 @@
 #pragma once
-#ifndef CRAFT_COMMAND_H
-#define CRAFT_COMMAND_H
+#ifndef CATA_SRC_CRAFT_COMMAND_H
+#define CATA_SRC_CRAFT_COMMAND_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "point.h"
+#include "recipe.h"
 #include "requirements.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonOut;
 class inventory;
 class item;
 class player;
-class recipe;
-class JsonIn;
-class JsonOut;
 template<typename T> struct enum_traits;
 
 /**
@@ -83,6 +84,7 @@ class craft_command
         bool empty() const {
             return rec == nullptr;
         }
+        skill_id get_skill_id();
 
     private:
         const recipe *rec = nullptr;
@@ -94,6 +96,8 @@ class craft_command
         bool longcraft = false;
         // This is mainly here for maintainability reasons.
         player *crafter;
+
+        recipe_filter_flags flags = recipe_filter_flags::none;
 
         // Location of the workbench to place the item on
         // zero_tripoint indicates crafting without a workbench
@@ -114,4 +118,4 @@ class craft_command
                              const std::vector<comp_selection<tool_comp>> &missing_tools );
 };
 
-#endif
+#endif // CATA_SRC_CRAFT_COMMAND_H

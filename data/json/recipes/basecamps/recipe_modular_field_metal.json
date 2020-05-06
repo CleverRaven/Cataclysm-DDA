@@ -12,7 +12,15 @@
     "blueprint_requires": [ { "id": "fbmh_0" } ],
     "blueprint_provides": [ { "id": "fbmh_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "18 h",
+      "skills": [ [ "fabrication", 5 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
+        "components": [ [ [ "steel_plate", 24 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,7 +35,15 @@
     "blueprint_requires": [ { "id": "fbmh_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 2 }, { "id": "fbmh_tent_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "18 h 15 m",
+      "skills": [ [ "fabrication", 5 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 110 ], [ "welder", 550 ], [ "welder_crude", 825 ], [ "toolset", 825 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 22 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -42,7 +58,15 @@
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 2 } ],
     "blueprint_provides": [ { "id": "fbmh_northeast", "amount": 2 } ],
     "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_tent_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 30 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 140 ], [ "toolset", 1050 ], [ "welder", 700 ], [ "welder_crude", 1050 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 30 ] ], [ [ "spike", 8 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -57,7 +81,23 @@
     "blueprint_requires": [ { "id": "fbmh_tent_northeast" }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_east" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 11 h 45 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 500 ], [ "toolset", 3750 ], [ "welder", 2500 ], [ "welder_crude", 3750 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 104 ] ],
+          [ [ "spike", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -72,7 +112,23 @@
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_east" }, { "id": "fbmh_tent_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 5 h 45 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 460 ], [ "toolset", 3450 ], [ "welder", 2300 ], [ "welder_crude", 3450 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 96 ] ],
+          [ [ "spike", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -87,7 +143,23 @@
     "blueprint_requires": [ { "id": "fbmh_tent_east" } ],
     "blueprint_provides": [ { "id": "fbmh_southeast", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 11 h 45 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 500 ], [ "toolset", 3750 ], [ "welder", 2500 ], [ "welder_crude", 3750 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 104 ] ],
+          [ [ "spike", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -102,7 +174,23 @@
     "blueprint_requires": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_southeast", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southeast" }, { "id": "fbmh_tent_east" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 5 h 45 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 460 ], [ "toolset", 3450 ], [ "welder", 2300 ], [ "welder_crude", 3450 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 96 ] ],
+          [ [ "spike", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -117,7 +205,23 @@
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_northwest", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_northwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 12 h 45 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 370 ], [ "toolset", 2775 ], [ "welder", 1850 ], [ "welder_crude", 2775 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 3 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ],
+          [ [ "steel_plate", 76 ] ],
+          [ [ "spike", 8 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -132,7 +236,23 @@
     "blueprint_requires": [ { "id": "fbmh_tent_northwest" } ],
     "blueprint_provides": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 11 h 45 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 500 ], [ "toolset", 3750 ], [ "welder", 2500 ], [ "welder_crude", 3750 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 104 ] ],
+          [ [ "spike", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -147,7 +267,23 @@
     "blueprint_requires": [ { "id": "fbmh_northwest", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_west" }, { "id": "fbmh_tent_northwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 5 h 45 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 460 ], [ "toolset", 3450 ], [ "welder", 2300 ], [ "welder_crude", 3450 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 96 ] ],
+          [ [ "spike", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -162,7 +298,23 @@
     "blueprint_requires": [ { "id": "fbmh_tent_west" } ],
     "blueprint_provides": [ { "id": "fbmh_southwest", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 11 h 45 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 500 ], [ "toolset", 3750 ], [ "welder", 2500 ], [ "welder_crude", 3750 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 104 ] ],
+          [ [ "spike", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -177,7 +329,23 @@
     "blueprint_requires": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_southwest", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southwest" }, { "id": "fbmh_tent_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 5 h 45 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 460 ], [ "toolset", 3450 ], [ "welder", 2300 ], [ "welder_crude", 3450 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 30 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 96 ] ],
+          [ [ "spike", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -192,7 +360,15 @@
     "blueprint_requires": [ { "id": "fbmh_tent_east" } ],
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_ne_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_ne_center" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 15 h 30 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 240 ], [ "toolset", 1800 ], [ "welder", 1200 ], [ "welder_crude", 1800 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 50 ] ], [ [ "spike", 8 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -207,7 +383,15 @@
     "blueprint_requires": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_ne_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_tent_east" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 7 h 30 m",
+      "skills": [ [ "fabrication", 5 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 210 ], [ "welder", 1050 ], [ "welder_crude", 1575 ], [ "toolset", 1575 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
+        "components": [ [ [ "steel_plate", 42 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -222,7 +406,15 @@
     "blueprint_requires": [ { "id": "fbmh_tent_west" } ],
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_nw_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_nw_center" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 16 h",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 220 ], [ "toolset", 1650 ], [ "welder", 1100 ], [ "welder_crude", 1650 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [ [ [ "hinge", 6 ] ], [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ], [ [ "steel_plate", 48 ] ], [ [ "spike", 16 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -237,7 +429,15 @@
     "blueprint_requires": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_nw_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 8 h",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 190 ], [ "toolset", 1425 ], [ "welder", 950 ], [ "welder_crude", 1425 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 40 ] ], [ [ "spike", 8 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -252,7 +452,15 @@
     "blueprint_requires": [ { "id": "fbmh_east", "amount": 4 }, { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 4 }, { "id": "fbmh_ne_center" }, { "id": "fbmh_nw_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_east" }, { "id": "fbmh_tent_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 15 h 30 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 400 ], [ "toolset", 3000 ], [ "welder", 2000 ], [ "welder_crude", 3000 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 82 ] ], [ [ "spike", 8 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -267,7 +475,15 @@
     "blueprint_requires": [ { "id": "fbmh_tent_southeast" } ],
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_se_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_se_south" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 16 h",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 220 ], [ "toolset", 1650 ], [ "welder", 1100 ], [ "welder_crude", 1650 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [ [ [ "hinge", 6 ] ], [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ], [ [ "steel_plate", 48 ] ], [ [ "spike", 16 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -282,7 +498,15 @@
     "blueprint_requires": [ { "id": "fbmh_southeast", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_se_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_se_south" }, { "id": "fbmh_tent_southeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 8 h",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 190 ], [ "toolset", 1425 ], [ "welder", 950 ], [ "welder_crude", 1425 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 40 ] ], [ [ "spike", 8 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -297,7 +521,15 @@
     "blueprint_requires": [ { "id": "fbmh_tent_southwest" } ],
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_sw_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_sw_south" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 15 h 30 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 240 ], [ "toolset", 1800 ], [ "welder", 1200 ], [ "welder_crude", 1800 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 50 ] ], [ [ "spike", 8 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -312,7 +544,15 @@
     "blueprint_requires": [ { "id": "fbmh_southwest", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_sw_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_sw_south" }, { "id": "fbmh_tent_southwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 7 h 30 m",
+      "skills": [ [ "fabrication", 5 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 210 ], [ "welder", 1050 ], [ "welder_crude", 1575 ], [ "toolset", 1575 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
+        "components": [ [ [ "steel_plate", 42 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -332,6 +572,14 @@
       { "id": "fbmh_tent_southeast" },
       { "id": "fbmh_tent_southwest" }
     ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 15 h 30 m",
+      "skills": [ [ "fabrication", 7 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 400 ], [ "toolset", 3000 ], [ "welder", 2000 ], [ "welder_crude", 3000 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "components": [ [ [ "hinge", 3 ] ], [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ], [ [ "steel_plate", 82 ] ], [ [ "spike", 8 ] ] ]
+      }
+    }
   }
 ]

@@ -1,31 +1,32 @@
 #pragma once
-#ifndef INVENTORY_H
-#define INVENTORY_H
+#ifndef CATA_SRC_INVENTORY_H
+#define CATA_SRC_INVENTORY_H
 
-#include <cstddef>
 #include <array>
+#include <bitset>
+#include <cstddef>
+#include <functional>
+#include <limits>
 #include <list>
+#include <map>
 #include <string>
 #include <unordered_map>
-#include <bitset>
+#include <unordered_set>
 #include <utility>
 #include <vector>
-#include <limits>
-#include <functional>
-#include <map>
 
 #include "cata_utility.h"
 #include "item.h"
 #include "item_stack.h"
 #include "magic_enchantment.h"
-#include "visitable.h"
 #include "units.h"
+#include "visitable.h"
 
-class map;
-class npc;
 class Character;
 class JsonIn;
 class JsonOut;
+class map;
+class npc;
 class player;
 struct tripoint;
 
@@ -125,12 +126,16 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
-        void form_from_map( const tripoint &origin, int range, const player *pl = nullptr,
+        void form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl = nullptr,
+                             bool assign_invlet = true );
+        void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
-        void form_from_map( map &m, const tripoint &origin, int range, const player *pl = nullptr,
+        void form_from_map( map &m, const tripoint &origin, int range, const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
+        void form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
+                            bool assign_invlet = true );
         /**
          * Remove a specific item from the inventory. The item is compared
          * by pointer. Contents of the item are removed as well.
@@ -233,7 +238,7 @@ class inventory : public visitable<inventory>
 
         invstack items;
 
-        mutable bool binned;
+        mutable bool binned = false;
         /**
          * Items binned by their type.
          * That is, item_bin["carrot"] is a list of pointers to all carrots in inventory.
@@ -242,4 +247,4 @@ class inventory : public visitable<inventory>
         mutable itype_bin binned_items;
 };
 
-#endif
+#endif // CATA_SRC_INVENTORY_H

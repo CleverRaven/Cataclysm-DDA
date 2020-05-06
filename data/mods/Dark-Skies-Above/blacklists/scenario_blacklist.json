@@ -1,0 +1,19 @@
+[
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [
+      "evacuee",
+      "missed",
+      "largebuilding",
+      "surrounded",
+      "isolationist",
+      "infected",
+      "fire",
+      "bad_day",
+      "patient",
+      "wilderness",
+      "heli_crash"
+    ]
+  }
+]

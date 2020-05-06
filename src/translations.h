@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TRANSLATIONS_H
-#define TRANSLATIONS_H
+#ifndef CATA_SRC_TRANSLATIONS_H
+#define CATA_SRC_TRANSLATIONS_H
 
 #include <map>
 #include <ostream>
@@ -200,6 +200,11 @@ class translation
          */
         bool operator==( const translation &that ) const;
         bool operator!=( const translation &that ) const;
+
+        /**
+         * Only used for migrating old snippet hashes into snippet ids.
+         */
+        cata::optional<int> legacy_hash() const;
     private:
         translation( const std::string &ctxt, const std::string &raw );
         translation( const std::string &raw );
@@ -239,4 +244,33 @@ std::string operator+( const translation &lhs, const std::string &rhs );
 std::string operator+( const std::string &lhs, const translation &rhs );
 std::string operator+( const translation &lhs, const translation &rhs );
 
-#endif // _TRANSLATIONS_H_
+// Localized comparison operator, intended for sorting strings when they should
+// be sorted according to the user's locale.
+//
+// For convenience, it also sorts pairs recursively, because a common
+// requirement is to sort some list of objects by their names, and this can be
+// achieved by sorting a list of pairs where the first element of the pair is
+// the translated name.
+struct localized_comparator {
+    template<typename T, typename U>
+    bool operator()( const std::pair<T, U> &l, const std::pair<T, U> &r ) const {
+        if( ( *this )( l.first, r.first ) ) {
+            return true;
+        }
+        if( ( *this )( r.first, l.first ) ) {
+            return false;
+        }
+        return ( *this )( l.second, r.second );
+    }
+
+    template<typename T>
+    bool operator()( const T &l, const T &r ) const {
+        return l < r;
+    }
+
+    bool operator()( const std::string &, const std::string & ) const;
+};
+
+constexpr localized_comparator localized_compare{};
+
+#endif // CATA_SRC_TRANSLATIONS_H

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ARTIFACT_H
-#define ARTIFACT_H
+#ifndef CATA_SRC_ARTIFACT_H
+#define CATA_SRC_ARTIFACT_H
 
 #include <string>
 
@@ -96,10 +96,10 @@ class it_artifact_tool : public itype
 {
     public:
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonObject &jo );
+        void deserialize( const JsonObject &jo );
 
         it_artifact_tool();
-        it_artifact_tool( JsonObject &jo );
+        it_artifact_tool( const JsonObject &jo );
         it_artifact_tool( const itype &base ) : itype( base ) {}
 
         void create_name( const std::string &type );
@@ -110,10 +110,10 @@ class it_artifact_armor : public itype
 {
     public:
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonObject &jo );
+        void deserialize( const JsonObject &jo );
 
         it_artifact_armor();
-        it_artifact_armor( JsonObject &jo );
+        it_artifact_armor( const JsonObject &jo );
         it_artifact_armor( const itype &base ) : itype( base ) {}
 
         void create_name( const std::string &type );
@@ -132,4 +132,4 @@ bool save_artifacts( const std::string &path );
 
 bool check_art_charge_req( item &it );
 
-#endif
+#endif // CATA_SRC_ARTIFACT_H

@@ -63,12 +63,12 @@
       [
         [ "cooking_oil", 64 ],
         [ "cooking_oil2", 64 ],
-        [ "lard", 8 ],
-        [ "tallow", 8 ],
+        [ "edible_tallow_lard", 8, "LIST" ],
         [ "tallow_tainted", 8 ],
-        [ "fat", 16 ],
+        [ "any_fat", 16, "LIST" ],
         [ "fat_tainted", 16 ],
-        [ "lamp_oil", 1000 ]
+        [ "lamp_oil", 1000 ],
+        [ "motor_oil", 1000 ]
       ]
     ],
     "flags": [ "ALLOW_ROTTEN" ]
@@ -81,18 +81,18 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "30 m",
+    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
-        [ "tallow", 2 ],
+        [ "edible_tallow_lard", 2, "LIST" ],
         [ "tallow_tainted", 2 ],
-        [ "lard", 2 ],
         [ "cooking_oil", 16 ],
         [ "cooking_oil2", 16 ],
-        [ "fat", 6 ],
+        [ "any_fat", 6, "LIST" ],
         [ "fat_tainted", 6 ]
       ]
     ],

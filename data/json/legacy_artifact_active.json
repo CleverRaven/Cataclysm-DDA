@@ -2,7 +2,7 @@
   {
     "type": "SPELL",
     "id": "AEA_ADRENALINE",
-    "name": "Artifact Adrenaline",
+    "name": { "str": "Artifact Adrenaline" },
     "description": "Causes a surge of adrenaline to flow throughout your body.",
     "valid_targets": [ "self" ],
     "effect": "target_attack",
@@ -17,8 +17,8 @@
   {
     "type": "SPELL",
     "id": "AEA_BLOOD",
-    "name": "Artifact Blood",
-    "description": "Causes blood to leak from nearby terrian.",
+    "name": { "str": "Artifact Blood" },
+    "description": "Causes blood to leak from nearby terrain.",
     "valid_targets": [ "ground", "self", "hostile", "ally" ],
     "effect": "target_attack",
     "base_casting_time": 100,
@@ -33,7 +33,7 @@
   {
     "type": "SPELL",
     "id": "AEA_HEAL",
-    "name": "Artifact Heal",
+    "name": { "str": "Artifact Heal" },
     "description": "Will heal injuries all over your body.",
     "valid_targets": [ "self" ],
     "effect": "target_attack",
@@ -45,7 +45,7 @@
   {
     "type": "SPELL",
     "id": "AEA_CONFUSED",
-    "name": "Artifact Confused",
+    "name": { "str": "Artifact Confused" },
     "description": "Causes nearby enemies to become confused.",
     "valid_targets": [ "hostile" ],
     "effect": "target_attack",
@@ -61,7 +61,7 @@
   {
     "type": "SPELL",
     "id": "AEA_PAIN",
-    "name": "Artifact Pain",
+    "name": { "str": "Artifact Pain" },
     "description": "Owchie that hurts.",
     "valid_targets": [ "self" ],
     "effect": "recover_energy",
@@ -76,7 +76,7 @@
   {
     "type": "SPELL",
     "id": "AEA_TELEPORT",
-    "name": "Artifact Teleport",
+    "name": { "str": "Artifact Teleport" },
     "description": "Randomly teleports you a short distance.",
     "effect": "teleport_random",
     "valid_targets": [ "self" ],
@@ -88,7 +88,7 @@
   {
     "type": "SPELL",
     "id": "AEA_ATTENTION",
-    "name": "Artifact Attention",
+    "name": { "str": "Artifact Attention" },
     "description": "You're not quite sure what you did, but something is watching you for it.",
     "valid_targets": [ "self" ],
     "effect": "target_attack",
@@ -103,7 +103,7 @@
   {
     "type": "SPELL",
     "id": "AEA_TELEGLOW",
-    "name": "Artifact Teleglow",
+    "name": { "str": "Artifact Teleglow" },
     "description": "DO YOU HEAR THE VOICES TOO?",
     "valid_targets": [ "self" ],
     "effect": "target_attack",
@@ -118,7 +118,7 @@
   {
     "type": "SPELL",
     "id": "AEA_VOMIT",
-    "name": "Artifact Vomit",
+    "name": { "str": "Artifact Vomit" },
     "description": "Causes the caster to vomit.",
     "valid_targets": [ "self" ],
     "effect": "vomit",
@@ -128,7 +128,7 @@
   {
     "type": "SPELL",
     "id": "AEA_SHADOWS",
-    "name": "Artifact Shadows",
+    "name": { "str": "Artifact Shadows" },
     "description": "Summons shadows",
     "valid_targets": [ "ground" ],
     "effect": "summon",
@@ -147,7 +147,7 @@
   {
     "type": "SPELL",
     "id": "AEA_STAMINA_EMPTY",
-    "name": "Artifact Stamina Empty",
+    "name": { "str": "Artifact Stamina Empty" },
     "description": "does a variable amount of stamina damage",
     "min_damage": -1500,
     "max_damage": -5500,
@@ -161,7 +161,7 @@
   {
     "type": "SPELL",
     "id": "AEA_RADIATION",
-    "name": "Artifact Radiation",
+    "name": { "str": "Artifact Radiation" },
     "description": "causes radiation",
     "message": "Horrible gases are emitted!",
     "valid_targets": [ "self", "ground" ],
@@ -176,7 +176,7 @@
   {
     "type": "SPELL",
     "id": "AEA_HURTALL",
-    "name": "Artifact Hurtall",
+    "name": { "str": "Artifact Hurtall" },
     "description": "Hurts all monsters within your view distance",
     "message": "",
     "min_damage": 0,
@@ -190,7 +190,7 @@
   {
     "type": "SPELL",
     "id": "AEA_ACIDBALL",
-    "name": "Artifact Acidball",
+    "name": { "str": "Artifact Acidball" },
     "description": "fires an acidball",
     "effect": "target_attack",
     "message": "",
@@ -209,7 +209,7 @@
   {
     "type": "SPELL",
     "id": "art_eff_pet",
-    "name": "Pet",
+    "name": { "str": "Pet" },
     "description": "Makes the target a pet",
     "valid_targets": [ "ally", "hostile" ],
     "effect": "target_attack",
@@ -222,7 +222,7 @@
   {
     "type": "SPELL",
     "id": "art_flies_buzz",
-    "name": "Artifact Flies Buzz",
+    "name": { "str": "Artifact Flies Buzz" },
     "description": "Flies buzz around you",
     "valid_targets": [ "self", "ground" ],
     "message": "Flies buzz around you.",
@@ -231,7 +231,7 @@
   {
     "type": "SPELL",
     "id": "art_summon_flies",
-    "name": "Artifact Summon Flies",
+    "name": { "str": "Artifact Summon Flies" },
     "description": "Summons some flies",
     "valid_targets": [ "ground" ],
     "message": "Giant flies appear!",
@@ -247,7 +247,7 @@
   {
     "type": "SPELL",
     "id": "art_summon_bees",
-    "name": "Artifact Summon Bees",
+    "name": { "str": "Artifact Summon Bees" },
     "description": "Giant bees appear!",
     "valid_targets": [ "ground" ],
     "message": "Giant bees appear!",
@@ -263,7 +263,7 @@
   {
     "type": "SPELL",
     "id": "art_summon_wasps",
-    "name": "Artifact Summon Wasps",
+    "name": { "str": "Artifact Summon Wasps" },
     "description": "Summons some wasps",
     "valid_targets": [ "ground" ],
     "min_damage": 1,
@@ -279,7 +279,7 @@
   {
     "type": "SPELL",
     "id": "AEA_BUGS",
-    "name": "Artifact Bugs",
+    "name": { "str": "Artifact Bugs" },
     "description": "Summon some bugs.",
     "valid_targets": [ "ground", "self" ],
     "effect": "none",
@@ -305,7 +305,7 @@
   {
     "type": "SPELL",
     "id": "AEA_NOISE",
-    "name": "Artifact Noise",
+    "name": { "str": "Artifact Noise" },
     "description": "Makes a noise at your location",
     "message": "You hear a deafening boom from your location!",
     "sound_description": "a deafening boom",
@@ -321,7 +321,7 @@
   {
     "type": "SPELL",
     "id": "AEA_LIGHT",
-    "name": "Artifact Light",
+    "name": { "str": "Artifact Light" },
     "description": "Makes some light.",
     "valid_targets": [ "self" ],
     "effect": "timed_event",
@@ -334,7 +334,7 @@
   {
     "type": "SPELL",
     "id": "AEA_DIM",
-    "name": "Artifact Dim",
+    "name": { "str": "Artifact Dim" },
     "description": "Darkens the sky.",
     "valid_targets": [ "self" ],
     "effect": "timed_event",
@@ -346,7 +346,7 @@
   {
     "type": "SPELL",
     "id": "AEA_FATIGUE",
-    "name": "Artifact Dimensional Fatigue",
+    "name": { "str": "Artifact Dimensional Fatigue" },
     "description": "Creates some dimensional fatigue at a random point within range",
     "valid_targets": [ "ground", "self", "ally", "hostile" ],
     "effect": "target_attack",
@@ -362,7 +362,7 @@
   {
     "type": "SPELL",
     "id": "AEA_FIREBALL",
-    "name": "Artifact Fireball",
+    "name": { "str": "Artifact Fireball" },
     "description": "Causes an explosion at the target",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "effect": "explosion",
@@ -378,7 +378,7 @@
   {
     "type": "SPELL",
     "id": "AEA_FLASH",
-    "name": "Artifact Flash",
+    "name": { "str": "Artifact Flash" },
     "description": "Causes a flashbang at the target",
     "valid_targets": [ "hostile", "ground", "self" ],
     "effect": "flashbang",
@@ -390,7 +390,7 @@
   {
     "type": "SPELL",
     "id": "AEA_PARALYZE",
-    "name": "Artifact Paralyze",
+    "name": { "str": "Artifact Paralyze" },
     "description": "Paralyzes you for a second or two",
     "message": "You're paralyzed!",
     "valid_targets": [ "self" ],
@@ -403,18 +403,18 @@
     "type": "SPELL",
     "id": "AEA_MAP",
     "effect": "map",
-    "name": "Artifact Map",
+    "name": { "str": "Artifact Map" },
     "description": "Reveals an area around you on the overmap",
     "valid_targets": [ "self" ],
     "min_aoe": 20,
     "max_aoe": 20,
-    "message": "You have a vision of the surrounding area...",
+    "message": "You have a vision of the surrounding area…",
     "base_casting_time": 100
   },
   {
     "type": "SPELL",
     "id": "AEA_FIRESTORM",
-    "name": "Artifact Firestorm",
+    "name": { "str": "Artifact Firestorm" },
     "description": "Calls a firestorm around you",
     "effect": "target_attack",
     "valid_targets": [ "ground", "self", "ally", "hostile" ],
@@ -433,7 +433,7 @@
   {
     "type": "SPELL",
     "id": "AEA_FUN",
-    "name": "Artifact Fun",
+    "name": { "str": "Artifact Fun" },
     "effect": "morale",
     "effect_str": "morale_feeling_good",
     "description": "Makes you feel pretty good",
@@ -448,7 +448,7 @@
   {
     "type": "SPELL",
     "id": "AEA_MUTATE",
-    "name": "Artifact Mutate",
+    "name": { "str": "Artifact Mutate" },
     "effect": "mutate",
     "description": "Mutates you randomly",
     "message": "",
@@ -461,7 +461,7 @@
   {
     "type": "SPELL",
     "id": "AEA_STORM_bolt",
-    "name": "Bolt",
+    "name": { "str": "Bolt" },
     "description": "One of the bolts thrown by AEA_STORM",
     "effect": "line_attack",
     "valid_targets": [ "ground", "hostile", "ally" ],
@@ -484,7 +484,7 @@
   {
     "type": "SPELL",
     "id": "AEA_STORM",
-    "name": "Artifact Storm",
+    "name": { "str": "Artifact Storm" },
     "description": "Calls down a storm near you",
     "valid_targets": [ "self" ],
     "message": "",
@@ -497,7 +497,7 @@
   {
     "type": "SPELL",
     "id": "AEA_SCREAM_morale",
-    "name": "Morale Scream",
+    "name": { "str": "Morale Scream" },
     "description": "Morale effect from AEA_SCREAM",
     "effect": "morale",
     "effect_str": "morale_scream",
@@ -509,8 +509,24 @@
   },
   {
     "type": "SPELL",
+    "id": "AEA_ENTRANCE",
+    "name": { "str": "Artifact Entrance" },
+    "description": "Entrances surrounding monsters",
+    "effect": "charm_monster",
+    "message": "",
+    "min_damage": 0,
+    "max_damage": 600,
+    "min_duration": 500,
+    "max_duration": 5000,
+    "min_aoe": 8,
+    "max_aoe": 8,
+    "valid_targets": [ "self", "hostile" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_DURATION" ]
+  },
+  {
+    "type": "SPELL",
     "id": "AEA_SCREAM",
-    "name": "Artifact Scream",
+    "name": { "str": "Artifact Scream" },
     "description": "An ethereal scream",
     "message": "",
     "effect": "noise",
@@ -523,5 +539,34 @@
     "max_damage": 40,
     "valid_targets": [ "self" ],
     "extra_effects": [ { "id": "AEA_SCREAM_morale" } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_PULSE_bash_terrain",
+    "name": { "str": "Bash Terrain" },
+    "description": "Damages the terrain",
+    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "effect": "bash",
+    "min_damage": 40,
+    "max_damage": 40,
+    "min_aoe": 2,
+    "max_aoe": 2
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_PULSE",
+    "name": { "str": "Artifact Pulse" },
+    "description": "Damages the terrain",
+    "message": "",
+    "sound_description": "The earth shakes!",
+    "sound_id": "misc",
+    "sound_variant": "earthquake",
+    "sound_ambient": true,
+    "sound_type": "combat",
+    "valid_targets": [ "self" ],
+    "min_damage": 30,
+    "max_damage": 30,
+    "effect": "noise",
+    "extra_effects": [ { "id": "AEA_PULSE_bash_terrain" }, { "id": "AEA_PULSE_bash_terrain" }, { "id": "AEA_PULSE_bash_terrain" } ]
   }
 ]

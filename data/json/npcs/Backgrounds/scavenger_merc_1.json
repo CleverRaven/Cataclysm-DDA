@@ -12,7 +12,7 @@
         "text": "I'm not looking for a friend, but I've paid my dues and earned my way.  You gotta pony up too.  We're stuck with each other for a bit.",
         "condition": { "not": { "or": [ { "npc_has_effect": "player_BGSS_SAIDNO" }, { "npc_has_effect": "player_BGSS_SAIDYES" } ] } },
         "//": "This guy is very unlikely to respond to nice words, unless you're a really smooth operator and have earned it.",
-        "trial": { "type": "PERSUADE", "difficulty": 80, "VALUE": -2, "TRUST": -2 },
+        "trial": { "type": "PERSUADE", "difficulty": 80, "mod": [ [ "VALUE", -2 ], [ "TRUST", -2 ] ] },
         "success": { "topic": "BGSS_SCAVENGER_MERC_1_STORY2_BADGERME" },
         "failure": { "topic": "BGSS_SCAVENGER_MERC_1_FUCKOFF" }
       },
@@ -20,7 +20,7 @@
         "text": "Don't mouth off to me.  I know where everyone else working for me comes from.  If I'm going to let you stand behind me with a loaded gun, you're going to toe the <swear> line too.",
         "condition": { "not": { "or": [ { "npc_has_effect": "player_BGSS_SAIDNO" }, { "npc_has_effect": "player_BGSS_SAIDYES" } ] } },
         "//": "This guy is more likely to respond to a show of strength.",
-        "trial": { "type": "INTIMIDATE", "difficulty": 50, "TRUST": -1, "FEAR": -1 },
+        "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "TRUST", -1 ], [ "FEAR", -1 ] ] },
         "success": { "topic": "BGSS_SCAVENGER_MERC_1_STORY2_OKAY" },
         "failure": { "topic": "BGSS_SCAVENGER_MERC_1_NICETRY" }
       },
@@ -37,7 +37,7 @@
     "id": "BGSS_SCAVENGER_MERC_1_FUCKOFF",
     "type": "talk_topic",
     "dynamic_line": "No dice.  You asked me to come along.  This is what you get.  If you don't like it, I'll take my fee and go back to the center.  Ain't hard to find contracts.",
-    "opinion": { "fear": -1 },
+    "speaker_effect": { "opinion": { "fear": -1 } },
     "responses": [
       {
         "text": "Fine, then.  Let's talk about something else.",
@@ -106,7 +106,7 @@
     "id": "BGSS_SCAVENGER_MERC_1_STORY2",
     "type": "talk_topic",
     "dynamic_line": "Oh, yeah, this is a good choice.  Hold on to it for me, let's have a drink later.  Right now we're practically swimming in good whisky, but some day the last bottle will get drunk.  It's gonna be a long time before any of us is brewing nice scotch, and we ain't never gettin' peat from Islay ever again.  Makes me shed a tear just thinking about it.",
-    "opinion": { "trust": 1, "value": 1 },
+    "speaker_effect": { "opinion": { "trust": 1, "value": 1 } },
     "responses": [
       {
         "text": "You owe me a story.",

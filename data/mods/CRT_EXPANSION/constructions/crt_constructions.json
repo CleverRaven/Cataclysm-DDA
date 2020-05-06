@@ -1,6 +1,7 @@
 [
   {
     "type": "construction",
+    "id": "constr_crt_cut_grass_long",
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
@@ -12,6 +13,7 @@
   },
   {
     "type": "construction",
+    "id": "constr_crt_cut_grass_tall",
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
@@ -23,6 +25,7 @@
   },
   {
     "type": "construction",
+    "id": "constr_crt_remove_grass",
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
@@ -34,6 +37,7 @@
   },
   {
     "type": "construction",
+    "id": "constr_crt_remove_grass_long",
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
@@ -45,6 +49,7 @@
   },
   {
     "type": "construction",
+    "id": "constr_crt_remove_grass_tall",
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
@@ -56,6 +61,7 @@
   },
   {
     "type": "construction",
+    "id": "constr_crt_remove_grass_dead",
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
@@ -67,6 +73,7 @@
   },
   {
     "type": "construction",
+    "id": "constr_crt_remove_grass_golf",
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
@@ -78,6 +85,7 @@
   },
   {
     "type": "construction",
+    "id": "constr_crt_remove_grass_white",
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
@@ -89,6 +97,7 @@
   },
   {
     "type": "construction",
+    "id": "constr_crt_chop_trunk",
     "description": "Chop Tree Trunk Into Logs",
     "category": "FARM_WOOD",
     "required_skills": [ [ "survival", 2 ] ],
@@ -100,26 +109,7 @@
   },
   {
     "type": "construction",
-    "description": "Dig a Pit",
-    "category": "DIG",
-    "required_skills": [ [ "survival", 0 ] ],
-    "time": "20 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "pre_terrain": "t_dirt",
-    "post_terrain": "t_pit_shallow"
-  },
-  {
-    "type": "construction",
-    "description": "Dig a Pit",
-    "category": "DIG",
-    "required_skills": [ [ "survival", 1 ] ],
-    "time": "15 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "pre_terrain": "t_pit_shallow",
-    "post_terrain": "t_pit"
-  },
-  {
-    "type": "construction",
+    "id": "constr_crt_wall_stick",
     "description": "Makeshift Wall",
     "category": "OTHER",
     "required_skills": [ [ "survival", 2 ] ],

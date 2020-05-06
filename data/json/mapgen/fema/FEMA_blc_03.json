@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "FEMA_blc",
-    "comment": "bottom left corner.",
+    "//": "bottom left corner.",
     "weight": 200,
     "method": "json",
     "object": {
@@ -18,7 +18,7 @@
         ".f..=,,ffffffff,,TT,,=..",
         ".f..=,,f,,,,,,f,,TT,,=..",
         ".f..=,,f,,ll,,f,,,,,,=..",
-        ".f..=,,f,,ll,,e,,,,,,=..",
+        ".f..=,,f,,ll,,F,,,,,,=..",
         ".f..=,,f,,ll,,f,,,,,,=..",
         ".f..*,,f,,,,,,f,,,,,,*..",
         ".f..*,,ffffffff,,,,,,*..",

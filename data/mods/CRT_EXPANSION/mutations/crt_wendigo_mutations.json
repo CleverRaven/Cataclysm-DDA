@@ -14,7 +14,7 @@
     "id": "NMELD",
     "name": "Nature's Boon",
     "points": 3,
-    "description": "Your very prescence is masked by nature itself. You are slightly harder to detect.",
+    "description": "Your very prescence is masked by nature itself.  You are slightly harder to detect.",
     "valid": false,
     "purifiable": false,
     "prereqs": [ "WEAKSCENT" ],
@@ -38,7 +38,7 @@
     "id": "ANIMALEMPATH2",
     "name": "Animal Kinship",
     "points": 2,
-    "description": "Something about your presence is calming to animals, and they will treat you with innate trust. This only applies to natural animals such as woodland creatures.",
+    "description": "Something about your presence is calming to animals, and they will treat you with innate trust.  This only applies to natural animals such as woodland creatures.",
     "category": [ "ELFA", "VAMP", "WENDIGO" ],
     "prereqs": [ "ANIMALEMPATH" ],
     "cancels": [ "ANIMALDISCORD" ]

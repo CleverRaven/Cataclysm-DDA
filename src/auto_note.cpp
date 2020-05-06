@@ -1,22 +1,22 @@
 #include "auto_note.h"
 
 #include <iostream>
+#include <memory>
 
-#include "game.h"
-#include "json.h"
-#include "string_formatter.h"
+#include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
-#include "options.h"
-#include "cata_utility.h"
-#include "output.h"
-#include "debug.h"
 #include "filesystem.h"
-#include "translations.h"
-#include "avatar.h"
-#include "map_extras.h"
+#include "game.h"
 #include "generic_factory.h"
+#include "input.h"
+#include "json.h"
+#include "map_extras.h"
+#include "options.h"
+#include "output.h"
+#include "point.h"
+#include "translations.h"
+#include "ui_manager.h"
 
 namespace auto_notes
 {
@@ -149,7 +149,7 @@ auto_note_manager_gui::auto_note_manager_gui()
 
     for( auto &extra : MapExtras::mapExtraFactory().get_all() ) {
         // Ignore all extras that have autonote disabled in the JSON.
-        // This filters out lots of extras users shouldnt see (like "normal")
+        // This filters out lots of extras users shouldn't see (like "normal")
         if( !extra.autonote ) {
             continue;
         }
@@ -173,64 +173,37 @@ bool auto_note_manager_gui::was_changed() const
 void auto_note_manager_gui::show()
 {
     const int iHeaderHeight = 3;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
+    int iContentHeight = 0;
+    catacurses::window w_border;
+    catacurses::window w_header;
+    catacurses::window w;
 
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
-    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
-                                FULL_SCREEN_WIDTH * 3 / 4,
-                                point( iOffsetX + 19 / 2, 7 + iOffsetY + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
-    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                  point( iOffsetX, iOffsetY ) );
+        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                       point( iOffsetX, iOffsetY ) );
 
-    catacurses::window w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                  point( 1 + iOffsetX, 1 + iOffsetY ) );
+        w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
+                                       point( 1 + iOffsetX, 1 + iOffsetY ) );
 
-    catacurses::window w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                           point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
+        w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
+                                point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
 
-    // ===========================================================================
-    // Perform initial draw. This includes things like the window border that do
-    // not need to be refreshed more than once.
-
-    // == Draw border
-    draw_border( w_border, BORDER_COLOR, _( " AUTO NOTES MANAGER " ) );
-    mvwputch( w_border, point( 0, 2 ), c_light_gray, LINE_XXXO );
-    mvwputch( w_border, point( 79, 2 ), c_light_gray, LINE_XOXX );
-    mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
-    wrefresh( w_border );
-
-    // == Draw header
-    int tmpx = 0;
-    tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
-    tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
-    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-    tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green,
-                            _( "<Enter> - Toggle" ) ) + 2;
-
-    // Draw horizontal line and corner pieces of the table
-    for( int x = 0; x < 78; x++ ) {
-        if( x == 60 ) {
-            mvwputch( w_header, point( x, 1 ), c_light_gray, LINE_OXXX );
-            mvwputch( w_header, point( x, 2 ), c_light_gray, LINE_XOXO );
-        } else {
-            mvwputch( w_header, point( x, 1 ), c_light_gray, LINE_OXOX );
-        }
-    }
-
-    mvwprintz( w_header, point( 1, 2 ), c_white, _( "Map Extra" ) );
-    mvwprintz( w_header, point( 62, 2 ), c_white, _( "Enabled" ) );
-
-    wrefresh( w_header );
+        ui.position_from_window( w_border );
+    } );
+    ui.mark_resize();
 
     // ===========================================================================
-
     // If the display cache contains no entries, the player might not have discovered any of
     // the map extras. In this case, we switch to a special state that alerts the user of this
     // in order to avoid confusion a completely empty GUI might normally create.
     const bool emptyMode = displayCache.empty();
+    const int cacheSize = static_cast<int>( displayCache.size() );
 
     int currentLine = 0;
     int startPosition = 0;
@@ -239,6 +212,7 @@ void auto_note_manager_gui::show()
     input_context ctx{ "AUTO_NOTES" };
     ctx.register_action( "QUIT" );
     ctx.register_action( "SWITCH_AUTO_NOTE_OPTION" );
+    ctx.register_action( "HELP_KEYBINDINGS" );
 
     if( !emptyMode ) {
         ctx.register_cardinal();
@@ -246,9 +220,39 @@ void auto_note_manager_gui::show()
         ctx.register_action( "QUIT" );
         ctx.register_action( "ENABLE_MAPEXTRA_NOTE" );
         ctx.register_action( "DISABLE_MAPEXTRA_NOTE" );
+        ctx.register_action( "CHANGE_MAPEXTRA_CHARACTER" );
     }
 
-    while( true ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        // == Draw border
+        draw_border( w_border, BORDER_COLOR, _( " AUTO NOTES MANAGER " ) );
+        mvwputch( w_border, point( 0, 2 ), c_light_gray, LINE_XXXO );
+        mvwputch( w_border, point( 79, 2 ), c_light_gray, LINE_XOXX );
+        mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
+        wrefresh( w_border );
+
+        // == Draw header
+        int tmpx = 0;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
+        shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter> - Toggle" ) );
+
+        // Draw horizontal line and corner pieces of the table
+        for( int x = 0; x < 78; x++ ) {
+            if( x == 51 || x == 60 ) {
+                mvwputch( w_header, point( x, 1 ), c_light_gray, LINE_OXXX );
+                mvwputch( w_header, point( x, 2 ), c_light_gray, LINE_XOXO );
+            } else {
+                mvwputch( w_header, point( x, 1 ), c_light_gray, LINE_OXOX );
+            }
+        }
+
+        mvwprintz( w_header, point( 1, 2 ), c_white, _( "Map Extra" ) );
+        mvwprintz( w_header, point( 53, 2 ), c_white, _( "Symbol" ) );
+        mvwprintz( w_header, point( 62, 2 ), c_white, _( "Enabled" ) );
+
+        wrefresh( w_header );
+
         mvwprintz( w_header, point( 39, 0 ), c_white, _( "Auto notes enabled:" ) );
 
         int currentX = 60;
@@ -257,23 +261,19 @@ void auto_note_manager_gui::show()
                                     get_option<bool>( "AUTO_NOTES" ) ? _( "True" ) : _( "False" ) );
 
         currentX += shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green, "  " );
-        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-        currentX += shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green,
-                                    _( "<S>witch " ) );
+        shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green, _( "<S>witch " ) );
 
         // Clear table
         for( int y = 0; y < iContentHeight; y++ ) {
             for( int x = 0; x < 79; x++ ) {
-                // The middle beam needs special treatment
-                if( x == 60 ) {
+                // The middle beams needs special treatment
+                if( x == 51 || x == 60 ) {
                     mvwputch( w, point( x, y ), c_light_gray, LINE_XOXO );
                 } else {
                     mvwputch( w, point( x, y ), c_black, ' ' );
                 }
             }
         }
-
-        const int cacheSize = static_cast<int>( displayCache.size() );
 
         draw_scrollbar( w_border, currentLine, iContentHeight, cacheSize, point( 0, 4 ) );
 
@@ -292,6 +292,8 @@ void auto_note_manager_gui::show()
                 const auto lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
                 const auto statusColor = cacheEntry.second ? c_green : c_red;
                 const auto statusString = cacheEntry.second ? _( "yes" ) : _( "no" );
+                const auto charColor = cacheEntry.first.color;
+                const auto displayChar = cacheEntry.first.get_symbol();
 
                 mvwprintz( w, point( 1, i - startPosition ), lineColor, "" );
 
@@ -301,8 +303,10 @@ void auto_note_manager_gui::show()
                     wprintz( w, c_yellow, "   " );
                 }
 
-                wprintz( w, lineColor, "%s", _( cacheEntry.first.name ) );
+                wprintz( w, lineColor, "%s", cacheEntry.first.name() );
 
+                // Print the character this map extra is indicated by on the map
+                mvwprintz( w, point( 55, i - startPosition ), charColor, "%s", displayChar );
                 // Since yes is longer than no, we need to clear the space for the status string before
                 // displaying the current text. Otherwise artifacts might occur.
                 mvwprintz( w, point( 64, i - startPosition ), statusColor, "     " );
@@ -313,6 +317,10 @@ void auto_note_manager_gui::show()
         wrefresh( w_header );
         wrefresh( w_border );
         wrefresh( w );
+    } );
+
+    while( true ) {
+        ui_manager::redraw();
 
         const std::string currentAction = ctx.handle_input();
 

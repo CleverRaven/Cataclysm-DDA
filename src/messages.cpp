@@ -1,22 +1,24 @@
 #include "messages.h"
 
 #include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
+#include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "ime.h"
 #include "input.h"
 #include "json.h"
 #include "optional.h"
 #include "output.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "catacharset.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
+#include "ui_manager.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -24,11 +26,10 @@
 #include "options.h"
 #endif
 
+#include <algorithm>
 #include <deque>
 #include <iterator>
-#include <algorithm>
 #include <memory>
-#include <sstream>
 
 // sidebar messages flow direction
 extern bool log_from_top;
@@ -175,7 +176,7 @@ class messages_impl
 
         void add_msg_string( std::string &&msg, game_message_type const type,
                              const game_message_flags flags ) {
-            if( msg.length() == 0 || !active ) {
+            if( msg.empty() || !active ) {
                 return;
             }
 
@@ -329,7 +330,7 @@ void Messages::serialize( JsonOut &json )
     json.end_object();
 }
 
-void Messages::deserialize( JsonObject &json )
+void Messages::deserialize( const JsonObject &json )
 {
     if( !json.has_member( "player_messages" ) ) {
         return;
@@ -478,8 +479,8 @@ void Messages::dialog::init()
     w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
 
     ctxt = input_context( "MESSAGE_LOG" );
-    ctxt.register_action( "UP", translate_marker( "Scroll up" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Scroll down" ) );
+    ctxt.register_action( "UP", to_translation( "Scroll up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "FILTER" );
@@ -510,7 +511,8 @@ void Messages::dialog::init()
     w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, point( w_fh_x, w_fh_y ) );
 
     // Initialize filter input
-    filter.window( w_filter_help, border_width + 2, w_fh_height - 1, w_fh_width - border_width - 2 );
+    filter.window( w_filter_help, point( border_width + 2, w_fh_height - 1 ),
+                   w_fh_width - border_width - 2 );
     filtering = false;
 
     // Initialize folded messages
@@ -742,6 +744,9 @@ void Messages::dialog::input()
 
 void Messages::dialog::run()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( !errored && !canceled ) {
         show();
         input();
@@ -751,13 +756,17 @@ void Messages::dialog::run()
 std::vector<std::string> Messages::dialog::filter_help_text( int width )
 {
     const auto &help_fmt = _(
-                               "Format is [[TYPE]:]TEXT. The values for TYPE are: %s\n"
-                               "Examples:\n"
-                               "  good:mutation\n"
-                               "  :you pick up: 1\n"
-                               "  crash!\n"
+                               "<color_light_gray>The default is to search the entire message log.  "
+                               "Use message-types as prefixes followed by (:) to filter more specific.\n"
+                               "Valid message-type values are:</color> %s\n"
+                               "\n"
+                               "<color_white>Examples:</color>\n"
+                               "  <color_light_green>good</color><color_white>:mutation\n"
+                               "  :you pick up: 1</color>\n"
+                               "  <color_light_red>bad</color><color_white>:</color>\n"
+                               "\n"
                            );
-    std::stringstream type_text;
+    std::string type_text;
     const auto &type_list = msg_type_and_names();
     for( auto it = type_list.begin(); it != type_list.end(); ++it ) {
         // Skip m_debug outside debug mode (but allow searching for it)
@@ -770,16 +779,16 @@ std::vector<std::string> Messages::dialog::filter_help_text( int width )
             }
             if( next_it != type_list.end() ) {
                 //~ the 2nd %s is a type name, this is used to format a list of type names
-                type_text << string_format( pgettext( "message log", "<color_%s>%s</color>, " ),
+                type_text += string_format( pgettext( "message log", "<color_%s>%s</color>, " ),
                                             col_name, pgettext( "message type", it->second ) );
             } else {
                 //~ the 2nd %s is a type name, this is used to format the last type name in a list of type names
-                type_text << string_format( pgettext( "message log", "<color_%s>%s</color>." ),
+                type_text += string_format( pgettext( "message log", "<color_%s>%s</color>." ),
                                             col_name, pgettext( "message type", it->second ) );
             }
         }
     }
-    return foldstring( string_format( help_fmt, type_text.str() ), width );
+    return foldstring( string_format( help_fmt, type_text ), width );
 }
 
 void Messages::display_messages()

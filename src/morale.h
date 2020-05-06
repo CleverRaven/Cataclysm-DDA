@@ -1,24 +1,22 @@
 #pragma once
-#ifndef MORALE_H
-#define MORALE_H
+#ifndef CATA_SRC_MORALE_H
+#define CATA_SRC_MORALE_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
-#include <vector>
-#include <algorithm>
-#include <array>
 #include <string>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
-#include "string_id.h"
 #include "type_id.h"
 
-class item;
 class JsonIn;
-class JsonOut;
 class JsonObject;
+class JsonOut;
+class item;
 struct itype;
 struct morale_mult;
 
@@ -33,8 +31,9 @@ class player_morale
         player_morale &operator =( const player_morale & ) = default;
 
         /** Adds morale to existing or creates one */
-        void add( morale_type type, int bonus, int max_bonus = 0, time_duration duration = 6_minutes,
-                  time_duration decay_start = 3_minutes, bool capped = false, const itype *item_type = nullptr );
+        void add( morale_type type, int bonus, int max_bonus = 0,
+                  const time_duration &duration = 6_minutes, const time_duration &decay_start = 3_minutes,
+                  bool capped = false, const itype *item_type = nullptr );
         /** Sets the new level for the permanent morale, or creates one */
         void set_permanent( const morale_type &type, int bonus, const itype *item_type = nullptr );
         /** Returns bonus from specified morale */
@@ -46,9 +45,9 @@ class player_morale
         /** Returns overall morale level */
         int get_level() const;
         /** Ticks down morale counters and removes them */
-        void decay( time_duration ticks = 1_turns );
+        void decay( const time_duration &ticks = 1_turns );
         /** Displays morale screen */
-        void display( int focus_eq );
+        void display( int focus_eq, int pain_penalty, int fatigue_penalty );
         /** Returns false whether morale is inconsistent with the argument.
          *  Only permanent morale is checked */
         bool consistent_with( const player_morale &morale ) const;
@@ -69,7 +68,7 @@ class player_morale
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
 
         void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
+        void load( const JsonObject &jsin );
 
     private:
 
@@ -105,30 +104,31 @@ class player_morale
 
                 void add( int new_bonus, int new_max_bonus, time_duration new_duration,
                           time_duration new_decay_start, bool new_cap );
-                void decay( time_duration ticks = 1_turns );
+                void decay( const time_duration &ticks = 1_turns );
                 /*
                  *contribution should be bettween [0,100] (inclusive)
                  */
                 void set_percent_contribution( double contribution );
-                double get_percent_contribution();
+                double get_percent_contribution() const;
             private:
                 morale_type type;
                 const itype *item_type;
 
-                int bonus;
-                time_duration duration;   // Zero duration == infinity
-                time_duration decay_start;
-                time_duration age;
+                int bonus = 0;
+                time_duration duration = 0_turns;   // Zero duration == infinity
+                time_duration decay_start = 0_turns;
+                time_duration age = 0_turns;
                 /**
                  *this point's percent contribution to the total positive or total negative morale effect
                  */
-                double percent_contribution;
+                double percent_contribution = 0;
 
                 /**
                  * Returns either new_time or remaining time (which one is greater).
                  * Only returns new time if same_sign is true
                  */
-                time_duration pick_time( time_duration current_time, time_duration new_time, bool same_sign ) const;
+                time_duration pick_time( const time_duration &current_time, const time_duration &new_time,
+                                         bool same_sign ) const;
                 /**
                  * Returns normalized bonus if either max_bonus != 0 or capped == true
                  */
@@ -171,7 +171,7 @@ class player_morale
                 hot( 0 ),
                 cold( 0 ) {}
         };
-        std::array<body_part_data, num_bp> body_parts;
+        std::map<bodypart_id, body_part_data> body_parts;
         body_part_data no_body_part;
 
         using mutation_handler = std::function<void ( player_morale * )>;
@@ -208,4 +208,4 @@ class player_morale
         int perceived_pain;
 };
 
-#endif
+#endif // CATA_SRC_MORALE_H

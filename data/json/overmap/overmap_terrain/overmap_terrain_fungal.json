@@ -1,0 +1,32 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_tower",
+    "name": "fungal tower",
+    "sym": "T",
+    "color": "yellow",
+    "see_cost": 3,
+    "extras": "marloss",
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_bloom",
+    "name": "fungal bloom",
+    "sym": "T",
+    "color": "light_gray",
+    "see_cost": 2,
+    "extras": "marloss",
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_flowers",
+    "name": "fungal flowers",
+    "sym": "T",
+    "color": "cyan",
+    "see_cost": 5,
+    "extras": "marloss",
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  }
+]

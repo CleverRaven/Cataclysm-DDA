@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "FEMA_entrance",
-    "comment": "entrance. bottom edge",
+    "//": "entrance. bottom edge",
     "weight": 250,
     "method": "json",
     "object": {

@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <algorithm>
 #include <set>
-#include <sstream>
 #include <memory>
 
 #include "calendar.h"
@@ -39,7 +38,8 @@ char vehicle::part_sym( const int p, const bool exact ) const
     const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
 
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
-        return '\''; // open door
+        // open door
+        return '\'';
     } else {
         return parts[ displayed_part ].is_broken() ?
                part_info( displayed_part ).sym_broken : part_info( displayed_part ).sym;
@@ -59,9 +59,11 @@ vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
     const vpart_id idinfo = parts[displayed_part].id;
 
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
-        part_mod = 1; // open
+        // open
+        part_mod = 1;
     } else if( parts[ displayed_part ].is_broken() ) {
-        part_mod = 2; // broken
+        // broken
+        part_mod = 2;
     }
 
     return idinfo;
@@ -144,7 +146,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
         if( y >= max_y ) {
-            mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here..." ) );
+            mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here…" ) );
             ++y;
             break;
         }
@@ -235,7 +237,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
     }
 
     std::vector<int> pl = this->parts_at_relative( parts[p].mount, true );
-    std::ostringstream msg;
+    std::string msg;
 
     int lines = 0;
     /*
@@ -256,35 +258,34 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
      */
     start_at = std::max( 0, std::min( start_at, start_limit ) );
     if( start_at ) {
-        msg << "<color_yellow>" << "<  " << _( "More parts here..." ) << "</color>\n";
+        msg += std::string( "<color_yellow>" ) + "<  " + _( "More parts here…" ) + "</color>\n";
         lines += 1;
     }
     for( size_t i = start_at; i < pl.size(); i++ ) {
         const vehicle_part &vp = parts[ pl [ i ] ];
-        std::ostringstream possible_msg;
+        std::string possible_msg;
         const nc_color name_color = vp.is_broken() ? c_dark_gray : c_light_green;
-        possible_msg << colorize( vp.name(), name_color ) << "\n";
+        possible_msg += colorize( vp.name(), name_color ) + "\n";
         const nc_color desc_color = vp.is_broken() ? c_dark_gray : c_light_gray;
         // -4 = -2 for left & right padding + -2 for "> "
         int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 4 );
         if( vp.has_flag( vehicle_part::carrying_flag ) ) {
-            possible_msg << "  Carrying a vehicle on a rack.\n";
+            possible_msg += "  Carrying a vehicle on a rack.\n";
             new_lines += 1;
         }
         if( vp.has_flag( vehicle_part::carried_flag ) ) {
-            std::string carried_name = vp.carry_names.top();
-            possible_msg << string_format( "  Part of a %s carried on a rack.\n",
-                                           carried_name.substr( vehicle_part::name_offset ) );
+            possible_msg += string_format( "  Part of a %s carried on a rack.\n",
+                                           vp.carried_name() );
             new_lines += 1;
         }
 
-        possible_msg << "</color>\n";
+        possible_msg += "</color>\n";
         if( lines + new_lines <= max_y ) {
-            msg << possible_msg.str();
+            msg += possible_msg;
             lines += new_lines;
             start_limit = start_at;
         } else {
-            msg << "<color_yellow>" << _( "More parts here..." ) << "  >" << "</color>\n";
+            msg += std::string( "<color_yellow>" ) + _( "More parts here…" ) + "  >" + "</color>\n";
             start_limit = i;
             break;
         }
@@ -292,7 +293,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
     werase( win );
     // -2 for left & right padding
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( win, point( 1, 0 ), width - 2, c_light_gray, msg.str() );
+    fold_and_print( win, point( 1, 0 ), width - 2, c_light_gray, msg );
     wrefresh( win );
 }
 
@@ -329,7 +330,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
  * @param desc true if the name of the fuel should be at the end
  * @param isHorizontal true if the menu is not vertical
  */
-void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x, int start_index,
+void vehicle::print_fuel_indicators( const catacurses::window &win, const point &p, int start_index,
                                      bool fullsize, bool verbose, bool desc, bool isHorizontal )
 {
     auto fuels = get_printable_fuel_types();
@@ -341,13 +342,13 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
             // if only one display, print the first engine that's on and consumes power
             if( is_engine_on( e ) &&
                 !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
-                print_fuel_indicator( win, point( x, y ), parts[ engines [ e ] ].fuel_current(), verbose,
+                print_fuel_indicator( win, p, parts[ engines [ e ] ].fuel_current(), verbose,
                                       desc );
                 return;
             }
         }
         // or print the first fuel if no engines
-        print_fuel_indicator( win, point( x, y ), fuels.front(), verbose, desc );
+        print_fuel_indicator( win, p, fuels.front(), verbose, desc );
         return;
     }
 
@@ -357,13 +358,13 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
-        print_fuel_indicator( win, point( x, y + yofs ), f, fuel_used_last_turn, verbose, desc );
+        print_fuel_indicator( win, p + point( 0, yofs ), f, fuel_used_last_turn, verbose, desc );
         yofs++;
     }
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
     if( start_index < static_cast<int>( fuels.size() ) - ( isHorizontal ? 12 : 5 ) ) {
-        mvwprintz( win, point( x, y + yofs ), c_light_green, ">" );
+        mvwprintz( win, p + point( 0, yofs ), c_light_green, ">" );
         wprintz( win, c_light_gray, " for more" );
     }
 }
@@ -394,6 +395,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
     nc_color f_color = item::find_type( fuel_type )->color;
+    // NOLINTNEXTLINE(cata-text-style): not an ellipsis
     mvwprintz( win, p, col_indf1, "E...F" );
     int amnt = cap > 0 ? f_left * 99 / cap : 0;
     int indf = ( amnt / 20 ) % 5;
@@ -441,11 +443,11 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             if( debug_mode ) {
                 wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),
                          rate, units, 100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / abs( rate ) ), tank_goal );
+                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
             } else {
                 wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
                          100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / abs( rate ) ), tank_goal );
+                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
             }
         }
     }

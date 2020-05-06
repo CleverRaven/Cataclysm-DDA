@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "mega_1mid",
-    "comment": "ground floor. middle area",
+    "//": "ground floor. middle area",
     "weight": 100,
     "method": "json",
     "object": {

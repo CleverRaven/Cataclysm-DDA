@@ -1,19 +1,19 @@
 #include "mapsharing.h"
 
-#include "cata_utility.h"
-#include "filesystem.h"
-#include "platform_win.h"
-
 #include <cstdlib>
+#include <fstream>
 #include <stdexcept>
 
+#include "cata_utility.h"
+#include "filesystem.h"
+
 #if defined(__linux__)
-#include <sys/file.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <unistd.h>
-#include <cstdio>
 #endif // __linux__
+
+#if defined(_WIN32)
+#include "platform_win.h"
+#endif
 
 bool MAP_SHARING::sharing;
 bool MAP_SHARING::competitive;
@@ -113,7 +113,7 @@ void ofstream_wrapper::open( const std::ios::openmode mode )
     temp_path = path + "." + std::to_string( GetCurrentProcessId() ) + ".temp";
 
 #else
-    // @todo exclusive I/O for other systems
+    // TODO: exclusive I/O for other systems
     temp_path = path + ".temp";
 
 #endif

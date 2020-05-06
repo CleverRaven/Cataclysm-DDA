@@ -1,0 +1,47 @@
+[
+  {
+    "id": "stapler",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "stapler" },
+    "description": "A stapler for fastening sheets of paper together.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
+    "id": "pen",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "pen" },
+    "description": "A plastic ball point pen.",
+    "weight": "20 g",
+    "volume": "10 ml",
+    "price": 25,
+    "price_postapoc": 10,
+    "material": "plastic",
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
+    "id": "scissors",
+    "type": "TOOL",
+    "name": { "str": "pair of scissors", "str_pl": "pairs of scissors" },
+    "description": "These are a long pair of heavy-duty scissors.  Use scissors to cut items made from cotton (like clothing) into rags.",
+    "weight": "113 g",
+    "volume": "250 ml",
+    "price": 400,
+    "price_postapoc": 10,
+    "to_hit": -1,
+    "cutting": 6,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ",",
+    "color": "light_red",
+    "qualities": [ [ "CUT", 1 ] ],
+    "flags": [ "SPEAR" ]
+  }
+]

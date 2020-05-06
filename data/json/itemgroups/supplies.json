@@ -32,6 +32,17 @@
     ]
   },
   {
+    "id": "tailoring_fabric",
+    "type": "item_group",
+    "//": "Fabric sheets used for tailoring.",
+    "items": [
+      { "item": "sheet_cotton", "prob": 200 },
+      { "item": "sheet_neoprene", "prob": 10 },
+      { "item": "tanned_hide", "prob": 50 },
+      { "item": "tanned_pelt", "prob": 50 }
+    ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -75,9 +86,12 @@
       { "item": "brick", "prob": 40, "count": [ 5, 10 ] },
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
       { "item": "wire", "prob": 40, "count": [ 5, 10 ] },
+      { "item": "screen_mesh", "prob": 40, "count": [ 5, 10 ] },
       { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
       { "item": "nail", "prob": 60, "count": [ 5, 20 ] },
-      { "item": "hinge", "prob": 60, "count": [ 5, 10 ] }
+      { "item": "hinge", "prob": 60, "count": [ 5, 10 ] },
+      { "item": "tempered_glass_sheet", "prob": 30, "count": [ 5, 20 ] },
+      { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] }
     ]
   },
   {
@@ -107,7 +121,9 @@
       [ "pump_complex", 5 ],
       [ "well_pump", 5 ],
       [ "plastic_sheet", 20 ],
-      [ "recharge_station", 20 ]
+      [ "recharge_station", 20 ],
+      [ "plunger_toilet", 75 ],
+      [ "plunger_futuristic", 25 ]
     ]
   },
   {
@@ -127,7 +143,9 @@
       [ "jerrycan", 10 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 10 ],
-      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] }
+      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] },
+      { "item": "plunger_toilet", "prob": 90, "count": [ 1, 2 ] },
+      [ "plunger_futuristic", 50 ]
     ]
   },
   {
@@ -148,8 +166,32 @@
         ],
         "prob": 100
       },
+      [ "rigid_plastic_sheet", 50 ],
       [ "plastic_sheet", 50 ],
       [ "pine_bough", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wood_workshop",
+    "//": "for domestic or small trade wood working shops",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "2x4", "prob": 100, "count": [ 4, 6 ] },
+          { "item": "wood_beam", "prob": 10, "count": [ 1, 2 ] },
+          { "item": "wood_sheet", "prob": 50, "count": [ 2, 3 ] },
+          { "item": "wood_panel", "prob": 30, "count": [ 2, 3 ] },
+          { "item": "stick_long", "prob": 30, "count": [ 5, 10 ] },
+          { "item": "stick", "prob": 50, "count": [ 1, 7 ] },
+          { "item": "nail", "prob": 100, "count": [ 5, 20 ] }
+        ],
+        "prob": 100
+      },
+      [ "rigid_plastic_sheet", 5 ],
+      [ "plastic_sheet", 5 ],
+      [ "pine_bough", 3 ]
     ]
   },
   {
@@ -168,9 +210,9 @@
       [ "rope_30", 35 ],
       [ "circsaw_blade", 8 ],
       [ "glass_sheet", 5 ],
-      [ "box_small", 2 ],
-      [ "box_medium", 2 ],
-      [ "box_large", 2 ],
+      [ "box_small", 10 ],
+      [ "box_medium", 10 ],
+      [ "box_large", 10 ],
       [ "plastic_sheet", 30 ],
       { "item": "pipe", "prob": 20, "count": [ 5, 10 ] },
       { "item": "nail", "prob": 60, "count": [ 2, 4 ] },
@@ -179,6 +221,7 @@
       [ "frame", 20 ],
       [ "hdframe", 10 ],
       [ "metal_tank", 10 ],
+      [ "screen_mesh", 10 ],
       [ "metal_tank_little", 10 ],
       [ "water_faucet", 10 ],
       [ "wood_panel", 10 ],
@@ -199,11 +242,13 @@
       [ "chem_sulphuric_acid", 30 ],
       [ "chem_muriatic_acid", 35 ],
       [ "peephole", 25 ],
-      [ "chem_chromium_oxide", 5 ],
-      [ "chem_zinc_powder", 5 ],
+      { "item": "chem_chromium_oxide", "prob": 5, "charges-min": 100 },
+      { "item": "chem_zinc_powder", "prob": 5, "charges-min": 100 },
       [ "denat_alcohol", 5 ],
       [ "recharge_station", 10 ],
-      [ "tarp", 15 ]
+      [ "tarp", 15 ],
+      [ "tempered_glass_sheet", 25 ],
+      [ "rigid_plastic_sheet", 30 ]
     ]
   },
   {
@@ -214,8 +259,8 @@
       [ "water_clean", 90 ],
       [ "salt_water", 20 ],
       [ "detergent", 10 ],
-      [ "bleach", 10 ],
-      [ "ammonia", 10 ],
+      { "item": "bleach", "prob": 10, "charges-min": 10 },
+      { "item": "ammonia", "prob": 10, "charges-min": 10 },
       [ "iodine", 10 ],
       [ "oxy_powder", 10 ],
       [ "ash", 5 ],
@@ -223,7 +268,7 @@
       [ "lye_powder", 10 ],
       [ "magnesium", 10 ],
       [ "charcoal", 10 ],
-      [ "chem_sulphur", 10 ],
+      { "item": "chem_sulphur", "prob": 10, "charges-min": 100 },
       [ "chunk_sulfur", 5 ],
       [ "chem_aluminium_powder", 10 ],
       [ "chem_aluminium_sulphate", 10 ],
@@ -234,11 +279,11 @@
       [ "chem_acetic_acid", 10 ],
       [ "chem_formaldehyde", 10 ],
       [ "chem_acetone", 10 ],
-      [ "chem_carbide", 10 ],
+      { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
       [ "chem_ammonium_nitrate", 10 ],
-      [ "chem_chromium_oxide", 10 ],
-      [ "chem_zinc_powder", 10 ],
-      [ "chem_manganese_dioxide", 10 ],
+      { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
+      { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
+      { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       [ "chem_hydrogen_peroxide_conc", 10 ],
       [ "material_rocksalt", 2 ],
       [ "ether", 10 ],
@@ -293,6 +338,7 @@
       [ "chem_methanol", 10 ],
       [ "diesel", 20 ],
       [ "gasoline", 50 ],
+      [ "motor_oil", 100 ],
       [ "lamp_oil", 100 ]
     ]
   },
@@ -316,7 +362,7 @@
   {
     "id": "supplies_metal_precious",
     "type": "item_group",
-    "//": "Metals of significant economic value before the cataclysm",
+    "//": "Metals of significant economic value before the Cataclysm",
     "items": [ [ "gold_small", 100 ], [ "silver_small", 100 ] ]
   },
   {
@@ -329,6 +375,7 @@
       [ "jumper_cable_heavy", 5 ],
       [ "stereo", 25 ],
       [ "frame", 20 ],
+      [ "hd_tow_cable", 5 ],
       [ "hdframe", 10 ],
       [ "motor", 2 ],
       [ "wheel", 10 ],
@@ -344,6 +391,7 @@
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
       [ "v6_combustion", 10 ],
+      [ "v6_diesel", 10 ],
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
       [ "steam_watts_small", 1 ],
@@ -365,8 +413,10 @@
       [ "alternator_car", 6 ],
       [ "alternator_truck", 6 ],
       [ "alternator_bicycle", 4 ],
+      [ "hd_tow_cable", 1 ],
       [ "generator_7500w", 3 ],
       [ "storage_battery", 6 ],
+      [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
       [ "recharge_station", 8 ]
     ]
@@ -453,10 +503,12 @@
     "type": "item_group",
     "items": [
       [ "basketball", 100 ],
+      [ "indoor_volleyball", 50 ],
       [ "baseball", 100 ],
       [ "hat_ball", 10 ],
       [ "helmet_ball", 20 ],
       [ "bat", 80 ],
+      [ "bat_nerf", 80 ],
       [ "football", 100 ],
       [ "football_armor", 20 ],
       [ "helmet_football", 20 ],
@@ -464,6 +516,17 @@
       [ "heatpack", 10 ],
       [ "whistle", 5 ],
       [ "airhorn", 2 ]
+    ]
+  },
+  {
+    "id": "fuel_barrel",
+    "type": "item_group",
+    "//": "barrel with gasoline, diesel or motor oil like you would find at fuel depot",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gasoline", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 },
+      { "item": "diesel", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 10 },
+      { "item": "motor_oil", "charges": [ 0, 10000 ], "container-item": "jerrycan", "prob": 5 }
     ]
   }
 ]

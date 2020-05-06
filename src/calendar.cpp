@@ -1,9 +1,11 @@
 #include "calendar.h"
 
-#include <array>
-#include <cmath>
-#include <limits>
 #include <algorithm>
+#include <array>
+#include <cassert>
+#include <cmath>
+#include <cstddef>
+#include <limits>
 
 #include "debug.h"
 #include "options.h"
@@ -25,6 +27,7 @@ const time_point calendar::before_time_starts = time_point::from_turn( -1 );
 const time_point calendar::turn_zero = time_point::from_turn( 0 );
 
 time_point calendar::start_of_cataclysm = calendar::turn_zero;
+time_point calendar::start_of_game = calendar::turn_zero;
 time_point calendar::turn = calendar::turn_zero;
 season_type calendar::initial_season = SPRING;
 
@@ -59,20 +62,24 @@ double default_daylight_level()
 
 moon_phase get_moon_phase( const time_point &p )
 {
-    //One full phase every 2 rl months = 2/3 season length
-    const time_duration moon_phase_duration = calendar::season_length() * 2.0 / 3.0;
-    //Switch moon phase at noon so it stays the same all night
-    const time_duration current_day = ( p - calendar::turn_zero ) + 1_days / 2;
-    const double phase_change = current_day / moon_phase_duration;
-    const int current_phase = static_cast<int>( round( phase_change * MOON_PHASE_MAX ) ) %
+    static constexpr time_duration synodic_month = 29.530588853 * 1_days;
+    const time_duration moon_phase_duration =
+        calendar::season_from_default_ratio() * synodic_month;
+    // Switch moon phase at noon so it stays the same all night
+    const int num_middays = to_days<int>( p - calendar::turn_zero + 1_days / 2 );
+    const time_duration nearest_midnight = num_middays * 1_days;
+    const double phase_change = nearest_midnight / moon_phase_duration;
+    const int current_phase = static_cast<int>( std::round( phase_change * MOON_PHASE_MAX ) ) %
                               static_cast<int>( MOON_PHASE_MAX );
     return static_cast<moon_phase>( current_phase );
 }
 
+// TODO: Refactor sunrise / sunset
+// The only difference between them is the start_hours array
 time_point sunrise( const time_point &p )
 {
     static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
+                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
     static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
@@ -92,7 +99,7 @@ time_point sunrise( const time_point &p )
 time_point sunset( const time_point &p )
 {
     static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
+                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
     static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
@@ -116,7 +123,7 @@ time_point night_time( const time_point &p )
 
 time_point daylight_time( const time_point &p )
 {
-    // @TODO Actual dailight should start 18 degrees before sunrise
+    // TODO: Actual daylight should start 18 degrees before sunrise
     return sunrise( p ) + 15_minutes;
 }
 
@@ -126,23 +133,32 @@ bool is_night( const time_point &p )
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
     const time_duration sunset = time_past_midnight( ::sunset( p ) );
 
-    return now > sunset + twilight_duration || now < sunrise;
+    return now >= sunset + twilight_duration || now <= sunrise;
 }
 
-bool is_sunset_now( const time_point &p )
+bool is_day( const time_point &p )
+{
+    const time_duration now = time_past_midnight( p );
+    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
+    const time_duration sunset = time_past_midnight( ::sunset( p ) );
+
+    return now >= sunrise + twilight_duration && now <= sunset;
+}
+
+bool is_dusk( const time_point &p )
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunset = time_past_midnight( ::sunset( p ) );
 
-    return now > sunset && now < sunset + twilight_duration;
+    return now >= sunset && now <= sunset + twilight_duration;
 }
 
-bool is_sunrise_now( const time_point &p )
+bool is_dawn( const time_point &p )
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
 
-    return now > sunrise && now < sunrise + twilight_duration;
+    return now >= sunrise && now <= sunrise + twilight_duration;
 }
 
 double current_daylight_level( const time_point &p )
@@ -189,12 +205,12 @@ float sunlight( const time_point &p, const bool vision )
     const int moonlight = vision ? 1 + static_cast<int>( current_phase * moonlight_per_quarter ) :
                           0;
 
-    if( now > sunset + twilight_duration || now < sunrise ) { // Night
+    if( is_night( p ) ) {
         return moonlight;
-    } else if( now >= sunrise && now <= sunrise + twilight_duration ) {
+    } else if( is_dawn( p ) ) {
         const double percent = ( now - sunrise ) / twilight_duration;
         return static_cast<double>( moonlight ) * ( 1. - percent ) + daylight_level * percent;
-    } else if( now >= sunset && now <= sunset + twilight_duration ) {
+    } else if( is_dusk( p ) ) {
         const double percent = ( now - sunset ) / twilight_duration;
         return daylight_level * ( 1. - percent ) + static_cast<double>( moonlight ) * percent;
     } else {
@@ -316,8 +332,14 @@ std::string to_string( const time_duration &d )
         divider = 1_minutes;
     } else if( d < 1_days ) {
         divider = 1_hours;
+    } else if( d < 1_weeks ) {
+        divider = 1_days;
+    } else if( d < calendar::season_length() || calendar::eternal_season() ) {
+        divider = 1_weeks;
+    } else if( d < calendar::year_length() ) {
+        divider = calendar::season_length();
     } else {
-        divider = 24_hours;
+        divider = calendar::year_length();
     }
 
     if( d % divider != 0_turns ) {
@@ -340,13 +362,14 @@ std::string to_string_approx( const time_duration &dur, const bool verbose )
     time_duration divider = 0_turns;
     time_duration vicinity = 0_turns;
 
+    // Minutes and seconds can be estimated precisely.
     if( d > 1_days ) {
         divider = 1_days;
         vicinity = 2_hours;
     } else if( d > 1_hours ) {
         divider = 1_hours;
         vicinity = 5_minutes;
-    } // Minutes and seconds can be estimated precisely.
+    }
 
     if( divider != 0_turns ) {
         const time_duration remainder = d % divider;
@@ -446,15 +469,16 @@ void calendar::set_season_length( const int dur )
     cur_season_length = dur;
 }
 
+static constexpr int real_world_season_length = 91;
+static constexpr int default_season_length = real_world_season_length;
+
 float calendar::season_ratio()
 {
-    static const int real_world_season_length = 91;
     return to_days<float>( season_length() ) / real_world_season_length;
 }
 
 float calendar::season_from_default_ratio()
 {
-    static const int default_season_length = 91;
     return to_days<float>( season_length() ) / default_season_length;
 }
 
@@ -545,7 +569,7 @@ std::string to_string( const time_point &p )
         //~ 1 is the year, 2 is the day (of the *year*), 3 is the time of the day in its usual format
         return string_format( _( "Year %1$d, day %2$d %3$s" ), year, day, time );
     } else {
-        const int day = day_of_season<int>( p );
+        const int day = day_of_season<int>( p ) + 1;
         //~ 1 is the year, 2 is the season name, 3 is the day (of the season), 4 is the time of the day in its usual format
         return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
                               calendar::name_season( season_of_year( p ) ), day, time );

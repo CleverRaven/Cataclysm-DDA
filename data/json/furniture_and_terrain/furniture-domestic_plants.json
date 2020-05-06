@@ -8,7 +8,7 @@
     "move_cost_mod": 2,
     "description": "A variety of plant, used for decoration.",
     "required_str": 5,
-    "max_volume": 40,
+    "max_volume": "10 L",
     "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
@@ -16,7 +16,7 @@
         { "item": "wrapper", "prob": 5 },
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
-        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
         { "group": "flower_pots" }
       ]
     },
@@ -30,7 +30,7 @@
         { "item": "wrapper", "prob": 5 },
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
-        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
         { "group": "flower_pots_broken" }
       ]
     }
@@ -44,7 +44,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": 5,
-    "max_volume": 40,
+    "max_volume": "10 L",
     "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
@@ -52,7 +52,7 @@
         { "item": "wrapper", "prob": 5 },
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
-        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
         { "group": "flower_pots" }
       ]
     },
@@ -66,7 +66,7 @@
         { "item": "wrapper", "prob": 5 },
         { "item": "can_drink_unsealed", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
-        { "item": "cig_butt", "prob": 10, "repeat": [ 1, 10 ] },
+        { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
         { "group": "flower_pots_broken" }
       ]
     }

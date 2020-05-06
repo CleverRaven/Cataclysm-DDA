@@ -13,7 +13,7 @@
         "____"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "C": { "items": [ { "item": "wood_stash", "chance": 60, "repeat": [ 1, 4 ] } ] },
+      "items": { "C": { "item": "stash_wood", "chance": 60, "repeat": [ 1, 4 ] } },
       "place_monster": [ { "monster": "mon_dog_zombie_rot", "chance": 60, "x": 1, "y": 1 } ]
     }
   },
@@ -47,7 +47,7 @@
         "____"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "C": { "items": [ { "item": "hardware", "chance": 60, "damage": [ 1, 4 ] } ] }
+      "items": { "C": { "item": "hardware", "chance": 60 } }
     }
   },
   {
@@ -64,8 +64,7 @@
         "__R_"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "^": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] },
-      "R": { "items": [ { "item": "hardware", "chance": 25, "damage": [ 1, 4 ] } ] },
+      "items": { "^": { "item": "hardware", "chance": 10 }, "R": { "item": "hardware", "chance": 25 } },
       "place_monster": [ { "monster": "mon_dog_skeleton", "chance": 60, "x": 2, "y": 1 } ]
     }
   },
@@ -99,7 +98,7 @@
         "_mg^"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "^": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+      "items": { "^": { "item": "hardware", "chance": 10 } }
     }
   },
   {
@@ -124,7 +123,7 @@
         { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "chance": 90, "class": "rural_holdout_solo", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "rural_holdout_solo", "x": 1, "y": 2 } ]
     }
   },
   {
@@ -152,7 +151,7 @@
         { "chance": 50, "item": "ammo_rifle_common", "x": 3, "y": 3, "repeat": [ 2, 4 ] },
         { "chance": 40, "item": "mags_rifle_common", "x": 3, "y": 3, "repeat": [ 1, 2 ] }
       ],
-      "place_npcs": [ { "chance": 90, "class": "bandit", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "bandit", "x": 1, "y": 2 } ]
     }
   },
   {
@@ -176,7 +175,7 @@
         { "chance": 20, "item": "snacks", "x": 0, "y": 3, "repeat": [ 1, 3 ] },
         { "chance": 30, "item": "stash_wood", "x": 3, "y": [ 0, 3 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "chance": 60, "class": "derelict_dweller", "x": 2, "y": 0 } ]
+      "place_npcs": [ { "class": "derelict_dweller", "x": 2, "y": 0 } ]
     }
   },
   {
@@ -203,7 +202,7 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [ { "chance": 90, "class": "rural_holdout_solo", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "rural_holdout_solo", "x": 1, "y": 2 } ]
     }
   },
   {
@@ -230,7 +229,7 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [ { "chance": 90, "class": "derelict_dweller", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "derelict_dweller", "x": 1, "y": 2 } ]
     }
   },
   {
@@ -257,10 +256,7 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [
-        { "chance": 100, "class": "rural_holdout_solo", "x": 2, "y": 1 },
-        { "chance": 100, "class": "rural_holdout_solo", "x": 1, "y": 2 }
-      ]
+      "place_npcs": [ { "class": "rural_holdout_solo", "x": 2, "y": 1 }, { "class": "rural_holdout_solo", "x": 1, "y": 2 } ]
     }
   },
   {
@@ -290,11 +286,7 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [
-        { "chance": 100, "class": "bandit", "x": 2, "y": 1 },
-        { "chance": 90, "class": "bandit", "x": 0, "y": 2 },
-        { "chance": 50, "class": "thug", "x": 3, "y": 4 }
-      ]
+      "place_npcs": [ { "class": "bandit", "x": 2, "y": 1 }, { "class": "bandit", "x": 0, "y": 2 }, { "class": "thug", "x": 3, "y": 4 } ]
     }
   },
   {
@@ -316,7 +308,7 @@
         "....#..."
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "r": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+      "items": { "r": { "item": "hardware", "chance": 10 } }
     }
   },
   {
@@ -360,7 +352,7 @@
         "...d...."
       ],
       "palettes": [ "desolatebarn_palette" ],
-      ".": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+      "items": { ".": { "item": "hardware", "chance": 10 } }
     }
   },
   {
@@ -382,7 +374,7 @@
         "...d...."
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "r": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+      "items": { "r": { "item": "hardware", "chance": 10 } }
     }
   },
   {

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef NPC_CLASS_H
-#define NPC_CLASS_H
+#ifndef CATA_SRC_NPC_CLASS_H
+#define CATA_SRC_NPC_CLASS_H
 
 #include <functional>
 #include <map>
@@ -77,6 +77,8 @@ class npc_class
 
         std::map<Mutation_category_tag, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
+        // the int is what level the spell starts at
+        std::map<spell_id, int> _starting_spells;
         std::map<bionic_id, int> bionic_list;
         npc_class();
 
@@ -92,13 +94,13 @@ class npc_class
 
         const Group_tag &get_shopkeeper_items() const;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
         static const npc_class_id &from_legacy_int( int i );
 
         static const npc_class_id &random_common();
 
-        static void load_npc_class( JsonObject &jo, const std::string &src );
+        static void load_npc_class( const JsonObject &jo, const std::string &src );
 
         static const std::vector<npc_class> &get_all();
 
@@ -130,4 +132,4 @@ extern npc_class_id NC_BARTENDER;
 extern npc_class_id NC_JUNK_SHOPKEEP;
 extern npc_class_id NC_HALLU;
 
-#endif
+#endif // CATA_SRC_NPC_CLASS_H

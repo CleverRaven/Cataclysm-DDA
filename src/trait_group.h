@@ -1,16 +1,16 @@
 #pragma once
-#ifndef TRAIT_GROUP_H
-#define TRAIT_GROUP_H
+#ifndef CATA_SRC_TRAIT_GROUP_H
+#define CATA_SRC_TRAIT_GROUP_H
 
 #include <memory>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;
-class JsonIn;
+class JsonValue;
 class Trait_group;
 
 namespace trait_group
@@ -32,28 +32,28 @@ bool group_contains_trait( const Trait_group_tag &gid, const trait_id &tid );
 /**
  * See @ref mutation_branch::load_trait_group
  */
-void load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid, const std::string &subtype );
+void load_trait_group( const JsonObject &jsobj, const Trait_group_tag &gid,
+                       const std::string &subtype );
 
 /**
  * Get a trait group ID and optionally load an inlined trait group.
  *
- * If the next value in the JSON stream is string, it's assumed to be a trait group id and it's
+ * If the value is string, it's assumed to be a trait group id and it's
  * returned directly.
  *
- * If the next value is a JSON object, it is loaded as a trait group. The group will be given a
+ * If the value is a JSON object, it is loaded as a trait group. The group will be given a
  * unique id (if the JSON object contains an id, it is ignored) and that id will be returned.
  * If the JSON object does not contain a subtype, the given default is used.
  *
- * If the next value is a JSON array, it is loaded as a trait group: the default_subtype will be
+ * If the value is a JSON array, it is loaded as a trait group: the default_subtype will be
  * used as subtype of the new trait group and the array is loaded like the "entries" array of
  * a trait group definition (see format of trait groups).
  *
- * @param stream Stream to load from
  * @param default_subtype If an inlined trait group is loaded this is used as the default
  * subtype. It must be either "distribution" or "collection". See @ref Trait_group.
- * @throw std::string as usual for JSON errors, including invalid input values.
+ * @throw JsonError as usual for JSON errors, including invalid input values.
  */
-Trait_group_tag load_trait_group( JsonIn &stream, const std::string &default_subtype );
+Trait_group_tag load_trait_group( const JsonValue &value, const std::string &default_subtype );
 
 /**
  * Show a debug menu for testing trait groups.
@@ -201,4 +201,4 @@ class Trait_group_distribution : public Trait_group
         void add_entry( std::unique_ptr<Trait_creation_data> ptr ) override;
 };
 
-#endif
+#endif // CATA_SRC_TRAIT_GROUP_H

@@ -3,16 +3,16 @@
 #include <algorithm>
 #include <cmath>
 
+#include "behavior_strategy.h"
 #include "creature.h"
-#include "field.h"
+#include "field_type.h"
 #include "item.h"
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
 #include "translations.h"
-#include "mapdata.h"
 
-const species_id MOLLUSK( "MOLLUSK" );
+static const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {
@@ -65,6 +65,7 @@ bool mtype::has_special_attack( const std::string &attack_name ) const
 
 bool mtype::has_flag( m_flag flag ) const
 {
+    MonsterGenerator::generator().m_flag_usage_stats[flag]++;
     return flags[flag];
 }
 
@@ -117,6 +118,16 @@ bool mtype::in_species( const species_id &spec ) const
 bool mtype::in_species( const species_type &spec ) const
 {
     return species_ptrs.count( &spec ) > 0;
+}
+std::vector<std::string> mtype::species_descriptions() const
+{
+    std::vector<std::string> ret;
+    for( const species_id &s : species ) {
+        if( !s->description.empty() ) {
+            ret.emplace_back( s->description.translated() );
+        }
+    }
+    return ret;
 }
 
 bool mtype::same_species( const mtype &other ) const
@@ -208,7 +219,7 @@ itype_id mtype::get_meat_itype() const
 
 int mtype::get_meat_chunks_count() const
 {
-    const float ch = to_gram( weight ) * ( 0.40f - 0.02f * log10f( to_gram( weight ) ) );
+    const float ch = to_gram( weight ) * ( 0.40f - 0.02f * std::log10( to_gram( weight ) ) );
     const itype *chunk = item::find_type( get_meat_itype() );
     return static_cast<int>( ch / to_gram( chunk->weight ) );
 }
@@ -223,5 +234,20 @@ std::string mtype::get_footsteps() const
     for( const species_id &s : species ) {
         return s.obj().get_footsteps();
     }
-    return "footsteps.";
+    return _( "footsteps." );
+}
+
+void mtype::set_strategy()
+{
+    goals.set_strategy( behavior::strategy_map[ "sequential_until_done" ] );
+}
+
+void mtype::add_goal( const std::string &goal_id )
+{
+    goals.add_child( &string_id<behavior::node_t>( goal_id ).obj() );
+}
+
+const behavior::node_t *mtype::get_goals() const
+{
+    return &goals;
 }

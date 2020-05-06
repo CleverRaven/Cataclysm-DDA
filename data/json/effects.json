@@ -18,6 +18,12 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_suspend",
+    "name": [ "npc_suspend" ],
+    "desc": [ "AI tag for when an NPC needs to be rebooted after an infinite loop." ]
+  },
+  {
+    "type": "effect_type",
     "id": "harnessed",
     "name": [ "Harnessed" ],
     "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
@@ -252,7 +258,14 @@
     "type": "effect_type",
     "id": "assisted",
     "name": [ "Assisted" ],
+    "max_intensity": 1000,
     "desc": [ "You're receiving assistance to practice a surgery." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "masked_scent",
+    "name": [ "Masked scent" ],
+    "desc": [ "Your scent is masked by another one." ]
   },
   {
     "type": "effect_type",
@@ -310,6 +323,7 @@
     "apply_message": "The scream dazes you!",
     "rating": "bad",
     "max_intensity": 10,
+    "max_duration": "10 m",
     "int_add_val": 2,
     "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },
@@ -509,6 +523,26 @@
   },
   {
     "type": "effect_type",
+    "id": "sleep_deprived",
+    "name": [ "Sleep Deprived" ],
+    "desc": [ "Your sleep debt has been steadily increasing for a while.  You should get some rest." ],
+    "rating": "bad",
+    "max_intensity": 20160,
+    "int_dur_factor": 240,
+    "base_mods": { "speed_mod": [ -5 ] },
+    "scaling_mods": { "speed_mod": [ -1 ], "int_mod": [ -0.33 ], "per_mod": [ -0.33 ], "str_mod": [ -0.17 ], "dex_mod": [ -0.17 ] },
+    "apply_message": "You feel weary, your body tired from lack of quality sleep.",
+    "remove_message": "You have finally caught up with your lost sleep, and you feel refreshed and awake for a change."
+  },
+  {
+    "type": "effect_type",
+    "id": "melatonin",
+    "name": [ "Melatonin Supplements" ],
+    "desc": [ "You took some melatonin supplements.  These will help with sleep deprivation." ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "beartrap",
     "name": [ "Stuck in beartrap" ],
     "desc": [ "You can't move until you get free!" ],
@@ -595,6 +629,13 @@
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
     "base_mods": { "vomit_chance": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisible" ],
+    "desc": [ "You are invisible." ],
+    "flags": [ "EFFECT_INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -719,7 +760,7 @@
     "name": [ "Infected", "Badly Infected", "Pus Filled" ],
     "desc": [ "You have an infected wound." ],
     "apply_memorial_log": "Contracted an infection.",
-    "remove_memorial_log": "Recovered from an infection... this time.",
+    "remove_memorial_log": "Recovered from an infection… this time.",
     "apply_message": "Your bite wound feels infected.",
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
@@ -734,15 +775,15 @@
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
       "vomit_chance": [ 1000, 1200 ],
-      "sleep_min": [ 60, 30 ],
-      "sleep_chance": [ -102 ]
+      "fatigue_min": [ 360, 180 ],
+      "fatigue_chance": [ -102 ]
     },
     "scaling_mods": {
       "pain_max_val": [ 30, 20 ],
       "str_mod": [ -1, -0.5 ],
       "dex_mod": [ -1, -0.5 ],
       "vomit_chance": [ -400 ],
-      "sleep_chance": [ 101 ]
+      "fatigue_chance": [ 101 ]
     }
   },
   {
@@ -752,7 +793,7 @@
     "desc": [ "You are recovering from an infection." ],
     "rating": "bad",
     "max_intensity": 3,
-    "int_dur_factor": "320 m",
+    "int_dur_factor": "32 h",
     "base_mods": {
       "pain_chance": [ 100 ],
       "pain_min": [ 1 ],
@@ -760,10 +801,13 @@
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
       "vomit_chance": [ 1000 ],
-      "sleep_min": [ 60 ],
-      "sleep_chance": [ -102 ]
+      "fatigue_min": [ 360 ],
+      "fatigue_chance": [ -102 ],
+      "fatigue_tick": [ 6 ],
+      "pain_tick": [ 6 ],
+      "vomit_tick": [ 6 ]
     },
-    "scaling_mods": { "pain_max_val": [ 30 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "vomit_chance": [ -400 ], "sleep_chance": [ 101 ] }
+    "scaling_mods": { "pain_max_val": [ 30 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "vomit_chance": [ -400 ], "fatigue_chance": [ 101 ] }
   },
   {
     "type": "effect_type",
@@ -854,6 +898,17 @@
   },
   {
     "type": "effect_type",
+    "id": "motor_seizure",
+    "name": [ "Seizure" ],
+    "//": "Intended to be applied with downed to make it nearly impossible for player to stand.",
+    "rating": "bad",
+    "remove_message": "You regain control of your muscles!",
+    "desc": [ "Your muscles have seized up, and you can't control them!" ],
+    "miss_messages": [ [ "Your muscles won't cooperate!", 20 ] ],
+    "base_mods": { "str_mod": [ -12 ], "dex_mod": [ -20 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "bleed",
     "name": [ "Bleeding", "Bad Bleeding", "Heavy Bleeding" ],
     "desc": [ "You are slowly losing blood.", "You are losing blood.", "You are rapidly losing blood." ],
@@ -909,11 +964,9 @@
     "id": "hot",
     "name": [ "Warm", "Hot", "Scorching" ],
     "desc": [ "Your %s feels warm.", "Your %s is sweating from the heat.", "Your %s is sweating profusely!" ],
-    "speed_name": "Hot",
     "max_intensity": 3,
     "part_descs": true,
     "base_mods": {
-      "speed_mod": [ -2 ],
       "thirst_tick": [ 2400 ],
       "thirst_chance": [ 2 ],
       "pain_min": [ 1 ],
@@ -923,14 +976,18 @@
       "hurt_chance": [ -300 ],
       "stamina_chance": [ 2 ]
     },
-    "scaling_mods": {
-      "speed_mod": [ -4 ],
-      "thirst_min": [ 1 ],
-      "thirst_tick": [ -600 ],
-      "pain_max_val": [ 10 ],
-      "hurt_chance": [ 200 ],
-      "stamina_min": [ -1 ]
-    }
+    "scaling_mods": { "thirst_min": [ 1 ], "thirst_tick": [ -600 ], "pain_max_val": [ 10 ], "hurt_chance": [ 200 ], "stamina_min": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "hot_speed",
+    "name": [ "Slowdown", "Hampered", "Crushed" ],
+    "desc": [ "The heat slows you down.", "You struggle to move in this heat.", "The heat is crushing you." ],
+    "speed_name": "Heat slowdown",
+    "max_intensity": 3,
+    "part_descs": true,
+    "base_mods": { "speed_mod": [ -2 ] },
+    "scaling_mods": { "speed_mod": [ -4 ] }
   },
   {
     "type": "effect_type",
@@ -1055,8 +1112,13 @@
   },
   {
     "type": "effect_type",
+    "id": "took_antiasthmatic",
+    "name": [ "Took antiasthmatic drugs" ],
+    "desc": [ "You have taken an antiasthmatic drug recently." ]
+  },
+  {
+    "type": "effect_type",
     "id": "cureall",
-    "//": "This is the royal jelly effect, it should cure pretty much everything.",
     "removes_effects": [
       "fungus",
       "dermatik",
@@ -1260,8 +1322,8 @@
     "base_mods": {
       "vomit_chance": [ -43 ],
       "sleep_chance": [ -1003 ],
-      "sleep_min": [ 2500 ],
-      "sleep_max": [ 3500 ],
+      "sleep_min": [ 15000 ],
+      "sleep_max": [ 21000 ],
       "pkill_amount": [ 3 ],
       "pkill_max_val": [ 3 ],
       "pkill_min": [ 1 ],
@@ -1298,7 +1360,7 @@
     "desc": [
       "You suffer from a respiratory disorder that makes breathing difficult.\nAn asthma attack can occur from time to time, so have your inhaler nearby."
     ],
-    "apply_message": "You can't breathe... asthma attack!",
+    "apply_message": "You can't breathe… asthma attack!",
     "rating": "bad",
     "max_intensity": 6,
     "int_dur_factor": "200 s",
@@ -1572,6 +1634,32 @@
   },
   {
     "type": "effect_type",
+    "id": "toxin_buildup",
+    "name": [ "", "Concerning symptoms", "Unnerving symptoms" ],
+    "desc": [
+      "",
+      "Your muscles keep twitching strangely.",
+      "Your nervous system is malfunctioning, almost like it's being torn apart from the inside."
+    ],
+    "base_mods": { "h_mod_min": [ -1 ], "h_mod_chance": [ 1 ], "h_mod_chance_bot": [ 5 ], "h_mod_tick": [ 1800 ] },
+    "max_intensity": 3,
+    "scaling_mods": { "h_mod_min": [ -5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "bad_food_ennui",
+    "name": [ "Gross food", "Demoralizing food", "Depressing food" ],
+    "desc": [
+      "The food you eat is disgusting.",
+      "Eating nothing but disgusting rations is starting to get you down.",
+      "Sure, you survived, but what kind of survival is this, eating these disgusting rations day in and day out?"
+    ],
+    "max_intensity": 3,
+    "//": "No morale_mod is currently possible in effects, for some reason.  As soon as it's implemented, it goes here.",
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "cough_suppress"
   },
   {
@@ -1610,6 +1698,13 @@
     "name": [ "Milked" ],
     "desc": [ "The creature has been partially or fully milked." ],
     "max_duration": "1 d"
+  },
+  {
+    "type": "effect_type",
+    "id": "sheared",
+    "name": [ "Sheared" ],
+    "desc": [ "The creature has been fully sheared." ],
+    "max_duration": "90d"
   },
   {
     "type": "effect_type",
@@ -1666,12 +1761,10 @@
   {
     "type": "effect_type",
     "id": "irradiated",
-    "name": [ "Irradiated" ],
-    "desc": [ "You suffer symptoms of a radiation sickness that weakens your body." ],
+    "//": "No name or desc. Hidden from player, encourages use of radiation detection equipment",
     "max_intensity": 2000,
     "int_dur_factor": "10 s",
-    "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] },
-    "miss_messages": [ [ "Radiation weakens you.", 1 ] ]
+    "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] }
   },
   {
     "type": "effect_type",
@@ -1770,8 +1863,75 @@
     "id": "supercharged",
     "//": "not given to players by default",
     "name": [ "Supercharged" ],
-    "desc": [ "You've been struck by lightning, and feel... different." ],
+    "desc": [ "You've been struck by lightning, and feel… different." ],
     "base_mods": { "speed_mod": [ 50 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "grown_of_fuse",
+    "name": [ "Grown of Fusion" ],
+    "desc": [ "AI effect to increase stats after fusing with another critter. 1 stack means one absorbed max_hp." ],
+    "//": "stats modified by the zombie_fuse special attack.",
+    "//1": "scaling:",
+    "//2": "/48 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
+    "//3": "/160 HP: +1 size",
+    "max_intensity": 480,
+    "base_mods": { "hit_mod": [ 0.0104 ], "dodge_mod": [ 0.0104 ], "speed_mod": [ 0.1042 ], "bash_mod": [ 0.08333 ] },
+    "scaling_mods": {
+      "hit_mod": [ 0.0104 ],
+      "dodge_mod": [ 0.0104 ],
+      "speed_mod": [ 0.1042 ],
+      "bash_mod": [ 0.08333 ],
+      "size_mod": [ 0.00625 ]
+    },
+    "int_decay_step": 0
+  },
+  {
+    "type": "effect_type",
+    "id": "migo_atmosphere",
+    "name": [ "Stinking air", "Disorienting air", "Disorienting air", "Smothering air", "Smothering air" ],
+    "desc": [
+      "The air in here smells like vinegar and mold.",
+      "The air in here smells like vinegar and mold.  It makes you feel soft-headed and confused.",
+      "The air in here smells like vinegar and mold.  It makes you feel soft-headed and confused.",
+      "The air in here smells like vinegar and mold.  It is closing in and smothering you, making it impossible to think clearly.",
+      "The air in here smells like vinegar and mold.  It is closing in and smothering you, making it impossible to think clearly."
+    ],
+    "apply_message": "The air in here smells like vinegar and mold, and hurts your lungs a bit.",
+    "max_intensity": 5,
+    "int_dur_factor": "5 seconds",
+    "max_duration": "30 s",
+    "rating": "bad",
+    "miss_messages": [ [ "You feel groggy in this sweltering, foul air.", 2 ] ],
+    "harmful_cough": false,
+    "base_mods": { "cough_chance": [ -1002 ] },
+    "scaling_mods": {
+      "str_mod": [ -0.25 ],
+      "per_mod": [ -0.5 ],
+      "dex_mod": [ -0.25 ],
+      "int_mod": [ -0.75 ],
+      "speed_mod": [ -10 ],
+      "vomit_chance": [ 10 ],
+      "cough_chance": [ 501 ]
+    },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "fetid_goop",
+    "name": [ "Covered in fetid goop" ],
+    "desc": [ "The feeling of the goop slowly sliding on your skin revulses you and the smell makes you gag." ],
+    "apply_message": "You're disgusted by the goop.",
+    "rating": "bad",
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "vomit_chance": [ 100 ]
+    },
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -1780,5 +1940,15 @@
   {
     "type": "effect_type",
     "id": "has_prospectus"
+  },
+  {
+    "type": "effect_type",
+    "id": "recently_coughed"
+  },
+  {
+    "type": "effect_type",
+    "id": "ignore_fall_damage",
+    "//": "Used for translocation via teleporter_list as a way to avoid fall damage by teleporting Z levels",
+    "flags": [ "EFFECT_FEATHER_FALL" ]
   }
 ]

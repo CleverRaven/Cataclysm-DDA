@@ -2,17 +2,17 @@
   {
     "type": "item_group",
     "id": "NC_REFUGEE_bashing",
-    "items": [ { "group": "refugee_bashing", "chance": 100 } ]
+    "items": [ { "group": "refugee_bashing", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "NC_REFUGEE_cutting",
-    "items": [ { "group": "refugee_cutting", "chance": 100 } ]
+    "items": [ { "group": "refugee_cutting", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "NC_REFUGEE_stabbing",
-    "items": [ { "group": "refugee_stabbing", "chance": 100 } ]
+    "items": [ { "group": "refugee_stabbing", "prob": 100 } ]
   },
   {
     "type": "item_group",

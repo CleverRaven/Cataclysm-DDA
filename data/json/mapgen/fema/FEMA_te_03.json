@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "FEMA_te",
-    "comment": "top edge",
+    "//": "top edge",
     "weight": 200,
     "method": "json",
     "object": {
@@ -17,7 +17,7 @@
         ".N|~xxx~f~~~~~~~~~~~~|N.",
         "..|~xxx~f~XX~~XX~~XX~|N.",
         "..|~z~~~f~~~~~~~~~~~~|N.",
-        ".N|~~~~~ffffffffeefff|N.",
+        ".N|~~~~~ffffffffFFfff|N.",
         ".N|~~~~~~~~~~~~~~~~~~|N.",
         ".N|TTc~~~z~~~~~~~~D~~|..",
         ".N|TT~~z~~~~~~~~z~Dc~|..",

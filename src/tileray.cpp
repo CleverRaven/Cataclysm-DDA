@@ -26,7 +26,7 @@ tileray::tileray( int adir ): direction( adir )
 void tileray::init( const point &ad )
 {
     delta = ad;
-    abs_d = abs( delta );
+    abs_d = delta.abs();
     if( delta == point_zero ) {
         direction = 0;
     } else {
@@ -47,9 +47,9 @@ void tileray::init( int adir )
     direction = ( adir < 0 ? 360 - ( ( -adir ) % 360 ) : adir % 360 );
     last_d = point_zero;
     float direction_radians = static_cast<float>( direction ) * M_PI / 180.0;
-    rl_vec2d delta_f( cos( direction_radians ), sin( direction_radians ) );
+    rl_vec2d delta_f( std::cos( direction_radians ), std::sin( direction_radians ) );
     delta = ( delta_f * 100 ).as_point();
-    abs_d = abs( delta );
+    abs_d = delta.abs();
     steps = 0;
     infinite = true;
 }
@@ -109,17 +109,23 @@ int tileray::dir_symbol( int sym ) const
 {
     switch( sym ) {
         // output.cpp special_symbol() converts yubn to corners, hj to lines, c to cross
-        case 'j': // vertical line
+        case 'j':
+            // vertical line
             return "h\\j/h\\j/"[dir8()];
-        case 'h': // horizontal line
+        case 'h':
+            // horizontal line
             return "jhjh"[dir4()];
-        case 'y': // top left corner
+        case 'y':
+            // top left corner
             return "unby"[dir4()];
-        case 'u': // top right corner
+        case 'u':
+            // top right corner
             return "nbyu"[dir4()];
-        case 'n': // bottom right corner
+        case 'n':
+            // bottom right corner
             return "byun"[dir4()];
-        case 'b': // bottom left corner
+        case 'b':
+            // bottom left corner
             return "yunb"[dir4()];
         case '^':
             return ">v<^"[dir4()];
@@ -129,12 +135,14 @@ int tileray::dir_symbol( int sym ) const
             return "<^>v"[dir4()];
         case '<':
             return "^>v<"[dir4()];
-        case 'c': // +
+        case 'c':
+            // +
             return "cXcXcXcX"[dir8()];
         case 'X':
             return "XcXcXcXc"[dir8()];
-        // [ not rotated to ] because they might represent different items
+
         case '[':
+            // [ not rotated to ] because they might represent different items
             return "-\\[/-\\[/"[dir8()];
         case ']':
             return "-\\]/-\\]/"[dir8()];
@@ -181,7 +189,7 @@ void tileray::advance( int num )
     if( num == 0 ) {
         return;
     }
-    int anum = abs( num );
+    int anum = std::abs( num );
     steps = anum;
     const bool vertical = mostly_vertical();
     if( direction % 90 ) {

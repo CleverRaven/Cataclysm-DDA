@@ -1,9 +1,9 @@
 #include "dependency_tree.h"
 
 #include <algorithm>
-#include <set>
 #include <array>
-#include <sstream>
+#include <ostream>
+#include <set>
 #include <utility>
 
 #include "debug.h"
@@ -50,12 +50,12 @@ std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors()
 
 std::string dependency_node::s_errors()
 {
-    std::stringstream ret;
+    std::string ret;
     for( auto &elem : all_errors ) {
-        ret << error_keyvals[static_cast<unsigned>( elem.first )];
-        ret << enumerate_as_string( elem.second, enumeration_conjunction::none );
+        ret += error_keyvals[static_cast<unsigned>( elem.first )];
+        ret += enumerate_as_string( elem.second, enumeration_conjunction::none );
     }
-    return ret.str();
+    return ret;
 }
 
 void dependency_node::check_cyclicity()

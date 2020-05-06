@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm> // std::find
 #include <functional> // std::greater
 #include <utility> // std::move

@@ -6,6 +6,7 @@
     "authors": [ "Honcharuk" ],
     "description": "Allows you to grow seeds in craftable garden pots that can be carried around as items.  Perfect for the nomadic botanist.",
     "category": "items",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

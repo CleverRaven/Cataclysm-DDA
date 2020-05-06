@@ -1,26 +1,26 @@
 #include "cata_utility.h"
 
-#include <cctype>
-#include <cstdio>
 #include <algorithm>
+#include <cctype>
 #include <cmath>
-#include <string>
+#include <cstdio>
 #include <exception>
 #include <iterator>
+#include <locale>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 
+#include "catacharset.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
-#include "mapsharing.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
-#include "catacharset.h"
 
 static double pow10( unsigned int n )
 {
@@ -126,7 +126,7 @@ bool match_include_exclude( const std::string &text, std::string filter )
 
 double logarithmic( double t )
 {
-    return 1 / ( 1 + exp( -t ) );
+    return 1 / ( 1 + std::exp( -t ) );
 }
 
 double logarithmic_range( int min, int max, int pos )
@@ -255,6 +255,12 @@ double convert_weight( const units::mass &weight )
     return ret;
 }
 
+std::string weight_to_string( const units::mass &weight )
+{
+    const double converted_weight = convert_weight( weight );
+    return string_format( "%.2f %s", converted_weight, weight_units() );
+}
+
 double convert_volume( int volume )
 {
     return convert_volume( volume, nullptr );
@@ -279,6 +285,16 @@ double convert_volume( int volume, int *out_scale )
         *out_scale = scale;
     }
     return ret;
+}
+
+std::string vol_to_string( const units::volume &vol )
+{
+    int converted_volume_scale = 0;
+    const double converted_volume =
+        convert_volume( vol.value(),
+                        &converted_volume_scale );
+
+    return string_format( "%.3f %s", converted_volume, volume_units_abbr() );
 }
 
 double temp_to_celsius( double fahrenheit )
@@ -317,7 +333,8 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
         }
     } else if( scale > 0 ) {
         for( int s = 1; s <= scale; s++ ) {
-            int scale_width = 1 + s; // 1 decimal separator + "s"
+            // 1 decimal separator + "s"
+            int scale_width = 1 + s;
             if( width > scale_width && value >= std::pow( 10.0, width - scale_width ) ) {
                 // above the maximum number we can fit in the width with "s" decimals
                 // show this number with one less decimal than "s"
@@ -485,7 +502,8 @@ std::string obscure_message( const std::string &str, std::function<char()> f )
     std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
     std::wstring w_str = utf8_to_wstr( str );
-    char transformation[2] = { 0 }; // a trailing NULL terminator is necessary for utf8_width function
+    // a trailing NULL terminator is necessary for utf8_width function
+    char transformation[2] = { 0 };
     for( size_t i = 0; i < w_str.size(); ++i ) {
         transformation[0] = f();
         std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );

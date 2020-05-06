@@ -1,20 +1,19 @@
 #pragma once
-#ifndef MAPGEN_FUNCTIONS_H
-#define MAPGEN_FUNCTIONS_H
+#ifndef CATA_SRC_MAPGEN_FUNCTIONS_H
+#define CATA_SRC_MAPGEN_FUNCTIONS_H
 
+#include <functional>
 #include <map>
 #include <string>
-#include <functional>
 #include <utility>
 
 #include "type_id.h"
 
-struct tripoint;
-struct point;
-class time_point;
 class map;
 class mapgendata;
 class mission;
+struct point;
+struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
 class JsonObject;
@@ -43,9 +42,6 @@ void mapgen_forest_trail_tee( mapgendata &dat );
 void mapgen_forest_trail_four_way( mapgendata &dat );
 void mapgen_hive( mapgendata &dat );
 void mapgen_spider_pit( mapgendata &dat );
-void mapgen_fungal_bloom( mapgendata &dat );
-void mapgen_fungal_tower( mapgendata &dat );
-void mapgen_fungal_flowers( mapgendata &dat );
 void mapgen_river_center( mapgendata &dat );
 void mapgen_road( mapgendata &dat );
 void mapgen_bridge( mapgendata &dat );
@@ -56,13 +52,6 @@ void mapgen_river_curved_not( mapgendata &dat );
 void mapgen_river_straight( mapgendata &dat );
 void mapgen_river_curved( mapgendata &dat );
 void mapgen_parking_lot( mapgendata &dat );
-void mapgen_generic_house( mapgendata &dat, int variant ); // not mapped
-void mapgen_generic_house_boxy( mapgendata &dat );
-void mapgen_generic_house_big_livingroom( mapgendata &dat );
-void mapgen_generic_house_center_hallway( mapgendata &dat );
-void mapgen_basement_generic_layout( mapgendata &dat );
-void mapgen_basement_junk( mapgendata &dat );
-void mapgen_basement_spiders( mapgendata &dat );
 void mapgen_cave( mapgendata &dat );
 void mapgen_cave_rat( mapgendata &dat );
 void mapgen_cavern( mapgendata &dat );
@@ -87,16 +76,19 @@ void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 
 // Temporary wrappers
-void mremove_trap( map *m, int x, int y );
-void mtrap_set( map *m, int x, int y, trap_id type );
-void madd_field( map *m, int x, int y, field_type_id type, int intensity );
+void mremove_trap( map *m, const point & );
+void mtrap_set( map *m, const point &, trap_id type );
+void madd_field( map *m, const point &, field_type_id type, int intensity );
 
-void place_stairs( mapgendata &dat );
-
-mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer );
+mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
                              mission *miss = nullptr, bool cancel_on_collision = true );
+bool run_mapgen_update_func( const std::string &update_mapgen_id, mapgendata &dat,
+                             bool cancel_on_collision = true );
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const std::string &update_mapgen_id );
-#endif
+
+void resolve_regional_terrain_and_furniture( const mapgendata &dat );
+
+#endif // CATA_SRC_MAPGEN_FUNCTIONS_H

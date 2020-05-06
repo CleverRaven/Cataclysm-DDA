@@ -1,31 +1,31 @@
 #pragma once
-#ifndef VEH_INTERACT_H
-#define VEH_INTERACT_H
+#ifndef CATA_SRC_VEH_INTERACT_H
+#define CATA_SRC_VEH_INTERACT_H
 
 #include <cstddef>
-#include <map>
-#include <sstream>
-#include <vector>
 #include <functional>
+#include <map>
 #include <string>
+#include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "inventory.h"
-#include "player_activity.h"
 #include "item_location.h"
+#include "player_activity.h"
+#include "point.h"
 #include "type_id.h"
 
-struct requirement_data;
-struct tripoint;
+class player;
 class vpart_info;
+struct requirement_data;
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {
     UNKNOWN_TASK = -1, //No such task
     CAN_DO, //Task can be done
-    INVALID_TARGET, //No valid target ie can't "change tire" if no tire present
+    INVALID_TARGET, //No valid target i.e. can't "change tire" if no tire present
     LACK_TOOLS, //Player doesn't have all the tools they need
     NOT_FREE, //Part is attached to something else and can't be unmounted
     LACK_SKILL, //Player doesn't have high enough mechanics skill
@@ -68,7 +68,8 @@ class veh_interact
         int overview_limit = 0;
 
         const vpart_info *sel_vpart_info = nullptr;
-        char sel_cmd = ' '; //Command currently being run by the player
+        //Command currently being run by the player
+        char sel_cmd = ' ';
 
         const vehicle_part *sel_vehicle_part = nullptr;
 
@@ -92,15 +93,17 @@ class veh_interact
         inventory crafting_inv;
         input_context main_context;
 
-        int max_lift; // maximum level of available lifting equipment (if any)
-        int max_jack; // maximum level of available jacking equipment (if any)
+        // maximum level of available lifting equipment (if any)
+        int max_lift;
+        // maximum level of available jacking equipment (if any)
+        int max_jack;
 
         player_activity serialize_activity();
 
         void set_title( const std::string &msg ) const;
 
         /** Format list of requirements returning true if all are met */
-        bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
+        bool format_reqs( std::string &msg, const requirement_data &reqs,
                           const std::map<skill_id, int> &skills, int moves ) const;
 
         int part_at( const point &d );
@@ -222,4 +225,4 @@ class veh_interact
         bool can_self_jack();
 };
 
-#endif
+#endif // CATA_SRC_VEH_INTERACT_H

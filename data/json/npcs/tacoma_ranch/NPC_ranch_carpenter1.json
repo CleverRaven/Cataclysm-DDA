@@ -14,6 +14,6 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_CONSTRUCTION_1",
     "dynamic_line": "My partner is in charge of fortifying this place, you should ask him about what needs to be done.",
-    "responses": [ { "text": "I'll talk to him then...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "I'll talk to him then…", "topic": "TALK_DONE" } ]
   }
 ]

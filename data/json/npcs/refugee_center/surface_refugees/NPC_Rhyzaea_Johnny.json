@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Rhyzaea",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "A counselor from far away, Rhy can offer a lot of supports to player and survivors if she can get herself sorted a little",
@@ -134,7 +134,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Rhyzaea_Band",
-    "dynamic_line": "My band is Gitxsan, we're from Northwestern British Columbia, around the Skeena River.  I'm from Hazelton, myself.  It's a beautiful place.  Tall mountains, temperate rainforests... I partly came here because I love those wet coastal forests, and I love exploring them in other countries.  I've been to Korea and Slovakia for the same reason.  I guess I'm a bit of a forest tourist?  I don't know if I'll ever see my own forest again, and the thought breaks my heart.",
+    "dynamic_line": "My band is Gitxsan, we're from Northwestern British Columbia, around the Skeena River.  I'm from Hazelton, myself.  It's a beautiful place.  Tall mountains, temperate rainforests… I partly came here because I love those wet coastal forests, and I love exploring them in other countries.  I've been to Korea and Slovakia for the same reason.  I guess I'm a bit of a forest tourist?  I don't know if I'll ever see my own forest again, and the thought breaks my heart.",
     "responses": [
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },

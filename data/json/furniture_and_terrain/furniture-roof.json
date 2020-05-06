@@ -93,7 +93,7 @@
       "items": [
         { "item": "pipe", "count": [ 1, 6 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "cable", "count": [ 2, 6 ] }
+        { "item": "cable", "charges": [ 2, 6 ] }
       ]
     }
   },

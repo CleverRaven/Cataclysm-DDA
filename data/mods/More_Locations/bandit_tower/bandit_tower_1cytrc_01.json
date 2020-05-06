@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "bandit_tower_1cytrc",
-    "comment": "courtyard or parking lot, top right corner",
+    "//": "courtyard or parking lot, top right corner",
     "weight": 250,
     "method": "json",
     "object": {

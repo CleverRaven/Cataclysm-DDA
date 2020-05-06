@@ -1,45 +1,48 @@
 #include "ballistics.h"
 
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <algorithm>
-#include <list>
 #include <memory>
 #include <set>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "creature.h"
+#include "damage.h"
+#include "debug.h"
 #include "dispersion.h"
+#include "enums.h"
 #include "explosion.h"
 #include "game.h"
+#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
+#include "optional.h"
 #include "options.h"
+#include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
-#include "trap.h"
-#include "vpart_position.h"
-#include "calendar.h"
-#include "damage.h"
-#include "debug.h"
-#include "enums.h"
-#include "item.h"
-#include "optional.h"
 #include "translations.h"
-#include "units.h"
+#include "trap.h"
 #include "type_id.h"
-#include "point.h"
+#include "units.h"
+#include "visitable.h"
+#include "vpart_position.h"
 
-const efftype_id effect_bounced( "bounced" );
+static const efftype_id effect_bounced( "bounced" );
+
+static const std::string flag_LIQUID( "LIQUID" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;
-    const auto &drop_item = proj.get_drop();
+    const item &drop_item = proj.get_drop();
     const auto &effects = proj.proj_effects;
     if( drop_item.is_null() ) {
         return;
@@ -53,9 +56,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             add_msg( _( "The %s shatters!" ), drop_item.tname() );
         }
 
-        for( const item &i : drop_item.contents ) {
-            g->m.add_item_or_charges( pt, i );
-        }
+        drop_item.visit_items( [&pt]( const item * it ) {
+            g->m.add_item_or_charges( pt, *it );
+            return VisitResponse::NEXT;
+        } );
+
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
         sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
@@ -69,11 +74,10 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             add_msg( _( "The %s bursts!" ), drop_item.tname() );
         }
 
-        for( const item &i : drop_item.contents ) {
-            g->m.add_item_or_charges( pt, i );
-        }
+        // copies the drop item to spill the contents
+        item( drop_item ).spill_contents( pt );
 
-        //TODO: Sound
+        // TODO: Sound
         return;
     }
 
@@ -110,7 +114,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         bool do_drop = true;
         // monsters that are able to be tied up will store the item another way
         // see monexamine.cpp tie_or_untie()
-        // if they arent friendly they will try and break out of the net/bolas/lassoo
+        // if they aren't friendly they will try and break out of the net/bolas/lasso
         // players and NPCs just get the downed effect, and item is dropped.
         // TODO: storing the item on player until they recover from downed
         if( effects.count( "TANGLE" ) && mon_there ) {
@@ -126,7 +130,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         if( effects.count( "HEAVY_HIT" ) ) {
-            if( g->m.has_flag( "LIQUID", pt ) ) {
+            if( g->m.has_flag( flag_LIQUID, pt ) ) {
                 sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
@@ -198,7 +202,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         proj_arg, nullptr, dealt_damage_instance(), source, aim.missed_by
     };
 
-    if( source == target_arg ) { // No suicidal shots
+    // No suicidal shots
+    if( source == target_arg ) {
         debugmsg( "Projectile_attack targeted own square." );
         return attack;
     }
@@ -214,11 +219,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
     const bool null_source = proj_effects.count( "NULL_SOURCE" ) > 0;
     // Determines whether it can penetrate obstacles
-    const bool is_bullet = proj_arg.speed >= 200 && std::any_of( proj_arg.impact.damage_units.begin(),
-                           proj_arg.impact.damage_units.end(),
-    []( const damage_unit & dam ) {
-        return dam.type == DT_CUT;
-    } );
+    const bool is_bullet = proj_arg.speed >= 200 && !proj_effects.count( "NO_PENETRATE_OBSTACLES" );
 
     // If we were targetting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
@@ -239,14 +240,14 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         rad += ( one_in( 2 ) ? 1 : -1 ) * std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) );
 
         // TODO: This should also represent the miss on z axis
-        const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
+        const int offset = std::min<int>( range, std::sqrt( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                         range + rng( -offset, offset ) :
                         rng( range - offset, proj_arg.range );
         new_range = std::max( new_range, 1 );
 
-        target.x = source.x + roll_remainder( new_range * cos( rad ) );
-        target.y = source.y + roll_remainder( new_range * sin( rad ) );
+        target.x = source.x + roll_remainder( new_range * std::cos( rad ) );
+        target.y = source.y + roll_remainder( new_range * std::sin( rad ) );
 
         if( target == source ) {
             target.x = source.x + sgn( dx );
@@ -276,7 +277,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     tripoint &tp = attack.end_point;
     tripoint prev_point = source;
 
-    trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
+    // Add the first point to the trajectory
+    trajectory.insert( trajectory.begin(), source );
 
     static emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
     if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
@@ -333,7 +335,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( in_veh != nullptr ) {
             const optional_vpart_position other = g->m.veh_at( tp );
             if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
-                continue; // Turret is on the roof and can't hit anything inside
+                // Turret is on the roof and can't hit anything inside
+                continue;
             }
         }
 
@@ -404,8 +407,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             traj_len = i;
             break;
         }
-    } // Done with the trajectory!
-
+    }
+    // Done with the trajectory!
     if( do_animation && do_draw_line && traj_len > 2 ) {
         trajectory.erase( trajectory.begin() );
         trajectory.resize( traj_len-- );

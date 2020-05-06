@@ -1,11 +1,5 @@
 [
   {
-    "id": "ammo_40mm",
-    "type": "requirement",
-    "//": "Components required for 40mm ammo",
-    "components": [ [ [ "40mm_casing", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
-  },
-  {
     "id": "ammo_762_25",
     "type": "requirement",
     "components": [ [ [ "762_25_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
@@ -23,6 +17,12 @@
     "components": [ [ [ "380_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_57",
+    "type": "requirement",
+    "//": "Components required for 57 ammo",
+    "components": [ [ [ "57mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_shot",
     "type": "requirement",
     "//": "Components required for shotgun and signal flare ammo",
@@ -33,6 +33,12 @@
     "type": "requirement",
     "//": "Components required for .357 Magnum ammo",
     "components": [ [ [ "357mag_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_357sig",
+    "type": "requirement",
+    "//": "Components required for .357 SIG ammo",
+    "components": [ [ [ "357sig_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_10mm",
@@ -110,6 +116,25 @@
         [ "300blk_ss", -1 ],
         [ "bp_300blk", -1 ],
         [ "reloaded_300blk", -1 ]
+      ]
+    ]
+  },
+  {
+    "id": "308_casehead",
+    "type": "requirement",
+    "//": "References needed for boltfaces and magazines using .308 or derivatives",
+    "tools": [
+      [
+        [ "308_casing", -1 ],
+        [ "308", -1 ],
+        [ "762_51", -1 ],
+        [ "762_51_incendiary", -1 ],
+        [ "bp_308", -1 ],
+        [ "bp_762_51", -1 ],
+        [ "bp_762_51_incendiary", -1 ],
+        [ "reloaded_308", -1 ],
+        [ "reloaded_762_51", -1 ],
+        [ "reloaded_762_51_incendiary", -1 ]
       ]
     ]
   },
@@ -214,5 +239,11 @@
     "type": "requirement",
     "//": "References needed for boltfaces and magazines using 7.62x54R or derivatives",
     "tools": [ [ [ "762R_casing", -1 ], [ "762_54R", -1 ], [ "reloaded_762_54R", -1 ] ] ]
+  },
+  {
+    "id": "explosives_casting_standard",
+    "type": "requirement",
+    "//": "References needed for forge and crucible to recast your stabilized explosives",
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ]
   }
 ]

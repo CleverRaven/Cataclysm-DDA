@@ -29,7 +29,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
-    "max_volume": 1000,
+    "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
     "examine_action": "fireplace",
     "bash": {
@@ -54,7 +54,6 @@
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "brazier",
     "examine_action": "fireplace",
-    "max_volume": 4000,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -81,7 +80,6 @@
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "55gal_firebarrel",
     "examine_action": "fireplace",
-    "max_volume": 4000,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -108,7 +106,6 @@
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "30gal_firebarrel",
     "examine_action": "fireplace",
-    "max_volume": 4000,
     "bash": {
       "str_min": 8,
       "str_max": 30,

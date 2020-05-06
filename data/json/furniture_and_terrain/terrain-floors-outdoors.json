@@ -49,6 +49,7 @@
     "id": "t_claymound",
     "name": "mound of clay",
     "description": "A mound of clay soil.",
+    "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
@@ -67,6 +68,7 @@
     "id": "t_sandmound",
     "name": "mound of sand",
     "description": "A mound of sand.",
+    "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
@@ -97,6 +99,7 @@
     "id": "t_dirtmoundfloor",
     "name": "mound of dirt",
     "description": "A giant hill of dirt that looks like you could crawl inside for shelter.",
+    "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
     "move_cost": 3,
@@ -119,6 +122,7 @@
     "description": "An unnaturally humanoid-shaped hole, it seems oddly familiar.  There's a strange sensation to examine it closer, as if it belongs to you somehow.",
     "symbol": "#",
     "color": "magenta",
+    "looks_like": "t_pit",
     "move_cost": 0,
     "roof": "t_rock_floor",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ],
@@ -204,6 +208,7 @@
     "description": "An area of common poured concrete, damaged by frost heaves and large cracks due to lack of maintenance.",
     "symbol": ".",
     "color": "light_gray",
+    "looks_like": "t_concrete",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
@@ -221,6 +226,25 @@
     "description": "A newer segment of poured concrete with surface finishes for aesthetics and resistance to freeze-thaw cycles.",
     "symbol": ".",
     "color": "light_gray",
+    "looks_like": "t_pavement",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "rock", "count": [ 2, 15 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_y",
+    "name": "concrete",
+    "description": "A newer segment of poured concrete with surface finishes for aesthetics and resistance to freeze-thaw cycles.  Covered with a streak of yellow paint.",
+    "symbol": ".",
+    "color": "yellow",
+    "looks_like": "t_pavement_y",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
@@ -235,9 +259,10 @@
     "type": "terrain",
     "id": "t_floor_noroof",
     "name": "wooden floor",
-    "description": "Wooden floor created from boards, packed tightly together and nailed down. Common in patios.",
+    "description": "Wooden floor created from boards, packed tightly together and nailed down.  Common in patios.",
     "symbol": ".",
     "color": "brown",
+    "looks_like": "t_floor",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
     "bash": {
@@ -282,11 +307,14 @@
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
-    "ter_set": "t_null",
-    "str_min": 50,
-    "str_max": 400,
-    "str_min_supported": 100,
-    "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -306,5 +334,17 @@
       "str_min_supported": 100,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_dirtfloor_no_roof",
+    "name": "dirt floor",
+    "description": "Floor consisting of finely mixed earth that has been tamped down.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "looks_like": "t_dirtfloor",
+    "flags": [ "TRANSPARENT", "FLAT", "DIGGABLE" ],
+    "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   }
 ]

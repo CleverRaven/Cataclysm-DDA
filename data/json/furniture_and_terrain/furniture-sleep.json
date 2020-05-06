@@ -12,7 +12,6 @@
     "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
-    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 12,
@@ -30,6 +29,37 @@
   },
   {
     "type": "furniture",
+    "id": "f_bunkbed",
+    "name": "bunk bed",
+    "symbol": "#",
+    "looks_like": "f_bed",
+    "description": "A wooden bunk bed with mattresses for two people.",
+    "color": "magenta",
+    "move_cost_mod": 6,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [ { "item": "mattress", "count": 2 }, { "item": "2x4", "count": 28 }, { "item": "nail", "charges": [ 20, 30 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 8, 15 ] },
+        { "item": "nail", "charges": [ 15, 20 ] },
+        { "item": "splinter", "count": [ 8, 15 ] },
+        { "item": "rag", "count": [ 80, 110 ] },
+        { "item": "scrap", "count": [ 20, 40 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_bed_frame",
     "name": "bed frame",
     "symbol": "#",
@@ -39,7 +69,6 @@
     "coverage": 40,
     "required_str": 5,
     "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
-    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 10,
@@ -80,7 +109,7 @@
   {
     "type": "furniture",
     "id": "f_down_mattress",
-    "name": "down_mattress",
+    "name": "down mattress",
     "description": "A comfortable feather down mattress has been tossed on the floor for sleeping here.  It's not quite as comfy as a real bed, but it's pretty close.",
     "symbol": "0",
     "color": "magenta",
@@ -116,7 +145,6 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": [ 30, 35 ] }, { "item": "nail", "charges": [ 4, 6 ] } ]
     },
-    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -144,7 +172,6 @@
     "floor_bedding_warmth": 200,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 7, 8 ] } ] },
-    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 6,

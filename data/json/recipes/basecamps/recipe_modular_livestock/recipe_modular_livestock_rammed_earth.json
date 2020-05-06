@@ -1,0 +1,168 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_coop_rammed_earth_northeast",
+    "description": "We could use a coop to contain our chickens and other birds, so build a rammed earth shack with a roof on the northeast side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_coop_rammed_earth_northeast",
+    "blueprint_name": "northeast coop",
+    "blueprint_requires": [ { "id": "fbml_0" } ],
+    "blueprint_provides": [ { "id": "fbml_northeast" }, { "id": "chicken_coop" } ],
+    "blueprint_excludes": [ { "id": "fbml_northeast" } ],
+    "blueprint_needs": {
+      "time": "5 d 10 h 15 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "pointy_stick", 36 ], [ "spear_wood", 36 ] ],
+          [ [ "2x4", 138 ] ],
+          [ [ "nail", 360 ] ],
+          [ [ "wire", 20 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "material_soil", 4320 ] ],
+          [ [ "water", 1800 ], [ "water_clean", 1800 ] ],
+          [ [ "material_sand", 360 ], [ "material_quicklime", 360 ], [ "concrete", 18 ] ],
+          [ [ "wood_panel", 16 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_shack_rammed_earth_southeast",
+    "description": "We could use a storage room for feed, animal gear and tools, so build a rammed earth shack with a roof on the southeast side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_shack_rammed_earth_southeast",
+    "blueprint_name": "southeast storage room",
+    "blueprint_requires": [ { "id": "fbml_0" } ],
+    "blueprint_provides": [ { "id": "fbml_southeast" } ],
+    "blueprint_excludes": [ { "id": "fbml_southeast" } ],
+    "blueprint_needs": {
+      "time": "3 d 18 h 25 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 176 ] ],
+          [ [ "concrete", 11 ], [ "material_quicklime", 220 ], [ "material_sand", 220 ] ],
+          [ [ "material_soil", 2640 ] ],
+          [ [ "nail", 512 ] ],
+          [ [ "pointy_stick", 22 ], [ "spear_wood", 22 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
+          [ [ "water", 1100 ], [ "water_clean", 1100 ] ],
+          [ [ "wood_panel", 29 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable0_rammed_earth_southwest",
+    "description": "We could use a stable for larger livestock, so build a rammed earth shack with a roof on the southwest side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_stable0_rammed_earth_southwest",
+    "blueprint_name": "southwest stable",
+    "blueprint_requires": [ { "id": "faction_base_livestock_0" } ],
+    "blueprint_provides": [ { "id": "fbml_southwest" }, { "id": "stables" } ],
+    "blueprint_excludes": [ { "id": "fbml_southwest" } ],
+    "blueprint_needs": {
+      "time": "4 d 17 h 45 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "pointy_stick", 38 ], [ "spear_wood", 38 ] ],
+          [ [ "2x4", 161 ] ],
+          [ [ "nail", 432 ] ],
+          [ [ "material_soil", 3600 ] ],
+          [ [ "water", 1500 ], [ "water_clean", 1500 ] ],
+          [ [ "material_sand", 300 ], [ "material_quicklime", 300 ], [ "concrete", 15 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "wood_panel", 17 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable1_rammed_earth_west",
+    "description": "We could use an expansion for the stable, so build 2 more stalls on the west side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_stable1_rammed_earth_west",
+    "blueprint_name": "west stable",
+    "blueprint_requires": [ { "id": "fbml_southwest" } ],
+    "blueprint_provides": [ { "id": "fbml_west" } ],
+    "blueprint_excludes": [ { "id": "fbml_west" } ],
+    "blueprint_needs": {
+      "time": "4 d 7 h 15 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "pointy_stick", 34 ], [ "spear_wood", 34 ] ],
+          [ [ "2x4", 178 ] ],
+          [ [ "nail", 464 ] ],
+          [ [ "material_soil", 3120 ] ],
+          [ [ "water", 1300 ], [ "water_clean", 1300 ] ],
+          [ [ "material_sand", 260 ], [ "material_quicklime", 260 ], [ "concrete", 13 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "wood_panel", 19 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable2_rammed_earth_northwest",
+    "description": "We could use an expansion for the stable, so build 2 more stalls on the northwest side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_stable2_rammed_earth_northwest",
+    "blueprint_name": "northwest stable",
+    "blueprint_requires": [ { "id": "fbml_west" } ],
+    "blueprint_provides": [ { "id": "fbml_northwest" } ],
+    "blueprint_excludes": [ { "id": "fbml_northwest" } ],
+    "blueprint_needs": {
+      "time": "4 d 12 h 30 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "pointy_stick", 36 ], [ "spear_wood", 36 ] ],
+          [ [ "2x4", 170 ] ],
+          [ [ "nail", 444 ] ],
+          [ [ "material_soil", 3360 ] ],
+          [ [ "water", 1400 ], [ "water_clean", 1400 ] ],
+          [ [ "material_sand", 280 ], [ "material_quicklime", 280 ], [ "concrete", 14 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "wood_panel", 18 ] ]
+        ]
+      }
+    }
+  }
+]

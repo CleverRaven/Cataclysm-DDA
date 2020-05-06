@@ -1,7 +1,7 @@
 [
   {
     "type": "snippet",
-    "category": "music_description",
+    "category": "<music_description>",
     "text": [ "some <musicgenre>.", "some <musicgenre>. The <musicdesc_part> is <musicdesc_evaluation>." ]
   },
   {
@@ -21,7 +21,7 @@
     "text": [
       "amazing",
       "funky",
-      "okay",
+      { "text": { "ctxt": "<musicdesc_evaluation>", "str": "okay" } },
       "pretty good",
       "sweet",
       "sick",
@@ -178,7 +178,7 @@
       "electronic",
       "house",
       "metal",
-      "reaggae",
+      "reggae",
       "ska",
       "punk",
       "thrash",

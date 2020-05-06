@@ -1,0 +1,123 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_robotic_assembler",
+    "name": "robotic assembler",
+    "looks_like": "f_robotic_arm",
+    "description": "A durable and versatile robotic arm with a tool fitted to the end, for working on an assembly line.",
+    "symbol": "3",
+    "color": "magenta_cyan",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 5, 8 ] },
+        { "item": "circuit", "count": [ 3, 5 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "count": [ 2, 4 ] },
+        { "item": "RAM", "count": [ 8, 16 ] },
+        { "item": "cable", "charges": [ 8, 12 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] },
+        { "item": "motor_small", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chemical_mixer",
+    "description": "When chemicals need to be mixed in large quantities at just the right combinations and temperatures, this is the tool for the job.",
+    "name": "chemical mixer",
+    "symbol": "0",
+    "color": "red_green",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 16,
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "metal_tank_little", "count": [ 0, 2 ] },
+        { "item": "jerrycan", "count": [ 0, 2 ] },
+        { "item": "metal_tank", "count": [ 0, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "metal_tank_little", "count": [ 2, 4 ] },
+        { "item": "jerrycan", "count": [ 2, 4 ] },
+        { "item": "metal_tank", "count": [ 2, 4 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_robotic_arm",
+    "name": "robotic arm",
+    "description": "Automation!  Science!  Industry!  Make a better horse!  This robot arm promises to do it all.  Except it's currently unpowered.  You could remove the casing and retrieve the electronics through disassembly.",
+    "symbol": "&",
+    "bgcolor": "yellow",
+    "move_cost_mod": 3,
+    "required_str": 18,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "prob": 75 },
+        { "item": "RAM", "prob": 80 },
+        { "item": "power_supply", "prob": 70 },
+        { "item": "amplifier", "prob": 90 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "spring", "prob": 80 },
+        { "item": "steel_lump", "prob": 60 },
+        { "item": "sheet_metal", "prob": 50 },
+        { "item": "motor", "prob": 60 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "sound": "smash!",
+      "sound_fail": "thunk.",
+      "items": [
+        { "item": "processor", "prob": 15 },
+        { "item": "RAM", "prob": 30 },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "amplifier", "prob": 70 },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "spring", "prob": 80 },
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "sheet_metal", "prob": 30 },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "motor", "prob": 30 }
+      ]
+    }
+  }
+]

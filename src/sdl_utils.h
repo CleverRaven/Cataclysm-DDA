@@ -1,10 +1,12 @@
 #pragma once
-#ifndef SDL_UTILS_H
-#define SDL_UTILS_H
+#ifndef CATA_SRC_SDL_UTILS_H
+#define CATA_SRC_SDL_UTILS_H
 
 #include <algorithm>
 #include <cmath>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "color.h"
 #include "sdl_wrappers.h"
@@ -137,7 +139,8 @@ inline SDL_Color color_pixel_sepia( const SDL_Color &color )
     const Uint8 av = average_pixel_color( color );
     const float gammav = 1.6;
     const float pv = av / 255.0;
-    const Uint8 finalv = std::min( int( round( pow( pv, gammav ) * 150 ) ), 100 );
+    const Uint8 finalv =
+        std::min( static_cast<int>( std::round( std::pow( pv, gammav ) * 150 ) ), 100 );
 
     return mix_colors( sepia_dark, sepia_light, finalv );
 }
@@ -154,4 +157,17 @@ void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect, U
 
 SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer );
 
-#endif // SDL_UTILS_H
+/** Linearly interpolate intermediate colors between two given colors.
+ * @param start_color: The color to start with.
+ * @param end_color: The color that ends the interpolation.
+ * @param additional_steps: Number of steps between the start and stop colors.
+ * @return A vector of colors containing: the start color, all intermediate colors and finally the end color.
+ * @note start with white (r=255, g=255, b=255) and end with blue (r=0, g=0, b=255) and use 2 additional steps:
+ *     - The first intermediate color is: (r=170, g=170, b=255)
+ *     - The second intermediate color is: (r=85, g=85, b=255)
+ * Obviously the more intermediate steps there are, the harder it is to differentiate the intermediate colors.
+ */
+std::vector<SDL_Color> color_linear_interpolate( const SDL_Color &start_color,
+        const SDL_Color &end_color, unsigned additional_steps );
+
+#endif // CATA_SRC_SDL_UTILS_H

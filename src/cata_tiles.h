@@ -1,31 +1,33 @@
 #pragma once
-#ifndef CATA_TILES_H
-#define CATA_TILES_H
+#ifndef CATA_SRC_CATA_TILES_H
+#define CATA_SRC_CATA_TILES_H
 
 #include <cstddef>
-#include <memory>
 #include <map>
+#include <memory>
 #include <string>
-#include <vector>
+#include <tuple>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
-#include "sdl_wrappers.h"
 #include "animation.h"
 #include "creature.h"
+#include "enums.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map_memory.h"
 #include "options.h"
-#include "weather.h"
-#include "enums.h"
-#include "weighted_list.h"
+#include "pimpl.h"
 #include "point.h"
+#include "sdl_wrappers.h"
+#include "type_id.h"
+#include "weather.h"
+#include "weighted_list.h"
 
-class Creature;
-class player;
-class pixel_minimap;
+class Character;
 class JsonObject;
+class pixel_minimap;
 
 using itype_id = std::string;
 
@@ -78,7 +80,7 @@ class texture
         SDL_Rect srcrect = { 0, 0, 0, 0 };
 
     public:
-        texture( std::shared_ptr<SDL_Texture> ptr, const SDL_Rect rect ) : sdl_texture_ptr( ptr ),
+        texture( std::shared_ptr<SDL_Texture> ptr, const SDL_Rect &rect ) : sdl_texture_ptr( ptr ),
             srcrect( rect ) { }
         texture() = default;
 
@@ -165,18 +167,18 @@ class tileset_loader
 
         point sprite_offset;
 
-        int sprite_width;
-        int sprite_height;
+        int sprite_width = 0;
+        int sprite_height = 0;
 
         int offset = 0;
         int sprite_id_offset = 0;
         int size = 0;
 
-        int R;
-        int G;
-        int B;
+        int R = 0;
+        int G = 0;
+        int B = 0;
 
-        int tile_atlas_width;
+        int tile_atlas_width = 0;
 
         void ensure_default_item_highlight();
 
@@ -188,7 +190,7 @@ class tileset_loader
 
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
                                 const std::string &s_id );
-        void load_ascii_set( JsonObject &entry );
+        void load_ascii_set( const JsonObject &entry );
         /**
          * Create a new tile_type, add it to tile_ids (using <B>id</B>).
          * Set the fg and bg properties of it (loaded from the json object).
@@ -196,12 +198,12 @@ class tileset_loader
          * If it's in that interval, adds offset to it, if it's not in the
          * interval (and not -1), throw an std::string error.
          */
-        tile_type &load_tile( JsonObject &entry, const std::string &id );
+        tile_type &load_tile( const JsonObject &entry, const std::string &id );
 
-        void load_tile_spritelists( JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
+        void load_tile_spritelists( const JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
                                     const std::string &objname );
 
-        void load_ascii( JsonObject &config );
+        void load_ascii( const JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color
          * Returns the number of tiles that have been loaded from this tileset image
          * @throw std::exception If the image can not be loaded.
@@ -218,12 +220,12 @@ class tileset_loader
          * sprite offset dictates where each sprite should render in its tile
          * @throw std::exception On any error.
          */
-        void load_tilejson_from_file( JsonObject &config );
+        void load_tilejson_from_file( const JsonObject &config );
         /**
          * Helper function called by load.
          * @throw std::exception On any error.
          */
-        void load_internal( JsonObject &config, const std::string &tileset_root,
+        void load_internal( const JsonObject &config, const std::string &tileset_root,
                             const std::string &img_path );
     public:
         tileset_loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
@@ -236,10 +238,10 @@ class tileset_loader
         void load( const std::string &tileset_id, bool precheck );
 };
 
-enum text_alignment {
-    TEXT_ALIGNMENT_LEFT,
-    TEXT_ALIGNMENT_CENTER,
-    TEXT_ALIGNMENT_RIGHT,
+enum class text_alignment : int {
+    left,
+    center,
+    right,
 };
 
 struct formatted_text {
@@ -251,7 +253,7 @@ struct formatted_text {
         : text( text ), color( color ), alignment( alignment ) {
     }
 
-    formatted_text( const std::string &text, int color, direction direction );
+    formatted_text( const std::string &text, int color, direction text_direction );
 };
 
 /** type used for color blocks overlays.
@@ -357,7 +359,10 @@ class cata_tiles
                                     const bool ( &invisible )[5] );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
                              const bool ( &invisible )[5] );
-        void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
+                                             const bool ( &invisible )[5] );
+        void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
+                                        int &height_3d );
 
         bool draw_item_highlight( const tripoint &pos );
 
@@ -472,21 +477,22 @@ class cata_tiles
         void do_tile_loading_report();
         point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
+        static std::vector<options_manager::id_and_option> build_display_list();
     protected:
         template <typename maptype>
-        void tile_loading_report( const maptype &tiletypemap, const std::string &label,
+        void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
                                   const std::string &prefix = "" );
         template <typename arraytype>
-        void tile_loading_report( const arraytype &array, int array_length, const std::string &label,
+        void tile_loading_report( const arraytype &array, int array_length, TILE_CATEGORY category,
                                   const std::string &prefix = "" );
         template <typename basetype>
-        void tile_loading_report( size_t count, const std::string &label, const std::string &prefix );
+        void tile_loading_report( size_t count, TILE_CATEGORY category, const std::string &prefix );
         /**
          * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
          * to an id string (result of id_func must be convertible to string).
          */
         template<typename Iter, typename Func>
-        void lr_generic( Iter begin, Iter end, Func id_func, const std::string &label,
+        void lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY category,
                          const std::string &prefix );
         /** Lighting */
         void init_light();
@@ -501,24 +507,24 @@ class cata_tiles
         // measured in map coordinates, *not* in pixels.
         int screentile_width = 0;
         int screentile_height = 0;
-        float tile_ratiox = 0.0;
-        float tile_ratioy = 0.0;
+        float tile_ratiox = 0.0f;
+        float tile_ratioy = 0.0f;
 
-        bool in_animation;
+        bool in_animation = false;
 
-        bool do_draw_explosion;
-        bool do_draw_custom_explosion;
-        bool do_draw_bullet;
-        bool do_draw_hit;
-        bool do_draw_line;
-        bool do_draw_cursor;
-        bool do_draw_highlight;
-        bool do_draw_weather;
-        bool do_draw_sct;
-        bool do_draw_zones;
+        bool do_draw_explosion = false;
+        bool do_draw_custom_explosion = false;
+        bool do_draw_bullet = false;
+        bool do_draw_hit = false;
+        bool do_draw_line = false;
+        bool do_draw_cursor = false;
+        bool do_draw_highlight = false;
+        bool do_draw_weather = false;
+        bool do_draw_sct = false;
+        bool do_draw_zones = false;
 
         tripoint exp_pos;
-        int exp_rad;
+        int exp_rad = 0;
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
 
@@ -529,7 +535,7 @@ class cata_tiles
         std::string hit_entity_id;
 
         tripoint line_pos;
-        bool is_target_line;
+        bool is_target_line = false;
         std::vector<tripoint> line_trajectory;
         std::string line_endpoint_id;
 
@@ -568,12 +574,12 @@ class cata_tiles
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
          */
-        bool nv_goggles_activated;
+        bool nv_goggles_activated = false;
 
-        std::unique_ptr<pixel_minimap> minimap;
+        pimpl<pixel_minimap> minimap;
 
     public:
         std::string memory_map_mode = "color_pixel_sepia";
 };
 
-#endif
+#endif // CATA_SRC_CATA_TILES_H

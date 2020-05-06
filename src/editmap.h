@@ -1,6 +1,6 @@
 #pragma once
-#ifndef EDITMAP_H
-#define EDITMAP_H
+#ifndef CATA_SRC_EDITMAP_H
+#define CATA_SRC_EDITMAP_H
 
 #include <functional>
 #include <map>
@@ -66,7 +66,7 @@ class editmap
         void mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uilist &fmenu, field &field, field_type_id idx );
+        void update_fmenu_entry( uilist &fmenu, field &field, const field_type_id &idx );
         void setup_fmenu( uilist &fmenu );
         catacurses::window w_info;
         int width;
@@ -87,7 +87,7 @@ class editmap
         shapetype editshape;
 
         std::vector<tripoint> target_list;
-        cata::optional<std::function<void( const tripoint &p )>> draw_target_override;
+        std::function<void( const tripoint &p )> draw_target_override;
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;
@@ -98,4 +98,4 @@ class editmap
         ~editmap();
 };
 
-#endif
+#endif // CATA_SRC_EDITMAP_H

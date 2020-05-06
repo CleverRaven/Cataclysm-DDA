@@ -1,15 +1,16 @@
 #pragma once
-#ifndef FIELD_H
-#define FIELD_H
+#ifndef CATA_SRC_FIELD_H
+#define CATA_SRC_FIELD_H
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "color.h"
+#include "enums.h"
 #include "field_type.h"
-
-class effect;
+#include "type_id.h"
 
 /**
  * An active or passive effect existing on a tile.
@@ -19,7 +20,7 @@ class field_entry
 {
     public:
         field_entry() : type( fd_null ), intensity( 1 ), age( 0_turns ), is_alive( false ) { }
-        field_entry( const field_type_id t, const int i, const time_duration &a ) : type( t ),
+        field_entry( const field_type_id &t, const int i, const time_duration &a ) : type( t ),
             intensity( i ), age( a ), is_alive( true ) { }
 
         nc_color color() const;
@@ -52,7 +53,7 @@ class field_entry
         // Allows you to modify the field_type_id of the current field entry.
         // This probably shouldn't be called outside of field::replace_field, as it
         // breaks the field drawing code and field lookup
-        field_type_id set_field_type( field_type_id new_type );
+        field_type_id set_field_type( const field_type_id &new_type );
 
         // Returns the maximum intensity of the current field entry.
         int get_max_field_intensity() const;
@@ -104,8 +105,7 @@ class field_entry
             return type.obj().accelerated_decay;
         }
 
-        effect field_effect() const;
-        bool inside_immune() const;
+        std::vector<field_effect> field_effects() const;
 
     private:
         // The field identifier.
@@ -135,17 +135,17 @@ class field
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        field_entry *find_field( field_type_id field_type_to_find );
+        field_entry *find_field( const field_type_id &field_type_to_find );
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        const field_entry *find_field_c( field_type_id field_type_to_find ) const;
+        const field_entry *find_field_c( const field_type_id &field_type_to_find ) const;
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        const field_entry *find_field( field_type_id field_type_to_find ) const;
+        const field_entry *find_field( const field_type_id &field_type_to_find ) const;
 
         /**
          * Inserts the given field_type_id into the field list for a given tile if it does not already exist.
@@ -154,7 +154,7 @@ class field
          * The intensity is added to an existing field entry, but the age is only used for newly added entries.
          * @return false if the field_type_id already exists, true otherwise.
          */
-        bool add_field( field_type_id field_type_to_add, int new_intensity = 1,
+        bool add_field( const field_type_id &field_type_to_add, int new_intensity = 1,
                         const time_duration &new_age = 0_turns );
 
         /**
@@ -163,7 +163,7 @@ class field
          * function returns true.
          * @return True if the field was removed, false if it did not exist in the first place.
          */
-        bool remove_field( field_type_id field_to_remove );
+        bool remove_field( const field_type_id &field_to_remove );
         /**
          * Make sure to decrement the field counter in the submap.
          * Removes the field entry, the iterator must point into @ref _field_type_list and must be valid.
@@ -177,6 +177,8 @@ class field
          * Returns field type that should be drawn.
          */
         field_type_id displayed_field_type() const;
+
+        description_affix displayed_description_affix() const;
 
         //Returns the vector iterator to begin searching through the list.
         std::map<field_type_id, field_entry>::iterator begin();
@@ -198,4 +200,4 @@ class field
         field_type_id _displayed_field_type;
 };
 
-#endif
+#endif // CATA_SRC_FIELD_H

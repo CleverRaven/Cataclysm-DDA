@@ -1,38 +1,39 @@
 #include "mission.h"
 
 #include <algorithm>
-#include <memory>
-#include <unordered_map>
-#include <numeric>
+#include <cstdlib>
 #include <istream>
 #include <iterator>
 #include <list>
+#include <memory>
+#include <numeric>
+#include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
+#include "creature.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "game.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_group.h"
 #include "kill_tracker.h"
 #include "line.h"
+#include "material.h"
+#include "monster.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "requirements.h"
-#include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "item_group.h"
-#include "creature.h"
-#include "inventory.h"
-#include "item.h"
-#include "json.h"
-#include "monster.h"
-#include "material.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-mission mission_type::create( const character_id npc_id ) const
+mission mission_type::create( const character_id &npc_id ) const
 {
     mission ret;
     ret.uid = g->assign_mission_id();
@@ -62,7 +63,7 @@ std::string mission_type::tname() const
 
 static std::unordered_map<int, mission> world_missions;
 
-mission *mission::reserve_new( const mission_type_id &type, const character_id npc_id )
+mission *mission::reserve_new( const mission_type_id &type, const character_id &npc_id )
 {
     const auto tmp = mission_type::get( type )->create( npc_id );
     // TODO: Warn about overwrite?
@@ -184,7 +185,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
 }
 
-void mission::on_talk_with_npc( const character_id npc_id )
+void mission::on_talk_with_npc( const character_id &npc_id )
 {
     switch( type->goal ) {
         case MGOAL_TALK_TO_NPC:
@@ -200,7 +201,7 @@ void mission::on_talk_with_npc( const character_id npc_id )
 }
 
 mission *mission::reserve_random( const mission_origin origin, const tripoint &p,
-                                  const character_id npc_id )
+                                  const character_id &npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
     if( type.is_null() ) {
@@ -339,7 +340,7 @@ void mission::wrap_up()
     type->end( this );
 }
 
-bool mission::is_complete( const character_id _npc_id ) const
+bool mission::is_complete( const character_id &_npc_id ) const
 {
     if( status == mission_status::success ) {
         return true;
@@ -372,7 +373,7 @@ bool mission::is_complete( const character_id _npc_id ) const
 
             int total_match = std::accumulate( matches.begin(), matches.end(), 0,
             []( const std::size_t previous, const std::pair<const std::string, std::size_t> &p ) {
-                return previous + p.second;
+                return static_cast<int>( previous + p.second );
             } );
 
             if( total_match >= ( type->item_count ) ) {
@@ -488,16 +489,15 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
         //recursivly check item contents for target
         if( itm->is_container() && !itm->is_container_empty() ) {
-            std::list<item> content_list = itm->contents;
-
+            std::list<item *> content_list = itm->contents.all_items_top();
             std::vector<item *> content = std::vector<item *>();
 
             //list of item into list item*
             std::transform(
                 content_list.begin(), content_list.end(),
                 std::back_inserter( content ),
-            []( item & p ) -> item* {
-                return &p;
+            []( item * p ) {
+                return p;
             } );
 
             get_all_item_group_matches(
@@ -610,7 +610,7 @@ void mission::set_target( const tripoint &p )
     target = p;
 }
 
-void mission::set_target_npc_id( const character_id npc_id )
+void mission::set_target_npc_id( const character_id &npc_id )
 {
     target_npc_id = npc_id;
 }
@@ -673,7 +673,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 
     const auto &response = type->dialogue.find( topic );
     if( response != type->dialogue.end() ) {
-        return _( response->second );
+        return response->second.translated();
     }
 
     return string_format( "Someone forgot to code this message id is %s, topic is %s!",

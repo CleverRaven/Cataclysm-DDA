@@ -1,25 +1,29 @@
 #include "help.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <vector>
 #include <array>
+#include <cstddef>
 #include <iterator>
 #include <list>
+#include <numeric>
+#include <vector>
 
 #include "action.h"
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "input.h"
 #include "json.h"
+#include "optional.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
-#include "cata_utility.h"
-#include "color.h"
-#include "debug.h"
-#include "string_formatter.h"
+#include "ui_manager.h"
 
 help &get_help()
 {
@@ -29,7 +33,7 @@ help &get_help()
 
 void help::load()
 {
-    read_from_file_optional_json( FILENAMES["help"], [&]( JsonIn & jsin ) {
+    read_from_file_optional_json( PATH_INFO::help(), [&]( JsonIn & jsin ) {
         deserialize( jsin );
     } );
 }
@@ -67,9 +71,9 @@ void help::deserialize( JsonIn &jsin )
 std::string help::get_dir_grid()
 {
     static const std::array<action_id, 9> movearray = {{
-            ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
-            ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-            ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE
+            ACTION_MOVE_FORTH_LEFT, ACTION_MOVE_FORTH, ACTION_MOVE_FORTH_RIGHT,
+            ACTION_MOVE_LEFT,  ACTION_PAUSE,  ACTION_MOVE_RIGHT,
+            ACTION_MOVE_BACK_LEFT, ACTION_MOVE_BACK, ACTION_MOVE_BACK_RIGHT
         }
     };
 
@@ -83,9 +87,10 @@ std::string help::get_dir_grid()
 
     for( auto dir : movearray ) {
         std::vector<char> keys = keys_bound_to( dir );
-        for( size_t i = 0; i < keys.size(); i++ ) {
+        for( size_t i = 0; i < 2; i++ ) {
             movement = string_replace( movement, "<" + action_ident( dir ) + string_format( "_%d>", i ),
-                                       string_format( "<color_light_blue>%s</color>", keys[i] ) );
+                                       i < keys.size() ? string_format( "<color_light_blue>%s</color>", keys[i] )
+                                       : "<color_red>?</color>" );
         }
     }
 
@@ -129,12 +134,21 @@ std::string help::get_note_colors()
 
 void help::display_help()
 {
-    catacurses::window w_help_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                               TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
-    catacurses::window w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
-                                       1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
+    catacurses::window w_help_border;
+    catacurses::window w_help;
+
+    ui_adaptor ui;
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        w_help_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                            point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                                    TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+        w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                     point( 1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
+                                            1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
+        ui.position_from_window( w_help_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
@@ -144,11 +158,14 @@ void help::display_help()
 
     std::string action;
 
-    do {
-        draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w_help_border, BORDER_COLOR, _( " HELP " ), c_black_white );
         wrefresh( w_help_border );
         draw_menu( w_help );
-        catacurses::refresh();
+    } );
+
+    do {
+        ui_manager::redraw();
 
         action = ctxt.handle_input();
         std::string sInput = ctxt.get_raw_input().text;
@@ -178,7 +195,23 @@ void help::display_help()
                         return line_proc;
                     } );
 
-                    multipage( w_help, i18n_help_texts );
+                    if( !i18n_help_texts.empty() ) {
+                        ui.on_screen_resize( nullptr );
+
+                        const auto get_w_help_border = [&]() {
+                            init_windows( ui );
+                            return w_help_border;
+                        };
+
+                        scrollable_text( get_w_help_border, _( " HELP " ),
+                                         std::accumulate( i18n_help_texts.begin() + 1, i18n_help_texts.end(),
+                                                          i18n_help_texts.front(),
+                        []( const std::string & lhs, const std::string & rhs ) {
+                            return lhs + "\n\n" + rhs;
+                        } ) );
+
+                        ui.on_screen_resize( init_windows );
+                    }
                     action = "CONFIRM";
                     break;
                 }
@@ -189,5 +222,5 @@ void help::display_help()
 
 std::string get_hint()
 {
-    return SNIPPET.get( SNIPPET.assign( "hint" ) );
+    return SNIPPET.random_from_category( "hint" ).value_or( translation() ).translated();
 }

@@ -1,13 +1,32 @@
 [
   {
+    "id": "cordage_6",
+    "copy-from": "string_6",
+    "type": "GENERIC",
+    "name": { "str": "short cordage piece" },
+    "description": "A 6-inch (or about 15 cm) long piece of natural cordage.  Useful for some purposes, but not as strong or flexible as proper string.",
+    "proportional": { "price": 0.5 },
+    "material": "dry_plant"
+  },
+  {
+    "id": "cordage_36",
+    "copy-from": "string_36",
+    "type": "GENERIC",
+    "name": { "str": "long cordage piece" },
+    "description": "A 3-foot (or about 90 cm) long piece of natural cordage.  Useful for some purposes, but not as strong or flexible as proper string.",
+    "proportional": { "price": 0.5 },
+    "material": "dry_plant"
+  },
+  {
     "id": "string_6",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "small string",
-    "description": "A 6-inch long piece of cotton string.",
+    "name": { "str": "short string" },
+    "description": "A 6-inch (or about 15 cm) long piece of cotton string.",
     "weight": "6 g",
     "volume": "10ml",
     "price": 10,
+    "price_postapoc": 10,
     "material": "cotton",
     "symbol": ",",
     "color": "light_gray",
@@ -17,55 +36,64 @@
     "id": "string_36",
     "copy-from": "string_6",
     "type": "GENERIC",
-    "name": "long string",
-    "description": "A 3-foot long piece of cotton string.  Disassemble it to cut it into smaller pieces.",
+    "name": { "str": "long string" },
+    "description": "A 3-foot (or about 90 cm) long piece of cotton string.",
     "proportional": { "weight": 6, "volume": 6, "price": 6 }
   },
   {
     "id": "rope_6",
     "copy-from": "string_36",
     "type": "GENERIC",
-    "name": "short rope",
-    "description": "A six-foot long piece of rope.  Too small to be of much use.",
+    "name": { "str": "short rope" },
+    "description": "A 6-foot (or about 180 cm) long piece of rope.  Too small to be of much use.",
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": 3, "material_thickness": 2 },
     "proportional": { "weight": 6, "volume": 6, "price": 6 },
-    "extend": { "flags": [ "TIE_UP" ] }
+    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] }
   },
   {
     "id": "rope_30",
     "copy-from": "rope_6",
     "type": "GENERIC",
-    "name": "long rope",
-    "description": "A 30-foot long rope.  Useful for keeping yourself safe from falls.",
+    "name": { "str": "long rope" },
+    "description": "A 30-foot (or about 9 m) long rope.  Useful for keeping yourself safe from falls.",
     "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 12, "material_thickness": 6 },
-    "proportional": { "weight": 5, "volume": 5, "price": 5 },
-    "extend": { "flags": [ "BELTED" ] }
+    "proportional": { "weight": 5, "volume": 5, "price": 5 }
+  },
+  {
+    "id": "vine_6",
+    "copy-from": "rope_6",
+    "type": "GENERIC",
+    "name": { "str": "short vine" },
+    "description": "A sturdy 6-foot (or about 180 cm) long vine.  Too small to be of much use.",
+    "material": "dry_plant",
+    "color": "light_green",
+    "proportional": { "price": 0.9 }
   },
   {
     "id": "vine_30",
     "copy-from": "rope_30",
     "type": "GENERIC",
-    "name": "vine",
-    "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled.  Strong enough to suspend a large corpse for butchering.",
-    "material": "veggy",
-    "color": "light_green"
+    "name": { "str": "long vine" },
+    "description": "A sturdy 30-foot (or about 9 m) long vine.  Could easily be used as a rope.  Strong enough to suspend a large corpse for butchering.",
+    "material": "dry_plant",
+    "color": "light_green",
+    "proportional": { "price": 0.9 }
   },
   {
     "id": "rope_makeshift_6",
-    "copy-from": "rope_6",
+    "copy-from": "vine_6",
     "type": "GENERIC",
-    "name": "short makeshift rope",
-    "description": "A six-foot long piece of rough rope, woven from natural cordage.  Useful for some purposes, but not as strong or flexible as proper rope.",
-    "material": "veggy"
+    "name": { "str": "short cordage rope" },
+    "description": "A 6-foot (or about 180 cm) long piece of rough rope, woven from natural cordage.  Useful for some purposes, but not as strong or flexible as proper rope.",
+    "proportional": { "price": 0.5 }
   },
   {
     "id": "rope_makeshift_30",
-    "copy-from": "rope_makeshift_6",
+    "copy-from": "vine_30",
     "type": "GENERIC",
-    "name": "long makeshift rope",
-    "description": "A 30-foot long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things, such as suspending large corpses for butchering.",
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 12, "encumbrance": 14, "material_thickness": 6 },
-    "proportional": { "weight": 5, "volume": 5, "price": 5 },
-    "extend": { "flags": [ "BELTED" ] }
+    "name": { "str": "long cordage rope" },
+    "description": "A 30-foot (or about 9 m) long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things, such as suspending large corpses for butchering.",
+    "proportional": { "price": 0.5 }
   },
   {
     "id": "stick_fiber",
@@ -73,9 +101,10 @@
     "category": "spare_parts",
     "name": "fibrous stalk",
     "symbol": "=",
+    "material": "dry_plant",
     "description": "A rather green stick.  Very fibrous.",
     "fun": -100,
-    "health": -20,
+    "healthy": -20,
     "volume": "1 L",
     "stack_size": 10,
     "weight": "80 g"

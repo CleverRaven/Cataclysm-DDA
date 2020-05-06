@@ -1,6 +1,6 @@
 #pragma once
-#ifndef STRING_ID_H
-#define STRING_ID_H
+#ifndef CATA_SRC_STRING_ID_H
+#define CATA_SRC_STRING_ID_H
 
 #include <string>
 #include <type_traits>
@@ -202,10 +202,10 @@ namespace std
 {
 template<typename T>
 struct hash< string_id<T> > {
-    std::size_t operator()( const string_id<T> &v ) const {
+    std::size_t operator()( const string_id<T> &v ) const noexcept {
         return hash<std::string>()( v.str() );
     }
 };
 } // namespace std
 
-#endif
+#endif // CATA_SRC_STRING_ID_H

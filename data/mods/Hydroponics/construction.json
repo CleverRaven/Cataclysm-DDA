@@ -1,6 +1,7 @@
 [
   {
     "type": "construction",
+    "id": "constr_hydroponics",
     "description": "Build Hydroponics",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ], [ "electronics", 2 ] ],
@@ -24,6 +25,7 @@
   },
   {
     "type": "construction",
+    "id": "constr_hydro_heater",
     "description": "Build Hydroponics Heater",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 3 ] ],
