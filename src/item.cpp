@@ -8402,7 +8402,7 @@ bool item_ptr_compare_by_charges( const item *left, const item *right )
     } else if( right->contents.empty() ) {
         return true;
     } else {
-        return right->contents.legacy_front().charges < left->contents.legacy_front().charges;
+        return right->contents.only_item().charges < left->contents.only_item().charges;
     }
 }
 
