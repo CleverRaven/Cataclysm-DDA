@@ -44,6 +44,11 @@ void pocket_data::load( const JsonObject &jo )
     // putting it in an if statement like this should allow for report_unvisited_member to work here
     if( ammo_restriction.empty() ) {
         optional( jo, was_loaded, "min_item_volume", min_item_volume, volume_reader(), 0_ml );
+        units::volume temp = -1_ml;
+        optional( jo, was_loaded, "max_item_volume", temp, volume_reader(), temp );
+        if( temp != -1_ml ) {
+            max_item_volume = temp;
+        }
         mandatory( jo, was_loaded, "max_contains_volume", max_contains_volume, volume_reader() );
         mandatory( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader() );
     }
@@ -600,6 +605,11 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                            string_format( _( "Minimum volume of item allowed: <neutral>%s</neutral>" ),
                                           vol_to_string( data->min_item_volume ) ) );
     }
+    if( data->max_item_volume ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format( _( "Maximum volume of item allowed: <neutral>%s</neutral>" ),
+                                          vol_to_string( *data->max_item_volume ) ) );
+    }
 
     info.emplace_back( "DESCRIPTION", string_format( _( "Volume Capacity: <neutral>%s</neutral>" ),
                        vol_to_string( data->max_contains_volume ) ) );
@@ -791,6 +801,15 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         }
 
         return ret_val<item_pocket::contain_code>::make_success();
+    }
+
+    // liquids and gases avoid the size limit altogether
+    // soft items also avoid the size limit
+    if( !it.made_of( LIQUID ) && !it.made_of( GAS ) &&
+        !it.is_soft() && data->max_item_volume &&
+        it.volume() > *data->max_item_volume ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
 
     if( it.volume() < data->min_item_volume ) {
