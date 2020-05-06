@@ -928,5 +928,25 @@
     "warmth": 20,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "SKINTIGHT" ]
+  },
+  {
+    "id": "gloves_eod",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "EOD gloves",
+    "description": "Light armored gloves constructed from kevlar and nomex for explosive ordnance disposal.  They are designed to protect against fragmentation and heat.",
+    "weight": "800 g",
+    "volume": "1500 ml",
+    "price": 70000,
+    "covers": [ "HANDS" ],
+    "coverage": 100,
+    "encumbrance": 20,
+    "warmth": 40,
+    "material": [ "kevlar_layered", "nomex" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "environmental_protection": 2,
+    "material_thickness": 5,
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ]
   }
 ]

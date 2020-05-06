@@ -963,28 +963,5 @@
     "material_thickness": 6,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
-  },
-  {
-    "id": "armor_EOD_light",
-    "type": "ARMOR",
-    "name": "tactical EOD suit",
-    "description": "This is a bulky kevlar suit for explosive ordnance disposal in hostile environments.  Lighter than a normal EOD suit, it compromises between protection and maneuverability, though it will still provide some protection from overpressure, fragmentation, impact and heat.",
-    "looks_like": "kevlar",
-    "weight": "17273 g",
-    "volume": "7000 ml",
-    "price": 700000,
-    "to_hit": -6,
-    "bashing": 7,
-    "encumbrance": 70,
-    "material": [ "kevlar_layered", "nomex" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "TORSO", "ARMS", "LEGS" ],
-    "coverage": 100,
-    "warmth": 55,
-    "material_thickness": 6,
-    "environmental_protection": 2,
-    "storage": "250 ml",
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ]
   }
 ]

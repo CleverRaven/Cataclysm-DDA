@@ -1836,8 +1836,21 @@
   },
   {
     "type": "item_group",
-    "id": "EOD_armor",
-    "items": [ [ "armor_EOD_light", 20 ], [ "armor_EOD", 100 ], [ "boots_EOD", 30 ] ]
+    "subtype": "distribution",
+    "id": "eod_armor",
+    "entries": [
+      {
+        "collection": [
+          { "item": "helmet_eod" },
+          { "item": "jacket_eod" },
+          { "item": "trousers_eod" },
+          { "item": "foot_protectors_eod" },
+          { "item": "gloves_eod", "prob": 20 }
+        ],
+        "prob": 100
+      },
+      { "collection": [ { "item": "jacket_eod_light" }, { "item": "trousers_eod_light" } ], "prob": 20 }
+    ]
   },
   {
     "type": "item_group",

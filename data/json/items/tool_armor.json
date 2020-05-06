@@ -787,20 +787,22 @@
     }
   },
   {
-    "id": "armor_EOD",
+    "id": "helmet_eod",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "copy-from": "armor_EOD_light",
-    "name": "EOD suit",
-    "description": "This is a massive suit constructed from kevlar and nomex for explosive ordnance disposal, complete with an armored full face helmet and boots.  This garment will provide significant protection from overpressure, fragmentation, impact and heat.  The electronically shielded helmet contains a camera, a two-way radio, and a headlamp, all of which can be voice-activated for redundancy.  This likely has nothing to do with the suit's lack of gloves.",
-    "weight": "31298 g",
-    "volume": "10000 ml",
-    "price": 760000,
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "LEGS", "FEET" ],
-    "encumbrance": 85,
+    "name": "EOD helmet",
+    "description": "An armored electronically shielded helmet containing a camera, a two-way radio, and a headlamp, all of which can be voice-activated for redundancy.  It is designed to protect against overpressure, fragmentation, impact and heat.",
+    "weight": "5600 g",
+    "volume": "4 L",
+    "price": 150000,
+    "covers": [ "HEAD", "MOUTH", "EYES" ],
+    "coverage": 100,
+    "encumbrance": 20,
     "warmth": 65,
-    "charges_per_use": 1,
-    "turns_per_charge": 10,
+    "material": [ "kevlar_rigid", "nomex" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "environmental_protection": 2,
     "ammo": "battery",
     "magazines": [
       [
@@ -813,23 +815,23 @@
       "type": "transform",
       "menu_text": "Turn on headlamps",
       "msg": "\"Activating illumination.\"",
-      "target": "armor_EOD_on",
+      "target": "helmet_eod_on",
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "\"Illumination disabled, low power.\""
     },
-    "material_thickness": 8,
-    "extend": { "flags": [ "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ] }
+    "material_thickness": 15,
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ]
   },
   {
-    "id": "armor_EOD_on",
+    "id": "helmet_eod_on",
     "type": "TOOL_ARMOR",
-    "copy-from": "armor_EOD",
-    "name": "EOD suit (on)",
+    "copy-from": "helmet_eod",
+    "name": "EOD helmet (on)",
     "extend": { "flags": [ "LIGHT_350", "CHARGEDIM", "TRADER_AVOID" ] },
-    "power_draw": 10000,
-    "revert_to": "armor_EOD",
-    "use_action": { "type": "transform", "menu_text": "Turn off headlamps", "msg": "\"Disabling illumination.\"", "target": "armor_EOD" }
+    "power_draw": "10 W",
+    "revert_to": "helmet_eod",
+    "use_action": { "type": "transform", "menu_text": "Turn off headlamps", "msg": "\"Disabling illumination.\"", "target": "helmet_eod" }
   },
   {
     "id": "rm13_armor",
