@@ -339,5 +339,32 @@
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+  },
+  {
+    "id": "mon_turret_speaker",
+    "type": "MONSTER",
+    "name": "loudspeaker",
+    "description": "High-powered loudspeaker, repeating loud messages over and over again.",
+    "default_faction": "military",
+    "species": [ "ROBOT" ],
+    "diff": 2,
+    "volume": "50500 ml",
+    "weight": 100 kg,
+    "hp": 30,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "light_green",
+    "aggression": 100,
+    "morale": 100,
+    "melee_cut": 0,
+    "armor_bash": 14,
+    "armor_cut": 16,
+    "vision_day": 50,
+    "vision_night": 50,
+    "special_attacks": [ [ "SPEAKER", 10 ] ],
+    "death_function": [ "NORMAL" ],
+    "death_drops": { "groups": [ [ "turret_speaker", 1 ] ] },
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   }
 ]
