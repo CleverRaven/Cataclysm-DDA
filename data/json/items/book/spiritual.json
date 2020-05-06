@@ -172,7 +172,7 @@
   {
     "id": "holybook_talmud",
     "type": "BOOK",
-    "name": { "str": "Talmud", "str_pl": "copies of Talmud" },
+    "name": { "str": "Talmud", "str_pl": "copies of the Talmud" },
     "description": "One of the central texts of Rabbinic Judaism, the Talmud expounds upon the Hebrew Bible with teachings and opinions of thousands of rabbis.",
     "weight": "460 g",
     "volume": "1 L",
