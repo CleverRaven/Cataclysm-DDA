@@ -667,21 +667,20 @@ std::list<const item *> item_contents::all_items_ptr() const
 
 item &item_contents::legacy_front()
 {
-    item *front = all_items_top().front();
-    if( !front ) {
-        debugmsg( "naively asked for first content item and will get a null" );
+    if( empty() ) {
+        debugmsg( "naively asked for first content item and will get a nullptr" );
+        return null_item_reference();
     }
-    return *front;
+    return *all_items_top().front();
 }
 
 const item &item_contents::legacy_front() const
 {
-    const item *front = all_items_top().front();
-    if( !front ) {
-        debugmsg( "naively asked for first content item and will get a null" );
+    if( empty() ) {
+        debugmsg( "naively asked for first content item and will get a nullptr" );
+        return null_item_reference();
     }
-    return *front;
-
+    return *all_items_top().front();
 }
 
 std::vector<item *> item_contents::gunmods()
