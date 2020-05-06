@@ -922,7 +922,7 @@ void item_pocket::overflow( const tripoint &pos )
         for( auto iter = contents.begin(); iter != contents.end(); ) {
             item &ammo = *iter;
             total_qty += ammo.count();
-            const int overflow_count = ammo_iter->second - ammo.count() - total_qty;
+            const int overflow_count = total_qty - ammo_iter->second;
             if( overflow_count > 0 ) {
                 ammo.charges -= overflow_count;
                 item dropped_ammo( ammo.typeId(), ammo.birthday(), overflow_count );
