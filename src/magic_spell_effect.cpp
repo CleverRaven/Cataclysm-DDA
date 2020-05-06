@@ -356,7 +356,7 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
         aoe_func, const Creature &caster, bool ignore_walls = false )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
-    if( sp.aoe() <= 1 ) {
+    if( sp.aoe() <= 1 && sp.effect() != "line_attack" ) {
         return targets;
     }
 
