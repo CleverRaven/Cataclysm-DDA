@@ -22,18 +22,10 @@
     "type": "BOOK",
     "name": { "str": "Top Gear magazine" },
     "description": "Lots of articles about cars and driving techniques.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 450,
     "price_postapoc": 250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "driving",
-    "max_level": 1,
     "intelligence": 2,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_driving",

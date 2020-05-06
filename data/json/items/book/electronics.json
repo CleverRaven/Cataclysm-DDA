@@ -24,18 +24,8 @@
     "type": "BOOK",
     "name": { "str": "Ham Radio Illustrated", "str_pl": "issues of Ham Radio Illustrated" },
     "description": "An amusing magazine about ham radio, with lots of diagrams and illustrations for making your own electronic devices.",
-    "weight": "45 g",
-    "volume": "250 ml",
-    "price": 450,
-    "price_postapoc": 500,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "electronics",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_electronics",

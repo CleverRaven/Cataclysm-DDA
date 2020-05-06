@@ -4,18 +4,9 @@
     "type": "BOOK",
     "name": { "str": "High Explosives Quarterly", "str_pl": "High Explosives Quarterlies" },
     "description": "An interesting quarterly report about rocket launchers and recoilless rifles.  There are lots of large, exciting photos of explosions and weaponry.",
-    "weight": "90 g",
-    "volume": "250 ml",
-    "price": 450,
     "price_postapoc": 1250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "launcher",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_launcher",

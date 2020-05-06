@@ -4,18 +4,11 @@
     "type": "BOOK",
     "name": { "str": "US Weekly", "str_pl": "US Weeklies" },
     "description": "Weekly news about a bunch of famous people who're all (un)dead now.",
-    "weight": "60 g",
-    "volume": "250 ml",
     "price": 400,
     "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "speech",
-    "max_level": 1,
     "intelligence": 3,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_speech",

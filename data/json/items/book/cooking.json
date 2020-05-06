@@ -138,36 +138,17 @@
     "type": "BOOK",
     "name": { "str": "Bon Appetit", "str_pl": "issues of Bon Appetit" },
     "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 450,
-    "price_postapoc": 500,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "cooking",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "mag_glam",
     "type": "BOOK",
     "name": { "str": "Glamopolitan", "str_pl": "issues of Glamopolitan" },
     "description": "This is a full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
-    "weight": "160 g",
-    "volume": "500 ml",
-    "price": 450,
     "price_postapoc": 250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "cooking",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "24 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "modern_tanner",

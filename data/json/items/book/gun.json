@@ -4,18 +4,10 @@
     "type": "BOOK",
     "name": { "str": "Guns n Ammo", "str_pl": "issues of Guns n Ammo" },
     "description": "Reviews of firearms, and various useful tips about their use.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 480,
-    "price_postapoc": 500,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "gun",
-    "max_level": 1,
     "intelligence": 2,
     "time": "7 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_gun",

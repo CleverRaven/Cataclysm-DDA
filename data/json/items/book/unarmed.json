@@ -4,18 +4,9 @@
     "type": "BOOK",
     "name": { "str": "Boxing Monthly", "str_pl": "Boxing Monthlies" },
     "description": "An exciting monthly magazine about boxing.  There are lots of large, colorful photos of pugilistic exploits.",
-    "weight": "90 g",
-    "volume": "250 ml",
-    "price": 450,
     "price_postapoc": 750,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "unarmed",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_brawl",

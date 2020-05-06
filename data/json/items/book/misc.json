@@ -580,63 +580,40 @@
     "type": "BOOK",
     "name": { "str": "comic book" },
     "description": "A super-hero comic.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 300,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_cyan",
-    "time": "7 m",
-    "fun": 2
+    "copy-from": "book_comic"
   },
   {
     "id": "mag_gaming",
     "type": "BOOK",
     "name": { "str": "Computer Gaming", "str_pl": "issues of Computer Gaming" },
     "description": "Reviews of recently released computer games and previews of upcoming titles.",
-    "weight": "60 g",
-    "volume": "250 ml",
     "price": 300,
     "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "intelligence": 7,
-    "time": "8 m",
-    "fun": 2
+    "fun": 2,
+    "copy-from": "book_magazine"
   },
   {
     "id": "mag_news",
     "type": "BOOK",
     "name": { "str": "TIME magazine" },
     "description": "Current events concerning a bunch of people who're all (un)dead now.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 400,
     "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "intelligence": 7,
     "time": "10 m",
-    "fun": 2
+    "fun": 2,
+    "copy-from": "book_magazine"
   },
   {
     "id": "mag_porn",
     "type": "BOOK",
     "name": { "str": "Playboy", "str_pl": "issues of Playboy" },
     "description": "You can read it for the articles.  Or not.",
-    "weight": "60 g",
-    "volume": "250 ml",
     "price": 400,
     "price_postapoc": 250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "time": "10 m",
     "chapters": 4,
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "necropolis_freq",
@@ -659,16 +636,10 @@
     "type": "BOOK",
     "name": { "str": "Rural Digest-Examiner", "str_pl": "issues of Rural Digest-Examiner" },
     "description": "A newsweekly covering regional events.  There is an article on the winter's snowstorms and several letters to the editor concerning the community response.",
-    "weight": "80 g",
-    "volume": "250 ml",
     "price": 350,
     "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
-    "intelligence": 5,
     "time": "5 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "novel_adventure",

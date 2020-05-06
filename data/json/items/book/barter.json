@@ -4,18 +4,9 @@
     "type": "BOOK",
     "name": { "str": "car buyer's guide" },
     "description": "Normally this glossy, ad-filled magazine about cars would be pointless, but it has a series of articles on haggling techniques.",
-    "weight": "250 g",
-    "volume": "482 ml",
-    "longest_side": "28 cm",
-    "price": 450,
     "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
-    "skill": "barter",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m"
+    "fun": 0,
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_business",

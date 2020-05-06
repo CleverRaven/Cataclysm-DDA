@@ -4,18 +4,9 @@
     "type": "BOOK",
     "name": { "str": "All About Swords", "str_pl": "issues of All About Swords" },
     "description": "An interesting magazine that contains information about swords and sword fighting techniques from all across the world.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "price": 450,
     "price_postapoc": 750,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "cutting",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_cutting",

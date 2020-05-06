@@ -4,18 +4,8 @@
     "type": "BOOK",
     "name": { "str": "Batter Up!", "str_pl": "issues of Batter Up!" },
     "description": "A baseball magazine that focuses on batting tips.  There are lots of colorful, full-page photos of skilled athletes demonstrating proper form and technique.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "price": 450,
-    "price_postapoc": 500,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "bashing",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_bashing",

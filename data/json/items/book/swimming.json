@@ -4,18 +4,9 @@
     "type": "BOOK",
     "name": { "str": "Swim Planet", "str_pl": "issues of Swim Planet" },
     "description": "The world's leading resource about aquatic sports.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 460,
     "price_postapoc": 250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "swimming",
-    "max_level": 1,
-    "intelligence": 1,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_swimming",

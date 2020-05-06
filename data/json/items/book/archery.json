@@ -23,19 +23,11 @@
     "type": "BOOK",
     "name": { "str": "Archery for Kids", "str_pl": "issues of Archery for Kids" },
     "description": "Will you be able to place the arrow right into the bullseye?  It is not that easy, but once you know how it's done, you will have a lot of fun with archery.",
-    "weight": "250 g",
-    "volume": "482 ml",
-    "longest_side": "28 cm",
     "price": 480,
     "price_postapoc": 250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "archery",
-    "max_level": 1,
     "intelligence": 2,
-    "time": "7 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_archery",

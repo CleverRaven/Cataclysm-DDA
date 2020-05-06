@@ -4,18 +4,9 @@
     "type": "BOOK",
     "name": { "str": "Diskobolus", "str_pl": "issues of Diskobolus" },
     "description": "A biannual magazine devoted to the art and science of discus-throwing.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 480,
     "price_postapoc": 250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "throw",
-    "max_level": 1,
-    "intelligence": 1,
-    "time": "8 m",
-    "fun": 1
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_throw",

@@ -21,17 +21,10 @@
     "type": "BOOK",
     "name": { "str": "Trapper's Life", "str_pl": "issues of Trapper's Life" },
     "description": "An in-depth magazine about trapping game.  There are lots of articles and diagrams that explain simple trap designs.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "price": 450,
     "price_postapoc": 1250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "traps",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m"
+    "fun": 0,
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_traps",

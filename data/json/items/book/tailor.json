@@ -1,46 +1,29 @@
 [
   {
     "id": "mag_animecon",
-    "copy-from": "mag_tailor",
     "type": "BOOK",
     "name": { "str": "Boston AnimeCon magazine" },
-    "description": "A short magazine printed as an advertisement for the now canceled Boston AnimeCon.  A few costume ideas are intermixed with miscellaneous information about the event."
+    "description": "A short magazine printed as an advertisement for the now canceled Boston AnimeCon.  A few costume ideas are intermixed with miscellaneous information about the event.",
+    "copy-from": "mag_tailor"
   },
   {
     "id": "mag_beauty",
     "type": "BOOK",
     "name": { "str": "Beauty Magazine" },
     "description": "This is a full-size glossy women's magazine.  There are a few simple patterns and basic sewing tips somewhere in between the fashion photos and the makeup advertisements.",
-    "weight": "180 g",
-    "volume": "500 ml",
-    "price": 450,
     "price_postapoc": 250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
-    "skill": "tailor",
-    "max_level": 1,
-    "intelligence": 5,
     "time": "24 m",
-    "fun": 1
+    "fun": 1,
+    "copy-from": "mag_tailor"
   },
   {
     "id": "mag_tailor",
     "type": "BOOK",
     "name": { "str": "Sew Awesome Monthly", "str_pl": "Sew Awesome Monthlies" },
     "description": "A well presented monthly magazine all about knitting, crocheting, and needlepoint.  Filled with ideas and project patterns.",
-    "weight": "75 g",
-    "volume": "250 ml",
-    "price": 400,
-    "price_postapoc": 500,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
     "skill": "tailor",
-    "max_level": 1,
-    "intelligence": 5,
-    "time": "8 m",
-    "fun": 2
+    "fun": 2,
+    "copy-from": "book_magazine"
   },
   {
     "id": "manual_tailor",
