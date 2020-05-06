@@ -674,6 +674,15 @@ bool veh_interact::can_install_part()
     if( is_drive_conflict() ) {
         return false;
     }
+    if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
+        werase( w_msg );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
+                        _( "This part cannot be installed.\n" ) );
+        wrefresh( w_msg );
+        return false;
+    }
+
     if( sel_vpart_info->has_flag( "FUNNEL" ) ) {
         if( std::none_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_tank();
@@ -1180,11 +1189,12 @@ bool veh_interact::do_repair( std::string &msg )
         if( pt.is_broken() ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
-            if( !vp.repair_requirements().is_empty() && pt.base.max_damage() > 0 ) {
+            if( !vp.has_flag( "NO_REPAIR" ) && !vp.repair_requirements().is_empty() &&
+                pt.base.max_damage() > 0 ) {
                 ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
                                   vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
             } else {
-                nmsg += colorize( _( "This part cannot be repaired" ), c_light_red );
+                nmsg += colorize( _( "This part cannot be repaired.\n" ), c_light_red );
                 ok = false;
             }
         }
@@ -1717,6 +1727,15 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     sel_vehicle_part = &veh->parts[idx];
     sel_vpart_info = &sel_vehicle_part->info();
     std::string msg;
+
+    if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
+        werase( w_msg );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
+                        _( "This part cannot be uninstalled.\n" ) );
+        wrefresh( w_msg );
+        return false;
+    }
 
     if( sel_vehicle_part->is_broken() ) {
         msg += string_format(
