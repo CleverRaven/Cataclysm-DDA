@@ -122,10 +122,12 @@ static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_engorged( "engorged" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_frostbite( "frostbite" );
 static const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
+static const efftype_id effect_full( "full" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_got_checked( "got_checked" );
@@ -4272,12 +4274,12 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
     if( calorie_deficit ) {
         if( contains >= cap ) {
             hunger_string = _( "Engorged" );
-            hunger_color = c_green;
+            hunger_color = c_red;
         } else if( contains > cap * 3 / 4 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( just_ate && contains > cap / 2 ) {
             hunger_string = _( "Full" );
+            hunger_color = c_yellow;
+        } else if( just_ate && contains > cap / 2 ) {
+            hunger_string = _( "Satisfied" );
             hunger_color = c_green;
         } else if( just_ate ) {
             hunger_string = _( "Hungry" );
@@ -4298,10 +4300,10 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
     } else {
         if( contains >= cap * 5 / 6 ) {
             hunger_string = _( "Engorged" );
-            hunger_color = c_green;
+            hunger_color = c_red;
         } else if( contains > cap * 11 / 20 ) {
             hunger_string = _( "Sated" );
-            hunger_color = c_green;
+            hunger_color = c_yellow;
         } else if( recently_ate && contains >= cap * 3 / 8 ) {
             hunger_string = _( "Full" );
             hunger_color = c_green;
@@ -4696,9 +4698,11 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
             // you're engorged! your stomach is full to bursting!
             set_hunger( -61 );
+            add_effect(effect_engorged, 30_minutes);
         } else if( stomach.contains() >= stomach_capacity / 2 && get_hunger() > -21 ) {
-            // sated
+            // full
             set_hunger( -21 );
+            add_effect(effect_full, 30_minutes);
         } else if( stomach.contains() >= stomach_capacity / 8 && get_hunger() > -1 ) {
             // that's really all the food you need to feel full
             set_hunger( -1 );
@@ -4721,9 +4725,11 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
             // you're engorged! your stomach is full to bursting!
             set_hunger( -61 );
+            add_effect(effect_engorged, 30_minutes);
         } else if( stomach.contains() >= stomach_capacity * 3 / 4 && get_hunger() > -21 ) {
-            // sated
+            // full
             set_hunger( -21 );
+            add_effect(effect_full, 30_minutes);
         } else if( stomach.contains() >= stomach_capacity / 2 && get_hunger() > -1 ) {
             // that's really all the food you need to feel full
             set_hunger( -1 );
