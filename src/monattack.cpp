@@ -5771,3 +5771,10 @@ bool mattack::dodge_check( monster *z, Creature *target )
     float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
     return rng( 0, 10000 ) < 10000 / ( 1 + 99 * std::exp( -.6 * dodge ) );
 }
+
+bool mattack::speaker( monster *z )
+{
+    sounds::sound( z->pos(), 60, sounds::sound_t::order,
+                   SNIPPET.random_from_category( "speaker_warning" ).value_or( translation() ) );
+    return true;
+}
