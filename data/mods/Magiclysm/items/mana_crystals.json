@@ -32,7 +32,7 @@
     "price": 1500,
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "crystallized_mana",
+    "ammo_type": [ "crystallized_mana" ],
     "capacity": 50,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]

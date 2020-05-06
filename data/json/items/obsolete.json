@@ -1782,7 +1782,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "223",
+    "ammo_type": [ "223" ],
     "capacity": 5,
     "flags": [ "SPEEDLOADER" ]
   },
@@ -2269,7 +2269,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "nail",
+    "ammo_type": [ "nail" ],
     "capacity": 50,
     "reliability": 6,
     "reload_time": 300,
