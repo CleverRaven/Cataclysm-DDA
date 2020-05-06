@@ -2380,7 +2380,7 @@ void target_ui::update_status()
 
 int target_ui::dist_fn( const tripoint &p )
 {
-    return static_cast<int>( std::round( trig_dist( src, p ) ) );
+    return static_cast<int>( std::round( rl_dist_exact( src, p ) ) );
 }
 
 bool target_ui::pl_can_target( const player &pc, const Creature *cr )
