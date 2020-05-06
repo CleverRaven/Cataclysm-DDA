@@ -249,7 +249,7 @@
     "material": "iron",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -379,7 +379,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "archery",
     "min_strength": 6,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "907 g",
     "volume": "1500 ml",
     "bashing": 8,

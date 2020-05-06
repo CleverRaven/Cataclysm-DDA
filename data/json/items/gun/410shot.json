@@ -16,7 +16,7 @@
     "dispersion": 395,
     "durability": 7,
     "barrel_length": "750 ml",
-    "ammo": "410shot",
+    "ammo": [ "410shot" ],
     "magazines": [ [ "410shot", [ "saiga410mag_10rd", "saiga410mag_30rd" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   },
@@ -31,6 +31,6 @@
     "volume": "1748 ml",
     "price_postapoc": 2000,
     "blackpowder_tolerance": 80,
-    "ammo": "410shot"
+    "ammo": [ "410shot" ]
   }
 ]

@@ -141,7 +141,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "green",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "max_charges": 600,
     "charges_per_use": 5,
     "use_action": "TRIMMER_OFF",

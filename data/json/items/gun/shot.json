@@ -15,7 +15,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -11 },
     "dispersion": 900,
     "durability": 6,

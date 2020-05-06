@@ -112,7 +112,7 @@
     "material": "steel",
     "flags": [ "REACH_ATTACK" ],
     "skill": "archery",
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "340 g",
     "volume": "1500 ml",
     "bashing": 6,

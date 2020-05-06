@@ -14,7 +14,7 @@
     "bashing": 12,
     "material": "steel",
     "color": "light_gray",
-    "ammo": "38super",
+    "ammo": [ "38super" ],
     "dispersion": 520,
     "durability": 7,
     "min_cycle_recoil": 225,
@@ -52,7 +52,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "38super",
+    "ammo": [ "38super" ],
     "dispersion": 480,
     "durability": 7,
     "magazines": [ [ "38super", [ "m1911mag_10rd_38super" ] ] ]

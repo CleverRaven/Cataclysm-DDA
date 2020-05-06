@@ -32,7 +32,7 @@
     "material": "demon_chitin",
     "symbol": ";",
     "color": "red",
-    "ammo": "alumentum",
+    "ammo": [ "alumentum" ],
     "sub": "forge",
     "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]

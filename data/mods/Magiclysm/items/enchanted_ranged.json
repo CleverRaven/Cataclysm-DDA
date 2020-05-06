@@ -81,7 +81,7 @@
     "clip_size": 3,
     "range": -4,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "reload": 200,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "mechanism", 1 ] ],

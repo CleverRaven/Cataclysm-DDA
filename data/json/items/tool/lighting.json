@@ -151,7 +151,7 @@
     "symbol": ";",
     "color": "green",
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "target": "electric_lantern_on",
@@ -199,7 +199,7 @@
     "price": 500,
     "price_postapoc": 100,
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -247,7 +247,7 @@
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
@@ -380,7 +380,7 @@
     "symbol": ";",
     "color": "blue",
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -452,7 +452,7 @@
     "copy-from": "lightstrip_base",
     "description": "This is a light-emitting circuit that can be wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "target": "lightstrip",
       "msg": "You irreversibly activate the lightstrip.",
@@ -489,7 +489,7 @@
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "lamp_oil",
+    "ammo": [ "lamp_oil" ],
     "initial_charges": 750,
     "max_charges": 750,
     "charges_per_use": 1,
@@ -528,7 +528,7 @@
     "color": "red",
     "material": [ "copper", "glass" ],
     "charges_per_use": 1,
-    "ammo": "weldgas",
+    "ammo": [ "weldgas" ],
     "use_action": {
       "type": "transform",
       "msg": "You light the %s.",
@@ -561,7 +561,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "reading_light_on",
@@ -598,7 +598,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": "&",
     "color": "blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "smart_lamp_on",

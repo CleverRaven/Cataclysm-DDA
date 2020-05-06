@@ -13,7 +13,7 @@
     "symbol": "(",
     "color": "magenta",
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "//": "Damage is using a 6 inch barrel.",
     "ranged_damage": { "damage_type": "bullet", "amount": -11 },
     "dispersion": 855,
