@@ -90,7 +90,6 @@ enum safe_mode_type {
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
-enum target_mode : int;
 
 struct special_game;
 
