@@ -259,6 +259,11 @@ struct islot_armor {
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_pet_armor {
