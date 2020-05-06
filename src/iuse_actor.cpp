@@ -2620,15 +2620,11 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
         }
 
     } else {
-        // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
-        item_location loc = game_menus::inv::holster( p, item_location( p, &it ) );
-
-        if( !loc ) {
-            p.add_msg_if_player( _( "Never mind." ) );
+        if( p.as_avatar() == nullptr ) {
             return 0;
         }
-
-        store( p, it, *loc.obtain( p ) );
+        // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
+        game_menus::inv::insert_items( *p.as_avatar(), item_location( p, &it ) );
     }
 
     return 0;

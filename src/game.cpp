@@ -2251,15 +2251,7 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                     break;
                 case 'i':
                     if( oThisItem.has_pockets() ) {
-                        item_location loc = game_menus::inv::holster( u, locThisItem );
-                        if( loc ) {
-                            if( oThisItem.can_contain( *loc ) ) {
-                                oThisItem.put_in( *loc, item_pocket::pocket_type::CONTAINER );
-                                loc.remove_item();
-                            } else {
-                                debugmsg( "Item cannot fit into container.  It should be excluded from the inventory menu." );
-                            }
-                        }
+                        game_menus::inv::insert_items( u, locThisItem );
                     }
                     break;
                 case 'o':

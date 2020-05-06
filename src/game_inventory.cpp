@@ -1265,7 +1265,7 @@ class holster_inventory_preset: public weapon_inventory_preset
         const item &holster;
 };
 
-item_location game_menus::inv::holster( player &p, item_location holster )
+drop_locations game_menus::inv::holster( player &p, item_location holster )
 {
     const std::string holster_name = holster->tname( 1, false );
     const use_function *use = holster->type->get_use( "holster" );
@@ -1278,15 +1278,46 @@ item_location game_menus::inv::holster( player &p, item_location holster )
     const std::string hint = string_format( _( "Choose an item to put into your %s" ),
                                             holster_name );
 
-    item_location_filter holster_filter = [&holster]( const item_location it ) {
-        if( it.where() == item_location::type::container && it.parent_item() == holster ) {
-            return false;
+    inventory_holster_preset holster_preset( holster );
+
+    inventory_drop_selector insert_menu( p, holster_preset, _( "ITEMS TO INSERT" ) );
+    insert_menu.add_character_items( p );
+    insert_menu.add_map_items( p.pos() );
+    insert_menu.add_vehicle_items( p.pos() );
+    insert_menu.set_display_stats( false );
+
+    insert_menu.set_title( string_format( _( "Insert items into %s" ), holster->tname() ) );
+
+    return insert_menu.execute();
+}
+
+void game_menus::inv::insert_items( avatar &you, item_location holster )
+{
+    drop_locations holstered_list = game_menus::inv::holster( you, holster );
+    for( drop_location holstered_item : holstered_list ) {
+        item &it = *holstered_item.first;
+        bool success = false;
+        if( !it.count_by_charges() || it.count() == holstered_item.second ) {
+            if( holster->can_contain( it ) ) {
+                holster->put_in( it, item_pocket::pocket_type::CONTAINER );
+                holstered_item.first.remove_item();
+                success = true;
+            }
+        } else {
+            item item_copy( it );
+            item_copy.charges = holstered_item.second;
+            if( holster->can_contain( item_copy ) ) {
+                holster->put_in( it, item_pocket::pocket_type::CONTAINER );
+                it.charges -= holstered_item.second;
+                success = true;
+            }
         }
-        return it != holster && holster->can_contain( *it );
-    };
-    return game_menus::inv::titled_filter_menu( holster_filter, *p.as_avatar(), title,
-            string_format( _( "You have no items you could put into your %s." ),
-                           holster_name ) );
+
+        if( !success ) {
+            you.add_msg_if_player( string_format(
+                                       _( "Could not put %s into %s, aborting." ), it.tname(), holster->tname() ) );
+        }
+    }
 }
 
 class saw_barrel_inventory_preset: public weapon_inventory_preset

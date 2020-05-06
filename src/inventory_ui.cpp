@@ -2233,8 +2233,8 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 }
 
 inventory_drop_selector::inventory_drop_selector( player &p,
-        const inventory_selector_preset &preset ) :
-    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
+        const inventory_selector_preset &preset, const std::string &selection_column_title ) :
+    inventory_multiselector( p, preset, selection_column_title ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {
 #if defined(__ANDROID__)
