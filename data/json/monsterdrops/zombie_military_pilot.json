@@ -1,0 +1,19 @@
+[
+  {
+    "id": "mon_zombie_military_pilot_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 60,
+    "entries": [
+      { "group": "clothing_military_pilot", "damage": [ 1, 4 ] },
+      { "item": "holster", "contents-group": "military_standard_pistols" },
+      { "item": "two_way_radio", "prob": 90 },
+      { "item": "adderall", "prob": 40 },
+      { "item": "id_military", "prob": 25 },
+      { "group": "military_patrol_food", "prob": 30 },
+      { "item": "cash_card", "prob": 10, "charges": [ 0, 50000 ] },
+      { "group": "misc_smoking", "prob": 30 }
+    ]
+  }
+]

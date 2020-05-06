@@ -1,43 +1,39 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "3storyE_second",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "######rrrrrrrrrrr#######",
-                "######rrrrrrrrrrr#######",
-                "######rrrrrrrrrrr#######",
-                "###rrr===w===w===rrr####",
-                "###rrr=p      <<=rrr####",
-                "###rrr=       <<wrrr####",
-                "###rrrw  -------=rrr####",
-                "###rrr=  |DD    wrrr####",
-                "###rrrw  +      wrrr####",
-                "###rrr=  | BB-++=rrr####",
-                "###rrr=  | BB|dd=rrr####",
-                "###rrrw  -------=rrr####",
-                "###rrr=       >>wrrr####",
-                "###rrr=p      >>=rrr####",
-                "###rrr===w===w===rrr####",
-                "######rrrrrrrrrrr#######",
-                "######rrrrrrrrrrr#######",
-                "######rrrrrrrrrrr#######",
-                "########################",
-                "########################",
-                "########################"
-            ],
-            "palettes": [
-               "multistory_house"
-            ],
-            "terrain":{
-                "#": "t_open_air"
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "3storyE_second",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "######rrrrrrrrrrr#######",
+        "######rrrrrrrrrrr#######",
+        "######rrrrrrrrrrr#######",
+        "###rrr===w===w===rrr####",
+        "###rrr=p      <<=rrr####",
+        "###rrr=       <<wrrr####",
+        "###rrrw  -------=rrr####",
+        "###rrr=  |DD    wrrr####",
+        "###rrrw  +      wrrr####",
+        "###rrr=  | BB-++=rrr####",
+        "###rrr=  | BB|dd=rrr####",
+        "###rrrw  -------=rrr####",
+        "###rrr=       >>wrrr####",
+        "###rrr=p      >>=rrr####",
+        "###rrr===w===w===rrr####",
+        "######rrrrrrrrrrr#######",
+        "######rrrrrrrrrrr#######",
+        "######rrrrrrrrrrr#######",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "multistory_house" ],
+      "terrain": { "#": "t_open_air" }
     }
+  }
 ]

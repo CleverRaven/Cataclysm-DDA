@@ -4,14 +4,17 @@
     "ident": "no_olg_guns",
     "name": "No Antique Firearms",
     "authors": [ "Rivet-the-Zombie" ],
-    "maintainers": [ "Rivet-the-Zombie" ],
+    "maintainers": [ "Rivet-the-Zombie", "Cyrano7" ],
     "description": "Removes all black powder and pre-Cold War firearms.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "ITEM_BLACKLIST",
     "items": [
+      "sharps",
+      "colt_saa",
       "lemat_revolver",
       "garand",
       "garandclip",
@@ -32,8 +35,6 @@
       "mosin44",
       "mosin44_ebr",
       "762R_clip",
-      "mn_ebr_kit",
-      "mn_classic_kit",
       "tokarev",
       "tokarevmag",
       "ppsh",
@@ -47,6 +48,7 @@
       "carbine_flintlock",
       "carbine_flintlock_double",
       "pistol_flintlock",
+      "longrifle_flintlock",
       "blunderbuss",
       "blun_slug",
       "blun_shot",
@@ -60,7 +62,10 @@
       "762_25hot",
       "762_25typeP",
       "reloaded_762_25",
-      "762_25_casing"
+      "762_25_casing",
+      "45colt_jhp",
+      "reloaded_45colt_jhp",
+      "45colt_casing"
     ]
   }
 ]

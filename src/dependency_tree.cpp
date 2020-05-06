@@ -1,9 +1,14 @@
 #include "dependency_tree.h"
 
-#include <set>
 #include <algorithm>
+#include <array>
+#include <ostream>
+#include <set>
+#include <utility>
+
 #include "debug.h"
 #include "output.h"
+#include "string_id.h"
 
 std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 
@@ -45,12 +50,12 @@ std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors()
 
 std::string dependency_node::s_errors()
 {
-    std::stringstream ret;
+    std::string ret;
     for( auto &elem : all_errors ) {
-        ret << error_keyvals[( unsigned )( elem.first )];
-        ret << enumerate_as_string( elem.second, false );
+        ret += error_keyvals[static_cast<unsigned>( elem.first )];
+        ret += enumerate_as_string( elem.second, enumeration_conjunction::none );
     }
-    return ret.str();
+    return ret;
 }
 
 void dependency_node::check_cyclicity()
@@ -111,7 +116,7 @@ void dependency_node::inherit_errors()
         nodes_to_check.pop();
 
         // add check errors
-        if( check->errors().size() > 0 ) {
+        if( !check->errors().empty() ) {
             std::map<NODE_ERROR_TYPE, std::vector<std::string > > cerrors = check->errors();
             for( auto &cerror : cerrors ) {
                 std::vector<std::string> node_errors = cerror.second;
@@ -143,6 +148,8 @@ std::vector<mod_id> dependency_node::get_dependencies_as_strings()
     std::vector<mod_id> ret;
 
     std::vector<dependency_node *> as_nodes = get_dependencies_as_nodes();
+
+    ret.reserve( as_nodes.size() );
 
     for( auto &as_node : as_nodes ) {
         ret.push_back( ( as_node )->key );
@@ -203,6 +210,8 @@ std::vector<mod_id> dependency_node::get_dependents_as_strings()
 
     std::vector<dependency_node *> as_nodes = get_dependents_as_nodes();
 
+    ret.reserve( as_nodes.size() );
+
     for( auto &as_node : as_nodes ) {
         ret.push_back( ( as_node )->key );
     }
@@ -251,11 +260,7 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
     return ret;
 }
 
-
-
-dependency_tree::dependency_tree()
-{
-}
+dependency_tree::dependency_tree() = default;
 
 void dependency_tree::init( std::map<mod_id, std::vector<mod_id> > key_dependency_map )
 {
@@ -341,7 +346,6 @@ std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( mo
     return std::vector<dependency_node *>();
 }
 
-
 bool dependency_tree::is_available( mod_id key )
 {
     const auto iter = master_node_map.find( key );
@@ -363,7 +367,7 @@ dependency_node *dependency_tree::get_node( mod_id key )
     if( iter != master_node_map.end() ) {
         return &iter->second;
     }
-    return NULL;
+    return nullptr;
 }
 
 // makes sure to set up Cycle errors properly!

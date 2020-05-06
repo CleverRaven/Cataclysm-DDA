@@ -1,10 +1,13 @@
 #include "ammo.h"
-#include "debug.h"
-#include "json.h"
-#include "item.h"
-#include "translations.h"
 
 #include <unordered_map>
+
+#include "debug.h"
+#include "item.h"
+#include "json.h"
+#include "translations.h"
+#include "string_id.h"
+#include "type_id.h"
 
 namespace
 {
@@ -17,7 +20,7 @@ ammo_map_t &all_ammunition_types()
 }
 } //namespace
 
-void ammunition_type::load_ammunition_type( JsonObject &jsobj )
+void ammunition_type::load_ammunition_type( const JsonObject &jsobj )
 {
     ammunition_type &res = all_ammunition_types()[ ammotype( jsobj.get_string( "id" ) ) ];
     res.name_             = jsobj.get_string( "name" );
@@ -33,17 +36,17 @@ bool string_id<ammunition_type>::is_valid() const
 
 /** @relates string_id */
 template<>
-ammunition_type const &string_id<ammunition_type>::obj() const
+const ammunition_type &string_id<ammunition_type>::obj() const
 {
-    auto const &the_map = all_ammunition_types();
+    const auto &the_map = all_ammunition_types();
 
-    auto const it = the_map.find( *this );
+    const auto it = the_map.find( *this );
     if( it != the_map.end() ) {
         return it->second;
     }
 
     debugmsg( "Tried to get invalid ammunition: %s", c_str() );
-    static ammunition_type const null_ammunition {
+    static const ammunition_type null_ammunition {
         "null"
     };
     return null_ammunition;
@@ -57,8 +60,8 @@ void ammunition_type::reset()
 void ammunition_type::check_consistency()
 {
     for( const auto &ammo : all_ammunition_types() ) {
-        auto const &id = ammo.first;
-        auto const &at = ammo.second.default_ammotype_;
+        const auto &id = ammo.first;
+        const auto &at = ammo.second.default_ammotype_;
 
         // TODO: these ammo types should probably not have default ammo at all.
         if( at == "UPS" || at == "components" || at == "thrown" ) {
@@ -73,5 +76,5 @@ void ammunition_type::check_consistency()
 
 std::string ammunition_type::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }

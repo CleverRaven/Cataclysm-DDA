@@ -1,0 +1,27 @@
+[
+  {
+    "id": "454_speedloader5",
+    "looks_like": "38_speedloader",
+    "type": "MAGAZINE",
+    "name": { "str": ".454 5-round speedloader" },
+    "description": "This speedloader can hold 5 rounds of .454, .45 Colt or .410 bore and quickly reload a compatible revolver.",
+    "weight": "108 g",
+    "volume": "250 ml",
+    "price": 2200,
+    "price_postapoc": 100,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "454", "45colt", "410shot" ],
+    "capacity": 5,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
+    "id": "454_speedloader6",
+    "copy-from": "454_speedloader5",
+    "type": "MAGAZINE",
+    "name": { "str": ".454 6-round speedloader" },
+    "description": "This speedloader can hold 5 rounds of .454, .45 Colt or .410 bore and quickly reload a compatible revolver.",
+    "capacity": 6
+  }
+]

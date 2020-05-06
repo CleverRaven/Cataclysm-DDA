@@ -1,0 +1,72 @@
+[
+  {
+    "type": "technique",
+    "id": "THRUST",
+    "name": "THRUST",
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "crit_tec": false,
+    "weighting": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "stab", "scale": 1.1 } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.1 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 }
+    ],
+    "messages": [ "You step forward and stab at %s", "<npcname> stabs into %s flesh" ],
+    "description": "110% Stab damage, STR (E) and PER (D) provides bonus damage, min 1 melee"
+  },
+  {
+    "type": "technique",
+    "id": "LUNGE",
+    "name": "LUNGE",
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "weighting": 2,
+    "mult_bonuses": [ { "stat": "damage", "type": "stab", "scale": 1.15 } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 }
+    ],
+    "messages": [ "You explosively jab at %s", "<npcname> violently jabs at %s" ],
+    "description": "Crit only, 115% Stab damage, Crit only, Strength (D) and Perception (D) provides bonus damage, min 2 melee"
+  },
+  {
+    "type": "technique",
+    "id": "PROD",
+    "name": "PROD",
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "crit_tec": false,
+    "weighting": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 }, { "stat": "damage", "type": "stab", "scale": 0.7 } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.15 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": 0.25 }
+    ],
+    "messages": [ "You prod at %s defensively", "<npcname> prods at %s " ],
+    "description": "66% movecost, 70% Stab damage, STR (E) and PER (C) provides bonus damage, DEX (C) reduces action cost, min 3 melee"
+  },
+  {
+    "type": "technique",
+    "id": "PROBE",
+    "name": "PROBE",
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "crit_tec": false,
+    "weighting": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "stab", "scale": 0.75 } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.25 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.12 }
+    ],
+    "messages": [ "You probe %s's openings", "<npcname> probe %s " ],
+    "description": "80% movecost, 75% Stab damage, STR (C) and PER (C) provides bonus damage and also provides armor pierce (E), min 3 melee"
+  }
+]

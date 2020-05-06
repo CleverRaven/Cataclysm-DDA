@@ -1,0 +1,8 @@
+[
+  {
+    "id": "BGSS_RELIGIOUS_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Same as anyone.  I turned away from God, and now I'm paying the price.  The Rapture has come, and I was left behind.  So now, I guess I wander through Hell on Earth.  I wish I'd paid more attention in Sunday School.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

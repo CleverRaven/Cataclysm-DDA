@@ -1,0 +1,161 @@
+[
+  {
+    "id": "fault_gun_blackpowder",
+    "type": "fault",
+    "name": { "str": "Blackpowder fouling" },
+    "description": "Firing blackpowder loads from a gun fouls it, which reduces reliability and, if left uncleaned, leads to rust.  It fouls the gun much faster than the use of modern smokeless powder cartridges.  Fouling is only a significant impact on reliability at high levels, but black powder fouling accumulates quickly.",
+    "mending_methods": [
+      {
+        "id": "mend_fault_gun_blackpowder_clean",
+        "name": "Clean blackpowder fouling",
+        "success_msg": "You clean your %s.",
+        "time": "50 m",
+        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "turns_into": "fault_gun_unlubricated",
+        "requirements": {
+          "qualities": [ { "id": "SCREW", "level": 1 } ],
+          "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+          "components": [
+            [
+              [ "gasoline", 125 ],
+              [ "diesel", 125 ],
+              [ "chem_ethanol", 125 ],
+              [ "denat_alcohol", 125 ],
+              [ "vinegar", 16 ],
+              [ "ammonia", 2 ],
+              [ "bleach", 2 ],
+              [ "soapy_water", 32 ]
+            ],
+            [ [ "rag", 1 ], [ "fur", 1 ] ]
+          ]
+        }
+      },
+      {
+        "id": "mend_fault_gun_blackpowder_clean_and_lube",
+        "name": "Clean blackpowder fouling and lubricate",
+        "success_msg": "You clean and lubricate your %s.",
+        "time": "55 m",
+        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "also_mends": "fault_gun_unlubricated",
+        "requirements": {
+          "qualities": [ { "id": "SCREW", "level": 1 } ],
+          "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+          "components": [
+            [
+              [ "gasoline", 125 ],
+              [ "diesel", 125 ],
+              [ "chem_ethanol", 125 ],
+              [ "denat_alcohol", 125 ],
+              [ "vinegar", 16 ],
+              [ "ammonia", 2 ],
+              [ "bleach", 2 ],
+              [ "soapy_water", 32 ]
+            ],
+            [ [ "rag", 2 ], [ "fur", 2 ] ],
+            [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
+          ]
+        }
+      }
+    ],
+    "flags": [ "SILENT" ]
+  },
+  {
+    "id": "fault_gun_chamber_spent",
+    "type": "fault",
+    "name": { "str": "Spent casing in chamber" },
+    "description": "This gun currently has an empty casing chambered.  It will have to be removed before firing.",
+    "mending_methods": [
+      {
+        "id": "mend_fault_gun_chamber_spent_eject",
+        "name": "Eject spent casing",
+        "success_msg": "You eject the spent casing from the %s.",
+        "time": "1 s",
+        "skills": [  ],
+        "requirements": {  }
+      }
+    ]
+  },
+  {
+    "id": "fault_gun_unlubricated",
+    "type": "fault",
+    "name": { "str": "Unlubricated" },
+    "description": "Either this gun is brand new and came without lubrication or it was recently cleaned with a solvent without oiling afterwards.  Either way, it's not lubricated and will not cycle properly, and can even be damaged.",
+    "mending_methods": [
+      {
+        "id": "mend_fault_gun_unlubricated",
+        "name": "Lubricate",
+        "time": "50 m",
+        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "success_msg": "You lubricate the %s.",
+        "requirements": {
+          "qualities": [ { "id": "SCREW", "level": 1 } ],
+          "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+          "components": [
+            [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ],
+            [ [ "rag", 1 ], [ "fur", 1 ] ]
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "fault_gun_dirt",
+    "type": "fault",
+    "name": { "str": "Fouling" },
+    "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun.  Fouling accumulates slowly (unless blackpowder is used) due to the design of modern smokeless powder found in the vast majority of retail cartridges and it is not a significant problem until high levels of fouling are reached due to firing thousands of rounds without cleaning your firearm.",
+    "mending_methods": [
+      {
+        "id": "mend_fault_gun_dirt_clean",
+        "name": "Clean gun",
+        "success_msg": "You clean your %s.",
+        "time": "50 m",
+        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "turns_into": "fault_gun_unlubricated",
+        "requirements": {
+          "qualities": [ { "id": "SCREW", "level": 1 } ],
+          "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+          "components": [
+            [
+              [ "gasoline", 125 ],
+              [ "diesel", 125 ],
+              [ "chem_ethanol", 125 ],
+              [ "denat_alcohol", 125 ],
+              [ "vinegar", 16 ],
+              [ "ammonia", 2 ],
+              [ "bleach", 2 ],
+              [ "soapy_water", 32 ]
+            ],
+            [ [ "rag", 1 ], [ "fur", 1 ] ]
+          ]
+        }
+      },
+      {
+        "id": "mend_fault_gun_dirt_clean_and_lube",
+        "name": "Clean gun and lubricate",
+        "success_msg": "You clean and lubricate your %s.",
+        "time": "55 m",
+        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "also_mends": "fault_gun_unlubricated",
+        "requirements": {
+          "qualities": [ { "id": "SCREW", "level": 1 } ],
+          "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+          "components": [
+            [
+              [ "gasoline", 125 ],
+              [ "diesel", 125 ],
+              [ "chem_ethanol", 125 ],
+              [ "denat_alcohol", 125 ],
+              [ "vinegar", 16 ],
+              [ "ammonia", 2 ],
+              [ "bleach", 2 ],
+              [ "soapy_water", 32 ]
+            ],
+            [ [ "rag", 2 ], [ "fur", 2 ] ],
+            [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
+          ]
+        }
+      }
+    ],
+    "flags": [ "SILENT" ]
+  }
+]

@@ -199,8 +199,8 @@
   },
   {
     "type": "item_group",
-    "comment": "There are no more upgrades for the camp but you shouldn't be punished for that.",
-    "id": "gathering_faction_base_camp_18",
+    "//": "There are no more upgrades for the camp but you shouldn't be punished for that.",
+    "id": "gathering_faction_base_camp_20",
     "items": [
       [ "2x4", 10 ],
       [ "log", 100 ],
@@ -213,5 +213,69 @@
       [ "straw_pile", 50 ],
       [ "vine_30", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_spring",
+    "items": [
+      { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
+      { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "raw_burdock", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
+      { "group": "forage_spring", "prob": 55 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_summer",
+    "items": [
+      { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
+      { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "raw_burdock", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "sunflower", "count": [ 1, 2 ], "prob": 20 },
+      { "item": "cherries", "count": [ 3, 9 ], "prob": 30 },
+      { "item": "pear", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "apricot", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "plums", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "mulberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "elderberries", "count": [ 4, 10 ], "prob": 30 },
+      { "item": "blueberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "strawberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "blackberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "huckleberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "raspberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "grapes", "count": [ 1, 3 ], "prob": 25 },
+      { "group": "forage_summer", "prob": 250 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_autumn",
+    "items": [
+      { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
+      { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "raw_burdock", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "walnut", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "chestnut", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "beech_nuts", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "hazelnut", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "acorns", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "apple", "count": [ 1, 3 ], "prob": 20 },
+      { "item": "pear", "count": [ 1, 3 ], "prob": 20 },
+      { "item": "coffee_pod", "count": [ 2, 5 ], "prob": 15 },
+      { "item": "hickory_nut", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "pistachio", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "almond", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "pecan", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "peanut", "count": [ 3, 6 ], "prob": 20 },
+      { "group": "forage_autumn", "prob": 200 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_winter",
+    "items": [ { "item": "cattail_rhizome", "count": [ 1, 4 ], "prob": 25 }, { "group": "forage_winter", "prob": 75 } ]
   }
 ]

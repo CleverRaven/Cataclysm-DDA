@@ -1,0 +1,20 @@
+[
+  {
+    "id": "hydroponic_unit",
+    "type": "requirement",
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [
+      [ [ "pipe", 6 ], [ "frame", 1 ], [ "xlframe", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "metal_tank_little", 2 ] ],
+      [ [ "cu_pipe", 4 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "lightstrip_inactive", 2 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "fertilizer_commercial", 1 ] ],
+      [ [ "water", 100 ] ]
+    ]
+  }
+]

@@ -1,6 +1,8 @@
 #include "posix_time.h"
 
-#if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
+#if defined(_WIN32) && !defined(__CYGWIN__) && !defined(WINPTHREAD_API)
+#include <cerrno>
+
 int
 nanosleep( const struct timespec *requested_delay,
            struct timespec *remaining_delay )
@@ -22,10 +24,10 @@ nanosleep( const struct timespec *requested_delay,
             /* Initialize ticks_per_nanosecond.  */
             LARGE_INTEGER ticks_per_second;
 
-            if( QueryPerformanceFrequency( &ticks_per_second ) )
+            if( QueryPerformanceFrequency( &ticks_per_second ) ) {
                 ticks_per_nanosecond =
-                    ( double ) ticks_per_second.QuadPart / 1000000000.0;
-
+                    static_cast<double>( ticks_per_second.QuadPart ) / 1000000000.0;
+            }
             initialized = true;
         }
         if( ticks_per_nanosecond ) {
@@ -35,7 +37,7 @@ nanosleep( const struct timespec *requested_delay,
             /* Number of milliseconds to pass to the Sleep function.
                Since Sleep can take up to 8 ms less or 8 ms more than requested
                (or maybe more if the system is loaded), we subtract 10 ms.  */
-            int sleep_millis = ( int ) requested_delay->tv_nsec / 1000000 - 10;
+            int sleep_millis = static_cast<int>( requested_delay->tv_nsec ) / 1000000 - 10;
             /* Determine how many ticks to delay.  */
             LONGLONG wait_ticks = requested_delay->tv_nsec * ticks_per_nanosecond;
             /* Start.  */
@@ -74,7 +76,7 @@ nanosleep( const struct timespec *requested_delay,
 
 done:
     /* Sleep is not interruptible.  So there is no remaining delay.  */
-    if( remaining_delay != NULL ) {
+    if( remaining_delay != nullptr ) {
         remaining_delay->tv_sec = 0;
         remaining_delay->tv_nsec = 0;
     }

@@ -1,98 +1,109 @@
 [
   {
-    "id" : "hflesh_drink",
-    "copy-from": "protein_drink",
-    "type" : "COMESTIBLE",
-    "name" : "soylent green drink",
-    "name_plural" : "soylent green drinks",
-    "description": "A thin slurry of refined human protein mixed with water.  While quite nutritious, it is not particularly tasty.",
-    "material" : "hflesh"
-  },
-  {
-    "id": "hflesh_powder",
-    "copy-from": "protein_powder",
-    "type": "COMESTIBLE",
-    "name": "soylent green powder",
-    "name_plural": "servings of soylent green powder",
-    "description": "Raw, refined protein made out of people!  While quite nutritious, it is difficult to enjoy in its pure form.",
-    "material": [ "powder", "hflesh" ]
-  },
-  {
-    "id": "hflesh_shake",
-    "copy-from": "protein_shake",
-    "type": "COMESTIBLE",
-    "name": "soylent green shake",
-    "description": "A thick and tasty beverage made from pure refined human protein and nutritious fruit.",
-    "material": [ "fruit", "hflesh" ]
-  },
-  {
-    "id": "hflesh_shake_fortified",
-    "copy-from": "protein_shake_fortified",
-    "type": "COMESTIBLE",
-    "name": "fortified soylent green shake",
-    "description": "A thick and tasty beverage made from pure refined human protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
-    "material": [ "fruit", "hflesh" ]
-  },
-  {
     "id": "protein_drink",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
     "name": "protein drink",
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green drink" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green drink" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+    ],
     "description": "A thin slurry of refined protein mixed with water.  While quite nutritious, it is not particularly tasty.",
-    "weight": 288,
-    "volume": 1,
+    "weight": "278 g",
+    "volume": "250 ml",
     "price": 200,
+    "price_postapoc": 25,
     "symbol": "~",
     "color": "light_gray",
+    "spoils_in": "2 days",
     "phase": "liquid",
     "container": "bottle_plastic",
+    "material": "water",
     "calories": 100,
     "quench": 40,
     "healthy": 2,
     "fun": -1,
-    "vitamins": [],
+    "vitamins": [ [ "calcium", 7 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
     "id": "protein_powder",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": "protein powder",
-    "name_plural": "servings of protein powder",
-    "description": "Raw, refined protein.  While quite nutritious, it is difficult to enjoy in its pure form.",
-    "weight": 38,
-    "volume": 1,
+    "name": { "str_sp": "protein powder" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green powder" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green powder" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+    ],
+    "description": "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
+    "//": "1 g of protein powder is 0.959 ml, 1 serving is 28g and 27ml",
+    "weight": "28 g",
+    "volume": "243 ml",
     "price": 1100,
-    "charges": 4,
+    "price_postapoc": 100,
+    "charges": 9,
     "flags": [ "EDIBLE_FROZEN" ],
     "material": "powder",
     "symbol": "%",
     "color": "white",
     "container": "bottle_plastic_small",
     "calories": 100,
-    "vitamins": []
+    "vitamins": [  ]
+  },
+  {
+    "id": "protein_bar_evac",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str": "protein ration" },
+    "//": "Inspired by, but not based on, a true story",
+    "description": "SoyPelusa ran a highly successful crowdfunding campaign for this protein bar.  A person can live on one of these bars, three times a day, presumably forever.  After backers received their product, a single flaw was found: most consumers found starvation preferable to the flavor.  Warehouses of the product went unsold as the company went bankrupt, providing the perfect opportunity for FEMA to scoop them up and stock the evac shelters.  Now, you hold a piece of famous crowdfunding history in your hands.  How exciting.",
+    "weight": "150 g",
+    "volume": "223 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "healthy": -1,
+    "fun": -5,
+    "quench": -9,
+    "material": [ "fruit", "veggy" ],
+    "symbol": "%",
+    "color": "green",
+    "container": "wrapper",
+    "calories": 400,
+    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
   },
   {
     "id": "protein_shake",
     "copy-from": "protein_drink",
     "type": "COMESTIBLE",
     "name": "protein shake",
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green shake" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green shake" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+    ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
     "material": "fruit",
-    "proportional": {
-        "weight": 1.2,
-        "price": 2.0
-    },
-    "relative": { "calories": 50 },
+    "calories": 150,
     "healthy": 4,
     "fun": 4,
-    "vitamins": [ [ "vitC", 20 ] ]
+    "volume": "500 ml",
+    "charges": 2,
+    "quench": 20,
+    "relative": { "vitamins": [ [ "vitC", 20 ] ] }
   },
   {
     "id": "protein_shake_fortified",
     "copy-from": "protein_shake",
     "type": "COMESTIBLE",
     "name": "fortified protein shake",
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fortified soylent green shake" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fortified sapient green shake" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+    ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
     "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitA", 5 ], [ "vitB", 5 ], [ "vitC", 5 ] ] }
   }

@@ -1,0 +1,23 @@
+[
+  {
+    "type": "AMMO",
+    "id": "atgm_heat",
+    "price": 70000,
+    "price_postapoc": 5000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "name": { "str": "152mm ATGM HEAT" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A tube-launched, optically tracked, wire-guided missile contained in a steel tube.  Designed to be highly effective against vehicles and structures.",
+    "material": [ "steel", "powder" ],
+    "volume": "15 L",
+    "weight": "22600 g",
+    "bashing": 1,
+    "ammo_type": "atgm",
+    "casing": "atgm_spent",
+    "damage": { "damage_type": "bullet", "amount": 2400, "armor_penetration": 600 },
+    "range": 100,
+    "recoil": 6000,
+    "effects": [ "EXPLOSIVE_ATGMHEAT", "NEVER_MISFIRES" ]
+  }
+]

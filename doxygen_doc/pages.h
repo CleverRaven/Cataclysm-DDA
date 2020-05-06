@@ -7,7 +7,7 @@
  * Furthermore, the map is split into a hierarchical structure. At the top-level there are "overmaps",
  * which are very large chunks of the gameworld. The overmap is split into overmap tiles. When you use 'm'
  * to view the map in-game, what you see are overmap tiles. Each overmap tile is then again split into
- * two submaps. See \ref overmap and \ref submap.
+ * four submaps (2x2). See \ref overmap and \ref submap.
  *
  * Parallel to this, there is the \ref mapbuffer. The mapbuffer manages and stores all submaps. Note that
  * this is separate to the overmap, which stores overmap tiles. The mapbuffer simply loads all submaps that
@@ -150,5 +150,9 @@
  */
 /*! @page Effects_Skill_Smg
  *  @brief Cross referenced effects of the Smg skill.
+ *  @par
+ */
+ *! @page Effects_Skill_Lockpick
+ *  @brief Cross referenced effects of the Lock picking skill.
  *  @par
  */

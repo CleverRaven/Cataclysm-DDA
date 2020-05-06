@@ -1,8 +1,7 @@
 #include "iteminfo_query.h"
 
-#include <vector>
 #include <string>
-
+#include <vector>
 
 iteminfo_query::iteminfo_query() = default;
 
@@ -30,8 +29,6 @@ bool iteminfo_query::test( const iteminfo_parts &value ) const
 const iteminfo_query iteminfo_query::all = iteminfo_query(
             std::string( static_cast<size_t>( iteminfo_parts::NUM_VALUES ), '1' ) );
 
-
-
 const iteminfo_query iteminfo_query::notext = iteminfo_query(
             iteminfo_query::all & ~iteminfo_query(
 std::vector<iteminfo_parts> {
@@ -54,7 +51,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_FLAGS_SIDED,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
-    iteminfo_parts::DESCRIPTION_IRRIDATION,
+    iteminfo_parts::DESCRIPTION_IRRADIATION,
     iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED,
     iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD,
     iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE,
@@ -64,6 +61,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_CBM_SLOTS,
     iteminfo_parts::DESCRIPTION_TWOHANDED,
     iteminfo_parts::DESCRIPTION_GUNMOD_DISABLESSIGHTS,
+    iteminfo_parts::DESCRIPTION_GUNMOD_CONSUMABLE,
     iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED,
     iteminfo_parts::DESCRIPTION_RADIOACTIVITY_ALWAYS,
     iteminfo_parts::DESCRIPTION_BREWABLE_DURATION,
@@ -73,7 +71,8 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION,
     iteminfo_parts::DESCRIPTION_NOTES,
     iteminfo_parts::DESCRIPTION_CONTENTS,
-    iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES
+    iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES,
+    iteminfo_parts::DESCRIPTION_MED_ADDICTING
 } ) );
 
 const iteminfo_query iteminfo_query::anyflags = iteminfo_query(
@@ -85,5 +84,5 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_FLAGS_SIDED,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
-    iteminfo_parts::DESCRIPTION_IRRIDATION
+    iteminfo_parts::DESCRIPTION_IRRADIATION
 } );

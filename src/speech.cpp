@@ -1,30 +1,26 @@
 #include "speech.h"
-#include "json.h"
-#include "translations.h"
-#include "rng.h"
+
+#include <algorithm>
 #include <map>
+#include <set>
+#include <utility>
 #include <vector>
 
-std::map<std::string, std::vector<SpeechBubble> > speech;
+#include "json.h"
+#include "rng.h"
 
-SpeechBubble nullSpeech = { "", 0 };
+static std::map<std::string, std::vector<SpeechBubble>> speech;
 
-void load_speech( JsonObject &jo )
+static SpeechBubble nullSpeech = { no_translation( "INVALID SPEECH" ), 0 };
+
+void load_speech( const JsonObject &jo )
 {
-    std::string label = jo.get_string( "speaker" );
-    std::string sound = _( jo.get_string( "sound" ).c_str() );
-    int volume = jo.get_int( "volume" );
-    std::map<std::string, std::vector<SpeechBubble> >::iterator speech_type = speech.find( label );
-
-    // Construct a vector matching the label if needed.
-    if( speech_type == speech.end() ) {
-        speech[ label ] = std::vector<SpeechBubble>();
-        speech_type = speech.find( label );
+    translation sound;
+    jo.read( "sound", sound );
+    const int volume = jo.get_int( "volume" );
+    for( const std::string &label : jo.get_tags( "speaker" ) ) {
+        speech[label].emplace_back( SpeechBubble{ sound, volume } );
     }
-
-    SpeechBubble speech = {sound, volume};
-
-    speech_type->second.push_back( speech );
 }
 
 void reset_speech()

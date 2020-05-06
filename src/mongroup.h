@@ -1,35 +1,27 @@
 #pragma once
-#ifndef MONGROUP_H
-#define MONGROUP_H
+#ifndef CATA_SRC_MONGROUP_H
+#define CATA_SRC_MONGROUP_H
 
-#include <vector>
 #include <map>
 #include <set>
 #include <string>
-#include "enums.h"
-#include "string_id.h"
-#include "calendar.h"
-#include "monster.h"
+#include <vector>
 
+#include "calendar.h"
+#include "io_tags.h"
+#include "monster.h"
+#include "point.h"
+#include "type_id.h"
+
+class JsonIn;
+class JsonObject;
+class JsonOut;
 // from overmap.h
 class overmap;
-class JsonObject;
-class JsonIn;
-class JsonOut;
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
-
-struct mtype;
-using mtype_id = string_id<mtype>;
-
 struct MonsterGroupEntry;
-typedef std::vector<MonsterGroupEntry> FreqDef;
-typedef FreqDef::iterator FreqDef_iter;
 
-namespace io
-{
-struct object_archive_tag;
-}
+using FreqDef = std::vector<MonsterGroupEntry>;
+using FreqDef_iter = FreqDef::iterator;
 
 struct MonsterGroupEntry {
     mtype_id name;
@@ -41,7 +33,7 @@ struct MonsterGroupEntry {
     time_duration starts;
     time_duration ends;
     bool lasts_forever() const {
-        return ( ends <= 0 );
+        return ends <= 0_turns;
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
@@ -73,13 +65,14 @@ struct MonsterGroup {
     mtype_id defaultMonster;
     FreqDef  monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;
+    bool is_animal = false;
     // replaces this group after a period of
     // time when exploring an unexplored portion of the map
-    bool replace_monster_group;
+    bool replace_monster_group = false;
     mongroup_id new_monster_group;
-    time_duration monster_group_time = 0;
-    bool is_safe; /// Used for @ref mongroup::is_safe()
-    int freq_total; // Default 1000 unless specified - max number to roll for spawns
+    time_duration monster_group_time = 0_turns;
+    bool is_safe = false; /// Used for @ref mongroup::is_safe()
+    int freq_total = 0; // Default 1000 unless specified - max number to roll for spawns
 };
 
 struct mongroup {
@@ -105,33 +98,28 @@ struct mongroup {
      *  And "roam", who roam around the map randomly, not taking care to return
      *  anywhere.
      */
-    std::string horde_behaviour = "";
+    std::string horde_behaviour;
     bool diffuse = false;   // group size ind. of dist. from center and radius invariant
-    mongroup( const mongroup_id &ptype, int pposx, int pposy, int pposz,
+    mongroup( const mongroup_id &ptype, const tripoint &ppos,
               unsigned int prad, unsigned int ppop )
         : type( ptype )
-        , pos( pposx, pposy, pposz )
+        , pos( ppos )
         , radius( prad )
-        , population( ppop )
-        , target()
-        , interest( 0 )
-        , dying( false )
-        , horde( false )
-        , diffuse( false ) {
+        , population( ppop ) {
     }
-    mongroup( std::string ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
+    mongroup( const std::string &ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
         interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }
-    mongroup() { }
+    mongroup() = default;
     bool is_safe() const;
     bool empty() const;
     void clear();
-    void set_target( int x, int y ) {
-        target.x = x;
-        target.y = y;
+    void set_target( const point &p ) {
+        target.x = p.x;
+        target.y = p.y;
     }
-    void wander( overmap & );
+    void wander( const overmap & );
     void inc_interest( int inc ) {
         interest += inc;
         if( interest > 100 ) {
@@ -153,27 +141,28 @@ struct mongroup {
         }
         interest = set;
     }
+    float avg_speed() const;
 
     template<typename Archive>
     void io( Archive & );
     using archive_type_tag = io::object_archive_tag;
 
-    void deserialize( JsonIn &jsin );
-    void deserialize_legacy( JsonIn &jsin );
-    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &data );
+    void deserialize_legacy( JsonIn &json );
+    void serialize( JsonOut &json ) const;
 };
 
 class MonsterGroupManager
 {
     public:
-        static void LoadMonsterGroup( JsonObject &jo );
-        static void LoadMonsterBlacklist( JsonObject &jo );
-        static void LoadMonsterWhitelist( JsonObject &jo );
+        static void LoadMonsterGroup( const JsonObject &jo );
+        static void LoadMonsterBlacklist( const JsonObject &jo );
+        static void LoadMonsterWhitelist( const JsonObject &jo );
         static void FinalizeMonsterGroups();
-        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = 0 );
-        static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &id );
+        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = nullptr );
+        static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );
         static bool isValidMonsterGroup( const mongroup_id &group );
-        static const mongroup_id &Monster2Group( const mtype_id &id );
+        static const mongroup_id &Monster2Group( const mtype_id &monster );
         static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group );
         static const MonsterGroup &GetMonsterGroup( const mongroup_id &group );
         static const MonsterGroup &GetUpgradedMonsterGroup( const mongroup_id &group );
@@ -189,13 +178,15 @@ class MonsterGroupManager
 
         static bool monster_is_blacklisted( const mtype_id &m );
 
+        static bool is_animal( const mongroup_id &group );
+
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;
-        typedef std::set<std::string> t_string_set;
+        using t_string_set = std::set<std::string>;
         static t_string_set monster_blacklist;
         static t_string_set monster_whitelist;
         static t_string_set monster_categories_blacklist;
         static t_string_set monster_categories_whitelist;
 };
 
-#endif
+#endif // CATA_SRC_MONGROUP_H

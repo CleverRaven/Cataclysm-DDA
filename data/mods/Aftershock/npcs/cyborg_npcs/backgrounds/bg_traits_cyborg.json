@@ -1,0 +1,50 @@
+[
+  {
+    "type": "mutation",
+    "id": "BGSS_GANGER_1",
+    "name": { "str": "Survivor Story" },
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the Cataclysm",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
+    "flags": [ "BG_SURVIVAL_STORY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BGSS_GANGER_2",
+    "name": { "str": "Survivor Story" },
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the Cataclysm",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
+    "flags": [ "BG_SURVIVAL_STORY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BGSS_GANGER_3",
+    "name": { "str": "Survivor Story" },
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the Cataclysm",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
+    "flags": [ "BG_SURVIVAL_STORY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BGSS_CYBERNINJA",
+    "name": { "str": "Survivor Story" },
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the Cataclysm",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
+    "flags": [ "BG_SURVIVAL_STORY" ]
+  }
+]

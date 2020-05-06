@@ -1,11 +1,12 @@
 #pragma once
-#ifndef CATA_FILE_SYSTEM_H
-#define CATA_FILE_SYSTEM_H
+#ifndef CATA_SRC_FILESYSTEM_H
+#define CATA_SRC_FILESYSTEM_H
 
 #include <string>
 #include <vector>
 
-bool assure_dir_exist( std::string const &path );
+bool assure_dir_exist( const std::string &path );
+bool dir_exist( const std::string &path );
 bool file_exist( const std::string &path );
 // Remove a file, does not remove folders,
 // returns true on success
@@ -17,7 +18,7 @@ bool rename_file( const std::string &old_path, const std::string &new_path );
 namespace cata_files
 {
 const char *eol();
-}
+} // namespace cata_files
 
 //--------------------------------------------------------------------------------------------------
 /**
@@ -32,8 +33,8 @@ const char *eol();
  * @param match_extension If true, match pattern at the end of file names. Otherwise, match anywhere
  *                        in the file name.
  */
-std::vector<std::string> get_files_from_path( std::string const &pattern,
-        std::string const &root_path = "", bool recursive_search = false,
+std::vector<std::string> get_files_from_path( const std::string &pattern,
+        const std::string &root_path = "", bool recursive_search = false,
         bool match_extension = false );
 
 //--------------------------------------------------------------------------------------------------
@@ -43,12 +44,20 @@ std::vector<std::string> get_files_from_path( std::string const &pattern,
  * @param patterns A vector or patterns to match.
  * @see get_files_from_path
  */
-std::vector<std::string> get_directories_with( std::vector<std::string> const &patterns,
-        std::string const &root_path = "", bool recursive_search = false );
+std::vector<std::string> get_directories_with( const std::vector<std::string> &patterns,
+        const std::string &root_path = "", bool recursive_search = false );
 
-std::vector<std::string> get_directories_with( std::string const &pattern,
-        std::string const &root_path = "", bool const recurse = false );
+std::vector<std::string> get_directories_with( const std::string &pattern,
+        const std::string &root_path = "", bool recursive_search = false );
 
 bool copy_file( const std::string &source_path, const std::string &dest_path );
 
-#endif //CATA_FILE_SYSTEM_H
+/**
+ *  Replace invalid characters in a string with a default character; can be used to ensure that a file name is compliant with most file systems.
+ *  @param file_name Name of the file to check.
+ *  @return A string with all invalid characters replaced with the replacement character, if any change was made.
+ *  @note  The default replacement character is space (0x20) and the invalid characters are "\\/:?\"<>|".
+ */
+std::string ensure_valid_file_name( const std::string &file_name );
+
+#endif // CATA_SRC_FILESYSTEM_H

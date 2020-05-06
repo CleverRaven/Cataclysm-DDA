@@ -11,34 +11,80 @@ Monster types are specified as JSON object with "type" member set to "MONSTER":
 
 The id member should be the unique id of the type. It can be any string, by convention it has the prefix "mon_". This id can be referred to in various places, like monster groups or in mapgen to spawn specific monsters.
 
+For quantity strings (ie. volume, weight) use the largest unit you can keep full precision with.
+
 Monster types support the following properties (mandatory, except if noted otherwise):
 
-## "name", "name_plural"
-(string)
+## "name"
+(string or object)
 
-Name (singular) displayed in-game, and optional the plural name, defaults to singular name + "s".
+```JSON
+"name": "cow"
+```
+
+```JSON
+"name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
+```
+
+or, if the singular and plural forms are the same:
+
+```JSON
+"name": { "ctxt": "fish", "str_sp": "bass" }
+```
+
+Name displayed in-game, and optionally the plural name and a translation context (ctxt).
+
+If the plural name is not specified, it defaults to singular name + "s".
+
+Ctxt is used to help translators in case of homonyms (two different things with the same name). For example, pike the fish and pike the weapon.
 
 ## "description"
 (string)
 
 In-game description for the monster.
 
-## "species"
-(array of strings, optional)
-
-A list of species ids. One can add or remove entries in mods via "add:species" and "remove:species", see Modding below. Properties (currently only triggers) from species are added to the properties of each monster that belong to the species.
-
-TODO: document species.
-
 ## "categories"
 (array of strings, optional)
 
 Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.  One can add or remove entries in mods via "add:flags" and "remove:flags".
 
+## "species"
+(array of strings, optional)
+
+A list of species ids. One can add or remove entries in mods via "add:species" and "remove:species", see Modding below. Properties (currently only triggers) from species are added to the properties of each monster that belong to the species.
+
+In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
+
+## "volume"
+(string)
+
+```JSON
+"volume": "40 L"
+```
+The numeric part of the string must be an integer. Accepts L, and ml as units. Note that l and mL are not currently accepted.
+
+## "weight"
+(string)
+
+```JSON
+"weight": "3 kg"
+```
+The numeric part of the string must be an integer. Use the largest unit you can keep full precision with. For example: 3 kg, not 3000 g. Accepts g and kg as units.
+
+## "scent_tracked"
+(array of strings, optional)
+
+List of scenttype_id tracked by this monster. scent_types are defined in scent_types.json
+
+## "scent_ignored"
+(array of strings, optional)
+
+List of scenttype_id ignored by this monster. scent_types are defined in scent_types.json
+
 ## "symbol", "color"
 (string)
 
-Symbol and color representing monster in-game. The symbol must be a UTF-8 string, that is exactly one console cell width (may be several Unicode characters). The color must be a valid color id, see TODO: find or create a list of color ids.
+Symbol and color representing monster in-game. The symbol must be a UTF-8 string, that is exactly one console cell width (may be several Unicode characters). See [COLOR.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COLOR.md) for details.
 
 ## "size"
 (string, optional)
@@ -53,12 +99,43 @@ The materials the monster is primarily composed of. Must contain valid material 
 ## "phase"
 (string, optional)
 
-TODO: describe this. Is this even used in-game?
+It describes monster's body state of matter. However, it doesn't seem to have any gameplay purpose, right now.
+It can be SOLID, LIQUID, GAS, PLASMA or NULL.
 
 ## "default_faction"
 (string)
 
 The id of the faction the monster belongs to, this affects what other monsters it will fight. See Monster factions.
+
+## "bodytype"
+(string)
+
+The id of the monster's bodytype, which is a general description of the layout of the monster's body.
+
+Value should be one of:
+
+| value | description
+| --- | ---
+| angel | a winged human
+| bear | a four legged animal that can stand on its hind legs
+| bird | a two legged animal with two wings
+| blob | a blob of material
+| crab | a multilegged animal with two large arms
+| dog | a four legged animal with a short neck elevating the head above the line of the body
+| elephant | a very large quadruped animal with a large head and torso with equal sized limbs
+| fish | an aquatic animal with a streamlined body and fins
+| flying insect | a six legged animal with a head and two body segments and wings
+| frog | a four legged animal with a neck and with very large rear legs and small forelegs
+| gator | a four legged animal with a very long body and short legs
+| horse | a four legged animal with a long neck elevating the head above the line of the body
+| human | a bipedal animal with two arms
+| insect | a six legged animal with a head and two body segments
+| kangaroo | a pentapedal animal that utilizes a large tail for stability with very large rear legs and smaller forearms
+| lizard | a smaller form of 'gator'
+| migo | whatever form migos have
+| pig | a four legged animal with the head in the same line as the body
+| spider | an eight legged animal with a small head on a large abdomen
+| snake | an animal with a long body and no limbs
 
 ## "attack_cost"
 (integer, optional)
@@ -68,7 +145,18 @@ Number of moves per regular attack.
 ## "diff"
 (integer, optional)
 
-Monster difficulty. Impacts the shade used to label the monster, and if it is above 30 a kill will be recorded in the memorial log. Some example values: (Zombie, 3) (Mi-go, 26) (Zombie Hulk, 50).
+Monster baseline difficulty.  Impacts the shade used to label the monster, and if it is above 30 a kill will be recorded in the memorial log.  Monster difficult is calculated based on expected melee damage, dodge, armor, hit points, speed, morale, aggression, and vision ranges.  The calculation does not handle ranged special attacks or unique special attacks very well, and baseline difficulty can be used to account for that.  Suggested values:
+
+| value | description
+| --- | ---
+| 2 | a limited defensive ability such as a skitterbot's taser, or a weak special like a shrieker zombie's special ability to alert nearby monsters, or a minor bonus to attack like poison or venom.
+| 5 | a limited ranged attack weaker than spitter zombie's spit, or a powerful defensive ability like a shocker zombie's zapback or an acid zombie's acid spray.
+| 10 | a powerful ranged attack, like a spitters zombie's spit or an turret's 9mm SMG.
+| 15 | a powerful ranged attack with additional hazards, like a corrosize zombie's spit
+| 20 | a very powerful ranged attack, like a laser turret or military turret's 5.56mm rifle, or a powerful special ability, like a zombie necromancer's ability to raise other zombies.
+| 30 | a ranged attack that is deadly even for armored characters, like an anti-material turret's .50 BMG rifle.
+
+Most monsters should have difficulty 0 - even dangerous monsters like a zombie hulk or razorclaw alpha.  Difficulty should only be used for exceptional, ranged, special attacks.
 
 ## "aggression"
 (integer, optional)
@@ -78,12 +166,17 @@ Defines how aggressive the monster is. Ranges from -99 (totally passive) to 100 
 ## "morale"
 (integer, optional)
 
-Monster morale. TODO: describe this better.
+Monster morale. Defines how low monster HP can get before it retreats. This number is treated as % of their max HP.
 
 ## "speed"
 (integer)
 
 Monster speed. 100 is the normal speed for a human being - higher values are faster and lower values are slower.
+
+## "mountable_weight_ratio"
+(float, optional)
+
+Used as the acceptable rider vs. mount weight percentage ratio. Defaults to "0.2", which means the mount is capable of carrying riders weighing <= 20% of the mount's weight.
 
 ## "melee_skill"
 (integer, optional)
@@ -96,14 +189,27 @@ Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See GAME_B
 Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics.
 
 ## "melee_damage"
-(integer, optional)
+(array of objects, optional)
 
-TODO: describe this.
+List of damage instances added to die roll on monster melee attack.
+    - `damage_type` valid entries are : "true", "biological", "bash", "cut", "acid", "stab", "heat", "cold" and "electric".
+    - `amount` amount of damage.
+    - `armor_penetration` how much of the armor the damage instance ignores.
+    - `armor_multiplier` is a multiplier on `armor_penetration`.
+    - `damage_multiplier` is a multiplier on `amount`.
+```JSON
+    "melee_damage": [ { "damage_type": "electric", "amount": 4.0, "armor_penetration": 1, "armor_multiplier": 1.2, "damage_multiplier": 1.4 } ],
+```
 
 ## "melee_dice", "melee_dice_sides"
 (integer, optional)
 
 Number of dices and their sides that are rolled on monster melee attack. This defines the amount of bash damage.
+
+## "grab_strength"
+(integer, optional)
+
+Intensity of the grab effect applied by this monster. Defaults to 1, is only useful for monster with a GRAB special attack and the GRABS flag. A monster with grab_strength = n applies a grab as if it was n zombies. A player with max(Str,Dex)<=n has no chance of breaking that grab.
 
 ## "melee_cut"
 (integer, optional)
@@ -140,35 +246,56 @@ An item group that is used to spawn items when the monster dies. This can be an 
 
 How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. One can add or remove entries in mods via "add:death_function" and "remove:death_function".
 
-## "special_attack"
+## "emit_field"
+(array of objects of emit_id and time_duration, optional)
+"emit_fields": [ { "emit_id": "emit_gum_web", "delay": "30 m" } ],
+
+What field the monster emits and how often it does so. Time duration can use strings: "1 h", "60 m", "3600 s" etc...
+
+## "regenerates"
+(integer, optional)
+
+Number of hitpoints regenerated per turn.
+
+## "regenerates_in_dark"
+(boolean, optional)
+
+Monster regenerates very quickly in poorly lit tiles.
+
+## "regen_morale"
+(boolean, optional)
+
+Will stop fleeing if at max hp, and regen anger and morale.
+
+## "special_attacks"
 (array of special attack definitions, optional)
 
 Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
 
 The old style array should contain 2 elements: the id of the attack (see JSON_FLAGS.md for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
 ```JSON
-"special_attack": [ [ "GRAB", 10 ] ]
+"special_attacks": [ [ "GRAB", 10 ] ]
 ```
 
 The new style object should contain at least a "type" member (string) and "cooldown" member (integer). It may contain additional members as required by the specific type. Possible types are listed below. Example:
 ```JSON
-"special_attack": [
+"special_attacks": [
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 
-"special_attack" may contain any mixture of old and new style entries:
+"special_attacks" may contain any mixture of old and new style entries:
 ```JSON
-"special_attack": [
+"special_attacks": [
     [ "GRAB", 10 ],
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 
-One can add entries with "add:death_function", which takes the same content as the "special_attack" member and remove entries with "remove:death_function", which requires an array of attack types. Example:
+One can add entries with "add:death_function", which takes the same content as the "special_attacks" member and remove entries with "remove:death_function", which requires an array of attack types. Example:
 ```JSON
-"remove:special_attack": [ "GRAB" ],
-"add:special_attack": [ [ "SHRIEK", 20 ] ]
+"remove:special_attacks": [ "GRAB" ],
+"add:special_attacks": [ [ "SHRIEK", 20 ] ]
 ```
 
 ## "flags"
@@ -210,13 +337,44 @@ Example:
 The upgrades object may have the following members:
 
 ### "half_life"
-TODO: describe this.
+(int)
+Time in which half of the monsters upgrade according to an approximated exponential progression. It is scaled with the evolution scaling factor which defaults to 4 days.
 
 ### "into_group"
-TODO: describe this.
+(string, optional)
+The upgraded monster's type is taken from the specified group. The cost in these groups is for an upgrade in the spawn process (related to the rare "replace_monster_group" and "new_monster_group_id" attributes of spawning groups).
 
 ### "into"
-TODO: describe this.
+(string, optional)
+The upgraded monster's type.
+
+### "age_grow"
+(int, optional)
+Number of days needed for monster to change into another monster.
+
+## "reproduction"
+(dictionary, optional)
+The monster's reproduction cycle, if any. Supports:
+
+### "baby_monster"
+(string, optional)
+the id of the monster spawned on reproduction for monsters who give live births. You must declare either this or `baby_egg` for reproduction to work.
+
+### "baby_egg"
+(string, optional)
+The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work.
+
+### "baby_count"
+(int)
+Number of new creatures or eggs to spawn on reproduction.
+
+### "baby_timer"
+(int)
+Number of days between reproduction events.
+
+## "baby_flags"
+(Array, optional)
+Designate seasons during which this monster is capable of reproduction. ie: `[ "SPRING", "SUMMER" ]`
 
 ## "special_when_hit"
 (array, optional)
@@ -300,7 +458,7 @@ Modifying a type overrides the properties with the new values, this example sets
     "type": "MONSTER",
     "edit-mode": "modify",
     "id": "mon_zombie",
-    "special_attack": [ [ "SHRIEK", 20 ] ]
+    "special_attacks": [ [ "SHRIEK", 20 ] ]
 }
 ```
 Some properties allow adding and removing entries, as documented above, usually via members with the "add:"/"remove:" prefix.
@@ -308,43 +466,43 @@ Some properties allow adding and removing entries, as documented above, usually 
 
 
 # Monster special attack types
-The listed attack types can be as monster special attacks (see "special_attack").
+The listed attack types can be as monster special attacks (see "special_attacks").
 
 ## "leap"
 Makes the monster leap a few tiles. It supports the following additional properties:
 
 ### "max_range"
-(Required) Maximal range to consider for leaping.
+(Required) Maximal range of attack.
 
 ### "min_range"
-TODO: describe this.
+(Required) Minimal range needed for attack.
 
 ### "allow_no_target"
-TODO: describe this.
+This prevents monster from using the ability on empty space.
 
 ### "move_cost"
-TODO: describe this.
+Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 
 #### "min_consider_range", "max_consider_range"
-TODO: describe this.
+Minimal range and maximal range to consider for using specific attack.
 
 ## "bite"
-TODO: describe this.
+Makes monster use teeth to bite opponent. Some monsters can give infection by doing so.
 
 ### "damage_max_instance"
-TODO: describe this.
+Max damage it can deal on one bite.
 
 ### "min_mul", "max_mul"
-TODO: describe this.
+How hard is to get free of bite without killing attacker.
 
 ### "move_cost"
-TODO: describe this.
+Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 
 ### "accuracy"
-TODO: describe this.
+(Integer) How accurate it is. Not many monsters use it though.
 
 ### "no_infection_chance"
-TODO: describe this.
+Chance to not give infection.
 
 ## "gun"
 Fires a gun at a target. If friendly, will avoid harming the player.

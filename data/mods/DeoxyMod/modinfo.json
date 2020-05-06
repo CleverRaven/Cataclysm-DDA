@@ -4,8 +4,9 @@
     "ident": "deoxymod",
     "name": "Folding Parts pack",
     "authors": [ "Deoxy", "Llamageddon" ],
-    "description": "Makes solar panels, small engines, and several other parts foldable and adds foldable quarterboards.",
+    "description": "Makes solar panels and several other parts foldable, and adds foldable quarterboards.",
     "category": "vehicles",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

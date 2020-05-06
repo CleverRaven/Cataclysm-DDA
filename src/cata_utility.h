@@ -1,31 +1,39 @@
 #pragma once
-#ifndef CATA_UTILITY_H
-#define CATA_UTILITY_H
+#ifndef CATA_SRC_CATA_UTILITY_H
+#define CATA_SRC_CATA_UTILITY_H
 
-#include <utility>
-#include <string>
-#include <vector>
 #include <fstream>
 #include <functional>
+#include <string>
+#include <utility>
+#include <vector>
+#include <algorithm>
+#include <type_traits>
 
-class item;
-class Creature;
-struct tripoint;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-}
+#include "units.h"
+
 class JsonIn;
 class JsonOut;
+class translation;
 
 /**
  * Greater-than comparison operator; required by the sort interface
  */
-struct pair_greater_cmp {
-    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b ) const;
+struct pair_greater_cmp_first {
+    template< class T, class U >
+    bool operator()( const std::pair<T, U> &a, const std::pair<T, U> &b ) const {
+        return a.first > b.first;
+    }
+
+};
+
+/**
+ * For use with smart pointers when you don't actually want the deleter to do
+ * anything.
+ */
+struct null_deleter {
+    template<typename T>
+    void operator()( T * ) const {}
 };
 
 /**
@@ -56,6 +64,26 @@ inline int fast_floor( double v )
  */
 double round_up( double val, unsigned int dp );
 
+/** Divide @p num by @p den, rounding up
+*
+* @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
+*/
+template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+T divide_round_up( T num, T den )
+{
+    return ( num + den - 1 ) / den;
+}
+
+/** Divide @p num by @p den, rounding up
+ *
+ * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
+ */
+template<typename T, typename U>
+T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
+{
+    return divide_round_up( num.value(), den.value() );
+}
+
 /**
  * Determine whether a value is between two given boundaries.
  *
@@ -80,6 +108,7 @@ bool isBetween( int test, int down, int up );
  *         string, otherwise returns false
  */
 bool lcmatch( const std::string &str, const std::string &qry );
+bool lcmatch( const translation &str, const std::string &qry );
 
 /**
  * Matches text case insensitive with the include/exclude rules of the filter
@@ -89,7 +118,7 @@ bool lcmatch( const std::string &str, const std::string &qry );
  * Examle: bank,-house,tank,-car
  * Will match text containing tank or bank while not containing house or car
  *
- * @param test String to be matched
+ * @param text String to be matched
  * @param filter String with include/exclude rules
  *
  * @return true if include/exclude rules pass. See Example.
@@ -151,7 +180,7 @@ int bound_mod_to_vals( int val, int mod, int max, int min );
  *
  * @return name of unit.
  */
-const char *velocity_units( const units_type vel_units );
+const char *velocity_units( units_type vel_units );
 
 /**
  * Create a units label for a weight value.
@@ -192,7 +221,7 @@ const char *volume_units_long();
  * @returns Velocity in the user selected measurement system and in appropriate
  *          units for the object being measured.
  */
-double convert_velocity( int velocity, const units_type vel_units );
+double convert_velocity( int velocity, units_type vel_units );
 
 /**
  * Convert weight in grams to units defined by user (kg or lbs)
@@ -202,6 +231,9 @@ double convert_velocity( int velocity, const units_type vel_units );
  * @returns Weight converted to user selected unit
  */
 double convert_weight( const units::mass &weight );
+
+/** convert a mass unit to a string readable by a human */
+std::string weight_to_string( const units::mass &weight );
 
 /**
  * Convert volume from ml to units defined by user.
@@ -214,14 +246,29 @@ double convert_volume( int volume );
  */
 double convert_volume( int volume, int *out_scale );
 
+/** convert a volume unit to a string readable by a human */
+std::string vol_to_string( const units::volume &vol );
+
 /**
  * Convert a temperature from degrees Fahrenheit to degrees Celsius.
- *
- * @param fahrenheit Temperature in degrees F.
  *
  * @return Temperature in degrees C.
  */
 double temp_to_celsius( double fahrenheit );
+
+/**
+ * Convert a temperature from degrees Fahrenheit to Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double temp_to_kelvin( double fahrenheit );
+
+/**
+ * Convert a temperature from Kelvin to degrees Fahrenheit.
+ *
+ * @return Temperature in degrees C.
+ */
+double kelvin_to_fahrenheit( double kelvin );
 
 /**
  * Clamp (number and space wise) value to with,
@@ -299,40 +346,9 @@ class list_circularizer
 
         /** Return list element at the current location */
         T &cur() const {
-            return ( *_list )[_index]; // list could be null, but it would be a design time mistake and really, the callers fault.
+            // list could be null, but it would be a design time mistake and really, the callers fault.
+            return ( *_list )[_index];
         }
-};
-
-/**
- * Wrapper around std::ofstream that handles error checking and throws on errors.
- *
- * Use like a normal ofstream: the stream is opened in the constructor and
- * closed via @ref close. Both functions check for success and throw std::exception
- * upon any error (e.g. when opening failed or when the stream is in an error state when
- * being closed).
- * Use @ref stream (or the implicit conversion) to access the output stream and to write
- * to it.
- *
- * @note: the stream is closed in the constructor, but no exception is throw from it. To
- * ensure all errors get reported correctly, you should always call `close` explicitly.
- */
-class ofstream_wrapper
-{
-    private:
-        std::ofstream file_stream;
-
-    public:
-        ofstream_wrapper( const std::string &path );
-        ~ofstream_wrapper();
-
-        std::ostream &stream() {
-            return file_stream;
-        }
-        operator std::ostream &() {
-            return file_stream;
-        }
-
-        void close();
 };
 
 /**
@@ -343,10 +359,17 @@ class ofstream_wrapper
  * \p fail_message, the error text and the path.
  *
  * @return Whether saving succeeded (no error was caught).
+ * @throw The void function throws when writing failes or when the @p writer throws.
+ * The other function catches all exceptions and returns false.
  */
+///@{
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
+void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
+///@}
+
 class JsonDeserializer;
+
 /**
  * Try to open and read from given file using the given callback.
  *
@@ -378,19 +401,32 @@ bool read_from_file_optional_json( const std::string &path,
 bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
 /**@}*/
 /**
- * Same as ofstream_wrapper, but uses exclusive I/O (@ref fopen_exclusive).
- * The interface intentionally matches ofstream_wrapper. One should be able to use
- * one instead of the other.
+ * Wrapper around std::ofstream that handles error checking and throws on errors.
+ *
+ * Use like a normal ofstream: the stream is opened in the constructor and
+ * closed via @ref close. Both functions check for success and throw std::exception
+ * upon any error (e.g. when opening failed or when the stream is in an error state when
+ * being closed).
+ * Use @ref stream (or the implicit conversion) to access the output stream and to write
+ * to it.
+ *
+ * @note: The stream is closed in the destructor, but no exception is throw from it. To
+ * ensure all errors get reported correctly, you should always call `close` explicitly.
+ *
+ * @note: This uses exclusive I/O.
  */
-class ofstream_wrapper_exclusive
+class ofstream_wrapper
 {
     private:
         std::ofstream file_stream;
         std::string path;
+        std::string temp_path;
+
+        void open( std::ios::openmode mode );
 
     public:
-        ofstream_wrapper_exclusive( const std::string &path );
-        ~ofstream_wrapper_exclusive();
+        ofstream_wrapper( const std::string &path, std::ios::openmode mode );
+        ~ofstream_wrapper();
 
         std::ostream &stream() {
             return file_stream;
@@ -401,10 +437,6 @@ class ofstream_wrapper_exclusive
 
         void close();
 };
-
-/** See @ref write_to_file, but uses the exclusive I/O functions. */
-bool write_to_file_exclusive( const std::string &path,
-                              const std::function<void( std::ostream & )> &writer,  const char *fail_message );
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
 
@@ -460,4 +492,47 @@ inline void deserialize( T &obj, const std::string &data )
 }
 /**@}*/
 
-#endif // CAT_UTILITY_H
+/**
+ * \brief Returns true iff s1 starts with s2
+ */
+bool string_starts_with( const std::string &s1, const std::string &s2 );
+
+/**
+ * \brief Returns true iff s1 ends with s2
+ */
+bool string_ends_with( const std::string &s1, const std::string &s2 );
+
+/** Used as a default filter in various functions */
+template<typename T>
+bool return_true( const T & )
+{
+    return true;
+}
+
+/**
+ * Joins a vector of `std::string`s into a single string with a delimiter/joiner
+ */
+std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+
+int modulo( int v, int m );
+
+class on_out_of_scope
+{
+    private:
+        std::function<void()> func;
+    public:
+        on_out_of_scope( const std::function<void()> &func ) : func( func ) {
+        }
+
+        ~on_out_of_scope() {
+            if( func ) {
+                func();
+            }
+        }
+
+        void cancel() {
+            func = nullptr;
+        }
+};
+
+#endif // CATA_SRC_CATA_UTILITY_H

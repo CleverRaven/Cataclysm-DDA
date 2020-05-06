@@ -1,0 +1,34 @@
+[
+  {
+    "id": "410shot_000",
+    "type": "AMMO",
+    "name": { "str": ".410 000 shot" },
+    "description": "A .410 shell with 5 000 pellets.  Good for a hunting or combat load.",
+    "weight": "16 g",
+    "volume": "250 ml",
+    "price": 175,
+    "price_postapoc": 800,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "plastic", "powder" ],
+    "symbol": "=",
+    "color": "red",
+    "count": 20,
+    "stack_size": 20,
+    "ammo_type": "410shot",
+    "casing": "410shot_hull",
+    "range": 12,
+    "damage": { "damage_type": "bullet", "amount": 30 },
+    "recoil": 1350,
+    "loudness": 90,
+    "effects": [ "COOKOFF", "SHOT" ]
+  },
+  {
+    "id": "reloaded_410shot_000",
+    "copy-from": "410shot_000",
+    "type": "AMMO",
+    "name": { "str": ".410 000 shot, reloaded" },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  }
+]

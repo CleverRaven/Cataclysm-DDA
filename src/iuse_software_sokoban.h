@@ -1,11 +1,15 @@
 #pragma once
-#ifndef SOFTWARE_SOKOBAN_H
-#define SOFTWARE_SOKOBAN_H
+#ifndef CATA_SRC_IUSE_SOFTWARE_SOKOBAN_H
+#define CATA_SRC_IUSE_SOFTWARE_SOKOBAN_H
 
+#include <cstddef>
+#include <iosfwd>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
-#include <iosfwd>
+#include <utility>
+
+#include "point.h"
 
 namespace catacurses
 {
@@ -18,20 +22,17 @@ class sokoban_game
         class cUndo
         {
             public:
-                int iOldY = 0;
-                int iOldX = 0;
+                point old;
                 std::string sTileOld;
 
                 cUndo() {
-                    iOldY = 0;
-                    iOldX = 0;
+                    old = point_zero;
 
                     sTileOld = " ";
                 }
 
-                cUndo( const int arg_y, const int arg_x, const std::string arg_tile ) {
-                    iOldY = arg_y;
-                    iOldX = arg_x;
+                cUndo( const int arg_y, const int arg_x, const std::string &arg_tile ) {
+                    old = point( arg_x, arg_y );
                     sTileOld = arg_tile;
                 }
         };
@@ -48,7 +49,7 @@ class sokoban_game
 
         void parse_level( std::istream &fin );
         bool check_win();
-        int get_wall_connection( const int iY, const int iX );
+        int get_wall_connection( const point & );
         void draw_level( const catacurses::window &w_sokoban );
         void clear_level( const catacurses::window &w_sokoban );
         void print_score( const catacurses::window &w_sokoban, int iScore, int iMoves );
@@ -57,4 +58,4 @@ class sokoban_game
         sokoban_game();
 };
 
-#endif
+#endif // CATA_SRC_IUSE_SOFTWARE_SOKOBAN_H

@@ -1,23 +1,26 @@
 #pragma once
-#ifndef FONT_LOADER_H
-#define FONT_LOADER_H
+#ifndef CATA_SRC_FONT_LOADER_H
+#define CATA_SRC_FONT_LOADER_H
 
-#include "json.h"
-#include "path_info.h"
-#include "filesystem.h"
-#include "debug.h"
-
-#include <string>
+#include <algorithm>
 #include <fstream>
 #include <stdexcept>
+#include <string>
+#include <vector>
+
+#include "debug.h"
+#include "filesystem.h"
+#include "json.h"
+#include "path_info.h"
+#include "cata_utility.h"
 
 class font_loader
 {
     public:
         bool fontblending = false;
-        std::string typeface;
-        std::string map_typeface;
-        std::string overmap_typeface;
+        std::vector<std::string> typeface;
+        std::vector<std::string> map_typeface;
+        std::vector<std::string> overmap_typeface;
         int fontwidth = 8;
         int fontheight = 16;
         int fontsize = 16;
@@ -34,62 +37,66 @@ class font_loader
                 std::ifstream stream( path.c_str(), std::ifstream::binary );
                 JsonIn json( stream );
                 JsonObject config = json.get_object();
-                config.read( "fontblending", fontblending );
-                config.read( "fontwidth", fontwidth );
-                config.read( "fontheight", fontheight );
-                config.read( "fontsize", fontsize );
-                config.read( "typeface", typeface );
-                config.read( "map_fontwidth", map_fontwidth );
-                config.read( "map_fontheight", map_fontheight );
-                config.read( "map_fontsize", map_fontsize );
-                config.read( "map_typeface", map_typeface );
-                config.read( "overmap_fontwidth", overmap_fontwidth );
-                config.read( "overmap_fontheight", overmap_fontheight );
-                config.read( "overmap_fontsize", overmap_fontsize );
-                config.read( "overmap_typeface", overmap_typeface );
+                if( config.has_string( "typeface" ) ) {
+                    typeface.emplace_back( config.get_string( "typeface" ) );
+                } else {
+                    config.read( "typeface", typeface );
+                }
+                if( config.has_string( "map_typeface" ) ) {
+                    map_typeface.emplace_back( config.get_string( "map_typeface" ) );
+                } else {
+                    config.read( "map_typeface", map_typeface );
+                }
+                if( config.has_string( "overmap_typeface" ) ) {
+                    overmap_typeface.emplace_back( config.get_string( "overmap_typeface" ) );
+                } else {
+                    config.read( "overmap_typeface", overmap_typeface );
+                }
+
+                // Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
+                auto ensure_unifont_loaded = []( std::vector<std::string> &font_list ) {
+                    if( std::find( std::begin( font_list ), std::end( font_list ), "unifont" ) == font_list.end() ) {
+                        font_list.emplace_back( "unifont" );
+                    }
+                };
+                ensure_unifont_loaded( typeface );
+                ensure_unifont_loaded( map_typeface );
+                ensure_unifont_loaded( overmap_typeface );
+
             } catch( const std::exception &err ) {
                 throw std::runtime_error( std::string( "loading font settings from " ) + path + " failed: " +
                                           err.what() );
             }
         }
         void save( const std::string &path ) const {
-            std::ofstream stream( path.c_str(), std::ofstream::binary );
-            JsonOut json( stream, true ); // pretty-print
-            json.start_object();
-            json.member( "fontblending", fontblending );
-            json.member( "fontwidth", fontwidth );
-            json.member( "fontheight", fontheight );
-            json.member( "fontsize", fontsize );
-            json.member( "typeface", typeface );
-            json.member( "map_fontwidth", map_fontwidth );
-            json.member( "map_fontheight", map_fontheight );
-            json.member( "map_fontsize", map_fontsize );
-            json.member( "map_typeface", map_typeface );
-            json.member( "overmap_fontwidth", overmap_fontwidth );
-            json.member( "overmap_fontheight", overmap_fontheight );
-            json.member( "overmap_fontsize", overmap_fontsize );
-            json.member( "overmap_typeface", overmap_typeface );
-            json.end_object();
-            stream << "\n";
-            stream.close();
-            if( !stream.good() ) {
-                DebugLog( D_ERROR, D_SDL ) << "saving font settings to " << path << " failed";
+            try {
+                write_to_file( path, [&]( std::ostream & stream ) {
+                    JsonOut json( stream, true ); // pretty-print
+                    json.start_object();
+                    json.member( "typeface", typeface );
+                    json.member( "map_typeface", map_typeface );
+                    json.member( "overmap_typeface", overmap_typeface );
+                    json.end_object();
+                    stream << "\n";
+                } );
+            } catch( const std::exception &err ) {
+                DebugLog( D_ERROR, D_SDL ) << "saving font settings to " << path << " failed: " << err.what();
             }
         }
 
     public:
         /// @throws std::exception upon any kind of error.
         void load() {
-            const std::string fontdata = FILENAMES["fontdata"];
-            const std::string legacy_fontdata = FILENAMES["legacy_fontdata"];
+            const std::string fontdata = PATH_INFO::fontdata();
+            const std::string legacy_fontdata = PATH_INFO::legacy_fontdata();
             if( file_exist( fontdata ) ) {
                 load_throws( fontdata );
             } else {
                 load_throws( legacy_fontdata );
-                assure_dir_exist( FILENAMES["config_dir"] );
+                assure_dir_exist( PATH_INFO::config_dir() );
                 save( fontdata );
             }
         }
 };
 
-#endif
+#endif // CATA_SRC_FONT_LOADER_H

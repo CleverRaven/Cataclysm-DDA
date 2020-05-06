@@ -1,0 +1,20 @@
+[
+  {
+    "id": "eggs_bird",
+    "type": "requirement",
+    "components": [
+      [
+        [ "egg_bird", 1 ],
+        [ "egg_chicken", 1 ],
+        [ "egg_grouse", 1 ],
+        [ "egg_crow", 1 ],
+        [ "egg_duck", 1 ],
+        [ "egg_goose_canadian", 1 ],
+        [ "egg_turkey", 1 ],
+        [ "egg_pheasant", 1 ],
+        [ "egg_cockatrice", 1 ],
+        [ "egg_owlbear", 1 ]
+      ]
+    ]
+  }
+]

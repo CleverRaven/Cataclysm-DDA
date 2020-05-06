@@ -1,11 +1,12 @@
 #pragma once
-#ifndef MAP_ITEM_STACK_H
-#define MAP_ITEM_STACK_H
+#ifndef CATA_SRC_MAP_ITEM_STACK_H
+#define CATA_SRC_MAP_ITEM_STACK_H
 
-#include "enums.h"
-
-#include <vector>
+#include <algorithm>
 #include <string>
+#include <vector>
+
+#include "point.h"
 
 class item;
 
@@ -23,19 +24,19 @@ class map_item_stack
                 item_group( const tripoint &p, int arg_count );
         };
     public:
-        item const *example; //an example item for showing stats, etc.
+        const item *example; //an example item for showing stats, etc.
         std::vector<item_group> vIG;
         int totalcount;
 
         //only expected to be used for things like lists and vectors
         map_item_stack();
-        map_item_stack( item const *it, const tripoint &pos );
+        map_item_stack( const item *it, const tripoint &pos );
 
         // This adds to an existing item group if the last current
         // item group is the same position and otherwise creates and
         // adds to a new item group. Note that it does not search
         // through all older item groups for a match.
-        void add_at_pos( item const *it, const tripoint &pos );
+        void add_at_pos( const item *it, const tripoint &pos );
 
         static bool map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs );
 };
@@ -46,4 +47,4 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::st
 int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
                               const std::string &priorities );
 
-#endif
+#endif // CATA_SRC_MAP_ITEM_STACK_H

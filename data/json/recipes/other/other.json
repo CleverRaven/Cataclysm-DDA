@@ -5,13 +5,12 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "survival",
-    "difficulty": 1,
-    "time": 1000,
+    "time": "1 m",
     "book_learn": [ [ "mag_survival", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [
-        [ "meat", 1 ],
+        [ "meat_red_raw", 1, "LIST" ],
         [ "fish", 1 ],
         [ "corn", 1 ],
         [ "irradiated_corn", 1 ],

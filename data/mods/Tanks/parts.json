@@ -7,7 +7,7 @@
     "broken_symbol": "#",
     "broken_color": "green",
     "durability": 800,
-    "difficulty": 8
+    "requirements": { "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -17,12 +17,8 @@
     "range": 25,
     "item": "tank_gun_manual",
     "size": 10,
-    "extend": { "flags": [ "MANUAL" ] },
     "breaks_into": [ { "item": "tank_gun_manual", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 2 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 2 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -32,12 +28,8 @@
     "range": 25,
     "item": "tank_gun_auto",
     "size": 50,
-    "extend": { "flags": [ "MANUAL" ] },
     "breaks_into": [ { "item": "tank_gun_auto", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 2 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 2 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -47,12 +39,8 @@
     "range": 25,
     "item": "tank_gun_rws",
     "size": 100,
-    "extend": { "flags": [ "NEEDS_BATTERY_MOUNT" ] },
     "breaks_into": [ { "item": "tank_gun_rws", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ], [ "electronics", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ], [ "electronics", 3 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -62,27 +50,8 @@
     "range": 50,
     "item": "howitzer_gun",
     "size": 15,
-    "extend": { "flags": [ "MANUAL" ] },
     "breaks_into": [ { "item": "howitzer_gun", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "tow_launcher",
-    "copy-from": "turret_tank",
-    "name": "mounted ATGM launcher",
-    "range": 50,
-    "item": "atgm_launcher",
-    "size": 35,
-    "extend": { "flags": [ "MANUAL" ] },
-    "breaks_into": [ { "item": "atgm_launcher", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -92,12 +61,8 @@
     "range": 50,
     "item": "atgm_turret",
     "size": 35,
-    "extend": { "flags": [ "NEEDS_BATTERY_MOUNT" ] },
     "breaks_into": [ { "item": "atgm_turret", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ], [ "electronics", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ], [ "electronics", 3 ] ] } }
   },
   {
     "type": "vehicle_part",
@@ -107,11 +72,7 @@
     "range": 25,
     "item": "30mm_autocannon",
     "size": 50,
-    "extend": { "flags": [ "MANUAL" ] },
     "breaks_into": [ { "item": "30mm_autocannon", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 3 ] ] } }
   }
 ]

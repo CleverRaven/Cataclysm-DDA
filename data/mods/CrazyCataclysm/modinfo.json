@@ -10,6 +10,19 @@
   },
   {
     "type": "MONSTER_WHITELIST",
-    "monsters": [ "mon_zombie_dancer", "mon_zombie_jackson", "mon_shia", "mon_bear_smoky" ]
+    "monsters": [
+      "mon_zombie_dancer",
+      "mon_zombie_jackson",
+      "mon_shia",
+      "mon_bear_smoky",
+      "mon_zombie_skeltal",
+      "mon_zombie_skeltal_minion"
+    ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CRAZY",
+    "stype": "bool",
+    "value": true
   }
 ]

@@ -1,159 +1,220 @@
 [
   {
-    "id" : "back_holster",
-    "type" : "ARMOR",
-    "name" : "back holster",
-    "description" : "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Whilst initially cumbersome it becomes much easier to use with practice.  Activate to holster/draw a gun.",
-    "weight" : 240,
-    "volume" : 5,
-    "price" : 10000,
-    "material" : "leather",
-    "symbol" : "[",
-    "color" : "light_gray",
-    "covers" : ["TORSO"],
-    "coverage" : 5,
-    "encumbrance" : 5,
-    "material_thickness" : 1,
-    "use_action" : {
-      "type": "holster",
-      "max_volume": 15,
-      "draw_cost": 150,
-      "skills": ["smg", "shotgun", "rifle", "launcher"]
-    },
-    "flags" : ["BELTED", "OVERSIZE", "NO_QUICKDRAW"]
+    "id": "back_holster",
+    "type": "ARMOR",
+    "name": { "str": "back holster" },
+    "description": "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Whilst initially cumbersome it becomes much easier to use with practice.  Activate to holster/draw a gun.",
+    "weight": "240 g",
+    "volume": "1250 ml",
+    "price": 10000,
+    "price_postapoc": 1250,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "quiver_large",
+    "color": "light_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "encumbrance": 5,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "1500 ml",
+        "max_contains_volume": "9 L",
+        "max_contains_weight": "10 kg",
+        "moves": 150
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ]
   },
   {
-    "id" : "bootstrap",
-    "type" : "ARMOR",
-    "name" : "ankle holster",
-    "description" : "A small concealed holster worn on the ankle.  It is awkward to use without practice.  Activate to holster/draw a small pistol.",
-    "weight" : 200,
-    "volume" : 1,
-    "price" : 7400,
-    "material" : "leather",
-    "symbol" : "[",
-    "color" : "brown",
-    "covers" : ["FOOT_EITHER"],
-    "coverage" : 5,
-    "encumbrance" : 4,
-    "material_thickness" : 1,
-    "flags" : ["BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
-    "use_action" : {
-      "type": "holster",
-      "max_volume": 2,
-      "min_volume": 0,
-      "max_weight": 1000,
-      "draw_cost": 150,
-      "skills": ["pistol"]
-    }
+    "id": "bootstrap",
+    "type": "ARMOR",
+    "name": { "str": "ankle holster" },
+    "description": "A small concealed holster worn on the ankle.  It is awkward to use without practice.  Activate to holster/draw a small pistol.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": 7400,
+    "price_postapoc": 500,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "brown",
+    "covers": [ "FOOT_EITHER" ],
+    "coverage": 5,
+    "encumbrance": 4,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 150
+      }
+    ],
+    "use_action": { "type": "holster" }
   },
   {
     "id": "bow_sling",
     "type": "ARMOR",
-    "name": "bow sling",
-    "name_plural": "bow slings",
+    "name": { "str": "bow sling" },
     "description": "A somewhat complicated set of straps and fabric to keep your bow close to hand and (mostly) out of harms way.  Activate to holster/draw your bow.",
-    "weight": 320,
-    "volume": 2,
+    "weight": "320 g",
+    "volume": "500 ml",
     "price": 8000,
+    "price_postapoc": 500,
     "material": [ "cotton" ],
     "symbol": "[",
+    "looks_like": "slingpack",
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 5,
     "encumbrance": 7,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "WAIST" ],
-    "use_action": {
-        "type": "holster",
-        "max_volume": 20,
-        "min_volume": 2,
-        "skills": [ "archery" ] }
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "5 kg",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" }
   },
   {
-    "id" : "holster",
-    "type" : "ARMOR",
-    "name" : "holster",
-    "description" : "A leather strap worn on the hip for holding pistol sized guns.  Activate to holster/draw a gun.",
-    "weight" : 220,
-    "volume" : 2,
-    "price" : 9000,
-    "material" : "leather",
-    "symbol" : "[",
-    "color" : "light_gray",
-    "covers" : ["LEG_EITHER"],
-    "coverage" : 5,
-    "encumbrance" : 5,
-    "material_thickness" : 1,
-    "use_action" : {
-      "type": "holster",
-      "max_volume": 5,
-      "min_volume": 2,
-      "skills": ["pistol", "smg", "shotgun"]
-    },
-    "flags" : ["WAIST", "OVERSIZE"]
+    "id": "holster",
+    "type": "ARMOR",
+    "name": { "str": "holster" },
+    "description": "A leather strap worn on the hip for holding pistol sized guns.  Activate to holster/draw a gun.",
+    "weight": "220 g",
+    "volume": "500 ml",
+    "price": 9000,
+    "price_postapoc": 500,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "light_gray",
+    "covers": [ "LEG_EITHER" ],
+    "coverage": 5,
+    "encumbrance": 5,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "WAIST", "OVERSIZE" ]
   },
   {
     "id": "sholster",
     "copy-from": "holster",
     "type": "ARMOR",
-    "name": "fast draw holster",
+    "name": { "str": "fast draw holster" },
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
-    "encumbrance" : 2,
-    "use_action": {
-      "type": "holster",
-      "max_volume": 4,
-      "draw_cost": 80,
-      "skills": ["pistol", "shotgun"]
-    }
+    "price_postapoc": 500,
+    "encumbrance": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80
+      }
+    ],
+    "use_action": { "type": "holster" }
+  },
+  {
+    "id": "bholster",
+    "copy-from": "holster",
+    "type": "ARMOR",
+    "name": { "str": "deep concealment holster" },
+    "description": "An elastic band with numerous provisions for concealing a very small pistol close to the body.  It is awkward to use without practice.  Activate to holster/draw a gun.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": 3000,
+    "price_postapoc": 500,
+    "material": [ "lycra" ],
+    "covers": [ "LEGS" ],
+    "encumbrance": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 210
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
     "id": "survivor_vest",
     "type": "ARMOR",
-    "name": "survivor harness",
-    "name_plural": "survivor harnesses",
+    "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear.  Activate to holster/draw your weapon.",
-    "weight": 320,
-    "volume": 5,
+    "weight": "320 g",
+    "volume": "1250 ml",
     "price": 20000,
-    "material": ["leather", "cotton"],
+    "price_postapoc": 4000,
+    "material": [ "leather", "cotton" ],
     "symbol": "[",
+    "looks_like": "tacvest",
     "color": "green",
-    "covers": ["TORSO"],
+    "covers": [ "TORSO" ],
     "coverage": 20,
     "encumbrance": 2,
-    "storage": 12,
-    "material_thickness" : 2,
-    "use_action": {
-        "type": "holster",
-         "max_volume": 15,
-         "min_volume": 5,
-         "skills": ["smg", "shotgun", "rifle"]
-    },
-    "flags": ["WATER_FRIENDLY", "STURDY", "WAIST"]
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "1250 ml",
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ]
   },
   {
     "id": "XL_holster",
     "type": "ARMOR",
-    "name": "XL holster",
+    "name": { "str": "XL holster" },
     "description": "A belt holster consisting of a loop and strap intended for use with larger firearms.  Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg, Activate to holster/draw a gun.",
-    "weight": 320,
-    "volume": 1,
+    "weight": "320 g",
+    "volume": "250 ml",
     "price": 9000,
-    "rigid": false,
-    "material": "leather",
+    "price_postapoc": 750,
+    "material": [ "leather" ],
     "symbol": "[",
+    "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": ["LEG_EITHER"],
+    "covers": [ "LEG_EITHER" ],
     "coverage": 10,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "min_volume": 5,
-      "max_volume": 8,
-      "skills": ["pistol", "smg", "shotgun", "rifle"]
-    },
-    "flags": ["WAIST", "OVERSIZE"]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "750 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "WAIST", "OVERSIZE" ]
   }
 ]

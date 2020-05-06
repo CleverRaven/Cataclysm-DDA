@@ -2,35 +2,33 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_bird",
-    "name": "bird litter",
-    "weight": 40,
+    "name": { "str_sp": "bird litter" },
+    "category": "chems",
+    "weight": "40 g",
     "color": "brown",
-    "spoils_in": 112,
+    "spoils_in": "4 days 16 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -3,
     "healthy": -10,
-    "nutrition": 3,
+    "calories": 26,
     "description": "Bird dropping, feathers, and soiled bits of rubbish.",
     "price": 0,
+    "price_postapoc": 0,
     "material": "feces",
-    "volume": 1,
+    "volume": "250 ml",
     "charges": 4,
     "stack_size": 4,
-    "fun": -25,
-    "rot_spawn": "GROUP_BIOSIG_BIRD",
-    "rot_spawn_chance": 5
+    "fun": -25
   },
   {
     "type": "COMESTIBLE",
     "id": "feces_cow",
     "name": "cow pie",
     "copy-from": "feces_bird",
-    "weight": 750,
-    "volume": 4,
-    "description": "A fresh cow pie, could probably be used to make some great fertilizer.",
-    "rot_spawn": "GROUP_BIOSIG_LARGE_HERBIVORE",
-    "rot_spawn_chance": 2
+    "weight": "750 g",
+    "volume": "1 L",
+    "description": "A fresh cow pie, could probably be used to make some great fertilizer."
   },
   {
     "type": "COMESTIBLE",
@@ -44,17 +42,33 @@
     "id": "feces_manure",
     "name": "manure",
     "copy-from": "feces_bird",
-    "weight": 250,
-    "volume": 2,
-    "description": "Common manure, could probably be used to make some great fertilizer.",
-    "rot_spawn": "GROUP_BIOSIG_LARGE_HERBIVORE"
+    "weight": "250 g",
+    "volume": "500 ml",
+    "description": "Common manure, could probably be used to make some great fertilizer."
   },
   {
     "type": "COMESTIBLE",
     "id": "feces_roach",
     "name": "roach dirt",
     "copy-from": "feces_bird",
-    "description": "Large black pellets of rotting material.",
-    "rot_spawn": "GROUP_BIOSIG_ROACH"
+    "description": "Large black pellets of rotting material."
+  },
+  {
+    "type": "GENERIC",
+    "id": "fetid_goop",
+    "symbol": "~",
+    "color": "white",
+    "name": { "str": "fetid goop" },
+    "weight": "750 g",
+    "volume": "1 L",
+    "description": "A foul smelling goop.  It has a disgusting texture and a powerful smell that overrides every other smell around it.",
+    "use_action": {
+      "type": "change_scent",
+      "scent_typeid": "sc_fetid",
+      "moves": 200,
+      "duration": "1 h",
+      "charges_to_use": 1,
+      "effects": [ { "id": "fetid_goop", "duration": 3600 } ]
+    }
   }
 ]

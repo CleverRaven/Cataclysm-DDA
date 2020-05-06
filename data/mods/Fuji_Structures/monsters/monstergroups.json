@@ -1,0 +1,22 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BUNKER",
+    "default": "mon_irradiated_wanderer_1",
+    "monsters": [
+      { "monster": "mon_irradiated_wanderer_1", "freq": 240, "cost_multiplier": 0 },
+      { "monster": "mon_irradiated_wanderer_2", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_irradiated_wanderer_3", "freq": 10, "cost_multiplier": 5, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_irradiated_wanderer_4", "freq": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_armored", "freq": 25, "cost_multiplier": 20, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_soldier", "freq": 200, "cost_multiplier": 3 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SCI",
+    "default": "mon_zombie_scientist",
+    "monsters": [ { "monster": "mon_zombie_scientist", "freq": 240, "cost_multiplier": 0 } ]
+  }
+]

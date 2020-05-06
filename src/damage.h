@@ -1,22 +1,20 @@
 #pragma once
-#ifndef DAMAGE_H
-#define DAMAGE_H
+#ifndef CATA_SRC_DAMAGE_H
+#define CATA_SRC_DAMAGE_H
 
-#include "enums.h"
-#include "string_id.h"
 #include <array>
-#include <string>
+#include <map>
 #include <vector>
-#include <set>
-#include <memory>
+#include <string>
+
+#include "type_id.h"
+#include "calendar.h"
 
 class item;
 class monster;
 class JsonObject;
 class JsonArray;
-
-class Skill;
-using skill_id = string_id<Skill>;
+class JsonIn;
 
 enum body_part : int;
 
@@ -31,6 +29,7 @@ enum damage_type : int {
     DT_HEAT, // e.g. fire, plasma
     DT_COLD, // e.g. heatdrain, cryogrenades
     DT_ELECTRIC, // e.g. electrical discharge
+    DT_BULLET, // bullets and other fast moving projectiles
     NUM_DT
 };
 
@@ -41,12 +40,16 @@ struct damage_unit {
     float res_mult;
     float damage_multiplier;
 
-    damage_unit( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f ) :
-        type( dt ), amount( a ), res_pen( rp ), res_mult( rm ), damage_multiplier( mul ) { }
+    float unconditional_res_mult;
+    float unconditional_damage_mult;
+
+    damage_unit( damage_type dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
+                 float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f ) :
+        type( dt ), amount( amt ), res_pen( arpen ), res_mult( arpen_mult ), damage_multiplier( dmg_mult ),
+        unconditional_res_mult( unc_arpen_mult ), unconditional_damage_mult( unc_dmg_mult ) { }
 
     bool operator==( const damage_unit &other ) const;
 };
-
 
 // a single atomic unit of damage from an attack. Can include multiple types
 // of damage at different armor mitigation/penetration values
@@ -54,7 +57,8 @@ struct damage_instance {
     std::vector<damage_unit> damage_units;
     damage_instance();
     static damage_instance physical( float bash, float cut, float stab, float arpen = 0.0f );
-    damage_instance( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
+    damage_instance( damage_type dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
+                     float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f );
     void mult_damage( double multiplier, bool pre_armor = false );
     float type_damage( damage_type dt ) const;
     float total_damage() const;
@@ -74,12 +78,29 @@ struct damage_instance {
      * The normalization means that the effective damage can actually decrease (depending on target's armor).
      */
     /*@{*/
-    void add_damage( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
-    void add( const damage_instance &b );
-    void add( const damage_unit &b );
+    void add_damage( damage_type dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
+                     float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f );
+    void add( const damage_instance &added_di );
+    void add( const damage_unit &added_du );
     /*@}*/
 
     void deserialize( JsonIn & );
+};
+
+class damage_over_time_data
+{
+    public:
+        damage_type type;
+        time_duration duration;
+        std::vector<bodypart_str_id> bps;
+        int amount;
+
+        bool was_loaded;
+
+        void load( const JsonObject &obj );
+
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 struct dealt_damage_instance {
@@ -108,18 +129,23 @@ struct resistances {
     resistances &operator+=( const resistances &other );
 };
 
+const std::map<std::string, damage_type> &get_dt_map();
 damage_type dt_by_name( const std::string &name );
-const std::string &name_by_dt( const damage_type &dt );
+std::string name_by_dt( const damage_type &dt );
 
 const skill_id &skill_by_dt( damage_type dt );
 
-damage_instance load_damage_instance( JsonObject &jo );
-damage_instance load_damage_instance( JsonArray &jarr );
+damage_instance load_damage_instance( const JsonObject &jo );
+damage_instance load_damage_instance( const JsonArray &jarr );
 
-resistances load_resistances_instance( JsonObject &jo );
+damage_instance load_damage_instance_inherit( const JsonObject &jo, const damage_instance &parent );
+damage_instance load_damage_instance_inherit( const JsonArray &jarr,
+        const damage_instance &parent );
+
+resistances load_resistances_instance( const JsonObject &jo );
 
 // Returns damage or resistance data
 // Handles some shorthands
-std::array<float, NUM_DT> load_damage_array( JsonObject &jo );
+std::array<float, NUM_DT> load_damage_array( const JsonObject &jo );
 
-#endif
+#endif // CATA_SRC_DAMAGE_H

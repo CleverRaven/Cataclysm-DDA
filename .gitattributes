@@ -1,14 +1,18 @@
-# These files are text and should be normalized (convert crlf =&gt; lf)
+# Automatically normalize line endings for all files
+# detected as text (Convert CRLF => LF).
+*         text=auto
+
+# Explicitly normalize files with these extensions in
+# case Git doesn't detect them as text for some reason.
 *.c       text
 *.cbp     text
 *.cpp     text
 *.h       text
 *.json    text
-*.lua     text
 *.md      text
 *.py      text
 *.rc      text
-*.sh      text eol=lf
+*.sh      text
 *.txt     text
 *.yml     text
 

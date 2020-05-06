@@ -115,6 +115,13 @@
             "multitile":false
         },
         {
+            "id":"highlight",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
             "id":"lighting_boomered_light",
             "fg":-1,
             "bg":-1,
@@ -1515,6 +1522,13 @@
         },
         {
             "id": "tr_shotgun_2",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
+            "id": "tr_shotgun_2_1",
             "fg":-1,
             "bg":-1,
             "rotates":false,
@@ -5700,14 +5714,14 @@
             "multitile":false
         },
         {
-            "id": "ring",
+            "id": "gold_ring",
             "fg":-1,
             "bg":-1,
             "rotates":false,
             "multitile":false
         },
         {
-            "id": "necklace",
+            "id": "silver_necklace",
             "fg":-1,
             "bg":-1,
             "rotates":false,
@@ -7389,7 +7403,7 @@
             "multitile":false
         },
         {
-            "id": "potato_raw",
+            "id": "potato",
             "fg":-1,
             "bg":-1,
             "rotates":false,
@@ -7494,21 +7508,21 @@
             "multitile":false
         },
         {
-            "id": "meat_vac",
+            "id": "meat_salted",
             "fg":-1,
             "bg":-1,
             "rotates":false,
             "multitile":false
         },
         {
-            "id": "veggy_vac",
+            "id": "veggy_salted",
             "fg":-1,
             "bg":-1,
             "rotates":false,
             "multitile":false
         },
         {
-            "id": "apple_vac",
+            "id": "apple_sugar",
             "fg":-1,
             "bg":-1,
             "rotates":false,
@@ -9417,13 +9431,6 @@
             "multitile":false
         },
         {
-            "id": "hk_ucp",
-            "fg":-1,
-            "bg":-1,
-            "rotates":false,
-            "multitile":false
-        },
-        {
             "id": "tokarev",
             "fg":-1,
             "bg":-1,
@@ -11147,21 +11154,7 @@
             "multitile":false
         },
         {
-            "id": "bag_meat_vac",
-            "fg":-1,
-            "bg":-1,
-            "rotates":false,
-            "multitile":false
-        },
-        {
-            "id": "bag_veggy_vac",
-            "fg":-1,
-            "bg":-1,
-            "rotates":false,
-            "multitile":false
-        },
-        {
-            "id": "bag_apple_vac",
+            "id": "plastic_bag_vac",
             "fg":-1,
             "bg":-1,
             "rotates":false,

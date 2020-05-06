@@ -1,8 +1,9 @@
 #pragma once
-#ifndef AMMO_H
-#define AMMO_H
+#ifndef CATA_SRC_AMMO_H
+#define CATA_SRC_AMMO_H
 
 #include <string>
+#include <utility>
 
 class JsonObject;
 
@@ -17,7 +18,7 @@ class ammunition_type
 
         std::string name() const;
 
-        itype_id const &default_ammotype() const {
+        const itype_id &default_ammotype() const {
             return default_ammotype_;
         }
 
@@ -25,9 +26,9 @@ class ammunition_type
         std::string name_;
         itype_id default_ammotype_;
 
-        static void load_ammunition_type( JsonObject &jsobj );
+        static void load_ammunition_type( const JsonObject &jsobj );
         static void reset();
         static void check_consistency();
 };
 
-#endif
+#endif // CATA_SRC_AMMO_H

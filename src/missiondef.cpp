@@ -1,12 +1,20 @@
-#include "mission.h"
-#include "translations.h"
-#include "rng.h"
-#include "generic_factory.h"
-#include "calendar.h"
-#include "item.h"
-#include "assign.h"
+#include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstdlib>
+#include <set>
+
+#include "assign.h"
+#include "calendar.h"
+#include "condition.h"
+#include "debug.h"
+#include "enum_conversions.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item.h"
+#include "json.h"
+#include "npc.h"
+#include "rng.h"
 
 enum legacy_mission_type_id {
     MISSION_NULL,
@@ -90,127 +98,99 @@ enum legacy_mission_type_id {
     NUM_MISSION_IDS
 };
 
-static const std::map<std::string, std::function<void(mission *)>> mission_function_map = {{
-    // Starts
-    { "standard", { } },
-    { "join", mission_start::join },
-    { "infect_npc", mission_start::infect_npc },
-    { "need_drugs_npc", mission_start::need_drugs_npc },
-    { "place_dog", mission_start::place_dog },
-    { "place_zombie_mom", mission_start::place_zombie_mom },
-    { "place_zombie_bay", mission_start::place_zombie_bay },
-    { "place_caravan_ambush", mission_start::place_caravan_ambush },
-    { "place_bandit_cabin", mission_start::place_bandit_cabin },
-    { "place_informant", mission_start::place_informant },
-    { "place_grabber", mission_start::place_grabber },
-    { "place_bandit_camp", mission_start::place_bandit_camp },
-    { "place_jabberwock", mission_start::place_jabberwock },
-    { "kill_100_z", mission_start::kill_100_z },
-    { "kill_20_nightmares", mission_start::kill_20_nightmares },
-    { "kill_horde_master", mission_start::kill_horde_master },
-    { "place_npc_software", mission_start::place_npc_software },
-    { "place_priest_diary", mission_start::place_priest_diary },
-    { "place_deposit_box", mission_start::place_deposit_box },
-    { "reveal_lab_black_box", mission_start::reveal_lab_black_box },
-    { "open_sarcophagus", mission_start::open_sarcophagus },
-    { "reveal_hospital", mission_start::reveal_hospital },
-    { "find_safety", mission_start::find_safety },
-    { "point_prison", mission_start::point_prison },
-    { "point_cabin_strange", mission_start::point_cabin_strange },
-    { "recruit_tracker", mission_start::recruit_tracker },
-    { "radio_repeater", mission_start::radio_repeater },
-    { "start_commune", mission_start::start_commune },
-    { "ranch_construct_1", mission_start::ranch_construct_1 },
-    { "ranch_construct_2", mission_start::ranch_construct_2 },
-    { "ranch_construct_3", mission_start::ranch_construct_3 },
-    { "ranch_construct_4", mission_start::ranch_construct_4 },
-    { "ranch_construct_5", mission_start::ranch_construct_5 },
-    { "ranch_construct_6", mission_start::ranch_construct_6 },
-    { "ranch_construct_7", mission_start::ranch_construct_7 },
-    { "ranch_construct_8", mission_start::ranch_construct_8 },
-    { "ranch_construct_9", mission_start::ranch_construct_9 },
-    { "ranch_construct_10", mission_start::ranch_construct_10 },
-    { "ranch_construct_11", mission_start::ranch_construct_11 },
-    { "ranch_construct_12", mission_start::ranch_construct_12 },
-    { "ranch_construct_13", mission_start::ranch_construct_13 },
-    { "ranch_construct_14", mission_start::ranch_construct_14 },
-    { "ranch_construct_15", mission_start::ranch_construct_15 },
-    { "ranch_construct_16", mission_start::ranch_construct_16 },
-    { "ranch_nurse_1", mission_start::ranch_nurse_1 },
-    { "ranch_nurse_2", mission_start::ranch_nurse_2 },
-    { "ranch_nurse_3", mission_start::ranch_nurse_3 },
-    { "ranch_nurse_4", mission_start::ranch_nurse_4 },
-    { "ranch_nurse_5", mission_start::ranch_nurse_5 },
-    { "ranch_nurse_6", mission_start::ranch_nurse_6 },
-    { "ranch_nurse_7", mission_start::ranch_nurse_7 },
-    { "ranch_nurse_8", mission_start::ranch_nurse_8 },
-    { "ranch_nurse_9", mission_start::ranch_nurse_9 },
-    { "ranch_scavenger_1", mission_start::ranch_scavenger_1 },
-    { "ranch_scavenger_2", mission_start::ranch_scavenger_2 },
-    { "ranch_scavenger_3", mission_start::ranch_scavenger_3 },
-    { "ranch_bartender_1", mission_start::ranch_bartender_1 },
-    { "ranch_bartender_2", mission_start::ranch_bartender_2 },
-    { "ranch_bartender_3", mission_start::ranch_bartender_3 },
-    { "ranch_bartender_4", mission_start::ranch_bartender_4 },
-    { "place_book", mission_start::place_book },
-    { "reveal_weather_station", mission_start::reveal_weather_station },
-    { "reveal_office_tower", mission_start::reveal_office_tower },
-    { "reveal_doctors_office", mission_start::reveal_doctors_office },
-    { "reveal_cathedral", mission_start::reveal_cathedral },
-    { "reveal_refugee_center", mission_start::reveal_refugee_center },
-    // Endings
-    { "leave", mission_end::leave },
-    { "thankful", mission_end::thankful },
-    { "deposit_box", mission_end::deposit_box },
-    { "heal_infection", mission_end::heal_infection },
-    // Failures
-    { "kill_npc", mission_fail::kill_npc },
-}};
+static const std::map<std::string, std::function<void( mission * )>> mission_function_map = {{
+        // Starts
+        { "standard", { } },
+        { "place_dog", mission_start::place_dog },
+        { "place_zombie_mom", mission_start::place_zombie_mom },
+        { "kill_horde_master", mission_start::kill_horde_master },
+        { "place_npc_software", mission_start::place_npc_software },
+        { "place_priest_diary", mission_start::place_priest_diary },
+        { "place_deposit_box", mission_start::place_deposit_box },
+        { "find_safety", mission_start::find_safety },
+        { "ranch_nurse_1", mission_start::ranch_nurse_1 },
+        { "ranch_nurse_2", mission_start::ranch_nurse_2 },
+        { "ranch_nurse_3", mission_start::ranch_nurse_3 },
+        { "ranch_nurse_4", mission_start::ranch_nurse_4 },
+        { "ranch_nurse_5", mission_start::ranch_nurse_5 },
+        { "ranch_nurse_6", mission_start::ranch_nurse_6 },
+        { "ranch_nurse_7", mission_start::ranch_nurse_7 },
+        { "ranch_nurse_8", mission_start::ranch_nurse_8 },
+        { "ranch_nurse_9", mission_start::ranch_nurse_9 },
+        { "ranch_scavenger_1", mission_start::ranch_scavenger_1 },
+        { "ranch_scavenger_2", mission_start::ranch_scavenger_2 },
+        { "ranch_scavenger_3", mission_start::ranch_scavenger_3 },
+        { "place_book", mission_start::place_book },
+        { "reveal_refugee_center", mission_start::reveal_refugee_center },
+        { "create_lab_console", mission_start::create_lab_console },
+        { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
+        { "create_ice_lab_console", mission_start::create_ice_lab_console },
+        { "reveal_lab_train_depot", mission_start::reveal_lab_train_depot },
+        // Endings
+        { "deposit_box", mission_end::deposit_box }
+        // Failures
+    }
+};
 
-static const std::map<std::string, std::function<bool(const tripoint &)>> tripoint_function_map = {{
-    { "never", mission_place::never },
-    { "always", mission_place::always },
-    { "near_town", mission_place::near_town }
-}};
+static const std::map<std::string, std::function<bool( const tripoint & )>> tripoint_function_map
+= {{
+        { "never", mission_place::never },
+        { "always", mission_place::always },
+        { "near_town", mission_place::near_town }
+    }
+};
 
-namespace io {
-static const std::map<std::string, mission_origin> origin_map = {{
-    { "ORIGIN_NULL", ORIGIN_NULL },
-    { "ORIGIN_GAME_START", ORIGIN_GAME_START },
-    { "ORIGIN_OPENER_NPC", ORIGIN_OPENER_NPC },
-    { "ORIGIN_ANY_NPC", ORIGIN_ANY_NPC },
-    { "ORIGIN_SECONDARY", ORIGIN_SECONDARY },
-    { "ORIGIN_COMPUTER", ORIGIN_COMPUTER }
-}};
-template<>
-mission_origin string_to_enum<mission_origin>( const std::string &data )
+namespace io
 {
-    return string_to_enum_look_up( origin_map, data );
+template<>
+std::string enum_to_string<mission_origin>( mission_origin data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case ORIGIN_NULL: return "ORIGIN_NULL";
+        case ORIGIN_GAME_START: return "ORIGIN_GAME_START";
+        case ORIGIN_OPENER_NPC: return "ORIGIN_OPENER_NPC";
+        case ORIGIN_ANY_NPC: return "ORIGIN_ANY_NPC";
+        case ORIGIN_SECONDARY: return "ORIGIN_SECONDARY";
+        case ORIGIN_COMPUTER: return "ORIGIN_COMPUTER";
+        // *INDENT-ON*
+        case mission_origin::NUM_ORIGIN:
+            break;
+    }
+    debugmsg( "Invalid mission_origin" );
+    abort();
 }
 
-static const std::map<std::string, mission_goal> goal_map = {{
-    { "MGOAL_NULL", MGOAL_NULL },
-    { "MGOAL_GO_TO", MGOAL_GO_TO },
-    { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
-    { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
-    { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
-    { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
-    { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
-    { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
-    { "MGOAL_KILL_MONSTER", MGOAL_KILL_MONSTER },
-    { "MGOAL_KILL_MONSTER_TYPE", MGOAL_KILL_MONSTER_TYPE },
-    { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
-    { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
-    { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
-    { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE }
-}};
 template<>
-mission_goal string_to_enum<mission_goal>( const std::string &data )
+std::string enum_to_string<mission_goal>( mission_goal data )
 {
-    return string_to_enum_look_up( goal_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case MGOAL_NULL: return "MGOAL_NULL";
+        case MGOAL_GO_TO: return "MGOAL_GO_TO";
+        case MGOAL_GO_TO_TYPE: return "MGOAL_GO_TO_TYPE";
+        case MGOAL_FIND_ITEM: return "MGOAL_FIND_ITEM";
+        case MGOAL_FIND_ANY_ITEM: return "MGOAL_FIND_ANY_ITEM";
+        case MGOAL_FIND_ITEM_GROUP: return "MGOAL_FIND_ITEM_GROUP";
+        case MGOAL_FIND_MONSTER: return "MGOAL_FIND_MONSTER";
+        case MGOAL_FIND_NPC: return "MGOAL_FIND_NPC";
+        case MGOAL_ASSASSINATE: return "MGOAL_ASSASSINATE";
+        case MGOAL_KILL_MONSTER: return "MGOAL_KILL_MONSTER";
+        case MGOAL_KILL_MONSTER_TYPE: return "MGOAL_KILL_MONSTER_TYPE";
+        case MGOAL_KILL_MONSTER_SPEC: return "MGOAL_KILL_MONSTER_SPEC";
+        case MGOAL_RECRUIT_NPC: return "MGOAL_RECRUIT_NPC";
+        case MGOAL_RECRUIT_NPC_CLASS: return "MGOAL_RECRUIT_NPC_CLASS";
+        case MGOAL_COMPUTER_TOGGLE: return "MGOAL_COMPUTER_TOGGLE";
+        case MGOAL_TALK_TO_NPC: return "MGOAL_TALK_TO_NPC";
+        case MGOAL_CONDITION: return "MGOAL_CONDITION";
+        // *INDENT-ON*
+        case mission_goal::NUM_MGOAL:
+            break;
+    }
+    debugmsg( "Invalid mission_goal" );
+    abort();
 }
 } // namespace io
-
 
 generic_factory<mission_type> mission_type_factory( "mission_type" );
 
@@ -228,7 +208,7 @@ bool string_id<mission_type>::is_valid() const
     return mission_type_factory.is_valid( *this );
 }
 
-void mission_type::load_mission_type( JsonObject &jo, const std::string &src )
+void mission_type::load_mission_type( const JsonObject &jo, const std::string &src )
 {
     mission_type_factory.load( jo, src );
 }
@@ -239,7 +219,8 @@ void mission_type::reset()
 }
 
 template <typename Fun>
-void assign_function( JsonObject &jo, const std::string &id, Fun &target, const std::map<std::string, Fun> &cont )
+void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
+                      const std::map<std::string, Fun> &cont )
 {
     if( jo.has_string( id ) ) {
         const auto iter = cont.find( jo.get_string( id ) );
@@ -251,7 +232,9 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target, const 
     }
 }
 
-void mission_type::load( JsonObject &jo, const std::string &src )
+static DynamicDataLoader::deferred_json deferred;
+
+void mission_type::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -263,15 +246,15 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     if( jo.has_member( "origins" ) ) {
         origins.clear();
         for( auto &m : jo.get_tags( "origins" ) ) {
-            origins.emplace_back( io::string_to_enum_look_up( io::origin_map, m ) );
+            origins.emplace_back( io::string_to_enum<mission_origin>( m ) );
         }
     }
 
     if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
-        return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
-    } ) ) {
+    return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
+} ) ) {
         auto djo = jo.get_object( "dialogue" );
-        // @todo: There should be a cleaner way to do it
+        // TODO: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
         mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );
@@ -283,16 +266,43 @@ void mission_type::load( JsonObject &jo, const std::string &src )
         mandatory( djo, was_loaded, "failure", dialogue[ "failure" ] );
     }
 
+    optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
+    optional( jo, was_loaded, "item_group", group_id );
     optional( jo, was_loaded, "count", item_count, 1 );
+    optional( jo, was_loaded, "required_container", container_id );
+    optional( jo, was_loaded, "remove_container", remove_container );
+    //intended for situations where closed and open container are different
+    optional( jo, was_loaded, "empty_container", empty_container );
+    optional( jo, was_loaded, "has_generic_rewards", has_generic_rewards, true );
 
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
     assign_function( jo, "place", place, tripoint_function_map );
-    assign_function( jo, "start", start, mission_function_map );
-    assign_function( jo, "end", end, mission_function_map );
-    assign_function( jo, "fail", fail, mission_function_map );
+    const auto parse_phase = [&]( const std::string & phase,
+    std::function<void( mission * )> &phase_func ) {
+        if( jo.has_string( phase ) ) {
+            assign_function( jo, phase, phase_func, mission_function_map );
+        } else if( jo.has_member( phase ) ) {
+            JsonObject j_start = jo.get_object( phase );
+            if( !parse_funcs( j_start, phase_func ) ) {
+                deferred.emplace_back( jo.str(), src );
+                j_start.allow_omitted_members();
+                return false;
+            }
+        }
+        return true;
+    };
+    if( !parse_phase( "start", start ) ) {
+        return;
+    }
+    if( !parse_phase( "end", end ) ) {
+        return;
+    }
+    if( !parse_phase( "fail", fail ) ) {
+        return;
+    }
 
     assign( jo, "deadline_low", deadline_low, false, 1_days );
     assign( jo, "deadline_high", deadline_high, false, 1_days );
@@ -304,12 +314,32 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     if( jo.has_member( "monster_species" ) ) {
         monster_species = species_id( jo.get_string( "monster_species" ) );
     }
+    if( jo.has_member( "monster_type" ) ) {
+        monster_type = mtype_id( jo.get_string( "monster_type" ) );
+    }
 
     if( jo.has_member( "monster_kill_goal" ) ) {
         monster_kill_goal = jo.get_int( "monster_kill_goal" );
     }
 
     assign( jo, "destination", target_id, strict );
+
+    if( jo.has_member( "goal_condition" ) ) {
+        read_condition<mission_goal_condition_context>( jo, "goal_condition", goal_condition, true );
+    }
+}
+
+bool mission_type::test_goal_condition( const mission_goal_condition_context &d ) const
+{
+    if( goal_condition ) {
+        return goal_condition( d );
+    }
+    return true;
+}
+
+void mission_type::finalize()
+{
+    DynamicDataLoader::get_instance().load_deferred( deferred );
 }
 
 void mission_type::check_consistency()
@@ -324,89 +354,90 @@ void mission_type::check_consistency()
 mission_type_id mission_type::from_legacy( int old_id )
 {
     static const std::vector<mission_type_id> old_id_vec = {{
-        mission_type_id( "MISSION_NULL" ),
-        mission_type_id( "MISSION_GET_ANTIBIOTICS" ),
-        mission_type_id( "MISSION_GET_SOFTWARE" ),
-        mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" ),
-        mission_type_id( "MISSION_RESCUE_DOG" ),
-        mission_type_id( "MISSION_KILL_ZOMBIE_MOM" ),
-        mission_type_id( "MISSION_REACH_SAFETY" ),
-        mission_type_id( "MISSION_GET_FLAG" ),
-        mission_type_id( "MISSION_GET_BLACK_BOX" ),
-        mission_type_id( "MISSION_GET_BLACK_BOX_TRANSCRIPT" ),
-        mission_type_id( "MISSION_EXPLORE_SARCOPHAGUS" ),
-        mission_type_id( "MISSION_GET_RELIC" ),
-        mission_type_id( "MISSION_RECOVER_PRIEST_DIARY" ),
-        mission_type_id( "MISSION_INVESTIGATE_CULT" ),
-        mission_type_id( "MISSION_INVESTIGATE_PRISON_VISIONARY" ),
-        mission_type_id( "MISSION_GET_RECORD_WEATHER" ),
-        mission_type_id( "MISSION_GET_RECORD_PATIENT" ),
-        mission_type_id( "MISSION_REACH_FEMA_CAMP" ),
-        mission_type_id( "MISSION_REACH_FARM_HOUSE" ),
-        mission_type_id( "MISSION_GET_RECORD_ACCOUNTING" ),
-        mission_type_id( "MISSION_GET_SAFE_BOX" ),
-        mission_type_id( "MISSION_GET_DEPUTY_BADGE" ),
-        mission_type_id( "MISSION_KILL_JABBERWOCK" ),
-        mission_type_id( "MISSION_KILL_100_Z" ),
-        mission_type_id( "MISSION_KILL_HORDE_MASTER" ),
-        mission_type_id( "MISSION_RECRUIT_TRACKER" ),
-        mission_type_id( "MISSION_JOIN_TRACKER" ),
-        mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_1" ),
-        mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_2" ),
-        mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_4" ),
-        mission_type_id( "MISSION_OLD_GUARD_REP_1" ),
-        mission_type_id( "MISSION_OLD_GUARD_REP_2" ),
-        mission_type_id( "MISSION_OLD_GUARD_REP_3" ),
-        mission_type_id( "MISSION_OLD_GUARD_REP_4" ),
-        mission_type_id( "MISSION_OLD_GUARD_NEC_1" ),
-        mission_type_id( "MISSION_OLD_GUARD_NEC_2" ),
-        mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_1" ),
-        mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" ),
-        mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
-        mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_1" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_2" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_3" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_4" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_5" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_6" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_7" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_8" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_9" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_10" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_11" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_12" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_13" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_14" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_15" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_16" ),
-        mission_type_id( "MISSION_RANCH_FOREMAN_17" ),
-        mission_type_id( "MISSION_RANCH_NURSE_1" ),
-        mission_type_id( "MISSION_RANCH_NURSE_2" ),
-        mission_type_id( "MISSION_RANCH_NURSE_3" ),
-        mission_type_id( "MISSION_RANCH_NURSE_4" ),
-        mission_type_id( "MISSION_RANCH_NURSE_5" ),
-        mission_type_id( "MISSION_RANCH_NURSE_6" ),
-        mission_type_id( "MISSION_RANCH_NURSE_7" ),
-        mission_type_id( "MISSION_RANCH_NURSE_8" ),
-        mission_type_id( "MISSION_RANCH_NURSE_9" ),
-        mission_type_id( "MISSION_RANCH_NURSE_10" ),
-        mission_type_id( "MISSION_RANCH_NURSE_11" ),
-        mission_type_id( "MISSION_RANCH_SCAVENGER_1" ),
-        mission_type_id( "MISSION_RANCH_SCAVENGER_2" ),
-        mission_type_id( "MISSION_RANCH_SCAVENGER_3" ),
-        mission_type_id( "MISSION_RANCH_SCAVENGER_4" ),
-        mission_type_id( "MISSION_RANCH_BARTENDER_1" ),
-        mission_type_id( "MISSION_RANCH_BARTENDER_2" ),
-        mission_type_id( "MISSION_RANCH_BARTENDER_3" ),
-        mission_type_id( "MISSION_RANCH_BARTENDER_4" ),
-        mission_type_id( "MISSION_RANCH_BARTENDER_5" ),
-        mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_3" ),
-        // This is to help with the bugged find book mission
-        mission_type_id( "MISSION_NULL" )
-    }};
+            mission_type_id( "MISSION_NULL" ),
+            mission_type_id( "MISSION_GET_ANTIBIOTICS" ),
+            mission_type_id( "MISSION_GET_SOFTWARE" ),
+            mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" ),
+            mission_type_id( "MISSION_RESCUE_DOG" ),
+            mission_type_id( "MISSION_KILL_ZOMBIE_MOM" ),
+            mission_type_id( "MISSION_REACH_SAFETY" ),
+            mission_type_id( "MISSION_GET_FLAG" ),
+            mission_type_id( "MISSION_GET_BLACK_BOX" ),
+            mission_type_id( "MISSION_GET_BLACK_BOX_TRANSCRIPT" ),
+            mission_type_id( "MISSION_EXPLORE_SARCOPHAGUS" ),
+            mission_type_id( "MISSION_GET_RELIC" ),
+            mission_type_id( "MISSION_RECOVER_PRIEST_DIARY" ),
+            mission_type_id( "MISSION_INVESTIGATE_CULT" ),
+            mission_type_id( "MISSION_INVESTIGATE_PRISON_VISIONARY" ),
+            mission_type_id( "MISSION_GET_RECORD_WEATHER" ),
+            mission_type_id( "MISSION_GET_RECORD_PATIENT" ),
+            mission_type_id( "MISSION_REACH_FEMA_CAMP" ),
+            mission_type_id( "MISSION_REACH_FARM_HOUSE" ),
+            mission_type_id( "MISSION_GET_RECORD_ACCOUNTING" ),
+            mission_type_id( "MISSION_GET_SAFE_BOX" ),
+            mission_type_id( "MISSION_GET_DEPUTY_BADGE" ),
+            mission_type_id( "MISSION_KILL_JABBERWOCK" ),
+            mission_type_id( "MISSION_KILL_100_Z" ),
+            mission_type_id( "MISSION_KILL_HORDE_MASTER" ),
+            mission_type_id( "MISSION_RECRUIT_TRACKER" ),
+            mission_type_id( "MISSION_JOIN_TRACKER" ),
+            mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_1" ),
+            mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_2" ),
+            mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_4" ),
+            mission_type_id( "MISSION_OLD_GUARD_REP_1" ),
+            mission_type_id( "MISSION_OLD_GUARD_REP_2" ),
+            mission_type_id( "MISSION_OLD_GUARD_REP_3" ),
+            mission_type_id( "MISSION_OLD_GUARD_REP_4" ),
+            mission_type_id( "MISSION_OLD_GUARD_NEC_1" ),
+            mission_type_id( "MISSION_OLD_GUARD_NEC_2" ),
+            mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_1" ),
+            mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" ),
+            mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
+            mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_1" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_2" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_3" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_4" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_5" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_6" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_7" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_8" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_9" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_10" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_11" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_12" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_13" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_14" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_15" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_16" ),
+            mission_type_id( "MISSION_RANCH_FOREMAN_17" ),
+            mission_type_id( "MISSION_RANCH_NURSE_1" ),
+            mission_type_id( "MISSION_RANCH_NURSE_2" ),
+            mission_type_id( "MISSION_RANCH_NURSE_3" ),
+            mission_type_id( "MISSION_RANCH_NURSE_4" ),
+            mission_type_id( "MISSION_RANCH_NURSE_5" ),
+            mission_type_id( "MISSION_RANCH_NURSE_6" ),
+            mission_type_id( "MISSION_RANCH_NURSE_7" ),
+            mission_type_id( "MISSION_RANCH_NURSE_8" ),
+            mission_type_id( "MISSION_RANCH_NURSE_9" ),
+            mission_type_id( "MISSION_RANCH_NURSE_10" ),
+            mission_type_id( "MISSION_RANCH_NURSE_11" ),
+            mission_type_id( "MISSION_RANCH_SCAVENGER_1" ),
+            mission_type_id( "MISSION_RANCH_SCAVENGER_2" ),
+            mission_type_id( "MISSION_RANCH_SCAVENGER_3" ),
+            mission_type_id( "MISSION_RANCH_SCAVENGER_4" ),
+            mission_type_id( "MISSION_RANCH_BARTENDER_1" ),
+            mission_type_id( "MISSION_RANCH_BARTENDER_2" ),
+            mission_type_id( "MISSION_RANCH_BARTENDER_3" ),
+            mission_type_id( "MISSION_RANCH_BARTENDER_4" ),
+            mission_type_id( "MISSION_RANCH_BARTENDER_5" ),
+            mission_type_id( "MISSION_FREE_MERCHANTS_EVAC_3" ),
+            // This is to help with the bugged find book mission
+            mission_type_id( "MISSION_NULL" )
+        }
+    };
 
-    if( old_id >= 0 && old_id < (int)old_id_vec.size() ) {
+    if( old_id >= 0 && old_id < static_cast<int>( old_id_vec.size() ) ) {
         return old_id_vec[ old_id ];
     }
 
@@ -414,7 +445,7 @@ mission_type_id mission_type::from_legacy( int old_id )
     return mission_type_id( "MISSION_NULL" );
 }
 
-const mission_type *mission_type::get( const mission_type_id id )
+const mission_type *mission_type::get( const mission_type_id &id )
 {
     if( id.is_null() ) {
         return nullptr;
@@ -431,7 +462,7 @@ const std::vector<mission_type> &mission_type::get_all()
 mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint &p )
 {
     std::vector<mission_type_id> valid;
-    for( auto & t : get_all() ) {
+    for( auto &t : get_all() ) {
         if( std::find( t.origins.begin(), t.origins.end(), origin ) == t.origins.end() ) {
             continue;
         }

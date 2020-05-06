@@ -1,6 +1,6 @@
 #pragma once
-#ifndef NAME_H
-#define NAME_H
+#ifndef CATA_SRC_NAME_H
+#define CATA_SRC_NAME_H
 
 #include <string>
 
@@ -10,15 +10,16 @@ enum nameFlags {
     nameIsUnisexName = nameIsMaleName | nameIsFemaleName,
     nameIsGivenName  = 1 << 2,
     nameIsFamilyName = 1 << 3,
-    nameIsTownName   = 1 << 4,
-    nameIsFullName   = 1 << 5,
-    nameIsWorldName  = 1 << 6
+    nameIsNickName   = 1 << 4,
+    nameIsTownName   = 1 << 5,
+    nameIsFullName   = 1 << 6,
+    nameIsWorldName  = 1 << 7
 };
 
 namespace Name
 {
 /// Load names from given json file to use for generation
-void load_from_file( std::string const &filename );
+void load_from_file( const std::string &filename );
 
 /// Return a random name given search flags
 std::string get( nameFlags searchFlags );
@@ -28,7 +29,7 @@ std::string generate( bool is_male );
 
 /// Clear names used for generation
 void clear();
-};
+} // namespace Name
 
 inline nameFlags operator|( nameFlags l, nameFlags r )
 {
@@ -40,4 +41,4 @@ inline nameFlags operator&( nameFlags l, nameFlags r )
     return static_cast<nameFlags>( static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
 }
 
-#endif
+#endif // CATA_SRC_NAME_H

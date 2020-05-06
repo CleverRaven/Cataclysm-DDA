@@ -1,29 +1,145 @@
 [
   {
-    "id": "metal_wheel",
     "type": "vehicle_part",
-    "name": "metal wheel",
-    "item": "wheel_metal",
+    "id": "wheel_mount_light",
+    "name": { "str": "light wheel mount" },
+    "symbol": "-",
+    "color": "light_gray",
+    "location": "axle",
+    "broken_symbol": "X",
+    "broken_color": "light_gray",
+    "damage_modifier": 80,
+    "folded_volume": 1,
+    "durability": 120,
+    "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
+    "item": "wheel_mount_light",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "welding_standard", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL_MOUNT_LIGHT", "NEEDS_JACKING", "FOLDABLE" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] } ],
+    "damage_reduction": { "all": 10 }
+  },
+  {
+    "id": "wheel_mount_light_steerable",
+    "copy-from": "wheel_mount_light",
+    "type": "vehicle_part",
+    "name": { "str": "light wheel mount (steerable)" },
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "wheel_mount_medium",
+    "name": { "str": "wheel hub assembly" },
+    "symbol": "-",
+    "color": "light_gray",
+    "location": "axle",
+    "broken_symbol": "X",
+    "broken_color": "light_gray",
+    "damage_modifier": 80,
+    "durability": 120,
+    "description": "Connection where wheels can be connected on.  This particular one is fit for normal car wheels.",
+    "item": "wheel_mount_medium",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "welding_standard", 10 ], [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL_MOUNT_MEDIUM", "NEEDS_JACKING" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 2, 5 ] } ],
+    "damage_reduction": { "all": 30 }
+  },
+  {
+    "id": "wheel_mount_medium_steerable",
+    "copy-from": "wheel_mount_medium",
+    "type": "vehicle_part",
+    "name": { "str": "wheel hub assembly (steerable)" },
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "wheel_mount_heavy",
+    "name": { "str": "heavy wheel hub assembly" },
+    "symbol": "-",
+    "color": "light_gray",
+    "location": "axle",
+    "broken_symbol": "X",
+    "broken_color": "light_gray",
+    "damage_modifier": 80,
+    "durability": 120,
+    "description": "Connection where wheels can be connected on.  This particular one is fit for large car wheels.",
+    "item": "wheel_mount_heavy",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 15 ], [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "20 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 3, 7 ] } ],
+    "damage_reduction": { "all": 40 }
+  },
+  {
+    "id": "wheel_mount_heavy_steerable",
+    "copy-from": "wheel_mount_heavy",
+    "type": "vehicle_part",
+    "name": { "str": "heavy wheel hub assembly (steerable)" },
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "rail_wheel",
+    "type": "vehicle_part",
+    "name": { "str": "rail wheel" },
+    "item": "wheel_rail",
     "location": "under",
     "symbol": "|",
     "broken_symbol": "x",
-    "difficulty": 2,
     "durability": 180,
-    "description": "A strong metal wheel.",
+    "description": "A strong metal wheel.  A flange helps keep it on a rail, but makes it perform terribly when not on a rail.",
     "damage_modifier": 70,
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
-    "flags": [ "WHEEL" ]
+    "rolling_resistance": 0.25,
+    "wheel_type": "rail",
+    "contact_area": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "RAIL" ],
+    "damage_reduction": { "all": 66 }
+  },
+  {
+    "id": "rail_wheel_steerable",
+    "copy-from": "rail_wheel",
+    "type": "vehicle_part",
+    "name": { "str": "rail wheel (steerable)" },
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "rail_wheel_small_pair",
+    "type": "vehicle_part",
+    "name": { "str": "pair of small rail wheels" },
+    "item": "wheel_rail_small_pair",
+    "copy-from": "rail_wheel",
+    "symbol": "=",
+    "difficulty": 2,
+    "durability": 150,
+    "description": "A pair of small rail wheels.  It performs well when riding on a pair of small rails.  It performs terribly when not on a rail.  Moreover, you can't steer it.",
+    "damage_modifier": 50,
+    "breaks_into": [ { "item": "scrap", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 1, 2 ] } ],
+    "damage_reduction": { "all": 60 }
   },
   {
     "id": "roller_drum",
     "type": "vehicle_part",
-    "name": "roller drum",
+    "name": { "str": "roller drum" },
     "item": "hd_steel_drum",
     "location": "center",
     "symbol": "B",
     "broken_symbol": "E",
     "color": "light_red",
-    "difficulty": 5,
     "durability": 7500,
     "description": "A strong metal wheel.",
     "damage_modifier": 500,
@@ -32,91 +148,119 @@
       { "item": "steel_chunk", "count": [ 30, 90 ] },
       { "item": "scrap", "count": [ 50, 150 ] }
     ],
-    "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "STEERABLE" ],
-    "damage_reduction": { "all": 10000 }
+    "rolling_resistance": 0.125,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "NEEDS_JACKING", "STEERABLE" ],
+    "wheel_type": "rigid",
+    "contact_area": 400,
+    "damage_reduction": { "all": 280 }
   },
   {
     "id": "wheel",
     "type": "vehicle_part",
-    "name": "wheel",
+    "name": { "str": "wheel" },
     "item": "wheel",
     "location": "under",
     "symbol": "0",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 3,
     "durability": 200,
     "description": "A wheel.",
     "damage_modifier": 50,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] },
-      { "item": "leaf_spring", "count": [ 1, 2 ] }
+      { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "flags": [ "WHEEL" ]
+    "rolling_resistance": 1.0,
+    "wheel_type": "standard",
+    "contact_area": 153,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "damage_reduction": { "bash": 20 }
   },
   {
-    "id": "wheel_steerable",
+    "id": "wheel_slick",
     "copy-from": "wheel",
     "type": "vehicle_part",
-    "name": "wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
+    "name": { "str": "racing slick" },
+    "item": "wheel_slick",
+    "wheel_type": "racing",
+    "contact_area": 180,
+    "damage_reduction": { "bash": 12 }
   },
   {
     "id": "wheel_armor",
     "type": "vehicle_part",
-    "name": "armored wheel",
+    "name": { "str": "armored wheel" },
     "item": "wheel_armor",
     "location": "under",
+    "looks_like": "wheel",
     "symbol": "0",
     "broken_symbol": "x",
     "color": "green",
-    "difficulty": 4,
     "durability": 800,
     "description": "A very strong, armored metal wheel.",
     "damage_modifier": 50,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 3 ] },
       { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 3 ] },
-      { "item": "leaf_spring", "count": [ 2, 3 ] }
+      { "item": "scrap", "count": [ 2, 3 ] }
     ],
-    "flags": [ "WHEEL" ]
-  },
-  {
-    "id": "wheel_armor_steerable",
-    "copy-from": "wheel_armor",
-    "type": "vehicle_part",
-    "name": "armored wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
+    "rolling_resistance": 0.6,
+    "wheel_type": "standard",
+    "contact_area": 480,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "20 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
+    "damage_reduction": { "all": 60, "cut": 30, "stab": 16 }
   },
   {
     "id": "wheel_barrow",
     "type": "vehicle_part",
-    "name": "wheelbarrow wheel",
+    "name": { "str": "wheelbarrow wheel" },
     "item": "wheel_barrow",
     "location": "under",
+    "looks_like": "wheel_bicycle",
     "symbol": "o",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 2,
     "durability": 70,
     "description": "A small wheel.",
     "damage_modifier": 50,
+    "folded_volume": 9,
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
-    "flags": [ "WHEEL", "STABLE", "TOOL_WRENCH", "STEERABLE" ]
+    "rolling_resistance": 1.62,
+    "wheel_type": "off-road",
+    "contact_area": 30,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "damage_reduction": { "bash": 10 }
   },
   {
     "id": "wheel_bicycle",
     "type": "vehicle_part",
-    "name": "bicycle wheel",
+    "name": { "str": "bicycle wheel" },
     "item": "wheel_bicycle",
     "location": "under",
     "symbol": "|",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 1,
     "durability": 40,
     "description": "A thin bicycle wheel.",
     "damage_modifier": 50,
@@ -126,25 +270,35 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "flags": [ "WHEEL", "FOLDABLE", "TOOL_WRENCH" ]
+    "rolling_resistance": 0.45,
+    "wheel_type": "standard",
+    "contact_area": 40,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "damage_reduction": { "bash": 6 }
   },
   {
-    "id": "wheel_bicycle_steerable",
+    "id": "wheel_bicycle_or",
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
-    "name": "bicycle wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
+    "name": { "str": "off-road bicycle wheel" },
+    "item": "wheel_bicycle_or",
+    "contact_area": 36,
+    "wheel_type": "off-road"
   },
   {
     "id": "wheel_caster",
     "type": "vehicle_part",
-    "name": "casters",
+    "name": { "str": "casters" },
     "item": "wheel_caster",
     "location": "under",
     "symbol": "o",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 1,
     "durability": 70,
     "description": "A set of small wheels, mounted on pivots, like the ones on a rolling office chair or grocery cart.",
     "damage_modifier": 50,
@@ -154,18 +308,54 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ]
+    "rolling_resistance": 29.0,
+    "wheel_type": "rigid",
+    "contact_area": 4,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
   },
   {
-    "id": "wheel_motorbike",
+    "id": "wheel_10",
     "type": "vehicle_part",
-    "name": "motorbike wheel",
-    "item": "wheel_motorbike",
+    "name": { "str": "wheels" },
+    "item": "wheel_10",
     "location": "under",
     "symbol": "o",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 2,
+    "durability": 120,
+    "description": "A set of 10\" wheels with tough rubber tires.",
+    "folded_volume": 10,
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 5 ] },
+      { "item": "scrap", "count": [ 1, 5 ] },
+      { "item": "plastic_chunk", "count": [ 1, 5 ] }
+    ],
+    "rolling_resistance": 29.0,
+    "wheel_type": "off-road",
+    "contact_area": 4,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
+  },
+  {
+    "id": "wheel_motorbike",
+    "type": "vehicle_part",
+    "name": { "str": "motorbike wheel" },
+    "item": "wheel_motorbike",
+    "location": "under",
+    "looks_like": "wheel",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "dark_gray",
     "durability": 90,
     "description": "A small wheel from a motorcycle.",
     "damage_modifier": 50,
@@ -174,69 +364,115 @@
       { "item": "steel_chunk", "count": [ 1, 3 ] },
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
-    "flags": [ "WHEEL" ]
+    "rolling_resistance": 1.9,
+    "wheel_type": "standard",
+    "contact_area": 66,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "damage_reduction": { "bash": 10 }
   },
   {
-    "id": "wheel_motorbike_steerable",
+    "id": "wheel_motorbike_or",
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
-    "name": "motorbike wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
+    "name": { "str": "off-road motorbike wheel" },
+    "item": "wheel_motorbike_or",
+    "contact_area": 60,
+    "wheel_type": "off-road",
+    "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
   },
   {
     "id": "wheel_small",
     "type": "vehicle_part",
-    "name": "small wheel",
+    "name": { "str": "small wheel" },
     "item": "wheel_small",
     "location": "under",
     "symbol": "o",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 2,
     "durability": 70,
     "description": "A small wheel.",
     "damage_modifier": 50,
+    "folded_volume": 9,
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
-    "flags": [ "WHEEL", "NO_JACK" ]
+    "rolling_resistance": 1.5,
+    "wheel_type": "racing",
+    "contact_area": 30,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
   },
   {
-    "id": "wheel_small_steerable",
-    "copy-from": "wheel_small",
+    "id": "wheel_tricycle",
     "type": "vehicle_part",
-    "name": "small wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
-  },
-  {
-    "id": "wheel_unicycle",
-    "type": "vehicle_part",
-    "name": "unicycle wheel",
-    "item": "wheel_bicycle",
+    "name": { "str": "tricycle wheels" },
+    "item": "wheel_tricycle",
     "location": "under",
     "symbol": "|",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 2,
+    "durability": 30,
+    "description": "A set of three plastic wheels, with a larger one in the front, mounted with bolts.",
+    "damage_modifier": 50,
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 3 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "2 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "rolling_resistance": 10.0,
+    "wheel_type": "standard",
+    "contact_area": 10,
+    "flags": [ "STABLE", "STEERABLE", "WHEEL", "NEEDS_JACKING" ],
+    "damage_reduction": { "bash": 8 }
+  },
+  {
+    "id": "wheel_unicycle",
+    "type": "vehicle_part",
+    "name": { "str": "unicycle wheel" },
+    "item": "wheel_bicycle",
+    "location": "under",
+    "looks_like": "wheel_bicycle",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "color": "dark_gray",
     "durability": 40,
     "description": "A small wheel.",
     "damage_modifier": 50,
-    "folded_volume": 14,
+    "folded_volume": "3500 ml",
     "breaks_into": [
       { "item": "steel_lump", "prob": 50 },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ]
+    "rolling_resistance": 0.45,
+    "wheel_type": "standard",
+    "contact_area": 20,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "damage_reduction": { "bash": 8 }
   },
   {
     "id": "wheel_wheelchair",
     "type": "vehicle_part",
-    "name": "wheelchair wheel",
+    "name": { "str": "wheelchair wheel" },
     "item": "wheel_wheelchair",
     "location": "under",
+    "looks_like": "wheel_bicycle",
     "symbol": "|",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 2,
     "durability": 40,
     "description": "A pair of wheelchair wheels.",
     "damage_modifier": 50,
@@ -246,40 +482,60 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ]
+    "rolling_resistance": 1.95,
+    "wheel_type": "racing",
+    "contact_area": 40,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "damage_reduction": { "bash": 6 }
   },
   {
     "id": "wheel_wide",
     "type": "vehicle_part",
-    "name": "wide wheel",
+    "name": { "str": "wide wheel" },
     "item": "wheel_wide",
     "location": "under",
+    "looks_like": "wheel",
     "symbol": "O",
     "broken_symbol": "x",
     "color": "dark_gray",
-    "difficulty": 4,
     "durability": 400,
     "description": "A wide wheel that provides more traction and better off-road performance.",
     "damage_modifier": 50,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 3 ] },
       { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 3 ] },
-      { "item": "leaf_spring", "count": [ 2, 3 ] }
+      { "item": "scrap", "count": [ 2, 3 ] }
     ],
-    "flags": [ "WHEEL" ]
+    "rolling_resistance": 0.575,
+    "wheel_type": "standard",
+    "contact_area": 360,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "damage_reduction": { "bash": 25 }
   },
   {
-    "id": "wheel_wide_steerable",
+    "id": "wheel_wide_or",
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
-    "name": "wide wheel (steerable)",
-    "extend": { "flags": [ "STEERABLE" ] }
+    "name": { "str": "off-road wide wheel" },
+    "item": "wheel_wide_or",
+    "wheel_type": "off-road",
+    "contact_area": 320,
+    "damage_reduction": { "bash": 20, "cut": 15, "stab": 10 }
   },
   {
     "id": "wheel_wood",
     "type": "vehicle_part",
-    "name": "wooden cart wheel",
+    "name": { "str": "wooden cart wheel" },
     "item": "wheel_wood",
     "location": "under",
     "symbol": "|",
@@ -291,17 +547,21 @@
     "damage_modifier": 50,
     "breaks_into": [ { "item": "2x4", "count": [ 0, 4 ] }, { "item": "nail", "charges": [ 5, 15 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": 30000, "using": "vehicle_bolt" },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "using": "vehicle_bolt" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 5000, "using": [ [ "adhesive", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "WHEEL" ]
+    "rolling_resistance": 2.15,
+    "wheel_type": "rigid",
+    "contact_area": 60,
+    "flags": [ "WHEEL", "NEEDS_JACKING" ],
+    "damage_reduction": { "all": 14 }
   },
   {
     "id": "wheel_wood_b",
     "copy-from": "wheel_wood",
     "type": "vehicle_part",
-    "name": "banded wooden cart wheel",
+    "name": { "str": "banded wooden cart wheel" },
     "item": "wheel_wood_b",
     "location": "under",
     "breaks_into": [
@@ -309,6 +569,8 @@
       { "item": "nail", "charges": [ 5, 15 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "proportional": { "durability": 2, "damage_modifier": 2 }
+    "rolling_resistance": 2.05,
+    "proportional": { "durability": 2, "damage_modifier": 2 },
+    "damage_reduction": { "all": 20 }
   }
 ]

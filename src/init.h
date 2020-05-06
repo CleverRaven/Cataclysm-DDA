@@ -1,13 +1,13 @@
 #pragma once
-#ifndef INIT_H
-#define INIT_H
+#ifndef CATA_SRC_INIT_H
+#define CATA_SRC_INIT_H
 
+#include <functional>
+#include <list>
+#include <map>
 #include <string>
 #include <vector>
-#include <list>
-#include <memory>
-#include <map>
-#include <functional>
+#include <utility>
 
 class loading_ui;
 class JsonObject;
@@ -52,16 +52,16 @@ class JsonIn;
 class DynamicDataLoader
 {
     public:
-        typedef std::string type_string;
-        typedef std::map<type_string, std::function<void( JsonObject &, const std::string & )>>
-                t_type_function_map;
-        typedef std::vector<std::string> str_vec;
+        using type_string = std::string;
+        using t_type_function_map =
+            std::map<type_string, std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>>;
+        using str_vec = std::vector<std::string>;
 
         /**
          * JSON data dependent upon as-yet unparsed definitions
          * first: JSON data, second: source identifier
          */
-        typedef std::list<std::pair<std::string, std::string>> deferred_json;
+        using deferred_json = std::list<std::pair<std::string, std::string>>;
 
     private:
         bool finalized = false;
@@ -72,8 +72,12 @@ class DynamicDataLoader
          * functor that loads that kind of object from json.
          */
         t_type_function_map type_function_map;
-        void add( const std::string &type, std::function<void( JsonObject & )> f );
-        void add( const std::string &type, std::function<void( JsonObject &, const std::string & )> f );
+        void add( const std::string &type, std::function<void( const JsonObject & )> f );
+        void add( const std::string &type,
+                  std::function<void( const JsonObject &, const std::string & )> f );
+        void add( const std::string &type,
+                  std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                  f );
         /**
          * Load all the types from that json data.
          * @param jsin Might contain single object,
@@ -83,14 +87,17 @@ class DynamicDataLoader
          * @param ui Finalization status display.
          * @throws std::exception on all kind of errors.
          */
-        void load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui &ui );
+        void load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui &ui,
+                                 const std::string &base_path, const std::string &full_path );
         /**
          * Load a single object from a json object.
          * @param jo The json object to load the C++-object from.
          * @param src String identifier for mod this data comes from
          * @throws std::exception on all kind of errors.
          */
-        void load_object( JsonObject &jo, const std::string &src );
+        void load_object( const JsonObject &jo, const std::string &src,
+                          const std::string &base_path = std::string(),
+                          const std::string &full_path = std::string() );
 
         DynamicDataLoader();
         ~DynamicDataLoader();
@@ -139,8 +146,8 @@ class DynamicDataLoader
          * game should *not* proceed in that case.
          */
         /*@{*/
-        void finalize_loaded_data();
         void finalize_loaded_data( loading_ui &ui );
+        void finalize_loaded_data();
         /*@}*/
 
         /**
@@ -156,4 +163,4 @@ class DynamicDataLoader
         }
 };
 
-#endif
+#endif // CATA_SRC_INIT_H

@@ -1,0 +1,247 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_room_center_rammed_earth",
+    "description": "Lets start building the central kitchen rammed earth walls.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_canteen_rammed_earth",
+    "blueprint_name": "build the rammed earth central kitchen room",
+    "blueprint_requires": [ { "id": "fbmk_0" } ],
+    "blueprint_provides": [ { "id": "fbmk_center" } ],
+    "blueprint_excludes": [ { "id": "fbmk_center" } ],
+    "blueprint_needs": {
+      "time": "2 d 5 h 45 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 151 ] ],
+          [ [ "nail", 334 ] ],
+          [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
+          [ [ "material_soil", 1440 ] ],
+          [ [ "water", 600 ], [ "water_clean", 600 ] ],
+          [ [ "material_sand", 120 ], [ "material_quicklime", 120 ], [ "concrete", 6 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
+          [ [ "wood_panel", 11 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_room2_center_rammed_earth",
+    "description": "Lets finish the central kitchen rammed earth walls.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_canteen2_rammed_earth",
+    "blueprint_name": "finish the rammed earth central kitchen room",
+    "blueprint_requires": [ { "id": "fbmk_center" } ],
+    "blueprint_provides": [ { "id": "fbmk_center2" } ],
+    "blueprint_excludes": [ { "id": "fbmk_center2" } ],
+    "blueprint_needs": {
+      "time": "3 d 4 h 30 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 179 ] ],
+          [ [ "nail", 398 ] ],
+          [ [ "pointy_stick", 18 ], [ "spear_wood", 18 ] ],
+          [ [ "material_soil", 2160 ] ],
+          [ [ "water", 900 ], [ "water_clean", 900 ] ],
+          [ [ "material_sand", 180 ], [ "material_quicklime", 180 ], [ "concrete", 9 ] ],
+          [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ] ],
+          [ [ "wood_panel", 16 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_smoking_area_rammed_earth",
+    "description": "Lets get this rammed earth smoking area covered to protect the workers from the weather.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_smoking_area_rammed_earth",
+    "blueprint_name": "build a rammed earth roofed area for smoking racks",
+    "blueprint_requires": [ { "id": "fbmk_center2" } ],
+    "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
+    "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
+    "blueprint_needs": {
+      "time": "2 d 11 h 55 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
+          [ [ "2x4", 180 ] ],
+          [ [ "nail", 448 ] ],
+          [ [ "material_soil", 1440 ] ],
+          [ [ "water", 600 ], [ "water_clean", 600 ] ],
+          [ [ "material_sand", 120 ], [ "material_quicklime", 120 ], [ "concrete", 6 ] ],
+          [ [ "wood_panel", 22 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_pantry_rammed_earth",
+    "description": "Lets build a rammed earth wall pantry west of the kitchen.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_canteen_pantry_rammed_earth",
+    "blueprint_name": "build a rammed earth pantry",
+    "blueprint_requires": [ { "id": "fbmk_center2" } ],
+    "blueprint_provides": [ { "id": "fbmk_pantry_room" } ],
+    "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ],
+    "blueprint_needs": {
+      "time": "5 d 1 h 15 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 230 ] ],
+          [ [ "concrete", 15 ], [ "material_quicklime", 300 ], [ "material_sand", 300 ] ],
+          [ [ "material_soil", 3600 ] ],
+          [ [ "nail", 560 ] ],
+          [ [ "pointy_stick", 30 ], [ "spear_wood", 30 ] ],
+          [ [ "water", 1500 ], [ "water_clean", 1500 ] ],
+          [ [ "wood_panel", 25 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_dining_west_rammed_earth",
+    "description": "Lets build the west rammed earth wall of the dining hall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_canteen_dining_west_rammed_earth",
+    "blueprint_name": "build W rammed earth wall",
+    "blueprint_requires": [ { "id": "fbmk_pantry_room" } ],
+    "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
+    "blueprint_needs": {
+      "time": "2 d 6 h 6 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [
+          [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ],
+          [ [ "frame_wood_light", -1 ] ],
+          [ [ "log", -1 ] ]
+        ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 148 ] ],
+          [ [ "nail", 334 ] ],
+          [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
+          [ [ "material_soil", 1440 ] ],
+          [ [ "water", 600 ], [ "water_clean", 600 ] ],
+          [ [ "material_sand", 120 ], [ "material_quicklime", 120 ], [ "concrete", 6 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
+          [ [ "wood_panel", 11 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_dining_east_rammed_earth",
+    "description": "Lets build the east rammed earth wall of the dining hall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_canteen_dining_east_rammed_earth",
+    "blueprint_name": "build E rammed earth wall",
+    "blueprint_requires": [ { "id": "fbmk_canteen_dining_west" }, { "id": "fbmk_smoking_area" } ],
+    "blueprint_provides": [ { "id": "fbmk_canteen_dining_east" } ],
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ],
+    "blueprint_needs": {
+      "time": "2 d 18 h",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "pointy_stick", 14 ], [ "spear_wood", 14 ] ],
+          [ [ "2x4", 193 ] ],
+          [ [ "nail", 460 ] ],
+          [ [ "material_soil", 1680 ] ],
+          [ [ "water", 700 ], [ "water_clean", 700 ] ],
+          [ [ "material_sand", 140 ], [ "material_quicklime", 140 ], [ "concrete", 7 ] ],
+          [ [ "wood_panel", 17 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_canteen_dining_center_rammed_earth",
+    "description": "Lets build the center of the rammed earth dining hall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_canteen_dining_center_rammed_earth",
+    "blueprint_name": "build center of the rammed earth dining hall",
+    "blueprint_requires": [ { "id": "fbmk_canteen_dining_east" } ],
+    "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
+    "blueprint_needs": {
+      "time": "1 d 15 h 15 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
+        "qualities": [
+          [ { "id": "CUT" } ],
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 225 ] ],
+          [ [ "nail", 534 ] ],
+          [ [ "pointy_stick", 4 ], [ "spear_wood", 4 ] ],
+          [ [ "material_soil", 480 ] ],
+          [ [ "water", 200 ], [ "water_clean", 200 ] ],
+          [ [ "material_sand", 40 ], [ "material_quicklime", 40 ], [ "concrete", 2 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
+          [ [ "wood_panel", 24 ] ]
+        ]
+      }
+    }
+  }
+]

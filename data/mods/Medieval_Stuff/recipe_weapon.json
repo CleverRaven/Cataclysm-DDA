@@ -1,0 +1,16 @@
+[
+  {
+    "result": "fire_lance",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 12000,
+    "reversible": true,
+    "book_learn": [ [ "textbook_armschina", 3 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "qiang", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ] ]
+  }
+]

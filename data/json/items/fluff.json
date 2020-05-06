@@ -1,0 +1,63 @@
+[
+  {
+    "id": "magic_8_ball",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "Magic 8-Ball" },
+    "description": "A fortune-telling device from the 1950s.  The kind of moral support you didn't know you needed.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "plastic" ],
+    "symbol": "o",
+    "color": "white",
+    "use_action": "MAGIC_8_BALL"
+  },
+  {
+    "id": "deck_of_cards",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "deck of cards", "str_pl": "decks of cards" },
+    "description": "A deck of 52 playing cards.",
+    "weight": "50 g",
+    "volume": "100 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "cardboard" ],
+    "symbol": ",",
+    "color": "red",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": "PLAY_GAME"
+  },
+  {
+    "id": "coin_quarter",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "coin" },
+    "description": "A now-ancient form of currency.  Stripped of its original purpose, it now serves, faithfully, flippant Flippists for free.",
+    "weight": "6 g",
+    "volume": "1 ml",
+    "price": 25,
+    "price_postapoc": 1,
+    "material": [ "silver" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "use_action": "COIN_FLIP"
+  },
+  {
+    "id": "family_photo",
+    "type": "GENERIC",
+    "//": "Unique mission item for the CITY_COP.",
+    "category": "other",
+    "name": { "str": "family photo" },
+    "description": "A photo of a smiling family on a camping trip.  One of the parents looks like a cleaner, happier version of the person you know.",
+    "weight": "1 g",
+    "volume": "5 ml",
+    "price": 800,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "symbol": "*",
+    "color": "light_gray"
+  }
+]

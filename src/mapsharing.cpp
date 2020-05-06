@@ -1,5 +1,20 @@
 #include "mapsharing.h"
 
+#include <cstdlib>
+#include <fstream>
+#include <stdexcept>
+
+#include "cata_utility.h"
+#include "filesystem.h"
+
+#if defined(__linux__)
+#include <unistd.h>
+#endif // __linux__
+
+#if defined(_WIN32)
+#include "platform_win.h"
+#endif
+
 bool MAP_SHARING::sharing;
 bool MAP_SHARING::competitive;
 bool MAP_SHARING::worldmenu;
@@ -11,7 +26,7 @@ void MAP_SHARING::setSharing( bool mode )
 {
     MAP_SHARING::sharing = mode;
 }
-void MAP_SHARING::setUsername( std::string name )
+void MAP_SHARING::setUsername( const std::string &name )
 {
     MAP_SHARING::username = name;
 }
@@ -45,18 +60,15 @@ bool MAP_SHARING::isWorldmenu()
 
 bool MAP_SHARING::isAdmin()
 {
-    if( admins.find( getUsername() ) != admins.end() ) {
-        return true;
-    }
-    return false;
+    return admins.find( getUsername() ) != admins.end();
 }
 
-void MAP_SHARING::setAdmins( std::set<std::string> names )
+void MAP_SHARING::setAdmins( const std::set<std::string> &names )
 {
     MAP_SHARING::admins = names;
 }
 
-void MAP_SHARING::addAdmin( std::string name )
+void MAP_SHARING::addAdmin( const std::string &name )
 {
     MAP_SHARING::admins.insert( name );
     MAP_SHARING::debuggers.insert( name );
@@ -64,18 +76,15 @@ void MAP_SHARING::addAdmin( std::string name )
 
 bool MAP_SHARING::isDebugger()
 {
-    if( debuggers.find( getUsername() ) != debuggers.end() ) {
-        return true;
-    }
-    return false;
+    return debuggers.find( getUsername() ) != debuggers.end();
 }
 
-void MAP_SHARING::setDebuggers( std::set<std::string> names )
+void MAP_SHARING::setDebuggers( const std::set<std::string> &names )
 {
     MAP_SHARING::debuggers = names;
 }
 
-void MAP_SHARING::addDebugger( std::string name )
+void MAP_SHARING::addDebugger( const std::string &name )
 {
     MAP_SHARING::debuggers.insert( name );
 }
@@ -92,69 +101,48 @@ void MAP_SHARING::setDefaults()
     MAP_SHARING::addAdmin( "admin" );
 }
 
-#ifndef __linux__ // make non-Linux operating systems happy
-
-int getLock( char const * )
+void ofstream_wrapper::open( const std::ios::openmode mode )
 {
-    return 0;
-}
+    // Create a *unique* temporary path. No other running program should
+    // use this path. If the file exists, it must be of a *former* program
+    // instance and can savely be deleted.
+#if defined(__linux__)
+    temp_path = path + "." + std::to_string( getpid() ) + ".temp";
 
-void releaseLock( int, char const * )
-{
-    // Nothing to do.
-}
+#elif defined(_WIN32)
+    temp_path = path + "." + std::to_string( GetCurrentProcessId() ) + ".temp";
 
 #else
+    // TODO: exclusive I/O for other systems
+    temp_path = path + ".temp";
 
-int getLock( char const *lockName )
-{
-    mode_t m = umask( 0 );
-    int fd = open( lockName, O_RDWR | O_CREAT, 0666 );
-    umask( m );
-    if( fd >= 0 && flock( fd, LOCK_EX | LOCK_NB ) < 0 ) {
-        close( fd );
-        fd = -1;
+#endif
+
+    if( file_exist( temp_path ) ) {
+        remove_file( temp_path );
     }
-    return fd;
+
+    file_stream.open( temp_path, mode );
+    if( !file_stream.is_open() ) {
+        throw std::runtime_error( "opening file failed" );
+    }
 }
 
-void releaseLock( int fd, char const *lockName )
+void ofstream_wrapper::close()
 {
-    if( fd < 0 ) {
+    if( !file_stream.is_open() ) {
         return;
     }
-    remove( lockName );
-    close( fd );
-}
 
-#endif // __linux__
-
-std::map<std::string, int> lockFiles;
-
-void fopen_exclusive( std::ofstream &fout, const char *filename,
-                      std::ios_base::openmode mode )  //TODO: put this in an ofstream_exclusive class?
-{
-    std::string lockfile = std::string( filename ) + ".lock";
-    lockFiles[lockfile] = getLock( lockfile.c_str() );
-    if( lockFiles[lockfile] != -1 ) {
-        fout.open( filename, mode );
+    if( file_stream.fail() ) {
+        // Remove the incomplete or otherwise faulty file (if possible).
+        // Failures from it are ignored as we can't really do anything about them.
+        remove_file( temp_path );
+        throw std::runtime_error( "writing to file failed" );
     }
-}
-/*
-std::ofstream fopen_exclusive(const char* filename) {
-    std::string lockfile = std::string(filename)+".lock";
-    std::ofstream fout;
-    lockFiles[lockfile] = getLock(lockfile);
-    if(lockFiles[lockfile] != -1) {
-        fout.open(filename, std::fstream::ios_base::out);
+    file_stream.close();
+    if( !rename_file( temp_path, path ) ) {
+        // Leave the temp path, so the user can move it if possible.
+        throw std::runtime_error( "moving temporary file \"" + temp_path + "\" failed" );
     }
-    return fout;
-} */
-
-void fclose_exclusive( std::ofstream &fout, const char *filename )
-{
-    std::string lockFile = std::string( filename ) + ".lock";
-    fout.close();
-    releaseLock( lockFiles[lockFile], lockFile.c_str() );
-    lockFiles[lockFile] = -1;
 }

@@ -1,5 +1,15 @@
 # Translating Cataclysm: DDA
 
+* [Translators](#translators)
+  * [Getting Started](#getting-Started)
+  * [Grammatical gender](#grammatical-gender)
+  * [Tips](#tips)
+* [Developers](#developers)
+  * [Translation Functions](#translation-functions)
+  * [`translation`](#translation)
+  * [Recommendations](#recommendations)
+* [Maintainers](#maintainers)
+
 ## Translators
 
 The official location for translating Cataclysm: DDA is the
@@ -12,7 +22,6 @@ Some of the currently supported languages are:
 * Chinese (Simplified)
 * Chinese (Traditional)
 * Dutch
-* Esperanto
 * French
 * German
 * Italian (Italy)
@@ -78,6 +87,34 @@ Click on the "Save" button when you are satisfied with your translation.
 
 See [Transifex's documentation][3] for more information.
 
+### Grammatical gender
+
+For NPC dialogue (and potentially other strings) some languages may wish to
+have alternate translations depending on the gender of the conversation
+participants.  This two pieces of initial configuration.
+
+1. The dialogue must have the relevant genders listed in the json file defining
+   it.  See [the NPC docs](NPCs.md).
+2. Each language must specify the genders it wishes to use via the translation
+   of `grammatical gender list`.  This should be a space-separated list of
+   genders used in this language for such translations.  Don't add genders here
+   until you're sure you will need them, because it will make more work for
+   you.  If you need different genders than are currently supported you must
+   add them to the `all_genders` lists in `lang/extract_json_strings.py` and
+   `src/translations.cpp`.
+
+Having done this, the relevant dialogue lines will appear multiple times for
+translation, with different genders specified in the message context.  For
+example, a context of `npc:m` would indicate that the NPC participant in the
+conversation is male.
+
+Because of technical limitations, all supported genders will appear as
+contexts, but you only need to provide translations for the genders listed in
+`grammatical gender list` for your language.
+
+Other parts of the game have various ad hoc solutions to grammatical gender, so
+don't be surprised to see other contexts appearing for other strings.
+
 ### Tips
 
 There are issues specific to Cataclysm: DDA which translators should be aware of.
@@ -116,7 +153,7 @@ string.
 ### Translation Functions
 
 In order to mark a string for translation and to obtain its translation at
-runtime, you should use one of the following three functions.
+runtime, you should use one of the following functions and classes.
 
 String *literals* that are used in any of these functions are automatically
 extracted. Non-literal strings are still translated at run time, but they won't
@@ -137,7 +174,9 @@ add_msg( _( "You drop the %s." ), the_item_name );
 ```
 
 Strings from the JSON files are extracted by the `lang/extract_json_strings.py`
-script, and can be translated at run time using `_()`.
+script, and can be translated at run time using `_()`. If translation context
+is desired for a JSON string, `class translation` can be used instead, which is
+documented below.
 
 #### `pgettext()`
 
@@ -166,6 +205,138 @@ should be used at run time:
 const char *translated = ngettext("one zombie", "many zombies", num_of_zombies)
 ```
 
+### `translation`
+
+There are times when you want to store a string for translation, maybe with
+translation context; Sometimes you may also want to store a string that needs no
+translation or has plural forms. `class translation` in `translations.h|cpp`
+offers these functionalities in a single wrapper:
+
+```c++
+const translation text = to_translation( "Context", "Text" );
+```
+
+```c++
+const translation text = to_translation( "Text without context" );
+```
+
+```c++
+const translation text = pl_translation( "Singular", "Plural" );
+```
+
+```c++
+const translation text = pl_translation( "Context", "Singular", "Plural" );
+```
+
+```c++
+const translation text = no_translation( "This string will not be translated" );
+```
+
+The string can then be translated/retrieved with the following code
+
+```c++
+const std::string translated = text.translated();
+```
+
+```c++
+// this translates the plural form of the text corresponding to the number 2
+const std::string translated = text.translated( 2 );
+```
+
+`class translation` can also be read from JSON. The method `translation::deserialize()`
+handles deserialization from a `JsonIn` object, so translations can be read from
+JSON using the appropriate JSON functions. The JSON syntax is as follows:
+
+```JSON
+"name": "bar"
+```
+
+```JSON
+"name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
+```
+
+or
+
+```JSON
+"name": { "ctxt": "foo", "str_sp": "foo" }
+```
+
+In the above code, `"ctxt"` and `"str_pl"` are both optional, whereas `"str_sp"`
+is equivalent to specifying `"str"` and `"str_pl"` with the same string. Additionally,
+`"str_pl"` and `"str_sp"` will only be read if the translation object is constructed using
+`plural_tag` or `pl_translation()`, or converted using `make_plural()`. Here's
+an example:
+
+```c++
+translation name{ translation::plural_tag() };
+jsobj.read( "name", name );
+```
+
+If neither "str_pl" nor "str_sp" is specified, the plural form defaults to the
+singular form + "s".
+
+You can also add comments for translators by writing it like below (the order
+of the entries does not matter):
+
+```JSON
+"name": {
+    "//~": "as in 'foobar'",
+    "str": "bar"
+}
+```
+
+Do note that currently the JSON syntax is only supported for some JSON values,
+which are listed below. If you want other json strings to use this format,
+refer to `translations.h|cpp` and migrate the corresponding code. Afterwards
+you may also want to test `update_pot.sh` to ensure that the strings are
+correctly extracted for translation, and run the unit test to fix text styling
+issues reported by the `translation` class.
+
+| Supported JSON values
+|---
+| Effect names
+| Item action names
+| Item category names
+| Activity verbs
+| Gate action messages
+| Spell names and descriptions
+| Terrain/furniture descriptions
+| Monster melee attack messages
+| Morale effect descriptions
+| Mutation names/descriptions
+| NPC class names/descriptions
+| Tool quality names
+| Score descriptions
+| Skill names/descriptions
+| Bionic names/descriptions
+| Terrain bash sound descriptions
+| Trap-vehicle collision sound descriptions
+| Vehicle part names/descriptions
+| Skill display type names
+| NPC dialogue u_buy_monster unique names
+| Spell messages and monster spell messages
+| Martial art names and descriptions
+| Mission names and descriptions
+| Fault names and descriptions
+| Plant names in item seed data
+| Transform use action messages and menu text
+| Template NPC names and name suffixes
+| NPC talk response text
+| Relic name overrides
+| Speech text
+| Tutorial messages
+| Vitamin names
+| Recipe blueprint names
+| Recipe group recipe descriptions
+| Item names (plural supported) and descriptions
+| Recipe descriptions
+| Inscribe use action verbs/gerunds
+| Monster names (plural supported) and descriptions
+| Snippets
+| Bodypart names
+| Keybinding action names
+| Field level names
+
 ### Recommendations
 
 In Cataclysm: DDA, some classes, like `itype` and `mtype`, provide a wrapper
@@ -193,7 +364,7 @@ There are scripts available for these, so usually the process will be as follows
 1. Download the translations in `.po` format.
 2. Put them in `lang/incoming/`, ensuring they are named consistently with the files in `lang/po/`.
 3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-dda.pot`.
-4. Run `lang/merge_po.sh` to update `lang/po/*.po`.
+4. Run `lang/merge_po.sh` to update `lang/po/*.po`. (This is only used to test translations locally as the project now uses Transifex for translation)
 
     This will also merge the translations from `lang/incoming/`.
 

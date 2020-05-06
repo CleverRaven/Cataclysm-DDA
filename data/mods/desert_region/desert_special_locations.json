@@ -1,0 +1,17 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "desert",
+    "terrains": [ "desert" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "land",
+    "terrains": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "desert" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "wilderness",
+    "terrains": [ "forest", "forest_thick", "field", "forest_trail", "desert" ]
+  }
+]

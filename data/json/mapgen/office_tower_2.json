@@ -7,51 +7,8 @@
       { "monster": "mon_zombie", "freq": 600, "cost_multiplier": 1, "pack_size": [ 3, 5 ] },
       { "monster": "mon_zombie", "freq": 200, "cost_multiplier": 1 },
       { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_gasbag", "freq": 30, "cost_multiplier": 10, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
       { "monster": "mon_zombie_cop", "freq": 20, "cost_multiplier": 6 }
-    ]
-  },
-  {
-    "id": "file_room",
-    "type": "item_group",
-    "items": [
-      [ "file", 99 ],
-      [ "file", 99 ],
-      [ "record_accounting", 10 ],
-      [ "paper", 80 ],
-      [ "safe_box", 1 ]
-    ]
-  },
-  {
-    "id": "office_mess",
-    "type": "item_group",
-    "items": [
-      [ "file", 99 ],
-      [ "paper", 60 ],
-      [ "laptop", 2 ],
-      [ "inhaler", 1 ],
-      [ "mbag", 2 ],
-      [ "mop", 5 ],
-      [ "cell_phone", 10 ],
-      [ "duct_tape", 5 ],
-      [ "battery", 5 ],
-      [ "flashlight", 10 ],
-      [ "umbrella", 5 ],
-      [ "teleumbrella", 10 ],
-      [ "survnote", 1 ],
-      [ "clock", 2 ],
-      [ "coffeemaker", 2 ],
-      [ "bubblewrap", 10 ],
-      [ "glowstick", 10 ],
-      [ "radio", 2 ],
-      [ "fan", 5 ],
-      [ "fan", 5 ],
-      [ "cola", 10 ],
-      [ "can_drink_unsealed", 5 ],
-      [ "cig", 5 ],
-      [ "purse", 2 ],
-      [ "pipe_tobacco", 1 ],
-      [ "permanent_marker", 5 ]
     ]
   },
   {
@@ -155,7 +112,7 @@
         "l": "f_locker"
       },
       "place_vendingmachines": [ { "x": 17, "y": 21 }, { "x": 17, "y": 23 } ],
-      "toilets": { ";": {} },
+      "toilets": { ";": {  } },
       "place_items": [
         { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 10 ], "chance": 100, "repeat": [ 20, 70 ] },
         { "item": "office_mess", "x": [ 11, 23 ], "y": [ 19, 19 ], "chance": 100, "repeat": [ 10, 20 ] },
@@ -181,8 +138,8 @@
         "....s.z|---  ---  ---   ",
         "....s.z1                ",
         "....s.z|---  ---  ---   ",
-        "....s.z|C B  |E   |C B |",
-        "....s.z|CCC l|-DD-|CCC |",
+        "....s.z|C B  |    |C B |",
+        "....s.z|CCC l|EDD-|CCC |",
         "....s.z|-----|    |-----",
         "....s.z|;w   |7<<7|   w;",
         "....s.z|--   -----|   --",
@@ -263,7 +220,7 @@
         "l": "f_locker"
       },
       "place_vendingmachines": [ { "x": 17, "y": 21 }, { "x": 17, "y": 23 } ],
-      "toilets": { ";": {} },
+      "toilets": { ";": {  } },
       "place_items": [
         { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 10 ], "chance": 100, "repeat": [ 20, 70 ] },
         { "item": "office_mess", "x": [ 11, 23 ], "y": [ 19, 19 ], "chance": 100, "repeat": [ 10, 20 ] },
@@ -272,22 +229,17 @@
       ],
       "place_monsters": [ { "monster": "GROUP_OFFICE_TOWER_2", "x": [ 7, 21 ], "y": [ 13, 21 ], "chance": 2, "repeat": [ 1 ] } ],
       "place_monster": [ { "monster": "mon_zombie_scientist", "x": [ 7, 21 ], "y": [ 4, 10 ], "repeat": [ 1, 3 ] } ],
-      "monster": { "7": { "monster": "mon_turret"} }
+      "monster": { "7": { "monster": "mon_turret_riot" } }
     }
   },
   {
     "//": "Because north and west walls are part of the adjacent tile, the corner-most square in an L-shaped inner corner can be missing.",
-    "/2": "This map adds it back in, to prevent an open air-gap where players can fall into sky.",
+    "//2": "This map adds it back in, to prevent an open air-gap where players can fall into sky.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "office_tower_open_air_corner" ],
     "weight": 100,
-    "object": {
-      "fill_ter": "t_open_air",
-      "place_terrain": [
-        { "ter": "t_concrete_wall", "x": 0, "y": 23 }
-      ]
-    }
+    "object": { "fill_ter": "t_open_air", "place_terrain": [ { "ter": "t_concrete_wall", "x": 0, "y": 23 } ] }
   },
   {
     "type": "mapgen",

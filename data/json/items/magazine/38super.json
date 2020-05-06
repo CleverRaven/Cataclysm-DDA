@@ -1,0 +1,38 @@
+[
+  {
+    "id": "af2011a1mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "AF2011A1 magazine" },
+    "description": "Two .38 Super 8-round box magazines attached to a single base plate, holding up to 16 rounds in total, used by AF2011A1 double-barrel pistol.",
+    "weight": "140 g",
+    "volume": "500 ml",
+    "price": 10000,
+    "price_postapoc": 100,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "38super",
+    "capacity": 16,
+    "reliability": 7,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "m1911mag_10rd_38super",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "M1911 .38 Super magazine" },
+    "description": "A compact single stack box magazine for the M1911.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 3400,
+    "price_postapoc": 100,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "38super",
+    "capacity": 9,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

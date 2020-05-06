@@ -1,0 +1,110 @@
+[
+  {
+    "id": "municipal_reactor",
+    "type": "overmap_terrain",
+    "name": "municipal reactor",
+    "sym": "O",
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "prepnet_orchard",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "PrepNet orchard",
+    "sym": "#",
+    "color": "i_green",
+    "flags": [ "SOURCE_FOOD" ]
+  },
+  {
+    "id": "municipal_reactor_ware",
+    "type": "overmap_terrain",
+    "name": "warehouse",
+    "sym": "w",
+    "color": "pink",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "municipal_reactor_ware_b",
+    "type": "overmap_terrain",
+    "name": "waste storage",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "municipal_reactor_b",
+    "type": "overmap_terrain",
+    "name": "waste storage",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "municipal_reactor_b2",
+    "type": "overmap_terrain",
+    "name": "reactor control",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "municipal_reactor_b3",
+    "type": "overmap_terrain",
+    "name": "reactor room",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sieged_fungal_tower",
+    "name": "fungal tower",
+    "sym": "T",
+    "color": "pink",
+    "see_cost": 3,
+    "extras": "marloss",
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_2story",
+    "name": "county mortuary",
+    "sym": "M",
+    "color": "light_green",
+    "see_cost": 3,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_basement",
+    "name": "county mortuary basement",
+    "sym": "M",
+    "color": "white",
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_2story_second",
+    "name": "county mortuary second floor",
+    "sym": "M",
+    "color": "light_green",
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_2story_roof",
+    "name": "county mortuary roof",
+    "sym": "M",
+    "color": "light_green",
+    "see_cost": 3
+  }
+]

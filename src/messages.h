@@ -1,58 +1,74 @@
 #pragma once
-#ifndef MESSAGES_H
-#define MESSAGES_H
+#ifndef CATA_SRC_MESSAGES_H
+#define CATA_SRC_MESSAGES_H
+
+#include <cstddef>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "string_formatter.h"
-#include "pimpl.h"
-
-#include <string>
-#include <vector>
-#include <utility>
+#include "enums.h"
+#include "debug.h"
 
 class JsonOut;
 class JsonObject;
+class translation;
 
-enum game_message_type : int;
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 
-class Messages
+namespace Messages
 {
-    public:
-        Messages();
-        ~Messages();
-
-        static std::vector<std::pair<std::string, std::string>> recent_messages( size_t count );
-        static void add_msg( std::string msg );
-        static void add_msg( game_message_type type, std::string msg );
-        static void clear_messages();
-        static void deactivate();
-        static size_t size();
-        static bool has_undisplayed_messages();
-        static void display_messages();
-        static void display_messages( const catacurses::window &ipk_target, int left, int top, int right,
-                                      int bottom );
-        static void serialize( JsonOut &jsout );
-        static void deserialize( JsonObject &json );
-    private:
-        class impl_t;
-        pimpl<impl_t> impl_;
-};
+std::vector<std::pair<std::string, std::string>> recent_messages( size_t count );
+void add_msg( std::string msg );
+void add_msg( const game_message_params &params, std::string msg );
+void clear_messages();
+void deactivate();
+size_t size();
+bool has_undisplayed_messages();
+void display_messages();
+void display_messages( const catacurses::window &ipk_target, int left, int top, int right,
+                       int bottom );
+void serialize( JsonOut &json );
+void deserialize( const JsonObject &json );
+} // namespace Messages
 
 void add_msg( std::string msg );
+template<typename ...Args>
+inline void add_msg( const std::string &msg, Args &&... args )
+{
+    return add_msg( string_format( msg, std::forward<Args>( args )... ) );
+}
 template<typename ...Args>
 inline void add_msg( const char *const msg, Args &&... args )
 {
     return add_msg( string_format( msg, std::forward<Args>( args )... ) );
 }
-
-void add_msg( game_message_type type, std::string msg );
 template<typename ...Args>
-inline void add_msg( const game_message_type type, const char *const msg, Args &&... args )
+inline void add_msg( const translation &msg, Args &&... args )
 {
-    return add_msg( type, string_format( msg, std::forward<Args>( args )... ) );
+    return add_msg( string_format( msg, std::forward<Args>( args )... ) );
 }
 
-#endif
+void add_msg( const game_message_params &params, std::string msg );
+template<typename ...Args>
+inline void add_msg( const game_message_params &params, const std::string &msg, Args &&... args )
+{
+    if( params.type == m_debug && !debug_mode ) {
+        return;
+    }
+    return add_msg( params, string_format( msg, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg( const game_message_params &params, const char *const msg, Args &&... args )
+{
+    if( params.type == m_debug && !debug_mode ) {
+        return;
+    }
+    return add_msg( params, string_format( msg, std::forward<Args>( args )... ) );
+}
+
+#endif // CATA_SRC_MESSAGES_H

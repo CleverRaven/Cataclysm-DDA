@@ -1,0 +1,193 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_0",
+    "name": "camp survey",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "faction_base_camp_new_0" ],
+    "copy-from": "faction_base_camp_0",
+    "name": "survivor camp",
+    "delete": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "faction_base_camp_1",
+      "faction_base_camp_2",
+      "faction_base_camp_3",
+      "faction_base_camp_4",
+      "faction_base_camp_5",
+      "faction_base_camp_6",
+      "faction_base_camp_7",
+      "faction_base_camp_8",
+      "faction_base_camp_9",
+      "faction_base_camp_10",
+      "faction_base_camp_11",
+      "faction_base_camp_12",
+      "faction_base_camp_13",
+      "faction_base_camp_14"
+    ],
+    "copy-from": "faction_base_camp_0",
+    "name": "survivor camp"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "faction_base_camp_15",
+      "faction_base_camp_16",
+      "faction_base_camp_17",
+      "faction_base_camp_18",
+      "faction_base_camp_19",
+      "faction_base_camp_20"
+    ],
+    "copy-from": "faction_base_camp_0",
+    "name": "survivor base"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_farm_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "farm survey",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "faction_base_farm_1", "faction_base_farm_2", "faction_base_farm_3", "faction_base_farm_4" ],
+    "copy-from": "faction_base_farm_0",
+    "name": "farm"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_garage_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "garage survey",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "faction_base_garage_1",
+      "faction_base_garage_2",
+      "faction_base_garage_3",
+      "faction_base_garage_4",
+      "faction_base_garage_5",
+      "faction_base_garage_6"
+    ],
+    "copy-from": "faction_base_garage_0",
+    "name": "garage"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_kitchen_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "kitchen survey",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "faction_base_kitchen_1",
+      "faction_base_kitchen_2",
+      "faction_base_kitchen_3",
+      "faction_base_kitchen_4",
+      "faction_base_kitchen_5",
+      "faction_base_kitchen_6",
+      "faction_base_kitchen_7",
+      "faction_base_kitchen_8"
+    ],
+    "copy-from": "faction_base_kitchen_0",
+    "name": "kitchen"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_hide_site_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "hide site"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "faction_wall_level_N_0", "faction_wall_level_E_0", "faction_wall_level_S_0", "faction_wall_level_W_0" ],
+    "copy-from": "faction_base_camp_0",
+    "name": "trench",
+    "sym": "X",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "faction_wall_level_N_1", "faction_wall_level_E_1", "faction_wall_level_S_1", "faction_wall_level_W_1" ],
+    "copy-from": "faction_base_camp_0",
+    "name": "spiked trench",
+    "sym": "X",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_workshop_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "fabrication workshop survey",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_blacksmith_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "blacksmith survey",
+    "color": "i_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "faction_base_blacksmith_1",
+      "faction_base_blacksmith_2",
+      "faction_base_blacksmith_3",
+      "faction_base_blacksmith_4",
+      "faction_base_blacksmith_5",
+      "faction_base_blacksmith_6",
+      "faction_base_blacksmith_7",
+      "faction_base_blacksmith_8",
+      "faction_base_blacksmith_9",
+      "faction_base_blacksmith_10",
+      "faction_base_blacksmith_11",
+      "faction_base_blacksmith_12"
+    ],
+    "copy-from": "faction_base_blacksmith_0",
+    "name": "blacksmith shop"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_livestock_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "livestock survey",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_storehouse_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "store house survey",
+    "color": "cyan",
+    "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_saltworks_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "saltworks survey",
+    "color": "red",
+    "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_canteen_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "canteen survey",
+    "color": "i_green",
+    "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+  }
+]

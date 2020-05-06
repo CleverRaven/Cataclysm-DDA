@@ -1,7 +1,8 @@
 LIST OF MONSTERS WITH "ZOMBIE" SPECIES ATTRIBUTE:
 
-HUMANS
+HUMAN[ZOMBIE]
 ------
+scarred zombie : mon_beekeeper
 crawling zombie : mon_zombie_crawler
 decayed zombie : mon_zombie_rot
 fat zombie : mon_zombie_fat
@@ -14,9 +15,9 @@ zombie child : mon_zombie_child
 zombie soldier : mon_zombie_soldier
 zombie cop : mon_zombie_cop
 zombie : mon_zombie
+zombie military pilot : mon_zombie_military_pilot
 
-
-ANIMALS
+ANIMAL[ZOMBIE]
 -------
 antlered horror : mon_zoose
 decayed pouncer : mon_zougar

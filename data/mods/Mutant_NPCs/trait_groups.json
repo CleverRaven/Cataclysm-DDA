@@ -639,6 +639,43 @@
   },
   {
     "type": "trait_group",
+    "id": "trait_group_mouse",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "DISRESISTANT", "prob": 50 },
+      { "trait": "NIGHTVISION2", "prob": 50 },
+      { "trait": "FELINE_FUR", "prob": 50 },
+      { "trait": "TAIL_RAT", "prob": 50 },
+      { "trait": "MET_RAT", "prob": 50 },
+      { "trait": "ANIMALDISCORD2", "prob": 50 },
+      { "trait": "WHISKERS_RAT", "prob": 50 },
+      { "trait": "PROJUNK", "prob": 50 },
+      { "trait": "SMALL2", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_mouse_nonthres",
+    "subtype": "collection",
+    "traits": [  ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_mouse_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_MOUSE" },
+      { "trait": "GOODCARDIO2", "prob": 50 },
+      { "trait": "SMALL_OK", "prob": 50 },
+      { "trait": "INFRESIST", "prob": 50 },
+      { "trait": "PROJUNK2", "prob": 50 },
+      { "trait": "EASYSLEEPER2", "prob": 50 },
+      { "trait": "CRAFTY", "prob": 50 },
+      { "trait": "EATDEAD", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
     "id": "trait_group_elfa",
     "subtype": "collection",
     "traits": [
@@ -880,8 +917,7 @@
       { "trait": "SAVANT", "prob": 10 },
       { "trait": "SCHIZOPHRENIC", "prob": 10 },
       { "trait": "SQUEAMISH", "prob": 10 },
-      { "trait": "TRIGGERHAPPY", "prob": 10 },
-      { "trait": "INCONSPICUOUS", "prob": 10 }
+      { "group": "Appearance_demographics", "prob": 100 }
     ]
   }
 ]

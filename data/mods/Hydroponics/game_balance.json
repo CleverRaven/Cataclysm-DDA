@@ -1,0 +1,8 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MAX_HARVEST_COUNT",
+    "stype": "int",
+    "value": 30
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_lightindustry_road_1" ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "                       b",
+        "                       b",
+        "                       b",
+        "                       b",
+        "                       b",
+        "bbbbbbbbbbbbbbbbb      b",
+        "ddddddddddddddddb       ",
+        "bbbbbbbbbbbbbbbbb       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "bbbb          bbbbbbbbbb",
+        "aaab          baaaaaaaaa",
+        "aaab          baaaaaaaaa",
+        "aaab          baaaaaaaaa",
+        "aaab          baaaaaaaaa",
+        "bbbb          baaaaaaaaa"
+      ],
+      "terrain": { "a": [ "t_grass", "t_grass", "t_grass", "t_dirt" ], "b": "t_sidewalk", "c": "t_pavement_y", "d": "t_shrub" },
+      "furniture": {  }
+    }
+  }
+]

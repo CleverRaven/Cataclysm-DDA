@@ -2,108 +2,155 @@
   {
     "id": "fault_engine_belt_drive",
     "type": "fault",
-    "name": "drive belt",
+    "name": { "str": "Worn drive belt" },
     "description": "Required for operation of an attached alternator.",
-    "time": 30000,
-    "skills": [ [ "mechanics", 2 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH", "level": 1 } ],
-      "components": [ [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ] ]
-    }
+    "mending_methods": [
+      {
+        "id": "mend_fault_engine_belt_drive_replace",
+        "name": "Replace worn drive belt",
+        "success_msg": "You replace the worn drive belt of the %s.",
+        "time": "5 m",
+        "skills": [ { "id": "mechanics", "level": 2 } ],
+        "requirements": {
+          "qualities": [ { "id": "WRENCH", "level": 1 } ],
+          "components": [ [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ] ]
+        }
+      }
+    ]
   },
   {
     "id": "fault_engine_glow_plug",
     "type": "fault",
-    "name": "glow plugs",
+    "name": { "str": "Faulty glow plugs" },
     "description": "Help when starting an engine in low ambient temperatures.",
-    "time": 240000,
-    "skills": [ [ "mechanics", 4 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
-      "components": [ [ [ "glowplug", 1 ] ] ]
-    }
+    "mending_methods": [
+      {
+        "id": "mend_fault_engine_glow_plug_replace",
+        "name": "Replace faulty glow plugs",
+        "success_msg": "You replace the faulty glow plugs of the %s.",
+        "time": "40 m",
+        "skills": [ { "id": "mechanics", "level": 4 } ],
+        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "glowplug", 1 ] ] ] }
+      }
+    ]
   },
   {
     "id": "fault_engine_immobiliser",
     "type": "fault",
-    "name": "immobiliser",
+    "name": { "str": "Active immobiliser" },
     "description": "Prevents starting of the vehicle without the appropriate key.",
-    "time": 30000,
-    "skills": [ [ "mechanics", 2 ], [ "electronics", 5 ] ],
-    "requirements": {
-      "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
-    }
+    "mending_methods": [
+      {
+        "id": "mend_fault_engine_immobiliser_deactivate",
+        "name": "Deactivate immobiliser",
+        "description": "Deactivate the immobiliser that is preventing the vehicle from starting.",
+        "success_msg": "You successfully deactivate the immobiliser of the %s.",
+        "time": "5 m",
+        "skills": [ { "id": "mechanics", "level": 2 }, { "id": "electronics", "level": 5 } ],
+        "requirements": { "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
+      }
+    ]
   },
   {
     "id": "fault_engine_pump_diesel",
     "type": "fault",
-    "name": "diesel pump",
+    "name": { "str": "Faulty diesel pump" },
     "description": "Required to pump and pressurize diesel from a vehicles tank.",
-    "time": 240000,
-    "skills": [ [ "mechanics", 4 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
-      "components": [ [ [ "pump_complex", 1 ] ] ]
-    }
+    "mending_methods": [
+      {
+        "id": "mend_fault_engine_pump_diesel_replace",
+        "name": "Replace faulty diesel pump",
+        "success_msg": "You replace the faulty diesel pump of the %s",
+        "time": "40 m",
+        "skills": [ { "id": "mechanics", "level": 4 } ],
+        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "pump_complex", 1 ] ] ] }
+      }
+    ]
   },
   {
     "id": "fault_engine_filter_air",
     "type": "fault",
-    "name": "air filter",
+    "name": { "str": "Expired air filter" },
     "description": "An expired filter reduces fuel efficiency and increases smoke production.",
-    "time": 30000,
-    "skills": [ [ "mechanics", 1 ] ],
-    "requirements": {
-      "qualities": [ { "id": "SCREW", "level": 1 } ],
-      "components": [ [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ] ]
-    }
+    "mending_methods": [
+      {
+        "id": "mend_fault_engine_filter_air_replace",
+        "name": "Replace expired air filter",
+        "success_msg": "You replace the expired air filter of the %s.",
+        "time": "5 m",
+        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "requirements": {
+          "qualities": [ { "id": "SCREW", "level": 1 } ],
+          "components": [ [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ] ]
+        }
+      }
+    ]
   },
   {
     "id": "fault_engine_filter_fuel",
     "type": "fault",
-    "name": "fuel filter",
+    "name": { "str": "Expired fuel filter" },
     "description": "An expired filter reduces performance and increases the chance of backfires.",
-    "time": 30000,
-    "skills": [ [ "mechanics", 1 ] ],
-    "requirements": {
-      "qualities": [ { "id": "SCREW", "level": 1 } ],
-      "components": [ [ [ "filter_liquid", 1 ], [ "filter_liquid_makeshift", 1 ] ] ]
-    }
+    "mending_methods": [
+      {
+        "id": "mend_fault_engine_filter_fuel_replace",
+        "name": "Replace expired fuel filter",
+        "success_msg": "You replace the expired fuel filter of the %s.",
+        "time": "5 m",
+        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "requirements": {
+          "qualities": [ { "id": "SCREW", "level": 1 } ],
+          "components": [ [ [ "filter_liquid", 1 ], [ "filter_liquid_makeshift", 1 ] ] ]
+        }
+      }
+    ]
   },
   {
     "id": "fault_engine_pump_fuel",
     "type": "fault",
-    "name": "fuel pump",
+    "name": { "str": "Faulty fuel pump" },
     "description": "Required to pump gasoline from a vehicles tank.",
-    "time": 240000,
-    "skills": [ [ "mechanics", 4 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
-      "components": [ [ [ "well_pump", 1 ] ] ]
-    }
+    "mending_methods": [
+      {
+        "id": "mend_fault_engine_pump_fuel_replace",
+        "name": "Replace faulty fuel pump",
+        "success_msg": "You replace the faulty fuel pump of the %s.",
+        "time": "40 m",
+        "skills": [ { "id": "mechanics", "level": 4 } ],
+        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
+      }
+    ]
   },
   {
     "id": "fault_engine_pump_water",
     "type": "fault",
-    "name": "water pump",
+    "name": { "str": "Faulty water pump" },
     "description": "Required to pump water to an external radiator or heatsink.",
-    "time": 120000,
-    "skills": [ [ "mechanics", 4 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
-      "components": [ [ [ "well_pump", 1 ] ] ]
-    }
+    "mending_methods": [
+      {
+        "id": "mend_fault_engine_pump_water_replace",
+        "name": "Replace faulty water pump",
+        "success_msg": "You replace the faulty water pump of the %s.",
+        "time": "20 m",
+        "skills": [ { "id": "mechanics", "level": 4 } ],
+        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
+      }
+    ]
   },
   {
     "id": "fault_engine_starter",
     "type": "fault",
-    "name": "starter motor",
+    "name": { "str": "Faulty starter motor" },
     "description": "Required to initially start the engine.",
-    "time": 60000,
-    "skills": [ [ "mechanics", 3 ] ],
-    "requirements": {
-      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
-      "components": [ [ [ "motor_small", 1 ] ] ]
-    }
+    "mending_methods": [
+      {
+        "id": "mend_fault_engine_starter_replace",
+        "name": "Replace faulty starter motor",
+        "success_msg": "You replace the faulty starter motor of %s.",
+        "time": "10 m",
+        "skills": [ { "id": "mechanics", "level": 3 } ],
+        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "motor_small", 1 ] ] ] }
+      }
+    ]
   }
 ]

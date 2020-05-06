@@ -1,24 +1,41 @@
 #pragma once
-#ifndef RNG_H
-#define RNG_H
+#ifndef CATA_SRC_RNG_H
+#define CATA_SRC_RNG_H
 
-#include "compatibility.h"
+#include <array>
+#include <functional>
+#include <iosfwd>
+#include <iterator>
+#include <random>
+#include <type_traits>
+
 #include "optional.h"
 
-#include <functional>
-#include <array>
+class time_duration;
 
-long rng( long val1, long val2 );
-double rng_float( double val1, double val2 );
+// All PRNG functions use an engine, see the C++11 <random> header
+// By default, that engine is seeded by time on first call to such a function.
+// If this function is called with a non-zero seed then the engine will be
+// seeded (or re-seeded) with the given seed.
+void rng_set_engine_seed( unsigned int seed );
+
+using cata_default_random_engine = std::minstd_rand0;
+cata_default_random_engine &rng_get_engine();
+unsigned int rng_bits();
+
+int rng( int lo, int hi );
+double rng_float( double lo, double hi );
 bool one_in( int chance );
-bool one_in_improved( double chance );
+bool one_turn_in( const time_duration &duration );
 bool x_in_y( double x, double y );
 int dice( int number, int sides );
 
 // Returns x + x_in_y( x-int(x), 1 )
 int roll_remainder( double value );
-// Returns x/y + x_in_y( (x/y)-int(x/y), 1 )
-int divide_roll_remainder( double dividend, double divisor );
+inline int roll_remainder( float value )
+{
+    return roll_remainder( static_cast<double>( value ) );
+}
 
 int djb2_hash( const unsigned char *input );
 
@@ -30,6 +47,15 @@ inline double rng_normal( double hi )
 }
 
 double normal_roll( double mean, double stddev );
+
+double rng_exponential( double min, double mean );
+
+inline double rng_exponential( double mean )
+{
+    return rng_exponential( 0.0, mean );
+}
+
+double exponential_roll( double lambda );
 
 /**
  * Returns a random entry in the container.
@@ -58,8 +84,9 @@ inline V random_entry( const C &container, D default_value )
  * This function handles empty containers without requiring an instance of the
  * contained type when container is empty.
  */
-template<typename C, typename V = const typename C::value_type>
-inline cata::optional<std::reference_wrapper<V>> random_entry_opt( const C &container )
+template<typename C>
+inline auto random_entry_opt( C &container ) ->
+cata::optional<decltype( std::ref( *container.begin() ) )>
 {
     if( container.empty() ) {
         return cata::nullopt;
@@ -132,16 +159,9 @@ inline V random_entry_removed( C &container )
     container.erase( iter );
     return result;
 }
-
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 class map;
-struct tripoint;
 class tripoint_range;
+struct tripoint;
 
 /// Returns a range enclosing all valid points of the map.
 tripoint_range points_in_range( const map &m );
@@ -152,4 +172,4 @@ cata::optional<tripoint> random_point( const tripoint_range &range,
 cata::optional<tripoint> random_point( const map &m,
                                        const std::function<bool( const tripoint & )> &predicate );
 
-#endif
+#endif // CATA_SRC_RNG_H

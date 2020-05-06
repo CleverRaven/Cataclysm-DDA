@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_gas_g0" ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "ffaaaaaaaaaaaaaaaaaaffff",
+        "ffaa    b    b    aaffff",
+        "ffaa    b    b    aaffff",
+        "ffaa    b    b    aaffff",
+        "ffaa    b    b    aaffff",
+        "ffaa    b    b    aaffff",
+        "aaaa    b    b    aaaaaa",
+        "a                      a",
+        "a                      a",
+        "a                      a",
+        "a                      a",
+        "a                      a",
+        "a     gggggggggggg     a",
+        "a     ggcdggggdcgg     a",
+        "a     ggcdggggdcgg     a",
+        "a     gggggggggggg     a",
+        "a                      a",
+        "a                      a",
+        "a                      a",
+        "a                      a",
+        "a                      a",
+        "a     aaaaaaaaaaaa     a",
+        "a     aeeeeeeeeeea     a",
+        "a     aaaaaaaaaaaa     a"
+      ],
+      "terrain": {
+        "a": "t_sidewalk",
+        "b": "t_pavement_y",
+        "c": "t_gas_pump",
+        "d": "t_wall",
+        "e": "t_shrub",
+        "f": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "g": "t_concrete_floor"
+      },
+      "furniture": {  },
+      "place_loot": [ { "group": "road", "chance": 60, "repeat": [ 10 ], "x": [ 1, 22 ], "y": [ 1, 20 ] } ]
+    }
+  }
+]

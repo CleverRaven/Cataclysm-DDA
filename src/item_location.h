@@ -1,14 +1,15 @@
 #pragma once
-#ifndef ITEM_LOCATION_H
-#define ITEM_LOCATION_H
+#ifndef CATA_SRC_ITEM_LOCATION_H
+#define CATA_SRC_ITEM_LOCATION_H
 
 #include <memory>
-#include <list>
+#include <string>
+
+#include "map_selector.h"
 
 struct tripoint;
 class item;
 class Character;
-class map_cursor;
 class vehicle_cursor;
 class JsonIn;
 class JsonOut;
@@ -26,34 +27,26 @@ class item_location
             invalid = 0,
             character = 1,
             map = 2,
-            vehicle = 3
+            vehicle = 3,
+            container = 4
         };
 
         item_location();
-        item_location( const item_location & ) = delete;
-        item_location &operator= ( const item_location & ) = delete;
-        item_location( item_location && );
-        item_location &operator=( item_location && );
-        ~item_location();
 
         static const item_location nowhere;
 
         item_location( Character &ch, item *which );
-        item_location( Character &ch, std::list<item> *which );
         item_location( const map_cursor &mc, item *which );
-        item_location( const map_cursor &mc, std::list<item> *which );
         item_location( const vehicle_cursor &vc, item *which );
-        item_location( const vehicle_cursor &vc, std::list<item> *which );
+        item_location( const item_location &container, item *which );
 
         void serialize( JsonOut &js ) const;
         void deserialize( JsonIn &js );
 
-        long charges_in_stack( unsigned int countOnly ) const;
-
         bool operator==( const item_location &rhs ) const;
         bool operator!=( const item_location &rhs ) const;
 
-        operator bool() const;
+        explicit operator bool() const;
 
         item &operator*();
         const item &operator*() const;
@@ -77,12 +70,12 @@ class item_location
          *  @warning caller should restack inventory if item is to remain in it
          *  @warning all further operations using this class are invalid
          *  @warning it is unsafe to call this within unsequenced operations (see #15542)
-         *  @return inventory position for the item */
-        int obtain( Character &ch, long qty = -1 );
+         *  @return item_location for the item */
+        item_location obtain( Character &ch, int qty = -1 );
 
         /** Calculate (but do not deduct) number of moves required to obtain an item
          *  @see item_location::obtain */
-        int obtain_cost( const Character &ch, long qty = -1 ) const;
+        int obtain_cost( const Character &ch, int qty = -1 ) const;
 
         /** Removes the selected item from the game
          *  @warning all further operations using this class are invalid */
@@ -92,21 +85,15 @@ class item_location
         item *get_item();
         const item *get_item() const;
 
-        /**
-         * Clones this instance
-         * @warning usage should be restricted to implementing custom copy-constructors
-         */
-        item_location clone() const;
+        void set_should_stack( bool should_stack ) const;
+
+        /** returns the parent item, or an invalid location if it has no parent */
+        item_location parent_item() const;
 
     private:
         class impl;
-        std::shared_ptr<impl> ptr;
 
-        /* Not implemented on purpose. This triggers a compiler / linker
-         * error when used in any implicit conversion. It prevents the
-         * implicit conversion to int. */
-        template<typename T>
-        operator T() const;
+        std::shared_ptr<impl> ptr;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_LOCATION_H

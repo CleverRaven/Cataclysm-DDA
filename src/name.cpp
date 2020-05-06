@@ -1,12 +1,16 @@
 #include "name.h"
+
+#include <cstddef>
 #include <map>
 #include <string>
+#include <utility>
+#include <vector>
 
+#include "cata_utility.h"
 #include "json.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "rng.h"
-#include "cata_utility.h"
 
 namespace Name
 {
@@ -16,6 +20,7 @@ static const std::map< std::string, nameFlags > usage_flags = {
     { "given",     nameIsGivenName },
     { "family",    nameIsFamilyName },
     { "universal", nameIsGivenName | nameIsFamilyName },
+    { "nick",      nameIsNickName },
     { "backer",    nameIsFullName },
     { "city",      nameIsTownName },
     { "world",     nameIsWorldName }
@@ -27,18 +32,18 @@ static const std::map< std::string, nameFlags > gender_flags {
     { "unisex", nameIsUnisexName }
 };
 
-static nameFlags usage_flag( std::string const &usage )
+static nameFlags usage_flag( const std::string &usage )
 {
-    auto it = usage_flags.find( usage );
+    const auto it = usage_flags.find( usage );
     if( it != usage_flags.end() ) {
         return it->second;
     }
     return static_cast< nameFlags >( 0 );
 }
 
-static nameFlags gender_flag( std::string const &gender )
+static nameFlags gender_flag( const std::string &gender )
 {
-    auto it = gender_flags.find( gender );
+    const auto it = gender_flags.find( gender );
     if( it != gender_flags.end() ) {
         return it->second;
     }
@@ -51,6 +56,7 @@ static nameFlags gender_flag( std::string const &gender )
 // Backer | (Female|Male|Unisex)
 // Given  | (Female|Male)        // unisex names are duplicated in each group
 // Family | Unisex
+// Nick
 // City
 // World
 static void load( JsonIn &jsin )
@@ -70,7 +76,7 @@ static void load( JsonIn &jsin )
     }
 }
 
-void load_from_file( std::string const &filename )
+void load_from_file( const std::string &filename )
 {
     read_from_file_json( filename, load );
 }
@@ -96,18 +102,18 @@ static names_vec get_matching_groups( nameFlags searchFlags )
 std::string get( nameFlags searchFlags )
 {
     auto matching_groups = get_matching_groups( searchFlags );
-    if( ! matching_groups.empty() ) {
+    if( !matching_groups.empty() ) {
         // get number of choices
         size_t nChoices = 0;
-        for( auto const &i : matching_groups ) {
-            auto const &group = i->second;
+        for( const auto &i : matching_groups ) {
+            const auto &group = i->second;
             nChoices += group.size();
         }
 
         // make random selection and return result.
         size_t choice = rng( 0, nChoices - 1 );
-        for( auto const &i : matching_groups ) {
-            auto const &group = i->second;
+        for( const auto &i : matching_groups ) {
+            const auto &group = i->second;
             if( choice < group.size() ) {
                 return group[choice];
             }
@@ -120,15 +126,22 @@ std::string get( nameFlags searchFlags )
 
 std::string generate( bool is_male )
 {
-    nameFlags baseSearchFlags = is_male ? nameIsMaleName : nameIsFemaleName;
-    //One in four chance to pull from the backer list, otherwise generate a name from the parts list
-    if( one_in( 4 ) ) {
+    const nameFlags baseSearchFlags = is_male ? nameIsMaleName : nameIsFemaleName;
+    //One in twenty chance to pull from the backer list, otherwise generate a name from the parts list
+    if( one_in( 20 ) ) {
         return get( baseSearchFlags | nameIsFullName );
     } else {
-        //~ used for constructing names. swapping these will put family name first.
-        return string_format( pgettext( "Full Name", "%1$s %2$s" ),
+        //~ Used for constructing full name: %1$s is `given name`, %2$s is `family name`
+        translation full_name_format = to_translation( "Full Name", "%1$s %2$s" );
+        //One in three chance to add a nickname to full name
+        if( one_in( 3 ) ) {
+            //~ Used for constructing full name with nickname: %1$s is `given name`, %2$s is `family name`, %3$s is `nickname`
+            full_name_format = to_translation( "Full Name", "%1$s '%3$s' %2$s" );
+        }
+        return string_format( full_name_format,
                               get( baseSearchFlags | nameIsGivenName ).c_str(),
-                              get( baseSearchFlags | nameIsFamilyName ).c_str()
+                              get( baseSearchFlags | nameIsFamilyName ).c_str(),
+                              get( nameIsNickName ).c_str()
                             );
     }
 }
@@ -137,5 +150,5 @@ void clear()
 {
     names.clear();
 }
-}
+} // namespace Name
 

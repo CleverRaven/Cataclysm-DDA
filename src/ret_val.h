@@ -1,11 +1,11 @@
 #pragma once
-#ifndef RET_VAL_H
-#define RET_VAL_H
-
-#include "string_formatter.h"
+#ifndef CATA_SRC_RET_VAL_H
+#define CATA_SRC_RET_VAL_H
 
 #include <string>
 #include <type_traits>
+
+#include "string_formatter.h"
 
 /**
  * The class represents a composite return value of an arbitrary function (result).
@@ -98,4 +98,4 @@ struct ret_val<bool>::default_success : public std::integral_constant<bool, true
 template<>
 struct ret_val<bool>::default_failure : public std::integral_constant<bool, false> {};
 
-#endif // RET_VAL_H
+#endif // CATA_SRC_RET_VAL_H

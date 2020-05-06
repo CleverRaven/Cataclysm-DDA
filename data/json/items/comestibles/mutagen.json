@@ -1,528 +1,542 @@
 [
-    {
-        "abstract" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "abstract mutagen flavor",
-        "description" : "A rare substance of uncertain origins.  Causes you to mutate.",
-        "price" : 100000, "//" : "Not commercially traded, in case there was any question.",
-        "comestible_type" : "DRINK",
-        "category" : "mutagen",
-        "weight" : 250,
-        "volume" : 1,
-        "phase" : "liquid",
-        "container" : "flask_glass",
-        "symbol" : "~",
-        "color" : "light_green",
-        "healthy" : -2,
-        "addiction_potential" : 2,
-        "addiction_type" : "mutagen"
-    },
-    {
-        "abstract" : "iv_mutagen_flavor",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
-        "name" : "abstract iv mutagen flavor",
-        "description" : "A super-concentrated mutagen.  You need a syringe to inject it...  if you really want to?",
-        "price" : 200000,
-        "symbol" : "!",
-        "color" : "green",
-        "healthy" : -6,
-        "stim" : -5,
-        "addiction_potential" : 6,
-        "tool" : "syringe"
-    },
-    {
-        "id" : "iv_mutagen",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "mutagenic serum",
-        "healthy" : -10,
-        "stim" : -10,
-        "addiction_potential" : 12,
-        "use_action" : {
-          "type" : "mutagen_iv"
-        }
-    },
-    {
-        "id" : "iv_mutagen_alpha",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "alpha serum",
-        "price" : 1000000,
-        "color" : "light_green",
-        "healthy" : -4,
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "ALPHA"
-        }
-    },
-    {
-        "id" : "iv_mutagen_beast",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "beast serum",
-        "description" : "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
-        "color" : "red",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "BEAST"
-        }
-    },
-    {
-        "id" : "iv_mutagen_bird",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "bird serum",
-        "description" : "A super-concentrated mutagen the color of the pre-cataclysmic skies.  You need a syringe to inject it...  if you really want to?",
-        "color" : "cyan",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "BIRD"
-        }
-    },
-    {
-        "id" : "iv_mutagen_cattle",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "cattle serum",
-        "description" : "A super-concentrated mutagen the color of grass.  You need a syringe to inject it...  if you really want to?",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "CATTLE"
-        }
-    },
-    {
-        "id" : "iv_mutagen_cephalopod",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "cephalopod serum",
-        "description" : "A (rather bright) green super-concentrated mutagen.  You need a syringe to inject it...  if you really want to?",
-        "color" : "light_green",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "CEPHALOPOD"
-        }
-    },
-    {
-        "id" : "iv_mutagen_chimera",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "chimera serum",
-        "description" : "A super-concentrated blood-red mutagen.  You need a syringe to inject it...  if you really want to?",
-        "price" : 400000,
-        "color" : "red",
-        "healthy" : -15,
-        "stim" : -10,
-        "addiction_potential" : 4,
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "CHIMERA"
-        }
-    },
-    {
-        "id" : "iv_mutagen_elfa",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "elf-a serum",
-        "description" : "A super-concentrated mutagen that reminds you of the forests.  You need a syringe to inject it...  if you really want to?",
-        "price" : 400000,
-        "color" : "light_green",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "ELFA"
-        }
-    },
-    {
-        "id" : "iv_mutagen_feline",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "feline serum",
-        "description" : "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
-        "color" : "red",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "FELINE"
-        }
-    },
-    {
-        "id" : "iv_mutagen_fish",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "fish serum",
-        "color" : "cyan",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "FISH"
-        }
-    },
-    {
-        "id" : "iv_mutagen_insect",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "insect serum",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "INSECT"
-        }
-    },
-    {
-        "id" : "iv_mutagen_lizard",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "lizard serum",
-        "color" : "light_green",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "LIZARD"
-        }
-    },
-    {
-        "id" : "iv_mutagen_lupine",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "lupine serum",
-        "description" : "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
-        "color" : "red",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "LUPINE"
-        }
-    },
-    {
-        "id" : "iv_mutagen_medical",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "medical serum",
-        "description" : "A super-concentrated substance.  Judging by the amount, it should be delivered via injection.  You'd need a syringe.",
-        "price" : 300000,
-        "color" : "light_green",
-        "healthy" : -4,
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "MEDICAL"
-        }
-    },
-    {
-        "id" : "iv_mutagen_plant",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "plant serum",
-        "description" : "A super-concentrated mutagen strongly resembling tree sap.  You need a syringe to inject it...  if you really want to?",
-        "color" : "yellow",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "PLANT"
-        }
-    },
-    {
-        "id" : "iv_mutagen_raptor",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "raptor serum",
-        "price" : 400000,
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "RAPTOR"
-        }
-    },
-    {
-        "id" : "iv_mutagen_rat",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "rat serum",
-        "color" : "brown",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "RAT"
-        }
-    },
-    {
-        "id" : "iv_mutagen_slime",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "slime serum",
-        "description" : "A super-concentrated mutagen that looks very much like the goo or whatever-it-is in the zombies' eyes.  You need a syringe to inject it...  if you really want to?",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "SLIME"
-        }
-    },
-    {
-        "id" : "iv_mutagen_spider",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "spider serum",
-        "color" : "dark_gray",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "SPIDER"
-        }
-    },
-    {
-        "id" : "iv_mutagen_troglobite",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "troglobite serum",
-        "color" : "light_gray",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "TROGLOBITE"
-        }
-    },
-    {
-        "id" : "iv_mutagen_ursine",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "ursine serum",
-        "description" : "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
-        "color" : "red",
-        "use_action" : {
-          "type" : "mutagen_iv",
-          "mutation_category" : "URSINE"
-        }
-    },
-    {
-        "id" : "mutagen",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "mutagen",
-        "addiction_potential" : 6,
-        "use_action" : {
-          "type" : "mutagen",
-          "is_strong" : true
-        }
-    },
-    {
-        "id" : "mutagen_alpha",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "alpha mutagen",
-        "description" : "An extremely rare mutagen cocktail.",
-        "price" : 500000, "//" : "*May* have gotten a dose smuggled out.",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "ALPHA"
-        }
-    },
-    {
-        "id" : "mutagen_beast",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "beast mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "BEAST"
-        }
-    },
-    {
-        "id" : "mutagen_bird",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "bird mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "BIRD"
-        }
-    },
-    {
-        "id" : "mutagen_cattle",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "cattle mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "CATTLE"
-        }
-    },
-    {
-        "id" : "mutagen_cephalopod",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "cephalopod mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "CEPHALOPOD"
-        }
-    },
-    {
-        "id" : "mutagen_chimera",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "chimera mutagen",
-        "description" : "An extremely rare mutagen cocktail.",
-        "price" : 200000,
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "CHIMERA"
-        }
-    },
-    {
-        "id" : "mutagen_elfa",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "elfa mutagen",
-        "description" : "An extremely rare mutagen cocktail.",
-        "price" : 200000,
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "ELFA"
-        }
-    },
-    {
-        "id" : "mutagen_feline",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "feline mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "FELINE"
-        }
-    },
-    {
-        "id" : "mutagen_fish",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "fish mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "FISH"
-        }
-    },
-    {
-        "id" : "mutagen_insect",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "insect mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "INSECT"
-        }
-    },
-    {
-        "id" : "mutagen_lizard",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "lizard mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "LIZARD"
-        }
-    },
-    {
-        "id" : "mutagen_lupine",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "lupine mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "LUPINE"
-        }
-    },
-    {
-        "id" : "mutagen_medical",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "medical mutagen",
-        "price" : 150000, "//" : "*May* have been considered for commercial trading.",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "MEDICAL"
-        }
-    },
-    {
-        "id" : "mutagen_plant",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "plant mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "PLANT"
-        }
-    },
-    {
-        "id" : "mutagen_raptor",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "raptor mutagen",
-        "description" : "An extremely rare mutagen cocktail.",
-        "price" : 200000,
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "RAPTOR"
-        }
-    },
-    {
-        "id" : "mutagen_rat",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "rat mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "RAT"
-        }
-    },
-    {
-        "id" : "mutagen_slime",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "slime mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "SLIME"
-        }
-    },
-    {
-        "id" : "mutagen_spider",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "spider mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "SPIDER"
-        }
-    },
-    {
-        "id" : "mutagen_troglobite",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "troglobite mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "TROGLOBITE"
-        }
-    },
-    {
-        "id" : "mutagen_ursine",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "ursine mutagen",
-        "use_action" : {
-          "type" : "mutagen",
-          "mutation_category" : "URSINE"
-        }
-    },
-    {
-        "id" : "purifier",
-        "copy-from" : "mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "purifier",
-        "description" : "A rare stem-cell treatment that causes mutations and other genetic defects to fade away.",
-        "price" : 600000, "//" : "*May* have been commercially traded, what with stem-cell treatments and all.",
-        "color" : "pink",
-        "healthy" : 5,
-        "addiction_potential" : 8,
-        "use_action" : "PURIFIER"
-    },
-    {
-        "id" : "iv_purifier",
-        "copy-from" : "iv_mutagen_flavor",
-        "type" : "COMESTIBLE",
-        "name" : "purifier serum",
-        "description" : "A super-concentrated stem cell treatment.  You need a syringe to inject it.",
-        "price" : 900000, "//" : "*May* have been commercially traded, but not in this preparation.",
-        "color" : "magenta",
-        "addiction_potential" : 8,
-        "use_action" : "PURIFY_IV"
-    }
+  {
+    "abstract": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "abstract mutagen flavor" },
+    "description": "A rare substance of uncertain origins.  Causes you to mutate.",
+    "price": 100000,
+    "price_postapoc": 50,
+    "//": "Not commercially traded, in case there was any question.",
+    "comestible_type": "DRINK",
+    "category": "mutagen",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "container": "flask_glass",
+    "symbol": "~",
+    "color": "light_green",
+    "healthy": -2,
+    "addiction_potential": 2,
+    "addiction_type": "mutagen",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "vitamins": [  ],
+    "material": "water",
+    "freezing_point": 17
+  },
+  {
+    "abstract": "iv_mutagen_flavor",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "abstract iv mutagen flavor" },
+    "description": "A super-concentrated mutagen.  You need a syringe to inject it… if you really want to?",
+    "price": 200000,
+    "price_postapoc": 100,
+    "weight": "10 g",
+    "volume": "10ml",
+    "symbol": "!",
+    "color": "green",
+    "healthy": -6,
+    "stim": -5,
+    "addiction_potential": 6,
+    "container": "test_tube",
+    "tool": "syringe",
+    "flags": [ "NO_INGEST" ]
+  },
+  {
+    "id": "iv_mutagen",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "mutagenic serum",
+    "healthy": -10,
+    "stim": -10,
+    "addiction_potential": 12,
+    "use_action": { "type": "mutagen_iv" }
+  },
+  {
+    "id": "iv_mutagen_alpha",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "alpha serum" },
+    "description": "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it… if you really want to?",
+    "price": 1000000,
+    "color": "red",
+    "healthy": -4,
+    "use_action": { "type": "mutagen_iv", "mutation_category": "ALPHA" }
+  },
+  {
+    "id": "iv_mutagen_beast",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "beast serum" },
+    "description": "A super-concentrated mutagen as red as a matador's cape.  You need a syringe to inject it… if you really want to?",
+    "color": "red",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "BEAST" }
+  },
+  {
+    "id": "iv_mutagen_bird",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "bird serum" },
+    "description": "A super-concentrated mutagen the color of the pre-Cataclysmic skies.  You need a syringe to inject it… if you really want to?",
+    "color": "cyan",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "BIRD" }
+  },
+  {
+    "id": "iv_mutagen_cattle",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "cattle serum",
+    "description": "A super-concentrated mutagen the color of grass.  You need a syringe to inject it… if you really want to?",
+    "color": "light_green",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "CATTLE" }
+  },
+  {
+    "id": "iv_mutagen_cephalopod",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "cephalopod serum",
+    "description": "A super-concentrated mutagen as black as ink.  You need a syringe to inject it… if you really want to?",
+    "color": "dark_gray",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "CEPHALOPOD" }
+  },
+  {
+    "id": "iv_mutagen_chimera",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "chimera serum",
+    "description": "A super-concentrated mutagen that churns with iridescence.  You need a syringe to inject it… if you really want to?",
+    "price": 400000,
+    "color": "red",
+    "healthy": -15,
+    "stim": -10,
+    "addiction_potential": 4,
+    "use_action": { "type": "mutagen_iv", "mutation_category": "CHIMERA" }
+  },
+  {
+    "id": "iv_mutagen_elfa",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "elf-a serum",
+    "description": "A super-concentrated mutagen that's a striking sylvan green.  You need a syringe to inject it… if you really want to?",
+    "price": 400000,
+    "color": "light_green",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "ELFA" }
+  },
+  {
+    "id": "iv_mutagen_feline",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "feline serum",
+    "description": "A super-concentrated mutagen, yellow and highly reflective.  You need a syringe to inject it… if you really want to?",
+    "color": "yellow",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "FELINE" }
+  },
+  {
+    "id": "iv_mutagen_fish",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "fish serum",
+    "description": "A super-concentrated mutagen the color of the ocean, with white foam at the top.  You need a syringe to inject it… if you really want to?",
+    "color": "light_blue",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "FISH" }
+  },
+  {
+    "id": "iv_mutagen_insect",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "insect serum",
+    "description": "A super-concentrated mutagen that's a beautiful amber color.  You need a syringe to inject it… if you really want to?",
+    "color": "yellow",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "INSECT" }
+  },
+  {
+    "id": "iv_mutagen_lizard",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "lizard serum",
+    "description": "A super-concentrated mutagen that shifts between various shades of green.  You need a syringe to inject it… if you really want to?",
+    "color": "light_green",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "LIZARD" }
+  },
+  {
+    "id": "iv_mutagen_lupine",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "lupine serum",
+    "description": "A super-concentrated mutagen as white as a full moon.  You need a syringe to inject it… if you really want to?",
+    "color": "white",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "LUPINE" }
+  },
+  {
+    "id": "iv_mutagen_medical",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "medical serum",
+    "description": "A super-concentrated mutagen that looks like a mixture of bodily fluids.  You need a syringe to inject it… if you really want to?",
+    "price": 300000,
+    "color": "light_red",
+    "healthy": -4,
+    "use_action": { "type": "mutagen_iv", "mutation_category": "MEDICAL" }
+  },
+  {
+    "id": "iv_mutagen_plant",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "plant serum",
+    "description": "A super-concentrated mutagen that looks like pureed spinach.  You need a syringe to inject it… if you really want to?",
+    "color": "green",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "PLANT" }
+  },
+  {
+    "id": "iv_mutagen_raptor",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "raptor serum",
+    "description": "A super-concentrated mutagen that seems to shift slightly whenever you look at it.  You need a syringe to inject it… if you really want to?",
+    "price": 400000,
+    "color": "green",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "RAPTOR" }
+  },
+  {
+    "id": "iv_mutagen_rat",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "rat serum",
+    "description": "A super-concentrated mutagen that's a rather unappealing beige.  You need a syringe to inject it… if you really want to?",
+    "color": "brown",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "RAT" }
+  },
+  {
+    "id": "iv_mutagen_slime",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "slime serum",
+    "description": "A super-concentrated mutagen that looks very much like the black ooze in the zombies' eyes.  You need a syringe to inject it… if you really want to?",
+    "color": "dark_gray",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "SLIME" }
+  },
+  {
+    "id": "iv_mutagen_spider",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "spider serum",
+    "description": "A super-concentrated mutagen with pale filaments suspended in it.  You need a syringe to inject it… if you really want to?",
+    "color": "light_gray",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "SPIDER" }
+  },
+  {
+    "id": "iv_mutagen_troglobite",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "troglobite serum",
+    "description": "A super-concentrated mutagen that seems to recoil from the light.  You need a syringe to inject it… if you really want to?",
+    "color": "dark_gray",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "TROGLOBITE" }
+  },
+  {
+    "id": "iv_mutagen_ursine",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "ursine serum",
+    "description": "A super-concentrated mutagen that's the color of honey, and is just as thick.  You need a syringe to inject it… if you really want to?",
+    "color": "yellow",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "URSINE" }
+  },
+  {
+    "id": "iv_mutagen_mouse",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "mouse serum",
+    "description": "A super-concentrated mutagen resembling liquefied metal.  You need a syringe to inject it… if you really want to?",
+    "color": "light_gray",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "MOUSE" }
+  },
+  {
+    "id": "mutagen",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "mutagen",
+    "addiction_potential": 6,
+    "use_action": { "type": "mutagen", "is_strong": true }
+  },
+  {
+    "id": "mutagen_jabberblood",
+    "copy-from": "mutagen",
+    "type": "COMESTIBLE",
+    "name": "congealed blood",
+    "description": "A thick, soupy red liquid.  It looks and smells disgusting, and seems to bubble with an intelligence of its own…",
+    "color": "red",
+    "addiction_potential": 0,
+    "charges": 5,
+    "fun": -10,
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST" }
+  },
+  {
+    "id": "mutagen_alpha",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "alpha mutagen" },
+    "description": "An extremely rare mutagen cocktail.",
+    "price": 500000,
+    "//": "*May* have gotten a dose smuggled out.",
+    "use_action": { "type": "mutagen", "mutation_category": "ALPHA" }
+  },
+  {
+    "id": "mutagen_beast",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "beast mutagen" },
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST" }
+  },
+  {
+    "id": "mutagen_bird",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "bird mutagen" },
+    "use_action": { "type": "mutagen", "mutation_category": "BIRD" }
+  },
+  {
+    "id": "mutagen_cattle",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "cattle mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "CATTLE" }
+  },
+  {
+    "id": "mutagen_cephalopod",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "cephalopod mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "CEPHALOPOD" }
+  },
+  {
+    "id": "mutagen_chimera",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "chimera mutagen",
+    "description": "An extremely rare mutagen cocktail.",
+    "price": 200000,
+    "use_action": { "type": "mutagen", "mutation_category": "CHIMERA" }
+  },
+  {
+    "id": "mutagen_elfa",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "elf-a mutagen",
+    "description": "An extremely rare mutagen cocktail.",
+    "price": 200000,
+    "use_action": { "type": "mutagen", "mutation_category": "ELFA" }
+  },
+  {
+    "id": "mutagen_feline",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "feline mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "FELINE" }
+  },
+  {
+    "id": "mutagen_fish",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "fish mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "FISH" }
+  },
+  {
+    "id": "mutagen_insect",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "insect mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "INSECT" }
+  },
+  {
+    "id": "mutagen_lizard",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "lizard mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "LIZARD" }
+  },
+  {
+    "id": "mutagen_lupine",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "lupine mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "LUPINE" }
+  },
+  {
+    "id": "mutagen_medical",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "medical mutagen",
+    "price": 150000,
+    "//": "*May* have been considered for commercial trading.",
+    "use_action": { "type": "mutagen", "mutation_category": "MEDICAL" }
+  },
+  {
+    "id": "mutagen_plant",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "plant mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "PLANT" }
+  },
+  {
+    "id": "mutagen_raptor",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "raptor mutagen",
+    "description": "An extremely rare mutagen cocktail.",
+    "price": 200000,
+    "use_action": { "type": "mutagen", "mutation_category": "RAPTOR" }
+  },
+  {
+    "id": "mutagen_rat",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "rat mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "RAT" }
+  },
+  {
+    "id": "mutagen_slime",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "slime mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "SLIME" }
+  },
+  {
+    "id": "mutagen_spider",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "spider mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "SPIDER" }
+  },
+  {
+    "id": "mutagen_troglobite",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "troglobite mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "TROGLOBITE" }
+  },
+  {
+    "id": "mutagen_ursine",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "ursine mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "URSINE" }
+  },
+  {
+    "id": "mutagen_mouse",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "mouse mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "MOUSE" }
+  },
+  {
+    "id": "purifier",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "purifier",
+    "description": "A rare stem-cell treatment that causes mutations and other genetic defects to fade away.",
+    "price": 600000,
+    "price_postapoc": 500,
+    "//": "*May* have been commercially traded, what with stem-cell treatments and all.",
+    "color": "pink",
+    "healthy": 5,
+    "addiction_potential": 8,
+    "use_action": "PURIFIER"
+  },
+  {
+    "id": "iv_purifier",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "purifier serum",
+    "description": "A super-concentrated stem cell treatment.  You need a syringe to inject it.",
+    "price": 900000,
+    "price_postapoc": 1000,
+    "//": "*May* have been commercially traded, but not in this preparation.",
+    "color": "magenta",
+    "addiction_potential": 8,
+    "use_action": "PURIFY_IV"
+  },
+  {
+    "id": "purifier_smart_shot",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "category": "mutagen",
+    "name": "purifier smart shot",
+    "description": "An experimental stem cell treatment, offering limited control over which mutations are purified.  The liquid sloshes strangely inside of this syringe.",
+    "weight": "12 g",
+    "volume": "10ml",
+    "price": 1200000,
+    "price_postapoc": 3000,
+    "material": "plastic",
+    "symbol": "!",
+    "color": "magenta",
+    "healthy": -6,
+    "stim": -5,
+    "use_action": "PURIFY_SMART",
+    "flags": [ "NPC_SAFE", "TRADER_AVOID", "NUTRIENT_OVERRIDE", "NO_INGEST" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "fetus",
+    "category": "other",
+    "name": { "str": "misshapen fetus", "str_pl": "misshapen fetuses" },
+    "weight": "760 g",
+    "color": "pink",
+    "spoils_in": "2 days",
+    "use_action": { "type": "mutagen", "is_weak": true },
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": -12,
+    "calories": 156,
+    "description": "A deformed human fetus.  Eating this would be the most vile thing you can think of, and just might cause you to mutate.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": "hflesh",
+    "volume": "250 ml",
+    "fun": -60
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "arm",
+    "category": "other",
+    "name": { "str": "mutated arm" },
+    "weight": "3767 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "use_action": { "type": "mutagen", "is_weak": true },
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": -8,
+    "calories": 278,
+    "description": "A misshapen human arm.  Eating this would be incredibly disgusting and probably cause you to mutate.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": "hflesh",
+    "volume": "2 L",
+    "fun": -20
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "leg",
+    "category": "other",
+    "name": "mutated leg",
+    "weight": "11071 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "use_action": { "type": "mutagen", "is_weak": true },
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": -8,
+    "calories": 399,
+    "description": "A malformed human leg.  This would be gross to eat, and probably cause mutations.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": "hflesh",
+    "volume": "5 L",
+    "fun": -20
+  }
 ]

@@ -1,6 +1,6 @@
-# Este mensaje puede ser de hasta 21 líneas de largo, pero lo ideal es que sea de menos.
-# El largo máximo de una línea es de 72 caracteres; la siguiente línea es para usar de referencia
-########################################################################
+# El largo máximo de una línea es de 78 caracteres; la siguiente línea es para usar de referencia
+# Longer lines will be automatically folded
+##############################################################################
 Cambios principales de la v0.C Cooper:
 * Monstruos que se pelean entre ellos.
 * Mejora del sistema de disparo.
@@ -14,6 +14,6 @@ Cambios principales de la v0.C Cooper:
 
 Para ver las noticias recientes sobre Cataclysm DDA, por favor, visitá:
 Página web: https://cataclysmdda.org
-Wiki: http://tools.cataclysmdda.com/wiki
+Wiki: https://cddawiki.chezzo.com/cdda_wiki
 
 En el juego, podés acceder a las opciones con el menú de ayuda (?2).

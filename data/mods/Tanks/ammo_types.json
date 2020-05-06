@@ -1,23 +1,20 @@
 [
   {
-     "type" : "ammunition_type",
-     "id" : "120mm_usable",
-     "name" : "120mm shell",
-     "default" : "120mm_usable_heat"
-},{
-     "type" : "ammunition_type",
-     "id" : "155mm",
-     "name" : "155mm shell",
-     "default" : "155mm_frag"
-},{
-     "type" : "ammunition_type",
-     "id" : "30mm",
-     "name" : "30x113mm",
-     "default" : "30mm_hedp"
-},{
-     "type" : "ammunition_type",
-     "id" : "atgm",
-     "name" : "152mm anti-tank guided missile",
-     "default" : "atgm_heat"
+    "type": "ammunition_type",
+    "id": "120mm_usable",
+    "name": "120mm shell",
+    "default": "120mm_usable_heat"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "155mm",
+    "name": "155mm shell",
+    "default": "155mm_frag"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "30mm",
+    "name": "30x113mm",
+    "default": "30mm_hedp"
   }
 ]

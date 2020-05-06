@@ -1,0 +1,249 @@
+[
+  {
+    "id": "banjo",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "banjo" },
+    "description": "A standard factory-made banjo.  Looks to be in working condition.",
+    "weight": "2000 g",
+    "volume": "3 L",
+    "price": 7500,
+    "price_postapoc": 500,
+    "to_hit": 2,
+    "bashing": 7,
+    "material": [ "wood", "iron" ],
+    "symbol": "|",
+    "color": "white",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 18,
+      "fun": -3,
+      "fun_bonus": 2,
+      "speed_penalty": 18,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your banjo.",
+        "You play a bluegrass tune on your banjo.",
+        "You play a quick, Southern ditty on your banjo."
+      ]
+    }
+  },
+  {
+    "id": "bone_flute",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "bone flute" },
+    "description": "A polished bone flute with five finger holes.",
+    "weight": "250 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "price_postapoc": 100,
+    "bashing": 2,
+    "material": "bone",
+    "symbol": "-",
+    "color": "white",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 12,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 10,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your bone flute that resembles the howling wind through Aurignacian caves.",
+        "Your bone flute wails for the fallen during the hunt."
+      ]
+    }
+  },
+  {
+    "id": "clarinet",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "clarinet" },
+    "description": "An ornate clarinet made from wood.",
+    "weight": "550 g",
+    "volume": "1500 ml",
+    "price": 5500,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "bashing": 4,
+    "material": [ "wood", "iron" ],
+    "symbol": "|",
+    "color": "light_gray",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 14,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 13,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your clarinet.",
+        "You play a moving, orchestral piece on your clarinet.",
+        "You play an uplifting marching tune on your clarinet."
+      ]
+    }
+  },
+  {
+    "id": "flute",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "flute" },
+    "description": "A simple silver-plated flute.",
+    "weight": "250 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "price_postapoc": 150,
+    "bashing": 2,
+    "material": [ "iron", "silver" ],
+    "symbol": "-",
+    "color": "light_gray",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 12,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 10,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your flute that sounds harmonious with nature."
+      ]
+    }
+  },
+  {
+    "id": "trumpet",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "trumpet" },
+    "description": "A brass trumpet with only a few dents here and there.",
+    "weight": "1500 g",
+    "volume": "2500 ml",
+    "price": 7500,
+    "price_postapoc": 300,
+    "to_hit": 1,
+    "bashing": 7,
+    "material": [ "brass" ],
+    "symbol": "-",
+    "color": "yellow",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 21,
+      "fun": -3,
+      "fun_bonus": 4,
+      "speed_penalty": 17,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your trumpet.",
+        "You play a slow, mourning piece on your trumpet.",
+        "You play a little ballad on your trumpet."
+      ]
+    }
+  },
+  {
+    "id": "ukulele",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "ukulele" },
+    "description": "A small factory made ukulele.  Looks to be in working condition.",
+    "weight": "2000 g",
+    "volume": "2500 ml",
+    "price": 7500,
+    "price_postapoc": 250,
+    "to_hit": 2,
+    "bashing": 5,
+    "material": [ "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 16,
+      "fun": -3,
+      "fun_bonus": 2,
+      "speed_penalty": 20,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your ukulele.",
+        "You play a cute little ditty on your ukulele.",
+        "You play a small jam on your ukulele."
+      ]
+    }
+  },
+  {
+    "id": "violin",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "violin" },
+    "description": "A cheap, factory-made violin with a built-in holder for a bow.  Still produces a nice sound.",
+    "weight": "1300 g",
+    "volume": "2500 ml",
+    "price": 7500,
+    "price_postapoc": 600,
+    "to_hit": 2,
+    "bashing": 5,
+    "material": [ "wood" ],
+    "symbol": "}",
+    "color": "brown",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 18,
+      "fun": -2,
+      "fun_bonus": 3,
+      "speed_penalty": 25,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your violin.",
+        "You play a beautiful orchestral piece on your violin.",
+        "You play a quick, southern ditty on your fiddle."
+      ]
+    }
+  },
+  {
+    "id": "violin_golden",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "golden fiddle" },
+    "description": "A shiny golden fiddle, with a strange aura around it.  You feel like it once belonged to the best there's ever been.",
+    "weight": "13000 g",
+    "volume": "2500 ml",
+    "price": 1000000,
+    "price_postapoc": 1000,
+    "to_hit": 2,
+    "bashing": 9,
+    "material": [ "gold" ],
+    "symbol": "}",
+    "color": "yellow",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 25,
+      "fun": 1,
+      "fun_bonus": 4,
+      "speed_penalty": 25,
+      "description_frequency": 10,
+      "player_descriptions": [
+        "You play a quick, folksy tune on your fiddle.",
+        "As you pull the bow across its strings, it makes an evil hiss.",
+        "You play a tune so fierce, it feels like hell's broke loose."
+      ]
+    }
+  }
+]

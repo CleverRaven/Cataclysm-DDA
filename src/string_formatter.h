@@ -1,15 +1,19 @@
 #pragma once
-#ifndef STRING_FORMATTER_H
-#define STRING_FORMATTER_H
+#ifndef CATA_SRC_STRING_FORMATTER_H
+#define CATA_SRC_STRING_FORMATTER_H
 
-//@todo: replace with std::optional
-#include "optional.h"
-#include "compatibility.h"
-
+#include <cstddef>
 #include <string>
-#include <typeinfo>
 #include <type_traits>
+#include <typeinfo>
 #include <utility>
+
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h" // IWYU pragma: keep
+// TODO: replace with std::optional
+#include "optional.h"
+
+class translation;
 
 namespace cata
 {
@@ -20,7 +24,7 @@ class string_formatter;
 [[noreturn]]
 void throw_error( const string_formatter &, const std::string & );
 // wrapper to access string_formatter::temp_buffer before the definition of string_formatter
-const char *string_formatter_set_temp_buffer( const string_formatter &, std::string );
+const char *string_formatter_set_temp_buffer( const string_formatter &, const std::string & );
 // Handle currently active exception from string_formatter and return it as string
 std::string handle_string_format_error();
 
@@ -69,6 +73,11 @@ template<typename T>
 using is_cstring = typename std::conditional <
                    std::is_same<typename std::decay<T>::type, const char *>::value ||
                    std::is_same<typename std::decay<T>::type, char *>::value, std::true_type, std::false_type >::type;
+// Test for class translation
+template<typename T>
+using is_translation = typename std::conditional <
+                       std::is_same<typename std::decay<T>::type, translation>::value, std::true_type,
+                       std::false_type >::type;
 
 template<typename RT, typename T>
 inline typename std::enable_if < is_integer<RT>::value &&is_integer<T>::value,
@@ -110,6 +119,12 @@ inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_cstr
     return value;
 }
 template<typename RT, typename T>
+inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_translation<T>::value,
+       const char * >::type convert( RT *, const string_formatter &sf, T &&value, int )
+{
+    return string_formatter_set_temp_buffer( sf, value.translated() );
+}
+template<typename RT, typename T>
 inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
 &&!is_char<T>::value, const char * >::type convert( RT *, const string_formatter &sf, T &&value,
         int )
@@ -124,17 +139,20 @@ inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_nume
     return string_formatter_set_temp_buffer( sf, std::string( 1, value ) );
 }
 // Catch all remaining conversions (the '...' makes this the lowest overload priority).
-// The enable_if is used to restrict the input type to those that can actually be printed,
-// calling `string_format` with an unknown type will trigger a compile error because no
-// `convert` function will match, not even this one.
+// The static_assert is used to restrict the input type to those that can actually be printed,
+// calling `string_format` with an unknown type will trigger a compile error because no other
+// `convert` function will match, while this one will give a static_assert error.
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_pointer<typename std::decay<T>::type>::value ||
-is_numeric<T>::value || is_string<T>::value || is_char<T>::value ||
-std::is_enum<typename std::decay<T>::type>::value ||
-is_cstring<T>::value, RT >::type convert( RT *, const string_formatter &sf, T &&, ... )
+// NOLINTNEXTLINE(cert-dcl50-cpp)
+inline RT convert( RT *, const string_formatter &sf, T &&, ... )
 {
-    throw_error( sf, "Tried to convert argument of type " + std::string( typeid(
-                     T ).name() ) + " to " + std::string( typeid( RT ).name() ) + ", which is not possible" );
+    static_assert( std::is_pointer<typename std::decay<T>::type>::value ||
+                   is_numeric<T>::value || is_string<T>::value || is_char<T>::value ||
+                   std::is_enum<typename std::decay<T>::type>::value ||
+                   is_cstring<T>::value || is_translation<T>::value, "Unsupported argument type" );
+    throw_error( sf, "Tried to convert argument of type " +
+                 std::string( typeid( T ).name() ) + " to " +
+                 std::string( typeid( RT ).name() ) + ", which is not possible" );
 }
 /**@}*/
 
@@ -210,7 +228,7 @@ class string_formatter
         /// for printing non-strings through "%s". It *only* works because this prints each format
         /// specifier separately, so the content of @ref temp_buffer is only used once.
         friend const char *string_formatter_set_temp_buffer( const string_formatter &sf,
-                std::string text ) {
+                const std::string &text ) {
             sf.temp_buffer = text;
             return sf.temp_buffer.c_str();
         }
@@ -241,17 +259,19 @@ class string_formatter
 
         template<typename ...Args>
         void read_conversion( const int format_arg_index, Args &&... args ) {
-            // Removes the prefix "ll", "l", "h" and "hh", we later add "ll" again and that
+            // Removes the prefix "ll", "l", "h" and "hh", "z", and "t".
+            // We later add "ll" again and that
             // would interfere with the existing prefix. We convert *all* input to (un)signed
             // long long int and use the "ll" modifier all the time. This will print the
             // expected value all the time, even when the original modifier did not match.
             if( consume_next_input_if( 'l' ) ) {
-                if( consume_next_input_if( 'l' ) ) {
-                }
+                consume_next_input_if( 'l' );
             } else if( consume_next_input_if( 'h' ) ) {
-                if( consume_next_input_if( 'h' ) ) {
-                }
+                consume_next_input_if( 'h' );
             } else if( consume_next_input_if( 'z' ) ) {
+                // done with it
+            } else if( consume_next_input_if( 't' ) ) {
+                // done with it
             }
             const char c = consume_next_input();
             current_format.push_back( c );
@@ -287,7 +307,6 @@ class string_formatter
                                          std::forward<Args>( args )... ) );
                 default:
                     throw_error( "Unsupported format conversion: " + std::string( 1, c ) );
-                    break;
             }
         }
 
@@ -350,10 +369,10 @@ class string_formatter
          * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
          * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
          * @throws std::exception if the format is invalid / does not match the arguments, but that's
-         * not guaranteed - technically it's undefined behaviour.
+         * not guaranteed - technically it's undefined behavior.
          */
         // Implemented in output.cpp
-        static std::string raw_string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
+        static std::string raw_string_format( const char *format, ... ) PRINTF_LIKE( 1, 2 );
 #undef PRINTF_LIKE
 };
 
@@ -398,6 +417,12 @@ inline std::string string_format( const char *const format, Args &&...args )
 {
     return string_format( std::string( format ), std::forward<Args>( args )... );
 }
+template<typename T, typename ...Args>
+inline typename std::enable_if<cata::is_translation<T>::value, std::string>::type
+string_format( T &&format, Args &&...args )
+{
+    return string_format( format.translated(), std::forward<Args>( args )... );
+}
 /**@}*/
 
-#endif
+#endif // CATA_SRC_STRING_FORMATTER_H

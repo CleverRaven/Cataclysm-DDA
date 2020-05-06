@@ -2,11 +2,11 @@
   {
     "id": "engine_crane",
     "type": "vehicle",
-    "name": "engine crane",
+    "name": "Engine Crane",
     "blueprint": [ "#" ],
     "parts": [
       { "x": 0, "y": 0, "part": "folding_frame" },
-      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "wheel_10" },
       { "x": 0, "y": 0, "part": "crane_small" }
     ]
   },
@@ -20,11 +20,11 @@
     ],
     "parts": [
       { "x": -1, "y": 0, "part": "xlframe_vertical_2" },
-      { "x": -1, "y": 0, "part": "wheel_caster" },
+      { "x": -1, "y": 0, "part": "wheel_10" },
       { "x": -1, "y": 0, "part": "small_storage_battery" },
       { "x": -1, "y": 0, "part": "kitchen_unit" },
       { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
-      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "wheel_10" },
       { "x": 0, "y": 0, "part": "minifridge" },
       { "x": 0, "y": 0, "part": "controls_electronic" }
     ],
@@ -34,7 +34,6 @@
       { "x": -1, "y": 0, "chance": 30, "items": [ "hamburger" ] },
       { "x": -1, "y": 0, "chance": 30, "items": [ "hamburger" ] },
       { "x": -1, "y": 0, "chance": 30, "items": [ "sloppyjoe" ] },
-      { "x": -1, "y": 0, "chance": 1, "items": [ "cheeseburgerhuman", "bobburger", "manwich" ] },
       { "x": -1, "y": 0, "chance": 30, "items": [ "fries" ] },
       { "x": -1, "y": 0, "chance": 30, "items": [ "fries" ] },
       { "x": -1, "y": 0, "chance": 30, "items": [ "hotdogs_cooked" ] },
@@ -85,20 +84,20 @@
       { "x": 0, "y": 1, "part": "storage_battery" },
       { "x": 1, "y": 0, "part": "frame_nw" },
       { "x": 1, "y": 0, "part": "halfboard_nw" },
-      { "x": 1, "y": 0, "part": "wheel_small_steerable" },
+      { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_small" ] },
       { "x": 1, "y": 1, "part": "frame_ne" },
       { "x": 1, "y": 1, "part": "halfboard_ne" },
-      { "x": 1, "y": 1, "part": "wheel_small_steerable" },
+      { "x": 1, "y": 1, "parts": [ "wheel_mount_light_steerable", "wheel_small" ] },
       { "x": -1, "y": 0, "part": "frame_sw" },
       { "x": -1, "y": 0, "part": "box" },
-      { "x": -1, "y": 0, "part": "wheel_small" },
+      { "x": -1, "y": 0, "parts": [ "wheel_mount_light", "wheel_small" ] },
       { "x": -1, "y": 1, "part": "frame_se" },
       { "x": -1, "y": 1, "part": "box" },
-      { "x": -1, "y": 1, "part": "wheel_small" }
+      { "x": -1, "y": 1, "parts": [ "wheel_mount_light", "wheel_small" ] }
     ],
     "items": [
-      { "x": -1, "y": 0, "chance": 25, "repeat": 2, "item_groups": [ "golf_cart" ] },
-      { "x": -1, "y": 1, "chance": 25, "repeat": 2, "item_groups": [ "golf_cart" ] }
+      { "x": -1, "y": 0, "chance": 25, "//repeat": 2, "item_groups": [ "golf_cart" ] },
+      { "x": -1, "y": 1, "chance": 25, "//repeat": 2, "item_groups": [ "golf_cart" ] }
     ]
   },
   {
@@ -121,24 +120,24 @@
       { "x": 0, "y": 1, "part": "storage_battery" },
       { "x": 1, "y": 0, "part": "frame_nw" },
       { "x": 1, "y": 0, "part": "halfboard_nw" },
-      { "x": 1, "y": 0, "part": "wheel_small_steerable" },
+      { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_small" ] },
       { "x": 1, "y": 1, "part": "frame_ne" },
       { "x": 1, "y": 1, "part": "halfboard_ne" },
-      { "x": 1, "y": 1, "part": "wheel_small_steerable" },
+      { "x": 1, "y": 1, "parts": [ "wheel_mount_light_steerable", "wheel_small" ] },
       { "x": -1, "y": 0, "part": "frame_sw" },
       { "x": -1, "y": 0, "part": "roof" },
       { "x": -1, "y": 0, "part": "seat" },
-      { "x": -1, "y": 0, "part": "wheel_small" },
+      { "x": -1, "y": 0, "parts": [ "wheel_mount_light", "wheel_small" ] },
       { "x": -1, "y": 1, "part": "frame_se" },
       { "x": -1, "y": 1, "part": "roof" },
       { "x": -1, "y": 1, "part": "seat" },
-      { "x": -1, "y": 1, "part": "wheel_small" }
+      { "x": -1, "y": 1, "parts": [ "wheel_mount_light", "wheel_small" ] }
     ],
     "items": [
-      { "x": -1, "y": 0, "chance": 20, "repeat": 2, "item_groups": [ "golf_cart" ] },
-	  { "x": -1, "y": 1, "chance": 20, "repeat": 2, "item_groups": [ "golf_cart" ] },
-	  { "x": 0, "y": 0, "chance": 20, "item_groups": [ "golf_cart" ] },
-	  { "x": 0, "y": 1, "chance": 20, "item_groups": [ "golf_cart" ] }
+      { "x": -1, "y": 0, "chance": 20, "//repeat": 2, "item_groups": [ "golf_cart" ] },
+      { "x": -1, "y": 1, "chance": 20, "//repeat": 2, "item_groups": [ "golf_cart" ] },
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "golf_cart" ] },
+      { "x": 0, "y": 1, "chance": 20, "item_groups": [ "golf_cart" ] }
     ]
   },
   {
@@ -148,8 +147,8 @@
     "blueprint": [ "=" ],
     "parts": [
       { "x": 0, "y": 0, "part": "frame_handle" },
-      { "x": 0, "y": 0, "part": "wheel_caster" },
-      { "x": 0, "y": 0, "part": "cargo_space" }
+      { "x": 0, "y": 0, "part": "wheel_10" },
+      { "x": 0, "y": 0, "part": "crane_small" }
     ]
   },
   {
@@ -159,7 +158,7 @@
     "blueprint": [ "#" ],
     "parts": [
       { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
-      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "wheel_10" },
       { "x": 0, "y": 0, "part": "small_storage_battery" },
       { "x": 0, "y": 0, "part": "minifreezer" },
       { "x": 0, "y": 0, "part": "controls_electronic" }
@@ -176,10 +175,25 @@
       { "x": 0, "y": 0, "part": "trunk" }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 6, "item_groups": [ "bags_trip", "jackets", "shirts", "male_underwear_bottom", "male_underwear", "male_underwear", "male_underwear" ] },
-      { "x": 0, "y": 0, "chance": 6, "item_groups": [ "bags_trip", "beauty", "dresses", "dresses", "female_underwear_bottom", "female_underwear_top", "female_underwear", "female_underwear" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "chance": 6,
+        "item_groups": [ "bags_trip", "jackets", "shirts", "male_underwear_bottom", "male_underwear" ]
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "chance": 6,
+        "item_groups": [ "bags_trip", "beauty", "dresses", "dresses", "female_underwear_bottom", "female_underwear_top", "female_underwear" ]
+      },
       { "x": 0, "y": 0, "chance": 3, "item_groups": [ "bags_trip", "jackets", "shirts", "child_items", "underwear" ] },
-      { "x": 0, "y": 0, "chance": 2, "item_groups": [ "bags_trip", "traveler", "dresser", "glasses", "shoes", "underwear", "underwear" ] }
+      {
+        "x": 0,
+        "y": 0,
+        "chance": 2,
+        "item_groups": [ "bags_trip", "traveler", "dresser", "glasses", "shoes", "underwear" ]
+      }
     ]
   },
   {
@@ -191,6 +205,22 @@
       { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
       { "x": 0, "y": 0, "part": "wheel_caster" },
       { "x": 0, "y": 0, "part": "basketlg" }
+    ],
+    "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
+  },
+  {
+    "id": "grocery_cart",
+    "type": "vehicle",
+    "name": "Grocery Cart",
+    "blueprint": [
+      [ "o" ],
+      [ "-" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "basketlg" },
+      { "x": -1, "y": 0, "part": "cart_handle" }
     ],
     "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
   },
@@ -262,7 +292,7 @@
     "blueprint": [ "o" ],
     "parts": [
       { "x": 0, "y": 0, "part": "frame_handle" },
-      { "x": 0, "y": 0, "part": "wheel_barrow" },
+      { "x": 0, "y": 0, "parts": [ "wheel_mount_light", "wheel_barrow" ] },
       { "x": 0, "y": 0, "part": "box" }
     ]
   },
@@ -274,7 +304,7 @@
     "parts": [
       { "x": 0, "y": 0, "part": "folding_frame" },
       { "x": 0, "y": 0, "part": "folding_seat" },
-      { "x": 0, "y": 0, "part": "wheel_wheelchair" },
+      { "x": 0, "y": 0, "parts": [ "wheel_mount_light", "wheel_wheelchair" ] },
       { "x": 0, "y": 0, "part": "hand_rims" },
       { "x": 0, "y": 0, "part": "basketsm" }
     ]

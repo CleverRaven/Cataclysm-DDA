@@ -1,0 +1,322 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FISH",
+    "default": "mon_fish_whitefish",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_fish_eel", "freq": 25, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_eel",
+        "freq": 50,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_bowfin", "freq": 25, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_bowfin",
+        "freq": 50,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_bullhead", "freq": 25, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_bullhead",
+        "freq": 50,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_trout", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_trout",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_carp", "freq": 10, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_carp",
+        "freq": 15,
+        "cost_multiplier": 10,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_pike", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_pike",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_sbass", "freq": 25, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_sbass",
+        "freq": 50,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_perch", "freq": 30, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_perch",
+        "freq": 55,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_salmon", "freq": 15, "cost_multiplier": 8, "pack_size": [ 4, 6 ] },
+      {
+        "monster": "mon_fish_salmon",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 4, 6 ]
+      },
+      { "monster": "mon_fish_brown_trout", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_brown_trout",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_brook_trout", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_brook_trout",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_lake_trout", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_lake_trout",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_rainbow_trout", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_rainbow_trout",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_steelhead_trout", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_steelhead_trout",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_kokanee_salmon", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_kokanee_salmon",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_chinook_salmon", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_chinook_salmon",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_coho_salmon", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_coho_salmon",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_white_bass", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_white_bass",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_walleye", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_walleye",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_pumpkinseed", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_pumpkinseed",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_redbreast", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_redbreast",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_green_sunfish", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_green_sunfish",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_longear_sunfish", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_longear_sunfish",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_redear_sunfish", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_redear_sunfish",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_rock_bass", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_rock_bass",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_calico_bass", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_calico_bass",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_warmouth", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_warmouth",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_channel_catfish", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_channel_catfish",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_white_catfish", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_white_catfish",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_muskellunge", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_muskellunge",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_white_sucker", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_white_sucker",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_grass_carp", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_grass_carp",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_fallfish", "freq": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_fallfish",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_lbass", "freq": 25, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_lbass",
+        "freq": 50,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_pbass", "freq": 25, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_pbass",
+        "freq": 50,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_bluegill", "freq": 25, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_bluegill",
+        "freq": 50,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_whitefish", "freq": 30, "cost_multiplier": 2, "pack_size": [ 4, 6 ] },
+      {
+        "monster": "mon_fish_whitefish",
+        "freq": 55,
+        "cost_multiplier": 2,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 4, 6 ]
+      },
+      { "monster": "mon_fish_pickerel", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_pickerel",
+        "freq": 20,
+        "cost_multiplier": 10,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_blinky", "freq": 5, "cost_multiplier": 3, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RAZORCLAW",
+    "default": "mon_razorclaw",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_razorclaw", "freq": 33, "cost_multiplier": 0, "pack_size": [ 1, 2 ] } ]
+  }
+]

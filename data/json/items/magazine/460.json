@@ -1,0 +1,36 @@
+[
+  {
+    "id": "m1911bigmag",
+    "type": "MAGAZINE",
+    "name": { "str": "M1911 extended magazine" },
+    "description": "An extended 10-round magazine for use with the M1911 handgun.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "price": 3720,
+    "price_postapoc": 250,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "45", "460" ],
+    "capacity": 10,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "m1911mag",
+    "type": "MAGAZINE",
+    "name": { "str": "M1911 magazine" },
+    "description": "A military issue 7-round magazine for use with the M1911 handgun.",
+    "weight": "70 g",
+    "volume": "250 ml",
+    "price": 2980,
+    "price_postapoc": 100,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "45", "460" ],
+    "capacity": 7,
+    "reliability": 10,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

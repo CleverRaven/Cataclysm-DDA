@@ -1,0 +1,45 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_air_runway_term" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "zzzzzzzzzzzzzzzzzzzzzzzz",
+        "cccccccccccccccccccccccc",
+        "zzzzzzzzzzzzzzzzzzzzzzzz",
+        "zzzzzzzzzzzzzzzzzzzzzzzz",
+        "zzzzzzzzzzzzzzzzzzzzzzzz",
+        "zzzzzzzzzzzzzzzzzzzzzzzz",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aabbbbaaaabbbbaaaabbbbaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "zadaaaaaaaaaaaaaaaaaaaaz",
+        "zadaaaaaaaaaaaaaaaaaaaaz",
+        "zadaaaaaaaaaaaaaaaaaaaaz",
+        "zadaaaaaaaaaaaaaaaaaaaaz",
+        "zadaaaaaaaaaaaaaaaaaaaaz"
+      ],
+      "terrain": {
+        "z": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "a": "t_pavement",
+        "b": "t_pavement_y",
+        "c": "t_chainfence_v",
+        "d": "t_conveyor"
+      },
+      "furniture": {  },
+      "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 4, 21 ], "y": [ 19, 23 ], "chance": 100, "rotation": 270 } ]
+    }
+  }
+]

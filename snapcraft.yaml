@@ -22,8 +22,7 @@ apps:
 parts:
   cataclysm:
     plugin: make
-    build-packages: [astyle, ccache, build-essential, libncurses5-dev, libncursesw5-dev, lua5.2, liblua5.2-dev, gettext]
-    stage-packages: [liblua5.2-0]
-    override-build: make NATIVE=linux64 RELEASE=1 LTO=1 LUA=1 LOCALIZE=1 CCACHE=1 USE_HOME_DIR=1 && mv * $SNAPCRAFT_PART_INSTALL
-    stage: [data, lua, cataclysm, cataclysm-launcher, usr]
-    prime: [data, lua, cataclysm, cataclysm-launcher, usr]
+    build-packages: [astyle, ccache, build-essential, libncurses5-dev, libncursesw5-dev, gettext]
+    override-build: make NATIVE=linux64 RELEASE=1 LTO=1 LOCALIZE=1 CCACHE=1 USE_HOME_DIR=1 && mv * $SNAPCRAFT_PART_INSTALL
+    stage: [data, cataclysm, cataclysm-launcher, usr]
+    prime: [data, cataclysm, cataclysm-launcher, usr]

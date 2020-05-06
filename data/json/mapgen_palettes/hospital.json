@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "hospital",
     "terrain": {
-      " ": [ "t_dirt", "t_grass" ],
+      " ": "t_region_groundcover_urban",
       "#": "t_wall",
       ":": "t_pavement_y",
       "&": "t_floor",
@@ -70,4 +70,3 @@
     "toilets": { "&": {  } }
   }
 ]
-

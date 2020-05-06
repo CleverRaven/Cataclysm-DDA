@@ -1,7 +1,8 @@
 #include "string_formatter.h"
 
+#include <cassert>
 #include <stdexcept>
-#include <cstdarg>
+#include <exception>
 
 char cata::string_formatter::consume_next_input()
 {
@@ -49,6 +50,7 @@ cata::optional<int> cata::string_formatter::read_argument_index()
         const int result = parse_integer() - 1; // arguments are 1-based
         // We already know this is true because of the `find_first_not_of` check above.
         const bool had_next = consume_next_input_if( '$' );
+        ( void ) had_next;
         assert( had_next );
         return result;
     } else {
@@ -60,7 +62,7 @@ int cata::string_formatter::parse_integer( )
 {
     int result = 0;
     while( has_digit() ) {
-        //@todo: Check for overflow
+        // TODO: Check for overflow
         result = result * 10 + ( consume_next_input() - '0' );
     }
     return result;
@@ -76,7 +78,7 @@ cata::optional<int> cata::string_formatter::read_number_or_argument_index()
         if( !consume_next_input_if( '$' ) ) {
             throw_error( "expected '$' after field precision" );
         }
-        return index ;
+        return index;
     }
     while( has_digit() ) {
         current_format.push_back( consume_next_input() );
@@ -100,8 +102,8 @@ cata::optional<int> cata::string_formatter::read_precision()
 
 void cata::string_formatter::throw_error( const std::string &msg ) const
 {
-    throw std::runtime_error( msg + " at: \"" + current_format.substr( 0,
-                              current_index_in_format ) + "|" + current_format.substr( current_index_in_format ) + "\"" );
+    throw std::runtime_error( msg + " at: \"" + format.substr( 0,
+                              current_index_in_format ) + "|" + format.substr( current_index_in_format ) + "\"" );
 }
 
 std::string cata::handle_string_format_error()

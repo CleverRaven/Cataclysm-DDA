@@ -1,20 +1,20 @@
-#include "catch/catch.hpp"
-
-#include "map_iterator.h"
-
-#include <array>
 #include <algorithm>
+#include <array>
+
+#include "catch/catch.hpp"
+#include "map_iterator.h"
+#include "point.h"
 
 std::array<tripoint, 9> range_1_2d_centered = {
-    {   {-1, -1, 0}, { 0, -1, 0}, { 1, -1, 0},
-        {-1, 0, 0}, { 0, 0, 0}, { 1, 0, 0},
-        {-1, 1, 0}, { 0, 1, 0}, { 1, 1, 0}
+    {   {tripoint_north_west}, { tripoint_north}, { tripoint_north_east},
+        {tripoint_west}, { tripoint_zero}, { tripoint_east},
+        {tripoint_south_west}, { tripoint_south}, { tripoint_south_east}
     }
 };
 
 TEST_CASE( "Radius one 2D square centered at origin." )
 {
-    for( const tripoint &candidate : tripoint_range( {-1, -1, 0}, {1, 1, 0} ) ) {
+    for( const tripoint &candidate : tripoint_range( tripoint_north_west, tripoint_south_east ) ) {
         REQUIRE( std::find( range_1_2d_centered.begin(), range_1_2d_centered.end(), candidate ) !=
                  range_1_2d_centered.end() );
     }
@@ -34,7 +34,6 @@ TEST_CASE( "Radius one 2D square centered at -4/-4/0." )
                  range_1_2d_offset.end() );
     }
 }
-
 
 std::array<tripoint, 343> range_3_3d_offset = {
     {   { 5, 5, -2}, { 6, 5, -2}, { 7, 5, -2}, { 8, 5, -2}, { 9, 5, -2}, {10, 5, -2}, {11, 5, -2},

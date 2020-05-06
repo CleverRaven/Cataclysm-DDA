@@ -30,19 +30,14 @@
     "id": "cabin_suicide_shirt",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      [ "hoodie", 30 ],
-      [ "kevlar", 10 ],
-      [ "longshirt", 40 ],
-      [ "undershirt", 20 ]
-    ]
+    "items": [ [ "hoodie", 30 ], [ "kevlar", 10 ], [ "longshirt", 40 ], [ "undershirt", 20 ] ]
   },
   {
     "id": "cabin_suicide_over",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "chestrig", 20 ],
+      [ "tacvest", 20 ],
       [ "jacket_light", 30 ],
       [ "jacket_leather", 30 ],
       [ "jacket_evac", 30 ],
@@ -55,24 +50,13 @@
     "id": "cabin_suicide_legs",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      [ "jeans", 35 ],
-      [ "pants", 40 ],
-      [ "pants_cargo", 20 ],
-      [ "pants_survivor", 5 ]
-    ]
+    "items": [ [ "jeans", 35 ], [ "pants", 40 ], [ "pants_cargo", 20 ], [ "pants_survivor", 5 ] ]
   },
   {
     "id": "cabin_suicide_shoes",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      [ "boots", 35 ],
-      [ "boots_combat", 6 ],
-      [ "boots_hiking", 15 ],
-      [ "boots_survivor", 5 ],
-      [ "sneakers", 40 ]
-    ]
+    "items": [ [ "boots", 35 ], [ "boots_combat", 6 ], [ "boots_hiking", 15 ], [ "boots_survivor", 5 ], [ "sneakers", 40 ] ]
   },
   {
     "id": "cabin_suicide_extras",
@@ -85,13 +69,14 @@
       [ "bandages", 15 ],
       [ "bandana", 10 ],
       [ "cig", 5 ],
-      [ "cell_phone", 15 ],
+      [ "cell_phone", 5 ],
+      [ "smart_phone", 15 ],
       [ "gloves_fingerless", 5 ],
       [ "holster", 5 ],
       [ "hatchet", 5 ],
       [ "hat_ball", 5 ],
       [ "knife_combat", 5 ],
-      [ "locket", 5 ],
+      [ "silver_locket", 5 ],
       [ "mask_gas", 10 ],
       [ "molotov", 5 ],
       [ "matches", 25 ],
@@ -338,7 +323,7 @@
         "G": "f_oven",
         "H": "f_armchair"
       },
-      "toilets": {  ";": {} },
+      "toilets": { ";": {  } },
       "place_items": [ { "item": "trash_forest", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 20 ] } ]
     }
   },
@@ -421,7 +406,7 @@
         "H": "f_armchair"
       },
       "place_items": [ { "item": "trash_forest", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 2 ] } ],
-      "place_item": [ { "item": "teddy", "x": 14, "y": 2 }, { "item": "locket", "x": 14, "y": 2 } ],
+      "place_item": [ { "item": "teddy", "x": 14, "y": 2 }, { "item": "silver_locket", "x": 14, "y": 2 } ],
       "place_vehicles": [ { "vehicle": "car", "x": 5, "y": 7, "chance": 80, "fuel": 0, "status": 1, "rotation": 0 } ]
     }
   },
@@ -471,7 +456,9 @@
         "s": "t_underbrush",
         "w": "t_water_sh",
         "z": "t_shrub_strawberry",
-        "~": "t_fence_h"
+        "^": "t_dirt",
+        "~": "t_fence_h",
+        "T": "t_dirt"
       },
       "place_items": [ { "item": "forest", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 20 ] } ]
     }
@@ -561,17 +548,17 @@
         { "item": "mess_kit", "x": 17, "y": 15 },
         { "item": "nail", "x": 15, "y": 15 },
         { "item": "ax", "x": 15, "y": 15 },
-        { "item": "compositebow", "x": 16, "y": 15 },
+        { "item": "recurbow", "x": 16, "y": 15 },
         { "item": "quiver", "x": 16, "y": 15 },
         { "item": "arrow_wood_heavy", "x": 16, "y": 15 },
         { "item": "knife_hunting", "x": 16, "y": 15 },
         { "item": "flashlight", "x": 11, "y": 16 },
         { "item": "child_book", "x": 11, "y": 16 },
         { "item": "child_book", "x": 11, "y": 15 },
-        { "item": "pot", "x": 11, "y": 23 },
-        { "item": "battery", "x": 11, "y": 16, "chance": 33 }
+        { "item": "pot", "x": 11, "y": 23 }
       ],
       "place_loot": [
+        { "group": "ammo_any_batteries_full", "x": 11, "y": 16, "chance": 33 },
         { "group": "cabin_suicide", "x": [ 4, 4 ], "y": [ 15, 15 ], "chance": 80 },
         { "group": "cannedfood", "x": [ 11, 11 ], "y": [ 22, 23 ], "chance": 90 },
         { "group": "cannedfood", "x": [ 13, 13 ], "y": [ 22, 23 ], "chance": 90 },
@@ -579,7 +566,7 @@
         { "group": "cannedfood", "x": [ 13, 13 ], "y": [ 22, 23 ], "chance": 90 },
         { "group": "stash_water", "x": [ 20, 20 ], "y": [ 15, 15 ], "chance": 80 },
         { "group": "stash_water", "x": [ 19, 19 ], "y": [ 15, 15 ], "chance": 80 },
-        { "item": "survivor_special_700", "x": 13, "y": 15, "chance": 80, "ammo": 100 }
+        { "item": "remington_700", "x": 13, "y": 15, "chance": 80, "ammo": 100 }
       ]
     }
   }

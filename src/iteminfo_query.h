@@ -1,9 +1,10 @@
 #pragma once
-#ifndef ITEMINFOQUERY_H
-#define ITEMINFOQUERY_H
+#ifndef CATA_SRC_ITEMINFO_QUERY_H
+#define CATA_SRC_ITEMINFO_QUERY_H
 
-#include <string>
+#include <cstddef>
 #include <bitset>
+#include <string>
 #include <vector>
 
 enum class iteminfo_parts : size_t {
@@ -22,6 +23,10 @@ enum class iteminfo_parts : size_t {
     BASE_AMOUNT,
     BASE_DEBUG,
 
+    MED_JOY,
+    MED_PORTIONS,
+    MED_STIMULATION,
+    MED_QUENCH,
 
     FOOD_NUTRITION,
     FOOD_QUENCH,
@@ -29,27 +34,28 @@ enum class iteminfo_parts : size_t {
     FOOD_PORTIONS,
     FOOD_SMELL,
     FOOD_VITAMINS,
+    FOOD_VIT_EFFECTS,
     FOOD_CANNIBALISM,
     FOOD_TAINT,
     FOOD_POISON,
     FOOD_HALLUCINOGENIC,
     FOOD_ROT,
 
-
     MAGAZINE_CAPACITY,
     MAGAZINE_RELOAD,
 
-
     AMMO_REMAINING_OR_TYPES,
     AMMO_DAMAGE_VALUE,
+    AMMO_DAMAGE_PROPORTIONAL,
+    AMMO_DAMAGE_CRIT_MULTIPLIER,
     AMMO_DAMAGE_AP,
     AMMO_DAMAGE_RANGE,
     AMMO_DAMAGE_DISPERSION,
     AMMO_DAMAGE_RECOIL,
     AMMO_FX_RECYCLED,
+    AMMO_FX_BLACKPOWDER,
     AMMO_FX_CANTMISSFIRE,
-    AMMO_FX_INDENDIARY,
-
+    AMMO_FX_INCENDIARY,
 
     DESCRIPTION_AUX_GUNMOD_HEADER,
 
@@ -61,11 +67,13 @@ enum class iteminfo_parts : size_t {
     AMMO_REMAINING,
     AMMO_UPSCOST,
 
+    GUN_DEFAULT_AMMO,
     GUN_MAX_RANGE,
     GUN_AIMING_STATS,
     GUN_DAMAGE,
     GUN_DAMAGE_LOADEDAMMO,
     GUN_DAMAGE_TOTAL,
+    GUN_DAMAGE_AMMOPROP,
     GUN_ARMORPIERCE,
     GUN_ARMORPIERCE_LOADEDAMMO,
     GUN_ARMORPIERCE_TOTAL,
@@ -86,7 +94,6 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_GUN_MODS,
     DESCRIPTION_GUN_CASINGS,
 
-
     DESCRIPTION_GUNMOD,
     DESCRIPTION_GUNMOD_REACH,
 
@@ -97,10 +104,14 @@ enum class iteminfo_parts : size_t {
     GUNMOD_ARMORPIERCE,
     GUNMOD_HANDLING,
     GUNMOD_AMMO,
+    GUNMOD_RELOAD,
+    GUNMOD_STRENGTH,
+
+    GUNMOD_ADD_MOD,
 
     GUNMOD_USEDON,
     GUNMOD_LOCATION,
-
+    GUNMOD_BLACKLIST_MOD,
 
     ARMOR_BODYPARTS,
     ARMOR_LAYER,
@@ -109,7 +120,6 @@ enum class iteminfo_parts : size_t {
     ARMOR_ENCUMBRANCE,
     ARMOR_STORAGE,
     ARMOR_PROTECTION,
-
 
     BOOK_SUMMARY,
     BOOK_REQUIREMENTS_BEGINNER,
@@ -125,23 +135,18 @@ enum class iteminfo_parts : size_t {
 
     BOOK_UNREAD,
 
-
     CONTAINER_DETAILS,
-
 
     TOOL_CHARGES,
     TOOL_MAGAZINE_CURRENT,
     TOOL_MAGAZINE_COMPATIBLE,
     TOOL_CAPACITY,
 
-
     DESCRIPTION_COMPONENTS_MADEFROM,
     DESCRIPTION_COMPONENTS_DISASSEMBLE,
 
-
     QUALITIES,
     QUALITIES_CONTAINED,
-
 
     DESCRIPTION,
     DESCRIPTION_TECHNIQUES,
@@ -153,6 +158,7 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_MELEEDMG_PIERCE,
     DESCRIPTION_MELEEDMG_MOVES,
     DESCRIPTION_APPLICABLEMARTIALARTS,
+    DESCRIPTION_USE_METHODS,
     DESCRIPTION_REPAIREDWITH,
 
     DESCRIPTION_CONDUCTIVITY,
@@ -163,7 +169,7 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_FLAGS_SIDED,
     DESCRIPTION_FLAGS_POWERARMOR,
     DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
-    DESCRIPTION_IRRIDATION,
+    DESCRIPTION_IRRADIATION,
 
     DESCRIPTION_RECHARGE_UPSMODDED,
     DESCRIPTION_RECHARGE_NORELOAD,
@@ -177,6 +183,7 @@ enum class iteminfo_parts : size_t {
 
     DESCRIPTION_TWOHANDED,
     DESCRIPTION_GUNMOD_DISABLESSIGHTS,
+    DESCRIPTION_GUNMOD_CONSUMABLE,
     DESCRIPTION_RADIOACTIVITY_DAMAGED,
     DESCRIPTION_RADIOACTIVITY_ALWAYS,
 
@@ -195,6 +202,7 @@ enum class iteminfo_parts : size_t {
 
     DESCRIPTION_APPLICABLE_RECIPES,
 
+    DESCRIPTION_MED_ADDICTING,
 
     // element count tracker
     NUM_VALUES
@@ -228,7 +236,6 @@ class iteminfo_query : public iteminfo_query_base
 
                 allows defining a subset with only specific bits turned on
 
-
             These should be sufficient to allow _any_ preset to be defined.
 
             Since those typically _always_ should all be 'static const' performance should
@@ -246,4 +253,4 @@ class iteminfo_query : public iteminfo_query_base
         static const iteminfo_query anyflags;
 };
 
-#endif
+#endif // CATA_SRC_ITEMINFO_QUERY_H

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "500_speedloader5",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": ".500 5-round speedloader" },
+    "description": "This speedloader can hold 5 rounds of .500 and quickly reload a compatible revolver.",
+    "weight": "118 g",
+    "volume": "250 ml",
+    "price": 2500,
+    "price_postapoc": 100,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "500",
+    "capacity": 5,
+    "flags": [ "SPEEDLOADER" ]
+  }
+]

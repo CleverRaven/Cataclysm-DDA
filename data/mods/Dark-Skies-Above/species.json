@@ -1,0 +1,41 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "ALIEN",
+    "description": "an alien",
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WILDALIEN",
+    "description": "an alien animal",
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "BIOCRYSTAL",
+    "description": "a fusion of flesh and mineral",
+    "footsteps": "shuffling.",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "REAVER",
+    "description": "an alien combat mutant",
+    "footsteps": "the scrabbling of something unearthly."
+  },
+  {
+    "type": "SPECIES",
+    "id": "REAVER_SLUG",
+    "description": "an alien combat mutant that drags itself on the ground",
+    "footsteps": "the sound of metal and flesh scraping against the ground."
+  },
+  {
+    "type": "SPECIES",
+    "id": "SPIDERANT",
+    "description": "a spiderant",
+    "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
+    "footsteps": "clicking."
+  }
+]

@@ -32,12 +32,8 @@
         "iiiiiiiiiiii%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "2": { "item": "subway", "chance": 1 },
         "4": { "item": "trash_cart", "chance": 40 },
@@ -86,16 +82,9 @@
         "%l22''''''''''''''''l%%%",
         "%lll''''''''''''''''l%%%"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "items": {
-        "'": { "item": "subway", "chance": 1 },
-        "2": { "item": "subway", "chance": 1 }
-      },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 3, 20 ], "density": 0.35 }
-      ]
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "items": { "'": { "item": "subway", "chance": 1 }, "2": { "item": "subway", "chance": 1 } },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 3, 20 ], "density": 0.35 } ]
     }
   },
   {
@@ -131,12 +120,8 @@
         "iiVVViiVVVii''''';;;;;l'",
         ";;''';;''';;;;;;;;;;;;;;"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "*": { "item": "jewelry_front", "chance": 60 },
         "@": { "item": "magazines", "chance": 10 },
@@ -152,9 +137,7 @@
         "r": { "item": "shoestore_shoes", "chance": 60 },
         "t": { "item": "coffee_table", "chance": 25 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.3 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.3 } ]
     }
   },
   {
@@ -190,12 +173,8 @@
         "'l;;;;;;;'''''''''''''';",
         ";;;;;;;;;;;;;;;;;;;;;;;;"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "K": { "item": "shoestore_shoes", "chance": 90 },
         "Q": { "item": "trash", "chance": 50 },
@@ -209,9 +188,7 @@
         "r": { "item": "shoestore_shoes", "chance": 60 },
         "t": { "item": "coffee_table", "chance": 25 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 } ]
     }
   },
   {
@@ -247,12 +224,8 @@
         "iiiwiiiiwiiiiwiii.....RR",
         "..RRR..RRR.............."
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 10 },
@@ -272,9 +245,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 2, 17 ], "density": 0.15 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 2, 17 ], "density": 0.15 } ]
     }
   },
   {
@@ -310,12 +281,8 @@
         "RR.......RRRRRRRRRRRRRR.",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 10 },
@@ -374,12 +341,8 @@
         "iiiwiiiiwiiiiwiii.......",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 10 },
@@ -399,9 +362,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 2, 17 ], "density": 0.15 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 2, 17 ], "density": 0.15 } ]
     }
   },
   {
@@ -437,12 +398,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 10 },
@@ -502,12 +459,8 @@
         "89999999999999998.......",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 2, 17 ], "density": 0.03 }
-      ]
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 2, 17 ], "density": 0.03 } ]
     }
   },
   {
@@ -543,9 +496,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 16 ], "y": [ 2, 17 ], "density": 0.03 },
         { "monster": "GROUP_ZOMBIE", "x": [ 14, 22 ], "y": [ 7, 20 ], "density": 0.03 }
@@ -553,4 +504,3 @@
     }
   }
 ]
-

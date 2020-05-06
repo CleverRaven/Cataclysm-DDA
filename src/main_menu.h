@@ -1,15 +1,16 @@
 #pragma once
-#ifndef MAIN_MENU_H
-#define MAIN_MENU_H
+#ifndef CATA_SRC_MAIN_MENU_H
+#define CATA_SRC_MAIN_MENU_H
 
-class player;
-
+#include <cstddef>
 #include <string>
 #include <vector>
 
 #include "cursesdef.h"
 #include "input.h"
+#include "point.h"
 #include "worldfactory.h"
+#include "enums.h"
 
 class main_menu
 {
@@ -21,14 +22,15 @@ class main_menu
     private:
         // ASCII art that says "Cataclysm Dark Days Ahead"
         std::vector<std::string> mmenu_title;
-        std::vector<std::string> mmenu_motd;
-        std::vector<std::string> mmenu_credits;
+        std::string mmenu_motd;
+        std::string mmenu_credits;
         std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
         std::vector<std::string> vWorldSubItems;
         std::vector< std::vector<std::string> > vWorldHotkeys;
         std::vector<std::string> vSettingsSubItems;
         std::vector< std::vector<std::string> > vSettingsHotkeys;
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
+        std::string vdaytip; //tip of the day
 
         /**
          * Does what it sounds like, but this function also exists in order to gracefully handle
@@ -38,18 +40,28 @@ class main_menu
         /** Helper function for @ref init_strings */
         std::vector<std::string> load_file( const std::string &path,
                                             const std::string &alt_text ) const;
-        /** Another helper function for @ref init_strings */
-        std::vector<std::string> get_hotkeys( const std::string &s );
-
 
         // Play a sound whenever the user moves left or right in the main menu or its tabs
         void on_move() const;
 
+        // Flag to be set when first entering an error condition, cleared when leaving it
+        // Used to prevent error sound from playing repeatedly at input polling rate
+        bool errflag = false;
+        // Play a sound *once* when an error occurs in the main menu or its tabs; sets errflag
+        void on_error();
+        // Clears errflag
+        void clear_error();
+
         // Tab functions. They return whether a game was started or not. The ones that can never
         // start a game have a void return type.
         bool new_character_tab();
-        bool load_character_tab();
+        bool load_character_tab( bool transfer = false );
         void world_tab();
+
+        /*
+         * Load character templates from template folder
+         */
+        void load_char_templates();
 
         // These variables are shared between @opening_screen and the tab functions.
         // TODO: But this is an ugly short-term solution.
@@ -57,15 +69,13 @@ class main_menu
         int sel1 = 1;
         int sel2 = 1;
         int sel3 = 1;
+        int sel4 = 1;
         int layer = 1;
-        int LAST_TERMX = 0;
-        int LAST_TERMY = 0;
+        point LAST_TERM;
         catacurses::window w_open;
-        catacurses::window w_background;
-        int iMenuOffsetX = 0;
-        int iMenuOffsetY = 0;
+        point menu_offset;
         std::vector<std::string> templates;
-        int extra_w;
+        int extra_w = 0;
         std::vector<save_t> savegames;
 
         /**
@@ -75,30 +85,35 @@ class main_menu
          * @param vItems Main menu items
          * @param iSel Which index of vItems is selected. This menu item will be highlighted to
          * make it stand out from the other menu items.
-         * @param iOffsetY Offset of menu items, y coordinate
-         * @param iOffsetX Offset of menu items, x coordinate
+         * @param offset Offset of menu items
          * @param spacing: How many spaces to print between each menu item
          */
-        void print_menu_items( const catacurses::window &w_in, std::vector<std::string> vItems, size_t iSel,
-                               int iOffsetY, int iOffsetX, int spacing = 1 );
+        void print_menu_items( const catacurses::window &w_in,
+                               const std::vector<std::string> &vItems, size_t iSel,
+                               point offset, int spacing = 1 );
 
         /**
          * Called by @ref opening_screen, this prints all the text that you see on the main menu
          *
          * @param w_open Window to print menu in
          * @param iSel which index in vMenuItems is selected
-         * @param iMenuOffsetX Menu location in window, x coordinate
-         * @param iMenuOffsetY Menu location in window, y coordinate
-         * @param bShowDDA Whether to show "Dark Days Ahead" banner
+         * @param offset Menu location in window
          */
-        void print_menu( const catacurses::window &w_open, int iSel, const int iMenuOffsetX,
-                         int iMenuOffsetY, bool bShowDDA = true );
+        void print_menu( const catacurses::window &w_open, int iSel, const point &offset );
 
-        void display_credits();
+        void display_text( const std::string &text, const std::string &title, int &selected );
 
         void init_windows();
-        std::string handle_input_timeout( input_context &ctxt );
+
+        /* holiday functions and member variables*/
+        static bool is_easter( int day, int month, int year );
+        holiday get_holiday_from_time();
+
+        holiday current_holiday = holiday::none;
+
+        static std::string halloween_spider();
+        std::string halloween_graves();
 };
 
-#endif
+#endif // CATA_SRC_MAIN_MENU_H
 

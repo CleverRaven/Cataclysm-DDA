@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30002.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04F55049-F0DE-4AE6-9D10-3DB97DFF2E2F}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		AStyleExtension-Cataclysm-DDA.cfg = AStyleExtension-Cataclysm-DDA.cfg
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-vcpkg-static", "Cataclysm-vcpkg-static.vcxproj", "{19F0BE17-3DAF-40E8-A9D2-904A56382E54}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-test-vcpkg-static", "Cataclysm-test-vcpkg-static.vcxproj", "{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-lib-vcpkg-static", "Cataclysm-lib-vcpkg-static.vcxproj", "{0009BB11-11AD-4C14-A5FC-D882A942C00B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter", "JsonFormatter.vcxproj", "{35D74C75-FC4A-442F-AF44-43BC9D845BAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Debug|x64.ActiveCfg = Debug|x64
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Debug|x64.Build.0 = Debug|x64
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Debug|x86.ActiveCfg = Debug|Win32
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Debug|x86.Build.0 = Debug|Win32
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Release|x64.ActiveCfg = Release|x64
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Release|x64.Build.0 = Release|x64
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Release|x86.ActiveCfg = Release|Win32
+		{19F0BE17-3DAF-40E8-A9D2-904A56382E54}.Release|x86.Build.0 = Release|Win32
+		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Debug|x64.ActiveCfg = Debug|x64
+		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Debug|x64.Build.0 = Debug|x64
+		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Debug|x86.ActiveCfg = Debug|Win32
+		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Debug|x86.Build.0 = Debug|Win32
+		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x64.ActiveCfg = Release|x64
+		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x64.Build.0 = Release|x64
+		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x86.ActiveCfg = Release|Win32
+		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x86.Build.0 = Release|Win32
+		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Debug|x64.ActiveCfg = Debug|x64
+		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Debug|x64.Build.0 = Debug|x64
+		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Debug|x86.ActiveCfg = Debug|Win32
+		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Debug|x86.Build.0 = Debug|Win32
+		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release|x64.ActiveCfg = Release|x64
+		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release|x64.Build.0 = Release|x64
+		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release|x86.ActiveCfg = Release|Win32
+		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release|x86.Build.0 = Release|Win32
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x64.ActiveCfg = Debug|x64
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x64.Build.0 = Debug|x64
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x86.ActiveCfg = Debug|Win32
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x86.Build.0 = Debug|Win32
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x64.ActiveCfg = Release|x64
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x64.Build.0 = Release|x64
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x86.ActiveCfg = Release|Win32
+		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34A5C4CF-9573-474A-A908-9F99A80C19EE}
+	EndGlobalSection
+EndGlobal
