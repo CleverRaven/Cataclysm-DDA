@@ -217,6 +217,7 @@
       [ "motorbike_pants", 10 ],
       [ "motorbike_boots", 10 ],
       [ "shavingkit", 30 ],
+      [ "washingkit", 30 ],
       [ "elec_hairtrimmer", 15 ],
       [ "razor_blade", 5 ],
       [ "razor_shaving", 5 ],

@@ -235,6 +235,7 @@
       [ "fancy_sunglasses", 5 ],
       [ "glasses_reading", 30 ],
       [ "shavingkit", 20 ],
+      [ "washingkit", 20 ],
       [ "elec_hairtrimmer", 10 ],
       [ "glasses_bifocal", 30 ],
       [ "tailor_portfolio", 3 ],

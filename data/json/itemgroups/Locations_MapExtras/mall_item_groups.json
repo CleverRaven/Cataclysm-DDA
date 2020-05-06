@@ -282,6 +282,7 @@
       [ "soap", 45 ],
       [ "tailors_kit", 25 ],
       [ "shavingkit", 20 ],
+      [ "washingkit", 20 ],
       [ "elec_hairtrimmer", 20 ],
       [ "razor_shaving", 20 ],
       [ "curler_hair", 30 ],

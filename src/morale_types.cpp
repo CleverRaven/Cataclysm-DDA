@@ -174,6 +174,7 @@ const morale_type MORALE_PERM_NOMAD( "morale_perm_nomad" );
 const morale_type MORALE_GAME_FOUND_KITTEN( "morale_game_found_kitten" );
 const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );
+const morale_type MORALE_WASHSELF( "morale_washself" );
 const morale_type MORALE_CHAT( "morale_chat" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
 const morale_type MORALE_PLAY_WITH_PET( "morale_play_with_pet" );

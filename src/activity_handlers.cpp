@@ -199,6 +199,7 @@ static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
+static const activity_id ACT_WASHSELF( "ACT_WASHSELF" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 static const efftype_id effect_blind( "blind" );
@@ -407,6 +408,7 @@ activity_handlers::finish_functions = {
     { ACT_FILL_PIT, fill_pit_finish },
     { ACT_PLAY_WITH_PET, play_with_pet_finish },
     { ACT_SHAVE, shaving_finish },
+    { ACT_WASHSELF, washingself_finish },
     { ACT_HAIRCUT, haircut_finish },
     { ACT_UNLOAD_MAG, unload_mag_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
@@ -4257,6 +4259,13 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You give your hair a trim." ) );
     p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    act->set_to_null();
+}
+
+void activity_handlers::washingself_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( _("You wash yourself and give your teeth a scrub." ) );
+    p->add_morale( MORALE_WASHSELF, 4, 4, 360_minutes, 5_minutes );
     act->set_to_null();
 }
 

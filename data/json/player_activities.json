@@ -712,6 +712,14 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_WASHSELF",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "washing yourself",
+    "rooted": true,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_HAIRCUT",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

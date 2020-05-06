@@ -310,6 +310,11 @@
     "text": "Freshly Shaven"
   },
   {
+    "id": "morale_washself",
+    "type": "morale_type",
+    "text": "Freshly Washed"
+  },
+  {
     "id": "morale_vomited",
     "type": "morale_type",
     "text": "Barfed"

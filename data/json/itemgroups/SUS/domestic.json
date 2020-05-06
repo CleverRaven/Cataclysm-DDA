@@ -689,7 +689,7 @@
     "entries": [
       { "item": "soap", "count": [ 1, 4 ], "prob": 70 },
       {
-        "distribution": [ { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 50 }, { "item": "shavingkit", "prob": 50 } ],
+        "distribution": [ { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 50 }, { "item": "shavingkit", "prob": 50 }, { "item": "washingkit", "prob":  50 } ],
         "prob": 75
       },
       {

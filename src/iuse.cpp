@@ -134,6 +134,7 @@ static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WASH( "ACT_WASH" );
+static const activity_id ACT_WASHSELF( "ACT_WASHSELF" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
@@ -9273,6 +9274,17 @@ int iuse::hairkit( player *p, item *it, bool, const tripoint & )
     }
     const int moves = to_moves<int>( 30_minutes );
     p->assign_activity( ACT_HAIRCUT, moves );
+    return it->type->charges_to_use();
+}
+
+int iuse::washkit( player *p, item *it, bool, const tripoint & )
+{
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
+    const int moves = to_moves<int>( 5_minutes );
+    p->assign_activity( ACT_WASHSELF, moves );
     return it->type->charges_to_use();
 }
 

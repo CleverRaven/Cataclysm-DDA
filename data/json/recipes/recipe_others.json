@@ -4094,6 +4094,25 @@
   },
   {
     "type": "recipe",
+    "result": "survivor_washkit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "cordage_short", 2 ] ],
+    "components": [
+      [ [ "leather", 2 ], [ "fur", 2 ] ],
+      [ [ "rag", 2 ] ],
+      [ [ "toothbrush_plain", 1 ] ],
+      [ [ "mirror", 1 ] ],
+      [ [ "plastic_chunk", 1 ], [ "skewer_bone", 4 ], [ "splinter", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "survivor_hairtrimmer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

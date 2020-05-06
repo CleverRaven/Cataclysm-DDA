@@ -856,6 +856,11 @@
   },
   {
     "type": "item_action",
+    "id": "WASHKIT",
+    "name": { "str": "Wash yourself" }
+  },
+  {
+    "type": "item_action",
     "id": "SHOCKTONFA_OFF",
     "name": { "str": "Turn on" }
   },
