@@ -125,8 +125,6 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
-static const activity_id ACT_DIG( "ACT_DIG" );
-static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
@@ -334,8 +332,6 @@ activity_handlers::do_turn_functions = {
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
-    { ACT_DIG, dig_do_turn },
-    { ACT_DIG_CHANNEL, dig_channel_do_turn },
     { ACT_FILL_PIT, fill_pit_do_turn },
     { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
@@ -408,8 +404,6 @@ activity_handlers::finish_functions = {
     { ACT_CHOP_LOGS, chop_logs_finish },
     { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
-    { ACT_DIG, dig_finish },
-    { ACT_DIG_CHANNEL, dig_channel_finish },
     { ACT_FILL_PIT, fill_pit_finish },
     { ACT_PLAY_WITH_PET, play_with_pet_finish },
     { ACT_SHAVE, shaving_finish },
@@ -4212,103 +4206,6 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
             elem.set_var( "activity_var", p->name );
         }
     }
-}
-
-void activity_handlers::dig_do_turn( player_activity *act, player * )
-{
-    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a shovel digging a pit at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-    }
-}
-
-void activity_handlers::dig_channel_do_turn( player_activity *act, player * )
-{
-    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a shovel digging a pit at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-    }
-}
-
-void activity_handlers::dig_finish( player_activity *act, player *p )
-{
-    const ter_id result_terrain( act->str_values[1] );
-    const std::string byproducts_item_group = act->str_values[0];
-    const int byproducts_count = act->values[0];
-    const tripoint dump_loc = act->coords[0];
-    const tripoint &pos = act->placement;
-    const bool grave = g->m.ter( pos ) == t_grave;
-
-    if( grave ) {
-        if( one_in( 10 ) ) {
-            static const std::array<mtype_id, 5> monids = { {
-                    mon_zombie, mon_zombie_fat,
-                    mon_zombie_rot, mon_skeleton,
-                    mon_zombie_crawler
-                }
-            };
-
-            g->place_critter_at( random_entry( monids ), dump_loc );
-            g->m.furn_set( pos, f_coffin_o );
-            p->add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
-        } else {
-            g->m.spawn_item( pos, "bone_human", rng( 5, 15 ) );
-            g->m.furn_set( pos, f_coffin_c );
-        }
-        std::vector<item *> dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
-        g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
-        g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
-        for( item * const &it : dropped ) {
-            if( it->is_armor() ) {
-                it->item_tags.insert( "FILTHY" );
-                it->set_damage( rng( 1, it->max_damage() - 1 ) );
-            }
-        }
-        g->events().send<event_type::exhumes_grave>( p->getID() );
-    }
-
-    g->m.ter_set( pos, result_terrain );
-
-    for( int i = 0; i < byproducts_count; i++ ) {
-        g->m.spawn_items( dump_loc, item_group::items_from( byproducts_item_group, calendar::turn ) );
-    }
-
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
-    if( grave ) {
-        p->add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
-    } else {
-        p->add_msg_if_player( m_good, _( "You finish digging the %s." ),
-                              g->m.ter( act->placement ).obj().name() );
-    }
-
-    act->set_to_null();
-}
-
-void activity_handlers::dig_channel_finish( player_activity *act, player *p )
-{
-    const ter_id result_terrain( act->str_values[1] );
-    const std::string byproducts_item_group = act->str_values[0];
-    const int byproducts_count = act->values[0];
-    const tripoint dump_loc = act->coords[0];
-
-    g->m.ter_set( act->placement, result_terrain );
-
-    for( int i = 0; i < byproducts_count; i++ ) {
-        g->m.spawn_items( dump_loc, item_group::items_from( byproducts_item_group, calendar::turn ) );
-    }
-
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
-    p->add_msg_if_player( m_good, _( "You finish digging up %s." ),
-                          g->m.ter( act->placement ).obj().name() );
-
-    act->set_to_null();
 }
 
 void activity_handlers::fill_pit_do_turn( player_activity *act, player * )

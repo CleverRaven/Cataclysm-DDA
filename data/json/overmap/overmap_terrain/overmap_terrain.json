@@ -35,7 +35,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_garage",
+    "id": [ "s_garage", "s_garage_1", "s_garage_2" ],
     "copy-from": "generic_city_building",
     "name": "garage",
     "sym": "O",
@@ -44,49 +44,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_garage_roof",
-    "copy-from": "generic_city_building",
-    "name": "garage roof",
-    "sym": "O",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_garage_1",
-    "copy-from": "generic_city_building",
-    "name": "garage",
-    "sym": "O",
-    "color": "white",
-    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_garage_roof_1",
-    "copy-from": "generic_city_building",
-    "name": "garage roof",
-    "sym": "O",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_garage_2",
-    "copy-from": "generic_city_building",
-    "name": "garage",
-    "sym": "O",
-    "color": "white",
-    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_garage_roof_2",
-    "copy-from": "generic_city_building",
-    "name": "garage roof",
-    "sym": "O",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_garage_upper_roof_2",
+    "id": [ "s_garage_roof", "s_garage_roof_1", "s_garage_roof_2", "s_garage_upper_roof_2" ],
     "copy-from": "generic_city_building",
     "name": "garage roof",
     "sym": "O",
@@ -114,15 +72,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lighthouse_z1",
-    "name": "lighthouse",
-    "sym": "0",
-    "color": "yellow",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lighthouse_z2",
+    "id": [ "lighthouse_z1", "lighthouse_z2", "lighthouse_z4", "lighthouse_z5", "lighthouse_roof" ],
     "name": "lighthouse",
     "sym": "0",
     "color": "yellow",
@@ -138,30 +88,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lighthouse_z4",
-    "name": "lighthouse",
-    "sym": "0",
-    "color": "yellow",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lighthouse_z5",
-    "name": "lighthouse",
-    "sym": "0",
-    "color": "yellow",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lighthouse_roof",
-    "name": "lighthouse",
-    "sym": "0",
-    "color": "yellow",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
     "id": "island_sand",
     "name": "island",
     "sym": ".",
@@ -170,15 +96,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "island_forest",
-    "name": "island",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 1
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "island_forest_thick",
+    "id": [ "island_forest", "island_forest_thick" ],
     "name": "island",
     "sym": "F",
     "color": "green",
@@ -221,7 +139,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cabin_lake",
+    "id": [ "cabin_lake", "lake_cabin_boathouse", "cabin_strange" ],
     "name": "forest",
     "sym": "F",
     "color": "green",
@@ -230,37 +148,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cabin_lake_roof",
+    "id": [ "cabin_lake_roof", "lake_cabin_boathouse_roof" ],
     "name": "forest",
     "sym": "F",
     "color": "green",
     "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lake_cabin_boathouse",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lake_cabin_boathouse_roof",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_strange",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -281,7 +173,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cabin",
+    "id": [ "cabin", "cabin_1", "cabin_2", "cabin_3", "cabin_4", "cabin_5", "cabin_6", "cabin_7", "cabin_lapin" ],
     "name": "cabin",
     "sym": "C",
     "color": "i_green",
@@ -292,167 +184,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cabin_roof",
-    "name": "cabin roof",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_1",
-    "name": "cabin",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_roof_1",
-    "name": "cabin roof",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_2",
-    "name": "cabin",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_roof_2",
-    "name": "cabin roof",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_3",
-    "name": "cabin",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_roof_3",
-    "name": "cabin roof",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_4",
-    "name": "cabin",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_roof_4",
-    "name": "cabin roof",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_5",
-    "name": "cabin",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_roof_5",
-    "name": "cabin roof",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_6",
-    "name": "cabin",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_roof_6",
-    "name": "cabin roof",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_7",
-    "name": "cabin",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_roof_7",
-    "name": "cabin roof",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_lapin",
-    "name": "cabin",
-    "sym": "C",
-    "color": "i_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_roof_lapin",
+    "id": [
+      "cabin_roof",
+      "cabin_roof_1",
+      "cabin_roof_2",
+      "cabin_roof_3",
+      "cabin_roof_4",
+      "cabin_roof_5",
+      "cabin_roof_6",
+      "cabin_roof_7",
+      "cabin_roof_lapin"
+    ],
     "name": "cabin roof",
     "sym": "C",
     "color": "i_green",
@@ -469,23 +211,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "forest_aban1",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 4
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirtroad2_aban1",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 4
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirtplaza_aban1",
+    "id": [ "forest_aban1", "dirtroad2_aban1", "dirtplaza_aban1" ],
     "name": "forest",
     "sym": "F",
     "color": "green",
@@ -519,7 +245,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "shipwreck_river_1",
+    "id": [ "shipwreck_river_1", "shipwreck_river_2", "shipwreck_river_3", "shipwreck_river_4" ],
     "name": "shipwreck",
     "sym": "w",
     "color": "red",
@@ -527,31 +253,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "shipwreck_river_2",
-    "name": "shipwreck",
-    "sym": "w",
-    "color": "red",
-    "see_cost": 4
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "shipwreck_river_3",
-    "name": "razorclaw nest",
-    "sym": "w",
-    "color": "red",
-    "see_cost": 4
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "shipwreck_river_4",
-    "name": "shipwreck",
-    "sym": "w",
-    "color": "red",
-    "see_cost": 4
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "radio_tower",
+    "id": [
+      "radio_tower",
+      "radio_tower_even",
+      "radio_tower_even_stair_only",
+      "radio_tower_odd",
+      "radio_tower_top",
+      "radio_tower_1",
+      "radio_tower_roof_1"
+    ],
     "name": "radio tower",
     "sym": "X",
     "color": "light_gray",
@@ -559,79 +269,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "radio_tower_even",
-    "copy-from": "radio_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "radio_tower_even_stair_only",
-    "copy-from": "radio_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "radio_tower_odd",
-    "copy-from": "radio_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "radio_tower_top",
-    "copy-from": "radio_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "radio_tower_1",
-    "copy-from": "radio_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "radio_tower_roof_1",
-    "name": "radio tower roof",
-    "copy-from": "radio_tower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_cabin",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_camp_1",
+    "id": [ "bandit_cabin", "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
     "name": "forest",
     "sym": "F",
     "color": "green",
     "see_cost": 5,
     "//": "RISK_LOW due to risk and safety being based on NPCs perception of what the area may contain",
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_camp_2",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_camp_3",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_camp_4",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
@@ -652,18 +295,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "campsite",
+    "id": [ "campsite", "campsite_a" ],
     "name": "campsite",
-    "sym": "+",
-    "color": "green",
-    "see_cost": 5,
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campsite_a",
-    "name": "campsites",
     "sym": "+",
     "color": "green",
     "see_cost": 5,
@@ -682,17 +315,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "campsite_field_biker",
-    "name": "field campsite",
-    "sym": "+",
-    "color": "light_green",
-    "see_cost": 5,
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campsite_field_biker_destroyed",
+    "id": [ "campsite_field_biker", "campsite_field_biker_destroyed" ],
     "name": "field campsite",
     "sym": "+",
     "color": "light_green",
@@ -729,7 +352,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hunter_shack",
+    "id": [ "hunter_shack", "hunter_shack_1" ],
     "name": "swamp shack",
     "sym": "F",
     "color": "cyan",
@@ -738,7 +361,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hunter_shack_roof",
+    "id": [ "hunter_shack_roof", "hunter_shack_roof_1" ],
     "name": "swamp shack roof",
     "sym": "F",
     "color": "cyan",
@@ -746,24 +369,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hunter_shack_1",
-    "name": "swamp shack",
-    "sym": "F",
-    "color": "cyan",
-    "see_cost": 5,
-    "flags": [ "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hunter_shack_roof_1",
-    "name": "swamp shack roof",
-    "sym": "F",
-    "color": "cyan",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_1a",
+    "id": [
+      "campground_1a",
+      "campground_1b",
+      "campground_2a",
+      "campground_2b",
+      "campground_1a_npc",
+      "campground_1b_npc",
+      "campground_2a_npc",
+      "campground_2b_npc"
+    ],
     "name": "campground",
     "sym": "+",
     "color": "i_green",
@@ -773,86 +388,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "campground_1b",
-    "name": "campground",
-    "sym": "+",
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_2a",
-    "name": "campground",
-    "sym": "+",
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_2b",
-    "name": "campground",
-    "sym": "+",
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_roof",
-    "name": "campground roof",
-    "sym": "+",
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_1a_npc",
-    "name": "campground",
-    "sym": "+",
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_1b_npc",
-    "name": "campground",
-    "sym": "+",
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_2a_npc",
-    "name": "campground",
-    "sym": "+",
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_2b_npc",
-    "name": "campground",
-    "sym": "+",
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_roof_npc",
+    "id": [ "campground_roof", "campground_roof_npc" ],
     "name": "campground roof",
     "sym": "+",
     "color": "i_green",
@@ -870,16 +406,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bandit_garage_1",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_garage_2",
+    "id": [ "bandit_garage_1", "bandit_garage_2" ],
     "name": "forest",
     "sym": "F",
     "color": "green",
@@ -911,7 +438,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "parking_2x1_0",
+    "id": [
+      "parking_2x1_0",
+      "parking_2x1_1",
+      "parking_2x2_0_0",
+      "parking_2x2_0_1",
+      "parking_2x2_1_0",
+      "parking_2x2_1_1",
+      "parking_3x1_0",
+      "parking_3x1_1",
+      "parking_3x1_2"
+    ],
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
@@ -919,102 +456,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "parking_2x1_1",
-    "copy-from": "parking_2x1_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_3x1_0",
-    "copy-from": "parking_2x1_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_3x1_1",
-    "copy-from": "parking_2x1_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_3x1_2",
-    "copy-from": "parking_2x1_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_2x2_0_0",
-    "copy-from": "parking_2x1_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_2x2_0_1",
-    "copy-from": "parking_2x1_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_2x2_1_0",
-    "copy-from": "parking_2x1_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "parking_2x2_1_1",
-    "copy-from": "parking_2x1_0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_1",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_2",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_3",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_4",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_5",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_6",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_7",
+    "id": [
+      "irradiator_1_1",
+      "irradiator_1_2",
+      "irradiator_1_3",
+      "irradiator_1_4",
+      "irradiator_1_5",
+      "irradiator_1_6",
+      "irradiator_1_7",
+      "irradiator_1_9"
+    ],
     "name": "irradiation plant",
     "sym": "i",
     "color": "light_green",
@@ -1031,70 +482,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "irradiator_1_9",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_1_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_2_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_3_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_4_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_5_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_6_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_7_roof",
+    "id": [
+      "irradiator_1_1_roof",
+      "irradiator_1_2_roof",
+      "irradiator_1_3_roof",
+      "irradiator_1_4_roof",
+      "irradiator_1_5_roof",
+      "irradiator_1_6_roof",
+      "irradiator_1_7_roof",
+      "irradiator_1_9_roof"
+    ],
     "name": "irradiation plant",
     "sym": "i",
     "color": "light_green",
@@ -1106,20 +503,41 @@
     "name": "irradiation plant",
     "sym": "I",
     "color": "light_green",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_9_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green",
     "see_cost": 5
   },
   {
     "type": "overmap_terrain",
-    "id": "airliner_1a",
+    "id": [
+      "airliner_1a",
+      "airliner_2a",
+      "airliner_3a",
+      "airliner_1b",
+      "airliner_3b",
+      "airliner_1c",
+      "airliner_2c",
+      "airliner_3c",
+      "airliner_1d",
+      "airliner_2d",
+      "airliner_3d",
+      "airliner_1e",
+      "airliner_2e",
+      "airliner_3e",
+      "airliner_1f",
+      "airliner_2f",
+      "airliner_3f",
+      "airliner_1g",
+      "airliner_2g",
+      "airliner_3g",
+      "airliner_1h",
+      "airliner_2h",
+      "airliner_3h",
+      "airliner_1i",
+      "airliner_2i",
+      "airliner_3i",
+      "airliner_1j",
+      "airliner_2j",
+      "airliner_3j"
+    ],
     "name": "field",
     "sym": ".",
     "color": "brown",
@@ -1127,22 +545,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "airliner_2a",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_3a",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_1b",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2b",
+    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1" ],
     "name": "crashed airliner",
     "sym": "A",
     "color": "red",
@@ -1150,151 +553,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "airliner_3b",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_1c",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2c",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_3c",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_1d",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2d",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_3d",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_1e",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2e",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_3e",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_1f",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2f",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_3f",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_1g",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2g",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_3g",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_1h",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2h",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_3h",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_1i",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2i",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_3i",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_1j",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2j",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_3j",
-    "copy-from": "airliner_1a"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2a_1",
+    "id": [ "airliner_2a_1", "airliner_2c_1" ],
     "name": "open air",
     "sym": ".",
     "color": "blue",
     "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2b_1",
-    "copy-from": "airliner_2b"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2c_1",
-    "copy-from": "airliner_2a_1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2b_-1",
-    "copy-from": "airliner_2b"
   },
   {
     "type": "overmap_terrain",
@@ -1316,7 +579,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft-1",
+    "id": [ "lab_subway_vent_shaft-1", "lab_subway_vent_shaft-2", "lab_subway_vent_shaft-3", "lab_subway_vent_shaft-4" ],
     "name": "ventilation shaft",
     "sym": "%",
     "color": "dark_gray",
@@ -1325,193 +588,28 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft-2",
-    "copy-from": "lab_subway_vent_shaft-1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft-3",
-    "copy-from": "lab_subway_vent_shaft-1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft-4",
-    "copy-from": "lab_subway_vent_shaft-1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_1",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_2",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_3",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_4",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_5",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_6",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_7",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_8",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_9",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_1_1",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_2_1",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_3_1",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_4_1",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_5_1",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_6_1",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_7_1",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_8_1",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_9_1",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_1_2",
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cground_2_2",
+    "id": [
+      "cground_1",
+      "cground_1_1",
+      "cground_1_2",
+      "cground_2",
+      "cground_2_1",
+      "cground_2_2",
+      "cground_3",
+      "cground_3_1",
+      "cground_4",
+      "cground_4_1",
+      "cground_5",
+      "cground_5_1",
+      "cground_6",
+      "cground_6_1",
+      "cground_7",
+      "cground_7_1",
+      "cground_8",
+      "cground_8_1",
+      "cground_9",
+      "cground_9_1"
+    ],
     "name": "campground",
     "sym": "┼",
     "color": "green",

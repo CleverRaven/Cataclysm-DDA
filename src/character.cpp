@@ -641,7 +641,7 @@ double Character::aim_cap_from_volume( const item &gun ) const
     } else if( gun_skill == "pistol" ) {
         aim_cap = std::max( 15.0, aim_cap * 1.25 );
     } else if( gun_skill == "rifle" ) {
-        aim_cap = std::max( 7.0, aim_cap - 5.0 );
+        aim_cap = std::max( 7.0, aim_cap - 7.0 );
     } else if( gun_skill == "archery" ) {
         aim_cap = std::max( 13.0, aim_cap );
     } else { // Launchers, etc.
@@ -9340,7 +9340,9 @@ void Character::assign_activity( const activity_id &type, int moves, int index, 
 
 void Character::assign_activity( const player_activity &act, bool allow_resume )
 {
+    bool resuming = false;
     if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
+        resuming = true;
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();
         backlog.pop_front();
@@ -9352,7 +9354,7 @@ void Character::assign_activity( const player_activity &act, bool allow_resume )
         activity = act;
     }
 
-    activity.start( *this );
+    activity.start_or_resume( *this, resuming );
 
     if( is_npc() ) {
         cancel_stashed_activity();
@@ -10794,6 +10796,40 @@ action_id Character::get_next_auto_move_direction()
         return ACTION_NULL;
     }
     return get_movement_action_from_delta( dp, iso_rotate::yes );
+}
+
+int Character::talk_skill() const
+{
+    /** @EFFECT_INT slightly increases talking skill */
+
+    /** @EFFECT_PER slightly increases talking skill */
+
+    /** @EFFECT_SPEECH increases talking skill */
+    int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
+    return ret;
+}
+
+int Character::intimidation() const
+{
+    /** @EFFECT_STR increases intimidation factor */
+    int ret = get_str() * 2;
+    if( weapon.is_gun() ) {
+        ret += 10;
+    }
+    if( weapon.damage_melee( DT_BASH ) >= 12 ||
+        weapon.damage_melee( DT_CUT ) >= 12 ||
+        weapon.damage_melee( DT_STAB ) >= 12 ) {
+        ret += 5;
+    }
+
+    if( get_stim() > 20 ) {
+        ret += 2;
+    }
+    if( has_effect( effect_drunk ) ) {
+        ret -= 4;
+    }
+
+    return ret;
 }
 
 bool Character::defer_move( const tripoint &next )

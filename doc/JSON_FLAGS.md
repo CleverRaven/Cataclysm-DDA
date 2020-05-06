@@ -1384,6 +1384,9 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NAILABLE``` Attached with nails
 - ```NEEDS_BATTERY_MOUNT```
 - ```NOINSTALL``` Cannot be installed.
+- ```NO_INSTALL_PLAYER``` Cannot be installed by a player, but can be installed on vehicles.
+- ```NO_UNINSTALL``` Cannot be unintalled
+- ```NO_REPAIR``` Cannot be repaired
 - ```NO_JACK```
 - ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
 - ```ODDTURN``` Only on during odd turns.

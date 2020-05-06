@@ -116,6 +116,7 @@ TEST_CASE( "starting_items", "[slow]" )
         trait_id( "LACTOSE" ),
         //trait_id( "LEG_TENTACLES" ),
         trait_id( "MEATARIAN" ),
+        trait_id( "ASTHMA" ),
         //trait_id( "RAP_TALONS" ),
         //trait_id( "TAIL_FLUFFY" ),
         //trait_id( "TAIL_LONG" ),
