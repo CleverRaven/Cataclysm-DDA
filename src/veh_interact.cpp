@@ -1909,7 +1909,8 @@ bool veh_interact::do_siphon( std::string &msg )
     set_title( _( "Select part to siphon:" ) );
 
     auto sel = [&]( const vehicle_part & pt ) {
-        return( pt.is_tank() && pt.base.contents.legacy_front().made_of( LIQUID ) );
+        return( pt.is_tank() && !pt.base.contents.empty() &&
+                pt.base.contents.only_item().made_of( LIQUID ) );
     };
 
     auto act = [&]( const vehicle_part & pt ) {
