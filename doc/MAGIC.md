@@ -85,7 +85,7 @@ while the Druid spell "Nature's Bow" has a `spawn_item` effect, and requires the
 {
   "id": "druid_naturebow1",
   "effect": "spawn_item",
-  "effefct_str": "druid_recurve"
+  "effect_str": "druid_recurve"
 }
 ```
 
