@@ -491,8 +491,6 @@ void MonsterGenerator::init_death()
     death_map["FUNGALBURST"] = &mdeath::fungalburst;
     // Snicker-snack!
     death_map["JABBERWOCKY"] = &mdeath::jabberwock;
-    // Take them with you
-    death_map["DETONATE"] = &mdeath::detonate;
     // Game over!  Defense mode
     death_map["GAMEOVER"] = &mdeath::gameover;
     // Spawn some cockroach nymphs

@@ -70,8 +70,6 @@ void smokeburst( monster &z );
 void fungalburst( monster &z );
 // Snicker-snack!
 void jabberwock( monster &z );
-// Take the enemy with you
-void detonate( monster &z );
 // Breaks ammo and then itself
 void broken_ammo( monster &z );
 // Spawns 1-3 roach nymphs
