@@ -232,7 +232,6 @@
     "symbol": "?",
     "color": "green",
     "use_action": "MA_MANUAL",
-    "time": "10 m",
     "book_data": { "intelligence": 9 }
   }
 ]
