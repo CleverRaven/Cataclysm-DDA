@@ -166,7 +166,7 @@ class achievements_tracker : public event_subscriber
 
         achievements_tracker(
             stats_tracker &,
-            const std::function<void( const achievement * )> &achievement_attained_callback );
+            const std::function<void( const achievement *, bool )> &achievement_attained_callback );
         ~achievements_tracker() override;
 
         // Return all scores which are valid now and existed at game start
@@ -177,6 +177,12 @@ class achievements_tracker : public event_subscriber
         achievement_completion is_completed( const string_id<achievement> & ) const;
         bool is_hidden( const achievement * ) const;
         std::string ui_text_for( const achievement * ) const;
+        bool is_enabled() const {
+            return enabled_;
+        }
+        void set_enabled( bool enabled ) {
+            enabled_ = enabled;
+        }
 
         void clear();
         void notify( const cata::event & ) override;
@@ -187,7 +193,8 @@ class achievements_tracker : public event_subscriber
         void init_watchers();
 
         stats_tracker *stats_ = nullptr;
-        std::function<void( const achievement * )> achievement_attained_callback_;
+        bool enabled_ = true;
+        std::function<void( const achievement *, bool )> achievement_attained_callback_;
         std::unordered_set<string_id<achievement>> initial_achievements_;
 
         // Class invariant: each valid achievement has exactly one of a watcher

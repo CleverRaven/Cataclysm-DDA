@@ -561,7 +561,7 @@ std::string achievement_tracker::ui_text() const
 
 achievements_tracker::achievements_tracker(
     stats_tracker &stats,
-    const std::function<void( const achievement * )> &achievement_attained_callback ) :
+    const std::function<void( const achievement *, bool )> &achievement_attained_callback ) :
     stats_( &stats ),
     achievement_attained_callback_( achievement_attained_callback )
 {}
@@ -594,7 +594,7 @@ void achievements_tracker::report_achievement( const achievement *a, achievement
     }
     );
     if( comp == achievement_completion::completed ) {
-        achievement_attained_callback_( a );
+        achievement_attained_callback_( a, is_enabled() );
     }
     trackers_.erase( tracker_it );
 }
@@ -662,6 +662,7 @@ void achievements_tracker::notify( const cata::event &e )
 void achievements_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
+    jsout.member( "enabled", enabled_ );
     jsout.member( "initial_achievements", initial_achievements_ );
     jsout.member( "achievements_status", achievements_status_ );
     jsout.end_object();
@@ -670,6 +671,7 @@ void achievements_tracker::serialize( JsonOut &jsout ) const
 void achievements_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.read( "enabled", enabled_ ) || ( enabled_ = true );
     jo.read( "initial_achievements", initial_achievements_ );
     jo.read( "achievements_status", achievements_status_ );
 

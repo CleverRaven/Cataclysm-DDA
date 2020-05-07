@@ -460,7 +460,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     event_bus b;
     stats_tracker s;
     b.subscribe( &s );
-    achievements_tracker a( s, [&]( const achievement * a ) {
+    achievements_tracker a( s, [&]( const achievement * a, bool /*achievements_enabled*/ ) {
         achievements_completed.emplace( a->id, a );
     } );
     b.subscribe( &a );
