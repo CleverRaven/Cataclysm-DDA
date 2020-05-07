@@ -380,7 +380,8 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
         aoe_func, const Creature &caster, bool ignore_walls = false )
 {
     // calculate spell's effect area
-    std::set<tripoint> targets = calculate_spell_effect_area( sp, target, aoe_func, caster, ignore_walls );
+    std::set<tripoint> targets = calculate_spell_effect_area( sp, target, aoe_func, caster,
+                                 ignore_walls );
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
