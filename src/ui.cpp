@@ -143,7 +143,8 @@ void uilist::init()
     pad_left = 0;          // make a blank space to the left
     pad_right = 0;         // or right
     desc_enabled = false;  // don't show option description by default
-    desc_lines = 6;        // default number of lines for description
+    desc_lines_hint = 6;   // default number of lines for description
+    desc_lines = 6;
     footer_text.clear();   // takes precedence over per-entry descriptions.
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
@@ -318,6 +319,7 @@ void uilist::setup()
 
     max_entry_len = 0;
     max_column_len = 0;
+    desc_lines = desc_lines_hint;
     std::vector<int> autoassign;
     int pad = pad_left + pad_right + 2;
     int descwidth_final = 0; // for description width guard

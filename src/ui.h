@@ -226,7 +226,11 @@ class uilist // NOLINT(cata-xy)
         int pad_left = 0;
         int pad_right = 0;
 
-        int desc_lines;
+        // Maximum number of lines to be allocated for displaying descriptions.
+        // This only serves as a hint, not a hard limit, so the number of lines
+        // may still exceed this value when for example the description text is
+        // long enough.
+        int desc_lines_hint;
         bool desc_enabled;
 
         bool filtering;
@@ -272,6 +276,8 @@ class uilist // NOLINT(cata-xy)
         int max_column_len;
 
         int vmax = 0;
+
+        int desc_lines;
 
         bool w_x_autoassigned = false;
         bool w_y_autoassigned = false;
