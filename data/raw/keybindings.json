@@ -959,6 +959,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_SNAP_TO_TARGET",
+    "category": "TARGET",
+    "name": "Toggle Snap to Target",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SELECT",
     "name": "Select",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT" } ]
@@ -1004,13 +1011,6 @@
     "id": "TRAVEL_TO",
     "name": "Travel to destination",
     "bindings": [ { "input_method": "keyboard", "key": "T" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "TOGGLE_SNAP_TO_TARGET",
-    "category": "TARGET",
-    "name": "Toggle Snap to Target",
-    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
