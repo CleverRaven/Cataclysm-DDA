@@ -494,15 +494,11 @@
     "volume": "800 ml",
     "price": 1999,
     "price_postapoc": 500,
-    "bashing": 2,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "blue",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 2,
     "intelligence": 5,
-    "time": "10 m"
+    "time": "10 m",
+    "copy-from": "book_nonf_hard_cook_tpl"
   },
   {
     "id": "cookbook_daintydishes",
@@ -522,14 +518,13 @@
     "type": "BOOK",
     "name": { "str": "Eat Your Way to a Fit Physique", "str_pl": "copies of Eat Your Way" },
     "description": "This self-help book is as dubious as its title.  Worse, it is boring.  It does, however, contain a few basic cooking instructions.",
-    "weight": "800 g",
     "volume": "1100 ml",
     "price": 2500,
     "price_postapoc": 750,
     "max_level": 1,
     "time": "16 m",
     "fun": -1,
-    "copy-from": "cookbook_liverforkids"
+    "copy-from": "book_nonf_soft_cook_tpl"
   },
   {
     "id": "cookbook_foodfashions",
@@ -685,14 +680,11 @@
     "price": 6000,
     "price_postapoc": 750,
     "bashing": 7,
-    "material": [ "paper" ],
-    "symbol": "?",
     "color": "yellow",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 3,
     "intelligence": 7,
-    "time": "20 m",
-    "fun": 1
+    "fun": 1,
+    "copy-from": "book_nonf_hard_cook_tpl"
   }
 ]
