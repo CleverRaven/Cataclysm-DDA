@@ -1880,7 +1880,7 @@ CBMs can be defined like this:
 
 Any Item can be a container. To add the ability to contain things to an item, you need to add pocket_data. The below example is a typical container (shown with optional default values, or mandatory if the value is mandatory)
 
-```json
+```C++
 "pocket_data": [
   {
     "pocket_type": "CONTAINER",               // the typical container pocket. pockets can also be MAGAZINE
