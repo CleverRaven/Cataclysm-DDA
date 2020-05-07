@@ -658,6 +658,9 @@ class inventory_selector
 
         bool is_empty = true;
         bool display_stats = true;
+
+    public:
+        std::string action_bound_to_key( char key ) const;
 };
 
 inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
