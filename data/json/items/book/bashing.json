@@ -12,16 +12,8 @@
     "type": "BOOK",
     "name": { "str": "tactical baton defense manual" },
     "description": "An informative guide to self-defense using clubs and batons.  Aimed at the law enforcement and military market, it is packed with time tested, no-nonsense information and written to be understandable for beginners.",
-    "weight": "454 g",
-    "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 750,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "green",
     "skill": "bashing",
     "max_level": 3,
-    "intelligence": 3,
-    "time": "18 m"
+    "copy-from": "book_nonf_manual_tpl"
   }
 ]
