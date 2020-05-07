@@ -3337,23 +3337,6 @@ void Character::die( Creature *nkiller )
 void Character::apply_skill_boost()
 {
     for( const skill_boost &boost : skill_boost::get_all() ) {
-        // For migration, reset previously applied bonus.
-        // Remove after 0.E or so.
-        const std::string bonus_name = boost.stat() + std::string( "_bonus" );
-        std::string previous_bonus = get_value( bonus_name );
-        if( !previous_bonus.empty() ) {
-            if( boost.stat() == "str" ) {
-                str_max -= atoi( previous_bonus.c_str() );
-            } else if( boost.stat() == "dex" ) {
-                dex_max -= atoi( previous_bonus.c_str() );
-            } else if( boost.stat() == "int" ) {
-                int_max -= atoi( previous_bonus.c_str() );
-            } else if( boost.stat() == "per" ) {
-                per_max -= atoi( previous_bonus.c_str() );
-            }
-            remove_value( bonus_name );
-        }
-        // End migration code
         int skill_total = 0;
         for( const std::string &skill_str : boost.skills() ) {
             skill_total += get_skill_level( skill_id( skill_str ) );
