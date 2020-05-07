@@ -70,13 +70,16 @@
     "//isbn13": 9781511509831,
     "weight": "531 g",
     "volume": "726 ml",
-    "longest_side": "25 cm",
-    "price": 1450,
-    "price_postapoc": 2900,
-    "material": [ "paper", "cardboard" ],
-    "bashing": 2,
-    "chapters": 18,
-    "copy-from": "book_nonf_tpl"
+    "longest_side": "28 cm",
+    "price": 1999,
+    "price_postapoc": 750,
+    "material": [ "paper" ],
+    "color": "green",
+    "bashing": 1,
+    "chapters": 13,
+    "time": "18 m",
+    "copy-from": "book_nonf_tpl",
+    "relative": { "intelligence": -2 }
   },
   {
     "abstract": "book_nonf_hard_arch_tpl",
@@ -101,6 +104,20 @@
     "skill": "archery",
     "copy-from": "book_nonf_soft_tpl",
     "relative": { "price_post": 100, "intelligence": 2 }
+  },
+  {
+    "abstract": "book_nonf_hard_comp_tpl",
+    "type": "BOOK",
+    "name": "Generic Computer Hardcover Book",
+    "description": "template for hardbound books that confer computer skill training",
+    "//isbn13": 9781461411673,
+    "weight": "881 g",
+    "volume": "980 ml",
+    "longest_side": "23 cm",
+    "color": "green",
+    "skill": "computer",
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "price": 5549, "price_post": 50 }
   },
   {
     "abstract": "book_nonf_hard_homemk_tpl",
