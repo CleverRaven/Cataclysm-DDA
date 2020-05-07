@@ -44,17 +44,9 @@
     "type": "BOOK",
     "name": { "str": "Cooking on a Budget", "str_pl": "copies of Cooking on a Budget" },
     "description": "A nice cook book that goes beyond recipes and into the chemistry of food.",
-    "weight": "454 g",
-    "volume": "1 L",
-    "price": 1900,
-    "price_postapoc": 500,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "green",
-    "skill": "cooking",
+    "//isbn13": 9781731164186,
     "max_level": 3,
-    "intelligence": 4,
-    "time": "10 m"
+    "copy-from": "book_nonf_soft_cook_tpl"
   },
   {
     "id": "cookbook_human",
@@ -138,8 +130,7 @@
     "type": "BOOK",
     "name": { "str": "Bon Appetit", "str_pl": "issues of Bon Appetit" },
     "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
-    "skill": "cooking",
-    "copy-from": "book_magazine"
+    "copy-from": "book_nonf_zine_cooking_tpl"
   },
   {
     "id": "mag_glam",
@@ -147,8 +138,7 @@
     "name": { "str": "Glamopolitan", "str_pl": "issues of Glamopolitan" },
     "description": "This is a full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
     "price_postapoc": 250,
-    "skill": "cooking",
-    "copy-from": "book_magazine"
+    "copy-from": "book_nonf_zine_cooking_tpl"
   },
   {
     "id": "modern_tanner",
@@ -562,7 +552,7 @@
     "name": { "str": "You Can Can at Home", "str_pl": "copies of You Can Can at Home" },
     "description": "This entry-level guide to home canning talks about the importance of acidity and food contents in preservation, and how to avoid contaminants in your canning batches.",
     "price_postapoc": 1500,
-    "copy-from": "mag_cooking"
+    "copy-from": "book_nonf_zine_cooking_tpl"
   },
   {
     "id": "manual_sealing",
@@ -570,67 +560,41 @@
     "name": { "str": "Can Sealer Instructions", "str_pl": "copies of Can Sealer Instructions" },
     "description": "This dry guide to a home-use tin can sealer goes into clear detail on everything you can seal with the device and how to do it safely, and includes some basic recipes.",
     "price_postapoc": 1500,
-    "copy-from": "mag_cooking"
+    "copy-from": "book_nonf_zine_cooking_tpl"
   },
   {
     "id": "baking_book",
     "type": "BOOK",
     "name": { "str": "The Baker's Companion", "str_pl": "copies of The Baker's Companion" },
     "description": "This book promises to teach you the ways of baking, from cakes to souffles.",
-    "weight": "1587 g",
-    "volume": "1500 ml",
-    "price": 4950,
-    "price_postapoc": 750,
-    "bashing": 4,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "blue",
-    "skill": "cooking",
+    "//isbn13": 9780143773528,
     "required_level": 2,
     "max_level": 5,
-    "intelligence": 8,
-    "time": "15 m",
-    "fun": 1
+    "copy-from": "book_nonf_hard_cook_tpl",
+    "relative": { "intelligence": 4 }
   },
   {
     "id": "fermenting_book",
     "type": "BOOK",
     "name": { "str": "Fermenting Culture", "str_pl": "copies of Fermenting Culture" },
     "description": "Fermenting as a cooking practice only recently came back into vogue before the Cataclysm.  Here is a book with dozens of recipes, many of which you are unlikely to ever see the ingredients for again.",
-    "weight": "1587 g",
-    "volume": "1500 ml",
-    "price": 4950,
-    "price_postapoc": 500,
-    "bashing": 4,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "green",
-    "skill": "cooking",
     "required_level": 3,
     "max_level": 6,
-    "intelligence": 8,
     "time": "15 m",
-    "fun": 1
+    "copy-from": "book_nonf_hard_cook_tpl",
+    "relative": { "intelligence": 4 }
   },
   {
     "id": "distilling_cookbook",
     "type": "BOOK",
     "name": { "str": "Out of the Holler and into the Home: A guide to home distilation. ", "str_pl": "copies of Out of the Holler" },
     "description": "A book describing the history of at home distillation by liquor.  Each chapter contains a complete recipe for its namesake.",
-    "weight": "454 g",
-    "volume": "619 ml",
-    "price": 1950,
-    "price_postapoc": 1500,
-    "bashing": 1,
-    "material": [ "paper" ],
-    "symbol": "?",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 3,
     "max_level": 5,
-    "intelligence": 8,
     "time": "15 m",
-    "fun": 1
+    "copy-from": "book_nonf_soft_cook_tpl",
+    "relative": { "intelligence": 4 }
   },
   {
     "id": "sweets_book",
@@ -639,52 +603,43 @@
     "description": "Sweets for your Sweet Child is the best selling cooking book to the parents of young children.  Every recipe uses oversized text, easy words and diagram instructions for children learning to cook with their parents.",
     "weight": "600 g",
     "volume": "800 ml",
+    "longest_side": "27 cm",
     "price": 1050,
     "price_postapoc": 250,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_gray",
-    "skill": "cooking",
     "max_level": 2,
-    "intelligence": 4,
-    "time": "9 m",
-    "fun": 1
+    "copy-from": "book_nonf_soft_cook_tpl"
   },
   {
     "id": "survivalflavor_book",
     "type": "BOOK",
     "name": { "str": "Pocket Survival Cookbook", "str_pl": "copies of Pocket Survival Cookbook" },
     "description": "The smallest cookbook on the market, marketed exclusively to the outdoorsman.  Packs a surprising number of recipes for its tiny size.",
-    "weight": "100 g",
-    "volume": "250 ml",
+    "//isbn13": 9781931676083,
+    "weight": "71 g",
+    "volume": "72 ml",
+    "longest_side": "11 cm",
     "price": 3050,
     "price_postapoc": 1250,
-    "material": [ "paper" ],
-    "symbol": "?",
     "color": "light_gray",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 3,
-    "intelligence": 9,
     "time": "9 m",
-    "fun": -1
+    "copy-from": "book_nonf_soft_cook_tpl",
+    "relative": { "intelligence": 5, "fun": -2 }
   },
   {
     "id": "cookbook_indian",
     "type": "BOOK",
     "name": { "str": "Tasting India", "str_pl": "copies of Tasting India" },
-    "//": "Statistics derived from a real book.",
     "description": "A thick hardcover book as much about Indian culture as it is a cookbook, clearly written with adoration.",
+    "//isbn13": 9781840916010,
     "weight": "2950 g",
     "volume": "3215 ml",
+    "longest_side": "30 cm",
     "price": 6000,
-    "price_postapoc": 750,
-    "bashing": 7,
-    "color": "yellow",
     "required_level": 1,
     "max_level": 3,
-    "intelligence": 7,
-    "fun": 1,
-    "copy-from": "book_nonf_hard_cook_tpl"
+    "copy-from": "book_nonf_hard_cook_tpl",
+    "relative": { "intelligence": 3 }
   }
 ]

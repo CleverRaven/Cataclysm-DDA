@@ -42,6 +42,7 @@
     "price": 1450,
     "price_postapoc": 2900,
     "material": [ "paper", "cardboard" ],
+    "color": "light_blue",
     "bashing": 2,
     "chapters": 18,
     "copy-from": "book_nonf_tpl"
@@ -58,6 +59,7 @@
     "price": 1999,
     "price_postapoc": 2700,
     "material": [ "paper" ],
+    "color": "light_cyan",
     "bashing": 1,
     "chapters": 18,
     "copy-from": "book_nonf_tpl"
@@ -131,19 +133,39 @@
   {
     "abstract": "book_nonf_hard_cook_tpl",
     "type": "BOOK",
-    "name": "Hardcover Cookbook",
-    "description": "This is a template for books about cooking.",
+    "name": "Generic Cookbook Hardcover",
+    "description": "This is a template for hard books about cooking.",
+    "//isbn13": 9780143773528,
+    "weight": "1340 g",
+    "volume": "1537 ml",
+    "longest_side": "26 cm",
+    "price": 4950,
+    "price_postapoc": 750,
     "skill": "cooking",
+    "color": "blue",
+    "time": "12 m",
+    "fun": 1,
     "copy-from": "book_nonf_hard_tpl",
+    "//int": 4,
     "relative": { "intelligence": -1 }
   },
   {
     "abstract": "book_nonf_soft_cook_tpl",
     "type": "BOOK",
-    "name": "Softcover Cookbook",
-    "description": "This is a template for books about cooking.",
+    "name": "Generic Cookbook Paperback",
+    "description": "This is a template for soft books about cooking.",
+    "//isbn13": 9781731164186,
+    "weight": "300 g",
+    "volume": "418 ml",
+    "longest_side": "24 cm",
+    "price": 1900,
+    "price_postapoc": 500,
     "skill": "cooking",
+    "color": "green",
+    "time": "10 m",
+    "fun": 1,
     "copy-from": "book_nonf_soft_tpl",
+    "//int": 4,
     "relative": { "intelligence": -1 }
   },
   {
@@ -267,12 +289,20 @@
     "fun": 1
   },
   {
+    "id": "book_nonf_zine_cooking_tpl",
+    "type": "BOOK",
+    "name": "Generic Cooking Magazine Template",
+    "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
+    "skill": "cooking",
+    "copy-from": "book_nonf_zine"
+  },
+  {
     "abstract": "book_nonf_zine_news_tpl",
     "type": "BOOK",
     "name": "News Magazine Template",
     "description": "template for news magazine",
-    "copy-from": "book_nonf_zine",
     "time": "11 m",
+    "copy-from": "book_nonf_zine",
     "relative": { "intelligence": 1 }
   },
   {
