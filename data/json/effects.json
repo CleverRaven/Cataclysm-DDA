@@ -1954,28 +1954,20 @@
   {
     "type": "effect_type",
     "id": "hunger_full",
-	"name": [ "Full" ],
+    "name": [ "Full" ],
     "desc": [ "You feel quite full, and a bit sluggish." ],
-	"apply_message": "You feel quite full, and a bit sluggish.",
-	"rating": "bad",
-	"base_mods": {
-      "speed_mod": [ -2 ],
-	  "fatigue_amount": [ 1 ]
-    }
+    "apply_message": "You feel quite full, and a bit sluggish.",
+    "rating": "bad",
+    "base_mods": { "speed_mod": [ -2 ], "fatigue_amount": [ 1 ] }
   },
   {
     "type": "effect_type",
     "id": "hunger_engorged",
-	"name": [ "Engorged" ],
-	"desc": [ "Your stomach is full to bursting. This was a mistake." ],
-	"apply_message": "Your stomach is full to bursting. This was a mistake.",
-	"rating": "bad",
-	"base_mods": {      
-      "speed_mod": [ -10 ],
-	  "fatigue_amount": [ 2 ],
-      "vomit_chance": [ 5 ],
-	  "pain_amount": [ 3 ]
-    }
+    "name": [ "Engorged" ],
+    "desc": [ "Your stomach is full to bursting. This was a mistake." ],
+    "apply_message": "Your stomach is full to bursting. This was a mistake.",
+    "rating": "bad",
+    "base_mods": { "speed_mod": [ -10 ], "fatigue_amount": [ 2 ], "vomit_chance": [ 5 ], "pain_amount": [ 3 ] }
   },
   {
     "type": "effect_type",
