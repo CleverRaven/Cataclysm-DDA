@@ -106,6 +106,7 @@ static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
 
 static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
@@ -1022,7 +1023,14 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
     // Cenobites don't mind, though
     if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
-        eff_morale = eff_morale - get_perceived_pain();
+        int perceived_pain = get_perceived_pain();
+        if( has_trait( trait_MASOCHIST ) ) {
+            if( perceived_pain > 20 ) {
+                eff_morale = eff_morale - ( perceived_pain - 20 );
+            }
+        } else {
+            eff_morale = eff_morale - perceived_pain;
+        }
     }
 
     if( eff_morale < -99 ) {

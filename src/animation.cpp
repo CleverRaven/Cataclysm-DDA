@@ -555,8 +555,8 @@ void game::draw_hit_player( const Character &p, const int dam )
 /* Line drawing code, not really an animation but should be separated anyway */
 namespace
 {
-void draw_line_curses( game &g, const tripoint &/*pos*/, const tripoint &center,
-                       const std::vector<tripoint> &ret )
+void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoint> &ret,
+                       bool noreveal )
 {
     for( const tripoint &p : ret ) {
         const auto critter = g.critter_at( p, true );
@@ -564,7 +564,16 @@ void draw_line_curses( game &g, const tripoint &/*pos*/, const tripoint &center,
         // NPCs and monsters get drawn with inverted colors
         if( critter && g.u.sees( *critter ) ) {
             critter->draw( g.w_terrain, center, true );
+        } else if( noreveal && !g.u.sees( p ) ) {
+            // Draw a meaningless symbol. Avoids revealing tile, but keeps feedback
+            const char sym = '?';
+            const nc_color col = c_dark_gray;
+            const catacurses::window &w = g.w_terrain;
+            const int k = p.x + getmaxx( w ) / 2 - center.x;
+            const int j = p.y + getmaxy( w ) / 2 - center.y;
+            mvwputch( w, point( k, j ), col, sym );
         } else {
+            // This function reveals tile at p and writes it to the player's memory
             g.m.drawsq( g.w_terrain, g.u, p, true, true, center );
         }
     }
@@ -573,15 +582,14 @@ void draw_line_curses( game &g, const tripoint &/*pos*/, const tripoint &center,
 
 #if defined(TILES)
 void game::draw_line( const tripoint &p, const tripoint &center,
-                      const std::vector<tripoint> &points )
+                      const std::vector<tripoint> &points, bool noreveal )
 {
     if( !u.sees( p ) ) {
         return;
     }
 
-    // TODO: needed for tiles ver too??
     if( !use_tiles ) {
-        draw_line_curses( *this, p, center, points );
+        draw_line_curses( *this, center, points, noreveal );
         return;
     }
 
@@ -589,13 +597,13 @@ void game::draw_line( const tripoint &p, const tripoint &center,
 }
 #else
 void game::draw_line( const tripoint &p, const tripoint &center,
-                      const std::vector<tripoint> &points )
+                      const std::vector<tripoint> &points, bool noreveal )
 {
     if( !u.sees( p ) ) {
         return;
     }
 
-    draw_line_curses( *this, p, center, points );
+    draw_line_curses( *this, center, points, noreveal );
 }
 #endif
 

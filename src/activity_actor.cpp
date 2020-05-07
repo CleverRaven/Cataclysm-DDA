@@ -168,9 +168,10 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                           calendar::turn ) );
     }
 
-    who.mod_hunger( 5 );
-    who.mod_thirst( 5 );
-    who.mod_fatigue( 10 );
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    who.mod_stored_nutr( 5 - helpersize );
+    who.mod_thirst( 5 - helpersize );
+    who.mod_fatigue( 10 - ( helpersize * 2 ) );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
                            g->m.ter( location ).obj().name() );
 
