@@ -4952,27 +4952,38 @@ void Character::check_needs_extremes()
 {
     // Check if we've overdosed... in any deadly way.
     if( get_stim() > 250 ) {
-        add_msg_if_player( m_bad, _( "You have a sudden heart attack!" ) );
+        add_msg_player_or_npc( m_bad,
+                               _( "You have a sudden heart attack!" ),
+                               _( "<npcname> has a sudden heart attack!" ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
         hp_cur[hp_torso] = 0;
     } else if( get_stim() < -200 || get_painkiller() > 240 ) {
-        add_msg_if_player( m_bad, _( "Your breathing stops completely." ) );
+        add_msg_player_or_npc( m_bad,
+                               _( "Your breathing stops completely." ),
+                               _( "<npcname>'s breathing stops completely." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
         hp_cur[hp_torso] = 0;
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
-            add_msg_if_player( m_bad, _( "Your heart spasms painfully and stops." ) );
+            add_msg_player_or_npc( m_bad,
+                                   _( "Your heart spasms painfully and stops." ),
+                                   _( "<npcname>'s heart spasms painfully and stops." ) );
         } else {
-            add_msg_if_player( _( "Your heart spasms and stops." ) );
+            add_msg_player_or_npc( _( "Your heart spasms and stops." ),
+                                   _( "<npcname>'s heart spasms and stops." ) );
         }
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
         hp_cur[hp_torso] = 0;
     } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
-        add_msg_if_player( m_bad, _( "Your heart spasms and stops." ) );
+        add_msg_player_or_npc( m_bad,
+                               _( "Your heart spasms and stops." ),
+                               _( "<npcname>'s heart spasms and stops." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
         hp_cur[hp_torso] = 0;
     } else if( get_effect_int( effect_drunk ) > 4 ) {
-        add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
+        add_msg_player_or_npc( m_bad,
+                               _( "Your breathing slows down to a stop." ),
+                               _( "<npcname>'s breathing slows down to a stop." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_drunk );
         hp_cur[hp_torso] = 0;
     }
