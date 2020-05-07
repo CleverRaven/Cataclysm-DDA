@@ -13,6 +13,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "m235" ],
-    "capacity": 4
+    "capacity": 4,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "m235": 4 } } ]
   }
 ]

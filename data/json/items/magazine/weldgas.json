@@ -16,7 +16,8 @@
     "capacity": 60,
     "count": 60,
     "reliability": 10,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "weldgas": 60 } } ]
   },
   {
     "id": "weldtank",
@@ -35,6 +36,7 @@
     "capacity": 240,
     "count": 240,
     "reliability": 10,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "weldgas": 240 } } ]
   }
 ]
