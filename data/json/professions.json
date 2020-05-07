@@ -538,7 +538,7 @@
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "small_relic", "gloves_wraps", "tunic_rag" ],
-        "entries": [ { "item": "makeshift_knife", "container-item": "sheath" } ]
+        "entries": [ { "item": "knife_baselard", "container-item": "sheath" } ]
       },
       "female": [ "chestwrap" ]
     },
