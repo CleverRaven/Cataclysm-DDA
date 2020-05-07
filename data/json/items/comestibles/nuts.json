@@ -16,7 +16,7 @@
     "price": 68,
     "price_postapoc": 300,
     "material": "nut",
-    "volume": "250 ml",
+    "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
     "vitamins": [ [ "iron", 5 ] ],
