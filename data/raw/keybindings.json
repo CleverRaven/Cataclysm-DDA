@@ -874,7 +874,6 @@
     "name": "Fire Weapon",
     "bindings": [
       { "input_method": "keyboard", "key": "f" },
-      { "input_method": "keyboard", "key": "F" },
       { "input_method": "keyboard", "key": "RETURN" },
       { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
@@ -948,7 +947,7 @@
     "id": "SWITCH_MODE",
     "category": "TARGET",
     "name": "Switch Firing Mode",
-    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "F" } ]
   },
   {
     "type": "keybinding",
