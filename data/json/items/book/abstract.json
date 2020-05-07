@@ -33,7 +33,7 @@
   {
     "abstract": "book_nonf_hard_tpl",
     "type": "BOOK",
-    "name": "Nonfiction Book",
+    "name": "Generic Nonfiction Hardcover Book",
     "description": "template for hard bound nonfiction book",
     "//isbn13": 9780764335754,
     "weight": "907 g",
@@ -49,7 +49,7 @@
   {
     "abstract": "book_nonf_soft_tpl",
     "type": "BOOK",
-    "name": "Nonfiction Paperback",
+    "name": "Generic Nonfiction Paperback",
     "description": "template for a paperback nonfiction book",
     "weight": "400 g",
     "volume": "500 ml",
@@ -64,7 +64,7 @@
   {
     "abstract": "book_nonf_hard_arch_tpl",
     "type": "BOOK",
-    "name": "archery skill training abstract",
+    "name": "Generic Archery Hardcover Book",
     "description": "template for heavy books that confer archery skill training",
     "//isbn13": 9780764335754,
     "color": "green",
@@ -75,8 +75,8 @@
   {
     "abstract": "book_nonf_soft_arch_tpl",
     "type": "BOOK",
-    "name": "archery skill training abstract",
-    "description": "template for heavy books that confer archery skill training",
+    "name": "Generic Archery Paperback",
+    "description": "template for softcover books that confer archery skill training",
     "//isbn13": 9780983248156,
     "weight": "408 g",
     "volume": "556 ml",
