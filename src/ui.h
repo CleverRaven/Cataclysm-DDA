@@ -27,8 +27,6 @@ const int UILIST_CANCEL = -1027;
 const int UILIST_TIMEOUT = -1028;
 const int UILIST_ADDITIONAL = -1029;
 const int MENU_AUTOASSIGN = -1;
-// NOLINTNEXTLINE(cata-use-named-point-constants)
-constexpr point MENU_AUTOASSIGN_POS( MENU_AUTOASSIGN, MENU_AUTOASSIGN );
 
 class input_context;
 class string_input_popup;
@@ -149,6 +147,40 @@ class uilist_callback
 class uilist // NOLINT(cata-xy)
 {
     public:
+        class size_scalar
+        {
+            public:
+                struct auto_assign {
+                };
+
+                size_scalar &operator=( auto_assign );
+                size_scalar &operator=( int val );
+                size_scalar &operator=( const std::function<int()> &fun );
+
+                friend class uilist;
+
+            private:
+                std::function<int()> fun;
+        };
+
+        class pos_scalar
+        {
+            public:
+                struct auto_assign {
+                };
+
+                pos_scalar &operator=( auto_assign );
+                pos_scalar &operator=( int val );
+                // the parameter to the function is the corresponding size vector element
+                // (width for x, height for y)
+                pos_scalar &operator=( const std::function<int( int )> &fun );
+
+                friend class uilist;
+
+            private:
+                std::function<int( int )> fun;
+        };
+
         uilist();
         uilist( const std::string &hotkeys_override );
         // query() will be called at the end of these convenience constructors
@@ -220,10 +252,15 @@ class uilist // NOLINT(cata-xy)
 
         uilist_callback *callback;
 
+        pos_scalar w_x_setup;
+        pos_scalar w_y_setup;
+        size_scalar w_width_setup;
+        size_scalar w_height_setup;
+
         int textwidth;
 
-        int pad_left = 0;
-        int pad_right = 0;
+        size_scalar pad_left_setup;
+        size_scalar pad_right_setup;
 
         // Maximum number of lines to be allocated for displaying descriptions.
         // This only serves as a hint, not a hard limit, so the number of lines
@@ -260,6 +297,9 @@ class uilist // NOLINT(cata-xy)
         int w_width;
         int w_height;
 
+        int pad_left;
+        int pad_right;
+
         int vshift = 0;
 
         int fselected = 0;
@@ -277,9 +317,6 @@ class uilist // NOLINT(cata-xy)
         int vmax = 0;
 
         int desc_lines;
-
-        bool w_x_autoassigned = false;
-        bool w_y_autoassigned = false;
 
         bool started = false;
 

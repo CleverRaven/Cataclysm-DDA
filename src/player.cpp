@@ -2212,8 +2212,6 @@ item::reload_option player::select_ammo( const item &base,
     menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) :
                                base.has_flag( "RELOAD_AND_SHOOT" ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                base.tname() );
-    menu.w_width = -1;
-    menu.w_height = -1;
 
     // Construct item names
     std::vector<std::string> names;

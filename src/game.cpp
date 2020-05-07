@@ -2163,9 +2163,9 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         // TODO: Ideally the setup of uilist would be split into calculate variables (size, width...),
         // and actual window creation. This would allow us to let uilist calculate the width, we can
         // use that to adjust its location afterwards.
-        action_menu.w_y = 0;
-        action_menu.w_x = popup_x;
-        action_menu.w_width = popup_width;
+        action_menu.w_y_setup = 0;
+        action_menu.w_x_setup = popup_x;
+        action_menu.w_width_setup = popup_width;
         // Filtering isn't needed, the number of entries is manageable.
         action_menu.filtering = false;
         // Default menu border color is different, this matches the border of the item info window.
@@ -11334,7 +11334,7 @@ void game::display_visibility()
 
             pointmenu_cb callback( locations );
             creature_menu.callback = &callback;
-            creature_menu.w_y = 0;
+            creature_menu.w_y_setup = 0;
             creature_menu.query();
             if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
                 Creature *creature = critter_at<Creature>( locations[creature_menu.ret] );
@@ -11363,7 +11363,7 @@ void game::display_lighting()
             lighting_menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
         }
 
-        lighting_menu.w_y = 0;
+        lighting_menu.w_y_setup = 0;
         lighting_menu.query();
         if( ( lighting_menu.ret >= 0 ) &&
             ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {

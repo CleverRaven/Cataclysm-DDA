@@ -2415,13 +2415,11 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     }
 
     spellbook_uilist.entries = uilist_initializer;
-    spellbook_uilist.w_height = 24;
-    spellbook_uilist.w_width = 80;
-    spellbook_uilist.w_x = ( TERMX - spellbook_uilist.w_width ) / 2;
-    spellbook_uilist.w_y = ( TERMY - spellbook_uilist.w_height ) / 2;
+    spellbook_uilist.w_height_setup = 24;
+    spellbook_uilist.w_width_setup = 80;
     spellbook_uilist.callback = &sp_cb;
     spellbook_uilist.title = _( "Study a spell:" );
-    spellbook_uilist.pad_left = 38;
+    spellbook_uilist.pad_left_setup = 38;
     spellbook_uilist.query();
     const int action = spellbook_uilist.ret;
     if( action < 0 ) {

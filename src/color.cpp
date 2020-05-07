@@ -888,8 +888,8 @@ void color_manager::show_gui()
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
-                ui_templates.w_y = iHeaderHeight + 1 + iOffsetY;
-                ui_templates.w_height = 18;
+                ui_templates.w_y_setup = iHeaderHeight + 1 + iOffsetY;
+                ui_templates.w_height_setup = 18;
 
                 ui_templates.text = _( "Color templates:" );
 
@@ -918,8 +918,8 @@ void color_manager::show_gui()
 
         } else if( action == "CONFIRM" ) {
             uilist ui_colors;
-            ui_colors.w_y = iHeaderHeight + 1 + iOffsetY;
-            ui_colors.w_height = 18;
+            ui_colors.w_y_setup = iHeaderHeight + 1 + iOffsetY;
+            ui_colors.w_height_setup = 18;
 
             const auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 

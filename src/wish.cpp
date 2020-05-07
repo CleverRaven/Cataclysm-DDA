@@ -225,10 +225,10 @@ void debug_menu::wishmutate( player *p )
         }
         c++;
     }
-    wmenu.w_x = 0;
-    wmenu.w_width = TERMX;
+    wmenu.w_x_setup = 0;
+    wmenu.w_width_setup = TERMX;
     // Disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
-    wmenu.pad_right = wmenu.w_width - 40;
+    wmenu.pad_right_setup = TERMX - 40;
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback cb;
     cb.p = p;
@@ -396,10 +396,10 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     std::vector<const mtype *> mtypes;
 
     uilist wmenu;
-    wmenu.w_x = 0;
-    wmenu.w_width = TERMX;
+    wmenu.w_x_setup = 0;
+    wmenu.w_width_setup = TERMX;
     // Disabled due to foldstring crash //( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
-    wmenu.pad_right = wmenu.w_width - 30;
+    wmenu.pad_right_setup = TERMX - 30;
     wmenu.selected = uistate.wishmonster_selected;
     wish_monster_callback cb( mtypes );
     wmenu.callback = &cb;
@@ -527,17 +527,16 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     int prev_amount = 1;
     int amount = 1;
     uilist wmenu;
-    wmenu.w_x = 0;
-    wmenu.w_width = TERMX;
-    wmenu.pad_right = std::max( TERMX / 2, TERMX - 50 );
+    wmenu.w_x_setup = 0;
+    wmenu.w_width_setup = TERMX;
+    wmenu.pad_right_setup = std::max( TERMX / 2, TERMX - 50 );
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
 
     for( size_t i = 0; i < opts.size(); i++ ) {
         item ity( opts[i], 0 );
-        wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
-                        ity.tname( 1, false ) ) );
+        wmenu.addentry( i, true, 0, ity.tname( 1, false ) );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
         entry_extra_text.color = ity.color();
@@ -654,9 +653,10 @@ void debug_menu::wishskill( player *p )
             const Skill &skill = *sorted_skills[skill_id];
             const int NUM_SKILL_LVL = 21;
             uilist sksetmenu;
-            sksetmenu.w_height = NUM_SKILL_LVL + 4;
-            sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
-            sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
+            const int sksetmenu_w_height = NUM_SKILL_LVL + 4;
+            sksetmenu.w_height_setup = sksetmenu_w_height;
+            sksetmenu.w_x_setup = skmenu.w_x + skmenu.w_width + 1;
+            sksetmenu.w_y_setup = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu_w_height ) / 2 );
             sksetmenu.settext( string_format( _( "Set '%s' to…" ), skill.name() ) );
             const int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
