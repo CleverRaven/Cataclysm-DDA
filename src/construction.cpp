@@ -1325,12 +1325,8 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    static const std::set<ter_id> liquids = {{
-            t_water_sh, t_sewage, t_water_dp, t_water_pool, t_water_moving_sh, t_water_moving_dp,
-        }
-    };
-
-    if( liquids.count( tmpmap.ter( local_tmp ) ) > 0 ) {
+    if( tmpmap.has_flag_ter( TFLAG_SHALLOW_WATER, local_tmp ) ||
+        tmpmap.has_flag_ter( TFLAG_DEEP_WATER, local_tmp ) ) {
         g->m.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
