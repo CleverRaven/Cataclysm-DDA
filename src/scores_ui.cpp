@@ -36,7 +36,7 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
         achievement_completion comp = achievements.is_completed( ach->id );
         return std::make_tuple( comp, ach->name().translated(), ach );
     } );
-    std::sort( sortable_achievements.begin(), sortable_achievements.end() );
+    std::sort( sortable_achievements.begin(), sortable_achievements.end(), localized_compare );
     for( const sortable_achievement &ach : sortable_achievements ) {
         os += achievements.ui_text_for( std::get<const achievement *>( ach ) ) + "\n";
     }
