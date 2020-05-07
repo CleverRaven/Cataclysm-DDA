@@ -10116,6 +10116,23 @@ static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint
     return pts[ret];
 }
 
+static cata::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
+{
+    for( const tripoint &p : g->m.points_in_radius( pos, 1 ) ) {
+        if( p == pos ) {
+            continue;
+        }
+        if( g->m.impassable( p ) ) {
+            continue;
+        }
+        if( g->critter_at( p ) ) {
+            continue;
+        }
+        return p;
+    }
+    return cata::nullopt;
+}
+
 void game::vertical_move( int movez, bool force )
 {
     if( u.is_mounted() ) {
@@ -10397,17 +10414,8 @@ void game::vertical_move( int movez, bool force )
     if( critter_at<npc>( u.pos(), true ) || critter_at<monster>( u.pos(), true ) ) {
         std::string crit_name;
         bool player_displace = false;
-        tripoint displace;
-        for( const tripoint &elem : m.points_in_radius( u.pos(), 1 ) ) {
-            if( elem == u.pos() ) {
-                continue;
-            }
-            if( !m.impassable( elem ) ) {
-                displace = elem;
-                break;
-            }
-        }
-        if( displace != tripoint_zero ) {
+        cata::optional<tripoint> displace = find_empty_spot_nearby( u.pos() );
+        if( displace.has_value() ) {
             npc *guy = g->critter_at<npc>( u.pos(), true );
             if( guy ) {
                 crit_name = guy->get_name();
@@ -10429,17 +10437,19 @@ void game::vertical_move( int movez, bool force )
             if( mon && !mon->mounted_player ) {
                 crit_name = mon->get_name();
                 if( mon->friendly == -1 ) {
-                    mon->setpos( displace );
+                    mon->setpos( *displace );
                     add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
                 } else {
                     player_displace = true;
                 }
             }
             if( player_displace ) {
-                u.setpos( displace );
+                u.setpos( *displace );
                 u.moves -= 20;
                 add_msg( _( "You push past %s blocking the way." ), crit_name );
             }
+        } else {
+            debugmsg( "Failed to find a spot to displace into." );
         }
     }
     if( !npcs_to_bring.empty() ) {
@@ -10578,8 +10588,11 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 
     if( stairs.has_value() ) {
         if( Creature *blocking_creature = critter_at( stairs.value() ) ) {
-            add_msg( _( "There's a %s in the way!" ), blocking_creature->get_name() );
-            return cata::nullopt;
+            bool can_displace = find_empty_spot_nearby( *stairs ).has_value();
+            if( !can_displace ) {
+                add_msg( _( "There's a %s in the way!" ), blocking_creature->get_name() );
+                return cata::nullopt;
+            }
         }
         return stairs;
     }
