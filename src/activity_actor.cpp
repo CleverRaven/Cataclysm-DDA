@@ -487,7 +487,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
         who.cancel_activity();
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-            who.set_value( "THIEF_MODE", "THIF_ASK" );
+            who.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
 
         if( !keep_going ) {
