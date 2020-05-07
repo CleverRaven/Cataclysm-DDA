@@ -157,13 +157,13 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
         // a lower spoil multiplier is better
         return rhs.spoil_multiplier() < spoil_multiplier();
     }
-    if( data->rigid != rhs.data->rigid ) {
-        return rhs.data->rigid;
-    }
     if( it.made_of( SOLID ) ) {
         if( data->watertight != rhs.data->watertight ) {
-            return rhs.data->watertight;
+            return !rhs.data->watertight;
         }
+    }
+    if( data->rigid != rhs.data->rigid ) {
+        return rhs.data->rigid;
     }
     if( remaining_volume() == rhs.remaining_volume() ) {
         return rhs.obtain_cost( it ) < obtain_cost( it );
