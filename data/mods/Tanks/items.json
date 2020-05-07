@@ -15,7 +15,7 @@
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
     "name": "30x113mm ammo belt",
-    "ammo_type": "30mm",
+    "ammo_type": [ "30mm" ],
     "default_ammo": "30mm_hedp",
     "capacity": 300,
     "count": 50,

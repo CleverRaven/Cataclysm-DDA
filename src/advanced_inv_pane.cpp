@@ -80,6 +80,67 @@ bool advanced_inventory_pane::is_filtered( const item &it ) const
     return !filtercache[str]( it );
 }
 
+/** converts a raw list of items to "stacks" - itms that are not count_by_charges that otherwise stack go into one stack */
+static std::list<std::list<item *>> item_list_to_stack( std::list<item *> item_list )
+{
+    std::list<std::list<item *>> ret;
+    for( auto iter_outer = item_list.begin(); iter_outer != item_list.end(); ) {
+        std::list<item *> item_stack{};
+        for( auto iter_inner = item_list.begin(); iter_inner != item_list.end(); ) {
+            if( iter_outer == iter_inner ) {
+                ++iter_inner;
+            } else if( ( *iter_outer )->display_stacked_with( **iter_inner ) ) {
+                item_stack.push_back( *iter_inner );
+                iter_inner = item_list.erase( iter_inner );
+            } else {
+                ++iter_inner;
+            }
+        }
+
+        if( item_stack.empty() && !item_list.empty() ) {
+            item_stack.push_back( *iter_outer );
+            iter_outer = item_list.erase( iter_outer );
+        } else {
+            ++iter_outer;
+        }
+        ret.push_back( item_stack );
+    }
+    return ret;
+}
+
+std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inventory_pane &pane,
+        advanced_inv_area &square )
+{
+    std::vector<advanced_inv_listitem> items;
+    if( has_weapon() && !weapon.contents.empty() ) {
+        for( std::list<item *> it_stack : item_list_to_stack( weapon.contents.all_items_top() ) ) {
+            advanced_inv_listitem adv_it( it_stack, -1, square.id, false );
+            if( !pane.is_filtered( *adv_it.items.front() ) ) {
+                square.volume += adv_it.volume;
+                square.weight += adv_it.weight;
+                items.push_back( adv_it );
+            }
+        }
+    }
+
+    int worn_index = -2;
+    for( item &worn_item : worn ) {
+        if( worn_item.contents.empty() ) {
+            continue;
+        }
+        for( std::list<item *> it_stack : item_list_to_stack( worn_item.contents.all_items_top() ) ) {
+            advanced_inv_listitem adv_it( it_stack, worn_index--, square.id, false );
+            if( !pane.is_filtered( *adv_it.items.front() ) ) {
+                square.volume += adv_it.volume;
+                square.weight += adv_it.weight;
+                items.push_back( adv_it );
+            }
+        }
+    }
+
+    return items;
+}
+
 void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         bool vehicle_override )
 {
@@ -90,24 +151,11 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         return;
     }
     map &m = g->m;
-    player &u = g->u;
+    avatar &u = g->u;
     // Existing items are *not* cleared on purpose, this might be called
     // several times in case all surrounding squares are to be shown.
     if( square.id == AIM_INVENTORY ) {
-        const invslice &stacks = u.inv.slice();
-        for( size_t x = 0; x < stacks.size(); ++x ) {
-            std::list<item *> item_pointers;
-            for( item &i : *stacks[x] ) {
-                item_pointers.push_back( &i );
-            }
-            advanced_inv_listitem it( item_pointers, x, square.id, false );
-            if( is_filtered( *it.items.front() ) ) {
-                continue;
-            }
-            square.volume += it.volume;
-            square.weight += it.weight;
-            items.push_back( it );
-        }
+        items = u.get_AIM_inventory( *this, square );
     } else if( square.id == AIM_WORN ) {
         auto iter = u.worn.begin();
         for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
@@ -124,7 +172,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         if( cont != nullptr ) {
             if( !cont->is_container_empty() ) {
                 // filtering does not make sense for liquid in container
-                item *it = &square.get_container( in_vehicle() )->contents.front();
+                item *it = &square.get_container( in_vehicle() )->contents.legacy_front();
                 advanced_inv_listitem ait( it, 0, 1, square.id, in_vehicle() );
                 square.volume += ait.volume;
                 square.weight += ait.weight;

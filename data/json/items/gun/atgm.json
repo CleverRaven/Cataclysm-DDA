@@ -13,7 +13,7 @@
     "to_hit": -6,
     "bashing": 12,
     "material": "steel",
-    "ammo": "atgm",
+    "ammo": [ "atgm" ],
     "skill": "launcher",
     "range": 15,
     "dispersion": 50,

@@ -388,25 +388,8 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         t->reset_target( global_part_pos3( *t ) );
     }
 
-    // Find radius of a circle centered at u encompassing all points turrets can aim at
-    // FIXME: this calculation is fine for square distances, but results in an underestimation
-    //        when used with real circles
-    int range_total = 0;
-    for( vehicle_part *t : turrets ) {
-        int range = turret_query( *t ).range();
-        tripoint pos = global_part_pos3( *t );
-
-        int res = 0;
-        res = std::max( res, rl_dist( g->u.pos(), pos + point( range, 0 ) ) );
-        res = std::max( res, rl_dist( g->u.pos(), pos + point( -range, 0 ) ) );
-        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, range ) ) );
-        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, -range ) ) );
-        range_total = std::max( range_total, res );
-    }
-
     // Get target
-    std::vector<tripoint> trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr,
-                                       range_total, nullptr, nullptr, this, turrets );
+    target_handler::trajectory trajectory = target_handler::mode_turrets( g->u, *this, turrets );
 
     bool got_target = !trajectory.empty();
     if( got_target ) {

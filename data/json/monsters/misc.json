@@ -65,6 +65,7 @@
     "melee_cut": 0,
     "armor_bash": 2,
     "armor_cut": 2,
+    "armor_bullet": 2,
     "harvest": "exempt",
     "special_attacks": [ [ "GENERATOR", 1 ] ],
     "death_function": [ "GAMEOVER" ],

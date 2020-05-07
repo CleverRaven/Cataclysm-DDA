@@ -5,7 +5,7 @@
     "type": "AMMO",
     "name": { "str": ".45 ACP FMJ" },
     "description": ".45 ACP ammunition with 230gr FMJ bullets.  Noted for its stopping power, the .45 ACP round has been common for almost 150 years.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -3, "armor_penetration": 6 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 6 } }
   },
   {
     "id": "45_jhp",
@@ -25,7 +25,7 @@
     "ammo_type": "45",
     "casing": "45_casing",
     "range": 16,
-    "damage": { "damage_type": "stab", "amount": 30, "armor_penetration": 2 },
+    "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 2 },
     "dispersion": 50,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
@@ -40,7 +40,7 @@
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 4 }, "dispersion": -10, "recoil": 60 }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 4 }, "dispersion": -10, "recoil": 60 }
   },
   {
     "id": "bp_45_acp",
@@ -49,7 +49,7 @@
     "name": { "str": ".45 ACP FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -63,7 +63,7 @@
     "name": { "str": ".45 ACP JHP, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -75,7 +75,7 @@
     "copy-from": "45_acp",
     "type": "AMMO",
     "name": { "str": ".45 FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -84,7 +84,7 @@
     "copy-from": "45_jhp",
     "type": "AMMO",
     "name": { "str": ".45 ACP JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -93,7 +93,7 @@
     "copy-from": "45_super",
     "type": "AMMO",
     "name": { "str": ".45 ACP +P, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

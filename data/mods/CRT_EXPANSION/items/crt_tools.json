@@ -12,7 +12,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "sub": "hotplate",
     "initial_charges": 75,
     "max_charges": 75,

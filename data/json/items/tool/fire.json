@@ -11,7 +11,7 @@
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": { "type": "firestarter" },
     "magazines": [
@@ -28,8 +28,7 @@
         ]
       ]
     ],
-    "flags": [ "FIRESTARTER" ],
-    "magazine_well": 1
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "fire_drill",
@@ -150,7 +149,7 @@
     "material": "aluminum",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "initial_charges": 25,
     "max_charges": 50,
     "charges_per_use": 1,
@@ -180,7 +179,7 @@
     "material": "aluminum",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "initial_charges": 25,
     "max_charges": 50,
     "charges_per_use": 1,
@@ -210,7 +209,7 @@
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "tinder",
+    "ammo": [ "tinder" ],
     "max_charges": 100,
     "use_action": {
       "target": "tinderbox_on",
@@ -235,7 +234,7 @@
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "tinder",
+    "ammo": [ "tinder" ],
     "max_charges": 100,
     "turns_per_charge": 600,
     "revert_to": "tinderbox",

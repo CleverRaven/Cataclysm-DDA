@@ -13,7 +13,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "light_red",
-    "ammo": "signal_flare",
+    "ammo": [ "signal_flare" ],
     "skill": "pistol",
     "dispersion": 600,
     "durability": 7,

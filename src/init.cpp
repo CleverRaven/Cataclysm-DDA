@@ -284,9 +284,6 @@ void DynamicDataLoader::initialize()
     add( "COMESTIBLE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_comestible( jo, src );
     } );
-    add( "CONTAINER", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_container( jo, src );
-    } );
     add( "ENGINE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_engine( jo, src );
     } );
@@ -615,7 +612,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
-            { _( "Achivements" ), &achievement::finalize },
+            { _( "Achievements" ), &achievement::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif

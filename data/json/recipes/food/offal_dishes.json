@@ -275,6 +275,7 @@
     "difficulty": 5,
     "time": "80 m",
     "batch_time_factors": [ 83, 5 ],
+    "container": "can_medium",
     "contained": true,
     "qualities": [
       { "id": "SAW_M", "level": 1 },

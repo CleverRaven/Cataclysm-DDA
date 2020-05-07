@@ -20,7 +20,8 @@ functions. Don't forget to add the deserialization function of your new
 activity actor to the `deserialize_functions` map towards the bottom of
 `activity_actor.cpp`.
 
-4. `player_activity.cpp` Optionally update `can_resume_with`.
+4. If this activity is resumable, `override` 
+`activity_actor::can_resume_with_internal`
 
 5. Construct your activity actor and then pass it to the constructor for
 `player_activity`. The newly constructed activity can then be assigned

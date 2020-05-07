@@ -15,10 +15,10 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "762x25",
+    "ammo": [ "762x25" ],
     "skill": "smg",
     "range": 2,
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 120,
     "durability": 8,
     "min_cycle_recoil": 270,
@@ -55,11 +55,10 @@
     "to_hit": -2,
     "bashing": 10,
     "material": [ "steel", "plastic" ],
-    "ammo": "762x25",
+    "ammo": [ "762x25" ],
     "dispersion": 225,
     "durability": 7,
     "min_cycle_recoil": 270,
-    "magazine_well": 1,
     "magazines": [ [ "762x25", [ "tokarevmag" ] ] ]
   }
 ]

@@ -109,7 +109,7 @@
     "material": [ "iron", "wood" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "weight": 1814,
     "volume": 4,
     "bashing": 12,
@@ -144,7 +144,7 @@
     "material": [ "iron", "wood" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "weight": 1133,
     "volume": 6,
     "bashing": 12,
@@ -352,10 +352,7 @@
     "volume": 45,
     "bashing": 5,
     "to_hit": -3,
-    "contains": 45,
-    "material": [ "steel" ],
-    "watertight": true,
-    "seals": true
+    "material": [ "steel" ]
   },
   {
     "id": "nx17",
@@ -451,7 +448,7 @@
     "material": "wood",
     "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "archery",
-    "ammo": "dart",
+    "ammo": [ "dart" ],
     "weight": 440,
     "volume": 4,
     "bashing": 8,

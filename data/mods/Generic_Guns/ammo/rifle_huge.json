@@ -14,14 +14,14 @@
     "copy-from": "rifle_huge_ball",
     "name": { "str_sp": "huge rifle ammo, AP" },
     "description": "Huge rifle ammunition like this bridges the gap between light cannons and big game rifles.  It's suitable for taking on light vehicles and other materiel, or hunting extremely large game.  These armor piercing munitions feature tungsten steel penetrators for use against light-skinned vehicles.",
-    "relative": { "damage": -10, "pierce": 20 }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 20 } }
   },
   {
     "id": "reloaded_rifle_huge_ball",
     "type": "AMMO",
     "copy-from": "rifle_huge_ball",
     "name": { "str_sp": "huge rifle ammo, ball (reloaded)" },
-    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] }
   },
   {
@@ -29,7 +29,7 @@
     "type": "AMMO",
     "copy-from": "rifle_huge_AP",
     "name": { "str_sp": "huge rifle ammo, AP (reloaded)" },
-    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] }
   },
   {
@@ -37,7 +37,12 @@
     "copy-from": "rifle_huge_ball",
     "type": "AMMO",
     "name": { "str_sp": "rifle ammo, ball (black powder)" },
-    "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
+      "recoil": 0.57,
+      "dispersion": 1.2
+    },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -46,7 +51,12 @@
     "copy-from": "rifle_huge_AP",
     "type": "AMMO",
     "name": { "str_sp": "rifle ammo, AP (black powder)" },
-    "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
+      "recoil": 0.57,
+      "dispersion": 1.2
+    },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }

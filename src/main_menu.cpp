@@ -468,10 +468,11 @@ void main_menu::load_char_templates()
             true ) ) {
         path = native_to_utf8( path );
         path.erase( path.find( ".template" ), std::string::npos );
-        path.erase( 0, path.find_last_of( "\\//" ) + 1 );
+        path.erase( 0, path.find_last_of( "\\/" ) + 1 );
         templates.push_back( path );
     }
-    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
+    std::sort( templates.begin(), templates.end(), localized_compare );
+    std::reverse( templates.begin(), templates.end() );
 }
 
 bool main_menu::opening_screen()

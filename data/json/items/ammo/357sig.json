@@ -17,7 +17,7 @@
     "ammo_type": "357sig",
     "casing": "357sig_casing",
     "range": 16,
-    "damage": { "damage_type": "stab", "amount": 28, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 28, "armor_penetration": 4 },
     "dispersion": 30,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
@@ -28,14 +28,14 @@
     "type": "AMMO",
     "name": { "str": ".357 SIG JHP" },
     "description": "Jacketed hollow point .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": -2 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -2 } }
   },
   {
     "id": "reloaded_357sig_fmj",
     "copy-from": "357sig_fmj",
     "type": "AMMO",
     "name": { "str": ".357 SIG FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -44,7 +44,7 @@
     "copy-from": "357sig_jhp",
     "type": "AMMO",
     "name": { "str": ".357 SIG JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

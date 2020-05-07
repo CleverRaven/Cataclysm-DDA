@@ -60,7 +60,7 @@
     "name": { "str": "diffracting lens", "str_pl": "diffracting lenses" },
     "description": "A set of optics made to fit on laser weapons, which will diffract the laser beam into several lower powered beams.  This slightly increases point-blank damage and makes it difficult to not hit, but reduces range",
     "range_modifier": -7,
-    "damage_modifier": 2,
+    "damage_modifier": { "damage_type": "stab", "amount": 2 },
     "ammo_effects": [ "SHOT" ],
     "min_skills": [ [ "weapon", 1 ] ],
     "mod_targets": [ "rifle", "pistol", "smg", "shotgun" ]

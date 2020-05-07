@@ -389,10 +389,12 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     result.insert( result.begin(), group_both.begin(), group_both.end() );
     result.insert( result.begin(), group_gender.begin(), group_gender.end() );
 
-    std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
-    for( const itype_id &elem : bonus ) {
-        if( elem != no_bonus ) {
-            result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+    if( !has_flag( "NO_BONUS_ITEMS" ) ) {
+        std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
+        for( const itype_id &elem : bonus ) {
+            if( elem != no_bonus ) {
+                result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+            }
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
@@ -405,10 +407,10 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
-        clear_faults( it );
-        if( it.is_holster() && it.contents.num_item_stacks() == 1 ) {
-            clear_faults( it.contents.front() );
-        }
+        it.visit_items( []( item * it ) {
+            clear_faults( *it );
+            return VisitResponse::NEXT;
+        } );
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
@@ -676,7 +678,10 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
             while( result.charges > 0 ) {
                 const item pushed = result.in_its_container();
                 ret.push_back( pushed );
-                result.mod_charges( pushed.contents.empty() ? -pushed.charges : -pushed.contents.back().charges );
+                const int charges = pushed.contents.empty() ? -pushed.charges :
+                                    -pushed.contents.only_item().charges;
+                // get the first contained item (there's only one because of in_its_container())
+                result.mod_charges( charges );
             }
         }
     }

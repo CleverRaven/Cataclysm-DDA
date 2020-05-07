@@ -13,7 +13,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "762x25",
+    "ammo_type": [ "762x25" ],
     "capacity": 71,
     "reliability": 7,
     "reload_time": 190,
@@ -32,7 +32,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "762x25",
+    "ammo_type": [ "762x25" ],
     "capacity": 35,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -50,7 +50,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "762x25",
+    "ammo_type": [ "762x25" ],
     "capacity": 8,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]

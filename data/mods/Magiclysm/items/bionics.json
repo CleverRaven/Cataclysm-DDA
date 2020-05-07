@@ -8,5 +8,33 @@
     "price": 450000,
     "weight": "500 g",
     "difficulty": 8
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_bio_sneeze_beam",
+    "values": [ { "value": "MAX_MANA", "add": 500 } ]
+  },
+  {
+    "id": "bio_sneeze_beam",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Crystallized Mana Nose Replacement" },
+    "description": "A large gem made with crystallized mana and some other stabilizing metals.  Comes with a specially designed power pack (installed into the skull) that does not interfere with your mana ley lines.  WARNING: for Technomancer use only.  By using this spell you are waiving all liability of Frikken Laser Beams Inc.  and its subsidiaries.",
+    "price": 450000,
+    "weight": "750 g",
+    "volume": "177 ml",
+    "difficulty": 8
+  },
+  {
+    "id": "bio_sneeze_beam",
+    "type": "bionic",
+    "name": { "str": "Crystallized Mana Nose Replacement" },
+    "description": "A large gem made with crystallized mana and some other stabilizing metals.  Comes with a specially designed power pack (installed into the skull) that does not interfere with your mana ley lines.  WARNING: for Technomancer use only.  By using this spell you are waiving all liability of Frikken Laser Beams Inc.  and its subsidiaries.",
+    "occupied_bodyparts": [ [ "HEAD", 10 ], [ "MOUTH", 1 ] ],
+    "capacity": "500 kJ",
+    "learned_spells": { "overcharge_eyes": 4 },
+    "canceled_mutations": [ "EARTHSHAPER" ],
+    "enchantments": [ "ench_bio_sneeze_beam" ],
+    "flags": [ "BIONIC_SHOCKPROOF" ]
   }
 ]

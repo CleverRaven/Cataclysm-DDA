@@ -70,7 +70,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( "9mm" );
     test_items[ "G3" ] = item( "ar15" ).ammo_set( "223" );
     test_items[ "G4" ] = item( "remington_700" ).ammo_set( "270" );
-    test_items[ "G4" ].put_in( item( "rifle_scope" ) );
+    test_items[ "G4" ].put_in( item( "rifle_scope" ), item_pocket::pocket_type::MOD );
 
     if( what == "AMMO" ) {
         header = {
@@ -100,7 +100,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     } else if( what == "ARMOR" ) {
         header = {
-            "Name", "Encumber (fit)", "Warmth", "Weight", "Storage", "Coverage", "Bash", "Cut", "Acid", "Fire"
+            "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
         };
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
@@ -108,10 +108,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.get_encumber( g->u ) ) );
             r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.get_storage() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.get_coverage() ) );
             r.push_back( to_string( obj.bash_resist() ) );
             r.push_back( to_string( obj.cut_resist() ) );
+            r.push_back( to_string( obj.bullet_resist() ) );
             r.push_back( to_string( obj.acid_resist() ) );
             r.push_back( to_string( obj.fire_resist() ) );
             rows.push_back( r );
@@ -214,14 +214,14 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( e->gun ) {
                 item gun( e );
                 if( !gun.magazine_integral() ) {
-                    gun.put_in( item( gun.magazine_default() ) );
+                    gun.put_in( item( gun.magazine_default() ), item_pocket::pocket_type::MAGAZINE );
                 }
                 gun.ammo_set( gun.ammo_default( false ), gun.ammo_capacity() );
 
                 dump( test_npcs[ "S1" ], gun );
 
                 if( gun.type->gun->barrel_length > 0_ml ) {
-                    gun.put_in( item( "barrel_small" ) );
+                    gun.put_in( item( "barrel_small" ), item_pocket::pocket_type::MOD );
                     dump( test_npcs[ "S1" ], gun );
                 }
             }
