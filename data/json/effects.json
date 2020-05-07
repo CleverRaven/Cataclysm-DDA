@@ -1953,7 +1953,7 @@
   },
   {
     "type": "effect_type",
-    "id": "full",
+    "id": "hunger_full",
 	"name": [ "Full" ],
     "desc": [ "You feel quite full, and a bit sluggish." ],
 	"apply_message": "You feel quite full, and a bit sluggish.",
@@ -1965,7 +1965,7 @@
   },
   {
     "type": "effect_type",
-    "id": "engorged",
+    "id": "hunger_engorged",
 	"name": [ "Engorged" ],
 	"desc": [ "Your stomach is full to bursting. This was a mistake." ],
 	"apply_message": "Your stomach is full to bursting. This was a mistake.",
@@ -1976,5 +1976,37 @@
       "vomit_chance": [ 5 ],
 	  "pain_amount": [ 3 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_satisfied"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_could_eat"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_hungry"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_very_hungry"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_near_starving"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_starving"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_famished"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_blank"
   }
 ]

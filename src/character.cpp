@@ -122,12 +122,10 @@ static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
-static const efftype_id effect_engorged( "engorged" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_frostbite( "frostbite" );
 static const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
-static const efftype_id effect_full( "full" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_got_checked( "got_checked" );
@@ -138,14 +136,24 @@ static const efftype_id effect_heating_bionic( "heating_bionic" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_hot_speed( "hot_speed" );
+static const efftype_id effect_hunger_blank( "hunger_blank" );
+static const efftype_id effect_hunger_could_eat( "hunger_could_eat" );
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
+static const efftype_id effect_hunger_famished( "hunger_famished" );
+static const efftype_id effect_hunger_full( "hunger_full" );
+static const efftype_id effect_hunger_hungry( "hunger_hungry" );
+static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
+static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
+static const efftype_id effect_hunger_starving( "hunger_starving" );
+static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_jetinjector( "jetinjector" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_melatonin_supplements( "melatonin" );
 static const efftype_id effect_masked_scent( "masked_scent" );
+static const efftype_id effect_melatonin_supplements( "melatonin" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
@@ -4271,56 +4279,38 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
     const bool just_ate = stomach.time_since_ate() < 15_minutes;
     // i ate a meal recently enough that i shouldn't need another meal
     const bool recently_ate = stomach.time_since_ate() < 3_hours;
-    if( calorie_deficit ) {
-        if( contains >= cap ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_red;
-        } else if( contains > cap * 3 / 4 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_yellow;
-        } else if( just_ate && contains > cap / 2 ) {
-            hunger_string = _( "Satisfied" );
-            hunger_color = c_green;
-        } else if( just_ate ) {
-            hunger_string = _( "Hungry" );
-            hunger_color = c_yellow;
-        } else if( recently_ate ) {
-            hunger_string = _( "Very Hungry" );
-            hunger_color = c_yellow;
-        } else if( get_bmi() < character_weight_category::emaciated ) {
-            hunger_string = _( "Starving!" );
-            hunger_color = c_red;
-        } else if( get_bmi() < character_weight_category::underweight ) {
-            hunger_string = _( "Near starving" );
-            hunger_color = c_red;
-        } else {
-            hunger_string = _( "Famished" );
-            hunger_color = c_light_red;
-        }
+    if( has_effect( effect_hunger_engorged ) ) {
+        hunger_string = _( "Engorged" );
+        hunger_color = c_red;
+    } else if( has_effect( effect_hunger_full ) ) {
+        hunger_string = _( "Full" );
+        hunger_color = c_yellow;
+    } else if( has_effect( effect_hunger_satisfied ) ) {
+        hunger_string = _( "Satisfied" );
+        hunger_color = c_green;
+    } else if( has_effect( effect_hunger_could_eat ) ) {
+        hunger_string = _( "Could Eat" );
+        hunger_color = c_dark_gray;
+    } else if( has_effect( effect_hunger_blank ) ) {
+        hunger_string.clear();
+    } else if( has_effect( effect_hunger_hungry ) ) {
+        hunger_string = _( "Hungry" );
+        hunger_color = c_yellow;
+    } else if( has_effect( effect_hunger_very_hungry ) ) {
+        hunger_string = _( "Very Hungry" );
+        hunger_color = c_yellow;
+    } else if( has_effect( effect_hunger_near_starving ) ) {
+        hunger_string = _( "Near starving" );
+        hunger_color = c_red;
+    } else if( has_effect( effect_hunger_starving ) ) {
+        hunger_string = _( "Starving!" );
+        hunger_color = c_red;
+    } else if( has_effect( effect_hunger_famished ) ) {
+        hunger_string = _( "Famished" );
+        hunger_color = c_light_red;
     } else {
-        if( contains >= cap * 5 / 6 ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_red;
-        } else if( contains > cap * 11 / 20 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_yellow;
-        } else if( recently_ate && contains >= cap * 3 / 8 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
-                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
-            hunger_string = _( "Peckish" );
-            hunger_color = c_dark_gray;
-        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
-            hunger_string.clear();
-        } else {
-            if( get_bmi() > character_weight_category::overweight ) {
-                hunger_string = _( "Hungry" );
-            } else {
-                hunger_string = _( "Very Hungry" );
-            }
-            hunger_color = c_yellow;
-        }
+        hunger_string = _( "ERROR!" );
+        hunger_color = c_light_red;
     }
 
     return std::make_pair( hunger_string, hunger_color );
@@ -4698,11 +4688,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
             // you're engorged! your stomach is full to bursting!
             set_hunger( -61 );
-            add_effect(effect_engorged, 30_minutes);
         } else if( stomach.contains() >= stomach_capacity / 2 && get_hunger() > -21 ) {
             // full
             set_hunger( -21 );
-            add_effect(effect_full, 30_minutes);
         } else if( stomach.contains() >= stomach_capacity / 8 && get_hunger() > -1 ) {
             // that's really all the food you need to feel full
             set_hunger( -1 );
@@ -4725,11 +4713,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
             // you're engorged! your stomach is full to bursting!
             set_hunger( -61 );
-            add_effect(effect_engorged, 30_minutes);
         } else if( stomach.contains() >= stomach_capacity * 3 / 4 && get_hunger() > -21 ) {
             // full
             set_hunger( -21 );
-            add_effect(effect_full, 30_minutes);
         } else if( stomach.contains() >= stomach_capacity / 2 && get_hunger() > -1 ) {
             // that's really all the food you need to feel full
             set_hunger( -1 );
@@ -4746,6 +4732,69 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     // since water is not limited by intake but by absorption, we can just set thirst to zero
     if( mycus || mouse ) {
         set_thirst( 0 );
+    }
+
+    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
+    const units::volume contains = stomach.contains();
+    const units::volume cap = stomach.capacity( *this );
+    std::string hunger_string;
+    nc_color hunger_color = c_white;
+    efftype_id hunger_effect;
+    // i ate just now!
+    const bool just_ate = stomach.time_since_ate() < 15_minutes;
+    // i ate a meal recently enough that i shouldn't need another meal
+    const bool recently_ate = stomach.time_since_ate() < 3_hours;
+    if( calorie_deficit ) {
+        if( contains >= cap ) {
+            hunger_effect = effect_hunger_engorged;
+        } else if( contains > cap * 3 / 4 ) {
+            hunger_effect = effect_hunger_full;
+        } else if( just_ate && contains > cap / 2 ) {
+            hunger_effect = effect_hunger_satisfied;
+        } else if( just_ate ) {
+            hunger_effect = effect_hunger_hungry;
+        } else if( recently_ate ) {
+            hunger_effect = effect_hunger_very_hungry;
+        } else if( get_bmi() < character_weight_category::underweight ) {
+            hunger_effect = effect_hunger_near_starving;
+        } else if( get_bmi() < character_weight_category::emaciated ) {
+            hunger_effect = effect_hunger_starving;
+        } else {
+            hunger_effect = effect_hunger_famished;
+        }
+    } else {
+        if( contains >= cap * 5 / 6 ) {
+            hunger_effect = effect_hunger_engorged;
+        } else if( contains > cap * 11 / 20 ) {
+            hunger_effect = effect_hunger_full;
+        } else if( recently_ate && contains >= cap * 3 / 8 ) {
+            hunger_effect = effect_hunger_satisfied;
+        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
+                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
+            hunger_effect = effect_hunger_could_eat;
+        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
+            hunger_effect = effect_hunger_blank;
+            hunger_string.clear();
+        } else {
+            if( get_bmi() > character_weight_category::overweight ) {
+                hunger_effect = effect_hunger_hungry;
+            } else {
+                hunger_effect = effect_hunger_very_hungry;
+            }
+        }
+    }
+    if( !has_effect( hunger_effect ) ) {
+        remove_effect( effect_hunger_engorged );
+        remove_effect( effect_hunger_full );
+        remove_effect( effect_hunger_satisfied );
+        remove_effect( effect_hunger_could_eat );
+        remove_effect( effect_hunger_hungry );
+        remove_effect( effect_hunger_very_hungry );
+        remove_effect( effect_hunger_near_starving );
+        remove_effect( effect_hunger_starving );
+        remove_effect( effect_hunger_famished );
+        remove_effect( effect_hunger_blank );
+        add_effect( hunger_effect, 24_hours, num_bp, true );
     }
 }
 
