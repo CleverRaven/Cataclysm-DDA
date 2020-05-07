@@ -130,7 +130,7 @@
     "id": "book_fict_soft_ya_adrk",
     "type": "BOOK",
     "name": "The Adorkable Girl",
-    "description": "When a therapist's daughter transfers to a new school, she decides to change her personality type.  As her social life begins to blossom, can she maintain a healthy boundary between her home life and her public persona? ",
+    "description": "When a therapist's daughter transfers to a new school, she decides to change her personality type.  As her social life begins to blossom, can she maintain a healthy boundary between her home life and her public persona?",
     "copy-from": "book_fict_soft_ya_quiddity",
     "relative": { "weight": -150, "time": 5, "chapters": -6 }
   },
