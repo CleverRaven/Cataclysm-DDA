@@ -455,11 +455,6 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             }
         }
 
-        // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-        if( !has_active_bionic( bio_cqb ) ) {
-            melee_train( *this, 2, 5, cur_weapon );
-        }
-
         // Cap stumble penalty, heavy weapons are quite weak already
         move_cost += std::min( 60, stumble_pen );
         if( martial_arts_data.has_miss_recovery_tec( cur_weapon ) ) {
