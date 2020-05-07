@@ -1,27 +1,26 @@
 #pragma once
-#ifndef MAPDATA_H
-#define MAPDATA_H
+#ifndef CATA_SRC_MAPDATA_H
+#define CATA_SRC_MAPDATA_H
 
-#include <cstddef>
 #include <array>
 #include <bitset>
+#include <cstddef>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
+#include "calendar.h"
 #include "color.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 
 class JsonObject;
+class player;
+struct furn_t;
 struct itype;
 struct ter_t;
-struct furn_t;
-class player;
 struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
@@ -280,6 +279,10 @@ struct map_data_common_t {
 
         bool transparent = false;
 
+        const std::set<std::string> &get_flags() const {
+            return flags;
+        }
+
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) > 0;
         }
@@ -373,6 +376,8 @@ struct furn_t : map_data_common_t {
     cata::value_ptr<furn_workbench_info> workbench;
 
     cata::value_ptr<plant_data> plant;
+
+    cata::value_ptr<float> surgery_skill_multiplier;
 
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
@@ -562,7 +567,9 @@ extern furn_id f_null,
        f_brazier,
        f_firering,
        f_tourist_table,
-       f_camp_chair;
+       f_camp_chair,
+       f_sign,
+       f_gunsafe_ml;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
@@ -572,4 +579,4 @@ void check_furniture_and_terrain();
 
 void finalize_furniture_and_terrain();
 
-#endif
+#endif // CATA_SRC_MAPDATA_H

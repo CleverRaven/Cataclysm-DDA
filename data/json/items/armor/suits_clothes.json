@@ -8,6 +8,7 @@
     "weight": "1800 g",
     "volume": "3250 ml",
     "price": 211000,
+    "price_postapoc": 50,
     "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
@@ -30,6 +31,7 @@
     "weight": "1420 g",
     "volume": "5750 ml",
     "price": 2500,
+    "price_postapoc": 10,
     "to_hit": -3,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
@@ -38,7 +40,11 @@
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 90,
     "encumbrance": 30,
-    "storage": "3250 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
@@ -52,6 +58,7 @@
     "weight": "7033 g",
     "volume": "12 L",
     "price": 14500,
+    "price_postapoc": 100,
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -60,7 +67,7 @@
     "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "coverage": 100,
     "encumbrance": 30,
-    "storage": "1 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
     "warmth": 50,
     "material_thickness": 5,
     "environmental_protection": 2,
@@ -74,6 +81,7 @@
     "weight": "610 g",
     "volume": "3500 ml",
     "price": 8900,
+    "price_postapoc": 50,
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -82,7 +90,12 @@
     "covers": [ "LEGS", "ARMS", "TORSO" ],
     "coverage": 95,
     "encumbrance": 2,
-    "storage": "2 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "POCKETS" ]
@@ -95,6 +108,7 @@
     "weight": "810 g",
     "volume": "5 L",
     "price": 20000,
+    "price_postapoc": 50,
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -103,7 +117,12 @@
     "covers": [ "LEGS", "ARMS", "TORSO" ],
     "coverage": 95,
     "encumbrance": 2,
-    "storage": "2500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "POCKETS", "OVERSIZE" ]
@@ -127,6 +146,7 @@
     "weight": "810 g",
     "volume": "5 L",
     "price": 11000,
+    "price_postapoc": 50,
     "to_hit": -3,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
@@ -135,7 +155,10 @@
     "covers": [ "LEGS", "ARMS", "TORSO" ],
     "coverage": 95,
     "encumbrance": 7,
-    "storage": "1 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
+    ],
     "warmth": 15,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
@@ -148,6 +171,7 @@
     "weight": "168 g",
     "volume": "1 L",
     "price": 2500,
+    "price_postapoc": 250,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -167,6 +191,7 @@
     "weight": "7033 g",
     "volume": "12 L",
     "price": 14500,
+    "price_postapoc": 50,
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -175,7 +200,10 @@
     "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "coverage": 100,
     "encumbrance": 30,
-    "storage": "1 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
+    ],
     "warmth": 50,
     "material_thickness": 7,
     "environmental_protection": 2,
@@ -189,6 +217,7 @@
     "weight": "883 g",
     "volume": "3 L",
     "price": 8000,
+    "price_postapoc": 350,
     "to_hit": -1,
     "material": [ "wool" ],
     "symbol": "[",
@@ -209,6 +238,7 @@
     "weight": "300 g",
     "volume": "500 ml",
     "price": 2500,
+    "price_postapoc": 50,
     "material": [ "lycra" ],
     "symbol": "[",
     "color": "dark_gray",

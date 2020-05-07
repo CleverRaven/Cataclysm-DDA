@@ -1,36 +1,37 @@
 #include "gamemode_tutorial.h" // IWYU pragma: associated
 
 #include <array>
-#include <vector>
+#include <cstdlib>
+#include <memory>
+#include <string>
 
 #include "action.h"
 #include "avatar.h"
-#include "coordinate_conversions.h"
-#include "game.h"
-#include "gamemode_tutorial.h"
-#include "json.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "mapdata.h"
-#include "output.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
-#include "player.h"
-#include "profession.h"
-#include "scent_map.h"
-#include "translations.h"
-#include "trap.h"
 #include "calendar.h"
+#include "coordinate_conversions.h"
+#include "debug.h"
+#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "player.h"
 #include "pldata.h"
-#include "units.h"
+#include "point.h"
+#include "profession.h"
+#include "scent_map.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
-#include "point.h"
+#include "units.h"
 #include "weather.h"
 
 static const skill_id skill_gun( "gun" );
@@ -271,9 +272,6 @@ void tutorial_game::post_action( action_id act )
             if( it.is_armor() ) {
                 if( it.get_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
-                }
-                if( it.get_storage() >= units::from_liter( 5 ) ) {
-                    add_message( tut_lesson::LESSON_WORE_STORAGE );
                 }
                 if( it.get_env_resist() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_MASK );

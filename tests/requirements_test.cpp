@@ -1,5 +1,9 @@
 #include "requirements.h"
 
+#include <algorithm>
+#include <cstddef>
+#include <memory>
+
 #include "catch/catch.hpp"
 
 static void test_requirement_deduplication(

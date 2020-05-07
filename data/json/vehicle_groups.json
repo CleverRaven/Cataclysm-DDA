@@ -54,6 +54,7 @@
       [ "humvee", 150 ],
       [ "humvee_gl", 50 ],
       [ "icecream_truck", 50 ],
+      [ "food_truck", 50 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 100 ],
       [ "4x4_car", 500 ]
@@ -70,6 +71,12 @@
       [ "raft", 2000 ],
       [ "wood_rowboat_double", 1500 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "boats_narrow",
+    "//": "1 tile wide boats for storage sheds",
+    "vehicles": [ [ "canoe", 2000 ], [ "kayak", 1500 ], [ "kayak_racing", 500 ] ]
   },
   {
     "type": "vehicle_group",
@@ -133,9 +140,11 @@
       [ "rv", 800 ],
       [ "limousine", 200 ],
       [ "lux_rv", 100 ],
+      [ "surv_rv", 1 ],
       [ "meth_lab", 300 ],
       [ "armored_car", 300 ],
       [ "superbike", 50 ],
+      [ "surv_car", 2 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 300 ],
       [ "4x4_car", 400 ]
@@ -228,6 +237,7 @@
       [ "motorcycle_sidecart", 300 ],
       [ "shopping_cart", 1000 ],
       [ "icecream_truck", 50 ],
+      [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
       [ "4x4_car", 200 ]
@@ -419,15 +429,58 @@
     "type": "vehicle_group",
     "id": "crashed_helicopters",
     "vehicles": [
-      [ "helicopter_wreck_1a", 100 ],
-      [ "helicopter_wreck_1b", 400 ],
-      [ "helicopter_wreck_1c", 200 ],
-      [ "helicopter_wreck_2a", 100 ],
-      [ "helicopter_wreck_2b", 400 ],
-      [ "helicopter_wreck_2c", 200 ],
-      [ "helicopter_wreck_3a", 100 ],
-      [ "helicopter_wreck_3b", 400 ],
-      [ "helicopter_wreck_3c", 200 ]
+      [ "helicopter_apache_1a", 100 ],
+      [ "helicopter_apache_1b", 400 ],
+      [ "helicopter_apache_1c", 200 ],
+      [ "helicopter_osprey_2a", 100 ],
+      [ "helicopter_osprey_2b", 400 ],
+      [ "helicopter_osprey_2c", 200 ],
+      [ "helicopter_blackhawk_3a", 100 ],
+      [ "helicopter_blackhawk_3b", 400 ],
+      [ "helicopter_blackhawk_3c", 200 ],
+      [ "2seater2_Wreck", 400 ],
+      [ "SmallFlier3_Wreck", 400 ],
+      [ "Smallflier1_Wreck", 400 ],
+      [ "SmallFlier2_Wreck", 400 ],
+      [ "Medevac1_Wreck", 400 ],
+      [ "Medevac2_Wreck", 400 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "helicopters",
+    "vehicles": [
+      [ "2seater2", 100 ],
+      [ "SmallFlier1", 400 ],
+      [ "2seater2_Wreck", 200 ],
+      [ "SmallFlier3_Wreck", 100 ],
+      [ "SmallFlier2", 400 ],
+      [ "Medevac1", 100 ],
+      [ "Smallflier1_Wreck", 200 ],
+      [ "SmallFlier2_Wreck", 200 ],
+      [ "Medevac1_Wreck", 100 ],
+      [ "SmallFlier3", 400 ],
+      [ "Medevac2", 200 ],
+      [ "Medevac2_Wreck", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "mil_helicopters",
+    "vehicles": [
+      [ "Medevac1", 200 ],
+      [ "Medevac2", 200 ],
+      [ "Medevac1_Wreck", 200 ],
+      [ "Medevac2_Wreck", 200 ],
+      [ "helicopter_apache_1a", 200 ],
+      [ "helicopter_apache_1b", 400 ],
+      [ "helicopter_apache_1c", 200 ],
+      [ "helicopter_osprey_2a", 100 ],
+      [ "helicopter_osprey_2b", 400 ],
+      [ "helicopter_osprey_2c", 200 ],
+      [ "helicopter_blackhawk_3a", 100 ],
+      [ "helicopter_blackhawk_3b", 400 ],
+      [ "helicopter_blackhawk_3c", 200 ]
     ]
   },
   {

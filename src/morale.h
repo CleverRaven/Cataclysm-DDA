@@ -1,24 +1,22 @@
 #pragma once
-#ifndef MORALE_H
-#define MORALE_H
+#ifndef CATA_SRC_MORALE_H
+#define CATA_SRC_MORALE_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
-#include <vector>
-#include <algorithm>
-#include <array>
 #include <string>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
-#include "string_id.h"
 #include "type_id.h"
 
-class item;
 class JsonIn;
-class JsonOut;
 class JsonObject;
+class JsonOut;
+class item;
 struct itype;
 struct morale_mult;
 
@@ -111,7 +109,7 @@ class player_morale
                  *contribution should be bettween [0,100] (inclusive)
                  */
                 void set_percent_contribution( double contribution );
-                double get_percent_contribution();
+                double get_percent_contribution() const;
             private:
                 morale_type type;
                 const itype *item_type;
@@ -173,7 +171,7 @@ class player_morale
                 hot( 0 ),
                 cold( 0 ) {}
         };
-        std::array<body_part_data, num_bp> body_parts;
+        std::map<bodypart_id, body_part_data> body_parts;
         body_part_data no_body_part;
 
         using mutation_handler = std::function<void ( player_morale * )>;
@@ -210,4 +208,4 @@ class player_morale
         int perceived_pain;
 };
 
-#endif
+#endif // CATA_SRC_MORALE_H

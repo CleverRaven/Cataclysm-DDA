@@ -1,38 +1,41 @@
 #include "npctrade.h"
 
-#include <climits>
-#include <cstdlib>
 #include <algorithm>
-#include <string>
-#include <vector>
+#include <cstdlib>
 #include <list>
 #include <memory>
+#include <ostream>
 #include <set>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
-#include "debug.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "faction.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
+#include "item.h"
+#include "item_category.h"
+#include "item_contents.h"
 #include "map_selector.h"
 #include "npc.h"
 #include "output.h"
+#include "player.h"
+#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "translations.h"
-#include "ui_manager.h"
-#include "vehicle_selector.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "player.h"
 #include "string_input_popup.h"
-#include "units.h"
-#include "visitable.h"
+#include "translations.h"
 #include "type_id.h"
-#include "faction.h"
-#include "pimpl.h"
-#include "item_category.h"
+#include "ui_manager.h"
+#include "units.h"
+#include "vehicle_selector.h"
+#include "visitable.h"
 
 static const skill_id skill_barter( "barter" );
 
@@ -147,13 +150,12 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     double adjust = net_price_adjustment( buyer, seller );
 
-    const auto check_item = [fac, adjust, is_npc, &np, &result, &seller]( item_location &&
+    const auto check_item = [fac, adjust, is_npc, &np, &result, &seller]( item_location
     loc, int count = 1 ) {
-        item *it_ptr = loc.get_item();
-        if( it_ptr == nullptr || it_ptr->is_null() ) {
+        if( !loc ) {
             return;
         }
-        item &it = *it_ptr;
+        item &it = *loc;
 
         // Don't sell items we don't own.
         if( !it.is_owned_by( seller ) ) {
@@ -169,31 +171,29 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         }
     };
 
-    invslice slice = seller.inv.slice();
-    for( auto &i : slice ) {
-        check_item( item_location( seller, &i->front() ), i->size() );
+    for( item_location loc : seller.all_items_loc() ) {
+        if( seller.is_wielding( *loc ) && loc->has_flag( "NO_UNWIELD" ) ) {
+            continue;
+        }
+        check_item( loc, loc->count() );
     }
 
-    if( !seller.weapon.has_flag( "NO_UNWIELD" ) ) {
-        check_item( item_location( seller, &seller.weapon ), 1 );
+    //nearby items owned by the NPC will only show up in
+    //the trade window if the NPC is also a shopkeeper
+    if( np.mission == NPC_MISSION_SHOPKEEP ) {
+        for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
+            buy_helper( cursor, check_item );
+        }
     }
 
-    for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
-        buy_helper( cursor, check_item );
-    }
     for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
         buy_helper( cursor, check_item );
     }
 
     const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
-
-        // Sort items by category first, if we can.
-        if( a.loc->get_category() != b.loc->get_category() ) {
-            return a.loc->get_category() < b.loc->get_category();
-        }
-
-        // If categories are equal, sort by name.
-        return a.loc->display_name() < b.loc->display_name();
+        // Sort items by category first, then name.
+        return localized_compare( std::make_pair( a.loc->get_category(), a.loc->display_name() ),
+                                  std::make_pair( b.loc->get_category(), b.loc->display_name() ) );
     };
 
     std::sort( result.begin(), result.end(), cmp );
@@ -419,12 +419,9 @@ int trading_window::get_var_trade( const item &it, int total_count )
 {
     string_input_popup popup_input;
     int how_many = total_count;
-    const bool contained = it.is_container() && !it.contents.empty();
 
-    const std::string title = contained ?
-                              string_format( _( "Trade how many containers with %s [MAX: %d]: " ),
-                                      it.get_contained().type_name( how_many ), total_count ) :
-                              string_format( _( "Trade how many %s [MAX: %d]: " ), it.type_name( how_many ), total_count );
+    const std::string title = string_format( _( "Trade how many %s [MAX: %d]: " ), it.tname( how_many ),
+                              total_count );
     popup_input.title( title ).edit( how_many );
     if( popup_input.canceled() || how_many <= 0 ) {
         return -1;
@@ -436,7 +433,6 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
 {
     size_t ch;
 
-    volume_left = np.volume_capacity() - np.volume_carried();
     weight_left = np.weight_capacity() - np.weight_carried();
 
     // Shopkeeps are happy to have large inventories.

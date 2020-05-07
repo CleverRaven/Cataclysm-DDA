@@ -287,6 +287,7 @@
     "name": "lake bed",
     "description": "You are standing at the bottom of a body of fresh water.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "~",
+    "looks_like": "t_sand",
     "color": "blue",
     "move_cost": 8,
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP" ],

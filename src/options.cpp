@@ -1,11 +1,14 @@
 #include "options.h"
 
-#include <climits>
-#include <type_traits>
 #include <cfloat>
+#include <climits>
+#include <iterator>
+#include <stdexcept>
 
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
@@ -17,6 +20,7 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
 #include "sdlsound.h"
 #include "sdltiles.h"
@@ -26,7 +30,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 #include "worldfactory.h"
-#include "color.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -38,13 +41,12 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <exception>
 #include <locale>
 #include <memory>
 #include <sstream>
 #include <string>
-#include <exception>
 
-bool trigdist;
 bool use_tiles;
 bool log_from_top;
 int message_ttl;
@@ -56,25 +58,8 @@ bool tile_iso;
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
-std::vector<options_manager::id_and_option> options_manager::lang_options = {
-    { "", translate_marker( "System language" ) },
-    // Note: language names are in their own language and are *not* translated at all.
-    // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
-    // http://en.wikipedia.org/wiki/List_of_language_names
-    { "en", no_translation( R"(English)" ) },
-    { "de", no_translation( R"(Deutsch)" ) },
-    { "es_AR", no_translation( R"(Español (Argentina))" ) },
-    { "es_ES", no_translation( R"(Español (España))" ) },
-    { "fr", no_translation( R"(Français)" ) },
-    { "hu", no_translation( R"(Magyar)" ) },
-    { "ja", no_translation( R"(日本語)" ) },
-    { "ko", no_translation( R"(한국어)" ) },
-    { "pl", no_translation( R"(Polski)" ) },
-    { "pt_BR", no_translation( R"(Português (Brasil))" )},
-    { "ru", no_translation( R"(Русский)" ) },
-    { "zh_CN", no_translation( R"(中文 (天朝))" ) },
-    { "zh_TW", no_translation( R"(中文 (台灣))" ) },
-};
+const std::vector<options_manager::id_and_option> options_manager::lang_options =
+    options_manager::get_lang_options();
 
 options_manager &get_options()
 {
@@ -1033,6 +1018,57 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     return result;
 }
 
+std::unordered_set<std::string> options_manager::get_langs_with_translation_files()
+{
+    std::vector<std::string> lang_dirs = get_directories_with( PATH_INFO::lang_file(),
+                                         PATH_INFO::langdir(), true );
+    const std::string start_str = "mo/";
+    const std::size_t start_len = start_str.length();
+    const std::string end_str = "/LC_MESSAGES";
+    std::for_each( lang_dirs.begin(), lang_dirs.end(), [&]( std::string & dir ) {
+        const std::size_t start = dir.find( start_str ) + start_len;
+        const std::size_t len = dir.rfind( end_str ) - start;
+        dir = dir.substr( start, len );
+    } );
+    return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
+}
+
+std::vector<options_manager::id_and_option> options_manager::get_lang_options()
+{
+    std::vector<options_manager::id_and_option> lang_options = {
+        { "", translate_marker( "System language" ) },
+        // Note: language names are in their own language and are *not* translated at all.
+        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
+        // http://en.wikipedia.org/wiki/List_of_language_names
+        { "en", no_translation( R"(English)" ) },
+        { "de", no_translation( R"(Deutsch)" ) },
+        { "es_AR", no_translation( R"(Español (Argentina))" ) },
+        { "es_ES", no_translation( R"(Español (España))" ) },
+        { "fr", no_translation( R"(Français)" ) },
+        { "hu", no_translation( R"(Magyar)" ) },
+        { "ja", no_translation( R"(日本語)" ) },
+        { "ko", no_translation( R"(한국어)" ) },
+        { "pl", no_translation( R"(Polski)" ) },
+        { "pt_BR", no_translation( R"(Português (Brasil))" )},
+        { "ru", no_translation( R"(Русский)" ) },
+        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
+        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
+    };
+
+    std::unordered_set<std::string> lang_list = options_manager::get_langs_with_translation_files();
+
+    std::vector<options_manager::id_and_option> options;
+
+    lang_list.insert( "" ); // for System language option
+    lang_list.insert( "en" ); // for English option
+
+    std::copy_if( lang_options.begin(), lang_options.end(), std::back_inserter( options ),
+    [&lang_list]( const options_manager::id_and_option & pair ) {
+        return lang_list.count( pair.first );
+    } );
+    return options;
+}
+
 #if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
@@ -1328,7 +1364,6 @@ void options_manager::add_options_interface()
         interface_page_.items_.emplace_back();
     };
 
-    // TODO: scan for languages like we do for tilesets.
     add( "USE_LANG", "interface", translate_marker( "Language" ),
          translate_marker( "Switch Language." ), options_manager::lang_options, "" );
 
@@ -1356,6 +1391,10 @@ void options_manager::add_options_interface()
     { { "c", translate_marker( "Cup" ) }, { "l", translate_marker( "Liter" ) }, { "qt", translate_marker( "Quart" ) } },
     "l"
        );
+    add( "DISTANCE_UNITS", "interface", translate_marker( "Distance units" ),
+         translate_marker( "Metric or Imperial" ),
+    { { "metric", translate_marker( "Metric" ) }, { "imperial", translate_marker( "Imperial" ) } },
+    "imperial" );
 
     add( "24_HOUR", "interface", translate_marker( "Time format" ),
          translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
@@ -1511,6 +1550,12 @@ void options_manager::add_options_interface()
          translate_marker( "Suppress \"unknown command\" messages" ),
          translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
          false
+       );
+
+    add( "LOOKAROUND_POSITION", "interface", translate_marker( "Look around position" ),
+         translate_marker( "Switch between look around panel being left or right." ),
+    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } },
+    "right"
        );
 
     add( "PICKUP_POSITION", "interface", translate_marker( "Pickup position" ),
@@ -1861,6 +1906,12 @@ void options_manager::add_options_graphics()
        );
 #endif
 
+#if defined(SDL_HINT_RENDER_BATCHING)
+    add( "RENDER_BATCHING", "graphics", translate_marker( "Allow render batching" ),
+         translate_marker( "Use render batching for 2D render API to make it more efficient.  Requires restart." ),
+         true, COPT_CURSES_HIDE
+       );
+#endif
     add( "FRAMEBUFFER_ACCEL", "graphics", translate_marker( "Software framebuffer acceleration" ),
          translate_marker( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
          false, COPT_CURSES_HIDE
@@ -2126,8 +2177,8 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
-         translate_marker( "If true, experimental z-level maps will be enabled.  Turn this off if you experience excessive slowdown." ),
+    add( "ZLEVELS", "world_default", translate_marker( "Z-levels" ),
+         translate_marker( "If true, enables several features related to vertical movement, such as hauling items up stairs, climbing downspouts, and flying aircraft.  May cause problems if toggled mid-game." ),
          true
        );
 
@@ -2520,7 +2571,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             }
         }
 
-
         iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
         iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
@@ -2612,7 +2662,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
                 cLineColor = c_light_gray;
 
-            } else if( current_opt.getValue() == "false" ) {
+            } else if( current_opt.getValue() == "false" || current_opt.getValue() == "disabled" ||
+                       current_opt.getValue() == "off" ) {
                 cLineColor = c_light_red;
             }
 
@@ -3112,4 +3163,7 @@ void options_manager::update_global_locale()
     } catch( std::runtime_error &e ) {
         std::locale::global( std::locale() );
     }
+
+    DebugLog( D_INFO, DC_ALL ) << "[options] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[options] C++ locale set to " << std::locale().name();
 }

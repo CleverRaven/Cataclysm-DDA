@@ -5,17 +5,15 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "game.h"
-#include "player.h"
-#include "visitable.h"
-#include "calendar.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "player.h"
 #include "type_id.h"
-
-struct itype;
+#include "visitable.h"
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {

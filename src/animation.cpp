@@ -118,7 +118,8 @@ tripoint relative_view_pos( const game &g, const tripoint &p ) noexcept
     return p - g.ter_view_p + point( POSX, POSY );
 }
 
-void draw_explosion_curses( game &g, const tripoint &center, const int r, const nc_color &col )
+void draw_explosion_curses( const game &g, const tripoint &center, const int r,
+                            const nc_color &col )
 {
     if( !is_radius_visible( center, r ) ) {
         return;
@@ -167,7 +168,7 @@ constexpr explosion_neighbors operator ^ ( explosion_neighbors lhs, explosion_ne
     return static_cast<explosion_neighbors>( static_cast< int >( lhs ) ^ static_cast< int >( rhs ) );
 }
 
-void draw_custom_explosion_curses( game &g,
+void draw_custom_explosion_curses( const game &g,
                                    const std::list< std::map<tripoint, explosion_tile> > &layers )
 {
     // calculate screen offset relative to player + view offset position
@@ -510,7 +511,7 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, const bool dead )
 
 namespace
 {
-void draw_hit_player_curses( const game &g, const player &p, const int dam )
+void draw_hit_player_curses( const game &g, const Character &p, const int dam )
 {
     const tripoint q = relative_view_pos( g.u, p.pos() );
     if( q.z == 0 ) {
@@ -522,7 +523,7 @@ void draw_hit_player_curses( const game &g, const player &p, const int dam )
 } //namespace
 
 #if defined(TILES)
-void game::draw_hit_player( const player &p, const int dam )
+void game::draw_hit_player( const Character &p, const int dam )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -545,7 +546,7 @@ void game::draw_hit_player( const player &p, const int dam )
     bullet_animation().progress();
 }
 #else
-void game::draw_hit_player( const player &p, const int dam )
+void game::draw_hit_player( const Character &p, const int dam )
 {
     draw_hit_player_curses( *this, p, dam );
 }
@@ -554,8 +555,8 @@ void game::draw_hit_player( const player &p, const int dam )
 /* Line drawing code, not really an animation but should be separated anyway */
 namespace
 {
-void draw_line_curses( game &g, const tripoint &/*pos*/, const tripoint &center,
-                       const std::vector<tripoint> &ret )
+void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoint> &ret,
+                       bool noreveal )
 {
     for( const tripoint &p : ret ) {
         const auto critter = g.critter_at( p, true );
@@ -563,7 +564,16 @@ void draw_line_curses( game &g, const tripoint &/*pos*/, const tripoint &center,
         // NPCs and monsters get drawn with inverted colors
         if( critter && g.u.sees( *critter ) ) {
             critter->draw( g.w_terrain, center, true );
+        } else if( noreveal && !g.u.sees( p ) ) {
+            // Draw a meaningless symbol. Avoids revealing tile, but keeps feedback
+            const char sym = '?';
+            const nc_color col = c_dark_gray;
+            const catacurses::window &w = g.w_terrain;
+            const int k = p.x + getmaxx( w ) / 2 - center.x;
+            const int j = p.y + getmaxy( w ) / 2 - center.y;
+            mvwputch( w, point( k, j ), col, sym );
         } else {
+            // This function reveals tile at p and writes it to the player's memory
             g.m.drawsq( g.w_terrain, g.u, p, true, true, center );
         }
     }
@@ -572,15 +582,14 @@ void draw_line_curses( game &g, const tripoint &/*pos*/, const tripoint &center,
 
 #if defined(TILES)
 void game::draw_line( const tripoint &p, const tripoint &center,
-                      const std::vector<tripoint> &points )
+                      const std::vector<tripoint> &points, bool noreveal )
 {
     if( !u.sees( p ) ) {
         return;
     }
 
-    // TODO: needed for tiles ver too??
     if( !use_tiles ) {
-        draw_line_curses( *this, p, center, points );
+        draw_line_curses( *this, center, points, noreveal );
         return;
     }
 
@@ -588,13 +597,13 @@ void game::draw_line( const tripoint &p, const tripoint &center,
 }
 #else
 void game::draw_line( const tripoint &p, const tripoint &center,
-                      const std::vector<tripoint> &points )
+                      const std::vector<tripoint> &points, bool noreveal )
 {
     if( !u.sees( p ) ) {
         return;
     }
 
-    draw_line_curses( *this, p, center, points );
+    draw_line_curses( *this, center, points, noreveal );
 }
 #endif
 
@@ -710,7 +719,7 @@ void game::draw_weather( const weather_printable &w )
 
 namespace
 {
-void draw_sct_curses( game &g )
+void draw_sct_curses( const game &g )
 {
     const tripoint off = relative_view_pos( g.u, tripoint_zero );
 

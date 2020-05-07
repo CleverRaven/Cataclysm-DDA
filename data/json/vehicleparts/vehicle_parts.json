@@ -2138,28 +2138,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "solar_panel_v3",
-    "copy-from": "solar_panel",
-    "name": { "str": "quantum solar panel" },
-    "looks_like": "solar_panel_v2",
-    "proportional": { "epower": 6.0 },
-    "item": "solar_panel_v3",
-    "durability": 40,
-    "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] }
-    },
-    "extend": { "flags": [ "NO_REPAIR" ] },
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 4 ] },
-      { "item": "steel_chunk", "count": [ 4, 4 ] },
-      { "item": "scrap", "count": [ 4, 4 ] },
-      { "item": "solar_cell", "count": [ 2, 8 ] }
-    ]
-  },
-  {
-    "type": "vehicle_part",
     "id": "water_faucet",
     "name": { "str": "water faucet" },
     "symbol": "u",
@@ -2650,7 +2628,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED", "WINDOW" ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 25 }
   },
@@ -2673,7 +2651,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW" ],
     "breaks_into": "ig_vp_hdframe",
     "damage_reduction": { "all": 78 }
   },
@@ -2821,6 +2799,26 @@
   },
   {
     "type": "vehicle_part",
+    "id": "battery_charger",
+    "name": { "str": "battery charger" },
+    "durability": 5,
+    "description": "A small, low-power consumer device for recharging batteries.  It slowly charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space.",
+    "//": "Sub-milliwatt power consumption when idle; delivers 15 watts when charging.",
+    "epower": 0,
+    "bonus": 15,
+    "item": "battery_charger",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "delete": { "flags": [ "ENABLED_DRAINS_EPOWER" ] },
+    "folded_volume": 1,
+    "breaks_into": "ig_vp_device",
+    "copy-from": "recharge_station"
+  },
+  {
+    "type": "vehicle_part",
     "id": "wing_mirror",
     "name": { "str": "wing mirror" },
     "symbol": "o",
@@ -2948,6 +2946,22 @@
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "wire", "count": [ 4, 8 ] }, { "item": "plastic_chunk", "count": [ 4, 8 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "hd_tow_cable",
+    "name": "heavy duty tow cable",
+    "symbol": "{",
+    "color": "light_blue",
+    "broken_symbol": "*",
+    "broken_color": "dark_gray",
+    "damage_modifier": 10,
+    "durability": 120,
+    "description": "A heavy duty tow cable, if the other end was attached to another vehicle, it could pull it.",
+    "item": "hd_tow_cable",
+    "requirements": { "removal": { "time": 500 } },
+    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "TOW_CABLE" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "grip_hook", "count": 1 }, { "item": "cable", "count": [ 1, 4 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -3609,5 +3623,37 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": "ig_vp_device"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fridgetank",
+    "name": { "str": "refrigerated tank (60L)" },
+    "symbol": "O",
+    "looks_like": "f_fridge",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "light_blue",
+    "damage_modifier": 80,
+    "durability": 100,
+    "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
+    "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
+    "epower": -30,
+    "size": 300,
+    "item": "fridgetank",
+    "location": "fuel_source",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "FLUIDTANK", "FRIDGE", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "motor_tiny", "prob": 25 }
+    ],
+    "damage_reduction": { "all": 32 }
   }
 ]

@@ -232,16 +232,6 @@
     ]
   },
   {
-    "id": "afs_roof_external_tank",
-    "copy-from": "external_tank_small",
-    "type": "vehicle_part",
-    "name": { "str": "roof-mounted external tank (200L)" },
-    "item": "55gal_drum",
-    "location": "on_roof",
-    "extend": { "flags": [ "ON_ROOF" ] },
-    "size": 200000
-  },
-  {
     "id": "afs_mounted_external_tank",
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
@@ -327,5 +317,27 @@
     "copy-from": "afs_lightweight_frame",
     "type": "vehicle_part",
     "symbol": "H"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "solar_panel_v3",
+    "copy-from": "solar_panel",
+    "name": "quantum solar panel",
+    "looks_like": "solar_panel_v2",
+    "proportional": { "epower": 6.0 },
+    "item": "solar_panel_v3",
+    "durability": 40,
+    "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] }
+    },
+    "extend": { "flags": [ "NO_REPAIR" ] },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 4 ] },
+      { "item": "steel_chunk", "count": [ 4, 4 ] },
+      { "item": "scrap", "count": [ 4, 4 ] },
+      { "item": "solar_cell", "count": [ 2, 8 ] }
+    ]
   }
 ]

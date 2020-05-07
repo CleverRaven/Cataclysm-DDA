@@ -1150,8 +1150,43 @@
     "replace": "m1911mag"
   },
   {
+    "id": "solar_panel_v3",
+    "type": "MIGRATION",
+    "replace": "solar_panel_v2"
+  },
+  {
+    "id": "q_solarpack",
+    "type": "MIGRATION",
+    "replace": "solarpack"
+  },
+  {
+    "id": "q_solarpack_on",
+    "type": "MIGRATION",
+    "replace": "solarpack_on"
+  },
+  {
     "id": "bio_solar",
     "type": "MIGRATION",
     "replace": "potato"
+  },
+  {
+    "id": "p320mag_14rd_357sig",
+    "type": "MIGRATION",
+    "replace": "p320mag_13rd_357sig"
+  },
+  {
+    "id": "p226mag_15rd_357sig",
+    "type": "MIGRATION",
+    "replace": "p226mag_12rd_357sig"
+  },
+  {
+    "id": "akmmag",
+    "type": "MIGRATION",
+    "replace": "akmag30"
+  },
+  {
+    "id": "akmbigmag",
+    "type": "MIGRATION",
+    "replace": "akmag40"
   }
 ]

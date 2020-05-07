@@ -1,8 +1,8 @@
 #include "iexamine.h"
 
+#include <algorithm>
 #include <climits>
 #include <cmath>
-#include <algorithm>
 #include <cstdlib>
 #include <iterator>
 #include <map>
@@ -12,89 +12,92 @@
 #include <utility>
 
 #include "ammo.h"
+#include "activity_actor.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
+#include "colony.h"
+#include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
-#include "timed_event.h"
-#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "input.h"
+#include "int_id.h"
 #include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "item_stack.h"
+#include "iuse.h"
+#include "iuse_actor.h"
 #include "line.h"
+#include "magic_teleporter_list.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
 #include "mission_companion.h"
 #include "monster.h"
 #include "mtype.h"
-#include "iuse_actor.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "point.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "bodypart.h"
-#include "color.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "damage.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "item.h"
-#include "item_location.h"
-#include "item_stack.h"
-#include "iuse.h"
-#include "map_selector.h"
-#include "pimpl.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "string_id.h"
-#include "colony.h"
-#include "flat_set.h"
-#include "magic_teleporter_list.h"
-#include "point.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
-static const activity_id ACT_HACKING( "ACT_HACKING" );
-static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
 static const efftype_id effect_earphones( "earphones" );
@@ -144,12 +147,10 @@ static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
-static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
-static const std::string flag_ANESTHESIA( "ANESTHESIA" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
@@ -553,7 +554,7 @@ class atm_menu
             item *dst;
             if( u.activity.id() == ACT_ATM ) {
                 u.activity.set_to_null(); // stop for now, if required, it will be created again.
-                dst = &u.i_at( u.activity.position );
+                dst = u.activity.targets.front().get_item();
                 if( dst->is_null() || dst->typeId() != "cash_card" ) {
                     return false;
                 }
@@ -574,7 +575,8 @@ class atm_menu
                     // Money from `*i` could be transferred, but we're out of moves, schedule it for
                     // the next turn. Putting this here makes sure there will be something to be
                     // done next turn.
-                    u.assign_activity( ACT_ATM, 0, transfer_all_money, u.get_item_position( dst ) );
+                    u.assign_activity( ACT_ATM, 0, transfer_all_money );
+                    u.activity.targets.push_back( item_location( u, dst ) );
                     break;
                 }
 
@@ -617,20 +619,37 @@ void iexamine::vending( player &p, const tripoint &examp )
         popup( _( "You need some money on a cash card to buy things." ) );
     }
 
-    const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
-    const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
-    const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
-    const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-    const int w_items_w  = window_w / 2;
-    const int w_info_w   = window_w - w_items_w;
-    const int list_lines = window_h - 4; // minus for header and footer
-
+    int w_items_w = 0;
+    int w_info_w = 0;
+    int list_lines = 0;
+    int lines_above = 0;
+    int lines_below = 0;
     constexpr int first_item_offset = 3; // header size
 
-    catacurses::window const w = catacurses::newwin( window_h, w_items_w, point( padding_x,
-                                 padding_y ) );
-    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,
-                                           point( padding_x + w_items_w, padding_y ) );
+    catacurses::window w;
+    catacurses::window w_item_info;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
+        const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
+        const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
+        const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+        w_items_w  = window_w / 2;
+        w_info_w   = window_w - w_items_w;
+        list_lines = window_h - 4; // minus for header and footer
+
+        lines_above = list_lines / 2;                  // lines above the selector
+        lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
+
+        w = catacurses::newwin( window_h, w_items_w,
+                                point( padding_x, padding_y ) );
+        w_item_info = catacurses::newwin( window_h, w_info_w,
+                                          point( padding_x + w_items_w, padding_y ) );
+
+        ui.position( point( padding_x, padding_y ), point( window_w, window_h ) );
+    } );
+    ui.mark_resize();
 
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
@@ -647,7 +666,7 @@ void iexamine::vending( player &p, const tripoint &examp )
     for( auto it = std::begin( vend_items ); it != std::end( vend_items ); ++it ) {
         // |# {name}|
         // 123      4
-        item_map[utf8_truncate( it->tname(), static_cast<size_t>( w_items_w - 4 ) )].push_back( it );
+        item_map[it->tname()].push_back( it );
     }
 
     // Next, put pointers to the pairs in the map in a vector to allow indexing.
@@ -657,14 +676,8 @@ void iexamine::vending( player &p, const tripoint &examp )
         item_list.emplace_back( &pair );
     }
 
-    const int lines_above = list_lines / 2;                  // lines above the selector
-    const int lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
     int cur_pos = 0;
-    for( ;; ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         const int num_items = item_list.size();
         const int page_size = std::min( num_items, list_lines );
 
@@ -717,6 +730,16 @@ void iexamine::vending( player &p, const tripoint &examp )
                                                 static_cast<size_t>( w_info_w - 4 ) );
         mvwprintw( w_item_info, point_east, "<%s>", name );
         wrefresh( w_item_info );
+    } );
+
+    for( ;; ) {
+        ui_manager::redraw();
+
+        const int num_items = item_list.size();
+
+        // Item info
+        auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
+        auto &cur_item  = cur_items.back();
 
         const std::string &action = ctxt.handle_input();
         if( action == "DOWN" ) {
@@ -886,7 +909,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             add_msg( _( "The nearby doors are already opened." ) );
         }
     } else if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        p.assign_activity( ACT_HACKING, to_moves<int>( 5_minutes ) );
+        p.assign_activity( player_activity( hacking_activity_actor() ) );
         p.activity.placement = examp;
     }
 }
@@ -947,7 +970,7 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
         if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-            p.assign_activity( ACT_HACKING, to_moves<int>( 5_minutes ) );
+            p.assign_activity( player_activity( hacking_activity_actor() ) );
             p.activity.placement = examp;
         }
     }
@@ -1023,11 +1046,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         if( p.has_trait( trait_BADKNEES ) ) {
             climb = climb / 2;
         }
-        if( one_in( climb ) ) {
-            add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
-            if( climb <= 1 ) {
-                add_msg( m_bad, _( "Climbing this obstacle is impossible in your current state." ) );
-            }
+        if( g->slip_down() ) {
             return;
         }
         p.moves += climb * 10;
@@ -1289,58 +1308,12 @@ void iexamine::safe( player &p, const tripoint &examp )
 }
 
 /**
- * Attempt to pick the gunsafe's lock and open it.
- */
-void iexamine::gunsafe_ml( player &p, const tripoint &examp )
-{
-    int pick_quality = 0;
-
-    if( p.has_amount( "picklocks", 1 ) || p.has_bionic( bio_lockpick ) ) {
-        pick_quality = 5;
-    } else if( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) ) {
-        pick_quality = 3;
-    } else if( p.has_amount( "fc_hairpin", 1 ) ) {
-        pick_quality = 1;
-    }
-
-    if( pick_quality == 0 ) {
-        add_msg( m_info, _( "You need a lockpick to open this gun safe." ) );
-        return;
-    } else if( !query_yn( _( "Pick the gun safe?" ) ) ) {
-        return;
-    }
-
-    p.practice( skill_mechanics, 1 );
-
-    ///\EFFECT_DEX speeds up lock picking gun safe
-    ///\EFFECT_MECHANICS speeds up lock picking gun safe
-    p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
-                         - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
-
-    ///\EFFECT_DEX increases chance of lock picking gun safe
-    ///\EFFECT_MECHANICS increases chance of lock picking gun safe
-    int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
-                      p.dex_cur ) ) * pick_quality;
-    int door_roll = dice( 4, 30 );
-    if( pick_roll >= door_roll ) {
-        p.practice( skill_mechanics, 1 );
-        add_msg( _( "You successfully unlock the gun safe." ) );
-        g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
-    } else if( door_roll > ( 3 * pick_roll ) ) {
-        add_msg( _( "Your clumsy attempt jams the lock!" ) );
-        g->m.furn_set( examp, furn_str_id( "f_gunsafe_mj" ) );
-    } else {
-        add_msg( _( "The gun safe stumps your efforts to pick it." ) );
-    }
-}
-
-/**
  * Attempt to "hack" the gunsafe's electronic lock and open it.
  */
 void iexamine::gunsafe_el( player &p, const tripoint &examp )
 {
     if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
-        p.assign_activity( ACT_HACKING, to_moves<int>( 5_minutes ) );
+        p.assign_activity( player_activity( hacking_activity_actor() ) );
         p.activity.placement = examp;
     }
 }
@@ -1392,7 +1365,7 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 
     if( picklocks.empty() ) {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
-                 g->m.tername( examp ) );
+                 g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
         return;
     }
 
@@ -1409,7 +1382,7 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         const auto actor = dynamic_cast<const pick_lock_actor *>
                            ( it->type->get_use( "picklock" )->get_actor_ptr() );
         p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
-                             g->m.tername( examp ), it->tname() );
+                             g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ), it->tname() );
         const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
         if( can_use.success() ) {
             actor->use( p, *it, false, examp );
@@ -1686,7 +1659,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
         if( one_in( 20 ) ) {
-            p.add_addiction( ADD_PKILLER, 1 );
+            p.add_addiction( add_type::PKILLER, 1 );
         }
     }
     if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
@@ -1694,7 +1667,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         return;
     }
 
-    int resist = p.get_env_resist( bp_mouth );
+    int resist = p.get_env_resist( bodypart_id( "mouth" ) );
 
     if( resist < 10 ) {
         // Can't smell the flowers with a gas mask on!
@@ -1710,8 +1683,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         add_msg( m_bad, _( "You fall asleep…" ) );
         p.fall_asleep( 2_hours );
         add_msg( m_bad, _( "Your legs are covered in the poppy's roots!" ) );
-        p.apply_damage( nullptr, bp_leg_l, 4 );
-        p.apply_damage( nullptr, bp_leg_r, 4 );
+        p.apply_damage( nullptr, bodypart_id( "leg_l" ), 4 );
+        p.apply_damage( nullptr, bodypart_id( "leg_r" ), 4 );
         p.moves -= 50;
     }
 
@@ -1737,8 +1710,8 @@ void iexamine::flower_cactus( player &p, const tripoint &examp )
 
     if( one_in( 6 ) ) {
         add_msg( m_bad, _( "The cactus' nettles sting you!" ) );
-        p.apply_damage( nullptr, bp_arm_l, 4 );
-        p.apply_damage( nullptr, bp_arm_r, 4 );
+        p.apply_damage( nullptr, bodypart_id( "arm_l" ), 4 );
+        p.apply_damage( nullptr, bodypart_id( "arm_r" ), 4 );
     }
 
     g->m.furn_set( examp, f_null );
@@ -1820,7 +1793,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     for( const auto &entry : harvest ) {
         float min_num = entry.base_num.first + lev * entry.scale_num.first;
         float max_num = entry.base_num.second + lev * entry.scale_num.second;
-        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+        int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
         if( roll >= 1 ) {
             got_anything = true;
             for( int i = 0; i < roll; i++ ) {
@@ -1930,10 +1903,10 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     g->m.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        for( const tripoint &p : closest_tripoints_first( examp, 1 ) ) {
+        for( const tripoint &nearby_pos : closest_tripoints_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
                 continue;
-            } else if( g->place_critter_at( montype, p ) ) {
+            } else if( g->place_critter_at( montype, nearby_pos ) ) {
                 monster_count++;
             }
         }
@@ -2770,7 +2743,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             return;
         }
         case 2: {
-            if( g->m.add_field( examp, fd_fire, 1 ) ) {
+            if( !g->m.get_field( examp, fd_fire ) && g->m.add_field( examp, fd_fire, 1 ) ) {
                 p.mod_power_level( -bio_lighter->power_activate );
                 p.mod_moves( -to_moves<int>( 1_seconds ) );
             } else {
@@ -3346,13 +3319,17 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
     map_stack items = g->m.i_at( examp );
     if( !items.empty() ) {
         item &it = items.only_item();
-        if( it.is_bucket() || it.is_watertight_container() ) {
+        if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
-            if( !it.is_container_empty() && it.contents.front().typeId() == "maple_sap" ) {
-                has_sap = true;
-                charges = it.contents.front().charges;
-            }
+            it.visit_items( [&charges, &has_sap]( const item * it ) {
+                if( it->typeId() == "maple_syrup" ) {
+                    has_sap = true;
+                    charges = it->charges;
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
         }
     }
 
@@ -3416,9 +3393,8 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            g->u.assign_activity( ACT_PICKUP );
-            g->u.activity.targets.emplace_back( map_cursor( examp ), container );
-            g->u.activity.values.push_back( 0 );
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+            { item_location( map_cursor( examp ), container ) }, { 0 }, g->u.pos() ) ) );
             return;
         }
 
@@ -3704,9 +3680,8 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             auto items = g->m.i_at( examp );
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
-                    p.assign_activity( ACT_PICKUP );
-                    p.activity.targets.emplace_back( map_cursor( examp ), &itm );
-                    p.activity.values.push_back( 0 );
+                    g->u.assign_activity( player_activity( pickup_activity_actor(
+                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, g->u.pos() ) ) );
                     return;
                 }
             }
@@ -4196,7 +4171,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( hack == choice ) {
-        p.assign_activity( ACT_HACKING, to_moves<int>( 5_minutes ) );
+        p.assign_activity( player_activity( hacking_activity_actor() ) );
         p.activity.placement = examp;
     }
 
@@ -4310,6 +4285,11 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
             p.setpos( examp );
+
+            if( g->m.has_flag( "UNSTABLE", examp + tripoint_below ) && g->slip_down( true ) ) {
+                return;
+            }
+
             if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
                 // One tile of falling less (possibly zero)
                 g->vertical_move( -1, true );
@@ -4399,12 +4379,12 @@ static player &best_installer( player &p, player &null_player, int difficulty )
     const std::pair<float, int> &rhs ) {
         return rhs.first < lhs.first;
     } );
-    int player_cos = bionic_manip_cos( player_skill, true, difficulty );
+    int player_cos = bionic_manip_cos( player_skill, difficulty );
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
         if( ally_skills[ i ].first > player_skill ) {
             const npc *e = g->allies()[ ally_skills[ i ].second ];
             player &ally = *g->critter_by_id<player>( e->getID() );
-            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
+            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, difficulty );
             if( e->has_effect( effect_sleep ) ) {
                 if( !g->u.query_yn(
                         //~ %1$s is the name of the ally
@@ -4529,8 +4509,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.query();
 
     bool needs_anesthesia = true;
-    // Legacy
-    std::vector<item_comp> acomps;
     std::vector<tool_comp> anesth_kit;
     int drug_count = 0;
 
@@ -4542,17 +4520,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
         } );
-        std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
-            return it.has_flag( flag_ANESTHESIA ); // legacy
-        } );
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
                 drug_count += anesthesia_item->ammo_remaining();
             }
-        }
-        for( const item *anesthesia_item : b_filter ) {
-            acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) ); // legacy
         }
     }
 
@@ -4581,20 +4553,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 bionic.remove_item();
                 if( needs_anesthesia ) {
-                    // Consume obsolete anesthesia first
-                    if( acomps.empty() ) {
-                        for( const auto &e : req_anesth.get_components() ) {
-                            p.consume_items( e, 1, is_crafting_component );
-                        }
-                        for( const auto &e : req_anesth.get_tools() ) {
-                            p.consume_tools( e );
-                        }
-                        p.invalidate_crafting_inventory();
-                    } else {
-                        // Legacy
-                        p.consume_items( acomps, 1, is_crafting_component );
+                    for( const auto &e : req_anesth.get_components() ) {
+                        p.consume_items( e, 1, is_crafting_component );
                     }
-
+                    for( const auto &e : req_anesth.get_tools() ) {
+                        p.consume_tools( e );
+                    }
+                    p.invalidate_crafting_inventory();
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
                 patient.install_bionics( ( *itemtype ), installer, true );
@@ -4618,7 +4583,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         bionic_to_uninstall.set_flag( flag_IN_CBM );
                         bionic_to_uninstall.set_flag( flag_NO_STERILE );
                         bionic_to_uninstall.set_flag( flag_NO_PACKED );
-                        g->u.i_add( bionic_to_uninstall );
+                        // TODO: refactor this whole bit. adding items to the inventory will
+                        // cause major issues when inv gets removed. this is a shim for now
+                        // in order to reduce lines of change for nested containers.
+                        g->u.inv.push_back( bionic_to_uninstall );
                     }
                 }
             }
@@ -4651,13 +4619,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 const time_duration duration = difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    if( acomps.empty() ) {
-                        // consume obsolete anesthesia first
-                        p.consume_tools( anesth_kit, volume_anesth );
-                    } else {
-                        p.consume_items( acomps, 1, is_crafting_component ); // legacy
-                    }
-
+                    p.consume_tools( anesth_kit, volume_anesth );
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
                 patient.uninstall_bionic( bid, installer, true );
@@ -5823,7 +5785,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "curtains", &iexamine::curtains },
             { "sign", &iexamine::sign },
             { "pay_gas", &iexamine::pay_gas },
-            { "gunsafe_ml", &iexamine::gunsafe_ml },
             { "gunsafe_el", &iexamine::gunsafe_el },
             { "locked_object", &iexamine::locked_object },
             { "locked_object_pickable", &iexamine::locked_object_pickable },

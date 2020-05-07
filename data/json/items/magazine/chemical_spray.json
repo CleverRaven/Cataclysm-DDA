@@ -8,10 +8,11 @@
     "weight": "800 g",
     "volume": "2 L",
     "price": 5000,
+    "price_postapoc": 50,
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "chemical_spray",
+    "ammo_type": [ "chemical_spray" ],
     "capacity": 800,
     "reliability": 9,
     "reload_time": 3

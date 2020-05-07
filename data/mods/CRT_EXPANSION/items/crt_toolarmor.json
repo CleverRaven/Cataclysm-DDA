@@ -29,7 +29,17 @@
     "material_thickness": 5,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "VARSIZE", "GAS_PROOF", "USE_UPS", "NO_UNLOAD" ]
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "PARTIAL_DEAF",
+      "SUN_GLASSES",
+      "VARSIZE",
+      "GAS_PROOF",
+      "USE_UPS",
+      "NO_UNLOAD",
+      "SLEEP_IGNORE"
+    ]
   },
   {
     "id": "crt_gasmask_on",
@@ -70,7 +80,8 @@
       "TRADER_AVOID",
       "GAS_PROOF",
       "USE_UPS",
-      "NO_UNLOAD"
+      "NO_UNLOAD",
+      "SLEEP_IGNORE"
     ]
   },
   {
@@ -102,7 +113,10 @@
     "artifact_data": { "charge_type": "ARTC_SOLAR" },
     "coverage": 85,
     "encumbrance": 50,
-    "storage": "2500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 }
+    ],
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 4,
@@ -125,7 +139,10 @@
     "covers": [ "TORSO", "LEGS", "ARMS" ],
     "coverage": 100,
     "encumbrance": 5,
-    "storage": "2500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 40 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 40 }
+    ],
     "warmth": 100,
     "material_thickness": 7,
     "environmental_protection": 16,
@@ -198,7 +215,7 @@
     "max_charges": 100,
     "initial_charges": 0,
     "charges_per_use": 1,
-    "turns_per_charge": 20,
+    "turns_per_charge": 120,
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "You turn the %s off.", "target": "crt_helmet" }
   },

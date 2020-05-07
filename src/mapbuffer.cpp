@@ -13,14 +13,15 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "json.h"
 #include "map.h"
 #include "output.h"
 #include "popup.h"
+#include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "game_constants.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -64,11 +65,6 @@ bool mapbuffer::add_submap( const tripoint &p, submap *sm )
     return true;
 }
 
-bool mapbuffer::add_submap( int x, int y, int z, submap *sm )
-{
-    return add_submap( tripoint( x, y, z ), sm );
-}
-
 bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
 {
     const bool result = add_submap( p, sm.get() );
@@ -76,11 +72,6 @@ bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
         sm.release();
     }
     return result;
-}
-
-bool mapbuffer::add_submap( int x, int y, int z, std::unique_ptr<submap> &sm )
-{
-    return add_submap( tripoint( x, y, z ), sm );
 }
 
 void mapbuffer::remove_submap( tripoint addr )
@@ -92,11 +83,6 @@ void mapbuffer::remove_submap( tripoint addr )
     }
     delete m_target->second;
     submaps.erase( m_target );
-}
-
-submap *mapbuffer::lookup_submap( int x, int y, int z )
-{
-    return lookup_submap( tripoint( x, y, z ) );
 }
 
 submap *mapbuffer::lookup_submap( const tripoint &p )

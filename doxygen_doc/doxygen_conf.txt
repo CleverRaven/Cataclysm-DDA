@@ -242,6 +242,7 @@ ALIASES += "EFFECT_PISTOL=\xrefitem Effects_Skill_Pistol \"\" \"\" Pistol"
 ALIASES += "EFFECT_RIFLE=\xrefitem Effects_Skill_Rifle \"\" \"\" Rifle"
 ALIASES += "EFFECT_SHOTGUN=\xrefitem Effects_Skill_Shotgun \"\" \"\" Shotgun"
 ALIASES += "EFFECT_SMG=\xrefitem Effects_Skill_Smg \"\" \"\" Smg"
+ALIASES += "EFFECT_LOCKPICK=\xrefitem Effects_Skill_Lockpick \"\" \"\" Lock Picking"
 
 ALIASES += "EFFECT_BARTER_NPC=\xrefitem Effects_Skill_Barter \"\" \"\" NPC Barter"
 ALIASES += "EFFECT_COMPUTER_NPC=\xrefitem Effects_Skill_Computer \"\" \"\" NPC Computer"
@@ -271,6 +272,7 @@ ALIASES += "EFFECT_PISTOL_NPC=\xrefitem Effects_Skill_Pistol \"\" \"\" NPC Pisto
 ALIASES += "EFFECT_RIFLE_NPC=\xrefitem Effects_Skill_Rifle \"\" \"\" NPC Rifle"
 ALIASES += "EFFECT_SHOTGUN_NPC=\xrefitem Effects_Skill_Shotgun \"\" \"\" NPC Shotgun"
 ALIASES += "EFFECT_SMG_NPC=\xrefitem Effects_Skill_Smg \"\" \"\" NPC Smg"
+ALIASES += "EFFECT_LOCKPICK_NPC=\xrefitem Effects_Skill_Lockpick \"\" \"\" NPC Lock Picking"
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding

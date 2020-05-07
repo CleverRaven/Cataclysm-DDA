@@ -275,6 +275,7 @@
     "difficulty": 5,
     "time": "80 m",
     "batch_time_factors": [ 83, 5 ],
+    "container": "can_medium",
     "contained": true,
     "qualities": [
       { "id": "SAW_M", "level": 1 },
@@ -367,6 +368,51 @@
       [ [ "salt", 6 ] ],
       [ [ "pepper", 3 ] ],
       [ [ "milk_standard", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "sausage_casings",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "50 m",
+    "batch_time_factors": [ 83, 5 ],
+    "charges": 60,
+    "byproducts": [ [ "ruined_chunks", 2 ] ],
+    "//": "Charcuterie: The Craft of Salting, Smoking, and Curing would be a good book for someone to use for further meat products recipes.",
+    "book_learn": [ [ "offalcooking", 3 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
+    "tools": [ [ [ "funnel", -1 ] ] ],
+    "components": [ [ [ "stomach", 2 ], [ "stomach_large", 1 ] ], [ [ "salt", 20 ] ], [ [ "water", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "homemade_hotdogs",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "charges": 2,
+    "time": "10 m",
+    "book_learn": [ [ "offalcooking", 3 ] ],
+    "batch_time_factors": [ 50, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "components": [
+      [ [ "meat_nofish", 2, "LIST" ] ],
+      [ [ "sausage_casings", 2 ] ],
+      [
+        [ "salt_water", 4 ],
+        [ "saline", 8 ],
+        [ "salt", 4 ],
+        [ "chem_saltpetre", 2 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ]
     ]
   }
 ]

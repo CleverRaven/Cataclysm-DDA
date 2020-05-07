@@ -2,17 +2,23 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstdio>
+#include <cstring>
 #include <exception>
 #include <functional>
-#include <map>
+#include <istream>
 #include <memory>
+#include <ctime>
 
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_id.h"
+#include "color.h"
 #include "debug.h"
+#include "enums.h"
 #include "filesystem.h"
 #include "game.h"
 #include "gamemode.h"
@@ -22,25 +28,22 @@
 #include "loading_ui.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
+#include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "pldata.h"
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "sdlsound.h"
 #include "sounds.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
-#include "color.h"
-#include "enums.h"
-#include "options.h"
-#include "pldata.h"
-#include "string_formatter.h"
-#include "ui_manager.h"
-
-static const holiday current_holiday = holiday::none;
 
 void main_menu::on_move() const
 {
@@ -239,6 +242,88 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
+/* compare against table of easter dates */
+bool main_menu::is_easter( int day, int month, int year )
+{
+    if( month == 3 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2024: return day == 31;
+            case 2027: return day == 28;
+            default: break;
+            // *INDENT-ON*
+        }
+    } else if( month == 4 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2021: return day == 4;
+            case 2022: return day == 17;
+            case 2023: return day == 9;
+            case 2025: return day == 20;
+            case 2026: return day == 5;
+            case 2028: return day == 16;
+            case 2029: return day == 1;
+            case 2030: return day == 21;
+            default: break;
+            // *INDENT-ON*
+        }
+    }
+    return false;
+}
+
+holiday main_menu::get_holiday_from_time()
+{
+    bool success = false;
+
+    std::tm local_time;
+    std::time_t current_time = std::time( nullptr );
+
+    /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
+#if defined(_WIN32)
+
+    errno_t err = localtime_s( &local_time, &current_time );
+    if( err == 0 ) {
+        success = true;
+    }
+
+#else
+
+    success = !!localtime_r( &current_time, &local_time );
+
+#endif
+
+    if( success ) {
+
+        const int month = local_time.tm_mon + 1;
+        const int day = local_time.tm_mday;
+        const int wday = local_time.tm_wday;
+        const int year = local_time.tm_year + 1900;
+
+        /* check date against holidays */
+        if( month == 1 && day == 1 ) {
+            return holiday::new_year;
+        }
+        // only run easter date calculation if currently March or April
+        else if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
+            return holiday::easter;
+        } else if( month == 7 && day == 4 ) {
+            return holiday::independence_day;
+        }
+        // 13 days seems appropriate for Halloween
+        else if( month == 10 && day >= 19 ) {
+            return holiday::halloween;
+        } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
+            return holiday::thanksgiving;
+        }
+        // For the 12 days of Christmas, my true love gave to me...
+        else if( month == 12 && ( day >= 14 && day <= 25 ) ) {
+            return holiday::christmas;
+        }
+    }
+    // fall through to here if localtime fails, or none of the day tests hit
+    return holiday::none;
+}
+
 void main_menu::init_windows()
 {
     if( LAST_TERM == point( TERMX, TERMY ) ) {
@@ -383,14 +468,18 @@ void main_menu::load_char_templates()
             true ) ) {
         path = native_to_utf8( path );
         path.erase( path.find( ".template" ), std::string::npos );
-        path.erase( 0, path.find_last_of( "\\//" ) + 1 );
+        path.erase( 0, path.find_last_of( "\\/" ) + 1 );
         templates.push_back( path );
     }
-    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
+    std::sort( templates.begin(), templates.end(), localized_compare );
+    std::reverse( templates.begin(), templates.end() );
 }
 
 bool main_menu::opening_screen()
 {
+    // set holiday based on local system time
+    current_holiday = get_holiday_from_time();
+
     // Play title music, whoo!
     play_music( "title" );
 
@@ -740,8 +829,8 @@ bool main_menu::new_character_tab()
                 mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -4 ),
                            c_red, "%s", _( "No templates found!" ) );
             } else {
-                mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -2 ),
-                           c_white, "%s", _( "Press 'd' to delete a preset." ) );
+                fold_and_print( w_open, menu_offset + point( 20 + extra_w / 2, -2 ), 0,
+                                c_light_gray, "%s", _( "Press [<color_white>d</color>] to delete a preset." ) );
                 for( int i = 0; i < static_cast<int>( templates.size() ); i++ ) {
                     int line = menu_offset.y - 4 - i;
                     mvwprintz( w_open, point( 20 + menu_offset.x + extra_w / 2, line ),
@@ -816,19 +905,19 @@ bool main_menu::new_character_tab()
                         debugmsg( "Error: %s", err.what() );
                         continue;
                     }
-                    character_type play_type = PLTYPE_CUSTOM;
+                    character_type play_type = character_type::CUSTOM;
                     switch( sel2 ) {
                         case 0:
-                            play_type = PLTYPE_CUSTOM;
+                            play_type = character_type::CUSTOM;
                             break;
                         case 2:
-                            play_type = PLTYPE_RANDOM;
+                            play_type = character_type::RANDOM;
                             break;
                         case 3:
-                            play_type = PLTYPE_NOW;
+                            play_type = character_type::NOW;
                             break;
                         case 4:
-                            play_type = PLTYPE_FULL_RANDOM;
+                            play_type = character_type::FULL_RANDOM;
                             break;
                     }
                     if( !g->u.create( play_type ) ) {
@@ -902,7 +991,7 @@ bool main_menu::new_character_tab()
                     debugmsg( "Error: %s", err.what() );
                     continue;
                 }
-                if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
+                if( !g->u.create( character_type::TEMPLATE, templates[sel3] ) ) {
                     load_char_templates();
                     MAPBUFFER.reset();
                     overmap_buffer.clear();
@@ -1100,9 +1189,10 @@ bool main_menu::load_character_tab( bool transfer )
                         continue;
                     }
 
-                    g->load( savegames[sel3] );
-                    cleanup.cancel();
-                    start = true;
+                    if( g->load( savegames[sel3] ) ) {
+                        cleanup.cancel();
+                        start = true;
+                    }
                 }
             }
         }

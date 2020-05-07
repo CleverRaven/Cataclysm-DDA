@@ -11,7 +11,8 @@
     "volume": "5 L",
     "bashing": 4,
     "category": "veh_parts",
-    "price": 12000
+    "price": 12000,
+    "price_postapoc": 1500
   },
   {
     "type": "GENERIC",
@@ -22,6 +23,7 @@
     "material": [ "superalloy" ],
     "volume": "20 L",
     "price": 68000,
+    "price_postapoc": 2500,
     "copy-from": "motor"
   },
   {
@@ -32,6 +34,7 @@
     "weight": "125 kg",
     "volume": "25 L",
     "price": 80000,
+    "price_postapoc": 3500,
     "copy-from": "motor"
   },
   {
@@ -45,6 +48,7 @@
     "volume": "15 L",
     "bashing": 9,
     "price": 22000,
+    "price_postapoc": 1500,
     "copy-from": "motor"
   },
   {
@@ -56,6 +60,7 @@
     "volume": "1 L",
     "bashing": 1,
     "price": 2000,
+    "price_postapoc": 500,
     "copy-from": "motor"
   },
   {
@@ -69,6 +74,7 @@
     "material": [ "steel", "plastic" ],
     "volume": "125 ml",
     "category": "veh_parts",
-    "price": 2000
+    "price": 2000,
+    "price_postapoc": 100
   }
 ]

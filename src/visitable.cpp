@@ -1,30 +1,37 @@
 #include "visitable.h"
 
-#include <climits>
 #include <algorithm>
+#include <climits>
+#include <limits>
 #include <map>
 #include <memory>
 #include <unordered_map>
 #include <utility>
-#include <limits>
 
+#include "active_item_cache.h"
 #include "bionics.h"
+#include "mutation.h"
 #include "character.h"
+#include "colony.h"
 #include "debug.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "map.h"
 #include "map_selector.h"
+#include "memory_fast.h"
+#include "monster.h"
+#include "mtype.h"
+#include "pimpl.h"
 #include "player.h"
+#include "point.h"
 #include "submap.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "active_item_cache.h"
-#include "pimpl.h"
-#include "colony.h"
-#include "point.h"
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 
@@ -272,12 +279,8 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
     }
 
     if( qual == qual_BUTCHER ) {
-        if( self->has_trait( trait_CLAWS_ST ) ) {
-            res = std::max( res, 8 );
-        } else if( self->has_trait( trait_TALONS ) || self->has_trait( trait_MANDIBLES ) ||
-                   self->has_trait( trait_CLAWS ) || self->has_trait( trait_CLAWS_RETRACT ) ||
-                   self->has_trait( trait_CLAWS_RAT ) ) {
-            res = std::max( res, 4 );
+        for( const trait_id &mut : self->get_mutations() ) {
+            res = std::max( res, mut->butchering_quality );
         }
     }
 
@@ -370,15 +373,8 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            if( node->is_gun() || node->is_magazine() ) {
-                // Content of guns and magazines are accessible only via their specific accessors
-                return VisitResponse::NEXT;
-            }
-
-            for( auto &e : node->contents ) {
-                if( visit_internal( func, &e, node ) == VisitResponse::ABORT ) {
-                    return VisitResponse::ABORT;
-                }
+            if( node->contents.visit_contents( func, node ) == VisitResponse::ABORT ) {
+                return VisitResponse::ABORT;
             }
         /* intentional fallthrough */
 
@@ -388,6 +384,38 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
 
     /* never reached but suppresses GCC warning */
     return VisitResponse::ABORT;
+}
+
+VisitResponse item_contents::visit_contents( const std::function<VisitResponse( item *, item * )>
+        &func, item *parent )
+{
+    for( item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            // anything that is not CONTAINER is accessible only via its specific accessor
+            return VisitResponse::NEXT;
+        }
+        switch( pocket.visit_contents( func, parent ) ) {
+            case VisitResponse::ABORT:
+                return VisitResponse::ABORT;
+            default:
+                break;
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
+VisitResponse item_pocket::visit_contents( const std::function<VisitResponse( item *, item * )>
+        &func, item *parent )
+{
+    for( item &e : contents ) {
+        switch( visit_internal( func, &e, parent ) ) {
+            case VisitResponse::ABORT:
+                return VisitResponse::ABORT;
+            default:
+                break;
+        }
+    }
+    return VisitResponse::NEXT;
 }
 
 /** @relates visitable */
@@ -518,28 +546,12 @@ item visitable<T>::remove_item( item &it )
     }
 }
 
-static void remove_internal( const std::function<bool( item & )> &filter, item &node, int &count,
-                             std::list<item> &res )
-{
-    for( auto it = node.contents.begin(); it != node.contents.end(); ) {
-        if( filter( *it ) ) {
-            res.splice( res.end(), node.contents, it++ );
-            if( --count == 0 ) {
-                return;
-            }
-        } else {
-            remove_internal( filter, *it, count, res );
-            ++it;
-        }
-    }
-}
-
 /** @relates visitable */
 template <>
 std::list<item> visitable<item>::remove_items_with( const std::function<bool( const item &e )>
         &filter, int count )
 {
-    auto it = static_cast<item *>( this );
+    item *it = static_cast<item *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -547,7 +559,7 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
         return res;
     }
 
-    remove_internal( filter, *it, count, res );
+    it->contents.remove_internal( filter, count, res );
     return res;
 }
 
@@ -581,7 +593,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
                 }
 
             } else {
-                remove_internal( filter, *istack_iter, count, res );
+                istack_iter->contents.remove_internal( filter, count, res );
                 ++istack_iter;
             }
         }
@@ -628,7 +640,7 @@ std::list<item> visitable<Character>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, res );
+            iter->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -641,7 +653,7 @@ std::list<item> visitable<Character>::remove_items_with( const
         res.push_back( ch->remove_weapon() );
         count--;
     } else {
-        remove_internal( filter, ch->weapon, count, res );
+        ch->weapon.contents.remove_internal( filter, count, res );
     }
 
     return res;
@@ -686,7 +698,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, res );
+            iter->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -744,7 +756,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, res );
+            iter->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }

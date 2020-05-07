@@ -1,4 +1,4 @@
-# Catalcysm: Dark Days Ahead
+# Cataclysm: Dark Days Ahead
 
 Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have...
 
@@ -8,6 +8,7 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 
 [![Build Status](https://travis-ci.org/CleverRaven/Cataclysm-DDA.svg?branch=master)](https://travis-ci.org/CleverRaven/Cataclysm-DDA)
 [![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/CleverRaven/Cataclysm-DDA.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CleverRaven/Cataclysm-DDA/context:cpp)
 [![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
 [![Commit Activity](https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA)](https://github.com/CleverRaven/Cataclysm-DDA/graphs/contributors)
 [![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)

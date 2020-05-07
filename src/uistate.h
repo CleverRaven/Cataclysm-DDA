@@ -1,6 +1,6 @@
 #pragma once
-#ifndef UISTATE_H
-#define UISTATE_H
+#ifndef CATA_SRC_UISTATE_H
+#define CATA_SRC_UISTATE_H
 
 #include <list>
 #include <map>
@@ -14,7 +14,6 @@
 
 class item;
 
-
 struct advanced_inv_pane_save_state {
     public:
         int sort_idx = 1;
@@ -25,7 +24,7 @@ struct advanced_inv_pane_save_state {
         bool in_vehicle = false;
 
         template<typename JsonStream>
-        void serialize( JsonStream &json, std::string prefix ) const {
+        void serialize( JsonStream &json, const std::string &prefix ) const {
             json.member( prefix + "sort_idx", sort_idx );
             json.member( prefix + "filter", filter );
             json.member( prefix + "area_idx", area_idx );
@@ -33,7 +32,7 @@ struct advanced_inv_pane_save_state {
             json.member( prefix + "in_vehicle", in_vehicle );
         }
 
-        void deserialize( JsonObject &jo, std::string prefix ) {
+        void deserialize( const JsonObject &jo, const std::string &prefix ) {
             jo.read( prefix + "sort_idx", sort_idx );
             jo.read( prefix + "filter", filter );
             jo.read( prefix + "area_idx", area_idx );
@@ -57,7 +56,7 @@ struct advanced_inv_save_state {
         advanced_inv_pane_save_state pane_right;
 
         template<typename JsonStream>
-        void serialize( JsonStream &json, std::string prefix ) const {
+        void serialize( JsonStream &json, const std::string &prefix ) const {
             json.member( prefix + "active_left", active_left );
             json.member( prefix + "last_popup_dest", last_popup_dest );
 
@@ -67,7 +66,7 @@ struct advanced_inv_save_state {
             pane_right.serialize( json, prefix + "pane_right_" );
         }
 
-        void deserialize( JsonObject &jo, std::string prefix ) {
+        void deserialize( JsonObject &jo, const std::string &prefix ) {
             jo.read( prefix + "active_left", active_left );
             jo.read( prefix + "last_popup_dest", last_popup_dest );
 
@@ -276,4 +275,4 @@ class uistatedata
 };
 extern uistatedata uistate;
 
-#endif
+#endif // CATA_SRC_UISTATE_H

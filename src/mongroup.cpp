@@ -10,6 +10,7 @@
 #include "mtype.h"
 #include "options.h"
 #include "rng.h"
+#include "string_id.h"
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.

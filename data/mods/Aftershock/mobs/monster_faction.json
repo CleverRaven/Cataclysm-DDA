@@ -4,7 +4,8 @@
     "name": "PrepNet",
     "friendly": [ "Prepnet_Phyle", "human", "PrepNet", "player" ],
     "neutral": "herbivore",
-    "by_mood": [ "insect", "small_animal" ]
+    "by_mood": [ "insect", "small_animal" ],
+    "hate": [ "fungus" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -12,5 +13,12 @@
     "friendly": [ "human", "player" ],
     "neutral": "herbivore",
     "by_mood": [ "insect", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "UPLIFT",
+    "neutral": "herbivore",
+    "by_mood": [ "insect", "small_animal" ],
+    "hate": "zombie"
   }
 ]

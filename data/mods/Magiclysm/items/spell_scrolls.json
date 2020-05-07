@@ -103,6 +103,14 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_floating_disk",
+    "name": { "str": "Scroll of Summon Floating Disk", "str_pl": "Scrolls of Summon Floating Disk" },
+    "description": "Summons a floating disk that is sworn to carry your burdens.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_floating_disk" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_decayed_pouncer",
     "//": "Animist spell",
     "name": { "str": "Scroll of Summon Decayed Pouncer", "str_pl": "Scrolls of Summon Decayed Pouncer" },
@@ -729,6 +737,15 @@
     "name": { "str": "Scroll of X-ray Vision", "str_pl": "Scrolls of X-ray Vision" },
     "description": "You fire a cone of X-rays that magically allow you to see that area for a short time.",
     "use_action": { "type": "learn_spell", "spells": [ "x-ray" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_overcharge_eyes",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Optical Sneeze Beam", "str_pl": "Scrolls of Optical Sneeze Beam" },
+    "description": "You overcharge your internal batteries to send a semi-directed beam from your face.",
+    "use_action": { "type": "learn_spell", "spells": [ "overcharge_eyes" ] }
   },
   {
     "type": "GENERIC",

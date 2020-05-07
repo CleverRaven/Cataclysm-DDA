@@ -139,7 +139,8 @@
       { "item": "textbook_mechanics", "prob": 12 },
       { "item": "textbook_biodiesel", "prob": 10 },
       { "item": "book_icef", "prob": 8 },
-      { "item": "textbook_fabrication", "prob": 12 }
+      { "item": "textbook_fabrication", "prob": 12 },
+      { "item": "concrete_book", "prob": 12 }
     ]
   },
   {
@@ -391,6 +392,7 @@
       { "item": "textbook_fabrication", "prob": 12 },
       { "item": "welding_book", "prob": 2 },
       { "item": "glassblowing_book", "prob": 2 },
+      { "item": "concrete_book", "prob": 2 },
       { "item": "textbook_tailor", "prob": 12 },
       { "item": "recipe_fauxfur", "prob": 4 },
       { "item": "recipe_bows", "prob": 4 },
@@ -410,7 +412,8 @@
       { "item": "textbook_weapeast", "prob": 3 },
       { "item": "textbook_armwest", "prob": 3 },
       { "item": "textbook_armeast", "prob": 3 },
-      { "item": "survnote", "prob": 2 }
+      { "item": "survnote", "prob": 2 },
+      { "item": "book_lockpick", "prob": 2 }
     ]
   },
   {
@@ -463,6 +466,7 @@
       { "item": "collector_book", "prob": 30 },
       { "item": "carpentry_book", "prob": 5 },
       { "item": "jewelry_book", "prob": 5 },
+      { "item": "book_lockpick", "prob": 2 },
       { "group": "religious_books", "prob": 40 }
     ]
   },
@@ -510,6 +514,7 @@
       { "item": "manual_wingchun", "prob": 3 },
       { "item": "manual_medievalpole", "prob": 3 },
       { "item": "manual_swordsmanship", "prob": 3 },
+      { "item": "book_lockpick", "prob": 1 },
       { "group": "rare_martial_arts_books", "prob": 6 }
     ]
   },

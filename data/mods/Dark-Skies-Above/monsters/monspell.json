@@ -68,7 +68,7 @@
     "id": "dks_spell_mindblast",
     "name": "psi mindblast",
     "description": "blasts a target with a wave of disorienting psionic energy.  has random effects",
-    "valid_targets": [ "hostile" ],
+    "valid_targets": [ "hostile", "ground" ],
     "message": "",
     "effect": "none",
     "min_damage": 1,
@@ -85,5 +85,20 @@
       { "id": "dks_monspell_psighost" }
     ],
     "flags": [ "SILENT", "WONDER" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "dks_cameraflash",
+    "name": "camera",
+    "description": "an attack that blinds the target for a few turns",
+    "valid_targets": [ "hostile" ],
+    "effect": "target_attack",
+    "effect_str": "blind",
+    "message": "",
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 425,
+    "max_duration": 425,
+    "flags": [ "SILENT" ]
   }
 ]

@@ -1,53 +1,55 @@
 #include "npctalk.h" // IWYU pragma: associated
 
-#include <cstddef>
 #include <algorithm>
-#include <string>
-#include <vector>
+#include <cstddef>
 #include <memory>
 #include <set>
+#include <string>
+#include <vector>
 
-#include "activity_handlers.h"
+#include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
-#include "debug.h"
-#include "game.h"
-#include "event_bus.h"
-#include "line.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "messages.h"
-#include "mission.h"
-#include "morale_types.h"
-#include "mutation.h"
-#include "npc.h"
-#include "npctrade.h"
-#include "output.h"
-#include "overmapbuffer.h"
-#include "requirements.h"
-#include "rng.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "ui.h"
-#include "auto_pickup.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "debug.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "faction.h"
+#include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "line.h"
+#include "magic.h"
+#include "map.h"
+#include "memory_fast.h"
+#include "messages.h"
+#include "mission.h"
+#include "monster.h"
+#include "morale_types.h"
+#include "mutation.h"
+#include "npc.h"
+#include "npctrade.h"
 #include "optional.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
-#include "string_id.h"
-#include "material.h"
-#include "monster.h"
 #include "point.h"
+#include "rng.h"
+#include "string_id.h"
+#include "translations.h"
+#include "ui.h"
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -340,7 +342,6 @@ void talk_function::goto_location( npc &p )
         add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
         return;
     }
-    p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.guard_pos = npc::no_goal_point;
@@ -357,12 +358,6 @@ void talk_function::assign_guard( npc &p )
 
     if( p.has_player_activity() ) {
         p.revert_after_activity();
-    }
-
-    if( p.is_travelling() ) {
-        if( p.has_companion_mission() ) {
-            p.reset_companion_mission();
-        }
     }
     p.set_attitude( NPCATT_NULL );
     p.set_mission( NPC_MISSION_GUARD_ALLY );
@@ -393,12 +388,6 @@ void talk_function::assign_camp( npc &p )
         if( p.has_player_activity() ) {
             p.revert_after_activity();
         }
-
-        if( p.is_travelling() ) {
-            if( p.has_companion_mission() ) {
-                p.reset_companion_mission();
-            }
-        }
         p.chatbin.first_topic = "TALK_FRIEND_GUARD";
         p.set_omt_destination();
     }
@@ -414,6 +403,9 @@ void talk_function::stop_guard( npc &p )
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.set_mission( NPC_MISSION_NULL );
+    if( p.has_companion_mission() ) {
+        p.reset_companion_mission();
+    }
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
@@ -533,18 +525,20 @@ void talk_function::give_equipment( npc &p )
 {
     std::vector<item_pricing> giving = npc_trading::init_selling( p );
     int chosen = -1;
-    while( chosen == -1 && giving.size() > 1 ) {
+    while( chosen == -1 && !giving.empty() ) {
         int index = rng( 0, giving.size() - 1 );
         if( giving[index].price < p.op_of_u.owed ) {
             chosen = index;
+        } else {
+            giving.erase( giving.begin() + index );
         }
-        giving.erase( giving.begin() + index );
     }
     if( giving.empty() ) {
         popup( _( "%s has nothing to give!" ), p.name );
         return;
     }
-    if( chosen == -1 ) {
+    if( chosen < 0 || static_cast<size_t>( chosen ) >= giving.size() ) {
+        debugmsg( "Chosen index is outside of available item range!" );
         chosen = 0;
     }
     item it = *giving[chosen].loc.get_item();

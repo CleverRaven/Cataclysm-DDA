@@ -1,19 +1,19 @@
 #pragma once
-#ifndef VITAMIN_H
-#define VITAMIN_H
+#ifndef CATA_SRC_VITAMIN_H
+#define CATA_SRC_VITAMIN_H
 
 #include <map>
-#include <utility>
-#include <vector>
 #include <set>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+template <typename T> struct enum_traits;
 
 enum vitamin_type {
     VITAMIN,
@@ -110,4 +110,4 @@ class vitamin
         std::set<std::string> flags_;
 };
 
-#endif
+#endif // CATA_SRC_VITAMIN_H

@@ -148,7 +148,6 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```laser_capacitor``` Charge
 - ```m235``` M235 TPA (66mm Incendiary Rocket)
 - ```metal_rail``` Rebar Rail
-- ```mininuke_mod``` Mininuke
 - ```money``` Cents
 - ```muscle``` Muscle
 - ```nail``` Nail
@@ -190,6 +189,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```NAPALM``` Explosion that spreads fire.
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
+- ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
 - ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilise them.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
@@ -238,6 +238,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
 - ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
+- ```BULLET_IMMNUE``` Wearing an item with this flag makes you immune to bullet damage
 - ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
 - ```DEAF``` Makes the player deaf.
@@ -391,6 +392,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```TORCH``` Light a torch.
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - ```TOWEL``` Dry your character using the item as towel.
+- ```TOW_ATTACH``` This is a tow cable, activate it to attach it to a vehicle.
 - ```TURRET``` Activate a turret.
 - ```WASH_ALL_ITEMS``` Wash items with FILTHY flag.
 - ```WASH_HARD_ITEMS``` Wash hard items with FILTHY flag.
@@ -565,6 +567,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
+- ```PICKABLE``` This terrain/furniture could be picked with lockpicks.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
 - ```PLANTABLE``` This terrain or furniture can have seeds planted in it.
@@ -678,6 +681,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```REQUIRES_TINDER``` ... Requires tinder to be present on the tile this item tries to start a fire on.
 - ```SLEEP_AID``` ... This item helps in sleeping.
+- ```SLEEP_IGNORE``` ... This item is not shown as before-sleep warning.
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "NEEDS_UNFOLD".
 - ```TACK``` ... Item can be used as tack for a mount.
 - ```TIE_UP``` ... Item can be used to tie up a creature.
@@ -744,29 +748,33 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ## MAP SPECIALS
 
-- ```mx_anomaly``` ...  Natural anomaly (crater + artifact).
 - ```mx_bandits_block``` ...  Road block made by bandits from tree logs.
 - ```mx_burned_ground``` ... Fire has ravaged this place.
 - ```mx_point_burned_ground``` ... Fire has ravaged this place. (partial application)
+- ```mx_casings``` ... Several types of spent casings (solitary, groups, entire overmap tile)
 - ```mx_clay_deposit``` ... A small surface clay deposit.
 - ```mx_clearcut``` ... All trees become stumps.
 - ```mx_collegekids``` ... Corpses and items.
+- ```mx_corpses``` ... Up to 5 corpses with everyday loot.
 - ```mx_crater``` ... Crater with rubble (and radioactivity).
 - ```mx_drugdeal``` ... Corpses and some drugs.
 - ```mx_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.)
 - ```mx_point_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.) (partial application)
-- ```mx_fumarole``` ... A lava rift.
 - ```mx_grove``` ... All trees and shrubs become a single species of tree.
+- ```mx_grave``` ... A grave in the open field, with a corpse and some everyday loot.
 - ```mx_helicopter``` ... Metal wreckage and some items.
 - ```mx_jabberwock``` ... A *chance* of a jabberwock.
+- ```mx_looters``` ... Up to 5 bandits spawn in the building.
+- ```mx_marloss_pilgrimage``` A sect of people worshiping fungaloids.
+- ```mx_mayhem``` ... Several types of road mayhem (firefights, crashed cars etc).
 - ```mx_military``` ... Corpses and some military items.
-- ```mx_minefield``` ... Landmines, a field of them.
+- ```mx_minefield``` ... A military roadblock at the entry of the bridges with landmines scattered in the front of it.
 - ```mx_null``` ... No special at all.
 - ```mx_pond``` ... A small pond.
 - ```mx_portal_in``` ... Another portal to neither space.
-- ```mx_portal``` ... Portal to neither space.
+- ```mx_portal``` ... Portal to neither space, with several types of surrounding environment.
 - ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
-- ```mx_roadworks``` ... Partialy closed damaged road with chance of work equipment and utility vehicles.
+- ```mx_roadworks``` ... Partially closed damaged road with chance of work equipment and utility vehicles.
 - ```mx_science``` ... Corpses and some scientist items.
 - ```mx_shia``` ... A *chance* of Shia, if Crazy Catalcysm is enabled.
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
@@ -793,10 +801,11 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```NO_UNWIELD``` Cannot unwield this item.
+- ```POLEARM``` Item is clumsy up close and does 70% of normal damage against adjacent targets.  Should be paired with REACH_ATTACK.  Simple reach piercing weapons like spears should not get this flag.
 - ```REACH_ATTACK``` Allows to perform reach attack.
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
-- ```SPEAR``` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle
+- ```SPEAR``` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle.  Should be paired with REACH_ATTACK.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```WHIP``` Has a chance of disarming the opponent.
 
@@ -1001,7 +1010,10 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```ACID_BARF``` Barfs corroding, blinding acid.
 - ```ACID``` Spit acid.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
-- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown maneuverer.
+- ```BIO_OP_BIOJUTSU``` Attack with a random special martial art maneuver.
+- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown maneuver.
+- ```BIO_OP_DISARM``` Attack with a special martial art disarm maneuver.
+- ```BIO_OP_IMPALE``` Attack with a strong martial art maneuver.
 - ```BITE``` Bite attack that can cause deep infected wounds.
 - ```BMG_TUR``` Barrett .50BMG rifle fires.
 - ```BOOMER_GLOW``` Spit glowing bile.
@@ -1087,7 +1099,6 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 #### Flags
 
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
-- ```NEED_ACTIVE_TO_MELEE``` This mutation gives bonus to unarmed melee only if it's active.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
@@ -1129,10 +1140,14 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BEE``` Location is related to bees. Used to classify location.
 - ```BLOB``` Location should "blob" outward from the defined location with a chance to be placed in adjacent locations.
 - ```CLASSIC``` Location is allowed when classic zombies are enabled.
+- ```FARM```
 - ```FUNGAL``` Location is related to fungi. Used to classify location.
-- ```TRIFFID``` Location is related to triffids. Used to classify location.
 - ```LAKE``` Location is is placed on a lake and will be ignored for placement if the overmap doesn't contain any lake terrain.
+- ```MI-GO``` Location is related to mi-go.
+- ```TRIFFID``` Location is related to triffids. Used to classify location.
 - ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
+- ```URBAN```
+- ```WILDERNESS```
 
 ### Overmap terrains
 
@@ -1373,6 +1388,9 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NAILABLE``` Attached with nails
 - ```NEEDS_BATTERY_MOUNT```
 - ```NOINSTALL``` Cannot be installed.
+- ```NO_INSTALL_PLAYER``` Cannot be installed by a player, but can be installed on vehicles.
+- ```NO_UNINSTALL``` Cannot be unintalled
+- ```NO_REPAIR``` Cannot be repaired
 - ```NO_JACK```
 - ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
 - ```ODDTURN``` Only on during odd turns.
@@ -1413,7 +1431,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto. Can only be installed on a part with ```TURRET``` flag.
 - ```TURRET_MOUNT``` Parts with this flag are suitable for installing turrets.
 - ```TURRET``` Is a weapon turret. Can only be installed on a part with ```TURRET_MOUNT``` flag.
-- ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.
+- ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage. Item is new and typically undamaged.
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```VISION```

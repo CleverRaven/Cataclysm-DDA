@@ -31,7 +31,11 @@
       [ "seed_flower", 60 ],
       [ "seed_beans", 60 ],
       [ "seed_chili_pepper", 60 ],
-      [ "seed_tomato", 60 ]
+      [ "seed_tomato", 60 ],
+      [ "seed_horseradish", 10 ],
+      [ "seed_spurge", 10 ],
+      [ "seed_popcorn", 10 ],
+      [ "seed_mustard", 10 ]
     ]
   },
   {
@@ -72,6 +76,11 @@
   },
   {
     "type": "item_group",
+    "id": "fertilizers",
+    "items": [ [ "fertilizer_liquid", 90 ], [ "fertilizer_commercial", 60 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "hydro",
     "items": [
       [ "blueberries", 3 ],
@@ -82,6 +91,7 @@
       [ "blackberries", 2 ],
       [ "rhubarb", 5 ],
       [ "wheat", 6 ],
+      [ "oats", 6 ],
       [ "barley", 6 ],
       [ "sugar_beet", 4 ],
       [ "hops", 4 ],
@@ -112,6 +122,10 @@
       [ "seed_lentils", 1 ],
       [ "seed_chili_pepper", 1 ],
       [ "seed_garlic", 1 ],
+      [ "seed_horseradish", 1 ],
+      [ "seed_popcorn", 1 ],
+      [ "seed_mustard", 1 ],
+      [ "seed_oats", 1 ],
       [ "tomato", 9 ],
       [ "pumpkin", 6 ],
       [ "broccoli", 9 ],

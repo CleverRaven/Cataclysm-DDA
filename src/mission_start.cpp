@@ -1,12 +1,16 @@
 #include "mission.h" // IWYU pragma: associated
 
-#include <vector>
+#include <algorithm>
 #include <memory>
+#include <vector>
 
 #include "avatar.h"
 #include "computer.h"
 #include "debug.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -16,15 +20,12 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
+#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "item.h"
-#include "optional.h"
-#include "rng.h"
 
 static const mtype_id mon_dog( "mon_dog" );
 
@@ -155,10 +156,10 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
                 }
             }
             if( wall == 5 ) {
-                if( compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), NORTH ) &&
-                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), SOUTH ) &&
-                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), WEST ) &&
-                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), EAST ) ) {
+                if( compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::NORTH ) &&
+                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::SOUTH ) &&
+                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::WEST ) &&
+                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), direction::EAST ) ) {
                     potential.emplace_back( p );
                 }
             }

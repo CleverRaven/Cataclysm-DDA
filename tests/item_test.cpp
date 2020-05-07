@@ -1,15 +1,15 @@
 #include <initializer_list>
 #include <limits>
-#include <list>
+#include <memory>
 
-#include "catch/catch.hpp"
 #include "calendar.h"
+#include "catch/catch.hpp"
+#include "enums.h"
+#include "item.h"
 #include "itype.h"
 #include "ret_val.h"
 #include "units.h"
-#include "item.h"
-#include "enums.h"
-#include "optional.h"
+#include "value_ptr.h"
 
 TEST_CASE( "item_volume", "[item]" )
 {
@@ -45,7 +45,7 @@ TEST_CASE( "gun_layer", "[item]" )
     item gun( "win70" );
     item mod( "shoulder_strap" );
     CHECK( gun.is_gunmod_compatible( mod ).success() );
-    gun.contents.push_back( mod );
+    gun.put_in( mod, item_pocket::pocket_type::MOD );
     CHECK( gun.get_layer() == BELTED_LAYER );
 }
 

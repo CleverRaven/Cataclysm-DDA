@@ -8,10 +8,11 @@
     "weight": "78 g",
     "volume": "250 ml",
     "price": 3500,
+    "price_postapoc": 100,
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "300",
+    "ammo_type": [ "300" ],
     "capacity": 5,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]

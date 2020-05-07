@@ -1,41 +1,43 @@
 #include "basecamp.h"
 
 #include <algorithm>
-#include <sstream>
 #include <map>
+#include <sstream>
 #include <string>
-#include <vector>
+#include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character_id.h"
 #include "clzones.h"
+#include "color.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "translations.h"
+#include "debug.h"
+#include "faction_camp.h"
+#include "flat_set.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "npc.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "npc.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "requirements.h"
-#include "string_input_popup.h"
-#include "faction_camp.h"
-#include "calendar.h"
-#include "color.h"
-#include "compatibility.h"
+#include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
+#include "translations.h"
 #include "type_id.h"
-#include "flat_set.h"
-#include "line.h"
 
 static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
 
@@ -219,7 +221,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
         comp = comp + elem + "\n";
     }
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
-                          making.description, making.required_skills_string(), comp );
+                          making.description, making.required_all_skills_string(), comp );
     if( !trunc ) {
         time_duration base_time = making.batch_duration();
         comp += string_format( _( "Risk: None\nTime: %s\n" ),

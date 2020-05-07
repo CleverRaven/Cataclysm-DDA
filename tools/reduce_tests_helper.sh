@@ -11,6 +11,7 @@ then
 fi
 
 if ./tests/cata_test -d yes --abort --rng-seed "$rng_seed" \
+    $REDUCE_TESTS_EXTRA_OPTS \
     -f <(tr -d '{}' < "$multidelta_all_files")
 then
     exit 1

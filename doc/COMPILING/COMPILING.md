@@ -449,11 +449,6 @@ ncurses (with wide character support enabled) and gettext are needed if you want
 For Homebrew:
 
     brew install gettext ncurses
-    brew link --force gettext ncurses
-
-Then, after compiling, be sure to unlink these libraries to prevent conflicts with the OS X shared libraries:
-
-    brew unlink gettext ncurses
 
 For MacPorts:
 
@@ -493,6 +488,7 @@ The Cataclysm source is compiled using `make`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
 * `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
+* `BREWGETTEXT=1` set this if you don't set LOCALIZE=0 and have installed `gettext` from homebrew--homebrew will refuse to link gettext in recent versions.
 * `LANGUAGES="<lang_id_1>[lang_id_2][...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`. You can also use `LANGUAGES=all` to compile all localization files.
 * `RELEASE=1` build an optimized release version; omit for debug build.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.

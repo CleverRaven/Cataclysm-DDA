@@ -1,8 +1,17 @@
+#include <cstdlib>
+#include <memory>
+#include <string>
+#include <utility>
+
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
+#include "item.h"
 #include "itype.h"
 #include "player_helpers.h"
 #include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
 
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
@@ -412,7 +421,7 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
                 // Needs 1 kJ per negative fun unit to nullify bad taste
                 dummy.set_power_level( 10_kJ );
                 REQUIRE( garlic_fun < -10 );
-                REQUIRE_FALSE( dummy.get_power_level() > units::from_kilojoule( abs( garlic_fun ) ) );
+                REQUIRE_FALSE( dummy.get_power_level() > units::from_kilojoule( std::abs( garlic_fun ) ) );
 
                 THEN( "the bad taste remains" ) {
                     actual_fun = dummy.fun_for( garlic );
@@ -423,7 +432,7 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
             WHEN( "it has enough power" ) {
                 REQUIRE( garlic_fun >= -20 );
                 dummy.set_power_level( 20_kJ );
-                REQUIRE( dummy.get_power_level() > units::from_kilojoule( abs( garlic_fun ) ) );
+                REQUIRE( dummy.get_power_level() > units::from_kilojoule( std::abs( garlic_fun ) ) );
 
                 THEN( "the bad taste is nullified" ) {
                     actual_fun = dummy.fun_for( garlic );

@@ -1,25 +1,28 @@
 #include "player.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <array>
+#include <cstddef>
+#include <iterator>
+#include <memory>
 #include <string>
 #include <vector>
-#include <iterator>
-#include <cstddef>
 
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
+#include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "line.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "debug.h"
-#include "enums.h"
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 
@@ -300,8 +303,6 @@ std::vector<std::string> clothing_properties(
                                      width ) );
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
-    props.push_back( name_and_value( space + string_format( _( "Storage (%s):" ), volume_units_abbr() ),
-                                     format_volume( worn_item.get_storage() ), width ) );
     return props;
 }
 
@@ -316,6 +317,8 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
                                     string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Ballistic:" ),
+                                    string_format( "%3d", static_cast<int>( worn_item.bullet_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Acid:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.acid_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Fire:" ),
@@ -596,8 +599,6 @@ void player::sort_armor()
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
-            right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
-                         format_volume( tmp_worn[itemindex]->get_storage() ) );
         }
 
         // Left footer
@@ -842,7 +843,7 @@ void player::sort_armor()
                     item &w = *witer;
                     if( invlet == w.invlet ) {
                         ++witer;
-                    } else if( invlet_to_position( invlet ) != INT_MIN ) {
+                    } else if( invlet_to_item( invlet ) != nullptr ) {
                         ++iiter;
                     } else {
                         inv.reassign_item( w, invlet );

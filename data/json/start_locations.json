@@ -1,437 +1,427 @@
 [
   {
     "type": "start_location",
-    "ident": "shelter",
+    "id": "sloc_shelter",
     "name": "Shelter",
-    "target": "shelter"
+    "terrain": [ "shelter", "shelter_1", "shelter_2" ]
   },
   {
     "type": "start_location",
-    "ident": "shelter_1",
-    "name": "Shelter",
-    "target": "shelter_1"
+    "id": "sloc_shelter_vandalized",
+    "name": "Shelter (Vandalized)",
+    "terrain": [ "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ]
   },
   {
     "type": "start_location",
-    "ident": "shelter_2",
-    "name": "Shelter",
-    "target": "shelter_2"
+    "id": "sloc_refugee_center",
+    "name": "Refugee Center",
+    "terrain": [ "evac_center_7" ]
   },
   {
     "type": "start_location",
-    "ident": "refugee",
-    "name": "Refuge Center",
-    "target": "evac_center_7"
+    "id": "sloc_house_boarded",
+    "copy-from": "sloc_house",
+    "name": "House (boarded up)",
+    "extend": { "flags": [ "BOARDED" ] }
   },
   {
     "type": "start_location",
-    "ident": "boarded_house",
-    "name": "Boarded up house",
-    "target": "house_w_1",
-    "flags": [ "BOARDED" ]
-  },
-  {
-    "type": "start_location",
-    "ident": "field",
+    "id": "sloc_field",
     "name": "Field",
-    "target": "field",
+    "terrain": [ "field" ],
     "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
-    "ident": "house_w_1",
+    "id": "sloc_house",
     "name": "House",
-    "target": "house_w_1"
+    "terrain": [
+      "house_w_1",
+      "house_two_story_basement",
+      "house_crack1",
+      "house_crack2",
+      "house_crack3",
+      "house_wooded",
+      "house_prepper",
+      "house_prepper2",
+      "house_fortified",
+      "duplex",
+      "house_duplex2",
+      "house_duplex3",
+      "house_duplex4",
+      "house_duplex5",
+      "house_duplex6",
+      "house_duplex7",
+      "house_duplex8",
+      "house_duplex9",
+      "house_duplex10",
+      "house_duplex11",
+      "house_w_2",
+      "house_w_3",
+      "house_w_4",
+      "house_w_5",
+      "house_w_6",
+      "house_01",
+      "house_02",
+      "house_03",
+      "house_04",
+      "house_05",
+      "house_05ab",
+      "house_06",
+      "house_07",
+      "house_08",
+      "house_09",
+      "house_09b",
+      "house_10",
+      "house_11",
+      "house_12",
+      "house_13",
+      "house_14",
+      "house_15",
+      "house_16",
+      "house_17",
+      "house_18",
+      "house_19",
+      "house_20",
+      "house_21",
+      "house_22",
+      "house_23",
+      "house_24",
+      "house_25",
+      "house_26",
+      "house_27",
+      "house_28",
+      "house_29",
+      "house_30",
+      "house_31",
+      "house_32",
+      "house_garage",
+      "house_garage2",
+      "house_garage3",
+      "house_garage4",
+      "house_garage5",
+      "house_garage6",
+      "house_garage7",
+      "house_garage8",
+      "rural_house1",
+      "rural_house2",
+      "house_toolshed",
+      "house_suicide",
+      "house_quiverfull",
+      "house_rv",
+      "house_porch",
+      "house_patio",
+      "house_modern_1",
+      "house_library",
+      "house_detatched1",
+      "house_detatched2",
+      "house_detatched3",
+      "house_detatched4",
+      "house_detatched5",
+      "house_detatched6",
+      "house_detatched7",
+      "house_detatched8",
+      "house_detatched9",
+      "house_detatched10",
+      "house_dogs",
+      "house_gardener",
+      "house_inner_garden",
+      "house_vacant",
+      "house_vacant2"
+    ]
   },
   {
     "type": "start_location",
-    "ident": "house_w_2",
-    "name": "House",
-    "target": "house_w_2"
-  },
-  {
-    "type": "start_location",
-    "ident": "house_w_3",
-    "name": "House",
-    "target": "house_w_3"
-  },
-  {
-    "type": "start_location",
-    "ident": "house_w_4",
-    "name": "House",
-    "target": "house_w_4"
-  },
-  {
-    "type": "start_location",
-    "ident": "house_w_5",
-    "name": "House",
-    "target": "house_w_5"
-  },
-  {
-    "type": "start_location",
-    "ident": "house_w_6",
-    "name": "House",
-    "target": "house_w_6"
-  },
-  {
-    "type": "start_location",
-    "ident": "s_grocery",
+    "id": "sloc_grocery_store",
     "name": "Grocery Store",
-    "target": "s_grocery"
+    "terrain": [ "s_grocery", "s_grocery_1" ]
   },
   {
     "type": "start_location",
-    "ident": "s_grocery_1",
-    "name": "Grocery Store",
-    "target": "s_grocery_1"
-  },
-  {
-    "type": "start_location",
-    "ident": "s_gun",
+    "id": "sloc_gun_store",
     "name": "Gun Store",
-    "target": "s_gun"
+    "terrain": [ "s_gun", "s_gun_1", "s_gun_2", "s_gun_3", "s_gun_4" ]
   },
   {
     "type": "start_location",
-    "ident": "s_garage",
+    "id": "sloc_garage",
     "name": "Garage",
-    "target": "s_garage"
+    "terrain": [ "s_garage", "s_garage_1", "s_garage_2", "garage_gas_1", "garage_gas_2", "garage_gas_3" ]
   },
   {
     "type": "start_location",
-    "ident": "pawn",
+    "id": "sloc_pawn_shop",
     "name": "Pawn Shop",
-    "target": "pawn"
+    "terrain": [ "pawn", "pawn_1", "pawn_pf" ]
   },
   {
     "type": "start_location",
-    "ident": "bank",
+    "id": "sloc_bank",
     "name": "Bank",
-    "target": "bank"
+    "terrain": [ "bank", "bank_1" ]
   },
   {
     "type": "start_location",
-    "ident": "mil_surplus",
+    "id": "sloc_military_surplus",
     "name": "Military Surplus",
-    "target": "mil_surplus"
+    "terrain": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ]
   },
   {
     "type": "start_location",
-    "ident": "furniture",
+    "id": "sloc_furniture_store",
     "name": "Furniture Store",
-    "target": "furniture"
+    "terrain": [ "furniture" ]
   },
   {
     "type": "start_location",
-    "ident": "s_library",
+    "id": "sloc_library",
     "name": "Library",
-    "target": "s_library"
+    "terrain": [ "s_library", "s_library_1", "s_library_2" ]
   },
   {
     "type": "start_location",
-    "ident": "s_bookstore",
+    "id": "sloc_bookstore",
     "name": "Bookstore",
-    "target": "s_bookstore"
+    "terrain": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ]
   },
   {
     "type": "start_location",
-    "ident": "cabin",
+    "id": "sloc_cabin",
     "name": "Cabin",
-    "target": "cabin"
+    "terrain": [ "cabin" ]
   },
   {
     "type": "start_location",
-    "ident": "hospital_1",
+    "id": "sloc_hospital",
     "name": "Hospital",
-    "target": "hospital_1"
+    "terrain": [ { "om_terrain": "hospital", "om_terrain_match_type": "PREFIX" } ]
   },
   {
     "type": "start_location",
-    "ident": "hospital_2",
-    "name": "Hospital",
-    "target": "hospital_2"
-  },
-  {
-    "type": "start_location",
-    "ident": "hospital_3",
-    "name": "Hospital",
-    "target": "hospital_3"
-  },
-  {
-    "type": "start_location",
-    "ident": "hospital_4",
-    "name": "Hospital",
-    "target": "hospital_4"
-  },
-  {
-    "type": "start_location",
-    "ident": "hospital_5",
-    "name": "Hospital",
-    "target": "hospital_5"
-  },
-  {
-    "type": "start_location",
-    "ident": "hospital_6",
-    "name": "Hospital",
-    "target": "hospital_6"
-  },
-  {
-    "type": "start_location",
-    "ident": "hospital_7",
-    "name": "Hospital",
-    "target": "hospital_7"
-  },
-  {
-    "type": "start_location",
-    "ident": "hospital_8",
-    "name": "Hospital",
-    "target": "hospital_8"
-  },
-  {
-    "type": "start_location",
-    "ident": "hospital_9",
-    "name": "Hospital",
-    "target": "hospital_9"
-  },
-  {
-    "type": "start_location",
-    "ident": "lmoe",
-    "name": "LMOE",
-    "target": "lmoe"
-  },
-  {
-    "type": "start_location",
-    "ident": "lmoe_empty",
+    "id": "sloc_lmoe",
     "name": "LMOE shelter",
-    "target": "lmoe_under_empty"
+    "terrain": [ "lmoe" ]
   },
   {
     "type": "start_location",
-    "ident": "forest",
+    "id": "sloc_lmoe_empty",
+    "name": "LMOE shelter (underground)",
+    "terrain": [ "lmoe_under_empty" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_forest",
     "name": "Middle of Nowhere",
-    "target": "forest",
+    "terrain": [ "forest" ],
     "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
-    "ident": "lab_escape_cells",
+    "id": "sloc_lab_escape_cells",
     "name": "Experiment Cell",
-    "target": "lab_escape_cells"
+    "terrain": [ "lab_escape_cells" ]
   },
   {
     "type": "start_location",
-    "ident": "lab_random",
+    "id": "sloc_lab_random",
     "name": "Science lab",
-    "target": "lab_stairs"
+    "terrain": [ "lab_stairs" ]
   },
   {
     "type": "start_location",
-    "ident": "lab_finale",
+    "id": "sloc_lab_finale",
     "name": "Bottom of a science lab",
-    "target": "lab_finale"
+    "terrain": [ "lab_finale" ]
   },
   {
     "type": "start_location",
-    "ident": "ice_lab_stairs",
+    "id": "sloc_ice_lab_stairs",
     "name": "Frozen science lab",
-    "target": "ice_lab_stairs"
+    "terrain": [ "ice_lab_stairs" ]
   },
   {
     "type": "start_location",
-    "ident": "ice_lab_finale",
+    "id": "sloc_ice_lab_finale",
     "name": "Deep-frozen science lab",
-    "target": "ice_lab_finale"
+    "terrain": [ "ice_lab_finale" ]
   },
   {
     "type": "start_location",
-    "ident": "mall_a_12",
-    "name": "mall loading area",
-    "target": "mall_a_12"
+    "id": "sloc_mall_loading_area",
+    "name": "Mall (loading area)",
+    "terrain": [ "mall_a_12" ]
   },
   {
     "type": "start_location",
-    "ident": "mall_a_30",
-    "name": "mall food court",
-    "target": "mall_a_30"
+    "id": "sloc_mall_food_court",
+    "name": "Mall (food court)",
+    "terrain": [ "mall_a_30" ]
   },
   {
     "type": "start_location",
-    "ident": "fire_station",
+    "id": "sloc_fire_station",
     "name": "Fire Station",
-    "target": "fire_station"
+    "terrain": [
+      { "om_terrain": "fire_station", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "fire_station_1", "om_terrain_match_type": "TYPE" }
+    ]
   },
   {
     "type": "start_location",
-    "ident": "police",
+    "id": "sloc_police",
     "name": "Police Station",
-    "target": "police"
+    "terrain": [
+      { "om_terrain": "police", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "police_1", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "police_2", "om_terrain_match_type": "TYPE" }
+    ]
   },
   {
     "type": "start_location",
-    "ident": "fp_break_room",
+    "id": "sloc_restaraunt_foodplace_break_room",
     "name": "Foodplace Break Room",
-    "target": "s_restaurant_foodplace_roof"
+    "terrain": [ "s_restaurant_foodplace_roof" ]
   },
   {
     "type": "start_location",
-    "ident": "school",
+    "id": "sloc_school",
     "name": "School",
-    "target": "school_1_5"
+    "terrain": [ { "om_terrain": "school", "om_terrain_match_type": "CONTAINS" } ]
   },
   {
     "type": "start_location",
-    "ident": "mine_finale",
+    "id": "sloc_mine_finale",
     "name": "Bottom of a mine",
-    "target": "mine_finale"
+    "terrain": [ "mine_finale" ]
   },
   {
     "type": "start_location",
-    "ident": "prison",
+    "id": "sloc_prison",
     "name": "Prison",
-    "target": "prison_1_b_5"
+    "terrain": [ "prison_1_b_5" ]
   },
   {
     "type": "start_location",
-    "ident": "alcatraz",
+    "id": "sloc_prison_alcatraz",
     "name": "Island prison",
-    "target": "prison_alcatraz_3"
+    "terrain": [ "prison_alcatraz_3" ]
   },
   {
     "type": "start_location",
-    "ident": "mi-go_camp",
+    "id": "sloc_mi-go_camp",
     "name": "Mi-go camp",
-    "target": "mi-go_camp1"
+    "terrain": [ "mi-go_camp1" ]
   },
   {
     "type": "start_location",
-    "ident": "Swamp Shack",
+    "id": "sloc_hermit_shack",
     "name": "Hermit Shack",
-    "target": "hunter_shack"
+    "terrain": [ "hunter_shack" ]
   },
   {
     "type": "start_location",
-    "ident": "campsite_a",
-    "name": "campsite",
-    "target": "campsite_a"
+    "id": "sloc_campsite",
+    "name": "Campsite",
+    "terrain": [ { "om_terrain": "campsite", "om_terrain_match_type": "CONTAINS" } ]
   },
   {
     "type": "start_location",
-    "ident": "campsite",
-    "name": "campsite",
-    "target": "campsite"
+    "id": "sloc_campground",
+    "name": "Campground",
+    "terrain": [ "campground_1a", "campground_1b", "campground_2a", "campground_2b" ]
   },
   {
     "type": "start_location",
-    "ident": "campground_1a",
-    "name": "campground",
-    "target": "campground_1a"
+    "id": "sloc_farm_survivalist",
+    "name": "Farm",
+    "terrain": [ "farm_2" ]
   },
   {
     "type": "start_location",
-    "ident": "campground_2b",
-    "name": "campground",
-    "target": "campground_2b"
-  },
-  {
-    "type": "start_location",
-    "ident": "survivalist farm",
-    "name": "farm",
-    "target": "farm_2"
-  },
-  {
-    "type": "start_location",
-    "ident": "religous_church",
+    "id": "sloc_church",
     "name": "Church",
-    "target": "church"
+    "terrain": [ "church_3rdfloor_1", "church_1", "church_steeple_end", "church" ]
   },
   {
     "type": "start_location",
-    "ident": "religous_cemetery",
-    "name": "Religious Cemetery",
-    "target": "cemetery_4square_10"
+    "id": "sloc_cemetery",
+    "name": "Cemetery",
+    "terrain": [
+      { "om_terrain": "cemetery_4square", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "Cemetery", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "cemetery_small", "om_terrain_match_type": "PREFIX" }
+    ]
   },
   {
     "type": "start_location",
-    "ident": "basement_bionic",
+    "id": "sloc_basement_bionic",
     "name": "Shady Basement",
-    "target": "basement_bionic"
+    "terrain": [ "basement_bionic" ]
   },
   {
     "type": "start_location",
-    "ident": "zoo_0_1",
-    "name": "Zoo Giftshop",
-    "target": "zoo_0_1"
+    "id": "sloc_zoo_giftshop",
+    "name": "Zoo (Giftshop)",
+    "terrain": [ "zoo_0_1" ]
   },
   {
     "type": "start_location",
-    "ident": "zoo_1_1",
-    "name": "Zoo Cages",
-    "target": "zoo_1_1"
+    "id": "sloc_zoo_cages",
+    "name": "Zoo (Cages)",
+    "terrain": [ "zoo_1_1" ]
   },
   {
     "type": "start_location",
-    "ident": "golfcourse_11",
-    "name": "Golf course mid course",
-    "target": "golfcourse_11"
+    "id": "sloc_golfcourse_mid_course",
+    "name": "Golf Course (mid course)",
+    "terrain": [ "golfcourse_11" ]
   },
   {
     "type": "start_location",
-    "ident": "golfcourse_31",
-    "name": "Golf course clubhouse",
-    "target": "golfcourse_31"
+    "id": "sloc_golfcourse_clubhouse",
+    "name": "Golf Course (clubhouse)",
+    "terrain": [ "golfcourse_31" ]
   },
   {
     "type": "start_location",
-    "ident": "apartments_con_tower_114",
-    "name": "Apartment Rooftop",
-    "target": "apartments_con_tower_114"
+    "id": "sloc_apartments_rooftop",
+    "name": "Apartment Building (rooftop)",
+    "terrain": [ "apartments_con_tower_114", "apartments_con_tower_014", "apartments_con_tower_104", "apartments_con_tower_004" ]
   },
   {
     "type": "start_location",
-    "ident": "apartments_con_tower_014",
-    "name": "Apartment Rooftop",
-    "target": "apartments_con_tower_014"
-  },
-  {
-    "type": "start_location",
-    "ident": "apartments_con_tower_104",
-    "name": "Apartment Rooftop",
-    "target": "apartments_con_tower_104"
-  },
-  {
-    "type": "start_location",
-    "ident": "apartments_con_tower_004",
-    "name": "Apartment Rooftop",
-    "target": "apartments_con_tower_004"
-  },
-  {
-    "type": "start_location",
-    "ident": "horse_farm_13",
+    "id": "sloc_horse_ranch",
     "name": "Horse Ranch",
-    "target": "horse_farm_13"
+    "terrain": [ "horse_farm_13" ]
   },
   {
     "type": "start_location",
-    "ident": "cabin_lake",
+    "id": "sloc_cabin_lake",
     "name": "Lake Cabin",
-    "target": "cabin_lake"
+    "terrain": [ "cabin_lake" ]
   },
   {
     "type": "start_location",
-    "ident": "lighthouse_ground",
+    "id": "sloc_gas_station",
+    "name": "Gas Station",
+    "terrain": [ "s_gas_rural" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lighthouse_ground",
     "name": "Lighthouse Island",
-    "target": "lighthouse_ground"
+    "terrain": [ "lighthouse_ground" ]
   },
   {
     "type": "start_location",
-    "ident": "mil_base_2g",
+    "id": "sloc_military_base_warehouse",
     "name": "Military Base Warehouse",
-    "target": "mil_base_2g"
+    "terrain": [ "mil_base_2g" ]
   },
   {
     "type": "start_location",
-    "ident": "p_resort_2ss",
+    "id": "sloc_private_resort",
     "name": "Private resort",
-    "target": "p_resort_2ss"
+    "terrain": [ "p_resort_2ss" ]
   }
 ]

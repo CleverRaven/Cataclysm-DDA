@@ -5,7 +5,7 @@
     "name": "Robots",
     "points": 1,
     "description": "During the riots and chaos, you hid in a robot dispatch center hoping the robots would protect you, but they may prove more dangerous than the zombies.",
-    "allowed_locs": [ "robot_dispatch" ],
+    "allowed_locs": [ "sloc_robot_dispatch" ],
     "flags": [ "CITY_START" ],
     "start_name": "In Town"
   },

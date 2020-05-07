@@ -1,11 +1,16 @@
-#include <vector>
+#include <memory>
+#include <string>
 
 #include "avatar.h"
-#include "character.h"
-#include "itype.h"
-#include "type_id.h"
-
+#include "calendar.h"
 #include "catch/catch.hpp"
+#include "character.h"
+#include "flat_set.h"
+#include "item.h"
+#include "itype.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 // Character "edible rating" tests, covering the `can_eat` and `will_eat` functions
 
@@ -35,7 +40,6 @@ static void expect_will_eat( avatar &dummy, item &food, std::string expect_conse
     CHECK( rate_will.str() == expect_consequence );
     CHECK( rate_will.value() == expect_rating );
 }
-
 
 TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
 {
@@ -473,12 +477,12 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
     }
 }
 
-TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
+TEST_CASE( "who will eat cooked human flesh", "[will_eat][edible_rating][cannibal]" )
 {
     avatar dummy;
 
-    GIVEN( "some human flesh" ) {
-        item flesh( "human_flesh" );
+    GIVEN( "some cooked human flesh" ) {
+        item flesh( "human_cooked" );
         REQUIRE( flesh.has_flag( "CANNIBALISM" ) );
 
         WHEN( "character is not a cannibal" ) {

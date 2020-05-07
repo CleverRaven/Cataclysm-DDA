@@ -330,7 +330,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
  * @param desc true if the name of the fuel should be at the end
  * @param isHorizontal true if the menu is not vertical
  */
-void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x, int start_index,
+void vehicle::print_fuel_indicators( const catacurses::window &win, const point &p, int start_index,
                                      bool fullsize, bool verbose, bool desc, bool isHorizontal )
 {
     auto fuels = get_printable_fuel_types();
@@ -342,13 +342,13 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
             // if only one display, print the first engine that's on and consumes power
             if( is_engine_on( e ) &&
                 !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
-                print_fuel_indicator( win, point( x, y ), parts[ engines [ e ] ].fuel_current(), verbose,
+                print_fuel_indicator( win, p, parts[ engines [ e ] ].fuel_current(), verbose,
                                       desc );
                 return;
             }
         }
         // or print the first fuel if no engines
-        print_fuel_indicator( win, point( x, y ), fuels.front(), verbose, desc );
+        print_fuel_indicator( win, p, fuels.front(), verbose, desc );
         return;
     }
 
@@ -358,13 +358,13 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
-        print_fuel_indicator( win, point( x, y + yofs ), f, fuel_used_last_turn, verbose, desc );
+        print_fuel_indicator( win, p + point( 0, yofs ), f, fuel_used_last_turn, verbose, desc );
         yofs++;
     }
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
     if( start_index < static_cast<int>( fuels.size() ) - ( isHorizontal ? 12 : 5 ) ) {
-        mvwprintz( win, point( x, y + yofs ), c_light_green, ">" );
+        mvwprintz( win, p + point( 0, yofs ), c_light_green, ">" );
         wprintz( win, c_light_gray, " for more" );
     }
 }
@@ -443,11 +443,11 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             if( debug_mode ) {
                 wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),
                          rate, units, 100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / abs( rate ) ), tank_goal );
+                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
             } else {
                 wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
                          100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / abs( rate ) ), tank_goal );
+                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
             }
         }
     }

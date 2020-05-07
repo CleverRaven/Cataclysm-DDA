@@ -1,8 +1,13 @@
 #include "mapgendata.h"
 
-#include "regional_settings.h"
+#include "debug.h"
+#include "int_id.h"
 #include "map.h"
+#include "mapdata.h"
+#include "omdata.h"
 #include "overmapbuffer.h"
+#include "point.h"
+#include "regional_settings.h"
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
@@ -107,9 +112,9 @@ int &mapgendata::dir( int dir_in )
     }
 }
 
-void mapgendata::square_groundcover( const int x1, const int y1, const int x2, const int y2 )
+void mapgendata::square_groundcover( const point &p1, const point &p2 )
 {
-    m.draw_square_ter( default_groundcover, point( x1, y1 ), point( x2, y2 ) );
+    m.draw_square_ter( default_groundcover, p1, p2 );
 }
 
 void mapgendata::fill_groundcover()

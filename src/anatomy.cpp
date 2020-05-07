@@ -1,20 +1,21 @@
 #include "anatomy.h"
 
-#include <cstddef>
 #include <array>
 #include <cmath>
+#include <cstddef>
 #include <numeric>
 #include <set>
 
 #include "cata_utility.h"
-#include "generic_factory.h"
-#include "messages.h"
-#include "rng.h"
-#include "weighted_list.h"
 #include "debug.h"
 #include "enums.h"
+#include "generic_factory.h"
 #include "int_id.h"
 #include "json.h"
+#include "messages.h"
+#include "rng.h"
+#include "type_id.h"
+#include "weighted_list.h"
 
 anatomy_id human_anatomy( "human_anatomy" );
 
@@ -67,7 +68,7 @@ void anatomy::finalize()
     size_sum = 0.0f;
 
     cached_bps.clear();
-    for( const auto &id : unloaded_bps ) {
+    for( const bodypart_str_id &id : unloaded_bps ) {
         if( id.is_valid() ) {
             add_body_part( id );
         } else {
@@ -104,17 +105,22 @@ void anatomy::check() const
     }
 }
 
+std::vector<bodypart_id> anatomy::get_bodyparts() const
+{
+    return cached_bps;
+}
+
 void anatomy::add_body_part( const bodypart_str_id &new_bp )
 {
     cached_bps.emplace_back( new_bp.id() );
-    const auto &bp_struct = new_bp.obj();
+    const body_part_type &bp_struct = new_bp.obj();
     size_sum += bp_struct.hit_size;
 }
 
 // TODO: get_function_with_better_name
 bodypart_str_id anatomy::get_part_with_cumulative_hit_size( float size ) const
 {
-    for( auto &part : cached_bps ) {
+    for( const bodypart_id &part : cached_bps ) {
         size -= part->hit_size;
         if( size <= 0.0f ) {
             return part.id();
@@ -133,7 +139,7 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 {
     const size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
     weighted_float_list<bodypart_id> hit_weights;
-    for( const auto &bp : cached_bps ) {
+    for( const bodypart_id &bp : cached_bps ) {
         float weight = bp->hit_size_relative[size_diff_index];
         if( weight <= 0.0f ) {
             continue;
@@ -147,7 +153,7 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
     }
 
     // Debug for seeing weights.
-    for( const auto &pr : hit_weights ) {
+    for( const weighted_object<double, bodypart_id> &pr : hit_weights ) {
         add_msg( m_debug, "%s = %.3f", pr.obj.obj().name, pr.weight );
     }
 

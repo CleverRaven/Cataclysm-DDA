@@ -9,14 +9,15 @@
     "weight": "600 g",
     "volume": "551 ml",
     "price": 124900,
+    "price_postapoc": 2750,
     "to_hit": -2,
     "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "57",
+    "ammo": [ "57" ],
     "skill": "pistol",
-    "ranged_damage": -2,
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 440,
     "durability": 8,
     "min_cycle_recoil": 81,
@@ -32,7 +33,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "57", [ "fn57mag" ] ] ]
   },
@@ -46,12 +46,13 @@
     "weight": "2640 g",
     "volume": "3817 ml",
     "price": 350000,
+    "price_postapoc": 3500,
     "to_hit": -2,
     "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "57",
+    "ammo": [ "57" ],
     "skill": "smg",
     "dispersion": 260,
     "durability": 8,
@@ -70,7 +71,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "57", [ "fnp90mag" ] ] ]
   }

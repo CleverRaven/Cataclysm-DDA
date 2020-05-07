@@ -1,10 +1,12 @@
 #include "mod_manager.h"
 
-#include <queue>
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <ostream>
+#include <queue>
 
+#include "assign.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -12,9 +14,9 @@
 #include "json.h"
 #include "path_info.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "worldfactory.h"
-#include "assign.h"
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
@@ -434,8 +436,8 @@ const mod_manager::t_mod_list &mod_manager::get_default_mods() const
 inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
         const MOD_INFORMATION *const b )
 {
-    return ( a->category < b->category ) || ( ( a->category == b->category ) &&
-            ( a->name() < b->name() ) );
+    return localized_compare( std::make_pair( a->category, a->name() ),
+                              std::make_pair( b->category, b->name() ) );
 }
 
 void mod_manager::set_usable_mods()

@@ -365,6 +365,7 @@
       [ "heavy_flashlight", 10 ],
       [ "jumper_cable", 20 ],
       [ "jumper_cable_heavy", 10 ],
+      [ "hd_tow_cable", 5 ],
       [ "pliers", 10 ],
       [ "battery_motorbike", 10 ],
       [ "battery_car", 10 ],
@@ -689,7 +690,8 @@
       [ "bottle_glass", 150 ],
       [ "pipe_glass", 10 ],
       [ "jar_glass", 120 ],
-      [ "flask_glass", 60 ]
+      [ "flask_glass", 60 ],
+      [ "tempered_glass_sheet", 5 ]
     ]
   },
   {
@@ -944,7 +946,9 @@
     "type": "item_group",
     "items": [
       [ "awl_bone", 50 ],
+      { "item": "loom_frame", "prob": 10 },
       [ "primitive_knife", 50 ],
+      { "item": "shed_stick", "prob": 10 },
       [ "primitive_axe", 50 ],
       [ "primitive_shovel", 50 ],
       [ "primitive_hammer", 50 ],
@@ -1120,7 +1124,7 @@
       [ "ref_lighter", 2 ],
       [ "matches", 60 ],
       [ "sewage", 60 ],
-      [ "pipebomb", 4 ],
+      [ "improvised_pipebomb", 4 ],
       [ "crack", 8 ],
       [ "crackpipe", 37 ],
       [ "lsd", 10 ],
@@ -1321,6 +1325,7 @@
       [ "saddle", 8 ],
       [ "wheel", 10 ],
       [ "wheel_wide", 10 ],
+      [ "hd_tow_cable", 2 ],
       [ "wheel_bicycle", 10 ],
       [ "wheel_motorbike", 10 ],
       [ "wheel_small", 10 ],
@@ -1382,7 +1387,7 @@
     "items": [
       [ "helmet_riot", 25 ],
       [ "mask_gas", 25 ],
-      [ "modularveststeel", 20 ],
+      [ "armor_riot", 20 ],
       [ "gloves_tactical", 10 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 20 ],
@@ -2147,6 +2152,7 @@
       [ "cotton_ball", 50 ],
       [ "1st_aid", 35 ],
       [ "survival_kit", 35 ],
+      [ "premium_survival_kit", 8 ],
       [ "saline", 10 ],
       [ "vitamins", 75 ],
       [ "gummy_vitamins", 25 ],

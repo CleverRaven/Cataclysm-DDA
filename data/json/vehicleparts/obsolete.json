@@ -1,0 +1,24 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "solar_panel_v3",
+    "copy-from": "solar_panel",
+    "name": "quantum solar panel",
+    "looks_like": "solar_panel_v2",
+    "proportional": { "epower": 6.0 },
+    "item": "solar_panel_v3",
+    "durability": 40,
+    "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] }
+    },
+    "extend": { "flags": [ "NO_REPAIR" ] },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 4 ] },
+      { "item": "steel_chunk", "count": [ 4, 4 ] },
+      { "item": "scrap", "count": [ 4, 4 ] },
+      { "item": "solar_cell", "count": [ 2, 8 ] }
+    ]
+  }
+]

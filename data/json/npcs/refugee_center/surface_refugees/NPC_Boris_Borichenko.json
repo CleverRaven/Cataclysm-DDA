@@ -115,7 +115,7 @@
     "dynamic_line": "It is nice to meet you too.  To what do I owe the pleasure?",
     "responses": [
       {
-        "text": "I'm just a traveller, taking the chance to have some living human company.  What's up in your life these days?",
+        "text": "I'm just a traveler, taking the chance to have some living human company.  What's up in your life these days?",
         "topic": "TALK_REFUGEE_Boris_2"
       },
       { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }

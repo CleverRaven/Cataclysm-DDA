@@ -1,12 +1,52 @@
 #include "scores_ui.h"
 
+#include <cassert>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "achievement.h"
+#include "color.h"
 #include "cursesdef.h"
-#include "kill_tracker.h"
-#include "input.h"
-#include "output.h"
 #include "event_statistics.h"
+#include "input.h"
+#include "kill_tracker.h"
+#include "output.h"
+#include "point.h"
 #include "stats_tracker.h"
+#include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
+
+static std::string get_achievements_text( const achievements_tracker &achievements )
+{
+    std::string os;
+    std::vector<const achievement *> valid_achievements = achievements.valid_achievements();
+    valid_achievements.erase(
+        std::remove_if( valid_achievements.begin(), valid_achievements.end(),
+    [&]( const achievement * a ) {
+        return achievements.is_hidden( a );
+    } ), valid_achievements.end() );
+    using sortable_achievement =
+        std::tuple<achievement_completion, std::string, const achievement *>;
+    std::vector<sortable_achievement> sortable_achievements;
+    std::transform( valid_achievements.begin(), valid_achievements.end(),
+                    std::back_inserter( sortable_achievements ),
+    [&]( const achievement * ach ) {
+        achievement_completion comp = achievements.is_completed( ach->id );
+        return std::make_tuple( comp, ach->name().translated(), ach );
+    } );
+    std::sort( sortable_achievements.begin(), sortable_achievements.end() );
+    for( const sortable_achievement &ach : sortable_achievements ) {
+        os += achievements.ui_text_for( std::get<const achievement *>( ach ) ) + "\n";
+    }
+    if( valid_achievements.empty() ) {
+        os += _( "This game has no valid achievements.\n" );
+    }
+    os += _( "Note that only achievements that existed when you started this game and still "
+             "exist now will appear here." );
+    return os;
+}
 
 static std::string get_scores_text( stats_tracker &stats )
 {
@@ -23,21 +63,27 @@ static std::string get_scores_text( stats_tracker &stats )
     return os;
 }
 
-void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )
+void show_scores_ui( const achievements_tracker &achievements, stats_tracker &stats,
+                     const kill_tracker &kills )
 {
-    catacurses::window w = new_centered_win( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH );
+    catacurses::window w = new_centered_win( TERMY - 2, FULL_SCREEN_WIDTH );
 
     enum class tab_mode {
+        achievements,
         scores,
         kills,
         num_tabs,
-        first_tab = scores,
+        first_tab = achievements,
     };
 
     tab_mode tab = static_cast<tab_mode>( 0 );
     input_context ctxt( "SCORES" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     catacurses::window w_view = catacurses::newwin( getmaxy( w ) - 4, getmaxx( w ) - 1,
@@ -52,6 +98,7 @@ void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )
         werase( w );
 
         const std::vector<std::pair<tab_mode, std::string>> tabs = {
+            { tab_mode::achievements, _( "ACHIEVEMENTS" ) },
             { tab_mode::scores, _( "SCORES" ) },
             { tab_mode::kills, _( "KILLS" ) },
         };
@@ -60,6 +107,9 @@ void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )
 
         if( new_tab ) {
             switch( tab ) {
+                case tab_mode::achievements:
+                    view.set_text( get_achievements_text( achievements ) );
+                    break;
                 case tab_mode::scores:
                     view.set_text( get_scores_text( stats ) );
                     break;
@@ -78,13 +128,13 @@ void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )
 
         const std::string action = ctxt.handle_input();
         new_tab = false;
-        if( action == "RIGHT" ) {
+        if( action == "RIGHT" || action == "NEXT_TAB" ) {
             tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
             if( tab >= tab_mode::num_tabs ) {
                 tab = tab_mode::first_tab;
             }
             new_tab = true;
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" ) {
             tab = static_cast<tab_mode>( static_cast<int>( tab ) - 1 );
             if( tab < tab_mode::first_tab ) {
                 tab = static_cast<tab_mode>( static_cast<int>( tab_mode::num_tabs ) - 1 );
@@ -94,9 +144,11 @@ void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )
             view.scroll_down();
         } else if( action == "UP" ) {
             view.scroll_up();
-        } else if( action == "CONFIRM" ) {
-            break;
-        } else if( action == "QUIT" ) {
+        } else if( action == "PAGE_DOWN" ) {
+            view.page_down();
+        } else if( action == "PAGE_UP" ) {
+            view.page_up();
+        } else if( action == "CONFIRM" || action == "QUIT" ) {
             break;
         }
     }

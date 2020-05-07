@@ -28,5 +28,11 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "LIGHTWEIGHT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTWEIGHT",
+    "copy-from": "LIGHTWEIGHT",
+    "extend": { "cancels": [ "DRUNKEN" ] }
   }
 ]

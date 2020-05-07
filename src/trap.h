@@ -1,27 +1,26 @@
 #pragma once
-#ifndef TRAP_H
-#define TRAP_H
+#ifndef CATA_SRC_TRAP_H
+#define CATA_SRC_TRAP_H
 
 #include <cstddef>
 #include <functional>
-#include <vector>
 #include <string>
 #include <tuple>
+#include <utility>
+#include <vector>
 
 #include "color.h"
-#include "int_id.h"
 #include "magic.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
 class Creature;
-class item;
-class player;
-class map;
-struct tripoint;
 class JsonObject;
+class item;
+class map;
+class player;
+struct tripoint;
 
 namespace trapfunc
 {
@@ -300,4 +299,4 @@ tr_shadow,
 tr_drain,
 tr_snake;
 
-#endif
+#endif // CATA_SRC_TRAP_H

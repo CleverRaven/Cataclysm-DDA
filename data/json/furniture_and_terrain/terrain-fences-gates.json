@@ -334,7 +334,7 @@
   {
     "type": "terrain",
     "id": "t_fence",
-    "aliases": [ "t_fence_h", "t_fence_v" ],
+    "alias": [ "t_fence_h", "t_fence_v" ],
     "name": "picket fence",
     "description": "A barrier made of wood, it's nothing complicated.  Mildly suggests where not to go.",
     "symbol": "LINE_OXOX",
@@ -366,7 +366,7 @@
   {
     "type": "terrain",
     "id": "t_chainfence",
-    "aliases": [ "t_chainfence_h", "t_chainfence_v" ],
+    "alias": [ "t_chainfence_h", "t_chainfence_v" ],
     "name": "chain link fence",
     "description": "A tall fence made of woven wires.  It doesn't suggest to stop, it just stops.",
     "symbol": "LINE_OXOX",
@@ -405,7 +405,7 @@
   {
     "type": "terrain",
     "id": "t_chickenwire_fence",
-    "aliases": [ "t_chickenwire_fence_h", "t_chickenwire_fence_v" ],
+    "alias": [ "t_chickenwire_fence_h", "t_chickenwire_fence_v" ],
     "name": "chickenwire fence",
     "description": "A rather flimsy tall fence made of 2x4s and woven wire, suitable for containing small livestock like chickens.",
     "symbol": "LINE_OXOX",
@@ -559,7 +559,7 @@
   {
     "type": "terrain",
     "id": "t_splitrail_fence",
-    "aliases": [ "t_splitrail_fence_h", "t_splitrail_fence_v" ],
+    "alias": [ "t_splitrail_fence_h", "t_splitrail_fence_v" ],
     "name": "split rail fence",
     "description": "A rather stout fence made of 2x4s and fence posts, suitable for containing livestock like horses, cows and pigs.",
     "symbol": "LINE_OXOX",
@@ -764,7 +764,7 @@
   {
     "type": "terrain",
     "id": "t_privacy_fence",
-    "aliases": [ "t_privacy_fence_h", "t_privacy_fence_v" ],
+    "alias": [ "t_privacy_fence_h", "t_privacy_fence_v" ],
     "name": "wooden privacy fence",
     "description": "A rather stout fence made of 2x4s and fence posts, it is tall and prevents people from seeing into your yard.",
     "symbol": "LINE_OXOX",
@@ -850,7 +850,7 @@
   {
     "type": "terrain",
     "id": "t_railing",
-    "aliases": [ "t_railing_h", "t_railing_v" ],
+    "alias": [ "t_railing_h", "t_railing_v" ],
     "name": "railing",
     "description": "A section of wooden railing.",
     "symbol": "LINE_OXOX",
@@ -875,7 +875,7 @@
   {
     "type": "terrain",
     "id": "t_glass_railing",
-    "aliases": [ "t_glass_railing_h", "t_glass_railing_v" ],
+    "alias": [ "t_glass_railing_h", "t_glass_railing_v" ],
     "name": "glass railing",
     "description": "A section of railing made out of glass.",
     "symbol": "LINE_OXOX",
@@ -900,7 +900,7 @@
   {
     "type": "terrain",
     "id": "t_metal_railing",
-    "aliases": [ "t_metal__railing_h", "t_metal__railing_v" ],
+    "alias": [ "t_metal__railing_h", "t_metal__railing_v" ],
     "name": "metal railing",
     "description": "A section of metal railing.",
     "symbol": "LINE_OXOX",
@@ -925,7 +925,7 @@
   {
     "type": "terrain",
     "id": "t_concrete_railing",
-    "aliases": [ "t_concrete_railing_h", "t_concrete_railing_v" ],
+    "alias": [ "t_concrete_railing_h", "t_concrete_railing_v" ],
     "name": "concrete railing",
     "description": "A section of cemented concrete railing.",
     "symbol": "LINE_OXOX",

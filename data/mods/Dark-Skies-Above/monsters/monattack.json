@@ -20,7 +20,7 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
-    "id": "slash",
+    "id": "tool_slash",
     "cooldown": 20,
     "move_cost": 150,
     "damage_max_instance": [ { "damage_type": "cut", "amount": 8 } ],
@@ -38,7 +38,7 @@
       [ "ARM_R", 3 ],
       [ "TORSO", 4 ]
     ],
-    "hit_dmg_u": "The %1$s slashes you!",
+    "hit_dmg_u": "The %1$s slashes you with an integrated tool!",
     "hit_dmg_npc": "The %1$s slashes <npcname>!",
     "no_dmg_msg_u": "The %1$s attempts to cut you, but fails to penetrate your armor.",
     "no_dmg_msg_npc": "The %1$s tries to cut <npcname>, but fails to penetrate your armor."

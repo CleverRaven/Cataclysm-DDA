@@ -1,79 +1,84 @@
 #include "faction_camp.h" // IWYU pragma: associated
 
-#include <cstddef>
 #include <algorithm>
-#include <string>
-#include <vector>
+#include <cstddef>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
+#include <string>
 #include <unordered_set>
+#include <vector>
 
 #include "activity_handlers.h"
 #include "avatar.h"
-#include "bionics.h"
+#include "basecamp.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
+#include "colony.h"
+#include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "editmap.h"
+#include "enums.h"
+#include "faction.h"
 #include "game.h"
+#include "game_constants.h"
 #include "iexamine.h"
 #include "input.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
+#include "item_stack.h"
 #include "itype.h"
-#include "line.h"
 #include "kill_tracker.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "player_activity.h"
+#include "point.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
-#include "string_input_popup.h"
-#include "translations.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_range.h"
-#include "basecamp.h"
-#include "calendar.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
-#include "faction.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "weighted_list.h"
-#include "type_id.h"
-#include "colony.h"
-#include "item_stack.h"
-#include "point.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
+#include "weighted_list.h"
+
+class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
@@ -149,7 +154,7 @@ struct miss_data {
 recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
                               const std::string &option );
 
-// enventually this will move to JSON
+// eventually this will move to JSON
 std::map<std::string, miss_data> miss_info = {{
         {
             "_faction_upgrade_camp", {
@@ -173,10 +178,10 @@ std::map<std::string, miss_data> miss_info = {{
             }
         },
         {
-            "travelling", {
-                "Travelling", to_translation( "Travelling" ),
-                to_translation( "Busy travelling!\n" ),
-                "Recall ally from travelling", to_translation( "Recall ally from travelling" )
+            "traveling", {
+                "Traveling", to_translation( "Traveling" ),
+                to_translation( "Busy traveling!\n" ),
+                "Recall ally from traveling", to_translation( "Recall ally from traveling" )
             }
         },
         {
@@ -1635,39 +1640,39 @@ void basecamp::abandon_camp()
 
 void basecamp::worker_assignment_ui()
 {
-    int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    int entries_per_page = 0;
+    catacurses::window w_followers;
 
-    catacurses::window w_followers = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                     point( term_y, term_x ) );
-    const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+
+        w_followers = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                          point( term_y, term_x ) );
+        entries_per_page = FULL_SCREEN_HEIGHT - 4;
+
+        ui.position_from_window( w_followers );
+    } );
+    ui.mark_resize();
+
     size_t selection = 0;
     input_context ctxt( "FACTION MANAGER" );
-    ctxt.register_cardinal();
     ctxt.register_updown();
-    ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     validate_assignees();
     g->validate_npc_followers();
-    while( true ) {
+
+    std::vector<npc *> followers;
+    npc *cur_npc = nullptr;
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_followers );
-        // create a list of npcs stationed at this camp
-        std::vector<npc *> followers;
-        for( const character_id &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get || !npc_to_get->is_following() ) {
-                continue;
-            }
-            npc *npc_to_add = npc_to_get.get();
-            followers.push_back( npc_to_add );
-        }
-        npc *cur_npc = nullptr;
+
         // entries_per_page * page number
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
-        if( !followers.empty() ) {
-            cur_npc = followers[selection];
-        }
 
         for( int i = 0; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
             mvwputch( w_followers, point( 45, i ), BORDER_COLOR, LINE_XOXO );
@@ -1689,6 +1694,25 @@ void basecamp::worker_assignment_ui()
         mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to assign this follower to this camp." ), ctxt.get_desc( "CONFIRM" ) );
         wrefresh( w_followers );
+    } );
+
+    while( true ) {
+        // create a list of npcs stationed at this camp
+        followers.clear();
+        for( const character_id &elem : g->get_follower_list() ) {
+            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get || !npc_to_get->is_following() ) {
+                continue;
+            }
+            npc *npc_to_add = npc_to_get.get();
+            followers.push_back( npc_to_add );
+        }
+        cur_npc = nullptr;
+        if( !followers.empty() ) {
+            cur_npc = followers[selection];
+        }
+
+        ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             selection++;
@@ -1709,44 +1733,41 @@ void basecamp::worker_assignment_ui()
             break;
         }
     }
-
-    g->refresh_all();
 }
 
 void basecamp::job_assignment_ui()
 {
-    int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    int entries_per_page = 0;
+    catacurses::window w_jobs;
 
-    catacurses::window w_jobs = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                point( term_y, term_x ) );
-    const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+
+        w_jobs = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                     point( term_y, term_x ) );
+
+        entries_per_page = FULL_SCREEN_HEIGHT - 4;
+
+        ui.position_from_window( w_jobs );
+    } );
+    ui.mark_resize();
+
     size_t selection = 0;
     input_context ctxt( "FACTION MANAGER" );
-    ctxt.register_cardinal();
     ctxt.register_updown();
-    ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     validate_assignees();
-    while( true ) {
-        werase( w_jobs );
-        // create a list of npcs stationed at this camp
-        std::vector<npc *> stationed_npcs;
-        for( const auto &elem : get_npcs_assigned() ) {
-            if( elem ) {
-                stationed_npcs.push_back( elem.get() );
-            }
-        }
-        npc *cur_npc = nullptr;
-        // entries_per_page * page number
-        const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
-        if( !stationed_npcs.empty() ) {
-            cur_npc = stationed_npcs[selection];
-        }
 
+    std::vector<npc *> stationed_npcs;
+    npc *cur_npc = nullptr;
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_jobs );
+        const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
         for( int i = 0; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
             mvwputch( w_jobs, point( 45, i ), BORDER_COLOR, LINE_XOXO );
         }
@@ -1786,6 +1807,24 @@ void basecamp::job_assignment_ui()
         mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to change this workers job priorities." ), ctxt.get_desc( "CONFIRM" ) );
         wrefresh( w_jobs );
+    } );
+
+    while( true ) {
+        // create a list of npcs stationed at this camp
+        stationed_npcs.clear();
+        for( const auto &elem : get_npcs_assigned() ) {
+            if( elem ) {
+                stationed_npcs.push_back( elem.get() );
+            }
+        }
+        cur_npc = nullptr;
+        // entries_per_page * page number
+        if( !stationed_npcs.empty() ) {
+            cur_npc = stationed_npcs[selection];
+        }
+
+        ui_manager::redraw();
+
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             selection++;
@@ -1799,7 +1838,7 @@ void basecamp::job_assignment_ui()
                 selection--;
             }
         } else if( action == "CONFIRM" ) {
-            if( !stationed_npcs.empty() ) {
+            if( cur_npc ) {
                 while( true ) {
                     uilist smenu;
                     smenu.text = _( "Assign job priority ( 0 to disable )" );
@@ -1838,8 +1877,6 @@ void basecamp::job_assignment_ui()
             break;
         }
     }
-
-    g->refresh_all();
 }
 
 void basecamp::start_menial_labor()
@@ -2767,11 +2804,12 @@ void basecamp::recruit_return( const std::string &task, int score )
         description += string_format( _( "Perception:      %10d\n\n" ), recruit->per_max );
         description += _( "Top 3 Skills:\n" );
 
-        const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a,
-        const Skill & b ) {
+        const auto skillslist = Skill::get_skills_sorted_by(
+        [&]( const Skill & a, const Skill & b ) {
             const int level_a = recruit->get_skill_level( a.ident() );
             const int level_b = recruit->get_skill_level( b.ident() );
-            return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
+            return localized_compare( std::make_pair( -level_a, a.name() ),
+                                      std::make_pair( -level_b, b.name() ) );
         } );
 
         description += string_format( "%s:          %4d\n", right_justify( skillslist[0]->name(), 12 ),
@@ -3469,8 +3507,8 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
     }
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_storage();
-    units::volume max_v = comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
+    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).contents.total_container_capacity();
+    units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
 }
@@ -3871,32 +3909,37 @@ bool basecamp::distribute_food()
         const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
         map_stack initial_items = g->m.i_at( p_food_stock );
         for( item &i : initial_items ) {
-            if( i.is_container() && i.get_contained().is_food() ) {
-                auto comest = i.get_contained();
-                i.contents.clear();
+            std::vector<item *> comest_list{ &i };
+            if( i.is_food_container() ) {
+                std::vector<item *> comest = i.items_with( []( const item & it ) {
+                    return it.is_comestible();
+                } );
+                i.contents.clear_items();
                 //NPCs are lazy bastards who leave empties all around the camp fire
                 tripoint litter_spread = p_litter;
                 litter_spread.x += rng( -3, 3 );
                 litter_spread.y += rng( -3, 3 );
                 i.on_contents_changed();
                 g->m.add_item_or_charges( litter_spread, i, false );
-                i = comest;
+                comest_list = comest;
             }
-            if( i.is_comestible() && ( i.rotten() || i.get_comestible_fun() < -6 ) ) {
-                keep_me.push_back( i );
-            } else if( i.is_food() ) {
-                double rot_multip;
-                int rots_in = to_days<int>( time_duration::from_turns( i.spoilage_sort_order() ) );
-                if( rots_in >= 5 ) {
-                    rot_multip = 1.00;
-                } else if( rots_in >= 2 ) {
-                    rot_multip = slow_rot;
+            for( item *comest : comest_list ) {
+                if( comest->is_comestible() && ( comest->rotten() || comest->get_comestible_fun() < -6 ) ) {
+                    keep_me.push_back( *comest );
+                } else if( comest->is_food() ) {
+                    double rot_multip;
+                    int rots_in = to_days<int>( time_duration::from_turns( comest->spoilage_sort_order() ) );
+                    if( rots_in >= 5 ) {
+                        rot_multip = 1.00;
+                    } else if( rots_in >= 2 ) {
+                        rot_multip = slow_rot;
+                    } else {
+                        rot_multip = quick_rot;
+                    }
+                    total += comest->get_comestible()->default_nutrition.kcal * rot_multip * i.count();
                 } else {
-                    rot_multip = quick_rot;
+                    keep_me.push_back( *comest );
                 }
-                total += i.get_comestible()->default_nutrition.kcal * rot_multip * i.count();
-            } else {
-                keep_me.push_back( i );
             }
         }
         g->m.i_clear( p_food_stock );

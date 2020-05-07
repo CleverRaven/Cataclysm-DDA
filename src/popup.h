@@ -1,16 +1,18 @@
 #pragma once
-#ifndef POPUP_H
-#define POPUP_H
+#ifndef CATA_SRC_POPUP_H
+#define CATA_SRC_POPUP_H
 
 #include <cstddef>
 #include <functional>
+#include <memory>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
-#include "color.h"
+#include "point.h"
 #include "string_formatter.h"
 
 class ui_adaptor;
@@ -278,4 +280,4 @@ class static_popup : public query_popup
         std::shared_ptr<ui_adaptor> ui;
 };
 
-#endif
+#endif // CATA_SRC_POPUP_H

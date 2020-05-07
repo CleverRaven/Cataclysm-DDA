@@ -17,7 +17,7 @@
   {
     "type": "terrain",
     "id": "t_wall",
-    "aliases": [ "t_wall_h", "t_wall_v" ],
+    "alias": [ "t_wall_h", "t_wall_v" ],
     "name": "wall",
     "description": "The stereotypical wall with wooden support structure filled with insulation and drywalled.  Paint job is the all too common and neutral off-white or cream color, it could use more vibrant paint.  Appears as though the material is still flammable.",
     "symbol": "LINE_OXOX",
@@ -63,7 +63,7 @@
   {
     "type": "terrain",
     "id": "t_ponywall",
-    "aliases": [ "t_ponywall_h", "t_ponywall_v" ],
+    "alias": [ "t_ponywall_h", "t_ponywall_v" ],
     "name": "pony wall",
     "description": "A short divider wall with wooden support structure with drywall.  Paint job is the all too common and neutral off-white or cream color.  Appears as though the material is flammable.",
     "symbol": "LINE_OXOX",
@@ -97,7 +97,7 @@
   {
     "type": "terrain",
     "id": "t_wall_r",
-    "aliases": [ "t_wall_h_r", "t_wall_v_r" ],
+    "alias": [ "t_wall_h_r", "t_wall_v_r" ],
     "name": "red wall",
     "description": "Wall painted red.",
     "symbol": "LINE_OXOX",
@@ -118,7 +118,7 @@
   {
     "type": "terrain",
     "id": "t_wall_w",
-    "aliases": [ "t_wall_h_w", "t_wall_v_w" ],
+    "alias": [ "t_wall_h_w", "t_wall_v_w" ],
     "name": "white wall",
     "description": "Wall painted white.",
     "symbol": "LINE_OXOX",
@@ -139,7 +139,7 @@
   {
     "type": "terrain",
     "id": "t_wall_b",
-    "aliases": [ "t_wall_h_b", "t_wall_v_b" ],
+    "alias": [ "t_wall_h_b", "t_wall_v_b" ],
     "name": "blue wall",
     "description": "Wall painted blue.",
     "symbol": "LINE_OXOX",
@@ -160,7 +160,7 @@
   {
     "type": "terrain",
     "id": "t_wall_g",
-    "aliases": [ "t_wall_h_g", "t_wall_v_g" ],
+    "alias": [ "t_wall_h_g", "t_wall_v_g" ],
     "name": "green wall",
     "description": "Wall painted green.",
     "symbol": "LINE_OXOX",
@@ -181,7 +181,7 @@
   {
     "type": "terrain",
     "id": "t_wall_y",
-    "aliases": [ "t_wall_h_y", "t_wall_v_y" ],
+    "alias": [ "t_wall_h_y", "t_wall_v_y" ],
     "name": "yellow wall",
     "description": "Wall painted yellow.",
     "symbol": "LINE_OXOX",
@@ -202,7 +202,7 @@
   {
     "type": "terrain",
     "id": "t_wall_P",
-    "aliases": [ "t_wall_h_P", "t_wall_v_P" ],
+    "alias": [ "t_wall_h_P", "t_wall_v_P" ],
     "name": "pink wall",
     "description": "Wall painted pink.",
     "symbol": "LINE_OXOX",
@@ -222,7 +222,7 @@
   {
     "type": "terrain",
     "id": "t_wall_p",
-    "aliases": [ "t_wall_h_p", "t_wall_v_p" ],
+    "alias": [ "t_wall_h_p", "t_wall_v_p" ],
     "name": "purple wall",
     "description": "Wall painted purple.",
     "symbol": "LINE_OXOX",
@@ -387,7 +387,7 @@
   {
     "type": "terrain",
     "id": "t_concrete_wall",
-    "aliases": [ "t_concrete_h", "t_concrete_v" ],
+    "alias": [ "t_concrete_h", "t_concrete_v" ],
     "name": "concrete wall",
     "description": "An aesthetically pleasing design with simple lines, this type of concrete was used with a weaker chemical mixture in order to have faster setting times.  Not ideal for multi-story buildings, but still capable of supporting a roof.",
     "symbol": "LINE_OXOX",
@@ -408,7 +408,7 @@
   {
     "type": "terrain",
     "id": "t_wall_metal",
-    "aliases": [ "t_wall_metal_h", "t_wall_metal_v" ],
+    "alias": [ "t_wall_metal_h", "t_wall_metal_v" ],
     "name": "metal wall",
     "description": "An industrially fabricated thick sheet carefully positioned and joined seamlessly with perimeter sealant, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching will require specialized tools or industrial vehicles.",
     "symbol": "LINE_OXOX",
@@ -871,7 +871,7 @@
   {
     "type": "terrain",
     "id": "t_wall_glass",
-    "aliases": [ "t_wall_glass_h", "t_wall_glass_v" ],
+    "alias": [ "t_wall_glass_h", "t_wall_glass_v" ],
     "name": "glass wall",
     "description": "A barrier made of glass, it's nothing complicated, and looks extremely fragile.  Some contain glass break sensors or window sensors that trigger if the glass is tampered.",
     "symbol": "LINE_OXOX",
@@ -894,7 +894,7 @@
   {
     "type": "terrain",
     "id": "t_wall_glass_alarm",
-    "aliases": [ "t_wall_glass_h_alarm", "t_wall_glass_v_alarm" ],
+    "alias": [ "t_wall_glass_h_alarm", "t_wall_glass_v_alarm" ],
     "looks_like": "t_wall_glass",
     "name": "glass wall",
     "description": "A barrier made of glass, it's nothing complicated, and looks extremely fragile.  Some contain glass break sensors or window sensors that trigger if the glass is tampered.",
@@ -917,7 +917,7 @@
   {
     "type": "terrain",
     "id": "t_laminated_glass",
-    "aliases": [ "t_laminated_glass_h", "t_laminated_glass_v" ],
+    "alias": [ "t_laminated_glass_h", "t_laminated_glass_v" ],
     "name": "laminated glass",
     "looks_like": "t_reinforced_glass",
     "description": "Laminated glass is composed layers of glass and plastic held together by an interlayer.",
@@ -940,7 +940,7 @@
   {
     "type": "terrain",
     "id": "t_ballistic_glass",
-    "aliases": [ "t_ballistic_glass_h", "t_ballistic_glass_v" ],
+    "alias": [ "t_ballistic_glass_h", "t_ballistic_glass_v" ],
     "name": "ballistic glass",
     "looks_like": "t_reinforced_glass",
     "description": "Ballistic glass consists of layers of laminated glass.",
@@ -963,7 +963,7 @@
   {
     "type": "terrain",
     "id": "t_reinforced_glass",
-    "aliases": [ "t_reinforced_glass_h", "t_reinforced_glass_v" ],
+    "alias": [ "t_reinforced_glass_h", "t_reinforced_glass_v" ],
     "name": "reinforced glass",
     "description": "A thicker pane of glass with thin metal wires embedded throughout, strengthening the structural properties.  Still weaker than other types of walls, and not made to support a roof either.",
     "symbol": "LINE_OXOX",

@@ -6,6 +6,7 @@
     "dias",
     "M6_shotgun",
     "ksg_aux_shotgun",
+    "ksg25_aux_shotgun",
     "combination_gun_shotgun",
     "combination_gun_shotgun_pipe",
     "belt_clip",
@@ -15,6 +16,7 @@
     "lwfeed",
     "lead_barrel_big",
     "lead_barrel_heavy_duty",
-    "inter_bayonet"
+    "inter_bayonet",
+    "factory_handguard"
   ]
 }
