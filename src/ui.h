@@ -26,7 +26,6 @@ const int UILIST_UNBOUND = -1026;
 const int UILIST_CANCEL = -1027;
 const int UILIST_TIMEOUT = -1028;
 const int UILIST_ADDITIONAL = -1029;
-const int MENU_WIDTH_ENTRIES = -2;
 const int MENU_AUTOASSIGN = -1;
 // NOLINTNEXTLINE(cata-use-named-point-constants)
 constexpr point MENU_AUTOASSIGN_POS( MENU_AUTOASSIGN, MENU_AUTOASSIGN );

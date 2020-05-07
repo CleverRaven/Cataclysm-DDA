@@ -126,7 +126,7 @@ void uilist::init()
     assert( !test_mode ); // uilist should not be used in tests where there's no place for it
     w_x = MENU_AUTOASSIGN;              // starting position
     w_y = MENU_AUTOASSIGN;              // -1 = auto center
-    w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
+    w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width
     w_height =
         MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // FIXME: scrolling list with offset
     ret = UILIST_WAIT_INPUT;
@@ -299,8 +299,7 @@ static int find_minimum_fold_width( const std::string &str, int max_lines,
  */
 void uilist::setup()
 {
-    bool w_auto = ( w_width == -1 || w_width == -2 );
-    bool w_autofold = ( w_width == -2 );
+    bool w_auto = w_width == -1;
 
     // Space for a line between text and entries. Only needed if there is actually text.
     const int text_separator_line = text.empty() ? 0 : 1;
@@ -394,7 +393,7 @@ void uilist::setup()
         bool formattxt = true;
         int realtextwidth = 0;
         if( textwidth == -1 ) {
-            if( w_autofold || !w_auto ) {
+            if( !w_auto ) {
                 realtextwidth = w_width - 4;
             } else {
                 realtextwidth = twidth;
