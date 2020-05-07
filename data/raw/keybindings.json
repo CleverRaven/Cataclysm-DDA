@@ -965,6 +965,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_MOVE_CURSOR_VIEW",
+    "category": "TARGET",
+    "name": "Toggle moving view / cursor",
+    "bindings": [ { "input_method": "keyboard", "key": "v" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SELECT",
     "name": "Select",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT" } ]
