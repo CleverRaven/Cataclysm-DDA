@@ -20,6 +20,11 @@
 
 static std::string get_achievements_text( const achievements_tracker &achievements )
 {
+    if( !achievements.is_enabled() ) {
+        return _( "Achievements are disabled, probably due to use of the debug menu.  "
+                  "If you only used the debug menu to work around a game bug, then you "
+                  "can re-enable achievements via the debug menu (under the Game submenu)." );
+    }
     std::string os;
     std::vector<const achievement *> valid_achievements = achievements.valid_achievements();
     valid_achievements.erase(
