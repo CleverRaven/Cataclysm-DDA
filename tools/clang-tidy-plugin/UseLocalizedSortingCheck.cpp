@@ -91,7 +91,12 @@ void UseLocalizedSortingCheck::registerMatchers( MatchFinder *Finder )
                 0,
                 expr( hasType( qualType().bind( "arg0Type" ) ) ).bind( "arg0Expr" )
             ),
-            hasOverloadedOperatorName( "<" )
+            anyOf(
+                hasOverloadedOperatorName( "<" ),
+                hasOverloadedOperatorName( ">" ),
+                hasOverloadedOperatorName( "<=" ),
+                hasOverloadedOperatorName( ">=" )
+            )
         ).bind( "opCall" ),
         this
     );
