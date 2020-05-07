@@ -120,6 +120,13 @@
     "fun": 1
   },
   {
+    "abstract": "book_fict_soft_romance_tpl",
+    "type": "BOOK",
+    "name": "Paperback Romance Book",
+    "description": "This is a template for paperback romance novels.  You shouldn't see this.",
+    "copy-from": "book_fict_soft_tpl"
+  },
+  {
     "abstract": "paperback_romance_spb",
     "type": "BOOK",
     "name": "Sweet Providence Romance Novel",
@@ -127,7 +134,7 @@
     "//": "these are books are tiny",
     "weight": "200 g",
     "volume": "400 ml",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_romance_tpl",
     "time": "11 m",
     "relative": { "price": -351, "price_post": -800, "chapters": -8, "intelligence": -1 }
   },
@@ -136,7 +143,7 @@
     "type": "BOOK",
     "name": "Lorn and Loan Romance Novel",
     "description": "Lorn and Loan Press marketed romance paperbacks to a variety of alt demographics, especially those with a penchant for eyeliner.  The books are billed as \"provocative,\" but words like \"malingering\" and \"turgid\" also come to mind.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_romance_tpl",
     "relative": { "price_post": -400, "intelligence": 1, "fun": -1 }
   },
   {
@@ -144,7 +151,7 @@
     "type": "BOOK",
     "name": "Vanilla Romance Novel",
     "description": "Vanilla Media is a mainstream publisher providing romantic literature to everyday readers of taste.  These stories contain explicit details only in the odd chapters, and invariably end with a conventionally uplifting moral.",
-    "copy-from": "book_fict_soft_tpl",
+    "copy-from": "book_fict_soft_romance_tpl",
     "relative": { "price_post": -100, "intelligence": -1 }
   },
   {
