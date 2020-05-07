@@ -4270,15 +4270,8 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
-    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
-    const units::volume contains = stomach.contains();
-    const units::volume cap = stomach.capacity( *this );
     std::string hunger_string;
     nc_color hunger_color = c_white;
-    // i ate just now!
-    const bool just_ate = stomach.time_since_ate() < 15_minutes;
-    // i ate a meal recently enough that i shouldn't need another meal
-    const bool recently_ate = stomach.time_since_ate() < 3_hours;
     if( has_effect( effect_hunger_engorged ) ) {
         hunger_string = _( "Engorged" );
         hunger_color = c_red;
@@ -4738,7 +4731,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     const units::volume contains = stomach.contains();
     const units::volume cap = stomach.capacity( *this );
     std::string hunger_string;
-    nc_color hunger_color = c_white;
+
     efftype_id hunger_effect;
     // i ate just now!
     const bool just_ate = stomach.time_since_ate() < 15_minutes;
