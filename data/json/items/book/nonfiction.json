@@ -1,0 +1,220 @@
+[
+  {
+    "id": "book_nonf_hard_homemk_anythingcan",
+    "type": "BOOK",
+    "name": "Anything Can Be Beautiful",
+    "description": "Stylist, designer, and glitter goddess, Tiffynie Blust looks at the world one mantra in mind: anything can be beautiful.",
+    "weight": "771 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_homemk_grtrms",
+    "type": "BOOK",
+    "name": "The Greatest Rooms of the Century",
+    "description": "A stunning collection of the best living spaces created and commissioned by the most influential people in interior design.",
+    "weight": "3016 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "chapters": 30 }
+  },
+  {
+    "id": "book_nonf_hard_homemk_handshome",
+    "type": "BOOK",
+    "name": "The Hands-On Home",
+    "description": "An ecologically-minded take on modern homemaking, this is a practical guide to maximising your time in the kitchen and beyond.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_homemk_loverms",
+    "type": "BOOK",
+    "name": "Rooms We Love",
+    "description": "This is a guide on how to affordably decorate rooms to suit your personality.  In the book, we visit rooms inspired by the needs of each homeowner and will see how they transformed their rooms.",
+    "weight": "699 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_homemk_nyparti",
+    "type": "BOOK",
+    "name": "New York Parties",
+    "description": "Visit the homes of savvy tastemakers from the worlds of fashion, finance, and design, with this book of lavish photography.",
+    "weight": "1606 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "fun": 1
+  },
+  {
+    "id": "book_nonf_hard_homemk_outkitchn",
+    "type": "BOOK",
+    "name": "Best Signature Outdoor Kitchens",
+    "description": "Outdoor space is one of the hottest amenities being considered by new and existing homeowners.  This book will show you how to turn any deck, patio, or other outside area into a great place to cook.",
+    "weight": "617 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_homemk_plantshome",
+    "type": "BOOK",
+    "name": "The Art of Using Plants to Transform Your Home",
+    "description": "Bring gorgeous greenery into your life with this delightful guide to decorating your living space with a wide variety of plants.  Illustrated examples enable you to easily transform every corner of your interior space.",
+    "weight": "580 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_homemk_wmencolor",
+    "type": "BOOK",
+    "name": "Woman of Color",
+    "description": "This is a collection of essays and advice on style, beauty, and motherhood.  Part memoir, part lifestyle guide, this book reflects the author's experience growing up as a woman of color in Brooklyn.",
+    "weight": "658 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "fun": 1,
+    "relative": { "chapters": -14 }
+  },
+  {
+    "id": "book_nonf_soft_wedding_coolring",
+    "type": "BOOK",
+    "name": "10 Cool Things About Being A Ring Bearer",
+    "//": "This book belongs to two genres: wedding and kids",
+    "description": "This book is for the delightful little ring bearer in your wedding.  The author depicts the responsibility and the honor in being a ring bearer your little angel will cherish.",
+    "time": "15 m",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "chapters": -17, "intelligence": -2 }
+  },
+  {
+    "id": "book_nonf_soft_parent_howtogen",
+    "type": "BOOK",
+    "name": "How to Raise a Gentleman: A Civilized Guide to Parenting",
+    "description": "A revised edition for parents who hope their little boy children will grow up to be the kind of men who know which fork to use, how to treat others, and generally make their parents proud.",
+    "time": "15 m",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "chapters": -4 }
+  },
+  {
+    "id": "book_nonf_soft_safety_radiaea",
+    "type": "BOOK",
+    "name": "International Approaches to Securing Radioactive Sources Against Terrorism",
+    "description": "This book presents how to enhance cooperation and assistance between countries in support of International Atomic Energy Agency efforts to secure radioactive sources against the threat of terrorism.",
+    "time": "11 m",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "chapters": 31 }
+  },
+  {
+    "id": "book_nonf_hard_psych_forpsych",
+    "type": "BOOK",
+    "name": "Principles of Forensic Psychiatry",
+    "description": "This text addresses standards in the assessment and treatment of aggression and violence as well as psychological and neuroimaging assessments.",
+    "weight": "2835 g",
+    "volume": "3673 ml",
+    "fun": -2,
+    "time": "22 m",
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "chapters": -9, "intelligence": 2 }
+  },
+  {
+    "id": "book_nonf_hard_psych_grconres",
+    "type": "BOOK",
+    "name": "The Guide to Reflective Conflict Resolution",
+    "description": "The back cover of this hardbound book reads: \"Why should professionals care about reflective practice?  How do its principles and methods increase competence?  What characteristics distinguish reflective practitioners?\"",
+    "weight": "494 g",
+    "volume": "761 ml",
+    "time": "25 m",
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "chapters": -6, "fun": -1, "intelligence": 3 }
+  },
+  {
+    "id": "book_nonf_hard_psych_moodalm",
+    "type": "BOOK",
+    "name": "The Oxbridge Handbook of Mood Ailments",
+    "description": "The Oxbridge Handbook of Mood Ailments provides detailed coverage of the characterization, understanding, and treatment of affective disorders.  It provides coverage of unipolar depression, bipolar disorder, and known variants of these illnesses.",
+    "weight": "1152 g",
+    "volume": "1647 ml",
+    "time": "40 m",
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "chapters": 6, "fun": -1, "intelligence": 4 }
+  },
+  {
+    "id": "book_nonf_hard_psych_phonodis",
+    "type": "BOOK",
+    "name": "Phonological Acquisition and Disorders",
+    "description": "Studying the phonologies of children with non-organic speech disorders, this volume details the latest findings in optimality theory, phonological acquisition and disorders.  It is intended for linguists and psychologists.",
+    "weight": "730 g",
+    "volume": "1038 ml",
+    "time": "30 m",
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "chapters": -7, "fun": -2, "intelligence": 5 }
+  },
+  {
+    "id": "book_nonf_hard_psych_thergar",
+    "type": "BOOK",
+    "name": "Therapeutic Gardens and Healing Spaces",
+    "//": "This is an example of book that belongs in two genres: homemk and psych",
+    "description": "This book addresses how to design therapeutic gardens.  It illustrates a variety of landscape designs appropriate for public spaces that promote mental health.",
+    "weight": "1043 g",
+    "volume": "1110 ml",
+    "time": "18 m",
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "chapters": -6, "fun": -1, "intelligence": 3 }
+  },
+  {
+    "id": "book_nonf_soft_psych_adrugds",
+    "type": "BOOK",
+    "name": "Advances in Drug Delivery Systems",
+    "description": "This softcover reprint covers an array of topics in pharmacology.  The physicochemical concepts of the refinement of bioresponsive drug delivery are presented in detail alongside a variety of current approaches employed in the development of zero order release systems.",
+    "weight": "773 g",
+    "volume": "964 ml",
+    "time": "30 m",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "chapters": 2, "fun": -1, "intelligence": 5 }
+  },
+  {
+    "id": "book_nonf_soft_psych_arteatds",
+    "type": "BOOK",
+    "name": "Using Art to Treat Eating Disorders",
+    "description": "This is an introductory guide for those wanting to explore the use of art to address eating disorders.  Art therapy is a particularly effective therapeutic intervention, as it allows people to express uncomfortable thoughts and feelings nonverbally.",
+    "weight": "340 g",
+    "volume": "428 ml",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "chapters": -3, "intelligence": 1 }
+  },
+  {
+    "id": "book_nonf_soft_psych_cggamers",
+    "type": "BOOK",
+    "name": "A Clinical Guide to Video Gamers",
+    "description": "This scholarly work considers the role that games play in psychological experiences and mental health.  Chapters examine the factors that compel individual gamers to select and identify with particular games and characters, as well as the different play styles, genres, and archetypes common in video games.",
+    "weight": "295 g",
+    "volume": "442 ml",
+    "time": "30 m",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "chapters": -3, "fun": -2, "intelligence": 2 }
+  },
+  {
+    "id": "book_nonf_soft_psych_paranoia",
+    "type": "BOOK",
+    "name": "Paranoia and the History of Madness",
+    "description": "This book is an analysis of the use and misuse of paranoia throughout history and in contemporary society.  The impact of paranoia on societies is explored in detail.",
+    "weight": "522 g",
+    "volume": "759 ml",
+    "time": "25 m",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "chapters": -6, "fun": -1, "intelligence": 3 }
+  },
+  {
+    "id": "book_nonf_soft_psych_psycolo",
+    "type": "BOOK",
+    "name": "Psychoanalysis and Colonialism",
+    "description": "Freud referred to women's sexuality as a \"dark continent\" for psychoanalysis, drawing on colonial use of the same phrase to refer to Africa.  This book details how the problematic universalism of psychoanalysis led theorists to reject its relevance for postcolonial critique.",
+    "weight": "454 g",
+    "volume": "734 ml",
+    "time": "30 m",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "fun": -1, "intelligence": 3 }
+  },
+  {
+    "id": "book_nonf_soft_psych_psycstlk",
+    "type": "BOOK",
+    "name": "The Psychology of Stalking",
+    "description": "This book explores stalking from social, psychiatric, psychological and behavioral perspectives.  Topics include psychiatric diagnoses, offender-victim typologies, cyberstalking, false victimization syndrome, erotomania, domestic violence, the stalking of public figures, and many other aspects of stalking.",
+    "weight": "400 g",
+    "volume": "521 ml",
+    "time": "18 m",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "chapters": 3, "intelligence": 2 }
+  }
+]

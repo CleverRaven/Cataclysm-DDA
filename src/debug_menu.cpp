@@ -22,6 +22,7 @@
 #include <utility>
 #include <vector>
 
+#include "achievement.h"
 #include "action.h"
 #include "artifact.h"
 #include "avatar.h"
@@ -147,6 +148,7 @@ enum debug_menu_index {
     DEBUG_BENCHMARK,
     DEBUG_OM_TELEPORT,
     DEBUG_TRAIT_GROUP,
+    DEBUG_ENABLE_ACHIEVEMENTS,
     DEBUG_SHOW_MSG,
     DEBUG_CRASH_GAME,
     DEBUG_MAP_EXTRA,
@@ -245,6 +247,17 @@ static int info_uilist( bool display_all_entries = true )
     return uilist( _( "Info…" ), uilist_initializer );
 }
 
+static int game_uilist()
+{
+    std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( DEBUG_ENABLE_ACHIEVEMENTS, true, 'a', _( "Enable achievements" ) ) },
+        { uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
+        { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
+    };
+
+    return uilist( _( "Game…" ), uilist_initializer );
+}
+
 static int teleport_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
@@ -304,6 +317,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
     if( display_all_entries ) {
         const std::vector<uilist_entry> debug_menu = {
             { uilist_entry( DEBUG_QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
+            { uilist_entry( 6, true, 'g', _( "Game…" ) ) },
             { uilist_entry( 2, true, 's', _( "Spawning…" ) ) },
             { uilist_entry( 3, true, 'p', _( "Player…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
@@ -344,6 +358,9 @@ static int debug_menu_uilist( bool display_all_entries = true )
                 break;
             case 5:
                 action = map_uilist();
+                break;
+            case 6:
+                action = game_uilist();
                 break;
 
             default:
@@ -1108,6 +1125,25 @@ void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
+
+    // For the "cheaty" options, disable achievements when used
+    achievements_tracker &achievements = g->achievements();
+    static const std::unordered_set<int> non_cheaty_options = {
+        DEBUG_SAVE_SCREENSHOT,
+        DEBUG_GAME_REPORT,
+        DEBUG_ENABLE_ACHIEVEMENTS,
+        DEBUG_BENCHMARK,
+        DEBUG_SHOW_MSG,
+    };
+    bool should_disable_achievements = action >= 0 && !non_cheaty_options.count( action );
+    if( should_disable_achievements && achievements.is_enabled() ) {
+        if( query_yn( "Using this will disable achievements.  Proceed?" ) ) {
+            achievements.set_enabled( false );
+        } else {
+            action = -1;
+        }
+    }
+
     g->refresh_all();
     avatar &u = g->u;
     map &m = g->m;
@@ -1582,6 +1618,14 @@ void debug()
             break;
         case DEBUG_TRAIT_GROUP:
             trait_group::debug_spawn();
+            break;
+        case DEBUG_ENABLE_ACHIEVEMENTS:
+            if( achievements.is_enabled() ) {
+                popup( _( "Achievements are already enabled" ) );
+            } else {
+                achievements.set_enabled( true );
+                popup( _( "Achievements enabled" ) );
+            }
             break;
         case DEBUG_SHOW_MSG:
             debugmsg( "Test debugmsg" );

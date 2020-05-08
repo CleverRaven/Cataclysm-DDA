@@ -257,10 +257,12 @@ bool is_valid_in_w_terrain( const point &p )
     return p.x >= 0 && p.x < TERRAIN_WINDOW_WIDTH && p.y >= 0 && p.y < TERRAIN_WINDOW_HEIGHT;
 }
 
-static void achievement_attained( const achievement *a )
+static void achievement_attained( const achievement *a, bool achievements_enabled )
 {
-    g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
-                            a->name() );
+    if( achievements_enabled ) {
+        g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
+                                a->name() );
+    }
 }
 
 // This is the main game set-up process.
@@ -3063,6 +3065,11 @@ event_bus &game::events()
 stats_tracker &game::stats()
 {
     return *stats_tracker_ptr;
+}
+
+achievements_tracker &game::achievements()
+{
+    return *achievements_tracker_ptr;
 }
 
 memorial_logger &game::memorial()
