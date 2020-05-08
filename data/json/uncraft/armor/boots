@@ -1,0 +1,11 @@
+[
+  {
+    "result": "roller_blades",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 3,
+    "time": "600 s",
+    "qualities": [ { "id": "PRYING", "level": 1 }, { "id": "TURNING", "level": 1 } ],
+    "components": [ [ [ "boots", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "bearings", 1 ] ] ]
+  }
+]
