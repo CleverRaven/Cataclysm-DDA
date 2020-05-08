@@ -222,10 +222,13 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "min_item_volume": "2 ml",
         "watertight": true,
         "max_contains_volume": "100 L",
         "max_contains_weight": "100 kg",
-        "moves": 400
+        "//spoil": "one would expect protection against decomposition to be a primary feature of a body bag",
+        "spoil_multiplier": 0.9,
+        "moves": 1500
       }
     ],
     "color": "dark_gray",
@@ -252,7 +255,9 @@
         "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "3 kg",
-        "moves": 400
+        "spoil_multiplier": 0.7,
+        "moves": 1700,
+        "sealed_data": { "spoil_multiplier": 0.075 }
       }
     ],
     "flags": [ "TRADER_AVOID" ]
@@ -277,9 +282,13 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "//gastight": "kinda",
+        "gastight": true,
+        "fire_protection": true,
         "rigid": true,
         "max_contains_volume": "750 ml",
         "max_contains_weight": "3 kg",
+        "spoil_multiplier": 0.7,
         "moves": 400
       }
     ],
@@ -300,6 +309,7 @@
         "rigid": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
+        "spoil_multiplier": 0.8,
         "moves": 400
       }
     ],
@@ -326,9 +336,9 @@
         "rigid": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "spoil_multiplier": 0.5,
+        "spoil_multiplier": 0.6,
         "sealed_data": { "spoil_multiplier": 0.0 },
-        "moves": 400
+        "moves": 450
       }
     ],
     "price": 0,
@@ -353,8 +363,10 @@
         "rigid": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "spoil_multiplier": 0.5,
-        "moves": 400
+        "spoil_multiplier": 0.6,
+        "//sealed": "useful redundancy?",
+        "sealed_data": { "spoil_multiplier": 0.3 },
+        "moves": 350
       }
     ],
     "price": 0,
@@ -379,6 +391,7 @@
         "rigid": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg",
+        "spoil_multiplier": 0.9,
         "moves": 400
       }
     ],
@@ -410,6 +423,7 @@
         "max_contains_volume": "2 L",
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
+        "spoil_multiplier": 0.9,
         "moves": 400
       }
     ]
@@ -434,7 +448,8 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "3 kg"
+        "max_contains_weight": "3 kg",
+        "moves": 600
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -483,6 +498,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "min_item_volume": "2 ml",
         "rigid": true,
         "max_contains_volume": "2990 ml",
         "max_contains_weight": "20 kg",
@@ -510,6 +526,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "min_item_volume": "3 ml",
         "rigid": true,
         "max_contains_volume": "4990 ml",
         "max_contains_weight": "50 kg",
@@ -561,7 +578,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "watertight": true,
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "20 kg"
