@@ -974,6 +974,7 @@ void monster::move()
                 dragged_foe->setpos( g->m.getlocal( drag_to ) );
             }
         }
+        g->m.creature_on_trap( *this );
     } else {
         moves -= 100;
         stumble();
