@@ -696,7 +696,10 @@ item_location item_location::parent_item() const
 
 bool item_location::has_parent() const
 {
-    return where() == type::container ? !!ptr->parent_item() : false;
+    if( where() == type::container ) {
+        return !!ptr->parent_item();
+    }
+    return false;
 }
 
 item_location::type item_location::where() const
@@ -755,6 +758,10 @@ void item_location::set_should_stack( bool should_stack ) const
 
 bool item_location::held_by( Character &who ) const
 {
-    return ( where() == type::character && g->critter_at<Character>( position() ) == &who ) ?
-           true : has_parent() ? parent_item().held_by( who ) : false;
+    if( where() == type::character && g->critter_at<Character>( position() ) == &who ) {
+        return true;
+    } else if( has_parent() ) {
+        return parent_item().held_by( who );
+    }
+    return false;
 }
