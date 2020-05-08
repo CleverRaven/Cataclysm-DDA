@@ -1883,7 +1883,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 ```C++
 "pocket_data": [
   {
-    "pocket_type": "CONTAINER",               // the typical container pocket. pockets can also be MAGAZINE
+    "pocket_type": "CONTAINER",               // The typical container pocket. Pockets can also be MAGAZINE.
     "min_item_volume": "0 ml",                // the minimum volume of item that can be placed into this pocket
     "max_contains_volume": mandatory,         // the maximum volume this pocket can hold, totaled among all contained items
     "max_contains_weight": mandatory,         // the maximum weight this pocket can hold, totaled among all container items
@@ -1891,13 +1891,13 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "spoil_multiplier": 1.0,                  // how putting an item in this pocket affects spoilage. less than 1.0 and the item will be preserved longer.
     "weight_multiplier": 1.0,                 // the items in this pocket magically weigh less inside than outside
     "magazine_well": "0 ml",                  // only works if rigid = false, this is the amount of space you can put items in the pocket before it starts expanding
-    "moves": 100,                             // the number of moves it takes to remove an item from this pocket, in best conditions
+    "moves": 100,                             // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
     "fire_protection": false,                 // if the pocket protects the contained items from exploding in a fire or not
     "watertight": false,                      // can contain liquid
     "gastight": false,                        // can contain gas
-    "open_container": false,                  // the contents of this pocket will spill if this item is placed into another item.
+    "open_container": false,                  // Default is false. If true, the contents of this pocket will spill if this item is placed into another item.
     "flag_restriction": [ "FLAG1", "FLAG2" ], // items can only be placed into this pocket if they have a flag that matches one of these flags.
-    "rigid": false,                           // this pocket's contents do not contribute to this item's size
+    "rigid": false,                           // Default is false. If false, this pocket's contents contribute to this item's size. If true, they do not.  Think glass jar vs plastic bag: a plastic bag containing nothing takes up almost no space, whereas a glass jar containing nothing takes up as much space as a completely full glass jar. The property magazine_well only works if rigid is false.
     "holster": false, // if this value is set to true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
     "sealed_data": { "spoil_multiplier": 0.0 } // have anything in sealed_data means the pocket cannot be resealed. Additionally, the sealed version of the pocket will override the unsealed version of the same datatype.
   }
