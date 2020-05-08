@@ -1612,6 +1612,7 @@
         "rigid": true,
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
+        "moves": 3000,
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
@@ -1624,6 +1625,7 @@
     "description": "A large tin can, like what beans come in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
     "color": "blue",
+    "pocket_data": [ { "open_container": true, "moves": 400 } ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
