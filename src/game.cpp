@@ -2084,7 +2084,6 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? hint_rating::cant :
                                            hint_rating::good;
 
-        int max_text_length = 0;
         uilist action_menu;
         action_menu.allow_anykey = true;
         const auto addentry = [&]( const char key, const std::string & text, const hint_rating hint ) {
@@ -2102,7 +2101,6 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                     entry.text_color = c_light_green;
                     break;
             }
-            max_text_length = std::max( max_text_length, utf8_width( text ) );
         };
         addentry( 'a', pgettext( "action", "activate" ), u.rate_action_use( oThisItem ) );
         addentry( 'R', pgettext( "action", "read" ), u.rate_action_read( oThisItem ) );
@@ -2142,30 +2140,21 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         int iScrollPos = 0;
         oThisItem.info( true, vThisItem );
 
-        // +2+2 for border and adjacent spaces, +2 for '<hotkey><space>'
-        int popup_width = max_text_length + 2 + 2 + 2;
-        int popup_x = 0;
-        switch( position ) {
-            case RIGHT_TERMINAL_EDGE:
-                popup_x = 0;
-                break;
-            case LEFT_OF_INFO:
-                popup_x = iStartX - popup_width;
-                break;
-            case RIGHT_OF_INFO:
-                popup_x = iStartX + iWidth;
-                break;
-            case LEFT_TERMINAL_EDGE:
-                popup_x = TERMX - popup_width;
-                break;
-        }
-
-        // TODO: Ideally the setup of uilist would be split into calculate variables (size, width...),
-        // and actual window creation. This would allow us to let uilist calculate the width, we can
-        // use that to adjust its location afterwards.
         action_menu.w_y_setup = 0;
-        action_menu.w_x_setup = popup_x;
-        action_menu.w_width_setup = popup_width;
+        action_menu.w_x_setup = [&]( const int popup_width ) -> int {
+            switch( position )
+            {
+                default:
+                case RIGHT_TERMINAL_EDGE:
+                    return 0;
+                case LEFT_OF_INFO:
+                    return iStartX - popup_width;
+                case RIGHT_OF_INFO:
+                    return iStartX + iWidth;
+                case LEFT_TERMINAL_EDGE:
+                    return TERMX - popup_width;
+            }
+        };
         // Filtering isn't needed, the number of entries is manageable.
         action_menu.filtering = false;
         // Default menu border color is different, this matches the border of the item info window.
