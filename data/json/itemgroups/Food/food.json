@@ -317,7 +317,7 @@
       { "item": "wheat", "prob": 3 },
       { "item": "onion", "prob": 3 },
       { "item": "garlic", "prob": 3 },
-      { "item": "pine_nuts", "prob": 2 },
+      { "item": "pine_nuts", "prob": 10 },
       { "item": "carrot", "prob": 3 }
     ]
   },
@@ -385,7 +385,7 @@
       { "item": "blackberries", "prob": 7 },
       { "item": "cholla_bud", "prob": 3 },
       { "item": "garlic", "prob": 3 },
-      { "item": "pine_nuts", "prob": 2 }
+      { "item": "pine_nuts", "prob": 10 }
     ]
   },
   {
@@ -460,7 +460,7 @@
       { "item": "coffee_syrup", "prob": 10 },
       { "item": "fruit_leather", "prob": 25 },
       { "item": "kernels", "prob": 25 },
-      { "item": "pine_nuts", "prob": 5 },
+      { "item": "pine_nuts", "prob": 20 },
       { "group": "teabag_box", "prob": 10 }
     ]
   },
@@ -476,7 +476,7 @@
       { "item": "mintpatties", "prob": 8 },
       { "item": "choco_coffee_beans", "prob": 8 },
       { "item": "fruit_leather", "prob": 15 },
-      { "item": "pine_nuts", "prob": 4 }
+      { "item": "pine_nuts", "prob": 20 }
     ]
   },
   {

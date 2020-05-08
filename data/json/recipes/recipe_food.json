@@ -2836,21 +2836,6 @@
   },
   {
     "type": "recipe",
-    "result": "pine_nuts",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "skills_required": [ "survival", 2 ],
-    "difficulty": 1,
-    "charges": 1,
-    "time": "1 m 30 s",
-    "autolearn": true,
-    "batch_time_factors": [ 80, 1 ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "pinecone", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "walnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
