@@ -2290,7 +2290,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     return false;
 }
 
-bool Character::can_install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::can_install_bionics( const itype &type, Character &installer, bool autodoc,
                                      int skill_level )
 {
     if( !type.bionic ) {
@@ -2306,7 +2306,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     float adjusted_skill;
 
     // if we're doing self install
-    if( !autodoc ) {
+    if( !autodoc && installer.is_avatar() ) {
         return installer.has_enough_anesth( type ) &&
                installer.has_installation_requirment( bioid );
     }
@@ -2393,7 +2393,6 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     const int difficulty = type.bionic->difficulty;
     float adjusted_skill;
     int pl_skill;
-
     if( autodoc ) {
         adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                          skill_computer,
