@@ -1,14 +1,32 @@
 [
   {
+    "abstract": "book_tpl",
+    "type": "BOOK",
+    "name": "Generic Book",
+    "description": "The most generic of all books",
+    "symbol": "?"
+  },
+  {
     "abstract": "book_nonf_tpl",
     "type": "BOOK",
     "name": "Generic Nonfiction Book",
     "description": "template for a manuscript purporting to be factual",
     "intelligence": 5,
-    "symbol": "?",
     "looks_like": "story_book",
     "color": "light_blue",
-    "time": "20 m"
+    "time": "20 m",
+    "copy-from": "book_tpl"
+  },
+  {
+    "abstract": "book_fict_tpl",
+    "type": "BOOK",
+    "name": "Generic Fiction Book",
+    "description": "template for a work of fiction",
+    "intelligence": 4,
+    "looks_like": "story_book",
+    "color": "light_cyan",
+    "time": "15 m",
+    "copy-from": "book_tpl"
   },
   {
     "abstract": "book_fict_soft_tpl",
@@ -82,6 +100,25 @@
     "time": "18 m",
     "copy-from": "book_nonf_tpl",
     "relative": { "intelligence": -2 }
+  },
+  {
+    "abstract": "book_nonf_binder_tpl",
+    "type": "BOOK",
+    "name": "Generic Binder",
+    "description": "a binder tpl",
+    "//": "paper specific gravity (density) is 1.2",
+    "weight": "1200 g",
+    "volume": "1 L",
+    "longest_side": "29 cm",
+    "price": 1999,
+    "price_postapoc": 500,
+    "material": [ "paper", "plastic" ],
+    "color": "light_green",
+    "bashing": 1,
+    "chapters": 10,
+    "copy-from": "book_nonf_tpl",
+    "//": "not necessarily written/edited for the public - it might be handwritten/typed - hence harder to grok",
+    "relative": { "intelligence": 1 }
   },
   {
     "abstract": "book_nonf_hard_arch_tpl",
@@ -167,6 +204,15 @@
     "copy-from": "book_nonf_soft_tpl",
     "//int": 4,
     "relative": { "intelligence": -1 }
+  },
+  {
+    "abstract": "book_nonf_binder_cook_tpl",
+    "type": "BOOK",
+    "name": "Generic Cookbook Hardcover",
+    "description": "This is a template for binders about cooking.",
+    "skill": "cooking",
+    "fun": 1,
+    "copy-from": "book_nonf_binder_tpl"
   },
   {
     "abstract": "book_nonf_hard_dodge_tpl",
