@@ -212,8 +212,18 @@ class target_ui
         // relevant for TargetMode::Spell
         std::set<tripoint> spell_aoe;
 
+        // Represents a turret and a straight line from that turret to target
+        struct turret_with_lof {
+            vehicle_part *turret;
+            std::vector<tripoint> line;
+        };
+
         // List of vehicle turrets in range (out of those listed in 'vturrets')
-        std::vector<vehicle_part *> turrets_in_range;
+        std::vector<turret_with_lof> turrets_in_range;
+
+        // If true, draws turret lines
+        // relevant for TargetMode::Turrets
+        bool draw_turret_lines = false;
 
         // Create window and set up input context
         void init_window_and_input( player &pc );
@@ -1852,6 +1862,11 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     // Load settings
     allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
+    if( mode == TargetMode::Turrets ) {
+        // Due to how cluttered the display would become, disable it by default
+        // unless aiming a single turret.
+        draw_turret_lines = vturrets->size() == 1;
+    }
 
     // Create window
     init_window_and_input( pc );
@@ -1928,6 +1943,8 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             continue;
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             toggle_snap_to_target( pc );
+        } else if( action == "TOGGLE_TURRET_LINES" ) {
+            draw_turret_lines = !draw_turret_lines;
         } else if( action == "zoom_in" ) {
             g->zoom_in();
         } else if( action == "zoom_out" ) {
@@ -2104,6 +2121,9 @@ void target_ui::init_window_and_input( player &pc )
             }
         }
         aim_mode = aim_types.begin();
+    }
+    if( mode == TargetMode::Turrets ) {
+        ctxt.register_action( "TOGGLE_TURRET_LINES" );
     }
 }
 
@@ -2460,8 +2480,10 @@ void target_ui::update_turrets_in_range()
 {
     turrets_in_range.clear();
     for( vehicle_part *t : *vturrets ) {
-        if( veh->turret_query( *t ).in_range( dst ) ) {
-            turrets_in_range.push_back( t );
+        turret_data td = veh->turret_query( *t );
+        if( td.in_range( dst ) ) {
+            tripoint src = veh->global_part_pos3( *t );
+            turrets_in_range.push_back( {t, line_to( src, dst )} );
         }
     }
 }
@@ -2607,20 +2629,48 @@ void target_ui::draw_terrain( player &pc )
     tripoint center = pc.pos() + pc.view_offset;
     g->draw_ter( center, true );
 
-    // Draw trajectory
-    if( dst != src ) {
-        // But only points on this Z-level
+    // Removes parts that don't belong to currently visible Z level
+    const auto filter_this_z = [&center]( const std::vector<tripoint> &traj ) {
         std::vector<tripoint> this_z = traj;
         this_z.erase( std::remove_if( this_z.begin(), this_z.end(),
         [&center]( const tripoint & p ) {
             return p.z != center.z;
         } ), this_z.end() );
+        return this_z;
+    };
+
+    // FIXME: TILES version of g->draw_line helpfully draws a cursor at last point.
+    //        This creates a fake cursor if 'dst' is on a z-level we cannot see.
+
+    // Draw approximate line of fire for each turret in range
+    if( mode == TargetMode::Turrets && draw_turret_lines ) {
+        // TODO: TILES version doesn't know how to draw more than 1 line at a time.
+        //       We merge all lines together and draw them as a big malformed one
+        std::set<tripoint> points;
+        for( const turret_with_lof &it : turrets_in_range ) {
+            std::vector<tripoint> this_z = filter_this_z( it.line );
+            for( const tripoint &p : this_z ) {
+                points.insert( p );
+            }
+        }
+        // Since "trajectory" for each turret is just a straight line,
+        // we can draw it even if the player can't see some parts
+        points.erase( dst ); // Workaround for fake cursor on TILES
+        std::vector<tripoint> l( points.begin(), points.end() );
+        if( dst.z == center.z ) {
+            // Workaround for fake cursor bug on TILES
+            l.push_back( dst );
+        }
+        g->draw_line( src, center, l, true );
+    }
+
+    // Draw trajectory
+    if( mode != TargetMode::Turrets && dst != src ) {
+        std::vector<tripoint> this_z = filter_this_z( traj );
 
         // Draw a highlighted trajectory only if we can see the endpoint.
         // Provides feedback to the player, but avoids leaking information
         // about tiles they can't see.
-        // FIXME: TILES version of this function helpfully draws a cursor at 'this_z.back()'.
-        //        This creates a fake cursor if 'dst' is on a z-level we cannot see.
         g->draw_line( dst, center, this_z );
     }
 
@@ -2811,6 +2861,12 @@ void target_ui::draw_controls_list( int text_y )
                                       bound_key( "SWITCH_MODE" ) ) )} );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%c] to reload/switch ammo." ),
                                       bound_key( "SWITCH_AMMO" ) ) )} );
+    }
+    if( mode == TargetMode::Turrets ) {
+        const std::string label = to_translation( "[Hotkey] Show/Hide turrets' lines of fire",
+                                  "[%c] %s lines of fire" ).translated();
+        const std::string showhide = draw_turret_lines ? "Hide" : "Show";
+        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ), showhide ) )} );
     }
 
     // Shrink the list until it fits
@@ -3030,8 +3086,8 @@ void target_ui::panel_turret_list( int &text_y )
     mvwprintw( w_target, point( 1, text_y++ ), _( "Turrets in range: %d/%d" ), turrets_in_range.size(),
                vturrets->size() );
 
-    for( vehicle_part *t : turrets_in_range ) {
-        std::string str = string_format( "* %s", t->name() );
+    for( const turret_with_lof &it : turrets_in_range ) {
+        std::string str = string_format( "* %s", it.turret->name() );
         nc_color clr = c_white;
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     }
