@@ -1797,8 +1797,8 @@ tab_direction set_skills( avatar &u, points_left &points )
             std::sort( elem.second.begin(), elem.second.end(),
                        []( const std::pair<std::string, int> &lhs,
             const std::pair<std::string, int> &rhs ) {
-                return lhs.second < rhs.second ||
-                       ( lhs.second == rhs.second && lhs.first < rhs.first );
+                return localized_compare( std::make_pair( lhs.second, lhs.first ),
+                                          std::make_pair( rhs.second, rhs.first ) );
             } );
 
             const std::string rec_temp = enumerate_as_string( elem.second.begin(), elem.second.end(),

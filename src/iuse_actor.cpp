@@ -2216,6 +2216,7 @@ void musical_instrument_actor::load( const JsonObject &obj )
     volume = obj.get_int( "volume" );
     fun = obj.get_int( "fun" );
     fun_bonus = obj.get_int( "fun_bonus", 0 );
+    description_frequency = time_duration::from_turns( obj.get_int( "description_frequency", 0 ) );
     if( !obj.read( "description_frequency", description_frequency ) ) {
         obj.throw_error( "missing member \"description_frequency\"" );
     }

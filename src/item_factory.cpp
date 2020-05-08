@@ -1556,15 +1556,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     }
 
     assign( jo, "skill", slot.skill_used, strict );
-    if( jo.has_array( "ammo" ) ) {
-        slot.ammo.clear();
-        for( const std::string id : jo.get_array( "ammo" ) ) {
-            slot.ammo.insert( ammotype( id ) );
-        }
-    } else if( jo.has_string( "ammo" ) ) {
-        slot.ammo.clear();
-        slot.ammo.insert( ammotype( jo.get_string( "ammo" ) ) );
-    }
+    assign( jo, "ammo", slot.ammo, strict );
     assign( jo, "range", slot.range, strict );
     // Damage instance assign reader handles pierce
     assign( jo, "ranged_damage", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20, -20 ) );
@@ -1661,13 +1653,7 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
 {
     bool strict = src == "dda";
 
-    if( jo.has_array( "ammo" ) ) {
-        for( const std::string id : jo.get_array( "ammo" ) ) {
-            slot.ammo_id.insert( ammotype( id ) );
-        }
-    } else if( jo.has_string( "ammo" ) ) {
-        slot.ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
-    }
+    assign( jo, "ammo", slot.ammo_id, strict );
     assign( jo, "max_charges", slot.max_charges, strict, 0 );
     assign( jo, "initial_charges", slot.def_charges, strict, 0 );
     assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
@@ -1995,15 +1981,7 @@ void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
 void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
-    if( jo.has_array( "ammo_type" ) ) {
-        slot.type.clear();
-        for( const std::string &id : jo.get_array( "ammo_type" ) ) {
-            slot.type.insert( ammotype( id ) );
-        }
-    } else if( jo.has_string( "ammo_type" ) ) {
-        slot.type.clear();
-        slot.type.insert( ammotype( jo.get_string( "ammo_type" ) ) );
-    }
+    assign( jo, "ammo_type", slot.type, strict );
     assign( jo, "capacity", slot.capacity, strict, 0 );
     assign( jo, "count", slot.count, strict, 0 );
     assign( jo, "default_ammo", slot.default_ammo, strict );

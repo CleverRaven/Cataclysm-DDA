@@ -12,7 +12,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "chemical_spray",
+    "ammo_type": [ "chemical_spray" ],
     "capacity": 800,
     "reliability": 9,
     "reload_time": 3

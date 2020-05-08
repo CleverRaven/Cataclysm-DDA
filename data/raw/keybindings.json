@@ -1398,6 +1398,12 @@
   },
   {
     "type": "keybinding",
+    "id": "VIEW_CATEGORY_MODE",
+    "name": "Toggle inventory view to show item categories",
+    "bindings": [ { "input_method": "keyboard", "key": ";" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INVENTORY_FILTER",
     "category": "INVENTORY",
     "name": "Set item filter",

@@ -3689,7 +3689,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    contents.info( info );
+    contents.info( info, parts );
+    contents_info( info, parts, batch, debug );
 
     if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
         const ascii_art_id art = type->picture_id;
@@ -3723,7 +3724,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         food_info( food_item, info, parts, batch, debug );
     }
 
-    contents_info( info, parts, batch, debug );
     combat_info( info, parts, batch, debug );
 
     magazine_info( info, parts, batch, debug );
@@ -8402,7 +8402,7 @@ bool item_ptr_compare_by_charges( const item *left, const item *right )
     } else if( right->contents.empty() ) {
         return true;
     } else {
-        return right->contents.legacy_front().charges < left->contents.legacy_front().charges;
+        return right->contents.only_item().charges < left->contents.only_item().charges;
     }
 }
 

@@ -168,9 +168,10 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                           calendar::turn ) );
     }
 
-    who.mod_hunger( 5 );
-    who.mod_thirst( 5 );
-    who.mod_fatigue( 10 );
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    who.mod_stored_nutr( 5 - helpersize );
+    who.mod_thirst( 5 - helpersize );
+    who.mod_fatigue( 10 - ( helpersize * 2 ) );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
                            g->m.ter( location ).obj().name() );
 
@@ -486,7 +487,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
         who.cancel_activity();
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-            who.set_value( "THIEF_MODE", "THIF_ASK" );
+            who.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
 
         if( !keep_going ) {

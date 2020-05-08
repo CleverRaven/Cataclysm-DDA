@@ -56,7 +56,7 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "762R",
+    "ammo": [ "762R" ],
     "range": 3,
     "dispersion": 90,
     "durability": 10,

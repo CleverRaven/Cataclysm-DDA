@@ -20,6 +20,11 @@
 
 static std::string get_achievements_text( const achievements_tracker &achievements )
 {
+    if( !achievements.is_enabled() ) {
+        return _( "Achievements are disabled, probably due to use of the debug menu.  "
+                  "If you only used the debug menu to work around a game bug, then you "
+                  "can re-enable achievements via the debug menu (under the Game submenu)." );
+    }
     std::string os;
     std::vector<const achievement *> valid_achievements = achievements.valid_achievements();
     valid_achievements.erase(
@@ -36,7 +41,7 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
         achievement_completion comp = achievements.is_completed( ach->id );
         return std::make_tuple( comp, ach->name().translated(), ach );
     } );
-    std::sort( sortable_achievements.begin(), sortable_achievements.end() );
+    std::sort( sortable_achievements.begin(), sortable_achievements.end(), localized_compare );
     for( const sortable_achievement &ach : sortable_achievements ) {
         os += achievements.ui_text_for( std::get<const achievement *>( ach ) ) + "\n";
     }

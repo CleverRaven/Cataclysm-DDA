@@ -166,7 +166,7 @@
         { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 4 ] },
-      "S": { "item": "SUS_bathroom_sink", "chance": 75 },
+      "S": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 20 } ],
       "U": [
         { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
@@ -182,9 +182,9 @@
       "6": [ { "item": "SUS_pantry", "chance": 25 }, { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] } ],
       "7": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
       "8": [
-        { "item": "SUS_hair_drawer", "chance": 50 },
-        { "item": "SUS_bathroom_cabinet", "chance": 50 },
-        { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "SUS_hair_drawer", "chance": 30 },
+        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_medicine", "chance": 30 },
         { "item": "harddrugs", "chance": 2 }
       ],
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },

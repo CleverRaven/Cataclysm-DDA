@@ -12,7 +12,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "500",
+    "ammo_type": [ "500" ],
     "capacity": 5,
     "flags": [ "SPEEDLOADER" ]
   }

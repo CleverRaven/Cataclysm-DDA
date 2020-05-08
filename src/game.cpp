@@ -257,10 +257,12 @@ bool is_valid_in_w_terrain( const point &p )
     return p.x >= 0 && p.x < TERRAIN_WINDOW_WIDTH && p.y >= 0 && p.y < TERRAIN_WINDOW_HEIGHT;
 }
 
-static void achievement_attained( const achievement *a )
+static void achievement_attained( const achievement *a, bool achievements_enabled )
 {
-    g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
-                            a->name() );
+    if( achievements_enabled ) {
+        g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
+                                a->name() );
+    }
 }
 
 // This is the main game set-up process.
@@ -3065,6 +3067,11 @@ stats_tracker &game::stats()
     return *stats_tracker_ptr;
 }
 
+achievements_tracker &game::achievements()
+{
+    return *achievements_tracker_ptr;
+}
+
 memorial_logger &game::memorial()
 {
     return *memorial_logger_ptr;
@@ -3482,7 +3489,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         // Draw auto-move preview trail
         const tripoint &final_destination = destination_preview.back();
         tripoint line_center = u.pos() + u.view_offset;
-        draw_line( final_destination, line_center, destination_preview );
+        draw_line( final_destination, line_center, destination_preview, true );
         mvwputch( w_terrain, final_destination.xy() - u.view_offset.xy() + point( POSX - u.posx(),
                   POSY - u.posy() ), c_white, 'X' );
     }

@@ -12,7 +12,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "38super",
+    "ammo_type": [ "38super" ],
     "capacity": 16,
     "reliability": 7,
     "flags": [ "MAG_COMPACT" ]
@@ -30,7 +30,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "38super",
+    "ammo_type": [ "38super" ],
     "capacity": 9,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]

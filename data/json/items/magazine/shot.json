@@ -12,7 +12,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "shot",
+    "ammo_type": [ "shot" ],
     "capacity": 10,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -30,7 +30,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "shot",
+    "ammo_type": [ "shot" ],
     "capacity": 30,
     "reliability": 8,
     "reload_time": 130,
@@ -49,7 +49,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "shot",
+    "ammo_type": [ "shot" ],
     "capacity": 10,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -67,7 +67,7 @@
     "material": "plastic",
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "shot",
+    "ammo_type": [ "shot" ],
     "capacity": 20,
     "reliability": 8,
     "reload_time": 110,
@@ -86,7 +86,7 @@
     "material": "cotton",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "shot",
+    "ammo_type": [ "shot" ],
     "capacity": 20,
     "reliability": 5,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 2 },
@@ -105,7 +105,7 @@
     "material": "plastic",
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": "shot",
+    "ammo_type": [ "shot" ],
     "capacity": 6,
     "flags": [ "SPEEDLOADER" ]
   },
@@ -122,7 +122,7 @@
     "material": "plastic",
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": "shot",
+    "ammo_type": [ "shot" ],
     "capacity": 8,
     "flags": [ "SPEEDLOADER" ]
   }

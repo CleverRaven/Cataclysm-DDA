@@ -15,7 +15,7 @@
     "reload_noise": "slosh.",
     "name": { "str": "base flamethrower" },
     "skill": "launcher",
-    "ammo": "flammable",
+    "ammo": [ "flammable" ],
     "ammo_effects": [ "FLARE" ],
     "reload": 4,
     "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ],
@@ -175,7 +175,7 @@
     "type": "GUN",
     "name": { "str": "base shotgun" },
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

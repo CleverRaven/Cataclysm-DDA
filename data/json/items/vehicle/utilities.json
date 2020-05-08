@@ -31,7 +31,7 @@
     "category": "veh_parts",
     "price": 90000,
     "price_postapoc": 5000,
-    "ammo": "plutonium",
+    "ammo": [ "plutonium" ],
     "max_charges": 10000
   },
   {

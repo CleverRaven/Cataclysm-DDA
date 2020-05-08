@@ -72,7 +72,7 @@
     "symbol": "/",
     "color": "yellow",
     "qualities": [ [ "GRIND", 2 ] ],
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": 800000,
     "flags": [ "NONCONDUCTIVE" ],
@@ -97,7 +97,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "charcoal",
+    "ammo": [ "charcoal" ],
     "max_charges": 1000,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -183,7 +183,7 @@
     "material": "steel",
     "symbol": "$",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE",
@@ -209,7 +209,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
     "magazines": [
       [
@@ -250,7 +250,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "initial_charges": 3500,
     "max_charges": 7000,
     "charges_per_use": 3500,
@@ -389,7 +389,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
@@ -409,7 +409,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
@@ -429,7 +429,7 @@
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 25,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
@@ -516,7 +516,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "tape",
+    "ammo": [ "tape" ],
     "max_charges": 200,
     "charges_per_use": 5,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
@@ -580,7 +580,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "ammo": "weldgas",
+    "ammo": [ "weldgas" ],
     "charges_per_use": 4,
     "use_action": "OXYTORCH",
     "qualities": [ [ "WELD", 2 ] ],
@@ -669,7 +669,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID" ],
     "magazines": [
       [
@@ -754,7 +754,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 100,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
@@ -792,7 +792,7 @@
     "material": "iron",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -946,7 +946,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "red",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "qualities": [ [ "WELD", 2 ] ],
     "use_action": [
@@ -982,7 +982,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_red",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 10,
     "qualities": [ [ "WELD", 1 ] ],
     "use_action": [

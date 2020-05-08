@@ -641,7 +641,7 @@ double Character::aim_cap_from_volume( const item &gun ) const
     } else if( gun_skill == "pistol" ) {
         aim_cap = std::max( 15.0, aim_cap * 1.25 );
     } else if( gun_skill == "rifle" ) {
-        aim_cap = std::max( 7.0, aim_cap - 5.0 );
+        aim_cap = std::max( 7.0, aim_cap - 7.0 );
     } else if( gun_skill == "archery" ) {
         aim_cap = std::max( 13.0, aim_cap );
     } else { // Launchers, etc.
@@ -1715,15 +1715,16 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( IR_VISION );
     }
 
-    if( has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) {
+    // Since this is called from the player constructor,
+    // these are going to resolve to Character::has_artifact_with() anyway
+    // This case should be harmless to apply artifact effects to NPCs.
+    if( Character::has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
     }
-
-    if( has_artifact_with( AEP_CLAIRVOYANCE_PLUS ) ) {
+    if( Character::has_artifact_with( AEP_CLAIRVOYANCE_PLUS ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_PLUS );
     }
-
-    if( has_artifact_with( AEP_CLAIRVOYANCE ) ) {
+    if( Character::has_artifact_with( AEP_CLAIRVOYANCE ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE );
     }
 }
@@ -3336,23 +3337,6 @@ void Character::die( Creature *nkiller )
 void Character::apply_skill_boost()
 {
     for( const skill_boost &boost : skill_boost::get_all() ) {
-        // For migration, reset previously applied bonus.
-        // Remove after 0.E or so.
-        const std::string bonus_name = boost.stat() + std::string( "_bonus" );
-        std::string previous_bonus = get_value( bonus_name );
-        if( !previous_bonus.empty() ) {
-            if( boost.stat() == "str" ) {
-                str_max -= atoi( previous_bonus.c_str() );
-            } else if( boost.stat() == "dex" ) {
-                dex_max -= atoi( previous_bonus.c_str() );
-            } else if( boost.stat() == "int" ) {
-                int_max -= atoi( previous_bonus.c_str() );
-            } else if( boost.stat() == "per" ) {
-                per_max -= atoi( previous_bonus.c_str() );
-            }
-            remove_value( bonus_name );
-        }
-        // End migration code
         int skill_total = 0;
         for( const std::string &skill_str : boost.skills() ) {
             skill_total += get_skill_level( skill_id( skill_str ) );
@@ -4951,27 +4935,38 @@ void Character::check_needs_extremes()
 {
     // Check if we've overdosed... in any deadly way.
     if( get_stim() > 250 ) {
-        add_msg_if_player( m_bad, _( "You have a sudden heart attack!" ) );
+        add_msg_player_or_npc( m_bad,
+                               _( "You have a sudden heart attack!" ),
+                               _( "<npcname> has a sudden heart attack!" ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
         hp_cur[hp_torso] = 0;
     } else if( get_stim() < -200 || get_painkiller() > 240 ) {
-        add_msg_if_player( m_bad, _( "Your breathing stops completely." ) );
+        add_msg_player_or_npc( m_bad,
+                               _( "Your breathing stops completely." ),
+                               _( "<npcname>'s breathing stops completely." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
         hp_cur[hp_torso] = 0;
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
-            add_msg_if_player( m_bad, _( "Your heart spasms painfully and stops." ) );
+            add_msg_player_or_npc( m_bad,
+                                   _( "Your heart spasms painfully and stops." ),
+                                   _( "<npcname>'s heart spasms painfully and stops." ) );
         } else {
-            add_msg_if_player( _( "Your heart spasms and stops." ) );
+            add_msg_player_or_npc( _( "Your heart spasms and stops." ),
+                                   _( "<npcname>'s heart spasms and stops." ) );
         }
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
         hp_cur[hp_torso] = 0;
     } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
-        add_msg_if_player( m_bad, _( "Your heart spasms and stops." ) );
+        add_msg_player_or_npc( m_bad,
+                               _( "Your heart spasms and stops." ),
+                               _( "<npcname>'s heart spasms and stops." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
         hp_cur[hp_torso] = 0;
     } else if( get_effect_int( effect_drunk ) > 4 ) {
-        add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
+        add_msg_player_or_npc( m_bad,
+                               _( "Your breathing slows down to a stop." ),
+                               _( "<npcname>'s breathing slows down to a stop." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_drunk );
         hp_cur[hp_torso] = 0;
     }
@@ -10796,6 +10791,40 @@ action_id Character::get_next_auto_move_direction()
         return ACTION_NULL;
     }
     return get_movement_action_from_delta( dp, iso_rotate::yes );
+}
+
+int Character::talk_skill() const
+{
+    /** @EFFECT_INT slightly increases talking skill */
+
+    /** @EFFECT_PER slightly increases talking skill */
+
+    /** @EFFECT_SPEECH increases talking skill */
+    int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
+    return ret;
+}
+
+int Character::intimidation() const
+{
+    /** @EFFECT_STR increases intimidation factor */
+    int ret = get_str() * 2;
+    if( weapon.is_gun() ) {
+        ret += 10;
+    }
+    if( weapon.damage_melee( DT_BASH ) >= 12 ||
+        weapon.damage_melee( DT_CUT ) >= 12 ||
+        weapon.damage_melee( DT_STAB ) >= 12 ) {
+        ret += 5;
+    }
+
+    if( get_stim() > 20 ) {
+        ret += 2;
+    }
+    if( has_effect( effect_drunk ) ) {
+        ret -= 4;
+    }
+
+    return ret;
 }
 
 bool Character::defer_move( const tripoint &next )

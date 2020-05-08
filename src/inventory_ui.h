@@ -336,8 +336,16 @@ class inventory_column
 
         // whether or not to indent contained entries
         bool indent_entries() const {
-            return preset.indent_entries();
+            if( indent_entries_override ) {
+                return *indent_entries_override;
+            } else {
+                return preset.indent_entries();
+            }
         };
+
+        void set_indent_entries_override( bool entry_override ) {
+            indent_entries_override = entry_override;
+        }
 
     protected:
         struct entry_cell_cache_t {
@@ -409,6 +417,7 @@ class inventory_column
         std::vector<cell_t> cells;
         mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
+        cata::optional<bool> indent_entries_override = cata::nullopt;
         /** @return Number of visible cells */
         size_t visible_cells() const;
 };
@@ -448,6 +457,7 @@ class inventory_selector
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_contained_items( item_location container );
+        void add_contained_items( item_location container, inventory_column &column );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
@@ -592,6 +602,7 @@ class inventory_selector
             return get_column( active_column_index );
         }
 
+        void toggle_categorize_contained();
         void set_active_column( size_t index );
 
     protected:
