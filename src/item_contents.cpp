@@ -806,7 +806,11 @@ float item_contents::relative_encumbrance() const
         nonrigid_volume += pocket.contains_volume();
         nonrigid_capacity += pocket.volume_capacity();
     }
-    assert( nonrigid_volume <= nonrigid_capacity );
+    if( nonrigid_volume > nonrigid_capacity ) {
+        debugmsg( "volume exceeds capacity (%sml > %sml)",
+                  to_milliliter( nonrigid_volume ), to_milliliter( nonrigid_capacity ) );
+        return 1;
+    }
     if( nonrigid_capacity == 0_ml ) {
         return 0;
     }
