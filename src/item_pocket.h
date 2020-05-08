@@ -259,7 +259,7 @@ class pocket_data
 
         item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold
-        units::volume max_contains_volume = 0_ml;
+        units::volume volume_capacity = 0_ml;
         // max volume of item that can be contained, otherwise it spills
         cata::optional<units::volume> max_item_volume = cata::nullopt;
         // min volume of item that can be contained, otherwise it spills
@@ -300,6 +300,8 @@ class pocket_data
         bool rigid = false;
 
         bool operator==( const pocket_data &rhs ) const;
+
+        units::volume max_contains_volume() const;
 
         void load( const JsonObject &jo );
         void deserialize( JsonIn &jsin );

@@ -504,7 +504,7 @@ void Item_factory::finalize_post( itype &obj )
             units::volume total_nonrigid_volume = 0_ml;
             for( const pocket_data &pocket : obj.pockets ) {
                 if( !pocket.rigid ) {
-                    total_nonrigid_volume += pocket.max_contains_volume;
+                    total_nonrigid_volume += pocket.max_contains_volume();
                 }
             }
             obj.armor->max_encumber = obj.armor->encumber + total_nonrigid_volume / 250_ml;
@@ -2215,7 +2215,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
             mag_data.ammo_restriction.emplace( amtype, def.magazine->capacity );
         }
         mag_data.fire_protection = def.magazine->protects_contents;
-        mag_data.max_contains_volume = 200_liter;
+        mag_data.volume_capacity = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
         mag_data.max_item_length = 2_km;
         mag_data.rigid = true;
@@ -2230,7 +2230,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         // guns are, in code terms, nonrigid objects with optional magazine_wells.
         mag_data.rigid = false;
         mag_data.watertight = true;
-        mag_data.max_contains_volume = 200_liter;
+        mag_data.volume_capacity = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
         mag_data.max_item_length = 2_km;
         // the magazine pocket does not use can_contain like normal CONTAINER pockets
