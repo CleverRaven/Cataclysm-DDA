@@ -303,7 +303,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
         expansion_data &e_data = e->second;
         for( const recipe *recp_p : recipe_dict.all_blueprints() ) {
             const recipe &recp = *recp_p;
-            const std::string &bldg = recp.result();
+            const std::string &bldg = recp.result().str();
             // skip buildings that are completed
             if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
                 continue;
@@ -647,7 +647,7 @@ void basecamp::form_crafting_inventory( map &target_map )
         bcp_r.consumed = 0;
         item camp_item( bcp_r.fake_id, 0 );
         camp_item.item_tags.insert( "PSEUDO" );
-        if( bcp_r.ammo_id != "NULL" ) {
+        if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
                     if( bcp_f.available > 0 ) {

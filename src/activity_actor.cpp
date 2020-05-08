@@ -32,6 +32,9 @@
 
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 
+static const itype_id itype_bone_human( "bone_human" );
+static const itype_id itype_electrohack( "electrohack" );
+
 static const skill_id skill_computer( "computer" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
@@ -76,7 +79,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             g->m.furn_set( location, f_coffin_o );
             who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
         } else {
-            g->m.spawn_item( location, "bone_human", rng( 5, 15 ) );
+            g->m.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             g->m.furn_set( location, f_coffin_c );
         }
         std::vector<item *> dropped = g->m.place_items( "allclothes", 50, location, location, false,
@@ -244,7 +247,7 @@ static hack_result hack_attempt( Character &who )
     if( who.has_trait( trait_ILLITERATE ) ) {
         return HACK_UNABLE;
     }
-    const bool using_electrohack = who.has_charges( "electrohack", 25 ) &&
+    const bool using_electrohack = who.has_charges( itype_electrohack, 25 ) &&
                                    query_yn( _( "Use electrohack?" ) );
     const bool using_fingerhack = !using_electrohack && who.has_bionic( bio_fingerhack ) &&
                                   who.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
@@ -261,7 +264,7 @@ static hack_result hack_attempt( Character &who )
     if( using_fingerhack ) {
         who.mod_power_level( -25_kJ );
     } else {
-        who.use_charges( "electrohack", 25 );
+        who.use_charges( itype_electrohack, 25 );
     }
 
     // only skilled supergenius never cause short circuits, but the odds are low for people
@@ -273,13 +276,13 @@ static hack_result hack_attempt( Character &who )
         if( using_fingerhack ) {
             who.mod_power_level( -25_kJ );
         } else {
-            who.use_charges( "electrohack", 25 );
+            who.use_charges( itype_electrohack, 25 );
         }
 
         if( success <= -5 ) {
             if( using_electrohack ) {
                 who.add_msg_if_player( m_bad, _( "Your electrohack is ruined!" ) );
-                who.use_amount( "electrohack", 1 );
+                who.use_amount( itype_electrohack, 1 );
             } else {
                 who.add_msg_if_player( m_bad, _( "Your power is drained!" ) );
                 who.mod_power_level( units::from_kilojoule( -rng( 25,

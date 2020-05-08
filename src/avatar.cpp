@@ -88,6 +88,8 @@ static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_stim( "stim" );
 static const efftype_id effect_stim_overdose( "stim_overdose" );
 
+static const itype_id itype_guidebook( "guidebook" );
+
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -418,7 +420,7 @@ bool avatar::read( item &it, const bool continuous )
         return true;
     }
 
-    if( it.typeId() == "guidebook" ) {
+    if( it.typeId() == itype_guidebook ) {
         // special guidebook effect: print a misc. hint when read
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
@@ -922,7 +924,7 @@ void avatar::do_read( item &book )
     activity.set_to_null();
 }
 
-bool avatar::has_identified( const std::string &item_id ) const
+bool avatar::has_identified( const itype_id &item_id ) const
 {
     return items_identified.count( item_id ) > 0;
 }

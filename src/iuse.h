@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "clone_ptr.h"
+#include "type_id.h"
 #include "units.h"
 
 class Character;
@@ -17,8 +18,6 @@ class monster;
 class player;
 struct iteminfo;
 template<typename T> class ret_val;
-
-using itype_id = std::string;
 struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.

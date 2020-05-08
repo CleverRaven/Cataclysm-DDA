@@ -18,8 +18,6 @@ class JsonIn;
 class JsonOut;
 class JsonObject;
 
-using itype_id = std::string;
-
 class recipe_dictionary
 {
         friend class Item_factory; // allow removal of blacklisted recipes

@@ -139,7 +139,7 @@ class item_reader : public generic_typed_reader<item_reader>
         void erase_next( JsonIn &jin, C &container ) const {
             const std::string id = jin.get_string();
             reader_detail::handler<C>().erase_if( container, [&id]( const profession::itypedec & e ) {
-                return e.type_id == id;
+                return e.type_id.str() == id;
             } );
         }
 };
@@ -256,15 +256,16 @@ void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
-            debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id );
+            debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id.str() );
         } else if( !itd.snip_id.is_null() ) {
             const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {
-                debugmsg( "profession %s: item %s has no snippet category - no description can be set",
-                          id.str(), itd.type_id );
+                debugmsg( "profession %s: item %s has no snippet category - no description can "
+                          "be set", id.str(), itd.type_id.str() );
             } else {
                 if( !itd.snip_id.is_valid() ) {
-                    debugmsg( "profession %s: there's no snippet with id %s", id.str(), itd.snip_id.str() );
+                    debugmsg( "profession %s: there's no snippet with id %s",
+                              id.str(), itd.snip_id.str() );
                 }
             }
         }
@@ -276,7 +277,7 @@ void profession::check_definition() const
     check_item_definitions( legacy_starting_items );
     check_item_definitions( legacy_starting_items_female );
     check_item_definitions( legacy_starting_items_male );
-    if( !no_bonus.empty() && !item::type_is_defined( no_bonus ) ) {
+    if( !no_bonus.is_empty() && !item::type_is_defined( no_bonus ) ) {
         debugmsg( "no_bonus item '%s' is not an itype_id", no_bonus.c_str() );
     }
 
@@ -530,10 +531,10 @@ void json_item_substitution::reset()
 json_item_substitution::substitution::info::info( const JsonValue &value )
 {
     if( value.test_string() ) {
-        new_item = value.get_string();
+        value.read( new_item, true );
     } else {
         const JsonObject jo = value.get_object();
-        new_item = jo.get_string( "item" );
+        jo.read( "item", new_item, true );
         ratio = jo.get_float( "ratio" );
         if( ratio <= 0.0 ) {
             jo.throw_error( "Ratio must be positive", "ratio" );
@@ -563,7 +564,7 @@ void json_item_substitution::load( const JsonObject &jo )
             return p.first == it;
         } ) != bonuses.end();
     };
-    if( item_mode && check_duplicate_item( title ) ) {
+    if( item_mode && check_duplicate_item( itype_id( title ) ) ) {
         jo.throw_error( "Duplicate definition of item" );
     }
 
@@ -579,12 +580,13 @@ void json_item_substitution::load( const JsonObject &jo )
             for( const JsonValue info : obj.get_array( "new" ) ) {
                 s.infos.emplace_back( info );
             }
-            substitutions[title].push_back( s );
+            substitutions[itype_id( title )].push_back( s );
         }
     } else {
         for( const JsonObject sub : jo.get_array( "sub" ) ) {
             substitution s;
-            const itype_id old_it = sub.get_string( "item" );
+            itype_id old_it;
+            sub.read( "item", old_it, true );
             if( check_duplicate_item( old_it ) ) {
                 sub.throw_error( "Duplicate definition of item" );
             }

@@ -29,6 +29,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const itype_id itype_hotplate( "hotplate" );
+
 extern bool test_mode;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
@@ -96,8 +98,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else {
-        result_ = jo.get_string( "result" );
-        ident_ = recipe_id( result_ );
+        jo.read( "result", result_, true );
+        ident_ = recipe_id( result_.str() );
     }
 
     if( jo.has_bool( "obsolete" ) ) {
@@ -233,7 +235,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             }
             byproducts.clear();
             for( JsonArray arr : jo.get_array( "byproducts" ) ) {
-                byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
+                itype_id byproduct( arr.get_string( 0 ) );
+                byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
         assign( jo, "construction_blueprint", blueprint );
@@ -326,7 +329,7 @@ void recipe::finalize()
 
     deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
 
-    if( contained && container == "null" ) {
+    if( contained && container.is_null() ) {
         container = item::find_type( result_ )->default_container.value_or( "null" );
     }
 
@@ -371,7 +374,7 @@ std::string recipe::get_consistency_error() const
         return "defines invalid byproducts";
     }
 
-    if( !contained && container != "null" ) {
+    if( !contained && !container.is_null() ) {
         return "defines container but not contained";
     }
 
@@ -744,7 +747,7 @@ bool recipe::hot_result() const
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
-                if( t.type == "hotplate" ) {
+                if( t.type == itype_hotplate ) {
                     return true;
                 }
             }

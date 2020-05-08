@@ -594,7 +594,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                         g->draw_item_override( map_p, itm.typeId(), mon ? mon->id : mtype_id::NULL_ID(),
                                                tile.get_item_count() > 1 );
                     } else {
-                        g->draw_item_override( map_p, "null", mtype_id::NULL_ID(), false );
+                        g->draw_item_override( map_p, itype_id::NULL_ID(), mtype_id::NULL_ID(),
+                                               false );
                     }
                     const optional_vpart_position vp = tmpmap.veh_at( tmp_p );
                     if( vp ) {

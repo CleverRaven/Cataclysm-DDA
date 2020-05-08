@@ -58,14 +58,14 @@ static void test_encumbrance_items(
 }
 
 static void test_encumbrance(
-    const std::vector<itype_id> &clothing_types,
+    const std::vector<std::string> &clothing_types,
     const std::string &body_part,
     const int expected_encumbrance
 )
 {
     CAPTURE( clothing_types );
     std::vector<item> clothing;
-    for( const itype_id &type : clothing_types ) {
+    for( const std::string &type : clothing_types ) {
         clothing.push_back( item( type ) );
     }
     test_encumbrance_items( clothing, body_part, expected_encumbrance );

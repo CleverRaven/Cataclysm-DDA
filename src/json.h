@@ -1087,10 +1087,10 @@ class JsonArray
             return jsin->read( t );
         }
         // random-access read values by reference
-        template <typename T> bool read( size_t i, T &t ) const {
+        template <typename T> bool read( size_t i, T &t, bool throw_on_error = false ) const {
             verify_index( i );
             jsin->seek( positions[i] );
-            return jsin->read( t );
+            return jsin->read( t, throw_on_error );
         }
 };
 
@@ -1124,8 +1124,8 @@ class JsonValue
             return seek().get_array();
         }
         template<typename T>
-        bool read( T &t ) const {
-            return seek().read( t );
+        bool read( T &t, bool throw_on_error = false ) const {
+            return seek().read( t, throw_on_error );
         }
 
         bool test_string() const {

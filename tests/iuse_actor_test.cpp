@@ -58,7 +58,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     dummy.invoke_item( &test_item );
 
     REQUIRE( !dummy.has_item_with( []( const item & it ) {
-        return it.typeId() == "bot_manhack";
+        return it.typeId() == itype_id( "bot_manhack" );
     } ) );
 
     new_manhack = find_adjacent_monster( dummy.pos() );

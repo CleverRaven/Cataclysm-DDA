@@ -96,7 +96,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     dummy.i_add( gun );
 
     const std::vector<item *> guns = dummy.items_with( []( const item & it ) {
-        return it.typeId() == "glock_19";
+        return it.typeId() == itype_id( "glock_19" );
     } );
     REQUIRE( guns.size() == 1 );
     item &glock = *guns.front();
@@ -105,7 +105,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     item_location glock_loc( dummy, &glock );
     REQUIRE( g->unload( glock_loc ) );
     const std::vector<item *> glock_mags = dummy.items_with( []( const item & it ) {
-        return it.typeId() == "glockmag";
+        return it.typeId() == itype_id( "glockmag" );
     } );
     REQUIRE( glock_mags.size() == 1 );
     item &magazine = *glock_mags.front();
@@ -225,7 +225,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
             THEN( "the associated magazine is reloaded" ) {
                 const std::vector<item *> mags = dummy.items_with( []( const item & it ) {
-                    return it.typeId() == "glockmag";
+                    return it.typeId() == itype_id( "glockmag" );
                 } );
                 REQUIRE( mags.size() == 1 );
                 REQUIRE( !mags.front()->contents.empty() );
@@ -261,7 +261,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
                 THEN( "the associated magazine is reloaded" ) {
                     const std::vector<item *> mags = dummy.items_with( []( const item & it ) {
-                        return it.typeId() == "glockmag";
+                        return it.typeId() == itype_id( "glockmag" );
                     } );
                     REQUIRE( mags.size() == 1 );
                     REQUIRE( !mags.front()->contents.empty() );
@@ -282,7 +282,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
                         THEN( "the second associated magazine is reloaded" ) {
                             const std::vector<item *> mags = dummy.items_with( []( const item & it ) {
-                                return it.typeId() == "glockbigmag";
+                                return it.typeId() == itype_id( "glockbigmag" );
                             } );
                             REQUIRE( mags.size() == 1 );
                             REQUIRE( !mags.front()->contents.empty() );

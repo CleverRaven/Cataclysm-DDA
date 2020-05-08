@@ -85,6 +85,10 @@ static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 
+static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_milk( "milk" );
+static const itype_id itype_milk_raw( "milk_raw" );
+
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
@@ -481,12 +485,12 @@ void monster::refill_udders()
         // legacy animals got empty ammo map, fill them up now if needed.
         ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
     }
-    auto current_milk = ammo.find( "milk_raw" );
+    auto current_milk = ammo.find( itype_milk_raw );
     if( current_milk == ammo.end() ) {
-        current_milk = ammo.find( "milk" );
+        current_milk = ammo.find( itype_milk );
         if( current_milk != ammo.end() ) {
             // take this opportunity to update milk udders to raw_milk
-            ammo["milk_raw"] = current_milk->second;
+            ammo[itype_milk_raw] = current_milk->second;
             // Erase old key-value from map
             ammo.erase( current_milk );
         }
@@ -2746,7 +2750,7 @@ bool monster::is_dead() const
 
 void monster::init_from_item( const item &itm )
 {
-    if( itm.typeId() == "corpse" ) {
+    if( itm.typeId() == itype_corpse ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
@@ -2776,7 +2780,7 @@ void monster::init_from_item( const item &itm )
 
 item monster::to_item() const
 {
-    if( type->revert_to_itype.empty() ) {
+    if( type->revert_to_itype.is_empty() ) {
         return item();
     }
     // Birthday is wrong, but the item created here does not use it anyway (I hope).

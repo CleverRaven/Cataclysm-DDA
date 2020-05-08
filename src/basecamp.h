@@ -44,7 +44,6 @@ struct expansion_data {
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
 using Group_tag = std::string;
-using itype_id = std::string;
 
 namespace catacurses
 {

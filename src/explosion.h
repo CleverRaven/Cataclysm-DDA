@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 
-using itype_id = std::string;
+#include "type_id.h"
 
 struct tripoint;
 class JsonObject;
@@ -16,11 +16,11 @@ struct shrapnel_data {
     float fragment_mass = 0.005;
     // Percentage
     int recovery        = 0;
-    itype_id drop       = "null";
+    itype_id drop       = itype_id::NULL_ID();
 
     shrapnel_data() = default;
     shrapnel_data( int casing_mass, float fragment_mass = 0.005, int recovery = 0,
-                   itype_id drop = "null" )
+                   itype_id drop = itype_id::NULL_ID() )
         : casing_mass( casing_mass )
         , fragment_mass( fragment_mass )
         , recovery( recovery )

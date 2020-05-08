@@ -23,9 +23,6 @@ class JsonIn;
 class JsonOut;
 class item;
 struct tripoint;
-
-using itype_id = std::string;
-
 class item;
 class item_location;
 class player;

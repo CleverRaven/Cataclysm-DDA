@@ -63,9 +63,6 @@ class JsonOut;
 class dispersion_sources;
 struct bionic;
 struct dealt_projectile_attack;
-
-using itype_id = std::string;
-using faction_id = string_id<faction>;
 class profession;
 struct trap;
 
@@ -396,7 +393,7 @@ class player : public Character
          * @note items currently loaded with a detachable magazine are considered reloadable
          * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
          */
-        bool can_reload( const item &it, const itype_id &ammo = std::string() ) const;
+        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -476,7 +473,7 @@ class player : public Character
 
         bool fun_to_read( const item &book ) const;
         /** Note that we've read a book at least once. **/
-        virtual bool has_identified( const std::string &item_id ) const = 0;
+        virtual bool has_identified( const itype_id &item_id ) const = 0;
 
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
