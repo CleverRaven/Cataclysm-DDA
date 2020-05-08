@@ -51,7 +51,7 @@
       "Wish I could, <name_g>.",
       "Nah, this stuff is not for sale.",
       "Hell no, I'm keeping this for myself.",
-      "Not gonna happen, sorry <name_g>",
+      "Not gonna happen, sorry <name_g>"
     ]
   },
   {
@@ -293,7 +293,7 @@
       "'Sup, <name_g>?",
       "Hello there, <granny_name_g>",
       "What's down, <name_g>?",
-      "Wassup?",
+      "Wassup?"
 
     ]
   },
@@ -468,7 +468,7 @@
       "I'm riding solo.",
       "Just me, myself and I.",
       "I'm a lone wolf. A solitary eagle. A... eh... I work alone.",
-      "I do all my own stunts, kid.",
+      "I do all my own stunts, kid."
     ]
   },
   {
@@ -612,7 +612,7 @@
       "unbelievably",
       "completely",
       "indescribably",
-      "fully",
+      "fully"
     ]
   },
   {
@@ -811,7 +811,7 @@
       "shittin'",
       "fuggin'",
       "damned",
-      "feckin'",
+      "feckin'"
     ]
   },
   {
@@ -947,7 +947,7 @@
       "<swear> hell, if you're the successor to the human race, we're screwed",
       "i don't even know you, you <name_b>",
       "are you loco or something, <name_b>?",
-      "that is <swear> crazy, fuck that!",
+      "that is <swear> crazy, fuck that!"
 
     ]
   },
@@ -1029,8 +1029,7 @@
       "Prepare yourself!  We have a",
       "<swear>",
       "Uh oh! It's one of those <swear>",
-      "Brace yourself, it's a <swear>",
-
+      "Brace yourself, it's a <swear>"
     ]
   },
   {
@@ -1327,7 +1326,7 @@
       "Shh.... what was that?",
       "Wait, was that you talking just then?",
       "<swear!>, you just hear someone talking?",
-      "That wasn't you just speaking, was it? I think we have company.",
+      "That wasn't you just speaking, was it? I think we have company."
     ]
   },
   {
@@ -1471,7 +1470,7 @@
       "Jeez <name_g>, didn't think you were such a <name_b> to be fucking with that stuff.",
       "You must be out of your mind to be puffing that!",
       "Hey, at least I know you're not serious about surviving the apocalypse.",
-      "That stuff kills, my <name_g>.",
+      "That stuff kills, my <name_g>."
     ]
   },
   {
@@ -1540,7 +1539,7 @@
       "I need some radioactive slurry to power my reactor.  Or a less dangerous power source, that would be even better!",
       "Please, <name_g>, get me some radioactive slurry to fuel my internal reactor.  Or get me another way to recharge my CBMs!",
       "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.  Which wouldn't be a problem if I had anything else that would recharge my CBMs!",
-      "I sure could use a highly radioactive slurry shake for my power supply right now.",
+      "I sure could use a highly radioactive slurry shake for my power supply right now."
 
     ]
   },
@@ -1596,7 +1595,7 @@
       "We should hit the road for and talk later.",
       "We can talk later, for now we should get going.",
       "Ok, let's stop for now.",
-      "We can discuss matters later, it's time for action.",
+      "We can discuss matters later, it's time for action."
     ]
   },
   {
