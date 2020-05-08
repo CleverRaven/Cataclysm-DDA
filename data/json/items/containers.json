@@ -970,12 +970,13 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "spoil_multiplier": 0.7,
         "rigid": true,
         "watertight": true,
         "open_container": true,
         "sealed_data": { "spoil_multiplier": 1.1 },
         "max_contains_volume": "100 ml",
-        "max_contains_weight": "500 g"
+        "max_contains_weight": "1500 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
@@ -997,6 +998,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "spoil_multiplier": 0.7,
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1 ml",
@@ -1023,6 +1025,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "spoil_multiplier": 0.7,
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
@@ -1051,6 +1054,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "spoil_multiplier": 0.7,
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "3 L",
