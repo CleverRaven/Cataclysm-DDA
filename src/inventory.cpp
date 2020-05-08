@@ -1048,8 +1048,8 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
                 continue;
             }
             if( !selector.action_bound_to_key( inv_char ).empty() ) {
-               // don't auto-assign bound keys
-               continue;
+                // don't auto-assign bound keys
+                continue;
             }
             if( !cur_inv[inv_char] ) {
                 it.invlet = inv_char;
