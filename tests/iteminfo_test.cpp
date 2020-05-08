@@ -127,6 +127,16 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
             "--\n"
             "* This item is <color_c_cyan>not rigid</color>."
             "  Its volume and encumbrance increase with contents.\n" );
+
+        // quiver has no volume, only an implicit volume via ammo
+        test_info_equals(
+            item( "quiver" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>3</color>"
+            "  Encumbrance when full: <color_c_yellow>11</color>\n"
+            "--\n"
+            "* This item is <color_c_cyan>not rigid</color>."
+            "  Its volume and encumbrance increase with contents.\n" );
     }
 
     SECTION( "rigid items do not indicate they are rigid, since almost all items are" ) {
