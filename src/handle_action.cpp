@@ -717,9 +717,9 @@ static void smash()
         smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
     }
 
-    if( g->u.strike_mode_is( CSM_SOFT ) ) {
+    if( g->u.strike_mode_is( avatar_strikemode::SOFT ) ) {
         smashskill *= 0.67;
-    } else if( g->u.strike_mode_is( CSM_HARD ) ) {
+    } else if( g->u.strike_mode_is( avatar_strikemode::HARD ) ) {
         smashskill *= 1.5;
     }
 
@@ -793,9 +793,9 @@ static void smash()
             const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
 
-            if( g->u.strike_mode_is( CSM_SOFT ) ) {
+            if( g->u.strike_mode_is( avatar_strikemode::SOFT ) ) {
                 u.mod_stamina( static_cast<int>( 0.5 * mod_sta ) );
-            } else if( g->u.strike_mode_is( CSM_HARD ) ) {
+            } else if( g->u.strike_mode_is( avatar_strikemode::HARD ) ) {
                 u.mod_stamina( static_cast<int>( 2 * mod_sta ) );
             } else {
                 u.mod_stamina( mod_sta );

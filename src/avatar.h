@@ -30,11 +30,11 @@ class mission;
 class monster;
 class npc;
 
-enum avatar_strikemode : int {
-    CSM_NORMAL = 0,
-    CSM_SOFT,
-    CSM_HARD,
-    CSM_COUNT
+enum class avatar_strikemode : int {
+    NORMAL = 0,
+    SOFT,
+    HARD,
+    COUNT
 };
 
 namespace debug_menu

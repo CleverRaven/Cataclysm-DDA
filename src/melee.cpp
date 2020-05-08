@@ -493,9 +493,9 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         }
 
         if( is_player() ) {
-            if( g->u.strike_mode_is( CSM_SOFT ) ) {
+            if( g->u.strike_mode_is( avatar_strikemode::SOFT ) ) {
                 d.mult_damage( 0.67 );
-            } else if( g->u.strike_mode_is( CSM_HARD ) ) {
+            } else if( g->u.strike_mode_is( avatar_strikemode::HARD ) ) {
                 d.mult_damage( 1.5 );
             }
         }
@@ -611,10 +611,10 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
 
-    if( is_player() && g->u.strike_mode_is( CSM_SOFT ) ) {
+    if( is_player() && g->u.strike_mode_is( avatar_strikemode::SOFT ) ) {
         mod_stamina( std::min( -25, static_cast<int>( .5 * mod_sta ) ) );
         add_msg( m_debug, "Stamina burn: %d", std::min( -25, mod_sta ) );
-    } else if( is_player() && g->u.strike_mode_is( CSM_HARD ) ) {
+    } else if( is_player() && g->u.strike_mode_is( avatar_strikemode::HARD ) ) {
         mod_stamina( std::min( -100, static_cast<int>( 2 * mod_sta ) ) );
         add_msg( m_debug, "Stamina burn: %d", std::min( -100, mod_sta ) );
     } else {
@@ -710,9 +710,9 @@ int stumble( Character &u, const item &weap )
     int stumble_value = ( weap.volume() / 125_ml ) + ( weap.weight() / ( u.str_cur * 10_gram +
                         13.0_gram ) );
 
-    if( g->u.strike_mode_is( CSM_SOFT ) ) {
+    if( g->u.strike_mode_is( avatar_strikemode::SOFT ) ) {
         stumble_value *= .67;
-    } else if( g->u.strike_mode_is( CSM_HARD ) ) {
+    } else if( g->u.strike_mode_is( avatar_strikemode::HARD ) ) {
         stumble_value *= 1.5;
     }
 
