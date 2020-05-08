@@ -121,6 +121,7 @@
     "price_postapoc": 0,
     "symbol": "/",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": "UNFOLD_GENERIC"
   },
   {
