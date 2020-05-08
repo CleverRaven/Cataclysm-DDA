@@ -4270,43 +4270,24 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
-    std::string hunger_string;
-    nc_color hunger_color = c_white;
-    if( has_effect( effect_hunger_engorged ) ) {
-        hunger_string = _( "Engorged" );
-        hunger_color = c_red;
-    } else if( has_effect( effect_hunger_full ) ) {
-        hunger_string = _( "Full" );
-        hunger_color = c_yellow;
-    } else if( has_effect( effect_hunger_satisfied ) ) {
-        hunger_string = _( "Satisfied" );
-        hunger_color = c_green;
-    } else if( has_effect( effect_hunger_could_eat ) ) {
-        hunger_string = _( "Could Eat" );
-        hunger_color = c_dark_gray;
-    } else if( has_effect( effect_hunger_blank ) ) {
-        hunger_string.clear();
-    } else if( has_effect( effect_hunger_hungry ) ) {
-        hunger_string = _( "Hungry" );
-        hunger_color = c_yellow;
-    } else if( has_effect( effect_hunger_very_hungry ) ) {
-        hunger_string = _( "Very Hungry" );
-        hunger_color = c_yellow;
-    } else if( has_effect( effect_hunger_near_starving ) ) {
-        hunger_string = _( "Near starving" );
-        hunger_color = c_red;
-    } else if( has_effect( effect_hunger_starving ) ) {
-        hunger_string = _( "Starving!" );
-        hunger_color = c_red;
-    } else if( has_effect( effect_hunger_famished ) ) {
-        hunger_string = _( "Famished" );
-        hunger_color = c_light_red;
-    } else {
-        hunger_string = _( "ERROR!" );
-        hunger_color = c_light_red;
+    std::map<efftype_id, std::pair<std::string, nc_color> > hunger_states = {
+        { effect_hunger_engorged, std::make_pair(_( "Engorged" ), c_red ) },
+        { effect_hunger_full, std::make_pair(_( "Full" ), c_yellow ) },
+        { effect_hunger_satisfied, std::make_pair(_( "Satisfied" ), c_green ) },
+        { effect_hunger_could_eat, std::make_pair(_( "Could Eat" ), c_dark_gray ) },
+        { effect_hunger_blank, std::make_pair(_( "" ), c_white ) },
+        { effect_hunger_hungry, std::make_pair(_( "Hungry" ), c_yellow ) },
+        { effect_hunger_very_hungry, std::make_pair(_( "Very Hungry" ), c_yellow ) },
+        { effect_hunger_near_starving, std::make_pair(_( "Near starving" ), c_red ) },
+        { effect_hunger_starving, std::make_pair(_( "Starving!" ), c_red ) },
+        { effect_hunger_famished, std::make_pair(_("Famished"), c_light_red) }
+    };
+    for (std::map<efftype_id, std::pair<std::string, nc_color> >::iterator hunger_state = hunger_states.begin(); hunger_state != hunger_states.end(); hunger_state++) {
+        if (has_effect(hunger_state->first)) {
+            return hunger_state->second;
+        }
     }
-
-    return std::make_pair( hunger_string, hunger_color );
+    return std::make_pair( _( "ERROR!" ), c_light_red );
 }
 
 std::pair<std::string, nc_color> Character::get_fatigue_description() const
@@ -4730,7 +4711,6 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     const bool calorie_deficit = get_bmi() < character_weight_category::normal;
     const units::volume contains = stomach.contains();
     const units::volume cap = stomach.capacity( *this );
-    std::string hunger_string;
 
     efftype_id hunger_effect;
     // i ate just now!
@@ -4767,7 +4747,6 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             hunger_effect = effect_hunger_could_eat;
         } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
             hunger_effect = effect_hunger_blank;
-            hunger_string.clear();
         } else {
             if( get_bmi() > character_weight_category::overweight ) {
                 hunger_effect = effect_hunger_hungry;
