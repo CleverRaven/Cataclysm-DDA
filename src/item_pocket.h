@@ -100,6 +100,9 @@ class item_pocket
         // how many more of @it can this pocket hold?
         int remaining_capacity_for_item( const item &it ) const;
         units::volume volume_capacity() const;
+        // The largest volume of contents this pocket can have.  Different from
+        // volume_capacity because that doesn't take into account ammo containers.
+        units::volume max_contains_volume() const;
         // combined weight of contained items
         units::mass contains_weight() const;
         units::mass remaining_weight() const;

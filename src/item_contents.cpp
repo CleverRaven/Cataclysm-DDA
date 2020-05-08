@@ -794,7 +794,7 @@ int item_contents::remaining_capacity_for_liquid( const item &liquid ) const
 
 float item_contents::relative_encumbrance() const
 {
-    units::volume nonrigid_capacity;
+    units::volume nonrigid_max_volume;
     units::volume nonrigid_volume;
     for( const item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
@@ -804,17 +804,17 @@ float item_contents::relative_encumbrance() const
             continue;
         }
         nonrigid_volume += pocket.contains_volume();
-        nonrigid_capacity += pocket.volume_capacity();
+        nonrigid_max_volume += pocket.max_contains_volume();
     }
-    if( nonrigid_volume > nonrigid_capacity ) {
+    if( nonrigid_volume > nonrigid_max_volume ) {
         debugmsg( "volume exceeds capacity (%sml > %sml)",
-                  to_milliliter( nonrigid_volume ), to_milliliter( nonrigid_capacity ) );
+                  to_milliliter( nonrigid_volume ), to_milliliter( nonrigid_max_volume ) );
         return 1;
     }
-    if( nonrigid_capacity == 0_ml ) {
+    if( nonrigid_max_volume == 0_ml ) {
         return 0;
     }
-    return nonrigid_volume * 1.0 / nonrigid_capacity;
+    return nonrigid_volume * 1.0 / nonrigid_max_volume;
 }
 
 bool item_contents::all_pockets_rigid() const

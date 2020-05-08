@@ -8,6 +8,7 @@
 #include "generic_factory.h"
 #include "handle_liquid.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
@@ -289,6 +290,30 @@ size_t item_pocket::size() const
 units::volume item_pocket::volume_capacity() const
 {
     return data->max_contains_volume;
+}
+
+units::volume item_pocket::max_contains_volume() const
+{
+    if( data->ammo_restriction.empty() ) {
+        return volume_capacity();
+    }
+
+    // Find all valid ammo itypes
+    std::vector<const itype *> ammo_types = Item_factory::find( [&]( const itype & t ) {
+        return t.ammo && data->ammo_restriction.count( t.ammo->type );
+    } );
+    // Figure out which has the greatest volume and calculate on that basis
+    std::map<ammotype, units::volume> max_ammo_volume_by_type{};
+    for( const auto *ammo_type : ammo_types ) {
+        units::volume &max_ammo_volume = max_ammo_volume_by_type[ammo_type->ammo->type];
+        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume / ammo_type->stack_size );
+    }
+    units::volume max_total_volume = 0_ml;
+    for( const std::pair<const ammotype, units::volume> &p : max_ammo_volume_by_type ) {
+        max_total_volume = std::max( max_total_volume,
+                                     p.second * data->ammo_restriction.at( p.first ) );
+    }
+    return max_total_volume;
 }
 
 units::volume item_pocket::remaining_volume() const
