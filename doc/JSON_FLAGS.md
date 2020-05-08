@@ -652,6 +652,14 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 - ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
 - ```BIONIC_NPC_USABLE``` ... Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
+- ```BIONIC_TOGGLED``` ... This bionic only has a function when activated, instead of causing its effect every turn.
+- ```BIONIC_POWER_SOURCE``` ... This bionic is a source of bionic power.
+- ```BIONIC_SHOCKPROOF``` ... This bionic can't be incapacitated by electrical attacks.
+- ```BIONIC_FAULTY``` ... This bionic is a "faulty" bionic.
+- ```BIONIC_WEAPON``` ... This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands. Prevents all other activation effects.
+- ```BIONIC_ARMOR_INTERFACE``` ... This bionic can provide power to powered armor.
+- ```BIONIC_SLEEP_FRIENDLY``` ... This bionic won't provide a warning if the player tries to sleep while it's active.
+- ```BIONIC_GUN``` ... This bionic is a gun bionic and activating it will fire it. Prevents all other activation effects.
 - ```CORPSE``` ... Flag used to spawn various human corpses during the mapgen.
 - ```DANGEROUS``` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies "NPC_THROW_NOW".
 - ```DETERGENT``` ... This item can be used as a detergent in a washing machine.

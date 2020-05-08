@@ -1679,7 +1679,7 @@ class bionic_install_preset: public inventory_selector_preset
                                     std::bind( &player::has_bionic, &pa,
                                                std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed" );
-            } else if( pa.is_npc() && !bid->npc_usable ) {
+            } else if( pa.is_npc() && !bid->has_flag( "BIONIC_NPC_USABLE" ) ) {
                 return _( "CBM not compatible with patient" );
             } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
                 return _( "Max power capacity already reached" );
@@ -1782,7 +1782,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                                     std::bind( &player::has_bionic, &pa,
                                                std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed." );
-            } else if( pa.is_npc() && !bid->npc_usable ) {
+            } else if( pa.is_npc() && !bid->has_flag( "BIONIC_NPC_USABLE" ) ) {
                 return _( "CBM is not compatible with patient." );
             }
 
