@@ -280,6 +280,13 @@ void bionic_data::load( const JsonObject &jsobj, const std::string )
 
     optional( jsobj, was_loaded, "available_upgrades", available_upgrades );
 
+    if( jsobj.has_string( "installation_requirement" ) ) {
+        std::string temp_string;
+        optional( jsobj, was_loaded, "installation_requirement", temp_string );
+        instalation_requirement = requirement_id( temp_string );
+    }
+
+
     if( jsobj.has_array( "stat_bonus" ) ) {
         // clear data first so that copy-from can override it
         stat_bonus.clear();
@@ -359,6 +366,10 @@ void bionic_data::check_bionic_consistency()
 {
     for( const bionic_data &bio : get_all() ) {
 
+        if( !bio.instalation_requirement.is_empty() && !bio.instalation_requirement.is_valid() ) {
+            debugmsg( "Bionic %s uses undefined requirement_id %s", bio.id.c_str(),
+                      bio.instalation_requirement.c_str() );
+        }
         if( bio.has_flag( flag_BIO_GUN ) && bio.has_flag( flag_BIO_WEAPON ) ) {
             debugmsg( "Bionic %s specified as both gun and weapon bionic", bio.id.c_str() );
         }
@@ -1868,23 +1879,86 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
     }
 }
 
-bool Character::has_enough_anesth( const itype *cbm, player &patient )
+bool Character::has_enough_anesth( const itype &cbm, player &patient )
 {
-    if( !cbm->bionic ) {
-        debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm->get_id() );
+    if( !cbm.bionic ) {
+        debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm.get_id() );
         return false;
     }
 
-    if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
+    if( patient.has_bionic( bio_painkiller ) || patient.has_trait( trait_NOPAIN ) ||
         has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
 
     const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                        cbm->bionic->difficulty * 2 * weight;
+                                        cbm.bionic->difficulty * 2 * weight;
 
     return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
+}
+
+bool Character::has_enough_anesth( const itype &cbm )
+{
+    if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
+        has_trait( trait_DEBUG_BIONICS ) ) {
+        return true;
+    }
+    const int weight = units::to_kilogram( bodyweight() ) / 10;
+    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                        cbm.bionic->difficulty * 2 * weight;
+    if( !req_anesth.can_make_with_inventory( crafting_inventory(),
+            is_crafting_component ) ) {
+        std::string buffer = _( "You don't have enough anesthetic to perform the installation." );
+        buffer += "\n";
+        buffer += req_anesth.list_missing();
+        popup( buffer, PF_NONE );
+        return false;
+    }
+    return true;
+}
+
+void Character::consume_anesth_requirment( const itype &cbm, player &patient )
+{
+    const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
+    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                        cbm.bionic->difficulty * 2 * weight;
+    for( const auto &e : req_anesth.get_components() ) {
+        as_player()->consume_items( e, 1, is_crafting_component );
+    }
+    for( const auto &e : req_anesth.get_tools() ) {
+        as_player()->consume_tools( e );
+    }
+    invalidate_crafting_inventory();
+}
+
+bool Character::has_installation_requirment( bionic_id bid )
+{
+    if( bid->instalation_requirement.is_empty() ) {
+        return false;
+    }
+
+    if( !bid->instalation_requirement->can_make_with_inventory( crafting_inventory(),
+            is_crafting_component ) ) {
+        std::string buffer = _( "You don't have the required components to perform the installation." );
+        buffer += "\n";
+        buffer += bid->instalation_requirement->list_missing();
+        popup( buffer, PF_NONE );
+        return false;
+    }
+
+    return true;
+}
+
+void Character::consume_installation_requirment( bionic_id bid )
+{
+    for( const auto &e : bid->instalation_requirement->get_components() ) {
+        as_player()->consume_items( e, 1, is_crafting_component );
+    }
+    for( const auto &e : bid->instalation_requirement->get_tools() ) {
+        as_player()->consume_tools( e );
+    }
+    invalidate_crafting_inventory();
 }
 
 // bionic manipulation adjusted skill
@@ -2231,6 +2305,12 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     const int difficult = type.bionic->difficulty;
     float adjusted_skill;
 
+    // if we're doing self install
+    if( !autodoc ) {
+        return installer.has_enough_anesth( type ) &&
+               installer.has_installation_requirment( bioid );
+    }
+
     if( autodoc ) {
         adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                          skill_computer,
@@ -2313,6 +2393,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     const int difficulty = type.bionic->difficulty;
     float adjusted_skill;
     int pl_skill;
+
     if( autodoc ) {
         adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                          skill_computer,
