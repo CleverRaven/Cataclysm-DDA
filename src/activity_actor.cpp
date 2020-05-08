@@ -608,6 +608,11 @@ void consume_activity_actor::start( player_activity &act, Character & )
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
+    if( !loc ) {
+        debugmsg( "Consume actor lost item_location target" );
+        act.set_to_null();
+        return;
+    }
     if( loc.where() == item_location::type::character ) {
         g->u.consume( loc );
 
