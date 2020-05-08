@@ -11,6 +11,7 @@
 
 #include "color.h"
 #include "cursesdef.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "string_formatter.h"
 
@@ -221,6 +222,17 @@ class uilist // NOLINT(cata-xy)
 
         void reset();
 
+        // Can be called before `uilist::query` to keep the uilist on UI stack after
+        // `uilist::query` returns. The returned `ui_adaptor` is cleared when the
+        // `uilist` is deconstructed.
+        //
+        // Example:
+        //     shared_ptr_fast<ui_adaptor> ui = menu.create_or_get_ui_adaptor();
+        //     menu.query()
+        //     // before `ui` or `menu` is deconstructed, the menu will always be
+        //     // displayed on screen.
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+
         operator int() const;
 
     private:
@@ -307,6 +319,8 @@ class uilist // NOLINT(cata-xy)
     private:
         std::vector<int> fentries;
         std::map<int, int> keymap;
+
+        weak_ptr_fast<ui_adaptor> ui;
 
         std::unique_ptr<string_input_popup> filter_popup;
         std::string filter;

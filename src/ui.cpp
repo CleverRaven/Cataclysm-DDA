@@ -161,7 +161,13 @@ uilist::uilist( const point &start, int width, const std::string &msg,
     query();
 }
 
-uilist::~uilist() = default;
+uilist::~uilist()
+{
+    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    if( current_ui ) {
+        current_ui->reset();
+    }
+}
 
 /*
  * Enables oneshot construction -> running -> exit
@@ -795,6 +801,22 @@ bool uilist::scrollby( const int scrollby )
     return true;
 }
 
+shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
+{
+    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    if( !current_ui ) {
+        ui = current_ui = make_shared_fast<ui_adaptor>();
+        current_ui->on_redraw( [this]( const ui_adaptor & ) {
+            show();
+        } );
+        current_ui->on_screen_resize( [this]( ui_adaptor & ui ) {
+            reposition( ui );
+        } );
+        current_ui->mark_resize();
+    }
+    return current_ui;
+}
+
 /**
  * Handle input and update display
  *
@@ -826,14 +848,7 @@ void uilist::query( bool loop, int timeout )
     }
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
-    ui_adaptor ui;
-    ui.on_redraw( [this]( const ui_adaptor & ) {
-        show();
-    } );
-    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
-        reposition( ui );
-    } );
-    reposition( ui );
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
     ui_manager::redraw();
 

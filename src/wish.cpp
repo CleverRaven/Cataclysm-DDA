@@ -627,6 +627,8 @@ void debug_menu::wishskill( player *p )
         origskills.push_back( level );
     }
 
+    shared_ptr_fast<ui_adaptor> skmenu_ui = skmenu.create_or_get_ui_adaptor();
+
     do {
         skmenu.query();
         int skill_id = -1;
