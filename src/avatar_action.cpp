@@ -1235,16 +1235,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
             use_in_place = true;
         } else {
-            const int obtain_cost = loc.obtain_cost( you );
             loc = loc.obtain( you );
             if( !loc ) {
                 debugmsg( "Failed to obtain target item" );
                 return;
             }
-
-            // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
-            // This method only handles items in the inventory, so refund the obtain cost.
-            you.mod_moves( obtain_cost );
         }
     }
 
