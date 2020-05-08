@@ -42,7 +42,7 @@ branches:
 # - SANITIZE=address
 # - LOCALIZE=0
 # - A clang-tidy run (now switched to GitHub workflow)
-# - Tests with important mods enabled (Magiclysm, RL_Classes)
+# - Tests with important mods enabled (Magiclysm)
 # We try to minimize the number of builds subject to those constraints.
 
 # To see what toolchains are available, consult the following:
@@ -54,8 +54,8 @@ jobs:
     # Initial test stage, if this fails everything else is canceled.
     - stage: Test
       # Clang is consistently the fastest to build, so use it for the initial test.
-      env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
-      name: "Clang 3.8 Make build with curses, style check and RL_Classes test"
+      env: CLANG=clang++-3.8 TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
+      name: "Clang 3.8 Make build with curses and style check"
       compiler: clang
       addons: &clang38
         apt:
