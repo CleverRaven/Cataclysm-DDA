@@ -1547,7 +1547,6 @@
     "category": "container",
     "name": { "str": "bucket" },
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
-    "//TODO": "plastic_bucket ought to have copy-from bucket",
     "weight": "725 g",
     "volume": "5 L",
     "price": 300,
@@ -1574,24 +1573,18 @@
     "category": "container",
     "name": { "str": "plastic tub" },
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
-    "weight": "1360 g",
+    "weight": "700 g",
     "volume": "4500 ml",
     "price": 10,
-    "price_postapoc": 10,
     "material": "plastic",
-    "symbol": ")",
-    "color": "white",
     "pocket_data": [
       {
-        "pocket_type": "CONTAINER",
-        "watertight": true,
-        "rigid": true,
-        "open_container": true,
-        "moves": 120,
         "max_contains_volume": "4250 ml",
         "max_contains_weight": "9 kg"
       }
-    ]
+    ],
+    "copy-from": "bucket",
+    "delete": { "qualities": [ [ "BOIL", 2 ] ] }
   },
   {
     "id": "condom",
