@@ -5328,14 +5328,15 @@ void Character::update_bodytemp()
                                                      sheltered ),
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        const ter_id ter_at_pos = g->m.ter( pos() );
         // Convert to 0.01C
-        if( ( ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp ||
-              ter_at_pos == t_water_moving_dp ) ||
-            ( ( ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage ||
-                ter_at_pos == t_water_moving_sh ) &&
-              ( bp == bodypart_id( "foot_l" ) || bp == bodypart_id( "foot_r" ) || bp == bodypart_id( "leg_l" ) ||
-                bp == bodypart_id( "leg_r" ) ) ) ) {
+        static const std::set<bodypart_id> lowers {
+            bodypart_id( "foot_l" ),
+            bodypart_id( "foot_r" ),
+            bodypart_id( "leg_l" ),
+            bodypart_id( "leg_r" )
+        };
+        if( g->m.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ||
+            ( g->m.has_flag_ter( TFLAG_SHALLOW_WATER, pos() ) && lowers.count( bp ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
