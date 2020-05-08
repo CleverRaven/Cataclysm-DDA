@@ -294,7 +294,7 @@ class pocket_data
         // empty means no restriction
         std::vector<std::string> flag_restriction;
         // items stored are restricted to these ammo types:
-        // the pocket can only contain one of them since the amoutn is also defined for each ammotype
+        // the pocket can only contain one of them since the amount is also defined for each ammotype
         std::map<ammotype, int> ammo_restriction;
         // container's size and encumbrance does not change based on contents.
         bool rigid = false;

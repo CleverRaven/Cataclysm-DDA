@@ -727,7 +727,6 @@ class item : public visitable<item>
          */
         item in_its_container() const;
         item in_container( const itype_id &container_type ) const;
-        /*@}*/
 
         bool item_has_uses_recursive() const;
 
