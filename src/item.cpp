@@ -5350,13 +5350,7 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-int item::get_encumber( const Character &p ) const
-{
-    return get_encumber_when_containing( p, contents.item_size_modifier() );
-}
-
-int item::get_encumber_when_containing(
-    const Character &p, const units::volume & /* contents_volume */ ) const
+int item::get_encumber( const Character &p, encumber_flags flags ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
@@ -5364,6 +5358,14 @@ int item::get_encumber_when_containing(
         return is_gun() ? volume() / 750_ml : 0;
     }
     int encumber = t->encumber;
+
+    // Additional encumbrance from non-rigid pockets
+    float relative_encumbrance = 1;
+    if( !( flags & encumber_flags::assume_full ) ) {
+        relative_encumbrance = contents.relative_encumbrance();
+    }
+
+    encumber += std::ceil( relative_encumbrance * ( t->max_encumber - t->encumber ) );
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {

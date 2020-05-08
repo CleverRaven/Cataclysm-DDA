@@ -11,6 +11,7 @@
 #include "itype.h"
 #include "item_pocket.h"
 #include "map.h"
+#include "units.h"
 
 struct tripoint;
 
@@ -789,6 +790,40 @@ int item_contents::remaining_capacity_for_liquid( const item &liquid ) const
         charges_of_liquid += pocket.remaining_capacity_for_item( liquid );
     }
     return charges_of_liquid;
+}
+
+float item_contents::relative_encumbrance() const
+{
+    units::volume nonrigid_capacity;
+    units::volume nonrigid_volume;
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( pocket.rigid() ) {
+            continue;
+        }
+        nonrigid_volume += pocket.contains_volume();
+        nonrigid_capacity += pocket.volume_capacity();
+    }
+    assert( nonrigid_volume <= nonrigid_capacity );
+    if( nonrigid_capacity == 0_ml ) {
+        return 0;
+    }
+    return nonrigid_volume * 1.0 / nonrigid_capacity;
+}
+
+bool item_contents::is_rigid() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( !pocket.rigid() ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 units::volume item_contents::item_size_modifier() const
