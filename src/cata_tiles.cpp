@@ -1903,8 +1903,8 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
 
         // idle tile animations:
         if( display_tile.animated ) {
-        	// idle animations run during the user's turn, and the animation speed
-        	// needs to be defined by the tileset to look good, so we use system clock:
+            // idle animations run during the user's turn, and the animation speed
+            // needs to be defined by the tileset to look good, so we use system clock:
             auto now = std::chrono::system_clock::now();
             auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>( now );
             auto value = now_ms.time_since_epoch();
