@@ -1040,7 +1040,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
         // XXX YUCK I don't know how else to get the keybindings
         // FIXME: Find a better way to get bound keys
         avatar u;
-        inventory_selector selector(u);
+        inventory_selector selector( u );
 
         for( const auto &inv_char : inv_chars ) {
             if( assigned_invlet.count( inv_char ) ) {
