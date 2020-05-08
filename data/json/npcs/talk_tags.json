@@ -1457,7 +1457,7 @@
     "category": "<crack_smoke>",
     "//": "Complaint when the NPC is near the avatar who is smoking crack.",
     "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "Why are you smoking crack cocaine?", "<meth_smoke>", "I knew someone who was hooked on that stuff before all this happened. He didn't make it past the first day without it.",
-      "That stuff is poison. Please get rid of it.",
+      "That stuff is poison.  Please get rid of it.",
       "Jeez <name_g>, didn't think you were such a <name_b> to be fucking with that stuff.",
       "You must be out of your mind to be puffing that!",
       "Hey, at least I know you're not serious about surviving the apocalypse.",
