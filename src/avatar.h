@@ -30,6 +30,13 @@ class mission;
 class monster;
 class npc;
 
+enum avatar_strikemode : int {
+    CSM_NORMAL = 0,
+    CSM_SOFT,
+    CSM_HARD,
+    CSM_COUNT
+};
+
 namespace debug_menu
 {
 class mission_debug;
@@ -206,6 +213,19 @@ class avatar : public player
         // Toggles crouching on/off.
         void toggle_crouch_mode();
 
+        void set_strike_mode( avatar_strikemode mode );
+
+        // determine strike mode.
+        bool strike_mode_is( avatar_strikemode mode ) const;
+        // Cycles to the next strike mode.
+        void cycle_strike_mode();
+        // Resets to normal strikes.
+        void reset_strike_mode();
+        // Toggles soft strikes on.
+        void toggle_soft_strike();
+        // Toggles hard strikes on.
+        void toggle_hard_strike();
+
         bool wield( item &target ) override;
 
         /** gets the inventory from the avatar that is interactible via advanced inventory management */
@@ -228,6 +248,8 @@ class avatar : public player
         /** Used in max_memorized_tiles to cache memory capacity. **/
         mutable time_point current_map_memory_turn = calendar::before_time_starts;
         mutable size_t current_map_memory_capacity = 0;
+
+        avatar_strikemode strike_mode;
 
         friend class debug_menu::mission_debug;
         /**

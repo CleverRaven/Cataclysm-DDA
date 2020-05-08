@@ -492,6 +492,14 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             technique_id = tec_none;
         }
 
+        if( is_player() ) {
+            if( g->u.strike_mode_is( CSM_SOFT ) ) {
+                d.mult_damage( 0.67 );
+            } else if( g->u.strike_mode_is( CSM_HARD ) ) {
+                d.mult_damage( 1.5 );
+            }
+        }
+
         // if you have two broken arms you aren't doing any martial arts
         // and your hits are not going to hurt very much
         if( get_working_arm_count() < 1 ) {
@@ -602,9 +610,20 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
-    mod_stamina( std::min( -50, mod_sta ) );
-    add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
+
+    if( is_player() && g->u.strike_mode_is( CSM_SOFT ) ) {
+        mod_stamina( std::min( -25, ( int )( .5 * mod_sta ) ) );
+        add_msg( m_debug, "Stamina burn: %d", std::min( -25, mod_sta ) );
+    } else if( is_player() && g->u.strike_mode_is( CSM_HARD ) ) {
+        mod_stamina( std::min( -100, ( int )( 2 * mod_sta ) ) );
+        add_msg( m_debug, "Stamina burn: %d", std::min( -100, mod_sta ) );
+    } else {
+        mod_stamina( std::min( -50, mod_sta ) );
+        add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
+    }
+
     mod_moves( -move_cost );
+
     // trigger martial arts on-attack effects
     martial_arts_data.ma_onattack_effects( *this );
     // some things (shattering weapons) can harm the attacking creature.

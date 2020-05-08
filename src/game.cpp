@@ -2454,6 +2454,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_run" );
     ctxt.register_action( "toggle_crouch" );
     ctxt.register_action( "open_movement" );
+    ctxt.register_action( "cycle_strike_mode" );
     ctxt.register_action( "open" );
     ctxt.register_action( "close" );
     ctxt.register_action( "smash" );

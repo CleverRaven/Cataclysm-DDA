@@ -2175,6 +2175,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Cycle strike mode (soft/normal/hard)",
+    "category": "DEFAULTMODE",
+    "id": "cycle_strike_mode",
+    "bindings": [ { "input_method": "keyboard", "key": "]" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Cycle move mode (run/walk/crouch)",
     "category": "DEFAULTMODE",
     "id": "cycle_move"

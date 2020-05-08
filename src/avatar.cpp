@@ -1508,6 +1508,71 @@ void avatar::cycle_move_mode()
     }
 }
 
+void avatar::set_strike_mode( avatar_strikemode new_mode )
+{
+    switch( new_mode ) {
+        case CSM_NORMAL: {
+            add_msg( _( "Your strikes are normal." ) );
+            break;
+        }
+        case CSM_HARD: {
+            add_msg( _( "Your strikes are harder." ) );
+            break;
+        }
+        case CSM_SOFT: {
+
+            add_msg( _( "Your strikes are softer." ) );
+            break;
+        }
+        default: {
+            return;
+        }
+    }
+    strike_mode = new_mode;
+}
+
+void avatar::toggle_hard_strike()
+{
+    if( strike_mode == CSM_HARD ) {
+        set_strike_mode( CSM_NORMAL );
+    } else {
+        set_strike_mode( CSM_HARD );
+    }
+}
+
+void avatar::toggle_soft_strike()
+{
+    if( strike_mode == CSM_SOFT ) {
+        set_strike_mode( CSM_NORMAL );
+    } else {
+        set_strike_mode( CSM_SOFT );
+    }
+}
+
+void avatar::reset_strike_mode()
+{
+    if( strike_mode != CSM_NORMAL ) {
+        set_strike_mode( CSM_NORMAL );
+    }
+}
+
+bool avatar::strike_mode_is( avatar_strikemode mode ) const
+{
+    return strike_mode == mode;
+}
+
+void avatar::cycle_strike_mode()
+{
+    unsigned char as_uchar = static_cast<unsigned char>( strike_mode );
+    as_uchar = ( as_uchar + 1 + CSM_COUNT ) % CSM_COUNT;
+    set_strike_mode( static_cast<avatar_strikemode>( as_uchar ) );
+    // if a strikemode is disabled then just cycle to the next one
+    if( !strike_mode_is( static_cast<avatar_strikemode>( as_uchar ) ) ) {
+        as_uchar = ( as_uchar + 1 + CSM_COUNT ) % CSM_COUNT;
+        set_strike_mode( static_cast<avatar_strikemode>( as_uchar ) );
+    }
+}
+
 bool avatar::wield( item &target )
 {
     if( is_wielding( target ) ) {

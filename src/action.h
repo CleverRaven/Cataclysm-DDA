@@ -125,6 +125,14 @@ enum action_id : int {
     ACTION_ZONES,
     /** Sort out the loot */
     ACTION_LOOT,
+    /** Cycle run/walk/crouch mode */
+    ACTION_CYCLE_STRIKE,
+    /** Default strike power */
+    ACTION_RESET_STRIKE,
+    /** Soft striking power */
+    ACTION_SOFT_STRIKE,
+    /** Hard striking power */
+    ACTION_HARD_STRIKE,
     /**@}*/
 
     // Inventory Interaction (including quasi-inventories like bionics)

@@ -214,6 +214,14 @@ std::string action_ident( action_id act )
             return "zones";
         case ACTION_LOOT:
             return "loot";
+        case ACTION_CYCLE_STRIKE:
+            return "cycle_strike_mode";
+        case ACTION_RESET_STRIKE:
+            return "reset_strike_mode";
+        case ACTION_SOFT_STRIKE:
+            return "toggle_soft_strike";
+        case ACTION_HARD_STRIKE:
+            return "toggle_hard_strike";
         case ACTION_INVENTORY:
             return "inventory";
         case ACTION_COMPARE:

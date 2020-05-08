@@ -717,6 +717,12 @@ static void smash()
         smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
     }
 
+    if( g->u.strike_mode_is( CSM_SOFT ) ) {
+        smashskill *= 0.67;
+    } else if( g->u.strike_mode_is( CSM_HARD ) ) {
+        smashskill *= 1.5;
+    }
+
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     const cata::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
     if( !smashp_ ) {
@@ -786,7 +792,15 @@ static void smash()
             u.handle_melee_wear( u.weapon );
             const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
-            u.mod_stamina( mod_sta );
+
+            if( g->u.strike_mode_is( CSM_SOFT ) ) {
+                u.mod_stamina( ( int )( 0.5 * mod_sta ) );
+            } else if( g->u.strike_mode_is( CSM_HARD ) ) {
+                u.mod_stamina( ( int )( 2 * mod_sta ) );
+            } else {
+                u.mod_stamina( mod_sta );
+            }
+
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
@@ -1743,6 +1757,22 @@ bool game::handle_action()
 
             case ACTION_OPEN_MOVEMENT:
                 open_movement_mode_menu();
+                break;
+
+            case ACTION_CYCLE_STRIKE:
+                u.cycle_strike_mode();
+                break;
+
+            case ACTION_RESET_STRIKE:
+                u.reset_strike_mode();
+                break;
+
+            case ACTION_SOFT_STRIKE:
+                u.toggle_soft_strike();
+                break;
+
+            case ACTION_HARD_STRIKE:
+                u.toggle_hard_strike();
                 break;
 
             case ACTION_MOVE_FORTH:
