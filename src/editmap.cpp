@@ -921,7 +921,9 @@ void editmap::edit_feature()
 
     uilist emenu;
     emenu.w_width_setup = width;
-    emenu.w_height_setup = TERMY - infoHeight;
+    emenu.w_height_setup = [this]() -> int {
+        return TERMY - infoHeight;
+    };
     emenu.w_y_setup = 0;
     emenu.w_x_setup = offsetX;
     emenu.desc_enabled = true;
@@ -1045,7 +1047,9 @@ void editmap::edit_fld()
 {
     uilist fmenu;
     fmenu.w_width_setup = width;
-    fmenu.w_height_setup = TERMY - infoHeight;
+    fmenu.w_height_setup = [this]() -> int {
+        return TERMY - infoHeight;
+    };
     fmenu.w_y_setup = 0;
     fmenu.w_x_setup = offsetX;
     setup_fmenu( fmenu );
@@ -1097,7 +1101,9 @@ void editmap::edit_fld()
                 uilist femenu;
                 femenu.w_width_setup = width;
                 femenu.w_height_setup = infoHeight;
-                femenu.w_y_setup = fmenu.w_height;
+                femenu.w_y_setup = [this]( int ) -> int {
+                    return TERMY - infoHeight;
+                };
                 femenu.w_x_setup = offsetX;
 
                 femenu.text = field_intensity < 1 ? "" : ftype.get_name( field_intensity - 1 );
@@ -1201,7 +1207,9 @@ void editmap::edit_itm()
     ilmenu.w_x_setup = offsetX;
     ilmenu.w_y_setup = 0;
     ilmenu.w_width_setup = width;
-    ilmenu.w_height_setup = TERMY - infoHeight - 1;
+    ilmenu.w_height_setup = [this]() -> int {
+        return TERMY - infoHeight - 1;
+    };
     auto items = g->m.i_at( target );
     int i = 0;
     for( auto &an_item : items ) {
@@ -1221,10 +1229,14 @@ void editmap::edit_itm()
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
             item &it = *items.get_iterator_from_index( ilmenu.ret );
             uilist imenu;
-            imenu.w_x_setup = ilmenu.w_x;
-            imenu.w_y_setup = ilmenu.w_height;
-            imenu.w_height_setup = TERMX - ilmenu.w_height;
-            imenu.w_width_setup = ilmenu.w_width;
+            imenu.w_x_setup = offsetX;
+            imenu.w_y_setup = [this]( int ) -> int {
+                return TERMY - infoHeight - 1;
+            };
+            imenu.w_height_setup = [this]() -> int {
+                return infoHeight + 1;
+            };
+            imenu.w_width_setup = width;
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
                             to_turn<int>( it.birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1580,7 +1592,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     uilist gpmenu;
     gpmenu.w_width_setup = width;
     gpmenu.w_height_setup = infoHeight - 4;
-    gpmenu.w_y_setup = gmenu.w_height;
+    gpmenu.w_y_setup = [this]( int ) -> int {
+        return TERMY - infoHeight;
+    };
     gpmenu.w_x_setup = offsetX;
     gpmenu.addentry( pgettext( "map generator", "Regenerate" ) );
     gpmenu.addentry( pgettext( "map generator", "Rotate" ) );
@@ -1889,7 +1903,9 @@ void editmap::edit_mapgen()
 {
     uilist gmenu;
     gmenu.w_width_setup = width;
-    gmenu.w_height_setup = TERMY - infoHeight;
+    gmenu.w_height_setup = [this]() -> int {
+        return TERMY - infoHeight;
+    };
     gmenu.w_y_setup = 0;
     gmenu.w_x_setup = offsetX;
     gmenu.input_category = "EDIT_MAPGEN";
