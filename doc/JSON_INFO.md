@@ -1881,7 +1881,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 "pocket_data": [
   {
     "pocket_type": "CONTAINER",               // The typical container pocket. Pockets can also be MAGAZINE.
-    "min_item_volume": "0 ml",                // the minimum volume of item that can be placed into this pocket
+    "min_item_volume": "0 ml",                // The minimum volume of item that can be placed into this pocket.  For reference, 1 ml is a small grain of uncooked rice, and 10 ml is a gumball from a gumball machine.
     "max_contains_volume": mandatory,         // the maximum volume this pocket can hold, totaled among all contained items
     "max_contains_weight": mandatory,         // the maximum weight this pocket can hold, totaled among all container items
     "ammo_restriction": { "ammotype": count }, // this overrides the three previous values to be an ammotype and count instead. you can contain any number of unique ammotypes each with different counts, and the container will only hold one type (as of now.) if this is left out, it will be empty.
