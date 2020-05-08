@@ -56,7 +56,9 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "112500 ml",
-        "max_contains_weight": "255 kg"
+        "max_contains_weight": "255 kg",
+        "spoil_multiplier": 0.9,
+        "moves": 1500
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ]
@@ -82,7 +84,9 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "100 L",
-        "max_contains_weight": "250 kg"
+        "max_contains_weight": "250 kg",
+        "spoil_multiplier": 0.9,
+        "moves": 1500
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -108,7 +112,9 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "200 L",
-        "max_contains_weight": "500 kg"
+        "max_contains_weight": "500 kg",
+        "spoil_multiplier": 0.9,
+        "moves": 2500
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -159,10 +165,13 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "min_item_volume": "2 ml",
         "sealed_data": { "spoil_multiplier": 1.0 },
         "max_contains_volume": "6 L",
         "max_contains_weight": "10 kg",
-        "moves": 400
+        "weight_multiplier": 1.05,
+        "moves": 400,
+        "open_container": true
       }
     ],
     "material": "plastic",
@@ -188,7 +197,8 @@
         "max_contains_volume": "250 ml",
         "max_contains_weight": "750 g",
         "spoil_multiplier": 0.8,
-        "moves": 400
+        "moves": 700,
+        "watertight": true
       }
     ],
     "symbol": ")",
