@@ -300,7 +300,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string )
         // clear data first so that copy-from can override it
         occupied_bodyparts.clear();
         for( JsonArray ja : jsobj.get_array( "occupied_bodyparts" ) ) {
-            occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
+            occupied_bodyparts.emplace( bodypart_str_id( ja.get_string( 0 ) ),
                                         ja.get_int( 1 ) );
         }
     }
