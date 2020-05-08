@@ -2871,7 +2871,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
     tinymap compmap;
     compmap.load( tripoint( road_omt.x * 2, road_omt.y * 2, road_omt.z ), false );
 
-    const tripoint trap_center = { SEEX, SEEY, abs_sub.z };
+    const tripoint trap_center = { SEEX + rng( -5, 5 ), SEEY + rng( -5, 5 ), abs_sub.z };
     bool empty_3x3_square = false;
 
     //Then find an empty 3x3 pavement square (no other traps, furniture, or vehicles)
