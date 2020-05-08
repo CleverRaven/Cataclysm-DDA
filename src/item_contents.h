@@ -105,7 +105,7 @@ class item_contents
          * contribution it's currently making.  Otherwise, return 0 */
         float relative_encumbrance() const;
         /** True iff every pocket is rigid */
-        bool is_rigid() const;
+        bool all_pockets_rigid() const;
 
         /** returns the best quality of the id that's contained in the item in CONTAINER pockets */
         int best_quality( const quality_id &id ) const;

@@ -813,7 +813,7 @@ float item_contents::relative_encumbrance() const
     return nonrigid_volume * 1.0 / nonrigid_capacity;
 }
 
-bool item_contents::is_rigid() const
+bool item_contents::all_pockets_rigid() const
 {
     for( const item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
