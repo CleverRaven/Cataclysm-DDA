@@ -3689,7 +3689,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    contents.info( info );
+    contents.info( info, parts );
     contents_info( info, parts, batch, debug );
 
     if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {

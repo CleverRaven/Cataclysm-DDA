@@ -103,42 +103,6 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
     }
 }
 
-TEST_CASE( "item rigidity", "[item][iteminfo][rigidity][!mayfail]" )
-{
-    iteminfo_query q = q_vec( { iteminfo_parts::BASE_RIGIDITY, iteminfo_parts::ARMOR_ENCUMBRANCE } );
-
-    SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
-        test_info_equals(
-            item( "test_waterskin" ), q,
-            "--\n"
-            "<color_c_white>Encumbrance</color>: <color_c_yellow>0</color>"
-            "  Encumbrance when full: <color_c_yellow>6</color>\n"
-            "--\n"
-            "* This item is <color_c_cyan>not rigid</color>."
-            "  Its volume and encumbrance increase with contents.\n" );
-
-        test_info_equals(
-            item( "test_backpack" ), q,
-            "--\n"
-            "<color_c_white>Encumbrance</color>: <color_c_yellow>2</color>"
-            "  Encumbrance when full: <color_c_yellow>15</color>\n"
-            "--\n"
-            "* This item is <color_c_cyan>not rigid</color>."
-            "  Its volume and encumbrance increase with contents.\n" );
-    }
-
-    SECTION( "rigid items do not indicate they are rigid, since almost all items are" ) {
-        test_info_equals(
-            item( "test_briefcase" ), q,
-            "--\n"
-            "<color_c_white>Encumbrance</color>: <color_c_yellow>30</color>\n" );
-
-        test_info_equals( item( "test_jug_plastic" ), q, "" );
-        test_info_equals( item( "test_pipe" ), q, "" );
-        test_info_equals( item( "test_pine_nuts" ), q, "" );
-    }
-}
-
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
     // new DPS calculations depend on the avatar's stats, so make sure they're consistent

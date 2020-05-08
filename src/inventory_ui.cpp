@@ -1226,9 +1226,15 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_contained_items( item_location container )
 {
+    add_contained_items( container, own_inv_column );
+}
+
+void inventory_selector::add_contained_items( item_location container, inventory_column &column )
+{
     for( item *it : container->contents.all_items_top() ) {
-        add_item( own_inv_column, item_location( container, it ),
-                  &it->get_category() );
+        item_location child( container, it );
+        add_contained_items( child, column );
+        add_item( column, std::move( child ) );
     }
 }
 
@@ -1250,10 +1256,8 @@ void inventory_selector::add_character_items( Character &character )
             return item_location( character, it );
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );
         for( item &it_elem : *elem ) {
-            for( item *it : it_elem.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
-                add_item( own_inv_column, item_location( item_location( character, &it_elem ), it ),
-                          &it->get_category() );
-            }
+            item_location parent( character, &it_elem );
+            add_contained_items( parent, own_inv_column );
         }
     }
     // this is a little trick; we want the default behavior for contained items to be in own_inv_column
@@ -1265,13 +1269,18 @@ void inventory_selector::add_character_items( Character &character )
 void inventory_selector::add_map_items( const tripoint &target )
 {
     if( g->m.accessible_items( target ) ) {
-        const auto items = g->m.i_at( target );
+        map_stack items = g->m.i_at( target );
         const std::string name = to_upper_case( g->m.name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
 
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( target, it );
         }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), &map_cat );
+
+        for( item &it_elem : items ) {
+            item_location parent( map_cursor( target ), &it_elem );
+            add_contained_items( parent, map_column );
+        }
     }
 }
 
@@ -1283,7 +1292,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     }
     vehicle *const veh = &vp->vehicle();
     const int part = vp->part_index();
-    const auto items = veh->get_items( part );
+    vehicle_stack items = veh->get_items( part );
     const std::string name = to_upper_case( remove_color_tags( veh->parts[part].name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
 
@@ -1292,6 +1301,11 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
     }, restack_items( items.begin(), items.end(), check_components ), &vehicle_cat );
+
+    for( item &it_elem : items ) {
+        item_location parent( vehicle_cursor( *veh, part ), &it_elem );
+        add_contained_items( parent, map_column );
+    }
 }
 
 void inventory_selector::add_nearby_items( int radius )
