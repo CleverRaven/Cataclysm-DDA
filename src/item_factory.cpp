@@ -1650,7 +1650,7 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "max_encumbrance", max_encumber, encumber );
     optional( jo, was_loaded, "coverage", coverage, 0 );
     optional( jo, was_loaded, "material_thickness", thickness, 0 );
-    optional( jo, was_loaded, "encironmental_protection", env_resist, 0 );
+    optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
     optional( jo, was_loaded, "environmental_protection_with_filter", env_resist_w_filter, 0 );
     optional( jo, was_loaded, "warmth", warmth, 0 );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_bonus,
