@@ -2391,7 +2391,7 @@ void monster::drop_items_on_death()
 
     const auto dropped = g->m.spawn_items( pos(), items );
 
-    if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
+    if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
