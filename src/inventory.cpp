@@ -1038,6 +1038,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
     }
     if( cur_inv.count() < inv_chars.size() ) {
         // XXX YUCK I don't know how else to get the keybindings
+        // FIXME: Find a better way to get bound keys
         avatar u;
         inventory_selector selector(u);
 
