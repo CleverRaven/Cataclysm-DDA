@@ -52,7 +52,7 @@ static iteminfo_query q_vec( const std::vector<iteminfo_parts> &part_flags )
     return iteminfo_query( part_flags );
 }
 
-TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary][!mayfail]" )
+TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_CATEGORY, iteminfo_parts::BASE_MATERIAL,
                                 iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT,
@@ -100,6 +100,44 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
             item( "test_rock" ), q,
             "--\n"
             "Price: $<color_c_yellow>0.00</color>" );
+    }
+}
+
+TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
+{
+    iteminfo_query q = q_vec( { iteminfo_parts::BASE_RIGIDITY, iteminfo_parts::ARMOR_ENCUMBRANCE } );
+
+    SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
+        // Waterskin uses the default encumbrance increase of 1 per 250ml
+        test_info_equals(
+            item( "test_waterskin" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>0</color>"
+            "  Encumbrance when full: <color_c_yellow>6</color>\n"
+            "--\n"
+            "* This item is <color_c_cyan>not rigid</color>."
+            "  Its volume and encumbrance increase with contents.\n" );
+
+        // test_backpack has an explicit max_encumbrance
+        test_info_equals(
+            item( "test_backpack" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>2</color>"
+            "  Encumbrance when full: <color_c_yellow>15</color>\n"
+            "--\n"
+            "* This item is <color_c_cyan>not rigid</color>."
+            "  Its volume and encumbrance increase with contents.\n" );
+    }
+
+    SECTION( "rigid items do not indicate they are rigid, since almost all items are" ) {
+        test_info_equals(
+            item( "test_briefcase" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>30</color>\n" );
+
+        test_info_equals( item( "test_jug_plastic" ), q, "" );
+        test_info_equals( item( "test_pipe" ), q, "" );
+        test_info_equals( item( "test_pine_nuts" ), q, "" );
     }
 }
 
@@ -312,7 +350,7 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
     }
 }
 
-TEST_CASE( "nutrients in food", "[item][iteminfo][food][!mayfail]" )
+TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
                                 iteminfo_parts::FOOD_QUENCH
