@@ -4282,10 +4282,9 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         { effect_hunger_starving, std::make_pair( _( "Starving!" ), c_red ) },
         { effect_hunger_famished, std::make_pair( _( "Famished" ), c_light_red ) }
     };
-    for( std::map<efftype_id, std::pair<std::string, nc_color> >::iterator hunger_state =
-             hunger_states.begin(); hunger_state != hunger_states.end(); hunger_state++ ) {
-        if( has_effect( hunger_state->first ) ) {
-            return hunger_state->second;
+    for( auto &hunger_state : hunger_states ) {
+        if( has_effect( hunger_state.first ) ) {
+            return hunger_state.second;
         }
     }
     return std::make_pair( _( "ERROR!" ), c_light_red );
