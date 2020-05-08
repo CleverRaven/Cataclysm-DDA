@@ -4271,19 +4271,20 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
     std::map<efftype_id, std::pair<std::string, nc_color> > hunger_states = {
-        { effect_hunger_engorged, std::make_pair(_( "Engorged" ), c_red ) },
-        { effect_hunger_full, std::make_pair(_( "Full" ), c_yellow ) },
-        { effect_hunger_satisfied, std::make_pair(_( "Satisfied" ), c_green ) },
-        { effect_hunger_could_eat, std::make_pair(_( "Could Eat" ), c_dark_gray ) },
-        { effect_hunger_blank, std::make_pair(_( "" ), c_white ) },
-        { effect_hunger_hungry, std::make_pair(_( "Hungry" ), c_yellow ) },
-        { effect_hunger_very_hungry, std::make_pair(_( "Very Hungry" ), c_yellow ) },
-        { effect_hunger_near_starving, std::make_pair(_( "Near starving" ), c_red ) },
-        { effect_hunger_starving, std::make_pair(_( "Starving!" ), c_red ) },
-        { effect_hunger_famished, std::make_pair(_("Famished"), c_light_red) }
+        { effect_hunger_engorged, std::make_pair( _( "Engorged" ), c_red ) },
+        { effect_hunger_full, std::make_pair( _( "Full" ), c_yellow ) },
+        { effect_hunger_satisfied, std::make_pair( _( "Satisfied" ), c_green ) },
+        { effect_hunger_could_eat, std::make_pair( _( "Could Eat" ), c_dark_gray ) },
+        { effect_hunger_blank, std::make_pair( _( "" ), c_white ) },
+        { effect_hunger_hungry, std::make_pair( _( "Hungry" ), c_yellow ) },
+        { effect_hunger_very_hungry, std::make_pair( _( "Very Hungry" ), c_yellow ) },
+        { effect_hunger_near_starving, std::make_pair( _( "Near starving" ), c_red ) },
+        { effect_hunger_starving, std::make_pair( _( "Starving!" ), c_red ) },
+        { effect_hunger_famished, std::make_pair( _( "Famished" ), c_light_red ) }
     };
-    for (std::map<efftype_id, std::pair<std::string, nc_color> >::iterator hunger_state = hunger_states.begin(); hunger_state != hunger_states.end(); hunger_state++) {
-        if (has_effect(hunger_state->first)) {
+    for( std::map<efftype_id, std::pair<std::string, nc_color> >::iterator hunger_state =
+             hunger_states.begin(); hunger_state != hunger_states.end(); hunger_state++ ) {
+        if( has_effect( hunger_state->first ) ) {
             return hunger_state->second;
         }
     }
