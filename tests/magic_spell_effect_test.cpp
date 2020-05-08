@@ -46,7 +46,4 @@ TEST_CASE( "line_attack", "[magic]" )
 
         CHECK( reference == targets );
     }
-
-    // reset spell type data to remove loaded test spell
-    spell_type::reset_all();
 }
