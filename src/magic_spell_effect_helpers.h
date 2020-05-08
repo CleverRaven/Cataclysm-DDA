@@ -15,4 +15,4 @@ std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint 
         std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
         aoe_func, const Creature &caster, bool ignore_walls = false );
 
-#endif
+#endif // CATA_SRC_MAGIC_SPELL_EFFECT_HELPERS_H
