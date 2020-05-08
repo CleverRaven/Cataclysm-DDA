@@ -536,31 +536,6 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
-    "id": "bucket",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "bucket" },
-    "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
-    "weight": "725 g",
-    "volume": "5 L",
-    "price": 300,
-    "price_postapoc": 10,
-    "material": "steel",
-    "symbol": ")",
-    "color": "light_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": true,
-        "open_container": true,
-        "max_contains_volume": "4990 ml",
-        "max_contains_weight": "20 kg"
-      }
-    ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
-  },
-  {
     "id": "camelbak",
     "type": "GENERIC",
     "category": "container",
@@ -569,7 +544,7 @@
     "weight": "286 g",
     "volume": "2503 ml",
     "price": 10000,
-    "price_postapoc": 250,
+    "price_postapoc": 650,
     "to_hit": -1,
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
@@ -581,7 +556,9 @@
         "rigid": false,
         "watertight": true,
         "max_contains_volume": "2500 ml",
-        "max_contains_weight": "20 kg"
+        "max_contains_weight": "20 kg",
+        "spoil_multiplier": 0.75,
+        "moves": 33
       }
     ],
     "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 1 },
@@ -1316,23 +1293,6 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "id": "large_stomach_sealed",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "large sealed stomach" },
-    "description": "The stomach of a large creature, cleaned and sealed with strings.  It can hold 3 liters of water.",
-    "weight": "783 g",
-    "volume": "500 ml",
-    "price": 4000,
-    "price_postapoc": 10,
-    "to_hit": -1,
-    "bashing": 1,
-    "material": "gutskin",
-    "symbol": ")",
-    "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3 L", "max_contains_weight": "6 kg" } ]
-  },
-  {
     "id": "metal_tank",
     "type": "GENERIC",
     "category": "container",
@@ -1428,11 +1388,29 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg" } ]
   },
   {
+    "id": "large_stomach_sealed",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large sealed stomach" },
+    "description": "The stomach of a large creature, cleaned and sealed with strings.  It can hold 3 liters of water.",
+    "weight": "783 g",
+    "volume": "500 ml",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": "gutskin",
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3 L", "max_contains_weight": "6 kg" } ]
+  },
+  {
     "id": "waterskin",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small waterskin" },
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
+    "//TODO": "waterskin2 and 3, and stomach sealed, ought to have copy-from waterskin",
     "weight": "453 g",
     "volume": "250 ml",
     "price": 2000,
@@ -1480,7 +1458,7 @@
     "material": "leather",
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "5 L", "max_contains_weight": "10 kg" } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "5 L", "max_contains_weight": "9 kg" } ],
     "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 2 },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -1499,7 +1477,17 @@
     "material": [ "wood", "steel" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "100 L", "max_contains_weight": "200 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "200 kg",
+        "watertight": true,
+        "moves": 650,
+        "rigid": true,
+        "spoil_multiplier": 0.9
+      }
+    ],
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -1516,7 +1504,15 @@
     "material": "paper",
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 250,
+        "spoil_multiplier": 0.9
+      }
+    ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -1536,11 +1532,41 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "//": "while technically closed, if styrofoam is placed in another container it will spill",
+        "open_container": true,
+        "moves": 500,
         "rigid": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg"
       }
     ]
+  },
+  {
+    "id": "bucket",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "bucket" },
+    "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
+    "//TODO": "plastic_bucket ought to have copy-from bucket",
+    "weight": "725 g",
+    "volume": "5 L",
+    "price": 300,
+    "price_postapoc": 10,
+    "material": "steel",
+    "symbol": ")",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "4990 ml",
+        "max_contains_weight": "20 kg",
+        "moves": 120
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "plastic_bucket",
@@ -1561,6 +1587,7 @@
         "watertight": true,
         "rigid": true,
         "open_container": true,
+        "moves": 120,
         "max_contains_volume": "4250 ml",
         "max_contains_weight": "9 kg"
       }
@@ -1647,7 +1674,10 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg"
+        "max_contains_weight": "2 kg",
+        "spoil_multiplier": 0.9,
+        "fire_protection": true,
+        "moves": 500
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
@@ -1656,7 +1686,7 @@
     "id": "box_tea",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "small cardboard box of tea bags", "str_pl": "small cardboard boxes of tea bags" },
+    "name": { "str": "small box of tea bags", "str_pl": "small boxes of tea bags" },
     "description": "A very small cardboard box with tea brand written on it.",
     "weight": "10 g",
     "volume": "100 ml",
@@ -1665,6 +1695,16 @@
     "material": "cardboard",
     "symbol": ")",
     "color": "green",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "1 ml",
+        "rigid": true,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "400 g",
+        "spoil_multiplier": 0.95,
+        "moves": 500
+      }
+    ]
   }
 ]
