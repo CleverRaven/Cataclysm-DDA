@@ -612,10 +612,10 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
 
     if( is_player() && g->u.strike_mode_is( CSM_SOFT ) ) {
-        mod_stamina( std::min( -25, ( int )( .5 * mod_sta ) ) );
+        mod_stamina( std::min( -25, static_cast<int>( .5 * mod_sta ) ) );
         add_msg( m_debug, "Stamina burn: %d", std::min( -25, mod_sta ) );
     } else if( is_player() && g->u.strike_mode_is( CSM_HARD ) ) {
-        mod_stamina( std::min( -100, ( int )( 2 * mod_sta ) ) );
+        mod_stamina( std::min( -100, static_cast<int>( 2 * mod_sta ) ) );
         add_msg( m_debug, "Stamina burn: %d", std::min( -100, mod_sta ) );
     } else {
         mod_stamina( std::min( -50, mod_sta ) );
@@ -701,15 +701,22 @@ int stumble( Character &u, const item &weap )
     if( u.has_trait( trait_DEFT ) ) {
         return 0;
     }
-
     // Examples:
     // 10 str with a hatchet: 4 + 8 = 12
     // 5 str with a battle axe: 26 + 49 = 75
     // Fist: 0
 
     /** @EFFECT_STR reduces chance of stumbling with heavier weapons */
-    return ( weap.volume() / 125_ml ) +
-           ( weap.weight() / ( u.str_cur * 10_gram + 13.0_gram ) );
+    int stumble_value = ( weap.volume() / 125_ml ) + ( weap.weight() / ( u.str_cur * 10_gram +
+                        13.0_gram ) );
+
+    if( g->u.strike_mode_is( CSM_SOFT ) ) {
+        stumble_value *= .67;
+    } else if( g->u.strike_mode_is( CSM_HARD ) ) {
+        stumble_value *= 1.5;
+    }
+
+    return stumble_value;
 }
 
 bool Character::scored_crit( float target_dodge, const item &weap ) const

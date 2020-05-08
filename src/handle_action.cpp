@@ -794,9 +794,9 @@ static void smash()
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
 
             if( g->u.strike_mode_is( CSM_SOFT ) ) {
-                u.mod_stamina( ( int )( 0.5 * mod_sta ) );
+                u.mod_stamina( static_cast<int>( 0.5 * mod_sta ) );
             } else if( g->u.strike_mode_is( CSM_HARD ) ) {
-                u.mod_stamina( ( int )( 2 * mod_sta ) );
+                u.mod_stamina( static_cast<int>( 2 * mod_sta ) );
             } else {
                 u.mod_stamina( mod_sta );
             }
