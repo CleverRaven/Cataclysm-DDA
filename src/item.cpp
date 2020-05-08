@@ -2524,6 +2524,16 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                   encumbrance ) );
+
+        if( const islot_armor *t = find_armor_data() ) {
+            if( t->max_encumber != t->encumber ) {
+                const int encumbrance_when_full =
+                    get_encumber( g->u, encumber_flags::assume_full );
+                info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
+                                          iteminfo::no_newline | iteminfo::lower_is_better,
+                                          encumbrance_when_full ) );
+            }
+        }
     }
 
     // Whatever the last entry was, we want a newline at this point
@@ -3395,6 +3405,20 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     const std::string space = "  ";
 
     insert_separation_line( info );
+
+    if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
+        if( const islot_armor *t = find_armor_data() ) {
+            if( t->max_encumber != t->encumber ) {
+                info.emplace_back( "BASE",
+                                   _( "* This item is <info>not rigid</info>.  Its"
+                                      " volume and encumbrance increase with contents." ) );
+            } else if( !contents.is_rigid() ) {
+                info.emplace_back( "BASE",
+                                   _( "* This item is <info>not rigid</info>.  Its"
+                                      " volume increases with contents." ) );
+            }
+        }
+    }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
         if( !conductive() ) {
