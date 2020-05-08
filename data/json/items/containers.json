@@ -746,7 +746,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "3 kg"
+        "max_contains_weight": "3 kg",
+        "spoil_multiplier": 0.95,
+        "moves": 200
       }
     ],
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
@@ -1364,7 +1366,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "3 kg"
+        "max_contains_weight": "3 kg",
+        "spoil_multiplier": 0.95,
+        "moves": 220
       }
     ],
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
