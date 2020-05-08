@@ -1272,7 +1272,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         line_number++;
     }
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type == "numbers" ) {
-        std::string symbols = _( "<color_green>Great</color> - <color_light_gray>Normal</color>"
+        std::string symbols = _( " <color_green>Great</color> - <color_light_gray>Normal</color>"
                                  " - <color_magenta>Graze</color> - <color_light_blue>Moves</color>" );
         fold_and_print( w, point( 1, line_number++ ), window_width + bars_pad,
                         c_dark_gray, symbols );
