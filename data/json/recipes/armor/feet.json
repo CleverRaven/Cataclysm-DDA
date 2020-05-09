@@ -563,12 +563,12 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
     "skills_required": [ "tailor", 2 ],
-    "difficulty": 4,
-    "time": "60 m",
+    "difficulty": 5,
+    "time": "90 m",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
+    "using": [ [ [ "bearings", 6 ] ], [ [ "sewing_standard", 20 ] ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 9 ] ], [ [ "boots", 1 ] ], [ [ "bearings", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 15 ] ], [ [ "rag", 8 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "rollerskates",
@@ -576,12 +576,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
-    "skills_required": [ "tailor", 2 ],
+    "skills_required": [ "tailor", 1 ],
     "difficulty": 4,
     "time": "60 m",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "boots", 1 ] ], [ [ "bearings", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "using": [ [ "bearings", 8 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ], [ [ "hammering" ] ], [ [ "drilling" ] ] ],
+    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "boots", 1 ] ], [ [ "scrap", 16 ] ] ]
   }
 ]
