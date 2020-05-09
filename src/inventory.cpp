@@ -538,7 +538,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         if( kpart ) {
             item hotplate( "hotplate", 0 );
-            hotplate.charges = veh->fuel_left( "battery", true );
+            int veh_battery = veh->fuel_left( "battery", true );
+            hotplate.ammo_set( hotplate.ammo_default(), veh_battery );
             hotplate.item_tags.insert( "PSEUDO" );
             add_item( hotplate );
 
@@ -550,57 +551,62 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             add_item( pan );
         }
         if( weldpart ) {
+            int veh_battery = veh->fuel_left( "battery", true );
             item welder( "welder", 0 );
-            welder.charges = veh->fuel_left( "battery", true );
+            welder.ammo_set( welder.ammo_default(), veh_battery );
             welder.item_tags.insert( "PSEUDO" );
             add_item( welder );
 
             item soldering_iron( "soldering_iron", 0 );
-            soldering_iron.charges = veh->fuel_left( "battery", true );
+            soldering_iron.ammo_set( soldering_iron.ammo_default(), veh_battery );
             soldering_iron.item_tags.insert( "PSEUDO" );
             add_item( soldering_iron );
         }
         if( craftpart ) {
+            int veh_battery = veh->fuel_left( "battery", true );
             item vac_sealer( "vac_sealer", 0 );
-            vac_sealer.charges = veh->fuel_left( "battery", true );
+            vac_sealer.ammo_set( vac_sealer.ammo_default(), veh_battery );
             vac_sealer.item_tags.insert( "PSEUDO" );
             add_item( vac_sealer );
 
             item dehydrator( "dehydrator", 0 );
-            dehydrator.charges = veh->fuel_left( "battery", true );
+            dehydrator.ammo_set( dehydrator.ammo_default(), veh_battery ) ;
             dehydrator.item_tags.insert( "PSEUDO" );
             add_item( dehydrator );
 
             item food_processor( "food_processor", 0 );
-            food_processor.charges = veh->fuel_left( "battery", true );
+            food_processor.ammo_set( food_processor.ammo_default(), veh_battery ) ;
             food_processor.item_tags.insert( "PSEUDO" );
             add_item( food_processor );
 
             item press( "press", 0 );
-            press.charges = veh->fuel_left( "battery", true );
+            press.ammo_set( press.ammo_default(), veh_battery );
             press.item_tags.insert( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {
             item forge( "forge", 0 );
-            forge.charges = veh->fuel_left( "battery", true );
+            int veh_battery = veh->fuel_left( "battery", true );
+            forge.ammo_set( forge.ammo_default(), veh_battery );
             forge.item_tags.insert( "PSEUDO" );
             add_item( forge );
         }
         if( kilnpart ) {
             item kiln( "kiln", 0 );
-            kiln.charges = veh->fuel_left( "battery", true );
+            int veh_battery = veh->fuel_left( "battery", true );
+            kiln.ammo_set( kiln.ammo_default(), veh_battery );
             kiln.item_tags.insert( "PSEUDO" );
             add_item( kiln );
         }
         if( chempart ) {
             item chemistry_set( "chemistry_set", 0 );
-            chemistry_set.charges = veh->fuel_left( "battery", true );
+            int veh_battery = veh->fuel_left( "battery", true );
+            chemistry_set.ammo_set( chemistry_set.ammo_default(), veh_battery );
             chemistry_set.item_tags.insert( "PSEUDO" );
             add_item( chemistry_set );
 
             item electrolysis_kit( "electrolysis_kit", 0 );
-            electrolysis_kit.charges = veh->fuel_left( "battery", true );
+            electrolysis_kit.ammo_set( electrolysis_kit.ammo_default(), veh_battery );
             electrolysis_kit.item_tags.insert( "PSEUDO" );
             add_item( electrolysis_kit );
         }
