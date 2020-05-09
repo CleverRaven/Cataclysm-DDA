@@ -646,6 +646,64 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     return actor.clone();
 }
 
+void rummage_pocket_activity_actor::start( player_activity &act, Character &who )
+{
+    const int moves = item_loc.obtain_cost( who );
+    DebugLog( D_INFO, DC_ALL ) << "Inside start, calculated moves: " << moves << '\n';
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void rummage_pocket_activity_actor::do_turn( player_activity &, Character &who )
+{
+    DebugLog( D_INFO, DC_ALL ) << "Inside do_turn\n";
+    who.add_msg_if_player( _( "You rummage your pockets for the item" ) );
+}
+
+void rummage_pocket_activity_actor::finish( player_activity &act, Character &who )
+{
+    DebugLog( D_INFO, DC_ALL ) << "Inside finish\n";
+    who.add_msg_if_player( m_good, _( "You rummaged your pockets to find the item" ) );
+    switch( kind ) {
+        case action::activate:
+            break;
+        case action::drop:
+            break;
+        case action::wear:
+            break;
+        case action::wield:
+            /* g->wield( item_loc ); */
+            break;
+        default:
+            debugmsg("Unexpected action kind in rummage_pocket_activity_actor::finish");
+            break;
+    }
+
+    act.set_to_null();
+}
+
+void rummage_pocket_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "item_loc", item_loc );
+    jsout.member( "kind", kind );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> rummage_pocket_activity_actor::deserialize( JsonIn &jsin )
+{
+    rummage_pocket_activity_actor actor( item_location{} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "item_loc", actor.item_loc );
+    data.read( "kind", actor.kind );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
