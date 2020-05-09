@@ -268,10 +268,7 @@ void worldfactory::init()
 
     all_worlds.clear();
 
-    // get the master files. These determine the validity of a world
-    // worlds exist by having an option file
-    // create worlds
-    for( const auto &world_dir : get_directories_with( qualifiers, PATH_INFO::savedir(), true ) ) {
+    const auto add_existing_world = [&]( const std::string & world_dir ) {
         // get the save files
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
@@ -280,6 +277,7 @@ void worldfactory::init()
             world_sav_file = world_sav_file.substr( world_dir.size() + 1,
                                                     save_index - ( world_dir.size() + 1 ) );
         }
+
         // the directory name is the name of the world
         std::string worldname;
         size_t name_index = world_dir.find_last_of( "/\\" );
@@ -301,6 +299,13 @@ void worldfactory::init()
             all_worlds[worldname]->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
             all_worlds[worldname]->save();
         }
+    };
+
+    // get the master files. These determine the validity of a world
+    // worlds exist by having an option file
+    // create worlds
+    for( const auto &world_dir : get_directories_with( qualifiers, PATH_INFO::savedir(), true ) ) {
+        add_existing_world( world_dir );
     }
 
     // check to see if there exists a worldname "save" which denotes that a world exists in the save
