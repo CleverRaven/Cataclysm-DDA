@@ -920,10 +920,12 @@ void editmap::edit_feature()
     using T_id = decltype( T_t().id.id() );
 
     uilist emenu;
-    emenu.w_width = width;
-    emenu.w_height = TERMY - infoHeight;
-    emenu.w_y = 0;
-    emenu.w_x = offsetX;
+    emenu.w_width_setup = width;
+    emenu.w_height_setup = [this]() -> int {
+        return TERMY - infoHeight;
+    };
+    emenu.w_y_setup = 0;
+    emenu.w_x_setup = offsetX;
     emenu.desc_enabled = true;
     emenu.input_category = "EDITMAP_FEATURE";
     emenu.additional_actions = {
@@ -1044,10 +1046,12 @@ void editmap::setup_fmenu( uilist &fmenu )
 void editmap::edit_fld()
 {
     uilist fmenu;
-    fmenu.w_width = width;
-    fmenu.w_height = TERMY - infoHeight;
-    fmenu.w_y = 0;
-    fmenu.w_x = offsetX;
+    fmenu.w_width_setup = width;
+    fmenu.w_height_setup = [this]() -> int {
+        return TERMY - infoHeight;
+    };
+    fmenu.w_y_setup = 0;
+    fmenu.w_x_setup = offsetX;
     setup_fmenu( fmenu );
     fmenu.input_category = "EDIT_FIELDS";
     fmenu.additional_actions = {
@@ -1095,10 +1099,12 @@ void editmap::edit_fld()
             int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
                 uilist femenu;
-                femenu.w_width = width;
-                femenu.w_height = infoHeight;
-                femenu.w_y = fmenu.w_height;
-                femenu.w_x = offsetX;
+                femenu.w_width_setup = width;
+                femenu.w_height_setup = infoHeight;
+                femenu.w_y_setup = [this]( int ) -> int {
+                    return TERMY - infoHeight;
+                };
+                femenu.w_x_setup = offsetX;
 
                 femenu.text = field_intensity < 1 ? "" : ftype.get_name( field_intensity - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
@@ -1198,10 +1204,12 @@ enum editmap_imenu_ent {
 void editmap::edit_itm()
 {
     uilist ilmenu;
-    ilmenu.w_x = offsetX;
-    ilmenu.w_y = 0;
-    ilmenu.w_width = width;
-    ilmenu.w_height = TERMY - infoHeight - 1;
+    ilmenu.w_x_setup = offsetX;
+    ilmenu.w_y_setup = 0;
+    ilmenu.w_width_setup = width;
+    ilmenu.w_height_setup = [this]() -> int {
+        return TERMY - infoHeight - 1;
+    };
     auto items = g->m.i_at( target );
     int i = 0;
     for( auto &an_item : items ) {
@@ -1221,10 +1229,14 @@ void editmap::edit_itm()
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
             item &it = *items.get_iterator_from_index( ilmenu.ret );
             uilist imenu;
-            imenu.w_x = ilmenu.w_x;
-            imenu.w_y = ilmenu.w_height;
-            imenu.w_height = TERMX - ilmenu.w_height;
-            imenu.w_width = ilmenu.w_width;
+            imenu.w_x_setup = offsetX;
+            imenu.w_y_setup = [this]( int ) -> int {
+                return TERMY - infoHeight - 1;
+            };
+            imenu.w_height_setup = [this]() -> int {
+                return infoHeight + 1;
+            };
+            imenu.w_width_setup = width;
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
                             to_turn<int>( it.birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1476,7 +1488,7 @@ int editmap::select_shape( shapetype shape, int mode )
                 const int offset = 16;
                 uilist smenu;
                 smenu.text = _( "Selection type" );
-                smenu.w_x = ( offsetX + offset ) / 2;
+                smenu.w_x_setup = ( offsetX + offset ) / 2;
                 smenu.addentry( editmap_rect, true, 'r', pgettext( "shape", "Rectangle" ) );
                 smenu.addentry( editmap_rect_filled, true, 'f', pgettext( "shape", "Filled Rectangle" ) );
                 smenu.addentry( editmap_line, true, 'l', pgettext( "shape", "Line" ) );
@@ -1578,10 +1590,12 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     gmenu.show();
 
     uilist gpmenu;
-    gpmenu.w_width = width;
-    gpmenu.w_height = infoHeight - 4;
-    gpmenu.w_y = gmenu.w_height;
-    gpmenu.w_x = offsetX;
+    gpmenu.w_width_setup = width;
+    gpmenu.w_height_setup = infoHeight - 4;
+    gpmenu.w_y_setup = [this]( int ) -> int {
+        return TERMY - infoHeight;
+    };
+    gpmenu.w_x_setup = offsetX;
     gpmenu.addentry( pgettext( "map generator", "Regenerate" ) );
     gpmenu.addentry( pgettext( "map generator", "Rotate" ) );
     gpmenu.addentry( pgettext( "map generator", "Apply" ) );
@@ -1888,10 +1902,12 @@ void editmap::mapgen_retarget()
 void editmap::edit_mapgen()
 {
     uilist gmenu;
-    gmenu.w_width = width;
-    gmenu.w_height = TERMY - infoHeight;
-    gmenu.w_y = 0;
-    gmenu.w_x = offsetX;
+    gmenu.w_width_setup = width;
+    gmenu.w_height_setup = [this]() -> int {
+        return TERMY - infoHeight;
+    };
+    gmenu.w_y_setup = 0;
+    gmenu.w_x_setup = offsetX;
     gmenu.input_category = "EDIT_MAPGEN";
     gmenu.additional_actions = {
         { "EDITMAP_MOVE", translation() },
