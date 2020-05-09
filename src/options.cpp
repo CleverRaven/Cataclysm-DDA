@@ -1032,7 +1032,7 @@ std::unordered_set<std::string> options_manager::get_langs_with_translation_file
 
 std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 {
-    std::vector<options_manager::id_and_option> lang_options = {
+    std::vector<id_and_option> lang_options = {
         { "", translate_marker( "System language" ) },
         // Note: language names are in their own language and are *not* translated at all.
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
@@ -1052,9 +1052,9 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
         { "zh_TW", no_translation( R"(中文 (台灣))" ) },
     };
 
-    std::unordered_set<std::string> lang_list = options_manager::get_langs_with_translation_files();
+    std::unordered_set<std::string> lang_list = get_langs_with_translation_files();
 
-    std::vector<options_manager::id_and_option> options;
+    std::vector<id_and_option> options;
 
     lang_list.insert( "" ); // for System language option
     lang_list.insert( "en" ); // for English option
