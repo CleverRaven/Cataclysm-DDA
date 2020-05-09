@@ -989,7 +989,13 @@ bool item::merge_charges( const item &rhs )
 
 void item::put_in( const item &payload, item_pocket::pocket_type pk_type )
 {
-    contents.insert_item( payload, pk_type );
+    auto res = contents.insert_item(payload, pk_type);
+
+    if (!res.value()) {
+        this->charges += payload.charges;
+    }
+
+
     on_contents_changed();
 }
 
@@ -6506,13 +6512,24 @@ bool item::can_contain( const item &it ) const
         // does the set of all sets contain itself?
         return false;
     }
-    for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( internal_it->contents.can_contain_rigid( it ).success() ) {
+
+    for( const item *internal_it : contents.all_items_top(item_pocket::pocket_type::CONTAINER) ) {
+        if(internal_it->contents.can_contain_rigid(it).success()) {
             return true;
         }
     }
 
-    return contents.can_contain( it ).success();
+    // hack-fix for tools with charges that has no magazine, such as a jackhammer
+    if (is_tool() && it.is_ammo()) {
+        auto it_at = it.ammo_type();
+        for (const ammotype at : type->tool->ammo_id) {
+            if (at == it_at) {
+                return true;
+            }
+        }
+    }
+
+    return contents.can_contain(it).success();
 }
 
 bool item::can_contain( const itype &tp ) const
@@ -7886,11 +7903,23 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
     int remaining_capacity = 0;
 
     if( can_contain_partial( liquid ) ) {
-        if( !contents.can_contain_liquid( allow_bucket ) ) {
-            return error( string_format( _( "That %s must be on the ground or held to hold contents!" ),
-                                         tname() ) );
+        if (has_pockets()) {
+            if (!contents.can_contain_liquid(allow_bucket)) {
+                return error(string_format(_("That %s must be on the ground or held to hold contents!"),
+                    tname()));
+            }
+            remaining_capacity = contents.remaining_capacity_for_liquid(liquid);
         }
-        remaining_capacity = contents.remaining_capacity_for_liquid( liquid );
+        else {
+            if (is_tool() && liquid.is_ammo()) {
+                auto liq_at = liquid.ammo_type();
+                for (const ammotype at : type->tool->ammo_id) {
+                    if (at == liq_at) {
+                        remaining_capacity = type->tool->max_charges - charges;
+                    }
+                }
+            }
+        }
     } else {
         return error( string_format( _( "That %1$s won't hold %2$s." ), tname(),
                                      liquid.tname() ) );
