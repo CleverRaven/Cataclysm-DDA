@@ -2412,6 +2412,7 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
                     break;
                 }
                 dropping.emplace_back( loc, 1 );
+                count--;
             }
         }
     }
