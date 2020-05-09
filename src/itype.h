@@ -723,7 +723,7 @@ struct islot_ammo : common_ranged_data {
      */
     cata::optional<bool> force_stat_display;
 
-    bool was_loaded;
+    bool was_loaded = false;
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );
@@ -745,6 +745,12 @@ struct islot_bionic {
 };
 
 struct islot_seed {
+    // Generic factory stuff
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
      */
