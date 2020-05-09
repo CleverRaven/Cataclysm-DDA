@@ -1616,12 +1616,7 @@
     "volume": "4500 ml",
     "price": 10,
     "material": "plastic",
-    "pocket_data": [
-      {
-        "max_contains_volume": "4250 ml",
-        "max_contains_weight": "9 kg"
-      }
-    ],
+    "pocket_data": [ { "max_contains_volume": "4250 ml", "max_contains_weight": "9 kg" } ],
     "copy-from": "bucket",
     "delete": { "qualities": [ [ "BOIL", 2 ] ] }
   },
