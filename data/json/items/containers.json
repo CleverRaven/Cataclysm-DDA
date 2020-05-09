@@ -14,21 +14,16 @@
     "material": "plastic",
     "symbol": ")",
     "color": "dark_gray",
-    "//guinea pig": "fill out all the pocket properties to wrap my head around them, hence the excessive comments ",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "min_item_volume": "1 ml",
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "10 kg",
-        "spoil_multiplier": 0.95,
-        "//magic": "tiny weight_multiplier due to ergonomics?",
-        "weight_multiplier": 0.98,
+        "spoil_multiplier": 0.85,
         "//moves": "set a stop watch for unscrew - gulp - rescrew: 4 seconds is heroic for a 0.5 L bottle",
         "moves": 350,
-        "//fireprot": "in the sense that liquid won't evaporate in a sealed container",
         "fire_protection": true
       }
     ],
@@ -964,7 +959,8 @@
         "watertight": true,
         "open_container": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "4 kg"
+        "max_contains_weight": "4 kg",
+        "moves": 250
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
@@ -992,7 +988,8 @@
         "open_container": true,
         "sealed_data": { "spoil_multiplier": 1.1 },
         "max_contains_volume": "100 ml",
-        "max_contains_weight": "1500 g"
+        "max_contains_weight": "1500 g",
+        "moves": 270
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
@@ -1018,7 +1015,8 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1 ml",
-        "max_contains_weight": "5 g"
+        "max_contains_weight": "5 g",
+        "moves": 300
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
@@ -1045,7 +1043,8 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+        "moves": 250
       }
     ],
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 2, "material_thickness": 1 },
@@ -1070,11 +1069,12 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "spoil_multiplier": 0.7,
+        "spoil_multiplier": 0.75,
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg"
+        "max_contains_weight": "6 kg",
+        "moves": 300
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
@@ -1095,7 +1095,8 @@
         "watertight": true,
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
-        "sealed_data": { "spoil_multiplier": 0.0 }
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "moves": 500
       }
     ]
   },
@@ -1119,7 +1120,8 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "500 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+        "moves": 300
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
@@ -1139,6 +1141,7 @@
         "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
+        "moves": 500,
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
