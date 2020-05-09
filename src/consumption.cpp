@@ -1663,3 +1663,15 @@ time_duration Character::get_consume_time( const item &it )
 
     return time * consume_time_modifier;
 }
+
+void Character::eat_item( item_location loc )
+{
+    if( loc.where() == item_location::type::character ) {
+        g->u.consume( loc );
+    } else if( g->u.consume_item( *loc ) ) {
+        loc.remove_item();
+    }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
+}

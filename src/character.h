@@ -2150,6 +2150,8 @@ class Character : public Creature, public visitable<Character>
 
         time_duration get_consume_time( const item &it );
 
+        void eat_item( item_location loc );
+
     protected:
         Character();
         Character( Character && );
