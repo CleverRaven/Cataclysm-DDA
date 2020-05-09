@@ -2152,6 +2152,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         mag_data.fire_protection = def.magazine->protects_contents;
         mag_data.max_contains_volume = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
+        mag_data.max_item_length = 2_km;
         mag_data.rigid = true;
         mag_data.watertight = true;
         def.pockets.push_back( mag_data );
@@ -2166,6 +2167,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         mag_data.watertight = true;
         mag_data.max_contains_volume = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
+        mag_data.max_item_length = 2_km;
         // the magazine pocket does not use can_contain like normal CONTAINER pockets
         // so we don't have to worry about having random items be put into the mag
         def.pockets.push_back( mag_data );
