@@ -5,7 +5,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "600 s",
-    "qualities": [ { "id": "PRYING", "level": 1 } ],
+    "qualities": [ { "id": "PRY", "level": 1 } ],
     "components": [
       [ [ "material_aluminium_ingot", 10 ] ],
       [ [ "wheel_skate", 6 ] ],
@@ -21,7 +21,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "600 s",
-    "qualities": [ { "id": "PRYING", "level": 1 } ],
+    "qualities": [ { "id": "PRY", "level": 1 } ],
     "components": [ [ [ "wheel_skate", 8 ] ], [ [ "leather", 6 ] ], [ [ "scrap", 20 ] ], [ [ "bearing", 8 ] ] ]
   }
 ]
