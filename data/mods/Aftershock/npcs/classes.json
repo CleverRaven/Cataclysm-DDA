@@ -67,8 +67,7 @@
       [ "WARM_NATURED", 100 ],
       [ "INT_UP_3", 100 ],
       [ "DEX_UP_2", 100 ],
-      [ "STR_UP", 100 ],
-      { "group": "Appearance_demographics", "prob": 100 }
+      [ "STR_UP", 100 ]
     ],
     "bonus_dex": { "rng": [ -1, 0 ] },
     "bonus_int": { "rng": [ 2, 5 ] },
@@ -84,7 +83,7 @@
     "type": "npc_class",
     "id": "whately_cousin",
     "name": "Whately Cousin",
-    "common": "false",
+    "common": false,
     "job_description": "Our family has been through hard times before.  We know how to survive.",
     "skills": [
       { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
