@@ -7059,6 +7059,11 @@ const itype *item::ammo_data() const
     if( is_gun() && !contents.empty() ) {
         return contents.first_ammo().ammo_data();
     }
+
+    if ( is_tool() ) {
+        return curammo;
+    }
+
     return nullptr;
 }
 
