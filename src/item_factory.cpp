@@ -1955,14 +1955,20 @@ void Item_factory::load_comestible( const JsonObject &jo, const std::string &src
     }
 }
 
-void Item_factory::load( islot_seed &slot, const JsonObject &jo, const std::string & )
+void islot_seed::load( const JsonObject &jo )
 {
-    assign( jo, "grow", slot.grow, false, 1_days );
-    slot.fruit_div = jo.get_int( "fruit_div", 1 );
-    jo.read( "plant_name", slot.plant_name );
-    slot.fruit_id = jo.get_string( "fruit" );
-    slot.spawn_seeds = jo.get_bool( "seeds", true );
-    slot.byproducts = jo.get_string_array( "byproducts" );
+    assign( jo, "grow", grow, false, 1_days );
+    optional( jo, was_loaded, "fruit_div", fruit_div, 1 );
+    mandatory( jo, was_loaded, "plant_name", plant_name );
+    mandatory( jo, was_loaded, "fruit", fruit_id );
+    optional( jo, was_loaded, "seeds", spawn_seeds, true );
+    optional( jo, was_loaded, "byproducts", byproducts );
+}
+
+void islot_seed::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
@@ -2442,7 +2448,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );
     assign( jo, "ammo_data", def.ammo, src == "dda" );
-    load_slot_optional( def.seed, jo, "seed_data", src );
+    assign( jo, "seed_data", def.seed, src == "dda" );
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
