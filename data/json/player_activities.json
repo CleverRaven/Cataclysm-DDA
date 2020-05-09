@@ -871,5 +871,13 @@
     "activity_level": "NO_EXERCISE",
     "verb": "consuming",
     "based_on": "time"
+  },
+  {
+    "id": "ACT_RUMMAGE_POCKET",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "rummaging pocket",
+    "based_on": "speed",
+    "no_resume": true
   }
 ]
