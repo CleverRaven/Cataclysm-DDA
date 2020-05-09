@@ -6518,15 +6518,8 @@ bool item::can_contain( const item &it ) const
             return true;
         }
     }
-
-    // hack-fix for tools with charges that has no magazine, such as a jackhammer
-    if (is_tool() && it.is_ammo()) {
-        auto it_at = it.ammo_type();
-        for (const ammotype at : type->tool->ammo_id) {
-            if (at == it_at) {
-                return true;
-            }
-        }
+    if (is_fuel_for(it)) {
+        return true;
     }
 
     return contents.can_contain(it).success();
@@ -7940,8 +7933,9 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
     int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
     if( res > 0 ) {
-        res = std::min( contents.remaining_capacity_for_liquid( liquid ), res );
-
+        if (has_pockets()) {
+            res = std::min(contents.remaining_capacity_for_liquid(liquid), res);
+        }
         if( res == 0 && err != nullptr ) {
             *err = string_format( _( "That %s doesn't have room to expand." ), tname() );
         }
@@ -8171,23 +8165,48 @@ int item::fill_with( const itype &contained, const int amount )
         contained_item.charges = 1;
     }
 
-    item_pocket *pocket = best_pocket( contained_item );
-    if( pocket == nullptr ) {
-        debugmsg( "tried to put an item in a container that cannot contain it" );
-        return 0;
-    }
-
     int num_contained = 0;
-    while( pocket != nullptr && amount > num_contained ) {
-        if( !pocket->insert_item( contained_item ).success() ) {
-            break;
+
+    if (has_pockets()) {
+        item_pocket* pocket = best_pocket(contained_item);
+        if (pocket == nullptr) {
+            debugmsg("tried to put an item in a container that cannot contain it");
+            return 0;
         }
-        num_contained++;
-        if( !pocket->can_contain( contained_item ).success() ) {
-            pocket = best_pocket( contained_item );
+
+        while (pocket != nullptr && amount > num_contained) {
+            if (!pocket->insert_item(contained_item).success()) {
+                break;
+            }
+            num_contained++;
+            if (!pocket->can_contain(contained_item).success()) {
+                pocket = best_pocket(contained_item);
+            }
+        }
+    }
+    else {
+        if (is_fuel_for(contained_item)) {
+            int max_can_take = type->tool->max_charges - this->charges;
+            this->charges += max_can_take;
+            num_contained = max_can_take;
         }
     }
     return num_contained;
+}
+
+// hack-fix for tools with charges that has no magazine, such as a jackhammer
+bool item::is_fuel_for(const item& it) const
+{
+    bool res = false;
+    if (is_tool() && it.is_ammo()) {
+        ammotype fuel_at = it.ammo_type();
+        for (const ammotype item_at : type->tool->ammo_id) {
+            if (item_at == fuel_at) {
+                return true;
+            }
+        }
+    }
+    return res;
 }
 
 void item::set_countdown( int num_turns )

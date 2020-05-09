@@ -1197,6 +1197,10 @@ class item : public visitable<item>
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;
         struct fuel_explosion get_explosion_data();
+        /**
+         * Is item an appropriate fuel for this item?
+         */
+        bool is_fuel_for(const item& it) const;
 
         /**
          * Can this item have given item/itype as content?
