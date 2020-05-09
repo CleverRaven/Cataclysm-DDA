@@ -627,25 +627,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             }
         }
 
-        SECTION( "achievement_walk_1000_miles" ) {
-            string_id<achievement> a_proclaimers( "achievement_walk_1000_miles" );
-
-            GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
-                b.send<event_type::game_start>( u_id );
-                CHECK( achievements_completed.empty() );
-
-                WHEN( "the avatar walks the required distance" ) {
-                    for( int i = 0; i < 1609340; i++ ) {
-                        b.send( walk );
-                    }
-                    THEN( "the achivement should be achieved" ) {
-                        CHECK( achievements_completed.count( a_proclaimers ) > 0 );
-                    }
-                }
-            }
-        }
-
         SECTION( "achievement_traverse_sharp_terrain" ) {
             string_id<achievement> a_traverse_sharp_terrain( "achievement_traverse_sharp_terrain" );
 

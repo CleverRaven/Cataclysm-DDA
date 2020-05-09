@@ -150,6 +150,13 @@ void ui_adaptor::invalidate_ui() const
     invalidation_consistency_and_optimization();
 }
 
+void ui_adaptor::reset()
+{
+    on_screen_resize( nullptr );
+    on_redraw( nullptr );
+    position( point_zero, point_zero );
+}
+
 void ui_adaptor::invalidate( const rectangle &rect )
 {
     if( rect.p_min.x >= rect.p_max.x || rect.p_min.y >= rect.p_max.y ) {
