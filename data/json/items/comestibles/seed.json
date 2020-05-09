@@ -793,7 +793,7 @@
     "id": "seed_bell_pepper",
     "copy-from": "seed",
     "price": 50,
-    "name": { "str": "bell pepper seeds", "str_pl": "bell pepper seeds" },
+    "name": { "str_sp": "bell pepper seeds" },
     "description": "Some bell pepper seeds.",
     "seed_data": { "plant_name": "bell pepper", "fruit": "bell_pepper", "byproducts": [ "withered" ], "grow": "70 days" }
   }
