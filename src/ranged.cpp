@@ -212,8 +212,18 @@ class target_ui
         // relevant for TargetMode::Spell
         std::set<tripoint> spell_aoe;
 
+        // Represents a turret and a straight line from that turret to target
+        struct turret_with_lof {
+            vehicle_part *turret;
+            std::vector<tripoint> line;
+        };
+
         // List of vehicle turrets in range (out of those listed in 'vturrets')
-        std::vector<vehicle_part *> turrets_in_range;
+        std::vector<turret_with_lof> turrets_in_range;
+
+        // If true, draws turret lines
+        // relevant for TargetMode::Turrets
+        bool draw_turret_lines = false;
 
         // Create window and set up input context
         void init_window_and_input( player &pc );
@@ -1236,6 +1246,10 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         window_width -= bars_pad;
     }
 
+    std::string label_m = _( "Moves" );
+    std::vector<std::string> t_aims( 4 ), t_confidence( 16 );
+    int aim_iter = 0, conf_iter = 0;
+
     nc_color col = c_dark_gray;
 
     std::vector<aim_type> aim_types;
@@ -1267,6 +1281,19 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
         line_number++;
     }
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type == "numbers" ) {
+        std::string symbols = _( " <color_green>Great</color> - <color_light_gray>Normal</color>"
+                                 " - <color_magenta>Graze</color> - <color_light_blue>Moves</color>" );
+        fold_and_print( w, point( 1, line_number++ ), window_width + bars_pad,
+                        c_dark_gray, symbols );
+        int len = utf8_width( symbols ) - 96; // 96 to subtract color codes
+        if( len > window_width + bars_pad ) {
+            line_number++;
+        }
+        for( int i = 0; i < window_width; i++ ) {
+            mvwprintw( w, point( i + 1, line_number ), "-" );
+        }
+    }
 
     const auto front_or = [&]( const std::string & s, const char fallback ) {
         const auto keys = ctxt.keys_bound_to( s );
@@ -1295,11 +1322,16 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
-        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
-            print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
-                                aim_l ) );
-            right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
-            right_print( w, line_number, 1, c_light_blue, string_format( "%d", moves_to_fire ) );
+        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+            if( display_type == "numbers" ) {
+                t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", label );
+                t_confidence[( aim_iter * 4 ) + 3] = string_format( "<color_light_blue>%d</color>", moves_to_fire );
+            } else {
+                print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
+                                    aim_l ) );
+                right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
+                right_print( w, line_number, 1, c_light_blue, string_format( "%d", moves_to_fire ) );
+            }
         } else {
             print_colored_text( w, point( 1, line_number++ ), col, col,
                                 string_format( _( "<color_white>[%s]</color> %s %s: Moves to fire: "
@@ -1310,17 +1342,31 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         double confidence = confidence_estimate( range, target_size, current_dispersion );
 
         if( display_type == "numbers" ) {
-            int last_chance = 0;
-            std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
-            [&]( const confidence_rating & config ) {
-                // TODO: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
-                int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
-                last_chance += chance;
-                return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
-                                      config.label.c_str() ), config.color, chance );
-            }, enumeration_conjunction::none );
-            line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
-                                                c_dark_gray, confidence_s );
+            if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+                int last_chance = 0;
+                for( const confidence_rating &cr : confidence_config ) {
+                    int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * confidence ) - last_chance;
+                    last_chance += chance;
+                    t_confidence[conf_iter] = string_format( "<color_%s>%3d%%</color>", cr.color, chance );
+                    conf_iter++;
+                    if( conf_iter == ( aim_iter * 4 ) + 3 ) {
+                        conf_iter++;
+                    }
+                }
+                aim_iter++;
+            } else {
+                int last_chance = 0;
+                std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
+                [&]( const confidence_rating & config ) {
+                    // TODO: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
+                    int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
+                    last_chance += chance;
+                    return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
+                                          config.label.c_str() ), config.color, chance );
+                }, enumeration_conjunction::none );
+                line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
+                                                    c_dark_gray, confidence_s );
+            }
         } else {
             std::vector<std::tuple<double, char, std::string>> confidence_ratings;
             std::transform( confidence_config.begin(), confidence_config.end(),
@@ -1337,6 +1383,15 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
     }
 
+    // Draw tables for compact Numbers display
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" )
+        && display_type == "numbers" ) {
+        const std::string divider = "|";
+        int left_pad = 10, columns = 4;
+        insert_table( w, left_pad, ++line_number, columns, c_light_gray, divider, true, t_confidence );
+        insert_table( w, 0, line_number, 1, c_light_gray, "", false, t_aims );
+        line_number = line_number + 4; // 4 to account for the tables
+    }
     return line_number;
 }
 
@@ -1852,6 +1907,11 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     // Load settings
     allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
+    if( mode == TargetMode::Turrets ) {
+        // Due to how cluttered the display would become, disable it by default
+        // unless aiming a single turret.
+        draw_turret_lines = vturrets->size() == 1;
+    }
 
     // Create window
     init_window_and_input( pc );
@@ -1928,6 +1988,8 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             continue;
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             toggle_snap_to_target( pc );
+        } else if( action == "TOGGLE_TURRET_LINES" ) {
+            draw_turret_lines = !draw_turret_lines;
         } else if( action == "zoom_in" ) {
             g->zoom_in();
         } else if( action == "zoom_out" ) {
@@ -2003,7 +2065,8 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             break;
         }
         case ExitCode::Fire: {
-            on_target_accepted( pc, true );
+            bool harmful = !( mode == TargetMode::Spell && casting->damage() <= 0 );
+            on_target_accepted( pc, harmful );
             break;
         }
         case ExitCode::Timeout: {
@@ -2033,10 +2096,9 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
 
 void target_ui::init_window_and_input( player &pc )
 {
-    // TODO: make 'narrow' layout work for 'numbers' display type
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
     std::string panel_type = panel_manager::get_manager().get_current_layout_id();
-    narrow = ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers";
+    narrow = ( panel_type == "compact" || panel_type == "labels-narrow" );
 
     int top = 0;
     int width;
@@ -2103,6 +2165,9 @@ void target_ui::init_window_and_input( player &pc )
             }
         }
         aim_mode = aim_types.begin();
+    }
+    if( mode == TargetMode::Turrets ) {
+        ctxt.register_action( "TOGGLE_TURRET_LINES" );
     }
 }
 
@@ -2199,6 +2264,8 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
                             clamp( delta.z, -range, range )
                         );
         }
+    } else {
+        new_traj.push_back( src );
     }
 
     if( valid_pos == dst ) {
@@ -2361,8 +2428,9 @@ void target_ui::update_status()
     } else if( ( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) && range == 0 ) {
         // Selected gun mode is empty
         status = Status::OutOfAmmo;
-    } else if( src == dst ) {
-        // TODO: consider allowing targeting yourself with spells/turrets
+    } else if( ( src == dst ) && !( mode == TargetMode::Spell &&
+                                    casting->is_valid_target( target_self ) ) ) {
+        // TODO: consider allowing targeting yourself with turrets
         status = Status::BadTarget;
     } else if( dist_fn( dst ) > range ) {
         // We're out of range. This can happen if we switch from long-ranged
@@ -2376,7 +2444,7 @@ void target_ui::update_status()
 
 int target_ui::dist_fn( const tripoint &p )
 {
-    return static_cast<int>( std::round( trig_dist( src, p ) ) );
+    return static_cast<int>( std::round( rl_dist_exact( src, p ) ) );
 }
 
 bool target_ui::pl_can_target( const player &pc, const Creature *cr )
@@ -2456,8 +2524,10 @@ void target_ui::update_turrets_in_range()
 {
     turrets_in_range.clear();
     for( vehicle_part *t : *vturrets ) {
-        if( veh->turret_query( *t ).in_range( dst ) ) {
-            turrets_in_range.push_back( t );
+        turret_data td = veh->turret_query( *t );
+        if( td.in_range( dst ) ) {
+            tripoint src = veh->global_part_pos3( *t );
+            turrets_in_range.push_back( {t, line_to( src, dst )} );
         }
     }
 }
@@ -2603,20 +2673,48 @@ void target_ui::draw_terrain( player &pc )
     tripoint center = pc.pos() + pc.view_offset;
     g->draw_ter( center, true );
 
-    // Draw trajectory
-    if( dst != src ) {
-        // But only points on this Z-level
+    // Removes parts that don't belong to currently visible Z level
+    const auto filter_this_z = [&center]( const std::vector<tripoint> &traj ) {
         std::vector<tripoint> this_z = traj;
         this_z.erase( std::remove_if( this_z.begin(), this_z.end(),
         [&center]( const tripoint & p ) {
             return p.z != center.z;
         } ), this_z.end() );
+        return this_z;
+    };
+
+    // FIXME: TILES version of g->draw_line helpfully draws a cursor at last point.
+    //        This creates a fake cursor if 'dst' is on a z-level we cannot see.
+
+    // Draw approximate line of fire for each turret in range
+    if( mode == TargetMode::Turrets && draw_turret_lines ) {
+        // TODO: TILES version doesn't know how to draw more than 1 line at a time.
+        //       We merge all lines together and draw them as a big malformed one
+        std::set<tripoint> points;
+        for( const turret_with_lof &it : turrets_in_range ) {
+            std::vector<tripoint> this_z = filter_this_z( it.line );
+            for( const tripoint &p : this_z ) {
+                points.insert( p );
+            }
+        }
+        // Since "trajectory" for each turret is just a straight line,
+        // we can draw it even if the player can't see some parts
+        points.erase( dst ); // Workaround for fake cursor on TILES
+        std::vector<tripoint> l( points.begin(), points.end() );
+        if( dst.z == center.z ) {
+            // Workaround for fake cursor bug on TILES
+            l.push_back( dst );
+        }
+        g->draw_line( src, center, l, true );
+    }
+
+    // Draw trajectory
+    if( mode != TargetMode::Turrets && dst != src ) {
+        std::vector<tripoint> this_z = filter_this_z( traj );
 
         // Draw a highlighted trajectory only if we can see the endpoint.
         // Provides feedback to the player, but avoids leaking information
         // about tiles they can't see.
-        // FIXME: TILES version of this function helpfully draws a cursor at 'this_z.back()'.
-        //        This creates a fake cursor if 'dst' is on a z-level we cannot see.
         g->draw_line( dst, center, this_z );
     }
 
@@ -2807,6 +2905,12 @@ void target_ui::draw_controls_list( int text_y )
                                       bound_key( "SWITCH_MODE" ) ) )} );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%c] to reload/switch ammo." ),
                                       bound_key( "SWITCH_AMMO" ) ) )} );
+    }
+    if( mode == TargetMode::Turrets ) {
+        const std::string label = to_translation( "[Hotkey] Show/Hide turrets' lines of fire",
+                                  "[%c] %s lines of fire" ).translated();
+        const std::string showhide = draw_turret_lines ? "Hide" : "Show";
+        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ), showhide ) )} );
     }
 
     // Shrink the list until it fits
@@ -3026,8 +3130,8 @@ void target_ui::panel_turret_list( int &text_y )
     mvwprintw( w_target, point( 1, text_y++ ), _( "Turrets in range: %d/%d" ), turrets_in_range.size(),
                vturrets->size() );
 
-    for( vehicle_part *t : turrets_in_range ) {
-        std::string str = string_format( "* %s", t->name() );
+    for( const turret_with_lof &it : turrets_in_range ) {
+        std::string str = string_format( "* %s", it.turret->name() );
         nc_color clr = c_white;
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     }

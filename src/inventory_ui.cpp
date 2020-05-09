@@ -1226,9 +1226,15 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_contained_items( item_location container )
 {
+    add_contained_items( container, own_inv_column );
+}
+
+void inventory_selector::add_contained_items( item_location container, inventory_column &column )
+{
     for( item *it : container->contents.all_items_top() ) {
-        add_item( own_inv_column, item_location( container, it ),
-                  &it->get_category() );
+        item_location child( container, it );
+        add_contained_items( child, column );
+        add_item( column, std::move( child ) );
     }
 }
 
@@ -1250,24 +1256,31 @@ void inventory_selector::add_character_items( Character &character )
             return item_location( character, it );
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );
         for( item &it_elem : *elem ) {
-            for( item *it : it_elem.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
-                add_item( own_inv_column, item_location( item_location( character, &it_elem ), it ),
-                          &it->get_category() );
-            }
+            item_location parent( character, &it_elem );
+            add_contained_items( parent, own_inv_column );
         }
     }
+    // this is a little trick; we want the default behavior for contained items to be in own_inv_column
+    // and this function iterates over all the entries after we added them to the inventory selector
+    // to put them in the right place
+    toggle_categorize_contained();
 }
 
 void inventory_selector::add_map_items( const tripoint &target )
 {
     if( g->m.accessible_items( target ) ) {
-        const auto items = g->m.i_at( target );
+        map_stack items = g->m.i_at( target );
         const std::string name = to_upper_case( g->m.name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
 
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( target, it );
         }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), &map_cat );
+
+        for( item &it_elem : items ) {
+            item_location parent( map_cursor( target ), &it_elem );
+            add_contained_items( parent, map_column );
+        }
     }
 }
 
@@ -1279,7 +1292,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     }
     vehicle *const veh = &vp->vehicle();
     const int part = vp->part_index();
-    const auto items = veh->get_items( part );
+    vehicle_stack items = veh->get_items( part );
     const std::string name = to_upper_case( remove_color_tags( veh->parts[part].name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
 
@@ -1288,6 +1301,11 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
     }, restack_items( items.begin(), items.end(), check_components ), &vehicle_cat );
+
+    for( item &it_elem : items ) {
+        item_location parent( vehicle_cursor( *veh, part ), &it_elem );
+        add_contained_items( parent, map_column );
+    }
 }
 
 void inventory_selector::add_nearby_items( int radius )
@@ -1758,6 +1776,7 @@ inventory_selector::inventory_selector( player &u, const inventory_selector_pres
     ctxt.register_action( "HOME", to_translation( "Home" ) );
     ctxt.register_action( "END", to_translation( "End" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "VIEW_CATEGORY_MODE" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
     ctxt.register_action( "INVENTORY_FILTER" );
 
@@ -1803,6 +1822,8 @@ void inventory_selector::on_input( const inventory_input &input )
         toggle_active_column( scroll_direction::BACKWARD );
     } else if( input.action == "RIGHT" ) {
         toggle_active_column( scroll_direction::FORWARD );
+    } else if( input.action == "VIEW_CATEGORY_MODE" ) {
+        toggle_categorize_contained();
     } else {
         for( auto &elem : columns ) {
             elem->on_input( input );
@@ -1877,6 +1898,51 @@ bool inventory_selector::is_overflown( size_t client_width ) const
     return get_columns_occupancy_ratio( client_width ) > 1.0;
 }
 
+void inventory_selector::toggle_categorize_contained()
+{
+    const auto return_true = []( const inventory_entry & ) {
+        return true;
+    };
+    const auto return_item = []( const inventory_entry & entry ) {
+        return entry.is_item();
+    };
+    if( own_inv_column.empty() ) {
+        inventory_column replacement_column;
+        for( inventory_entry *entry : own_gear_column.get_entries( return_item ) ) {
+            if( entry->any_item().where() == item_location::type::container ) {
+                add_entry( own_inv_column, std::move( entry->locations ) );
+            } else {
+                replacement_column.add_entry( *entry );
+            }
+        }
+        own_gear_column.clear();
+        for( inventory_entry *entry : replacement_column.get_entries( return_true ) ) {
+            own_gear_column.add_entry( *entry );
+        }
+        own_inv_column.set_indent_entries_override( false );
+    } else {
+        for( inventory_entry *entry : own_inv_column.get_entries( return_item ) ) {
+            // all item entries in own_inv_column are always contained items
+            item_location parent = entry->any_item().parent_item();
+            while( parent.where() == item_location::type::container ) {
+                parent = parent.parent_item();
+            }
+
+            if( parent.get_item() == &u.weapon ) {
+                add_entry( own_gear_column, std::move( entry->locations ),
+                           &item_category_id( "WEAPON_HELD" ).obj() );
+            } else {
+                add_entry( own_gear_column, std::move( entry->locations ),
+                           &item_category_id( "ITEMS_WORN" ).obj() );
+            }
+        }
+        own_inv_column.clear();
+    }
+
+    resize_window( std::max( { get_layout_width() + 6, get_header_min_width() } ),
+                   get_layout_height() + get_header_height() );
+}
+
 void inventory_selector::toggle_active_column( scroll_direction dir )
 {
     if( columns.empty() ) {
@@ -1926,6 +1992,18 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
     };
 
     return mode_data.at( m );
+}
+
+std::string inventory_selector::action_bound_to_key( char key ) const
+{
+    for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
+        for( char bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
+            if( key == bound_key ) {
+                return action_descriptor;
+            }
+        }
+    }
+    return std::string();
 }
 
 item_location inventory_pick_selector::execute()

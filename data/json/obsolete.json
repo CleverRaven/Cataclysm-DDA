@@ -35,6 +35,7 @@
     "description": "This stripped down mini-reactor generates impressive amounts of bionic power.  There is no way to shut it down, but you can toggle additional fuel intake.  Irradiates your body when active.",
     "occupied_bodyparts": [ [ "TORSO", 55 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "available_upgrades": [ "bio_advreactor" ],
     "included_bionics": [ "bio_plutdump" ]
   },
   {
@@ -469,7 +470,7 @@
     "flags": [ "NEVER_JAMS" ],
     "ups_charges": 5,
     "skill": "rifle",
-    "ammo": "fusion",
+    "ammo": [ "fusion" ],
     "weight": "2267 g",
     "volume": "3500 ml",
     "bashing": 10,

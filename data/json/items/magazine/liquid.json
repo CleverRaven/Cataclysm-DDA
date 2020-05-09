@@ -12,7 +12,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "flammable",
+    "ammo_type": [ "flammable" ],
     "capacity": 3000,
     "reliability": 9,
     "reload_time": 3
@@ -30,7 +30,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "flammable",
+    "ammo_type": [ "flammable" ],
     "capacity": 500,
     "reliability": 9,
     "reload_time": 3,
@@ -49,7 +49,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "flammable",
+    "ammo_type": [ "flammable" ],
     "capacity": 2000,
     "reliability": 10,
     "reload_time": 3
@@ -67,7 +67,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "flammable",
+    "ammo_type": [ "flammable" ],
     "capacity": 4000,
     "reliability": 10,
     "reload_time": 3

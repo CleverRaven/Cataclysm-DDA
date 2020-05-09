@@ -7,6 +7,7 @@
 #include "enums.h"
 #include "game.h"
 #include "item.h"
+#include "iteminfo_query.h"
 #include "itype.h"
 #include "item_pocket.h"
 #include "map.h"
@@ -667,11 +668,19 @@ std::list<const item *> item_contents::all_items_ptr() const
 
 item &item_contents::legacy_front()
 {
+    if( empty() ) {
+        debugmsg( "naively asked for first content item and will get a nullptr" );
+        return null_item_reference();
+    }
     return *all_items_top().front();
 }
 
 const item &item_contents::legacy_front() const
 {
+    if( empty() ) {
+        debugmsg( "naively asked for first content item and will get a nullptr" );
+        return null_item_reference();
+    }
     return *all_items_top().front();
 }
 
@@ -811,7 +820,7 @@ static void insert_separation_line( std::vector<iteminfo> &info )
     }
 }
 
-void item_contents::info( std::vector<iteminfo> &info ) const
+void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const
 {
     int pocket_number = 1;
     std::vector<iteminfo> contents_info;
@@ -835,15 +844,19 @@ void item_contents::info( std::vector<iteminfo> &info ) const
             pocket.contents_info( contents_info, pocket_number++, contents.size() != 1 );
         }
     }
-    int idx = 0;
-    for( const item_pocket &pocket : found_pockets ) {
-        insert_separation_line( info );
-        if( pocket_num[idx] > 1 ) {
-            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pockets (%d)</bold>" ),
-                               pocket_num[idx] ) );
+    if( parts->test( iteminfo_parts::DESCRIPTION_POCKETS ) ) {
+        int idx = 0;
+        for( const item_pocket &pocket : found_pockets ) {
+            insert_separation_line( info );
+            if( pocket_num[idx] > 1 ) {
+                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pockets (%d)</bold>" ),
+                                   pocket_num[idx] ) );
+            }
+            idx++;
+            pocket.general_info( info, idx, false );
         }
-        idx++;
-        pocket.general_info( info, idx, false );
     }
-    info.insert( info.end(), contents_info.begin(), contents_info.end() );
+    if( parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
+        info.insert( info.end(), contents_info.begin(), contents_info.end() );
+    }
 }

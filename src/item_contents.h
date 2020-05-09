@@ -11,6 +11,7 @@
 
 #include "enums.h"
 #include "item_pocket.h"
+#include "iteminfo_query.h"
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -188,7 +189,7 @@ class item_contents
         void remove_internal( const std::function<bool( item & )> &filter,
                               int &count, std::list<item> &res );
 
-        void info( std::vector<iteminfo> &info ) const;
+        void info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
         void combine( const item_contents &read_input );
 

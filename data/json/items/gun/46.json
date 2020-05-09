@@ -15,7 +15,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "46",
+    "ammo": [ "46" ],
     "skill": "smg",
     "dispersion": 260,
     "durability": 8,

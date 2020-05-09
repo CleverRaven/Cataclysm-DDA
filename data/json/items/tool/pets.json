@@ -63,7 +63,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "SHEAR", 3 ] ],
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 25

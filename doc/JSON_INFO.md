@@ -469,14 +469,13 @@ This section describes each json file and their contents. Each json has their ow
 |---                          |---
 | id                          | Unique ID. Must be one continuous word, use underscores if necessary.
 | name                        | In-game name displayed.
-| active                      | Whether the bionic is active or passive. (default: `passive`)
-| power_source                | Whether the bionic provides power. (default: `false`)
-| faulty                      | Whether it is a faulty type. (default: `false`)
-| act_cost                    | How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| deact_cost                  | How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| react_cost                  | How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| time                        | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
 | description                 | In-game description.
+| act_cost                    | (_optional_) How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| deact_cost                  | (_optional_) How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| react_cost                  | (_optional_) How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| time                        | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
+| upgraded_bionic             | (_optional_) Bionic that can be upgraded by installing this one.
+| available_upgrades          | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
 | encumbrance                 | (_optional_) A list of body parts and how much this bionic encumber them.
 | weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
@@ -506,8 +505,6 @@ This section describes each json file and their contents. Each json has their ow
     "id"           : "bio_batteries",
     "name"         : "Battery System",
     "active"       : false,
-    "power_source" : false,
-    "faulty"       : false,
     "act_cost"     : 0,
     "time"         : 1,
     "fuel_efficiency": 1,
@@ -1881,9 +1878,9 @@ CBMs can be defined like this:
 Any Item can be a container. To add the ability to contain things to an item, you need to add pocket_data. The below example is a typical container (shown with optional default values, or mandatory if the value is mandatory)
 
 ```C++
-"pocket_type": [ 
+"pocket_data": [
   {
-    "pocket_type": "CONTAINER",               // the typical container pocket. pockets can also be MAGAZINE
+    "pocket_type": "CONTAINER",               // The typical container pocket. Pockets can also be MAGAZINE.
     "min_item_volume": "0 ml",                // the minimum volume of item that can be placed into this pocket
     "max_contains_volume": mandatory,         // the maximum volume this pocket can hold, totaled among all contained items
     "max_contains_weight": mandatory,         // the maximum weight this pocket can hold, totaled among all container items
@@ -1891,13 +1888,13 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "spoil_multiplier": 1.0,                  // how putting an item in this pocket affects spoilage. less than 1.0 and the item will be preserved longer.
     "weight_multiplier": 1.0,                 // the items in this pocket magically weigh less inside than outside
     "magazine_well": "0 ml",                  // only works if rigid = false, this is the amount of space you can put items in the pocket before it starts expanding
-    "moves": 100,                             // the number of moves it takes to remove an item from this pocket, in best conditions
+    "moves": 100,                             // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
     "fire_protection": false,                 // if the pocket protects the contained items from exploding in a fire or not
     "watertight": false,                      // can contain liquid
     "gastight": false,                        // can contain gas
-    "open_container": false,                  // the contents of this pocket will spill if this item is placed into another item.
+    "open_container": false,                  // Default is false. If true, the contents of this pocket will spill if this item is placed into another item.
     "flag_restriction": [ "FLAG1", "FLAG2" ], // items can only be placed into this pocket if they have a flag that matches one of these flags.
-    "rigid": false,                           // this pocket's contents do not contribute to this item's size
+    "rigid": false,                           // Default is false. If false, this pocket's contents contribute to this item's size. If true, they do not.  Think glass jar vs plastic bag: a plastic bag containing nothing takes up almost no space, whereas a glass jar containing nothing takes up as much space as a completely full glass jar. The property magazine_well only works if rigid is false.
     "holster": false, // if this value is set to true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
     "sealed_data": { "spoil_multiplier": 0.0 } // have anything in sealed_data means the pocket cannot be resealed. Additionally, the sealed version of the pocket will override the unsealed version of the same datatype.
   }

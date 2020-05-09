@@ -503,7 +503,7 @@ class Character : public Creature, public visitable<Character>
         void update_bodytemp();
 
         /** Equalizes heat between body parts */
-        void temp_equalizer( body_part bp1, body_part bp2 );
+        void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
 
         struct comfort_response_t {
             comfort_level level = comfort_level::neutral;
@@ -628,7 +628,7 @@ class Character : public Creature, public visitable<Character>
 
         // melee.cpp
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
-        bool block_hit( Creature *source, body_part &bp_hit, damage_instance &dam ) override;
+        bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
         /** Returns the best item for blocking with */
         item &best_shield();
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
@@ -717,7 +717,7 @@ class Character : public Creature, public visitable<Character>
          */
         void passive_absorb_hit( body_part bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        void absorb_hit( body_part bp, damage_instance &dam ) override;
+        void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).
@@ -1481,6 +1481,10 @@ class Character : public Creature, public visitable<Character>
         // Mental skills and stats
         /** Returns the player's reading speed */
         int read_speed( bool return_stat_effect = true ) const;
+        /** Returns a value used when attempting to convince NPC's of something */
+        int talk_skill() const;
+        /** Returns a value used when attempting to intimidate NPC's */
+        int intimidation() const;
 
         // --------------- Other Stuff ---------------
 
@@ -1785,7 +1789,7 @@ class Character : public Creature, public visitable<Character>
         void update_stamina( int turns );
 
     protected:
-        void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
+        void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
     public:
         /** Called when an item is worn */
         void on_item_wear( const item &it );
@@ -1897,9 +1901,9 @@ class Character : public Creature, public visitable<Character>
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
         /** Returns warmth provided by armor, etc. */
-        int warmth( body_part bp ) const;
+        int warmth( const bodypart_id &bp ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        int bonus_item_warmth( body_part bp ) const;
+        int bonus_item_warmth( const bodypart_id &bp ) const;
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
         /**

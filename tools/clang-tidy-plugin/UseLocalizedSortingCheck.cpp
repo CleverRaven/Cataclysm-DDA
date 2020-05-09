@@ -33,19 +33,54 @@ namespace tidy
 namespace cata
 {
 
-inline auto isStringType()
+static bool IsStringish( QualType T );
+
+static bool IsStringish( const TemplateArgument &Arg )
 {
-    return qualType( anyOf( asString( "const std::string" ), asString( "std::string" ) ) );
+    switch( Arg.getKind() ) {
+        case TemplateArgument::Type:
+            if( IsStringish( Arg.getAsType() ) ) {
+                return true;
+            }
+            break;
+        case TemplateArgument::Pack:
+            for( const TemplateArgument &PackArg : Arg.getPackAsArray() ) {
+                if( IsStringish( PackArg ) ) {
+                    return true;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    return false;
 }
 
-inline bool IsString( QualType T )
+static bool IsStringish( QualType T )
 {
     const TagDecl *TTag = T.getTypePtr()->getAsTagDecl();
     if( !TTag ) {
         return false;
     }
     StringRef Name = TTag->getName();
-    return Name == "basic_string";
+    if( Name == "basic_string" ) {
+        return true;
+    }
+    if( Name == "pair" || Name == "tuple" ) {
+        const ClassTemplateSpecializationDecl *SpecDecl =
+            dyn_cast<ClassTemplateSpecializationDecl>( TTag );
+        if( !SpecDecl ) {
+            fprintf( stderr, "Not a spec: %s\n", TTag->getKindName().str().c_str() );
+            return false;
+        }
+        const TemplateArgumentList &Args = SpecDecl->getTemplateArgs();
+        for( const TemplateArgument &Arg : Args.asArray() ) {
+            if( IsStringish( Arg ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void UseLocalizedSortingCheck::registerMatchers( MatchFinder *Finder )
@@ -54,9 +89,14 @@ void UseLocalizedSortingCheck::registerMatchers( MatchFinder *Finder )
         cxxOperatorCallExpr(
             hasArgument(
                 0,
-                expr( hasType( isStringType().bind( "arg0Type" ) ) ).bind( "arg0Expr" )
+                expr( hasType( qualType().bind( "arg0Type" ) ) ).bind( "arg0Expr" )
             ),
-            hasOverloadedOperatorName( "<" )
+            anyOf(
+                hasOverloadedOperatorName( "<" ),
+                hasOverloadedOperatorName( ">" ),
+                hasOverloadedOperatorName( "<=" ),
+                hasOverloadedOperatorName( ">=" )
+            )
         ).bind( "opCall" ),
         this
     );
@@ -68,7 +108,7 @@ void UseLocalizedSortingCheck::registerMatchers( MatchFinder *Finder )
             hasArgument(
                 0,
                 expr( hasType( qualType( anyOf(
-                        pointerType( pointee( isStringType().bind( "valueType" ) ) ),
+                        pointerType( pointee( qualType().bind( "valueType" ) ) ),
                         hasDeclaration( decl().bind( "iteratorDecl" ) )
                                          ) ) ) )
             )
@@ -83,6 +123,10 @@ static void CheckOpCall( UseLocalizedSortingCheck &Check, const MatchFinder::Mat
     const QualType *Arg0Type = Result.Nodes.getNodeAs<QualType>( "arg0Type" );
     const Expr *Arg0Expr = Result.Nodes.getNodeAs<Expr>( "arg0Expr" );
     if( !Call || !Arg0Type || !Arg0Expr ) {
+        return;
+    }
+
+    if( !IsStringish( *Arg0Type ) ) {
         return;
     }
 
@@ -118,14 +162,14 @@ static void CheckSortCall( UseLocalizedSortingCheck &Check, const MatchFinder::M
                 }
             }
         }
-
-        if( !IsString( ValueType ) ) {
-            return;
-        }
     }
 
     if( BoundValueType ) {
         ValueType = *BoundValueType;
+    }
+
+    if( !IsStringish( ValueType ) ) {
+        return;
     }
 
     Check.diag( Call->getBeginLoc(),

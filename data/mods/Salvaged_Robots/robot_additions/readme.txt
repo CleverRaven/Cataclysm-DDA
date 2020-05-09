@@ -1,2 +1,0 @@
-This folder had additional robotic resources (weapons, ammo, locations, vehicles, etc.) beyond the base salvaged robots and recipes.   
-You can remove extra content by removing this folder before creating a new world.  

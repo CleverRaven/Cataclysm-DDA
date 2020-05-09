@@ -1,0 +1,43 @@
+[
+  {
+    "id": "crt_plant_tunic",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "plant fiber tunic",
+    "description": "A loose garment cobbled together from a collection of plant bundles and wound together by makeshift cordage",
+    "weight": 1520,
+    "volume": 23,
+    "price": 0,
+    "to_hit": -5,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "color": "black_green",
+    "covers": [ "TORSO", "LEGS" ],
+    "coverage": 50,
+    "encumbrance": 15,
+    "storage": 0,
+    "warmth": 7,
+    "material_thickness": 3,
+    "flags": [ "OVERSIZE" ]
+  },
+  {
+    "id": "crt_plant_band",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "plant fiber bracelet",
+    "description": "A bracelet wound together by makeshift cordage. Has some cool looking pebbles. ",
+    "weight": 1520,
+    "volume": 23,
+    "price": 0,
+    "to_hit": -5,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "color": "black_green",
+    "coverage": 0,
+    "encumbrance": 0,
+    "storage": 0,
+    "warmth": 7,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE" ]
+  }
+]
