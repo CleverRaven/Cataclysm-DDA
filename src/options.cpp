@@ -58,9 +58,6 @@ bool tile_iso;
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
-const std::vector<options_manager::id_and_option> options_manager::lang_options =
-    options_manager::get_lang_options();
-
 options_manager &get_options()
 {
     static options_manager single_instance;
@@ -1365,7 +1362,7 @@ void options_manager::add_options_interface()
     };
 
     add( "USE_LANG", "interface", translate_marker( "Language" ),
-         translate_marker( "Switch Language." ), options_manager::lang_options, "" );
+         translate_marker( "Switch Language." ), options_manager::get_lang_options(), "" );
 
     add_empty_line();
 
