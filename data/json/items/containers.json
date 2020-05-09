@@ -40,7 +40,7 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 8,
+    "bashing": 6,
     "material": "plastic",
     "symbol": "0",
     "color": "light_blue",
@@ -108,7 +108,7 @@
         "max_contains_volume": "200 L",
         "max_contains_weight": "500 kg",
         "spoil_multiplier": 0.9,
-        "moves": 2500
+        "moves": 1500
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -189,8 +189,8 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "250 ml",
         "max_contains_weight": "750 g",
-        "spoil_multiplier": 0.8,
-        "moves": 700,
+        "spoil_multiplier": 0.7,
+        "moves": 650,
         "watertight": true
       }
     ],
@@ -215,7 +215,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "min_item_volume": "2 ml",
         "watertight": true,
         "max_contains_volume": "100 L",
         "max_contains_weight": "100 kg",
@@ -302,8 +301,8 @@
         "rigid": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "spoil_multiplier": 0.8,
-        "moves": 400
+        "spoil_multiplier": 0.85,
+        "moves": 370
       }
     ],
     "price": 0,
@@ -442,6 +441,7 @@
         "rigid": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "3 kg",
+        "spoil_multiplier": 0.9,
         "moves": 600
       }
     ],
@@ -485,7 +485,7 @@
     "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
     "weight": "850 g",
     "volume": "2 L",
-    "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
+    "//???": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
     "price_postapoc": 0,
     "pocket_data": [
@@ -494,8 +494,9 @@
         "min_item_volume": "2 ml",
         "rigid": true,
         "max_contains_volume": "2990 ml",
-        "max_contains_weight": "20 kg",
-        "magazine_well": "2 L"
+        "max_contains_weight": "18 kg",
+        "magazine_well": "2 L",
+        "moves": 600
       }
     ],
     "material": "cardboard",
@@ -522,8 +523,9 @@
         "min_item_volume": "3 ml",
         "rigid": true,
         "max_contains_volume": "4990 ml",
-        "max_contains_weight": "50 kg",
-        "magazine_well": "3 L"
+        "max_contains_weight": "42 kg",
+        "magazine_well": "3 L",
+        "moves": 600
       }
     ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
@@ -580,6 +582,7 @@
         "open_container": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg",
+        "moves": 120,
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
@@ -613,7 +616,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "sealed_data": { "spoil_multiplier": 1.0 },
+        "sealed_data": { "spoil_multiplier": 0.8 },
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg"
       }
@@ -648,6 +651,7 @@
         "open_container": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
+        "moves": 750,
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
@@ -671,9 +675,11 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "//??": "this is sealed, how can it be open and sealed?",
         "open_container": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg",
+        "moves": 1000,
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
@@ -686,7 +692,8 @@
     "description": "A small tin can, like what tuna comes in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
     "color": "blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "pocket_data": [ { "moves": "500" } ]
   },
   {
     "id": "can_medium",
@@ -717,7 +724,8 @@
     "name": { "str": "medium opened tin can" },
     "description": "A medium tin can, like what soup comes in.  This one is opened and can't be easily sealed.",
     "looks_like": "can_food_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "pocket_data": [ { "moves": "500" } ]
   },
   {
     "id": "canteen",
@@ -766,7 +774,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1 L",
-        "max_contains_weight": "4 kg"
+        "max_contains_weight": "4 kg",
+        "spoil_multiplier": 0.85,
+        "moves": 350
       }
     ],
     "insulation": 10
@@ -791,7 +801,8 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+        "moves": 600
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -817,7 +828,8 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "15 L",
-        "max_contains_weight": "25 kg"
+        "max_contains_weight": "25 kg",
+        "moves": 1000
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -842,7 +854,8 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "37490 ml",
-        "max_contains_weight": "50 kg"
+        "max_contains_weight": "50 kg",
+        "moves": 1400
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -866,10 +879,12 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "//": "while technically closed, if styrofoam is placed in another container it will spill",
         "open_container": true,
-        "sealed_data": { "spoil_multiplier": 0.0 },
+        "sealed_data": { "spoil_multiplier": 0.75 },
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+        "moves": 300
       }
     ]
   },
@@ -901,10 +916,12 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "spoil_multiplier": 0.7,
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+        "moves": 400
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ]
@@ -931,7 +948,8 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "10 ml",
-        "max_contains_weight": "50 g"
+        "max_contains_weight": "150 g",
+        "moves": 300
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
@@ -980,7 +998,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "spoil_multiplier": 0.7,
+        "spoil_multiplier": 0.8,
         "rigid": true,
         "watertight": true,
         "open_container": true,
@@ -1009,7 +1027,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "spoil_multiplier": 0.7,
+        "spoil_multiplier": 0.72,
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1 ml",
@@ -1037,7 +1055,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "spoil_multiplier": 0.7,
+        "spoil_multiplier": 0.85,
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
@@ -1114,7 +1132,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "spoil_multiplier": 0.7,
+        "spoil_multiplier": 0.75,
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "500 ml",
@@ -1139,7 +1157,7 @@
         "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "moves": 500,
+        "moves": 600,
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
@@ -1164,7 +1182,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "10 L",
-        "max_contains_weight": "15 kg"
+        "max_contains_weight": "15 kg",
+        "spoil_multiplier": 0.9,
+        "moves": 1200
       }
     ]
   },
@@ -1189,7 +1209,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "20 L",
-        "max_contains_weight": "25 kg"
+        "max_contains_weight": "25 kg",
+        "spoil_multiplier": 0.9,
+        "moves": 1275
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ]
@@ -1214,7 +1236,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg"
+        "max_contains_weight": "3 kg",
+        "spoil_multiplier": 0.9,
+        "moves": 800
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
@@ -1239,7 +1263,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "3750 ml",
-        "max_contains_weight": "8 kg"
+        "max_contains_weight": "8 kg",
+        "spoil_multiplier": 0.9,
+        "moves": 400
       }
     ]
   },
@@ -1264,7 +1290,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "50 L",
-        "max_contains_weight": "100 kg"
+        "max_contains_weight": "100 kg",
+        "moves": 1500,
+        "spoil_multiplier": 0.9
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -1290,7 +1318,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "50 L",
-        "max_contains_weight": "120 kg"
+        "max_contains_weight": "120 kg",
+        "moves": 1550,
+        "spoil_multiplier": 0.9
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -1301,7 +1331,7 @@
     "category": "container",
     "name": { "str": "metal tank (60L)", "str_pl": "metal tanks (60L)" },
     "description": "A large metal tank for holding liquids.  Useful for crafting.",
-    "weight": "5668 g",
+    "weight": "12000 g",
     "volume": "60050 ml",
     "price": 10000,
     "price_postapoc": 250,
@@ -1316,7 +1346,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "60 L",
-        "max_contains_weight": "120 kg"
+        "max_contains_weight": "120 kg",
+        "moves": 1500,
+        "spoil_multiplier": 0.9
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -1342,7 +1374,9 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "2 L",
-        "max_contains_weight": "4 kg"
+        "max_contains_weight": "18 kg",
+        "moves": 1100,
+        "spoil_multiplier": 0.9
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -1605,7 +1639,15 @@
     "material": "plastic",
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3750 ml", "max_contains_weight": "7 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "7 kg",
+        "moves": 800
+      }
+    ],
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
@@ -1637,7 +1679,7 @@
         "rigid": true,
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
-        "moves": 3000,
+        "moves": 2000,
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
@@ -1650,7 +1692,7 @@
     "description": "A large tin can, like what beans come in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
     "color": "blue",
-    "pocket_data": [ { "open_container": true, "moves": 400 } ],
+    "pocket_data": [ { "open_container": true, "moves": 400, "watertight": false } ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
@@ -1675,7 +1717,7 @@
         "max_contains_weight": "2 kg",
         "spoil_multiplier": 0.9,
         "fire_protection": true,
-        "moves": 500
+        "moves": 570
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
@@ -1696,12 +1738,12 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "min_item_volume": "1 ml",
+        "min_item_volume": "2 ml",
         "rigid": true,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "400 g",
         "spoil_multiplier": 0.95,
-        "moves": 500
+        "moves": 525
       }
     ]
   }
