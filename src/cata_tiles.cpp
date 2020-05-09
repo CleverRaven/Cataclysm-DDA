@@ -1909,10 +1909,10 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>( now );
             auto value = now_ms.time_since_epoch();
             // aiming roughly at the standard 60 frames per second:
-            long animation_frame = value.count() / 17;
+            int animation_frame = value.count() / 17;
             // offset by log_rand so that everything does not blink at the same time:
             animation_frame += loc_rand;
-            long frames_in_loop = display_tile.fg.get_weight();
+            int frames_in_loop = display_tile.fg.get_weight();
             // loc_rand is actually the weighed index of the selected tile, and
             // for animations the "weight" is the number of frames to show the tile for:
             loc_rand = animation_frame % frames_in_loop;
