@@ -94,6 +94,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     CAPTURE( dummy.metabolic_rate_base() );
     CAPTURE( dummy.activity_level_str() );
     CAPTURE( dummy.base_height() );
+    CAPTURE( dummy.get_size() );
     CAPTURE( dummy.height() );
     CAPTURE( dummy.get_bmi() );
     CAPTURE( dummy.bodyweight() );

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef JSON_H
-#define JSON_H
+#ifndef CATA_SRC_JSON_H
+#define CATA_SRC_JSON_H
 
 #include <array>
 #include <bitset>
@@ -1412,8 +1412,8 @@ void deserialize( cata::optional<T> &obj, JsonIn &jsin )
         obj.reset();
     } else {
         obj.emplace();
-        jsin.read( *obj );
+        jsin.read( *obj, true );
     }
 }
 
-#endif
+#endif // CATA_SRC_JSON_H

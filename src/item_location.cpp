@@ -62,6 +62,7 @@ class item_location::impl
         class item_on_map;
         class item_on_person;
         class item_on_vehicle;
+        class item_in_container;
         class nowhere;
 
         impl() = default;
@@ -71,6 +72,9 @@ class item_location::impl
         virtual ~impl() = default;
 
         virtual type where() const = 0;
+        virtual item_location parent_item() const {
+            return item_location();
+        }
         virtual tripoint position() const = 0;
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
@@ -88,6 +92,7 @@ class item_location::impl
             ensure_unpacked();
             return !!what;
         }
+
     private:
         void ensure_unpacked() const {
             if( needs_unpacking ) {
@@ -337,36 +342,31 @@ class item_location::impl::item_on_person : public item_location::impl
                 obj = *target();
             }
 
-            auto parents = who->parents( *target() );
-            if( !parents.empty() && who->is_worn( *parents.back() ) ) {
-                // if outermost parent item is worn status effects (e.g. GRABBED) are not applied
-                // holsters may also adjust the volume cost factor
+            if( who->is_armed() && &who->weapon == target() ) {
+                // no penalties because we already have this item in our hands
+                mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, 0 );
+            } else {
+                auto parents = who->parents( *target() );
+                if( !parents.empty() && who->is_worn( *parents.back() ) ) {
+                    // if outermost parent item is worn status effects (e.g. GRABBED) are not applied
+                    // holsters may also adjust the volume cost factor
 
-                if( parents.back()->can_holster( obj, true ) ) {
-                    auto ptr = dynamic_cast<const holster_actor *>
-                               ( parents.back()->type->get_use( "holster" )->get_actor_ptr() );
-                    mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, ptr->draw_cost );
+                    if( parents.back()->can_holster( obj, true ) ) {
+                        mv += who->as_player()->item_handling_cost( obj, false,
+                                parents.back()->contents.obtain_cost( obj ) );
 
-                } else if( parents.back()->is_bandolier() ) {
-                    auto ptr = dynamic_cast<const bandolier_actor *>
-                               ( parents.back()->type->get_use( "bandolier" )->get_actor_ptr() );
-                    mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, ptr->draw_cost );
-
-                } else {
-                    mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false,
-                            INVENTORY_HANDLING_PENALTY / 2 );
+                    } else {
+                        // it is more expensive to obtain items from the inventory
+                        // TODO: calculate cost for searching in inventory proportional to item volume
+                        mv += dynamic_cast<player *>( who )->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
+                    }
                 }
 
-            } else {
-                // it is more expensive to obtain items from the inventory
-                // TODO: calculate cost for searching in inventory proportional to item volume
-                mv += dynamic_cast<player *>( who )->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
-            }
+                if( &ch != who ) {
+                    // TODO: implement movement cost for transferring item between characters
+                }
 
-            if( &ch != who ) {
-                // TODO: implement movement cost for transferring item between characters
             }
-
             return mv;
         }
 
@@ -477,6 +477,116 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 };
 
+class item_location::impl::item_in_container : public item_location::impl
+{
+    private:
+        item_location container;
+
+        // figures out the index for the item, which is where it is in the total list of contents
+        // note: could be a better way of handling this?
+        int calc_index() const {
+            int idx = 0;
+            for( const item *it : container->contents.all_items_top() ) {
+                if( target() == it ) {
+                    return idx;
+                }
+                idx++;
+            }
+            if( container->contents.empty() ) {
+                return -1;
+            }
+            return idx;
+        }
+    public:
+        item_location parent_item() const override {
+            return container;
+        }
+
+        item_in_container( const item_location &container, item *which ) :
+            impl( which ), container( container ) {}
+
+        void serialize( JsonOut &js ) const override {
+            js.start_object();
+            js.member( "idx", calc_index() );
+            js.member( "type", "in_container" );
+            js.member( "parent", container );
+            js.end_object();
+        }
+
+        item *unpack( int idx ) const override {
+            if( idx < 0 || static_cast<size_t>( idx ) >= target()->contents.num_item_stacks() ) {
+                return nullptr;
+            }
+            std::list<const item *> all_items = container->contents.all_items_ptr();
+            auto iter = all_items.begin();
+            std::advance( iter, idx );
+            if( iter != all_items.end() ) {
+                return const_cast<item *>( *iter );
+            } else {
+                return nullptr;
+            }
+        }
+
+        std::string describe( const Character * ) const override {
+            if( !target() ) {
+                return std::string();
+            }
+            return string_format( _( "inside %s" ), container->tname() );
+        }
+
+        type where() const override {
+            return type::container;
+        }
+
+        tripoint position() const override {
+            return container.position();
+        }
+
+        void remove_item() override {
+            container->remove_item( *target() );
+        }
+
+        item_location obtain( Character &ch, int qty ) override {
+            ch.mod_moves( -obtain_cost( ch, qty ) );
+
+            item obj = target()->split( qty );
+            if( !obj.is_null() ) {
+                return item_location( ch, &ch.i_add( obj, should_stack ) );
+            } else if( container.held_by( ch ) ) {
+                // we don't need to move it in this case, it's in a pocket
+                // we just charge the obtain cost and leave it in place. otherwise
+                // it's liable to end up back in the same pocket, where shenanigans ensue
+                return item_location( container, target() );
+            } else {
+                item *inv = &ch.i_add( *target(), should_stack );
+                if( inv->is_null() ) {
+                    debugmsg( "failed to add item to character inventory while obtaining from container" );
+                }
+                remove_item();
+                return item_location( ch, inv );
+            }
+        }
+
+        int obtain_cost( const Character &ch, int qty ) const override {
+            if( !target() ) {
+                return 0;
+            }
+
+            item obj = *target();
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *target();
+            }
+
+            const int container_mv = container->contents.obtain_cost( *target() );
+            if( container_mv == 0 ) {
+                debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
+                return 0;
+            }
+            return container_mv + container.obtain_cost( ch, qty );
+        }
+};
+
 const item_location item_location::nowhere;
 
 item_location::item_location()
@@ -490,6 +600,9 @@ item_location::item_location( Character &ch, item *which )
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
     : ptr( new impl::item_on_vehicle( vc, which ) ) {}
+
+item_location::item_location( const item_location &container, item *which )
+    : ptr( new impl::item_in_container( container, which ) ) {}
 
 bool item_location::operator==( const item_location &rhs ) const
 {
@@ -562,7 +675,31 @@ void item_location::deserialize( JsonIn &js )
         if( veh && part >= 0 && part < static_cast<int>( veh->parts.size() ) ) {
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }
+    } else if( type == "in_container" ) {
+        item_location parent;
+        obj.read( "parent", parent );
+        const std::list<item *> parent_contents = parent->contents.all_items_top();
+        auto iter = parent_contents.begin();
+        std::advance( iter, idx );
+        ptr.reset( new impl::item_in_container( parent, *iter ) );
     }
+}
+
+item_location item_location::parent_item() const
+{
+    if( where() == type::container ) {
+        return ptr->parent_item();
+    }
+    debugmsg( "this item location type has no parent" );
+    return item_location::nowhere;
+}
+
+bool item_location::has_parent() const
+{
+    if( where() == type::container ) {
+        return !!ptr->parent_item();
+    }
+    return false;
 }
 
 item_location::type item_location::where() const
@@ -617,4 +754,14 @@ const item *item_location::get_item() const
 void item_location::set_should_stack( bool should_stack ) const
 {
     ptr->should_stack = should_stack;
+}
+
+bool item_location::held_by( Character &who ) const
+{
+    if( where() == type::character && g->critter_at<Character>( position() ) == &who ) {
+        return true;
+    } else if( has_parent() ) {
+        return parent_item().held_by( who );
+    }
+    return false;
 }

@@ -345,8 +345,8 @@ TEST_CASE( "npc_talk_rules", "[npc_talk]" )
     d.add_topic( "TALK_TEST_NPC_RULES" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    talker_npc.rules.engagement = ENGAGE_ALL;
-    talker_npc.rules.aim = AIM_SPRAY;
+    talker_npc.rules.engagement = combat_engagement::ALL;
+    talker_npc.rules.aim = aim_rule::SPRAY;
     talker_npc.rules.set_flag( ally_rule::use_silent );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -592,6 +592,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     };
     g->u.cash = 1000;
     g->u.int_cur = 8;
+    g->u.worn.push_back( item( "backpack" ) );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect
@@ -708,7 +709,11 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     gen_response_lines( d, 19 );
     REQUIRE( has_item( g->u, "bottle_plastic", 1 ) );
     REQUIRE( has_beer_bottle( g->u, 2 ) );
-    REQUIRE( g->u.wield( g->u.i_at( g->u.inv.position_by_type( "bottle_glass" ) ) ) );
+    const std::vector<item *> glass_bottles = g->u.items_with( []( const item & it ) {
+        return it.typeId() == "bottle_glass";
+    } );
+    REQUIRE( !glass_bottles.empty() );
+    REQUIRE( g->u.wield( *glass_bottles.front() ) );
     effects = d.responses[14].success;
     effects.apply( d );
     CHECK_FALSE( has_item( g->u, "bottle_plastic", 1 ) );

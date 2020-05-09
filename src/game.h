@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAME_H
-#define GAME_H
+#ifndef CATA_SRC_GAME_H
+#define CATA_SRC_GAME_H
 
 #include <array>
 #include <chrono>
@@ -53,7 +53,6 @@ class game;
 
 extern std::unique_ptr<game> g;
 
-extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
 extern int fov_3d_z_range;
@@ -91,7 +90,6 @@ enum safe_mode_type {
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
-enum target_mode : int;
 
 struct special_game;
 
@@ -153,7 +151,6 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
-        friend class target_handler;
     public:
         game();
         ~game();
@@ -230,13 +227,20 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+    private:
+        cata::optional<tripoint> zone_start;
+        cata::optional<tripoint> zone_end;
+        bool zone_blink = false;
+        bool zone_cursor = false;
+        bool is_looking = false;
+        cata::optional<tripoint> trail_start;
+        cata::optional<tripoint> trail_end;
+        bool trail_end_x = false;
 
+    public:
         // when force_redraw is true, redraw all panel instead of just animated panels
         // mostly used after UI updates
         void draw_panels( bool force_draw = false );
-        // when force_redraw is true, redraw all panel instead of just animated panels
-        // mostly used after UI updates
-        void draw_panels( size_t column, size_t index, bool force_draw = false );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.
@@ -553,7 +557,7 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
-        look_around_result look_around( catacurses::window w_info, tripoint &center,
+        look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
@@ -588,7 +592,6 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
-        void toggle_panel_adm();
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -649,9 +652,9 @@ class game
         void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
-        void draw_hit_player( const player &p, int dam );
+        void draw_hit_player( const Character &p, int dam );
         void draw_line( const tripoint &p, const tripoint &center_point,
-                        const std::vector<tripoint> &points );
+                        const std::vector<tripoint> &points, bool noreveal = false );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint );
         void draw_sct();
@@ -719,7 +722,7 @@ class game
         void on_move_effects();
     private:
         // Game-start procedures
-        void load( const save_t &name ); // Load a player-specific save file
+        bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
         void load_shortcuts( std::istream &fin );
@@ -782,7 +785,7 @@ class game
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
         void reload_item(); // Reload an item
-        void reload_wielded();
+        void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
@@ -805,7 +808,7 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
-        void wield( item_location &loc );
+        void wield( item_location loc );
 
         void chat(); // Talk to a nearby NPC  'C'
 
@@ -946,6 +949,7 @@ class game
 
         event_bus &events();
         stats_tracker &stats();
+        achievements_tracker &achievements();
         memorial_logger &memorial();
         spell_events &spell_events_subscriber();
 
@@ -968,11 +972,6 @@ class game
         catacurses::window w_minimap;
         catacurses::window w_pixel_minimap;
         //only a pointer, can refer to w_messages_short or w_messages_long
-
-        catacurses::window w_panel_adm_ptr;
-        catacurses::window w_panel_adm;
-
-        catacurses::window w_blackspace;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,
@@ -1071,6 +1070,13 @@ class game
 
         // called on map shifting
         void shift_destination_preview( const point &delta );
+
+        /**
+        Checks if player is able to successfully climb to/from some terrain and not slip down
+        @param check_for_traps Used if needed to call trap function on player's location after slipping down
+        @return whether player has slipped down
+        */
+        bool slip_down( bool check_for_traps = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
@@ -1081,4 +1087,13 @@ int get_heat_radiation( const tripoint &location, bool direct );
 // Returns temperature modifier from hot air fields of given location
 int get_convection_temperature( const tripoint &location );
 
-#endif
+namespace cata_event_dispatch
+{
+// Constructs and dispatches an avatar movement event with the necessary parameters
+// @param u The avatar moving
+// @param m The map the avatar is moving on
+// @param p The point the avatar is moving to on map m
+void avatar_moves( const avatar &u, const map &m, const tripoint &p );
+} // namespace cata_event_dispatch
+
+#endif // CATA_SRC_GAME_H

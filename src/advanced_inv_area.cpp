@@ -46,11 +46,11 @@ int advanced_inv_area::get_item_count() const
     }
 }
 
-advanced_inv_area::advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
+advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint off,
                                       const std::string &name, const std::string &shortname,
                                       std::string minimapname, std::string actionname,
                                       aim_location relative_location ) :
-    id( id ), hscreen( hscreenx, hscreeny ),
+    id( id ), hscreen( h ),
     off( off ), name( name ), shortname( shortname ),
     canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
     weight( 0_gram ), max_size( 0 ), minimapname( minimapname ), actionname( actionname ),
@@ -171,14 +171,7 @@ void advanced_inv_area::init()
     }
 
     // water?
-    static const std::array<ter_id, 8> ter_water = {
-        {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage, t_water_moving_dp, t_water_moving_sh }
-    };
-    auto ter_check = [this]
-    ( const ter_id & id ) {
-        return g->m.ter( this->pos ) == id;
-    };
-    if( std::any_of( ter_water.begin(), ter_water.end(), ter_check ) ) {
+    if( g->m.has_flag_ter( TFLAG_SHALLOW_WATER, pos ) || g->m.has_flag_ter( TFLAG_DEEP_WATER, pos ) ) {
         flags.append( _( " WATER" ) );
     }
 
@@ -193,7 +186,7 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
     // should be a specific location instead
     assert( id != AIM_ALL );
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
-        return g->u.volume_capacity() - g->u.volume_carried();
+        return g->u.free_space();
     }
     return in_vehicle ? veh->free_volume( vstor ) : g->m.free_volume( pos );
 }
@@ -336,7 +329,7 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
         uistate.adv_inv_container_index = advitem->idx;
         uistate.adv_inv_container_type = it->typeId();
         uistate.adv_inv_container_content_type = !it->is_container_empty() ?
-                it->contents.front().typeId() : "null";
+                it->contents.legacy_front().typeId() : "null";
         set_container_position();
     } else {
         uistate.adv_inv_container_location = -1;
@@ -356,7 +349,7 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
                     return true;
                 }
             } else {
-                if( it->contents.front().typeId() == uistate.adv_inv_container_content_type ) {
+                if( it->contents.legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
                     return true;
                 }
             }

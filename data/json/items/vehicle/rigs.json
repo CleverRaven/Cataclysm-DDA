@@ -7,6 +7,7 @@
     "weight": "40000 g",
     "volume": "20 L",
     "price": 40000,
+    "price_postapoc": 2000,
     "material": "steel",
     "symbol": "&",
     "color": "light_cyan"

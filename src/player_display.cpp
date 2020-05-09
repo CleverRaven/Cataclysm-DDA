@@ -174,7 +174,19 @@ static std::string melee_cost_text( int moves )
     return string_format(
                _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
 }
-
+static std::string melee_stamina_cost_text( int cost )
+{
+    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+}
+static std::string mouth_stamina_cost_text( int cost )
+{
+    return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
+}
+static std::string ranged_cost_text( double disp )
+{
+    return string_format( _( "Dispersion when using ranged attacks: <color_white>%+.1f</color>\n" ),
+                          disp );
+}
 static std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
@@ -215,11 +227,14 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
                      eff_encumbrance * 10 );
             break;
         case bp_mouth:
-            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>" );
+            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
+            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
             break;
         case bp_arm_l:
         case bp_arm_r:
-            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>" );
+            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
+            s += melee_stamina_cost_text( eff_encumbrance * 2 );
+            s += ranged_cost_text( eff_encumbrance / 5.0 );
             break;
         case bp_hand_l:
         case bp_hand_r:
@@ -297,10 +312,10 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_hit_base() ) );
+                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_melee_hit_base() ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
-                                           -abs( you.ranged_dex_mod() ) ) );
+                                           -std::abs( you.ranged_dex_mod() ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
                             string_format( _( "Throwing penalty per target's dodge: <color_white>%+d</color>" ),
                                            you.throw_dispersion_per_dodge( false ) ) );
@@ -1053,13 +1068,13 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         line++;
     }
     if( you.get_thirst() > 40 ) {
-        pen = abs( player::thirst_speed_penalty( you.get_thirst() ) );
+        pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
         line++;
     }
     if( you.kcal_speed_penalty() < 0 ) {
-        pen = abs( you.kcal_speed_penalty() );
+        pen = std::abs( you.kcal_speed_penalty() );
         const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
                                       _( "Starving" ) : _( "Underfed" );
         //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
@@ -1215,16 +1230,13 @@ void player::disp_info()
     std::vector<bionic> bionicslist = *my_bionics;
     unsigned int bionics_win_size_y = 2 + bionicslist.size();
 
-    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by( [&]( const Skill & a,
-    const Skill & b ) {
+    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
+    [&]( const Skill & a, const Skill & b ) {
         skill_displayType_id type_a = a.display_category();
         skill_displayType_id type_b = b.display_category();
 
-        if( type_a != type_b ) {
-            return type_a < type_b;
-        } else {
-            return a.name() < b.name();
-        }
+        return localized_compare( std::make_pair( type_a, a.name() ),
+                                  std::make_pair( type_b, b.name() ) );
     } );
 
     std::vector<HeaderSkill> skillslist;
@@ -1264,45 +1276,45 @@ void player::disp_info()
 
     catacurses::window w_grid_top =
         catacurses::newwin( infooffsetybottom, FULL_SCREEN_WIDTH + 1,
-                            point( VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+                            point_zero );
     catacurses::window w_grid_skill =
         catacurses::newwin( skill_win_size_y + 1, 27,
-                            point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 0, infooffsetybottom ) );
     catacurses::window w_grid_trait =
         catacurses::newwin( trait_win_size_y + 1, 27,
-                            point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 27, infooffsetybottom ) );
     catacurses::window w_grid_bionics =
         catacurses::newwin( bionics_win_size_y + 1, 27,
-                            point( 27 + VIEW_OFFSET_X,
-                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
+                            point( 27,
+                                   infooffsetybottom + trait_win_size_y + 1 ) );
     catacurses::window w_grid_effect =
         catacurses::newwin( effect_win_size_y + 1, 28,
-                            point( 53 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 53, infooffsetybottom ) );
 
     catacurses::window w_tip =
-        catacurses::newwin( 1, FULL_SCREEN_WIDTH,  point( 0 + VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+        catacurses::newwin( 1, FULL_SCREEN_WIDTH, point_zero );
     catacurses::window w_stats =
-        catacurses::newwin( 9, 26,  point( 0 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+        catacurses::newwin( 9, 26, point( 0, 1 ) ); //NOLINT(cata-use-named-point-constants)
     catacurses::window w_traits =
         catacurses::newwin( trait_win_size_y, 26,
-                            point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 27, infooffsetybottom ) );
     catacurses::window w_bionics =
         catacurses::newwin( bionics_win_size_y, 26,
-                            point( 27 + VIEW_OFFSET_X,
-                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
+                            point( 27,
+                                   infooffsetybottom + trait_win_size_y + 1 ) );
     catacurses::window w_encumb =
-        catacurses::newwin( 9, 26, point( 27 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+        catacurses::newwin( 9, 26, point( 27, 1 ) );
     catacurses::window w_effects =
         catacurses::newwin( effect_win_size_y, 26,
-                            point( 54 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 54, infooffsetybottom ) );
     catacurses::window w_speed =
-        catacurses::newwin( 9, 26,  point( 54 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+        catacurses::newwin( 9, 26,  point( 54, 1 ) );
     catacurses::window w_skills =
         catacurses::newwin( skill_win_size_y, 26,
-                            point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 0, infooffsetybottom ) );
     catacurses::window w_info =
         catacurses::newwin( info_win_size_y, FULL_SCREEN_WIDTH,
-                            point( 0 + VIEW_OFFSET_X, infooffsetytop + VIEW_OFFSET_Y ) );
+                            point( 0, infooffsetytop ) );
 
     draw_grid_borders( w_grid_top, w_grid_skill, w_grid_trait, w_grid_bionics, w_grid_effect,
                        info_win_size_y, infooffsetybottom, skill_win_size_y, trait_win_size_y,
@@ -1317,8 +1329,8 @@ void player::disp_info()
     // Post-humanity trumps your pre-Cataclysm life.
     if( crossed_threshold() ) {
         std::string race;
-        for( auto &mut : my_mutations ) {
-            const auto &mdata = mut.first.obj();
+        for( const trait_id &mut : get_mutations() ) {
+            const mutation_branch &mdata = mut.obj();
             if( mdata.threshold ) {
                 race = mdata.name();
                 break;
@@ -1372,8 +1384,8 @@ void player::disp_info()
         nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
         mvwprintz( w_speed, point( 1, line ), col, "%s", speed_effect.first );
         mvwprintz( w_speed, point( 21, line ), col, ( speed_effect.second > 0 ? "+" : "-" ) );
-        mvwprintz( w_speed, point( abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
-                   abs( speed_effect.second ) );
+        mvwprintz( w_speed, point( std::abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
+                   std::abs( speed_effect.second ) );
         line++;
     }
 

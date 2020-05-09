@@ -365,21 +365,21 @@ void npc::assess_danger()
             return false;
         }
         switch( rules.engagement ) {
-            case ENGAGE_NONE:
+            case combat_engagement::NONE:
                 return false;
-            case ENGAGE_CLOSE:
+            case combat_engagement::CLOSE:
                 // Either close to player or close enough that we can reach it and close to us
                 return ( dist <= max_range && scaled_dist <= def_radius * 0.5 ) ||
                        too_close( c.pos(), g->u.pos(), def_radius );
-            case ENGAGE_WEAK:
+            case combat_engagement::WEAK:
                 return c.get_hp() <= average_damage_dealt();
-            case ENGAGE_HIT:
+            case combat_engagement::HIT:
                 return c.has_effect( effect_hit_by_player );
-            case ENGAGE_NO_MOVE:
+            case combat_engagement::NO_MOVE:
                 return dist <= max_range;
-            case ENGAGE_FREE_FIRE:
+            case combat_engagement::FREE_FIRE:
                 return dist <= max_range;
-            case ENGAGE_ALL:
+            case combat_engagement::ALL:
                 return true;
         }
 
@@ -406,7 +406,7 @@ void npc::assess_danger()
             }
         }
     }
-    if( is_player_ally() && rules.engagement == ENGAGE_FREE_FIRE ) {
+    if( is_player_ally() && rules.engagement == combat_engagement::FREE_FIRE ) {
         def_radius = std::max( 6, max_range );
     }
     // find our Character friends and enemies
@@ -464,8 +464,10 @@ void npc::assess_danger()
 
         // don't ignore monsters that are too close or too close to an ally
         bool is_too_close = dist <= def_radius;
-        const auto test_too_close = [critter, def_radius,
-                 &is_too_close]( const weak_ptr_fast<Creature> &guy ) {
+        for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
+            if( is_too_close ) {
+                break;
+            }
             // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
             // friendly NPC when the NPC is riding a creature - I don't know why.
             // so this skips the bad weak_ptrs, but this doesn't functionally change the AI Priority
@@ -474,9 +476,7 @@ void npc::assess_danger()
             if( guy.lock() ) {
                 is_too_close |= too_close( critter.pos(), guy.lock()->pos(), def_radius );
             }
-            return is_too_close;
-        };
-        std::any_of( ai_cache.friends.begin(), ai_cache.friends.end(), test_too_close );
+        }
         // ignore distant monsters that our rules prevent us from attacking
         if( !is_too_close && is_player_ally() && !ok_by_rules( critter, dist, scaled_distance ) ) {
             continue;
@@ -912,7 +912,6 @@ void npc::execute_action( npc_action action )
     int oldmoves = moves;
     tripoint tar = pos();
     Creature *cur = current_target();
-    player *patient = dynamic_cast<player *>( current_ally() );
     if( action == npc_flee ) {
         tar = good_escape_direction( false );
     } else if( cur != nullptr ) {
@@ -1079,18 +1078,21 @@ void npc::execute_action( npc_action action )
             }
             break;
 
-        case npc_heal_player:
-            update_path( patient->pos() );
-            if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
-                heal_player( *patient );
-            } else if( !path.empty() ) {
-                say( _( "Hold still %s, I'm coming to help you." ), patient->disp_name() );
-                move_to_next();
-            } else {
-                move_pause();
+        case npc_heal_player: {
+            player *patient = dynamic_cast<player *>( current_ally() );
+            if( patient ) {
+                update_path( patient->pos() );
+                if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
+                    heal_player( *patient );
+                } else if( !path.empty() ) {
+                    say( _( "Hold still %s, I'm coming to help you." ), patient->disp_name() );
+                    move_to_next();
+                } else {
+                    move_pause();
+                }
             }
             break;
-
+        }
         case npc_follow_player:
             update_path( g->u.pos() );
             if( static_cast<int>( path.size() ) <= follow_distance() &&
@@ -1288,10 +1290,10 @@ npc_action npc::method_of_attack()
     const bool same_z = tar.z == pos().z;
 
     // TODO: Change the in_vehicle check to actual "are we driving" check
-    const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE ||
-                           rules.engagement == ENGAGE_FREE_FIRE;
+    const bool dont_move = in_vehicle || rules.engagement == combat_engagement::NO_MOVE ||
+                           rules.engagement == combat_engagement::FREE_FIRE;
     // NPCs engage in free fire can move to avoid allies, but not if they're in a vehicle
-    const bool dont_move_ff = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
+    const bool dont_move_ff = in_vehicle || rules.engagement == combat_engagement::NO_MOVE;
 
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
@@ -1351,7 +1353,7 @@ npc_action npc::method_of_attack()
             return npc_reach_attack;
         }
     } else {
-        if( reach_range > 1 && reach_range >= round( trig_dist( pos(), tar ) ) &&
+        if( reach_range > 1 && reach_range >= std::round( trig_dist( pos(), tar ) ) &&
             clear_shot_reach( pos(), tar ) ) {
             add_msg( m_debug, "%s is trying a reach attack", disp_name() );
             return npc_reach_attack;
@@ -1608,21 +1610,12 @@ bool npc::can_use_offensive_cbm() const
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
 {
-    invslice slice = inv.slice();
-    int index = -1;
-    for( size_t i = 0; i < slice.size(); i++ ) {
-        const item &it = slice[i]->front();
-        const item &real_item = it.is_container() ?  it.contents.front() : it;
-        if( filter( real_item ) ) {
-            index = i;
-            break;
-        }
-    }
-    if( index < 0 ) {
+    std::vector<item *> filtered_items = items_with( filter );
+    if( filtered_items.empty() ) {
         return false;
     }
     int old_moves = moves;
-    item_location loc = item_location( *this, &i_at( index ) );
+    item_location loc = item_location( *this, filtered_items.front() );
     return consume( loc ) && old_moves != moves;
 }
 
@@ -1645,7 +1638,7 @@ bool npc::recharge_cbm()
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
                 for( const itype_id &fid : bid->fuel_opts ) {
-                    return it.typeId() == fid || ( !it.is_container_empty() && it.contents.front().typeId() == fid );
+                    return it.typeId() == fid;
                 }
                 return false;
             };
@@ -1972,13 +1965,13 @@ double npc::confidence_mult() const
     }
 
     switch( rules.aim ) {
-        case AIM_WHEN_CONVENIENT:
+        case aim_rule::WHEN_CONVENIENT:
             return emergency() ? 1.5f : 1.0f;
-        case AIM_SPRAY:
+        case aim_rule::SPRAY:
             return 2.0f;
-        case AIM_PRECISE:
+        case aim_rule::PRECISE:
             return emergency() ? 1.0f : 0.75f;
-        case AIM_STRICTLY_PRECISE:
+        case aim_rule::STRICTLY_PRECISE:
             return 0.5f;
     }
 
@@ -2063,7 +2056,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         }
 
         int ally_angle = coord_to_angle( pos(), ally.pos() );
-        int angle_diff = abs( ally_angle - target_angle );
+        int angle_diff = std::abs( ally_angle - target_angle );
         angle_diff = std::min( 360 - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
             // TODO: Disable NPC whining is it's other NPC who prevents aiming
@@ -2308,7 +2301,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
                                                 diag ) * 100.0 / mounted_creature->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
-            moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
+            moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
             if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
                 mounted_creature->use_mech_power( -1 );
             }
@@ -2429,9 +2422,9 @@ void npc::avoid_friendly_fire()
     }
 
     float friend_count = ai_cache.friends.size();
-    center.x = round( center.x / friend_count );
-    center.y = round( center.y / friend_count );
-    center.z = round( center.z / friend_count );
+    center.x = std::round( center.x / friend_count );
+    center.y = std::round( center.y / friend_count );
+    center.z = std::round( center.z / friend_count );
 
     std::vector<tripoint> candidates = closest_tripoints_first( pos(), 1 );
     candidates.erase( candidates.begin() );
@@ -2494,7 +2487,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
             continue;
         }
 
-        const int dst = abs( p.x - pt.x ) + abs( p.y - pt.y ) + abs( p.z - pt.z );
+        const int dst = std::abs( p.x - pt.x ) + std::abs( p.y - pt.y ) + std::abs( p.z - pt.z );
         const int val = dst * 1000 / cost;
         if( val > best && can_move_to( p, no_bash_atk ) ) {
             best_pos = p;
@@ -3368,11 +3361,10 @@ bool npc::wield_better_weapon()
         // Only compare melee weapons, guns, or holstered items
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
+            return VisitResponse::SKIP;
         } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
-            const item &holstered = node->get_contained();
-            if( holstered.is_melee() || holstered.is_gun() ) {
-                compare_weapon( holstered );
-            }
+            // we just recur to the next farther down
+            return VisitResponse::NEXT;
         }
         return VisitResponse::SKIP;
     } );

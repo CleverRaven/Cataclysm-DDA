@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONATTACK_H
-#define MONATTACK_H
+#ifndef CATA_SRC_MONATTACK_H
+#define CATA_SRC_MONATTACK_H
 
 class monster;
 class Creature;
@@ -116,4 +116,4 @@ void flame( monster *z, Creature *target );
 bool dodge_check( monster *z, Creature *target );
 } //namespace mattack
 
-#endif
+#endif // CATA_SRC_MONATTACK_H

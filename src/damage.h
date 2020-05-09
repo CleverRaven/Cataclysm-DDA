@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DAMAGE_H
-#define DAMAGE_H
+#ifndef CATA_SRC_DAMAGE_H
+#define CATA_SRC_DAMAGE_H
 
 #include <array>
 #include <map>
@@ -8,6 +8,7 @@
 #include <string>
 
 #include "type_id.h"
+#include "calendar.h"
 
 class item;
 class monster;
@@ -28,6 +29,7 @@ enum damage_type : int {
     DT_HEAT, // e.g. fire, plasma
     DT_COLD, // e.g. heatdrain, cryogrenades
     DT_ELECTRIC, // e.g. electrical discharge
+    DT_BULLET, // bullets and other fast moving projectiles
     NUM_DT
 };
 
@@ -85,6 +87,22 @@ struct damage_instance {
     void deserialize( JsonIn & );
 };
 
+class damage_over_time_data
+{
+    public:
+        damage_type type;
+        time_duration duration;
+        std::vector<bodypart_str_id> bps;
+        int amount;
+
+        bool was_loaded;
+
+        void load( const JsonObject &obj );
+
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
+};
+
 struct dealt_damage_instance {
     std::array<int, NUM_DT> dealt_dams;
     body_part bp_hit;
@@ -130,4 +148,4 @@ resistances load_resistances_instance( const JsonObject &jo );
 // Handles some shorthands
 std::array<float, NUM_DT> load_damage_array( const JsonObject &jo );
 
-#endif
+#endif // CATA_SRC_DAMAGE_H

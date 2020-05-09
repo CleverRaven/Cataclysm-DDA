@@ -46,7 +46,7 @@
   {
     "id": "armor_lorica",
     "type": "ARMOR",
-    "name": { "str": "lorica segmentata", "str_pl": "lorica segmentata" },
+    "name": { "str_sp": "lorica segmentata" },
     "description": "An ancient Roman laminar armor, made of overlapping metal strips connected to internal leather straps.",
     "weight": "5286 g",
     "volume": "6 L",
@@ -217,11 +217,24 @@
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 85,
     "encumbrance": 24,
-    "storage": "1 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "jacket_leather_bone",
+    "type": "ARMOR",
+    "name": { "str": "occult bone armor" },
+    "description": "A black jacket made from thick leather and covered with intricately carved bones.  You've never seen patterns like those before, each time you look at them you spot a new one as if they were changing on their own.",
+    "copy-from": "jacket_leather_mod",
+    "material": [ "leather", "bone" ]
   },
   {
     "id": "lame_foil",
@@ -306,7 +319,7 @@
     "coverage": 85,
     "encumbrance": 5,
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "STURDY", "SKINTIGHT" ]
   },
   {
@@ -326,7 +339,14 @@
     "covers": [ "TORSO" ],
     "coverage": 95,
     "encumbrance": 16,
-    "storage": "2500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 1,
@@ -350,7 +370,10 @@
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 95,
     "encumbrance": 30,
-    "storage": "500 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
     "warmth": 35,
     "material_thickness": 4,
     "environmental_protection": 2,
@@ -411,7 +434,12 @@
     "covers": [ "TORSO" ],
     "coverage": 90,
     "encumbrance": 24,
-    "storage": "1 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,

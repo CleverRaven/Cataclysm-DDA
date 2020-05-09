@@ -94,7 +94,7 @@ bool defense_game::init()
 {
     calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
     g->weather.temperature = 65;
-    if( !g->u.create( PLTYPE_CUSTOM ) ) {
+    if( !g->u.create( character_type::CUSTOM ) ) {
         return false;
     }
     g->u.str_cur = g->u.str_max;
@@ -1108,7 +1108,7 @@ void defense_game::caravan()
             // Guns bought from the caravan should always come with an empty
             // magazine.
             if( tmp.is_gun() && !tmp.magazine_integral() ) {
-                tmp.put_in( item( tmp.magazine_default() ) );
+                tmp.put_in( item( tmp.magazine_default() ), item_pocket::pocket_type::MAGAZINE );
             }
 
             for( int j = 0; j < item_count[0][i]; j++ ) {

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef HANDLE_LIQUID_H
-#define HANDLE_LIQUID_H
+#ifndef CATA_SRC_HANDLE_LIQUID_H
+#define CATA_SRC_HANDLE_LIQUID_H
 
 #include "item_location.h"
 #include "item_stack.h"
@@ -112,4 +112,4 @@ bool handle_liquid( item &liquid, item *source = nullptr, int radius = 0,
                     const monster *source_mon = nullptr );
 } // namespace liquid_handler
 
-#endif
+#endif // CATA_SRC_HANDLE_LIQUID_H

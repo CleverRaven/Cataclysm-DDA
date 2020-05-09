@@ -126,7 +126,7 @@ static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monste
     pile_size = std::max( pile_size, 1 );
     // can't have more items in a pile than total items
     pile_size = std::min( chunk_amt, pile_size );
-    distance = abs( distance );
+    distance = std::abs( distance );
     const item chunk( chunk_name, calendar::turn, pile_size );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
         bool drop_chunks = true;
@@ -194,15 +194,15 @@ void mdeath::splatter( monster &z )
         }
     }
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
-    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
-                                       ( overflow_damage / max_hp + 1 ) ) );
+    int gibbed_weight = rng( 0, std::round( to_gram( z.get_weight() ) / 100.0 *
+                                            ( overflow_damage / max_hp + 1 ) ) );
     const int z_weight = to_gram( z.get_weight() );
     // limit gibbing to 15%
     gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
-        int gib_distance = round( rng( 2, 4 ) );
+        int gib_distance = std::round( rng( 2, 4 ) );
         for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
@@ -762,78 +762,6 @@ void mdeath::kill_breathers( monster &/*z*/ )
         if( monID == mon_breather_hub || monID == mon_breather ) {
             critter.die( nullptr );
         }
-    }
-}
-
-void mdeath::detonate( monster &z )
-{
-    weighted_int_list<std::string> amm_list;
-    for( const auto &amm : z.ammo ) {
-        amm_list.add( amm.first, amm.second );
-    }
-
-    std::vector<std::string> pre_dets;
-    for( int i = 0; i < 3; i++ ) {
-        if( amm_list.get_weight() <= 0 ) {
-            break;
-        }
-        // Grab one item
-        std::string tmp = *amm_list.pick();
-        // and reduce its weight by 1
-        amm_list.add_or_replace( tmp, amm_list.get_specific_weight( tmp ) - 1 );
-        // and stash it for use
-        pre_dets.push_back( tmp );
-    }
-
-    // Update any hardcoded explosion equivalencies
-    std::vector<std::pair<std::string, long>> dets;
-    for( const std::string &bomb_id : pre_dets ) {
-        if( bomb_id == "bot_grenade_hack" ) {
-            dets.push_back( std::make_pair( "grenade_act", 5 ) );
-        } else if( bomb_id == "bot_flashbang_hack" ) {
-            dets.push_back( std::make_pair( "flashbang_act", 5 ) );
-        } else if( bomb_id == "bot_gasbomb_hack" ) {
-            dets.push_back( std::make_pair( "gasbomb_act", 20 ) );
-        } else if( bomb_id == "bot_c4_hack" ) {
-            dets.push_back( std::make_pair( "c4armed", 10 ) );
-        } else if( bomb_id == "bot_mininuke_hack" ) {
-            dets.push_back( std::make_pair( "mininuke_act", 20 ) );
-        } else {
-            // Get the transformation item
-            const iuse_transform *actor = dynamic_cast<const iuse_transform *>(
-                                              item::find_type( bomb_id )->get_use( "transform" )->get_actor_ptr() );
-            if( actor == nullptr ) {
-                // Invalid bomb item, move to the next ammo item
-                add_msg( m_debug, "Invalid bomb type in detonate mondeath for %s.", z.name() );
-                continue;
-            }
-            dets.emplace_back( actor->target, actor->ammo_qty );
-        }
-    }
-
-    if( g->u.sees( z ) ) {
-        if( dets.empty() ) {
-            add_msg( m_info,
-                     //~ %s is the possessive form of the monster's name
-                     _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
-                     z.name() );
-        } else {
-            //~ %s is the possessive form of the monster's name
-            add_msg( m_bad, _( "The %s's hands fly to its remaining pockets, opening them!" ),
-                     z.name() );
-        }
-    }
-    // HACK, used to stop them from having ammo on respawn
-    z.add_effect( effect_no_ammo, 1_turns, num_bp, true );
-
-    // First die normally
-    mdeath::normal( z );
-    // Then detonate our suicide bombs
-    for( const auto &bombs : dets ) {
-        item bomb_item( bombs.first, 0 );
-        bomb_item.charges = bombs.second;
-        bomb_item.active = true;
-        g->m.add_item_or_charges( z.pos(), bomb_item );
     }
 }
 

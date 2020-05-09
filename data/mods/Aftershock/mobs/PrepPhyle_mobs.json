@@ -19,6 +19,7 @@
     "dodge": 3,
     "armor_bash": 8,
     "armor_cut": 14,
+    "armor_bullet": 11,
     "looks_like": "mon_dog_gpyrenees",
     "vision_day": 30,
     "vision_night": 8,

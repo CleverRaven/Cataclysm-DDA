@@ -107,6 +107,7 @@
     "price_postapoc": 50,
     "bashing": 4,
     "cutting": 6,
+    "to_hit": -2,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   },

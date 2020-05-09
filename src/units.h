@@ -1,6 +1,6 @@
 #pragma once
-#ifndef UNITS_H
-#define UNITS_H
+#ifndef CATA_SRC_UNITS_H
+#define CATA_SRC_UNITS_H
 
 #include <algorithm>
 #include <cctype>
@@ -700,8 +700,8 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
             }
         }
         error( "invalid quantity string: unknown unit" );
-        // above always throws
-        throw;
+        // above always throws but lambdas cannot be marked [[noreturn]]
+        throw std::string( "Exceptionally impossible" );
     };
 
     if( skip_spaces() ) {
@@ -775,4 +775,4 @@ void dump_to_json_string( T t, JsonOut &jsout,
     jsout.write( str );
 }
 
-#endif
+#endif // CATA_SRC_UNITS_H

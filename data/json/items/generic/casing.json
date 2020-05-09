@@ -34,6 +34,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "price": 100,
+    "price_postapoc": 0,
     "name": { "str": "unused .22 casing" },
     "symbol": "=",
     "color": "yellow",

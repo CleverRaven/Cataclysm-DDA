@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GENERIC_FACTORY_H
-#define GENERIC_FACTORY_H
+#ifndef CATA_SRC_GENERIC_FACTORY_H
+#define CATA_SRC_GENERIC_FACTORY_H
 
 #include <algorithm>
 #include <bitset>
@@ -986,4 +986,4 @@ inline bool legacy_volume_reader( const JsonObject &jo, const std::string &membe
     return true;
 }
 
-#endif
+#endif // CATA_SRC_GENERIC_FACTORY_H

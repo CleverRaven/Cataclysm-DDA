@@ -33,6 +33,7 @@
 #include "colony.h"
 #include "flat_set.h"
 #include "point.h"
+#include "inventory_ui.h" // auto inventory blocking
 
 static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
 static const std::string flag_LEAK_DAM( "LEAK_DAM" );
@@ -858,15 +859,15 @@ item *inventory::most_appropriate_painkiller( int pain )
         int diff = 9999;
         itype_id type = elem.front().typeId();
         if( type == "aspirin" ) {
-            diff = abs( pain - 15 );
+            diff = std::abs( pain - 15 );
         } else if( type == "codeine" ) {
-            diff = abs( pain - 30 );
+            diff = std::abs( pain - 30 );
         } else if( type == "oxycodone" ) {
-            diff = abs( pain - 60 );
+            diff = std::abs( pain - 60 );
         } else if( type == "heroin" ) {
-            diff = abs( pain - 100 );
+            diff = std::abs( pain - 100 );
         } else if( type == "tramadol" ) {
-            diff = abs( pain - 40 ) / 2; // Bonus since it's long-acting
+            diff = std::abs( pain - 40 ) / 2; // Bonus since it's long-acting
         }
 
         if( diff < difference ) {
@@ -1036,9 +1037,18 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
         }
     }
     if( cur_inv.count() < inv_chars.size() ) {
+        // XXX YUCK I don't know how else to get the keybindings
+        // FIXME: Find a better way to get bound keys
+        avatar &u = g->u;
+        inventory_selector selector( u );
+
         for( const auto &inv_char : inv_chars ) {
             if( assigned_invlet.count( inv_char ) ) {
                 // don't overwrite assigned keys
+                continue;
+            }
+            if( !selector.action_bound_to_key( inv_char ).empty() ) {
+                // don't auto-assign bound keys
                 continue;
             }
             if( !cur_inv[inv_char] ) {

@@ -18,7 +18,7 @@
       "RELOAD_AND_SHOOT"
     ],
     "skill": "pistol",
-    "ammo": "barb",
+    "ammo": [ "barb" ],
     "clip_size": 1,
     "weight": "540 g",
     "volume": "750ml",

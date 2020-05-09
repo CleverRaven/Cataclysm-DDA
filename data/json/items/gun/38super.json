@@ -4,7 +4,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "AF2011A1 .38 Super", "str_pl": "AF2011A1 .38 Super" },
+    "name": { "str_sp": "AF2011A1 .38 Super" },
     "description": "A double-barrel semi-automatic pistol of Italian origin, firing two bullets per shot, a derivative of the M1911 pistol.",
     "weight": "2041 g",
     "volume": "716 ml",
@@ -14,7 +14,7 @@
     "bashing": 12,
     "material": "steel",
     "color": "light_gray",
-    "ammo": "38super",
+    "ammo": [ "38super" ],
     "dispersion": 520,
     "durability": 7,
     "min_cycle_recoil": 225,
@@ -34,7 +34,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
     "magazines": [ [ "38super", [ "af2011a1mag" ] ] ]
   },
   {
@@ -53,10 +52,9 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "38super",
+    "ammo": [ "38super" ],
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
     "magazines": [ [ "38super", [ "m1911mag_10rd_38super" ] ] ]
   }
 ]

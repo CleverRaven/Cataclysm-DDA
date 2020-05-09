@@ -26,6 +26,7 @@
     "weight": "6 g",
     "volume": "10ml",
     "price": 10,
+    "price_postapoc": 10,
     "material": "cotton",
     "symbol": ",",
     "color": "light_gray",

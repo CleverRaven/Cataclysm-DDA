@@ -1,5 +1,5 @@
-#ifndef CATA_TOOLS_CLANG_TIDY_TEXTSTYLECHECK_H
-#define CATA_TOOLS_CLANG_TIDY_TEXTSTYLECHECK_H
+#ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_TEXTSTYLECHECK_H
+#define CATA_TOOLS_CLANG_TIDY_PLUGIN_TEXTSTYLECHECK_H
 
 #include <ClangTidyOptions.h>
 #include <clang/ASTMatchers/ASTMatchFinder.h>
@@ -33,4 +33,4 @@ class TextStyleCheck : public ClangTidyCheck
 } // namespace tidy
 } // namespace clang
 
-#endif // CATA_TOOLS_CLANG_TIDY_TEXTSTYLECHECK_H
+#endif // CATA_TOOLS_CLANG_TIDY_PLUGIN_TEXTSTYLECHECK_H

@@ -8,6 +8,7 @@
     "volume": "250 ml",
     "integral_volume": "250 ml",
     "price": 480,
+    "price_postapoc": 10,
     "material": "cotton",
     "symbol": ":",
     "color": "green",

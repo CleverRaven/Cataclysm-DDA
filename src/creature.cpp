@@ -126,6 +126,7 @@ void Creature::reset_bonuses()
 
     armor_bash_bonus = 0;
     armor_cut_bonus = 0;
+    armor_bullet_bonus = 0;
 
     speed_bonus = 0;
     dodge_bonus = 0;
@@ -151,6 +152,8 @@ void Creature::process_turn()
     reset_bonuses();
 
     process_effects();
+
+    process_damage_over_time();
 
     // Call this in case any effects have changed our stats
     reset_stats();
@@ -222,8 +225,8 @@ bool Creature::sees( const Creature &critter ) const
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
                ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
-                 !( abs( posx() - critter.posx() ) <= 1 && abs( posy() - critter.posy() ) <= 1 &&
-                    abs( posz() - critter.posz() ) <= 1 ) ) ) {
+                 !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
+                    std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
     if( ch != nullptr ) {
@@ -421,7 +424,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         bool maybe_boo = false;
         if( angle_iff ) {
             int tangle = coord_to_angle( pos(), m->pos() );
-            int diff = abs( u_angle - tangle );
+            int diff = std::abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
@@ -509,7 +512,8 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    body_part bp_hit = select_body_part( source, hit_spread );
+    bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    const body_part bp_token = bp_hit->token;
     block_hit( source, bp_hit, d );
 
     // Bashing critical
@@ -542,7 +546,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
 
     on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d );
-    dealt_dam.bp_hit = bp_hit;
+    dealt_dam.bp_hit = bp_token;
 }
 
 /**
@@ -686,7 +690,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    dealt_dam = deal_damage( source, bp_hit, impact );
+    const bodypart_id bp_hit_id = convert_bp( bp_hit ).id();
+    dealt_dam = deal_damage( source, bp_hit_id, impact );
     dealt_dam.bp_hit = bp_hit;
 
     // Apply ammo effects to target.
@@ -817,7 +822,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     attack.missed_by = goodhit;
 }
 
-dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
+dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam )
 {
     if( is_dead_state() ) {
@@ -828,7 +833,6 @@ dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-
     absorb_hit( bp, d );
 
     // Add up all the damage units dealt
@@ -846,7 +850,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, body_part bp,
     apply_damage( source, bp, total_damage );
     return dealt_dams;
 }
-void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                         int &pain )
 {
     // Handles ACIDPROOF, electric immunity etc.
@@ -871,7 +875,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp );
+                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp->token );
             }
             break;
 
@@ -893,6 +897,10 @@ void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
+}
+
+void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
+{
 }
 
 /*
@@ -1051,7 +1059,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
         return false;
     }
 
-    if( dice( strength, 3 ) > dice( get_env_resist( vector ), 3 ) ) {
+    if( dice( strength, 3 ) > dice( get_env_resist( convert_bp( vector ).id() ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
         add_effect( eff_id, dur, bp, permanent, intensity, true );
@@ -1351,25 +1359,33 @@ int Creature::get_num_dodges_base() const
 }
 
 // currently this is expected to be overridden to actually have use
-int Creature::get_env_resist( body_part ) const
+int Creature::get_env_resist( bodypart_id ) const
 {
     return 0;
 }
-int Creature::get_armor_bash( body_part ) const
+int Creature::get_armor_bash( bodypart_id ) const
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut( body_part ) const
+int Creature::get_armor_cut( bodypart_id ) const
 {
     return armor_cut_bonus;
 }
-int Creature::get_armor_bash_base( body_part ) const
+int Creature::get_armor_bullet( bodypart_id ) const
+{
+    return armor_bullet_bonus;
+}
+int Creature::get_armor_bash_base( bodypart_id ) const
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut_base( body_part ) const
+int Creature::get_armor_cut_base( bodypart_id ) const
 {
     return armor_cut_bonus;
+}
+int Creature::get_armor_bullet_base( bodypart_id ) const
+{
+    return armor_bullet_bonus;
 }
 int Creature::get_armor_bash_bonus() const
 {
@@ -1379,6 +1395,11 @@ int Creature::get_armor_cut_bonus() const
 {
     return armor_cut_bonus;
 }
+int Creature::get_armor_bullet_bonus() const
+{
+    return armor_bullet_bonus;
+}
+
 
 int Creature::get_speed() const
 {
@@ -1516,6 +1537,10 @@ void Creature::set_armor_bash_bonus( int nbasharm )
 void Creature::set_armor_cut_bonus( int ncutarm )
 {
     armor_cut_bonus = ncutarm;
+}
+void Creature::set_armor_bullet_bonus( int nbulletarm )
+{
+    armor_bullet_bonus = nbulletarm;
 }
 
 void Creature::set_speed_base( int nspeed )
@@ -1662,6 +1687,31 @@ body_part Creature::select_body_part( Creature *source, int hit_roll ) const
     add_msg( m_debug, "difference = %d", szdif );
 
     return human_anatomy->select_body_part( szdif, hit_roll )->token;
+}
+
+void Creature::add_damage_over_time( const damage_over_time_data &DoT )
+{
+    damage_over_time_map.emplace_back( DoT );
+}
+
+void Creature::process_damage_over_time()
+{
+    for( auto DoT = damage_over_time_map.begin(); DoT != damage_over_time_map.end(); ) {
+        if( DoT->duration > 0_turns ) {
+            for( const bodypart_str_id &bp : DoT->bps ) {
+                const int dmg_amount = DoT->amount;
+                if( dmg_amount < 0 ) {
+                    heal_bp( bp.id(), -dmg_amount );
+                } else {
+                    deal_damage( nullptr, bp.id(), damage_instance( DoT->type, dmg_amount ) );
+                }
+            }
+            DoT->duration -= 1_turns;
+            ++DoT;
+        } else {
+            damage_over_time_map.erase( DoT );
+        }
+    }
 }
 
 void Creature::check_dead_state()

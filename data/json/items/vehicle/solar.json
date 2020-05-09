@@ -13,7 +13,8 @@
     "bashing": 1,
     "flags": [ "NO_REPAIR" ],
     "category": "veh_parts",
-    "price": 90000
+    "price": 90000,
+    "price_postapoc": 1000
   },
   {
     "type": "GENERIC",
@@ -25,6 +26,7 @@
     "material": [ "glass", "steel" ],
     "volume": "6500 ml",
     "price": 120000,
+    "price_postapoc": 1500,
     "copy-from": "solar_panel"
   },
   {
@@ -35,6 +37,7 @@
     "weight": "18494 g",
     "volume": "4500 ml",
     "price": 190000,
+    "price_postapoc": 3000,
     "copy-from": "solar_panel"
   },
   {
@@ -46,6 +49,7 @@
     "to_hit": -5,
     "volume": "7500 ml",
     "price": 240000,
+    "price_postapoc": 3500,
     "copy-from": "reinforced_solar_panel"
   },
   {
@@ -58,6 +62,7 @@
     "volume": "250 ml",
     "category": "spare_parts",
     "price": 5000,
+    "price_postapoc": 100,
     "copy-from": "solar_panel"
   }
 ]

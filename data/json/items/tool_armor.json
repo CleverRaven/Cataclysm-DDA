@@ -7,6 +7,7 @@
     "weight": "300 g",
     "volume": "1 L",
     "price": 20000,
+    "price_postapoc": 50,
     "material": [ "wood", "cotton" ],
     "symbol": "[",
     "looks_like": "armguard_hard",
@@ -28,6 +29,7 @@
     "weight": "600 g",
     "volume": "2 L",
     "price": 25000,
+    "price_postapoc": 50,
     "encumbrance": 140,
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
@@ -40,6 +42,7 @@
     "weight": "72 g",
     "volume": "250 ml",
     "price": 600,
+    "price_postapoc": 10,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "scarf",
@@ -60,6 +63,7 @@
     "weight": "10 g",
     "volume": "10 ml",
     "price": 10,
+    "price_postapoc": 50,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -75,6 +79,7 @@
     "weight": "18043 g",
     "volume": "35750 ml",
     "price": 100000,
+    "price_postapoc": 1000,
     "to_hit": -5,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
@@ -106,6 +111,7 @@
     "weight": "500 g",
     "volume": "1 L",
     "price": 20000,
+    "price_postapoc": 50,
     "material": [ "wood", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -126,6 +132,7 @@
     "weight": "1000 g",
     "volume": "2 L",
     "price": 25000,
+    "price_postapoc": 50,
     "encumbrance": 140,
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
@@ -139,6 +146,7 @@
     "description": "This is a mining helmet with a heavy-duty LED flashlight.  Using this will turn the flashlight on and provide light, assuming it is charged with batteries.",
     "flags": [ "WATERPROOF" ],
     "price": 12500,
+    "price_postapoc": 250,
     "material": [ "plastic" ],
     "weight": "1196 g",
     "volume": "3 L",
@@ -172,8 +180,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "miner_hat_on",
@@ -187,8 +194,7 @@
     "revert_to": "miner_hat",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "miner_hat" },
     "covers": [ "HEAD" ],
-    "techniques": [ "WBLOCK_1" ],
-    "magazine_well": 1
+    "techniques": [ "WBLOCK_1" ]
   },
   {
     "id": "welding_mask",
@@ -199,6 +205,7 @@
     "weight": "1 kg",
     "volume": "4 L",
     "price": 1400,
+    "price_postapoc": 500,
     "to_hit": -3,
     "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "welding_mask_raised", "menu_text": "Raise" },
     "material": [ "plastic" ],
@@ -220,6 +227,7 @@
     "weight": "4 kg",
     "volume": "4 L",
     "price": 1000,
+    "price_postapoc": 100,
     "to_hit": -3,
     "use_action": {
       "type": "transform",
@@ -246,6 +254,7 @@
     "weight": "4 kg",
     "volume": "4 L",
     "price": 1000,
+    "price_postapoc": 100,
     "to_hit": -3,
     "use_action": {
       "type": "transform",
@@ -270,6 +279,7 @@
     "weight": "1 kg",
     "volume": "4 L",
     "price": 1400,
+    "price_postapoc": 500,
     "to_hit": -3,
     "use_action": {
       "type": "transform",
@@ -298,6 +308,7 @@
     "color": "light_gray",
     "covers": [ "HAND_EITHER" ],
     "price": 6000,
+    "price_postapoc": 100,
     "material": [ "plastic" ],
     "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
     "coverage": 15,
@@ -318,6 +329,7 @@
     "color": "light_gray",
     "covers": [ "HAND_EITHER" ],
     "price": 5000,
+    "price_postapoc": 100,
     "material": [ "plastic" ],
     "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
     "coverage": 15,
@@ -332,6 +344,7 @@
     "weight": "1552 g",
     "volume": "3500 ml",
     "price": 5500000,
+    "price_postapoc": 10000,
     "to_hit": -1,
     "material": [ "superalloy" ],
     "symbol": "[",
@@ -361,6 +374,7 @@
     "symbol": "[",
     "description": "A high-crowned, wide-brimmed, sable colored fedora.  Its brim helps keep the sun out of your eyes.  The perfect hat for treasure hunting.",
     "price": 7500,
+    "price_postapoc": 100,
     "material": [ "leather" ],
     "volume": "1750 ml",
     "warmth": 7,
@@ -380,6 +394,7 @@
     "description": "This is a pair of socks with internal battery-powered heating elements.  Use it to turn it on.",
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "price": 5000,
+    "price_postapoc": 100,
     "material": [ "cotton" ],
     "weight": "182 g",
     "volume": "750 ml",
@@ -410,8 +425,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "thermal_socks_on",
@@ -424,8 +438,7 @@
     "power_draw": 7500,
     "revert_to": "thermal_socks",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_socks" },
-    "warmth": 60,
-    "magazine_well": 1
+    "warmth": 60
   },
   {
     "id": "thermal_suit",
@@ -437,6 +450,7 @@
     "description": "This is a full-body suit of thin thermal underwear equipped with internal battery-powered heating elements.  Use it to turn it on.",
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "price": 15000,
+    "price_postapoc": 500,
     "material": [ "cotton" ],
     "weight": "864 g",
     "volume": "2 L",
@@ -467,8 +481,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "thermal_suit_on",
@@ -481,8 +494,7 @@
     "power_draw": 120000,
     "revert_to": "thermal_suit",
     "warmth": 60,
-    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_suit" },
-    "magazine_well": 1
+    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_suit" }
   },
   {
     "id": "thermal_gloves",
@@ -494,6 +506,7 @@
     "description": "This is a pair of gloves with internal battery-powered heating elements.  Use it to turn it on.",
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "price": 5000,
+    "price_postapoc": 100,
     "material": [ "cotton" ],
     "weight": "210 g",
     "volume": "750 ml",
@@ -524,8 +537,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "thermal_gloves_on",
@@ -538,8 +550,7 @@
     "power_draw": 7500,
     "revert_to": "thermal_gloves",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_gloves" },
-    "warmth": 60,
-    "magazine_well": 1
+    "warmth": 60
   },
   {
     "id": "thermal_mask",
@@ -551,6 +562,7 @@
     "description": "This is a snug cloth mask with internal battery-powered heating elements.  Use it to turn it on.",
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "price": 5000,
+    "price_postapoc": 250,
     "material": [ "cotton" ],
     "weight": "196 g",
     "volume": "1 L",
@@ -581,8 +593,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "thermal_mask_on",
@@ -595,8 +606,7 @@
     "power_draw": 7500,
     "revert_to": "thermal_mask",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_mask" },
-    "warmth": 60,
-    "magazine_well": 1
+    "warmth": 60
   },
   {
     "id": "binoculars",
@@ -607,6 +617,7 @@
     "name": { "str": "pair of binoculars", "str_pl": "pairs of binoculars" },
     "description": "A pair of optics with a neck strap attached.  Useful for seeing long distances.  Wearing this item or carrying it in your inventory will double the distance around you that is mapped during your travels.  You could also use them to focus the sunlight.",
     "price": 30000,
+    "price_postapoc": 500,
     "material": [ "plastic", "glass" ],
     "flags": [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "FIRESTARTER" ],
     "weight": "708 g",
@@ -628,6 +639,7 @@
     "name": { "str": "headlamp" },
     "description": "This is an LED headlamp with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
     "price": 4000,
+    "price_postapoc": 100,
     "material": [ "plastic", "aluminum" ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "weight": "520 g",
@@ -659,8 +671,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "wearable_light_on",
@@ -673,8 +684,7 @@
     "power_draw": 10000,
     "revert_to": "wearable_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" },
-    "covers": [ "HEAD" ],
-    "magazine_well": 1
+    "covers": [ "HEAD" ]
   },
   {
     "id": "survivor_light",
@@ -685,6 +695,7 @@
     "name": { "str": "survivor headlamp" },
     "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
     "price": 6500,
+    "price_postapoc": 250,
     "material": [ "plastic", "aluminum" ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "weight": "620 g",
@@ -716,8 +727,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "survivor_light_on",
@@ -730,8 +740,7 @@
     "power_draw": 10000,
     "revert_to": "survivor_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" },
-    "covers": [ "HEAD" ],
-    "magazine_well": 1
+    "covers": [ "HEAD" ]
   },
   {
     "id": "wearable_atomic_light",
@@ -743,6 +752,7 @@
     "name": { "str": "atomic headlamp" },
     "description": "This is a custom-made reinforced headlamp powered by the magic of nuclear decay, focused for more usable brightness.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to close the cover and hide the light.",
     "price": 4000,
+    "price_postapoc": 1500,
     "material": [ "steel", "plastic" ],
     "flags": [ "LIGHT_200", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "weight": "1 kg",
@@ -786,6 +796,7 @@
     "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  Use it to turn it on.",
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_RESIST" ],
     "price": 50000000,
+    "price_postapoc": 10000,
     "material": [ "ceramic", "kevlar" ],
     "weight": "6820 g",
     "volume": "9 L",
@@ -795,7 +806,6 @@
     "ammo": "plutonium",
     "use_action": "RM13ARMOR_OFF",
     "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "storage": "8 L",
     "warmth": 30,
     "environmental_protection": 15,
     "encumbrance": 30,
@@ -825,7 +835,6 @@
       "CLIMATE_CONTROL"
     ],
     "turns_per_charge": 18,
-    "charges_per_use": 0,
     "revert_to": "rm13_armor",
     "use_action": "RM13ARMOR_ON",
     "environmental_protection": 40,
@@ -843,6 +852,7 @@
     "looks_like": "chestguard_hard",
     "description": "A featureless, disc-shaped device mounted on a harness.  The words \"X.E.D.R.A\" and \"5-point anchor\" are inscribed on its front and back.",
     "price": 150000,
+    "price_postapoc": 8000,
     "material": [ "ceramic", "kevlar" ],
     "weight": "1250 g",
     "volume": "4500 ml",
@@ -893,10 +903,10 @@
     "looks_like": "rm13_armor",
     "description": "Covered in interlocking plates of reflective metal, this advanced suit resembles both plate armor and an astronaut's spacesuit.  Designed to protect its wearer during extra dimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  Use it to turn it on.",
     "price": 150000,
+    "price_postapoc": 15000,
     "material": [ "carbide" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "storage": "8 L",
     "ammo": "plutonium",
     "max_charges": 2500,
     "initial_charges": 1000,
@@ -972,6 +982,7 @@
     "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  Use it to turn it on.",
     "flags": [ "WATER_FRIENDLY" ],
     "price": 25000,
+    "price_postapoc": 500,
     "material": [ "plastic", "aluminum" ],
     "weight": "720 g",
     "volume": "500 ml",
@@ -1019,6 +1030,7 @@
     "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  This model has been expanded substantially and can accommodate exotic anatomy.  Use it to turn it on.",
     "flags": [ "WATER_FRIENDLY", "OVERSIZE" ],
     "price": 25000,
+    "price_postapoc": 500,
     "material": [ "plastic", "aluminum" ],
     "weight": "960 g",
     "volume": "1250 ml",
@@ -1066,6 +1078,7 @@
     "weight": "260 g",
     "volume": "500 ml",
     "price": 3500,
+    "price_postapoc": 250,
     "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": "[",
@@ -1092,6 +1105,7 @@
     "weight": "897 g",
     "volume": "1 L",
     "price": 4900,
+    "price_postapoc": 750,
     "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
@@ -1117,6 +1131,7 @@
     "weight": "1397 g",
     "volume": "1500 ml",
     "price": 25000,
+    "price_postapoc": 750,
     "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
@@ -1143,6 +1158,7 @@
     "weight": "708 g",
     "volume": "1250 ml",
     "price": 24000,
+    "price_postapoc": 1750,
     "to_hit": -3,
     "material": [ "kevlar", "nomex" ],
     "symbol": "[",
@@ -1170,6 +1186,7 @@
     "weight": "1108 g",
     "volume": "1250 ml",
     "price": 24000,
+    "price_postapoc": 1500,
     "to_hit": -3,
     "material": [ "kevlar", "nomex" ],
     "symbol": "[",
@@ -1199,6 +1216,7 @@
     "description": "A full-face mask commonly used by firefighters.  The protective breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It must be prepared before use.",
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ],
     "price": 100000,
+    "price_postapoc": 750,
     "material": [ "plastic", "nomex" ],
     "weight": "1260 g",
     "volume": "1500 ml",
@@ -1225,6 +1243,7 @@
     "weight": "1612 g",
     "volume": "1250 ml",
     "price": 24000,
+    "price_postapoc": 2000,
     "to_hit": -3,
     "max_charges": 100,
     "initial_charges": 100,
@@ -1252,6 +1271,7 @@
     "weight": "466 g",
     "volume": "1250 ml",
     "price": 24000,
+    "price_postapoc": 1500,
     "to_hit": -3,
     "max_charges": 100,
     "initial_charges": 100,
@@ -1280,6 +1300,7 @@
     "weight": "682 g",
     "volume": "1250 ml",
     "price": 24000,
+    "price_postapoc": 1750,
     "to_hit": -3,
     "max_charges": 100,
     "initial_charges": 100,
@@ -1307,6 +1328,7 @@
     "weight": "982 g",
     "volume": "1250 ml",
     "price": 24000,
+    "price_postapoc": 1500,
     "to_hit": -3,
     "max_charges": 100,
     "initial_charges": 100,
@@ -1334,6 +1356,7 @@
     "weight": "682 g",
     "volume": "1250 ml",
     "price": 24000,
+    "price_postapoc": 1750,
     "to_hit": -3,
     "max_charges": 100,
     "initial_charges": 100,
@@ -1361,6 +1384,7 @@
     "weight": "1062 g",
     "volume": "1250 ml",
     "price": 24000,
+    "price_postapoc": 1500,
     "to_hit": -3,
     "max_charges": 100,
     "initial_charges": 100,
@@ -1389,6 +1413,7 @@
     "description": "A pair of battery-powered goggles that amplify ambient light, allowing you to see in the dark.  Use it to turn them on.",
     "flags": [ "FRAGILE" ],
     "price": 92000,
+    "price_postapoc": 3500,
     "material": [ "plastic", "steel" ],
     "weight": "1020 g",
     "volume": "1 L",
@@ -1422,8 +1447,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "goggles_nv_on",
@@ -1438,8 +1462,7 @@
     "revert_to": "goggles_nv",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
     "warmth": 25,
-    "encumbrance": 20,
-    "magazine_well": 1
+    "encumbrance": 20
   },
   {
     "id": "goggles_ir",
@@ -1451,6 +1474,7 @@
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them on.",
     "flags": [ "FRAGILE" ],
     "price": 92000,
+    "price_postapoc": 2500,
     "material": [ "plastic", "steel" ],
     "weight": "1240 g",
     "volume": "1 L",
@@ -1484,8 +1508,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "goggles_ir_on",
@@ -1500,8 +1523,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
     "covers": [ "EYES" ],
     "warmth": 25,
-    "encumbrance": 20,
-    "magazine_well": 1
+    "encumbrance": 20
   },
   {
     "id": "wearable_rx12",
@@ -1512,6 +1534,7 @@
     "name": { "str": "wearable RX12 jet injector" },
     "description": "This is a modified RX12 jet injector which can be worn on the body.  A label on the side warns against using more than two doses per hour.",
     "price": 40000,
+    "price_postapoc": 1000,
     "material": [ "ceramic", "superalloy" ],
     "flags": [ "OVERSIZE" ],
     "weight": "364 g",
@@ -1528,9 +1551,10 @@
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
-    "name": { "str": "RX11 stimulant delivery system", "str_pl": "RX11 stimulant delivery system" },
+    "name": { "str_sp": "RX11 stimulant delivery system" },
     "description": "The Rivtech RX11 stimulant delivery system is a jet autoinjector system worn on the user's body.  A simple press of its activator injects powerful chemical stimulants into the bloodstream without using a needle.",
     "price": 40000,
+    "price_postapoc": 1000,
     "material": [ "superalloy", "kevlar_rigid" ],
     "flags": [ "OVERSIZE" ],
     "weight": "212 g",
@@ -1552,6 +1576,7 @@
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  It provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SWIM_GOGGLES" ],
     "price": 40000,
+    "price_postapoc": 2000,
     "material": [ "kevlar", "plastic" ],
     "weight": "982 g",
     "volume": "1500 ml",
@@ -1599,6 +1624,7 @@
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  It provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SWIM_GOGGLES", "OVERSIZE" ],
     "price": 40000,
+    "price_postapoc": 1500,
     "material": [ "kevlar", "plastic" ],
     "weight": "1302 g",
     "volume": "2 L",
@@ -1644,6 +1670,7 @@
     "name": { "str": "folded poncho" },
     "description": "A folded lightweight plastic rain poncho with a hood.  Use it to unfold for use.",
     "price": 5000,
+    "price_postapoc": 50,
     "material": "plastic",
     "weight": "280 g",
     "volume": "250 ml",
@@ -1659,6 +1686,7 @@
     "name": { "str": "unfolded poncho" },
     "description": "A lightweight plastic rain poncho with a hood.  Use it to fold for storage.",
     "price": 5000,
+    "price_postapoc": 50,
     "material": "plastic",
     "weight": "280 g",
     "volume": "1500 ml",
@@ -1680,6 +1708,7 @@
     "name": { "str": "folded emergency blanket" },
     "description": "A folded blanket made of space-age materials that covers your most important body parts.  Use it to unfold for use.",
     "price": 425,
+    "price_postapoc": 10,
     "material": "plastic",
     "weight": "622 g",
     "volume": "500 ml",
@@ -1694,6 +1723,7 @@
     "name": { "str": "emergency blanket" },
     "description": "A blanket made of space-age material that covers your most important body parts.  Use it to fold for storage.",
     "price": 425,
+    "price_postapoc": 10,
     "material": "plastic",
     "weight": "622 g",
     "volume": "2500 ml",
@@ -1717,6 +1747,7 @@
     "name": { "str": "radiation biomonitor" },
     "description": "A small battery-powered biometric safety device worn on the wrist.  Activate to check your current level of radiation exposure.",
     "price": 60000,
+    "price_postapoc": 1000,
     "material": [ "plastic", "aluminum" ],
     "weight": "68 g",
     "volume": "250 ml",
@@ -1737,29 +1768,27 @@
     "weight": "3390 g",
     "color": "brown",
     "covers": [ "TORSO" ],
-    "storage": "500 ml",
     "symbol": "[",
     "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "price": 50000,
+    "price_postapoc": 1000,
     "material": [ "leather", "iron" ],
     "volume": "4 L",
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
     "coverage": 15,
     "encumbrance": 4,
     "material_thickness": 2,
-    "use_action": [
+    "pocket_data": [
       {
-        "type": "holster",
-        "holster_prompt": "Sheath blade",
-        "holster_msg": "You sheath your %s",
-        "draw_cost": 3,
-        "min_volume": "250 ml",
-        "max_volume": "1 L",
-        "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-      },
-      "CROWBAR",
-      "HAMMER"
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      }
     ],
+    "use_action": [ { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" }, "CROWBAR", "HAMMER" ],
     "qualities": [
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],
@@ -1783,9 +1812,11 @@
     "name": { "str": "hairpin" },
     "description": "A plain hairpin to keep your hair in place.",
     "price": 50,
+    "price_postapoc": 25,
     "material": [ "iron" ],
     "weight": "2 g",
-    "use_action": { "type": "picklock", "pick_quality": 3 }
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "fc_hairpin",
@@ -1796,9 +1827,11 @@
     "name": { "str": "fancy hairpin" },
     "description": "A pink hairpin with cute flower textures.",
     "price": 1000,
+    "price_postapoc": 5,
     "material": [ "plastic" ],
     "weight": "4 g",
     "use_action": { "type": "picklock", "pick_quality": 1 },
+    "qualities": [ [ "LOCKPICK", 1 ] ],
     "flags": [ "FANCY" ]
   },
   {
@@ -1809,6 +1842,7 @@
     "name": { "str": "towel" },
     "description": "This is a fluffy and large towel.  It could be used to dry yourself.  Any person that can travel the length and breadth of the apocalypse, rough it, slum it, struggle against terrible odds, win through and still know where their towel is, is clearly a force to be reckoned with.",
     "price": 4500,
+    "price_postapoc": 10,
     "material": "cotton",
     "covers": [ "TORSO", "LEGS" ],
     "weight": "370 g",
@@ -1828,6 +1862,7 @@
     "name": { "str": "towel" },
     "description": "This is a large, sopping wet towel.  If you wait a little bit, it should dry out.  Don't panic.",
     "price": 2000,
+    "price_postapoc": 0,
     "material": "cotton",
     "covers": [ "TORSO", "LEGS" ],
     "weight": "400 g",
@@ -1848,6 +1883,7 @@
     "name": { "str": "soiled towel" },
     "description": "This is a large towel, covered in a thick, gooey liquid.  You'll need to wash it in some water to make it usable again.  Don't panic.",
     "price": 2000,
+    "price_postapoc": 0,
     "material": "cotton",
     "covers": [ "TORSO", "LEGS" ],
     "weight": "400 g",
@@ -1871,6 +1907,7 @@
     "symbol": "[",
     "description": "Straw fedora hat, comfortable and stylish.  Its brim helps keep the sun out of your eyes.",
     "price": 5000,
+    "price_postapoc": 50,
     "material": [ "paper" ],
     "volume": "1250 ml",
     "warmth": 5,
@@ -1889,6 +1926,7 @@
     "name": { "str": "simple patchwork scarf", "str_pl": "simple patchwork scarves" },
     "description": "A simple and light cloth scarf, worn over the mouth for warmth.  Use it to loosen it if you get too warm.",
     "price": 1000,
+    "price_postapoc": 50,
     "material": [ "cotton" ],
     "weight": "60 g",
     "volume": "500 ml",
@@ -1912,6 +1950,7 @@
     "name": { "str": "simple patchwork scarf (loose)", "str_pl": "simple patchwork scarves (loose)" },
     "description": "A simple and light cloth scarf, worn over the mouth for warmth.  Use it to wear it tighter if you get too cold.",
     "price": 1000,
+    "price_postapoc": 50,
     "material": [ "cotton" ],
     "weight": "60 g",
     "volume": "500 ml",
@@ -1935,6 +1974,7 @@
     "name": { "str": "long patchwork scarf", "str_pl": "long patchwork scarves" },
     "description": "A very long light cloth scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
     "price": 1500,
+    "price_postapoc": 100,
     "material": [ "cotton" ],
     "weight": "120 g",
     "volume": "1 L",
@@ -1958,6 +1998,7 @@
     "name": { "str": "long patchwork scarf (loose)", "str_pl": "long patchwork scarves (loose)" },
     "description": "A very long light cloth scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
     "price": 1500,
+    "price_postapoc": 100,
     "material": [ "cotton" ],
     "weight": "120 g",
     "volume": "1 L",
@@ -1986,6 +2027,7 @@
     "name": { "str": "knit scarf", "str_pl": "knit scarves" },
     "description": "A long knitted cotton scarf, worn over the mouth for warmth.  Use it to loosen it if you get too warm.",
     "price": 2000,
+    "price_postapoc": 100,
     "material": [ "cotton" ],
     "weight": "96 g",
     "volume": "750 ml",
@@ -2009,6 +2051,7 @@
     "name": { "str": "knit scarf (loose)", "str_pl": "knit scarves (loose)" },
     "description": "A long knitted cotton scarf, worn over the mouth for warmth.  Use it to wear it tighter if you get too cold.",
     "price": 2000,
+    "price_postapoc": 100,
     "material": [ "cotton" ],
     "weight": "96 g",
     "volume": "750 ml",
@@ -2032,6 +2075,7 @@
     "name": { "str": "long knit scarf", "str_pl": "long knit scarves" },
     "description": "A really long knitted cotton scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
     "price": 3000,
+    "price_postapoc": 100,
     "material": [ "cotton" ],
     "weight": "192 g",
     "volume": "1250 ml",
@@ -2055,6 +2099,7 @@
     "name": { "str": "long knit scarf (loose)", "str_pl": "long knit scarves (loose)" },
     "description": "A really long knitted cotton scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
     "price": 3000,
+    "price_postapoc": 100,
     "material": [ "cotton" ],
     "weight": "192 g",
     "volume": "1250 ml",
@@ -2078,6 +2123,7 @@
     "name": { "str": "wool scarf", "str_pl": "wool scarves" },
     "description": "A long wool scarf, worn over the mouth for warmth.  Use it to loosen it if you get too warm.",
     "price": 3800,
+    "price_postapoc": 50,
     "material": [ "wool" ],
     "weight": "80 g",
     "volume": "750 ml",
@@ -2101,6 +2147,7 @@
     "name": { "str": "wool scarf (loose)", "str_pl": "wool scarves (loose)" },
     "description": "A long wool scarf, worn over the mouth for warmth.  Use it to wear it tighter if you get too cold.",
     "price": 3800,
+    "price_postapoc": 50,
     "material": [ "wool" ],
     "weight": "80 g",
     "volume": "750 ml",
@@ -2124,6 +2171,7 @@
     "name": { "str": "long wool scarf", "str_pl": "long wool scarves" },
     "description": "A really long wool scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
     "price": 4500,
+    "price_postapoc": 100,
     "material": [ "wool" ],
     "weight": "160 g",
     "volume": "1250 ml",
@@ -2147,6 +2195,7 @@
     "name": { "str": "long wool scarf (loose)", "str_pl": "long wool scarves (loose)" },
     "description": "A really long wool scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
     "price": 4500,
+    "price_postapoc": 100,
     "material": [ "wool" ],
     "weight": "160 g",
     "volume": "1250 ml",
@@ -2170,6 +2219,7 @@
     "name": { "str": "fur scarf", "str_pl": "fur scarves" },
     "description": "A long fur scarf, worn over the mouth for warmth.  Use it to loosen it if you get too warm.",
     "price": 9000,
+    "price_postapoc": 250,
     "material": [ "fur" ],
     "weight": "140 g",
     "volume": "1 L",
@@ -2193,6 +2243,7 @@
     "name": { "str": "fur scarf (loose)", "str_pl": "fur scarves (loose)" },
     "description": "A long fur scarf, worn over the mouth for warmth.  Use it to wear it tighter if you get too cold.",
     "price": 9000,
+    "price_postapoc": 250,
     "material": [ "fur" ],
     "weight": "140 g",
     "volume": "1 L",
@@ -2216,6 +2267,7 @@
     "name": { "str": "long fur scarf", "str_pl": "long fur scarves" },
     "description": "A really long fur scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
     "price": 17700,
+    "price_postapoc": 300,
     "material": [ "fur" ],
     "weight": "280 g",
     "volume": "2 L",
@@ -2239,6 +2291,7 @@
     "name": { "str": "long fur scarf (loose)", "str_pl": "long fur scarves (loose)" },
     "description": "A really long fur scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
     "price": 17700,
+    "price_postapoc": 300,
     "material": [ "fur" ],
     "weight": "280 g",
     "volume": "2 L",
@@ -2262,6 +2315,7 @@
     "description": "This suit of thin thermal underwear covers you from head to toe and is equipped with internal battery-powered heating elements.  Use it to turn it on.",
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "price": 30000,
+    "price_postapoc": 750,
     "material": [ "cotton" ],
     "weight": "1452 g",
     "volume": "4500 ml",
@@ -2284,8 +2338,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "thermal_outfit_on",
@@ -2299,8 +2352,7 @@
     "revert_to": "thermal_outfit",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_outfit" },
     "covers": [ "HEAD", "MOUTH", "TORSO", "ARMS", "LEGS", "HANDS", "FEET" ],
-    "warmth": 60,
-    "magazine_well": 2
+    "warmth": 60
   },
   {
     "type": "TOOL_ARMOR",
@@ -2319,6 +2371,7 @@
     "symbol": "[",
     "description": "A warm wool mask that protects the head and face from cold.  It has a full face opening that can be adjusted to set how much is exposed.",
     "price": 1800,
+    "price_postapoc": 250,
     "material": [ "wool" ],
     "volume": "250 ml",
     "warmth": 50,
@@ -2346,6 +2399,7 @@
     "symbol": "[",
     "description": "A warm wool mask that protects the head and face from cold.  It has a full face opening that can be adjusted to set how much is exposed.",
     "price": 1800,
+    "price_postapoc": 250,
     "material": [ "wool" ],
     "volume": "250 ml",
     "warmth": 30,
@@ -2364,6 +2418,7 @@
     "to_hit": -1,
     "color": "light_gray",
     "price": 200,
+    "price_postapoc": 50,
     "material": [ "steel", "cotton" ],
     "flags": [ "WATER_FRIENDLY" ],
     "coverage": 1,
@@ -2403,6 +2458,7 @@
     "symbol": "-",
     "description": "A harmonica with a holder, so that you can play it without a free hand.",
     "price": 1000,
+    "price_postapoc": 150,
     "material": [ "steel" ],
     "volume": "250 ml",
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
@@ -2436,6 +2492,7 @@
     "symbol": "-",
     "description": "A simple wooden acoustic guitar with a strap so you can wear it around, even when not playing.",
     "price": 1000,
+    "price_postapoc": 250,
     "material": [ "wood" ],
     "volume": "6750 ml",
     "warmth": 2,
@@ -2477,7 +2534,7 @@
     "symbol": "-",
     "description": "A standard factory-made electric guitar.  It's probably better at smashing heads than melting faces, these days.  Has a strap.",
     "price": 1000,
-    "price_postapoc": 500,
+    "price_postapoc": 250,
     "//": "Electric guitar less awesome when there's no electricity.",
     "material": [ "wood", "iron" ],
     "volume": "6750 ml",
@@ -2491,7 +2548,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "bagpipes",
-    "name": { "str": "bagpipes", "str_pl": "bagpipes" },
+    "name": { "str_sp": "bagpipes" },
     "category": "tools",
     "weight": "2300 g",
     "color": "green",
@@ -2520,6 +2577,7 @@
     "symbol": "-",
     "description": "A traditional musical instrument using enclosed reeds fed from a reservoir of air contained within a leather bag.  It has a strap so you can wear it around, even when not playing.",
     "price": 10000,
+    "price_postapoc": 500,
     "material": [ "leather", "wood" ],
     "volume": "4 L",
     "encumbrance": 15,
@@ -2556,6 +2614,7 @@
       "str": "A big ol' tuba.  Much easier to play when wearing."
     },
     "price": 5500,
+    "price_postapoc": 250,
     "material": [ "iron" ],
     "volume": "12500 ml",
     "encumbrance": 30,
@@ -2566,7 +2625,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "saxophone",
-    "name": { "str": "saxophone", "str_pl": "saxophones" },
+    "name": { "str": "saxophone" },
     "category": "tools",
     "weight": "2000 g",
     "color": "yellow",
@@ -2596,6 +2655,7 @@
     "symbol": "{",
     "description": "A brass alto saxophone with a neck strap, so you can wear it while playing.",
     "price": 7500,
+    "price_postapoc": 250,
     "material": [ "brass" ],
     "volume": "4500 ml",
     "encumbrance": 30,
@@ -2609,10 +2669,11 @@
     "category": "armor",
     "symbol": "[",
     "color": "blue",
-    "name": { "str": "shooter's earmuffs", "str_pl": "shooter's earmuffs" },
+    "name": { "str_sp": "shooter's earmuffs" },
     "description": "A pair of earmuffs favored by shooters.  Without batteries or when turned off they function like normal earmuffs and block all sound.  They will block sounds over a certain decibel amount when turned on.  The earmuffs are currently off.",
     "flags": [ "DEAF", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "price": 12500,
+    "price_postapoc": 750,
     "material": [ "plastic" ],
     "weight": "179 g",
     "volume": "1 L",
@@ -2644,8 +2705,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "powered_earmuffs_on",
@@ -2654,10 +2714,11 @@
     "category": "armor",
     "symbol": "[",
     "color": "blue",
-    "name": { "str": "shooter's earmuffs", "str_pl": "shooter's earmuffs" },
+    "name": { "str_sp": "shooter's earmuffs" },
     "description": "A pair of earmuffs favored by shooters.  The earmuffs are turned on.  They will block sounds over a certain decibel amount, assuming it is charged with batteries.",
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "PARTIAL_DEAF" ],
     "price": 12500,
+    "price_postapoc": 750,
     "material": [ "plastic" ],
     "weight": "179 g",
     "volume": "1 L",
@@ -2670,8 +2731,7 @@
     "warmth": 5,
     "encumbrance": 5,
     "coverage": 10,
-    "material_thickness": 2,
-    "magazine_well": 1
+    "material_thickness": 2
   },
   {
     "id": "stethoscope",
@@ -2681,6 +2741,7 @@
     "name": { "str": "stethoscope" },
     "description": "This is a medical listening tool.  Use it to listen to things.  Closely.",
     "price": 4000,
+    "price_postapoc": 500,
     "material": [ "plastic", "aluminum" ],
     "weight": "150 g",
     "volume": "250 ml",
@@ -2697,6 +2758,7 @@
     "name": { "str": "makeshift stethoscope" },
     "description": "This is a relatively cumbersome DIY child's medical listening toy.  Use it to listen to things.  Closely.",
     "price": 500,
+    "price_postapoc": 100,
     "material": [ "plastic" ],
     "weight": "400 g",
     "volume": "500 ml",
@@ -2713,6 +2775,7 @@
     "weight": "7500 g",
     "volume": "5 L",
     "price": 500000,
+    "price_postapoc": 1500,
     "bashing": 10,
     "to_hit": -1,
     "material": [ "glass", "steel" ],
@@ -2734,6 +2797,7 @@
     "weight": "7500 g",
     "volume": "15 L",
     "price": 500000,
+    "price_postapoc": 1500,
     "bashing": 4,
     "to_hit": -2,
     "material": [ "glass", "steel" ],
@@ -2758,6 +2822,7 @@
     "weight": "2260 g",
     "volume": "2250 ml",
     "price": 22000,
+    "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
@@ -2783,6 +2848,7 @@
     "weight": "2260 g",
     "volume": "2250 ml",
     "price": 22000,
+    "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
@@ -2807,6 +2873,7 @@
     "weight": "16000 g",
     "volume": "12 L",
     "price": 6000,
+    "price_postapoc": 500,
     "to_hit": -4,
     "bashing": 10,
     "material": [ "steel", "plastic" ],
@@ -2835,6 +2902,7 @@
     "weight": "16000 g",
     "volume": "12 L",
     "price": 6000,
+    "price_postapoc": 500,
     "to_hit": -4,
     "bashing": 10,
     "material": [ "steel", "plastic" ],
@@ -2863,6 +2931,7 @@
     "weight": "7000 g",
     "volume": "4 L",
     "price": 4000,
+    "price_postapoc": 250,
     "to_hit": -3,
     "bashing": 6,
     "material": [ "aluminum", "plastic" ],
@@ -2891,6 +2960,7 @@
     "weight": "7000 g",
     "volume": "4 L",
     "price": 4000,
+    "price_postapoc": 250,
     "to_hit": -3,
     "bashing": 6,
     "material": [ "aluminum", "plastic" ],
@@ -2917,6 +2987,7 @@
     "weight": "1123 g",
     "volume": "2500 ml",
     "price": 5500,
+    "price_postapoc": 250,
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -2943,8 +3014,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "electric_blanket_on",
@@ -2956,8 +3026,7 @@
     "warmth": 90,
     "power_draw": 100000,
     "revert_to": "electric_blanket",
-    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" },
-    "magazine_well": 2
+    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" }
   },
   {
     "id": "foodperson_mask",
@@ -2968,6 +3037,7 @@
     "weight": "1500 g",
     "volume": "16L",
     "price": 1500,
+    "price_postapoc": 10,
     "to_hit": -3,
     "material": [ "cotton", "plastic" ],
     "symbol": "Q",
@@ -2995,7 +3065,6 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
     "flags": [ "OUTER", "SUN_GLASSES" ]
   },
   {

@@ -90,12 +90,15 @@
       { "item": "seasoning_italian", "prob": 25 },
       { "item": "seasoning_salt", "prob": 25 },
       { "item": "cookbook_italian", "prob": 25 },
+      { "item": "cookbook_daintydishes", "prob": 20 },
+      { "item": "cookbook_liverforkids", "prob": 12 },
       { "item": "family_cookbook", "prob": 6 },
       { "item": "brewing_cookbook", "prob": 4 },
       { "group": "ketchup_sealed_rng", "prob": 35 },
       { "group": "mustard_sealed_rng", "prob": 35 },
       { "item": "soysauce", "prob": 25 },
       { "item": "horseradish", "prob": 15 },
+      { "item": "spread_peanutbutter", "prob": 10 },
       { "item": "honey_bottled", "prob": 35 },
       { "item": "honey_glassed", "prob": 35 }
     ]
@@ -243,7 +246,8 @@
       { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "group": "big_canned_food", "prob": 4 }
+      { "group": "big_canned_food", "prob": 4 },
+      { "group": "teabag_box", "prob": 20 }
     ]
   },
   {
@@ -313,7 +317,7 @@
       { "item": "wheat", "prob": 3 },
       { "item": "onion", "prob": 3 },
       { "item": "garlic", "prob": 3 },
-      { "item": "pine_nuts", "prob": 2 },
+      { "item": "pine_nuts", "prob": 10 },
       { "item": "carrot", "prob": 3 },
       { "item": "bell_pepper", "prob": 7 }
     ]
@@ -382,7 +386,7 @@
       { "item": "blackberries", "prob": 7 },
       { "item": "cholla_bud", "prob": 3 },
       { "item": "garlic", "prob": 3 },
-      { "item": "pine_nuts", "prob": 2 }
+      { "item": "pine_nuts", "prob": 10 }
     ]
   },
   {
@@ -445,6 +449,7 @@
     "entries": [
       { "group": "candy_chocolate", "prob": 620 },
       { "group": "salty_snacks", "prob": 595 },
+      { "item": "foodplace_snack_bar", "prob": 5 },
       { "item": "pemmican", "prob": 5 },
       { "item": "granola", "prob": 10 },
       { "item": "cookies", "prob": 80 },
@@ -457,7 +462,8 @@
       { "item": "coffee_syrup", "prob": 10 },
       { "item": "fruit_leather", "prob": 25 },
       { "item": "kernels", "prob": 25 },
-      { "item": "pine_nuts", "prob": 5 }
+      { "item": "pine_nuts", "prob": 20 },
+      { "group": "teabag_box", "prob": 10 }
     ]
   },
   {
@@ -472,7 +478,7 @@
       { "item": "mintpatties", "prob": 8 },
       { "item": "choco_coffee_beans", "prob": 8 },
       { "item": "fruit_leather", "prob": 15 },
-      { "item": "pine_nuts", "prob": 4 }
+      { "item": "pine_nuts", "prob": 20 }
     ]
   },
   {
@@ -499,6 +505,7 @@
       { "item": "yoghurt", "prob": 40 },
       { "item": "pudding", "prob": 50 },
       { "item": "V8", "prob": 15 },
+      { "item": "foodplace_food", "prob": 8 },
       { "item": "sandwich_t", "prob": 30 },
       { "item": "sandwich_pb", "prob": 30 },
       { "item": "sandwich_pbj", "prob": 30 },
@@ -566,6 +573,8 @@
       { "item": "mre_chilimac_box" },
       { "item": "mre_veggy_box" },
       { "item": "mre_macaronimarinara_box" },
+      { "item": "mre_sfettuccine_box" },
+      { "item": "mre_ratatouille_box" },
       { "item": "mre_cheesetort_box" },
       { "item": "mre_mushroomfettuccine_box" },
       { "item": "mre_mexicanchickenstew_box" },
@@ -761,6 +770,7 @@
       { "item": "cheeseburger", "prob": 35 },
       { "item": "hotdogs_frozen", "prob": 12 },
       { "item": "hotdogs_cooked", "prob": 35 },
+      { "item": "foodplace_food", "prob": 8 },
       { "item": "chili", "prob": 20 },
       { "item": "chilidogs", "prob": 20 },
       { "item": "fries", "prob": 80 },
@@ -776,7 +786,17 @@
       { "item": "restaurantmap", "prob": 5 },
       { "item": "touristmap", "prob": 2 },
       { "item": "noodles_fast", "prob": 30 },
-      { "item": "milkshake_fastfood", "prob": 15 }
+      { "item": "milkshake_fastfood", "prob": 15 },
+      { "group": "teabag_box", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "teabag_box",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tea_bag", "prob": 20, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "herbal_tea_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }
     ]
   }
 ]

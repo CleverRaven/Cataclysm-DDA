@@ -290,7 +290,7 @@ static time_info get_time() noexcept
     const auto current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( lround( tv.tv_usec / 1000.0 ) )
+                       static_cast<int>( std::lround( tv.tv_usec / 1000.0 ) )
                      };
 }
 #endif
@@ -1279,9 +1279,10 @@ std::string game_info::game_report()
 
     std::string lang = get_option<std::string>( "USE_LANG" );
     std::string lang_translated;
-    for( const options_manager::id_and_option &vItem : options_manager::lang_options ) {
+    for( const options_manager::id_and_option &vItem : options_manager::get_lang_options() ) {
         if( vItem.first == lang ) {
             lang_translated = vItem.second.translated();
+            break;
         }
     }
 

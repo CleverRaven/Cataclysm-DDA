@@ -50,16 +50,16 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     g->clear_zombies();
     item &test_item = dummy.i_add( item( "bot_manhack", 0, item::default_charges_tag{} ) );
 
-    int test_item_pos = dummy.inv.position_by_item( &test_item );
-    REQUIRE( test_item_pos != INT_MIN );
+    REQUIRE( dummy.has_item( test_item ) );
 
     monster *new_manhack = find_adjacent_monster( dummy.pos() );
     REQUIRE( new_manhack == nullptr );
 
     dummy.invoke_item( &test_item );
 
-    test_item_pos = dummy.inv.position_by_item( &test_item );
-    REQUIRE( test_item_pos == INT_MIN );
+    REQUIRE( !dummy.has_item_with( []( const item & it ) {
+        return it.typeId() == "bot_manhack";
+    } ) );
 
     new_manhack = find_adjacent_monster( dummy.pos() );
     REQUIRE( new_manhack != nullptr );

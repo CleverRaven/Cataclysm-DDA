@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SDL_UTILS_H
-#define SDL_UTILS_H
+#ifndef CATA_SRC_SDL_UTILS_H
+#define CATA_SRC_SDL_UTILS_H
 
 #include <algorithm>
 #include <cmath>
@@ -139,7 +139,8 @@ inline SDL_Color color_pixel_sepia( const SDL_Color &color )
     const Uint8 av = average_pixel_color( color );
     const float gammav = 1.6;
     const float pv = av / 255.0;
-    const Uint8 finalv = std::min( int( round( pow( pv, gammav ) * 150 ) ), 100 );
+    const Uint8 finalv =
+        std::min( static_cast<int>( std::round( std::pow( pv, gammav ) * 150 ) ), 100 );
 
     return mix_colors( sepia_dark, sepia_light, finalv );
 }
@@ -169,4 +170,4 @@ SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer );
 std::vector<SDL_Color> color_linear_interpolate( const SDL_Color &start_color,
         const SDL_Color &end_color, unsigned additional_steps );
 
-#endif // SDL_UTILS_H
+#endif // CATA_SRC_SDL_UTILS_H

@@ -11,6 +11,7 @@
     "material": "steel",
     "category": "veh_parts",
     "price": 3500,
+    "price_postapoc": 500,
     "volume": "7 L"
   },
   {
@@ -40,6 +41,7 @@
     "weight": "25000 g",
     "material": [ "steel", "plastic" ],
     "price": 50000,
+    "price_postapoc": 1500,
     "volume": "9 L",
     "copy-from": "v_scoop_item"
   },
@@ -53,6 +55,7 @@
     "weight": "32666 g",
     "material": [ "steel", "plastic" ],
     "price": 50000,
+    "price_postapoc": 1750,
     "volume": "7250 ml",
     "copy-from": "v_scoop_item"
   },

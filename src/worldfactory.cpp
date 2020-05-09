@@ -1275,19 +1275,19 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     // Add tips & hints
     fold_and_print( win, point( 2, TERMY - 7 ), getmaxx( win ) - 4, c_light_gray,
                     _( "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default  "
-                       "[<color_yellow>%s</color>] = keybindings  "
                        "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch  "
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch "
                        "<color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color>  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab" ),
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab  "
+                       "[<color_yellow>%s</color>] = keybindings" ),
                     ctxtp.get_desc( "SAVE_DEFAULT_MODS" ),
-                    ctxtp.get_desc( "HELP_KEYBINDINGS" ),
                     ctxtp.get_desc( "PREV_TAB" ),
                     ctxtp.get_desc( "NEXT_TAB" ),
                     ctxtp.get_desc( "LEFT" ),
                     ctxtp.get_desc( "RIGHT" ),
                     ctxtp.get_desc( "PREV_CATEGORY_TAB" ),
-                    ctxtp.get_desc( "NEXT_CATEGORY_TAB" )
+                    ctxtp.get_desc( "NEXT_CATEGORY_TAB" ),
+                    ctxtp.get_desc( "HELP_KEYBINDINGS" )
                   );
     wrefresh( win );
     catacurses::refresh();

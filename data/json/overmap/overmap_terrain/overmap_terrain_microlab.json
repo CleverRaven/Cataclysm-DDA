@@ -57,6 +57,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "microlab_generic_hallway_start",
+      "microlab_generic_firebreak",
+      "microlab_generic_hallway",
+      "microlab_generic_stairs_down",
+      "microlab_generic_isolated_stairs_odd",
+      "microlab_generic_isolated_stairs_even",
+      "microlab_generic_isolated_stairs_up",
+      "microlab_generic_isolated_elevator_pit"
+    ],
+    "name": "science lab",
+    "sym": "L",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "microlab_generic_surface",
     "name": "lab",
     "sym": "L",

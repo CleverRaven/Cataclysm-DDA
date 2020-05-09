@@ -42,7 +42,7 @@ branches:
 # - SANITIZE=address
 # - LOCALIZE=0
 # - A clang-tidy run (now switched to GitHub workflow)
-# - Tests with important mods enabled (Magiclysm, RL_Classes)
+# - Tests with important mods enabled (Magiclysm)
 # We try to minimize the number of builds subject to those constraints.
 
 # To see what toolchains are available, consult the following:
@@ -54,12 +54,12 @@ jobs:
     # Initial test stage, if this fails everything else is canceled.
     - stage: Test
       # Clang is consistently the fastest to build, so use it for the initial test.
-      env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
-      name: "Clang 3.8 Make build with curses, style check and RL_Classes test"
+      env: CLANG=clang++-3.8 TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
+      name: "Clang 3.8 Make build with curses and style check"
       compiler: clang
       addons: &clang38
         apt:
-          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          packages: ["clang-3.8"]
           sources: [*apt_sources]
 
     # Then build different configurations and targets in parallel.
@@ -73,12 +73,12 @@ jobs:
           sources: [*apt_sources]
 
     - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" TILES=1 SOUND=1 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency"
-      name: "GCC 8 Make build with Tiles, Sound, astyle and address sanitization"
+      name: "GCC 8 Make build with Tiles, Sound and address sanitization"
       dist: bionic
       compiler: gcc
       addons: &gcc8
         apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "astyle"]
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: *apt_sources
 
     - env: CLANG=clang++-8 SANITIZE=address,undefined EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items ~[starve] ~grenade_lethality"
@@ -86,7 +86,7 @@ jobs:
       compiler: clang
       addons: &clang8
         apt:
-          packages: ["clang-8", "libc6-dbg", "libc6-dbg:i386"]
+          packages: ["clang-8"]
           sources: [*apt_sources, llvm-toolchain-xenial-8]
 
     - stage: "Platforms and Tidy"
@@ -111,7 +111,7 @@ jobs:
         directories:
           - $HOME/.ccache
 
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1
       name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
       os: osx
       osx_image: xcode10.1
@@ -155,7 +155,7 @@ jobs:
       compiler: clang
       addons: &clang39
         apt:
-          packages: ["clang-3.9", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          packages: ["clang-3.9"]
           sources: *apt_sources
 
     - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
@@ -164,7 +164,7 @@ jobs:
       compiler: clang
       addons: &clang40
         apt:
-          packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          packages: ["clang-4.0"]
           # Luckily the Trusty install Just Works on Xenial
           sources: [*apt_sources, llvm-toolchain-trusty-4.0]
 
@@ -177,7 +177,7 @@ jobs:
       compiler: clang
       addons: &clang50
         apt:
-          packages: ["clang-5.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          packages: ["clang-5.0"]
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
 
     - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
@@ -186,7 +186,7 @@ jobs:
       compiler: clang
       addons: &clang60
         apt:
-          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libpulse-dev", "libpulse0=1:8.0-0ubuntu3.10", "libpulse-mainloop-glib0=1:8.0-0ubuntu3.10"]
+          packages: ["clang-6.0", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libpulse-dev", "libpulse0=1:8.0-0ubuntu3.10", "libpulse-mainloop-glib0=1:8.0-0ubuntu3.10"]
           sources: [*apt_sources, llvm-toolchain-xenial-6.0]
 
     - env: CLANG=clang++-7
@@ -195,7 +195,7 @@ jobs:
       compiler: clang
       addons: &clang7
         apt:
-          packages: ["clang-7", "libc6-dbg", "libc6-dbg:i386"]
+          packages: ["clang-7"]
           sources: [*apt_sources, llvm-toolchain-xenial-7]
 
 before_script:

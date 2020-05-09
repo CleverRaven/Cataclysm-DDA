@@ -1,4 +1,6 @@
 #pragma once
+#ifndef CATA_SRC_STOMACH_H
+#define CATA_SRC_STOMACH_H
 
 #include <map>
 
@@ -171,3 +173,5 @@ class stomach_contents
                                                const Character &owner );
 
 };
+
+#endif // CATA_SRC_STOMACH_H

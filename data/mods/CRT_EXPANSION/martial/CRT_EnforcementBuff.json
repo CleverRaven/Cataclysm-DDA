@@ -19,16 +19,15 @@
     "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies.  Each attack landed increases your armor by 0.125 and offers other combat bonuses based on stats.",
     "initiate": [ "You ready yourself to stand your ground.", "%s draws a line in the sand." ],
     "arm_block": 2,
-    "leg_block": 10,
+    "leg_block": 5,
     "static_buffs": [
       {
         "id": "crt_enforcement_static",
-        "name": "C.R.I.T Guard",
-        "description": "+1 armor.  STR provides accuracy and minor bash arpen.",
-        "unarmed_allowed": true,
+        "name": "Unyielding Front",
+        "description": "Stand strong in the face of adversity. +1 armor.  STR provides accuracy and minor bash arpen.",
+        "unarmed_allowed": false,
         "melee_allowed": true,
         "flat_bonuses": [
-          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.15 },
           { "stat": "armor", "type": "bash", "scale": 1.0 },
           { "stat": "armor", "type": "cut", "scale": 1.0 },
           { "stat": "armor", "type": "stab", "scale": 1.0 },
@@ -39,21 +38,21 @@
     "onhit_buffs": [
       {
         "id": "crt_enforcement_hit_buff",
-        "name": "C.R.I.T Buildup",
-        "description": "+0.05 armor and other small bonuses per stack.  Max of 10 stacks",
-        "unarmed_allowed": true,
+        "name": "Bulwark",
+        "description": "+0.5 armor and other small bonuses per stack.  Max of 2 stacks",
+        "unarmed_allowed": false,
         "melee_allowed": true,
-        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
-        "buff_duration": 10,
-        "max_stacks": 10,
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "buff_duration": 1,
+        "max_stacks": 2,
         "flat_bonuses": [
-          { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.01 },
-          { "stat": "armor", "type": "bash", "scale": 0.05 },
-          { "stat": "armor", "type": "cut", "scale": 0.05 },
-          { "stat": "armor", "type": "stab", "scale": 0.05 },
-          { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 0.15 },
-          { "stat": "armor", "type": "cut", "scaling-stat": "str", "scale": 0.125 },
-          { "stat": "armor", "type": "stab", "scaling-stat": "str", "scale": 0.075 }
+          { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
+          { "stat": "armor", "type": "bash", "scale": 1 },
+          { "stat": "armor", "type": "cut", "scale": 1 },
+          { "stat": "armor", "type": "stab", "scale": 1 },
+          { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 0.1 },
+          { "stat": "armor", "type": "cut", "scaling-stat": "str", "scale": 0.1 },
+          { "stat": "armor", "type": "stab", "scaling-stat": "str", "scale": 0.1 }
         ]
       }
     ],
@@ -85,19 +84,12 @@
   {
     "type": "technique",
     "id": "tec_crt_enforcement_normal",
-    "name": "Harsh Reprimand",
-    "skill_requirements": [ { "name": "unarmed", "level": 1 }, { "name": "melee", "level": 1 } ],
-    "unarmed_allowed": true,
+    "name": "Reprimand",
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "unarmed_allowed": false,
     "melee_allowed": true,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.0 },
-      { "stat": "damage", "type": "cut", "scale": 1.0 },
-      { "stat": "damage", "type": "stab", "scale": 1.0 }
-    ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.15 },
-      { "stat": "movecost", "scaling-stat": "str", "scale": -0.7 }
-    ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
+    "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ],
     "messages": [ "You clock %s's in a weak spot to knock em down", "<npcname> smashes in %s's face" ],
     "down_dur": 1
   },
@@ -105,18 +97,13 @@
     "type": "technique",
     "id": "tec_crt_enforcement_rapid",
     "name": "Forced Compliance",
-    "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "melee", "level": 2 } ],
-    "unarmed_allowed": true,
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "unarmed_allowed": false,
     "melee_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 1.04 },
-      { "stat": "damage", "type": "bash", "scale": 1.0 },
-      { "stat": "damage", "type": "cut", "scale": 1.05 },
-      { "stat": "damage", "type": "stab", "scale": 1.05 }
-    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
     "flat_bonuses": [
       { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "movecost", "scaling-stat": "str", "scale": -1.2 }
+      { "stat": "movecost", "scaling-stat": "str", "scale": -1.3 }
     ],
     "messages": [ "You swiftly swipe your weapon's tip at %s", "<npcname> swiftly jabs their weapon into %s" ]
   },
@@ -124,19 +111,12 @@
     "type": "technique",
     "id": "tec_crt_enforcement_brutal",
     "name": "Roomsweeper",
-    "skill_requirements": [ { "name": "unarmed", "level": 4 }, { "name": "melee", "level": 3 } ],
-    "unarmed_allowed": true,
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "unarmed_allowed": false,
     "melee_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 1.35 },
-      { "stat": "damage", "type": "bash", "scale": 1.15 },
-      { "stat": "damage", "type": "cut", "scale": 1.05 },
-      { "stat": "damage", "type": "stab", "scale": 1.0 }
-    ],
     "flat_bonuses": [
       { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.25 },
-      { "stat": "movecost", "scaling-stat": "str", "scale": -1.5 }
+      { "stat": "movecost", "scaling-stat": "str", "scale": -0.5 }
     ],
     "crit_tec": true,
     "messages": [ "You steady your arm and release a crushing blow at %s", "<npcname> releases a crushing blow at %s" ],

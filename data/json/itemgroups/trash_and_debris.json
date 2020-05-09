@@ -99,6 +99,7 @@
       [ "seed_weed", 5 ],
       [ "seed_flower", 5 ],
       [ "seed_tobacco", 1 ],
+      [ "seed_spurge", 1 ],
       [ "joint_roach", 5 ],
       [ "pipe", 20 ],
       [ "bag_plastic", 10 ],

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef EFFECT_H
-#define EFFECT_H
+#ifndef CATA_SRC_EFFECT_H
+#define CATA_SRC_EFFECT_H
 
 #include <set>
 #include <string>
@@ -303,4 +303,4 @@ class effects_map : public
 {
 };
 
-#endif
+#endif // CATA_SRC_EFFECT_H

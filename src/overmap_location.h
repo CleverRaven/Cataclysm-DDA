@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OVERMAP_LOCATION_H
-#define OVERMAP_LOCATION_H
+#ifndef CATA_SRC_OVERMAP_LOCATION_H
+#define CATA_SRC_OVERMAP_LOCATION_H
 
 #include <algorithm>
 #include <string>
@@ -47,4 +47,4 @@ void finalize();
 
 } // namespace overmap_locations
 
-#endif // OVERMAP_LOCATION_H
+#endif // CATA_SRC_OVERMAP_LOCATION_H

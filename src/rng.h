@@ -1,6 +1,6 @@
 #pragma once
-#ifndef RNG_H
-#define RNG_H
+#ifndef CATA_SRC_RNG_H
+#define CATA_SRC_RNG_H
 
 #include <array>
 #include <functional>
@@ -172,4 +172,4 @@ cata::optional<tripoint> random_point( const tripoint_range &range,
 cata::optional<tripoint> random_point( const map &m,
                                        const std::function<bool( const tripoint & )> &predicate );
 
-#endif
+#endif // CATA_SRC_RNG_H

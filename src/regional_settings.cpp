@@ -222,6 +222,19 @@ static void load_forest_trail_settings( const JsonObject &jo,
                 forest_trail_settings.unfinalized_trail_terrain[member.name()] = member.get_int();
             }
         }
+
+        if( !forest_trail_settings_jo.has_object( "trailheads" ) ) {
+            if( !overlay ) {
+                forest_trail_settings_jo.throw_error( "trailheads required" );
+            }
+        } else {
+            for( const JsonMember member : forest_trail_settings_jo.get_object( "trailheads" ) ) {
+                if( member.is_comment() ) {
+                    continue;
+                }
+                forest_trail_settings.trailheads.add( overmap_special_id( member.name() ), member.get_int() );
+            }
+        }
     }
 }
 
@@ -893,6 +906,8 @@ void forest_trail_settings::finalize()
         }
         trail_terrain.add( tid.id(), pr.second );
     }
+
+    trailheads.finalize();
 }
 
 void overmap_lake_settings::finalize()
@@ -1039,7 +1054,7 @@ void building_bin::finalize()
         return;
     }
     if( unfinalized_buildings.empty() ) {
-        debugmsg( "There must be at least one house, shop, and park for each regional map setting used." );
+        debugmsg( "There must be at least one entry in this building bin." );
         return;
     }
 

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MORALE_H
-#define MORALE_H
+#ifndef CATA_SRC_MORALE_H
+#define CATA_SRC_MORALE_H
 
 #include <algorithm>
 #include <functional>
@@ -58,6 +58,9 @@ class player_morale
         int get_total_positive_value() const;
         int get_total_negative_value() const;
 
+        /** Returns percieved pain. Only used in morale_test.cpp*/
+        int get_percieved_pain() const;
+
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
         void on_stat_change( const std::string &stat, int value );
@@ -109,7 +112,7 @@ class player_morale
                  *contribution should be bettween [0,100] (inclusive)
                  */
                 void set_percent_contribution( double contribution );
-                double get_percent_contribution();
+                double get_percent_contribution() const;
             private:
                 morale_type type;
                 const itype *item_type;
@@ -208,4 +211,4 @@ class player_morale
         int perceived_pain;
 };
 
-#endif
+#endif // CATA_SRC_MORALE_H

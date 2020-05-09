@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_TILES_H
-#define CATA_TILES_H
+#ifndef CATA_SRC_CATA_TILES_H
+#define CATA_SRC_CATA_TILES_H
 
 #include <cstddef>
 #include <map>
@@ -238,10 +238,10 @@ class tileset_loader
         void load( const std::string &tileset_id, bool precheck );
 };
 
-enum text_alignment {
-    TEXT_ALIGNMENT_LEFT,
-    TEXT_ALIGNMENT_CENTER,
-    TEXT_ALIGNMENT_RIGHT,
+enum class text_alignment : int {
+    left,
+    center,
+    right,
 };
 
 struct formatted_text {
@@ -253,7 +253,7 @@ struct formatted_text {
         : text( text ), color( color ), alignment( alignment ) {
     }
 
-    formatted_text( const std::string &text, int color, direction direction );
+    formatted_text( const std::string &text, int color, direction text_direction );
 };
 
 /** type used for color blocks overlays.
@@ -582,4 +582,4 @@ class cata_tiles
         std::string memory_map_mode = "color_pixel_sepia";
 };
 
-#endif
+#endif // CATA_SRC_CATA_TILES_H

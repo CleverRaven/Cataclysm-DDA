@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONSTER_H
-#define MONSTER_H
+#ifndef CATA_SRC_MONSTER_H
+#define CATA_SRC_MONSTER_H
 
 #include <bitset>
 #include <climits>
@@ -305,21 +305,23 @@ class monster : public Creature
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
-        void absorb_hit( body_part bp, damage_instance &dam ) override;
-        bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
+        void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
+        bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         void melee_attack( Creature &target );
         void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                      bool print_messages = true ) override;
-        void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+        void deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                       int &pain ) override;
-        void apply_damage( Creature *source, body_part bp, int dam,
+        void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
+
+        void heal_bp( bodypart_id bp, int dam ) override;
         /**
          * Flat addition to the monsters @ref hp. If `overheal` is true, this is not capped by max hp.
          * Returns actually healed hp.
@@ -350,9 +352,10 @@ class monster : public Creature
         float speed_rating() const override;
 
         int get_worn_armor_val( damage_type dt ) const;
-        int  get_armor_cut( body_part bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_bash( body_part bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_type( damage_type dt, body_part bp ) const override;
+        int  get_armor_cut( bodypart_id bp ) const override; // Natural armor, plus any worn armor
+        int  get_armor_bash( bodypart_id bp ) const override; // Natural armor, plus any worn armor
+        int  get_armor_bullet( bodypart_id bp ) const override; // Natural armor, plus any worn armor
+        int  get_armor_type( damage_type dt, bodypart_id bp ) const override;
 
         float get_hit_base() const override;
         float get_dodge_base() const override;
@@ -379,7 +382,7 @@ class monster : public Creature
         // We just dodged an attack from something
         void on_dodge( Creature *source, float difficulty ) override;
         // Something hit us (possibly null source)
-        void on_hit( Creature *source, body_part bp_hit = num_bp,
+        void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
         /** Resets a given special to its monster type cooldown value */
@@ -390,6 +393,8 @@ class monster : public Creature
         void set_special( const std::string &special_name, int time );
         /** Sets the enabled flag for the given special to false */
         void disable_special( const std::string &special_name );
+        /** Return the lowest cooldown for an enabled special */
+        int shortest_special_cooldown() const;
 
         void process_turn() override;
         /** Resets the value of all bonus fields to 0, clears special effect flags. */
@@ -568,4 +573,4 @@ class monster : public Creature
         void process_one_effect( effect &it, bool is_new ) override;
 };
 
-#endif
+#endif // CATA_SRC_MONSTER_H

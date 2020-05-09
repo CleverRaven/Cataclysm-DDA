@@ -35,6 +35,12 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_pachycephalosaurus",
+    "name": "pachycephalosaurus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_spinosaurus",
     "name": "spinosaurus egg",
     "copy-from": "egg_dino"
@@ -97,6 +103,12 @@
     "type": "COMESTIBLE",
     "id": "egg_parasaurolophus",
     "name": "parasaurolophus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dimorphodon",
+    "name": "dimorphodon egg",
     "copy-from": "egg_dino"
   },
   {

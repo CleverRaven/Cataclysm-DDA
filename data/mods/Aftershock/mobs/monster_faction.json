@@ -13,5 +13,12 @@
     "friendly": [ "human", "player" ],
     "neutral": "herbivore",
     "by_mood": [ "insect", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "UPLIFT",
+    "neutral": "herbivore",
+    "by_mood": [ "insect", "small_animal" ],
+    "hate": "zombie"
   }
 ]

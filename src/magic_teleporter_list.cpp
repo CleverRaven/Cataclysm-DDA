@@ -160,18 +160,23 @@ class teleporter_callback : public uilist_callback
         std::map<int, tripoint> index_pairs;
     public:
         teleporter_callback( std::map<int, tripoint> &ip ) : index_pairs( ip ) {}
-        void select( int entnum, uilist *menu ) override {
+        void refresh( uilist *menu ) override {
+            const int entnum = menu->selected;
             const int start_x = menu->w_width - menu->pad_right;
             mvwputch( menu->window, point( start_x, 0 ), c_magenta, LINE_OXXX );
             mvwputch( menu->window, point( start_x, menu->w_height - 1 ), c_magenta, LINE_XXOX );
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, point( start_x, i ), c_magenta, LINE_XOXO );
             }
-            overmap_ui::draw_overmap_chunk( menu->window, g->u, index_pairs[entnum], 1, start_x + 1, 29, 21 );
-            mvwprintz( menu->window, point( start_x + 2, 1 ), c_white,
-                       string_format( _( "Distance: %d (%d, %d)" ),
-                                      rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
-                                      index_pairs[entnum].x, index_pairs[entnum].y ) );
+            if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
+                overmap_ui::draw_overmap_chunk( menu->window, g->u, index_pairs[entnum], point( start_x + 1, 1 ),
+                                                29, 21 );
+                mvwprintz( menu->window, point( start_x + 2, 1 ), c_white,
+                           string_format( _( "Distance: %d (%d, %d)" ),
+                                          rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
+                                          index_pairs[entnum].x, index_pairs[entnum].y ) );
+            }
+            wrefresh( menu->window );
         }
 };
 
@@ -181,7 +186,7 @@ cata::optional<tripoint> teleporter_list::choose_teleport_location()
     g->refresh_all();
 
     uilist teleport_selector;
-    teleport_selector.w_height = 24;
+    teleport_selector.w_height_setup = 24;
 
     int index = 0;
     int column_width = 25;
@@ -194,10 +199,8 @@ cata::optional<tripoint> teleporter_list::choose_teleport_location()
     }
     teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
-    teleport_selector.w_width = 38 + column_width;
-    teleport_selector.pad_right = 33;
-    teleport_selector.w_x = ( TERMX - teleport_selector.w_width ) / 2;
-    teleport_selector.w_y = ( TERMY - teleport_selector.w_height ) / 2;
+    teleport_selector.w_width_setup = 38 + column_width;
+    teleport_selector.pad_right_setup = 33;
     teleport_selector.title = _( "Choose Translocator Gate" );
 
     teleport_selector.query();

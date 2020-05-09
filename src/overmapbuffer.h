@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OVERMAPBUFFER_H
-#define OVERMAPBUFFER_H
+#ifndef CATA_SRC_OVERMAPBUFFER_H
+#define CATA_SRC_OVERMAPBUFFER_H
 
 #include <array>
 #include <functional>
@@ -530,4 +530,4 @@ class overmapbuffer
 
 extern overmapbuffer overmap_buffer;
 
-#endif
+#endif // CATA_SRC_OVERMAPBUFFER_H
