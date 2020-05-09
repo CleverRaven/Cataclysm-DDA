@@ -555,5 +555,33 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
     "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "roller_blades",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 2 ],
+    "difficulty": 4,
+    "time": "60 m",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 9 ] ], [ [ "boots", 1 ] ], [ [ "bearings", 1 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "rollerskates",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 2 ],
+    "difficulty": 4,
+    "time": "60 m",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "boots", 1 ] ], [ [ "bearings", 1 ] ], [ [ "scrap", 2 ] ] ]
   }
 ]
