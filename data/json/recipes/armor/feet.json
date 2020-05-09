@@ -582,7 +582,8 @@
     "time": "60 m",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "using": [ [ "bearings", 8 ] ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ], [ [ "hammering" ] ], [ [ "drilling" ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "boots", 1 ] ], [ [ "scrap", 16 ] ] ]
   }
 ]
