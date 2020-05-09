@@ -261,12 +261,15 @@ void worldfactory::init()
 {
     load_last_world_info();
 
-    std::vector<std::string> qualifiers;
-    qualifiers.push_back( PATH_INFO::worldoptions() );
-    qualifiers.push_back( PATH_INFO::legacy_worldoptions() );
-    qualifiers.push_back( SAVE_MASTER );
-
     all_worlds.clear();
+
+    // The validity of a world is determined by the existance of any
+    // option files or the master save file.
+    static const auto is_save_dir = []( const std::string & maybe_save_dir ) {
+        return file_exist( maybe_save_dir + "/" + PATH_INFO::worldoptions() ) ||
+               file_exist( maybe_save_dir + "/" + PATH_INFO::legacy_worldoptions() ) ||
+               file_exist( maybe_save_dir + "/" + SAVE_MASTER );
+    };
 
     const auto add_existing_world = [&]( const std::string & world_dir ) {
         // get the save files
@@ -301,16 +304,22 @@ void worldfactory::init()
         }
     };
 
-    // get the master files. These determine the validity of a world
-    // worlds exist by having an option file
-    // create worlds
-    for( const auto &world_dir : get_directories_with( qualifiers, PATH_INFO::savedir(), true ) ) {
-        add_existing_world( world_dir );
+    // This returns files as well, but they are going to be discared later as
+    // we look for files *within* these dirs. If it's a file, there won't be
+    // be any of those inside it and is_save_dir will return false.
+    for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
+        if( !is_save_dir( dir ) ) {
+            continue;
+        }
+        add_existing_world( dir );
     }
 
-    // check to see if there exists a worldname "save" which denotes that a world exists in the save
-    // directory and not in a sub-world directory
-    if( has_world( "save" ) ) {
+    // In old versions, there was only one world, stored directly in the "save" directory.
+    // If that directory contains the expected files, it's an old save and must be converted.
+    if( is_save_dir( "save" ) ) {
+        // @TODO import directly into the new world instead of having this dummy "save" world.
+        add_existing_world( "save" );
+
         const WORLD &old_world = *all_worlds["save"];
 
         std::unique_ptr<WORLD> newworld = std::make_unique<WORLD>();
