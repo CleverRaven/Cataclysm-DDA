@@ -7061,7 +7061,11 @@ const itype *item::ammo_data() const
     }
 
     if ( is_tool() ) {
-        return curammo;
+        for ( ammotype at : type->tool->ammo_id ) {
+            if ( at.is_valid() ) {
+                return item_controller->find_template(at.obj().default_ammotype());
+            }
+        }
     }
 
     return nullptr;
