@@ -850,7 +850,7 @@
     "copy-from": "bell_pepper",
     "color": "green",
     "spoils_in": "2 days",
-    "description": "A cored and cooked bell pepper. It is far more enjoyable now the seeds are removed.",
+    "description": "A cored and cooked bell pepper.  It is far more enjoyable now that the seeds are removed.",
     "price": 0,
     "delete": { "flags": [ "RAW" ] },
     "fun": 1,
