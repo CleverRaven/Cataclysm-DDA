@@ -363,6 +363,13 @@ class consume_activity_actor : public activity_actor
     private:
         item_location loc;
 
+        /**
+         * @pre @p other is a consume_activity_actor
+         */
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
+            const consume_activity_actor &c_actor = static_cast<const consume_activity_actor &>( other );
+            return loc == c_actor.loc;
+        }
     public:
         consume_activity_actor( const item_location &loc ) :
             loc( loc ) {}

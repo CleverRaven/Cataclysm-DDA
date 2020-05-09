@@ -1072,7 +1072,7 @@ void avatar_action::eat( avatar &you )
     avatar_action::eat( you, loc );
 }
 
-void avatar_action::eat( avatar &you, item_location loc)
+void avatar_action::eat( avatar &you, item_location loc )
 {
     if( !loc ) {
         you.cancel_activity();

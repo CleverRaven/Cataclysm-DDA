@@ -2957,7 +2957,7 @@ bool find_auto_consume( player &p, const bool food )
             p.mod_moves( -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
                          g->m.getlocal( loc ) ), 1 ) );
             item_location item_loc( map_cursor( g->m.getlocal( loc ) ), &it );
-            avatar_action::eat( g->u, item_loc);
+            avatar_action::eat( g->u, item_loc );
             // eat() may have removed the item, so check its still there.
             if( item_loc.get_item() && item_loc->is_container() ) {
                 item_loc->on_contents_changed();

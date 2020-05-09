@@ -314,7 +314,6 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                           g->u.get_skill_level( r.skill_used ) ) );
     g->u.moves--;
     const inventory &crafting_inv = g->u.crafting_inventory();
-    
     bool can_craft = r.deduped_requirements().can_make_with_inventory(
                          crafting_inv, r.get_component_filter() );
     REQUIRE( can_craft == expect_craftable );
