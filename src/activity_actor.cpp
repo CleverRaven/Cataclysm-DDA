@@ -593,9 +593,16 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     act.moves_left = moves;
 }
 
-void consume_activity_actor::finish( player_activity &act, Character &guy )
+void consume_activity_actor::finish( player_activity &act, Character & )
 {
-    guy.eat_item( loc );
+    if( loc.where() == item_location::type::character ) {
+        g->u.consume( loc );
+    } else if( g->u.consume_item( *loc ) ) {
+        loc.remove_item();
+    }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
     act.set_to_null();
 }
 
