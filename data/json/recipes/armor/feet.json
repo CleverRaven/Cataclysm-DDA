@@ -566,8 +566,8 @@
     "difficulty": 5,
     "time": "90 m",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ [ "bearings", 6 ] ], [ [ "sewing_standard", 20 ] ] ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
+    "using": [ [ "bearings", 6 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ], [ [ "cutting" ] ], [ [ "sewing" ] ] ],
     "components": [ [ [ "plastic_chunk", 15 ] ], [ [ "rag", 8 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
