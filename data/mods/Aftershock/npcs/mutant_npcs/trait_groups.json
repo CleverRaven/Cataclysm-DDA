@@ -1006,7 +1006,8 @@
     "id": "trait_group_migo_postthres",
     "subtype": "collection",
     "traits": [
-      { "trait": "THRESH_YUGGOTH", "MIGO" },
+      { "trait": "THRESH_YUGGOTH" },
+      { "trait": "MIGO" },
       { "distribution": [ { "trait": "UPLIFTED" }, { "trait": "ALIEN_INT" } ] },
       { "trait": "MIGO_HEAT_RESIST", "prob": 50 },
       { "trait": "OTHERWORLDLY_GRACE", "prob": 20 },
