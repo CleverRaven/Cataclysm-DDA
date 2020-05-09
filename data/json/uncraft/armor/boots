@@ -1,0 +1,27 @@
+[
+  {
+    "result": "roller_blades",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "600 s",
+    "qualities": [ { "id": "PRYING", "level": 1 } ],
+    "components": [
+      [ [ "material_aluminium_ingot", 10 ] ],
+      [ [ "wheel_skate", 6 ] ],
+      [ [ "rag", 6 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "bearing", 6 ] ]
+    ]
+  },
+  {
+    "result": "roller_skates",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "600 s",
+    "qualities": [ { "id": "PRYING", "level": 1 } ],
+    "components": [ [ [ "wheel_skate", 8 ] ], [ [ "leather", 6 ] ], [ [ "scrap", 20 ] ], [ [ "bearing", 8 ] ] ]
+  }
+]
