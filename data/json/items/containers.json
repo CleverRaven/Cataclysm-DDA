@@ -692,8 +692,7 @@
     "description": "A small tin can, like what tuna comes in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
     "color": "blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
-    "pocket_data": [ { "moves": "500" } ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "can_medium",
@@ -724,8 +723,7 @@
     "name": { "str": "medium opened tin can" },
     "description": "A medium tin can, like what soup comes in.  This one is opened and can't be easily sealed.",
     "looks_like": "can_food_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
-    "pocket_data": [ { "moves": "500" } ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "canteen",
