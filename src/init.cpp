@@ -516,6 +516,7 @@ void DynamicDataLoader::unload_data()
     overmap_terrains::reset();
     profession::reset();
     quality::reset();
+    reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
     requirement_data::reset();
