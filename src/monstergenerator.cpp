@@ -308,6 +308,11 @@ void monster_adjustment::apply( mtype &mon )
 
 static std::vector<monster_adjustment> adjustments;
 
+void reset_monster_adjustment()
+{
+    adjustments.clear();
+}
+
 void load_monster_adjustment( const JsonObject &jsobj )
 {
     monster_adjustment adj;
