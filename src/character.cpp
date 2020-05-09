@@ -4978,7 +4978,7 @@ void Character::check_needs_extremes()
             g->events().send<event_type::dies_of_starvation>( getID() );
             hp_cur[hp_torso] = 0;
         } else {
-            if( calendar::once_every( 1_hours ) ) {
+            if( calendar::once_every( 12_hours ) ) {
                 std::string category;
                 if( stomach.contains() <= stomach.capacity( *this ) / 4 ) {
                     if( get_kcal_percent() < 0.1f ) {
