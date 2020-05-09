@@ -294,7 +294,7 @@
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "skate wheel" },
-    "description": "A very small plastic wheel with a punk attitude. This wheel was made for skating.",
+    "description": "A very small plastic wheel with a punk attitude.  This wheel was made for skating.",
     "weight": "200 g",
     "volume": "200 ml",
     "price": 1400,
