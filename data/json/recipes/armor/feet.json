@@ -565,11 +565,18 @@
     "skills_required": [ "tailor", 2 ],
     "difficulty": 5,
     "time": "90 m",
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 6 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "wheel_skate, 6 ] ], [ [ "plastic_chunk", 8 ] ], [ [ "rag", 8 ] ], [ [ "scrap", 14 ] ], [ [ "bearing", 6 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "xlframe", 1 ] ],
+      [ [ "wheel_skate", 6 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "rag", 8 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "bearing", 6 ] ]
+    ]
   },
   {
     "result": "rollerskates",
@@ -579,9 +586,9 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "60 m",
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 6 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "wheel_skate, 8 ] ], [ [ "boots", 1 ] ], [ [ "scrap", 16 ] ], [ [ "bearing", 8 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "wheel_skate", 8 ] ], [ [ "boots", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 12 ] ], [ [ "bearing", 8 ] ] ]
   }
 ]
