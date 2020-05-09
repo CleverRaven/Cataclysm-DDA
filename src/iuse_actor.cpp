@@ -4500,8 +4500,17 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         desc += format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
         desc += format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
         desc += format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
-        desc += format_desc_string( _( "Encumbrance" ), mod.get_encumber( p ), temp_item.get_encumber( p ),
-                                    false );
+        // Display min and max encumbrance if item has variable encumbrance.
+        int mod_enc_min = mod.get_encumber_when_containing( p, 0_ml );
+        int temp_enc_min = temp_item.get_encumber_when_containing( p, 0_ml );
+        int mod_enc_max = mod.get_encumber_when_containing( p, mod.get_total_capacity() );
+        int temp_enc_max = temp_item.get_encumber_when_containing( p, temp_item.get_total_capacity() );
+        if( mod_enc_min != mod_enc_max ) {
+            desc += format_desc_string( _( "Min Encumbrance" ), mod_enc_min, temp_enc_min, false );
+            desc += format_desc_string( _( "Max Encumbrance" ), mod_enc_max, temp_enc_max, false );
+        } else {
+            desc += format_desc_string( _( "Encumbrance" ), mod_enc_min, temp_enc_min, false );
+        }
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }

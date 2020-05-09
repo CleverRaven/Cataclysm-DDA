@@ -5342,7 +5342,7 @@ int item::get_encumber( const Character &p ) const
 }
 
 int item::get_encumber_when_containing(
-    const Character &p, const units::volume & /* contents_volume */ ) const
+    const Character &p, const units::volume &contents_volume ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
@@ -5350,6 +5350,15 @@ int item::get_encumber_when_containing(
         return is_gun() ? volume() / 750_ml : 0;
     }
     int encumber = t->encumber;
+    // Variable encumbrance.
+    if( t->max_encumber > encumber )
+    {
+        const int capacity = get_total_capacity().value();
+        if( capacity > 0 ) {
+            encumber += ( t->max_encumber - encumber ) *
+                        ( ( double )contents_volume.value() / ( double )capacity );
+        }
+    }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {
