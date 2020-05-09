@@ -397,28 +397,67 @@ void trading_window::update_win( npc &np, const std::string &deal )
 void trading_window::show_item_data( size_t offset,
                                      std::vector<item_pricing> &target_list )
 {
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    catacurses::window w_tmp;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w_tmp = catacurses::newwin( 3, 21,
+                                    point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
+                                           1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
+        ui.position_from_window( w_tmp );
+    } );
+    ui.mark_resize();
 
-    catacurses::window w_tmp = catacurses::newwin( 3, 21, point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
-                               1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w_tmp, point( 1, 1 ), c_red, _( "Examine which item?" ) );
-    draw_border( w_tmp );
-    wrefresh( w_tmp );
-    // TODO: use input context
-    size_t help = inp_mngr.get_input_event().get_first_input();
-    if( help >= 'a' && help <= 'z' ) {
-        help -= 'a';
-    } else if( help >= 'A' && help <= 'Z' ) {
-        help = help - 'A' + 26;
-    } else {
-        return;
-    }
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_tmp );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_tmp, point( 1, 1 ), c_red, _( "Examine which item?" ) );
+        draw_border( w_tmp );
+        wrefresh( w_tmp );
+    } );
 
-    help += offset;
-    if( help < target_list.size() ) {
-        popup( target_list[help].loc.get_item()->info( true ), PF_NONE );
+    input_context ctxt( "NPC_TRADE" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    bool exit = false;
+    while( !exit ) {
+        ui_manager::redraw();
+        const std::string action = ctxt.handle_input();
+        if( action == "QUIT" ) {
+            exit = true;
+        } else if( action == "ANY_INPUT" ) {
+            const input_event evt = ctxt.get_raw_input();
+            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+                continue;
+            }
+            size_t help = evt.get_first_input();
+            if( help >= 'a' && help <= 'z' ) {
+                help -= 'a';
+            } else if( help >= 'A' && help <= 'Z' ) {
+                help = help - 'A' + 26;
+            } else {
+                continue;
+            }
+
+            help += offset;
+            if( help < target_list.size() ) {
+                std::vector<iteminfo> info;
+                const item &itm = *target_list[help].loc.get_item();
+                itm.info( true, info );
+                item_info_data data( itm.tname(),
+                                     itm.type_name(),
+                                     info, {} );
+                data.handle_scrolling = true;
+                data.any_input = false;
+                draw_item_info( []() -> catacurses::window {
+                    const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
+                    const int height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+                    return catacurses::newwin( height, width, point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
+                }, data );
+                exit = true;
+            }
+        }
     }
 }
 
