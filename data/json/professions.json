@@ -692,14 +692,13 @@
           "legguard_hard",
           "gloves_rubber",
           "socks",
-          "mbag",
           "chestguard_hard",
           "boots_rubber"
         ],
         "entries": [
           { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" },
-          { "group": "snacks_fancy" },
-          { "group": "snacks" },
+          { "item": "foodplace_snack_bar", "container-item": "fanny" },
+          { "item": "foodplace_snack_bar" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] }
         ]
       }

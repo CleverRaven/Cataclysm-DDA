@@ -448,6 +448,7 @@
     "entries": [
       { "group": "candy_chocolate", "prob": 620 },
       { "group": "salty_snacks", "prob": 595 },
+      { "item": "foodplace_snack_bar", "prob": 5 },
       { "item": "pemmican", "prob": 5 },
       { "item": "granola", "prob": 10 },
       { "item": "cookies", "prob": 80 },
