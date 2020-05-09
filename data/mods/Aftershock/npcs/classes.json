@@ -60,6 +60,7 @@
     "name": "mi-go enthusiast",
     "job_description": "I've been studying the mi-go for years…",
     "common": false,
+    "gender": "female",
     "traits": [
       [ "hair_red_long", 100 ],
       [ "SKIN_LIGHT", 100 ],
@@ -77,6 +78,25 @@
       { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
       { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
       { "skill": "cooking", "bonus": { "rng": [ 6, 8 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "whately_cousin",
+    "name": "Whately Cousin",
+    "common": "false",
+    "job_description": "Our family has been through hard times before.  We know how to survive.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_str": 2,
+    "bonus_dex": 2,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "trait_group_migo" },
+      { "distribution": [ { "group": "trait_group_migo_nonthres" }, { "group": "trait_group_migo_postthres" } ] }
     ]
   }
 ]

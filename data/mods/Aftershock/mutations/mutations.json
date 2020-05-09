@@ -170,6 +170,7 @@
     "points": 3,
     "description": "You no longer move like a human, others find it disconcerting.  Dexterity + 4",
     "prereqs": [ "ENHANCED_REACTIONS" ],
+    "threshreq": "THRESH_YUGGOTH",
     "category": [ "MIGO" ],
     "passive_mods": { "dex_mod": 4 }
   },
