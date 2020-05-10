@@ -106,6 +106,7 @@
       { "item": "textbook_biodiesel", "count": [ 1, 2 ], "prob": 70 },
       { "item": "textbook_gaswarfare", "count": [ 1, 2 ], "prob": 40 },
       { "item": "textbook_chemistry", "count": [ 1, 4 ], "prob": 90 },
+      { "item": "textbook_extraction", "count": [ 1, 2 ], "prob": 60 },
       { "item": "adv_chemistry", "count": [ 1, 4 ], "prob": 70 }
     ]
   },
