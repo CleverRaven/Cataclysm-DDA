@@ -631,7 +631,7 @@ void spell::gain_levels( int gains )
     if( gains < 1 ) {
         return;
     }
-    for( int gained = 0; gained < gains || is_max_level(); gained++ ) {
+    for( int gained = 0; gained < gains && !is_max_level(); gained++ ) {
         gain_level();
     }
 }
