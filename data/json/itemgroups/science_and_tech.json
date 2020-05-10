@@ -136,7 +136,7 @@
       { "item": "gasket_plastic", "prob": 10 },
       { "item": "butane_tank", "prob": 15 },
       { "item": "vac_oven_small", "prob": 5 },
-      { "item": "butane_can", "prob": 2 }      
+      { "item": "butane_can", "prob": 2 }
     ]
   },
   {
