@@ -10,6 +10,7 @@
 #include "computer_session.h"
 #include "debug.h"
 #include "enums.h"
+#include "enum_conversions.h"
 #include "game.h"
 #include "gates.h"
 #include "iexamine.h"
@@ -672,10 +673,10 @@ void rummage_pocket_activity_actor::finish( player_activity &act, Character &who
         case action::wear:
             break;
         case action::wield:
-            /* g->wield( item_loc ); */
+            g->wield( item_loc );
             break;
         default:
-            debugmsg("Unexpected action kind in rummage_pocket_activity_actor::finish");
+            debugmsg( "Unexpected action kind in rummage_pocket_activity_actor::finish" );
             break;
     }
 
@@ -687,22 +688,54 @@ void rummage_pocket_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "item_loc", item_loc );
-    jsout.member( "kind", kind );
+    jsout.member_as_string( "action", kind );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> rummage_pocket_activity_actor::deserialize( JsonIn &jsin )
 {
-    rummage_pocket_activity_actor actor( item_location{} );
+    rummage_pocket_activity_actor actor( item_location{}, action::empty );
 
     JsonObject data = jsin.get_object();
 
     data.read( "item_loc", actor.item_loc );
-    data.read( "kind", actor.kind );
+    const action k = data.get_enum_value<action>( "action" );
+    actor.kind = k;
 
     return actor.clone();
 }
+
+namespace io
+{
+template<>
+std::string enum_to_string<rummage_pocket_activity_actor::action> (
+    const rummage_pocket_activity_actor::action kind )
+{
+    switch( kind ) {
+        case rummage_pocket_activity_actor::action::empty:
+            return "empty";
+        case rummage_pocket_activity_actor::action::activate:
+            return "activate";
+        case rummage_pocket_activity_actor::action::drop:
+            return "drop";
+        case rummage_pocket_activity_actor::action::wear:
+            return "wear";
+        case rummage_pocket_activity_actor::action::wield:
+            return "wield";
+        case rummage_pocket_activity_actor::action::last:
+            break;
+    }
+    debugmsg( "Invalid rummage_pocket_activity_actor::action" );
+    abort();
+}
+} //namespace io
+
+template<>
+struct enum_traits<rummage_pocket_activity_actor::action> {
+    static constexpr rummage_pocket_activity_actor::action last =
+        rummage_pocket_activity_actor::action::last;
+};
 
 namespace activity_actors
 {
@@ -718,6 +751,7 @@ deserialize_functions = {
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_RUMMAGE_POCKET" ), &rummage_pocket_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

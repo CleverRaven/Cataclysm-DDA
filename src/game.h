@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "action.h"
+#include "activity_actor.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "creature.h"
@@ -151,6 +152,8 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        // To access game::wield
+        friend void rummage_pocket_activity_actor::finish( player_activity &, Character & );
     public:
         game();
         ~game();

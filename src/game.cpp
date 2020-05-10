@@ -8770,7 +8770,13 @@ void game::wield()
     item_location loc = game_menus::inv::wield( u );
 
     if( loc ) {
-        wield( loc );
+        if( loc.where() == item_location::type::container ) {
+            u.assign_activity( player_activity( rummage_pocket_activity_actor(
+                                                    loc, rummage_pocket_activity_actor::action::wield
+                                                ) ) );
+        } else {
+            wield( loc );
+        }
     } else {
         add_msg( _( "Never mind." ) );
     }

@@ -386,14 +386,21 @@ class consume_activity_actor : public activity_actor
 class rummage_pocket_activity_actor : public activity_actor
 {
     public:
-        enum class action { activate, drop, wear, wield };
+        enum class action : int {
+            empty,
+            activate,
+            drop,
+            wear,
+            wield,
+            last
+        };
     private:
         item_location item_loc;
         action kind;
 
     public:
         rummage_pocket_activity_actor( const item_location &i_loc, action act_kind ) :
-            item_loc( i_loc ), kind( act_kind ){}
+            item_loc( i_loc ), kind( act_kind ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_RUMMAGE_POCKET" );
