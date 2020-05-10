@@ -362,7 +362,7 @@
     "color": "green",
     "name": { "str": "crossbow" },
     "description": "A slow-loading hand weapon that launches bolts.  Stronger people can reload it much faster.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
-    "//": "150lb @ 10in powerstroke, 34in wood limbs, 37.7J, 0.337 slugs with a 0.066lb bolt",
+    "//2": "150lb @ 10in powerstroke, 34in wood limbs, 37.7J, 0.337 slugs with a 0.066lb bolt",
     "price": 6000,
     "price_postapoc": 3500,
     "material": [ "wood" ],
