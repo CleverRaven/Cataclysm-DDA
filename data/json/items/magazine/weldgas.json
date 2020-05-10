@@ -17,7 +17,7 @@
     "count": 60,
     "reliability": 10,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "weldgas": 60 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "weldgas": 60 }, "watertight": true } ]
   },
   {
     "id": "weldtank",
@@ -37,6 +37,6 @@
     "count": 240,
     "reliability": 10,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "weldgas": 240 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "weldgas": 240 }, "watertight": true } ]
   }
 ]
