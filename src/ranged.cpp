@@ -1925,6 +1925,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     std::string action;
     bool attack_was_confirmed = false;
     bool reentered = false;
+    tripoint manual_view_offset = pc.view_offset;
     if( mode == TargetMode::Fire ) {
         if( pc.activity.id() == ACT_AIM ) {
             // We were in this UI during previous turn...
@@ -1938,14 +1939,18 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
                 action = act_data;
                 attack_was_confirmed = true;
             }
-            // Load state of snap-to-target mode to keep it consistent between turns
+            // Load state to keep the ui consistent across turns
             snap_to_target = pc.activity.str_values[1] == "snap";
+            shifting_view = pc.activity.values[0] == 1;
+            manual_view_offset = pc.activity.coords[0];
             // Clear the activity, we'll re-set it later if we need to.
             pc.cancel_activity();
         }
     }
 
+    // Restore view to how it was during previos turn in this ui
     const tripoint saved_view_offset = pc.view_offset;
+    set_view_offset( pc, manual_view_offset );
 
     // Initialize cursor position
     src = pc.pos();
@@ -2065,6 +2070,9 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
         }
     } // for(;;)
 
+    // Since the activity can be cancelled at any time, we restore the view now
+    // but save it if we need it in this ui on the next turn
+    manual_view_offset = pc.view_offset;
     set_view_offset( pc, saved_view_offset );
 
     switch( loop_exit_code ) {
@@ -2082,11 +2090,13 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             // automatically re-enter the aiming UI on the next turn.
             // pc.activity.str_values[0] remembers which action, AIM or *_SHOT,
             // we didn't have the time to finish.
-            // pc.activity.str_values[1] remembers state of snap-to-target mode
             traj.clear();
             pc.assign_activity( ACT_AIM, 0, 0 );
             pc.activity.str_values.push_back( timed_out_action );
+            // Save UI state
             pc.activity.str_values.push_back( snap_to_target ? "snap" : "nosnap" );
+            pc.activity.values.push_back( shifting_view ? 1 : 0 );
+            pc.activity.coords.push_back( manual_view_offset );
             break;
         }
         case ExitCode::Reload: {
