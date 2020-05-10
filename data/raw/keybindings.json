@@ -2933,5 +2933,40 @@
     "category": "EXTENDED_DESCRIPTION",
     "name": "Describe terrain",
     "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SWITCH_LISTS",
+    "category": "NPC_TRADE",
+    "name": "Switch lists",
+    "bindings": [ { "input_method": "keyboard", "key": "TAB" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PAGE_UP",
+    "category": "NPC_TRADE",
+    "name": "Back",
+    "bindings": [ { "input_method": "keyboard", "key": "PPAGE" }, { "input_method": "keyboard", "key": "<" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PAGE_DOWN",
+    "category": "NPC_TRADE",
+    "name": "More",
+    "bindings": [ { "input_method": "keyboard", "key": "NPAGE" }, { "input_method": "keyboard", "key": ">" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXAMINE",
+    "category": "NPC_TRADE",
+    "name": "Examine item",
+    "bindings": [ { "input_method": "keyboard", "key": "/" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "NPC_TRADE",
+    "name": "Cancel trading",
+    "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   }
 ]
