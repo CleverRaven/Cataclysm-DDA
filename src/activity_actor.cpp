@@ -649,7 +649,7 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
 
 void rummage_pocket_activity_actor::start( player_activity &act, Character &who )
 {
-    //TODO: Items that are in containers not held by character 
+    //TODO: Items that are in containers not held by character
     //need to be moved to inventory like item_location::obtain
     const int moves = item_loc.obtain_cost( who );
     act.moves_total = moves;
