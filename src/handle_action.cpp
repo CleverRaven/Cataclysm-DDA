@@ -1243,7 +1243,13 @@ static void wear()
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        u.wear( *loc.obtain( u ) );
+        if( loc.where() == item_location::type::container ) {
+            u.assign_activity( player_activity( rummage_pocket_activity_actor(
+                                                    loc, rummage_pocket_activity_actor::action::wear
+                                                ) ) );
+        } else {
+            u.wear( *loc.obtain( u ) );
+        }
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1268,11 +1274,17 @@ static void read()
     item_location loc = game_menus::inv::read( u );
 
     if( loc ) {
-        if( loc->type->can_use( "learn_spell" ) ) {
-            item spell_book = *loc.get_item();
-            spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
+        if( loc.where() == item_location::type::container ) {
+            u.assign_activity( player_activity( rummage_pocket_activity_actor(
+                                                    loc, rummage_pocket_activity_actor::action::read
+                                                ) ) );
         } else {
-            u.read( *loc.obtain( u ) );
+            if( loc->type->can_use( "learn_spell" ) ) {
+                item spell_book = *loc.get_item();
+                spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
+            } else {
+                u.read( *loc.obtain( u ) );
+            }
         }
     } else {
         add_msg( _( "Never mind." ) );

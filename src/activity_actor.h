@@ -387,9 +387,8 @@ class rummage_pocket_activity_actor : public activity_actor
 {
     public:
         enum class action : int {
-            empty,
-            activate,
-            drop,
+            none,
+            read,
             wear,
             wield,
             last

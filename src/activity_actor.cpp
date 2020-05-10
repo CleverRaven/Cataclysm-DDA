@@ -650,37 +650,46 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
 void rummage_pocket_activity_actor::start( player_activity &act, Character &who )
 {
     const int moves = item_loc.obtain_cost( who );
-    DebugLog( D_INFO, DC_ALL ) << "Inside start, calculated moves: " << moves << '\n';
     act.moves_total = moves;
     act.moves_left = moves;
 }
 
 void rummage_pocket_activity_actor::do_turn( player_activity &, Character &who )
 {
-    DebugLog( D_INFO, DC_ALL ) << "Inside do_turn\n";
     who.add_msg_if_player( _( "You rummage your pockets for the item" ) );
 }
 
 void rummage_pocket_activity_actor::finish( player_activity &act, Character &who )
 {
-    DebugLog( D_INFO, DC_ALL ) << "Inside finish\n";
     who.add_msg_if_player( m_good, _( "You rummaged your pockets to find the item" ) );
+    // some of function calls in the switch block spawn activities e.g.
+    // avatar::read spawns an ACT_READ activity, so we need to set
+    // this one to null before calling them
+    act.set_to_null();
     switch( kind ) {
-        case action::activate:
-            break;
-        case action::drop:
-            break;
-        case action::wear:
-            break;
+        case action::read: {
+            avatar &u = g->u;
+            if( item_loc->type->can_use( "learn_spell" ) ) {
+                item spell_book = *item_loc.get_item();
+                spell_book.get_use( "learn_spell" )->call(
+                    u, spell_book, spell_book.active, u.pos() );
+            } else {
+                u.read( *item_loc.obtain( u ) );
+            }
+            return;
+        }
+        case action::wear: {
+            avatar &u = g->u;
+            u.wear( *item_loc.obtain( who ) );
+            return;
+        }
         case action::wield:
             g->wield( item_loc );
-            break;
+            return;
         default:
             debugmsg( "Unexpected action kind in rummage_pocket_activity_actor::finish" );
-            break;
+            return;
     }
-
-    act.set_to_null();
 }
 
 void rummage_pocket_activity_actor::serialize( JsonOut &jsout ) const
@@ -695,7 +704,7 @@ void rummage_pocket_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> rummage_pocket_activity_actor::deserialize( JsonIn &jsin )
 {
-    rummage_pocket_activity_actor actor( item_location{}, action::empty );
+    rummage_pocket_activity_actor actor( item_location{}, action::none );
 
     JsonObject data = jsin.get_object();
 
@@ -713,12 +722,10 @@ std::string enum_to_string<rummage_pocket_activity_actor::action> (
     const rummage_pocket_activity_actor::action kind )
 {
     switch( kind ) {
-        case rummage_pocket_activity_actor::action::empty:
-            return "empty";
-        case rummage_pocket_activity_actor::action::activate:
-            return "activate";
-        case rummage_pocket_activity_actor::action::drop:
-            return "drop";
+        case rummage_pocket_activity_actor::action::none:
+            return "none";
+        case rummage_pocket_activity_actor::action::read:
+            return "read";
         case rummage_pocket_activity_actor::action::wear:
             return "wear";
         case rummage_pocket_activity_actor::action::wield:
