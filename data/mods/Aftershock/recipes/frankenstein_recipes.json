@@ -20,7 +20,7 @@
       [ [ "living_brain_jar", 1 ] ],
       [ [ "humming_heart", 2 ] ],
       [ [ "bot_broken_cyborg", 1 ] ],
-      [ [ "thread", 200 ] ],
+      [ [ "thread", 600 ] ],
       [ [ "1st_aid", 4 ] ],
       [ [ "chain", 2 ] ]
     ]

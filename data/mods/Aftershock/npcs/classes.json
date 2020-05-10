@@ -52,7 +52,8 @@
     "mission": 7,
     "chat": "TALK_Millyficent_1",
     "mission_offered": "MISSION_migo_biology_1",
-    "faction": "whately_family"
+    "faction": "whately_family",
+    "gender": "female",
   },
   {
     "type": "npc_class",
@@ -60,7 +61,6 @@
     "name": "mi-go enthusiast",
     "job_description": "I've been studying the mi-go for years…",
     "common": false,
-    "gender": "female",
     "traits": [
       [ "hair_red_long", 100 ],
       [ "SKIN_LIGHT", 100 ],
