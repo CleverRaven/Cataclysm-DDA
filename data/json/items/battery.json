@@ -33,7 +33,8 @@
     "ammo_type": [ "battery" ],
     "capacity": 50,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 50 } } ]
   },
   {
     "id": "light_minus_atomic_battery_cell",
@@ -53,7 +54,8 @@
     "count": 500,
     "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 500 } } ]
   },
   {
     "id": "light_minus_disposable_cell",
@@ -72,7 +74,8 @@
     "count": 100,
     "capacity": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 100 } } ]
   },
   {
     "id": "light_battery_cell",
@@ -91,7 +94,8 @@
     "ammo_type": [ "battery" ],
     "capacity": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 100 } } ]
   },
   {
     "id": "light_plus_battery_cell",
@@ -109,7 +113,8 @@
     "ammo_type": [ "battery" ],
     "capacity": 150,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 150 } } ]
   },
   {
     "id": "light_atomic_battery_cell",
@@ -129,7 +134,8 @@
     "count": 1000,
     "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 1000 } } ]
   },
   {
     "id": "light_disposable_cell",
@@ -148,7 +154,8 @@
     "count": 300,
     "capacity": 300,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 300 } } ]
   },
   {
     "id": "medium_battery_cell",
@@ -167,7 +174,8 @@
     "ammo_type": [ "battery" ],
     "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 500 } } ]
   },
   {
     "id": "medium_plus_battery_cell",
@@ -185,7 +193,8 @@
     "ammo_type": [ "battery" ],
     "capacity": 600,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 600 } } ]
   },
   {
     "id": "medium_atomic_battery_cell",
@@ -205,7 +214,8 @@
     "count": 5000,
     "capacity": 5000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 5000 } } ]
   },
   {
     "id": "medium_disposable_cell",
@@ -224,7 +234,8 @@
     "count": 1200,
     "capacity": 1200,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 1200 } } ]
   },
   {
     "id": "heavy_battery_cell",
@@ -243,7 +254,8 @@
     "ammo_type": [ "battery" ],
     "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 1000 } } ]
   },
   {
     "id": "heavy_plus_battery_cell",
@@ -261,7 +273,8 @@
     "ammo_type": [ "battery" ],
     "capacity": 1250,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 1250 } } ]
   },
   {
     "id": "heavy_atomic_battery_cell",
@@ -281,7 +294,8 @@
     "count": 10000,
     "capacity": 10000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 10000 } } ]
   },
   {
     "id": "huge_atomic_battery_cell",
@@ -300,7 +314,8 @@
     "count": 100000,
     "capacity": 100000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 100000 } } ]
   },
   {
     "id": "heavy_disposable_cell",
@@ -319,6 +334,7 @@
     "count": 2500,
     "capacity": 2500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 2500 } } ]
   }
 ]
