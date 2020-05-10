@@ -53,7 +53,7 @@
     "chat": "TALK_Millyficent_1",
     "mission_offered": "MISSION_migo_biology_1",
     "faction": "whately_family",
-    "gender": "female",
+    "gender": "female"
   },
   {
     "type": "npc_class",
