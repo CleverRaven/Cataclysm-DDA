@@ -28,6 +28,8 @@
 /src/version.h
 /sound/
 /templates/
+/distribution/
+/msvc-full-features/distribution/
 /tools/format/json_formatter.cgi
 CataclysmWin.cscope_file_list
 CataclysmWin.depend
@@ -188,3 +190,8 @@ Xcode/
 /.flatpak-builder/
 /repo/
 /build-dir/
+msvc-full-features/Cataclysm-vcpkg-static.vcxproj
+msvc-full-features/Cataclysm-vcpkg.vcxproj
+*.vcxproj
+msvc-full-features/distribution*
+msvc-full-features/Cataclysm-vcpkg-static.vcxproj

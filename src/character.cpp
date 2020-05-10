@@ -3410,13 +3410,13 @@ void Character::reset_stats()
     mod_dodge_bonus( std::floor( mutation_value( "dodge_modifier" ) ) );
 
     /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
-    if( str_max >= 16 ) {
-        mod_dodge_bonus( -1 );   // Penalty if we're huge
-    }
+    //if( str_max >= 16 ) {
+    //    mod_dodge_bonus( -1 );   // Penalty if we're huge
+    //}
     /** @EFFECT_STR_MAX below 6 increases Dodge bonus by 1 */
-    else if( str_max <= 5 ) {
-        mod_dodge_bonus( 1 );   // Bonus if we're small
-    }
+    //else if( str_max <= 5 ) {
+    //    mod_dodge_bonus( 1 );   // Bonus if we're small
+    //}
 
     apply_skill_boost();
 

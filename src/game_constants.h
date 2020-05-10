@@ -58,6 +58,11 @@
  * Items on the map with at most this distance to the player are considered available for crafting,
  * see inventory::form_from_map
 */
+#define PICKUP_RANGE 10
+/**
+ * Items on the map with at most this distance to the player are considered available for crafting,
+ * see inventory::form_from_map
+*/
 #define PICKUP_RANGE 6
 
 // Number of z-levels below 0 (not including 0).
@@ -77,7 +82,7 @@
 #define VEHICLE_HANDLING_PENALTY 80
 
 // Amount by which to charge an item for each unit of plutonium cell.
-#define PLUTONIUM_CHARGES 500
+#define PLUTONIUM_CHARGES 50000
 
 // Temperature constants.
 namespace temperatures
@@ -111,7 +116,12 @@ constexpr int freezing = 32; // 0 Celsius
 #define MAX_AIM_COST 10
 
 // Maximum (effective) level for a skill.
-#define MAX_SKILL 10
+#define MAX_SKILL 20
+
+// Maximum (effective) level for a stat.
+#define MAX_STAT 100
+// Maximum (effective) level for a skill.
+#define MAX_SKILL 20
 
 // Maximum (effective) level for a stat.
 #define MAX_STAT 14
