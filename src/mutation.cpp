@@ -236,7 +236,7 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
 m_size calculate_size( const Character &c )
 {
     if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
-        c.has_trait( trait_id( "SMALL" ) ) ) {
+        c.has_trait( trait_id( "SMALL" ) ) || c.has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
         return MS_SMALL;
     } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
         return MS_LARGE;

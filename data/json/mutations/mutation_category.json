@@ -88,7 +88,7 @@
     "threshold_mut": "THRESH_BEAST",
     "mutagen_message": "Your heart races and you see blood for a moment.",
     "iv_message": "Your heart races wildly as the injection takes hold.",
-    "memorial_message": "Embraced his bestial nature."
+    "memorial_message": "Embraced their bestial nature."
   },
   {
     "type": "mutation_category",
