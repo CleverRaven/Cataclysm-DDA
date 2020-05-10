@@ -363,6 +363,7 @@
     "armor_bullet": 14,
     "vision_day": 50,
     "vision_night": 50,
+    "revert_to_itype": "bot_turret_speaker",
     "special_attacks": [ [ "SPEAKER", 10 ] ],
     "death_function": [ "BROKEN" ],
     "death_drops": { "groups": [ [ "turret_speaker", 1 ] ] },
