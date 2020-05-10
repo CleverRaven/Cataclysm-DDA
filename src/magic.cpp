@@ -631,7 +631,7 @@ void spell::gain_levels( int gains )
     if( gains < 1 ) {
         return;
     }
-    for( int gained = 0; gained < gains || is_max_level(); gained++ ) {
+    for( int gained = 0; gained < gains && !is_max_level(); gained++ ) {
         gain_level();
     }
 }
@@ -1834,11 +1834,16 @@ int known_magic::select_spell( const Character &guy )
     std::vector<spell *> known_spells = get_spells();
 
     uilist spell_menu;
-    spell_menu.w_height = clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
-    spell_menu.w_width = std::max( 80, TERMX * 3 / 8 );
-    spell_menu.w_x = ( TERMX - spell_menu.w_width ) / 2;
-    spell_menu.w_y = ( TERMY - spell_menu.w_height ) / 2;
-    spell_menu.pad_right = spell_menu.w_width - max_spell_name_length - 5;
+    spell_menu.w_height_setup = [&]() -> int {
+        return clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
+    };
+    const auto calc_width = []() -> int {
+        return std::max( 80, TERMX * 3 / 8 );
+    };
+    spell_menu.w_width_setup = calc_width;
+    spell_menu.pad_right_setup = [&]() -> int {
+        return calc_width() - max_spell_name_length - 5;
+    };
     spell_menu.title = _( "Choose a Spell" );
     spell_menu.hilight_disabled = true;
     spellcasting_callback cb( known_spells, casting_ignore );

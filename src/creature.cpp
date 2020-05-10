@@ -512,9 +512,9 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    const bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
-    body_part bp_token = bp_hit->token;
-    block_hit( source, bp_token, d );
+    bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    const body_part bp_token = bp_hit->token;
+    block_hit( source, bp_hit, d );
 
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
@@ -833,8 +833,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-    const body_part bp_token = bp->token;
-    absorb_hit( bp_token, d );
+    absorb_hit( bp, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
@@ -894,7 +893,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
             break;
     }
 
-    on_damage_of_type( adjusted_damage, du.type, bp->token );
+    on_damage_of_type( adjusted_damage, du.type, bp );
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );

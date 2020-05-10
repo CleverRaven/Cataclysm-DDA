@@ -8,7 +8,7 @@
     "volume": "3 L",
     "//": "sci-fantasy extradimensional gadget = pricey",
     "price": 1000000000,
-    "//": "because nobody would have that amount after the world ends, it's worth $1000 in barter",
+    "//2": "because nobody would have that amount after the world ends, it's worth $1000 in barter",
     "price_postapoc": 100000,
     "material": [ "glass", "superalloy", "platinum" ],
     "symbol": "[",

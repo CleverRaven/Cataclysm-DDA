@@ -241,7 +241,6 @@ TEST_CASE( "wet item", "[item][tname][wet]" )
 
 TEST_CASE( "filthy item", "[item][tname][filthy]" )
 {
-    override_option opt( "FILTHY_MORALE", "true" );
     item rag( "rag" );
     rag.set_flag( flag_FILTHY );
     REQUIRE( rag.is_filthy() );

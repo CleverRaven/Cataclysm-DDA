@@ -323,6 +323,9 @@ void center_print( const catacurses::window &w, int y, const nc_color &FG,
                    const std::string &text );
 int right_print( const catacurses::window &w, int line, int right_indent,
                  const nc_color &FG, const std::string &text );
+void insert_table( const catacurses::window &w, int pad, int line, int columns,
+                   const nc_color &FG, const std::string &divider, bool r_align,
+                   const std::vector<std::string> &data );
 void scrollable_text( const catacurses::window &w, const std::string &title,
                       const std::string &text );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
@@ -487,6 +490,7 @@ struct item_info_data {
         bool without_getch = false;
         bool without_border = false;
         bool handle_scrolling = false;
+        bool any_input = true;
         bool scrollbar_left = true;
         bool use_full_win = false;
         unsigned int padding = 1;
