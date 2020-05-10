@@ -2221,6 +2221,7 @@ bool target_ui::handle_cursor_movement( player &pc, const std::string &action, b
         shift_view_or_cursor( *delta );
     } else if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
         // Set pos by clicking with mouse
+        mouse_pos->z = pc.pos().z + pc.view_offset.z;
         set_cursor_pos( pc, *mouse_pos );
     } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
         // Shift view/cursor up/down one z level
@@ -2235,7 +2236,11 @@ bool target_ui::handle_cursor_movement( player &pc, const std::string &action, b
     } else if( action == "PREV_TARGET" ) {
         cycle_targets( pc, -1 );
     } else if( action == "CENTER" ) {
-        set_cursor_pos( pc, src );
+        if( shifting_view ) {
+            set_view_offset( pc, tripoint_zero );
+        } else {
+            set_cursor_pos( pc, src );
+        }
     } else {
         return false;
     }
