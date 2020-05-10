@@ -1351,7 +1351,8 @@ bool Character::consume_effects( item &food )
     units::volume food_vol = food.base_volume() - std::max( water_vol, 0_ml );
     units::mass food_weight = ( food.weight() / food.count() ) - units::from_gram( units::to_milliliter(
                                   water_vol ) ); //water is 1 gram per milliliter
-    double ratio = std::max( ( double )food_nutrients.kcal / units::to_gram( food_weight ), 1.0 );
+    double ratio = std::max( static_cast<double>( food_nutrients.kcal ) / units::to_gram( food_weight ),
+                             1.0 );
 
     food_summary ingested{
         water_vol,
