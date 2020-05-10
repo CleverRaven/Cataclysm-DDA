@@ -9115,8 +9115,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
                 if( p != nullptr && p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_bad,
-                                          _( "You notice the cable has come loose!" ) );
+                    p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                 }
                 it->reset_cable( p );
             }
