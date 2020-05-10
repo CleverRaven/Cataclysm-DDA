@@ -944,7 +944,9 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "ANY_INPUT" );
+    if( data.any_input ) {
+        ctxt.register_action( "ANY_INPUT" );
+    }
 
     std::string action;
     do {

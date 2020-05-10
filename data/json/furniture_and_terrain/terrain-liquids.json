@@ -204,6 +204,7 @@
     "color": "light_blue",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "DEEP_WATER" ],
+    "connects_to": "POOLWATER",
     "examine_action": "water_source"
   },
   {
@@ -216,6 +217,7 @@
     "color": "light_blue",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "SHALLOW_WATER" ],
+    "connects_to": "POOLWATER",
     "examine_action": "water_source"
   },
   {
@@ -228,6 +230,7 @@
     "color": "light_blue",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
+    "connects_to": "POOLWATER",
     "examine_action": "water_source"
   },
   {
@@ -240,6 +243,7 @@
     "color": "light_blue",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
+    "connects_to": "POOLWATER",
     "examine_action": "water_source"
   },
   {

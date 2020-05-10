@@ -8000,7 +8000,7 @@
       "sprite_width": 20,
       "sprite_height": 20,
       "sprite_offset_x": -5,
-      "sprite_offset_y": -5,
+      "sprite_offset_y": -10,
         "tiles": [
             { "id": "overlay_male_worn_kufi", "fg": 3152, "rotates": false },
             { "id": "overlay_male_worn_maid_hat", "fg": 3153, "rotates": false },
@@ -8109,7 +8109,7 @@
       "sprite_width": 20,
       "sprite_height": 20,
       "sprite_offset_x": -5,
-      "sprite_offset_y": -5,
+      "sprite_offset_y": -10,
         "tiles": [
             { "id": "overlay_female_worn_kufi", "fg": 3256, "rotates": false },
             { "id": "overlay_female_worn_maid_hat", "fg": 3257, "rotates": false },
