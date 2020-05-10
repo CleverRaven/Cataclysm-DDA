@@ -834,8 +834,12 @@ int iuse::vaccine( player *p, item *it, bool, const tripoint & )
 int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
-    p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
-    p->add_effect( effect_flushot, 24_weeks, num_bp, false );
+    time_point expiration_date = calendar::start_of_cataclysm + 24_weeks;
+    time_duration remaining_time = expiration_date - calendar::turn;
+    if( remaining_time > 0_turns ) {
+        p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
+        p->add_effect( effect_flushot, remaining_time, num_bp, false );
+    }
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
