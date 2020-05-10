@@ -841,7 +841,8 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
         p->add_effect( effect_flushot, remaining_time, num_bp, false );
     } else {
-        p->add_msg_if_player( m_bad, _( "You notice the date on the packaging is pretty old.  It may no longer be effective." ) );
+        p->add_msg_if_player( m_bad,
+                              _( "You notice the date on the packaging is pretty old.  It may no longer be effective." ) );
     }
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
