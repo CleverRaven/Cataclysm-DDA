@@ -4023,7 +4023,21 @@
       "both": {
         "ammo": 100,
         "magazine": 100,
-        "items": [ "tshirt_tour", "shorts_cargo", "socks", "sneakers", "wristwatch", "water_clean", "guitar_electric" ],
+        "items": [
+          "mbag",
+          "tshirt_tour",
+          "shorts_cargo",
+          "socks",
+          "sneakers",
+          "wristwatch",
+          "water_clean",
+          "guitar_electric",
+          "cable_instrument",
+          "plectrum",
+          "plectrum",
+          "plectrum",
+          "joint"
+        ],
         "entries": [ { "item": "towel", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],
