@@ -5328,14 +5328,15 @@ void Character::update_bodytemp()
                                                      sheltered ),
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        const ter_id ter_at_pos = g->m.ter( pos() );
         // Convert to 0.01C
-        if( ( ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp ||
-              ter_at_pos == t_water_moving_dp ) ||
-            ( ( ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage ||
-                ter_at_pos == t_water_moving_sh ) &&
-              ( bp == bodypart_id( "foot_l" ) || bp == bodypart_id( "foot_r" ) || bp == bodypart_id( "leg_l" ) ||
-                bp == bodypart_id( "leg_r" ) ) ) ) {
+        static const std::set<bodypart_id> lowers {
+            bodypart_id( "foot_l" ),
+            bodypart_id( "foot_r" ),
+            bodypart_id( "leg_l" ),
+            bodypart_id( "leg_r" )
+        };
+        if( g->m.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ||
+            ( g->m.has_flag_ter( TFLAG_SHALLOW_WATER, pos() ) && lowers.count( bp ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
@@ -8623,31 +8624,29 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
-    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
-        int sum_cover = 0;
-        for( const item &i : worn ) {
-            if( i.covers( bp->token ) && i.is_filthy() ) {
-                sum_cover += i.get_coverage();
-            }
+    int sum_cover = 0;
+    for( const item &i : worn ) {
+        if( i.covers( bp->token ) && i.is_filthy() ) {
+            sum_cover += i.get_coverage();
         }
+    }
 
-        // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
-        // i.e. if the body part has a sum of 100 coverage from filthy clothing,
-        // each point of damage has a 1% change of causing infection.
-        if( sum_cover > 0 ) {
-            const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
-            const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
-            const int infection_chance = ( combined_dam * sum_cover ) / 100;
-            if( x_in_y( infection_chance, 100 ) ) {
-                if( has_effect( effect_bite, bp->token ) ) {
-                    add_effect( effect_bite, 40_minutes, bp->token, true );
-                } else if( has_effect( effect_infected, bp->token ) ) {
-                    add_effect( effect_infected, 25_minutes, bp->token, true );
-                } else {
-                    add_effect( effect_bite, 1_turns, bp->token, true );
-                }
-                add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
+    // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
+    // i.e. if the body part has a sum of 100 coverage from filthy clothing,
+    // each point of damage has a 1% change of causing infection.
+    if( sum_cover > 0 ) {
+        const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
+        const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
+        const int infection_chance = ( combined_dam * sum_cover ) / 100;
+        if( x_in_y( infection_chance, 100 ) ) {
+            if( has_effect( effect_bite, bp->token ) ) {
+                add_effect( effect_bite, 40_minutes, bp->token, true );
+            } else if( has_effect( effect_infected, bp->token ) ) {
+                add_effect( effect_infected, 25_minutes, bp->token, true );
+            } else {
+                add_effect( effect_bite, 1_turns, bp->token, true );
             }
+            add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
         }
     }
 

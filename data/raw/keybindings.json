@@ -870,10 +870,10 @@
   {
     "type": "keybinding",
     "id": "FIRE",
+    "category": "TARGET",
     "name": "Fire Weapon",
     "bindings": [
       { "input_method": "keyboard", "key": "f" },
-      { "input_method": "keyboard", "key": "F" },
       { "input_method": "keyboard", "key": "RETURN" },
       { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
@@ -881,6 +881,7 @@
   {
     "type": "keybinding",
     "id": "PREV_TARGET",
+    "category": "TARGET",
     "name": "Prev Target",
     "bindings": [
       { "input_method": "keyboard", "key": "BACKTAB" },
@@ -891,6 +892,7 @@
   {
     "type": "keybinding",
     "id": "NEXT_TARGET",
+    "category": "TARGET",
     "name": "Next Target",
     "bindings": [
       { "input_method": "keyboard", "key": "TAB" },
@@ -901,50 +903,65 @@
   {
     "type": "keybinding",
     "id": "AIM",
+    "category": "TARGET",
     "name": "Aim",
     "bindings": [ { "input_method": "keyboard", "key": "." }, { "input_method": "keyboard", "key": "5" } ]
   },
   {
     "type": "keybinding",
     "id": "AIMED_SHOT",
+    "category": "TARGET",
     "name": "Aimed Shot",
     "bindings": [ { "input_method": "keyboard", "key": "a" } ]
   },
   {
     "type": "keybinding",
     "id": "CAREFUL_SHOT",
+    "category": "TARGET",
     "name": "Careful Shot",
     "bindings": [ { "input_method": "keyboard", "key": "c" } ]
   },
   {
     "type": "keybinding",
     "id": "PRECISE_SHOT",
+    "category": "TARGET",
     "name": "Precise Shot",
     "bindings": [ { "input_method": "keyboard", "key": "p" } ]
   },
   {
     "type": "keybinding",
     "id": "SWITCH_AIM",
+    "category": "TARGET",
     "name": "Switch Aiming Mode",
     "bindings": [ { "input_method": "keyboard", "key": "m" } ]
   },
   {
     "type": "keybinding",
     "id": "SWITCH_AMMO",
+    "category": "TARGET",
     "name": "Switch ammo",
     "bindings": [ { "input_method": "keyboard", "key": "o" } ]
   },
   {
     "type": "keybinding",
     "id": "SWITCH_MODE",
+    "category": "TARGET",
     "name": "Switch Firing Mode",
-    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "F" } ]
   },
   {
     "type": "keybinding",
     "id": "TOGGLE_TURRET_LINES",
+    "category": "TARGET",
     "name": "Toggle turret lines",
     "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_SNAP_TO_TARGET",
+    "category": "TARGET",
+    "name": "Toggle Snap to Target",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
@@ -993,12 +1010,6 @@
     "id": "TRAVEL_TO",
     "name": "Travel to destination",
     "bindings": [ { "input_method": "keyboard", "key": "T" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "TOGGLE_SNAP_TO_TARGET",
-    "name": "Toggle Snap to Target",
-    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",

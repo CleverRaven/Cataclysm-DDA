@@ -1186,7 +1186,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
 bool map::displace_water( const tripoint &p )
 {
     // Check for shallow water
-    if( has_flag( "SWIMMABLE", p ) && !has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( has_flag_ter( TFLAG_SHALLOW_WATER, p ) ) {
         int dis_places = 0;
         int sel_place = 0;
         for( int pass = 0; pass < 2; pass++ ) {
@@ -1203,9 +1203,7 @@ bool map::displace_water( const tripoint &p )
                     || has_flag( TFLAG_DEEP_WATER, temp ) ) {
                     continue;
                 }
-                ter_id ter0 = ter( temp );
-                if( ter0 == t_water_sh ||
-                    ter0 == t_water_dp || ter0 == t_water_moving_sh || ter0 == t_water_moving_dp ) {
+                if( has_flag_ter( TFLAG_SHALLOW_WATER, p ) || has_flag_ter( TFLAG_DEEP_WATER, p ) ) {
                     continue;
                 }
                 if( pass != 0 && dis_places == sel_place ) {

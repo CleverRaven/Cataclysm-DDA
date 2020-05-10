@@ -2416,13 +2416,11 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     }
 
     spellbook_uilist.entries = uilist_initializer;
-    spellbook_uilist.w_height = 24;
-    spellbook_uilist.w_width = 80;
-    spellbook_uilist.w_x = ( TERMX - spellbook_uilist.w_width ) / 2;
-    spellbook_uilist.w_y = ( TERMY - spellbook_uilist.w_height ) / 2;
+    spellbook_uilist.w_height_setup = 24;
+    spellbook_uilist.w_width_setup = 80;
     spellbook_uilist.callback = &sp_cb;
     spellbook_uilist.title = _( "Study a spell:" );
-    spellbook_uilist.pad_left = 38;
+    spellbook_uilist.pad_left_setup = 38;
     spellbook_uilist.query();
     const int action = spellbook_uilist.ret;
     if( action < 0 ) {
@@ -3333,7 +3331,7 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
         p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
-    if( get_option<bool>( "FILTHY_WOUNDS" ) && it.is_filthy() ) {
+    if( it.is_filthy() ) {
         p.add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
         return 0;
     }

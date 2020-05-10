@@ -930,6 +930,8 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         std::string item_group;
         switch( rng( 1, 10 ) ) {
             case 1:
+                item_group = "mil_bulk";
+                break;
             case 2:
             case 3:
             case 4:

@@ -160,6 +160,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "WALL",                     TFLAG_WALL },           // connects to other walls
         { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
+        { "SHALLOW_WATER",            TFLAG_SHALLOW_WATER },  // Water, but not deep enough to submerge the player
         { "CURRENT",                  TFLAG_CURRENT },        // Water is flowing.
         { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
         { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
