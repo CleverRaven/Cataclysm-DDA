@@ -211,25 +211,21 @@
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "update_mapgen": [ { "om_terrain": "mortuary_2story", "place_nested": [ { "chunks": [ "whately_cousin_update" ], "x": 17, "y": 18 } ] } ],
+      "update_mapgen": [ { "om_terrain": "mortuary_2story", "place_nested": [ { "chunks": [ [ "whately_cousin", 5 ], [ "null", 35 ] ], "x": [ 16, 19 ], "y": [ 15, 22 ] } ],
       "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ]
-        },
-        {
-          "origins": [ "ORIGIN_SECONDARY" ],
-          "has_generic_rewards": false,
-          "dialogue": {
-            "describe": "My great uncle Cyrus had an unconventional relationship with both his neighbors and the mi-go before the Cataclysm.  I'd like to know where he has gotten with his research since I haven't heard from him in years.",
-            "offer": "Can you go find my uncle and let him know where I am?",
-            "accepted": "Of course you said yes, you want to know what he's found just as much as I do!",
-            "rejected": "Oh well.  I was hoping to teach you some new things, so you could start your own experiments.",
-            "advice": "I've given you directions to that branch of the family's bunker.  Yes I said bunker did you think he'd be in a tower?",
-            "inquire": "How is the search going?",
-            "success": "Thanks, now that he knows I'm here he's sent some of my cousins.  Now that I have more disposable help, take a copy of my early research.",
-            "success_lie": "What good does this do us?",
-            "failure": "I hope he didn't meet Leandrus' fate…"
-          }
-        }
-      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "My great uncle Cyrus had an unconventional relationship with both his neighbors and the mi-go before the Cataclysm.  I'd like to know where he has gotten with his research since I haven't heard from him in years.",
+      "offer": "Can you go find my uncle and let him know where I am?",
+      "accepted": "Of course you said yes, you want to know what he's found just as much as I do!",
+      "rejected": "Oh well.  I was hoping to teach you some new things, so you could start your own experiments.",
+      "advice": "I've given you directions to that branch of the family's bunker.  Yes I said bunker did you think he'd be in a tower?",
+      "inquire": "How is the search going?",
+      "success": "Thanks, now that he knows I'm here he's sent some of my cousins.  Now that I have more disposable help, take a copy of my early research.",
+      "success_lie": "What good does this do us?",
+      "failure": "I hope he didn't meet Leandrus' fate…"
     }
   }
 ]

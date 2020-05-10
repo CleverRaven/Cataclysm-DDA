@@ -333,5 +333,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "whately_cousin_update",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "whately_cousin", "x": 0, "y": 0 } ] }
   }
 ]
