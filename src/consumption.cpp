@@ -1345,12 +1345,18 @@ bool Character::consume_effects( item &food )
         set_hunger( capacity );
     }
 
+    nutrients food_nutrients = compute_effective_nutrients( food );
     // TODO: Move quench values to mL and remove the magic number here
-    units::volume water = food.type->comestible->quench * 5_ml;
+    units::volume water_vol = food.type->comestible->quench * 5_ml;
+    units::volume food_vol = food.base_volume() - std::max( water_vol, 0_ml );
+    units::mass food_weight = ( food.weight() / food.count() ) - units::from_gram( units::to_milliliter(
+                                  water_vol ) ); //water is 1 gram per milliliter
+    double ratio = std::max( ( double )food_nutrients.kcal / units::to_gram( food_weight ), 1.0 );
+
     food_summary ingested{
-        water,
-        food.base_volume() - std::max( water, 0_ml ),
-        compute_effective_nutrients( food )
+        water_vol,
+        food_vol * ratio,
+        food_nutrients
     };
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
