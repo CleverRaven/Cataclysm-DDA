@@ -211,11 +211,8 @@
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "update_mapgen": [
-        {
-          "om_terrain": "mortuary_2story",
-          "set": { "place_npcs": [ { "class": "whately_cousin", "x": 17, "y": 18 } ] },
-          "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ]
+      "update_mapgen": [ { "om_terrain": "mortuary_2story", "place_nested": [ { "chunks": [ "whately_cousin_update" ], "x": 17, "y": 18 } ] } ],
+      "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ]
         },
         {
           "origins": [ "ORIGIN_SECONDARY" ],
