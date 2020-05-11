@@ -1,0 +1,47 @@
+[ 
+  {
+    "type": "vehicle_part",
+    "id": "windshield",
+    "name": { "str": "windshield" },
+    "symbol": "\"",
+    "looks_like": "t_wall_glass",
+    "color": "light_cyan",
+    "broken_symbol": "0",
+    "broken_color": "light_gray",
+    "damage_modifier": 70,
+    "description": "A sheet of glass that lets you see outside the vehicle.",
+    "durability": 50,
+    "item": "glass_sheet",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "OVER", "WINDSHIELD", "OBSTACLE", "WINDOW" ],
+    "breaks_into": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "reinforced_windshield",
+    "name": { "str": "reinforced windshield" },
+    "symbol": "\"",
+    "looks_like": "windshield",
+    "color": "light_blue",
+    "broken_symbol": "0",
+    "broken_color": "light_gray",
+    "damage_modifier": 80,
+    "durability": 250,
+    "description": "A sheet of glass that lets you see outside the vehicle.  Reinforced with wire to make it harder to break than normal glass.",
+    "item": "reinforced_glass_sheet",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
+    "breaks_into": [ { "item": "glass_shard", "count": [ 25, 50 ] }, { "item": "wire", "count": [ 4, 8 ] } ],
+    "damage_reduction": { "all": 16 }
+  }
+]
