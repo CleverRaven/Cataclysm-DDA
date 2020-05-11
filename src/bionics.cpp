@@ -283,7 +283,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string )
     if( jsobj.has_string( "installation_requirement" ) ) {
         std::string temp_string;
         optional( jsobj, was_loaded, "installation_requirement", temp_string );
-        instalation_requirement = requirement_id( temp_string );
+        installation_requirement = requirement_id( temp_string );
     }
 
 
@@ -366,9 +366,9 @@ void bionic_data::check_bionic_consistency()
 {
     for( const bionic_data &bio : get_all() ) {
 
-        if( !bio.instalation_requirement.is_empty() && !bio.instalation_requirement.is_valid() ) {
+        if( !bio.installation_requirement.is_empty() && !bio.installation_requirement.is_valid() ) {
             debugmsg( "Bionic %s uses undefined requirement_id %s", bio.id.c_str(),
-                      bio.instalation_requirement.c_str() );
+                      bio.installation_requirement.c_str() );
         }
         if( bio.has_flag( flag_BIO_GUN ) && bio.has_flag( flag_BIO_WEAPON ) ) {
             debugmsg( "Bionic %s specified as both gun and weapon bionic", bio.id.c_str() );
@@ -1934,15 +1934,15 @@ void Character::consume_anesth_requirment( const itype &cbm, player &patient )
 
 bool Character::has_installation_requirment( bionic_id bid )
 {
-    if( bid->instalation_requirement.is_empty() ) {
+    if( bid->installation_requirement.is_empty() ) {
         return false;
     }
 
-    if( !bid->instalation_requirement->can_make_with_inventory( crafting_inventory(),
+    if( !bid->installation_requirement->can_make_with_inventory( crafting_inventory(),
             is_crafting_component ) ) {
         std::string buffer = _( "You don't have the required components to perform the installation." );
         buffer += "\n";
-        buffer += bid->instalation_requirement->list_missing();
+        buffer += bid->installation_requirement->list_missing();
         popup( buffer, PF_NONE );
         return false;
     }
@@ -1952,10 +1952,10 @@ bool Character::has_installation_requirment( bionic_id bid )
 
 void Character::consume_installation_requirment( bionic_id bid )
 {
-    for( const auto &e : bid->instalation_requirement->get_components() ) {
+    for( const auto &e : bid->installation_requirement->get_components() ) {
         as_player()->consume_items( e, 1, is_crafting_component );
     }
-    for( const auto &e : bid->instalation_requirement->get_tools() ) {
+    for( const auto &e : bid->installation_requirement->get_tools() ) {
         as_player()->consume_tools( e );
     }
     invalidate_crafting_inventory();

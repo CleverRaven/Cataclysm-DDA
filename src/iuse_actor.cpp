@@ -3986,7 +3986,7 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
     }
     if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        if( bid->instalation_requirement.is_empty() ) {
+        if( bid->installation_requirement.is_empty() ) {
             return ret_val<bool>::make_failure( _( "You can't self-install this CBM." ) );
         } else  if( it.has_flag( "FILTHY" ) ) {
             return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );

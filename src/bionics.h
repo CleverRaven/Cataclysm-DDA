@@ -127,7 +127,7 @@ struct bionic_data {
     std::set<bionic_id> available_upgrades;
 
     /**Requirement to bionic installation*/
-    requirement_id instalation_requirement;
+    requirement_id installation_requirement;
 
     cata::flat_set<std::string> flags;
     bool has_flag( const std::string &flag ) const;
