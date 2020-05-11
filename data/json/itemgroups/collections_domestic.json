@@ -242,7 +242,7 @@
     "items": [
       [ "alarmclock", 60 ],
       [ "glasses_reading", 50 ],
-      { "glasses_eye", 30 },
+      [ "glasses_eye", 30 ],
       [ "novel_drama", 50 ],
       [ "novel_romance", 40 ],
       [ "novel_mystery", 40 ],
