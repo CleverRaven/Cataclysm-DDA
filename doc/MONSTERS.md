@@ -1,7 +1,6 @@
 # MONSTERS
 
-Monsters include not just zombies, but fish, dogs, moose, Mi-gos, and manhacks. They are
-defined in JSON objects with "type" set to "MONSTER":
+Monsters include not just zombies, but fish, dogs, moose, Mi-gos, manhacks, and even stationary installations like turrets. They are defined in JSON objects with "type" set to "MONSTER":
 
 ```JSON
 {
@@ -599,4 +598,3 @@ Fires a gun at a target. If friendly, will avoid harming the player.
 | `targeting_sound`           | Description of the sound made when targeting.
 | `targeting_volume`          | Volume of the sound made when targeting.
 | `no_ammo_sound`             | Description of the sound made when out of ammo.
-
