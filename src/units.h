@@ -540,7 +540,7 @@ inline constexpr value_type to_kilometer( const quantity<value_type, length_in_m
 
 // converts a volume as if it were a cube to the length of one side
 template<typename value_type>
-inline constexpr quantity<value_type, length_in_millimeter_tag> cube_to_volume(
+inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_from_volume(
     const quantity<value_type, volume_in_milliliter_tag> &v )
 {
     return units::from_centimeter<int>(

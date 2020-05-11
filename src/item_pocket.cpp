@@ -52,7 +52,7 @@ void pocket_data::load( const JsonObject &jo )
         mandatory( jo, was_loaded, "max_contains_volume", max_contains_volume, volume_reader() );
         mandatory( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader() );
         optional( jo, was_loaded, "max_item_length", max_item_length,
-                  units::cube_to_volume( max_contains_volume ) * M_SQRT2 );
+                  units::default_length_from_volume( max_contains_volume ) * M_SQRT2 );
     }
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
     optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
