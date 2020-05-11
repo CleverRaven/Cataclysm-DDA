@@ -6,13 +6,7 @@
     "difficulty": 2,
     "time": "600 s",
     "qualities": [ { "id": "PRY", "level": 1 } ],
-    "components": [
-      [ [ "wheel_skate", 6 ] ],
-      [ [ "rag", 6 ] ],
-      [ [ "plastic_chunk", 6 ] ],
-      [ [ "scrap", 18 ] ],
-      [ [ "bearing", 6 ] ]
-    ]
+    "components": [ [ [ "wheel_skate", 6 ] ], [ [ "rag", 6 ] ], [ [ "plastic_chunk", 6 ] ], [ [ "scrap", 18 ] ], [ [ "bearing", 6 ] ] ]
   },
   {
     "result": "rollerskates",
