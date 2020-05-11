@@ -3084,10 +3084,10 @@ bool Character::is_wearing( const itype_id &it ) const
     return false;
 }
 
-bool Character::is_wearing_on_bp( const itype_id &it, body_part bp ) const
+bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const
 {
     for( auto &i : worn ) {
-        if( i.typeId() == it && i.covers( bp ) ) {
+        if( i.typeId() == it && i.covers( bp->token ) ) {
             return true;
         }
     }
@@ -9044,10 +9044,10 @@ double Character::footwear_factor() const
 int Character::shoe_type_count( const itype_id &it ) const
 {
     int ret = 0;
-    if( is_wearing_on_bp( it, bp_foot_l ) ) {
+    if( is_wearing_on_bp( it, bodypart_id( "foot_l" ) ) ) {
         ret++;
     }
-    if( is_wearing_on_bp( it, bp_foot_r ) ) {
+    if( is_wearing_on_bp( it, bodypart_id( "foot_r" ) ) ) {
         ret++;
     }
     return ret;

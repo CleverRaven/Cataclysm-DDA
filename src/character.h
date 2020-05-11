@@ -1437,8 +1437,8 @@ class Character : public Creature, public visitable<Character>
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
         bool is_wearing( const itype_id &it ) const;
-        /** Returns true if the player is wearing the item on the given body_part. */
-        bool is_wearing_on_bp( const itype_id &it, body_part bp ) const;
+        /** Returns true if the player is wearing the item on the given body part. */
+        bool is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
         bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
         /** Returns the first worn item with a given flag. */
