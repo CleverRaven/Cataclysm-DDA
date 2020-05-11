@@ -3,19 +3,12 @@
 #include "behavior.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "monster.h"
 #include "monster_oracle.h"
 
 namespace behavior
 {
-
-status_t monster_oracle_t::has_special( const std::string & ) const
-{
-    if( subject->shortest_special_cooldown() == 0 ) {
-        return running;
-    }
-    return failure;
-}
 
 status_t monster_oracle_t::not_hallucination( const std::string & ) const
 {
@@ -33,12 +26,17 @@ status_t monster_oracle_t::items_available( const std::string & ) const
 // TODO: Have it select a target and stash it somewhere.
 status_t monster_oracle_t::adjacent_plants( const std::string & ) const
 {
-    for( const auto &p : g->m.points_in_radius( subject->pos(), 1 ) ) {
+    for( const tripoint &p : g->m.points_in_radius( subject->pos(), 1 ) ) {
         if( g->m.has_flag( "PLANT", p ) ) {
             return running;
         }
     }
     return failure;
+}
+
+status_t monster_oracle_t::special_available( const std::string &special_name ) const
+{
+    return subject->special_available( special_name ) ? running : failure;
 }
 
 } // namespace behavior

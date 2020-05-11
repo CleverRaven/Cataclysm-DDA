@@ -74,7 +74,7 @@ class node_t
         bool was_loaded = false;
     private:
         std::vector<const node_t *> children;
-        const strategy_t *strategy;
+        const strategy_t *strategy = nullptr;
         std::function<status_t( const oracle_t *, const std::string & )> predicate;
         std::string predicate_argument;
         // TODO: make into an ID?

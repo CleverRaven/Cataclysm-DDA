@@ -2032,17 +2032,11 @@ void monster::disable_special( const std::string &special_name )
     special_attacks.at( special_name ).enabled = false;
 }
 
-int monster::shortest_special_cooldown() const
+bool monster::special_available( const std::string &special_name ) const
 {
-    int countdown = std::numeric_limits<int>::max();
-    for( const std::pair<const std::string, mon_special_attack> &sp_type : special_attacks ) {
-        const mon_special_attack &local_attack_data = sp_type.second;
-        if( !local_attack_data.enabled ) {
-            continue;
-        }
-        countdown = std::min( countdown, local_attack_data.cooldown );
-    }
-    return countdown;
+    std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
+                special_name );
+    return iter != special_attacks.end() && iter->second.enabled && iter->second.cooldown == 0;
 }
 
 void monster::normalize_ammo( const int old_ammo )

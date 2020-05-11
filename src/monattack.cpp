@@ -301,12 +301,18 @@ bool mattack::none( monster * )
 
 bool mattack::eat_crop( monster *z )
 {
+    cata::optional<tripoint> target;
+    int num_targets = 1;
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
-            g->m.furn_set( p, furn_str_id( g->m.furn( p )->plant->base ) );
-            g->m.i_clear( p );
-            return true;
+        if( g->m.has_flag( "PLANT", p ) && one_in( num_targets ) ) {
+            num_targets++;
+            target = p;
         }
+    }
+    if( target ) {
+        g->m.furn_set( *target, furn_str_id( g->m.furn( *target )->plant->base ) );
+        g->m.i_clear( *target );
+        return true;
     }
     return true;
 }

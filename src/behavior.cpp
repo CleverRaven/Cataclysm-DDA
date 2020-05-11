@@ -85,6 +85,13 @@ generic_factory<behavior::node_t> behavior_factory( "behavior" );
 std::list<node_data> temp_node_data;
 } // namespace
 
+/** @relates string_id */
+template<>
+bool string_id<node_t>::is_valid() const
+{
+    return behavior_factory.is_valid( *this );
+}
+
 template<>
 const node_t &string_id<node_t>::obj() const
 {

@@ -662,6 +662,15 @@ void monster::move()
             }
         }
         g->m.i_clear( pos() );
+    } else if( action == "eat_crop" ) {
+        // TODO: Create a special attacks whitelist unordered map instead of an if chain.
+        std::map<std::string, mtype_special_attack>::const_iterator attack =
+            type->special_attacks.find( action );
+        if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
+            if( special_attacks.count( action ) != 0 ) {
+                reset_special( action );
+            }
+        }
     }
     // record position before moving to put the player there if we're dragging
     tripoint drag_to = g->m.getabs( pos() );

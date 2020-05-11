@@ -339,6 +339,11 @@ static void build_behavior_tree( mtype &type )
     if( type.has_flag( MF_ABSORBS ) || type.has_flag( MF_ABSORBS_SPLITS ) ) {
         type.add_goal( "absorb_items" );
     }
+    for( const std::pair<const std::string, mtype_special_attack> &attack : type.special_attacks ) {
+        if( string_id<behavior::node_t>( attack.first ).is_valid() ) {
+            type.add_goal( attack.first );
+        } /* TODO: Make this an error once all the special attacks are migrated. */
+    }
 }
 
 void MonsterGenerator::finalize_mtypes()

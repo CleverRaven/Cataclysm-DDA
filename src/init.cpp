@@ -593,6 +593,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
+            { _( "Behaviors" ), &behavior::finalize },
             {
                 _( "Monster types" ), []()
                 {
@@ -608,7 +609,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Martial arts" ), &finialize_martial_arts },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
-            { _( "Behaviors" ), &behavior::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
