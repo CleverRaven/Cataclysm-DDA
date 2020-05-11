@@ -310,7 +310,7 @@ class player : public Character
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
-        void add_pain_msg( int val, body_part bp ) const;
+        void add_pain_msg( int val, const bodypart_id &bp ) const;
 
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
