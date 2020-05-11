@@ -78,7 +78,13 @@
   {
     "id": "cop_weapons",
     "type": "item_group",
-    "items": [ { "group": "cop_melee", "prob": 60 }, { "group": "guns_cop", "prob": 40 } ]
+    "items": [
+      { "group": "cop_melee", "prob": 60 },
+      {
+        "distribution": [ { "group": "longguns_cop", "prob": 50, "contents-item": "shoulder_strap" }, { "group": "sidearms_cop", "prob": 50 } ],
+        "prob": 40
+      }
+    ]
   },
   {
     "id": "mon_zombie_swat_death_drops",

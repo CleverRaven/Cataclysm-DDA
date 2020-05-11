@@ -18,7 +18,11 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "map_extra_military",
-    "entries": [ { "group": "mon_zombie_soldier_death_drops" }, { "item": "corpse", "damage": 3 } ]
+    "entries": [
+      { "group": "mon_zombie_soldier_death_drops" },
+      { "group": "military_standard_sniper_rifles", "prob": 10 },
+      { "item": "corpse", "damage": 3 }
+    ]
   },
   {
     "type": "item_group",
