@@ -2,8 +2,8 @@ import json
 import os
 import subprocess
 
-default_path = "data/json/vehicleparts/rams.json"
-default_output = "data/json/vehicleparts/rams2.json"
+default_path = "data/json/vehicleparts/doors.json"
+default_output = "data/json/vehicleparts/doors.json"
 ids_created_output = "data/json/vehicleparts/new_ids.txt"
 
 ids_to_create_directional_parts_for = []
@@ -36,10 +36,10 @@ def gen_new(path):
         for key, value in variants.items():
             for ram in ids_to_create_directional_parts_for:
                 new_ram_id = ram + "_" + key
-                copyfrom = ram
+                copyfrom = ram + "_abstract"
                 if(key == "default_look"):
                     new_ram_id = ram
-                    copyfrom = ram + "_abstract"
+
                 new_ram_data = {
                     "id": new_ram_id,
                     "copy-from": copyfrom,
