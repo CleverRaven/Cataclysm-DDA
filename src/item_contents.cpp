@@ -507,7 +507,7 @@ bool item_contents::stacks_with( const item_contents &rhs ) const
     if( contents.size() != rhs.contents.size() ) {
         return false;
     }
-    return empty() || rhs.empty() ||
+    return ( empty() && rhs.empty() ) ||
            std::equal( contents.begin(), contents.end(),
                        rhs.contents.begin(),
     []( const item_pocket & a, const item_pocket & b ) {
