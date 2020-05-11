@@ -378,7 +378,8 @@
     "durability": 8,
     "clip_size": 100,
     "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
-    "relative": { "reload": 4 }
+    "relative": { "reload": 4 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 100 } } ]
   },
   {
     "type": "effect_type",
@@ -1230,7 +1231,8 @@
     "dispersion": 60,
     "durability": 9,
     "clip_size": 1,
-    "loudness": 300
+    "loudness": 300,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
   },
   {
     "type": "GENERIC",
@@ -1295,7 +1297,8 @@
     ],
     "blackpowder_tolerance": 60,
     "relative": { "durability": -3 },
-    "proportional": { "reload": 4.0 }
+    "proportional": { "reload": 4.0 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 1 } } ]
   },
   {
     "id": "shishkebab_off",
@@ -1769,7 +1772,8 @@
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 5 } } ]
   },
   {
     "id": "223_speedloader5",
@@ -2023,7 +2027,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 15 } } ]
   },
   {
     "id": "helsing",
@@ -2060,7 +2065,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 8 } } ]
   },
   {
     "id": "pneumatic_shotgun",
@@ -2098,7 +2104,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shotcanister": 2 } } ]
   },
   {
     "id": "mininuke_launcher",
@@ -2124,7 +2131,8 @@
     "durability": 7,
     "clip_size": 1,
     "reload": 800,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mininuke_mod": 1 } } ]
   },
   {
     "id": "heavy_rail_rifle",
@@ -2162,7 +2170,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "INCENDIARY", "TRAIL" ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "metal_rail": 10 } } ]
   },
   {
     "id": "rebar_rifle",
@@ -2196,7 +2205,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ]
+    "ammo_effects": [ "INCENDIARY", "TRAIL" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "metal_rail": 1 } } ]
   },
   {
     "id": "coilgun",
@@ -2243,7 +2253,6 @@
     "price_postapoc": 750,
     "skill": "rifle",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "clip_size": 0,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

@@ -6,7 +6,8 @@
     "name": { "str": "grenade launcher" },
     "ammo": [ "ammo_grenade" ],
     "description": "An older single shot grenade launcher, looking something like a sawn off shotgun.  Though it's mostly been replaced by underbarrel launchers, dedicated models like this have seen use by law enforcement and riot personnel.  Still deadly against hard or soft targets, depending on what cartridges are available.",
-    "clip_size": 1
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 } } ]
   },
   {
     "id": "grenade_hmg",
@@ -31,7 +32,8 @@
       "type": "transform",
       "target": "grenade_under",
       "msg": "You make the launcher ready for attachment."
-    }
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 } } ]
   },
   {
     "id": "grenade_revolver",
@@ -40,6 +42,7 @@
     "name": { "str": "revolver grenade launcher" },
     "ammo": [ "ammo_grenade" ],
     "description": "Looking something like a large revolver from a cartoon this launcher is capable of firing six grenades in rapid succession.  Its huge cylinder is wound by a clock spring, which hastens firing, but slows reloading, as it must be re-wound.  Needless to say, six well placed shots is an incredible amount of firepower, depending on the cartridges loaded.",
-    "clip_size": 6
+    "clip_size": 6,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 6 } } ]
   }
 ]

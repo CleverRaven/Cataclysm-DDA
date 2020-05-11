@@ -379,7 +379,8 @@
     "range": 8,
     "dispersion": 1250,
     "durability": 4,
-    "clip_size": 1
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "shortbow",
@@ -408,7 +409,8 @@
     "dispersion": 1000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "compbow",
@@ -444,7 +446,8 @@
       "target": "compbow_high",
       "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
-    }
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "compbow_high",
@@ -507,7 +510,8 @@
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "recurbow",
@@ -536,7 +540,8 @@
     "dispersion": 850,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "reflexbow",
@@ -565,7 +570,8 @@
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "hybridbow",
@@ -594,7 +600,8 @@
     "dispersion": 850,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "longbow",
@@ -622,7 +629,8 @@
     "dispersion": 1000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "woodgreatbow",
@@ -668,7 +676,8 @@
     "range": 22,
     "dispersion": 1000,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "reflexrecurvebow",
@@ -697,6 +706,7 @@
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }
 ]

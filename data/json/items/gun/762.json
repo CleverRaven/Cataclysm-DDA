@@ -118,7 +118,8 @@
       [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "762", [ "762x39_clip" ] ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 } } ]
   },
   {
     "id": "aksemi",

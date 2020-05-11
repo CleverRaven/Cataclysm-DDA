@@ -44,7 +44,8 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "300": 3 } } ]
   },
   {
     "id": "win70",
@@ -67,6 +68,7 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "300": 3 } } ]
   }
 ]

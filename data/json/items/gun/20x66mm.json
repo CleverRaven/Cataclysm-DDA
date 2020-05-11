@@ -35,7 +35,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ]
+    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "20x66mm": 5 } } ]
   },
   {
     "id": "rm20",

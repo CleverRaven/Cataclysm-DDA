@@ -96,7 +96,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 4 } } ]
   },
   {
     "id": "doublespeargun",
@@ -131,7 +132,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 2 } } ]
   },
   {
     "id": "minispeargun",
@@ -163,7 +165,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ]
   },
   {
     "id": "speargun",
@@ -198,6 +201,7 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ]
   }
 ]
