@@ -1552,7 +1552,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Average hit points healed per turn from healing effects.
          */
-        float healing_rate_medicine( float at_rest_quality, body_part bp ) const;
+        float healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const;
 
         /**
          * Goes over all mutations, gets min and max of a value with given name

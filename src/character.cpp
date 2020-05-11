@@ -4481,7 +4481,7 @@ void Character::regen( int rate_multiplier )
     // include healing effects
     for( int i = 0; i < num_hp_parts; i++ ) {
         body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
+        float healing = healing_rate_medicine( rest, convert_bp( bp ).id() ) * to_turns<int>( 5_minutes );
 
         int healing_apply = roll_remainder( healing );
         healed_bp( i, healing_apply );
@@ -6886,7 +6886,7 @@ float Character::healing_rate( float at_rest_quality ) const
     return final_rate;
 }
 
-float Character::healing_rate_medicine( float at_rest_quality, const body_part bp ) const
+float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
 {
     float rate_medicine = 0.0f;
 
@@ -6897,10 +6897,10 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
             float tmp_rate = static_cast<float>( eff.get_amount( "HEAL_RATE" ) ) / to_turns<int>
                              ( 24_hours );
 
-            if( bp == bp_head ) {
+            if( bp == bodypart_id( "head" ) ) {
                 tmp_rate *= eff.get_amount( "HEAL_HEAD" ) / 100.0f;
             }
-            if( bp == bp_torso ) {
+            if( bp == bodypart_id( "torso" ) ) {
                 tmp_rate *= eff.get_amount( "HEAL_TORSO" ) / 100.0f;
             }
             rate_medicine += tmp_rate;
