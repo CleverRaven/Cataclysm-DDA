@@ -544,4 +544,19 @@ class on_out_of_scope
         }
 };
 
+template<typename T>
+class restore_on_out_of_scope
+{
+    private:
+        T &t;
+        T orig_t;
+        on_out_of_scope impl;
+    public:
+        // *INDENT-OFF*
+        restore_on_out_of_scope( T &t_in ): t( t_in ), orig_t( t_in ),
+            impl( [this]() { t = orig_t; } ) {
+        }
+        // *INDENT-ON*
+};
+
 #endif // CATA_SRC_CATA_UTILITY_H
