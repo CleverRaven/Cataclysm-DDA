@@ -988,7 +988,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for being able to throw farther.
     const int weight_cost = weight / ( 16_gram );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) * 2.0f );
+    const int encumbrance_cost = encumb( bp_arm_l ) + encumb( bp_arm_r );
     const int stamina_cost = ( weight_cost + encumbrance_cost - throwing_skill + 50 ) * -1;
 
     bool throw_assist = false;
