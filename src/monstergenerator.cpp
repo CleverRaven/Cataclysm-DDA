@@ -573,6 +573,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "PHOTOGRAPH", mattack::photograph );
     add_hardcoded_attack( "TAZER", mattack::tazer );
     add_hardcoded_attack( "SEARCHLIGHT", mattack::searchlight );
+    add_hardcoded_attack( "SPEAKER", mattack::speaker );
     add_hardcoded_attack( "FLAMETHROWER", mattack::flamethrower );
     add_hardcoded_attack( "COPBOT", mattack::copbot );
     add_hardcoded_attack( "CHICKENBOT", mattack::chickenbot );
