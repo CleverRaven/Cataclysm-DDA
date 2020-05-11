@@ -4,6 +4,7 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "clothing_mod.h"
 #include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
@@ -18,6 +19,15 @@
 static void test_info_equals( const item &i, const iteminfo_query &q,
                               const std::string &reference )
 {
+    int encumber = i.type->armor ? i.type->armor->encumber : -1;
+    int max_encumber = i.type->armor ? i.type->armor->max_encumber : -1;
+    CAPTURE( encumber );
+    CAPTURE( max_encumber );
+    CAPTURE( i.typeId() );
+    CAPTURE( i.has_flag( "FIT" ) );
+    CAPTURE( i.has_flag( "VARSIZE" ) );
+    CAPTURE( i.get_clothing_mod_val( clothing_mod_type_encumbrance ) );
+    CAPTURE( i.get_sizing( g->u, true ) );
     g->u.clear_mutations();
     std::vector<iteminfo> info_v;
     std::string info = i.info( info_v, &q, 1 );
@@ -27,6 +37,15 @@ static void test_info_equals( const item &i, const iteminfo_query &q,
 static void test_info_contains( const item &i, const iteminfo_query &q,
                                 const std::string &reference )
 {
+    int encumber = i.type->armor ? i.type->armor->encumber : -1;
+    int max_encumber = i.type->armor ? i.type->armor->max_encumber : -1;
+    CAPTURE( encumber );
+    CAPTURE( max_encumber );
+    CAPTURE( i.typeId() );
+    CAPTURE( i.has_flag( "FIT" ) );
+    CAPTURE( i.has_flag( "VARSIZE" ) );
+    CAPTURE( i.get_clothing_mod_val( clothing_mod_type_encumbrance ) );
+    CAPTURE( i.get_sizing( g->u, true ) );
     g->u.clear_mutations();
     std::vector<iteminfo> info_v;
     std::string info = i.info( info_v, &q, 1 );
