@@ -723,7 +723,7 @@ struct islot_ammo : common_ranged_data {
      */
     cata::optional<bool> force_stat_display;
 
-    bool was_loaded;
+    bool was_loaded = false;
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );
@@ -745,6 +745,12 @@ struct islot_bionic {
 };
 
 struct islot_seed {
+    // Generic factory stuff
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
      */
@@ -917,6 +923,11 @@ struct itype {
          * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
          */
         units::volume integral_volume = -1_ml;
+
+        /**
+         * How long the longest side of this item is. If undefined, calculated from volume instead.
+         */
+        units::length longest_side = -1_mm;
 
         /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;

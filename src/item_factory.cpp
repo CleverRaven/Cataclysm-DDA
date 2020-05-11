@@ -448,6 +448,10 @@ void Item_factory::finalize_pre( itype &obj )
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().substr( 7 ) );
     }
+
+    if( obj.longest_side == -1_mm ) {
+        obj.longest_side = units::cube_to_volume<int>( obj.volume );
+    }
 }
 
 void Item_factory::register_cached_uses( const itype &obj )
@@ -1955,14 +1959,20 @@ void Item_factory::load_comestible( const JsonObject &jo, const std::string &src
     }
 }
 
-void Item_factory::load( islot_seed &slot, const JsonObject &jo, const std::string & )
+void islot_seed::load( const JsonObject &jo )
 {
-    assign( jo, "grow", slot.grow, false, 1_days );
-    slot.fruit_div = jo.get_int( "fruit_div", 1 );
-    jo.read( "plant_name", slot.plant_name );
-    slot.fruit_id = jo.get_string( "fruit" );
-    slot.spawn_seeds = jo.get_bool( "seeds", true );
-    slot.byproducts = jo.get_string_array( "byproducts" );
+    assign( jo, "grow", grow, false, 1_days );
+    optional( jo, was_loaded, "fruit_div", fruit_div, 1 );
+    mandatory( jo, was_loaded, "plant_name", plant_name );
+    mandatory( jo, was_loaded, "fruit", fruit_id );
+    optional( jo, was_loaded, "seeds", spawn_seeds, true );
+    optional( jo, was_loaded, "byproducts", byproducts );
+}
+
+void islot_seed::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
@@ -2191,6 +2201,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         mag_data.fire_protection = def.magazine->protects_contents;
         mag_data.max_contains_volume = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
+        mag_data.max_item_length = 2_km;
         mag_data.rigid = true;
         mag_data.watertight = true;
         def.pockets.push_back( mag_data );
@@ -2205,6 +2216,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         mag_data.watertight = true;
         mag_data.max_contains_volume = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
+        mag_data.max_item_length = 2_km;
         // the magazine pocket does not use can_contain like normal CONTAINER pockets
         // so we don't have to worry about having random items be put into the mag
         def.pockets.push_back( mag_data );
@@ -2243,6 +2255,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "weight", def.weight, strict, 0_gram );
     assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
+    assign( jo, "longest_side", def.longest_side );
     assign( jo, "price", def.price, false, 0_cent );
     assign( jo, "price_postapoc", def.price_post, false, 0_cent );
     assign( jo, "stackable", def.stackable_, strict );
@@ -2442,7 +2455,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );
     assign( jo, "ammo_data", def.ammo, src == "dda" );
-    load_slot_optional( def.seed, jo, "seed_data", src );
+    assign( jo, "seed_data", def.seed, src == "dda" );
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );

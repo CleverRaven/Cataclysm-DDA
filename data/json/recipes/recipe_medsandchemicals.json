@@ -673,6 +673,7 @@
     "id_suffix": "simple",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
+    "charges": 1,
     "time": "5 s",
     "autolearn": true,
     "components": [ [ [ "chem_ammonium_nitrate_pellets", 350 ] ] ]

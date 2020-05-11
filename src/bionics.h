@@ -88,7 +88,7 @@ struct bionic_data {
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
-    std::map<body_part, size_t> occupied_bodyparts;
+    std::map<bodypart_str_id, size_t> occupied_bodyparts;
     /**
      * Body part encumbered by this bionic, mapped to the amount of encumbrance caused.
      */
@@ -188,7 +188,7 @@ class bionic_collection : public std::vector<bionic>
 };
 
 /**List of bodyparts occupied by a bionic*/
-std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid );
+std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
 
 void reset_bionics();
 

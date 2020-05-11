@@ -51,6 +51,8 @@ void pocket_data::load( const JsonObject &jo )
         }
         mandatory( jo, was_loaded, "max_contains_volume", max_contains_volume, volume_reader() );
         mandatory( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader() );
+        optional( jo, was_loaded, "max_item_length", max_item_length,
+                  units::cube_to_volume( max_contains_volume ) * M_SQRT2 );
     }
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
     optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
@@ -605,10 +607,18 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                            string_format( _( "Minimum volume of item allowed: <neutral>%s</neutral>" ),
                                           vol_to_string( data->min_item_volume ) ) );
     }
+
     if( data->max_item_volume ) {
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "Maximum volume of item allowed: <neutral>%s</neutral>" ),
                                           vol_to_string( *data->max_item_volume ) ) );
+    }
+
+    if( data->max_item_length != 0_mm ) {
+        info.push_back( iteminfo( "BASE", _( "Max Item Length: " ),
+                                  string_format( "<num> %s", length_units( data->max_item_length ) ),
+                                  iteminfo::lower_is_better,
+                                  convert_length( data->max_item_length ) ) );
     }
 
     info.emplace_back( "DESCRIPTION", string_format( _( "Volume Capacity: <neutral>%s</neutral>" ),
@@ -810,6 +820,10 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         it.volume() > *data->max_item_volume ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
+    }
+    if( it.length() > data->max_item_length ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_TOO_BIG, _( "item is too long" ) );
     }
 
     if( it.volume() < data->min_item_volume ) {

@@ -703,28 +703,39 @@
   },
   {
     "type": "item_group",
+    "id": "longguns_cop",
+    "items": [
+      { "item": "ar15", "prob": 15, "charges": [ 0, 30 ] },
+      { "item": "cx4", "prob": 20, "charges": [ 0, 15 ] },
+      { "item": "fn_p90", "prob": 5, "charges": [ 0, 50 ] },
+      { "item": "hk_mp5", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "mossberg_500", "prob": 15, "charges": [ 0, 8 ] },
+      { "item": "remington_700", "prob": 5, "charges": [ 0, 4 ] },
+      { "item": "remington_870", "prob": 20, "charges": [ 0, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sidearms_cop",
+    "items": [
+      { "item": "fn57", "prob": 20, "charges": [ 0, 20 ] },
+      { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
+      { "item": "glock_22", "prob": 20, "charges": [ 0, 15 ] },
+      { "item": "m9", "prob": 5, "charges": [ 0, 15 ] },
+      { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
+      { "item": "usp_45", "prob": 10, "charges": [ 0, 12 ] },
+      { "item": "usp_9mm", "prob": 10, "charges": [ 0, 15 ] },
+      { "item": "kp32", "prob": 1, "charges": [ 0, 7 ] },
+      { "item": "kp3at", "prob": 2, "charges": [ 0, 6 ] },
+      { "item": "rugerlcp", "prob": 2, "charges": [ 0, 6 ] },
+      { "item": "kpf9", "prob": 3, "charges": [ 0, 7 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_cop",
     "//": "Police issue weapons of all types",
-    "items": [
-      { "item": "ar15", "prob": 15, "charges-min": 0, "charges-max": 30 },
-      { "item": "cx4", "prob": 20, "charges-min": 0, "charges-max": 15 },
-      { "item": "fn57", "prob": 20, "charges-min": 0, "charges-max": 20 },
-      { "item": "fn_p90", "prob": 5, "charges-min": 0, "charges-max": 50 },
-      { "item": "glock_19", "prob": 15, "charges-min": 0, "charges-max": 15 },
-      { "item": "glock_22", "prob": 20, "charges-min": 0, "charges-max": 15 },
-      { "item": "hk_mp5", "prob": 10, "charges-min": 0, "charges-max": 30 },
-      { "item": "m9", "prob": 5, "charges-min": 0, "charges-max": 15 },
-      { "item": "mossberg_500", "prob": 15, "charges-min": 0, "charges-max": 8 },
-      { "item": "remington_700", "prob": 5, "charges-min": 0, "charges-max": 4 },
-      { "item": "remington_870", "prob": 20, "charges-min": 0, "charges-max": 6 },
-      { "item": "sig_40", "prob": 20, "charges-min": 0, "charges-max": 12 },
-      { "item": "usp_45", "prob": 10, "charges-min": 0, "charges-max": 12 },
-      { "item": "usp_9mm", "prob": 10, "charges-min": 0, "charges-max": 15 },
-      { "item": "kp32", "prob": 1, "charges-min": 0, "charges-max": 7 },
-      { "item": "kp3at", "prob": 2, "charges-min": 0, "charges-max": 6 },
-      { "item": "rugerlcp", "prob": 2, "charges-min": 0, "charges-max": 6 },
-      { "item": "kpf9", "prob": 3, "charges-min": 0, "charges-max": 7 }
-    ]
+    "items": [ { "group": "longguns_cop", "prob": 50 }, { "group": "sidearms_cop", "prob": 50 } ]
   },
   {
     "type": "item_group",

@@ -1490,6 +1490,12 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   iteminfo::lower_is_better | iteminfo::is_decimal,
                                   convert_weight( weight() ) * batch ) );
     }
+    if( parts->test( iteminfo_parts::BASE_LENGTH ) && length() > 0_mm ) {
+        info.push_back( iteminfo( "BASE", _( "Length: " ),
+                                  string_format( "<num> %s", length_units( length() ) ),
+                                  iteminfo::lower_is_better,
+                                  convert_length( length() ) ) );
+    }
     if( !owner.is_null() ) {
         info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ),
                                   _( get_owner_name() ) ) ) );
@@ -4648,6 +4654,14 @@ units::mass item::weight( bool, bool integral ) const
     }
 
     return ret;
+}
+
+units::length item::length() const
+{
+    if( made_of( LIQUID ) || is_soft() ) {
+        return 0_mm;
+    }
+    return type->longest_side;
 }
 
 units::volume item::corpse_volume( const mtype *corpse ) const
@@ -8340,7 +8354,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         int charges_remaining = charges;
-        const int rounds_exploded = rng( 1, charges_remaining );
+        const int rounds_exploded = rng( 1, charges_remaining / 2 );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
         const islot_ammo &ammo_type = *type->ammo;
@@ -8348,6 +8362,10 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         if( ammo_type.special_cookoff ) {
             // If it has a special effect just trigger it.
             apply_ammo_effects( p, ammo_type.ammo_effects );
+        }
+        if( ammo_type.cookoff ) {
+            // If ammo type can burn, then create an explosion proportional to quantity.
+            explosion_handler::explosion( p, 3.0f * sqrtf( sqrtf( rounds_exploded / 25.0f ) ), 0.0f, false, 0 );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {

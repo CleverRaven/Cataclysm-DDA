@@ -13,6 +13,7 @@ enum class iteminfo_parts : size_t {
     BASE_BARTER,
     BASE_VOLUME,
     BASE_WEIGHT,
+    BASE_LENGTH,
     BASE_RIGIDITY,
     BASE_DAMAGE,
     BASE_TOHIT,
