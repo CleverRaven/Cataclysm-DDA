@@ -1042,9 +1042,9 @@ class Character : public Creature, public visitable<Character>
         bionic &bionic_at_index( int i );
         /** Remove all bionics */
         void clear_bionics();
-        int get_used_bionics_slots( body_part bp ) const;
-        int get_total_bionics_slots( body_part bp ) const;
-        int get_free_bionics_slots( body_part bp ) const;
+        int get_used_bionics_slots( const bodypart_id &bp ) const;
+        int get_total_bionics_slots( const bodypart_id &bp ) const;
+        int get_free_bionics_slots( const bodypart_id &bp ) const;
 
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm, player &patient );
