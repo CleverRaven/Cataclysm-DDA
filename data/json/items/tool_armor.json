@@ -810,7 +810,6 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
     "use_action": {
       "type": "transform",
       "menu_text": "Turn on headlamps",
@@ -829,7 +828,7 @@
     "copy-from": "helmet_eod",
     "name": "EOD helmet (on)",
     "extend": { "flags": [ "LIGHT_350", "CHARGEDIM", "TRADER_AVOID" ] },
-    "power_draw": "10 W",
+    "power_draw": 10000,
     "revert_to": "helmet_eod",
     "use_action": { "type": "transform", "menu_text": "Turn off headlamps", "msg": "\"Disabling illumination.\"", "target": "helmet_eod" }
   },
