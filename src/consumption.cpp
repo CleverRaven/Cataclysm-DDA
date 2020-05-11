@@ -18,6 +18,7 @@
 #include "game.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
@@ -887,37 +888,6 @@ bool player::eat( item &food, bool force )
     food.mod_charges( -1 );
 
     const bool amorphous = has_trait( trait_AMORPHOUS );
-    int mealtime = 250;
-    if( drinkable || chew ) {
-        // Those bonuses/penalties only apply to food
-        // Not to smoking weed or applying bandages!
-        if( has_trait( trait_MOUTH_TENTACLES )  || has_trait( trait_MANDIBLES ) ||
-            has_trait( trait_FANGS_SPIDER ) ) {
-            mealtime /= 2;
-        } else if( has_trait( trait_SHARKTEETH ) ) {
-            // SHARKBAIT! HOO HA HA!
-            mealtime /= 3;
-        } else if( has_trait( trait_GOURMAND ) ) {
-            // Don't stack those two - that would be 25 moves per item
-            mealtime -= 100;
-        }
-
-        if( has_trait( trait_BEAK_HUM ) && !drinkable ) {
-            // Much better than PROBOSCIS but still optimized for fluids
-            mealtime += 200;
-        } else if( has_trait( trait_SABER_TEETH ) ) {
-            // They get In The Way
-            mealtime += 250;
-        }
-
-        if( amorphous ) {
-            mealtime *= 1.1;
-            // Minor speed penalty for having to flow around it
-            // rather than just grab & munch
-        }
-    }
-
-    moves -= mealtime;
 
     // If it's poisonous... poison us.
     // TODO: Move this to a flag
@@ -1646,4 +1616,50 @@ item &Character::get_consumable_from( item &it ) const
     // Since it's not const.
     null_comestible = item();
     return null_comestible;
+}
+
+time_duration Character::get_consume_time( const item &it )
+{
+    const int charges = std::max( it.charges, 1 );
+    int volume = units::to_milliliter( it.volume() ) / charges;
+    time_duration time = 0_seconds;
+    float consume_time_modifier = 1;//only for food and drinks
+    const bool eat_verb  = it.has_flag( flag_USE_EAT_VERB );
+    if( eat_verb || it.get_comestible()->comesttype == "FOOD" ) {
+        time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
+        consume_time_modifier = mutation_value( "consume_time_modifier" );
+    } else if( !eat_verb && it.get_comestible()->comesttype == "DRINK" ) {
+        time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
+        consume_time_modifier = mutation_value( "consume_time_modifier" );
+    } else if( it.is_medication() ) {
+        const use_function *consume_drug = it.type->get_use( "consume_drug" );
+        const use_function *smoking = it.type->get_use( "SMOKING" );
+        const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
+        const use_function *heal = it.type->get_use( "heal" );
+        if( consume_drug != nullptr ) { //its a drug
+            const auto consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                                          ( consume_drug->get_actor_ptr() );
+            if( consume_drug_use->tools_needed.find( "syringe" ) != consume_drug_use->tools_needed.end() ) {
+                time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
+            } else if( consume_drug_use->tools_needed.find( "apparatus" ) !=
+                       consume_drug_use->tools_needed.end() ||
+                       consume_drug_use->tools_needed.find( "dab_pen_on" ) != consume_drug_use->tools_needed.end() ) {
+                time = time_duration::from_seconds( 30 );//smoke a bowl
+            } else {
+                time = time_duration::from_seconds( 5 );//popping a pill is quick
+            }
+        } else if( smoking != nullptr ) {
+            time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
+        } else if( adrenaline_injector != nullptr ) {
+            time = time_duration::from_seconds( 15 );//epi-pens are fairly quick
+        } else if( heal != nullptr ) {
+            time = time_duration::from_seconds( 15 );//bandages and disinfectant are fairly quick
+        } else {
+            time = time_duration::from_seconds( 5 ); //probably pills so quick
+        }
+    } else {
+        debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
+    }
+
+    return time * consume_time_modifier;
 }

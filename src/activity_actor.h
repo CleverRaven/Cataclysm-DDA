@@ -363,6 +363,13 @@ class consume_activity_actor : public activity_actor
     private:
         item_location loc;
 
+        /**
+         * @pre @p other is a consume_activity_actor
+         */
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
+            const consume_activity_actor &c_actor = static_cast<const consume_activity_actor &>( other );
+            return loc == c_actor.loc;
+        }
     public:
         consume_activity_actor( const item_location &loc ) :
             loc( loc ) {}
@@ -371,9 +378,9 @@ class consume_activity_actor : public activity_actor
             return activity_id( "ACT_CONSUME" );
         }
 
-        void start( player_activity &act, Character & ) override;
+        void start( player_activity &act, Character &guy ) override;
         void do_turn( player_activity &, Character & ) override {};
-        void finish( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character & ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<consume_activity_actor>( *this );

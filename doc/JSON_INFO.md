@@ -1416,6 +1416,7 @@ completed when you wake up for the first time after 24 hours into the game.
 "scent_intensity": 800,// int affecting the target scent toward which you current smell gravitates. (default: 500)
 "scent_mask": -200,// int added to your target scent value. (default: 0)
 "scent_type": "sc_flower",// scent_typeid, defined in scent_types.json, The type scent you emit. (default: empty)
+"consume_time_modifier": 1.0f,//time to eat or drink is multiplied by this
 "bleed_resist": 1000, // Int quantifiying your resistance to bleed effect, if its > to the intensity of the effect you don't get any bleeding. (default: 0)
 "fat_to_max_hp": 1.0, // Amount of hp_max gained for each unit of bmi above character_weight_category::normal. (default: 0.0)
 "healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)

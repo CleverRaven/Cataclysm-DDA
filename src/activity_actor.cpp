@@ -585,37 +585,18 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
-void consume_activity_actor::start( player_activity &act, Character & )
+void consume_activity_actor::start( player_activity &act, Character &guy )
 {
-    const int charges = std::max( loc->charges, 1 );
-    int volume = units::to_milliliter( loc->volume() ) / charges;
-    time_duration time = 0_seconds;
-    const bool eat_verb  = loc->has_flag( flag_USE_EAT_VERB );
-    if( eat_verb || loc->get_comestible()->comesttype == "FOOD" ) {
-        time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
-    } else if( !eat_verb && loc->get_comestible()->comesttype == "DRINK" ) {
-        time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
-    } else if( loc->is_medication() ) {
-        time = time_duration::from_seconds(
-                   30 ); //Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
-    } else {
-        debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
-    }
+    int moves = to_moves<int>( guy.get_consume_time( *loc ) );
 
-    act.moves_total = to_moves<int>( time );
-    act.moves_left = to_moves<int>( time );
+    act.moves_total = moves;
+    act.moves_left = moves;
 }
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
-    if( !loc ) {
-        debugmsg( "Consume actor lost item_location target" );
-        act.set_to_null();
-        return;
-    }
     if( loc.where() == item_location::type::character ) {
         g->u.consume( loc );
-
     } else if( g->u.consume_item( *loc ) ) {
         loc.remove_item();
     }
