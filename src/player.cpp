@@ -1086,16 +1086,16 @@ int player::get_num_crafting_helpers( int max ) const
     return std::min( max, static_cast<int>( helpers.size() ) );
 }
 
-bool player::immune_to( body_part bp, damage_unit dam ) const
+bool player::immune_to( const bodypart_id &bp, damage_unit dam ) const
 {
     if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ) {
         return true;
     }
 
-    passive_absorb_hit( convert_bp( bp ).id(), dam );
+    passive_absorb_hit( bp, dam );
 
     for( const item &cloth : worn ) {
-        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
+        if( cloth.get_coverage() == 100 && cloth.covers( bp->token ) ) {
             cloth.mitigate_damage( dam );
         }
     }

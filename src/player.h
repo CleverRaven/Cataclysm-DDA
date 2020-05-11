@@ -302,7 +302,7 @@ class player : public Character
          * @param dam: Type of damage to check for
          * @returns true if given damage can not reduce hp of given body part
          */
-        bool immune_to( body_part bp, damage_unit dam ) const;
+        bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
