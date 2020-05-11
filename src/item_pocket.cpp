@@ -174,7 +174,7 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 
 bool item_pocket::stacks_with( const item_pocket &rhs ) const
 {
-    return empty() || rhs.empty() || std::equal( contents.begin(), contents.end(),
+    return empty() && rhs.empty() || std::equal( contents.begin(), contents.end(),
             rhs.contents.begin(), rhs.contents.end(),
     []( const item & a, const item & b ) {
         return a.charges == b.charges && a.stacks_with( b );

@@ -730,7 +730,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
         } );
         if( entry_with_loc != entries.end() ) {
             has_loc = true;
-            std::vector<item_location> locations = iter->locations;
+            std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
             entries.erase( entry_with_loc );
             inventory_entry nentry( locations, entry.get_category_ptr() );
