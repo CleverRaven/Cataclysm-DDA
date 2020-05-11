@@ -280,12 +280,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string )
 
     optional( jsobj, was_loaded, "available_upgrades", available_upgrades );
 
-    if( jsobj.has_string( "installation_requirement" ) ) {
-        std::string temp_string;
-        optional( jsobj, was_loaded, "installation_requirement", temp_string );
-        installation_requirement = requirement_id( temp_string );
-    }
-
+    optional( jsobj, was_loaded, "installation_requirement", installation_requirement );
 
     if( jsobj.has_array( "stat_bonus" ) ) {
         // clear data first so that copy-from can override it
