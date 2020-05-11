@@ -992,9 +992,9 @@ class Character : public Creature, public visitable<Character>
          * Returns resistances on a body part provided by mutations
          */
         // TODO: Cache this, it's kinda expensive to compute
-        resistances mutation_armor( body_part bp ) const;
-        float mutation_armor( body_part bp, damage_type dt ) const;
-        float mutation_armor( body_part bp, const damage_unit &du ) const;
+        resistances mutation_armor( bodypart_id bp ) const;
+        float mutation_armor( bodypart_id bp, damage_type dt ) const;
+        float mutation_armor( bodypart_id bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */

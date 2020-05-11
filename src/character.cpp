@@ -6570,22 +6570,22 @@ bool Character::pour_into( vehicle &veh, item &liquid )
     return true;
 }
 
-resistances Character::mutation_armor( body_part bp ) const
+resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
     for( const trait_id &iter : get_mutations() ) {
-        res += iter->damage_resistance( bp );
+        res += iter->damage_resistance( bp->token );
     }
 
     return res;
 }
 
-float Character::mutation_armor( body_part bp, damage_type dt ) const
+float Character::mutation_armor( bodypart_id bp, damage_type dt ) const
 {
     return mutation_armor( bp ).type_resist( dt );
 }
 
-float Character::mutation_armor( body_part bp, const damage_unit &du ) const
+float Character::mutation_armor( bodypart_id bp, const damage_unit &du ) const
 {
     return mutation_armor( bp ).get_effective_resist( du );
 }
@@ -7181,7 +7181,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
                 }
             }
 
-            ret += mutation_armor( bp->token, dt );
+            ret += mutation_armor( bp, dt );
             return ret;
         }
         case DT_NULL:
@@ -7209,7 +7209,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
         }
     }
 
-    ret += mutation_armor( bp->token, DT_BASH );
+    ret += mutation_armor( bp, DT_BASH );
     return ret;
 }
 
@@ -7228,7 +7228,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
         }
     }
 
-    ret += mutation_armor( bp->token, DT_CUT );
+    ret += mutation_armor( bp, DT_CUT );
     return ret;
 }
 
@@ -7248,7 +7248,7 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
         }
     }
 
-    ret += mutation_armor( bp->token, DT_BULLET );
+    ret += mutation_armor( bp, DT_BULLET );
     return ret;
 }
 
@@ -8133,7 +8133,6 @@ double Character::calculate_by_enchantment( double modify, enchantment::mod valu
 
 void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const
 {
-    const body_part bp_token = bp->token;
     // >0 check because some mutations provide negative armor
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
@@ -8141,9 +8140,9 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
         if( du.type == DT_STAB ) {
             damage_unit du_copy = du;
             du_copy.type = DT_CUT;
-            du.amount -= mutation_armor( bp_token, du_copy );
+            du.amount -= mutation_armor( bp, du_copy );
         } else {
-            du.amount -= mutation_armor( bp_token, du );
+            du.amount -= mutation_armor( bp, du );
         }
     }
     du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
