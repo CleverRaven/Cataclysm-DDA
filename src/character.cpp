@@ -892,8 +892,10 @@ int Character::swim_speed() const
         ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
     }
     /** @EFFECT_STR increases swim speed bonus from swim_fins */
-    if( worn_with_flag( "FIN", bp_foot_l ) || worn_with_flag( "FIN", bp_foot_r ) ) {
-        if( worn_with_flag( "FIN", bp_foot_l ) && worn_with_flag( "FIN", bp_foot_r ) ) {
+    if( worn_with_flag( "FIN", bodypart_id( "foot_l" ) ) ||
+        worn_with_flag( "FIN", bodypart_id( "foot_r" ) ) ) {
+        if( worn_with_flag( "FIN", bodypart_id( "foot_l" ) ) &&
+            worn_with_flag( "FIN", bodypart_id( "foot_r" ) ) ) {
             ret -= ( 15 * str_cur );
         } else {
             ret -= ( 15 * str_cur ) / 2;
@@ -2911,11 +2913,11 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( it.has_flag( flag_SPLINT ) ) {
         bool need_splint = false;
-        for( const body_part bp : all_body_parts ) {
-            if( !it.covers( bp ) ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( !it.covers( bp->token ) ) {
                 continue;
             }
-            if( is_limb_broken( bp_to_hp( bp ) ) && !worn_with_flag( flag_SPLINT, bp ) ) {
+            if( is_limb_broken( bp_to_hp( bp->token ) ) && !worn_with_flag( flag_SPLINT, bp ) ) {
                 need_splint = true;
                 break;
             }
@@ -3094,10 +3096,10 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
     return false;
 }
 
-bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
+bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
     return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
-        return it.has_flag( flag ) && ( bp == num_bp || it.covers( bp ) );
+        return it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || it.covers( bp->token ) );
     } );
 }
 
@@ -5962,7 +5964,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( hp );
-        const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp_token );
+        const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
 
         if( show_all ) {
             e.allowed = true;
