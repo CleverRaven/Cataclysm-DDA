@@ -1790,10 +1790,11 @@ void Character::check_item_encumbrance_flag()
     }
 }
 
-bool Character::natural_attack_restricted_on( body_part bp ) const
+bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
 {
-    for( auto &i : worn ) {
-        if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) && !i.has_flag( "SEMITANGIBLE" ) &&
+    for( const item &i : worn ) {
+        if( i.covers( bp->token ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) &&
+            !i.has_flag( "SEMITANGIBLE" ) &&
             !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) ) {
             return true;
         }
@@ -3694,7 +3695,7 @@ bool Character::in_climate_control()
     return regulated_area;
 }
 
-int Character::get_wind_resistance( body_part bp ) const
+int Character::get_wind_resistance( const bodypart_id &bp ) const
 {
     int coverage = 0;
     float totalExposed = 1.0;
@@ -3702,7 +3703,7 @@ int Character::get_wind_resistance( body_part bp ) const
     int penalty = 100;
 
     for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp->token ) ) {
             if( i.made_of( material_id( "leather" ) ) || i.made_of( material_id( "plastic" ) ) ||
                 i.made_of( material_id( "bone" ) ) ||
                 i.made_of( material_id( "chitin" ) ) || i.made_of( material_id( "nomex" ) ) ) {
@@ -4421,8 +4422,8 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
             if( info.has_flag( "BIONIC_SHOCKPROOF" ) || info.has_flag( "BIONIC_FAULTY" ) ) {
                 continue;
             }
-            const auto &bodyparts = info.occupied_bodyparts;
-            if( bodyparts.find( bp->token ) != bodyparts.end() ) {
+            const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
+            if( bodyparts.find( bp.id() ) != bodyparts.end() ) {
                 const int bp_hp = hp_cur[bp_to_hp( bp->token )];
                 // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
                 if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {
@@ -5321,7 +5322,7 @@ void Character::update_bodytemp()
         // WINDCHILL
 
         bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) * ( 1 - get_wind_resistance(
-                                             bp->token ) / 100.0 ) );
+                                             bp ) / 100.0 ) );
         // Calculate windchill
         int windchill = get_local_windchill( player_local_temp,
                                              get_local_humidity( weather.humidity, g->weather.weather,
@@ -5366,7 +5367,7 @@ void Character::update_bodytemp()
         // BLISTERS : Skin gets blisters from intense heat exposure.
         // Fire protection protects from blisters.
         // Heatsinks give near-immunity.
-        if( blister_count - get_armor_fire( bp->token ) - ( has_heatsink ? 20 : 0 ) > 0 ) {
+        if( blister_count - get_armor_fire( bp ) - ( has_heatsink ? 20 : 0 ) > 0 ) {
             add_effect( effect_blisters, 1_turns, bp->token );
             if( pyromania ) {
                 add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
@@ -5388,7 +5389,7 @@ void Character::update_bodytemp()
             temp_conv[bp->token] -= 750;
         }
         // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
-        temp_conv[bp->token] -= blood_loss( bp->token ) * temp_conv[bp->token] / 200;
+        temp_conv[bp->token] -= blood_loss( bp ) * temp_conv[bp->token] / 200;
 
         // EQUALIZATION
         if( bp == bodypart_id( "torso" ) ) {
@@ -5604,7 +5605,7 @@ void Character::update_bodytemp()
             int Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
             // Windchill reduced by your armor
             int FBwindPower = static_cast<int>(
-                                  total_windpower * ( 1 - get_wind_resistance( bp->token ) / 100.0 ) );
+                                  total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
 
             int intense = get_effect_int( effect_frostbite, bp->token );
 
@@ -5871,21 +5872,21 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     return comfort_response;
 }
 
-int Character::blood_loss( body_part bp ) const
+int Character::blood_loss( const bodypart_id &bp ) const
 {
     int hp_cur_sum = 1;
     int hp_max_sum = 1;
 
-    if( bp == bp_leg_l || bp == bp_leg_r ) {
+    if( bp == bodypart_id( "leg_l" ) || bp == bodypart_id( "leg_r" ) ) {
         hp_cur_sum = hp_cur[hp_leg_l] + hp_cur[hp_leg_r];
         hp_max_sum = hp_max[hp_leg_l] + hp_max[hp_leg_r];
-    } else if( bp == bp_arm_l || bp == bp_arm_r ) {
+    } else if( bp == bodypart_id( "arm_l" ) || bp == bodypart_id( "arm_r" ) ) {
         hp_cur_sum = hp_cur[hp_arm_l] + hp_cur[hp_arm_r];
         hp_max_sum = hp_max[hp_arm_l] + hp_max[hp_arm_r];
-    } else if( bp == bp_torso ) {
+    } else if( bp == bodypart_id( "torso" ) ) {
         hp_cur_sum = hp_cur[hp_torso];
         hp_max_sum = hp_max[hp_torso];
-    } else if( bp == bp_head ) {
+    } else if( bp == bodypart_id( "head" ) ) {
         hp_cur_sum = hp_cur[hp_head];
         hp_max_sum = hp_max[hp_head];
     }
@@ -5917,7 +5918,7 @@ hp_part Character::body_window( const std::string &menu_header,
      * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
     struct healable_bp {
         mutable bool allowed;
-        body_part bp;
+        bodypart_id bp;
         hp_part hp;
         std::string name; // Translated name as it appears in the menu.
         int bonus;
@@ -5925,12 +5926,12 @@ hp_part Character::body_window( const std::string &menu_header,
     /* The array of the menu entries show to the player. The entries are displayed in this order,
      * it may be changed here. */
     std::array<healable_bp, num_hp_parts> parts = { {
-            { false, bp_head, hp_head, _( "Head" ), head_bonus },
-            { false, bp_torso, hp_torso, _( "Torso" ), torso_bonus },
-            { false, bp_arm_l, hp_arm_l, _( "Left Arm" ), normal_bonus },
-            { false, bp_arm_r, hp_arm_r, _( "Right Arm" ), normal_bonus },
-            { false, bp_leg_l, hp_leg_l, _( "Left Leg" ), normal_bonus },
-            { false, bp_leg_r, hp_leg_r, _( "Right Leg" ), normal_bonus },
+            { false, bodypart_id( "head" ), hp_head, _( "Head" ), head_bonus },
+            { false, bodypart_id( "torso" ), hp_torso, _( "Torso" ), torso_bonus },
+            { false, bodypart_id( "arm_l" ), hp_arm_l, _( "Left Arm" ), normal_bonus },
+            { false, bodypart_id( "arm_r" ), hp_arm_r, _( "Right Arm" ), normal_bonus },
+            { false, bodypart_id( "leg_l" ), hp_leg_l, _( "Left Leg" ), normal_bonus },
+            { false, bodypart_id( "leg_r" ), hp_leg_r, _( "Right Leg" ), normal_bonus },
         }
     };
 
@@ -5948,7 +5949,8 @@ hp_part Character::body_window( const std::string &menu_header,
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const auto &e = parts[i];
-        const body_part bp = e.bp;
+        const bodypart_id &bp = e.bp;
+        const body_part bp_token = bp->token;
         const hp_part hp = e.hp;
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
@@ -5960,7 +5962,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( hp );
-        const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
+        const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp_token );
 
         if( show_all ) {
             e.allowed = true;
@@ -5977,16 +5979,16 @@ hp_part Character::body_window( const std::string &menu_header,
 
         std::string msg;
         std::string desc;
-        bool bleeding = has_effect( effect_bleed, e.bp );
-        bool bitten = has_effect( effect_bite, e.bp );
-        bool infected = has_effect( effect_infected, e.bp );
-        bool bandaged = has_effect( effect_bandaged, e.bp );
-        bool disinfected = has_effect( effect_disinfected, e.bp );
-        const int b_power = get_effect_int( effect_bandaged, e.bp );
-        const int d_power = get_effect_int( effect_disinfected, e.bp );
+        bool bleeding = has_effect( effect_bleed, bp_token );
+        bool bitten = has_effect( effect_bite, bp_token );
+        bool infected = has_effect( effect_infected, bp_token );
+        bool bandaged = has_effect( effect_bandaged, bp_token );
+        bool disinfected = has_effect( effect_disinfected, bp_token );
+        const int b_power = get_effect_int( effect_bandaged, bp_token );
+        const int d_power = get_effect_int( effect_disinfected, bp_token );
         int new_b_power = static_cast<int>( std::floor( bandage_power ) );
         if( bandaged ) {
-            const effect &eff = get_effect( effect_bandaged, e.bp );
+            const effect &eff = get_effect( effect_bandaged, bp_token );
             if( new_b_power > eff.get_max_intensity() ) {
                 new_b_power = eff.get_max_intensity();
             }
@@ -5999,7 +6001,7 @@ hp_part Character::body_window( const std::string &menu_header,
         if( limb_is_mending ) {
             desc += colorize( _( "It is broken but has been set and just needs time to heal." ),
                               c_blue ) + "\n";
-            const auto &eff = get_effect( effect_mending, bp );
+            const auto &eff = get_effect( effect_mending, bp_token );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             if( precise ) {
@@ -6032,8 +6034,8 @@ hp_part Character::body_window( const std::string &menu_header,
 
         // BLEEDING block
         if( bleeding ) {
-            desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, e.bp ).get_speed_name(),
-                                             get_effect( effect_bleed, e.bp ).disp_short_desc() ), c_red ) + "\n";
+            desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, bp_token ).get_speed_name(),
+                                             get_effect( effect_bleed, bp_token ).disp_short_desc() ), c_red ) + "\n";
             if( bleed > 0.0f ) {
                 desc += colorize( string_format( _( "Chance to stop: %d %%" ),
                                                  static_cast<int>( bleed * 100 ) ), c_light_green ) + "\n";
@@ -6058,7 +6060,7 @@ hp_part Character::body_window( const std::string &menu_header,
         // BITTEN block
         if( bitten ) {
             desc += colorize( string_format( "%s: ", get_effect( effect_bite,
-                                             e.bp ).get_speed_name() ), c_red );
+                                             bp_token ).get_speed_name() ), c_red );
             desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red ) + "\n";
             if( bite > 0 ) {
                 desc += colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
@@ -6070,7 +6072,7 @@ hp_part Character::body_window( const std::string &menu_header,
         // INFECTED block
         if( infected ) {
             desc += colorize( string_format( "%s: ", get_effect( effect_infected,
-                                             e.bp ).get_speed_name() ), c_red );
+                                             bp_token ).get_speed_name() ), c_red );
             desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
                               c_red ) + "\n";
             if( infect > 0 ) {
@@ -6126,21 +6128,21 @@ hp_part Character::body_window( const std::string &menu_header,
     }
 }
 
-nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect ) const
+nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const
 {
-    if( bp == num_bp ) {
+    if( bp == bodypart_id( "num_bp" ) ) {
         return c_light_gray;
     }
-
+    const body_part bp_token = bp->token;
     int color_bit = 0;
     nc_color i_color = c_light_gray;
-    if( bleed && has_effect( effect_bleed, bp ) ) {
+    if( bleed && has_effect( effect_bleed, bp_token ) ) {
         color_bit += 1;
     }
-    if( bite && has_effect( effect_bite, bp ) ) {
+    if( bite && has_effect( effect_bite, bp_token ) ) {
         color_bit += 10;
     }
-    if( infect && has_effect( effect_infected, bp ) ) {
+    if( infect && has_effect( effect_infected, bp_token ) ) {
         color_bit += 100;
     }
     switch( color_bit ) {
@@ -6714,7 +6716,7 @@ std::string Character::extended_description() const
 
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
-        const nc_color state_col = limb_color( bp->token, true, true, true );
+        const nc_color state_col = limb_color( bp, true, true, true );
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 
@@ -8128,8 +8130,9 @@ double Character::calculate_by_enchantment( double modify, enchantment::mod valu
     return modify;
 }
 
-void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
+void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const
 {
+    const body_part bp_token = bp->token;
     // >0 check because some mutations provide negative armor
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
@@ -8137,9 +8140,9 @@ void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
         if( du.type == DT_STAB ) {
             damage_unit du_copy = du;
             du_copy.type = DT_CUT;
-            du.amount -= mutation_armor( bp, du_copy );
+            du.amount -= mutation_armor( bp_token, du_copy );
         } else {
-            du.amount -= mutation_armor( bp, du );
+            du.amount -= mutation_armor( bp_token, du );
         }
     }
     du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
@@ -8320,7 +8323,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
             }
         }
 
-        passive_absorb_hit( bp->token, elem );
+        passive_absorb_hit( bp, elem );
 
         if( elem.type == DT_BASH ) {
             if( has_trait( trait_LIGHT_BONES ) ) {
@@ -8404,26 +8407,26 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
 }
 
-float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
+float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
 {
     float result = 0.0f;
     if( dt == DT_CUT || dt == DT_STAB ) {
         for( const bionic_id &bid : get_bionics() ) {
-            const auto cut_prot = bid->cut_protec.find( convert_bp( bp ) );
+            const auto cut_prot = bid->cut_protec.find( bp.id() );
             if( cut_prot != bid->cut_protec.end() ) {
                 result += cut_prot->second;
             }
         }
     } else if( dt == DT_BASH ) {
         for( const bionic_id &bid : get_bionics() ) {
-            const auto bash_prot = bid->bash_protec.find( convert_bp( bp ) );
+            const auto bash_prot = bid->bash_protec.find( bp.id() );
             if( bash_prot != bid->bash_protec.end() ) {
                 result += bash_prot->second;
             }
         }
     } else if( dt == DT_BULLET ) {
         for( const bionic_id &bid : get_bionics() ) {
-            const auto bullet_prot = bid->bullet_protec.find( convert_bp( bp ) );
+            const auto bullet_prot = bid->bullet_protec.find( bp.id() );
             if( bullet_prot != bid->bullet_protec.end() ) {
                 result += bullet_prot->second;
             }
@@ -8433,9 +8436,9 @@ float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
     return result;
 }
 
-int Character::get_armor_fire( body_part bp ) const
+int Character::get_armor_fire( const bodypart_id &bp ) const
 {
-    return get_armor_type( DT_HEAT, convert_bp( bp ).id() );
+    return get_armor_type( DT_HEAT, bp );
 }
 
 void Character::did_hit( Creature &target )
@@ -8496,10 +8499,10 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         // remove healing effects if damaged
         int remove_med = roll_remainder( dam / 5.0f );
         if( remove_med > 0 && has_effect( effect_bandaged, enum_bp ) ) {
-            remove_med -= reduce_healing_effect( effect_bandaged, remove_med, enum_bp );
+            remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt );
         }
         if( remove_med > 0 && has_effect( effect_disinfected, enum_bp ) ) {
-            reduce_healing_effect( effect_disinfected, remove_med, enum_bp );
+            reduce_healing_effect( effect_disinfected, remove_med, hurt );
         }
     }
 }
@@ -8654,22 +8657,25 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     return dealt_dams;
 }
 
-int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt )
+int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
+                                      const bodypart_id &hurt )
 {
-    effect &e = get_effect( eff_id, hurt );
+    const body_part hurt_token = hurt->token;
+    effect &e = get_effect( eff_id, hurt_token );
     int intensity = e.get_intensity();
     if( remove_med < intensity ) {
         if( eff_id == effect_bandaged ) {
-            add_msg_if_player( m_bad, _( "Bandages on your %s were damaged!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Bandages on your %s were damaged!" ), body_part_name( hurt_token ) );
         } else  if( eff_id == effect_disinfected ) {
             add_msg_if_player( m_bad, _( "You got some filth on your disinfected %s!" ),
-                               body_part_name( hurt ) );
+                               body_part_name( hurt_token ) );
         }
     } else {
         if( eff_id == effect_bandaged ) {
-            add_msg_if_player( m_bad, _( "Bandages on your %s were destroyed!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Bandages on your %s were destroyed!" ),
+                               body_part_name( hurt_token ) );
         } else  if( eff_id == effect_disinfected ) {
-            add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
+            add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt_token ) );
         }
     }
     e.mod_duration( -6_hours * remove_med );

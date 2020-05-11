@@ -883,8 +883,8 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     }
 
     if( unarmed ) {
-        const bool left_empty = !natural_attack_restricted_on( bp_hand_l );
-        const bool right_empty = !natural_attack_restricted_on( bp_hand_r ) &&
+        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
+        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
@@ -965,8 +965,8 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 
     if( weap.is_unarmed_weapon() ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
-        const bool left_empty = !natural_attack_restricted_on( bp_hand_l );
-        const bool right_empty = !natural_attack_restricted_on( bp_hand_r ) &&
+        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
+        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
@@ -1036,8 +1036,8 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     }
 
     if( weap.is_unarmed_weapon() ) {
-        const bool left_empty = !natural_attack_restricted_on( bp_hand_l );
-        const bool right_empty = !natural_attack_restricted_on( bp_hand_r ) &&
+        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
+        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
