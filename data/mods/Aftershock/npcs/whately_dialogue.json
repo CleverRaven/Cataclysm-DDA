@@ -207,7 +207,7 @@
         "must_see": false,
         "random": true,
         "search_range": 180
-      }
+      },
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
