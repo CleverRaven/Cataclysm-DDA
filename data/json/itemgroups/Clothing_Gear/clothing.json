@@ -3289,7 +3289,7 @@
       { "group": "clothing_glasses", "prob": 50 },
       { "group": "clothing_watch", "prob": 15 },
       { "group": "accessory_ring", "prob": 15 },
-      { "group": "accessory_earring", "prob": 15  },
+      { "group": "accessory_earring", "prob": 15 },
       { "group": "accessory_bracelet", "prob": 15 },
       { "group": "accessory_teeth", "prob": 5 },
       { "group": "accessory_necklace", "prob": 15 },
