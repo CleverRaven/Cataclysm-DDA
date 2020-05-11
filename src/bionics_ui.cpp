@@ -272,7 +272,7 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
     std::vector<std::pair<int, size_t>> pos_and_num;
-    for( const std::pair<bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
+    for( const std::pair<const string_id<body_part_type>, size_t> &elem : bio_id->occupied_bodyparts ) {
         pos_and_num.emplace_back( static_cast<int>( elem.first->token ) + LIST_START_Y, elem.second );
     }
     if( pos_and_num.empty() || !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
@@ -562,7 +562,7 @@ void player::power_bionics()
                                      pos_x - 2, bio_id );
 
                     // redraw highlighted (occupied) body parts
-                    for( const std::pair<bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
+                    for( const std::pair<const string_id<body_part_type>, size_t> &elem : bio_id->occupied_bodyparts ) {
                         const int i = static_cast<int>( elem.first->token );
                         mvwprintz( wBio, point( pos_x, i + list_start_y ), c_yellow, bps[i] );
                     }

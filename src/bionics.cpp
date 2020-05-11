@@ -221,7 +221,7 @@ bool string_id<bionic_data>::is_valid() const
 std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
 {
     std::vector<bodypart_id> parts;
-    for( const std::pair<bodypart_str_id, size_t> &element : bid->occupied_bodyparts ) {
+    for( const std::pair<const string_id<body_part_type>, size_t> &element : bid->occupied_bodyparts ) {
         if( element.second > 0 ) {
             parts.push_back( element.first.id() );
         }
@@ -2518,7 +2518,7 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
         return "";
     }
     std::string desc = intro;
-    for( const std::pair<bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
+    for( const std::pair<const string_id<body_part_type>, size_t> &elem : bio_id->occupied_bodyparts ) {
         desc += ( each_bp_on_new_line ? "\n" : " " );
         //~ <Bodypart name> (<number of occupied slots> slots);
         desc += string_format( _( "%s (%i slots);" ),
@@ -2547,7 +2547,7 @@ std::map<body_part, int> Character::bionic_installation_issues( const bionic_id 
     if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return issues;
     }
-    for( const std::pair<bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
+    for( const std::pair<const string_id<body_part_type>, size_t> &elem : bioid->occupied_bodyparts ) {
         const int lacked_slots = elem.second - get_free_bionics_slots( elem.first->token );
         if( lacked_slots > 0 ) {
             issues.emplace( elem.first->token, lacked_slots );
