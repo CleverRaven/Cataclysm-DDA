@@ -577,7 +577,7 @@
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "VEGETARIAN" ],
+    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "flags": [ "CANNIBAL" ]
   },
   {
@@ -588,7 +588,7 @@
     "description": "You'd never eat people, but these things that look vaguely human from elsewhere are definitely not people.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "VEGETARIAN" ],
+    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
   },
   {
@@ -935,7 +935,8 @@
     "starting_trait": true,
     "valid": false,
     "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "CANNIBAL", "MEATARIAN", "ANTIFRUIT" ]
+    "cancels": [ "CARNIVORE", "CANNIBAL", "EATDEAD", "STRICT_HUMANITARIAN", "SAPIOVORE" ],
+    "changes_to": [ "HERBIVORE" ]
   },
   {
     "type": "mutation",
@@ -956,7 +957,7 @@
     "starting_trait": true,
     "valid": false,
     "vitamins_absorb_multi": [ [ "veggy", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "VEGETARIAN" ]
+    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
   },
   {
     "type": "mutation",
@@ -977,7 +978,7 @@
     "starting_trait": true,
     "valid": false,
     "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "VEGETARIAN" ]
+    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
   },
   {
     "type": "mutation",
@@ -2895,7 +2896,6 @@
     "name": { "str": "Saprovore" },
     "points": 2,
     "description": "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-    "cancels": [ "HERBIVORE", "RUMINANT" ],
     "category": [ "TROGLOBITE", "CHIMERA" ]
   },
   {
@@ -2909,7 +2909,7 @@
     "prereqs": [ "ROOTS2" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],
-    "cancels": [ "HERBIVORE", "CARNIVORE", "GRAZER" ],
+    "cancels": [ "GRAZER" ],
     "leads_to": [ "CHLOROMORPH" ],
     "category": [ "PLANT" ]
   },
@@ -2947,7 +2947,7 @@
     "description": "Your digestive system is capable of digesting cellulose and other rough plant material.  You can eat underbrush and shrubs by activating this, standing over your target, and pressing E.",
     "prereqs": [ "HERBIVORE" ],
     "changes_to": [ "GRAZER" ],
-    "cancels": [ "CARNIVORE", "SAPROVORE" ],
+    "cancels": [ "CARNIVORE", "CANNIBAL", "EATDEAD", "STRICT_HUMANITARIAN", "SAPIOVORE", "ANTIFRUIT", "MEATARIAN" ],
     "category": [ "CATTLE" ],
     "active": true,
     "cost": 0
@@ -2960,7 +2960,7 @@
     "description": "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush and shrubs.  Eat either one by activating this, standing over your target, and pressing E.",
     "prereqs": [ "RUMINANT" ],
     "threshreq": [ "THRESH_CATTLE" ],
-    "cancels": [ "CARNIVORE", "SAPROVORE" ],
+    "cancels": [ "CARNIVORE", "CANNIBAL", "EATDEAD", "STRICT_HUMANITARIAN", "SAPIOVORE", "ANTIFRUIT", "MEATARIAN" ],
     "category": [ "CATTLE" ],
     "active": true,
     "cost": 0
@@ -2987,6 +2987,7 @@
     "description": "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
     "prereqs": [ "EATPOISON" ],
     "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE" ],
+    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "category": [ "RAT", "CHIMERA", "MOUSE" ],
     "valid": false
   },
@@ -3580,6 +3581,7 @@
     "prereqs": [ "CARNIVORE" ],
     "prereqs2": [ "PRED3", "PRED4" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER" ],
+    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE", "LIZARD", "SPIDER" ],
     "flags": [ "CANNIBAL" ]
   },
@@ -5152,7 +5154,8 @@
     "name": { "str": "Herbivore" },
     "points": -3,
     "description": "Your body's ability to digest meat is severely hampered.  Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
-    "cancels": [ "CARNIVORE", "SAPROVORE", "ANTIFRUIT", "MEATARIAN" ],
+    "cancels": [ "CARNIVORE", "CANNIBAL", "EATDEAD", "STRICT_HUMANITARIAN", "SAPIOVORE", "ANTIFRUIT", "MEATARIAN" ],
+    "prereqs": [ "VEGETARIAN" ],
     "leads_to": [ "RUMINANT" ]
   },
   {
