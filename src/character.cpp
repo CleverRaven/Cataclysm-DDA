@@ -3010,7 +3010,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         !it.has_flag( flag_PERSONAL ) &&
         !it.has_flag( flag_AURA ) && !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_OVERSIZE ) &&
         is_wearing_helmet() ) {
-        return ret_val<bool>::make_failure( wearing_something_on( bp_head ),
+        return ret_val<bool>::make_failure( wearing_something_on( bodypart_id( "head" ) ),
                                             ( is_player() ? _( "You can't wear that with other headgear!" )
                                               : string_format( _( "%s can't wear that with other headgear!" ), name ) ) );
     }
@@ -8957,10 +8957,10 @@ void Character::rooted()
     }
 }
 
-bool Character::wearing_something_on( body_part bp ) const
+bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp->token ) ) {
             return true;
         }
     }
@@ -9024,10 +9024,10 @@ int Character::head_cloth_encumbrance() const
 double Character::armwear_factor() const
 {
     double ret = 0;
-    if( wearing_something_on( bp_arm_l ) ) {
+    if( wearing_something_on( bodypart_id( "arm_l" ) ) ) {
         ret += .5;
     }
-    if( wearing_something_on( bp_arm_r ) ) {
+    if( wearing_something_on( bodypart_id( "arm_r" ) ) ) {
         ret += .5;
     }
     return ret;
@@ -9036,10 +9036,10 @@ double Character::armwear_factor() const
 double Character::footwear_factor() const
 {
     double ret = 0;
-    if( wearing_something_on( bp_foot_l ) ) {
+    if( wearing_something_on( bodypart_id( "foot_l" ) ) ) {
         ret += .5;
     }
-    if( wearing_something_on( bp_foot_r ) ) {
+    if( wearing_something_on( bodypart_id( "foot_r" ) ) ) {
         ret += .5;
     }
     return ret;

@@ -2026,8 +2026,8 @@ class Character : public Creature, public visitable<Character>
         /** Returns allergy type or MORALE_NULL if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;
-        /** Returns true if the character is wearing something on the entered body_part */
-        bool wearing_something_on( body_part bp ) const;
+        /** Returns true if the character is wearing something on the entered body part */
+        bool wearing_something_on( const bodypart_id &bp ) const;
         /** Returns true if the character is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
         /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items coveringi
