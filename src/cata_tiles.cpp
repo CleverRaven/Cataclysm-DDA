@@ -877,6 +877,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
             curr_tile.multitile = t_multi;
             curr_tile.rotates = t_rota;
             curr_tile.height_3d = t_h3d;
+            curr_tile.animated = entry.get_bool( "animated", false );
         }
     }
     dbg( D_INFO ) << "Tile Width: " << ts.tile_width << " Tile Height: " << ts.tile_height <<
@@ -1899,6 +1900,23 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         c ^= b;
         c -= rot32( b, 24 );
         loc_rand = c;
+
+        // idle tile animations:
+        if( display_tile.animated ) {
+            // idle animations run during the user's turn, and the animation speed
+            // needs to be defined by the tileset to look good, so we use system clock:
+            auto now = std::chrono::system_clock::now();
+            auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>( now );
+            auto value = now_ms.time_since_epoch();
+            // aiming roughly at the standard 60 frames per second:
+            int animation_frame = value.count() / 17;
+            // offset by log_rand so that everything does not blink at the same time:
+            animation_frame += loc_rand;
+            int frames_in_loop = display_tile.fg.get_weight();
+            // loc_rand is actually the weighed index of the selected tile, and
+            // for animations the "weight" is the number of frames to show the tile for:
+            loc_rand = animation_frame % frames_in_loop;
+        }
     }
 
     //draw it!
