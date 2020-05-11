@@ -431,6 +431,8 @@ void Character::load( const JsonObject &data )
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
 
+    data.read( "custom_profession", custom_profession );
+
     // needs
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
@@ -690,6 +692,8 @@ void Character::store( JsonOut &json ) const
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
+
+    json.member( "custom_profession", custom_profession );
 
     // health
     json.member( "healthy", healthy );
