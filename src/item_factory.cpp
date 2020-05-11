@@ -448,6 +448,10 @@ void Item_factory::finalize_pre( itype &obj )
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().substr( 7 ) );
     }
+
+    if( obj.longest_side == -1_mm ) {
+        obj.longest_side = units::cube_to_volume<int>( obj.volume );
+    }
 }
 
 void Item_factory::register_cached_uses( const itype &obj )
@@ -2197,6 +2201,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         mag_data.fire_protection = def.magazine->protects_contents;
         mag_data.max_contains_volume = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
+        mag_data.max_item_length = 2_km;
         mag_data.rigid = true;
         mag_data.watertight = true;
         def.pockets.push_back( mag_data );
@@ -2211,6 +2216,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         mag_data.watertight = true;
         mag_data.max_contains_volume = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
+        mag_data.max_item_length = 2_km;
         // the magazine pocket does not use can_contain like normal CONTAINER pockets
         // so we don't have to worry about having random items be put into the mag
         def.pockets.push_back( mag_data );
@@ -2249,6 +2255,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "weight", def.weight, strict, 0_gram );
     assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
+    assign( jo, "longest_side", def.longest_side );
     assign( jo, "price", def.price, false, 0_cent );
     assign( jo, "price_postapoc", def.price_post, false, 0_cent );
     assign( jo, "stackable", def.stackable_, strict );

@@ -263,6 +263,9 @@ class pocket_data
         units::volume min_item_volume = 0_ml;
         // max weight of stuff the pocket can hold
         units::mass max_contains_weight = 0_gram;
+        // longest item that can fit into the pocket
+        // if not defined in json, calculated to be cbrt( volume ) * sqrt( 2 )
+        units::length max_item_length = 0_mm;
         // if true, this pocket can can contain one and only one item
         bool holster = false;
         // multiplier for spoilage rate of contained items

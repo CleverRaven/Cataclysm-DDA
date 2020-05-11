@@ -530,6 +530,8 @@ class item : public visitable<item>
          */
         units::volume volume( bool integral = false ) const;
 
+        units::length length() const;
+
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
          * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
