@@ -5828,10 +5828,10 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     if( inbounds ) {
         visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
     }
+    const Creature *creature = critter_at( lp, true );
     switch( visibility ) {
         case VIS_CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
-            const Creature *creature = critter_at( lp, true );
             print_terrain_info( lp, w_look, area_name, column, line );
             print_fields_info( lp, w_look, column, line );
             print_trap_info( lp, w_look, column, line );
@@ -5856,6 +5856,35 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
         case VIS_LIT:
         case VIS_HIDDEN:
             print_visibility_info( w_look, column, line, visibility );
+
+            if( creature != nullptr ) {
+                if( u.sees_with_infrared( *creature ) ) {
+                    std::string size_str;
+                    switch( creature->get_size() ) {
+                        case MS_TINY:
+                            size_str = "tiny";
+                            break;
+                        case MS_SMALL:
+                            size_str = "small";
+                            break;
+                        case MS_MEDIUM:
+                            break;
+                        case MS_LARGE:
+                            size_str = "large";
+                            break;
+                        case MS_HUGE:
+                            size_str = "huge";
+                            break;
+                    }
+                    if( size_str != "" ) {
+                        mvwprintw( w_look, point( 1, ++line ), _( "You see a %s figure radiating heat." ), size_str );
+                    } else {
+                        mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );
+                    }
+                } else if( u.sees_with_specials( *creature ) ) {
+                    mvwprintw( w_look, point( 1, ++line ), _( "You sense a creature here." ) );
+                }
+            }
 
             if( draw_terrain_indicators && !liveview.is_enabled() ) {
                 print_visibility_indicator( visibility );
