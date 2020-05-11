@@ -4645,7 +4645,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                                                _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
                                                body_part_name( part ) );
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
-                if( !patient.worn_with_flag( flag_SPLINT, convert_bp( part ) ) ) {
+                if( !patient.worn_with_flag( flag_SPLINT, convert_bp( part ).id() ) ) {
                     item splint;
                     if( i == hp_arm_l || i == hp_arm_r ) {
                         splint = item( "arm_splint", 0 );

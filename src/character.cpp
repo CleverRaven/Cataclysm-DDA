@@ -3292,7 +3292,7 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
-void Character::make_bleed( body_part bp, time_duration duration, int intensity,
+void Character::make_bleed( const bodypart_id &bp, time_duration duration, int intensity,
                             bool permanent, bool force, bool defferred )
 {
     int b_resist = 0;
@@ -3304,7 +3304,7 @@ void Character::make_bleed( body_part bp, time_duration duration, int intensity,
         return;
     }
 
-    add_effect( effect_bleed, duration, bp, permanent, intensity, force, defferred );
+    add_effect( effect_bleed, duration, bp->token, permanent, intensity, force, defferred );
 }
 
 void Character::normalize()

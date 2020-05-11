@@ -1629,7 +1629,7 @@ void Character::mend( int rate_multiplier )
         }
 
         body_part part = hp_to_bp( static_cast<hp_part>( i ) );
-        if( needs_splint && !worn_with_flag( "SPLINT", convert_bp( part ) ) ) {
+        if( needs_splint && !worn_with_flag( "SPLINT", convert_bp( part ).id() ) ) {
             continue;
         }
 

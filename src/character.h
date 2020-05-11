@@ -1503,7 +1503,7 @@ class Character : public Creature, public visitable<Character>
         // magic mod
         known_magic magic;
 
-        void make_bleed( body_part bp, time_duration duration, int intensity = 1,
+        void make_bleed( const bodypart_id &bp, time_duration duration, int intensity = 1,
                          bool permanent = false,
                          bool force = false, bool defferred = false );
 
