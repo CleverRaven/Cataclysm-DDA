@@ -14,7 +14,8 @@
     "mod_targets": [ "pistol", "rifle", "smg" ],
     "gun_data": { "ammo": "signal_flare", "skill": "launcher", "dispersion": 250, "durability": 8, "clip_size": 1 },
     "dispersion_modifier": 30,
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "signal_flare": 1 } } ]
   },
   {
     "id": "crt_cqb_si_shotgun",
@@ -32,7 +33,8 @@
     "mod_targets": [ "smg" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 3, "dispersion": 345, "durability": 10, "clip_size": 1 },
     "dispersion_modifier": 15,
-    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
+    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "bthk_stock",

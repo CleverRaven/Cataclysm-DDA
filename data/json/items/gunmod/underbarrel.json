@@ -44,7 +44,8 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
-    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
+    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "combination_gun_shotgun_pipe",
@@ -62,7 +63,8 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
-    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "factory_handguard",
@@ -151,7 +153,8 @@
       "clip_size": 7,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "ksg25_aux_shotgun",
@@ -176,7 +179,8 @@
       "clip_size": 12,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
   },
   {
     "id": "ts12_aux_shotgun",
@@ -202,7 +206,8 @@
       "clip_size": 5,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "ts12_aux_shotgun2",
@@ -228,7 +233,8 @@
       "clip_size": 5,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "laser_sight",
@@ -272,7 +278,8 @@
       "reload": 150,
       "clip_size": 1
     },
-    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shotpaper": 1 } } ]
   },
   {
     "id": "m203",
@@ -290,7 +297,8 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "m203_mod",
@@ -316,7 +324,8 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "m320_mod_mod",
@@ -340,7 +349,8 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "makeshift_bayonet",
@@ -371,7 +381,8 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 4 } } ]
   },
   {
     "id": "masterkey_mod",
@@ -396,7 +407,8 @@
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "pistol_bayonet",
@@ -461,7 +473,8 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "u_shotgun_mod",

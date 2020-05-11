@@ -103,6 +103,7 @@
     "loudness": 4,
     "clip_size": 80,
     "ammo_effects": "ACID",
-    "flags": [ "NO_UNLOAD", "NON-FOULING" ]
+    "flags": [ "NO_UNLOAD", "NON-FOULING" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "acidic_bore": 80 } } ]
   }
 ]

@@ -113,7 +113,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "3006", [ "3006_clip" ] ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 5 } } ]
   },
   {
     "id": "m1918",
@@ -176,7 +177,8 @@
     "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 4 } } ]
   },
   {
     "id": "rifle_3006",
@@ -216,6 +218,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 1 } } ]
   }
 ]

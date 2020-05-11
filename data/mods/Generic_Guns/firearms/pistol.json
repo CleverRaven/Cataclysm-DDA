@@ -6,7 +6,8 @@
     "name": { "str": "cowboy carbine" },
     "ammo": [ "ammo_pistol" ],
     "description": "Since the early days of western expansion, when ammunition supply was infrequent, shooters sought to share ammo between their sidearms and long arms.  This tube magazine lever action carbine allows the shooter to reduce the number of calibers carried and squeeze more power from their pistol ammunition.",
-    "clip_size": 10
+    "clip_size": 10,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 10 } } ]
   },
   {
     "id": "pistol_machine",
@@ -43,7 +44,8 @@
     "ammo": [ "ammo_pistol" ],
     "description": "Revolvers like this, chambered for standard defensive calibers, were a favorite of police departments for nearly a century, up until the 1986 Miami shootout.  Afterwards, the slow reloading and shooting of revolvers were considered liabilities; still, this model's accuracy and moderate recoil make for a serviceable sidearm, and there are no magazines for you to lose or damage.",
     "clip_size": 6,
-    "magazines": [ [ "ammo_pistol", [ "pistol_speedloader" ] ] ]
+    "magazines": [ [ "ammo_pistol", [ "pistol_speedloader" ] ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 6 } } ]
   },
   {
     "id": "pistol_smg",
