@@ -1443,7 +1443,8 @@ class Character : public Creature, public visitable<Character>
         bool worn_with_flag( const std::string &flag,
                              const bodypart_id &bp = bodypart_id( "num_bp" ) ) const;
         /** Returns the first worn item with a given flag. */
-        item item_worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        item item_worn_with_flag( const std::string &flag,
+                                  const bodypart_id &bp = bodypart_id( "num_bp" ) ) const;
 
         // drawing related stuff
         /**

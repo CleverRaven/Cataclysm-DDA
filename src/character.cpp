@@ -3103,11 +3103,11 @@ bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp )
     } );
 }
 
-item Character::item_worn_with_flag( const std::string &flag, body_part bp ) const
+item Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
     item it_with_flag;
     for( const item &it : worn ) {
-        if( it.has_flag( flag ) && ( bp == num_bp || it.covers( bp ) ) ) {
+        if( it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || it.covers( bp->token ) ) ) {
             it_with_flag = it;
             break;
         }
