@@ -1440,11 +1440,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player is wearing the item on the given body part. */
         bool is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
-        bool worn_with_flag( const std::string &flag,
-                             const bodypart_id &bp = bodypart_id( "num_bp" ) ) const;
+        bool worn_with_flag( const std::string &flag, const bodypart_id &bp = bodypart_id() ) const;
         /** Returns the first worn item with a given flag. */
-        item item_worn_with_flag( const std::string &flag,
-                                  const bodypart_id &bp = bodypart_id( "num_bp" ) ) const;
+        item item_worn_with_flag( const std::string &flag, const bodypart_id &bp = bodypart_id() ) const;
 
         // drawing related stuff
         /**
