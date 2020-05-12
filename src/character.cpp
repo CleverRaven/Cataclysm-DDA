@@ -6910,6 +6910,11 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
     rate_medicine *= 1.0f + mutation_value( "healing_resting" );
     rate_medicine *= 1.0f + at_rest_quality;
 
+    // increase healing if character has both effects
+    if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
+        rate_medicine *= 1.25;
+    }
+
     if( get_healthy() > 0.0f ) {
         rate_medicine *= 1.0f + get_healthy() / 200.0f;
     } else {
