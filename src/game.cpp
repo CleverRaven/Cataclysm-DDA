@@ -5862,18 +5862,18 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                     std::string size_str;
                     switch( creature->get_size() ) {
                         case MS_TINY:
-                            size_str = "tiny";
+                            size_str = pgettext( "infrared size", "tiny" );
                             break;
                         case MS_SMALL:
-                            size_str = "small";
+                            size_str = pgettext( "infrared size", "small" );
                             break;
                         case MS_MEDIUM:
                             break;
                         case MS_LARGE:
-                            size_str = "large";
+                            size_str = pgettext( "infrared size", "large" );
                             break;
                         case MS_HUGE:
-                            size_str = "huge";
+                            size_str = pgettext( "infrared size", "huge" );
                             break;
                     }
                     if( size_str != "" ) {
