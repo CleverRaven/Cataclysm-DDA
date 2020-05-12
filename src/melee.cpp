@@ -956,13 +956,14 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
     float cut_dam = mabuff_damage_bonus( DT_CUT ) + weap.damage_melee( DT_CUT );
     float cut_mul = 1.0f;
 
-    int cutting_skill = get_skill_level( skill_cutting );
+    const bool unarmed = weap.is_unarmed_weapon();
+    int skill = get_skill_level( unarmed ? skill_unarmed : skill_cutting );
 
     if( has_active_bionic( bio_cqb ) ) {
-        cutting_skill = BIO_CQB_LEVEL;
+        skill = BIO_CQB_LEVEL;
     }
 
-    if( weap.is_unarmed_weapon() ) {
+    if( unarmed ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
         const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
         const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
@@ -1006,10 +1007,10 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
     /** @EFFECT_CUTTING increases cutting damage multiplier */
-    if( cutting_skill < 5 ) {
-        cut_mul *= 0.8 + 0.08 * cutting_skill;
+    if( skill < 5 ) {
+        cut_mul *= 0.8 + 0.08 * skill;
     } else {
-        cut_mul *= 0.96 + 0.04 * cutting_skill;
+        cut_mul *= 0.96 + 0.04 * skill;
     }
 
     cut_mul *= mabuff_damage_mult( DT_CUT );
@@ -1027,14 +1028,14 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
 {
     float cut_dam = mabuff_damage_bonus( DT_STAB ) + weap.damage_melee( DT_STAB );
 
-    int unarmed_skill = get_skill_level( skill_unarmed );
-    int stabbing_skill = get_skill_level( skill_stabbing );
+    const bool unarmed = weap.is_unarmed_weapon();
+    int skill = get_skill_level( unarmed ? skill_unarmed : skill_stabbing );
 
     if( has_active_bionic( bio_cqb ) ) {
-        stabbing_skill = BIO_CQB_LEVEL;
+        skill = BIO_CQB_LEVEL;
     }
 
-    if( weap.is_unarmed_weapon() ) {
+    if( unarmed ) {
         const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
         const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
                                  weap.is_null();
@@ -1045,7 +1046,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
                 per_hand += mut->pierce_dmg_bonus;
 
                 if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
-                    per_hand += std::min( unarmed_skill / 2, 4 );
+                    per_hand += std::min( skill / 2, 4 );
                 }
             }
 
@@ -1068,10 +1069,10 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     float stab_mul = 1.0f;
     // 66%, 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%
     /** @EFFECT_STABBING increases stabbing damage multiplier */
-    if( stabbing_skill <= 5 ) {
-        stab_mul = 0.66 + 0.1 * stabbing_skill;
+    if( skill <= 5 ) {
+        stab_mul = 0.66 + 0.1 * skill;
     } else {
-        stab_mul = 0.86 + 0.06 * stabbing_skill;
+        stab_mul = 0.86 + 0.06 * skill;
     }
 
     stab_mul *= mabuff_damage_mult( DT_STAB );
@@ -1079,7 +1080,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
 
     if( crit ) {
         // Critical damage bonus for stabbing scales with skill
-        stab_mul *= 1.0 + ( stabbing_skill / 10.0 );
+        stab_mul *= 1.0 + ( skill / 10.0 );
         // Stab criticals have extra %arpen
         armor_mult = 0.66f;
     }
