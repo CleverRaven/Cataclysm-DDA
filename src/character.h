@@ -395,6 +395,8 @@ class Character : public Creature, public visitable<Character>
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
+        int get_standard_stamina_cost( item *thrown_item = nullptr );
+
         /**Get bonus to max_hp from excess stored fat*/
         int get_fat_to_hp() const;
 
