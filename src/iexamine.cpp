@@ -4681,6 +4681,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
 
         case TREAT_WOUNDS: {
+            if( !patient.has_effect( effect_bleed ) && !patient.has_effect( effect_infected ) &&
+                !patient.has_effect( effect_bite ) ) {
+                p.add_msg_player_or_npc( m_info, _( "You don't have any wounds that need treatment." ),
+                                         _( "<npcname> doesn't have any wounds that need treatment." ) );
+                return;
+            }
+
             if( patient.has_effect( effect_infected ) ) {
                 if( patient.has_effect( effect_strong_antibiotic ) ||
                     patient.has_effect( effect_antibiotic ) ||
@@ -4732,6 +4739,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.damage_disinfected[i] = patient.hp_max[i] - patient.hp_cur[i];
                 }
             }
+            patient.moves -= 500;
             break;
         }
 
