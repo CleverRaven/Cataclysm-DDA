@@ -683,7 +683,10 @@ bool veh_interact::can_install_part()
     if( is_drive_conflict() ) {
         return false;
     }
-    if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
+    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This vehicle cannot be modified in this way.\n" ) );
+        return false;
+    } else if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
         print_message_to( w_msg, c_light_red, _( "This part cannot be installed.\n" ) );
         return false;
     }
@@ -1183,13 +1186,16 @@ bool veh_interact::do_repair( std::string &msg )
         if( pt.is_broken() ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
-            if( !vp.has_flag( "NO_REPAIR" ) && !vp.repair_requirements().is_empty() &&
-                pt.base.max_damage() > 0 ) {
-                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
-                                  vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
-            } else {
+            if( vp.has_flag( "NO_REPAIR" ) || vp.repair_requirements().is_empty() ||
+                pt.base.max_damage() <= 0 ) {
                 nmsg += colorize( _( "This part cannot be repaired.\n" ), c_light_red );
                 ok = false;
+            } else if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) {
+                nmsg += colorize( _( "This vehicle cannot be repaired.\n" ), c_light_red );
+                ok = false;
+            } else {
+                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
+                                  vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
             }
         }
 
@@ -1722,7 +1728,10 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     sel_vpart_info = &sel_vehicle_part->info();
     std::string msg;
 
-    if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
+    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This vehicle cannot be modified in this way.\n" ) );
+        return false;
+    } else if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
         print_message_to( w_msg, c_light_red, _( "This part cannot be uninstalled.\n" ) );
         return false;
     }
