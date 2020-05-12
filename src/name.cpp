@@ -71,8 +71,14 @@ static void load( JsonIn &jsin )
             usage_flag( jo.get_string( "usage" ) )
             | gender_flag( jo.get_string( "gender", "" ) );
 
-        // find group type and add name to group
-        names[type].push_back( jo.get_string( "name" ) );
+        // find group type and add name(s) to group
+        if( jo.has_array( "name" ) ) {
+            for( const std::string &n : jo.get_array( "name" ) ) {
+                names[type].push_back( n );
+            }
+        } else {
+            names[type].push_back( jo.get_string( "name" ) );
+        }
     }
 }
 
