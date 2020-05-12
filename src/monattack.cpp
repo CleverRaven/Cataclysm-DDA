@@ -116,7 +116,9 @@ static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
-static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tindrift( "tindrift" );
+static const efftype_id effect_taint( "taint" );
+static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_under_op( "under_operation" );
 
 static const skill_id skill_gun( "gun" );
@@ -2859,11 +2861,28 @@ bool mattack::stare( monster *z )
         if( g->u.sees( *z ) ) {
             add_msg( m_bad, _( "The %s stares at you, and you shudder." ), z->name() );
         } else {
-            add_msg( m_bad, _( "You feel like you're being watched, it makes you sick." ) );
+            add_msg( m_bad, _( "You feel like you're being watched; it makes you sick." ) );
         }
-        g->u.add_effect( effect_teleglow, 80_minutes );
+       //Apply ?taint" to the target
+        g->u.add_effect( effect_taint, rng( 20_minutes, 60_minutes ) );
+       //Check severity before adding more debuffs
+                if ( g->u.get_effect_int ( effect_taint ) > 2 ) {
+        g->u.add_effect( effect_hallu, 30_minutes );
+        //Check if target is a player before spawning hallucinations
+        if( g->u.is_player() && one_in( 2 ) ) {
+            g->spawn_hallucination( g->u.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
+//        sound_hallu();
+        //add_msg( m_bad, _( "A strange figure appears!" ) );
+            }
+        if ( one_in( 12 ) ) {
+        g->u.add_effect( effect_blind, 5_minutes );
+            add_msg( m_bad, _( "Your sight darkens as the visions overtake you!" ) );
+            }
+        }
+                if ( g->u.get_effect_int ( effect_taint ) >= 3 && one_in( 12 ) ) {
+                g->u.add_effect( effect_tindrift, 5_turns );
+                }
     }
-
     return true;
 }
 
