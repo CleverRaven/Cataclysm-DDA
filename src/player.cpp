@@ -269,8 +269,6 @@ player::player()
     prof = profession::has_initialized() ? profession::generic() :
            nullptr; //workaround for a potential structural limitation, see player::create
 
-    custom_profession = "";
-
     start_location = start_location_id( "sloc_shelter" );
     moves = 100;
     movecounter = 0;

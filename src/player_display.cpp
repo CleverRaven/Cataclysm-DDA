@@ -1330,7 +1330,7 @@ void player::disp_info()
     // Post-humanity trumps your pre-Cataclysm life
     // Unless you have a custom profession.
     std::string race;
-    if( g->u.custom_profession.empty() || g->u.custom_profession == "" ) {
+    if( g->u.custom_profession.empty() ) {
         if( crossed_threshold() ) {
             for( const trait_id &mut : get_mutations() ) {
                 const mutation_branch &mdata = mut.obj();
@@ -1412,7 +1412,6 @@ void player::disp_info()
         werase( w_info );
 
         if( action == "CHANGE_PROFESSION_NAME" ) {
-
             string_input_popup popup;
             popup.title( _( "Profession Name: " ) )
             .width( 25 )
@@ -1431,7 +1430,7 @@ void player::disp_info()
                                bionics_win_size_y + 1, effect_win_size_y + 1 );
 
             // Print name and header
-            if( g->u.custom_profession.empty() || g->u.custom_profession == "" ) {
+            if( g->u.custom_profession.empty() ) {
                 if( crossed_threshold() ) {
                     //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
                     mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
