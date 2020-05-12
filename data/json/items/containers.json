@@ -566,6 +566,7 @@
     "material": "aluminum",
     "symbol": ")",
     "color": "light_blue",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -602,6 +603,7 @@
     "material": [ "plastic", "aluminum", "paper" ],
     "symbol": ")",
     "color": "light_cyan",
+    "qualities": [ [ "CONTAIN", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -660,6 +662,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "blue",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -691,6 +694,7 @@
     "//": "Represents a 4 cm radius x 10 cm height steel can.",
     "looks_like": "can_food",
     "weight": "70 g",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -853,6 +857,7 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_cyan",
+    "qualities": [ [ "CONTAIN", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1562,6 +1567,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "blue",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
