@@ -2092,7 +2092,7 @@ bool mattack::impale( monster *z )
         target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
         if( one_in( 60 / ( dam + 20 ) ) ) {
             if( target->is_player() || target->is_npc() ) {
-                target->as_character()->make_bleed( bp_torso, rng( 75_turns, 125_turns ), true );
+                target->as_character()->make_bleed( bodypart_id( "torso" ), rng( 75_turns, 125_turns ), true );
             } else {
                 target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
             }
