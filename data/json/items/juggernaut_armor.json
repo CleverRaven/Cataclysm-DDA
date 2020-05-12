@@ -69,7 +69,7 @@
     "time": "5 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 150 ] ],
-    "tools": [ [ [ "welder", 30 ], [ "welder_crude", 60 ], [ "toolset", 60 ] ], [ [ "tongs", 1 ] ], [ [ "swage", 1 ] ] ],
+    "tools": [ [ [ "blacksmithing_standard", 80 ], [ "steel_standard", 20 ] ], [ [ "tongs", 1 ] ], [ [ "swage", 1 ] ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "components": [
       [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "kevlar_plate", 40 ] ],
@@ -91,7 +91,7 @@
     "time": "4 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
-    "tools": [ [ [ "welder", 30 ], [ "welder_crude", 60 ], [ "toolset", 60 ] ], [ [ "tongs", 1 ] ], [ [ "swage", 1 ] ] ],
+    "tools": [ [ [ "blacksmithing_standard", 60 ], [ "steel_standard", 15 ] ], [ [ "tongs", 1 ] ], [ [ "swage", 1 ] ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "components": [
       [ [ "kevlar_plate", 35 ] ],
