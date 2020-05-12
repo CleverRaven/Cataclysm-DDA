@@ -102,6 +102,7 @@ static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
+static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
@@ -115,10 +116,9 @@ static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_taint( "taint" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
-static const efftype_id effect_taint( "taint" );
-static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_under_op( "under_operation" );
 
 static const skill_id skill_gun( "gun" );
@@ -2092,7 +2092,7 @@ bool mattack::impale( monster *z )
         target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
         if( one_in( 60 / ( dam + 20 ) ) ) {
             if( target->is_player() || target->is_npc() ) {
-                target->as_character()->make_bleed( bp_torso, rng( 75_turns, 125_turns ), true );
+                target->as_character()->make_bleed( bodypart_id( "torso" ), rng( 75_turns, 125_turns ), true );
             } else {
                 target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
             }
@@ -2846,42 +2846,49 @@ bool mattack::triffid_growth( monster *z )
 
 bool mattack::stare( monster *z )
 {
-    if( z->friendly ) {
+    if( z->friendly )
+    {
         // TODO: handle friendly monsters
         return false;
     }
     z->moves -= 200;
-    if( z->sees( g->u ) ) {
+    if( z->sees( g->u ) )
+    {
         //dimensional effects don't take against dimensionally anchored foes.
         if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-            g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
+                g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) )
+        {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
-        if( g->u.sees( *z ) ) {
+        if( g->u.sees( *z ) )
+        {
             add_msg( m_bad, _( "The %s stares at you, and you shudder." ), z->name() );
-        } else {
-            add_msg( m_bad, _( "You feel like you're being watched; it makes you sick." ) );
         }
-       //Apply ?taint" to the target
+        else
+        {
+            add_msg( m_bad, _( "You feel like you're being watched, it makes you sick." ) );
+        }
         g->u.add_effect( effect_taint, rng( 20_minutes, 60_minutes ) );
-       //Check severity before adding more debuffs
-                if ( g->u.get_effect_int ( effect_taint ) > 2 ) {
-        g->u.add_effect( effect_hallu, 30_minutes );
-        //Check if target is a player before spawning hallucinations
-        if( g->u.is_player() && one_in( 2 ) ) {
-            g->spawn_hallucination( g->u.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
-//        sound_hallu();
-        //add_msg( m_bad, _( "A strange figure appears!" ) );
+        //Check severity before adding more debuffs
+        if ( g->u.get_effect_int ( effect_taint ) > 2 )
+        {
+            g->u.add_effect( effect_hallu, 30_minutes );
+            //Check if target is a player before spawning hallucinations
+            if( g->u.is_player() && one_in( 2 ) )
+            {
+                g->spawn_hallucination( g->u.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
             }
-        if ( one_in( 12 ) ) {
-        g->u.add_effect( effect_blind, 5_minutes );
-            add_msg( m_bad, _( "Your sight darkens as the visions overtake you!" ) );
+            if ( one_in( 12 ) )
+            {
+                g->u.add_effect( effect_blind, 5_minutes );
+                add_msg( m_bad, _( "Your sight darkens as the visions overtake you!" ) );
             }
         }
-                if ( g->u.get_effect_int ( effect_taint ) >= 3 && one_in( 12 ) ) {
-                g->u.add_effect( effect_tindrift, 5_turns );
-                }
+        if ( g->u.get_effect_int ( effect_taint ) >= 3 && one_in( 12 ) )
+        {
+            g->u.add_effect( effect_tindrift, 5_turns );
+        }
     }
     return true;
 }
@@ -4451,7 +4458,7 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
         if( target->is_player() || target->is_npc() ) {
-            target->as_character()->make_bleed( bp_head, 10_minutes );
+            target->as_character()->make_bleed( bodypart_id( "head" ), 10_minutes );
         } else {
             target->add_effect( effect_bleed, 10_minutes, bp_head );
         }
@@ -5294,7 +5301,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->as_character()->make_bleed( hit->token, rng( 75_turns, 125_turns ), true );
+            target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), true );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
@@ -5809,4 +5816,11 @@ bool mattack::dodge_check( monster *z, Creature *target )
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
     float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
     return rng( 0, 10000 ) < 10000 / ( 1 + 99 * std::exp( -.6 * dodge ) );
+}
+
+bool mattack::speaker( monster *z )
+{
+    sounds::sound( z->pos(), 60, sounds::sound_t::order,
+                   SNIPPET.random_from_category( "speaker_warning" ).value_or( translation() ) );
+    return true;
 }

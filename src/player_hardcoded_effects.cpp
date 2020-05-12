@@ -86,8 +86,8 @@ static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
@@ -622,140 +622,167 @@ void player::hardcoded_effects( effect &it )
                 vomit();
                 mod_fatigue( dice( 1, 6 ) );
             }
-         }
-      } else if( id == effect_tindrift ) {
-        add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
-        for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
-        if( g->m.is_cornerfloor( dest ) ) {
-        g->m.add_field( dest, fd_tindalos_rift, 3 );
-        add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
-        //Remove the effect, since it's done all it needs to do to the target.
-        remove_effect( effect_tindrift );
-             }
         }
-     } else if( id == effect_teleglow ) {
+    }
+        else if( id == effect_teleglow )
+    {
         // Default we get around 300 duration points per teleport (possibly more
         // depending on the source).
         // TODO: Include a chance to teleport to the nether realm.
         // TODO: This with regards to NPCS
-        if( !is_player() ) {
+        if( !is_player() )
+        {
             // NO, no teleporting around the player because an NPC has teleglow!
             return;
         }
-        if( dur > 10_hours ) {
+        if( dur > 10_hours )
+        {
             // 20 teleports (no decay; in practice at least 21)
-            if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
-                if( !is_npc() ) {
+            if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) )
+            {
+                if( !is_npc() )
+                {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                 }
                 teleport::teleport( *this );
                 g->events().send<event_type::teleglow_teleports>( getID() );
-                if( one_in( 10 ) ) {
+                if( one_in( 10 ) )
+                {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
             }
         }
-            if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
-                    //Spawn a tindalos rift via effect_tindrift rather than it being hard-coded to teleglow
-                add_effect(effect_tindrift, 5_turns);
+        if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) )
+        {
+            //Spawn a tindalos rift via effect_tindrift rather than it being hard-coded to teleglow
+            add_effect(effect_tindrift, 5_turns);
 
-                if( one_in( 2 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
+            if( one_in( 2 ) )
+            {
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
             }
-            if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
-                if( !is_npc() ) {
-                    add_msg( m_bad, _( "You pass out." ) );
-                }
-                fall_asleep( 2_hours );
-                if( one_in( 6 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
+        }
+        if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) )
+        {
+            if( !is_npc() )
+            {
+                add_msg( m_bad, _( "You pass out." ) );
             }
-        if( dur > 6_hours ) {
+            fall_asleep( 2_hours );
+            if( one_in( 6 ) )
+            {
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
+            }
+        }
+        if( dur > 6_hours )
+        {
             // 12 teleports
-            if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
+            if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) )
+            {
                 tripoint dest( 0, 0, posz() );
                 int &x = dest.x;
                 int &y = dest.y;
                 int tries = 0;
-                do {
+                do
+                {
                     x = posx() + rng( -4, 4 );
                     y = posy() + rng( -4, 4 );
                     tries++;
-                    if( tries >= 10 ) {
+                    if( tries >= 10 )
+                    {
                         break;
                     }
-                } while( g->critter_at( dest ) );
-                if( tries < 10 ) {
-                    if( g->m.impassable( dest ) ) {
+                }
+                while( g->critter_at( dest ) );
+                if( tries < 10 )
+                {
+                    if( g->m.impassable( dest ) )
+                    {
                         g->m.make_rubble( dest, f_rubble_rock, true );
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
-                    if( g->u.sees( dest ) ) {
+                    if( g->u.sees( dest ) )
+                    {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                             _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }
-                    if( one_in( 2 ) ) {
+                    if( one_in( 2 ) )
+                    {
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );
                     }
                 }
             }
-            if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) ) {
+            if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) )
+            {
                 add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
                 mutate();
-                if( one_in( 4 ) ) {
+                if( one_in( 4 ) )
+                {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
             }
         }
-        if( dur > 4_hours ) {
+        if( dur > 4_hours )
+        {
             // 8 teleports
-            if( one_turn_in( 1000_minutes - dur ) && !has_effect( effect_valium ) ) {
+            if( one_turn_in( 1000_minutes - dur ) && !has_effect( effect_valium ) )
+            {
                 add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
-            if( one_turn_in( 1200_minutes - dur ) ) {
+            if( one_turn_in( 1200_minutes - dur ) )
+            {
                 add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
                 add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
-                if( one_in( 8 ) ) {
+                if( one_in( 8 ) )
+                {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
             }
-            if( one_in( 5000 ) && !has_effect( effect_hallu ) ) {
+            if( one_in( 5000 ) && !has_effect( effect_hallu ) )
+            {
                 add_effect( effect_hallu, 6_hours );
-                if( one_in( 5 ) ) {
+                if( one_in( 5 ) )
+                {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
             }
         }
-        if( one_in( 4000 ) ) {
+        if( one_in( 4000 ) )
+        {
             add_msg_if_player( m_bad, _( "You're suddenly covered in ectoplasm." ) );
             add_effect( effect_boomered, 10_minutes );
-            if( one_in( 4 ) ) {
+            if( one_in( 4 ) )
+            {
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
             }
         }
-        if( one_in( 10000 ) ) {
-            if( !has_trait( trait_M_IMMUNE ) ) {
+        if( one_in( 10000 ) )
+        {
+            if( !has_trait( trait_M_IMMUNE ) )
+            {
                 add_effect( effect_fungus, 1_turns, num_bp, true );
-            } else {
+            }
+            else
+            {
                 add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
             }
             // Set ourselves up for removal
             it.set_duration( 0_turns );
         }
-    } else if( id == effect_asthma ) {
+    }
+    else if( id == effect_asthma )
+    {
         if( has_effect( effect_adrenaline ) || has_effect( effect_datura ) ) {
             add_msg_if_player( m_good, _( "Your asthma attack stops." ) );
             it.set_duration( 0_turns );
