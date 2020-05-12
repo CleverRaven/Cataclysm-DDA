@@ -1550,13 +1550,6 @@ void map::player_in_field( player &u )
                 u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
             }
         }
-        if( ft == fd_dazzling ) {
-            if( cur.get_field_intensity() > 1 || one_in( 5 ) ) {
-                u.add_env_effect( effect_blind, bp_eyes, 10, 10_turns );
-            } else {
-                u.add_env_effect( effect_blind, bp_eyes, 2, 2_turns );
-            }
-        }
 
         if( cur.extra_radiation_min() > 0 ) {
             // Get irradiated by the nuclear fallout.
