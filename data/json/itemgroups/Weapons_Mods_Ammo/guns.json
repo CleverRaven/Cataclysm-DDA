@@ -403,7 +403,6 @@
     "items": [
       { "item": "ak47", "prob": 100, "charges-min": 0, "charges-max": 30 },
       { "item": "ak74", "prob": 60, "charges-min": 0, "charges-max": 30 },
-      { "item": "an94", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "bh_m89", "prob": 20, "charges-min": 0, "charges-max": 7 },
       { "item": "bfg50", "prob": 5, "charges-min": 0, "charges-max": 1 },
       { "item": "carbine_flintlock", "prob": 140 },
