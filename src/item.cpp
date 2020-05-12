@@ -2524,6 +2524,16 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                   encumbrance ) );
+
+        if( const islot_armor *t = find_armor_data() ) {
+            if( t->max_encumber != t->encumber ) {
+                const int encumbrance_when_full =
+                    get_encumber( g->u, encumber_flags::assume_full );
+                info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
+                                          iteminfo::no_newline | iteminfo::lower_is_better,
+                                          encumbrance_when_full ) );
+            }
+        }
     }
 
     // Whatever the last entry was, we want a newline at this point
@@ -3395,6 +3405,20 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     const std::string space = "  ";
 
     insert_separation_line( info );
+
+    if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
+        if( const islot_armor *t = find_armor_data() ) {
+            if( t->max_encumber != t->encumber ) {
+                info.emplace_back( "BASE",
+                                   _( "* This item is <info>not rigid</info>.  Its"
+                                      " volume and encumbrance increase with contents." ) );
+            } else if( !contents.all_pockets_rigid() ) {
+                info.emplace_back( "BASE",
+                                   _( "* This item is <info>not rigid</info>.  Its"
+                                      " volume increases with contents." ) );
+            }
+        }
+    }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
         if( !conductive() ) {
@@ -5350,13 +5374,7 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-int item::get_encumber( const Character &p ) const
-{
-    return get_encumber_when_containing( p, contents.item_size_modifier() );
-}
-
-int item::get_encumber_when_containing(
-    const Character &p, const units::volume & /* contents_volume */ ) const
+int item::get_encumber( const Character &p, encumber_flags flags ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
@@ -5364,6 +5382,14 @@ int item::get_encumber_when_containing(
         return is_gun() ? volume() / 750_ml : 0;
     }
     int encumber = t->encumber;
+
+    // Additional encumbrance from non-rigid pockets
+    float relative_encumbrance = 1;
+    if( !( flags & encumber_flags::assume_full ) ) {
+        relative_encumbrance = contents.relative_encumbrance();
+    }
+
+    encumber += std::ceil( relative_encumbrance * ( t->max_encumber - t->encumber ) );
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {

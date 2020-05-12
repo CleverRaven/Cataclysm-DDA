@@ -8,6 +8,7 @@
 #include "generic_factory.h"
 #include "handle_liquid.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
@@ -49,10 +50,10 @@ void pocket_data::load( const JsonObject &jo )
         if( temp != -1_ml ) {
             max_item_volume = temp;
         }
-        mandatory( jo, was_loaded, "max_contains_volume", max_contains_volume, volume_reader() );
+        mandatory( jo, was_loaded, "max_contains_volume", volume_capacity, volume_reader() );
         mandatory( jo, was_loaded, "max_contains_weight", max_contains_weight, mass_reader() );
         optional( jo, was_loaded, "max_item_length", max_item_length,
-                  units::cube_to_volume( max_contains_volume ) * M_SQRT2 );
+                  units::cube_to_volume( volume_capacity ) * M_SQRT2 );
     }
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
     optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
@@ -86,7 +87,7 @@ bool pocket_data::operator==( const pocket_data &rhs ) const
            fire_protection == rhs.fire_protection &&
            flag_restriction == rhs.flag_restriction &&
            type == rhs.type &&
-           max_contains_volume == rhs.max_contains_volume &&
+           volume_capacity == rhs.volume_capacity &&
            min_item_volume == rhs.min_item_volume &&
            max_contains_weight == rhs.max_contains_weight &&
            spoil_multiplier == rhs.spoil_multiplier &&
@@ -288,12 +289,17 @@ size_t item_pocket::size() const
 
 units::volume item_pocket::volume_capacity() const
 {
-    return data->max_contains_volume;
+    return data->volume_capacity;
+}
+
+units::volume item_pocket::max_contains_volume() const
+{
+    return data->max_contains_volume();
 }
 
 units::volume item_pocket::remaining_volume() const
 {
-    return data->max_contains_volume - contains_volume();
+    return volume_capacity() - contains_volume();
 }
 
 int item_pocket::remaining_capacity_for_item( const item &it ) const
@@ -622,7 +628,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
     }
 
     info.emplace_back( "DESCRIPTION", string_format( _( "Volume Capacity: <neutral>%s</neutral>" ),
-                       vol_to_string( data->max_contains_volume ) ) );
+                       vol_to_string( volume_capacity() ) ) );
 
     info.emplace_back( "DESCRIPTION", string_format( _( "Weight Capacity: <neutral>%s</neutral>" ),
                        weight_to_string( data->max_contains_weight ) ) );
@@ -689,7 +695,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
     info.emplace_back( "DESCRIPTION",
                        string_format( "%s: <neutral>%s / %s</neutral>", _( "Volume" ),
                                       vol_to_string( contains_volume() ),
-                                      vol_to_string( data->max_contains_volume ) ) );
+                                      vol_to_string( volume_capacity() ) ) );
     info.emplace_back( "DESCRIPTION",
                        string_format( "%s: <neutral>%s / %s</neutral>", _( "Weight" ),
                                       weight_to_string( contains_weight() ),
@@ -838,7 +844,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_CANNOT_SUPPORT, _( "pocket is holding too much weight" ) );
     }
-    if( it.volume() > data->max_contains_volume ) {
+    if( it.volume() > volume_capacity() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
@@ -1199,4 +1205,29 @@ void item_pocket::heat_up()
             it.heat_up();
         }
     }
+}
+
+units::volume pocket_data::max_contains_volume() const
+{
+    if( ammo_restriction.empty() ) {
+        return volume_capacity;
+    }
+
+    // Find all valid ammo itypes
+    std::vector<const itype *> ammo_types = Item_factory::find( [&]( const itype & t ) {
+        return t.ammo && ammo_restriction.count( t.ammo->type );
+    } );
+    // Figure out which has the greatest volume and calculate on that basis
+    std::map<ammotype, units::volume> max_ammo_volume_by_type{};
+    for( const auto *ammo_type : ammo_types ) {
+        units::volume &max_ammo_volume = max_ammo_volume_by_type[ammo_type->ammo->type];
+        int stack_size = ammo_type->stack_size ? ammo_type->stack_size : 1;
+        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume / stack_size );
+    }
+    units::volume max_total_volume = 0_ml;
+    for( const std::pair<const ammotype, units::volume> &p : max_ammo_volume_by_type ) {
+        max_total_volume = std::max( max_total_volume,
+                                     p.second * ammo_restriction.at( p.first ) );
+    }
+    return max_total_volume;
 }

@@ -4,6 +4,7 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "clothing_mod.h"
 #include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
@@ -18,7 +19,15 @@
 static void test_info_equals( const item &i, const iteminfo_query &q,
                               const std::string &reference )
 {
-    g->u.clear_mutations();
+    int encumber = i.type->armor ? i.type->armor->encumber : -1;
+    int max_encumber = i.type->armor ? i.type->armor->max_encumber : -1;
+    CAPTURE( encumber );
+    CAPTURE( max_encumber );
+    CAPTURE( i.typeId() );
+    CAPTURE( i.has_flag( "FIT" ) );
+    CAPTURE( i.has_flag( "VARSIZE" ) );
+    CAPTURE( i.get_clothing_mod_val( clothing_mod_type_encumbrance ) );
+    CAPTURE( i.get_sizing( g->u, true ) );
     std::vector<iteminfo> info_v;
     std::string info = i.info( info_v, &q, 1 );
     CHECK( info == reference );
@@ -27,7 +36,15 @@ static void test_info_equals( const item &i, const iteminfo_query &q,
 static void test_info_contains( const item &i, const iteminfo_query &q,
                                 const std::string &reference )
 {
-    g->u.clear_mutations();
+    int encumber = i.type->armor ? i.type->armor->encumber : -1;
+    int max_encumber = i.type->armor ? i.type->armor->max_encumber : -1;
+    CAPTURE( encumber );
+    CAPTURE( max_encumber );
+    CAPTURE( i.typeId() );
+    CAPTURE( i.has_flag( "FIT" ) );
+    CAPTURE( i.has_flag( "VARSIZE" ) );
+    CAPTURE( i.get_clothing_mod_val( clothing_mod_type_encumbrance ) );
+    CAPTURE( i.get_sizing( g->u, true ) );
     std::vector<iteminfo> info_v;
     std::string info = i.info( info_v, &q, 1 );
     using Catch::Matchers::Contains;
@@ -52,8 +69,9 @@ static iteminfo_query q_vec( const std::vector<iteminfo_parts> &part_flags )
     return iteminfo_query( part_flags );
 }
 
-TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary][!mayfail]" )
+TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_CATEGORY, iteminfo_parts::BASE_MATERIAL,
                                 iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT,
                                 iteminfo_parts::DESCRIPTION
@@ -73,6 +91,7 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary
 
 TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( std::vector<iteminfo_parts>( { iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_BARTER } ) );
 
     SECTION( "owner and price" ) {
@@ -103,10 +122,59 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
     }
 }
 
+TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
+{
+    clear_avatar();
+    iteminfo_query q = q_vec( { iteminfo_parts::BASE_RIGIDITY, iteminfo_parts::ARMOR_ENCUMBRANCE } );
+
+    SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
+        // Waterskin uses the default encumbrance increase of 1 per 250ml
+        test_info_equals(
+            item( "test_waterskin" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>0</color>"
+            "  Encumbrance when full: <color_c_yellow>6</color>\n"
+            "--\n"
+            "* This item is <color_c_cyan>not rigid</color>."
+            "  Its volume and encumbrance increase with contents.\n" );
+
+        // test_backpack has an explicit max_encumbrance
+        test_info_equals(
+            item( "test_backpack" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>2</color>"
+            "  Encumbrance when full: <color_c_yellow>15</color>\n"
+            "--\n"
+            "* This item is <color_c_cyan>not rigid</color>."
+            "  Its volume and encumbrance increase with contents.\n" );
+
+        // quiver has no volume, only an implicit volume via ammo
+        test_info_equals(
+            item( "quiver" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>3</color>"
+            "  Encumbrance when full: <color_c_yellow>11</color>\n"
+            "--\n"
+            "* This item is <color_c_cyan>not rigid</color>."
+            "  Its volume and encumbrance increase with contents.\n" );
+    }
+
+    SECTION( "rigid items do not indicate they are rigid, since almost all items are" ) {
+        test_info_equals(
+            item( "test_briefcase" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>30</color>\n" );
+
+        test_info_equals( item( "test_jug_plastic" ), q, "" );
+        test_info_equals( item( "test_pipe" ), q, "" );
+        test_info_equals( item( "test_pine_nuts" ), q, "" );
+    }
+}
+
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
-    // new DPS calculations depend on the avatar's stats, so make sure they're consistent
     clear_avatar();
+    // new DPS calculations depend on the avatar's stats, so make sure they're consistent
     REQUIRE( g->u.get_str() == 8 );
     REQUIRE( g->u.get_dex() == 8 );
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
@@ -175,6 +243,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 
 TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_TECHNIQUES } );
 
     test_info_equals(
@@ -188,6 +257,7 @@ TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
 
 TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
                                 iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH,
                                 iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION
@@ -218,6 +288,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
 
 TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
 {
+    clear_avatar();
 
     SECTION( "skill used" ) {
         iteminfo_query q = q_vec( { iteminfo_parts::GUN_USEDSKILL } );
@@ -295,6 +366,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
 
 TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::AMMO_REMAINING_OR_TYPES, iteminfo_parts::AMMO_DAMAGE_VALUE,
                                 iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL, iteminfo_parts::AMMO_DAMAGE_AP,
                                 iteminfo_parts::AMMO_DAMAGE_RANGE, iteminfo_parts::AMMO_DAMAGE_DISPERSION,
@@ -312,8 +384,9 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
     }
 }
 
-TEST_CASE( "nutrients in food", "[item][iteminfo][food][!mayfail]" )
+TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
                                 iteminfo_parts::FOOD_QUENCH
                               } );
@@ -343,6 +416,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food][!mayfail]" )
 
 TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT } );
 
     // Ensure test character has no skill estimating spoilage
@@ -372,6 +446,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 
 TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_CONDUCTIVITY } );
 
     SECTION( "non-conductive items" ) {
@@ -399,6 +474,7 @@ TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
 
 TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::QUALITIES } );
 
     SECTION( "Halligan bar" ) {
@@ -431,6 +507,7 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
 
 TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_REPAIREDWITH } );
 
     test_info_contains(
@@ -450,6 +527,7 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
 TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE } );
 
     test_info_equals(
@@ -466,6 +544,7 @@ TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
 
 TEST_CASE( "item description flags", "[item][iteminfo]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_FLAGS } );
 
     test_info_equals(
@@ -492,9 +571,9 @@ TEST_CASE( "item description flags", "[item][iteminfo]" )
 
 TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo][recipes]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES } );
     const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
-    g->u.clear_mutations();
     recipe_subset &known_recipes = const_cast<recipe_subset &>( g->u.get_learned_recipes() );
     known_recipes.clear();
 
