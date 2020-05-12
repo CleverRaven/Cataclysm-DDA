@@ -248,6 +248,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "accelerated_decay", accelerated_decay, false );
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
+    optional( jo, was_loaded, "legacy_make_rubble", legacy_make_rubble, false );
     optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
 
     optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
@@ -327,7 +328,6 @@ field_type_id fd_null,
               fd_sap,
               fd_sludge,
               fd_fire,
-              fd_rubble,
               fd_smoke,
               fd_toxic_gas,
               fd_tear_gas,
@@ -385,7 +385,6 @@ void field_types::set_field_type_ids()
     fd_sap = field_type_id( "fd_sap" );
     fd_sludge = field_type_id( "fd_sludge" );
     fd_fire = field_type_id( "fd_fire" );
-    fd_rubble = field_type_id( "fd_rubble" );
     fd_smoke = field_type_id( "fd_smoke" );
     fd_toxic_gas = field_type_id( "fd_toxic_gas" );
     fd_tear_gas = field_type_id( "fd_tear_gas" );

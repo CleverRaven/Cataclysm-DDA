@@ -823,7 +823,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     create_hot_air( p, cur.get_field_intensity() );
                 }
-                if( curtype == fd_rubble ) {
+                if( curtype.obj().legacy_make_rubble ) {
                     // Legacy Stuff
                     make_rubble( p );
                 }

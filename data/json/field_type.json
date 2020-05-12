@@ -359,7 +359,8 @@
     "phase": "solid",
     "display_items": false,
     "display_field": true,
-    "looks_like": "f_rubble"
+    "looks_like": "f_rubble",
+    "legacy_make_rubble": true
   },
   {
     "id": "fd_smoke",

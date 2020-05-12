@@ -160,6 +160,7 @@ struct field_type {
         bool accelerated_decay = false;
         bool display_items = true;
         bool display_field = false;
+        bool legacy_make_rubble = false;
         field_type_id wandering_field;
         std::string looks_like;
 
@@ -279,7 +280,6 @@ extern field_type_id fd_null,
        fd_sap,
        fd_sludge,
        fd_fire,
-       fd_rubble,
        fd_smoke,
        fd_toxic_gas,
        fd_tear_gas,
