@@ -190,7 +190,7 @@
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "1250 ml",
-        "max_contains_volume": "8000 ml",
+        "max_contains_volume": "8 L",
         "max_contains_weight": "8.2 kg",
         "moves": 50
       }
