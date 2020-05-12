@@ -623,21 +623,6 @@ class cauterize_actor : public iuse_actor
 };
 
 /**
- * Makes a zombie corpse into a zombie slave
- */
-class enzlave_actor : public iuse_actor
-{
-    public:
-        enzlave_actor( const std::string &type = "enzlave" ) : iuse_actor( type ) {}
-
-        ~enzlave_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
-        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
  * Try to turn on a burning melee weapon
  * Not iuse_transform, because they don't have that much in common
  */

@@ -923,7 +923,6 @@ void Item_factory::init()
     add_actor( std::make_unique<cauterize_actor>() );
     add_actor( std::make_unique<consume_drug_iuse>() );
     add_actor( std::make_unique<delayed_transform_iuse>() );
-    add_actor( std::make_unique<enzlave_actor>() );
     add_actor( std::make_unique<explosion_iuse>() );
     add_actor( std::make_unique<firestarter_actor>() );
     add_actor( std::make_unique<fireweapon_off_actor>() );
