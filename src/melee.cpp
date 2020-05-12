@@ -597,8 +597,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     // for each strike, regardless of weight. This is compensated
     // for by the additional move cost as weapon weight increases
     const int weight_cost = cur_weapon.weight() / ( 16_gram );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
-                                 2.0f );
+    const int encumbrance_cost = encumb( bp_arm_l ) + encumb( bp_arm_r );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;

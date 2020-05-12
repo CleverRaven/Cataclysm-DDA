@@ -2162,16 +2162,25 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         // Default menu border color is different, this matches the border of the item info window.
         action_menu.border_color = BORDER_COLOR;
 
-        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+        item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
+        data.without_getch = true;
+
+        catacurses::window w_info;
+        int iScrollHeight = 0;
+
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            w_info = catacurses::newwin( TERMY, iWidth, point( iStartX, 0 ) );
+            iScrollHeight = TERMY - 2;
+            ui.position_from_window( w_info );
+        } );
+        ui.mark_resize();
+
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            draw_item_info( w_info, data );
+        } );
 
         do {
-            item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
-            data.without_getch = true;
-            const int iHeight = TERMY;
-            const int iScrollHeight = iHeight - 2;
-
-            draw_item_info( iStartX, iWidth, 0, iHeight, data );
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
             if( action_menu.ret >= 0 ) {
@@ -2265,9 +2274,11 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                     break;
                 case KEY_PPAGE:
                     iScrollPos -= iScrollHeight;
+                    ui.invalidate_ui();
                     break;
                 case KEY_NPAGE:
                     iScrollPos += iScrollHeight;
+                    ui.invalidate_ui();
                     break;
                 case '+':
                     if( !bHPR ) {
@@ -5046,11 +5057,6 @@ bool game::revive_corpse( const tripoint &p, item &it )
     critter.no_extra_death_drops = true;
     critter.add_effect( effect_downed, 5_turns, num_bp, true );
 
-    if( it.get_var( "zlave" ) == "zlave" ) {
-        critter.add_effect( effect_pacified, 1_turns, num_bp, true );
-        critter.add_effect( effect_pet, 1_turns, num_bp, true );
-    }
-
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {
         for( auto &ammo : critter.ammo ) {
             ammo.second = 0;
@@ -5828,10 +5834,10 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     if( inbounds ) {
         visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
     }
+    const Creature *creature = critter_at( lp, true );
     switch( visibility ) {
         case VIS_CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
-            const Creature *creature = critter_at( lp, true );
             print_terrain_info( lp, w_look, area_name, column, line );
             print_fields_info( lp, w_look, column, line );
             print_trap_info( lp, w_look, column, line );
@@ -5856,6 +5862,34 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
         case VIS_LIT:
         case VIS_HIDDEN:
             print_visibility_info( w_look, column, line, visibility );
+
+            if( creature != nullptr ) {
+                if( u.sees_with_infrared( *creature ) ) {
+                    std::string size_str;
+                    switch( creature->get_size() ) {
+                        case MS_TINY:
+                            size_str = pgettext( "infrared size", "tiny" );
+                            break;
+                        case MS_SMALL:
+                            size_str = pgettext( "infrared size", "small" );
+                            break;
+                        case MS_MEDIUM:
+                            size_str = pgettext( "infrared size", "medium" );
+                            break;
+                        case MS_LARGE:
+                            size_str = pgettext( "infrared size", "large" );
+                            break;
+                        case MS_HUGE:
+                            size_str = pgettext( "infrared size", "huge" );
+                            break;
+                    }
+                    mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );
+                    mvwprintw( w_look, point( 1, ++line ), _( "It is %s in size." ),
+                               size_str );
+                } else if( u.sees_with_specials( *creature ) ) {
+                    mvwprintw( w_look, point( 1, ++line ), _( "You sense a creature here." ) );
+                }
+            }
 
             if( draw_terrain_indicators && !liveview.is_enabled() ) {
                 print_visibility_indicator( visibility );
@@ -8944,12 +8978,12 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
             harmful_stuff.emplace_back( tr.name() );
         }
 
-        static const std::set< body_part > sharp_bps = {
-            bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
-            bp_hand_l, bp_hand_r, bp_torso
+        static const std::set< bodypart_id > sharp_bps = {
+            bodypart_id( "eyes" ), bodypart_id( "mouth" ), bodypart_id( "head" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+            bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "torso" )
         };
 
-        const auto sharp_bp_check = [this]( body_part bp ) {
+        const auto sharp_bp_check = [this]( bodypart_id bp ) {
             return u.immune_to( bp, { DT_CUT, 10 } );
         };
 

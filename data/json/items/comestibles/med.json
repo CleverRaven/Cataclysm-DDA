@@ -991,7 +991,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": "flu shot",
-    "description": "Pharmaceutical flu shot designed for mass vaccinations, still in the packaging.  Purported to provide immunity to influenza.",
+    "description": "Pharmaceutical flu shot designed for mass vaccinations, still in the packaging.  Purported to provide immunity to influenza, for the flu season for which it was developed.",
     "weight": "12 g",
     "volume": "10ml",
     "price": 5000,

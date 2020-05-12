@@ -181,6 +181,9 @@ class target_ui
         // Snap camera to cursor. Can be permanently toggled in settings
         // or temporarily in this window
         bool snap_to_target;
+        // If true, LEVEL_UP, LEVEL_DOWN and directional keys
+        // responsible for moving cursor will shift view instead.
+        bool shifting_view = false;
 
         // Compact layout
         bool compact;
@@ -988,7 +991,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for being able to throw farther.
     const int weight_cost = weight / ( 16_gram );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) * 2.0f );
+    const int encumbrance_cost = encumb( bp_arm_l ) + encumb( bp_arm_r );
     const int stamina_cost = ( weight_cost + encumbrance_cost - throwing_skill + 50 ) * -1;
 
     bool throw_assist = false;
@@ -1922,6 +1925,7 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     std::string action;
     bool attack_was_confirmed = false;
     bool reentered = false;
+    tripoint manual_view_offset = pc.view_offset;
     if( mode == TargetMode::Fire ) {
         if( pc.activity.id() == ACT_AIM ) {
             // We were in this UI during previous turn...
@@ -1935,14 +1939,18 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
                 action = act_data;
                 attack_was_confirmed = true;
             }
-            // Load state of snap-to-target mode to keep it consistent between turns
+            // Load state to keep the ui consistent across turns
             snap_to_target = pc.activity.str_values[1] == "snap";
+            shifting_view = pc.activity.values[0] == 1;
+            manual_view_offset = pc.activity.coords[0];
             // Clear the activity, we'll re-set it later if we need to.
             pc.cancel_activity();
         }
     }
 
+    // Restore view to how it was during previos turn in this ui
     const tripoint saved_view_offset = pc.view_offset;
+    set_view_offset( pc, manual_view_offset );
 
     // Initialize cursor position
     src = pc.pos();
@@ -1990,6 +1998,11 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             toggle_snap_to_target( pc );
         } else if( action == "TOGGLE_TURRET_LINES" ) {
             draw_turret_lines = !draw_turret_lines;
+        } else if( action == "TOGGLE_MOVE_CURSOR_VIEW" ) {
+            if( snap_to_target ) {
+                toggle_snap_to_target( pc );
+            }
+            shifting_view = !shifting_view;
         } else if( action == "zoom_in" ) {
             g->zoom_in();
         } else if( action == "zoom_out" ) {
@@ -2057,6 +2070,9 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
         }
     } // for(;;)
 
+    // Since the activity can be cancelled at any time, we restore the view now
+    // but save it if we need it in this ui on the next turn
+    manual_view_offset = pc.view_offset;
     set_view_offset( pc, saved_view_offset );
 
     switch( loop_exit_code ) {
@@ -2074,11 +2090,13 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             // automatically re-enter the aiming UI on the next turn.
             // pc.activity.str_values[0] remembers which action, AIM or *_SHOT,
             // we didn't have the time to finish.
-            // pc.activity.str_values[1] remembers state of snap-to-target mode
             traj.clear();
             pc.assign_activity( ACT_AIM, 0, 0 );
             pc.activity.str_values.push_back( timed_out_action );
+            // Save UI state
             pc.activity.str_values.push_back( snap_to_target ? "snap" : "nosnap" );
+            pc.activity.values.push_back( shifting_view ? 1 : 0 );
+            pc.activity.coords.push_back( manual_view_offset );
             break;
         }
         case ExitCode::Reload: {
@@ -2146,6 +2164,7 @@ void target_ui::init_window_and_input( player &pc )
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "TOGGLE_MOVE_CURSOR_VIEW" );
     if( allow_zlevel_shift ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
@@ -2174,6 +2193,13 @@ void target_ui::init_window_and_input( player &pc )
 bool target_ui::handle_cursor_movement( player &pc, const std::string &action, bool &skip_redraw )
 {
     cata::optional<tripoint> mouse_pos;
+    const auto shift_view_or_cursor = [&pc, this]( const tripoint & delta ) {
+        if( this->shifting_view ) {
+            this->set_view_offset( pc, pc.view_offset + delta );
+        } else {
+            this->set_cursor_pos( pc, dst + delta );
+        }
+    };
 
     if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
         // Shift pos and/or view via edge scrolling
@@ -2191,22 +2217,30 @@ bool target_ui::handle_cursor_movement( player &pc, const std::string &action, b
             }
         }
     } else if( const cata::optional<tripoint> delta = ctxt.get_direction( action ) ) {
-        // Shift pos with directional keys
-        set_cursor_pos( pc, dst + *delta );
+        // Shift view/cursor with directional keys
+        shift_view_or_cursor( *delta );
     } else if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
         // Set pos by clicking with mouse
+        mouse_pos->z = pc.pos().z + pc.view_offset.z;
         set_cursor_pos( pc, *mouse_pos );
     } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
-        // Shift position up/down one z level
-        tripoint new_pos = dst;
-        new_pos.z += ( action == "LEVEL_UP" ? 1 : -1 );
-        set_cursor_pos( pc, new_pos );
+        // Shift view/cursor up/down one z level
+        tripoint delta = tripoint(
+                             0,
+                             0,
+                             action == "LEVEL_UP" ? 1 : -1
+                         );
+        shift_view_or_cursor( delta );
     } else if( action == "NEXT_TARGET" ) {
         cycle_targets( pc, 1 );
     } else if( action == "PREV_TARGET" ) {
         cycle_targets( pc, -1 );
     } else if( action == "CENTER" ) {
-        set_cursor_pos( pc, src );
+        if( shifting_view ) {
+            set_view_offset( pc, tripoint_zero );
+        } else {
+            set_cursor_pos( pc, src );
+        }
     } else {
         return false;
     }
@@ -2230,6 +2264,8 @@ bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
         valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        // Or current view range
+        valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
         new_traj = g->m.find_clear_path( src, valid_pos );
         if( range == 1 ) {
@@ -2473,6 +2509,7 @@ bool target_ui::confirm_non_enemy_target()
 
 void target_ui::toggle_snap_to_target( player &pc )
 {
+    shifting_view = false;
     if( snap_to_target ) {
         // Keep current view offset
     } else {
@@ -2510,12 +2547,17 @@ void target_ui::cycle_targets( player &pc, int direction )
 
 void target_ui::set_view_offset( player &pc, const tripoint &new_offset )
 {
-    bool changed_z = pc.view_offset.z != new_offset.z;
-    pc.view_offset = new_offset;
+    int new_x = new_offset.x;
+    int new_y = new_offset.y;
+    int new_z = clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range );
+    new_z = clamp( new_z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
+
+    bool changed_z = pc.view_offset.z != new_z;
+    pc.view_offset = tripoint( new_x, new_y, new_z );
     if( changed_z ) {
-        // We need to do a bunch of redrawing and cache updates since we're
+        // We need to do a bunch of cache updates since we're
         // looking at a different z-level.
-        g->m.invalidate_map_cache( new_offset.z );
+        g->m.invalidate_map_cache( new_z );
         g->refresh_all();
     }
 }
@@ -2866,7 +2908,11 @@ void target_ui::draw_controls_list( int text_y )
     std::vector<line> lines;
 
     // Compile full list
-    lines.push_back( {8, colored( col_move, _( "Move cursor with directional keys" ) )} );
+    if( shifting_view ) {
+        lines.push_back( {8, colored( col_move, _( "Shift view with directional keys" ) )} );
+    } else {
+        lines.push_back( {8, colored( col_move, _( "Move cursor with directional keys" ) )} );
+    }
     if( is_mouse_enabled() ) {
         std::string move = _( "Mouse: LMB: Target, Wheel: Cycle," );
         std::string fire = _( "RMB: Fire" );

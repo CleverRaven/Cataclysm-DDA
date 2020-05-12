@@ -280,6 +280,8 @@ void bionic_data::load( const JsonObject &jsobj, const std::string )
 
     optional( jsobj, was_loaded, "available_upgrades", available_upgrades );
 
+    optional( jsobj, was_loaded, "installation_requirement", installation_requirement );
+
     if( jsobj.has_array( "stat_bonus" ) ) {
         // clear data first so that copy-from can override it
         stat_bonus.clear();
@@ -359,6 +361,10 @@ void bionic_data::check_bionic_consistency()
 {
     for( const bionic_data &bio : get_all() ) {
 
+        if( !bio.installation_requirement.is_empty() && !bio.installation_requirement.is_valid() ) {
+            debugmsg( "Bionic %s uses undefined requirement_id %s", bio.id.c_str(),
+                      bio.installation_requirement.c_str() );
+        }
         if( bio.has_flag( flag_BIO_GUN ) && bio.has_flag( flag_BIO_WEAPON ) ) {
             debugmsg( "Bionic %s specified as both gun and weapon bionic", bio.id.c_str() );
         }
@@ -1868,23 +1874,86 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
     }
 }
 
-bool Character::has_enough_anesth( const itype *cbm, player &patient )
+bool Character::has_enough_anesth( const itype &cbm, player &patient )
 {
-    if( !cbm->bionic ) {
-        debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm->get_id() );
+    if( !cbm.bionic ) {
+        debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm.get_id() );
         return false;
     }
 
-    if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
+    if( patient.has_bionic( bio_painkiller ) || patient.has_trait( trait_NOPAIN ) ||
         has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
 
     const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                        cbm->bionic->difficulty * 2 * weight;
+                                        cbm.bionic->difficulty * 2 * weight;
 
     return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
+}
+
+bool Character::has_enough_anesth( const itype &cbm )
+{
+    if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
+        has_trait( trait_DEBUG_BIONICS ) ) {
+        return true;
+    }
+    const int weight = units::to_kilogram( bodyweight() ) / 10;
+    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                        cbm.bionic->difficulty * 2 * weight;
+    if( !req_anesth.can_make_with_inventory( crafting_inventory(),
+            is_crafting_component ) ) {
+        std::string buffer = _( "You don't have enough anesthetic to perform the installation." );
+        buffer += "\n";
+        buffer += req_anesth.list_missing();
+        popup( buffer, PF_NONE );
+        return false;
+    }
+    return true;
+}
+
+void Character::consume_anesth_requirment( const itype &cbm, player &patient )
+{
+    const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
+    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                        cbm.bionic->difficulty * 2 * weight;
+    for( const auto &e : req_anesth.get_components() ) {
+        as_player()->consume_items( e, 1, is_crafting_component );
+    }
+    for( const auto &e : req_anesth.get_tools() ) {
+        as_player()->consume_tools( e );
+    }
+    invalidate_crafting_inventory();
+}
+
+bool Character::has_installation_requirment( bionic_id bid )
+{
+    if( bid->installation_requirement.is_empty() ) {
+        return false;
+    }
+
+    if( !bid->installation_requirement->can_make_with_inventory( crafting_inventory(),
+            is_crafting_component ) ) {
+        std::string buffer = _( "You don't have the required components to perform the installation." );
+        buffer += "\n";
+        buffer += bid->installation_requirement->list_missing();
+        popup( buffer, PF_NONE );
+        return false;
+    }
+
+    return true;
+}
+
+void Character::consume_installation_requirment( bionic_id bid )
+{
+    for( const auto &e : bid->installation_requirement->get_components() ) {
+        as_player()->consume_items( e, 1, is_crafting_component );
+    }
+    for( const auto &e : bid->installation_requirement->get_tools() ) {
+        as_player()->consume_tools( e );
+    }
+    invalidate_crafting_inventory();
 }
 
 // bionic manipulation adjusted skill
@@ -2216,7 +2285,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     return false;
 }
 
-bool Character::can_install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::can_install_bionics( const itype &type, Character &installer, bool autodoc,
                                      int skill_level )
 {
     if( !type.bionic ) {
@@ -2230,6 +2299,12 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     const bionic_id &bioid = type.bionic->id;
     const int difficult = type.bionic->difficulty;
     float adjusted_skill;
+
+    // if we're doing self install
+    if( !autodoc && installer.is_avatar() ) {
+        return installer.has_enough_anesth( type ) &&
+               installer.has_installation_requirment( bioid );
+    }
 
     if( autodoc ) {
         adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
@@ -2258,14 +2333,14 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
         return false;
     }
 
-    const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
+    const std::map<bodypart_id, int> &issues = bionic_installation_issues( bioid );
     // show all requirements which are not satisfied
     if( !issues.empty() ) {
         std::string detailed_info;
         for( auto &elem : issues ) {
             //~ <Body part name>: <number of slots> more slot(s) needed.
             detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
-                                            body_part_name_as_heading( elem.first, 1 ),
+                                            body_part_name_as_heading( elem.first->token, 1 ),
                                             elem.second );
         }
         popup( _( "Not enough space for bionic installation!%s" ), detailed_info );
@@ -2528,11 +2603,11 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
     return desc;
 }
 
-int Character::get_used_bionics_slots( const body_part bp ) const
+int Character::get_used_bionics_slots( const bodypart_id &bp ) const
 {
     int used_slots = 0;
     for( const bionic_id &bid : get_bionics() ) {
-        auto search = bid->occupied_bodyparts.find( convert_bp( bp ) );
+        auto search = bid->occupied_bodyparts.find( bp.id() );
         if( search != bid->occupied_bodyparts.end() ) {
             used_slots += search->second;
         }
@@ -2541,27 +2616,27 @@ int Character::get_used_bionics_slots( const body_part bp ) const
     return used_slots;
 }
 
-std::map<body_part, int> Character::bionic_installation_issues( const bionic_id &bioid )
+std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_id &bioid )
 {
-    std::map<body_part, int> issues;
+    std::map<bodypart_id, int> issues;
     if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return issues;
     }
     for( const std::pair<const string_id<body_part_type>, size_t> &elem : bioid->occupied_bodyparts ) {
-        const int lacked_slots = elem.second - get_free_bionics_slots( elem.first->token );
+        const int lacked_slots = elem.second - get_free_bionics_slots( elem.first );
         if( lacked_slots > 0 ) {
-            issues.emplace( elem.first->token, lacked_slots );
+            issues.emplace( elem.first, lacked_slots );
         }
     }
     return issues;
 }
 
-int Character::get_total_bionics_slots( const body_part bp ) const
+int Character::get_total_bionics_slots( const bodypart_id &bp ) const
 {
-    return convert_bp( bp )->bionic_slots();
+    return bp->bionic_slots();
 }
 
-int Character::get_free_bionics_slots( const body_part bp ) const
+int Character::get_free_bionics_slots( const bodypart_id &bp ) const
 {
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }

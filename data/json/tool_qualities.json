@@ -9,7 +9,7 @@
     "type": "tool_quality",
     "id": "CUT_FINE",
     "name": { "str": "fine cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize", "enzlave" ] ] ]
+    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
   },
   {
     "type": "tool_quality",

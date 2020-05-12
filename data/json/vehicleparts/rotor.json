@@ -7,7 +7,7 @@
     "color": "light_blue",
     "broken_symbol": "O",
     "broken_color": "light_gray",
-    "flags": [ "ROTOR", "NO_INSTALL_PLAYER", "NO_UNINSTALL", "NO_REPAIR" ],
+    "flags": [ "ROTOR", "NO_INSTALL_PLAYER", "NO_UNINSTALL", "NO_REPAIR", "NO_MODIFY_VEHICLE" ],
     "description": "A set of aerofoil helicopter rotors, when spun at high speed, they generate thrust via lift."
   },
   {

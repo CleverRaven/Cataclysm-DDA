@@ -706,7 +706,7 @@ void Character::suffer_from_asthma( const int current_stim )
 void Character::suffer_in_sunlight()
 {
     double sleeve_factor = armwear_factor();
-    const bool has_hat = wearing_something_on( bp_head );
+    const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
     const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
                        has_trait( trait_LEAVES3 );
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
@@ -788,7 +788,7 @@ void Character::suffer_from_albinism()
     }
     // Sunglasses can keep the sun off the eyes.
     if( !has_bionic( bio_sunglasses ) &&
-        !( wearing_something_on( bp_eyes ) &&
+        !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
         add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
         if( one_turn_in( 1_minutes ) ) {
@@ -1629,7 +1629,7 @@ void Character::mend( int rate_multiplier )
         }
 
         body_part part = hp_to_bp( static_cast<hp_part>( i ) );
-        if( needs_splint && !worn_with_flag( "SPLINT", part ) ) {
+        if( needs_splint && !worn_with_flag( "SPLINT", convert_bp( part ).id() ) ) {
             continue;
         }
 

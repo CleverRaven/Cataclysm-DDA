@@ -75,7 +75,7 @@ void mission_start::place_zombie_mom( mission *miss )
     tinymap zomhouse;
     zomhouse.load( tripoint( house.x * 2, house.y * 2, house.z ), false );
     zomhouse.add_spawn( mon_zombie, 1, { SEEX, SEEY, house.z }, false, -1, miss->uid,
-                        Name::get( nameIsFemaleName | nameIsGivenName ) );
+                        Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName ) );
     zomhouse.save();
 }
 

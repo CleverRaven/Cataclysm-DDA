@@ -59,7 +59,8 @@
     "color": "light_gray",
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET", "HEAD" ],
     "coverage": 95,
-    "encumbrance": 40,
+    "encumbrance": 24,
+    "max_encumbrance": 40,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 }

@@ -86,7 +86,6 @@
 #include "weather.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
-static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
@@ -1897,157 +1896,6 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
 
     if( p.is_underwater() ) {
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
-    }
-
-    return ret_val<bool>::make_success();
-}
-
-void enzlave_actor::load( const JsonObject &obj )
-{
-    assign( obj, "cost", cost );
-}
-
-std::unique_ptr<iuse_actor> enzlave_actor::clone() const
-{
-    return std::make_unique<enzlave_actor>( *this );
-}
-
-int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
-{
-    if( t ) {
-        return 0;
-    }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
-    map_stack items = g->m.i_at( point( p.posx(), p.posy() ) );
-    std::vector<const item *> corpses;
-
-    for( item &corpse_candidate : items ) {
-        const mtype *mt = corpse_candidate.get_mtype();
-        if( corpse_candidate.is_corpse() && mt->in_species( ZOMBIE ) &&
-            mt->made_of( material_id( "flesh" ) ) &&
-            mt->in_species( HUMAN ) && corpse_candidate.active && !corpse_candidate.has_var( "zlave" ) ) {
-            corpses.push_back( &corpse_candidate );
-        }
-    }
-
-    if( corpses.empty() ) {
-        p.add_msg_if_player( _( "No suitable corpses" ) );
-        return 0;
-    }
-
-    int tolerance_level = 9;
-    if( p.has_trait( trait_PSYCHOPATH ) || p.has_trait( trait_SAPIOVORE ) ) {
-        tolerance_level = 0;
-    } else if( p.has_trait_flag( "PRED4" ) ) {
-        tolerance_level = 5;
-    } else if( p.has_trait_flag( "PRED3" ) ) {
-        tolerance_level = 7;
-    }
-
-    // Survival skill increases your willingness to get things done,
-    // but it doesn't make you feel any less bad about it.
-    /** @EFFECT_SURVIVAL increases tolerance for enzlavement */
-    if( p.get_morale_level() <= ( 15 * ( tolerance_level - p.get_skill_level(
-            skill_survival ) ) ) - 150 ) {
-        add_msg( m_neutral,
-                 _( "The prospect of cutting up the corpse and letting it rise again as a slave is too much for you to deal with right now." ) );
-        return 0;
-    }
-
-    uilist amenu;
-
-    amenu.text = _( "Selectively butcher the downed zombie into a zombie slave?" );
-    for( size_t i = 0; i < corpses.size(); i++ ) {
-        amenu.addentry( i, true, -1, corpses[i]->display_name() );
-    }
-
-    amenu.query();
-
-    if( amenu.ret < 0 ) {
-        p.add_msg_if_player( _( "Make love, not zlave." ) );
-        return 0;
-    }
-
-    if( tolerance_level == 0 ) {
-        // You just don't care, no message.
-    } else if( tolerance_level <= 5 ) {
-        add_msg( m_neutral, _( "Well, it's more constructive than just chopping 'em into gooey meat…" ) );
-    } else {
-        add_msg( m_bad, _( "You feel horrible for mutilating and enslaving someone's corpse." ) );
-
-        /** @EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement */
-        int moraleMalus = -50 * ( 5.0 / p.get_skill_level( skill_survival ) );
-        int maxMalus = -250 * ( 5.0 / p.get_skill_level( skill_survival ) );
-        time_duration duration = 30_minutes * ( 5.0 / p.get_skill_level( skill_survival ) );
-        time_duration decayDelay = 3_minutes * ( 5.0 / p.get_skill_level( skill_survival ) );
-
-        if( p.has_trait( trait_PACIFIST ) ) {
-            moraleMalus *= 5;
-            maxMalus *= 3;
-        } else if( p.has_trait_flag( "PRED1" ) ) {
-            moraleMalus /= 4;
-        } else if( p.has_trait_flag( "PRED2" ) ) {
-            moraleMalus /= 5;
-        }
-
-        p.add_morale( MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay );
-    }
-
-    const int selected_corpse = amenu.ret;
-
-    const item *body = corpses[selected_corpse];
-    const mtype *mt = body->get_mtype();
-
-    // HP range for zombies is roughly 36 to 120, with the really big ones having 180 and 480 hp.
-    // Speed range is 20 - 120 (for humanoids, dogs get way faster)
-    // This gives us a difficulty ranging roughly from 10 - 40, with up to +25 for corpse damage.
-    // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
-    int difficulty = ( body->damage_level( 4 ) * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
-    // 0 - 30
-    /** @EFFECT_DEX increases chance of success for enzlavement */
-
-    /** @EFFECT_SURVIVAL increases chance of success for enzlavement */
-
-    /** @EFFECT_FIRSTAID increases chance of success for enzlavement */
-    int skills = p.get_skill_level( skill_survival ) + p.get_skill_level( skill_firstaid ) +
-                 ( p.dex_cur / 2 );
-    skills *= 2;
-
-    int success = rng( 0, skills ) - rng( 0, difficulty );
-
-    /** @EFFECT_FIRSTAID speeds up enzlavement */
-    const int moves = difficulty * to_moves<int>( 12_seconds ) / p.get_skill_level( skill_firstaid );
-
-    p.assign_activity( ACT_MAKE_ZLAVE, moves );
-    p.activity.values.push_back( success );
-    p.activity.str_values.push_back( corpses[selected_corpse]->display_name() );
-
-    return cost >= 0 ? cost : it.ammo_required();
-}
-
-ret_val<bool> enzlave_actor::can_use( const Character &p, const item &, bool,
-                                      const tripoint & ) const
-{
-    /** @EFFECT_SURVIVAL >=1 allows enzlavement */
-
-    /** @EFFECT_FIRSTAID >=1 allows enzlavement */
-
-    // TODO: Extract such checks into some kind of 'stat_requirements' class.
-    if( p.get_skill_level( skill_survival ) < 1 ) {
-        //~ %s - name of the required skill.
-        return ret_val<bool>::make_failure( _( "You need at least %s 1." ),
-                                            skill_survival->name() );
-    }
-    if( p.is_mounted() ) {
-        return ret_val<bool>::make_failure( _( "You cannot do that while mounted." ) );
-    }
-    if( p.get_skill_level( skill_firstaid ) < 1 ) {
-        //~ %s - name of the required skill.
-        return ret_val<bool>::make_failure( _( "You need at least %s 1." ),
-                                            skill_firstaid->name() );
     }
 
     return ret_val<bool>::make_success();
@@ -3963,6 +3811,8 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
+        p.consume_installation_requirment( it.type->bionic->id );
+        p.consume_anesth_requirment( *it.type, p );
         return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
     } else {
         return 0;
@@ -3979,11 +3829,10 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
     if( p.is_mounted() ) {
         return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
     }
-    if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) &&
-        !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
-    } else if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        if( it.has_flag( "FILTHY" ) ) {
+    if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
+        if( bid->installation_requirement.is_empty() ) {
+            return ret_val<bool>::make_failure( _( "You can't self-install this CBM." ) );
+        } else  if( it.has_flag( "FILTHY" ) ) {
             return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
         } else if( it.has_flag( "NO_STERILE" ) ) {
             return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );

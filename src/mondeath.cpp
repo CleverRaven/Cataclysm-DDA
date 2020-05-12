@@ -784,10 +784,6 @@ void make_mon_corpse( monster &z, int damageLvl )
         corpse.set_item_temperature( 310.15 );
     }
     corpse.set_damage( damageLvl );
-    if( z.has_effect( effect_pacified ) && z.type->in_species( ZOMBIE ) ) {
-        // Pacified corpses have a chance of becoming unpacified when regenerating.
-        corpse.set_var( "zlave", one_in( 2 ) ? "zlave" : "mutilated" );
-    }
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
@@ -826,4 +822,28 @@ void mdeath::conflagration( monster &z )
     const std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
 
+}
+
+void mdeath::necro_boomer( monster &z )
+{
+    std::string explode = string_format( _( "a %s explodes!" ), z.name() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    for( const tripoint &aoe : g->m.points_in_radius( z.pos(), 10 ) ) {
+        for( item &corpse : g->m.i_at( aoe ) ) {
+            if( !corpse.is_corpse() ) {
+                continue;
+            }
+            if( g->revive_corpse( aoe, corpse ) ) {
+                g->m.i_rem( aoe, &corpse );
+                break;
+            }
+        }
+    }
+    for( const tripoint &aoe : g->m.points_in_radius( z.pos(), 10 ) ) {
+        monster *mon = g->critter_at<monster>( aoe );
+        if( mon != nullptr && one_in( 10 ) ) {
+            mon->allow_upgrade();
+            mon->try_upgrade( false );
+        }
+    }
 }
