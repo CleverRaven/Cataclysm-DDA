@@ -308,6 +308,11 @@ void monster_adjustment::apply( mtype &mon )
 
 static std::vector<monster_adjustment> adjustments;
 
+void reset_monster_adjustment()
+{
+    adjustments.clear();
+}
+
 void load_monster_adjustment( const JsonObject &jsobj )
 {
     monster_adjustment adj;
@@ -491,8 +496,6 @@ void MonsterGenerator::init_death()
     death_map["FUNGALBURST"] = &mdeath::fungalburst;
     // Snicker-snack!
     death_map["JABBERWOCKY"] = &mdeath::jabberwock;
-    // Take them with you
-    death_map["DETONATE"] = &mdeath::detonate;
     // Game over!  Defense mode
     death_map["GAMEOVER"] = &mdeath::gameover;
     // Spawn some cockroach nymphs
@@ -570,6 +573,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "PHOTOGRAPH", mattack::photograph );
     add_hardcoded_attack( "TAZER", mattack::tazer );
     add_hardcoded_attack( "SEARCHLIGHT", mattack::searchlight );
+    add_hardcoded_attack( "SPEAKER", mattack::speaker );
     add_hardcoded_attack( "FLAMETHROWER", mattack::flamethrower );
     add_hardcoded_attack( "COPBOT", mattack::copbot );
     add_hardcoded_attack( "CHICKENBOT", mattack::chickenbot );

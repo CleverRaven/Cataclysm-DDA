@@ -835,7 +835,7 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
     p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
-    p->add_effect( effect_flushot, 30_days, num_bp, true );
+    p->add_effect( effect_flushot, 24_weeks, num_bp, false );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
@@ -8331,7 +8331,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
 
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
-    pmenu.w_y = 0;
+    pmenu.w_y_setup = 0;
     pmenu.query();
 
     if( pmenu.ret < 0 || pmenu.ret >= static_cast<int>( vehs.size() ) ) {

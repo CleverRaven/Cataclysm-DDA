@@ -312,7 +312,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     // and just in case "used" skill difficulty is higher, set that too
     g->u.set_skill_level( r.skill_used, std::max( r.difficulty,
                           g->u.get_skill_level( r.skill_used ) ) );
-
+    g->u.moves--;
     const inventory &crafting_inv = g->u.crafting_inventory();
     bool can_craft = r.deduped_requirements().can_make_with_inventory(
                          crafting_inv, r.get_component_filter() );

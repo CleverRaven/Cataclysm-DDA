@@ -503,7 +503,7 @@ class Character : public Creature, public visitable<Character>
         void update_bodytemp();
 
         /** Equalizes heat between body parts */
-        void temp_equalizer( body_part bp1, body_part bp2 );
+        void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
 
         struct comfort_response_t {
             comfort_level level = comfort_level::neutral;
@@ -513,7 +513,7 @@ class Character : public Creature, public visitable<Character>
         comfort_response_t base_comfort_value( const tripoint &p ) const;
 
         /** Define blood loss (in percents) */
-        int blood_loss( body_part bp ) const;
+        int blood_loss( const bodypart_id &bp ) const;
 
         /** Resets the value of all bonus fields to 0. */
         void reset_bonuses() override;
@@ -547,7 +547,7 @@ class Character : public Creature, public visitable<Character>
         bool in_climate_control();
 
         /** Returns wind resistance provided by armor, etc **/
-        int get_wind_resistance( body_part bp ) const;
+        int get_wind_resistance( const bodypart_id &bp ) const;
 
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
@@ -614,7 +614,7 @@ class Character : public Creature, public visitable<Character>
         void check_item_encumbrance_flag();
 
         /** Returns true if the character is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
-        bool natural_attack_restricted_on( body_part bp ) const;
+        bool natural_attack_restricted_on( const bodypart_id &bp ) const;
 
         int blocks_left;
         int dodges_left;
@@ -628,7 +628,7 @@ class Character : public Creature, public visitable<Character>
 
         // melee.cpp
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
-        bool block_hit( Creature *source, body_part &bp_hit, damage_instance &dam ) override;
+        bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
         /** Returns the best item for blocking with */
         item &best_shield();
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
@@ -706,7 +706,7 @@ class Character : public Creature, public visitable<Character>
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
-        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
+        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, const bodypart_id &hurt );
 
         void cough( bool harmful = false, int loudness = 4 );
         /**
@@ -715,9 +715,9 @@ class Character : public Creature, public visitable<Character>
          * @ref player::absorb_hit.  The damage amount will never be reduced to less than 0.
          * This is called from @ref player::absorb_hit
          */
-        void passive_absorb_hit( body_part bp, damage_unit &du ) const;
+        void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        void absorb_hit( body_part bp, damage_instance &dam ) override;
+        void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).
@@ -727,11 +727,11 @@ class Character : public Creature, public visitable<Character>
          * Check for passive bionics that provide armor, and returns the armor bonus
          * This is called from player::passive_absorb_hit
          */
-        float bionic_armor_bonus( body_part bp, damage_type dt ) const;
+        float bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const;
         /** Returns the armor bonus against given type from martial arts buffs */
         int mabuff_armor_bonus( damage_type type ) const;
         /** Returns overall fire resistance for the body part */
-        int get_armor_fire( body_part bp ) const;
+        int get_armor_fire( const bodypart_id &bp ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -827,7 +827,7 @@ class Character : public Creature, public visitable<Character>
                              float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
-        nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
+        nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
 
         static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;
@@ -986,7 +986,7 @@ class Character : public Creature, public visitable<Character>
         /**Check for mutation disallowing the use of an healing item*/
         bool can_use_heal_item( const item &med ) const;
 
-        bool can_install_cbm_on_bp( const std::vector<body_part> &bps ) const;
+        bool can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) const;
 
         /**
          * Returns resistances on a body part provided by mutations
@@ -1789,7 +1789,7 @@ class Character : public Creature, public visitable<Character>
         void update_stamina( int turns );
 
     protected:
-        void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
+        void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
     public:
         /** Called when an item is worn */
         void on_item_wear( const item &it );
@@ -1901,9 +1901,9 @@ class Character : public Creature, public visitable<Character>
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
         /** Returns warmth provided by armor, etc. */
-        int warmth( body_part bp ) const;
+        int warmth( const bodypart_id &bp ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        int bonus_item_warmth( body_part bp ) const;
+        int bonus_item_warmth( const bodypart_id &bp ) const;
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
         /**
@@ -2147,6 +2147,7 @@ class Character : public Creature, public visitable<Character>
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
+        time_duration get_consume_time( const item &it );
 
     protected:
         Character();

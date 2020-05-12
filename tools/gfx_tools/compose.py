@@ -8,6 +8,7 @@ import argparse
 import json
 import os
 import subprocess
+import sys
 
 try:
     import pyvips
@@ -39,6 +40,8 @@ FALLBACK = {
         { "offset": 3840, "bold": True, "color": "YELLOW" }
     ]
 }
+
+error_logged = False
 
 # stupid stinking Python 2 versus Python 3 syntax
 def write_to_json(pathname, data):
@@ -76,8 +79,8 @@ class PngRefs(object):
         try:
             os.stat(self.tileset_pathname)
         except KeyError:
-            print("cannot find a directory {}".format(self.tileset_pathname))
-            exit -1
+            print("Error: cannot find a directory {}".format(self.tileset_pathname))
+            sys.exit(1)
 
         self.processed_ids = []
         tileset_info_path = self.tileset_pathname + "/tile_info.json"
@@ -98,8 +101,10 @@ class PngRefs(object):
                     self.referenced_pngnames.append(sprite_id)
                 return True
             else:
-                print("sprite id '{}' has no matching PNG file.  ".format(sprite_id) +
+                print("Error: sprite id '{}' has no matching PNG file.  ".format(sprite_id) +
                       "It will not be added to tile_config.json")
+                global error_logged
+                error_logged = True
         return False
 
     def convert_pngname_to_pngnum(self, index):
@@ -141,7 +146,7 @@ class PngRefs(object):
             for an_id in tile_id:
                 full_id = prefix + an_id
                 if full_id in self.processed_ids:
-                    print("skipping filler for {}".format(full_id))
+                    print("Info: skipping filler for {}".format(full_id))
                     return None
         fg_id = tile_entry.get("fg")
         if fg_id:
@@ -156,7 +161,9 @@ class PngRefs(object):
             try:
                 del tile_entry["bg"]
             except Exception:
-                print("Cannot find bg for tile with id {}".format(tile_id))
+                print("Error: Cannot find bg for tile with id {}".format(tile_id))
+                global error_logged
+                error_logged = True
 
         add_tile_entrys = tile_entry.get("additional_tiles", [])
         for add_tile_entry in add_tile_entrys:
@@ -173,7 +180,7 @@ class PngRefs(object):
     def verify(self):
         for pngname, pngnum in self.pngname_to_pngnum.items():
             if pngnum and pngname not in self.referenced_pngnames:
-                print("image filename '{}' index '{}'".format(pngname, pngnum) +
+                print("Warning: image filename '{}' index '{}'".format(pngname, pngnum) +
                       " was not used in any tile_config.json entries")
 
 
@@ -242,11 +249,13 @@ class TilesheetData(object):
                     pass
 
                 if vips_image.width != self.width or vips_image.height != self.height:
-                    size_msg = "{} is {}x{}, sheet sprites are {}x{}."
+                    size_msg = "Error: {} is {}x{}, sheet sprites are {}x{}."
                     print(size_msg.format(png_pathname, vips_image.width, vips_image.height,
                                           self.width, self.height))
                     print("\tsprites in the {} tilesheet may be resized.".format(self.ts_name))
                     print("\tAll sprites in a tilesheet directory should have the same dimensions.")
+                    global error_logged
+                    error_logged = True
                 in_list.append(vips_image)
         for i in range(0, spacer):
             in_list.append(self.null_image)
@@ -311,7 +320,7 @@ for subdir_index in range(1, len(refs.tileset_info)):
     ts_data = TilesheetData(subdir_index, refs)
     if not ts_data.filler and not ts_data.fallback:
         ts_data.set_first_index(refs)
-        print("parsing tilesheet {}".format(ts_data.ts_name))
+        print("Info: parsing tilesheet {}".format(ts_data.ts_name))
         tmp_merged_pngs = ts_data.walk_dirs(refs)
 
         ts_data.finalize_merges(tmp_merged_pngs)
@@ -323,7 +332,7 @@ for subdir_index in range(1, len(refs.tileset_info)):
     ts_data = TilesheetData(subdir_index, refs)
     if ts_data.filler:
         ts_data.set_first_index(refs)
-        print("parsing filler tilesheet {}".format(ts_data.ts_name))
+        print("Info: parsing filler tilesheet {}".format(ts_data.ts_name))
         ts_data.first_index = refs.pngnum
         tmp_merged_pngs = ts_data.walk_dirs(refs)
 
@@ -336,7 +345,7 @@ for subdir_index in range(1, len(refs.tileset_info)):
     ts_data = TilesheetData(subdir_index, refs)
     if ts_data.fallback:
         ts_data.set_first_index(refs)
-        print("parsing fallback tilesheet {}".format(ts_data.ts_name))
+        print("Info: parsing fallback tilesheet {}".format(ts_data.ts_name))
         all_ts_data.append(ts_data)
 
 #print("pngname to pngnum {}".format(json.dumps(refs.pngname_to_pngnum, indent=2)))
@@ -380,3 +389,6 @@ tileset_confpath = refs.tileset_pathname + "/" + "tile_config.json"
 write_to_json(tileset_confpath, conf_data)
 
 refs.verify()
+
+if error_logged:
+    sys.exit(1)

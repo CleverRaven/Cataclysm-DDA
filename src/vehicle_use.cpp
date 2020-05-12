@@ -177,7 +177,7 @@ void vehicle::control_doors()
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     // Move the menu so that we can see our vehicle
-    pmenu.w_y = 0;
+    pmenu.w_y_setup = 0;
     pmenu.query();
 
     if( pmenu.ret >= 0 ) {

@@ -257,10 +257,12 @@ bool is_valid_in_w_terrain( const point &p )
     return p.x >= 0 && p.x < TERRAIN_WINDOW_WIDTH && p.y >= 0 && p.y < TERRAIN_WINDOW_HEIGHT;
 }
 
-static void achievement_attained( const achievement *a )
+static void achievement_attained( const achievement *a, bool achievements_enabled )
 {
-    g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
-                            a->name() );
+    if( achievements_enabled ) {
+        g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
+                                a->name() );
+    }
 }
 
 // This is the main game set-up process.
@@ -2084,7 +2086,6 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? hint_rating::cant :
                                            hint_rating::good;
 
-        int max_text_length = 0;
         uilist action_menu;
         action_menu.allow_anykey = true;
         const auto addentry = [&]( const char key, const std::string & text, const hint_rating hint ) {
@@ -2102,7 +2103,6 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                     entry.text_color = c_light_green;
                     break;
             }
-            max_text_length = std::max( max_text_length, utf8_width( text ) );
         };
         addentry( 'a', pgettext( "action", "activate" ), u.rate_action_use( oThisItem ) );
         addentry( 'R', pgettext( "action", "read" ), u.rate_action_read( oThisItem ) );
@@ -2142,30 +2142,21 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         int iScrollPos = 0;
         oThisItem.info( true, vThisItem );
 
-        // +2+2 for border and adjacent spaces, +2 for '<hotkey><space>'
-        int popup_width = max_text_length + 2 + 2 + 2;
-        int popup_x = 0;
-        switch( position ) {
-            case RIGHT_TERMINAL_EDGE:
-                popup_x = 0;
-                break;
-            case LEFT_OF_INFO:
-                popup_x = iStartX - popup_width;
-                break;
-            case RIGHT_OF_INFO:
-                popup_x = iStartX + iWidth;
-                break;
-            case LEFT_TERMINAL_EDGE:
-                popup_x = TERMX - popup_width;
-                break;
-        }
-
-        // TODO: Ideally the setup of uilist would be split into calculate variables (size, width...),
-        // and actual window creation. This would allow us to let uilist calculate the width, we can
-        // use that to adjust its location afterwards.
-        action_menu.w_y = 0;
-        action_menu.w_x = popup_x;
-        action_menu.w_width = popup_width;
+        action_menu.w_y_setup = 0;
+        action_menu.w_x_setup = [&]( const int popup_width ) -> int {
+            switch( position )
+            {
+                default:
+                case RIGHT_TERMINAL_EDGE:
+                    return 0;
+                case LEFT_OF_INFO:
+                    return iStartX - popup_width;
+                case RIGHT_OF_INFO:
+                    return iStartX + iWidth;
+                case LEFT_TERMINAL_EDGE:
+                    return TERMX - popup_width;
+            }
+        };
         // Filtering isn't needed, the number of entries is manageable.
         action_menu.filtering = false;
         // Default menu border color is different, this matches the border of the item info window.
@@ -2260,15 +2251,7 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                     break;
                 case 'i':
                     if( oThisItem.has_pockets() ) {
-                        item_location loc = game_menus::inv::holster( u, locThisItem );
-                        if( loc ) {
-                            if( oThisItem.can_contain( *loc ) ) {
-                                oThisItem.put_in( *loc, item_pocket::pocket_type::CONTAINER );
-                                loc.remove_item();
-                            } else {
-                                debugmsg( "Item cannot fit into container.  It should be excluded from the inventory menu." );
-                            }
-                        }
+                        game_menus::inv::insert_items( u, locThisItem );
                     }
                     break;
                 case 'o':
@@ -3065,6 +3048,11 @@ stats_tracker &game::stats()
     return *stats_tracker_ptr;
 }
 
+achievements_tracker &game::achievements()
+{
+    return *achievements_tracker_ptr;
+}
+
 memorial_logger &game::memorial()
 {
     return *memorial_logger_ptr;
@@ -3482,7 +3470,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         // Draw auto-move preview trail
         const tripoint &final_destination = destination_preview.back();
         tripoint line_center = u.pos() + u.view_offset;
-        draw_line( final_destination, line_center, destination_preview );
+        draw_line( final_destination, line_center, destination_preview, true );
         mvwputch( w_terrain, final_destination.xy() - u.view_offset.xy() + point( POSX - u.posx(),
                   POSY - u.posy() ), c_white, 'X' );
     }
@@ -10150,6 +10138,23 @@ static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint
     return pts[ret];
 }
 
+static cata::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
+{
+    for( const tripoint &p : g->m.points_in_radius( pos, 1 ) ) {
+        if( p == pos ) {
+            continue;
+        }
+        if( g->m.impassable( p ) ) {
+            continue;
+        }
+        if( g->critter_at( p ) ) {
+            continue;
+        }
+        return p;
+    }
+    return cata::nullopt;
+}
+
 void game::vertical_move( int movez, bool force )
 {
     if( u.is_mounted() ) {
@@ -10438,17 +10443,8 @@ void game::vertical_move( int movez, bool force )
     if( critter_at<npc>( u.pos(), true ) || critter_at<monster>( u.pos(), true ) ) {
         std::string crit_name;
         bool player_displace = false;
-        tripoint displace;
-        for( const tripoint &elem : m.points_in_radius( u.pos(), 1 ) ) {
-            if( elem == u.pos() ) {
-                continue;
-            }
-            if( !m.impassable( elem ) ) {
-                displace = elem;
-                break;
-            }
-        }
-        if( displace != tripoint_zero ) {
+        cata::optional<tripoint> displace = find_empty_spot_nearby( u.pos() );
+        if( displace.has_value() ) {
             npc *guy = g->critter_at<npc>( u.pos(), true );
             if( guy ) {
                 crit_name = guy->get_name();
@@ -10470,17 +10466,19 @@ void game::vertical_move( int movez, bool force )
             if( mon && !mon->mounted_player ) {
                 crit_name = mon->get_name();
                 if( mon->friendly == -1 ) {
-                    mon->setpos( displace );
+                    mon->setpos( *displace );
                     add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
                 } else {
                     player_displace = true;
                 }
             }
             if( player_displace ) {
-                u.setpos( displace );
+                u.setpos( *displace );
                 u.moves -= 20;
                 add_msg( _( "You push past %s blocking the way." ), crit_name );
             }
+        } else {
+            debugmsg( "Failed to find a spot to displace into." );
         }
     }
     if( !npcs_to_bring.empty() ) {
@@ -10619,8 +10617,11 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 
     if( stairs.has_value() ) {
         if( Creature *blocking_creature = critter_at( stairs.value() ) ) {
-            add_msg( _( "There's a %s in the way!" ), blocking_creature->get_name() );
-            return cata::nullopt;
+            bool can_displace = find_empty_spot_nearby( *stairs ).has_value();
+            if( !can_displace ) {
+                add_msg( _( "There's a %s in the way!" ), blocking_creature->get_name() );
+                return cata::nullopt;
+            }
         }
         return stairs;
     }
@@ -11334,7 +11335,7 @@ void game::display_visibility()
 
             pointmenu_cb callback( locations );
             creature_menu.callback = &callback;
-            creature_menu.w_y = 0;
+            creature_menu.w_y_setup = 0;
             creature_menu.query();
             if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
                 Creature *creature = critter_at<Creature>( locations[creature_menu.ret] );
@@ -11363,7 +11364,7 @@ void game::display_lighting()
             lighting_menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
         }
 
-        lighting_menu.w_y = 0;
+        lighting_menu.w_y_setup = 0;
         lighting_menu.query();
         if( ( lighting_menu.ret >= 0 ) &&
             ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {

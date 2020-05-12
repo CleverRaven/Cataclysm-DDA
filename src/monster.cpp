@@ -1322,12 +1322,12 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *, body_part &, damage_instance & )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 {
     return false;
 }
 
-void monster::absorb_hit( body_part, damage_instance &dam )
+void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -2391,7 +2391,7 @@ void monster::drop_items_on_death()
 
     const auto dropped = g->m.spawn_items( pos(), items );
 
-    if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
+    if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case

@@ -922,15 +922,15 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
 
 static void draw_limb2( avatar &u, const catacurses::window &w )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
 
     werase( w );
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i] );
+        const std::string str = body_part_hp_bar_ui_text( part[i]->token );
         if( i % 2 == 0 ) {
             wmove( w, point( 0, i / 2 ) );
         } else {
@@ -1150,8 +1150,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     }
 
     // display limbs status
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
     ny2 = 0;
@@ -1166,7 +1166,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
             nx = 19;
         }
 
-        std::string str = body_part_hp_bar_ui_text( part[i] );
+        std::string str = body_part_hp_bar_ui_text( part[i]->token );
         wmove( w, point( nx, ny ) );
         str = left_justify( str, 5 );
         wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
@@ -1176,13 +1176,13 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
 
 static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
-    const std::vector<std::pair<body_part, int>> parts = {
-        {bp_arm_l, 2},
-        {bp_head, 0},
-        {bp_arm_r, 3},
-        {bp_leg_l, 4},
-        {bp_torso, 1},
-        {bp_leg_r, 5}
+    const std::vector<std::pair<bodypart_id, int>> parts = {
+        {bodypart_id( "arm_l" ), 2},
+        {bodypart_id( "head" ), 0},
+        {bodypart_id( "arm_r" ), 3},
+        {bodypart_id( "leg_l" ), 4},
+        {bodypart_id( "torso" ), 1},
+        {bodypart_id( "leg_r" ), 5}
     };
     werase( w );
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -1190,7 +1190,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         int ny = offset / 45;
         int nx = offset % 45;
         std::string str = string_format( " %s: ",
-                                         left_justify( body_part_hp_bar_ui_text( parts[i].first ), 5 ) );
+                                         left_justify( body_part_hp_bar_ui_text( parts[i].first->token ), 5 ) );
         nc_color part_color = u.limb_color( parts[i].first, true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, parts[i].second );
@@ -1560,8 +1560,8 @@ static void draw_wind_padding( avatar &u, const catacurses::window &w )
 
 static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
 
@@ -1577,7 +1577,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i] );
+        const std::string str = body_part_hp_bar_ui_text( part[i]->token );
         wmove( w, point( 8, i ) );
         wprintz( w, u.limb_color( part[i], true, true, true ), str );
         wmove( w, point( 14, i ) );

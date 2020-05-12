@@ -499,6 +499,7 @@
           "mx_prison_bus": 15
         }
       },
+      "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
       "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,

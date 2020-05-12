@@ -730,7 +730,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
         } );
         if( entry_with_loc != entries.end() ) {
             has_loc = true;
-            std::vector<item_location> locations = iter->locations;
+            std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
             entries.erase( entry_with_loc );
             inventory_entry nentry( locations, entry.get_category_ptr() );
@@ -1226,9 +1226,15 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_contained_items( item_location container )
 {
+    add_contained_items( container, own_inv_column );
+}
+
+void inventory_selector::add_contained_items( item_location container, inventory_column &column )
+{
     for( item *it : container->contents.all_items_top() ) {
-        add_item( own_inv_column, item_location( container, it ),
-                  &it->get_category() );
+        item_location child( container, it );
+        add_contained_items( child, column );
+        add_item( column, std::move( child ) );
     }
 }
 
@@ -1250,10 +1256,8 @@ void inventory_selector::add_character_items( Character &character )
             return item_location( character, it );
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );
         for( item &it_elem : *elem ) {
-            for( item *it : it_elem.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
-                add_item( own_inv_column, item_location( item_location( character, &it_elem ), it ),
-                          &it->get_category() );
-            }
+            item_location parent( character, &it_elem );
+            add_contained_items( parent, own_inv_column );
         }
     }
     // this is a little trick; we want the default behavior for contained items to be in own_inv_column
@@ -1265,13 +1269,18 @@ void inventory_selector::add_character_items( Character &character )
 void inventory_selector::add_map_items( const tripoint &target )
 {
     if( g->m.accessible_items( target ) ) {
-        const auto items = g->m.i_at( target );
+        map_stack items = g->m.i_at( target );
         const std::string name = to_upper_case( g->m.name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
 
         add_items( map_column, [ &target ]( item * it ) {
             return item_location( target, it );
         }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), &map_cat );
+
+        for( item &it_elem : items ) {
+            item_location parent( map_cursor( target ), &it_elem );
+            add_contained_items( parent, map_column );
+        }
     }
 }
 
@@ -1283,7 +1292,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     }
     vehicle *const veh = &vp->vehicle();
     const int part = vp->part_index();
-    const auto items = veh->get_items( part );
+    vehicle_stack items = veh->get_items( part );
     const std::string name = to_upper_case( remove_color_tags( veh->parts[part].name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
 
@@ -1292,6 +1301,11 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
     }, restack_items( items.begin(), items.end(), check_components ), &vehicle_cat );
+
+    for( item &it_elem : items ) {
+        item_location parent( vehicle_cursor( *veh, part ), &it_elem );
+        add_contained_items( parent, map_column );
+    }
 }
 
 void inventory_selector::add_nearby_items( int radius )
@@ -1980,6 +1994,18 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
     return mode_data.at( m );
 }
 
+std::string inventory_selector::action_bound_to_key( char key ) const
+{
+    for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
+        for( char bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
+            if( key == bound_key ) {
+                return action_descriptor;
+            }
+        }
+    }
+    return std::string();
+}
+
 item_location inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
@@ -2207,8 +2233,8 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 }
 
 inventory_drop_selector::inventory_drop_selector( player &p,
-        const inventory_selector_preset &preset ) :
-    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
+        const inventory_selector_preset &preset, const std::string &selection_column_title ) :
+    inventory_multiselector( p, preset, selection_column_title ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {
 #if defined(__ANDROID__)
@@ -2398,6 +2424,7 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
                     break;
                 }
                 dropping.emplace_back( loc, 1 );
+                count--;
             }
         }
     }

@@ -2216,6 +2216,7 @@ void musical_instrument_actor::load( const JsonObject &obj )
     volume = obj.get_int( "volume" );
     fun = obj.get_int( "fun" );
     fun_bonus = obj.get_int( "fun_bonus", 0 );
+    description_frequency = time_duration::from_turns( obj.get_int( "description_frequency", 0 ) );
     if( !obj.read( "description_frequency", description_frequency ) ) {
         obj.throw_error( "missing member \"description_frequency\"" );
     }
@@ -2415,13 +2416,11 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     }
 
     spellbook_uilist.entries = uilist_initializer;
-    spellbook_uilist.w_height = 24;
-    spellbook_uilist.w_width = 80;
-    spellbook_uilist.w_x = ( TERMX - spellbook_uilist.w_width ) / 2;
-    spellbook_uilist.w_y = ( TERMY - spellbook_uilist.w_height ) / 2;
+    spellbook_uilist.w_height_setup = 24;
+    spellbook_uilist.w_width_setup = 80;
     spellbook_uilist.callback = &sp_cb;
     spellbook_uilist.title = _( "Study a spell:" );
-    spellbook_uilist.pad_left = 38;
+    spellbook_uilist.pad_left_setup = 38;
     spellbook_uilist.query();
     const int action = spellbook_uilist.ret;
     if( action < 0 ) {
@@ -2621,15 +2620,11 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
         }
 
     } else {
-        // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
-        item_location loc = game_menus::inv::holster( p, item_location( p, &it ) );
-
-        if( !loc ) {
-            p.add_msg_if_player( _( "Never mind." ) );
+        if( p.as_avatar() == nullptr ) {
             return 0;
         }
-
-        store( p, it, *loc.obtain( p ) );
+        // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
+        game_menus::inv::insert_items( *p.as_avatar(), item_location( p, &it ) );
     }
 
     return 0;
@@ -3332,7 +3327,7 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
         p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
-    if( get_option<bool>( "FILTHY_WOUNDS" ) && it.is_filthy() ) {
+    if( it.is_filthy() ) {
         p.add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
         return 0;
     }

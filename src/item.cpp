@@ -1366,7 +1366,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this );
         damage_instance dealt_damage = base_damage;
-        temp_mon.absorb_hit( bp_torso, dealt_damage );
+        temp_mon.absorb_hit( bodypart_id( "torso" ), dealt_damage );
         dealt_damage_instance dealt_dams;
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
@@ -1388,7 +1388,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
             }
-            temp_rs_mon.absorb_hit( bp_torso, dealt_rs_damage );
+            temp_rs_mon.absorb_hit( bodypart_id( "torso" ), dealt_rs_damage );
             dealt_damage_instance rs_dealt_dams;
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
@@ -1489,6 +1489,12 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   string_format( "<num> %s", weight_units() ),
                                   iteminfo::lower_is_better | iteminfo::is_decimal,
                                   convert_weight( weight() ) * batch ) );
+    }
+    if( parts->test( iteminfo_parts::BASE_LENGTH ) && length() > 0_mm ) {
+        info.push_back( iteminfo( "BASE", _( "Length: " ),
+                                  string_format( "<num> %s", length_units( length() ) ),
+                                  iteminfo::lower_is_better,
+                                  convert_length( length() ) ) );
     }
     if( !owner.is_null() ) {
         info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ),
@@ -3689,7 +3695,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    contents.info( info );
+    contents.info( info, parts );
     contents_info( info, parts, batch, debug );
 
     if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
@@ -4648,6 +4654,14 @@ units::mass item::weight( bool, bool integral ) const
     }
 
     return ret;
+}
+
+units::length item::length() const
+{
+    if( made_of( LIQUID ) || is_soft() ) {
+        return 0_mm;
+    }
+    return type->longest_side;
 }
 
 units::volume item::corpse_volume( const mtype *corpse ) const
@@ -8340,7 +8354,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         int charges_remaining = charges;
-        const int rounds_exploded = rng( 1, charges_remaining );
+        const int rounds_exploded = rng( 1, charges_remaining / 2 );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
         const islot_ammo &ammo_type = *type->ammo;
@@ -8348,6 +8362,10 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         if( ammo_type.special_cookoff ) {
             // If it has a special effect just trigger it.
             apply_ammo_effects( p, ammo_type.ammo_effects );
+        }
+        if( ammo_type.cookoff ) {
+            // If ammo type can burn, then create an explosion proportional to quantity.
+            explosion_handler::explosion( p, 3.0f * sqrtf( sqrtf( rounds_exploded / 25.0f ) ), 0.0f, false, 0 );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
@@ -9710,8 +9728,7 @@ skill_id item::contextualize_skill( const skill_id &id ) const
 
 bool item::is_filthy() const
 {
-    return has_flag( flag_FILTHY ) && ( get_option<bool>( "FILTHY_MORALE" ) ||
-                                        g->u.has_trait( trait_SQUEAMISH ) );
+    return has_flag( flag_FILTHY );
 }
 
 bool item::on_drop( const tripoint &pos )

@@ -14,7 +14,8 @@
     "ammo_type": [ "45", "460" ],
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 10, "460": 10 } } ]
   },
   {
     "id": "m1911mag",
@@ -31,6 +32,7 @@
     "ammo_type": [ "45", "460" ],
     "capacity": 7,
     "reliability": 10,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 7, "460": 7 } } ]
   }
 ]

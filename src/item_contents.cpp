@@ -7,6 +7,7 @@
 #include "enums.h"
 #include "game.h"
 #include "item.h"
+#include "iteminfo_query.h"
 #include "itype.h"
 #include "item_pocket.h"
 #include "map.h"
@@ -240,6 +241,11 @@ ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ||
+            pocket.is_type( item_pocket::pocket_type::CORPSE ) ||
+            pocket.is_type( item_pocket::pocket_type::MIGRATION ) ) {
+            continue;
+        }
         if( !pocket.rigid() ) {
             ret = ret_val<bool>::make_failure( _( "is not rigid" ) );
             continue;
@@ -501,7 +507,7 @@ bool item_contents::stacks_with( const item_contents &rhs ) const
     if( contents.size() != rhs.contents.size() ) {
         return false;
     }
-    return empty() || rhs.empty() ||
+    return ( empty() && rhs.empty() ) ||
            std::equal( contents.begin(), contents.end(),
                        rhs.contents.begin(),
     []( const item_pocket & a, const item_pocket & b ) {
@@ -819,7 +825,7 @@ static void insert_separation_line( std::vector<iteminfo> &info )
     }
 }
 
-void item_contents::info( std::vector<iteminfo> &info ) const
+void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const
 {
     int pocket_number = 1;
     std::vector<iteminfo> contents_info;
@@ -843,15 +849,19 @@ void item_contents::info( std::vector<iteminfo> &info ) const
             pocket.contents_info( contents_info, pocket_number++, contents.size() != 1 );
         }
     }
-    int idx = 0;
-    for( const item_pocket &pocket : found_pockets ) {
-        insert_separation_line( info );
-        if( pocket_num[idx] > 1 ) {
-            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pockets (%d)</bold>" ),
-                               pocket_num[idx] ) );
+    if( parts->test( iteminfo_parts::DESCRIPTION_POCKETS ) ) {
+        int idx = 0;
+        for( const item_pocket &pocket : found_pockets ) {
+            insert_separation_line( info );
+            if( pocket_num[idx] > 1 ) {
+                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pockets (%d)</bold>" ),
+                                   pocket_num[idx] ) );
+            }
+            idx++;
+            pocket.general_info( info, idx, false );
         }
-        idx++;
-        pocket.general_info( info, idx, false );
     }
-    info.insert( info.end(), contents_info.begin(), contents_info.end() );
+    if( parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
+        info.insert( info.end(), contents_info.begin(), contents_info.end() );
+    }
 }

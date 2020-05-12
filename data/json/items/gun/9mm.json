@@ -591,7 +591,7 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
-    "//": "Glock 17s cannot load magazines shorter than the standard 17rd magazine.",
+    "//2": "Glock 17s cannot load magazines shorter than the standard 17rd magazine.",
     "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
   },
   {

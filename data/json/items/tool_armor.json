@@ -835,7 +835,6 @@
       "CLIMATE_CONTROL"
     ],
     "turns_per_charge": 18,
-    "charges_per_use": 0,
     "revert_to": "rm13_armor",
     "use_action": "RM13ARMOR_ON",
     "environmental_protection": 40,

@@ -4903,9 +4903,9 @@
     ],
     "connections": [ { "point": [ 2, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 0, 0 ] } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 5, 25 ],
+    "city_distance": [ 1, 25 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 0, 0 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC" ]
   },
   {

@@ -800,6 +800,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "volume": "2 L",
+    "longest_side": "150 cm",
     "bashing": 10,
     "price": 8000,
     "price_postapoc": 50

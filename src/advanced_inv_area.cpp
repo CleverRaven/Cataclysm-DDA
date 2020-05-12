@@ -171,14 +171,7 @@ void advanced_inv_area::init()
     }
 
     // water?
-    static const std::array<ter_id, 8> ter_water = {
-        {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage, t_water_moving_dp, t_water_moving_sh }
-    };
-    auto ter_check = [this]
-    ( const ter_id & id ) {
-        return g->m.ter( this->pos ) == id;
-    };
-    if( std::any_of( ter_water.begin(), ter_water.end(), ter_check ) ) {
+    if( g->m.has_flag_ter( TFLAG_SHALLOW_WATER, pos ) || g->m.has_flag_ter( TFLAG_DEEP_WATER, pos ) ) {
         flags.append( _( " WATER" ) );
     }
 

@@ -1655,7 +1655,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     uilist menu;
     menu.text = _( "Select destination" );
     /* free space for the squares */
-    menu.pad_left = 9;
+    menu.pad_left_setup = 9;
     query_destination_callback cb( *this );
     menu.callback = &cb;
 
