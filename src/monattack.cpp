@@ -5294,7 +5294,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->as_character()->make_bleed( hit->token, rng( 75_turns, 125_turns ), true );
+            target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), true );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
