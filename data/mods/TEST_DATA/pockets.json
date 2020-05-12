@@ -1,0 +1,30 @@
+[
+  {
+    "id": "test_can_sealed",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "sealed can" },
+    "description": "A factory-sealed beverage can.",
+    "weight": "13 g",
+    "volume": "253 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -3,
+    "bashing": 2,
+    "material": "aluminum",
+    "symbol": ")",
+    "color": "light_blue",
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": false,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ]
+  }
+]
