@@ -29,6 +29,7 @@
 #include "item.h"
 #include "line.h"
 #include "magic.h"
+#include "magic_spell_effect_helpers.h"
 #include "magic_teleporter_list.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
@@ -351,12 +352,12 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
 
 // spells do not reduce in damage the further away from the epicenter the targets are
 // rather they do their full damage in the entire area of effect
-static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &target,
+std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint &target,
         std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
-        aoe_func, const Creature &caster, bool ignore_walls = false )
+        aoe_func, const Creature &caster, bool ignore_walls )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
-    if( sp.aoe() <= 1 ) {
+    if( sp.aoe() <= 1 && sp.effect() != "line_attack" ) {
         return targets;
     }
 
@@ -370,6 +371,17 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
             ++it;
         }
     }
+
+    return targets;
+}
+
+static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &target,
+        std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
+        aoe_func, const Creature &caster, bool ignore_walls = false )
+{
+    // calculate spell's effect area
+    std::set<tripoint> targets = calculate_spell_effect_area( sp, target, aoe_func, caster,
+                                 ignore_walls );
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
