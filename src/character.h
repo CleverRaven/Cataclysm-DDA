@@ -992,9 +992,9 @@ class Character : public Creature, public visitable<Character>
          * Returns resistances on a body part provided by mutations
          */
         // TODO: Cache this, it's kinda expensive to compute
-        resistances mutation_armor( body_part bp ) const;
-        float mutation_armor( body_part bp, damage_type dt ) const;
-        float mutation_armor( body_part bp, const damage_unit &du ) const;
+        resistances mutation_armor( bodypart_id bp ) const;
+        float mutation_armor( bodypart_id bp, damage_type dt ) const;
+        float mutation_armor( bodypart_id bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
@@ -1042,9 +1042,9 @@ class Character : public Creature, public visitable<Character>
         bionic &bionic_at_index( int i );
         /** Remove all bionics */
         void clear_bionics();
-        int get_used_bionics_slots( body_part bp ) const;
-        int get_total_bionics_slots( body_part bp ) const;
-        int get_free_bionics_slots( body_part bp ) const;
+        int get_used_bionics_slots( const bodypart_id &bp ) const;
+        int get_total_bionics_slots( const bodypart_id &bp ) const;
+        int get_free_bionics_slots( const bodypart_id &bp ) const;
 
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm, player &patient );
@@ -1070,7 +1070,7 @@ class Character : public Creature, public visitable<Character>
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
                                   int skill_level = -1 );
-        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
+        std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid );
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
@@ -1437,12 +1437,12 @@ class Character : public Creature, public visitable<Character>
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
         bool is_wearing( const itype_id &it ) const;
-        /** Returns true if the player is wearing the item on the given body_part. */
-        bool is_wearing_on_bp( const itype_id &it, body_part bp ) const;
+        /** Returns true if the player is wearing the item on the given body part. */
+        bool is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
-        bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        bool worn_with_flag( const std::string &flag, const bodypart_id &bp = bodypart_id() ) const;
         /** Returns the first worn item with a given flag. */
-        item item_worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        item item_worn_with_flag( const std::string &flag, const bodypart_id &bp = bodypart_id() ) const;
 
         // drawing related stuff
         /**
@@ -1501,7 +1501,7 @@ class Character : public Creature, public visitable<Character>
         // magic mod
         known_magic magic;
 
-        void make_bleed( body_part bp, time_duration duration, int intensity = 1,
+        void make_bleed( const bodypart_id &bp, time_duration duration, int intensity = 1,
                          bool permanent = false,
                          bool force = false, bool defferred = false );
 
@@ -1552,7 +1552,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Average hit points healed per turn from healing effects.
          */
-        float healing_rate_medicine( float at_rest_quality, body_part bp ) const;
+        float healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const;
 
         /**
          * Goes over all mutations, gets min and max of a value with given name
@@ -2026,8 +2026,8 @@ class Character : public Creature, public visitable<Character>
         /** Returns allergy type or MORALE_NULL if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;
-        /** Returns true if the character is wearing something on the entered body_part */
-        bool wearing_something_on( body_part bp ) const;
+        /** Returns true if the character is wearing something on the entered body part */
+        bool wearing_something_on( const bodypart_id &bp ) const;
         /** Returns true if the character is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
         /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items coveringi

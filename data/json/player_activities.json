@@ -330,14 +330,6 @@
     "based_on": "time"
   },
   {
-    "id": "ACT_MAKE_ZLAVE",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "cutting tissues",
-    "suspendable": false,
-    "based_on": "speed"
-  },
-  {
     "id": "ACT_DROP",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",

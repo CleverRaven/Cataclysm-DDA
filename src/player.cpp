@@ -972,8 +972,6 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
-    const body_part bp_hit_token = bp_hit->token;
-
     bool u_see = g->u.sees( *this );
     if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
         if( is_player() ) {
@@ -991,7 +989,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         // Should hit body part used for attack
         source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
     }
-    if( !wearing_something_on( bp_hit_token ) &&
+    if( !wearing_something_on( bp_hit ) &&
         ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
         int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
         if( !is_player() ) {
@@ -1009,7 +1007,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         spine_damage.add_damage( DT_STAB, spine );
         source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
     }
-    if( ( !( wearing_something_on( bp_hit_token ) ) ) && ( has_trait( trait_THORNS ) ) &&
+    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
         ( !( source->has_weapon() ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
@@ -1026,7 +1024,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         // so safer to target the torso
         source->deal_damage( this, bodypart_id( "torso" ), thorn_damage );
     }
-    if( ( !( wearing_something_on( bp_hit_token ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
+    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
                 add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
