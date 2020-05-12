@@ -1,0 +1,106 @@
+
+[
+  {
+    "id": "armor_sjuggernaut",
+    "type": "ARMOR",
+    "name": { "str": "juggernaut survivor armor", "str_pl": "juggernaut survivor armors" },
+    "category": "armor",
+    "description": "A superheavy segmented Kevlar armor stitched over cloth and padded with sheets of steel on each segment. It has two shoulderpads that feature hanging, flexible curtain-like pieces of steel padded Kevlar to protect the shoulders. It is very encumbering, has three small pockets for ammunition, and a back holster for weapon storage.",
+    "weight": "15232 g",
+    "volume": "10 L",
+    "price": 600000,
+    "price_postapoc": 20000,
+    "to_hit": -10,
+    "material": [ "cotton", "kevlar", "steel" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "TORSO" ],
+    "coverage": 100,
+    "encumbrance": 35,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 50 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 50 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 50 },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1500 ml",
+        "max_contains_volume": "9 L",
+        "max_contains_weight": "10 kg",
+        "moves": 150
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 10,
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "WATERPROOF", "POCKETS", "RAINPROOF" ]
+  },
+  {
+    "id": "legguard_sjuggernaut",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "juggernaut survivor leggings", "str_pl": "juggernaut survivor leggings" },
+    "description": "A superheavy segmented Kevlar leg armor stitched over cloth and padded with sheets of steel on each segment. It is masterfully crafted, using a thick kevlar skirt padded with steel and armored kneepads instead of armor plating to allow joint movemenets. It is relatively encumbering and has two large pockets.",
+    "weight": "12412 g",
+    "volume": "5 L",
+    "price": 350000,
+    "price_postapoc": 15000,
+    "to_hit": -3,
+    "material": [ "cotton", "kevlar", "steel" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "LEGS" ],
+    "coverage": 100,
+    "encumbrance": 30,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 100 }
+    ],
+    "warmth": 35,
+    "material_thickness": 10,
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "WATERPROOF", "RAINPROOF", "POCKETS" ]
+  },
+  {
+    "result": "armor_sjuggernaut",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 9,
+    "skills_required": [ "fabrication", 8 ],
+    "time": "5 h 30 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 150 ] ],
+    "tools": [ [ [ "welder", 30 ], [ "welder_crude", 60 ], [ "toolset", 60 ] ], [ [ "tongs", 1 ] ], [ [ "swage", 1 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "components": [
+      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "kevlar_plate", 40 ] ],
+      [ [ "rag", 25 ] ],
+      [ [ "leather_pouch", 3 ] ],
+      [ [ "back_holster", 1 ] ],
+      [ [ "steel_lump", 10 ], [ "steel_chunk", 30 ], [ "scrap", 120 ] ],
+      [ [ "thread", 300 ] ]
+    ]
+  },
+  {
+    "result": "legguard_sjuggernaut",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 9,
+    "skills_required": [ "fabrication", 8 ],
+    "time": "4 h 30 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 100 ] ],
+    "tools": [ [ [ "welder", 30 ], [ "welder_crude", 60 ], [ "toolset", 60 ] ], [ [ "tongs", 1 ] ], [ [ "swage", 1 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "components": [
+      [ [ "kevlar_plate", 35 ] ],
+      [ [ "purse", 2 ] ],
+      [ [ "rag", 30 ] ],
+      [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ], [ "scrap", 100 ] ],
+      [ [ "thread", 400 ] ]
+    ]
+  }
+]
+
