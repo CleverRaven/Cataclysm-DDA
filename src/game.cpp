@@ -2162,16 +2162,25 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         // Default menu border color is different, this matches the border of the item info window.
         action_menu.border_color = BORDER_COLOR;
 
-        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+        item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
+        data.without_getch = true;
+
+        catacurses::window w_info;
+        int iScrollHeight = 0;
+
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            w_info = catacurses::newwin( TERMY, iWidth, point( iStartX, 0 ) );
+            iScrollHeight = TERMY - 2;
+            ui.position_from_window( w_info );
+        } );
+        ui.mark_resize();
+
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            draw_item_info( w_info, data );
+        } );
 
         do {
-            item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
-            data.without_getch = true;
-            const int iHeight = TERMY;
-            const int iScrollHeight = iHeight - 2;
-
-            draw_item_info( iStartX, iWidth, 0, iHeight, data );
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
             if( action_menu.ret >= 0 ) {
@@ -2265,9 +2274,11 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                     break;
                 case KEY_PPAGE:
                     iScrollPos -= iScrollHeight;
+                    ui.invalidate_ui();
                     break;
                 case KEY_NPAGE:
                     iScrollPos += iScrollHeight;
+                    ui.invalidate_ui();
                     break;
                 case '+':
                     if( !bHPR ) {
