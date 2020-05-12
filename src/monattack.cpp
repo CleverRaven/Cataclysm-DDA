@@ -102,6 +102,7 @@ static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
+static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
@@ -115,10 +116,9 @@ static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_taint( "taint" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
-static const efftype_id effect_taint( "taint" );
-static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_under_op( "under_operation" );
 
 static const skill_id skill_gun( "gun" );
@@ -2861,7 +2861,7 @@ bool mattack::stare( monster *z )
         if( g->u.sees( *z ) ) {
             add_msg( m_bad, _( "The %s stares at you, and you shudder." ), z->name() );
         } else {
-            add_msg( m_bad, _( "You feel like you're being watched; it makes you sick." ) );
+            add_msg( m_bad, _( "You feel like you're being watched, it makes you sick." ) );
         }
        //Apply ?taint" to the target
         g->u.add_effect( effect_taint, rng( 20_minutes, 60_minutes ) );
