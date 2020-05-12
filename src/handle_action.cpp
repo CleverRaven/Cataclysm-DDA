@@ -785,9 +785,7 @@ static void smash()
             u.increase_activity_level( MODERATE_EXERCISE );
             u.handle_melee_wear( u.weapon );
 
-            const int weight_cost = u.weapon.weight() / ( 16_gram );
-            const int encumbrance_cost = u.encumb( bp_arm_l ) + u.encumb( bp_arm_r );
-            const int mod_sta = 2 * ( weight_cost + encumbrance_cost + 50 ) * -1;
+            const int mod_sta = 2 * u.get_standard_stamina_cost();
             u.mod_stamina( mod_sta );
 
             if( u.get_skill_level( skill_melee ) == 0 ) {

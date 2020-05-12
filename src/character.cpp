@@ -2068,6 +2068,19 @@ int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
     return ret;
 }
 
+int Character::get_standard_stamina_cost( item *thrown_item )
+{
+    // Previously calculated as 2_gram * std::max( 1, str_cur )
+    // using 16_gram normalizes it to 8 str. Same effort expenditure
+    // for each strike, regardless of weight. This is compensated
+    // for by the additional move cost as weapon weight increases
+    //If the item is thrown, override with the thrown item instead.
+    const int weight_cost = ( thrown_item == nullptr ) ? this->weapon.weight() /
+                            ( 16_gram ) : thrown_item->weight() / ( 16_gram );
+    const int encumbrance_cost = this->encumb( bp_arm_l ) + this->encumb( bp_arm_r );
+    return ( weight_cost + encumbrance_cost + 50 ) * -1;
+}
+
 cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
         bool interactive )
 {
