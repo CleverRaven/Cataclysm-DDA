@@ -882,7 +882,7 @@ int iuse::meth( player *p, item *it, bool, const tripoint & )
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
             here.add_field( {p->posx() + static_cast<int>( rng( -2, 2 ) ), p->posy() + static_cast<int>( rng( -2, 2 ) ), p->posz()},
-                            fd_methsmoke, 2 );
+                            field_type_id( "fd_methsmoke" ), 2 );
         }
     } else {
         p->add_msg_if_player( _( "You snort some crystal meth." ) );

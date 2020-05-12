@@ -342,17 +342,12 @@ field_type_id fd_null,
               fd_acid_vent,
               fd_plasma,
               fd_laser,
-              fd_spotlight,
               fd_dazzling,
               fd_blood_veggy,
               fd_blood_insect,
               fd_blood_invertebrate,
               fd_gibs_insect,
               fd_gibs_invertebrate,
-              fd_cigsmoke,
-              fd_weedsmoke,
-              fd_cracksmoke,
-              fd_methsmoke,
               fd_bees,
               fd_incendiary,
               fd_relax_gas,
@@ -399,17 +394,12 @@ void field_types::set_field_type_ids()
     fd_acid_vent = field_type_id( "fd_acid_vent" );
     fd_plasma = field_type_id( "fd_plasma" );
     fd_laser = field_type_id( "fd_laser" );
-    fd_spotlight = field_type_id( "fd_spotlight" );
     fd_dazzling = field_type_id( "fd_dazzling" );
     fd_blood_veggy = field_type_id( "fd_blood_veggy" );
     fd_blood_insect = field_type_id( "fd_blood_insect" );
     fd_blood_invertebrate = field_type_id( "fd_blood_invertebrate" );
     fd_gibs_insect = field_type_id( "fd_gibs_insect" );
     fd_gibs_invertebrate = field_type_id( "fd_gibs_invertebrate" );
-    fd_cigsmoke = field_type_id( "fd_cigsmoke" );
-    fd_weedsmoke = field_type_id( "fd_weedsmoke" );
-    fd_cracksmoke = field_type_id( "fd_cracksmoke" );
-    fd_methsmoke = field_type_id( "fd_methsmoke" );
     fd_bees = field_type_id( "fd_bees" );
     fd_incendiary = field_type_id( "fd_incendiary" );
     fd_relax_gas = field_type_id( "fd_relax_gas" );
