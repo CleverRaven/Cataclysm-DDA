@@ -1760,7 +1760,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
                     bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
                     apply_damage( this, bp, rng( 2, 6 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                           body_part_name_accusative( enum_bp ) );
+                                           body_part_name_accusative( bp ) );
                 }
             }
             break;
@@ -1777,7 +1777,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
                     apply_damage( this, bp, rng( 30, 80 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                            _( "<npcname>'s %s is severely damaged." ),
-                                           body_part_name_accusative( enum_bp ) );
+                                           body_part_name_accusative( bp ) );
                 }
             }
             break;
@@ -1847,7 +1847,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                     patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                                       body_part_name_accusative( enum_bp ) );
+                                                       body_part_name_accusative( bp ) );
                     }
                 }
             }
@@ -1866,7 +1866,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                                        _( "<npcname>'s %s is severely damaged." ),
-                                                       body_part_name_accusative( enum_bp ) );
+                                                       body_part_name_accusative( bp ) );
                     }
                 }
             }
@@ -2320,10 +2320,10 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     // show all requirements which are not satisfied
     if( !issues.empty() ) {
         std::string detailed_info;
-        for( auto &elem : issues ) {
+        for( const std::pair<bodypart_id, int> &elem : issues ) {
             //~ <Body part name>: <number of slots> more slot(s) needed.
             detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
-                                            body_part_name_as_heading( elem.first->token, 1 ),
+                                            body_part_name_as_heading( elem.first, 1 ),
                                             elem.second );
         }
         popup( _( "Not enough space for bionic installation!%s" ), detailed_info );
@@ -2501,7 +2501,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                         bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
                         apply_damage( this, bp, rng( 30, 80 ), true );
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                               body_part_name_accusative( enum_bp ) );
+                                               body_part_name_accusative( bp ) );
                     }
                 }
                 drop_cbm = true;
@@ -2556,11 +2556,11 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
         return "";
     }
     std::string desc = intro;
-    for( const std::pair<const string_id<body_part_type>, size_t> &elem : bio_id->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
         desc += ( each_bp_on_new_line ? "\n" : " " );
         //~ <Bodypart name> (<number of occupied slots> slots);
         desc += string_format( _( "%s (%i slots);" ),
-                               body_part_name_as_heading( elem.first->token, 1 ),
+                               body_part_name_as_heading( elem.first.id(), 1 ),
                                elem.second );
     }
     return desc;

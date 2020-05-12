@@ -534,7 +534,7 @@ std::string effect::disp_name() const
         }
     }
     if( bp != num_bp ) {
-        ret += string_format( " (%s)", body_part_name( bp ) );
+        ret += string_format( " (%s)", body_part_name( convert_bp( bp ).id() ) );
     }
 
     return ret;
@@ -692,7 +692,7 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret += string_format( _( tmp_str ), body_part_name( bp ) );
+        ret += string_format( _( tmp_str ), body_part_name( convert_bp( bp ).id() ) );
     } else {
         if( !tmp_str.empty() ) {
             ret += _( tmp_str );

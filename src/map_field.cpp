@@ -1631,7 +1631,7 @@ void map::player_in_field( player &u )
                     if( ( u.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&
                         u.add_env_effect( effect_stung, bp->token, intensity, 9_minutes ) ) {
                         u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ),
-                                             body_part_name_accusative( bp->token ) );
+                                             body_part_name_accusative( bp ) );
                     }
                 }
             }
