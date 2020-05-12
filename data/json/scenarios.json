@@ -117,6 +117,31 @@
   },
   {
     "type": "scenario",
+    "ident": "fungal_start",
+    "name": "Challenge - Fungal Infection",
+    "points": -8,
+    "description": "You feel spores crawling beneath your skin.  It's only a matter of time.",
+    "start_name": "In Town",
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_school",
+      "sloc_grocery_store",
+      "sloc_garage",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_mid_course",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery"
+    ],
+    "flags": [ "FUNGAL_INFECTION", "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "name": "Burning Building",
     "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
     "flags": [ "FIRE_START", "CITY_START" ],
