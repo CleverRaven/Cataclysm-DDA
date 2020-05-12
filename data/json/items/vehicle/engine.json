@@ -87,6 +87,18 @@
     "faults": [  ]
   },
   {
+    "id": "aero_engine_light",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": { "str": "light aero-engine" },
+    "description": "An air-cooled, four-cylinder, horizontally opposed internal combustion engine, rated for 150 horsepower.  Commonly used on light aircraft.",
+    "weight": "111000 g",
+    "volume": "4750 ml",
+    "price": 80000,
+    "price_postapoc": 2000,
+    "displacement": 524
+  },
+  {
     "id": "i4_combustion",
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
