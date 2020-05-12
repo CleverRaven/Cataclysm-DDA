@@ -233,7 +233,7 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
         case bp_arm_l:
         case bp_arm_r:
             s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
-            s += melee_stamina_cost_text( eff_encumbrance * 2 );
+            s += melee_stamina_cost_text( eff_encumbrance );
             s += ranged_cost_text( eff_encumbrance / 5.0 );
             break;
         case bp_hand_l:
