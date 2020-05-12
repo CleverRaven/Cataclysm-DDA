@@ -469,16 +469,39 @@ static bool mx_military( map &m, const tripoint & )
         if( const auto p = random_point( m, [&m]( const tripoint & n ) {
         return m.passable( n );
         } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_soldier, 1, *p );
-            } else if( one_in( 25 ) ) {
+            if( one_in( 25 ) ) {
                 if( one_in( 2 ) ) {
                     m.add_spawn( mon_zombie_bio_op, 1, *p );
+
+                    int splatter_range = rng( 1, 3 );
+                    for( int j = 0; j <= splatter_range; j++ ) {
+                        m.add_field( *p + point( -j * 1, j * 1 ), fd_blood, 1, 0_turns );
+                    }
                 } else {
                     m.add_spawn( mon_dispatch, 1, *p );
                 }
             } else {
-                m.place_items( "map_extra_military", 100, *p, *p, true, calendar::start_of_cataclysm );
+                m.add_spawn( mon_zombie_soldier, 1, *p );
+                // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
+                if( !one_in( 10 ) ) {
+                    std::string group;
+                    // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
+                    if( one_in( 20 ) ) {
+                        group = "military_standard_sniper_rifles";
+                    } else if( one_in( 20 ) ) {
+                        group = "military_standard_shotguns";
+                    } else if( one_in( 10 ) ) {
+                        group = "military_standard_lmgs";
+                    } else {
+                        group = "military_standard_assault_rifles";
+                    }
+                    m.place_items( group, 100, *p, *p, true, calendar::start_of_cataclysm );
+                }
+
+                int splatter_range = rng( 1, 3 );
+                for( int j = 0; j <= splatter_range; j++ ) {
+                    m.add_field( *p + point( -j * 1, j * 1 ), fd_blood, 1, 0_turns );
+                }
             }
         }
 
@@ -656,7 +679,22 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
             return m.passable( n );
             } ) ) {
-                m.place_items( "map_extra_military", 100, *p, *p, true, calendar::start_of_cataclysm );
+                m.add_spawn( mon_zombie_soldier, 1, *p );
+                // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
+                if( !one_in( 10 ) ) {
+                    std::string group;
+                    // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
+                    if( one_in( 20 ) ) {
+                        group = "military_standard_sniper_rifles";
+                    } else if( one_in( 20 ) ) {
+                        group = "military_standard_shotguns";
+                    } else if( one_in( 10 ) ) {
+                        group = "military_standard_lmgs";
+                    } else {
+                        group = "military_standard_assault_rifles";
+                    }
+                    m.place_items( group, 100, *p, *p, true, calendar::start_of_cataclysm );
+                }
 
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
