@@ -661,6 +661,15 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
+static void print_message_to( catacurses::window &w_msg, const nc_color col,
+                              const std::string &msg )
+{
+    werase( w_msg );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, col, msg );
+    wrefresh( w_msg );
+}
+
 bool veh_interact::can_install_part()
 {
     if( sel_vpart_info == nullptr ) {
@@ -676,11 +685,7 @@ bool veh_interact::can_install_part()
         if( std::none_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_tank();
         } ) ) {
-            werase( w_msg );
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                            _( "Funnels need to be installed over a tank." ) );
-            wrefresh( w_msg );
+            print_message_to( w_msg, c_light_red, _( "Funnels need to be installed over a tank." ) );
             return false;
         }
     }
@@ -689,11 +694,7 @@ bool veh_interact::can_install_part()
         if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_turret();
         } ) ) {
-            werase( w_msg );
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                            _( "Can't install turret on another turret." ) );
-            wrefresh( w_msg );
+            print_message_to( w_msg, c_light_red, _( "Can't install turret on another turret." ) );
             return false;
         }
     }
@@ -813,10 +814,7 @@ bool veh_interact::can_install_part()
 
     sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
 
-    werase( w_msg );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg );
-    wrefresh( w_msg );
+    print_message_to( w_msg, c_light_gray, msg );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
@@ -1804,10 +1802,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
     sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
 
-    werase( w_msg );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg );
-    wrefresh( w_msg );
+    print_message_to( w_msg, c_light_gray, msg );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
