@@ -450,7 +450,9 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.longest_side == -1_mm ) {
-        obj.longest_side = units::default_length_from_volume<int>( obj.volume );
+        units::volume effective_volume = obj.count_by_charges() ?
+                                         ( obj.volume / obj.stack_size ) : obj.volume;
+        obj.longest_side = units::default_length_from_volume<int>( effective_volume );
     }
 }
 
