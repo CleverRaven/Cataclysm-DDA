@@ -191,7 +191,7 @@
         "holster": true,
         "min_item_volume": "1250 ml",
         "max_contains_volume": "8 L",
-        "max_contains_weight": "8.2 kg",
+        "max_contains_weight": "8200 g",
         "moves": 50
       }
     ],
