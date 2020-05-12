@@ -10628,8 +10628,6 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
                 return A_NEUTRAL;
             // player does not want to harm those.
             case MATT_FRIEND:
-            case MATT_ZLAVE:
-                // Don't want to harm your zlave!
                 return A_FRIENDLY;
             case MATT_ATTACK:
                 return A_HOSTILE;

@@ -2387,9 +2387,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "flame": true // If true, the character needs 4 charges of fire (e.g. from a lighter) to do this action, if false, the charges of the item itself are used.
 },
 "use_action": {
-    "type": "enzlave" // Make a zlave.
-},
-"use_action": {
     "type": "fireweapon_off", // Activate a fire based weapon.
     "target_id": "firemachete_on", // The item type to transform this item into.
     "success_message": "Your No. 9 glows!", // A message that is shows if the action succeeds.

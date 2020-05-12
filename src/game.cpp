@@ -5046,11 +5046,6 @@ bool game::revive_corpse( const tripoint &p, item &it )
     critter.no_extra_death_drops = true;
     critter.add_effect( effect_downed, 5_turns, num_bp, true );
 
-    if( it.get_var( "zlave" ) == "zlave" ) {
-        critter.add_effect( effect_pacified, 1_turns, num_bp, true );
-        critter.add_effect( effect_pet, 1_turns, num_bp, true );
-    }
-
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {
         for( auto &ammo : critter.ammo ) {
             ammo.second = 0;
