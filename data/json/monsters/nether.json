@@ -264,7 +264,7 @@
     "vision_night": 40,
     "luminance": 25,
     "harvest": "zombie_meatslug",
-    "special_attacks": [ [ "STARE", 12 ] ],
+    "special_attacks": [ [ "STARE", 40 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
   },

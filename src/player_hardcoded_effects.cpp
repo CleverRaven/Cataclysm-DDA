@@ -86,6 +86,7 @@ static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
@@ -621,8 +622,18 @@ void player::hardcoded_effects( effect &it )
                 vomit();
                 mod_fatigue( dice( 1, 6 ) );
             }
+         }
+      } else if( id == effect_tindrift ) {
+        add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
+        if( g->m.is_cornerfloor( dest ) ) {
+        g->m.add_field( dest, fd_tindalos_rift, 3 );
+        add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
+        //Remove the effect, since it's done all it needs to do to the target.
+        remove_effect( effect_tindrift );
+             }
         }
-    } else if( id == effect_teleglow ) {
+     } else if( id == effect_teleglow ) {
         // Default we get around 300 duration points per teleport (possibly more
         // depending on the source).
         // TODO: Include a chance to teleport to the nether realm.
@@ -644,15 +655,11 @@ void player::hardcoded_effects( effect &it )
                     it.set_duration( 0_turns );
                 }
             }
+        }
             if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
-                add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
-                for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
-                    if( g->m.is_cornerfloor( dest ) ) {
-                        g->m.add_field( dest, fd_tindalos_rift, 3 );
-                        add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
-                        break;
-                    }
-                }
+                    //Spawn a tindalos rift via effect_tindrift rather than it being hard-coded to teleglow
+                add_effect(effect_tindrift, 5_turns);
+
                 if( one_in( 2 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
@@ -668,7 +675,6 @@ void player::hardcoded_effects( effect &it )
                     it.set_duration( 0_turns );
                 }
             }
-        }
         if( dur > 6_hours ) {
             // 12 teleports
             if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
