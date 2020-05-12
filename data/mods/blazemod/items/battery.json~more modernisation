@@ -1,0 +1,20 @@
+[
+  {
+    "id": "glowie",
+    "type": "MAGAZINE",
+    "category": "veh_parts",
+    "name": { "str": "gelectrode" },
+    "//": "No Snake, eating it will not refill your batteries.",
+    "description": "A biological mystery, this blob has evolved the ability to slowly generate electricity through some unknown process.  It emits a low phosphorescent glow while doing so.  It is also capable of storing electricity from other sources, but doing so renders it inactive.  It seems pliable enough to pull apart…",
+    "weight": "5132 g",
+    "volume": "5 L",
+    "price": 500,
+    "to_hit": -3,
+    "bashing": 9,
+    "material": [ "flesh" ],
+    "symbol": "]",
+    "color": "cyan",
+    "ammo_type": "battery",
+    "capacity": 2500
+  }
+]
