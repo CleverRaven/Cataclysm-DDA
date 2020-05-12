@@ -339,6 +339,9 @@ struct vehicle_part {
         /** Can this part store electrical charge? */
         bool is_battery() const;
 
+        /** Can this part store charcoal? */
+        bool is_fuelbunker() const;
+
         /** Is this part a reactor? */
         bool is_reactor() const;
 

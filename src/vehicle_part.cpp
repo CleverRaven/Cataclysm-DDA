@@ -473,7 +473,7 @@ bool vehicle_part::is_fuel_store( bool skip_broke ) const
     if( skip_broke && is_broken() ) {
         return false;
     }
-    return is_tank() || base.is_magazine() || is_reactor();
+    return is_tank() || is_battery() || is_fuelbunker() || is_reactor();
 }
 
 bool vehicle_part::is_tank() const
@@ -484,6 +484,11 @@ bool vehicle_part::is_tank() const
 bool vehicle_part::is_battery() const
 {
     return base.is_magazine() && base.ammo_types().count( ammotype( "battery" ) );
+}
+
+bool vehicle_part::is_fuelbunker() const
+{
+    return base.is_magazine() && base.ammo_types().count( ammotype( "charcoal" ) );
 }
 
 bool vehicle_part::is_reactor() const
