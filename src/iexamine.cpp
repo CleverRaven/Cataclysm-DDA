@@ -4688,7 +4688,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            if( patient.has_effect( effect_infected ) ) {
+            if( patient.has_effect( effect_infected ) || patient.has_effect( effect_tetanus ) ) {
                 if( patient.has_effect( effect_strong_antibiotic ) ||
                     patient.has_effect( effect_antibiotic ) ||
                     patient.has_effect( effect_weak_antibiotic ) ) {
