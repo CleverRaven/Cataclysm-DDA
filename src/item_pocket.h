@@ -100,6 +100,9 @@ class item_pocket
         // how many more of @it can this pocket hold?
         int remaining_capacity_for_item( const item &it ) const;
         units::volume volume_capacity() const;
+        // The largest volume of contents this pocket can have.  Different from
+        // volume_capacity because that doesn't take into account ammo containers.
+        units::volume max_contains_volume() const;
         // combined weight of contained items
         units::mass contains_weight() const;
         units::mass remaining_weight() const;
@@ -256,7 +259,7 @@ class pocket_data
 
         item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold
-        units::volume max_contains_volume = 0_ml;
+        units::volume volume_capacity = 0_ml;
         // max volume of item that can be contained, otherwise it spills
         cata::optional<units::volume> max_item_volume = cata::nullopt;
         // min volume of item that can be contained, otherwise it spills
@@ -291,12 +294,14 @@ class pocket_data
         // empty means no restriction
         std::vector<std::string> flag_restriction;
         // items stored are restricted to these ammo types:
-        // the pocket can only contain one of them since the amoutn is also defined for each ammotype
+        // the pocket can only contain one of them since the amount is also defined for each ammotype
         std::map<ammotype, int> ammo_restriction;
         // container's size and encumbrance does not change based on contents.
         bool rigid = false;
 
         bool operator==( const pocket_data &rhs ) const;
+
+        units::volume max_contains_volume() const;
 
         void load( const JsonObject &jo );
         void deserialize( JsonIn &jsin );

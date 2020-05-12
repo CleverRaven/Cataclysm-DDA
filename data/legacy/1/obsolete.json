@@ -130,7 +130,8 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "stock", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "pipe_shotgunsawn",
@@ -156,7 +157,8 @@
     "durability": 6,
     "clip_size": 1,
     "loudness": 200,
-    "valid_mod_locations": [ [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "stock", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "type": "GUNMOD",
@@ -456,7 +458,8 @@
     "dispersion": 75,
     "sight_dispersion": 150,
     "durability": 7,
-    "clip_size": 1
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "dart": 1 } } ]
   },
   {
     "type": "AMMO",

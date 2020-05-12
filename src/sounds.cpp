@@ -1391,7 +1391,7 @@ void sfx::do_footstep()
         static const std::set<ter_str_id> chain_fence = {
             ter_str_id( "t_chainfence" ),
         };
-        if( !g->u.wearing_something_on( bp_foot_l ) ) {
+        if( !g->u.wearing_something_on( bodypart_id( "foot_l" ) ) ) {
             play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;

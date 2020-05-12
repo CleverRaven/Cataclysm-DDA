@@ -182,7 +182,6 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FLEE, {translate_marker( "Fleeing!" ), def_c_green}},
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
-    {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
@@ -228,7 +227,13 @@ monster::monster( const mtype_id &id ) : monster()
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
-    ammo = type->starting_ammo;
+    if( in_species( ROBOT ) ) {
+        for( const auto &ammo_entry : type->starting_ammo ) {
+            ammo[ammo_entry.first] = rng( 1, ammo_entry.second );
+        }
+    } else {
+        ammo = type->starting_ammo;
+    }
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
@@ -1015,7 +1020,6 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
-            case MATT_ZLAVE:
                 return A_FRIENDLY;
             case MATT_FPASSIVE:
             case MATT_FLEE:
@@ -1053,9 +1057,6 @@ monster_attitude monster::attitude( const Character *u ) const
     }
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
-    }
-    if( has_effect( effect_pacified ) ) {
-        return MATT_ZLAVE;
     }
 
     int effective_anger  = anger;
@@ -1505,7 +1506,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
         if( target.is_player() || target.is_npc() ) {
-            target.as_character()->make_bleed( bp_hit, 6_minutes );
+            target.as_character()->make_bleed( convert_bp( bp_hit ).id(), 6_minutes );
         } else {
             target.add_effect( effect_bleed, 6_minutes, bp_hit );
         }

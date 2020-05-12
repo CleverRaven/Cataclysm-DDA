@@ -84,7 +84,7 @@ struct add_trait {
 
 static constexpr int postman_shirt_e = 0;
 static constexpr int longshirt_e = 3;
-static constexpr int jacket_jean_e = 11;
+static constexpr int jacket_jean_e = 9;
 
 TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 {

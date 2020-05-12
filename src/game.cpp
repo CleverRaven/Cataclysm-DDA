@@ -5046,11 +5046,6 @@ bool game::revive_corpse( const tripoint &p, item &it )
     critter.no_extra_death_drops = true;
     critter.add_effect( effect_downed, 5_turns, num_bp, true );
 
-    if( it.get_var( "zlave" ) == "zlave" ) {
-        critter.add_effect( effect_pacified, 1_turns, num_bp, true );
-        critter.add_effect( effect_pet, 1_turns, num_bp, true );
-    }
-
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {
         for( auto &ammo : critter.ammo ) {
             ammo.second = 0;
@@ -8972,12 +8967,12 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
             harmful_stuff.emplace_back( tr.name() );
         }
 
-        static const std::set< body_part > sharp_bps = {
-            bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
-            bp_hand_l, bp_hand_r, bp_torso
+        static const std::set< bodypart_id > sharp_bps = {
+            bodypart_id( "eyes" ), bodypart_id( "mouth" ), bodypart_id( "head" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+            bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "torso" )
         };
 
-        const auto sharp_bp_check = [this]( body_part bp ) {
+        const auto sharp_bp_check = [this]( bodypart_id bp ) {
             return u.immune_to( bp, { DT_CUT, 10 } );
         };
 

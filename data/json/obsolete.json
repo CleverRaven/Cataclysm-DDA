@@ -489,7 +489,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fusion": 2 } } ]
   },
   {
     "type": "ammunition_type",

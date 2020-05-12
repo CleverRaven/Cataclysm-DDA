@@ -27,7 +27,8 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "m320",
@@ -48,7 +49,8 @@
     "dispersion": 270,
     "durability": 9,
     "clip_size": 1,
-    "reload": 150
+    "reload": 150,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "m79",
@@ -79,7 +81,8 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "mgl",
@@ -109,7 +112,8 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 6 } } ]
   },
   {
     "id": "rm802",
@@ -141,7 +145,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 4 } } ]
   },
   {
     "id": "triple_launcher_simple",
@@ -152,7 +157,8 @@
     "clip_size": 3,
     "price_postapoc": 1750,
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ] ],
-    "proportional": { "weight": 1.5, "volume": 1.8, "price": 2 }
+    "proportional": { "weight": 1.5, "volume": 1.8, "price": 2 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 3 } } ]
   },
   {
     "id": "pseudo_m203",
@@ -176,6 +182,7 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ] ],
     "clip_size": 6,
-    "flags": [ "MOUNTED_GUN" ]
+    "flags": [ "MOUNTED_GUN" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 6 } } ]
   }
 ]

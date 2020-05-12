@@ -244,12 +244,19 @@ void player_activity::deserialize( JsonIn &jsin )
     JsonObject data = jsin.get_object();
     std::string tmptype;
     int tmppos = 0;
+
+    bool is_obsolete = false;
+    std::set<std::string> obs_activites {
+        "ACT_MAKE_ZLAVE" // Remove after 0.F
+    };
     if( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.
         int tmp_type_legacy = data.get_int( "type" );
         deserialize_legacy_type( tmp_type_legacy, type );
-    } else {
+    } else if( !obs_activites.count( tmptype ) ) {
         type = activity_id( tmptype );
+    } else {
+        is_obsolete = true;
     }
 
     if( type.is_null() ) {
@@ -262,7 +269,7 @@ void player_activity::deserialize( JsonIn &jsin )
     // Handle migration of pre-activity_actor activities
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
-    if( has_actor && !data.has_member( "actor" ) ) {
+    if( is_obsolete || ( has_actor && !data.has_member( "actor" ) ) ) {
         type = activity_id( "ACT_MIGRATION_CANCEL" );
     }
 

@@ -497,6 +497,20 @@ void Item_factory::finalize_post( itype &obj )
         }
     }
 
+    if( obj.armor ) {
+        // Setting max_encumber must be in finalize_post because it relies on
+        // stack_size being set for all ammo, which happens in finalize_pre.
+        if( obj.armor->max_encumber < 0 ) {
+            units::volume total_nonrigid_volume = 0_ml;
+            for( const pocket_data &pocket : obj.pockets ) {
+                if( !pocket.rigid ) {
+                    total_nonrigid_volume += pocket.max_contains_volume();
+                }
+            }
+            obj.armor->max_encumber = obj.armor->encumber + total_nonrigid_volume / 250_ml;
+        }
+    }
+
     if( obj.comestible ) {
         for( const std::pair<diseasetype_id, int> elem : obj.comestible->contamination ) {
             const diseasetype_id dtype = elem.first;
@@ -923,7 +937,6 @@ void Item_factory::init()
     add_actor( std::make_unique<cauterize_actor>() );
     add_actor( std::make_unique<consume_drug_iuse>() );
     add_actor( std::make_unique<delayed_transform_iuse>() );
-    add_actor( std::make_unique<enzlave_actor>() );
     add_actor( std::make_unique<explosion_iuse>() );
     add_actor( std::make_unique<firestarter_actor>() );
     add_actor( std::make_unique<fireweapon_off_actor>() );
@@ -1643,7 +1656,9 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
 void islot_armor::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "encumbrance", encumber, 0 );
-    optional( jo, was_loaded, "max_encumbrance", max_encumber, encumber );
+    // Default max_encumbrance will be set to a reasonable value in
+    // finalize_post
+    optional( jo, was_loaded, "max_encumbrance", max_encumber, -1 );
     optional( jo, was_loaded, "coverage", coverage, 0 );
     optional( jo, was_loaded, "material_thickness", thickness, 0 );
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
@@ -2199,7 +2214,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
             mag_data.ammo_restriction.emplace( amtype, def.magazine->capacity );
         }
         mag_data.fire_protection = def.magazine->protects_contents;
-        mag_data.max_contains_volume = 200_liter;
+        mag_data.volume_capacity = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
         mag_data.max_item_length = 2_km;
         mag_data.rigid = true;
@@ -2214,7 +2229,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         // guns are, in code terms, nonrigid objects with optional magazine_wells.
         mag_data.rigid = false;
         mag_data.watertight = true;
-        mag_data.max_contains_volume = 200_liter;
+        mag_data.volume_capacity = 200_liter;
         mag_data.max_contains_weight = 400_kilogram;
         mag_data.max_item_length = 2_km;
         // the magazine pocket does not use can_contain like normal CONTAINER pockets

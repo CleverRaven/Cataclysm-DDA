@@ -18,6 +18,7 @@
     "durability": 7,
     "blackpowder_tolerance": 96,
     "clip_size": 6,
-    "proportional": { "reload": 2.0 }
+    "proportional": { "reload": 2.0 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "36paper": 6 } } ]
   }
 ]

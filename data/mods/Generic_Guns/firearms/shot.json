@@ -22,7 +22,8 @@
     "name": "sporting shotgun",
     "ammo": [ "ammo_shot" ],
     "description": "A simple, popular design, sporting shotguns are used by law enforcement, civilians and occasionally militaries.  Its internal magazine is small by modern standards, and reloading can be quite slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
-    "clip_size": 6
+    "clip_size": 6,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 6 } } ]
   },
   {
     "id": "shot_tactical",

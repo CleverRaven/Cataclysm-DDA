@@ -151,7 +151,6 @@ static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
-static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
@@ -359,7 +358,6 @@ activity_handlers::finish_functions = {
     { ACT_FORAGE, forage_finish },
     { ACT_HOTWIRE_CAR, hotwire_finish },
     { ACT_LONGSALVAGE, longsalvage_finish },
-    { ACT_MAKE_ZLAVE, make_zlave_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_RELOAD, reload_finish },
     { ACT_START_FIRE, start_fire_finish },
@@ -1867,72 +1865,6 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 
     add_msg( _( "You finish salvaging." ) );
     act->set_to_null();
-}
-
-void activity_handlers::make_zlave_finish( player_activity *act, player *p )
-{
-    act->set_to_null();
-    map_stack items = g->m.i_at( p->pos() );
-    const std::string corpse_name = act->str_values[0];
-    item *body = nullptr;
-
-    for( item &it : items ) {
-        if( it.display_name() == corpse_name ) {
-            body = &it;
-        }
-    }
-
-    if( body == nullptr ) {
-        add_msg( m_info, _( "There's no corpse to make into a zombie slave!" ) );
-        return;
-    }
-
-    int success = act->values[0];
-
-    if( success > 0 ) {
-
-        p->practice( skill_firstaid, rng( 2, 5 ) );
-        p->practice( skill_survival, rng( 2, 5 ) );
-
-        p->add_msg_if_player( m_good,
-                              _( "You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reanimates." ) );
-
-        body->set_var( "zlave", "zlave" );
-        //take into account the chance that the body yet can regenerate not as we need.
-        if( one_in( 10 ) ) {
-            body->set_var( "zlave", "mutilated" );
-        }
-
-    } else if( success > -20 ) {
-
-        p->practice( skill_firstaid, rng( 3, 6 ) );
-        p->practice( skill_survival, rng( 3, 6 ) );
-
-        p->add_msg_if_player( m_warning,
-                              _( "You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates." ) );
-
-        success += rng( 1, 20 );
-
-        if( success > 0 && !one_in( 5 ) ) {
-            body->set_var( "zlave", "zlave" );
-        } else {
-            body->set_var( "zlave", "mutilated" );
-        }
-
-    } else {
-
-        p->practice( skill_firstaid, rng( 1, 8 ) );
-        p->practice( skill_survival, rng( 1, 8 ) );
-
-        body->mod_damage( rng( 0, body->max_damage() - body->damage() ), DT_STAB );
-        if( body->damage() == body->max_damage() ) {
-            body->active = false;
-            p->add_msg_if_player( m_warning, _( "You cut up the corpse too much, it is thoroughly pulped." ) );
-        } else {
-            p->add_msg_if_player( m_warning,
-                                  _( "You cut into the corpse trying to make it unable to attack, but you don't think you have it right." ) );
-        }
-    }
 }
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
@@ -3489,7 +3421,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
             if( !bps.empty() ) {
                 for( const bodypart_id &bp : bps ) {
-                    p->make_bleed( bp->token, 1_turns, difficulty, true );
+                    p->make_bleed( bp, 1_turns, difficulty, true );
                     p->apply_damage( nullptr, bp, 20 * difficulty );
 
                     if( u_see ) {
@@ -3502,7 +3434,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
                 }
             } else {
-                p->make_bleed( num_bp, 1_turns, difficulty, true );
+                p->make_bleed( bodypart_id( "num_bp" ), 1_turns, difficulty, true );
                 p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }

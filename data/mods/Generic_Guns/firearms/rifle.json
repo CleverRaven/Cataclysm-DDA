@@ -25,7 +25,8 @@
     "ammo": [ "ammo_rifle" ],
     "description": "A crude longarm chambered in standard rifle ammunition, reinforced near the chamber.  It holds a single a round and has a crude assembly to fire it.  There's no extractor, so it might be slow to reload, and its construction makes for poor reliability and longevity.",
     "clip_size": 1,
-    "magazines": [  ]
+    "magazines": [  ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 1 } } ]
   },
   {
     "id": "rifle_pipe_carbine",
