@@ -1398,6 +1398,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NEEDS_BATTERY_MOUNT```
 - ```NOINSTALL``` Cannot be installed.
 - ```NO_INSTALL_PLAYER``` Cannot be installed by a player, but can be installed on vehicles.
+- ```NO_MODIFY_VEHICLE``` Installing a part with this flag on a vehicle will mean that it can no longer be modified. Parts with this flag should not be installable by players.
 - ```NO_UNINSTALL``` Cannot be unintalled
 - ```NO_REPAIR``` Cannot be repaired
 - ```NO_JACK```
@@ -1425,6 +1426,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SEAT``` A seat where the player can sit or sleep.
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
+- ```SIMPLE_PART``` This part can be installed or removed from that otherwise prevent modification.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
 - ```SPACE_HEATER``` There is separate command to toggle this part.
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
