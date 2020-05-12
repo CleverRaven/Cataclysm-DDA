@@ -217,7 +217,7 @@ bool overmap_special_id::is_valid() const
 city::city( const point &P, int const S )
     : pos( P )
     , size( S )
-    , name( Name::get( nameIsTownName ) )
+    , name( Name::get( nameFlags::IsTownName ) )
 {
 }
 
