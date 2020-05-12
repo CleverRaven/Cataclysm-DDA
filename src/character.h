@@ -1047,7 +1047,12 @@ class Character : public Creature, public visitable<Character>
         int get_free_bionics_slots( const bodypart_id &bp ) const;
 
         /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm, player &patient );
+        bool has_enough_anesth( const itype &cbm, player &patient );
+        bool has_enough_anesth( const itype &cbm );
+        void consume_anesth_requirment( const itype &cbm, player &patient );
+        /**Has the required equipement for manual installation*/
+        bool has_installation_requirment( bionic_id bid );
+        void consume_installation_requirment( bionic_id bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
@@ -1068,7 +1073,7 @@ class Character : public Creature, public visitable<Character>
                               const skill_id &least_important_skill,
                               int skill_level = -1 );
         /**Is the installation possible*/
-        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+        bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid );
         /** Initialize all the values needed to start the operation player_activity */
