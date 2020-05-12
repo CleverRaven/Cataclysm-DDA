@@ -879,7 +879,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         nc_color color = c_light_red;
 
         const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
-        if( u.worn_with_flag( "SPLINT", bp ) ) {
+        if( u.worn_with_flag( "SPLINT", convert_bp( bp ).id() ) ) {
             static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();

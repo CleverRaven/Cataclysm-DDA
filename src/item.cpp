@@ -4013,9 +4013,9 @@ void item::on_wear( Character &p )
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
             if( ( covers( bp_leg_l ) && p.is_limb_broken( hp_leg_r ) &&
-                  !p.worn_with_flag( flag_SPLINT, bp_leg_r ) ) ||
+                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
                 ( covers( bp_arm_l ) && p.is_limb_broken( hp_arm_r ) &&
-                  !p.worn_with_flag( flag_SPLINT, bp_arm_r ) ) ) {
+                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
         } else {

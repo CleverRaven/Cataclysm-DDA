@@ -517,10 +517,10 @@ void player::power_bionics()
 
         int max_width = 0;
         std::vector<std::string> bps;
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             const int total = get_total_bionics_slots( bp );
             const std::string s = string_format( "%s: %d/%d",
-                                                 body_part_name_as_heading( bp, 1 ),
+                                                 body_part_name_as_heading( bp->token, 1 ),
                                                  total - get_free_bionics_slots( bp ), total );
             bps.push_back( s );
             max_width = std::max( max_width, utf8_width( s ) );
