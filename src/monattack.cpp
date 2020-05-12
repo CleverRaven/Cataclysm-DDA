@@ -2863,7 +2863,6 @@ bool mattack::stare( monster *z )
         } else {
             add_msg( m_bad, _( "You feel like you're being watched, it makes you sick." ) );
         }
-       //Apply ?taint" to the target
         g->u.add_effect( effect_taint, rng( 20_minutes, 60_minutes ) );
        //Check severity before adding more debuffs
                 if ( g->u.get_effect_int ( effect_taint ) > 2 ) {
@@ -2871,8 +2870,6 @@ bool mattack::stare( monster *z )
         //Check if target is a player before spawning hallucinations
         if( g->u.is_player() && one_in( 2 ) ) {
             g->spawn_hallucination( g->u.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
-//        sound_hallu();
-        //add_msg( m_bad, _( "A strange figure appears!" ) );
             }
         if ( one_in( 12 ) ) {
         g->u.add_effect( effect_blind, 5_minutes );
