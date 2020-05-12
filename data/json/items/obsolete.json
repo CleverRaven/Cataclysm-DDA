@@ -2618,5 +2618,27 @@
     "id": "shotcanister",
     "name": "shotcanisters",
     "default": "shotcanister_scrap"
+  },
+  {
+    "id": "control_laptop",
+    "type": "TOOL",
+    "name": { "str": "control laptop" },
+    "description": "A modified laptop, now capable of transmitting in the ultra-high frequencies utilized by robots.  Activate it to command robots from afar.",
+    "weight": "2721 g",
+    "volume": "1 L",
+    "price": 10000,
+    "price_postapoc": 8000,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "charges_per_use": 2,
+    "use_action": "ROBOTCONTROL",
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ]
   }
 ]

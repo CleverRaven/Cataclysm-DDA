@@ -2464,5 +2464,10 @@
     "type": "recipe",
     "result": "pine_nuts",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "control_laptop",
+    "obsolete": true
   }
 ]
