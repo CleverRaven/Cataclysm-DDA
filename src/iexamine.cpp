@@ -4700,8 +4700,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_effect( effect_strong_antibiotic_visible, rng( 9_hours, 15_hours ) );
                     patient.mod_pain( 3 );
                     patient.add_msg_player_or_npc( m_good,
-                                                   _( "The autodoc detected a bacterial infection in your body and maked an injection of antibiotics to treat it." ),
-                                                   _( "The autodoc detected a bacterial infection in <npcname>'s body and maked an injection of antibiotics to treat it." ) );
+                                                   _( "The autodoc detected a bacterial infection in your body and injected antibiotics to treat it." ),
+                                                   _( "The autodoc detected a bacterial infection in <npcname>'s body and injected antibiotics to treat it." ) );
 
                     if( patient.has_effect( effect_tetanus ) ) {
                         if( one_in( 3 ) ) {
