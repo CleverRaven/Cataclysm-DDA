@@ -5868,6 +5868,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                             size_str = pgettext( "infrared size", "small" );
                             break;
                         case MS_MEDIUM:
+                            size_str = pgettext( "infrared size", "medium" );
                             break;
                         case MS_LARGE:
                             size_str = pgettext( "infrared size", "large" );
@@ -5876,11 +5877,9 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                             size_str = pgettext( "infrared size", "huge" );
                             break;
                     }
-                    if( size_str != "" ) {
-                        mvwprintw( w_look, point( 1, ++line ), _( "You see a %s figure radiating heat." ), size_str );
-                    } else {
-                        mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );
-                    }
+                    mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );
+                    mvwprintw( w_look, point( 1, ++line ), _( "It is %s in size." ),
+                               size_str );
                 } else if( u.sees_with_specials( *creature ) ) {
                     mvwprintw( w_look, point( 1, ++line ), _( "You sense a creature here." ) );
                 }
