@@ -390,7 +390,7 @@ For a stable tiles build:
 
 For an experimental tiles build built from the current HEAD of [master](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/):
 
-    brew install cataclysm --HEAD
+    brew install --HEAD cataclysm
 
 Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
 
