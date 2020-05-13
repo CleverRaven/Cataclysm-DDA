@@ -361,6 +361,14 @@ class vpart_info
         static void reset();
 
         static const std::map<vpart_id, vpart_info> &all();
+
+        /**
+          * Exhaust emissions of part
+
+          * If the vehicle has an exhaust part, it is emitted there;
+          * otherwise, it is emitted in place
+          */
+        std::set<emit_id> exhaust;
 };
 
 struct vehicle_item_spawn {
