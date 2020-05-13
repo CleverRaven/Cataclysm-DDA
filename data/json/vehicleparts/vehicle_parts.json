@@ -1,29 +1,6 @@
 [
   {
     "type": "item_group",
-    "id": "ig_vp_seat",
-    "subtype": "collection",
-    "entries": [
-      { "item": "rag", "count": [ 2, 8 ] },
-      { "item": "pipe", "count": [ 1, 3 ] },
-      { "item": "spring", "count": [ 0, 2 ] },
-      { "item": "scrap", "count": [ 3, 5 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "ig_vp_seat_leather",
-    "subtype": "collection",
-    "entries": [
-      { "item": "leather", "count": [ 1, 5 ] },
-      { "item": "rag", "count": [ 1, 3 ] },
-      { "item": "pipe", "count": [ 1, 3 ] },
-      { "item": "spring", "count": [ 0, 2 ] },
-      { "item": "scrap", "count": [ 3, 5 ] }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "ig_vp_frame",
     "subtype": "collection",
     "entries": [
