@@ -307,6 +307,7 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_NO_HEAL( "NO_HEAL" );
 
 static const std::string flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
@@ -4469,7 +4470,9 @@ void Character::regen( int rate_multiplier )
 
     float rest = rest_quality();
     float heal_rate = healing_rate( rest ) * to_turns<int>( 5_minutes );
-    if( heal_rate > 0.0f ) {
+
+    // Heal if we are healing and capable of healing
+    if( heal_rate > 0.0f && !has_trait( trait_NO_HEAL ) ) {
         healall( roll_remainder( rate_multiplier * heal_rate ) );
     } else if( heal_rate < 0.0f ) {
         int rot_rate = roll_remainder( rate_multiplier * -heal_rate );
@@ -4485,8 +4488,12 @@ void Character::regen( int rate_multiplier )
         float healing = healing_rate_medicine( rest, convert_bp( bp ).id() ) * to_turns<int>( 5_minutes );
 
         int healing_apply = roll_remainder( healing );
-        healed_bp( i, healing_apply );
-        heal( bp, healing_apply );
+
+        // Only heal if we're capable of healing
+        if( !has_trait( trait_NO_HEAL ) ) {
+            healed_bp( i, healing_apply );
+            heal( bp, healing_apply );
+        }
         if( damage_bandaged[i] > 0 ) {
             damage_bandaged[i] -= healing_apply;
             if( damage_bandaged[i] <= 0 ) {
@@ -4525,7 +4532,7 @@ void Character::regen( int rate_multiplier )
 void Character::enforce_minimum_healing()
 {
     for( int i = 0; i < num_hp_parts; i++ ) {
-        if( healed_total[i] <= 0 ) {
+        if( healed_total[i] <= 0 && !has_trait( trait_NO_HEAL ) ) {
             heal( static_cast<hp_part>( i ), 1 );
         }
         healed_total[i] = 0;
