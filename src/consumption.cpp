@@ -16,6 +16,8 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "game.h"
+#include "item.h"
+#include "item_category.h"
 #include "item_contents.h"
 #include "itype.h"
 #include "iuse_actor.h"
@@ -1631,7 +1633,8 @@ time_duration Character::get_consume_time( const item &it )
 {
     const int charges = std::max( it.charges, 1 );
     int volume = units::to_milliliter( it.volume() ) / charges;
-    time_duration time = 0_seconds;
+    time_duration time = time = time_duration::from_seconds( std::max( ( volume /
+                                5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
     float consume_time_modifier = 1;//only for food and drinks
     const bool eat_verb  = it.has_flag( flag_USE_EAT_VERB );
     if( eat_verb || it.get_comestible()->comesttype == "FOOD" ) {
@@ -1666,8 +1669,10 @@ time_duration Character::get_consume_time( const item &it )
         } else {
             time = time_duration::from_seconds( 5 ); //probably pills so quick
         }
-    } else {
-        debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
+    } else if( it.get_category().get_id() == "chems" ) {
+        time = time_duration::from_seconds( std::max( ( volume / 15 ),
+                                            1 ) ); //Consume 15 mL (1 tablespoon) per second
+        consume_time_modifier = mutation_value( "consume_time_modifier" );
     }
 
     return time * consume_time_modifier;
