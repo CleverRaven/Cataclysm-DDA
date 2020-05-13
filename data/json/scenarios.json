@@ -497,7 +497,7 @@
   {
     "type": "scenario",
     "ident": "presort",
-    "name": "Crazy party",
+    "name": "Crazy Party",
     "points": 0,
     "description": "You thought things couldn't get any worse when the cops came over to bust your wild party, even though you booked it at a private resort.  When the guests started fighting with the police you tried to get them to calm down, only to find out they hungered for more.",
     "start_name": "Private resort",
