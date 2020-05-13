@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_POINT_H
-#define CATA_POINT_H
+#ifndef CATA_SRC_POINT_H
+#define CATA_SRC_POINT_H
 
 // The CATA_NO_STL macro is used by the cata clang-tidy plugin tests so they
 // can include this header when compiling with -nostdinc++
@@ -8,10 +8,12 @@
 
 #include <array>
 #include <cassert>
-#include <cstddef>
 #include <climits>
+#include <cstdint>
+#include <cstdlib>
 #include <functional>
 #include <ostream>
+#include <string>
 #include <vector>
 
 #else
@@ -26,8 +28,8 @@ class ostream;
 
 #endif // CATA_NO_STL
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
 struct point {
@@ -69,6 +71,12 @@ struct point {
     constexpr point operator/( const int rhs ) const {
         return point( x / rhs, y / rhs );
     }
+
+#ifndef CATA_NO_STL
+    point abs() const {
+        return point( std::abs( x ), std::abs( y ) );
+    }
+#endif
 
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
@@ -175,6 +183,12 @@ struct tripoint {
         z -= rhs.z;
         return *this;
     }
+
+#ifndef CATA_NO_STL
+    tripoint abs() const {
+        return tripoint( std::abs( x ), std::abs( y ), std::abs( z ) );
+    }
+#endif
 
     constexpr point xy() const {
         return point( x, y );
@@ -309,17 +323,6 @@ std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_d
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
 
-
-inline point abs( const point &p )
-{
-    return point( abs( p.x ), abs( p.y ) );
-}
-
-inline tripoint abs( const tripoint &p )
-{
-    return tripoint( abs( p.x ), abs( p.y ), abs( p.z ) );
-}
-
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
 
@@ -395,4 +398,4 @@ static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
 
 #endif // CATA_NO_STL
 
-#endif // CATA_POINT_H
+#endif // CATA_SRC_POINT_H

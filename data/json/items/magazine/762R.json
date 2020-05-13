@@ -3,17 +3,19 @@
     "id": "762R_clip",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": "7.62x54mmR clip",
+    "name": { "str": "7.62x54mmR clip" },
     "//": "Provisional.",
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
     "weight": "40 g",
     "volume": "50ml",
     "price": 1000,
+    "price_postapoc": 50,
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "762R",
+    "ammo_type": [ "762R" ],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 } } ]
   }
 ]

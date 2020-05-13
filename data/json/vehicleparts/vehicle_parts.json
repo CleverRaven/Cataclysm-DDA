@@ -94,7 +94,7 @@
   {
     "type": "vehicle_part",
     "id": "null",
-    "name": "null part",
+    "name": { "str": "null part" },
     "symbol": "?",
     "color": "red",
     "broken_symbol": "?",
@@ -108,7 +108,7 @@
   {
     "type": "vehicle_part",
     "id": "seat",
-    "name": "seat",
+    "name": { "str": "seat" },
     "symbol": "#",
     "looks_like": "reclining_seat",
     "color": "red",
@@ -136,14 +136,14 @@
     "id": "seat_leather",
     "copy-from": "seat",
     "looks_like": "seat",
-    "name": "leather seat",
+    "name": { "str": "leather seat" },
     "item": "seat_leather",
     "breaks_into": "ig_vp_seat_leather"
   },
   {
     "type": "vehicle_part",
     "id": "reclining_seat",
-    "name": "reclining seat",
+    "name": { "str": "reclining seat" },
     "symbol": "#",
     "looks_like": "seat",
     "color": "red",
@@ -171,14 +171,14 @@
     "id": "reclining_seat_leather",
     "looks_like": "seat_leather",
     "copy-from": "reclining_seat",
-    "name": "reclining leather seat",
+    "name": { "str": "reclining leather seat" },
     "item": "seat_leather",
     "breaks_into": "ig_vp_seat_leather"
   },
   {
     "type": "vehicle_part",
     "id": "yoke_harness",
-    "name": "yoke and harness",
+    "name": { "str": "yoke and harness" },
     "symbol": "H",
     "looks_like": "frame_wood_cross",
     "color": "brown",
@@ -209,7 +209,7 @@
   {
     "type": "vehicle_part",
     "id": "cart_handle",
-    "name": "cart handle",
+    "name": { "str": "cart handle" },
     "symbol": "-",
     "looks_like": "frame_wood_horizontal",
     "color": "white",
@@ -236,7 +236,7 @@
   {
     "type": "vehicle_part",
     "id": "tracker",
-    "name": "tracking device",
+    "name": { "str": "tracking device" },
     "symbol": "*",
     "color": "red",
     "broken_symbol": "#",
@@ -259,7 +259,7 @@
   {
     "type": "vehicle_part",
     "id": "saddle",
-    "name": "saddle",
+    "name": { "str": "saddle" },
     "symbol": "#",
     "looks_like": "seat",
     "color": "red",
@@ -284,7 +284,7 @@
   {
     "type": "vehicle_part",
     "id": "folding_seat",
-    "name": "foldable seat",
+    "name": { "str": "foldable seat" },
     "symbol": "#",
     "looks_like": "seat",
     "color": "red",
@@ -307,7 +307,7 @@
   {
     "type": "vehicle_part",
     "id": "bed",
-    "name": "bed",
+    "name": { "str": "bed" },
     "symbol": "#",
     "looks_like": "f_bed",
     "color": "magenta",
@@ -333,7 +333,7 @@
   {
     "type": "vehicle_part",
     "id": "frame_handle",
-    "name": "handle",
+    "name": { "str": "handle" },
     "symbol": "^",
     "color": "light_cyan",
     "broken_symbol": "#",
@@ -359,7 +359,7 @@
   {
     "type": "vehicle_part",
     "id": "frame_wood_handle",
-    "name": "wooden handle",
+    "name": { "str": "wooden handle" },
     "symbol": "^",
     "looks_like": "frame_wood_cover",
     "color": "light_red",
@@ -380,7 +380,7 @@
   {
     "type": "vehicle_part",
     "id": "frame_wood_light_handle",
-    "name": "light wooden handle",
+    "name": { "str": "light wooden handle" },
     "symbol": "^",
     "looks_like": "frame_wood_light_cover",
     "color": "light_red",
@@ -399,7 +399,7 @@
   {
     "type": "vehicle_part",
     "id": "aisle_horizontal",
-    "name": "aisle",
+    "name": { "str": "aisle" },
     "symbol": "=",
     "looks_like": "t_metal_floor",
     "color": "white",
@@ -421,7 +421,7 @@
   {
     "type": "vehicle_part",
     "id": "aisle_vertical",
-    "name": "aisle",
+    "name": { "str": "aisle" },
     "symbol": "H",
     "looks_like": "aisle_horizontal",
     "color": "white",
@@ -443,7 +443,7 @@
   {
     "type": "vehicle_part",
     "id": "wooden_aisle_horizontal",
-    "name": "wooden aisle",
+    "name": { "str": "wooden aisle" },
     "symbol": "=",
     "looks_like": "t_floor",
     "color": "brown",
@@ -465,7 +465,7 @@
   {
     "type": "vehicle_part",
     "id": "wooden_aisle_vertical",
-    "name": "wooden aisle",
+    "name": { "str": "wooden aisle" },
     "symbol": "H",
     "looks_like": "wooden_aisle_horizontal",
     "color": "brown",
@@ -487,7 +487,7 @@
   {
     "type": "vehicle_part",
     "id": "trunk_floor",
-    "name": "floor trunk",
+    "name": { "str": "floor trunk" },
     "symbol": "=",
     "looks_like": "t_carpet_red",
     "color": "white",
@@ -510,7 +510,7 @@
   {
     "type": "vehicle_part",
     "id": "roof_cloth",
-    "name": "cloth roof",
+    "name": { "str": "cloth roof" },
     "symbol": "#",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -530,7 +530,7 @@
   {
     "type": "vehicle_part",
     "id": "roof",
-    "name": "roof",
+    "name": { "str": "roof" },
     "symbol": "#",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -551,7 +551,7 @@
   {
     "type": "vehicle_part",
     "id": "hdroof",
-    "name": "heavy duty roof",
+    "name": { "str": "heavy duty roof" },
     "symbol": "#",
     "color": "dark_gray",
     "broken_symbol": "#",
@@ -572,7 +572,7 @@
   {
     "type": "vehicle_part",
     "id": "door",
-    "name": "door",
+    "name": { "str": "door" },
     "symbol": "+",
     "looks_like": "t_door_metal_c",
     "color": "cyan",
@@ -596,7 +596,7 @@
   {
     "type": "vehicle_part",
     "id": "door_opaque",
-    "name": "opaque door",
+    "name": { "str": "opaque door" },
     "symbol": "+",
     "looks_like": "door",
     "color": "cyan",
@@ -620,7 +620,7 @@
   {
     "type": "vehicle_part",
     "id": "hddoor",
-    "name": "heavy duty door",
+    "name": { "str": "heavy duty door" },
     "symbol": "+",
     "color": "cyan",
     "looks_like": "door",
@@ -644,7 +644,7 @@
   {
     "type": "vehicle_part",
     "id": "hddoor_opaque",
-    "name": "heavy duty opaque door",
+    "name": { "str": "heavy duty opaque door" },
     "symbol": "+",
     "color": "cyan",
     "looks_like": "door_opaque",
@@ -668,7 +668,7 @@
   {
     "type": "vehicle_part",
     "id": "door_internal",
-    "name": "internal door",
+    "name": { "str": "internal door" },
     "symbol": "+",
     "looks_like": "door",
     "color": "cyan",
@@ -691,7 +691,7 @@
   {
     "type": "vehicle_part",
     "id": "hatch",
-    "name": "hatch",
+    "name": { "str": "hatch" },
     "symbol": "+",
     "looks_like": "door",
     "color": "light_gray",
@@ -715,7 +715,7 @@
   {
     "type": "vehicle_part",
     "id": "hatch_opaque",
-    "name": "opaque hatch",
+    "name": { "str": "opaque hatch" },
     "symbol": "+",
     "looks_like": "door_opaque",
     "color": "light_gray",
@@ -739,7 +739,7 @@
   {
     "type": "vehicle_part",
     "id": "hdhatch",
-    "name": "heavy duty hatch",
+    "name": { "str": "heavy duty hatch" },
     "symbol": "+",
     "color": "dark_gray",
     "looks_like": "hatch",
@@ -763,7 +763,7 @@
   {
     "type": "vehicle_part",
     "id": "hdhatch_opaque",
-    "name": "opaque heavy duty hatch",
+    "name": { "str": "opaque heavy duty hatch" },
     "symbol": "+",
     "color": "dark_gray",
     "looks_like": "hatch_opaque",
@@ -787,7 +787,7 @@
   {
     "type": "vehicle_part",
     "id": "windshield",
-    "name": "windshield",
+    "name": { "str": "windshield" },
     "symbol": "\"",
     "looks_like": "t_wall_glass",
     "color": "light_cyan",
@@ -809,7 +809,7 @@
   {
     "type": "vehicle_part",
     "id": "blade_horizontal",
-    "name": "blade",
+    "name": { "str": "blade" },
     "symbol": "-",
     "color": "white",
     "broken_symbol": "x",
@@ -831,7 +831,7 @@
   {
     "type": "vehicle_part",
     "id": "blade_vertical",
-    "name": "blade",
+    "name": { "str": "blade" },
     "symbol": "|",
     "color": "white",
     "broken_symbol": "x",
@@ -854,7 +854,7 @@
   {
     "type": "vehicle_part",
     "id": "spike",
-    "name": "spike",
+    "name": { "str": "spike" },
     "symbol": ".",
     "color": "white",
     "broken_symbol": "x",
@@ -877,7 +877,7 @@
   {
     "type": "vehicle_part",
     "id": "programmable_autopilot",
-    "name": "programmable autopilot",
+    "name": { "str": "programmable autopilot" },
     "symbol": "A",
     "color": "light_blue",
     "broken_symbol": "#",
@@ -892,11 +892,11 @@
     "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],
     "requirements": {
       "install": {
-        "time": 35000,
+        "time": "12 m",
         "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ], [ "computer", 5 ] ],
         "qualities": [ { "id": "SCREW", "level": 1 } ]
       },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 8000, "using": [ [ "adhesive", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "3 m", "using": [ [ "adhesive", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": [
@@ -909,7 +909,7 @@
   {
     "type": "vehicle_part",
     "id": "storage_battery_mount",
-    "name": "swappable storage battery case",
+    "name": { "str": "swappable storage battery case" },
     "symbol": "O",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -935,7 +935,7 @@
   {
     "type": "vehicle_part",
     "id": "black_box",
-    "name": "military black box",
+    "name": { "str": "military black box" },
     "item": "black_box",
     "description": "An armored black box, a device meant to record and preserve data of a military vehicle in the field in case it gets destroyed.",
     "durability": 400,
@@ -958,7 +958,7 @@
   {
     "type": "vehicle_part",
     "id": "minireactor",
-    "name": "minireactor",
+    "name": { "str": "minireactor" },
     "symbol": "O",
     "color": "light_green",
     "broken_symbol": "#",
@@ -988,7 +988,7 @@
   {
     "type": "vehicle_part",
     "id": "minifridge",
-    "name": "minifridge",
+    "name": { "str": "minifridge" },
     "symbol": "H",
     "looks_like": "f_fridge",
     "color": "light_blue",
@@ -1020,7 +1020,7 @@
   {
     "type": "vehicle_part",
     "id": "minifreezer",
-    "name": "minifreezer",
+    "name": { "str": "minifreezer" },
     "symbol": "H",
     "color": "light_blue",
     "broken_symbol": "#",
@@ -1050,7 +1050,7 @@
   {
     "type": "vehicle_part",
     "id": "washing_machine",
-    "name": "washing machine",
+    "name": { "str": "washing machine" },
     "symbol": "H",
     "looks_like": "f_washer",
     "color": "light_blue",
@@ -1080,7 +1080,7 @@
   {
     "type": "vehicle_part",
     "id": "dishwasher",
-    "name": "dishwasher",
+    "name": { "str": "dishwasher" },
     "symbol": "d",
     "color": "light_blue",
     "broken_symbol": "#",
@@ -1109,7 +1109,7 @@
   {
     "type": "vehicle_part",
     "id": "autoclave",
-    "name": "autoclave",
+    "name": { "str": "autoclave" },
     "symbol": "A",
     "looks_like": "dishwasher",
     "color": "yellow",
@@ -1138,7 +1138,7 @@
   {
     "type": "vehicle_part",
     "id": "trunk",
-    "name": "trunk",
+    "name": { "str": "trunk" },
     "symbol": "H",
     "looks_like": "f_locker",
     "color": "brown",
@@ -1161,7 +1161,7 @@
   {
     "type": "vehicle_part",
     "id": "box",
-    "name": "box",
+    "name": { "str": "box" },
     "symbol": "o",
     "looks_like": "f_crate_o",
     "color": "brown",
@@ -1184,7 +1184,7 @@
   {
     "type": "vehicle_part",
     "id": "travois",
-    "name": "travois",
+    "name": { "str": "travois" },
     "symbol": "o",
     "looks_like": "frame_wood_light_cross",
     "color": "brown",
@@ -1206,7 +1206,7 @@
   {
     "type": "vehicle_part",
     "id": "wood box",
-    "name": "wood box",
+    "name": { "str": "wood box" },
     "symbol": "o",
     "looks_like": "f_crate_o",
     "color": "brown",
@@ -1229,7 +1229,7 @@
   {
     "type": "vehicle_part",
     "id": "folding wood box",
-    "name": "folding wood box",
+    "name": { "str": "folding wood box" },
     "symbol": "o",
     "looks_like": "wood box",
     "color": "brown",
@@ -1253,7 +1253,7 @@
   {
     "type": "vehicle_part",
     "id": "cargo_bag",
-    "name": "storage bag",
+    "name": { "str": "storage bag" },
     "symbol": "o",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -1275,7 +1275,7 @@
   {
     "type": "vehicle_part",
     "id": "basketsm",
-    "name": "wire bike basket",
+    "name": { "str": "wire bike basket" },
     "symbol": "o",
     "looks_like": "basketlg",
     "color": "brown",
@@ -1298,7 +1298,7 @@
   {
     "type": "vehicle_part",
     "id": "basketlg",
-    "name": "shopping cart basket",
+    "name": { "str": "shopping cart basket" },
     "symbol": "o",
     "looks_like": "basketsm",
     "color": "brown",
@@ -1320,7 +1320,7 @@
   {
     "type": "vehicle_part",
     "id": "basketlg_folding",
-    "name": "folding shopping cart basket",
+    "name": { "str": "folding shopping cart basket" },
     "symbol": "o",
     "looks_like": "basketlg",
     "color": "brown",
@@ -1343,7 +1343,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_table",
-    "name": "table",
+    "name": { "str": "table" },
     "symbol": "#",
     "looks_like": "f_table",
     "color": "red",
@@ -1371,7 +1371,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_table_wood",
-    "name": "wood table",
+    "name": { "str": "wood table" },
     "symbol": "#",
     "looks_like": "f_table",
     "color": "red",
@@ -1399,7 +1399,7 @@
   {
     "type": "vehicle_part",
     "id": "workbench",
-    "name": "workbench",
+    "name": { "str": "workbench" },
     "symbol": "#",
     "looks_like": "veh_table_wood",
     "color": "red",
@@ -1429,7 +1429,7 @@
   {
     "type": "vehicle_part",
     "id": "boat_board",
-    "name": "wooden boat hull",
+    "name": { "str": "wooden boat hull" },
     "description": "A wooden board that keeps the water out of your boat.",
     "symbol": "o",
     "looks_like": "t_wall_log",
@@ -1452,7 +1452,7 @@
   {
     "type": "vehicle_part",
     "id": "plastic_boat_hull",
-    "name": "plastic boat hull",
+    "name": { "str": "plastic boat hull" },
     "description": "A rigid plastic sheet that keeps water out of your boat.",
     "symbol": "o",
     "color": "brown",
@@ -1475,7 +1475,7 @@
   {
     "type": "vehicle_part",
     "id": "metal_boat_hull",
-    "name": "metal boat hull",
+    "name": { "str": "metal boat hull" },
     "description": "A metal sheet that keeps the water out of your boat.",
     "symbol": "o",
     "color": "dark_gray",
@@ -1498,7 +1498,7 @@
   {
     "type": "vehicle_part",
     "id": "carbonfiber_boat_hull",
-    "name": "carbon fiber boat hull",
+    "name": { "str": "carbon fiber boat hull" },
     "description": "A light weight, advanced carbon fiber rigid sheet that keeps the water out of your boat.",
     "symbol": "o",
     "color": "brown",
@@ -1521,7 +1521,7 @@
   {
     "type": "vehicle_part",
     "id": "inflatable_section",
-    "name": "inflatable section",
+    "name": { "str": "inflatable section" },
     "symbol": "O",
     "looks_like": "inflatable_airbag",
     "color": "green",
@@ -1544,7 +1544,7 @@
   {
     "type": "vehicle_part",
     "id": "inflatable_airbag",
-    "name": "inflatable airbag",
+    "name": { "str": "inflatable airbag" },
     "symbol": "O",
     "color": "green",
     "broken_symbol": "x",
@@ -1566,7 +1566,7 @@
   {
     "type": "vehicle_part",
     "id": "sail",
-    "name": "sail",
+    "name": { "str": "sail" },
     "symbol": "M",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -1577,7 +1577,7 @@
     "fuel_type": "wind",
     "noise_factor": 1,
     "m2c": 90,
-    "exclusions": [ "manual" ],
+    "exclusions": [ "wind" ],
     "item": "sail",
     "location": "engine_block",
     "folded_volume": 2,
@@ -1602,7 +1602,7 @@
   {
     "type": "vehicle_part",
     "id": "hand_paddles",
-    "name": "hand paddles",
+    "name": { "str": "hand paddles" },
     "symbol": "*",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -1630,7 +1630,7 @@
   {
     "type": "vehicle_part",
     "id": "reins_tackle",
-    "name": "reins and tackle",
+    "name": { "str": "reins and tackle" },
     "symbol": "W",
     "color": "light_gray",
     "broken_symbol": "X",
@@ -1652,7 +1652,7 @@
   {
     "type": "vehicle_part",
     "id": "controls",
-    "name": "controls",
+    "name": { "str": "controls" },
     "symbol": "$",
     "color": "light_gray",
     "broken_symbol": "$",
@@ -1680,7 +1680,7 @@
   {
     "type": "vehicle_part",
     "id": "dashboard",
-    "name": "dashboard",
+    "name": { "str": "dashboard" },
     "symbol": "$",
     "color": "light_cyan",
     "broken_symbol": "$",
@@ -1702,7 +1702,7 @@
   {
     "id": "mountable_heater",
     "type": "vehicle_part",
-    "name": "vehicle-mounted heater",
+    "name": { "str": "vehicle-mounted heater" },
     "item": "mountable_heater",
     "location": "center",
     "symbol": ";",
@@ -1725,7 +1725,7 @@
   {
     "id": "mountable_cooler",
     "type": "vehicle_part",
-    "name": "vehicle-mounted cooler",
+    "name": { "str": "vehicle-mounted cooler" },
     "item": "mountable_cooler",
     "location": "on_roof",
     "symbol": "C",
@@ -1747,7 +1747,7 @@
   {
     "type": "vehicle_part",
     "id": "controls_electronic",
-    "name": "electronics control unit",
+    "name": { "str": "electronics control unit" },
     "symbol": "$",
     "color": "yellow",
     "broken_symbol": "$",
@@ -1771,7 +1771,7 @@
   {
     "type": "vehicle_part",
     "id": "muffler",
-    "name": "muffler",
+    "name": { "str": "muffler" },
     "symbol": "/",
     "color": "light_gray",
     "broken_symbol": "/",
@@ -1797,7 +1797,7 @@
   {
     "type": "vehicle_part",
     "id": "seatbelt",
-    "name": "seatbelt",
+    "name": { "str": "seatbelt" },
     "symbol": ",",
     "color": "light_gray",
     "broken_symbol": ",",
@@ -1814,13 +1814,13 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "SEATBELT", "FOLDABLE" ],
+    "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
     "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ]
   },
   {
     "type": "vehicle_part",
     "id": "vehicle_alarm",
-    "name": "security system",
+    "name": { "str": "security system" },
     "symbol": ",",
     "color": "light_red",
     "broken_symbol": ",",
@@ -1851,7 +1851,7 @@
   {
     "type": "vehicle_part",
     "id": "seatbelt_heavyduty",
-    "name": "5-point harness",
+    "name": { "str": "5-point harness" },
     "symbol": ",",
     "color": "light_gray",
     "broken_symbol": ",",
@@ -1868,13 +1868,13 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "SEATBELT", "FOLDABLE" ],
+    "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
     "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ]
   },
   {
     "type": "vehicle_part",
     "id": "v_curtain",
-    "name": "curtain",
+    "name": { "str": "curtain" },
     "symbol": "\"",
     "looks_like": "t_door_curtain_c",
     "color": "dark_gray",
@@ -1891,13 +1891,13 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "WINDOW_CURTAIN", "MULTISQUARE" ],
+    "flags": [ "OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "MULTISQUARE", "NEEDS_WINDOW", "SIMPLE_PART" ],
     "breaks_into": [  ]
   },
   {
     "type": "vehicle_part",
     "id": "aisle_curtain",
-    "name": "aisle curtain",
+    "name": { "str": "aisle curtain" },
     "symbol": "\"",
     "looks_like": "v_curtain",
     "color": "dark_gray",
@@ -1918,13 +1918,13 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE", "CURTAIN", "MULTISQUARE" ],
+    "flags": [ "OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE", "CURTAIN", "MULTISQUARE", "SIMPLE_PART" ],
     "breaks_into": [  ]
   },
   {
     "type": "vehicle_part",
     "id": "water_wheel",
-    "name": "water wheel",
+    "name": { "str": "water wheel" },
     "symbol": "*",
     "color": "yellow",
     "broken_symbol": "x",
@@ -1947,7 +1947,7 @@
   {
     "type": "vehicle_part",
     "id": "xl_water_wheel",
-    "name": "large water wheel",
+    "name": { "str": "large water wheel" },
     "symbol": "o",
     "looks_like": "water_wheel",
     "color": "yellow",
@@ -1971,7 +1971,7 @@
   {
     "type": "vehicle_part",
     "id": "solar_panel",
-    "name": "solar panel",
+    "name": { "str": "solar panel" },
     "symbol": "#",
     "color": "yellow",
     "broken_symbol": "x",
@@ -2002,7 +2002,7 @@
   {
     "type": "vehicle_part",
     "id": "wind_turbine",
-    "name": "wind turbine",
+    "name": { "str": "wind turbine" },
     "symbol": "T",
     "color": "yellow",
     "broken_symbol": "X",
@@ -2029,7 +2029,7 @@
   {
     "type": "vehicle_part",
     "id": "xl_wind_turbine",
-    "name": "large wind turbine",
+    "name": { "str": "large wind turbine" },
     "symbol": "Y",
     "looks_like": "wind_turbine",
     "color": "yellow",
@@ -2060,7 +2060,7 @@
     "id": "reinforced_solar_panel",
     "copy-from": "solar_panel",
     "looks_like": "solar_panel",
-    "name": "reinforced solar panel",
+    "name": { "str": "reinforced solar panel" },
     "color": "light_blue",
     "broken_color": "light_gray",
     "proportional": { "epower": 0.9 },
@@ -2087,7 +2087,7 @@
     "type": "vehicle_part",
     "id": "solar_panel_v2",
     "copy-from": "solar_panel",
-    "name": "upgraded solar panel",
+    "name": { "str": "upgraded solar panel" },
     "looks_like": "solar_panel",
     "description": "A high performance solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.",
     "item": "solar_panel_v2",
@@ -2113,7 +2113,7 @@
     "id": "reinforced_solar_panel_v2",
     "copy-from": "solar_panel_v2",
     "looks_like": "reinforced_solar_panel",
-    "name": "upgraded reinforced solar panel",
+    "name": { "str": "upgraded reinforced solar panel" },
     "color": "light_blue",
     "broken_color": "light_gray",
     "proportional": { "epower": 0.9 },
@@ -2138,30 +2138,8 @@
   },
   {
     "type": "vehicle_part",
-    "id": "solar_panel_v3",
-    "copy-from": "solar_panel",
-    "name": "quantum solar panel",
-    "looks_like": "solar_panel_v2",
-    "proportional": { "epower": 6.0 },
-    "item": "solar_panel_v3",
-    "durability": 40,
-    "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] }
-    },
-    "extend": { "flags": [ "NO_REPAIR" ] },
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 4 ] },
-      { "item": "steel_chunk", "count": [ 4, 4 ] },
-      { "item": "scrap", "count": [ 4, 4 ] },
-      { "item": "solar_cell", "count": [ 2, 8 ] }
-    ]
-  },
-  {
-    "type": "vehicle_part",
     "id": "water_faucet",
-    "name": "water faucet",
+    "name": { "str": "water faucet" },
     "symbol": "u",
     "looks_like": "f_sink",
     "color": "light_gray",
@@ -2184,7 +2162,7 @@
   {
     "type": "vehicle_part",
     "id": "towel_hanger",
-    "name": "towel hanger",
+    "name": { "str": "towel hanger" },
     "symbol": "h",
     "color": "brown",
     "broken_symbol": "-",
@@ -2205,7 +2183,7 @@
   {
     "type": "vehicle_part",
     "id": "kitchen_unit",
-    "name": "kitchen unit",
+    "name": { "str": "kitchen unit" },
     "symbol": "&",
     "looks_like": "f_oven",
     "color": "light_cyan",
@@ -2235,7 +2213,7 @@
   {
     "type": "vehicle_part",
     "id": "welding_rig",
-    "name": "welding rig",
+    "name": { "str": "welding rig" },
     "symbol": "&",
     "color": "light_red",
     "broken_symbol": "x",
@@ -2263,7 +2241,7 @@
   {
     "type": "vehicle_part",
     "id": "craft_rig",
-    "name": "FOODCO kitchen buddy",
+    "name": { "str": "FOODCO kitchen buddy" },
     "symbol": "&",
     "looks_like": "f_sink",
     "color": "light_green",
@@ -2298,7 +2276,7 @@
   {
     "type": "vehicle_part",
     "id": "chemlab",
-    "name": "onboard chemistry lab",
+    "name": { "str": "onboard chemistry lab" },
     "symbol": "&",
     "looks_like": "f_workbench",
     "color": "yellow",
@@ -2329,7 +2307,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_forge",
-    "name": "mounted electric forge",
+    "name": { "str": "mounted electric forge" },
     "symbol": "&",
     "looks_like": "f_forge_rock",
     "color": "red",
@@ -2357,7 +2335,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_kiln",
-    "name": "mounted electric kiln",
+    "name": { "str": "mounted electric kiln" },
     "symbol": "&",
     "looks_like": "f_kiln_empty",
     "color": "red",
@@ -2385,7 +2363,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_wood",
-    "name": "wooden armor",
+    "name": { "str": "wooden armor" },
     "symbol": ")",
     "color": "brown",
     "broken_symbol": ")",
@@ -2405,7 +2383,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_steel",
-    "name": "steel plating",
+    "name": { "str": "steel plating" },
     "symbol": ")",
     "color": "light_cyan",
     "broken_symbol": ")",
@@ -2425,7 +2403,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_superalloy",
-    "name": "superalloy plating",
+    "name": { "str": "superalloy plating" },
     "symbol": ")",
     "color": "dark_gray",
     "broken_symbol": ")",
@@ -2449,7 +2427,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_spiked",
-    "name": "spiked plating",
+    "name": { "str": "spiked plating" },
     "symbol": ")",
     "color": "red",
     "broken_symbol": ")",
@@ -2476,7 +2454,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_hard",
-    "name": "hard plating",
+    "name": { "str": "hard plating" },
     "symbol": ")",
     "color": "cyan",
     "broken_symbol": ")",
@@ -2500,7 +2478,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_military",
-    "name": "military composite armor plating",
+    "name": { "str": "military composite armor plating" },
     "symbol": ")",
     "color": "green",
     "broken_symbol": ")",
@@ -2525,7 +2503,7 @@
   {
     "type": "vehicle_part",
     "id": "reinforced_windshield",
-    "name": "reinforced windshield",
+    "name": { "str": "reinforced windshield" },
     "symbol": "\"",
     "looks_like": "windshield",
     "color": "light_blue",
@@ -2548,7 +2526,7 @@
   {
     "type": "vehicle_part",
     "id": "horn_bicycle",
-    "name": "bicycle horn",
+    "name": { "str": "bicycle horn" },
     "symbol": "*",
     "color": "light_gray",
     "broken_symbol": "*",
@@ -2570,7 +2548,7 @@
   {
     "type": "vehicle_part",
     "id": "horn_car",
-    "name": "car horn",
+    "name": { "str": "car horn" },
     "symbol": "*",
     "color": "light_gray",
     "broken_symbol": "*",
@@ -2591,7 +2569,7 @@
   {
     "type": "vehicle_part",
     "id": "horn_big",
-    "name": "truck horn",
+    "name": { "str": "truck horn" },
     "symbol": "*",
     "color": "light_gray",
     "broken_symbol": "*",
@@ -2612,7 +2590,7 @@
   {
     "type": "vehicle_part",
     "id": "beeper",
-    "name": "back-up beeper",
+    "name": { "str": "back-up beeper" },
     "symbol": "*",
     "color": "light_gray",
     "broken_symbol": "*",
@@ -2634,7 +2612,7 @@
   {
     "type": "vehicle_part",
     "id": "door_trunk",
-    "name": "trunk door",
+    "name": { "str": "trunk door" },
     "symbol": "+",
     "looks_like": "hatch",
     "color": "light_gray",
@@ -2650,14 +2628,14 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED", "WINDOW" ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 25 }
   },
   {
     "type": "vehicle_part",
     "id": "hddoor_trunk",
-    "name": "heavy duty trunk door",
+    "name": { "str": "heavy duty trunk door" },
     "symbol": "+",
     "color": "light_gray",
     "looks_like": "door_trunk",
@@ -2673,14 +2651,14 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW" ],
     "breaks_into": "ig_vp_hdframe",
     "damage_reduction": { "all": 78 }
   },
   {
     "type": "vehicle_part",
     "id": "door_shutter",
-    "name": "shutter door",
+    "name": { "str": "shutter door" },
     "looks_like": "hatch",
     "symbol": "+",
     "color": "white",
@@ -2703,7 +2681,7 @@
   {
     "type": "vehicle_part",
     "id": "door_sliding",
-    "name": "sliding door",
+    "name": { "str": "sliding door" },
     "symbol": "+",
     "looks_like": "door",
     "color": "light_cyan",
@@ -2726,7 +2704,7 @@
   {
     "type": "vehicle_part",
     "id": "cargo_space",
-    "name": "cargo space",
+    "name": { "str": "cargo space" },
     "symbol": "=",
     "looks_like": "box",
     "color": "light_gray",
@@ -2752,7 +2730,7 @@
   {
     "type": "vehicle_part",
     "id": "livestock_stall",
-    "name": "livestock stall",
+    "name": { "str": "livestock stall" },
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "cargo_space",
@@ -2781,7 +2759,7 @@
     "id": "animal_compartment",
     "copy-from": "livestock_stall",
     "looks_like": "livestock_stall",
-    "name": "animal compartment",
+    "name": { "str": "animal compartment" },
     "durability": 125,
     "description": "A large locker for transporting smaller animals.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
     "size": 200,
@@ -2792,7 +2770,7 @@
   {
     "type": "vehicle_part",
     "id": "recharge_station",
-    "name": "recharging station",
+    "name": { "str": "recharging station" },
     "symbol": "o",
     "color": "light_green",
     "broken_symbol": "#",
@@ -2821,8 +2799,28 @@
   },
   {
     "type": "vehicle_part",
+    "id": "battery_charger",
+    "name": { "str": "battery charger" },
+    "durability": 5,
+    "description": "A small, low-power consumer device for recharging batteries.  It slowly charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space.",
+    "//": "Sub-milliwatt power consumption when idle; delivers 15 watts when charging.",
+    "epower": 0,
+    "bonus": 15,
+    "item": "battery_charger",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "delete": { "flags": [ "ENABLED_DRAINS_EPOWER" ] },
+    "folded_volume": 1,
+    "breaks_into": "ig_vp_device",
+    "copy-from": "recharge_station"
+  },
+  {
+    "type": "vehicle_part",
     "id": "wing_mirror",
-    "name": "wing mirror",
+    "name": { "str": "wing mirror" },
     "symbol": "o",
     "color": "light_cyan",
     "broken_symbol": "*",
@@ -2844,7 +2842,7 @@
   {
     "type": "vehicle_part",
     "id": "inboard_mirror",
-    "name": "inboard mirror",
+    "name": { "str": "inboard mirror" },
     "symbol": "o",
     "color": "light_cyan",
     "broken_symbol": "*",
@@ -2866,7 +2864,7 @@
   {
     "type": "vehicle_part",
     "id": "stereo",
-    "name": "stereo system",
+    "name": { "str": "stereo system" },
     "symbol": "&",
     "color": "red",
     "broken_symbol": "&",
@@ -2888,7 +2886,7 @@
   {
     "type": "vehicle_part",
     "id": "chimes",
-    "name": "chimes",
+    "name": { "str": "chimes" },
     "symbol": "&",
     "color": "red",
     "broken_symbol": "&",
@@ -2916,7 +2914,7 @@
   {
     "type": "vehicle_part",
     "id": "jumper_cable",
-    "name": "jumper cable",
+    "name": { "str": "jumper cable" },
     "symbol": "{",
     "color": "yellow",
     "broken_symbol": "*",
@@ -2934,7 +2932,7 @@
   {
     "type": "vehicle_part",
     "id": "jumper_cable_heavy",
-    "name": "heavy-duty cable",
+    "name": { "str": "heavy-duty cable" },
     "symbol": "{",
     "color": "yellow",
     "broken_symbol": "*",
@@ -2951,8 +2949,24 @@
   },
   {
     "type": "vehicle_part",
+    "id": "hd_tow_cable",
+    "name": "heavy duty tow cable",
+    "symbol": "{",
+    "color": "light_blue",
+    "broken_symbol": "*",
+    "broken_color": "dark_gray",
+    "damage_modifier": 10,
+    "durability": 120,
+    "description": "A heavy duty tow cable, if the other end was attached to another vehicle, it could pull it.",
+    "item": "hd_tow_cable",
+    "requirements": { "removal": { "time": 500 } },
+    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "TOW_CABLE" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "grip_hook", "count": 1 }, { "item": "cable", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "jumper_cable_debug",
-    "name": "shiny cable",
+    "name": { "str": "shiny cable" },
     "symbol": "{",
     "color": "yellow",
     "broken_symbol": "*",
@@ -2969,7 +2983,7 @@
   {
     "type": "vehicle_part",
     "id": "seat_wood",
-    "name": "wooden seat",
+    "name": { "str": "wooden seat" },
     "looks_like": "seat",
     "symbol": "#",
     "color": "brown",
@@ -2992,7 +3006,7 @@
   {
     "type": "vehicle_part",
     "id": "spike_wood",
-    "name": "wooden spike",
+    "name": { "str": "wooden spike" },
     "symbol": ".",
     "color": "brown",
     "broken_symbol": "x",
@@ -3014,7 +3028,7 @@
   {
     "type": "vehicle_part",
     "id": "door_wood",
-    "name": "wooden door",
+    "name": { "str": "wooden door" },
     "symbol": "+",
     "looks_like": "t_door_c",
     "color": "brown",
@@ -3037,7 +3051,7 @@
   {
     "type": "vehicle_part",
     "id": "door_wood_opaque",
-    "name": "opaque wooden door",
+    "name": { "str": "opaque wooden door" },
     "symbol": "+",
     "looks_like": "door_wood",
     "color": "brown",
@@ -3060,7 +3074,7 @@
   {
     "type": "vehicle_part",
     "id": "roof_wood",
-    "name": "wooden roof",
+    "name": { "str": "wooden roof" },
     "symbol": "#",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -3081,7 +3095,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_chitin",
-    "name": "chitin plating",
+    "name": { "str": "chitin plating" },
     "symbol": ")",
     "color": "yellow",
     "broken_symbol": ")",
@@ -3102,7 +3116,7 @@
     "type": "vehicle_part",
     "id": "plating_acidchitin",
     "copy-from": "plating_chitin",
-    "name": "biosilicified chitin plating",
+    "name": { "str": "biosilicified chitin plating" },
     "proportional": { "durability": 1.5 },
     "item": "acidchitin_plate",
     "breaks_into": [ { "item": "acidchitin_piece", "count": [ 6, 19 ] } ],
@@ -3111,7 +3125,7 @@
   {
     "type": "vehicle_part",
     "id": "door_motor",
-    "name": "door motor",
+    "name": { "str": "door motor" },
     "symbol": "*",
     "color": "light_green",
     "broken_symbol": "#",
@@ -3133,7 +3147,7 @@
   {
     "type": "vehicle_part",
     "id": "drive_by_wire_controls",
-    "name": "drive by wire controls",
+    "name": { "str": "drive by wire controls" },
     "symbol": "$",
     "color": "light_red",
     "broken_symbol": "$",
@@ -3153,7 +3167,7 @@
   {
     "type": "vehicle_part",
     "id": "cam_control",
-    "name": "camera control system",
+    "name": { "str": "camera control system" },
     "symbol": "#",
     "color": "light_blue",
     "broken_symbol": "#",
@@ -3175,7 +3189,7 @@
   {
     "type": "vehicle_part",
     "id": "omnicam",
-    "name": "security camera",
+    "name": { "str": "security camera" },
     "symbol": "o",
     "color": "light_red",
     "broken_symbol": "#",
@@ -3200,7 +3214,7 @@
   {
     "type": "vehicle_part",
     "id": "robot_controls",
-    "name": "robot controls",
+    "name": { "str": "robot controls" },
     "symbol": "&",
     "color": "white",
     "broken_symbol": "x",
@@ -3226,7 +3240,7 @@
   {
     "type": "vehicle_part",
     "id": "vehicle_clock",
-    "name": "clock",
+    "name": { "str": "clock" },
     "symbol": ":",
     "color": "light_gray",
     "broken_symbol": ";",
@@ -3247,7 +3261,7 @@
   {
     "type": "vehicle_part",
     "id": "leather_funnel",
-    "name": "leather funnel",
+    "name": { "str": "leather funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "brown",
@@ -3271,7 +3285,7 @@
   {
     "type": "vehicle_part",
     "id": "birchbark_funnel",
-    "name": "birchbark funnel",
+    "name": { "str": "birchbark funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "white",
@@ -3295,7 +3309,7 @@
   {
     "type": "vehicle_part",
     "id": "makeshift_funnel",
-    "name": "makeshift funnel",
+    "name": { "str": "makeshift funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "yellow",
@@ -3319,7 +3333,7 @@
   {
     "type": "vehicle_part",
     "id": "funnel",
-    "name": "funnel",
+    "name": { "str": "funnel" },
     "symbol": "V",
     "color": "yellow",
     "broken_symbol": "*",
@@ -3341,7 +3355,7 @@
   {
     "type": "vehicle_part",
     "id": "metal_funnel",
-    "name": "metal funnel",
+    "name": { "str": "metal funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "light_gray",
@@ -3365,7 +3379,7 @@
   {
     "type": "vehicle_part",
     "id": "vehicle_scoop",
-    "name": "scoop",
+    "name": { "str": "scoop" },
     "symbol": "R",
     "color": "light_gray",
     "broken_symbol": ";",
@@ -3389,7 +3403,7 @@
   {
     "type": "vehicle_part",
     "id": "water_purifier",
-    "name": "water purifier",
+    "name": { "str": "water purifier" },
     "symbol": "&",
     "color": "blue",
     "broken_symbol": "*",
@@ -3411,7 +3425,7 @@
   {
     "type": "vehicle_part",
     "id": "plow",
-    "name": "plow",
+    "name": { "str": "plow" },
     "symbol": "&",
     "color": "blue",
     "broken_symbol": "*",
@@ -3435,7 +3449,7 @@
   {
     "type": "vehicle_part",
     "id": "seed_drill",
-    "name": "seed drill",
+    "name": { "str": "seed drill" },
     "symbol": "8",
     "color": "blue",
     "broken_symbol": "*",
@@ -3459,7 +3473,7 @@
   {
     "type": "vehicle_part",
     "id": "seed_drill_advanced",
-    "name": "advanced seed drill",
+    "name": { "str": "advanced seed drill" },
     "symbol": "8",
     "color": "blue",
     "broken_symbol": "*",
@@ -3488,7 +3502,7 @@
   {
     "type": "vehicle_part",
     "id": "reaper",
-    "name": "reaper",
+    "name": { "str": "reaper" },
     "symbol": "/",
     "color": "light_gray",
     "broken_symbol": "*",
@@ -3512,7 +3526,7 @@
   {
     "type": "vehicle_part",
     "id": "reaper_advanced",
-    "name": "advanced reaper",
+    "name": { "str": "advanced reaper" },
     "symbol": "=",
     "color": "light_gray",
     "broken_symbol": "*",
@@ -3543,7 +3557,7 @@
   {
     "type": "vehicle_part",
     "id": "cargo_lock",
-    "name": "cargo lock",
+    "name": { "str": "cargo lock" },
     "symbol": "+",
     "color": "dark_gray",
     "broken_symbol": "+",
@@ -3565,7 +3579,7 @@
   {
     "type": "vehicle_part",
     "id": "turret_mount",
-    "name": "turret mount",
+    "name": { "str": "turret mount" },
     "symbol": "X",
     "color": "light_gray",
     "broken_symbol": "X",
@@ -3587,7 +3601,7 @@
   {
     "type": "vehicle_part",
     "id": "controls_turret",
-    "name": "turret control unit",
+    "name": { "str": "turret control unit" },
     "symbol": "$",
     "color": "yellow",
     "broken_symbol": "$",
@@ -3601,13 +3615,45 @@
     "flags": [ "ENABLED_DRAINS_EPOWER", "TURRET_CONTROLS", "UNMOUNT_ON_DAMAGE" ],
     "requirements": {
       "install": {
-        "time": 120000,
+        "time": "40 m",
         "skills": [ [ "mechanics", 3 ], [ "electronics", 3 ] ],
         "qualities": [ { "id": "SCREW", "level": 1 } ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 8000, "using": [ [ "adhesive", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "3 m", "using": [ [ "adhesive", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": "ig_vp_device"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fridgetank",
+    "name": { "str": "refrigerated tank (60L)" },
+    "symbol": "O",
+    "looks_like": "f_fridge",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "light_blue",
+    "damage_modifier": 80,
+    "durability": 100,
+    "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
+    "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
+    "epower": -30,
+    "size": 300,
+    "item": "fridgetank",
+    "location": "fuel_source",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "FLUIDTANK", "FRIDGE", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "motor_tiny", "prob": 25 }
+    ],
+    "damage_reduction": { "all": 32 }
   }
 ]

@@ -1,30 +1,34 @@
 #include "computer_session.h"
 
 #include <algorithm>
-#include <climits>
 #include <cstdlib>
+#include <functional>
+#include <memory>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "calendar.h"
+#include "character_id.h"
 #include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -33,11 +37,10 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "omdata.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "point.h"
@@ -50,14 +53,27 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+#include "ui.h"
+#include "ui_manager.h"
+
+static const efftype_id effect_amigara( "amigara" );
+
+static const skill_id skill_computer( "computer" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+
+static const std::string flag_CONSOLE( "CONSOLE" );
 
 static catacurses::window init_window()
 {
-    const int width = std::min( FULL_SCREEN_WIDTH, TERMX );
-    const int height = std::min( FULL_SCREEN_HEIGHT, TERMY );
-    const int x = ( TERMX - width ) / 2;
-    const int y = ( TERMY - height ) / 2;
+    const int width = FULL_SCREEN_WIDTH;
+    const int height = FULL_SCREEN_HEIGHT;
+    const int x = std::max( 0, ( TERMX - width ) / 2 );
+    const int y = std::max( 0, ( TERMY - height ) / 2 );
     return catacurses::newwin( height, width, point( x, y ) );
 }
 
@@ -69,6 +85,20 @@ computer_session::computer_session( computer &comp ) : comp( comp ),
 
 void computer_session::use()
 {
+    ui_adaptor ui;
+    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        const int width = getmaxx( win );
+        const int height = getmaxy( win );
+        const int x = std::max( 0, ( TERMX - width ) / 2 );
+        const int y = std::max( 0, ( TERMY - height ) / 2 );
+        win = catacurses::newwin( height, width, point( x, y ) );
+        ui.position_from_window( win );
+    } );
+    ui.mark_resize();
+    ui.on_redraw( [this]( const ui_adaptor & ) {
+        refresh();
+    } );
+
     // Login
     print_line( _( "Logging into %s…" ), comp.name );
     if( comp.security > 0 ) {
@@ -124,6 +154,7 @@ void computer_session::use()
             computer_menu.addentry( i, true, MENU_AUTOASSIGN, comp.options[i].name );
         }
 
+        ui_manager::redraw();
         computer_menu.query();
         if( computer_menu.ret < 0 || static_cast<size_t>( computer_menu.ret ) >= comp.options.size() ) {
             break;
@@ -204,8 +235,7 @@ static void remove_submap_turrets()
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( g->u.pos() ) ) &&
-            ( critter.type->id == mon_turret_rifle || critter.type->id == mon_turret_bmg ||
-              critter.type->id == mon_crows_m240 ) &&
+            critter.has_flag( MF_CONSOLE_DESPAWN ) &&
             critter.attitude_to( g->u ) == Creature::Attitude::A_HOSTILE ) {
             g->remove_zombie( critter );
         }
@@ -335,12 +365,9 @@ void computer_session::action_sample()
                 if( capa <= 0 ) {
                     continue;
                 }
-                capa = std::min( sewage.charges, capa );
-                if( elem.contents.empty() ) {
-                    elem.put_in( sewage );
-                    elem.contents.front().charges = capa;
-                } else {
-                    elem.contents.front().charges += capa;
+                sewage.charges = std::min( sewage.charges, capa );
+                if( elem.can_contain( sewage ) ) {
+                    elem.put_in( sewage, item_pocket::pocket_type::CONTAINER );
                 }
                 found_item = true;
                 break;
@@ -619,13 +646,13 @@ void computer_session::action_amigara_log()
     reset_terminal();
     print_line( _( "SITE %d%d%d\n"
                    "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
-                g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
+                g->get_levx(), g->get_levy(), std::abs( g->get_levz() ) );
     print_text( "%s", SNIPPET.random_from_category( "amigara4" ).value_or( translation() ) );
     print_gibberish_line();
     print_gibberish_line();
     print_newline();
     print_error( _( "FILE CORRUPTED, PRESS ANY KEY…" ) );
-    inp_mngr.wait_for_any_key();
+    query_any();
     reset_terminal();
 }
 
@@ -648,12 +675,12 @@ void computer_session::action_complete_disable_external_power()
             print_error( _( "--ACCESS GRANTED--" ) );
             print_error( _( "Mission Complete!" ) );
             miss->step_complete( 1 );
-            inp_mngr.wait_for_any_key();
+            query_any();
             return;
         }
     }
     print_error( _( "ACCESS DENIED" ) );
-    inp_mngr.wait_for_any_key();
+    query_any();
 }
 
 void computer_session::action_repeater_mod()
@@ -667,7 +694,7 @@ void computer_session::action_repeater_mod()
                 print_error( _( "Repeater mod installed…" ) );
                 print_error( _( "Mission Complete!" ) );
                 g->u.use_amount( "radio_repeater_mod", 1 );
-                inp_mngr.wait_for_any_key();
+                query_any();
                 comp.options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
                 break;
@@ -675,7 +702,7 @@ void computer_session::action_repeater_mod()
         }
     } else {
         print_error( _( "You do not have a repeater mod to install…" ) );
-        inp_mngr.wait_for_any_key();
+        query_any();
     }
 }
 
@@ -690,13 +717,13 @@ void computer_session::action_download_software()
         g->u.moves -= 30;
         item software( miss->get_item_id(), 0 );
         software.mission_id = comp.mission_id;
-        usb->contents.clear();
-        usb->put_in( software );
+        usb->contents.clear_items();
+        usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
         print_line( _( "Software downloaded." ) );
     } else {
         print_error( _( "USB drive required!" ) );
     }
-    inp_mngr.wait_for_any_key();
+    query_any();
 }
 
 void computer_session::action_blood_anal()
@@ -711,10 +738,10 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().contents.front().typeId() != "blood" ) {
+            } else if( items.only_item().contents.legacy_front().typeId() != "blood" ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
-                const item &blood = items.only_item().contents.front();
+                const item &blood = items.only_item().contents.legacy_front();
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
@@ -728,8 +755,8 @@ void computer_session::action_blood_anal()
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", 0 );
-                            usb->contents.clear();
-                            usb->put_in( software );
+                            usb->contents.clear_items();
+                            usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
                             print_line( _( "Software downloaded." ) );
                         } else {
                             print_error( _( "USB drive required!" ) );
@@ -1315,7 +1342,7 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().contents.front().typeId() != "blood" ) {
+            } else if( items.only_item().contents.legacy_front().typeId() != "blood" ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );
@@ -1323,7 +1350,7 @@ void computer_session::failure_destroy_blood()
             }
         }
     }
-    inp_mngr.wait_for_any_key();
+    query_any();
 }
 
 void computer_session::failure_destroy_data()
@@ -1346,7 +1373,7 @@ void computer_session::failure_destroy_data()
             }
         }
     }
-    inp_mngr.wait_for_any_key();
+    query_any();
 }
 
 void computer_session::action_emerg_ref_center()
@@ -1402,6 +1429,12 @@ template<typename ...Args>
 bool computer_session::query_any( const std::string &text, Args &&... args )
 {
     print_indented_line( 0, width, text, std::forward<Args>( args )... );
+    return query_any();
+}
+
+bool computer_session::query_any()
+{
+    ui_manager::redraw();
     inp_mngr.wait_for_any_key();
     return true;
 }
@@ -1427,7 +1460,9 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
                          ctxt.describe_key_and_name( "YES", allow_key ),
                          ctxt.describe_key_and_name( "NO", allow_key ),
                          ctxt.describe_key_and_name( "QUIT", allow_key ) );
+
     do {
+        ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( allow_key( ctxt.get_raw_input() ) ) {
             if( action == "YES" ) {
@@ -1476,7 +1511,6 @@ void computer_session::print_indented_line( const int indent, const int text_wid
          it < folded.end(); ++it ) {
         lines.emplace_back( indent, *it );
     }
-    refresh();
 }
 
 template<typename ...Args>
@@ -1524,7 +1558,6 @@ void computer_session::print_gibberish_line()
 void computer_session::reset_terminal()
 {
     lines.clear();
-    refresh();
 }
 
 void computer_session::print_newline()
@@ -1537,5 +1570,4 @@ void computer_session::print_newline()
         lines.erase( lines.begin(), lines.end() - ( uheight - 1 ) );
     }
     lines.emplace_back();
-    refresh();
 }

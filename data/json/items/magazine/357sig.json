@@ -1,37 +1,41 @@
 [
   {
-    "id": "p226mag_15rd_357sig",
+    "id": "p226mag_12rd_357sig",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "P226 .357 SIG magazine",
-    "description": "A 15 round double stack box magazine for a SIG P226 chambered for .357 SIG rounds.",
+    "name": { "str": "P226 .357 SIG magazine" },
+    "description": "A 12 round double stack box magazine for a SIG P226 chambered for .357 SIG rounds.",
     "weight": "150 g",
     "volume": "250 ml",
     "price": 3000,
+    "price_postapoc": 100,
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "357sig",
-    "capacity": 15,
+    "ammo_type": [ "357sig" ],
+    "capacity": 12,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357sig": 12 } } ]
   },
   {
-    "id": "p320mag_14rd_357sig",
+    "id": "p320mag_13rd_357sig",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "P320 .357 SIG magazine",
-    "description": "A 14 round double stack box magazine for the SIG Sauer P320.",
+    "name": { "str": "P320 .357 SIG magazine" },
+    "description": "A 13 round double stack box magazine for the SIG Sauer P320.",
     "weight": "105 g",
     "volume": "250 ml",
     "price": 2900,
+    "price_postapoc": 100,
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "357sig",
-    "capacity": 14,
+    "ammo_type": [ "357sig" ],
+    "capacity": 13,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357sig": 13 } } ]
   }
 ]

@@ -2,7 +2,7 @@
 
 #include "pixel_minimap_projectors.h"
 
-#include "game_constants.h"
+#include <algorithm>
 
 pixel_minimap_ortho_projector::pixel_minimap_ortho_projector(
     const point &total_tiles_count,

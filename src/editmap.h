@@ -1,6 +1,6 @@
 #pragma once
-#ifndef EDITMAP_H
-#define EDITMAP_H
+#ifndef CATA_SRC_EDITMAP_H
+#define CATA_SRC_EDITMAP_H
 
 #include <functional>
 #include <map>
@@ -10,12 +10,14 @@
 #include "optional.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
 
 struct real_coords;
 class Creature;
 class field;
+class ui_adaptor;
 class uilist;
 class vehicle;
 class map;
@@ -69,10 +71,6 @@ class editmap
         void update_fmenu_entry( uilist &fmenu, field &field, const field_type_id &idx );
         void setup_fmenu( uilist &fmenu );
         catacurses::window w_info;
-        int width;
-        int height;
-        int offsetX;
-        int infoHeight;
 
         void recalc_target( shapetype shape );
         bool move_target( const std::string &action, int moveorigin = -1 );
@@ -87,15 +85,30 @@ class editmap
         shapetype editshape;
 
         std::vector<tripoint> target_list;
-        cata::optional<std::function<void( const tripoint &p )>> draw_target_override;
+        std::function<void( const tripoint &p )> draw_target_override;
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;
-        point tmax;
         bool uberdraw;
 
         editmap();
         ~editmap();
+
+    private:
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+
+        weak_ptr_fast<ui_adaptor> ui;
+
+        std::string info_txt_curr;
+        std::string info_title_curr;
+
+        tinymap *tmpmap_ptr = nullptr;
+
+        const int width = 45;
+        const int offsetX = 0;
+        const int infoHeight = 20;
+
+        point tmax;
 };
 
-#endif
+#endif // CATA_SRC_EDITMAP_H

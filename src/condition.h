@@ -1,17 +1,14 @@
 #pragma once
-#ifndef CONDITION_H
-#define CONDITION_H
+#ifndef CATA_SRC_CONDITION_H
+#define CATA_SRC_CONDITION_H
 
 #include <functional>
+#include <string>
 #include <unordered_set>
-#include <utility>
-#include <vector>
 
+#include "dialogue.h"
 #include "json.h"
-
-class player;
-class npc;
-class mission;
+#include "mission.h"
 
 namespace dialogue_data
 {
@@ -145,4 +142,14 @@ struct conditional_t {
         }
 };
 
+#if !defined(MACOSX)
+extern template struct conditional_t<dialogue>;
+extern template void read_condition<dialogue>( const JsonObject &jo, const std::string &member_name,
+        std::function<bool( const dialogue & )> &condition, bool default_val );
+extern template struct conditional_t<mission_goal_condition_context>;
+extern template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
+        const std::string &member_name,
+        std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );
 #endif
+
+#endif // CATA_SRC_CONDITION_H

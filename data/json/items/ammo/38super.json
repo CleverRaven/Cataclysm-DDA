@@ -7,7 +7,8 @@
     "weight": "8 g",
     "volume": "250 ml",
     "price": 210,
-    "price_postapoc": 2200,
+    "price_postapoc": 1200,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -16,7 +17,7 @@
     "ammo_type": "38super",
     "casing": "38super_casing",
     "range": 14,
-    "damage": 26,
+    "damage": { "damage_type": "bullet", "amount": 26 },
     "dispersion": 30,
     "recoil": 250,
     "effects": [ "COOKOFF" ]
@@ -26,8 +27,8 @@
     "copy-from": "38super_fmj",
     "type": "AMMO",
     "name": { "str": ".38 Super FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

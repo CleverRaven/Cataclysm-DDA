@@ -24,6 +24,7 @@
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
+      "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
     },
@@ -103,16 +104,15 @@
       "trail_width_offset_min": 1,
       "trail_width_offset_max": 3,
       "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 }
+      "trail_terrain": { "t_dirt": 1 },
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "city": {
       "shop_radius": 30,
       "shop_sigma": 50,
       "park_radius": 20,
       "park_sigma": 80,
-      "house_basement_chance": 1,
-      "houses": { "house": 1, "house_base": 1 },
-      "basements": { "basement": 1 },
+      "houses": { "house_w_1": 1, "duplex": 1 },
       "parks": { "park": 2, "pool": 1 },
       "shops": {
         "s_gas": 5,

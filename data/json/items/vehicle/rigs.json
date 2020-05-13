@@ -3,10 +3,11 @@
     "abstract": "vehicle_rig",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": "vehicle crafting rig",
+    "name": { "str": "vehicle crafting rig" },
     "weight": "40000 g",
     "volume": "20 L",
     "price": 40000,
+    "price_postapoc": 2000,
     "material": "steel",
     "symbol": "&",
     "color": "light_cyan"
@@ -15,7 +16,7 @@
     "id": "chemlab",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "onboard chemistry lab",
+    "name": { "str": "onboard chemistry lab" },
     "description": "Assembled from a chemistry set attached to a complex wiring harness, it is well suited to most any chemistry project you could imagine.  Unable to utilize standard batteries, it requires an external supply of electricity to operate."
   },
   {
@@ -29,28 +30,28 @@
     "id": "forgerig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "vehicle forge rig",
+    "name": { "str": "vehicle forge rig" },
     "description": "A forge rig made to run off a vehicle's storage battery with integrated tool storage for metalworking equipment."
   },
   {
     "id": "kilnrig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "vehicle kiln",
+    "name": { "str": "vehicle kiln" },
     "description": "An electric kiln made to run off a vehicle's storage battery."
   },
   {
     "id": "kitchen_unit",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "RV kitchen unit",
+    "name": { "str": "RV kitchen unit" },
     "description": "A vehicle mountable electric range and sink unit with integrated tool storage for cooking utensils."
   },
   {
     "id": "weldrig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "vehicle welding rig",
+    "name": { "str": "vehicle welding rig" },
     "description": "A welding rig made to run off a vehicle's storage battery.  It has a soldering iron attachment for delicate work, and a compartment to store your extra tools in."
   }
 ]

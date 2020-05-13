@@ -26,7 +26,7 @@ static void test_encumbrance_on(
 )
 {
     CAPTURE( body_part );
-    p.empty_traits();
+    p.clear_mutations();
     p.worn.clear();
     if( tweak_player ) {
         tweak_player( p );
@@ -84,7 +84,7 @@ struct add_trait {
 
 static constexpr int postman_shirt_e = 0;
 static constexpr int longshirt_e = 3;
-static constexpr int jacket_jean_e = 11;
+static constexpr int jacket_jean_e = 9;
 
 TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 {

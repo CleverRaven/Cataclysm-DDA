@@ -72,6 +72,19 @@
     ]
   },
   {
+    "result": "hd_tow_cable",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "480 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "welding_standard", 8 ] ],
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "grip_hook", 1 ] ], [ [ "chain", 8 ] ], [ [ "cable", 10 ] ] ]
+  },
+  {
     "result": "bike_rack",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -298,7 +311,7 @@
     "components": [
       [ [ "sheet_metal", 3 ] ],
       [ [ "wire", 6 ] ],
-      [ [ "hose", 1 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "circuit", 1 ] ],
       [ [ "scrap", 4 ] ],
@@ -323,7 +336,7 @@
     "components": [
       [ [ "sheet_metal", 3 ] ],
       [ [ "wire", 6 ] ],
-      [ [ "hose", 1 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "circuit", 1 ] ],
       [ [ "scrap", 4 ] ],
@@ -370,7 +383,7 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 m",
+    "time": "1 h",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
@@ -757,5 +770,27 @@
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 24 ] ] ]
+  },
+  {
+    "result": "fridgetank",
+    "type": "recipe",
+    "copy-from": "minifreezer",
+    "skills_required": [ "fabrication", 4 ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "metal_tank", 1 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "plastic_chunk", 8 ] ]
+    ]
   }
 ]

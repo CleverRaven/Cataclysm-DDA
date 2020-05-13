@@ -9,7 +9,8 @@
     "difficulty": 5,
     "time": "30 m",
     "qualities": [ { "id": "CHURN", "level": 1 } ],
-    "autolearn": true,
+    "book_learn": [ [ "dairy_book", 3 ] ],
+    "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
     "components": [ [ [ "milk_cream", 5 ] ] ]
   },
   {
@@ -28,7 +29,7 @@
     "type": "recipe",
     "result": "milk_cream",
     "result_mult": 5,
-    "byproducts": [ [ "buttermilk", 7 ] ],
+    "byproducts": [ [ "jar_3l_glass", 1 ], [ "buttermilk", 7 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DAIRY",
     "skill_used": "cooking",
@@ -46,7 +47,7 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "charges": 1,
-    "book_learn": [ [ "cookbook", 1 ] ],
+    "book_learn": [ [ "cookbook_indian", 1 ] ],
     "time": "30 m",
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],

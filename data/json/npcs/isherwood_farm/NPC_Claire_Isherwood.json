@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_CLAIRE",
-    "name": "Claire Isherwood",
+    "name": { "str": "Claire Isherwood" },
     "job_description": "I'm the matriarch of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -39,41 +39,53 @@
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_CLAIRE_storage",
-    "items": [ [ "backpack_hiking", 100 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "backpack_hiking", "prob": 100 } ]
   },
   {
     "id": "NC_ISHERWOOD_CLAIRE_gloves",
     "type": "item_group",
-    "items": [ [ "gloves_leather", 45 ], [ "gloves_light", 20 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "gloves_leather", "prob": 45 }, { "item": "gloves_light", "prob": 20 } ]
   },
   {
     "id": "NC_ISHERWOOD_CLAIRE_pants",
     "type": "item_group",
-    "items": [ [ "jeans", 50 ], [ "pants_cargo", 70 ], [ "leather_belt", 30 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "jeans", "prob": 50 }, { "item": "pants_cargo", "prob": 70 }, { "item": "leather_belt", "prob": 30 } ]
   },
   {
     "id": "NC_ISHERWOOD_CLAIRE_shoes",
     "type": "item_group",
-    "items": [ [ "boots", 70 ], [ "knee_high_boots", 50 ], [ "boots_hiking", 20 ], [ "mocassins", 20 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "boots", "prob": 70 },
+      { "item": "knee_high_boots", "prob": 50 },
+      { "item": "boots_hiking", "prob": 20 },
+      { "item": "mocassins", "prob": 20 }
+    ]
   },
   {
     "id": "NC_ISHERWOOD_CLAIRE_torso",
     "type": "item_group",
-    "items": [ [ "tank_top", 50 ], [ "dress", 45 ], [ "jacket_light", 40 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "tank_top", "prob": 50 }, { "item": "dress", "prob": 45 }, { "item": "jacket_light", "prob": 40 } ]
   },
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_CLAIRE_hat",
-    "items": [ [ "null", 40 ], [ "cowboy_hat", 40 ], [ "straw_hat", 20 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 40 }, { "item": "cowboy_hat", "prob": 40 }, { "item": "straw_hat", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_CLAIRE_misc",
-    "items": [
-      [ "royal_jelly", 50 ],
-      [ "flavored_bonemeal_tablet", 55 ],
-      [ "bonemeal_tablet", 95 ],
-      [ "cattail_jelly", 95 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "royal_jelly", "prob": 50 },
+      { "item": "flavored_bonemeal_tablet", "prob": 55 },
+      { "item": "bonemeal_tablet", "prob": 95 },
+      { "item": "cattail_jelly", "prob": 95 },
       { "item": "thyme_oil", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "mugwort_oil", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "poppy_pain", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
@@ -261,7 +273,7 @@
   {
     "id": "MISSION_ISHERWOOD_CLAIRE_1",
     "type": "mission_definition",
-    "name": "Gather 50 dandelions",
+    "name": { "str": "Gather 50 dandelions" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -292,7 +304,7 @@
   {
     "id": "MISSION_ISHERWOOD_CLAIRE_2",
     "type": "mission_definition",
-    "name": "Find 20 bee balm seeds",
+    "name": { "str": "Find 20 bee balm seeds" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -324,7 +336,7 @@
   {
     "id": "MISSION_ISHERWOOD_CLAIRE_3",
     "type": "mission_definition",
-    "name": "Find and capture a cat",
+    "name": { "str": "Find and capture a cat" },
     "goal": "MGOAL_FIND_MONSTER",
     "difficulty": 4,
     "value": 100000,

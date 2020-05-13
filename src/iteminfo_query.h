@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEMINFO_QUERY_H
-#define ITEMINFO_QUERY_H
+#ifndef CATA_SRC_ITEMINFO_QUERY_H
+#define CATA_SRC_ITEMINFO_QUERY_H
 
 #include <cstddef>
 #include <bitset>
@@ -13,6 +13,7 @@ enum class iteminfo_parts : size_t {
     BASE_BARTER,
     BASE_VOLUME,
     BASE_WEIGHT,
+    BASE_LENGTH,
     BASE_RIGIDITY,
     BASE_DAMAGE,
     BASE_TOHIT,
@@ -47,6 +48,7 @@ enum class iteminfo_parts : size_t {
     AMMO_REMAINING_OR_TYPES,
     AMMO_DAMAGE_VALUE,
     AMMO_DAMAGE_PROPORTIONAL,
+    AMMO_DAMAGE_CRIT_MULTIPLIER,
     AMMO_DAMAGE_AP,
     AMMO_DAMAGE_RANGE,
     AMMO_DAMAGE_DISPERSION,
@@ -54,7 +56,7 @@ enum class iteminfo_parts : size_t {
     AMMO_FX_RECYCLED,
     AMMO_FX_BLACKPOWDER,
     AMMO_FX_CANTMISSFIRE,
-    AMMO_FX_INDENDIARY,
+    AMMO_FX_INCENDIARY,
 
     DESCRIPTION_AUX_GUNMOD_HEADER,
 
@@ -191,6 +193,8 @@ enum class iteminfo_parts : size_t {
 
     DESCRIPTION_FAULTS,
 
+    DESCRIPTION_POCKETS,
+
     DESCRIPTION_HOLSTERS,
 
     DESCRIPTION_ACTIVATABLE_TRANSFORMATION,
@@ -252,4 +256,4 @@ class iteminfo_query : public iteminfo_query_base
         static const iteminfo_query anyflags;
 };
 
-#endif
+#endif // CATA_SRC_ITEMINFO_QUERY_H

@@ -1,12 +1,13 @@
 #pragma once
-#ifndef ITYPE_H
-#define ITYPE_H
+#ifndef CATA_SRC_ITYPE_H
+#define CATA_SRC_ITYPE_H
 
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
 #include <array>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_set>
+#include <vector>
 
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
@@ -15,6 +16,7 @@
 #include "enums.h" // point
 #include "explosion.h"
 #include "game_constants.h"
+#include "item_contents.h"
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
@@ -25,12 +27,11 @@
 #include "units.h"
 #include "value_ptr.h"
 
-// see item.h
-class item_category;
 class Item_factory;
-class player;
 class item;
+class player;
 struct tripoint;
+template <typename E> struct enum_traits;
 
 enum art_effect_active : int;
 enum art_charge : int;
@@ -135,10 +136,13 @@ struct islot_comestible {
         int addict = 0;
 
         /** effects of addiction */
-        add_type add = ADD_NULL;
+        add_type add = add_type::NONE;
 
         /** stimulant effect */
         int stim = 0;
+
+        /**fatigue altering effect*/
+        int fatigue_mod = 0;
 
         /** Reference to other item that replaces this one as a component in recipe results */
         itype_id cooks_like;
@@ -152,11 +156,14 @@ struct islot_comestible {
         /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
         int parasites = 0;
 
-        /** probability [0, 100] to get food poisoning from this comestible */
-        int contamination = 0;
+        /**Amount of radiation you get from this comestible*/
+        int radiation = 0;
 
         /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
         int freeze_point = temperatures::freezing;
+
+        /**List of diseases carried by this comestible and their associated probability*/
+        std::map<diseasetype_id, int> contamination;
 
         //** specific heats in J/(g K) and latent heat in J/g */
         float specific_heat_liquid = 4.186;
@@ -194,30 +201,6 @@ struct islot_brewable {
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
-};
-
-struct islot_container {
-    /**
-     * Inner volume of the container.
-     */
-    units::volume contains = 0_ml;
-    /**
-     * Can be resealed.
-     */
-    bool seals = false;
-    /**
-     * Can hold liquids.
-     */
-    bool watertight = false;
-    /**
-     * Contents do not spoil.
-     */
-    bool preserves = false;
-    /**
-     * If this is set to anything but "null", changing this container's contents in any way
-     * will turn this item into that type.
-     */
-    itype_id unseals_into = "null";
 };
 
 struct islot_armor {
@@ -260,10 +243,6 @@ struct islot_armor {
      */
     int warmth = 0;
     /**
-     * How much storage this items provides when worn.
-     */
-    units::volume storage = 0_ml;
-    /**
     * Factor modifiying weight capacity
     */
     float weight_capacity_modifier = 1.0;
@@ -280,6 +259,11 @@ struct islot_armor {
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_pet_armor {
@@ -315,6 +299,11 @@ struct islot_pet_armor {
      * Whether this is a power armor item.
      */
     bool power_armor = false;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_book {
@@ -380,6 +369,11 @@ struct islot_book {
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_mod {
@@ -416,12 +410,6 @@ struct common_ranged_data {
      * Dispersion "bonus" from gun.
      */
     int dispersion = 0;
-    /**
-     * Legacy pierce and damage values, used if @ref damage isn't set.
-    *@{*/
-    int legacy_pierce = 0;
-    int legacy_damage = 0;
-    /*@}*/
 };
 
 struct islot_engine {
@@ -443,11 +431,11 @@ struct islot_wheel {
 };
 
 struct fuel_explosion {
-    int explosion_chance_hot;
-    int explosion_chance_cold;
-    float explosion_factor;
-    bool fiery_explosion;
-    float fuel_size_factor;
+    int explosion_chance_hot = 0;
+    int explosion_chance_cold = 0;
+    float explosion_factor = 0.0f;
+    bool fiery_explosion = false;
+    float fuel_size_factor = 0.0f;
 };
 
 struct islot_fuel {
@@ -455,7 +443,7 @@ struct islot_fuel {
         /** Energy of the fuel (kilojoules per charge) */
         float energy = 0.0f;
         struct fuel_explosion explosion_data;
-        bool has_explode_data;
+        bool has_explode_data = false;
         std::string pump_terrain = "t_null";
 };
 
@@ -557,20 +545,34 @@ class gun_type_type
         /// @param name The untranslated name of the gun type. Must have been extracted
         /// for translation with the context "gun_type_type".
         gun_type_type( const std::string &name ) : name_( name ) {}
-        // arbitrary sorting, only here to allow usage in std::set
-        bool operator<( const gun_type_type &rhs ) const {
-            return name_ < rhs.name_;
-        }
         /// Translated name.
         std::string name() const;
+
+        friend bool operator==( const gun_type_type &l, const gun_type_type &r ) {
+            return l.name_ == r.name_;
+        }
+
+        friend struct std::hash<gun_type_type>;
 };
+
+namespace std
+{
+
+template<>
+struct hash<gun_type_type> {
+    size_t operator()( const gun_type_type &t ) const {
+        return hash<std::string>()( t.name_ );
+    }
+};
+
+} // namespace std
 
 struct islot_gunmod : common_ranged_data {
     /** Where is this gunmod installed (e.g. "stock", "rail")? */
     gunmod_location location;
 
     /** What kind of weapons can this gunmod be used with (e.g. "rifle", "crossbow")? */
-    std::set<gun_type_type> usable;
+    std::unordered_set<gun_type_type> usable;
 
     /** If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current @ref Character::recoil is at or below this value. */
     int sight_dispersion = -1;
@@ -590,6 +592,10 @@ struct islot_gunmod : common_ranged_data {
 
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
+
+    /** Increases base gun UPS consumption by this value per shot */
+    int ups_charges_modifier = 0;
+
     /** Increases gun weight by this many times */
     float weight_multiplier = 1.0f;
 
@@ -707,16 +713,20 @@ struct islot_ammo : common_ranged_data {
     bool special_cookoff = false;
 
     /**
-     * If set, ammo does not give a flat damage, instead it multiplies the base
-     * damage of the gun by this value.
+     * The damage multiplier to apply after a critical hit.
      */
-    cata::optional<float> prop_damage;
+    float critical_multiplier = 2.0;
 
     /**
-     * Some combat ammo might not have a damage or prop_damage value
+     * Some combat ammo might not have a damage value
      * Set this to make it show as combat ammo anyway
      */
     cata::optional<bool> force_stat_display;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_bionic {
@@ -735,6 +745,12 @@ struct islot_bionic {
 };
 
 struct islot_seed {
+    // Generic factory stuff
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
      */
@@ -806,7 +822,6 @@ struct itype {
          * this before using it.
          */
         /*@{*/
-        cata::value_ptr<islot_container> container;
         cata::value_ptr<islot_tool> tool;
         cata::value_ptr<islot_comestible> comestible;
         cata::value_ptr<islot_brewable> brewable;
@@ -828,36 +843,6 @@ struct itype {
         cata::value_ptr<relic> relic_data;
         /*@}*/
 
-    private:
-        /** Can item be combined with other identical items? */
-        bool stackable_ = false;
-
-        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
-        // TODO: create and use a MinMax class or similar to put both values into one object.
-        /// @{
-        int damage_min_ = -1000;
-        int damage_max_ = +4000;
-        /// @}
-
-    protected:
-        std::string id = "null"; /** unique string identifier for this type */
-
-        // private because is should only be accessed through itype::nname!
-        // nname() is used for display purposes
-        translation name = no_translation( "none" );
-
-    public:
-        itype() {
-            melee.fill( 0 );
-        }
-
-        int damage_min() const {
-            return count_by_charges() ? 0 : damage_min_;
-        }
-        int damage_max() const {
-            return count_by_charges() ? 0 : damage_max_;
-        }
-
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         std::string looks_like;
 
@@ -866,7 +851,7 @@ struct itype {
 
         std::string snippet_category;
         translation description; // Flavor text
-        std::vector<std::string> ascii_picture;
+        ascii_art_id picture_id;
 
         // The container it comes in
         cata::optional<itype_id> default_container;
@@ -939,6 +924,11 @@ struct itype {
          */
         units::volume integral_volume = -1_ml;
 
+        /**
+         * How long the longest side of this item is. If undefined, calculated from volume instead.
+         */
+        units::length longest_side = -1_mm;
+
         /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
 
@@ -946,10 +936,6 @@ struct itype {
         units::money price = 0_cent;
         /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
         units::money price_post = -1_cent;
-
-        /**@}*/
-        // If non-rigid volume (and if worn encumbrance) increases proportional to contents
-        bool rigid = true;
 
         /** Damage output in melee for zero or more damage types */
         std::array<int, NUM_DT> melee;
@@ -983,10 +969,10 @@ struct itype {
         /** Default magazine for each ammo type that can be used to reload this item */
         std::map< ammotype, itype_id > magazine_default;
 
-        /** Volume above which the magazine starts to protrude from the item and add extra volume */
-        units::volume magazine_well = 0_ml;
+        // information related to being able to store things inside the item.
+        std::vector<pocket_data> pockets;
 
-        layer_level layer;
+        layer_level layer = layer_level::MAX_CLOTHING_LAYER;
 
         /**
          * How much insulation this item provides, either as a container, or as
@@ -995,13 +981,49 @@ struct itype {
          */
         float insulation_factor = 1;
 
+        /**
+         * Efficiency of solar energy conversion for solarpacks.
+         */
+        float solar_efficiency = 0;
+
+        // used for generic_factory for copy-from
+        bool was_loaded = false;
+
+    private:
+        /** Can item be combined with other identical items? */
+        bool stackable_ = false;
+
+        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
+        // TODO: create and use a MinMax class or similar to put both values into one object.
+        /// @{
+        int damage_min_ = -1000;
+        int damage_max_ = +4000;
+        /// @}
+
+    protected:
+        std::string id = "null"; /** unique string identifier for this type */
+
+        // private because is should only be accessed through itype::nname!
+        // nname() is used for display purposes
+        translation name = no_translation( "none" );
+
+    public:
+        itype() {
+            melee.fill( 0 );
+        }
+
+        int damage_min() const {
+            return count_by_charges() ? 0 : damage_min_;
+        }
+        int damage_max() const {
+            return count_by_charges() ? 0 : damage_max_;
+        }
+
         std::string get_item_type_string() const {
             if( tool ) {
                 return "TOOL";
             } else if( comestible ) {
                 return "FOOD";
-            } else if( container ) {
-                return "CONTAINER";
             } else if( armor ) {
                 return "ARMOR";
             } else if( book ) {
@@ -1078,4 +1100,4 @@ struct itype {
         virtual ~itype() = default;
 };
 
-#endif
+#endif // CATA_SRC_ITYPE_H

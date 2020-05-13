@@ -1,49 +1,56 @@
+#include <algorithm>
+#include <array>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <set>
-#include <algorithm>
-#include <array>
 #include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
-#include <string>
-#include <vector>
 #include <queue>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "magic.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
 #include "creature.h"
+#include "damage.h"
+#include "debug.h"
 #include "enums.h"
+#include "explosion.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "item.h"
 #include "line.h"
-#include "map.h"
-#include "mapdata.h"
-#include "messages.h"
-#include "monster.h"
-#include "overmapbuffer.h"
-#include "player.h"
-#include "projectile.h"
-#include "type_id.h"
-#include "bodypart.h"
-#include "map_iterator.h"
-#include "damage.h"
-#include "debug.h"
-#include "explosion.h"
+#include "magic.h"
+#include "magic_spell_effect_helpers.h"
 #include "magic_teleporter_list.h"
 #include "magic_ter_furn_transform.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "monster.h"
+#include "optional.h"
+#include "overmapbuffer.h"
+#include "player.h"
 #include "point.h"
+#include "projectile.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "translations.h"
-#include "timed_event.h"
+#include "string_id.h"
 #include "teleport.h"
+#include "timed_event.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 namespace spell_detail
 {
@@ -185,8 +192,8 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     const int range = sp.range() + 1;
     const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
-    for( int angle = initial_angle - floor( aoe_radius / 2.0 );
-         angle <= initial_angle + ceil( aoe_radius / 2.0 ); angle++ ) {
+    for( int angle = initial_angle - std::floor( aoe_radius / 2.0 );
+         angle <= initial_angle + std::ceil( aoe_radius / 2.0 ); angle++ ) {
         tripoint potential;
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
@@ -227,7 +234,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     // Clockwise Perpendicular of Delta vector
     const point delta_perp( -delta.y, delta.x );
 
-    const point abs_delta = abs( delta );
+    const point abs_delta = delta.abs();
     // Primary axis of delta vector
     const point axis_delta = abs_delta.x > abs_delta.y ? point( delta.x, 0 ) : point( 0, delta.y );
     // Clockwise Perpendicular of axis vector
@@ -345,12 +352,12 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
 
 // spells do not reduce in damage the further away from the epicenter the targets are
 // rather they do their full damage in the entire area of effect
-static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &target,
+std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint &target,
         std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
-        aoe_func, const Creature &caster, bool ignore_walls = false )
+        aoe_func, const Creature &caster, bool ignore_walls )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
-    if( sp.aoe() <= 1 ) {
+    if( sp.aoe() <= 1 && sp.effect() != "line_attack" ) {
         return targets;
     }
 
@@ -364,6 +371,17 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
             ++it;
         }
     }
+
+    return targets;
+}
+
+static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &target,
+        std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
+        aoe_func, const Creature &caster, bool ignore_walls = false )
+{
+    // calculate spell's effect area
+    std::set<tripoint> targets = calculate_spell_effect_area( sp, target, aoe_func, caster,
+                                 ignore_walls );
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
@@ -398,7 +416,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     }
 }
 
-static void damage_targets( const spell &sp, const Creature &caster,
+static void damage_targets( const spell &sp, Creature &caster,
                             const std::set<tripoint> &targets )
 {
     for( const tripoint &target : targets ) {
@@ -426,11 +444,13 @@ static void damage_targets( const spell &sp, const Creature &caster,
             add_effect_to_target( target, sp );
         }
         if( sp.damage() > 0 ) {
-            cr->deal_projectile_attack( &g->u, atk, true );
+            cr->deal_projectile_attack( &caster, atk, true );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
         }
+        // TODO: randomize hit location
+        cr->add_damage_over_time( sp.damage_over_time( { bodypart_str_id( "torso" ) } ) );
     }
 }
 
@@ -667,6 +687,9 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     if( granted.count_by_charges() && sp.damage() > 0 ) {
         granted.charges = sp.damage();
     }
+    if( sp.has_flag( spell_flag::WITH_CONTAINER ) ) {
+        granted = granted.in_its_container();
+    }
     if( g->u.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
         g->u.wear_item( granted, false );
@@ -787,7 +810,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
     const mtype_id mon_id( sp.effect_data() );
     std::set<tripoint> area = spell_effect_area( sp, target, spell_effect_blast, caster );
     // this should never be negative, but this'll keep problems from happening
-    size_t num_mons = abs( sp.damage() );
+    size_t num_mons = std::abs( sp.damage() );
     const time_duration summon_time = sp.duration_turns();
     while( num_mons > 0 && !area.empty() ) {
         const size_t mon_spot = rng( 0, area.size() - 1 );
@@ -801,6 +824,25 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
         }
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );
+    }
+}
+
+void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
+        const tripoint &target )
+{
+    if( g->m.veh_at( target ) ) {
+        caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
+        return;
+    }
+    if( vehicle *veh = g->m.add_vehicle( sp.summon_vehicle_id(), target, -90, 100, 0 ) ) {
+        veh->magic = true;
+        const time_duration summon_time = sp.duration_turns();
+        if( !sp.has_flag( spell_flag::PERMANENT ) ) {
+            veh->summon_time_limit = summon_time;
+        }
+        if( caster.as_character() ) {
+            veh->set_owner( *caster.as_character() );
+        }
     }
 }
 

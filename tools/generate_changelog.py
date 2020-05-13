@@ -46,7 +46,7 @@ class JenkinsBuild:
         return f'{self.__class__.__name__}[{self.number} - {self.last_hash} - {self.build_dttm} - {self.build_result}]'
 
 
-class Commit:
+class Commit(object):
     """Representation of a generic GitHub Commit"""
 
     def __init__(self, hash_id, message, commit_dttm, author, parents):
@@ -74,7 +74,7 @@ class Commit:
         return f'{self.__class__.__name__}[{self.hash} - {self.commit_dttm} - {self.message} BY {self.author}]'
 
 
-class PullRequest:
+class PullRequest(object):
     """Representation of a generic GitHub Pull Request"""
 
     def __init__(self, pr_id, title, author, state, body, merge_hash, merge_dttm, update_dttm):
@@ -657,7 +657,7 @@ class MultiThreadedGitHubApi:
         log.debug(f'No more requests left, killing Thread.')
 
 
-class GitHubApiRequestBuilder:
+class GitHubApiRequestBuilder(object):
 
     def __init__(self, api_token, timezone='Etc/UTC'):
         self.api_token = api_token

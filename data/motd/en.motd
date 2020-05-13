@@ -1,73 +1,51 @@
 # Max length of a line is 78 characters; the following line is for reference
 # Longer lines will be automatically folded
 ##############################################################################
-                Visit us:
+<color_white>Visit us:</color>
 
-* Homepage:    https://cataclysmdda.org
-* Wiki:        https://cddawiki.chezzo.com/cdda_wiki
+<color_light_gray>* Homepage:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
 
-* Report bugs, suggestion and follow the development at:
-    https://github.com/CleverRaven/Cataclysm-DDA/issues
-    or e-mail:   kevin.granade@gmail.com
+<color_white>Report bugs, suggestion and follow the development at:</color>
 
-Join the discussion on forums and chats:
-* Discourse:                 https://discourse.cataclysmdda.org/
-* Discord:                   https://discord.gg/jFEc7Yp
-* IRC:                       #CataclysmDDA at freenode.net
-* Reddit (unofficial):       https://www.reddit.com/r/cataclysmdda/
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
 
-Other useful links are also available at our Homepage.
+<color_white>Join the discussion on forums and chats:</color>
 
-In game you can access the options via the main menu (Esc).
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at freenode.net</color>
+<color_light_gray>* Reddit (unofficial):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
 
-******************************************************************************
-    Disclaimer for the experimental builds:
-******************************************************************************
-Q: What is an experimental build?
-A: The goal of the experimental builds is to be a second tier of quality
-control. It's the frontline where new content is released to be tested and
-balanced after initial quality control. Be aware that by choosing to play
-the latest experimental builds you are participating in the development
-process by literally playtesting the new content, and it is prone to bugs
-and underdeveloped features.
+<color_light_gray>Other useful links are also available at our Homepage.</color>
 
-Q: Why are experimental builds even a thing?
-A: Consider it like playing an alpha/beta version - bugs and underdeveloped
-features are part of it. Due to continuous integration rigors, experimental
-builds are always in a state of a constant work in progress. Experimental is
-a sandbox where the bug detecting and feature polishing takes place. Big
-and small features are constantly released to those builds to be checked
-for overall stability and balance. Because of that, experimentals are not
-under the rigor of guaranteeing balance and stability. In fact, nothing
-is guaranteed in the experimental builds.
+<color_light_gray>In game you can access the options via the main menu (<color_yellow>Esc</color>).</color>
 
-Q: Are experimental builds playable then?
-A: Yes. But while experimental builds overall are stable, it is also 
-not guaranteed as features may be introduced in an underdeveloped
-state, in parts; and may introduce bugs, including severe ones that may
-crash the game or corrupt savegames. It's rare, but due to the complexity
-of the game, the initial quality control before merging with experimental
-build may be inadequate, and there is always room for human error.
-This is why experimental builds exist in the first place.
+<color_light_red>******************************************************************************</color>
+<color_light_red>    Disclaimer for the experimental builds:</color>
+<color_light_red>******************************************************************************</color>
 
-Q: Should I play experimental builds then, or stick to stable build?
-A: The reward is instant access to the newest content, the risk is losing
-your game progress if a nasty bug emerges. It is always your choice to play
-experimental builds, with a stable build available, so play at your own
-discretion. You take all of the burden if something goes wrong, so be warned.
-Take precautions, make backups. Sometimes it's even best to postpone
-updating for few days until a big feature has been stabilized or
-a significant bug has been removed.
+<color_white>Q: </color><color_yellow>What is an experimental build?</color>
 
-Q: Should I be aware of anything else?
-A: Yes. Remember that everything you see and are about to see is potentially
-subject to change. All features, including newly implemented, are a work in
-progress and may change in the course of game development.
-And, as said previously, nothing is guaranteed, including balance and
-stability. 
+<color_white>A: </color><color_light_gray>The goal of the experimental builds is to be a second tier of quality control.  It's the frontline where new content is released to be tested and balanced after initial quality control.  Be aware that by choosing to play the latest experimental builds you are participating in the development process by literally playtesting the new content, and it is prone to bugs and underdeveloped features.</color>
 
-Q: What if I find the risk of playing experimental build unacceptable?
-A: If the risk is unacceptable - play the stable version. If you are willing
-to take the risk - enjoy the newly added content of the experimental builds
-and partake in development - report bugs, submit suggestions, or even
-contribute your own content to the game. Good luck.
+<color_white>Q: </color><color_yellow>Why are experimental builds even a thing?</color>
+
+<color_white>A: </color><color_light_gray>Consider it like playing an alpha/beta version - bugs and underdeveloped features are part of it.  Due to continuous integration rigors, experimental builds are always in a state of a constant work in progress.  Experimental is a sandbox where the bug detecting and feature polishing takes place.  Big and small features are constantly released to those builds to be checked for overall stability and balance.  Because of that, experimentals are not under the rigor of guaranteeing balance and stability.  In fact, nothing is guaranteed in the experimental builds.</color>
+
+<color_white>Q: </color><color_yellow>Are experimental builds playable then?</color>
+
+<color_white>A: </color><color_light_gray>Yes.  But while experimental builds overall are stable, it is also not guaranteed as features may be introduced in an underdeveloped state, in parts; and may introduce bugs, including severe ones that may crash the game or corrupt savegames.  It's rare, but due to the complexity of the game, the initial quality control before merging with experimental build may be inadequate, and there is always room for human error.  This is why experimental builds exist in the first place.</color>
+
+<color_white>Q: </color><color_yellow>Should I play experimental builds then, or stick to stable build?</color>
+
+<color_white>A: </color><color_light_gray>The reward is instant access to the newest content, the risk is losing your game progress if a nasty bug emerges.  It is always your choice to play experimental builds, with a stable build available, so play at your own discretion.  You take all of the burden if something goes wrong, so be warned.  Take precautions, make backups.  Sometimes it's even best to postpone updating for few days until a big feature has been stabilized or a significant bug has been removed.</color>
+
+<color_white>Q: </color><color_yellow>Should I be aware of anything else?</color>
+
+<color_white>A: </color><color_light_gray>Yes.  Remember that everything you see and are about to see is potentially subject to change.  All features, including newly implemented, are a work in progress and may change in the course of game development.  And, as said previously, nothing is guaranteed, including balance and stability.</color>
+
+<color_white>Q: </color><color_yellow>What if I find the risk of playing experimental build unacceptable?</color>
+
+<color_white>A: </color><color_light_gray>If the risk is unacceptable - play the stable version.  If you are willing to take the risk - enjoy the newly added content of the experimental builds and partake in development - report bugs, submit suggestions, or even contribute your own content to the game.  Good luck.</color>

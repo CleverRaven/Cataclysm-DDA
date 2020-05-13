@@ -1,36 +1,35 @@
 #include "veh_type.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cstddef>
 #include <memory>
 #include <numeric>
 #include <unordered_map>
 #include <unordered_set>
-#include <algorithm>
 
 #include "ammo.h"
-#include "avatar.h"
-#include "character.h"
+#include "assign.h"
+#include "cata_utility.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
-#include "game.h"
+#include "game_constants.h"
 #include "init.h"
+#include "item.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
+#include "player.h"
 #include "requirements.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
-#include "assign.h"
-#include "cata_utility.h"
-#include "game_constants.h"
-#include "item.h"
-#include "mapdata.h"
 
 class npc;
 
@@ -73,6 +72,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "OPENABLE", VPFLAG_OPENABLE },
     { "SEATBELT", VPFLAG_SEATBELT },
     { "WHEEL", VPFLAG_WHEEL },
+    { "ROTOR", VPFLAG_ROTOR },
     { "FLOATS", VPFLAG_FLOATS },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
@@ -230,6 +230,17 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     }
     eptr = e_info;
     assert( eptr );
+}
+
+void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo )
+{
+    vpslot_rotor rotor_info{};
+    if( roptr ) {
+        rotor_info = *roptr;
+    }
+    assign( jo, "rotor_diameter", rotor_info.rotor_diameter );
+    roptr = rotor_info;
+    assert( roptr );
 }
 
 void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo )
@@ -410,6 +421,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         load_wheel( def.wheel_info, jo );
     }
 
+    if( def.has_flag( "ROTOR" ) ) {
+        load_rotor( def.rotor_info, jo );
+    }
+
     if( def.has_flag( "WORKBENCH" ) ) {
         load_workbench( def.workbench_info, jo );
     }
@@ -490,6 +505,11 @@ void vpart_info::finalize()
             e.second.list_order = 5;
         }
     }
+}
+
+static bool type_can_contain( const itype &container, const itype_id &containee )
+{
+    return item( &container ).can_contain( item( containee ) );
 }
 
 void vpart_info::check()
@@ -594,7 +614,7 @@ void vpart_info::check()
             debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.item.c_str() );
             part.fuel_type = "null";
         } else if( part.fuel_type != "null" && !item::find_type( part.fuel_type )->fuel &&
-                   ( !base_item_type.container || !base_item_type.container->watertight ) ) {
+                   !type_can_contain( base_item_type, part.fuel_type ) ) {
             // HACK: Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types
             debugmsg( "non-tank vehicle part %s uses non-fuel item %s as fuel, setting to null",
@@ -645,6 +665,9 @@ void vpart_info::check()
             std::string warnings_are_good_docs = enumerate_as_string( handled );
             debugmsg( "%s has non-zero epower, but lacks a flag that would make it affect epower (one of %s)",
                       part.id.c_str(), warnings_are_good_docs.c_str() );
+        }
+        if( base_item_type.pockets.size() > 4 ) {
+            debugmsg( "Error: vehicle parts assume only one pocket.  Multiple pockets unsupported" );
         }
     }
 }
@@ -721,14 +744,14 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     const quality_id quality_jack( "JACK" );
     const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
-        msg += "> <color_" + string_from_color( format_color ) + ">" + string_format(
-                   _( "Has level %1$d %2$s quality" ), qual.second, qual.first.obj().name );
+        msg += string_format(
+                   _( "Has level <color_cyan>%1$d %2$s</color> quality" ), qual.second, qual.first.obj().name );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
-            msg += string_format( _( " and is rated at %1$d %2$s" ),
+            msg += string_format( _( " and is rated at <color_cyan>%1$d %2$s</color>" ),
                                   static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
                                   weight_units() );
         }
-        msg += ".</color>\n";
+        msg += ".\n";
         lines += 1;
     }
     return lines;
@@ -867,6 +890,11 @@ float vpart_info::wheel_or_rating() const
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->or_rating : 0.0f;
 }
 
+int vpart_info::rotor_diameter() const
+{
+    return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
+}
+
 const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
@@ -896,6 +924,22 @@ bool string_id<vehicle_prototype>::is_valid() const
 {
     return vtypes.count( *this ) > 0;
 }
+
+vehicle_prototype::vehicle_prototype() = default;
+
+vehicle_prototype::vehicle_prototype( const std::string &name,
+                                      const std::vector<part_def> &parts,
+                                      const std::vector<vehicle_item_spawn> &item_spawns,
+                                      std::unique_ptr<vehicle> &&blueprint )
+    : name( name ), parts( parts ), item_spawns( item_spawns ),
+      blueprint( std::move( blueprint ) )
+{
+}
+
+vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
+vehicle_prototype::~vehicle_prototype() = default;
+
+vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) = default;
 
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
@@ -1057,7 +1101,7 @@ void vehicle_prototype::finalize()
                 }
             }
 
-            if( base->container || base->magazine ) {
+            if( type_can_contain( *base, pt.fuel ) || base->magazine ) {
                 if( !item::type_is_defined( pt.fuel ) ) {
                     debugmsg( "init_vehicles: tank %s specified invalid fuel in %s", pt.part.c_str(), id.c_str() );
                 }

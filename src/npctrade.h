@@ -1,6 +1,6 @@
 #pragma once
-#ifndef NPCTRADE_H
-#define NPCTRADE_H
+#ifndef CATA_SRC_NPCTRADE_H
+#define CATA_SRC_NPCTRADE_H
 
 #include <cstddef>
 #include <vector>
@@ -21,6 +21,7 @@ class faction;
 class item;
 class npc;
 class player;
+class ui_adaptor;
 
 class item_pricing
 {
@@ -33,7 +34,7 @@ class item_pricing
             set_values( count );
         }
         void set_values( int ip_count );
-        void adjust_values( double adjust, faction *fac );
+        void adjust_values( double adjust, const faction *fac );
 
         item_location loc;
         int price;
@@ -56,25 +57,21 @@ class trading_window
         trading_window() = default;
         std::vector<item_pricing> theirs;
         std::vector<item_pricing> yours;
-        int your_balance;
+        int your_balance = 0;
 
-        void setup_win( npc &np );
         void setup_trade( int cost, npc &np );
-        void update_win( npc &np, const std::string &deal );
-        void show_item_data( npc &np, size_t offset, std::vector<item_pricing> &target_list );
         bool perform_trade( npc &np, const std::string &deal );
         void update_npc_owed( npc &np );
 
     private:
+        void setup_win( ui_adaptor &ui );
+        void update_win( npc &np, const std::string &deal );
+        void show_item_data( size_t offset, std::vector<item_pricing> &target_list );
+
         catacurses::window w_head;
         catacurses::window w_them;
         catacurses::window w_you;
-        const int win_they_w = TERMX / 2;
-        const std::string header_message = _( "TAB key to switch lists, letters to pick items,"
-                                              "Enter to finalize, Esc to quit,\n"
-                                              "? to get information on an item." );
-        const size_t entries_per_page = std::min( TERMY - 7, 2 + ( 'z' - 'a' ) + ( 'Z' - 'A' ) );
-        bool update = true;
+        size_t entries_per_page = 0;
         bool focus_them = true; // Is the focus on them?
         size_t them_off = 0, you_off = 0; // Offset from the start of the list
 
@@ -102,4 +99,4 @@ std::vector<item_pricing> init_selling( npc &p );
 std::vector<item_pricing> init_buying( player &buyer, player &seller, bool is_npc );
 } // namespace npc_trading
 
-#endif
+#endif // CATA_SRC_NPCTRADE_H

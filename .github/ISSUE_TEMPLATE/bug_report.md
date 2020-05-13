@@ -39,6 +39,7 @@ Do not take a screenshot of the crashing window. Please provide the crash logs i
  - OS: [e.g. iOS 8 or Windows 10 or Ubuntu 18.04]
  - Game Version: [from the main menu, e.g. 0.C-29938-g90f5268437]
  - Graphics version: [Tiles or Terminal]
+ - Ingame language: [Arabic or Bulgarian or Chinese (Simplified) or Chinese (Traditional) or Dutch or Esperanto or French or German or Italian (Italy) or Japanese or Korean or Polish or Portuguese (Brazil) or Russian or Serbian or Spanish (Argentina) or Spanish (Spain) or Turkish]
  - Mods loaded: [e.g.dda, boats, hacktheplanet, StatsThroughSkills]
  -->
 

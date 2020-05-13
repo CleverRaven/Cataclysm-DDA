@@ -4,27 +4,105 @@
     "name": "quiver",
     "copy-from": "quiver",
     "type": "ARMOR",
-    "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20, "arrow_orichalcum": 20 }, "moves": 20 } ]
   },
   {
     "id": "quiver_large",
     "name": "large quiver",
     "copy-from": "quiver_large",
     "type": "ARMOR",
-    "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60, "arrow_orichalcum": 60 }, "moves": 20 } ]
   },
   {
     "id": "quiver_birchbark",
-    "name": "birchbark quiver",
+    "name": { "str": "birchbark quiver" },
     "copy-from": "quiver_birchbark",
     "type": "ARMOR",
-    "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20, "arrow_orichalcum": 20 }, "moves": 20 } ]
   },
   {
     "id": "quiver_large_birchbark",
     "name": "large birchbark quiver",
     "copy-from": "quiver_large_birchbark",
     "type": "ARMOR",
-    "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60, "arrow_orichalcum": 60 }, "moves": 20 } ]
+  },
+  {
+    "id": "armguard_demonchitin",
+    "copy-from": "armguard_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of demon chitin arm guards", "str_pl": "pairs of demon chitin arm guards" },
+    "description": "A pair of arm guards crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
+    "material": [ "demon_chitin" ],
+    "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
+    "environmental_protection": 8
+  },
+  {
+    "id": "armor_demonchitin",
+    "copy-from": "armor_chitin",
+    "type": "ARMOR",
+    "name": { "str": "demon chitin armor" },
+    "description": "Leg and body armor crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
+    "material": [ "demon_chitin" ],
+    "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
+    "environmental_protection": 8
+  },
+  {
+    "id": "helmet_demonchitin",
+    "copy-from": "helmet_chitin",
+    "type": "ARMOR",
+    "name": { "str": "demon chitin helmet" },
+    "description": "A helmet crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Covers the entire head; fire-resistant and very durable.",
+    "material": [ "demon_chitin" ],
+    "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
+    "environmental_protection": 8
+  },
+  {
+    "id": "gauntlets_demonchitin",
+    "copy-from": "gauntlets_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of demon chitin gauntlets", "str_pl": "pairs of demon chitin gauntlets" },
+    "description": "Gauntlets crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
+    "material": [ "demon_chitin" ],
+    "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
+    "environmental_protection": 8
+  },
+  {
+    "id": "boots_demonchitin",
+    "copy-from": "boots_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of demon chitin boots", "str_pl": "pairs of demon chitin boots" },
+    "description": "Boots crafted from carefully cleaned and pruned pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
+    "material": [ "demon_chitin" ],
+    "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
+    "environmental_protection": 8
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "demonchitin_harness_dog",
+    "copy-from": "kevlar_harness",
+    "color": "red",
+    "name": { "str": "demon chitin dog mesh harness", "str_pl": "demon chitin dog mesh harnesses" },
+    "description": "A makeshift harness of demon chitin fitted to a thin mesh protecting the neck to flank of canines.  You could put this on a friendly dog.",
+    "price": 50000,
+    "price_postapoc": 5000,
+    "material": [ "demon_chitin" ],
+    "weight": "4862 g",
+    "environmental_protection": 8
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "demonchitin_armor_horse",
+    "copy-from": "horse_armor",
+    "color": "green",
+    "name": { "str": "demon chitin horse armor" },
+    "description": "A makeshift assembly of criniere, peytral and croupiere made from demon chitin fitted to a thin mesh.  You could put this on a friendly horse.",
+    "price": 120000,
+    "price_postapoc": 12000,
+    "material": [ "demon_chitin", "steel" ],
+    "weight": "31500 g",
+    "volume": "150 L",
+    "material_thickness": 6,
+    "environmental_protection": 8
   }
 ]

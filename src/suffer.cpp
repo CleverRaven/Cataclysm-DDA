@@ -1,46 +1,47 @@
-#include "character.h"
-
-#include <cctype>
 #include <algorithm>
+#include <array>
+#include <cctype>
 #include <cmath>
 #include <cstdlib>
-#include <iterator>
+#include <list>
 #include <map>
+#include <memory>
 #include <string>
-#include <limits>
-#include <bitset>
-#include <exception>
 #include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
-#include "activity_handlers.h"
 #include "addiction.h"
 #include "avatar.h"
-#include "bionics.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
-#include "catacharset.h"
+#include "character.h"
 #include "effect.h"
 #include "enums.h"
-#include "field.h"
-#include "int_id.h"
+#include "event.h"
+#include "event_bus.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "itype.h"
-#include "iuse_actor.h"
-#include "magic.h"
 #include "map.h"
-#include "material.h"
-#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
-#include "morale.h"
+#include "monster.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "name.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
-#include "output.h"
-#include "recipe.h"
+#include "overmapbuffer.h"
+#include "pldata.h"
+#include "point.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -50,19 +51,33 @@
 #include "teleport.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "visitable.h"
-#include "vitamin.h"
-#include "vpart_position.h"
-#include "vpart_range.h"
 #include "weather.h"
-#include "weather_gen.h"
+
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_dis_acid( "bio_dis_acid" );
+static const bionic_id bio_dis_shock( "bio_dis_shock" );
+static const bionic_id bio_drain( "bio_drain" );
+static const bionic_id bio_geiger( "bio_geiger" );
+static const bionic_id bio_gills( "bio_gills" );
+static const bionic_id bio_glowy( "bio_glowy" );
+static const bionic_id bio_itchy( "bio_itchy" );
+static const bionic_id bio_leaky( "bio_leaky" );
+static const bionic_id bio_noise( "bio_noise" );
+static const bionic_id bio_plut_filter( "bio_plut_filter" );
+static const bionic_id bio_power_weakness( "bio_power_weakness" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_shakes( "bio_shakes" );
+static const bionic_id bio_sleepy( "bio_sleepy" );
+static const bionic_id bio_spasm( "bio_spasm" );
+static const bionic_id bio_sunglasses( "bio_sunglasses" );
+static const bionic_id bio_trip( "bio_trip" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_datura( "datura" );
@@ -74,6 +89,7 @@ static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
@@ -81,29 +97,11 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_winded( "winded" );
-static const efftype_id effect_bleed( "bleed" );
-
-static const bionic_id bio_advreactor( "bio_advreactor" );
-static const bionic_id bio_dis_acid( "bio_dis_acid" );
-static const bionic_id bio_dis_shock( "bio_dis_shock" );
-static const bionic_id bio_drain( "bio_drain" );
-static const bionic_id bio_glowy( "bio_glowy" );
-static const bionic_id bio_geiger( "bio_geiger" );
-static const bionic_id bio_gills( "bio_gills" );
-static const bionic_id bio_itchy( "bio_itchy" );
-static const bionic_id bio_leaky( "bio_leaky" );
-static const bionic_id bio_noise( "bio_noise" );
-static const bionic_id bio_plut_filter( "bio_plut_filter" );
-static const bionic_id bio_power_weakness( "bio_power_weakness" );
-static const bionic_id bio_reactor( "bio_reactor" );
-static const bionic_id bio_shakes( "bio_shakes" );
-static const bionic_id bio_sleepy( "bio_sleepy" );
-static const bionic_id bio_spasm( "bio_spasm" );
-static const bionic_id bio_trip( "bio_trip" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ALBINO( "ALBINO" );
@@ -112,8 +110,7 @@ static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
-static const trait_id trait_FASTHEALER( "FASTHEALER" );
-static const trait_id trait_FASTHEALER2( "FASTHEALER2" );
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
@@ -122,9 +119,9 @@ static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
-static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -134,15 +131,14 @@ static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
-static const trait_id trait_REGEN( "REGEN" );
 static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
+static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
-static const trait_id trait_SLOWHEALER( "SLOWHEALER" );
 static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_TROGLO( "TROGLO" );
@@ -152,6 +148,18 @@ static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
+static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+
+static const std::string flag_BLIND( "BLIND" );
+static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_RAD_RESIST( "RAD_RESIST" );
+static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
@@ -170,12 +178,12 @@ void Character::suffer_water_damage( const mutation_branch &mdata )
                                          drench_capacity[bp];
         const int dmg = mdata.weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
-            apply_damage( nullptr, bp, dmg );
+            apply_damage( nullptr, convert_bp( bp ).id(), dmg );
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                    _( "<npcname>'s %s is damaged by the water." ),
                                    body_part_name( bp ) );
         } else if( dmg < 0 && hp_cur[bp_to_hp( bp )] != hp_max[bp_to_hp( bp )] ) {
-            heal( bp, abs( dmg ) );
+            heal( bp, std::abs( dmg ) );
             add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                    _( "<npcname>'s %s is healed by the water." ),
                                    body_part_name( bp ) );
@@ -245,7 +253,7 @@ void Character::suffer_while_underwater()
             mod_power_level( -25_kJ );
         } else {
             add_msg_if_player( m_bad, _( "You're drowning!" ) );
-            apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
+            apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
         }
     }
     if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
@@ -283,7 +291,7 @@ void Character::suffer_from_addictions()
 
 void Character::suffer_while_awake( const int current_stim )
 {
-    if( !has_trait( trait_id( "DEBUG_STORAGE" ) ) &&
+    if( !has_trait( trait_DEBUG_STORAGE ) &&
         ( weight_carried() > 4 * weight_capacity() ) ) {
         if( has_effect( effect_downed ) ) {
             add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
@@ -514,11 +522,6 @@ void Character::suffer_from_schizophrenia()
     // Monster dies
     if( one_turn_in( 6_hours ) ) {
         // TODO: move to monster group json
-        static const mtype_id mon_zombie( "mon_zombie" );
-        static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-        static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
-        static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-        static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
         static const std::array<mtype_id, 5> monsters = { {
                 mon_zombie, mon_zombie_fat, mon_zombie_fireman, mon_zombie_cop, mon_zombie_soldier
             }
@@ -601,7 +604,9 @@ void Character::suffer_from_schizophrenia()
 
 void Character::suffer_from_asthma( const int current_stim )
 {
-    if( has_effect( effect_adrenaline ) || has_effect( effect_datura ) ) {
+    if( has_effect( effect_adrenaline ) ||
+        has_effect( effect_datura ) ||
+        has_effect( effect_took_antiasthmatic ) ) {
         return;
     }
     if( !one_in( ( to_turns<int>( 6_hours ) - current_stim * 300 ) *
@@ -701,7 +706,7 @@ void Character::suffer_from_asthma( const int current_stim )
 void Character::suffer_in_sunlight()
 {
     double sleeve_factor = armwear_factor();
-    const bool has_hat = wearing_something_on( bp_head );
+    const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
     const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
                        has_trait( trait_LEAVES3 );
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
@@ -782,9 +787,9 @@ void Character::suffer_from_albinism()
         return;
     }
     // Sunglasses can keep the sun off the eyes.
-    if( !has_bionic( bionic_id( "bio_sunglasses" ) ) &&
-        !( wearing_something_on( bp_eyes ) &&
-           ( worn_with_flag( "SUN_GLASSES" ) || worn_with_flag( "BLIND" ) ) ) ) {
+    if( !has_bionic( bio_sunglasses ) &&
+        !( wearing_something_on( bodypart_id( "eyes" ) ) &&
+           ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
         add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
@@ -876,7 +881,7 @@ void Character::suffer_from_other_mutations()
         g->m.spawn_item( pos(), "bone", 1 );
     }
 
-    if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
+    if( has_active_mutation( trait_WINGS_INSECT ) ) {
         //~Sound of buzzing Insect Wings
         sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc",
                        "insect_wings" );
@@ -885,7 +890,7 @@ void Character::suffer_from_other_mutations()
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     int root_vitamins = 0;
     int root_water = 0;
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "PLOWABLE", pos() ) && !wearing_shoes ) {
+    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
         root_vitamins += 1;
         if( get_thirst() <= -2000 ) {
             root_water += 51;
@@ -910,7 +915,7 @@ void Character::suffer_from_other_mutations()
             if( bp == bp_head ) {
                 continue;
             }
-            int sores_pain = 5 + 0.4 * abs( encumb( bp ) );
+            int sores_pain = 5 + 0.4 * std::abs( encumb( bp ) );
             if( get_pain() < sores_pain ) {
                 set_pain( sores_pain );
             }
@@ -1000,7 +1005,7 @@ void Character::suffer_from_radiation()
 
     bool has_helmet = false;
     const bool power_armored = is_wearing_power_armor( &has_helmet );
-    const bool rad_resist = power_armored || worn_with_flag( "RAD_RESIST" );
+    const bool rad_resist = power_armored || worn_with_flag( flag_RAD_RESIST );
 
     if( rad_mut > 0 ) {
         const bool kept_in = is_rad_immune() || ( rad_resist && !one_in( 4 ) );
@@ -1129,7 +1134,7 @@ void Character::suffer_from_radiation()
             }
             reactor_plut -= power_gen;
             while( power_gen >= 250 ) {
-                apply_damage( nullptr, bp_torso, 1 );
+                apply_damage( nullptr, bodypart_id( "torso" ), 1 );
                 mod_pain( 1 );
                 add_msg_if_player( m_bad,
                                    _( "Your chest burns as your power systems overload!" ) );
@@ -1568,13 +1573,13 @@ void Character::mend( int rate_multiplier )
     if( has_effect( effect_cig ) ) {
         healing_factor *= 0.5;
     } else {
-        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( ADD_CIG ) );
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( add_type::CIG ) );
     }
 
     if( has_effect( effect_drunk ) ) {
         healing_factor *= 0.5;
     } else {
-        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( ADD_ALCOHOL ) );
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( add_type::ALCOHOL ) );
     }
 
     if( get_rad() > 0 && !has_trait( trait_RADIOGENIC ) ) {
@@ -1597,8 +1602,8 @@ void Character::mend( int rate_multiplier )
 
     // Very hungry starts lowering the chance
     // square rooting the value makes the numbers drop off faster when below 1
-    healing_factor *= sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
-                            ( get_healthy_kcal() ) );
+    healing_factor *= std::sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
+                                 ( get_healthy_kcal() ) );
     // Similar for thirst - starts at very thirsty, drops to 0 ~halfway between two last statuses
     healing_factor *= 1.0f - clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
 
@@ -1624,7 +1629,7 @@ void Character::mend( int rate_multiplier )
         }
 
         body_part part = hp_to_bp( static_cast<hp_part>( i ) );
-        if( needs_splint && !worn_with_flag( "SPLINT", part ) ) {
+        if( needs_splint && !worn_with_flag( "SPLINT", convert_bp( part ).id() ) ) {
             continue;
         }
 
@@ -1704,7 +1709,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     }
 
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if( has_trait( trait_DEBUG_NOTEMP ) || has_active_mutation( trait_id( "SHELL2" ) ) ||
+    if( has_trait( trait_DEBUG_NOTEMP ) || has_active_mutation( trait_SHELL2 ) ||
         ( !ignore_waterproof && is_waterproof( flags ) ) ) {
         return;
     }
@@ -1731,7 +1736,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     }
 
     if( body_wetness[bp_torso] >= drench_capacity[bp_torso] / 2.0 &&
-        has_effect( efftype_id( "masked_scent" ) ) &&
+        has_effect( effect_masked_scent ) &&
         get_value( "waterproof_scent" ).empty() ) {
         add_msg_if_player( m_info, _( "The water wash away the scent." ) );
         restore_scent();
@@ -1807,7 +1812,7 @@ void Character::apply_wetness_morale( int temperature )
 
         if( bp_morale < 0 ) {
             // Damp, hot clothing on hot skin feels bad
-            scaled_temperature = fabs( scaled_temperature );
+            scaled_temperature = std::fabs( scaled_temperature );
         }
 
         // For an unmutated human swimming in deep water, this will add up to:
@@ -1834,7 +1839,7 @@ void Character::apply_wetness_morale( int temperature )
 
 void Character::add_addiction( add_type type, int strength )
 {
-    if( type == ADD_NULL ) {
+    if( type == add_type::NONE ) {
         return;
     }
     time_duration timer = 2_hours;

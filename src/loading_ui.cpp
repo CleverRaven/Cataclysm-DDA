@@ -1,12 +1,13 @@
 #include "loading_ui.h"
 
 #include <memory>
+#include <vector>
 
 #include "color.h"
 #include "output.h"
-#include "ui.h"
-#include "cursesdef.h"
 #include "translations.h"
+#include "ui.h"
+#include "ui_manager.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -40,11 +41,31 @@ void loading_ui::new_context( const std::string &desc )
     if( menu != nullptr ) {
         menu->reset();
         menu->settext( desc );
+        ui = nullptr;
+        ui_background = nullptr;
+    }
+}
+
+void loading_ui::init()
+{
+    if( menu != nullptr && ui == nullptr ) {
+        ui_background = std::make_unique<background_pane>();
+
+        ui = std::make_unique<ui_adaptor>();
+        ui->on_screen_resize( [this]( ui_adaptor & ui ) {
+            menu->reposition( ui );
+        } );
+        menu->reposition( *ui );
+        ui->on_redraw( [this]( const ui_adaptor & ) {
+            menu->show();
+        } );
     }
 }
 
 void loading_ui::proceed()
 {
+    init();
+
     if( menu != nullptr && !menu->entries.empty() ) {
         if( menu->selected >= 0 && menu->selected < static_cast<int>( menu->entries.size() ) ) {
             // TODO: Color it red if it errored hard, yellow on warnings
@@ -61,9 +82,10 @@ void loading_ui::proceed()
 
 void loading_ui::show()
 {
+    init();
+
     if( menu != nullptr ) {
-        menu->show();
-        catacurses::refresh();
+        ui_manager::redraw();
         refresh_display();
 #if defined(TILES)
         SDL_PumpEvents();

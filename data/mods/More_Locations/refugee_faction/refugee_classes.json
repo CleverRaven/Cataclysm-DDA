@@ -26,7 +26,6 @@
       [ "JITTERY", 10 ],
       [ "BADKNEES", 10 ],
       [ "SLOWRUNNER", 10 ],
-      [ "TRIGGERHAPPY", 10 ],
       [ "FLIMSY", 10 ],
       { "group": "Appearance_demographics", "prob": 100 }
     ],

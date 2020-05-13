@@ -1,22 +1,29 @@
 #pragma once
-#ifndef CATA_VARIANT_H
-#define CATA_VARIANT_H
+#ifndef CATA_SRC_CATA_VARIANT_H
+#define CATA_SRC_CATA_VARIANT_H
 
 #include <array>
-#include <cassert>
+#include <cstddef>
+#include <functional>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "character_id.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "enum_traits.h"
 #include "hash_utils.h"
+#include "pldata.h"
 #include "type_id.h"
 
-enum add_type : int;
+class JsonIn;
+class JsonOut;
+template <typename E> struct enum_traits;
+
 enum body_part : int;
 enum class mutagen_technique : int;
 enum hp_part : int;
+enum character_movemode : int;
 
 using itype_id = std::string;
 
@@ -30,6 +37,7 @@ enum class cata_variant_type : int {
     body_part,
     bool_,
     character_id,
+    character_movemode,
     efftype_id,
     hp_part,
     int_,
@@ -40,8 +48,10 @@ enum class cata_variant_type : int {
     mutation_category_id,
     oter_id,
     skill_id,
+    species_id,
     spell_id,
     string,
+    ter_id,
     trait_id,
     trap_str_id,
     num_types, // last
@@ -146,7 +156,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 20,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 23,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -187,6 +197,9 @@ struct convert<cata_variant_type::character_id> {
 };
 
 template<>
+struct convert<cata_variant_type::character_movemode> : convert_enum<character_movemode> {};
+
+template<>
 struct convert<cata_variant_type::efftype_id> : convert_string_id<efftype_id> {};
 
 template<>
@@ -225,10 +238,16 @@ template<>
 struct convert<cata_variant_type::skill_id> : convert_string_id<skill_id> {};
 
 template<>
+struct convert<cata_variant_type::species_id> : convert_string_id<species_id> {};
+
+template<>
 struct convert<cata_variant_type::spell_id> : convert_string_id<spell_id> {};
 
 template<>
 struct convert<cata_variant_type::string> : convert_string<std::string> {};
+
+template<>
+struct convert<cata_variant_type::ter_id> : convert_int_id<ter_id> {};
 
 template<>
 struct convert<cata_variant_type::trait_id> : convert_string_id<trait_id> {};
@@ -305,10 +324,10 @@ class cata_variant
     }
         CATA_VARIANT_OPERATOR( == );
         CATA_VARIANT_OPERATOR( != );
-        CATA_VARIANT_OPERATOR( < );
-        CATA_VARIANT_OPERATOR( <= );
-        CATA_VARIANT_OPERATOR( > );
-        CATA_VARIANT_OPERATOR( >= );
+        CATA_VARIANT_OPERATOR( < ); // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( <= ); // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( > ); // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( >= ); // NOLINT( cata-use-localized-sorting )
 #undef CATA_VARIANT_OPERATOR
     private:
         explicit cata_variant( cata_variant_type t, std::string &&v )
@@ -339,4 +358,4 @@ struct hash<cata_variant> {
 
 } // namespace std
 
-#endif // CATA_VARIANT_H
+#endif // CATA_SRC_CATA_VARIANT_H

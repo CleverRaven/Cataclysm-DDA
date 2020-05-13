@@ -1,10 +1,10 @@
 #include "ui.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cctype>
 #include <climits>
 #include <cstdlib>
-#include <algorithm>
 #include <iterator>
 #include <memory>
 
@@ -18,6 +18,8 @@
 #include "output.h"
 #include "player.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "ui_manager.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -38,6 +40,46 @@ catacurses::window new_centered_win( int nlines, int ncols )
 * @{
 */
 
+uilist::size_scalar &uilist::size_scalar::operator=( auto_assign )
+{
+    fun = nullptr;
+    return *this;
+}
+
+uilist::size_scalar &uilist::size_scalar::operator=( const int val )
+{
+    fun = [val]() -> int {
+        return val;
+    };
+    return *this;
+}
+
+uilist::size_scalar &uilist::size_scalar::operator=( const std::function<int()> &fun )
+{
+    this->fun = fun;
+    return *this;
+}
+
+uilist::pos_scalar &uilist::pos_scalar::operator=( auto_assign )
+{
+    fun = nullptr;
+    return *this;
+}
+
+uilist::pos_scalar &uilist::pos_scalar::operator=( const int val )
+{
+    fun = [val]( int ) -> int {
+        return val;
+    };
+    return *this;
+}
+
+uilist::pos_scalar &uilist::pos_scalar::operator=( const std::function<int( int )> &fun )
+{
+    this->fun = fun;
+    return *this;
+}
+
 uilist::uilist()
 {
     init();
@@ -52,18 +94,31 @@ uilist::uilist( const std::string &hotkeys_override )
 }
 
 uilist::uilist( const std::string &msg, const std::vector<uilist_entry> &opts )
-    : uilist( MENU_AUTOASSIGN_POS, MENU_AUTOASSIGN, msg, opts )
 {
+    init();
+    text = msg;
+    entries = opts;
+    query();
 }
 
 uilist::uilist( const std::string &msg, const std::vector<std::string> &opts )
-    : uilist( MENU_AUTOASSIGN_POS, MENU_AUTOASSIGN, msg, opts )
 {
+    init();
+    text = msg;
+    for( const std::string &opt : opts ) {
+        entries.emplace_back( opt );
+    }
+    query();
 }
 
 uilist::uilist( const std::string &msg, std::initializer_list<const char *const> opts )
-    : uilist( MENU_AUTOASSIGN_POS, MENU_AUTOASSIGN, msg, opts )
 {
+    init();
+    text = msg;
+    for( const char *const opt : opts ) {
+        entries.emplace_back( opt );
+    }
+    query();
 }
 
 uilist::uilist( const point &start, int width, const std::string &msg,
@@ -106,6 +161,14 @@ uilist::uilist( const point &start, int width, const std::string &msg,
     query();
 }
 
+uilist::~uilist()
+{
+    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    if( current_ui ) {
+        current_ui->reset();
+    }
+}
+
 /*
  * Enables oneshot construction -> running -> exit
  */
@@ -120,17 +183,18 @@ uilist::operator int() const
 void uilist::init()
 {
     assert( !test_mode ); // uilist should not be used in tests where there's no place for it
-    w_x = MENU_AUTOASSIGN;              // starting position
-    w_y = MENU_AUTOASSIGN;              // -1 = auto center
-    w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
-    w_height =
-        MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // FIXME: scrolling list with offset
+    w_x_setup = pos_scalar::auto_assign {};
+    w_y_setup = pos_scalar::auto_assign {};
+    w_width_setup = size_scalar::auto_assign {};
+    w_height_setup = size_scalar::auto_assign {};
+    w_x = 0;
+    w_y = 0;
+    w_width = 0;
+    w_height = 0;
     ret = UILIST_WAIT_INPUT;
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
-    // TODO:
-    textalign = MENU_ALIGN_LEFT;
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
     window = catacurses::window();         // our window
@@ -138,13 +202,14 @@ void uilist::init()
     selected = 0;          // current highlight, for entries[index]
     entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
+    pad_left_setup = 0;
+    pad_right_setup = 0;
     pad_left = 0;          // make a blank space to the left
     pad_right = 0;         // or right
     desc_enabled = false;  // don't show option description by default
-    desc_lines = 6;        // default number of lines for description
+    desc_lines_hint = 6;   // default number of lines for description
+    desc_lines = 6;
     footer_text.clear();   // takes precedence over per-entry descriptions.
-    // TODO: always true.
-    border = true;
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -153,9 +218,8 @@ void uilist::init()
     disabled_color = c_dark_gray; // disabled menu entry
     allow_disabled = false;  // disallow selecting disabled options
     allow_anykey = false;    // do not return on unbound keys
-    allow_cancel = true;     // allow cancelling with "QUIT" action
+    allow_cancel = true;     // allow canceling with "QUIT" action
     allow_additional = false; // do not return on unhandled additional actions
-    hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
     vshift = 0;              // scrolling menu offset
@@ -166,15 +230,8 @@ void uilist::init()
     fselected = 0;           // fentries[selected]
     filtering = true;        // enable list display filtering via '/' or '.'
     filtering_nocase = true; // ignore case when filtering
-    max_entry_len = 0;       // does nothing but can be read
+    max_entry_len = 0;
     max_column_len = 0;      // for calculating space for second column
-
-    scrollbar_auto =
-        true;   // there is no force-on; true will only render scrollbar if entries > vertical height
-    scrollbar_nopage_color =
-        c_light_gray;    // color of '|' line for the entire area that isn't current page.
-    scrollbar_page_color = c_cyan_cyan; // color of the '|' line for whatever's the current page.
-    scrollbar_side = -1;     // -1 == choose left unless taken, then choose right
 
     hotkeys = DEFAULT_HOTKEYS;
     input_category = "UILIST";
@@ -204,7 +261,7 @@ void uilist::filterlist()
         if( notfiltering || ( !nocase && static_cast<int>( entries[i].txt.find( filter ) ) != -1 ) ||
             lcmatch( entries[i].txt, fstr ) ) {
             fentries.push_back( i );
-            if( i == selected ) {
+            if( i == selected && ( hilight_disabled || entries[i].enabled ) ) {
                 fselected = f;
             } else if( i > selected && fselected == -1 ) {
                 // Past the previously selected entry, which has been filtered out,
@@ -231,62 +288,35 @@ void uilist::filterlist()
     if( static_cast<int>( fentries.size() ) <= vmax ) {
         vshift = 0;
     }
+    if( callback != nullptr ) {
+        callback->select( this );
+    }
 }
 
-/**
- * Call string_input_win / ui_element_input::input_filter and filter the entries list interactively
- */
-std::string uilist::inputfilter()
+void uilist::inputfilter()
 {
-    // TODO: uilist.filter_identifier ?
-    std::string identifier;
-    mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
-    mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
-    /*
-    //debatable merit
-        std::string origfilter = filter;
-        int origselected = selected;
-        int origfselected = fselected;
-        int origvshift = vshift;
-    */
-    string_input_popup popup;
-    popup.text( filter )
+    filter_popup = std::make_unique<string_input_popup>();
+    filter_popup->text( filter )
     .max_length( 256 )
-    .window( window, 4, w_height - 1, w_width - 4 )
-    .identifier( identifier );
+    .window( window, point( 4, w_height - 1 ), w_width - 4 );
     input_event event;
     ime_sentry sentry;
     do {
-        // filter=filter_input->query(filter, false);
-        filter = popup.query_string( false );
-        event = popup.context().get_raw_input();
-        // key = filter_input->keypress;
+        ui_manager::redraw();
+        filter = filter_popup->query_string( false );
+        event = filter_popup->context().get_raw_input();
         if( event.get_first_input() != KEY_ESCAPE ) {
             if( !scrollby( scroll_amount_from_key( event.get_first_input() ) ) ) {
                 filterlist();
             }
-            show();
         }
     } while( event.get_first_input() != '\n' && event.get_first_input() != KEY_ESCAPE );
 
     if( event.get_first_input() == KEY_ESCAPE ) {
-        /*
-        //perhaps as an option
-                filter = origfilter;
-                selected = origselected;
-                fselected = origfselected;
-                vshift = origvshift;
-        */
         filterlist();
     }
 
-    wattron( window, border_color );
-    for( int i = 1; i < w_width - 1; i++ ) {
-        mvwaddch( window, point( i, w_height - 1 ), LINE_OXOX );
-    }
-    wattroff( window, border_color );
-
-    return filter;
+    filter_popup.reset();
 }
 
 /**
@@ -333,8 +363,7 @@ static int find_minimum_fold_width( const std::string &str, int max_lines,
  */
 void uilist::setup()
 {
-    bool w_auto = ( w_width == -1 || w_width == -2 );
-    bool w_autofold = ( w_width == -2 );
+    bool w_auto = !w_width_setup.fun;
 
     // Space for a line between text and entries. Only needed if there is actually text.
     const int text_separator_line = text.empty() ? 0 : 1;
@@ -343,17 +372,24 @@ void uilist::setup()
         if( !title.empty() ) {
             w_width = utf8_width( title ) + 5;
         }
+    } else {
+        w_width = w_width_setup.fun();
     }
     const int max_desc_width = w_auto ? TERMX - 4 : w_width - 4;
 
-    bool h_auto = ( w_height == -1 );
+    bool h_auto = !w_height_setup.fun;
     if( h_auto ) {
         w_height = 4;
+    } else {
+        w_height = w_height_setup.fun();
     }
 
     max_entry_len = 0;
     max_column_len = 0;
+    desc_lines = desc_lines_hint;
     std::vector<int> autoassign;
+    pad_left = pad_left_setup.fun ? pad_left_setup.fun() : 0;
+    pad_right = pad_right_setup.fun ? pad_right_setup.fun() : 0;
     int pad = pad_left + pad_right + 2;
     int descwidth_final = 0; // for description width guard
     for( size_t i = 0; i < entries.size(); i++ ) {
@@ -396,7 +432,6 @@ void uilist::setup()
         if( entries[ i ].text_color == c_red_red ) {
             entries[ i ].text_color = text_color;
         }
-        fentries.push_back( i );
     }
     size_t next_free_hotkey = 0;
     for( auto it = autoassign.begin(); it != autoassign.end() &&
@@ -415,7 +450,6 @@ void uilist::setup()
     if( desc_enabled ) {
         if( descwidth_final > TERMX ) {
             desc_enabled = false; // give up
-            debugmsg( "description would exceed terminal width (%d vs %d available)", descwidth_final, TERMX );
         } else if( descwidth_final > w_width ) {
             w_width = descwidth_final;
         }
@@ -427,7 +461,7 @@ void uilist::setup()
         bool formattxt = true;
         int realtextwidth = 0;
         if( textwidth == -1 ) {
-            if( w_autofold || !w_auto ) {
+            if( !w_auto ) {
                 realtextwidth = w_width - 4;
             } else {
                 realtextwidth = twidth;
@@ -494,61 +528,43 @@ void uilist::setup()
 
     if( vmax + additional_lines > w_height ) {
         vmax = w_height - additional_lines;
-        if( vmax < 1 ) {
-            if( textformatted.empty() ) {
-                popup( "Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
-                       TERMY );
-            } else {
-                popup( "Can't display menu options, %zu %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
-                       textformatted.size(), TERMY, textformatted[ 0 ].c_str(),
-                       textformatted[ textformatted.size() - 1 ].c_str() );
-            }
-        }
     }
 
-    if( w_x == -1 ) {
+    if( !w_x_setup.fun ) {
         w_x = static_cast<int>( ( TERMX - w_width ) / 2 );
+    } else {
+        w_x = w_x_setup.fun( w_width );
     }
-    if( w_y == -1 ) {
+    if( !w_y_setup.fun ) {
         w_y = static_cast<int>( ( TERMY - w_height ) / 2 );
+    } else {
+        w_y  = w_y_setup.fun( w_height );
     }
 
-    if( scrollbar_side == -1 ) {
-        scrollbar_side = ( pad_left > 0 ? 1 : 0 );
-    }
-    if( static_cast<int>( entries.size() ) <= vmax ) {
-        scrollbar_auto = false;
-    }
     window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
-        debugmsg( "Window not created; probably trying to use uilist in test mode." );
         abort();
     }
 
-    fselected = selected;
-    if( fselected < 0 ) {
-        fselected = selected = 0;
-    } else if( fselected >= static_cast<int>( entries.size() ) ) {
-        fselected = selected = static_cast<int>( entries.size() ) - 1;
+    if( !started ) {
+        filterlist();
     }
-    if( !entries.empty() && !entries[fselected].enabled ) {
-        for( size_t i = 0; i < entries.size(); ++i ) {
-            if( entries[i].enabled ) {
-                fselected = selected = i;
-                break;
-            }
-        }
-    }
+
     started = true;
+}
+
+void uilist::reposition( ui_adaptor &ui )
+{
+    setup();
+    if( filter_popup ) {
+        filter_popup->window( window, point( 4, w_height - 1 ), w_width - 4 );
+    }
+    ui.position_from_window( window );
 }
 
 void uilist::apply_scrollbar()
 {
-    if( !scrollbar_auto ) {
-        return;
-    }
-
-    int sbside = ( scrollbar_side == 0 ? 0 : w_width - 1 );
+    int sbside = ( pad_left <= 0 ? 0 : w_width - 1 );
     int estart = textformatted.size();
     if( estart > 0 ) {
         estart += 2;
@@ -564,8 +580,8 @@ void uilist::apply_scrollbar()
     .viewport_size( vmax )
     .border_color( border_color )
     .arrow_color( border_color )
-    .slot_color( scrollbar_nopage_color )
-    .bar_color( scrollbar_page_color )
+    .slot_color( c_light_gray )
+    .bar_color( c_cyan_cyan )
     .scroll_to_last( false )
     .apply( window );
 }
@@ -618,9 +634,7 @@ void uilist::show()
                               disabled_color )
                           );
 
-            if( hilight_full ) {
-                mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
-            }
+            mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
             if( entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
                 const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
                 mvwprintz( window, point( pad_left + 2, estart + si ), entries[ ei ].enabled ? hotkey_co : co,
@@ -652,9 +666,6 @@ void uilist::show()
                 mvwputch( window, point( pad_left + 1 + menu_entry_extra_text.left, estart + si ),
                           menu_entry_extra_text.color, menu_entry_extra_text.sym );
             }
-            if( callback != nullptr && ei == selected ) {
-                callback->select( ei, this );
-            }
         } else {
             mvwprintz( window, point( pad_left + 1, estart + si ), c_light_gray, padspaces );
         }
@@ -681,50 +692,22 @@ void uilist::show()
         }
     }
 
-    if( !filter.empty() ) {
-        mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
-        mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
+    if( filter_popup ) {
+        mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
+        mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
+        filter_popup->query( /*loop=*/false, /*draw_only=*/true );
+    } else {
+        if( !filter.empty() ) {
+            mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
+            mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
+        }
     }
     apply_scrollbar();
 
-    this->refresh( true );
-}
-
-/**
- * wrefresh + wrefresh callback's window
- */
-void uilist::refresh( bool refresh_callback )
-{
     wrefresh( window );
-    if( refresh_callback && callback != nullptr ) {
+    if( callback != nullptr ) {
         callback->refresh( this );
     }
-}
-
-/**
- * redraw borders, which is required in some cases ( look_around() )
- */
-void uilist::redraw( bool redraw_callback )
-{
-    draw_border( window, border_color );
-    if( !title.empty() ) {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( window, point( 1, 0 ), border_color, "< " );
-        wprintz( window, title_color, title );
-        wprintz( window, border_color, " >" );
-    }
-    if( !filter.empty() ) {
-        mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
-        mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
-    }
-    // TODO: something
-    ( void )redraw_callback;
-    /*
-    // pending tests on if this is needed
-        if ( redraw_callback && callback != NULL ) {
-            callback->redraw(this);
-        }
-    */
 }
 
 int uilist::scroll_amount_from_key( const int key )
@@ -811,8 +794,27 @@ bool uilist::scrollby( const int scrollby )
     }
     if( static_cast<size_t>( fselected ) < fentries.size() ) {
         selected = fentries [ fselected ];
+        if( callback != nullptr ) {
+            callback->select( this );
+        }
     }
     return true;
+}
+
+shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
+{
+    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    if( !current_ui ) {
+        ui = current_ui = make_shared_fast<ui_adaptor>();
+        current_ui->on_redraw( [this]( const ui_adaptor & ) {
+            show();
+        } );
+        current_ui->on_screen_resize( [this]( ui_adaptor & ui ) {
+            reposition( ui );
+        } );
+        current_ui->mark_resize();
+    }
+    return current_ui;
 }
 
 /**
@@ -846,7 +848,9 @@ void uilist::query( bool loop, int timeout )
     }
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
-    show();
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+
+    ui_manager::redraw();
 
 #if defined(__ANDROID__)
     for( const auto &entry : entries ) {
@@ -872,6 +876,9 @@ void uilist::query( bool loop, int timeout )
                 ret = entries[ selected ].retval; // valid
             } else if( allow_disabled ) {
                 ret = entries[selected].retval; // disabled
+            }
+            if( callback != nullptr ) {
+                callback->select( this );
             }
         } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
@@ -899,7 +906,7 @@ void uilist::query( bool loop, int timeout )
             }
         }
 
-        show();
+        ui_manager::redraw();
     } while( loop && ret == UILIST_WAIT_INPUT );
 }
 
@@ -950,11 +957,6 @@ pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )
     last_view = g->u.view_offset;
 }
 
-void pointmenu_cb::select( int /*num*/, uilist * /*menu*/ )
-{
-    g->u.view_offset = last_view;
-}
-
 void pointmenu_cb::refresh( uilist *menu )
 {
     if( last == menu->selected ) {
@@ -966,7 +968,6 @@ void pointmenu_cb::refresh( uilist *menu )
         g->draw_ter();
         wrefresh( g->w_terrain );
         g->draw_panels();
-        menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;
     }
@@ -977,7 +978,6 @@ void pointmenu_cb::refresh( uilist *menu )
     // TODO: Remove this line when it's safe
     g->u.view_offset.z = 0;
     g->draw_trail_to_square( g->u.view_offset, true );
-    menu->redraw( false );
     menu->show();
 }
 

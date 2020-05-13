@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SOFTWARE_KITTEN_H
-#define SOFTWARE_KITTEN_H
+#ifndef CATA_SRC_IUSE_SOFTWARE_KITTEN_H
+#define CATA_SRC_IUSE_SOFTWARE_KITTEN_H
 
 #include <string>
 
@@ -41,4 +41,4 @@ class robot_finds_kitten
         int bogus_messages[MAXMESSAGES];
 };
 
-#endif
+#endif // CATA_SRC_IUSE_SOFTWARE_KITTEN_H

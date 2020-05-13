@@ -15,6 +15,10 @@
     "hit_difficulty": 1,
     "side": "both",
     "legacy_id": "TORSO",
+    "stylish_bonus": 6,
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "squeamish_penalty": 6,
     "bionic_slots": 80
   },
   {
@@ -33,6 +37,10 @@
     "hit_difficulty": 1.35,
     "side": "both",
     "legacy_id": "HEAD",
+    "stylish_bonus": 3,
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "squeamish_penalty": 7,
     "bionic_slots": 18
   },
   {
@@ -50,6 +58,8 @@
     "hit_difficulty": 1.15,
     "side": "both",
     "legacy_id": "EYES",
+    "stylish_bonus": 2,
+    "squeamish_penalty": 8,
     "bionic_slots": 4
   },
   {
@@ -67,6 +77,10 @@
     "hit_difficulty": 1.15,
     "side": "both",
     "legacy_id": "MOUTH",
+    "stylish_bonus": 2,
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "squeamish_penalty": 9,
     "bionic_slots": 4
   },
   {
@@ -88,6 +102,9 @@
     "hit_difficulty": 0.95,
     "side": "left",
     "legacy_id": "ARM_L",
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
+    "squeamish_penalty": 5,
     "bionic_slots": 20
   },
   {
@@ -108,6 +125,9 @@
     "hit_difficulty": 0.95,
     "side": "right",
     "legacy_id": "ARM_R",
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
+    "squeamish_penalty": 5,
     "bionic_slots": 20
   },
   {
@@ -127,6 +147,10 @@
     "hit_difficulty": 1.1,
     "side": "left",
     "legacy_id": "HAND_L",
+    "stylish_bonus": 0.5,
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
+    "squeamish_penalty": 3,
     "bionic_slots": 5
   },
   {
@@ -146,6 +170,10 @@
     "hit_difficulty": 1.1,
     "side": "right",
     "legacy_id": "HAND_R",
+    "stylish_bonus": 0.5,
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
+    "squeamish_penalty": 3,
     "bionic_slots": 5
   },
   {
@@ -166,6 +194,10 @@
     "hit_difficulty": 0.975,
     "side": "left",
     "legacy_id": "LEG_L",
+    "stylish_bonus": 1,
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
+    "squeamish_penalty": 5,
     "bionic_slots": 30
   },
   {
@@ -186,6 +218,10 @@
     "hit_difficulty": 0.975,
     "side": "right",
     "legacy_id": "LEG_R",
+    "stylish_bonus": 1,
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
+    "squeamish_penalty": 5,
     "bionic_slots": 30
   },
   {
@@ -205,6 +241,10 @@
     "hit_difficulty": 0.8,
     "side": "left",
     "legacy_id": "FOOT_L",
+    "stylish_bonus": 0.5,
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
+    "squeamish_penalty": 3,
     "bionic_slots": 7
   },
   {
@@ -224,6 +264,10 @@
     "hit_difficulty": 0.8,
     "side": "right",
     "legacy_id": "FOOT_R",
+    "stylish_bonus": 0.5,
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
+    "squeamish_penalty": 3,
     "bionic_slots": 7
   },
   {

@@ -744,7 +744,7 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "bb dd",
-        "bs cX",
+        "bs cx",
         "     ",
         "bs  f",
         "bbSDC"
@@ -1137,7 +1137,7 @@
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "AACttt6c   ",
+        "AACtttUc   ",
         "t          ",
         "AACtttU   U",
         "t         U",

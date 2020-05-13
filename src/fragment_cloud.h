@@ -1,6 +1,6 @@
 #pragma once
-#ifndef FRAGMENT_CLOUD_H
-#define FRAGMENT_CLOUD_H
+#ifndef CATA_SRC_FRAGMENT_CLOUD_H
+#define CATA_SRC_FRAGMENT_CLOUD_H
 
 enum class quadrant;
 /*
@@ -30,4 +30,4 @@ fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud
         const fragment_cloud &current_cloud,
         const int &distance );
 
-#endif /* FRAGMENT_CLOUD_H */
+#endif // CATA_SRC_FRAGMENT_CLOUD_H

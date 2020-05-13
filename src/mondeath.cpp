@@ -1,53 +1,86 @@
 #include "mondeath.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <cmath>
-#include <vector>
 #include <array>
+#include <cmath>
+#include <cstdlib>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "colony.h"
+#include "creature.h"
+#include "enums.h"
 #include "explosion.h"
-#include "timed_event.h"
-#include "field.h"
+#include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
+#include "item.h"
+#include "item_stack.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mattack_actors.h"
+#include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "timed_event.h"
 #include "translations.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "creature.h"
-#include "enums.h"
-#include "item.h"
-#include "item_stack.h"
-#include "iuse.h"
-#include "pldata.h"
-#include "units.h"
-#include "weighted_list.h"
 #include "type_id.h"
-#include "colony.h"
-#include "point.h"
-#include "mattack_actors.h"
-#include "cata_string_consts.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "weighted_list.h"
+
+static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_no_ammo( "no_ammo" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_rat( "rat" );
+
+static const species_id species_BLOB( "BLOB" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
+static const mtype_id mon_halfworm( "mon_halfworm" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_thing( "mon_thing" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+
+static const trait_id trait_KILLER( "KILLER" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 void mdeath::normal( monster &z )
 {
@@ -93,7 +126,7 @@ static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monste
     pile_size = std::max( pile_size, 1 );
     // can't have more items in a pile than total items
     pile_size = std::min( chunk_amt, pile_size );
-    distance = abs( distance );
+    distance = std::abs( distance );
     const item chunk( chunk_name, calendar::turn, pile_size );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
         bool drop_chunks = true;
@@ -161,15 +194,15 @@ void mdeath::splatter( monster &z )
         }
     }
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
-    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
-                                       ( overflow_damage / max_hp + 1 ) ) );
+    int gibbed_weight = rng( 0, std::round( to_gram( z.get_weight() ) / 100.0 *
+                                            ( overflow_damage / max_hp + 1 ) ) );
     const int z_weight = to_gram( z.get_weight() );
     // limit gibbing to 15%
     gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
-        int gib_distance = round( rng( 2, 4 ) );
+        int gib_distance = std::round( rng( 2, 4 ) );
         for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
@@ -214,11 +247,11 @@ void mdeath::boomer( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
+    for( const tripoint &dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
-        if( monster *const z = g->critter_at<monster>( dest ) ) {
-            z->stumble();
-            z->moves -= 250;
+        if( monster *const target = g->critter_at<monster>( dest ) ) {
+            target->stumble();
+            target->moves -= 250;
         }
     }
 
@@ -234,18 +267,18 @@ void mdeath::boomer_glow( monster &z )
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
 
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
+    for( const tripoint &dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
-        if( monster *const z = g->critter_at<monster>( dest ) ) {
-            z->stumble();
-            z->moves -= 250;
+        if( monster *const target = g->critter_at<monster>( dest ) ) {
+            target->stumble();
+            target->moves -= 250;
         }
         if( Creature *const critter = g->critter_at( dest ) ) {
             critter->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
                 body_part bp = random_body_part();
                 critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
-                if( critter != nullptr && critter->has_effect( effect_glowing ) ) {
+                if( critter->has_effect( effect_glowing ) ) {
                     break;
                 }
             }
@@ -287,9 +320,9 @@ void mdeath::vine_cut( monster &z )
         if( tmp == z.pos() ) {
             continue; // Skip ourselves
         }
-        if( monster *const z = g->critter_at<monster>( tmp ) ) {
-            if( z->type->id == mon_creeper_vine ) {
-                vines.push_back( z );
+        if( monster *const neighbor = g->critter_at<monster>( tmp ) ) {
+            if( neighbor->type->id == mon_creeper_vine ) {
+                vines.push_back( neighbor );
             }
         }
     }
@@ -327,7 +360,7 @@ void mdeath::fungus( monster &z )
     sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
 
     fungal_effects fe( *g, g->m );
-    for( auto &&sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
+    for( const tripoint &sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->m.impassable( sporep ) ) {
             continue;
         }
@@ -466,7 +499,7 @@ void mdeath::blobsplit( monster &z )
 void mdeath::brainblob( monster &z )
 {
     for( monster &critter : g->all_monsters() ) {
-        if( critter.type->in_species( BLOB ) && critter.type->id != mon_blob_brain ) {
+        if( critter.type->in_species( species_BLOB ) && critter.type->id != mon_blob_brain ) {
             critter.remove_effect( effect_controlled );
         }
     }
@@ -722,86 +755,13 @@ void mdeath::gameover( monster &z )
     g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers( monster &z )
+void mdeath::kill_breathers( monster &/*z*/ )
 {
-    ( void )z; //unused
     for( monster &critter : g->all_monsters() ) {
         const mtype_id &monID = critter.type->id;
         if( monID == mon_breather_hub || monID == mon_breather ) {
             critter.die( nullptr );
         }
-    }
-}
-
-void mdeath::detonate( monster &z )
-{
-    weighted_int_list<std::string> amm_list;
-    for( const auto &amm : z.ammo ) {
-        amm_list.add( amm.first, amm.second );
-    }
-
-    std::vector<std::string> pre_dets;
-    for( int i = 0; i < 3; i++ ) {
-        if( amm_list.get_weight() <= 0 ) {
-            break;
-        }
-        // Grab one item
-        std::string tmp = *amm_list.pick();
-        // and reduce its weight by 1
-        amm_list.add_or_replace( tmp, amm_list.get_specific_weight( tmp ) - 1 );
-        // and stash it for use
-        pre_dets.push_back( tmp );
-    }
-
-    // Update any hardcoded explosion equivalencies
-    std::vector<std::pair<std::string, long>> dets;
-    for( const std::string &bomb_id : pre_dets ) {
-        if( bomb_id == "bot_grenade_hack" ) {
-            dets.push_back( std::make_pair( "grenade_act", 5 ) );
-        } else if( bomb_id == "bot_flashbang_hack" ) {
-            dets.push_back( std::make_pair( "flashbang_act", 5 ) );
-        } else if( bomb_id == "bot_gasbomb_hack" ) {
-            dets.push_back( std::make_pair( "gasbomb_act", 20 ) );
-        } else if( bomb_id == "bot_c4_hack" ) {
-            dets.push_back( std::make_pair( "c4armed", 10 ) );
-        } else if( bomb_id == "bot_mininuke_hack" ) {
-            dets.push_back( std::make_pair( "mininuke_act", 20 ) );
-        } else {
-            // Get the transformation item
-            const iuse_transform *actor = dynamic_cast<const iuse_transform *>(
-                                              item::find_type( bomb_id )->get_use( "transform" )->get_actor_ptr() );
-            if( actor == nullptr ) {
-                // Invalid bomb item, move to the next ammo item
-                add_msg( m_debug, "Invalid bomb type in detonate mondeath for %s.", z.name() );
-                continue;
-            }
-            dets.emplace_back( actor->target, actor->ammo_qty );
-        }
-    }
-
-    if( g->u.sees( z ) ) {
-        if( dets.empty() ) {
-            add_msg( m_info,
-                     //~ %s is the possessive form of the monster's name
-                     _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
-                     z.name() );
-        } else {
-            //~ %s is the possessive form of the monster's name
-            add_msg( m_bad, _( "The %s's hands fly to its remaining pockets, opening them!" ),
-                     z.name() );
-        }
-    }
-    // HACK, used to stop them from having ammo on respawn
-    z.add_effect( effect_no_ammo, 1_turns, num_bp, true );
-
-    // First die normally
-    mdeath::normal( z );
-    // Then detonate our suicide bombs
-    for( const auto &bombs : dets ) {
-        item bomb_item( bombs.first, 0 );
-        bomb_item.charges = bombs.second;
-        bomb_item.active = true;
-        g->m.add_item_or_charges( z.pos(), bomb_item );
     }
 }
 
@@ -824,10 +784,6 @@ void make_mon_corpse( monster &z, int damageLvl )
         corpse.set_item_temperature( 310.15 );
     }
     corpse.set_damage( damageLvl );
-    if( z.has_effect( effect_pacified ) && z.type->in_species( ZOMBIE ) ) {
-        // Pacified corpses have a chance of becoming unpacified when regenerating.
-        corpse.set_var( "zlave", one_in( 2 ) ? "zlave" : "mutilated" );
-    }
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
@@ -866,4 +822,28 @@ void mdeath::conflagration( monster &z )
     const std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
 
+}
+
+void mdeath::necro_boomer( monster &z )
+{
+    std::string explode = string_format( _( "a %s explodes!" ), z.name() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    for( const tripoint &aoe : g->m.points_in_radius( z.pos(), 10 ) ) {
+        for( item &corpse : g->m.i_at( aoe ) ) {
+            if( !corpse.is_corpse() ) {
+                continue;
+            }
+            if( g->revive_corpse( aoe, corpse ) ) {
+                g->m.i_rem( aoe, &corpse );
+                break;
+            }
+        }
+    }
+    for( const tripoint &aoe : g->m.points_in_radius( z.pos(), 10 ) ) {
+        monster *mon = g->critter_at<monster>( aoe );
+        if( mon != nullptr && one_in( 10 ) ) {
+            mon->allow_upgrade();
+            mon->try_upgrade( false );
+        }
+    }
 }

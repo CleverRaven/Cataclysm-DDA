@@ -4,42 +4,63 @@
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": "Remington ACR .300BLK",
+    "name": { "str": "Remington ACR .300BLK" },
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines.  This version is chambered for the .300 AAC Blackout round.",
     "weight": "3590 g",
     "volume": "2 L",
     "price": 234300,
+    "price_postapoc": 5500,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "300blk",
-    "ranged_damage": -1,
+    "ammo": [ "300blk" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "300blk",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "iwi_tavor_x95_300blk",
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": "IWI Tavor X95 .300BLK",
+    "name": { "str": "IWI Tavor X95 .300BLK" },
     "description": "The IWI Tavor X95 (also called Micro-Tavor or MTAR) is an Israeli bullpup assault rifle designed and produced by Israel Weapon Industries.  This is the civilian version chambered for .300 AAC Blackout.",
     "weight": "3610 g",
     "volume": "1500 ml",
     "price": 490000,
+    "price_postapoc": 4500,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "300blk",
+    "ammo": [ "300blk" ],
     "dispersion": 140,
     "durability": 8,
     "min_cycle_recoil": 1700,
@@ -58,7 +79,26 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "300blk",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "ar15_retool_300blk",

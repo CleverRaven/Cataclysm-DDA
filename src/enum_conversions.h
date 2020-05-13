@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_ENUM_CONVERSIONS_H
-#define CATA_ENUM_CONVERSIONS_H
+#ifndef CATA_SRC_ENUM_CONVERSIONS_H
+#define CATA_SRC_ENUM_CONVERSIONS_H
 
 #include <unordered_map>
 
@@ -84,4 +84,4 @@ E string_to_enum( const std::string &data )
 /*@}*/
 } // namespace io
 
-#endif // CATA_ENUM_CONVERSIONS_H
+#endif // CATA_SRC_ENUM_CONVERSIONS_H

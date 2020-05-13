@@ -1,10 +1,15 @@
-#include "catch/catch.hpp"
-
 #include <sstream>
+#include <string>
+#include <utility>
 
 #include "cata_variant.h"
+#include "catch/catch.hpp"
+#include "character_id.h"
+#include "enum_conversions.h"
+#include "item.h"
 #include "json.h"
-#include "stringmaker.h"
+#include "string_id.h"
+#include "type_id.h"
 
 TEST_CASE( "variant_construction", "[variant]" )
 {

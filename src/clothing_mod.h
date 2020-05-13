@@ -1,18 +1,17 @@
 #pragma once
-#ifndef CLOTHING_MOD_H
-#define CLOTHING_MOD_H
+#ifndef CATA_SRC_CLOTHING_MOD_H
+#define CATA_SRC_CLOTHING_MOD_H
 
+#include <algorithm>
+#include <array>
 #include <cstddef>
 #include <string>
 #include <vector>
-#include <array>
 
 #include "type_id.h"
 
 class JsonObject;
-class player;
 class item;
-
 template<typename T> struct enum_traits;
 
 enum clothing_mod_type : int {
@@ -20,6 +19,7 @@ enum clothing_mod_type : int {
     clothing_mod_type_fire,
     clothing_mod_type_bash,
     clothing_mod_type_cut,
+    clothing_mod_type_bullet,
     clothing_mod_type_encumbrance,
     clothing_mod_type_warmth,
     clothing_mod_type_storage,
@@ -33,8 +33,8 @@ struct enum_traits<clothing_mod_type> {
 };
 
 struct mod_value {
-    clothing_mod_type type;
-    float value;
+    clothing_mod_type type = clothing_mod_type::num_clothing_mod_types;
+    float value = 0.0f;
     bool round_up = false;
     bool thickness_propotion = false;
     bool coverage_propotion = false;
@@ -53,7 +53,7 @@ struct clothing_mod {
     std::string implement_prompt;
     std::string destroy_prompt;
     std::vector< mod_value > mod_values;
-    bool restricted;
+    bool restricted = false;
 
     static size_t count();
 };
@@ -61,11 +61,12 @@ struct clothing_mod {
 namespace clothing_mods
 {
 
-constexpr std::array<clothing_mod_type, 8> all_clothing_mod_types = {{
+constexpr std::array<clothing_mod_type, 9> all_clothing_mod_types = {{
         clothing_mod_type_acid,
         clothing_mod_type_fire,
         clothing_mod_type_bash,
         clothing_mod_type_cut,
+        clothing_mod_type_bullet,
         clothing_mod_type_encumbrance,
         clothing_mod_type_warmth,
         clothing_mod_type_storage,
@@ -83,4 +84,4 @@ std::string string_from_clothing_mod_type( clothing_mod_type type );
 
 } // namespace clothing_mods
 
-#endif
+#endif // CATA_SRC_CLOTHING_MOD_H

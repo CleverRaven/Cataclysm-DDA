@@ -13,6 +13,7 @@
       "D": "t_door_c",
       "S": "t_sidewalk",
       "q": "t_door_metal_locked",
+      "f": "t_floor",
       "c": "t_carpet_red",
       "n": "t_carpet_red",
       "r": "t_reinforced_door_glass_c",
@@ -44,6 +45,7 @@
       "p": "f_table",
       "F": "f_vending_c",
       "K": "f_vending_c"
-    }
+    },
+    "items": { "_": { "item": "trash_junkyard", "chance": 3, "repeat": 2 } }
   }
 ]

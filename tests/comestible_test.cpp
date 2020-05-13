@@ -1,21 +1,22 @@
-#include <cstdio>
 #include <algorithm>
-#include <list>
-#include <map>
+#include <cstdio>
+#include <memory>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
-#include "itype.h"
-#include "recipe_dictionary.h"
-#include "recipe.h"
-#include "requirements.h"
-#include "test_statistics.h"
 #include "item.h"
-#include "optional.h"
+#include "item_contents.h"
+#include "itype.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
+#include "requirements.h"
+#include "stomach.h"
 #include "string_id.h"
+#include "test_statistics.h"
+#include "type_id.h"
 #include "value_ptr.h"
 
 struct all_stats {
@@ -107,7 +108,8 @@ static all_stats run_stats( const std::vector<std::vector<item_comp>> &permutati
 
 static item food_or_food_container( const item &it )
 {
-    return it.is_food_container() ? it.contents.front() : it;
+    // if it contains an item, it's a food container. it will also contain only one item.
+    return it.contents.num_item_stacks() > 0 ? it.contents.only_item() : it;
 }
 
 TEST_CASE( "recipe_permutations", "[recipe]" )

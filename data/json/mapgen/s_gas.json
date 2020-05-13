@@ -10,7 +10,7 @@
         "........................",
         ".-----..................",
         ".|...|..........sss.....",
-        ".|.Q.|...........&s.....",
+        ".|...|...........&s.....",
         ".|...|...........1s.....",
         ".|...|P..........2s.....",
         ".--+--..........sss.....",
@@ -32,7 +32,7 @@
         "...s9s...........s9s....",
         "........................"
       ],
-      "place_terrain": [ { "ter": "t_gas_tank", "x": 3, "y": 5 } ],
+      "place_terrain": [ { "ter": "t_gas_tank", "x": 3, "y": 3 } ],
       "terrain": {
         "&": "t_atm",
         "+": "t_chaingate_l",
@@ -45,7 +45,7 @@
       "furniture": { "9": "f_aut_gas_console" },
       "signs": { "P": { "signage": "Danger!  Do not smoke!  Risk of explosion!" } },
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
-      "place_liquids": [ { "liquid": "gasoline", "x": 3, "y": 5, "repeat": [ 200, 1075 ] } ]
+      "place_liquids": [ { "liquid": "gasoline", "x": 3, "y": 3, "repeat": [ 200, 1075 ] } ]
     }
   },
   {

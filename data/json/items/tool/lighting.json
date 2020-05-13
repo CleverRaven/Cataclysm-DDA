@@ -3,11 +3,12 @@
     "id": "atomic_lamp",
     "type": "GENERIC",
     "category": "tools",
-    "name": "atomic lamp",
+    "name": { "str": "atomic lamp" },
     "description": "Powered by the magic of nuclear decay and low-energy LEDs, this very expensive lamp will emit a small amount of light for at least a decade.  Before the Cataclysm, it was mostly an expensive way to show off your preparedness.  Now, it's actually pretty cool.  Use it to close the cover and hide the light.",
     "weight": "1438 g",
     "volume": "1 L",
     "price": 175000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "aluminum" ],
@@ -25,6 +26,7 @@
     "weight": "1438 g",
     "volume": "1 L",
     "price": 175000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "aluminum" ],
@@ -43,11 +45,12 @@
     "id": "atomic_light",
     "type": "GENERIC",
     "category": "tools",
-    "name": "atomic reading light",
+    "name": { "str": "atomic reading light" },
     "description": "Powered by the magic of nuclear decay and low-energy LEDs, this extremely expensive little light will provide just enough light to read by for at least a decade.  It is also available with a cute cartoon bear cover to turn it into a nightlight for a very wealthy child with a fear of the dark.  Use it to close the cover and hide the light.",
     "weight": "214 g",
     "volume": "250 ml",
     "price": 125000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 4,
     "material": [ "plastic", "aluminum" ],
@@ -70,6 +73,7 @@
     "weight": "214 g",
     "volume": "250 ml",
     "price": 125000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 4,
     "material": [ "plastic", "aluminum" ],
@@ -87,11 +91,12 @@
   {
     "id": "candle",
     "type": "TOOL",
-    "name": "candle",
+    "name": { "str": "candle" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  You'll need a lighter or matches to light it.",
-    "weight": "100 g",
+    "weight": "225 g",
     "volume": "250 ml",
     "price": 100,
+    "price_postapoc": 50,
     "to_hit": -2,
     "material": "veggy",
     "symbol": ",",
@@ -111,11 +116,12 @@
   {
     "id": "candle_lit",
     "type": "TOOL",
-    "name": { "str": "candle", "str_pl": "candles" },
+    "name": { "str": "candle" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
-    "weight": "100 g",
+    "weight": "225 g",
     "volume": "250 ml",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -2,
     "material": "veggy",
     "symbol": ",",
@@ -138,13 +144,14 @@
     "weight": "980 g",
     "volume": "1 L",
     "price": 1000,
+    "price_postapoc": 100,
     "bashing": 1,
     "to_hit": 2,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "target": "electric_lantern_on",
@@ -167,8 +174,7 @@
           "light_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 2
+    ]
   },
   {
     "id": "electric_lantern_on",
@@ -191,8 +197,9 @@
     "weight": "400 g",
     "volume": "500 ml",
     "price": 500,
+    "price_postapoc": 100,
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -214,8 +221,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "flashlight_on",
@@ -235,12 +241,13 @@
     "weight": "1400 g",
     "volume": "750 ml",
     "price": 3000,
+    "price_postapoc": 100,
     "to_hit": 2,
     "bashing": 1,
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
@@ -269,11 +276,12 @@
   {
     "id": "glowstick",
     "type": "TOOL",
-    "name": "glowstick",
+    "name": { "str": "glowstick" },
     "description": "This is a small blue light glowstick.  Use it to bend the plastic and break the glass cylinder inside to start the reaction.  It will produce a small amount of light.",
     "weight": "29 g",
     "volume": "250 ml",
     "price": 100,
+    "price_postapoc": 10,
     "to_hit": -1,
     "material": "plastic",
     "symbol": ";",
@@ -292,11 +300,12 @@
     "id": "glowstick_dead",
     "type": "TOOL",
     "category": "other",
-    "name": "dead glowstick",
+    "name": { "str": "dead glowstick" },
     "description": "This is a spent glowstick.  It is essentially trash.",
     "weight": "29 g",
     "volume": "250 ml",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -1,
     "bashing": 2,
     "material": "plastic",
@@ -307,7 +316,7 @@
   {
     "id": "glowstick_lit",
     "type": "TOOL",
-    "name": "active glowstick",
+    "name": { "str": "active glowstick" },
     "description": "This is an active glowstick and is producing light.  It will last for a few hours before burning out.",
     "weight": "29 g",
     "volume": "250 ml",
@@ -320,12 +329,12 @@
     "turns_per_charge": 30,
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
-    "flags": [ "LIGHT_8", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_8", "TRADER_AVOID", "SLEEP_IGNORE" ]
   },
   {
     "id": "handflare",
     "type": "TOOL",
-    "name": "flare",
+    "name": { "str": "flare" },
     "description": "This is a slow-burning magnesium flare.  Use it to strike the striker and light it.  It will produce a bright light for about a half hour.",
     "material": [ "plastic", "powder" ],
     "symbol": ";",
@@ -333,6 +342,7 @@
     "weight": "128 g",
     "volume": "250 ml",
     "price": 400,
+    "price_postapoc": 100,
     "max_charges": 300,
     "initial_charges": 300,
     "use_action": {
@@ -347,7 +357,7 @@
     "id": "handflare_lit",
     "copy-from": "handflare",
     "type": "TOOL",
-    "name": "active flare",
+    "name": { "str": "active flare" },
     "description": "This burning magnesium flare is producing light.  It will last for about a half hour before burning out.",
     "color": "white",
     "turns_per_charge": 6,
@@ -364,13 +374,13 @@
     "weight": "650 g",
     "volume": "750 ml",
     "price": 950,
+    "price_postapoc": 200,
     "bashing": 8,
-    "to_hit": 2,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -392,8 +402,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "heavy_flashlight_on",
@@ -413,10 +422,11 @@
   {
     "abstract": "lightstrip_base",
     "type": "TOOL",
-    "name": "lightstrip_base",
+    "name": { "str": "lightstrip_base" },
     "weight": "27 g",
     "volume": "250 ml",
     "price": 500,
+    "price_postapoc": 25,
     "to_hit": 2,
     "bashing": 1,
     "material": [ "plastic", "aluminum" ],
@@ -442,7 +452,7 @@
     "copy-from": "lightstrip_base",
     "description": "This is a light-emitting circuit that can be wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "target": "lightstrip",
       "msg": "You irreversibly activate the lightstrip.",
@@ -463,8 +473,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 0
+    ]
   },
   {
     "id": "oil_lamp",
@@ -474,12 +483,13 @@
     "weight": "1720 g",
     "volume": "1 L",
     "price": 1000,
+    "price_postapoc": 100,
     "to_hit": 2,
     "bashing": 1,
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "lamp_oil",
+    "ammo": [ "lamp_oil" ],
     "initial_charges": 750,
     "max_charges": 750,
     "charges_per_use": 1,
@@ -513,11 +523,12 @@
     "weight": "800 g",
     "volume": "500 ml",
     "price": 6500,
+    "price_postapoc": 100,
     "symbol": ";",
     "color": "red",
     "material": [ "copper", "glass" ],
     "charges_per_use": 1,
-    "ammo": "weldgas",
+    "ammo": [ "weldgas" ],
     "use_action": {
       "type": "transform",
       "msg": "You light the %s.",
@@ -541,15 +552,16 @@
   {
     "id": "reading_light",
     "type": "TOOL",
-    "name": { "str": "reading light", "str_pl": "reading lights" },
+    "name": { "str": "reading light" },
     "description": "A little clip-on LED light, meant for reading books in the dark.",
     "weight": "90 g",
     "volume": "100 ml",
     "price": 100,
+    "price_postapoc": 100,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "reading_light_on",
@@ -559,8 +571,7 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
-    "magazine_well": 1
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "reading_light_on",
@@ -581,12 +592,13 @@
     "weight": "400 g",
     "volume": "500 ml",
     "price": 500,
+    "price_postapoc": 100,
     "to_hit": -1,
     "bashing": 1,
     "material": [ "plastic", "aluminum" ],
     "symbol": "&",
     "color": "blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "smart_lamp_on",
@@ -610,8 +622,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "smart_lamp_on",
@@ -622,8 +633,7 @@
     "power_draw": 10000,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
     "id": "torch",
@@ -633,6 +643,7 @@
     "weight": "831 g",
     "volume": "750 ml",
     "price": 0,
+    "price_postapoc": 50,
     "to_hit": 1,
     "bashing": 8,
     "material": "wood",
@@ -659,6 +670,7 @@
     "weight": "831 g",
     "volume": "750 ml",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": 1,
     "bashing": 8,
     "material": "wood",

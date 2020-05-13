@@ -27,11 +27,11 @@
       [ "radio_book", 16 ],
       [ "advanced_electronics", 6 ],
       [ "small_lcd_screen", 20 ],
-      [ "double_plutonium_core", 2 ],
       [ "battery_ups", 15 ],
       [ "cell_phone", 15 ],
       [ "smart_phone", 20 ],
       [ "eink_tablet_pc", 8 ],
+      [ "laptop", 20 ],
       [ "smart_lamp", 5 ],
       [ "mobile_memory_card", 20 ],
       [ "camera", 5 ],
@@ -89,6 +89,7 @@
       [ "vac_sealer", 10 ],
       [ "smart_phone", 50 ],
       [ "eink_tablet_pc", 15 ],
+      [ "laptop", 30 ],
       [ "smart_lamp", 10 ],
       [ "mobile_memory_card", 40 ],
       [ "camera", 15 ],
@@ -100,6 +101,17 @@
       [ "omnicamera", 2 ],
       [ "l-stick", 1 ],
       [ "reading_light", 6 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "phones",
+    "items": [
+      { "item": "cell_phone", "prob": 9, "charges-min": 0, "charges-max": 15 },
+      { "item": "cell_phone", "prob": 1, "charges-min": 150, "charges-max": 150 },
+      { "item": "smart_phone", "prob": 9, "charges-min": 0, "charges-max": 15 },
+      { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130 }
     ]
   }
 ]

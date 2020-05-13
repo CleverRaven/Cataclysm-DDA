@@ -13,15 +13,14 @@
 #endif // _GLIBCXX_DEBUG
 
 #define CATCH_CONFIG_RUNNER
+#include <algorithm>
 #include <cassert>
+#include <chrono>
 #include <cstdio>
 #include <cstdlib>
-#include <algorithm>
 #include <cstring>
-#include <chrono>
 #include <ctime>
 #include <exception>
-#include <map>
 #include <memory>
 #include <ostream>
 #include <string>
@@ -29,24 +28,26 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catch/catch.hpp"
+#include "color.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
 #include "loading_ui.h"
 #include "map.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "worldfactory.h"
-#include "color.h"
-#include "options.h"
-#include "output.h"
 #include "pldata.h"
+#include "point.h"
 #include "rng.h"
 #include "type_id.h"
-#include "cata_utility.h"
-#include "calendar.h"
+#include "weather.h"
+#include "worldfactory.h"
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -78,6 +79,9 @@ static std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg
             ret.emplace_back( mod_name );
         }
     }
+    // Always load test data mod
+    ret.emplace_back( "test_data" );
+
     return ret;
 }
 
@@ -138,7 +142,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_world_modfiles( ui );
 
     g->u = avatar();
-    g->u.create( PLTYPE_NOW );
+    g->u.create( character_type::NOW );
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );
 
@@ -211,7 +215,7 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
 {
     std::string option_user_dir = extract_argument( arg_vec, "--user-dir=" );
     if( option_user_dir.empty() ) {
-        return "./";
+        return "./test_user_dir/";
     }
     if( !string_ends_with( option_user_dir, "/" ) ) {
         option_user_dir += "/";

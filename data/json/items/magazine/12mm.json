@@ -3,17 +3,19 @@
     "id": "hk_g80mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": "H&K G80 magazine",
+    "name": { "str": "H&K G80 magazine" },
     "description": "A magazine for H&K G80 railgun which can hold up to 20 ferromagnetic projectiles.",
     "weight": "168 g",
     "volume": "250 ml",
     "price": 8000,
+    "price_postapoc": 500,
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "12mm",
+    "ammo_type": [ "12mm" ],
     "capacity": 20,
     "reliability": 10,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "12mm": 20 } } ]
   }
 ]
