@@ -243,13 +243,13 @@
   {
     "copy-from": "ram_mattress_abstract",
     "id": "ram_mattress",
-    "symbol": "M",
+    "symbol": "=",
     "type": "vehicle_part"
   },
   {
     "copy-from": "tearer_abstract",
     "id": "tearer",
-    "symbol": "M",
+    "symbol": "*",
     "type": "vehicle_part"
   },
   {

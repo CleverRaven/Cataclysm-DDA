@@ -217,55 +217,55 @@
   {
     "copy-from": "door_abstract",
     "id": "door",
-    "symbol": "M",
+    "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "door_opaque_abstract",
     "id": "door_opaque",
-    "symbol": "M",
+    "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "hddoor_abstract",
     "id": "hddoor",
-    "symbol": "M",
+    "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "hddoor_opaque_abstract",
     "id": "hddoor_opaque",
-    "symbol": "M",
+    "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "door_internal_abstract",
     "id": "door_internal",
-    "symbol": "M",
+    "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "hatch_abstract",
     "id": "hatch",
-    "symbol": "M",
+    "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "hatch_opaque_abstract",
     "id": "hatch_opaque",
-    "symbol": "M",
+    "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "hdhatch_abstract",
     "id": "hdhatch",
-    "symbol": "M",
+    "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "hdhatch_opaque_abstract",
     "id": "hdhatch_opaque",
-    "symbol": "M",
+    "symbol": "+",
     "type": "vehicle_part"
   },
   {

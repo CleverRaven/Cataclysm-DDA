@@ -182,109 +182,37 @@
   {
     "copy-from": "kitchen_unit_abstract",
     "id": "kitchen_unit",
-    "symbol": "M",
+    "symbol": "&",
     "type": "vehicle_part"
   },
   {
     "copy-from": "welding_rig_abstract",
     "id": "welding_rig",
-    "symbol": "M",
+    "symbol": "&",
     "type": "vehicle_part"
   },
   {
     "copy-from": "craft_rig_abstract",
     "id": "craft_rig",
-    "symbol": "M",
+    "symbol": "&",
     "type": "vehicle_part"
   },
   {
     "copy-from": "chemlab_abstract",
     "id": "chemlab",
-    "symbol": "M",
+    "symbol": "&",
     "type": "vehicle_part"
   },
   {
     "copy-from": "veh_forge_abstract",
     "id": "veh_forge",
-    "symbol": "M",
+    "symbol": "&",
     "type": "vehicle_part"
   },
   {
     "copy-from": "veh_kiln_abstract",
     "id": "veh_kiln",
-    "symbol": "M",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "kitchen_unit_abstract",
-    "id": "kitchen_unit_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "welding_rig_abstract",
-    "id": "welding_rig_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "craft_rig_abstract",
-    "id": "craft_rig_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "chemlab_abstract",
-    "id": "chemlab_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "veh_forge_abstract",
-    "id": "veh_forge_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "veh_kiln_abstract",
-    "id": "veh_kiln_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "kitchen_unit_abstract",
-    "id": "kitchen_unit_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "welding_rig_abstract",
-    "id": "welding_rig_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "craft_rig_abstract",
-    "id": "craft_rig_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "chemlab_abstract",
-    "id": "chemlab_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "veh_forge_abstract",
-    "id": "veh_forge_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "veh_kiln_abstract",
-    "id": "veh_kiln_right",
-    "symbol": "b",
+    "symbol": "&",
     "type": "vehicle_part"
   },
   {
@@ -357,6 +285,78 @@
     "copy-from": "veh_kiln_abstract",
     "id": "veh_kiln_down",
     "symbol": "u",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "kitchen_unit_abstract",
+    "id": "kitchen_unit_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "welding_rig_abstract",
+    "id": "welding_rig_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "craft_rig_abstract",
+    "id": "craft_rig_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "chemlab_abstract",
+    "id": "chemlab_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "veh_forge_abstract",
+    "id": "veh_forge_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "veh_kiln_abstract",
+    "id": "veh_kiln_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "kitchen_unit_abstract",
+    "id": "kitchen_unit_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "welding_rig_abstract",
+    "id": "welding_rig_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "craft_rig_abstract",
+    "id": "craft_rig_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "chemlab_abstract",
+    "id": "chemlab_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "veh_forge_abstract",
+    "id": "veh_forge_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "veh_kiln_abstract",
+    "id": "veh_kiln_right",
+    "symbol": "b",
     "type": "vehicle_part"
   }
 ]

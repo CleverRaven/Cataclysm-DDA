@@ -95,73 +95,25 @@
   {
     "copy-from": "seat_abstract",
     "id": "seat",
-    "symbol": "M",
+    "symbol": "#",
     "type": "vehicle_part"
   },
   {
     "copy-from": "seat_leather_abstract",
     "id": "seat_leather",
-    "symbol": "M",
+    "symbol": "#",
     "type": "vehicle_part"
   },
   {
     "copy-from": "reclining_seat_abstract",
     "id": "reclining_seat",
-    "symbol": "M",
+    "symbol": "#",
     "type": "vehicle_part"
   },
   {
     "copy-from": "reclining_seat_leather_abstract",
     "id": "reclining_seat_leather",
-    "symbol": "M",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_abstract",
-    "id": "seat_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_leather_abstract",
-    "id": "seat_leather_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_abstract",
-    "id": "reclining_seat_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_leather_abstract",
-    "id": "reclining_seat_leather_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_abstract",
-    "id": "seat_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_leather_abstract",
-    "id": "seat_leather_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_abstract",
-    "id": "reclining_seat_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_leather_abstract",
-    "id": "reclining_seat_leather_right",
-    "symbol": "b",
+    "symbol": "#",
     "type": "vehicle_part"
   },
   {
@@ -210,6 +162,54 @@
     "copy-from": "reclining_seat_leather_abstract",
     "id": "reclining_seat_leather_down",
     "symbol": "u",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_leather_abstract",
+    "id": "seat_leather_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_abstract",
+    "id": "reclining_seat_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_leather_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_leather_abstract",
+    "id": "seat_leather_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_abstract",
+    "id": "reclining_seat_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_leather_right",
+    "symbol": "b",
     "type": "vehicle_part"
   }
 ]

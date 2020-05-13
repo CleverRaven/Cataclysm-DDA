@@ -47,13 +47,13 @@
   {
     "copy-from": "windshield_abstract",
     "id": "windshield",
-    "symbol": "M",
+    "symbol": "\"",
     "type": "vehicle_part"
   },
   {
     "copy-from": "reinforced_windshield_abstract",
     "id": "reinforced_windshield",
-    "symbol": "M",
+    "symbol": "\"",
     "type": "vehicle_part"
   },
   {
