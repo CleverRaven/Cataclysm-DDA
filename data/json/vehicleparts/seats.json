@@ -1,95 +1,215 @@
 [
-    {
-        "type": "item_group",
-        "id": "ig_vp_seat",
-        "subtype": "collection",
-        "entries": [
-          { "item": "rag", "count": [ 2, 8 ] },
-          { "item": "pipe", "count": [ 1, 3 ] },
-          { "item": "spring", "count": [ 0, 2 ] },
-          { "item": "scrap", "count": [ 3, 5 ] }
-        ]
-      },
-      {
-        "type": "item_group",
-        "id": "ig_vp_seat_leather",
-        "subtype": "collection",
-        "entries": [
-          { "item": "leather", "count": [ 1, 5 ] },
-          { "item": "rag", "count": [ 1, 3 ] },
-          { "item": "pipe", "count": [ 1, 3 ] },
-          { "item": "spring", "count": [ 0, 2 ] },
-          { "item": "scrap", "count": [ 3, 5 ] }
-        ]
-      },
-      {
-        "type": "vehicle_part",
-        "id": "seat",
-        "name": { "str": "seat" },
-        "symbol": "#",
-        "looks_like": "reclining_seat",
-        "color": "red",
-        "broken_symbol": "*",
-        "broken_color": "red",
-        "damage_modifier": 60,
-        "durability": 300,
-        "description": "A place to sit, or sleep if you're desperate.",
-        "size": 100,
-        "item": "seat",
-        "floor_bedding_warmth": 200,
-        "comfort": 2,
-        "location": "center",
-        "requirements": {
-          "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-          "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-          "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
-        },
-        "flags": [ "SEAT", "BOARDABLE", "CARGO", "BELTABLE" ],
-        "breaks_into": "ig_vp_seat",
-        "damage_reduction": { "all": 2 }
-      },
-      {
-        "type": "vehicle_part",
-        "id": "seat_leather",
-        "copy-from": "seat",
-        "looks_like": "seat",
-        "name": { "str": "leather seat" },
-        "item": "seat_leather",
-        "breaks_into": "ig_vp_seat_leather"
-      },
-      {
-        "type": "vehicle_part",
-        "id": "reclining_seat",
-        "name": { "str": "reclining seat" },
-        "symbol": "#",
-        "looks_like": "seat",
-        "color": "red",
-        "broken_symbol": "*",
-        "broken_color": "red",
-        "damage_modifier": 60,
-        "durability": 100,
-        "description": "A place to sit, and the backrest reclines to make it an uncomfortable bed.",
-        "item": "seat",
-        "size": 25,
-        "floor_bedding_warmth": 250,
-        "comfort": 3,
-        "location": "center",
-        "requirements": {
-          "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-          "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-          "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
-        },
-        "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
-        "breaks_into": "ig_vp_seat",
-        "damage_reduction": { "all": 3 }
-      },
-      {
-        "type": "vehicle_part",
-        "id": "reclining_seat_leather",
-        "looks_like": "seat_leather",
-        "copy-from": "reclining_seat",
-        "name": { "str": "reclining leather seat" },
-        "item": "seat_leather",
-        "breaks_into": "ig_vp_seat_leather"
-      }
+  {
+    "entries": [
+      { "count": [ 2, 8 ], "item": "rag" },
+      { "count": [ 1, 3 ], "item": "pipe" },
+      { "count": [ 0, 2 ], "item": "spring" },
+      { "count": [ 3, 5 ], "item": "scrap" }
+    ],
+    "id": "ig_vp_seat",
+    "subtype": "collection",
+    "type": "item_group"
+  },
+  {
+    "entries": [
+      { "count": [ 1, 5 ], "item": "leather" },
+      { "count": [ 1, 3 ], "item": "rag" },
+      { "count": [ 1, 3 ], "item": "pipe" },
+      { "count": [ 0, 2 ], "item": "spring" },
+      { "count": [ 3, 5 ], "item": "scrap" }
+    ],
+    "id": "ig_vp_seat_leather",
+    "subtype": "collection",
+    "type": "item_group"
+  },
+  {
+    "abstract": "seat_abstract",
+    "breaks_into": "ig_vp_seat",
+    "broken_color": "red",
+    "broken_symbol": "*",
+    "color": "red",
+    "comfort": 2,
+    "damage_modifier": 60,
+    "damage_reduction": { "all": 2 },
+    "description": "A place to sit, or sleep if you're desperate.",
+    "durability": 300,
+    "flags": [ "SEAT", "BOARDABLE", "CARGO", "BELTABLE" ],
+    "floor_bedding_warmth": 200,
+    "item": "seat",
+    "location": "center",
+    "looks_like": "reclining_seat",
+    "name": { "str": "seat" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "size": 100,
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "seat_leather_abstract",
+    "breaks_into": "ig_vp_seat_leather",
+    "copy-from": "seat",
+    "item": "seat_leather",
+    "looks_like": "seat",
+    "name": { "str": "leather seat" },
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "reclining_seat_abstract",
+    "breaks_into": "ig_vp_seat",
+    "broken_color": "red",
+    "broken_symbol": "*",
+    "color": "red",
+    "comfort": 3,
+    "damage_modifier": 60,
+    "damage_reduction": { "all": 3 },
+    "description": "A place to sit, and the backrest reclines to make it an uncomfortable bed.",
+    "durability": 100,
+    "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
+    "floor_bedding_warmth": 250,
+    "item": "seat",
+    "location": "center",
+    "looks_like": "seat",
+    "name": { "str": "reclining seat" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "size": 25,
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "reclining_seat_leather_abstract",
+    "breaks_into": "ig_vp_seat_leather",
+    "copy-from": "reclining_seat",
+    "item": "seat_leather",
+    "looks_like": "seat_leather",
+    "name": { "str": "reclining leather seat" },
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat",
+    "symbol": "M",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_leather_abstract",
+    "id": "seat_leather",
+    "symbol": "M",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_abstract",
+    "id": "reclining_seat",
+    "symbol": "M",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_leather",
+    "symbol": "M",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_leather_abstract",
+    "id": "seat_leather_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_abstract",
+    "id": "reclining_seat_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_leather_left",
+    "symbol": "d",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_leather_abstract",
+    "id": "seat_leather_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_abstract",
+    "id": "reclining_seat_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_leather_right",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat_up",
+    "symbol": "n",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_leather_abstract",
+    "id": "seat_leather_up",
+    "symbol": "n",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_abstract",
+    "id": "reclining_seat_up",
+    "symbol": "n",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_leather_up",
+    "symbol": "n",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat_down",
+    "symbol": "u",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_leather_abstract",
+    "id": "seat_leather_down",
+    "symbol": "u",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_abstract",
+    "id": "reclining_seat_down",
+    "symbol": "u",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_leather_down",
+    "symbol": "u",
+    "type": "vehicle_part"
+  }
 ]
