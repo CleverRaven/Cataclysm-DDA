@@ -10239,8 +10239,8 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         // Linearly increase move cost relative to individual leg hp.
-        movecost += 50 * ( 1 - pow( ( static_cast<float>( hp_cur[hp_leg_l] ) / static_cast<float>
-                                      ( hp_max[hp_leg_l] ) ), .5 ) );
+        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( hp_cur[hp_leg_l] ) /
+                                          static_cast<float>( hp_max[hp_leg_l] ) ) );
         movecost += 50 * ( 1 - pow( ( static_cast<float>( hp_cur[hp_leg_r] ) / static_cast<float>
                                       ( hp_max[hp_leg_r] ) ), .5 ) );
 
