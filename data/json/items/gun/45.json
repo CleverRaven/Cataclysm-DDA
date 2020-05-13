@@ -47,7 +47,8 @@
     "name": { "str": "H&K UMP45" },
     "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber.",
     "weight": "2300 g",
-    "volume": "1250 ml",
+    "volume": "4451 ml",
+    "longest_side": "452 mm",
     "price": 290000,
     "price_postapoc": 3000,
     "to_hit": -2,
@@ -77,6 +78,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "default_mods": [ "folding_stock" ],
     "magazines": [ [ "45", [ "ump45mag", "ump45_makeshiftmag" ] ] ]
   },
   {
