@@ -624,29 +624,29 @@ void player::hardcoded_effects( effect &it )
             }
          }
       }
-    else if( id == effect_tindrift )
-    {
+    else if( id == effect_tindrift ) {
         add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
         for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) )
         {
-            if( g->m.is_cornerfloor( dest ) )
-            {
+            if( g->m.is_cornerfloor( dest ) ) {
                 g->m.add_field( dest, fd_tindalos_rift, 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
                 //Remove the effect, since it's done all it needs to do to the target.
                 remove_effect( effect_tindrift );
-             }
+            }
         }
      } else if( id == effect_teleglow ) {
         // Default we get around 300 duration points per teleport (possibly more
         // depending on the source).
         // TODO: Include a chance to teleport to the nether realm.
         // TODO: This with regards to NPCS
-        if( !is_player() ) {
+        if( !is_player() )
+        {
             // NO, no teleporting around the player because an NPC has teleglow!
             return;
         }
-        if( dur > 10_hours ) {
+        if( dur > 10_hours )
+        {
             // 20 teleports (no decay; in practice at least 21)
             if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
                 if( !is_npc() ) {
@@ -665,23 +665,24 @@ void player::hardcoded_effects( effect &it )
             //Spawn a tindalos rift via effect_tindrift rather than it being hard-coded to teleglow
             add_effect(effect_tindrift, 5_turns);
 
-            if( one_in( 2 ) )
-            {
+            if( one_in( 2 ) ) {
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
-                }
             }
-            if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
-                if( !is_npc() ) {
-                    add_msg( m_bad, _( "You pass out." ) );
-                }
-                fall_asleep( 2_hours );
-                if( one_in( 6 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
+        }
+        if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) )
+        {
+            if( !is_npc() ) {
+                add_msg( m_bad, _( "You pass out." ) );
             }
-        if( dur > 6_hours ) {
+            fall_asleep( 2_hours );
+            if( one_in( 6 ) ) {
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
+            }
+        }
+        if( dur > 6_hours )
+        {
             // 12 teleports
             if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
                 tripoint dest( 0, 0, posz() );
@@ -723,7 +724,8 @@ void player::hardcoded_effects( effect &it )
                 }
             }
         }
-        if( dur > 4_hours ) {
+        if( dur > 4_hours )
+        {
             // 8 teleports
             if( one_turn_in( 1000_minutes - dur ) && !has_effect( effect_valium ) ) {
                 add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
@@ -744,7 +746,8 @@ void player::hardcoded_effects( effect &it )
                 }
             }
         }
-        if( one_in( 4000 ) ) {
+        if( one_in( 4000 ) )
+        {
             add_msg_if_player( m_bad, _( "You're suddenly covered in ectoplasm." ) );
             add_effect( effect_boomered, 10_minutes );
             if( one_in( 4 ) ) {
@@ -752,7 +755,8 @@ void player::hardcoded_effects( effect &it )
                 it.set_duration( 0_turns );
             }
         }
-        if( one_in( 10000 ) ) {
+        if( one_in( 10000 ) )
+        {
             if( !has_trait( trait_M_IMMUNE ) ) {
                 add_effect( effect_fungus, 1_turns, num_bp, true );
             } else {
