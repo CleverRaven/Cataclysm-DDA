@@ -365,7 +365,10 @@
   {
     "id": "distilling_cookbook",
     "type": "BOOK",
-    "name": { "str": "Out of the Holler and into the Home: A guide to home distillation. ", "str_pl": "copies of Out of the Holler" },
+    "name": {
+      "str": "Out of the Holler and into the Home: A guide to home distillation. ",
+      "str_pl": "copies of Out of the Holler"
+    },
     "description": "A book describing the history of at home distillation by liquor.  Each chapter contains a complete recipe for its namesake.",
     "weight": "454 g",
     "volume": "619 ml",
