@@ -73,6 +73,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "SEATBELT", VPFLAG_SEATBELT },
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
+    { "ROTOR_SIMPLE", VPFLAG_ROTOR_SIMPLE },
     { "FLOATS", VPFLAG_FLOATS },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
@@ -422,7 +423,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         load_wheel( def.wheel_info, jo );
     }
 
-    if( def.has_flag( "ROTOR" ) ) {
+    if( def.has_flag( "ROTOR" ) || def.has_flag( "ROTOR_SIMPLE" ) ) {
         load_rotor( def.rotor_info, jo );
     }
 
@@ -903,7 +904,10 @@ float vpart_info::wheel_or_rating() const
 
 int vpart_info::rotor_diameter() const
 {
-    return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
+    if( has_flag( VPFLAG_ROTOR ) || has_flag( VPFLAG_ROTOR_SIMPLE ) ) {
+        return rotor_info->rotor_diameter;
+    }
+    return 0;
 }
 
 const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const

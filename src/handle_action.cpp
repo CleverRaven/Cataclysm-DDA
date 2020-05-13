@@ -474,13 +474,19 @@ static void pldrive( const tripoint &p )
             return;
         }
     }
-    if( p.z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
-        u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
-        return;
-    }
-    if( p.z != 0 && !g->m.has_zlevels() ) {
-        u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
-        return;
+    if( p.z != 0 ) {
+        if( !u.has_trait( trait_PROF_HELI_PILOT ) ) {
+            u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
+            return;
+        }
+        if( !veh->is_flyable() ) {
+            u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
+            return;
+        }
+        if( !g->m.has_zlevels() ) {
+            u.add_msg_if_player( m_info, _( "This vehicle cannot be flown without z levels." ) );
+            return;
+        }
     }
     if( p.z == -1 ) {
         if( veh->check_heli_descend( u ) ) {
