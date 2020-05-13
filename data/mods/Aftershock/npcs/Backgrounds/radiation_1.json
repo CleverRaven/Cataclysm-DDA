@@ -2,7 +2,7 @@
   {
     "id": "BGSS_RADIATION_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "When the government gave up holding the depths of the city someone decided to use tactical nukes and buy time for the retreat.",
+    "dynamic_line": "When the government gave up on saving the depths of the city someone decided to use tactical nukes and buy time for the retreat.",
     "responses": [
       { "text": "Where are you from?", "topic": "BGSS_RADIATION_1_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
