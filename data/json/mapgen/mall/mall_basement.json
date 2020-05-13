@@ -52,9 +52,10 @@
         "}": "t_linoleum_white",
         "(": "t_linoleum_gray",
         ")": "t_linoleum_gray",
+        "Y": "t_linoleum_gray",
         "F": "t_linoleum_gray"
       },
-      "furniture": { "{": "f_bench", "}": "f_bench" },
+      "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "vendingmachines": { "(": { "item_group": "vending_drink" }, ")": { "item_group": "vending_food" } },
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 8, 23 ], "density": 0.4 } ]
     }
@@ -111,7 +112,7 @@
         "Y": "t_linoleum_gray",
         "}": "t_linoleum_white"
       },
-      "furniture": { "{": "f_bench", "}": "f_bench" },
+      "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "place_vehicles": [
         { "vehicle": "food_cart", "x": 75, "y": 3, "chance": 100, "rotation": 270 },
         { "vehicle": "ice_cream_cart", "x": 93, "y": 3, "chance": 100, "rotation": 180 }
@@ -166,7 +167,7 @@
         "(": "t_linoleum_gray",
         ")": "t_linoleum_gray"
       },
-      "furniture": { "{": "f_bench", "}": "f_bench" },
+      "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "vendingmachines": { "(": { "item_group": "vending_drink" }, ")": { "item_group": "vending_food" } },
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 10, 23 ], "density": 0.3 } ]
     }
