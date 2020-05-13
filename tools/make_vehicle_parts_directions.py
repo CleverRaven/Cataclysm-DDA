@@ -2,8 +2,8 @@ import json
 import os
 import subprocess
 
-default_path = "data/json/vehicleparts/doors.json"
-default_output = "data/json/vehicleparts/doors.json"
+default_path = "data/json/vehicleparts/seats.json"
+default_output = "data/json/vehicleparts/seats.json"
 ids_created_output = "data/json/vehicleparts/new_ids.txt"
 
 ids_to_create_directional_parts_for = []
@@ -28,7 +28,7 @@ def gen_new(path):
     with open(path, "r") as json_file:
         json_data = json.load(json_file)
         for jo in json_data:
-            if "id" in jo:
+            if "id" in jo and jo["type"] == "vehicle_part":
                 jo["abstract"] = jo["id"] + "_abstract"
                 ids_to_create_directional_parts_for.append(jo["id"])
                 jo.pop("id")
