@@ -3316,7 +3316,7 @@ The internal ID of the compatible tilesets. MOD tileset is only applied when bas
 Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.
 
 # Field types
-
+```C++
   {
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
@@ -3339,3 +3339,4 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
       ]
     }
   }
+```
