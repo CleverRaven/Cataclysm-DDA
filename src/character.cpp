@@ -413,6 +413,7 @@ Character::Character() :
     healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
     name.clear();
+    custom_profession.clear();
 
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 

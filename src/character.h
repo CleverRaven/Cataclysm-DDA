@@ -621,6 +621,8 @@ class Character : public Creature, public visitable<Character>
 
         double recoil = MAX_RECOIL;
 
+        std::string custom_profession;
+
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has quiet melee attacks */
