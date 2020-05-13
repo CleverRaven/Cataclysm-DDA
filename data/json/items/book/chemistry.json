@@ -306,5 +306,23 @@
     "intelligence": 9,
     "time": "20 m",
     "fun": -2
+  },
+  {
+    "id": "basic_chemistry",
+    "type": "BOOK",
+    "name": { "str": "Chemistry for Kids: Awesome Science Experiments that Really Work", "str_pl": "copies of Chemistry for Kids: Awesome Science Experiments that Really Work" },
+    "description": "A book with comprehensive and accurate step-by-step illustrated instructions for many scientific experiments for young researchers and anyone else who want to delve into an amazing world of chemistry.",
+    "weight": "362 g",
+    "volume": "500 ml",
+    "price": 550,
+    "price_postapoc": 1900,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_cyan",
+    "skill": "chemistry",
+    "max_level": 3,
+    "intelligence": 6,
+    "time": "15 m",
+    "fun": 2
   }
 ]
