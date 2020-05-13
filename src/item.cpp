@@ -123,6 +123,7 @@ static const bionic_id bio_digestion( "bio_digestion" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
@@ -1507,32 +1508,37 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );
-        const std::map<std::string, std::string>::const_iterator idescription =
-            item_vars.find( "description" );
-        const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
-        if( snippet.has_value() ) {
-            // Just use the dynamic description
-            info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
-        } else if( idescription != item_vars.end() ) {
-            info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
+        if( is_book() && ( type->book->intel > 0 && g->u.has_trait( trait_ILLITERATE ) ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "You're <bad>illiterate</bad>, and can't read the book." ) ) );
         } else {
-            if( has_flag( "MAGIC_FOCUS" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "This item is a <info>magical focus</info>.  "
-                                             "You can cast spells with it in your hand." ) ) );
-            }
-            if( is_craft() ) {
-                const std::string desc = _( "This is an in progress %s.  "
-                                            "It is %d percent complete." );
-                const int percent_progress = item_counter / 100000;
-                info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
-                                          craft_data_->making->result_name(),
-                                          percent_progress ) ) );
+            const std::map<std::string, std::string>::const_iterator idescription =
+                item_vars.find( "description" );
+            const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
+            if( snippet.has_value() ) {
+                // Just use the dynamic description
+                info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
+            } else if( idescription != item_vars.end() ) {
+                info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
             } else {
-                info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
+                if( has_flag( "MAGIC_FOCUS" ) ) {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "This item is a <info>magical focus</info>.  "
+                                                 "You can cast spells with it in your hand." ) ) );
+                }
+                if( is_craft() ) {
+                    const std::string desc = _( "This is an in progress %s.  "
+                                                "It is %d percent complete." );
+                    const int percent_progress = item_counter / 100000;
+                    info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
+                                              craft_data_->making->result_name(),
+                                              percent_progress ) ) );
+                } else {
+                    info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
+                }
             }
+            insert_separation_line( info );
         }
-        insert_separation_line( info );
     }
 
     insert_separation_line( info );
@@ -2758,8 +2764,11 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         return;
     }
 
-    insert_separation_line( info );
     const islot_book &book = *type->book;
+    if( book.intel > 0 && g->u.has_trait( trait_ILLITERATE ) ) {
+        return;
+    }
+    insert_separation_line( info );
     // Some things about a book you CAN tell by it's cover.
     if( !book.skill && !type->can_use( "MA_MANUAL" ) && parts->test( iteminfo_parts::BOOK_SUMMARY ) ) {
         info.push_back( iteminfo( "BOOK", _( "Just for fun." ) ) );
