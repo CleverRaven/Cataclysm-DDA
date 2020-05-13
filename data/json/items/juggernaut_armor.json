@@ -14,7 +14,7 @@
     "symbol": "[",
     "color": "yellow",
     "covers": [ "TORSO" ],
-    "coverage": 100,
+    "coverage": 95,
     "encumbrance": 35,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 50 },
@@ -48,7 +48,7 @@
     "symbol": "[",
     "color": "yellow",
     "covers": [ "LEGS" ],
-    "coverage": 100,
+    "coverage": 95,
     "encumbrance": 30,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 100 },
@@ -92,7 +92,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "tools": [ [ [ "blacksmithing_standard", 60 ], [ "steel_standard", 15 ] ], [ [ "tongs", 1 ] ], [ [ "swage", 1 ] ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [
       [ [ "kevlar_plate", 35 ] ],
       [ [ "purse", 2 ] ],
