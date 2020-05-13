@@ -283,8 +283,7 @@
   {
     "id": "armguard_cut_resistant",
     "type": "ARMOR",
-    "name": "pair of cut-resistant arm sleeves",
-    "name_plural": "pairs of cut-resistant arm sleeves",
+    "name": { "str": "pair of cut-resistant arm sleeves", "str_pl": "pairs of cut-resistant arm sleeves" },
     "description": "A long pair of cut resistant sleeves, with thumbholes.  Useful for chainsaw protection.",
     "weight": "113 g",
     "copy-from": "armguard_soft",

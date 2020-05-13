@@ -22,7 +22,7 @@
   {
     "id": "balaclava_cut_resistant",
     "type": "ARMOR",
-    "name": "cut-resistant balaclava",
+    "name": { "str": "cut-resistant balaclava" },
     "description": "A face covering garment that helps protect from slashes and cuts, in addition to the cold.",
     "copy-from": "balclava",
     "price": 7600,

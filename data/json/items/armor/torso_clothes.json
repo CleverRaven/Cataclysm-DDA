@@ -28,7 +28,7 @@
   {
     "id": "apron_cut_resistant",
     "type": "ARMOR",
-    "name": "cut-resistant apron",
+    "name": { "str": "cut-resistant apron" },
     "description": "An apron made of kevlar fabric which provides excellent protection from cuts.",
     "copy-from": "apron_leather",
     "price": 3800,

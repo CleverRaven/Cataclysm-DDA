@@ -149,7 +149,7 @@
     "id": "foot_protectors_eod",
     "type": "ARMOR",
     "category": "armor",
-    "name": "EOD foot protectors",
+    "name": { "str": "pair of EOD foot protectors", "str_pl": "pairs of EOD foot protectors" },
     "description": "Armored foot protectors constructed from steel and nomex for explosive ordnance disposal.  They are designed to protect against overpressure, fragmentation, impact and heat.",
     "weight": "1220 g",
     "volume": "3 L",
@@ -168,8 +168,7 @@
   {
     "id": "toecaps",
     "type": "ARMOR",
-    "name": "pair of toecaps",
-    "name_plural": "pairs of toecaps",
+    "name": { "str": "pair of toecaps", "str_pl": "pairs of toecaps" },
     "description": "Rubbery overshoes that cover your toes with sturdy, ANSI compliant steel toes.",
     "weight": "907 g",
     "volume": "1 L",

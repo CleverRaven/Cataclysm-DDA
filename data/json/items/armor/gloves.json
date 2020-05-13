@@ -933,7 +933,7 @@
     "id": "gloves_eod",
     "type": "ARMOR",
     "category": "armor",
-    "name": "EOD gloves",
+    "name": { "str": "pair of EOD gloves", "str_pl": "pairs of EOD gloves" },
     "description": "Light armored gloves constructed from kevlar and nomex for explosive ordnance disposal.  They are designed to protect against fragmentation and heat.",
     "weight": "800 g",
     "volume": "1500 ml",
