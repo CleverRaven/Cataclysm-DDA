@@ -62,7 +62,8 @@ class node_t
 
         // Interface to construct a node.
         void set_strategy( const strategy_t *new_strategy );
-        void set_predicate( std::function < status_t ( const oracle_t * )> new_predicate );
+        void set_predicate( std::function < status_t ( const oracle_t *, const std::string & )>
+                            new_predicate, const std::string &argument = "" );
         void set_goal( const std::string &new_goal );
         void add_child( const node_t *new_child );
 
@@ -74,7 +75,8 @@ class node_t
     private:
         std::vector<const node_t *> children;
         const strategy_t *strategy;
-        std::function<status_t( const oracle_t * )> predicate;
+        std::function<status_t( const oracle_t *, const std::string & )> predicate;
+        std::string predicate_argument;
         // TODO: make into an ID?
         std::string _goal;
 };
