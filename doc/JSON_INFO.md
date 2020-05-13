@@ -2949,7 +2949,7 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 
 ### clothing_mod
 
-```JSON
+```C++
 "type": "clothing_mod",
 "id": "leather_padded",   // Unique ID.
 "flag": "leather_padded", // flag to add to clothing.
