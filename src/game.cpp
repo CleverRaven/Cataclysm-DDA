@@ -5084,11 +5084,6 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 {
     int assist_bonus = installer.get_effect_int( effect_assisted );
 
-    float adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                           skill_computer,
-                           skill_electronics,
-                           -1 );
-
     int damage = cyborg->damage();
     int dmg_lvl = cyborg->damage_level( 4 );
     int difficulty = 12;
@@ -5102,7 +5097,8 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         difficulty += dmg_lvl;
     }
 
-    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, difficulty );
+    int chance_of_success = bionic_success_chance( true, -1, std::max( 0,
+                            difficulty - 4 * assist_bonus ), installer );
     int success = chance_of_success - rng( 1, 100 );
 
     if( !g->u.query_yn(
@@ -5129,7 +5125,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
     } else {
         const int failure_level = static_cast<int>( std::sqrt( std::abs( success ) * 4.0 * difficulty /
-                                  adjusted_skill ) );
+                                  installer.bionics_adjusted_skill( true, 12 ) ) );
         const int fail_type = std::min( 5, failure_level );
         switch( fail_type ) {
             case 1:

@@ -4362,38 +4362,31 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
 
 static player &best_installer( player &p, player &null_player, int difficulty )
 {
-    float player_skill = p.bionics_adjusted_skill( skill_firstaid,
-                         skill_computer,
-                         skill_electronics );
-
-    std::vector< std::pair<float, int>> ally_skills;
-    ally_skills.reserve( g->allies().size() );
+    std::vector< std::pair<int, int>> ally_chances;
+    ally_chances.reserve( g->allies().size() );
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
-        std::pair<float, int> ally_skill;
+        std::pair<int, int> ally_skill;
         const npc *e = g->allies()[ i ];
 
         player &ally = *g->critter_by_id<player>( e->getID() );
         ally_skill.second = i;
-        ally_skill.first = ally.bionics_adjusted_skill( skill_firstaid,
-                           skill_computer,
-                           skill_electronics );
-        ally_skills.push_back( ally_skill );
+        ally_skill.first = bionic_success_chance( true, -1, difficulty, ally );
+        ally_chances.push_back( ally_skill );
     }
-    std::sort( ally_skills.begin(), ally_skills.end(), [&]( const std::pair<float, int> &lhs,
-    const std::pair<float, int> &rhs ) {
+    std::sort( ally_chances.begin(), ally_chances.end(), [&]( const std::pair<int, int> &lhs,
+    const std::pair<int, int> &rhs ) {
         return rhs.first < lhs.first;
     } );
-    int player_cos = bionic_manip_cos( player_skill, difficulty );
+    int player_cos = bionic_success_chance( true, -1, difficulty, p );
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
-        if( ally_skills[ i ].first > player_skill ) {
-            const npc *e = g->allies()[ ally_skills[ i ].second ];
+        if( ally_chances[ i ].first > player_cos ) {
+            const npc *e = g->allies()[ ally_chances[ i ].second ];
             player &ally = *g->critter_by_id<player>( e->getID() );
-            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, difficulty );
             if( e->has_effect( effect_sleep ) ) {
                 if( !g->u.query_yn(
                         //~ %1$s is the name of the ally
                         _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
-                        ally.disp_name(), ally_cos, player_cos ) ) {
+                        ally.disp_name(), ally_chances[i].first, player_cos ) ) {
                     return null_player;
                 } else {
                     continue;
@@ -4401,7 +4394,7 @@ static player &best_installer( player &p, player &null_player, int difficulty )
             }
             //~ %1$s is the name of the ally
             add_msg( _( "%1$s will perform the operation with a %2$d chance of success." ), ally.disp_name(),
-                     ally_cos );
+                     ally_chances[i].first );
             return ally;
         } else {
             break;

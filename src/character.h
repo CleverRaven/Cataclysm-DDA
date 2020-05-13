@@ -1063,17 +1063,11 @@ class Character : public Creature, public visitable<Character>
         /** Adds a bionic to my_bionics[] */
         void add_bionic( const bionic_id &b );
         /**Calculate skill bonus from tiles in radius*/
-        float env_surgery_bonus( int radius );
+        float env_surgery_bonus( int radius ) const;
         /** Calculate skill for (un)installing bionics */
-        float bionics_adjusted_skill( const skill_id &most_important_skill,
-                                      const skill_id &important_skill,
-                                      const skill_id &least_important_skill,
-                                      int skill_level = -1 );
+        float bionics_adjusted_skill( bool autodoc, int skill_level = -1 ) const;
         /** Calculate non adjusted skill for (un)installing bionics */
-        int bionics_pl_skill( const skill_id &most_important_skill,
-                              const skill_id &important_skill,
-                              const skill_id &least_important_skill,
-                              int skill_level = -1 );
+        int bionics_pl_skill( bool autodoc, int skill_level = -1 ) const;
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
