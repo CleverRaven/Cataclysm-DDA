@@ -3933,6 +3933,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
             d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR" ) );
+            d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR_SIMPLE" ) );
             d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
@@ -4094,12 +4095,28 @@ bool vehicle::has_sufficient_rotorlift() const
 
 bool vehicle::is_rotorcraft() const
 {
-    return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
+    return ( has_part( "ROTOR" ) || has_part( "ROTOR_SIMPLE" ) ) && has_sufficient_rotorlift() &&
+           player_in_control( g->u );
+}
+
+bool vehicle::is_flyable() const
+{
+    return flyable;
+}
+
+void vehicle::set_flyable( bool val )
+{
+    flyable = val;
 }
 
 int vehicle::get_z_change() const
 {
     return requested_z_change;
+}
+
+bool vehicle::would_prevent_flyable( const vpart_info &vpinfo ) const
+{
+    return is_flyable() && has_part( "ROTOR" ) && !vpinfo.has_flag( "SIMPLE_PART" );
 }
 
 bool vehicle::is_flying_in_air() const
@@ -5502,7 +5519,7 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
             solar_panels.push_back( p );
         }
-        if( vpi.has_flag( VPFLAG_ROTOR ) ) {
+        if( vpi.has_flag( VPFLAG_ROTOR ) || vpi.has_flag( VPFLAG_ROTOR_SIMPLE ) ) {
             rotors.push_back( p );
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
