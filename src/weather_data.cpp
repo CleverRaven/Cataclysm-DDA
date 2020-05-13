@@ -25,7 +25,8 @@ weather_animation_t get_weather_animation( weather_type const type )
         {WEATHER_LIGHTNING,    weather_animation_t {0.04f, c_light_blue,  ','}},
         {WEATHER_FLURRIES,     weather_animation_t {0.01f, c_white,   '.'}},
         {WEATHER_SNOW,         weather_animation_t {0.02f, c_white,   ','}},
-        {WEATHER_SNOWSTORM,    weather_animation_t {0.04f, c_white,   '*'}}
+        {WEATHER_SNOWSTORM,    weather_animation_t {0.04f, c_white,   '*'}},
+        {WEATHER_MIST,         weather_animation_t {0.8f, c_dark_gray,   '#'}}
     };
 
     const auto it = map.find( type );
@@ -105,6 +106,10 @@ static weather_result weather_data_internal( weather_type const type )
             weather_datum {
                 translate_marker( "Snowstorm" ), c_white, c_white_cyan, '%', 6, 1.2f, -30, 6, false,
                 PRECIP_HEAVY, false, false, &weather_effect::snowstorm
+            },
+            weather_datum {
+                translate_marker( "Mist" ), c_light_gray, c_dark_gray, '*', 12, 12.4f, -30, 0, true,
+                PRECIP_NONE, false, false, &weather_effect::mist
             }
         }};
 

@@ -20,10 +20,10 @@
 #include "point.h"
 
 #if defined(TILES)
-#include <memory>
+    #include <memory>
 
-#include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
-#include "sdltiles.h"
+    #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+    #include "sdltiles.h"
 #endif
 
 #include <algorithm>
@@ -290,7 +290,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
 
     // Start by getting rid of everything except current z-level
     std::map<tripoint, explosion_tile> neighbors;
-#if defined(TILES)
+    #if defined(TILES)
     if( !use_tiles ) {
         for( const auto &pr : all_area ) {
             const tripoint relative_point = relative_view_pos( g->u, pr.first );
@@ -309,14 +309,14 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
             }
         }
     }
-#else
+    #else
     for( const auto &pr : all_area ) {
         const tripoint relative_point = relative_view_pos( g->u, pr.first );
         if( relative_point.z == 0 ) {
             neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
         }
     }
-#endif
+    #endif
 
     // Searches for a neighbor, sets the neighborhood flag on current point and on the neighbor
     const auto set_neighbors = [&]( const tripoint & pos,
@@ -388,7 +388,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
         layers.push_front( std::move( layer ) );
     }
 
-#if defined(TILES)
+    #if defined(TILES)
     if( !use_tiles ) {
         draw_custom_explosion_curses( *g, layers );
         return;
@@ -406,9 +406,9 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
     }
 
     tilecontext->void_custom_explosion();
-#else
+    #else
     draw_custom_explosion_curses( *g, layers );
-#endif
+    #endif
 }
 
 namespace
@@ -682,6 +682,7 @@ void game::draw_weather( const weather_printable &w )
     static const std::string weather_acid_drop {"weather_acid_drop"};
     static const std::string weather_rain_drop {"weather_rain_drop"};
     static const std::string weather_snowflake {"weather_snowflake"};
+    static const std::string weather_mist {"weather_mist"};
 
     std::string weather_name;
     switch( w.wtype ) {
@@ -703,6 +704,9 @@ void game::draw_weather( const weather_printable &w )
         case WEATHER_SNOW:
         case WEATHER_SNOWSTORM:
             weather_name = weather_snowflake;
+            break;
+        case WEATHER_MIST:
+            weather_name = weather_mist;
             break;
         default:
             break;

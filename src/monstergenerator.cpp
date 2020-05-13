@@ -615,6 +615,8 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
+    add_hardcoded_attack( "DISSIPATE_DRAIN", mattack::dissipate_drain );
+    add_hardcoded_attack( "DISSIPATE_NIGHTMARES", mattack::dissipate_nightmares );
 }
 
 void MonsterGenerator::init_defense()

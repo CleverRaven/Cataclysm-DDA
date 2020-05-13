@@ -93,6 +93,7 @@ static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_dazed( "dazed" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_disrupted_sleep( "disrupted_sleep" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_fearparalyze( "fearparalyze" );
@@ -5796,5 +5797,38 @@ bool mattack::speaker( monster *z )
 {
     sounds::sound( z->pos(), 60, sounds::sound_t::order,
                    SNIPPET.random_from_category( "speaker_warning" ).value_or( translation() ) );
+    return true;
+}
+
+bool mattack::dissipate_drain( monster *z )
+{
+    Character *foe = static_cast<Character *>( z->attack_target() );
+    if( foe != nullptr && within_target_range( z, foe, 1 ) ) {
+        return false;
+    }
+
+    foe->mod_fatigue( 50 );
+    foe->mod_stamina( -50 );
+    foe->add_msg_if_player( m_bad,
+                            _( "The %s touches you and dissipates, taking a little of your strength with it." ), z->name() );
+
+    z->die( z );
+
+    return true;
+}
+
+bool mattack::dissipate_nightmares( monster *z )
+{
+    Character *foe = static_cast<Character *>( z->attack_target() );
+    if( foe != nullptr && within_target_range( z, foe, 1 ) ) {
+        return false;
+    }
+
+    foe->add_effect( effect_disrupted_sleep, 8_hours );
+    foe->add_msg_if_player( m_bad,
+                            _( "The %s touches you and dissipates, leaving an unsettling feeling behind." ), z->name() );
+
+    z->die( z );
+
     return true;
 }

@@ -29,6 +29,7 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
@@ -41,6 +42,9 @@ static const bionic_id bio_sunglasses( "bio_sunglasses" );
 static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
+
+static const mtype_id mon_mist_wraith( "mon_mist_wraith" );
+static const mtype_id mon_mist_spectre( "mon_mist_spectre" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
@@ -454,6 +458,34 @@ void weather_effect::snow()
 void weather_effect::snowstorm()
 {
     wet_player( 40 );
+}
+
+void weather_effect::mist()
+{
+    if( calendar::once_every( g->weather.mist_spawn_time ) && is_player_outside() ) {
+        int radius = 10;
+        mtype_id monster;
+        std::string category;
+        if( g->weather.mist_intensity < 5 ) {
+            monster = mon_mist_wraith;
+            category = "mist_summon_wraith";
+        } else {
+            monster = mon_mist_spectre;
+            category = "mist_summon_spectre";
+        }
+        if( g->place_critter_around( monster, g->u.pos() + tripoint( rng( -radius, radius ),
+                                     rng( -radius, radius ), 0 ), radius ) != nullptr ) {
+            g->u.add_msg_if_player( m_bad, "%s",
+                                    SNIPPET.random_from_category( category ).value_or( translation() ) );
+        }
+    }
+
+    if( calendar::once_every( g->weather.mist_intensity_increase_time ) ) {
+        g->weather.mist_intensity++;
+        if( g->weather.mist_intensity > g->weather.mist_max_intensity ) {
+            g->weather.mist_intensity = 0;
+        }
+    }
 }
 /**
  * Thunder.

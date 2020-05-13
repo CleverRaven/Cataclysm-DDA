@@ -1,0 +1,43 @@
+[
+  {
+    "id": "mon_mist_wraith",
+    "type": "MONSTER",
+    "name": { "str": "Mist wraith" },
+    "description": "A wispy figure slightly more solid than the mist surrounding it.",
+    "default_faction": "MIST",
+    "species": [ "MIST" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 1,
+    "speed": 110,
+    "symbol": "X",
+    "color": "white",
+    "aggression": 75,
+    "morale": 100,
+    "melee_skill": 10,
+	"special_attacks": [ [ "DISSIPATE_DRAIN", 1 ] ],
+    "death_function": [ "DISAPPEAR" ],
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
+  },
+  {
+    "id": "mon_mist_spectre",
+    "type": "MONSTER",
+    "name": { "str": "Mist spectre" },
+    "description": "A menacing figure slightly more solid than the mist surrounding it.",
+    "default_faction": "MIST",
+    "bodytype": "human",
+    "species": [ "MIST" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 1,
+    "speed": 110,
+    "symbol": "@",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+	"special_attacks": [ [ "DISSIPATE_NIGHTMARES", 1 ] ],
+    "death_function": [ "DISAPPEAR" ],
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
+  }
+]

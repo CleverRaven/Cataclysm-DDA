@@ -55,6 +55,7 @@ enum weather_type : int {
     WEATHER_FLURRIES,     //!< Light snow
     WEATHER_SNOW,         //!< snow glare effects
     WEATHER_SNOWSTORM,    //!< sight penalties
+    WEATHER_MIST,         //!< spawns mist monsters
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -122,6 +123,7 @@ void flurry();
 void snow();
 void sunny();
 void snowstorm();
+void mist();
 } //namespace weather_effect
 
 using weather_effect_fn = void ( * )();
@@ -248,6 +250,13 @@ class weather_manager
         weather_type weather = weather_type::WEATHER_NULL;
         int winddirection = 0;
         int windspeed = 0;
+
+        //Mist values
+        int mist_intensity = 1;
+        int mist_max_intensity = 10;
+        time_duration mist_intensity_increase_time = 10_seconds;
+        time_duration mist_spawn_time = 5_seconds;
+
         // Cached weather data
         pimpl<w_point> weather_precise;
         cata::optional<int> wind_direction_override;

@@ -1943,7 +1943,8 @@
   },
   {
     "type": "effect_type",
-    "id": "recently_coughed"
+    "id": "disrupted_sleep",
+	"max_duration": "48 h"
   },
   {
     "type": "effect_type",

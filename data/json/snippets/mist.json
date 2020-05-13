@@ -1,0 +1,18 @@
+[
+  {
+    "type": "snippet",
+    "category": "mist_summon_wraith",
+    "text": [
+      "You feel the mist react to you and a shape appears."
+	  
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "mist_summon_spectre",
+    "text": [
+      "You see a shape form in the mist that reminds you of a creepy man that followed you when you were younger.",
+      "You see a shape form in the mist that reminds you of a teacher that hated you."      
+    ]
+  }
+]

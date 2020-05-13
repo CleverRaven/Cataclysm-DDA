@@ -102,6 +102,7 @@ enum class channel : int {
     outdoors_rain_env,
     outdoors_drizzle_env,
     outdoor_blizzard,
+    outdoors_mist,
     deafness_tone,
     danger_extreme_theme,
     danger_high_theme,

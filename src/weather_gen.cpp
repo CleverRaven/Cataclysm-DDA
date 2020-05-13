@@ -8,6 +8,7 @@
 #include <string>
 
 #include "cata_utility.h"
+#include "game.h"
 #include "game_constants.h"
 #include "json.h"
 #include "math_defines.h"
@@ -182,6 +183,9 @@ weather_type weather_generator::get_weather_conditions( const tripoint &location
 
 weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 {
+    if( g->weather.mist_intensity > 0 ) {
+        return WEATHER_MIST;
+    }
     weather_type r( WEATHER_CLEAR );
     if( w.pressure > 1020 && w.humidity < 70 ) {
         r = WEATHER_SUNNY;
