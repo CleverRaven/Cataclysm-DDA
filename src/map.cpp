@@ -7335,6 +7335,11 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
                 tmp.friendly = -1;
             }
 
+            for( std::pair<std::string, jmapgen_int> ap : i.data.ammo ) {
+                tmp.ammo.emplace( ap.first, ap.second.get() );
+                //debugmsg( "%d of %s in %s\n", tmp.ammo.find( ap.first )->second, tmp.ammo.find( ap.first )->first, tmp.name() );
+            }
+
             const auto valid_location = [&]( const tripoint & p ) {
                 // Checking for creatures via g is only meaningful if this is the main game map.
                 // If it's some local map instance, the coordinates will most likely not even match.

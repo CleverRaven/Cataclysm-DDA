@@ -231,13 +231,6 @@ monster::monster( const mtype_id &id ) : monster()
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
-    if( in_species( ROBOT ) ) {
-        for( const auto &ammo_entry : type->starting_ammo ) {
-            ammo[ammo_entry.first] = rng( 1, ammo_entry.second );
-        }
-    } else {
-        ammo = type->starting_ammo;
-    }
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
