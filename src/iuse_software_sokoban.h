@@ -51,7 +51,6 @@ class sokoban_game
         bool check_win();
         int get_wall_connection( const point & );
         void draw_level( const catacurses::window &w_sokoban );
-        void clear_level( const catacurses::window &w_sokoban );
         void print_score( const catacurses::window &w_sokoban, int iScore, int iMoves );
     public:
         int start_game();
