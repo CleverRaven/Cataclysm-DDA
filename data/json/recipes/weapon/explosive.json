@@ -19,7 +19,7 @@
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "difficulty": 7,
     "time": "10 m",
     "book_learn": [ [ "textbook_anarch", 5 ], [ "adv_chemistry", 6 ], [ "textbook_chemistry", 6 ] ],
