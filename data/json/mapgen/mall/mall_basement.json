@@ -52,7 +52,6 @@
         "}": "t_linoleum_white",
         "(": "t_linoleum_gray",
         ")": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
         "F": "t_linoleum_gray"
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
