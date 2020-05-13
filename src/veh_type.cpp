@@ -336,6 +336,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
     assign( jo, "emissions", def.emissions );
+    assign( jo, "exhaust", def.exhaust );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );
@@ -627,13 +628,23 @@ void vpart_info::check()
         if( !part.emissions.empty() && !part.has_flag( "EMITTER" ) ) {
             debugmsg( "vehicle part %s has emissions set, but the EMITTER flag is not set", part.id.c_str() );
         }
+        if( !part.exhaust.empty() && !part.has_flag( "EMITTER" ) ) {
+            debugmsg( "vehicle part %s has exhaust set, but the EMITTER flag is not set", part.id.c_str() );
+        }
         if( part.has_flag( "EMITTER" ) ) {
-            if( part.emissions.empty() ) {
-                debugmsg( "vehicle part %s has the EMITTER flag, but no emissions were set", part.id.c_str() );
+            if( part.emissions.empty() && part.exhaust.empty() ) {
+                debugmsg( "vehicle part %s has the EMITTER flag, but no emissions or exhaust were set",
+                          part.id.c_str() );
             } else {
                 for( const emit_id &e : part.emissions ) {
                     if( !e.is_valid() ) {
                         debugmsg( "vehicle part %s has the EMITTER flag, but invalid emission %s was set",
+                                  part.id.c_str(), e.str().c_str() );
+                    }
+                }
+                for( const emit_id &e : part.exhaust ) {
+                    if( !e.is_valid() ) {
+                        debugmsg( "vehicle part %s has the EMITTER flag, but invalid exhaust %s was set",
                                   part.id.c_str(), e.str().c_str() );
                     }
                 }
