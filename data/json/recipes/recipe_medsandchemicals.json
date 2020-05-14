@@ -752,7 +752,6 @@
     "result": "soap_flakes",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
