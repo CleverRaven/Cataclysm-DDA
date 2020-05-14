@@ -2066,7 +2066,9 @@ static void handle_contents_changed( item_location acted_item )
 * @param iWidth width of the item info window (height = height of terminal)
 * @return getch
 */
-int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidth,
+int game::inventory_item_menu( item_location locThisItem,
+                               const std::function<int()> &iStartX,
+                               const std::function<int()> &iWidth,
                                const inventory_item_menu_positon position )
 {
     int cMenu = static_cast<int>( '+' );
@@ -2150,9 +2152,9 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                 case RIGHT_TERMINAL_EDGE:
                     return 0;
                 case LEFT_OF_INFO:
-                    return iStartX - popup_width;
+                    return iStartX() - popup_width;
                 case RIGHT_OF_INFO:
-                    return iStartX + iWidth;
+                    return iStartX() + iWidth();
                 case LEFT_TERMINAL_EDGE:
                     return TERMX - popup_width;
             }
@@ -2170,7 +2172,7 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
 
         ui_adaptor ui;
         ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            w_info = catacurses::newwin( TERMY, iWidth, point( iStartX, 0 ) );
+            w_info = catacurses::newwin( TERMY, iWidth(), point( iStartX(), 0 ) );
             iScrollHeight = TERMY - 2;
             ui.position_from_window( w_info );
         } );
@@ -6247,8 +6249,14 @@ void game::zones_manager()
     catacurses::window w_zones_info_border;
     catacurses::window w_zones_options;
 
+    bool show = true;
+
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        if( !show ) {
+            ui.position( point_zero, point_zero );
+            return;
+        }
         offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ?
                   TERMX - width : 0;
         const int w_zone_height = TERMY - zone_ui_height;
@@ -6336,11 +6344,19 @@ void game::zones_manager()
         wrefresh( w_zones_options );
     };
 
-    std::string zones_info_msg;
-
     auto query_position =
-    [this, &zones_info_msg]() -> cata::optional<std::pair<tripoint, tripoint>> {
-        zones_info_msg = _( "Select first point." );
+    [&]() -> cata::optional<std::pair<tripoint, tripoint>> {
+        on_out_of_scope invalidate_current_ui( [&]()
+        {
+            ui.mark_resize();
+        } );
+        restore_on_out_of_scope<bool> show_prev( show );
+        show = false;
+        ui.mark_resize();
+
+        static_popup popup;
+        popup.on_top( true );
+        popup.message( "%s", _( "Select first point." ) );
 
         tripoint center = u.pos() + u.view_offset;
 
@@ -6348,7 +6364,7 @@ void game::zones_manager()
                 false );
         if( first.position )
         {
-            zones_info_msg = _( "Select second point." );
+            popup.message( "%s", _( "Select second point." ) );
 
             const look_around_result second = look_around( /*show_window=*/false, center, *first.position,
                     true, true, false );
@@ -6363,26 +6379,19 @@ void game::zones_manager()
                                                 std::max( first.position->y, second.position->y ),
                                                 std::max( first.position->z,
                                                         second.position->z ) ) );
-                zones_info_msg.clear();
-
                 return std::pair<tripoint, tripoint>( first_abs, second_abs );
             }
         }
-
-        zones_info_msg.clear();
 
         return cata::nullopt;
     };
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
-        if( zones_info_msg.empty() ) {
-            zones_manager_shortcuts( w_zones_info );
-        } else {
-            werase( w_zones_info );
-            mvwprintz( w_zones_info, point( 2, 3 ), c_white, zones_info_msg );
-            wrefresh( w_zones_info );
+        if( !show ) {
+            return;
         }
+        zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+        zones_manager_shortcuts( w_zones_info );
 
         if( zone_cnt == 0 ) {
             werase( w_zones );

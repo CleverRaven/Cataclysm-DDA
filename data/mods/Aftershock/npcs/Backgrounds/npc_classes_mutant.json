@@ -13,7 +13,6 @@
     "bonus_dex": 2,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_lizard" },
       { "distribution": [ { "group": "trait_group_lizard_nonthres" }, { "group": "trait_group_lizard_postthres" } ] }
     ]
@@ -30,7 +29,6 @@
     ],
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_medical" },
       {
         "distribution": [ { "group": "trait_group_medical_nonthres" }, { "group": "trait_group_medical_postthres" } ]
@@ -51,7 +49,6 @@
     "bonus_per": 7,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_bird" },
       { "distribution": [ { "group": "trait_group_bird_nonthres" }, { "group": "trait_group_bird_postthres" } ] }
     ]
@@ -70,7 +67,6 @@
     "bonus_dex": 7,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_fish" },
       { "distribution": [ { "group": "trait_group_fish_nonthres" }, { "group": "trait_group_fish_postthres" } ] }
     ]
@@ -88,7 +84,6 @@
     "bonus_str": 7,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_beast" },
       { "distribution": [ { "group": "trait_group_beast_nonthres" }, { "group": "trait_group_beast_postthres" } ] }
     ]
@@ -106,7 +101,6 @@
     "bonus_str": 11,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_ursine" },
       { "distribution": [ { "group": "trait_group_ursine_nonthres" }, { "group": "trait_group_ursine_postthres" } ] }
     ]
@@ -124,7 +118,6 @@
     "bonus_dex": 4,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_feline" },
       { "distribution": [ { "group": "trait_group_feline_nonthres" }, { "group": "trait_group_feline_postthres" } ] }
     ]
@@ -143,7 +136,6 @@
     "traits": [
       { "group": "trait_mutant_npc_common" },
       { "group": "trait_group_lupine" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "distribution": [ { "group": "trait_group_lupine_nonthres" }, { "group": "trait_group_lupine_postthres" } ] }
     ]
   },
@@ -160,7 +152,6 @@
     "bonus_str": 6,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_cattle" },
       { "distribution": [ { "group": "trait_group_cattle_nonthres" }, { "group": "trait_group_cattle_postthres" } ] }
     ]
@@ -179,7 +170,6 @@
     "bonus_dex": 1,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_insect" },
       { "distribution": [ { "group": "trait_group_insect_nonthres" }, { "group": "trait_group_insect_postthres" } ] }
     ]
@@ -197,7 +187,6 @@
     "bonus_str": 2,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_plant" },
       { "distribution": [ { "group": "trait_group_plant_nonthres" }, { "group": "trait_group_plant_postthres" } ] }
     ]
@@ -218,7 +207,6 @@
     "bonus_per": 5,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_slime" },
       { "distribution": [ { "group": "trait_group_slime_nonthres" }, { "group": "trait_group_slime_postthres" } ] }
     ]
@@ -237,7 +225,6 @@
     "bonus_dex": -2,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_troglobite" },
       {
         "distribution": [ { "group": "trait_group_troglobite_nonthres" }, { "group": "trait_group_troglobite_postthres" } ]
@@ -259,7 +246,6 @@
     "bonus_int": 7,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_cephalopod" },
       {
         "distribution": [ { "group": "trait_group_cephalopod_nonthres" }, { "group": "trait_group_cephalopod_postthres" } ]
@@ -279,7 +265,6 @@
     "bonus_dex": 2,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_spider" },
       { "distribution": [ { "group": "trait_group_spider_nonthres" }, { "group": "trait_group_spider_postthres" } ] }
     ]
@@ -296,7 +281,6 @@
     ],
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_rat" },
       { "distribution": [ { "group": "trait_group_rat_nonthres" }, { "group": "trait_group_rat_postthres" } ] }
     ]
@@ -314,7 +298,6 @@
     "bonus_dex": 6,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_mouse" },
       { "distribution": [ { "group": "trait_group_mouse_nonthres" }, { "group": "trait_group_mouse_postthres" } ] }
     ]
@@ -335,7 +318,6 @@
     "bonus_per": 5,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_alpha" },
       { "distribution": [ { "group": "trait_group_alpha_nonthres" }, { "group": "trait_group_alpha_postthres" } ] }
     ]
@@ -356,7 +338,6 @@
     "bonus_per": 4,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_elfa" },
       { "distribution": [ { "group": "trait_group_elfa_nonthres" }, { "group": "trait_group_elfa_postthres" } ] }
     ]
@@ -376,7 +357,6 @@
     "bonus_per": 2,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
       { "group": "trait_group_chimera" },
       {
         "distribution": [ { "group": "trait_group_chimera_nonthres" }, { "group": "trait_group_chimera_postthres" } ]
@@ -398,30 +378,8 @@
     "bonus_per": 4,
     "traits": [
       { "group": "trait_mutant_npc_common" },
-      { "group": "BG_survival_story_MUTANTS" },
-      { "group": "trait_group_raptor" },
-      { "distribution": [ { "group": "trait_group_raptor_nonthres" }, { "group": "trait_group_raptor_postthres" } ] },
       { "group": "trait_group_raptor" },
       { "distribution": [ { "group": "trait_group_raptor_nonthres" }, { "group": "trait_group_raptor_postthres" } ] }
-    ]
-  },
-  {
-    "type": "npc_class",
-    "id": "NC_NPC_MUTANT_MASTODON",
-    "name": "Mastodon Uplift",
-    "job_description": "Humans created me.  Let's see what I can be on my own.",
-    "skills": [
-      { "skill": "survival", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 6, 10 ] } },
-      { "skill": "unarmed", "bonus": { "rng": [ 6, 10 ] } }
-    ],
-    "bonus_str": 3,
-    "traits": [
-      { "group": "trait_mutant_npc_common" },
-      { "group": "trait_group_mastodon" },
-      {
-        "distribution": [ { "group": "trait_group_mastodon_nonthres" }, { "group": "trait_group_mastodon_postthres" } ]
-      }
     ]
   }
 ]

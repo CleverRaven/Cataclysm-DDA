@@ -57,10 +57,7 @@ class advanced_inventory
             right = 1,
             NUM_PANES = 2
         };
-        const int head_height = 0;
-        const int min_w_height = 0;
-        const int min_w_width = 0;
-        const int max_w_width = 0;
+        static constexpr int head_height = 5;
 
         // swap the panes and windows via std::swap()
         void swap_panes();
@@ -84,7 +81,6 @@ class advanced_inventory
         int colstart = 0;
 
         bool recalc = false;
-        bool redraw = false;
         /**
          * Which panels is active (item moved from there).
          */
