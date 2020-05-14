@@ -66,7 +66,7 @@
     "id_suffix": "from_salt_water",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "time": "1 h 30 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
