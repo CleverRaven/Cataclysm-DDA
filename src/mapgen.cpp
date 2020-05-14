@@ -5645,8 +5645,14 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         // Pick a monster type
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
+        const MonsterGroup &mg = group.obj();
+        auto mon_selected = std::find_if( mg.monsters.begin(), mg.monsters.end(),
+        [spawn_details]( const MonsterGroupEntry & mon ) {
+            return mon.name == spawn_details.name;
+        } );
+
         add_spawn( spawn_details.name, spawn_details.pack_size, { x, y, abs_sub.z },
-                   friendly, -1, mission_id, name );
+                   friendly, -1, mission_id, name, mon_selected->data );
     }
 }
 
