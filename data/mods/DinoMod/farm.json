@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ [ "farm_1" ] ],
     "//": "Compy Coop",
-    "weight": 250,
+    "weight": 500,
     "object": {
       "fill_ter": "t_dirtfloor",
       "rows": [
