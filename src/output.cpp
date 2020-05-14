@@ -949,7 +949,8 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     }
 
     std::string action;
-    do {
+    bool exit = false;
+    while( !exit ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
         if( data.handle_scrolling && action == "PAGE_UP" ) {
@@ -961,8 +962,12 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
+        } else if( action == "CONFIRM" || action == "QUIT" ) {
+            exit = true;
+        } else if( data.any_input && action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) {
+            exit = true;
         }
-    } while( action != "QUIT" && action != "CONFIRM" && action != "ANY_INPUT" );
+    }
 
     return ctxt.get_raw_input();
 }
