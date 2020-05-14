@@ -21,7 +21,7 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",
-    "difficulty": 2,
+    "difficulty": 3,
     "time": "12 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 1 } ],
