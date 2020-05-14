@@ -2854,7 +2854,7 @@ bool mattack::stare( monster *z )
     if( z->sees( g->u ) ) {
         //dimensional effects don't take against dimensionally anchored foes.
         if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-                g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
+            g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
@@ -2865,18 +2865,18 @@ bool mattack::stare( monster *z )
         }
         g->u.add_effect( effect_taint, rng( 20_minutes, 60_minutes ) );
         //Check severity before adding more debuffs
-        if ( g->u.get_effect_int ( effect_taint ) > 2 ) {
+        if( g->u.get_effect_int( effect_taint ) > 2 ) {
             g->u.add_effect( effect_hallu, 30_minutes );
             //Check if target is a player before spawning hallucinations
             if( g->u.is_player() && one_in( 2 ) ) {
                 g->spawn_hallucination( g->u.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
             }
-            if ( one_in( 12 ) ) {
+            if( one_in( 12 ) ) {
                 g->u.add_effect( effect_blind, 5_minutes );
                 add_msg( m_bad, _( "Your sight darkens as the visions overtake you!" ) );
             }
         }
-        if ( g->u.get_effect_int ( effect_taint ) >= 3 && one_in( 12 ) ) {
+        if( g->u.get_effect_int( effect_taint ) >= 3 && one_in( 12 ) ) {
             g->u.add_effect( effect_tindrift, 5_turns );
         }
     }
