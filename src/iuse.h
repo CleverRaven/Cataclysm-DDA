@@ -24,6 +24,7 @@ struct tripoint;
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 namespace iuse
 {
+
 // FOOD AND DRUGS (ADMINISTRATION)
 int sewage( player *, item *, bool, const tripoint & );
 int honeycomb( player *, item *, bool, const tripoint & );
@@ -69,6 +70,7 @@ int catfood( player *, item *, bool, const tripoint & );
 int feedcattle( player *, item *, bool, const tripoint & );
 int feedbird( player *, item *, bool, const tripoint & );
 int antiasthmatic( player *, item *, bool, const tripoint & );
+
 // TOOLS
 int extinguisher( player *, item *, bool, const tripoint & );
 int hammer( player *, item *, bool, const tripoint & );
@@ -145,7 +147,6 @@ int dog_whistle( player *, item *, bool, const tripoint & );
 int call_of_tindalos( player *, item *, bool, const tripoint & );
 int blood_draw( player *, item *, bool, const tripoint & );
 int mind_splicer( player *, item *, bool, const tripoint & );
-static void cut_log_into_planks( player & );
 int lumber( player *, item *, bool, const tripoint & );
 int chop_tree( player *, item *, bool, const tripoint & );
 int chop_logs( player *, item *, bool, const tripoint & );
@@ -181,8 +182,6 @@ int pack_cbm( player *p, item *it, bool, const tripoint & );
 int pack_item( player *, item *, bool, const tripoint & );
 int radglove( player *, item *, bool, const tripoint & );
 int robotcontrol( player *, item *, bool, const tripoint & );
-// Helper for validating a potential taget of robot control
-static bool robotcontrol_can_target( player *, const monster & );
 int einktabletpc( player *, item *, bool, const tripoint & );
 int camera( player *, item *, bool, const tripoint & );
 int ehandcuffs( player *, item *, bool, const tripoint & );
@@ -229,13 +228,17 @@ int disassemble( player *, item *, bool, const tripoint & );
    See artifact.h for a list.                        */
 int artifact( player *, item *, bool, const tripoint & );
 
-// Helper for listening to music, might deserve a better home, but not sure where.
-static void play_music( player &p, const tripoint &source, int volume, int max_morale );
-static int towel_common( player *, item *, bool );
+// Helper functions for other iuse functions
+void cut_log_into_planks( player & );
+void play_music( player &p, const tripoint &source, int volume, int max_morale );
+int towel_common( player *, item *, bool );
+
+// Helper for validating a potential taget of robot control
+bool robotcontrol_can_target( player *, const monster & );
 
 // Helper for handling pesky wannabe-artists
-static int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
-                                   const tripoint &where );
+int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
+                            const tripoint &where );
 
 } // namespace iuse
 
@@ -249,7 +252,7 @@ struct washing_requirements {
 };
 washing_requirements washing_requirements_for_volume( const units::volume & );
 
-using use_function_pointer = int ( iuse::* )( player *, item *, bool, const tripoint & );
+using use_function_pointer = int ( * )( player *, item *, bool, const tripoint & );
 
 class iuse_actor
 {

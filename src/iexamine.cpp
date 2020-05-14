@@ -1345,9 +1345,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
-    iuse dummy;
     item temporary_item( prying_items[0]->type );
-    dummy.crowbar( &p, &temporary_item, false, examp );
+    iuse::crowbar( &p, &temporary_item, false, examp );
 }
 
 /**
