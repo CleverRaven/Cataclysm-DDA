@@ -434,10 +434,6 @@ class player : public Character
         bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
 
         bool unload( item_location &loc );
-        /**
-         * Calls unload with item_location( *this, it )
-         */
-        bool unload( item &it );
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.

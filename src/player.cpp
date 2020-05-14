@@ -3217,12 +3217,6 @@ bool player::unload( item_location &loc )
     return true;
 }
 
-bool player::unload( item &it )
-{
-    item_location loc = item_location( *this, &it );
-    return unload( loc );
-}
-
 void player::use_wielded()
 {
     use( -1 );
@@ -3429,7 +3423,9 @@ bool player::gunmod_remove( item &gun, item &mod )
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;
     }
-    if( mod.ammo_remaining() && !g->unload( mod ) ) {
+
+    item_location loc = item_location( *this, &mod );
+    if( mod.ammo_remaining() && !g->unload( loc ) ) {
         return false;
     }
 
