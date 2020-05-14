@@ -356,7 +356,7 @@ class pointmenu_cb : public uilist_callback
         tripoint last_view; // to reposition the view after selecting
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );
-        ~pointmenu_cb() override = default;
+        ~pointmenu_cb() override;
         void refresh( uilist *menu ) override;
 };
 
