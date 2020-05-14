@@ -5803,7 +5803,7 @@ bool mattack::speaker( monster *z )
 bool mattack::dissipate_drain( monster *z )
 {
     Character *foe = static_cast<Character *>( z->attack_target() );
-    if( foe != nullptr && within_target_range( z, foe, 1 ) ) {
+    if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
         return false;
     }
 
@@ -5820,7 +5820,7 @@ bool mattack::dissipate_drain( monster *z )
 bool mattack::dissipate_nightmares( monster *z )
 {
     Character *foe = static_cast<Character *>( z->attack_target() );
-    if( foe != nullptr && within_target_range( z, foe, 1 ) ) {
+    if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
         return false;
     }
 

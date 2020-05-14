@@ -3,7 +3,8 @@
     "type": "snippet",
     "category": "mist_summon_wraith",
     "text": [
-      "You feel the mist react to you and a shape appears."
+      "You feel the mist react to you and a shape appears.",
+	  "The mist reacts to you and a hazy figure condenses."
 	  
     ]
   },
@@ -12,7 +13,8 @@
     "category": "mist_summon_spectre",
     "text": [
       "You see a shape form in the mist that reminds you of a creepy man that followed you when you were younger.",
-      "You see a shape form in the mist that reminds you of a teacher that hated you."      
+      "You see a shape form in the mist that reminds you of a teacher that hated you.",
+      "A shape forms in the mist and you could swear ."
     ]
   }
 ]

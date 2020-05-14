@@ -288,6 +288,8 @@ class game
         template<typename T = Creature>
         shared_ptr_fast<T> shared_from( const T &critter );
 
+        static bool can_place_monster( const monster &mon, const tripoint &p );
+
         /**
          * Adds critters to the reality bubble, creating them if necessary.
          * Functions taking a @p id parameter will construct a monster based on that id,

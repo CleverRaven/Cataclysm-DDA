@@ -4803,7 +4803,7 @@ template player *game::critter_by_id<player>( const character_id & );
 template npc *game::critter_by_id<npc>( const character_id & );
 template Creature *game::critter_by_id<Creature>( const character_id & );
 
-static bool can_place_monster( const monster &mon, const tripoint &p )
+bool game::can_place_monster( const monster &mon, const tripoint &p )
 {
     if( const monster *const critter = g->critter_at<monster>( p ) ) {
         // Creature_tracker handles this. The hallucination monster will simply vanish
@@ -4823,7 +4823,7 @@ static cata::optional<tripoint> choose_where_to_place_monster( const monster &mo
         const tripoint_range &range )
 {
     return random_point( range, [&]( const tripoint & p ) {
-        return can_place_monster( mon, p );
+        return game::can_place_monster( mon, p );
     } );
 }
 

@@ -463,7 +463,7 @@ void weather_effect::snowstorm()
 void weather_effect::mist()
 {
     if( calendar::once_every( g->weather.mist_spawn_time ) && is_player_outside() ) {
-        int radius = 10;
+        int radius = 3;
         mtype_id monster;
         std::string category;
         if( g->weather.mist_intensity < 5 ) {
@@ -473,8 +473,19 @@ void weather_effect::mist()
             monster = mon_mist_spectre;
             category = "mist_summon_spectre";
         }
-        if( g->place_critter_around( monster, g->u.pos() + tripoint( rng( -radius, radius ),
-                                     rng( -radius, radius ), 0 ), radius ) != nullptr ) {
+
+
+        tripoint target;
+        bool found_location = false;
+        for( int i = 0; i < 10 && !found_location; i++ ) {
+            target = g->u.pos() + tripoint( rng( -radius, radius ),
+                                            rng( -radius, radius ), 0 );
+            if( game::can_place_monster( monster, target ) && g->m.is_outside( target ) ) {
+                found_location = true;
+            }
+        }
+
+        if( found_location && g->place_critter_around( monster, target, 3 ) != nullptr ) {
             g->u.add_msg_if_player( m_bad, "%s",
                                     SNIPPET.random_from_category( category ).value_or( translation() ) );
         }
