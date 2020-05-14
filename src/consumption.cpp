@@ -1636,11 +1636,12 @@ time_duration Character::get_consume_time( const item &it )
     time_duration time = time_duration::from_seconds( std::max( ( volume /
                          5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
     float consume_time_modifier = 1;//only for food and drinks
-    const bool eat_verb  = it.has_flag( flag_USE_EAT_VERB );
-    if( eat_verb || it.get_comestible()->comesttype == "FOOD" ) {
+    const bool eat_verb = it.has_flag( flag_USE_EAT_VERB );
+    const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
+    if( eat_verb || comest_type == "FOOD" ) {
         time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
-    } else if( !eat_verb && it.get_comestible()->comesttype == "DRINK" ) {
+    } else if( !eat_verb && comest_type == "DRINK" ) {
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
     } else if( it.is_medication() ) {
