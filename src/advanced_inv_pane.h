@@ -80,13 +80,8 @@ class advanced_inventory_pane
         std::string filter;
         /**
          * Whether to recalculate the content of this pane.
-         * Implies @ref redraw.
          */
         bool recalc = false;
-        /**
-         * Whether to redraw this pane.
-         */
-        bool redraw = false;
 
         void add_items_from_area( advanced_inv_area &square, bool vehicle_override = false );
         /**
@@ -103,7 +98,7 @@ class advanced_inventory_pane
          */
         bool is_filtered( const item &it ) const;
         /**
-         * Scroll @ref index, by given offset, set redraw to true,
+         * Scroll @ref index, by given offset,
          * @param offset Must not be 0.
          */
         void scroll_by( int offset );
