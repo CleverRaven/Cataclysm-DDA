@@ -6,7 +6,7 @@
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "survival",
     "difficulty": 2,
-    "skills_required": [ "chemistry", 2 ],
+    "skills_required": [ "chemistry", 1 ],
     "time": "30 m",
     "batch_time_factors": [ 70, 4 ],
     "autolearn": true,
