@@ -342,7 +342,8 @@
     "id": "POWERED",
     "type": "json_flag",
     "context": [ "TOOL" ],
-    "//": "Objects with this flag do not drain player's stamina when used."
+    "//": "Objects with this flag use DEX instead of STR."
+    "//": Cannot change ID as it will break other interactions.
   },
   {
     "id": "PSYSHIELD_PARTIAL",
