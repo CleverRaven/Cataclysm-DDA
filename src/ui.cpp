@@ -957,6 +957,11 @@ pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )
     last_view = g->u.view_offset;
 }
 
+pointmenu_cb::~pointmenu_cb()
+{
+    g->u.view_offset = last_view;
+}
+
 void pointmenu_cb::refresh( uilist *menu )
 {
     if( last == menu->selected ) {
