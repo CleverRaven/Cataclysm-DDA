@@ -2002,7 +2002,6 @@
       { "point": [ 2, 2, 0 ], "overmap": "mall_a_70_south" },
       { "point": [ 2, 2, 1 ], "overmap": "mall_b_70_south" },
       { "point": [ 2, 2, 2 ], "overmap": "mall_a_70_roof_south" },
-      { "point": [ 2, 2, 2 ], "overmap": "mall_a_70_roof_south" },
       { "point": [ 2, 2, -1 ], "overmap": "mall_a_70_basement_south" },
       { "point": [ 1, 2, 0 ], "overmap": "mall_a_71_south" },
       { "point": [ 1, 2, 1 ], "overmap": "mall_b_71_south" },
