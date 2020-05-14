@@ -1,0 +1,17 @@
+[
+  {
+    "type": "palette",
+    "id": "rural_road",
+    "terrain": {
+      "#": [ [ "t_dirtmound", 98 ], [ "t_region_groundcover_barren", 2 ] ],
+      " ": [ [ "t_region_groundcover_barren", 100 ], [ "t_region_groundcover", 100 ], [ "t_region_shrub", 1 ] ],
+      "i": [ [ "t_region_groundcover_barren", 2 ], [ "t_region_groundcover", 1 ] ],
+      "/": [ [ "t_region_groundcover_barren", 1 ], [ "t_railroad_rubble", 25 ], [ "t_region_groundcover", 1 ] ],
+      "V": "t_splitrail_fence",
+      "3": "t_splitrail_fencegate_c",
+      "9": "t_region_tree",
+      "8": [ [ "t_region_shrub_fruit", 5 ], "t_region_shrub", "t_trunk", "t_stump" ]
+    },
+    "furniture": { "@": "f_hay", "p": "f_region_flower" }
+  }
+]

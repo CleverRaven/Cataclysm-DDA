@@ -1,0 +1,42 @@
+{
+  "type": "mapgen",
+  "method": "json",
+  "update_mapgen_id": "mx_nest_dermatik",
+  "object": {
+    "rows": [
+      "                        ",
+      "                        ",
+      "            t           ",
+      "                        ",
+      "              t      t  ",
+      "       t   t----        ",
+      "         ----:.-t       ",
+      " t    t---.:-..---t  t  ",
+      "       -:-..---..--t    ",
+      "     ---.---.,---.-     ",
+      "    t-.--.,--...-.--    ",
+      "      --...-.--.--.     ",
+      "     -..-,-.:-,-..-t  t ",
+      " t   --.:..-.-:.---     ",
+      "     t---.,.-.---..-    ",
+      "      -.---.---..---    ",
+      "    t  --.---..---t     ",
+      "       t-...:---t    t  ",
+      "         -----t         ",
+      "           t            ",
+      "                 t      ",
+      "      t                 ",
+      "                        ",
+      "                        "
+    ],
+    "terrain": {
+      "t": [ "t_region_tree", "t_region_groundcover" ],
+      ",": [ "t_region_tree" ],
+      "-": [ "t_paper" ],
+      ".": [ "t_floor_paper" ],
+      ":": [ "t_floor_paper" ]
+    },
+    "monster": { ":": { "monster": "mon_dermatik_larva" } },
+    "place_monsters": [ { "monster": "GROUP_DERMATIK", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 3 ], "density": 0.1 } ]
+  }
+}

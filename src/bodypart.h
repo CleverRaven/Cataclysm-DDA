@@ -1,14 +1,19 @@
 #pragma once
-#ifndef BODYPART_H
-#define BODYPART_H
+#ifndef CATA_SRC_BODYPART_H
+#define CATA_SRC_BODYPART_H
 
 #include <array>
 #include <bitset>
+#include <cstddef>
+#include <initializer_list>
+#include <string>
 
 #include "int_id.h"
 #include "string_id.h"
+#include "translations.h"
 
 class JsonObject;
+template <typename E> struct enum_traits;
 
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
@@ -27,10 +32,21 @@ enum body_part : int {
     num_bp
 };
 
+template<>
+struct enum_traits<body_part> {
+    static constexpr auto last = body_part::num_bp;
+};
+
 enum class side : int {
     BOTH,
     LEFT,
-    RIGHT
+    RIGHT,
+    num_sides
+};
+
+template<>
+struct enum_traits<side> {
+    static constexpr auto last = side::num_sides;
 };
 
 /**
@@ -44,20 +60,23 @@ constexpr std::array<body_part, 12> all_body_parts = {{
     }
 };
 
-struct body_part_struct;
-using bodypart_ids = string_id<body_part_struct>;
-using bodypart_id = int_id<body_part_struct>;
+struct body_part_type;
 
-struct body_part_struct {
+using bodypart_str_id = string_id<body_part_type>;
+using bodypart_id = int_id<body_part_type>;
+
+struct body_part_type {
     public:
-        bodypart_ids id;
+        bodypart_str_id id;
         bool was_loaded = false;
 
         // Those are stored untranslated
-        std::string name;
-        std::string name_multiple;
-        std::string name_as_heading_singular;
-        std::string name_as_heading_multiple;
+        translation name;
+        translation name_multiple;
+        translation accusative;
+        translation accusative_multiple;
+        translation name_as_heading;
+        translation name_as_heading_multiple;
         std::string hp_bar_ui_text;
         std::string encumb_text;
         // Legacy "string id"
@@ -76,18 +95,26 @@ struct body_part_struct {
          */
         float hit_difficulty = 0.0f;
         // "Parent" of this part - main parts are their own "parents"
-        // @todo: Connect head and limbs to torso
-        bodypart_ids main_part;
+        // TODO: Connect head and limbs to torso
+        bodypart_str_id main_part;
         // A part that has no opposite is its own opposite (that's pretty Zen)
-        bodypart_ids opposite_part;
+        bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
 
-        void load( JsonObject &jo, const std::string &src );
+        //Morale parameters
+        float hot_morale_mod = 0;
+        float cold_morale_mod = 0;
+
+        float stylish_bonus = 0;
+
+        int squeamish_penalty = 0;
+
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 
-        static void load_bp( JsonObject &jo, const std::string &src );
+        static void load_bp( const JsonObject &jo, const std::string &src );
 
         // Clears all bps
         static void reset();
@@ -95,6 +122,12 @@ struct body_part_struct {
         static void finalize_all();
         // Verifies that body parts make sense
         static void check_consistency();
+
+        int bionic_slots() const {
+            return bionic_slots_;
+        }
+    private:
+        int bionic_slots_ = 0;
 };
 
 class body_part_set
@@ -166,7 +199,7 @@ class body_part_set
 };
 
 /** Returns the new id for old token */
-const bodypart_ids &convert_bp( body_part bp );
+const bodypart_str_id &convert_bp( body_part bp );
 
 /** Returns the opposite side. */
 side opposite_side( side s );
@@ -205,4 +238,4 @@ std::string get_body_part_id( body_part bp );
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
 
-#endif
+#endif // CATA_SRC_BODYPART_H

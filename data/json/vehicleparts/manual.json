@@ -19,21 +19,27 @@
     "id": "foot_pedals",
     "type": "vehicle_part",
     "copy-from": "engine_manual",
-    "name": "foot pedals",
+    "name": { "str": "foot pedals" },
     "item": "foot_crank",
     "durability": 50,
     "description": "A set of bicycle style foot pedals.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
     "power": 1600,
     "muscle_power_factor": 140,
     "folded_volume": 2,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS", "TOOL_WRENCH" ] }
+    "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS" ] },
+    "damage_reduction": { "all": 4 }
   },
   {
     "id": "hand_rims",
     "type": "vehicle_part",
     "copy-from": "engine_manual",
-    "name": "hand rims",
+    "name": { "str": "hand rims" },
     "item": "hand_rims",
     "durability": 50,
     "description": "A set of wheelchair style wheels.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
@@ -41,7 +47,13 @@
     "muscle_power_factor": 50,
     "damage_modifier": 50,
     "folded_volume": 2,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ] }
+    "extend": { "flags": [ "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ] },
+    "damage_reduction": { "all": 4 }
   }
 ]

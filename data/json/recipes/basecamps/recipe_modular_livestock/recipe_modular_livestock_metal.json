@@ -1,0 +1,174 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_coop_metal_northeast",
+    "description": "We could use a coop to contain our chickens and other birds, so build a metal sheet shack with a roof on the northeast side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_coop_metal_northeast",
+    "blueprint_name": "northeast coop",
+    "blueprint_requires": [ { "id": "fbml_0" } ],
+    "blueprint_provides": [ { "id": "fbml_northeast" }, { "id": "chicken_coop" } ],
+    "blueprint_excludes": [ { "id": "fbml_northeast" } ],
+    "blueprint_needs": {
+      "time": "2 d 23 h 45 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 360 ], [ "welder", 1800 ], [ "welder_crude", 2700 ], [ "toolset", 2700 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 138 ] ],
+          [ [ "nail", 360 ] ],
+          [ [ "wire", 20 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "steel_plate", 72 ] ],
+          [ [ "wood_panel", 16 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_shack_metal_southeast",
+    "description": "We could use a storage room for feed, animal gear and tools, so build a metal sheet shack with a roof on the southeast side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_shack_metal_southeast",
+    "blueprint_name": "southeast storage room",
+    "blueprint_requires": [ { "id": "fbml_0" } ],
+    "blueprint_provides": [ { "id": "fbml_southeast" } ],
+    "blueprint_excludes": [ { "id": "fbml_southeast" } ],
+    "blueprint_needs": {
+      "time": "2 d 7 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 220 ], [ "welder", 1100 ], [ "welder_crude", 1650 ], [ "toolset", 1650 ] ] ],
+        "qualities": [
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 142 ] ],
+          [ [ "nail", 324 ] ],
+          [ [ "wood_panel", 10 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 60 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "glass_sheet", 4 ] ],
+          [ [ "steel_plate", 44 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable0_metal_southwest",
+    "description": "We could use a stable for larger livestock, so build a metal sheet shack with a roof on the southwest side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_stable0_metal_southwest",
+    "blueprint_name": "southwest stable",
+    "blueprint_requires": [ { "id": "faction_base_livestock_0" } ],
+    "blueprint_provides": [ { "id": "fbml_southwest" }, { "id": "stables" } ],
+    "blueprint_excludes": [ { "id": "fbml_southwest" } ],
+    "blueprint_needs": {
+      "time": "2 d 17 h",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 300 ], [ "welder", 1500 ], [ "welder_crude", 2250 ], [ "toolset", 2250 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 161 ] ],
+          [ [ "nail", 432 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "steel_plate", 60 ] ],
+          [ [ "wood_panel", 17 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable1_metal_west",
+    "description": "We could use an expansion for the stable, so build 2 more stalls on the west side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_stable1_metal_west",
+    "blueprint_name": "west stable",
+    "blueprint_requires": [ { "id": "fbml_southwest" } ],
+    "blueprint_provides": [ { "id": "fbml_west" } ],
+    "blueprint_excludes": [ { "id": "fbml_west" } ],
+    "blueprint_needs": {
+      "time": "2 d 13 h",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 260 ], [ "welder", 1300 ], [ "welder_crude", 1950 ], [ "toolset", 1950 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 178 ] ],
+          [ [ "nail", 464 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "steel_plate", 52 ] ],
+          [ [ "wood_panel", 19 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable2_metal_northwest",
+    "description": "We could use an expansion for the stable, so build 2 more stalls on the northwest side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_stable2_metal_northwest",
+    "blueprint_name": "northwest stable",
+    "blueprint_requires": [ { "id": "fbml_west" } ],
+    "blueprint_provides": [ { "id": "fbml_northwest" } ],
+    "blueprint_excludes": [ { "id": "fbml_northwest" } ],
+    "blueprint_needs": {
+      "time": "2 d 15 h",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 280 ], [ "welder", 1400 ], [ "welder_crude", 2100 ], [ "toolset", 2100 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 170 ] ],
+          [ [ "nail", 444 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "steel_plate", 56 ] ],
+          [ [ "wood_panel", 18 ] ]
+        ]
+      }
+    }
+  }
+]

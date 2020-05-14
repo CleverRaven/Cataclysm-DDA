@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MOD_TILESET_H
-#define MOD_TILESET_H
+#ifndef CATA_SRC_MOD_TILESET_H
+#define CATA_SRC_MOD_TILESET_H
 
 #include <string>
 #include <vector>
@@ -10,7 +10,7 @@ class JsonObject;
 
 extern std::vector<mod_tileset> all_mod_tilesets;
 
-void load_mod_tileset( JsonObject &jsobj, const std::string &, const std::string &base_path,
+void load_mod_tileset( const JsonObject &jsobj, const std::string &, const std::string &base_path,
                        const std::string &full_path );
 void reset_mod_tileset();
 
@@ -45,4 +45,4 @@ class mod_tileset
         std::vector<std::string> compatibility;
 };
 
-#endif
+#endif // CATA_SRC_MOD_TILESET_H

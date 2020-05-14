@@ -1,0 +1,211 @@
+[
+  {
+    "type": "snippet",
+    "category": "necropolis_intro",
+    "text": [
+      {
+        "id": "necropolis_intro_1",
+        "text": "WELCOME HOME!  Your decision to join our family will lead you to become part of the next generation of job creators.  With us you will already have a foot in the door when it is time to rebuild the nation!"
+      },
+      {
+        "id": "necropolis_intro_2",
+        "text": "NEED A NEW JOB?  Now that you have secured a comfortable home, try looking into one of the many promising career opportunities that have positions open.  Openings such as GEOLOGICAL ENGINEERING ASSISTANT or FACILITY TECHNICIAN offer limitless growth potential!  Please contact your employment adviser if you have any questions."
+      },
+      {
+        "id": "necropolis_intro_3",
+        "text": "GOOD WITH YOUR HANDS?  Engineering always needs another hand keeping our home in good working order!  As an incentive, everyone working on level 3 will receive additional hazardous pay and time off.  Please go to the engineering office on level 3 if you are interested."
+      },
+      {
+        "id": "necropolis_intro_4",
+        "text": "WANT TO CONTINUE YOUR EDUCATION?  Our educational facilities are top notch and offer courses for individuals at all age groups.  Many new careers are opening up to those who are willing to learn a new craft.  Our library and research labs will keep even the hungriest minds fed!"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "scores",
+    "text": [
+      {
+        "id": "scores_1",
+        "text": "The card is printed with 2 boxes.  In the first box you see a tally of 5 tick marks.  The second box has a total of 9."
+      },
+      {
+        "id": "scores_2",
+        "text": "The card is printed with 2 boxes.  In the first box you see a tally of 3 tick marks.  The second box has line trailing off to the edge and a bloody fingerprint."
+      },
+      {
+        "id": "scores_3",
+        "text": "The card is printed for a game of golf.  Someone has filled out their score for the first 9 holes."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [
+      { "id": "charsheet_1", "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a fighter." },
+      {
+        "id": "charsheet_2",
+        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a bard."
+      },
+      {
+        "id": "charsheet_3",
+        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a cleric."
+      },
+      {
+        "id": "charsheet_4",
+        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a wizard."
+      },
+      {
+        "id": "charsheet_5",
+        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a rogue."
+      },
+      {
+        "id": "charsheet_6",
+        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a barbarian."
+      },
+      {
+        "id": "charsheet_7",
+        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a warlock."
+      },
+      {
+        "id": "charsheet_8",
+        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a paladin."
+      },
+      {
+        "id": "charsheet_9",
+        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a sorcerer."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "pyromania_withdrawal",
+    "text": [
+      "You feel cold.  You need the warmth of a fire.",
+      "Maybe a fire could calm your nerves?",
+      "You need to ignite something.",
+      "You daydream of crackling fire…",
+      "You shiver.  A fire would be great right now.",
+      "You think of randomly lighting a fire, but decide against it."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "killer_withdrawal",
+    "text": [
+      "You think of steel blades and warm dripping blood.",
+      "You'd like to hear the last breath of something living.",
+      "So much death around.  Why not add some more?",
+      "You lick your lips, in anticipation for dead trophies.",
+      "By the blade or by the gun?  How will you kill this time?",
+      "Ahh, how delightful would it be to kill something.",
+      "You are death, and you are coming for them.  Soon.",
+      "You feel restless.  It's been too long since your last kill.",
+      "Killing something would be nice right now.",
+      "Just one more death, one more kill and then you'd be right."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "killer_on_kill",
+    "text": [
+      "You feel the rush of the kill.",
+      "Your urge to kill is sated, for now.",
+      "You have the power of life and death, it feels good to be in control.",
+      "You exhale in bliss.",
+      "A calm feeling washes over.",
+      "This feels right.",
+      "You kill and your world is in order again.",
+      "Your worries evaporate as the creature dies by your hand.",
+      "That was nice!  Maybe one more?",
+      "This feels so good!  You could do this all day.",
+      "This brings a smile to your face.",
+      "You feel tension leave your body as your need to kill is satisfied.",
+      "You feel much better now."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "tree_communion",
+    "text": [
+      "You catch a glimpse of distant green.",
+      "The sense of a faraway place comes up through your roots.",
+      "The trees tell you of the world.",
+      "The rustling leaves paint a picture in your head.",
+      "Your consciousness drifts into the wild green yonder.",
+      "The trees whisper of remote acres.",
+      "The trees speak of their far-flung relatives.",
+      "Visions of unfamiliar forests flicker through your mind.",
+      "You picture yourself as one branch among many.",
+      "New knowledge blooms within you.",
+      "The horizon beckons with promises of pollen.",
+      "Your awareness grows in directions heretofore unknown.",
+      "A tree falls in a forest, and you hear its sound.",
+      "You feel the hum of untold biomass.",
+      "A tingle of understanding runs from your roots and up your spine.",
+      "You gain new appreciation for the interconnectedness of life.",
+      "You ask, and the trees answer.",
+      "You see the forest for the trees.",
+      "In the minute shifts and pivots of the trees, you hear the language of the universe."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "amigara1",
+    "text": [
+      "ENTRY 47:\nOur normal mining routine has unearthed a hollow chamber.  This would not be out of the ordinary, save for the odd, perfectly vertical faultline found.  This faultline has several odd concavities in it which have the more superstitious crew members alarmed; they seem to be of human origin.\nENTRY 48:\nThe concavities are between 10 and 20 feet tall, and run the length of the faultline.  Each one is vaguely human in shape, but with the proportions of the limbs, neck and head greatly distended, all twisted and curled in on themselves."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "amigara2",
+    "text": [
+      "ENTRY 49:\nWe've stopped mining operations in this area, obviously, until archaeologists have the chance to inspect the area.  This is going to set our schedule back by at least a week.  This stupid artifact-preservation law has been in place for 50 years, and hasn't even been up for termination despite the fact that these mining operations are the backbone of our economy.\nENTRY 52:\nStill waiting on the archaeologists.  We've done a little light inspection of the faultline; our sounding equipment is insufficient to measure the depth of the concavities.  The equipment is rated at 15 miles depth, but it isn't made for such narrow tunnels, so it's hard to say exactly how far back they go."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "amigara3",
+    "text": [
+      "ENTRY 54:\nI noticed a couple of the guys down in the chamber with a chisel, breaking off a piece of the sheer wall.  I'm looking the other way.  It's not like the eggheads are going to notice a little piece missing.  Fuck em.\nENTRY 55:\nWell, the archaeologists are down there now with a couple of the boys as guides.  They're hardly Indiana Jones types; I doubt they been below 20 feet.  I hate taking guys off assignment just to babysit the scientists, but if they get hurt we'll be shut down for god knows how long.\nENTRY 58:\nThey're bringing in ANOTHER CREW?  Christ, it's just some cave carvings!  I know that's sort of a big deal, but come on, these guys can't handle it?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "amigara4",
+    "text": [
+      "MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER IMPERATIVE 2:07B.\nFAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM.\nDAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS SUBJECTS.\nQUALITY OF FAULTLINE NOT COMPROMISED.\nINITIATING STANDARD TREMOR TEST…"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "headshop_graffiti",
+    "text": [ "(~);}", "<given_name> + <given_name> forever", "Be Kind", "Save the whales!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "death_note",
+    "text": [
+      {
+        "id": "death_note_1",
+        "text": "This is General Baker.  Today I received a top-secret letter with new orders from high command.  These orders described a new set of coordinates for our ICBM.  My men deciphered it, and it became crystal-clear that coordinates are pointing to a certain place inside our country.  I requested re-confirmation, and after a short while I received it with the same coordinates, so it wasn't an weird error as I originally thought.  I don't know what's on the minds of these guys in the government, but I'm not gonna bomb innocent people of my country.  We're just one step away from starting a war, so failure to comply with an order will obviously result in a execution.  And it's just a matter of time when they come for me.  So actually I'm already a dead man.  Whomever may find this.  Please tell my wife Jane I love her and Michael Jr.  And tell her I'm sorry.  General Michael Baker"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "speaker_warning",
+    "text": [
+      "HEY DUMBASSES!",
+      "HEY DUMBHEADS!",
+      "HEY MORONS!",
+      "HEY WALKERS!",
+      "HEY ZOMBIES!",
+      "GET OVER HERE!",
+      "IT'S A TRAP!",
+      "IF YOU'RE NOT A ZOMBIE, DON'T COME CLOSER!",
+      "IF YOU'RE NOT A ZOMBIE, RUN AWAY AS FAST AS YOU CAN!"
+    ]
+  }
+]

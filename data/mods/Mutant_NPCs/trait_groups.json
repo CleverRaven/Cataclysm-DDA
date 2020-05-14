@@ -917,8 +917,7 @@
       { "trait": "SAVANT", "prob": 10 },
       { "trait": "SCHIZOPHRENIC", "prob": 10 },
       { "trait": "SQUEAMISH", "prob": 10 },
-      { "trait": "TRIGGERHAPPY", "prob": 10 },
-      { "trait": "INCONSPICUOUS", "prob": 10 }
+      { "group": "Appearance_demographics", "prob": 100 }
     ]
   }
 ]

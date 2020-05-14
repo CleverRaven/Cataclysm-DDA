@@ -1,15 +1,13 @@
 #pragma once
-#ifndef DEPENDENCY_TREE_H
-#define DEPENDENCY_TREE_H
+#ifndef CATA_SRC_DEPENDENCY_TREE_H
+#define CATA_SRC_DEPENDENCY_TREE_H
 
 #include <map>
 #include <stack>
 #include <vector>
+#include <string>
 
-#include "string_id.h"
-
-struct MOD_INFORMATION;
-using mod_id = string_id<MOD_INFORMATION>;
+#include "type_id.h"
 
 enum NODE_ERROR_TYPE {
     DEPENDENCY,
@@ -95,4 +93,4 @@ class dependency_tree
 
 };
 
-#endif
+#endif // CATA_SRC_DEPENDENCY_TREE_H

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "manual_mma_panzer",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "GENERIC",
+    "name": { "str_sp": "The Life and Work of Tiger Sauer" },
+    "description": "A biography of a combat cyborg agent detailing his philosophy and martial art.",
+    "book_data": { "martial_art": "style_mma_panzer" }
+  }
+]

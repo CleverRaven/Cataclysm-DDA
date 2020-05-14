@@ -1,18 +1,19 @@
 #pragma once
-#ifndef NAME_H
-#define NAME_H
+#ifndef CATA_SRC_NAME_H
+#define CATA_SRC_NAME_H
 
 #include <string>
 
-enum nameFlags {
-    nameIsMaleName   = 1 << 0,
-    nameIsFemaleName = 1 << 1,
-    nameIsUnisexName = nameIsMaleName | nameIsFemaleName,
-    nameIsGivenName  = 1 << 2,
-    nameIsFamilyName = 1 << 3,
-    nameIsTownName   = 1 << 4,
-    nameIsFullName   = 1 << 5,
-    nameIsWorldName  = 1 << 6
+enum class nameFlags : int {
+    IsMaleName   = 1 << 0,
+    IsFemaleName = 1 << 1,
+    IsUnisexName = IsMaleName | IsFemaleName,
+    IsGivenName  = 1 << 2,
+    IsFamilyName = 1 << 3,
+    IsNickName   = 1 << 4,
+    IsTownName   = 1 << 5,
+    IsFullName   = 1 << 6,
+    IsWorldName  = 1 << 7
 };
 
 namespace Name
@@ -28,7 +29,7 @@ std::string generate( bool is_male );
 
 /// Clear names used for generation
 void clear();
-}
+} // namespace Name
 
 inline nameFlags operator|( nameFlags l, nameFlags r )
 {
@@ -40,4 +41,4 @@ inline nameFlags operator&( nameFlags l, nameFlags r )
     return static_cast<nameFlags>( static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
 }
 
-#endif
+#endif // CATA_SRC_NAME_H

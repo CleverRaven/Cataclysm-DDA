@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "catch/catch.hpp"
 #include "optional.h"
 
@@ -29,7 +31,7 @@ TEST_CASE( "optional_assignment_works", "[optional]" )
     a = d;
     REQUIRE( a );
     CHECK( *a == 4 );
-    a = std::move( d );
+    a = d;
     REQUIRE( a );
     CHECK( *a == 4 );
 

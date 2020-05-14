@@ -7,7 +7,7 @@
     "responses": [
       { "text": "Giant bees?  Tell me more.", "topic": "BGSS_EVACUEE_5_BEES" },
       {
-        "text": "But bees aren't usually aggressive...",
+        "text": "But bees aren't usually aggressive…",
         "topic": "BGSS_EVACUEE_5_WASPS",
         "condition": { "u_has_perception": 8 }
       },
@@ -21,7 +21,7 @@
     "dynamic_line": "Yeah, I'm sure you've seen them, they're everywhere.  Like something out of an old sci-fi movie.  Some of the others in the evac shelter got stung, it was no joke.  I didn't stick around to see what the lasting effect was though.  I'm not ashamed to admit I ran like a <swear> chicken.",
     "responses": [
       {
-        "text": "But bees aren't usually aggressive...  Do you mean wasps?",
+        "text": "But bees aren't usually aggressive…  Do you mean wasps?",
         "topic": "BGSS_EVACUEE_5_WASPS",
         "condition": { "u_has_perception": 8 }
       },

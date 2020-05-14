@@ -1,0 +1,198 @@
+[
+  {
+    "type": "mutation",
+    "id": "THRESH_VAMP",
+    "name": "Night Walker",
+    "points": 1,
+    "description": "Emerge from the grave of the old world, and become the night once again.",
+    "//": "Parallel reference to Woken Furies quote from the Altered Carbon series and song.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "FLEET",
+    "name": "Fleet-Footed",
+    "points": 2,
+    "description": "You can move more quickly than most, resulting in a 15% speed bonus on sure footing.",
+    "starting_trait": true,
+    "changes_to": [ "FLEET2" ],
+    "category": [ "SPIDER", "MOUSE", "VAMP" ],
+    "types": [ "RUNNING" ],
+    "movecost_flatground_modifier": 0.85
+  },
+  {
+    "type": "mutation",
+    "id": "GOODCARDIO",
+    "copy-from": "GOODCARDIO",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FASTHEALER",
+    "copy-from": "FASTHEALER",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION",
+    "copy-from": "NIGHTVISION",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "copy-from": "DEFT",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TERRIFYING",
+    "copy-from": "TERRIFYING",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTSTEP",
+    "copy-from": "LIGHTSTEP",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "CANNIBAL",
+    "copy-from": "CANNIBAL",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "WEAKSCENT",
+    "copy-from": "WEAKSCENT",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PRETTY",
+    "copy-from": "PRETTY",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INSOMNIA",
+    "copy-from": "INSOMNIA",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THINSKIN",
+    "copy-from": "THINSKIN",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "WEAKSTOMACH",
+    "copy-from": "WEAKSTOMACH",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ALBINO",
+    "copy-from": "ALBINO",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FLIMSY",
+    "copy-from": "FLIMSY",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION2",
+    "copy-from": "NIGHTVISION2",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION3",
+    "name": "Full Night Vision",
+    "points": 6,
+    "description": "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
+    "prereqs": [ "NIGHTVISION2" ],
+    "leads_to": [ "INFRARED" ],
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
+    "category": [ "FISH", "TROGLOBITE", "SPIDER", "VAMP" ],
+    "active": true,
+    "starts_active": true
+  },
+  {
+    "type": "mutation",
+    "id": "FANGS",
+    "name": "Fangs",
+    "points": 2,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
+    "types": [ "TEETH" ],
+    "changes_to": [ "SABER_TEETH", "SHARKTEETH" ],
+    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "VAMP" ],
+    "attacks": [
+      {
+        "attack_text_u": "You sink your fangs into %s",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+        "body_part": "MOUTH",
+        "chance": 20,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      },
+      {
+        "attack_text_u": "You sink your fangs into %s",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "required_mutations": [ "MUZZLE" ],
+        "body_part": "MOUTH",
+        "chance": 18,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      },
+      {
+        "attack_text_u": "You sink your fangs into %s",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "required_mutations": [ "MUZZLE_LONG" ],
+        "body_part": "MOUTH",
+        "chance": 15,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      },
+      {
+        "attack_text_u": "You sink your fangs into %s",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "required_mutations": [ "MUZZLE_RAT" ],
+        "body_part": "MOUTH",
+        "chance": 19,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "NAILS",
+    "name": "Long Fingernails",
+    "points": 1,
+    "visibility": 1,
+    "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
+    "types": [ "CLAWS" ],
+    "changes_to": [ "CLAWS", "TALONS" ],
+    "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
+    "category": [ "RAPTOR", "VAMP" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POISONOUS",
+    "copy-from": "POISONOUS",
+    "extend": { "category": [ "VAMP" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SUNBURN",
+    "copy-from": "SUNBURN",
+    "extend": { "category": [ "VAMP" ] }
+  }
+]

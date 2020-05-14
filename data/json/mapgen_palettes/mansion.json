@@ -27,8 +27,8 @@
       "H": "f_treadmill",
       "I": "f_ergometer",
       "J": "f_bathtub",
-      "K": [ "f_crate_c", "f_crate_o" ],
-      "L": [ "f_crate_c", "f_crate_o" ],
+      "K": [ [ "f_cardboard_box", 5 ], "f_crate_c", "f_crate_o" ],
+      "L": [ [ "f_cardboard_box", 5 ], "f_crate_c", "f_crate_o" ],
       "M": "f_locker",
       "Q": "f_oven",
       "R": "f_rack",
@@ -66,7 +66,7 @@
     "terrain": {
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
-      "!": "t_grass",
+      "!": "t_region_groundcover_urban",
       ")": "t_carpet_red",
       "+": "t_door_c",
       ",": "t_sidewalk",
@@ -130,10 +130,10 @@
     "type": "palette",
     "id": "mansion_palette_outdoors",
     "terrain": {
-      "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-      "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-      "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
-      ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ]
+      "'": [ [ "t_region_soil", 3 ], "t_region_shrub_decorative", [ "t_region_groundcover_urban", 5 ] ],
+      "*": [ [ "t_region_shrub_decorative", 4 ], "t_region_groundcover_urban" ],
+      "0": [ [ "t_region_tree_shade", 3 ], "t_region_groundcover_urban" ],
+      ":": "t_region_groundcover_urban"
     }
   },
   {

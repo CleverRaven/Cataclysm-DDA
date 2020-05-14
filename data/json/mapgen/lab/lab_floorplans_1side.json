@@ -50,7 +50,7 @@
     "om_terrain": [ "lab_1side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "|----------..----------|",
         "|.........|..|.........|",
@@ -157,16 +157,22 @@
       "palettes": [ "lab_palette" ],
       "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ],
       "place_monster": [
-        { "monster": [ "mon_zombie_bio_op", "mon_zombie_grenadier" ], "x": [ 10, 16 ], "y": [ 5, 12 ], "pack_size": [ 1, 2 ], "chance": 40 },
+        {
+          "monster": [ "mon_zombie_bio_op", "mon_dispatch" ],
+          "x": [ 10, 16 ],
+          "y": [ 5, 12 ],
+          "pack_size": [ 1, 2 ],
+          "chance": 40
+        },
         { "monster": [ "mon_zombie_soldier" ], "x": [ 1, 21 ], "y": [ 1, 16 ], "pack_size": [ 1, 4 ], "chance": 40 }
       ],
-     "terrain": { "7": "t_console" },
+      "terrain": { "7": "t_console" },
       "mapping": {
         "l": {
           "items": [
             { "item": "clothing_soldier_set", "chance": 100 },
-            { "item": "gear_soldier_sidearm", "chance": 33},
-            { "item": "book_military", "chance": 33}
+            { "item": "gear_soldier_sidearm", "chance": 33 },
+            { "item": "book_military", "chance": 33 }
           ]
         },
         "b": { "items": [ { "item": "bed", "chance": 50 } ] },
@@ -174,9 +180,9 @@
         "r": {
           "items": [
             { "item": "military", "chance": 10 },
-            { "item": "ammo_milspec", "chance": 10},
-            { "item": "mags_milspec", "chance": 10},
-            { "item": "guns_milspec", "chance": 10}
+            { "item": "ammo_milspec", "chance": 10 },
+            { "item": "mags_milspec", "chance": 10 },
+            { "item": "guns_milspec", "chance": 10 }
           ]
         }
       },
@@ -204,10 +210,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_barracks_turret",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "place_monster": [ { "monster": "mon_turret", "x": [ 10, 13 ], "y": [ 15, 22 ] } ]
-    }
+    "object": { "mapgensize": [ 24, 24 ], "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 10, 13 ], "y": [ 15, 22 ] } ] }
   },
   {
     "//": "prisoner containment",
@@ -249,13 +252,13 @@
         { "monster": "mon_zombie_brute", "x": [ 12, 15 ], "y": [ 20, 22 ] },
         { "monster": "mon_zombie_child", "x": [ 7, 10 ], "y": [ 20, 22 ] },
         { "monster": "mon_zombie_grabber", "x": [ 1, 5 ], "y": [ 12, 15 ] },
-        { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 5, 10 ], "pack_size": [1, 2], "chance": 50 }
+        { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 5, 10 ], "pack_size": [ 1, 2 ], "chance": 50 }
       ],
       "furniture": { "^": "f_indoor_plant" },
-     "terrain": { "7": "t_console", "C": "t_centrifuge" },
+      "terrain": { "7": "t_console", "C": "t_centrifuge" },
       "mapping": {
-        "X": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30} ] },
-        "r": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30} ] },
+        "X": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },
+        "r": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },
         "b": { "items": [ { "item": "bed", "chance": 50 } ] },
         "l": { "items": [ { "item": "science", "chance": 60 } ] },
         "d": { "items": [ { "item": "office", "chance": 60 } ] },
@@ -288,13 +291,16 @@
     "nested_mapgen_id": "lab_hulk_smash",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "place_rubble": [
-        { "x": 11, "y": 4, "items": true },
-        { "x": 13, "y": 11, "items": true },
-        { "x": 12, "y": 13, "items": true }
+      "place_rubble": [ { "x": 11, "y": 4, "items": true }, { "x": 13, "y": 11, "items": true }, { "x": 12, "y": 13, "items": true } ],
+      "place_monster": [
+        {
+          "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk", "mon_nakedmolerat_giant" ],
+          "x": [ 11, 12 ],
+          "y": [ 6, 22 ],
+          "chance": 90
+        }
       ],
-      "place_monster": [ { "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk", "mon_nakedmolerat_giant" ], "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 } ],
-      "place_loot": [ { "group": "everyday_corpse", "x": [10,13], "y": [1,3], "repeat": 2 } ],
+      "place_loot": [ { "group": "everyday_corpse", "x": [ 10, 13 ], "y": [ 1, 3 ], "repeat": 2 } ],
       "place_fields": [
         { "field": "fd_blood", "x": [ 10, 13 ], "y": [ 1, 3 ], "repeat": [ 3, 5 ] },
         { "field": "fd_gibs_flesh", "x": [ 10, 13 ], "y": [ 1, 3 ], "repeat": [ 0, 2 ] }
@@ -309,8 +315,8 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_nested": [
-        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": ["lab"] } },
-        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": ["lab"] } }
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "east": [ "lab" ] } },
+        { "chunks": [ "lab_north_doors" ], "x": 11, "y": 0, "neighbors": { "south": [ "lab" ] } }
       ]
     }
   },
@@ -321,7 +327,7 @@
     "nested_mapgen_id": "lab_north_doors",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_terrain": [ { "ter": "t_door_metal_c", "x": 0, "y": 0 }, { "ter": "t_door_metal_c", "x": 1, "y": 0 } ]
+      "place_terrain": [ { "ter": "t_door_metal_lab_c", "x": 0, "y": 0 }, { "ter": "t_door_metal_lab_c", "x": 1, "y": 0 } ]
     }
   }
 ]

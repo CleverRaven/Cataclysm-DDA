@@ -1,11 +1,12 @@
 #pragma once
-#ifndef COORDINATES_H
-#define COORDINATES_H
+#ifndef CATA_SRC_COORDINATES_H
+#define CATA_SRC_COORDINATES_H
 
 #include <cstdlib>
 
 #include "enums.h"
 #include "game_constants.h"
+#include "point.h"
 
 /* find appropriate subdivided coordinates for absolute tile coordinate.
  * This is less obvious than one might think, for negative coordinates, so this
@@ -31,8 +32,7 @@ struct real_coords {
     point om_pos;      // overmap tile: 2x2 submaps.
     point om_sub;      // submap (0-359) in overmap / abs_sub constrained to % 360. equivalent to g->levx
 
-    real_coords() {
-    }
+    real_coords() = default;
 
     real_coords( point ap ) {
         fromabs( ap.x, ap.y );
@@ -75,9 +75,9 @@ struct real_coords {
     }
 
     // specifically for the subjective position returned by overmap::draw
-    void fromomap( int rel_omx, int rel_omy, int rel_om_posx, int rel_om_posy ) {
-        int ax = ( rel_omx * OMAPX ) + rel_om_posx;
-        int ay = ( rel_omy * OMAPY ) + rel_om_posy;
+    void fromomap( const point &rel_om, const point &rel_om_pos ) {
+        const int ax = rel_om.x * OMAPX + rel_om_pos.x;
+        const int ay = rel_om.y * OMAPY + rel_om_pos.y;
         fromabs( ax * SEEX * 2, ay * SEEY * 2 );
     }
 
@@ -94,4 +94,4 @@ struct real_coords {
         return point( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub );
     }
 };
-#endif
+#endif // CATA_SRC_COORDINATES_H

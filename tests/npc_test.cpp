@@ -1,32 +1,48 @@
+#include <memory>
+#include <set>
+#include <sstream>
 #include <string>
+#include <utility>
+#include <vector>
 
+#include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
+#include "map_helpers.h"
+#include "memory_fast.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "optional.h"
 #include "overmapbuffer.h"
-#include "player.h"
+#include "pimpl.h"
+#include "player_helpers.h"
+#include "point.h"
 #include "text_snippets.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 
-void on_load_test( npc &who, const time_duration &from, const time_duration &to )
+class Creature;
+
+static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
-    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + from );
+    calendar::turn = to_turn<int>( calendar::turn_zero + from );
     who.on_unload();
-    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + to );
+    calendar::turn = to_turn<int>( calendar::turn_zero + to );
     who.on_load();
 }
 
-void test_needs( const npc &who, const numeric_interval<int> &hunger,
-                 const numeric_interval<int> &thirst,
-                 const numeric_interval<int> &fatigue )
+static void test_needs( const npc &who, const numeric_interval<int> &hunger,
+                        const numeric_interval<int> &thirst,
+                        const numeric_interval<int> &fatigue )
 {
     CHECK( who.get_hunger() <= hunger.max );
     CHECK( who.get_hunger() >= hunger.min );
@@ -36,7 +52,7 @@ void test_needs( const npc &who, const numeric_interval<int> &hunger,
     CHECK( who.get_fatigue() >= fatigue.min );
 }
 
-npc create_model()
+static npc create_model()
 {
     npc model_npc;
     model_npc.normalize();
@@ -52,6 +68,17 @@ npc create_model()
     model_npc.set_mutation( trait_id( "WEB_WEAVER" ) );
 
     return model_npc;
+}
+
+static std::string get_list_of_npcs( const std::string &title )
+{
+
+    std::ostringstream npc_list;
+    npc_list << title << ":\n";
+    for( const npc &n : g->all_npcs() ) {
+        npc_list << "  " << &n << ": " << n.name << '\n';
+    }
+    return npc_list.str();
 }
 
 TEST_CASE( "on_load-sane-values", "[.]" )
@@ -112,8 +139,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const int five_min_ticks = 2;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
-            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
-                                      calendar::time_of_cataclysm + turn + 1_turns );
+            iterated_npc.update_body( calendar::turn_zero + turn,
+                                      calendar::turn_zero + turn + 1_turns );
         }
 
         const int margin = 2;
@@ -130,8 +157,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const auto five_min_ticks = 6_hours / 5_minutes;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
-            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
-                                      calendar::time_of_cataclysm + turn + 1_turns );
+            iterated_npc.update_body( calendar::turn_zero + turn,
+                                      calendar::turn_zero + turn + 1_turns );
         }
 
         const int margin = 10;
@@ -146,44 +173,39 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 TEST_CASE( "snippet-tag-test" )
 {
     // Actually used tags
-    static const std::set<std::string> npc_talk_tags = {{
+    static const std::set<std::string> npc_talk_tags = {
+        {
             "<name_b>", "<thirsty>", "<swear!>",
             "<sad>", "<greet>", "<no>",
             "<im_leaving_you>", "<ill_kill_you>", "<ill_die>",
             "<wait>", "<no_faction>", "<name_g>",
             "<keep_up>", "<yawn>", "<very>",
-            "<okay>", "<catch_up>", "<really>",
+            "<okay>", "<really>",
             "<let_me_pass>", "<done_mugging>", "<happy>",
-            "<drop_weapon>", "<swear>", "<lets_talk>",
+            "<drop_it>", "<swear>", "<lets_talk>",
             "<hands_up>", "<move>", "<hungry>",
             "<fuck_you>",
         }
     };
 
     for( const auto &tag : npc_talk_tags ) {
-        const auto ids = SNIPPET.all_ids_from_category( tag );
-        std::set<std::string> valid_snippets;
-        for( int id : ids ) {
-            const auto &snip = SNIPPET.get( id );
-            valid_snippets.insert( snip );
+        for( int i = 0; i < 100; i++ ) {
+            CHECK( SNIPPET.random_from_category( tag ).has_value() );
         }
-
-        // We want to get all the snippets in the category
-        std::set<std::string> found_snippets;
-        // Brute force random snippets to see if they are all in their category
-        for( size_t i = 0; i < ids.size() * 100; i++ ) {
-            const auto &roll = SNIPPET.random_from_category( tag );
-            CHECK( valid_snippets.count( roll ) > 0 );
-            found_snippets.insert( roll );
-        }
-
-        CHECK( found_snippets == valid_snippets );
     }
 
-    // Special tags, those should have empty replacements
-    CHECK( SNIPPET.all_ids_from_category( "<yrwp>" ).empty() );
-    CHECK( SNIPPET.all_ids_from_category( "<mywp>" ).empty() );
-    CHECK( SNIPPET.all_ids_from_category( "<ammo>" ).empty() );
+    // Special tags, those should have no replacements
+    static const std::set<std::string> special_tags = {
+        {
+            "<yrwp>", "<mywp>", "<ammo>"
+        }
+    };
+
+    for( const std::string &tag : special_tags ) {
+        for( int i = 0; i < 100; i++ ) {
+            CHECK( !SNIPPET.random_from_category( tag ).has_value() );
+        }
+    }
 }
 
 /* Test setup. Player should always be at top-left.
@@ -289,26 +311,8 @@ TEST_CASE( "npc-movement" )
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
-    // kill npcs before removing vehicles so they are correctly unboarded
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            const tripoint p = g->u.pos() + point( x, y );
-            Creature *cre = g->critter_at( p );
-            if( cre != nullptr && cre != &g->u ) {
-                npc *guy = dynamic_cast<npc *>( cre );
-                cre->die( nullptr );
-                if( guy ) {
-                    overmap_buffer.remove_npc( guy->getID() );
-                }
-            }
-        }
-    }
-    g->unload_npcs();
-    // remove existing vehicles
-    VehicleList vehs = g->m.get_vehicles( g->u.pos(), g->u.pos() + point( width - 1, height - 1 ) );
-    for( auto &veh : vehs ) {
-        g->m.detach_vehicle( veh.v );
-    }
+    clear_map();
+
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
@@ -328,7 +332,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                g->m.add_field( p, fd_acid, MAX_FIELD_DENSITY );
+                g->m.add_field( p, fd_acid, 3 );
             }
             // spawn rubbles
             if( type == 'R' ) {
@@ -340,17 +344,20 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point( 0, 0 ), vpart_frame_vertical );
-                veh->install_part( point( 0, 0 ), vpart_seat );
+                veh->install_part( point_zero, vpart_frame_vertical );
+                veh->install_part( point_zero, vpart_seat );
                 g->m.add_vehicle_to_cache( veh );
             }
             // spawn npcs
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                std::shared_ptr<npc> guy = std::make_shared<npc>();
-                guy->normalize();
-                guy->randomize();
+                shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+                do {
+                    guy->normalize();
+                    guy->randomize();
+                    // Repeat until we get an NPC vulnerable to acid
+                } while( guy->is_immune_field( fd_acid ) );
                 guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
@@ -418,45 +425,23 @@ TEST_CASE( "npc-movement" )
 TEST_CASE( "npc_can_target_player" )
 {
     // Set to daytime for visibiliity
-    calendar::turn = HOURS( 12 );
+    calendar::turn = calendar::turn_zero + 12_hours;
 
     g->faction_manager_ptr->create_if_needed();
 
-    g->place_player( tripoint( 10, 10, 0 ) );
+    g->place_player( tripoint_zero );
 
-    // kill npcs before removing vehicles so they are correctly unboarded
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            const tripoint p = g->u.pos() + point( x, y );
-            Creature *cre = g->critter_at( p );
-            if( cre != nullptr && cre != &g->u ) {
-                npc *guy = dynamic_cast<npc *>( cre );
-                cre->die( nullptr );
-                if( guy ) {
-                    overmap_buffer.remove_npc( guy->getID() );
-                }
-            }
-        }
-    }
-    g->unload_npcs();
+    clear_npcs();
+    clear_creatures();
 
-    const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
-        const string_id<npc_template> test_guy( npc_class );
-        const int model_id = g->m.place_npc( 10, 10, test_guy, true );
-        g->load_npcs();
+    npc &hostile = spawn_npc( g->u.pos().xy() + point_south, "thug" );
+    REQUIRE( rl_dist( g->u.pos(), hostile.pos() ) <= 1 );
+    hostile.set_attitude( NPCATT_KILL );
+    hostile.name = "Enemy NPC";
 
-        npc *guy = g->find_npc( model_id );
-        REQUIRE( guy != nullptr );
-        guy->setpos( g->u.pos() + point( x, y ) );
-        return guy;
-    };
+    INFO( get_list_of_npcs( "NPCs after spawning one" ) );
 
-    npc *hostile = spawn_npc( 0, 1, "thug" );
-    REQUIRE( rl_dist( g->u.pos(), hostile->pos() ) <= 1 );
-    hostile->set_attitude( NPCATT_KILL );
-    hostile->name = "Enemy NPC";
-
-    hostile->regen_ai_cache();
-    REQUIRE( hostile->current_target() != nullptr );
-    CHECK( hostile->current_target() == static_cast<Creature *>( &g->u ) );
+    hostile.regen_ai_cache();
+    REQUIRE( hostile.current_target() != nullptr );
+    CHECK( hostile.current_target() == static_cast<Creature *>( &g->u ) );
 }

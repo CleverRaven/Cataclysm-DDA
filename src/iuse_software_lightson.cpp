@@ -9,7 +9,11 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "ui.h"
+#include "ui_manager.h"
+#include "catacharset.h"
+#include "color.h"
+#include "optional.h"
+#include "point.h"
 
 void lightson_game::new_level()
 {
@@ -19,10 +23,10 @@ void lightson_game::new_level()
     const int half_perimeter = rng( 8, 11 );
     const int lvl_width = rng( 4, 6 );
     const int lvl_height = half_perimeter - lvl_width;
-    level_size = std::make_pair( lvl_height, lvl_width );
+    level_size = point( lvl_width, lvl_height );
     level.resize( lvl_height * lvl_width );
 
-    const int steps_rng = half_perimeter / 2.0 + rng_float( 0, 2 );
+    const int steps_rng = half_perimeter / 2.0 + rng_float( 0.0, 2.0 );
     generate_change_coords( steps_rng );
 
     reset_level();
@@ -33,26 +37,41 @@ void lightson_game::reset_level()
     std::fill( level.begin(), level.end(), true );
 
     // change level
-    std::for_each( change_coords.begin(), change_coords.end(), [this]( std::pair<int, int> &p ) {
-        this->position = std::make_pair( p.first, p.second );
-        toggle_lights();
+    std::for_each( change_coords.begin(), change_coords.end(), [this]( point & p ) {
+        toggle_lights_at( p );
     } );
 
-    position = std::make_pair( 0, 0 );
+    position = point_zero;
 
     werase( w );
     draw_border( w );
 }
 
+bool lightson_game::get_value_at( const point &pt )
+{
+    return level[pt.y * level_size.x + pt.x];
+}
+
+void lightson_game::set_value_at( const point &pt, bool value )
+{
+    level[pt.y * level_size.x + pt.x] = value;
+}
+
+void lightson_game::toggle_value_at( const point &pt )
+{
+    set_value_at( pt, !get_value_at( pt ) );
+}
+
 void lightson_game::draw_level()
 {
-    for( int i = 0; i < level_size.first; i++ ) {
-        for( int j = 0; j < level_size.second; j++ ) {
-            bool selected = ( position.first == i && position.second == j );
-            bool on = level[i * level_size.second + j];
+    for( int i = 0; i < level_size.y; i++ ) {
+        for( int j = 0; j < level_size.x; j++ ) {
+            point current = point( j, i );
+            bool selected = position == current;
+            bool on = get_value_at( current );
             const nc_color fg = on ? c_white : c_dark_gray;
             const char symbol = on ? '#' : '-';
-            mvwputch( w, i + 1, j + 1, selected ? hilite( c_white ) : fg, symbol );
+            mvwputch( w, current + point_south_east, selected ? hilite( c_white ) : fg, symbol );
         }
     }
     wrefresh( w );
@@ -61,16 +80,15 @@ void lightson_game::draw_level()
 void lightson_game::generate_change_coords( int changes )
 {
     change_coords.resize( changes );
-    const int size = level_size.first * level_size.second;
+    const int size = level_size.y * level_size.x;
 
-    std::pair< int, int > candidate;
+    point candidate;
     for( int k = 0; k < changes; k++ ) {
         do {
             const int candidate_index = rng( 0, size - 1 );
 
-            const int col = candidate_index % level_size.second;
-            const int row = ( candidate_index - col ) / level_size.second;
-            candidate = std::make_pair( row, col );
+            candidate.x = candidate_index % level_size.x;
+            candidate.y = ( candidate_index - candidate.x ) / level_size.x;
             // not accept repeatable coordinates
         } while( !( k == 0 ||
                     std::find( change_coords.begin(), change_coords.end(), candidate ) == change_coords.end() ) );
@@ -87,34 +105,35 @@ bool lightson_game::check_win()
 
 void lightson_game::toggle_lights()
 {
-    const int row = position.first;
-    const int col = position.second;
-    const int height = level_size.first;
-    const int width = level_size.second;
+    toggle_lights_at( position );
+}
 
-    if( row > 0 ) {
-        level[( row - 1 ) * width + col] = !level[( row - 1 ) * width + col]; // N
+void lightson_game::toggle_lights_at( const point &pt )
+{
+    toggle_value_at( pt );
+
+    if( pt.y > 0 ) {
+        toggle_value_at( pt + point_north );
     }
-    level[row * width + col] = !level[row * width + col]; // x
-    if( row < height - 1 ) {
-        level[( row + 1 ) * width + col] = !level[( row + 1 ) * width + col]; // S
+    if( pt.y < level_size.y - 1 ) {
+        toggle_value_at( pt + point_south );
     }
 
-    if( col > 0 ) {
-        level[row * width + ( col - 1 )] = !level[row * width + ( col - 1 )]; // W
+    if( pt.x > 0 ) {
+        toggle_value_at( pt + point_west );
     }
-    if( col < width - 1 ) {
-        level[row * width + ( col + 1 )] = !level[row * width + ( col + 1 )]; // E
+    if( pt.x < level_size.x - 1 ) {
+        toggle_value_at( pt + point_east );
     }
 }
 
 int lightson_game::start_game()
 {
     const int w_height = 15;
-    const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
-    w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, iOffsetY + 1, iOffsetX + 1 );
+    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, point( iOffsetX, iOffsetY ) );
+    w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, point( iOffsetX + 1, iOffsetY + 1 ) );
     draw_border( w_border );
 
     input_context ctxt( "LIGHTSON" );
@@ -125,9 +144,9 @@ int lightson_game::start_game()
     ctxt.register_action( "QUIT" );
 
     std::vector<std::string> shortcuts;
-    shortcuts.push_back( _( "<spacebar or 5> toggle lights" ) ); // '5': toggle
-    shortcuts.push_back( _( "<r>eset" ) );                       // 'r': reset
-    shortcuts.push_back( _( "<q>uit" ) );                        // 'q': quit
+    shortcuts.push_back( _( "<spacebar or 5> toggle lights" ) );
+    shortcuts.push_back( _( "<r>eset" ) );
+    shortcuts.push_back( _( "<q>uit" ) );
 
     int iWidth = 0;
     for( auto &shortcut : shortcuts ) {
@@ -139,21 +158,23 @@ int lightson_game::start_game()
 
     int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
     for( auto &shortcut : shortcuts ) {
-        shortcut_print( w_border, 0, iPos, c_white, c_light_green, shortcut );
+        shortcut_print( w_border, point( iPos, 0 ), c_white, c_light_green, shortcut );
         iPos += utf8_width( shortcut ) + 1;
     }
 
-    mvwputch( w_border, 0, 2, hilite( c_white ), _( "Lights on!" ) );
-    std::ostringstream str;
-    str << _( "<color_white>Game goal:</color> Switch all the lights on." ) << '\n' <<
-        _( "<color_white>Legend: #</color> on, <color_dark_gray>-</color> off." ) << '\n' <<
-        _( "Toggle lights switches selected light and 4 its neighbors." );
-    fold_and_print( w_border, w_height - 5, 2, FULL_SCREEN_WIDTH - 4, c_light_gray, str.str() );
+    mvwputch( w_border, point( 2, 0 ), hilite( c_white ), _( "Lights on!" ) );
+    fold_and_print( w_border, point( 2, w_height - 5 ), FULL_SCREEN_WIDTH - 4, c_light_gray,
+                    "%s\n%s\n%s", _( "<color_white>Game goal:</color> Switch all the lights on." ),
+                    _( "<color_white>Legend: #</color> on, <color_dark_gray>-</color> off." ),
+                    _( "Toggle lights switches selected light and 4 its neighbors." ) );
 
     wrefresh( w_border );
 
     win = true;
     int hasWon = 0;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         if( win ) {
@@ -162,8 +183,8 @@ int lightson_game::start_game()
         }
         std::string action = ctxt.handle_input();
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            position.first = std::min( std::max( position.first + vec->y, 0 ), level_size.first - 1 );
-            position.second = std::min( std::max( position.second + vec->y, 0 ), level_size.second - 1 );
+            position.y = clamp( position.y + vec->y, 0, level_size.y - 1 );
+            position.x = clamp( position.x + vec->x, 0, level_size.x - 1 );
         } else if( action == "TOGGLE_SPACE" || action == "TOGGLE_5" ) {
             toggle_lights();
             win = check_win();

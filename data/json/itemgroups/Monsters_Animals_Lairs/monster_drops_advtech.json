@@ -1,0 +1,156 @@
+[
+  {
+    "type": "item_group",
+    "id": "robots",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "processor", "prob": 15 },
+      { "item": "RAM", "prob": 22 },
+      { "item": "power_supply", "prob": 16 },
+      { "item": "amplifier", "prob": 8 },
+      { "item": "solar_cell", "prob": 5 },
+      { "item": "transponder", "prob": 5 },
+      { "item": "receiver", "prob": 10 },
+      { "item": "antenna", "prob": 18 },
+      { "item": "steel_chunk", "prob": 30 },
+      { "item": "spring", "prob": 50 },
+      { "item": "steel_lump", "prob": 30 },
+      { "item": "kevlar_plate", "prob": 10 },
+      { "item": "ceramic_armor", "prob": 15 },
+      { "item": "motor", "prob": 2 },
+      { "group": "ammo_heavy_batteries_full", "prob": 50 },
+      { "item": "plut_cell", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bots",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bot_manhack", "prob": 2 },
+      { "item": "bot_grenade_hack", "prob": 2 },
+      { "item": "bot_flashbang_hack", "prob": 2 },
+      { "item": "bot_gasbomb_hack", "prob": 2 },
+      { "item": "bot_rifleturret", "prob": 2 },
+      { "item": "bot_antimateriel", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "eyebot",
+    "subtype": "distribution",
+    "entries": [ { "item": "flashlight", "prob": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "manhack",
+    "subtype": "distribution",
+    "entries": [ { "item": "spike", "prob": 10 }, { "item": "scrap", "prob": 10 }, { "item": "blade", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "skitterbot",
+    "subtype": "distribution",
+    "entries": [ { "item": "tazer", "prob": 3 }, { "item": "scrap", "prob": 9 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "copbot",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "baton", "prob": 8 },
+      { "item": "tazer", "prob": 3 },
+      { "item": "kevlar_plate", "prob": 10 },
+      { "item": "ceramic_armor", "prob": 15 },
+      { "item": "tonfa", "prob": 10 },
+      { "item": "shocktonfa_off", "prob": 5 },
+      { "item": "alloy_plate", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "molebot",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spiked_plate", "prob": 15 },
+      { "item": "hard_plate", "prob": 30 },
+      { "item": "robot_controls", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret",
+    "subtype": "distribution",
+    "entries": [ { "item": "9mm", "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "laserturret",
+    "subtype": "distribution",
+    "entries": [ { "item": "cerberus_laser", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret_rifle",
+    "subtype": "distribution",
+    "entries": [ { "item": "556", "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret_bmg",
+    "subtype": "distribution",
+    "entries": [ { "item": "50bmg", "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret_searchlight",
+    "subtype": "distribution",
+    "entries": [ { "item": "lens", "prob": 15 } ]
+  },
+  {
+    "id": "cyborg_harvest",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bio_dis_shock", "prob": 1 },
+      { "item": "bio_dis_acid", "prob": 1 },
+      { "item": "bio_drain", "prob": 1 },
+      { "item": "bio_noise", "prob": 1 },
+      { "item": "bio_power_weakness", "prob": 1 },
+      { "item": "bio_itchy", "prob": 1 },
+      { "item": "bio_nostril", "prob": 1 },
+      { "item": "bio_thumbs", "prob": 1 },
+      { "item": "bio_spasm", "prob": 1 },
+      { "item": "bio_shakes", "prob": 1 },
+      { "item": "bio_leaky", "prob": 1 },
+      { "item": "bio_sleepy", "prob": 1 },
+      { "item": "bio_deformity", "prob": 1 },
+      { "item": "bio_voice", "prob": 1 },
+      { "item": "bio_pokedeye", "prob": 1 },
+      { "item": "bio_ankles", "prob": 1 },
+      { "item": "bio_trip", "prob": 1 },
+      { "item": "bio_stiff", "prob": 1 },
+      { "item": "bio_armor_head", "prob": 2 },
+      { "item": "bio_armor_torso", "prob": 2 },
+      { "item": "bio_armor_arms", "prob": 2 },
+      { "item": "bio_armor_legs", "prob": 2 },
+      { "item": "bio_armor_eyes", "prob": 2 },
+      { "item": "bio_razors", "prob": 2 },
+      { "item": "bio_power_storage", "prob": 1 },
+      { "item": "bio_torsionratchet", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret_speaker",
+    "items": [
+      { "item": "scrap", "count": [ 4, 6 ] },
+      { "item": "e_scrap", "count": [ 1, 2 ] },
+      { "item": "plastic_chunk", "count": [ 0, 2 ] },
+      { "item": "wood_panel", "count": 1 },
+      { "item": "2x4", "count": 4 },
+      { "item": "nail", "charges": [ 8, 10 ] },
+      { "item": "cable", "charges": [ 3, 4 ] }
+    ]
+  }
+]

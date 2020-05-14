@@ -1,18 +1,20 @@
 #pragma once
-#ifndef MAP_SELECTOR_H
-#define MAP_SELECTOR_H
+#ifndef CATA_SRC_MAP_SELECTOR_H
+#define CATA_SRC_MAP_SELECTOR_H
 
 #include <vector>
 
-#include "enums.h"
+#include "point.h"
 #include "visitable.h"
 
-class map;
-
-class map_cursor : public tripoint, public visitable<map_cursor>
+class map_cursor : public visitable<map_cursor>
 {
+    private:
+        tripoint pos_;
+
     public:
-        map_cursor( const tripoint &pos ) : tripoint( pos ) {}
+        map_cursor( const tripoint &pos );
+        operator tripoint() const;
 };
 
 class map_selector : public visitable<map_selector>
@@ -20,12 +22,12 @@ class map_selector : public visitable<map_selector>
         friend visitable<map_selector>;
 
     public:
-        typedef map_cursor value_type;
-        typedef std::vector<value_type>::size_type size_type;
-        typedef std::vector<value_type>::iterator iterator;
-        typedef std::vector<value_type>::const_iterator const_iterator;
-        typedef std::vector<value_type>::reference reference;
-        typedef std::vector<value_type>::const_reference const_reference;
+        using value_type = map_cursor;
+        using size_type = std::vector<value_type>::size_type;
+        using iterator = std::vector<value_type>::iterator;
+        using const_iterator = std::vector<value_type>::const_iterator;
+        using reference = std::vector<value_type>::reference;
+        using const_reference = std::vector<value_type>::const_reference;
 
         /**
          *  Constructs map_selector used for querying items located on map tiles
@@ -72,4 +74,4 @@ class map_selector : public visitable<map_selector>
         std::vector<value_type> data;
 };
 
-#endif
+#endif // CATA_SRC_MAP_SELECTOR_H

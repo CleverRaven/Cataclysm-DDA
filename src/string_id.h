@@ -1,6 +1,6 @@
 #pragma once
-#ifndef STRING_ID_H
-#define STRING_ID_H
+#ifndef CATA_SRC_STRING_ID_H
+#define CATA_SRC_STRING_ID_H
 
 #include <string>
 #include <type_traits>
@@ -32,15 +32,19 @@ class int_id;
  * \endcode
  * The types mtype_id and itype_id declared here are separate, the compiler will not
  * allow assignment / comparison of mtype_id and itype_id.
- * Note that for this to work, the template parameter type does note even need to be
- * known when the string_id is used. In fact, it does not even need to be defined at all,
- * a declaration is just enough.
+ * Note that a forward declaration is sufficient for the template parameter type.
+ *
+ * If an id is used locally in just one header & source file, then feel free to
+ * define it in those files.  If it is used more widely (like mtype_id), then
+ * please define it in type_id.h, a central light-weight header that defines all ids
+ * people might want to use.  This prevents duplicate definitions in many
+ * files.
  */
 template<typename T>
 class string_id
 {
     public:
-        typedef string_id<T> This;
+        using This = string_id<T>;
 
         /**
          * Forwarding constructor, forwards any parameter to the std::string
@@ -58,7 +62,7 @@ class string_id
          * Note that this id class does not enforce empty id strings (or any specific string at all)
          * to be special. Every string (including the empty one) may be a valid id.
          */
-        string_id() : _id(), _cid( -1 ) {}
+        string_id() : _cid( -1 ) {}
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key. Compares
          * the string id as with the strings comparison.
@@ -173,7 +177,7 @@ class string_id
             return !is_null();
         }
 
-        // @todo: Exposed for now. Hide these and make them accessible to the generic_factory only
+        // TODO: Exposed for now. Hide these and make them accessible to the generic_factory only
 
         /**
          * Assigns a new value for the cached int id.
@@ -198,10 +202,10 @@ namespace std
 {
 template<typename T>
 struct hash< string_id<T> > {
-    std::size_t operator()( const string_id<T> &v ) const {
+    std::size_t operator()( const string_id<T> &v ) const noexcept {
         return hash<std::string>()( v.str() );
     }
 };
-}
+} // namespace std
 
-#endif
+#endif // CATA_SRC_STRING_ID_H

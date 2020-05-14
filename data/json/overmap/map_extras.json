@@ -1,0 +1,395 @@
+[
+  {
+    "id": "mx_null",
+    "type": "map_extra",
+    "name": "Nothing",
+    "description": "Nothing of interest is here.",
+    "generator": { "generator_method": "null", "generator_id": "mx_null" }
+  },
+  {
+    "id": "mx_crater",
+    "type": "map_extra",
+    "name": "Crater",
+    "description": "There is a crater here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_crater" },
+    "sym": "o",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "id": "mx_collegekids",
+    "type": "map_extra",
+    "name": "College Kids",
+    "description": "Several corpses of college kids are here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_collegekids" },
+    "sym": "c",
+    "color": "light_red",
+    "autonote": true
+  },
+  {
+    "id": "mx_drugdeal",
+    "type": "map_extra",
+    "name": "Drug Deal",
+    "description": "Several corpses of drug dealers are here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_drugdeal" },
+    "sym": "d",
+    "color": "light_red",
+    "autonote": true
+  },
+  {
+    "id": "mx_roadworks",
+    "type": "map_extra",
+    "name": "Roadworks",
+    "description": "Roadworks are here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_roadworks" },
+    "sym": "X",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_mayhem",
+    "type": "map_extra",
+    "name": "Road Mayhem",
+    "description": "Road mayhem is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_mayhem" },
+    "sym": "M",
+    "color": "light_red",
+    "autonote": true
+  },
+  {
+    "id": "mx_roadblock",
+    "type": "map_extra",
+    "name": "Roadblock (Military)",
+    "description": "This road is blocked by military.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_roadblock" },
+    "sym": "X",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "id": "mx_bandits_block",
+    "type": "map_extra",
+    "name": "Roadblock (Bandits)",
+    "description": "This road is blocked by bandits.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_bandits_block" },
+    "sym": "X",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "id": "mx_minefield",
+    "type": "map_extra",
+    "name": "Minefield",
+    "description": "Mines are scattered here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_minefield" },
+    "sym": "M",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "id": "mx_supplydrop",
+    "type": "map_extra",
+    "name": "Supply Drop",
+    "description": "Several supply crates were dropped here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_supplydrop" },
+    "sym": "C",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_military",
+    "type": "map_extra",
+    "name": "Military",
+    "description": "Several corpses of soldiers are here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_military" },
+    "sym": "m",
+    "color": "light_red",
+    "autonote": true
+  },
+  {
+    "id": "mx_helicopter",
+    "type": "map_extra",
+    "name": "Helicopter Crash",
+    "description": "Helicopter crashed here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_helicopter" },
+    "sym": "X",
+    "color": "light_blue",
+    "autonote": true
+  },
+  {
+    "id": "mx_science",
+    "type": "map_extra",
+    "name": "Scientists",
+    "description": "Several corpses of scientists are here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_science" },
+    "sym": "s",
+    "color": "light_red",
+    "autonote": true
+  },
+  {
+    "id": "mx_portal",
+    "type": "map_extra",
+    "name": "Portal",
+    "description": "Portal is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_portal" },
+    "sym": "P",
+    "color": "magenta",
+    "autonote": true
+  },
+  {
+    "id": "mx_portal_in",
+    "type": "map_extra",
+    "name": "Portal In",
+    "description": "Another portal is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_portal_in" },
+    "sym": "P",
+    "color": "magenta",
+    "autonote": true
+  },
+  {
+    "id": "mx_house_spider",
+    "type": "map_extra",
+    "name": "Spider Nest",
+    "description": "Spider nest is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_house_spider" },
+    "sym": "S",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_house_wasp",
+    "type": "map_extra",
+    "name": "Wasp Nest",
+    "description": "Wasp nest is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_house_wasp" },
+    "sym": "W",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_spider",
+    "type": "map_extra",
+    "name": "Spiders",
+    "description": "This area is covered with webs.  Probably spiders are nearby",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_spider" },
+    "sym": "S",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_shia",
+    "type": "map_extra",
+    "name": "Shia LaBeouf",
+    "description": "Cannibal is nearby.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_shia" },
+    "sym": "c",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "id": "mx_jabberwock",
+    "type": "map_extra",
+    "name": "Jabberwock",
+    "description": "Jabberwock is nearby.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_jabberwock" },
+    "sym": "J",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "id": "mx_grove",
+    "type": "map_extra",
+    "name": "Grove",
+    "description": "This area is covered with a single type of trees.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_grove" },
+    "sym": "F",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_shrubbery",
+    "type": "map_extra",
+    "name": "Shrubberry",
+    "description": "This area is covered with a single type of shrubs.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_shrubbery" },
+    "sym": "s",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_clearcut",
+    "type": "map_extra",
+    "name": "Clearcut",
+    "description": "Most trees in this area were uniformly cut down.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_clearcut" },
+    "sym": ".",
+    "color": "brown",
+    "autonote": true
+  },
+  {
+    "id": "mx_pond",
+    "type": "map_extra",
+    "name": "Pond",
+    "description": "Small pond is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_pond" },
+    "sym": "p",
+    "color": "blue",
+    "autonote": true
+  },
+  {
+    "id": "mx_trees",
+    "type": "map_extra",
+    "name": "Stand of trees",
+    "description": "A copse of trees.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map" }
+  },
+  {
+    "id": "mx_grass",
+    "type": "map_extra",
+    "name": "Tall grass",
+    "description": "A meadow of tall grass.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grass_map" }
+  },
+  {
+    "id": "mx_fallen_shed",
+    "type": "map_extra",
+    "name": "Derelict shed",
+    "description": "A collapsed shed.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" }
+  },
+  {
+    "id": "mx_clay_deposit",
+    "type": "map_extra",
+    "name": "Clay Deposit",
+    "description": "Small clay deposit is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_clay_deposit" },
+    "sym": "c",
+    "color": "brown",
+    "autonote": true
+  },
+  {
+    "id": "mx_dead_vegetation",
+    "type": "map_extra",
+    "name": "Dead Vegetation",
+    "description": "Dead vegetation is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_dead_vegetation" },
+    "sym": ".",
+    "color": "brown",
+    "autonote": true
+  },
+  {
+    "id": "mx_point_dead_vegetation",
+    "type": "map_extra",
+    "name": "Dead Vegetation (Point)",
+    "description": "Dead vegetation is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_dead_vegetation" },
+    "sym": ".",
+    "color": "brown",
+    "autonote": true
+  },
+  {
+    "id": "mx_burned_ground",
+    "type": "map_extra",
+    "name": "Burned Ground",
+    "description": "Burned ground is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_burned_ground" },
+    "sym": ".",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_point_burned_ground",
+    "type": "map_extra",
+    "name": "Burned Ground (Point)",
+    "description": "Burned ground is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
+    "sym": ".",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_marloss_pilgrimage",
+    "type": "map_extra",
+    "name": "Marloss Pilgrimage",
+    "description": "Marloss Pilgrimage is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_marloss_pilgrimage" },
+    "sym": "F",
+    "color": "dark_gray",
+    "autonote": true
+  },
+  {
+    "id": "mx_casings",
+    "type": "map_extra",
+    "name": "Casings",
+    "description": "Several spent casings are here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_casings" },
+    "sym": "C",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_looters",
+    "type": "map_extra",
+    "name": "Looters",
+    "description": "Some looters gathering everything not nailed down.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_looters" }
+  },
+  {
+    "id": "mx_corpses",
+    "type": "map_extra",
+    "name": "Corpses",
+    "description": "Some unfortunates from the billions lost in the Cataclysm.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_corpses" }
+  },
+  {
+    "id": "mx_nest_wasp",
+    "type": "map_extra",
+    "name": "Wasp Nest",
+    "description": "A wasp nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_wasp" },
+    "sym": "W",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_dermatik",
+    "type": "map_extra",
+    "name": "Dermatik Nest",
+    "description": "A dermatik nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dermatik" },
+    "sym": "D",
+    "color": "brown",
+    "autonote": true
+  },
+  {
+    "id": "mx_prison_bus",
+    "type": "map_extra",
+    "name": "Prison Bus",
+    "description": "A prison bus.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_prison_bus" }
+  },
+  {
+    "id": "mx_mass_grave",
+    "type": "map_extra",
+    "name": "Mass Grave",
+    "description": "A mass grave.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_mass_grave" },
+    "sym": "X",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_grave",
+    "type": "map_extra",
+    "name": "Grave",
+    "description": "A grave.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_grave" }
+  },
+  {
+    "id": "mx_city_trap",
+    "type": "map_extra",
+    "name": "Zombie Trap",
+    "description": "Zombie trap.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_city_trap" }
+  }
+]

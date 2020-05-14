@@ -9,15 +9,21 @@
     "time": 11000,
     "book_learn": [ [ "textbook_robots", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "circuit", 1 ] ], [ [ "e_scrap", 3 ] ], [ [ "cable", 5 ] ], [ [ "battery", 1 ] ], [ [ "potato_raw", 1 ] ] ]
+    "components": [
+      [ [ "circuit", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "light_minus_battery_cell", 1 ] ],
+      [ [ "potato", 1 ] ]
+    ]
   },
   {
     "id": "aperture_potato",
     "type": "TOOL",
-    "name": "companion potato",
+    "name": { "str": "companion potato", "str_pl": "companion potatoes" },
     "description": "Seems like some kind of Genetic Lifeform and Disk Operating System, attached to a potato.",
-    "weight": 900,
-    "volume": 2,
+    "weight": "900 g",
+    "volume": "500 ml",
     "price": 9000,
     "to_hit": -1,
     "material": "plastic",

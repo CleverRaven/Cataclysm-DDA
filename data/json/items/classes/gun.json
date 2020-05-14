@@ -3,42 +3,46 @@
     "abstract": "gun_base",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "base gun",
+    "name": { "str": "base gun" },
     "symbol": "(",
-    "color": "light_gray"
+    "color": "light_gray",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
   },
   {
     "abstract": "flamethrower_base",
     "copy-from": "gun_base",
     "type": "GUN",
     "reload_noise": "slosh.",
-    "name": "base flamethrower",
+    "name": { "str": "base flamethrower" },
     "skill": "launcher",
-    "ammo": "flammable",
-    "ammo_effects": [ "NO_BOOM", "FLARE" ],
+    "ammo": [ "flammable" ],
+    "ammo_effects": [ "FLARE" ],
     "reload": 4,
-    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ]
+    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ],
+    "faults": [  ]
   },
   {
     "abstract": "launcher_base",
     "copy-from": "gun_base",
     "type": "GUN",
-    "name": "base launcher",
+    "name": { "str": "base launcher" },
     "skill": "launcher",
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ] ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
     "abstract": "pistol_base",
     "copy-from": "gun_base",
     "type": "GUN",
-    "name": "base pistol",
+    "name": { "str": "base pistol" },
     "skill": "pistol",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "magazine", 1 ],
@@ -50,13 +54,34 @@
     ]
   },
   {
+    "abstract": "pistol_backup",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "backup pistol" },
+    "//": "diminuitive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
+  },
+  {
     "abstract": "pistol_revolver",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": "revolver",
+    "name": { "str": "revolver" },
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -64,25 +89,48 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
+  },
+  {
+    "abstract": "pistol_revolver_cap_ball",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "cap & ball revolver" },
+    "reload": 150,
+    "extend": { "flags": [ "RELOAD_ONE", "NO_UNLOAD" ] },
+    "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ]
     ]
   },
   {
     "abstract": "rifle_base",
     "copy-from": "gun_base",
     "type": "GUN",
-    "name": "base rifle",
+    "name": { "str": "base rifle" },
     "skill": "rifle",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "magazine", 1 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
+      [ "rail", 2 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -91,18 +139,20 @@
     "abstract": "rifle_manual",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": "rifle with manual actions",
-    "name_plural": "rifles with manual actions",
+    "name": { "str": "rifle with manual actions", "str_pl": "rifles with manual actions" },
     "//": "Manual actions exclude the magazine location preventing installation of belt-feed adaptors",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -111,47 +161,72 @@
     "abstract": "rifle_semi",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": "semi-automatic rifle"
+    "name": { "str": "semi-automatic rifle" }
   },
   {
     "abstract": "rifle_auto",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": "fully automatic rifle"
+    "name": { "str": "fully automatic rifle" }
   },
   {
     "abstract": "shotgun_base",
     "copy-from": "gun_base",
     "type": "GUN",
-    "name": "base shotgun",
+    "name": { "str": "base shotgun" },
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
-      [ "grip", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ]
   },
   {
     "abstract": "shotgun_pump",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": "pump action shotgun",
+    "name": { "str": "pump action shotgun" },
     "reload_noise": "chuk chuk.",
-    "flags": [ "RELOAD_ONE", "PUMP_ACTION" ]
+    "flags": [ "RELOAD_ONE", "PUMP_ACTION" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+  },
+  {
+    "abstract": "shotgun_pump_3gun",
+    "copy-from": "shotgun_pump",
+    "type": "GUN",
+    "//": "Anything that has the right pin arrangement for a speedloader chute",
+    "name": { "str": "base race shotgun, pump", "str_pl": "base race shotguns, pump" },
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "loading port", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "abstract": "smg_base",
     "copy-from": "gun_base",
     "type": "GUN",
-    "name": "base SMG",
+    "name": { "str": "base SMG" },
     "skill": "smg"
   }
 ]

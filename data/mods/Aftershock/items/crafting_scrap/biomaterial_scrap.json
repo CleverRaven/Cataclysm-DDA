@@ -1,0 +1,42 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "afs_biomaterial_1",
+    "copy-from": "afs_scrap_1",
+    "name": { "str_sp": "monomeric slurry" },
+    "description": "A collection of the building blocks of polymers.  With this and a whole lot of know how you can create proteins and other building blocks of life.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_biomaterial_2",
+    "copy-from": "afs_scrap_2",
+    "name": { "str": "micellular growth medium" },
+    "description": "For the mixing of biomaterials that might otherwise be antithetical to one another.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_biomaterial_3",
+    "copy-from": "afs_scrap_1",
+    "name": { "str_sp": "artificial muscle fibers" },
+    "description": "Lab grown or bioprinted muscle fibers, much denser and with higher performance ratios than baseline human muscles.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_biomaterial_4",
+    "copy-from": "afs_scrap_4",
+    "name": { "str_sp": "self healing polymers" },
+    "description": "Materials capable of taking environmental chemicals and utilizing them for self repair, be careful you don't make grey goo.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_biomaterial_5",
+    "copy-from": "afs_scrap_5",
+    "name": { "str": "autologous totipotent tissue culture" },
+    "description": "Uncontaminated pure cellular matter than with the right instructions can become just about anything.",
+    "looks_like": "scrap"
+  }
+]

@@ -12,11 +12,10 @@
     "id": "alternator_bicycle",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": "bicycle alternator",
-    "//": "3.0A @12VDC ~ 0.1HP drain @ 48% effficiency",
+    "name": { "str": "bicycle alternator" },
+    "//": "3.0A @12VDC ~ 0.1HP drain @ 48% efficiency",
     "item": "alternator_bicycle",
     "looks_like": "alternator_motorbike",
-    "difficulty": 2,
     "durability": 250,
     "power": -75,
     "epower": 36,
@@ -27,16 +26,21 @@
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
-    "extend": { "flags": [ "FOLDABLE", "TOOL_SCREWDRIVER" ] }
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "damage_reduction": { "all": 12 }
   },
   {
     "id": "alternator_motorbike",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": "motorbike alternator",
-    "//": "30A @12VDC ~ 1HP drain @ 48% effficiency",
+    "name": { "str": "motorbike alternator" },
+    "//": "30A @12VDC ~ 1HP drain @ 48% efficiency",
     "item": "alternator_motorbike",
-    "difficulty": 2,
     "durability": 250,
     "power": -746,
     "epower": 360,
@@ -47,16 +51,21 @@
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
-    "extend": { "flags": [ "FOLDABLE", "TOOL_SCREWDRIVER" ] }
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "damage_reduction": { "all": 12 }
   },
   {
     "id": "alternator_car",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": "car alternator",
-    "//": "65A @12VDC ~ 2HP drain @ 52% effficiency",
+    "name": { "str": "car alternator" },
+    "//": "65A @12VDC ~ 2HP drain @ 52% efficiency",
     "item": "alternator_car",
-    "difficulty": 2,
     "durability": 275,
     "power": -1492,
     "epower": 780,
@@ -66,16 +75,20 @@
       { "item": "steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] }
     ],
-    "extend": { "flags": [ "TOOL_WRENCH" ] }
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "damage_reduction": { "all": 20 }
   },
   {
     "id": "alternator_truck",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": "truck alternator",
-    "//": "110A @12VDC ~ 3HP drain @ 60% effficiency",
+    "name": { "str": "truck alternator" },
+    "//": "110A @12VDC ~ 3HP drain @ 60% efficiency",
     "item": "alternator_truck",
-    "difficulty": 2,
     "durability": 325,
     "power": -2238,
     "epower": 1320,
@@ -85,14 +98,19 @@
       { "item": "steel_chunk", "count": [ 4, 7 ] },
       { "item": "scrap", "count": [ 4, 7 ] }
     ],
-    "extend": { "flags": [ "TOOL_WRENCH" ] }
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "damage_reduction": { "all": 20 }
   },
   {
     "id": "generator_7500w",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": "7.5kW generator",
-    "//": "625A @12VDC ~ 14HP drain @ 72% effficiency",
+    "name": { "str": "7.5kW generator" },
+    "//": "625A @12VDC ~ 14HP drain @ 72% efficiency",
     "item": "generator_7500w",
     "difficulty": 3,
     "durability": 400,
@@ -103,6 +121,12 @@
       { "item": "steel_lump", "count": [ 10, 18 ] },
       { "item": "steel_chunk", "count": [ 10, 18 ] },
       { "item": "scrap", "count": [ 10, 18 ] }
-    ]
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "damage_reduction": { "all": 25 }
   }
 ]

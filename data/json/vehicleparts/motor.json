@@ -2,113 +2,161 @@
   {
     "abstract": "engine_motor",
     "type": "vehicle_part",
-    "name": "electric motor",
+    "name": { "str": "electric motor" },
     "item": "motor",
     "location": "engine_block",
     "description": "An electric motor.",
-    "noise_factor": 3,
+    "noise_factor": 5,
     "m2c": 90,
     "fuel_type": "battery",
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
-    "flags": [ "ENGINE", "TOOL_WRENCH", "E_HIGHER_SKILL", "E_HEATER" ]
+    "flags": [ "ENGINE", "E_HIGHER_SKILL", "E_HEATER" ]
   },
   {
     "id": "engine_electric_tiny",
     "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "name": "tiny electric motor",
+    "name": { "str": "tiny electric motor" },
     "item": "motor_tiny",
     "looks_like": "motor_small",
-    "difficulty": 1,
     "durability": 80,
-    "power": 1492,
-    "energy_consumption": 1750,
+    "power": 800,
+    "energy_consumption": 1000,
     "damage_modifier": 80,
     "folded_volume": 1,
-    "breaks_into": [
-      { "item": "plastic_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] },
-      { "item": "cable", "charges": [ 1, 3 ] }
-    ],
-    "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] },
-    "delete": { "flags": [ "TOOL_WRENCH" ] }
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "cable", "charges": [ 1, 3 ] } ],
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "id": "engine_electric_small",
     "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "name": "small electric motor",
+    "name": { "str": "small electric motor" },
     "item": "motor_small",
-    "difficulty": 1,
     "durability": 120,
-    "power": 7460,
-    "energy_consumption": 8500,
+    "power": 7040,
+    "energy_consumption": 8000,
     "damage_modifier": 80,
     "folded_volume": 1,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ] ] }
+    },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 1, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 4 ] },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
       { "item": "cable", "charges": [ 3, 6 ] }
     ],
-    "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] },
-    "delete": { "flags": [ "TOOL_WRENCH" ] }
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "damage_reduction": { "all": 6 }
   },
   {
     "id": "engine_electric",
     "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "name": "electric motor",
+    "name": { "str": "electric motor" },
     "item": "motor",
-    "difficulty": 2,
     "durability": 200,
-    "power": 37300,
-    "energy_consumption": 41500,
+    "power": 36000,
+    "energy_consumption": 40000,
     "damage_modifier": 80,
     "folded_volume": 6,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 5 ] },
-      { "item": "steel_chunk", "count": [ 3, 5 ] },
-      { "item": "scrap", "count": [ 3, 5 ] },
-      { "item": "cable", "charges": [ 10, 15 ] }
-    ]
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "e_scrap", "count": [ 1, 2 ] },
+      { "item": "bearing", "count": [ 5, 10 ] },
+      { "item": "cable", "charges": [ 10, 20 ] }
+    ],
+    "damage_reduction": { "all": 32 }
   },
   {
     "id": "engine_electric_large",
     "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "name": "large electric motor",
+    "name": { "str": "large electric motor" },
     "item": "motor_large",
-    "difficulty": 3,
     "durability": 400,
-    "power": 149200,
-    "energy_consumption": 166000,
+    "power": 150000,
+    "energy_consumption": 163000,
     "damage_modifier": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 5 ] },
+      { "item": "steel_lump", "count": [ 5, 10 ] },
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
-      { "item": "cable", "charges": [ 10, 15 ] }
-    ]
+      { "item": "e_scrap", "count": [ 3, 5 ] },
+      { "item": "bearing", "count": [ 20, 40 ] },
+      { "item": "cable", "charges": [ 15, 30 ] }
+    ],
+    "damage_reduction": { "all": 43 }
   },
   {
     "id": "engine_electric_enhanced",
     "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "name": "enhanced electric motor",
+    "name": { "str": "enhanced electric motor" },
     "item": "motor_enhanced",
-    "difficulty": 4,
     "durability": 200,
-    "power": 186500,
-    "energy_consumption": 207250,
+    "power": 282000,
+    "energy_consumption": 300000,
     "damage_modifier": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 5 ] },
+      { "item": "steel_lump", "count": [ 10, 15 ] },
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
+      { "item": "e_scrap", "count": [ 5, 10 ] },
+      { "item": "bearing", "count": [ 20, 50 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 50 }
+  },
+  {
+    "id": "engine_electric_super",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": { "str": "super electric motor" },
+    "item": "motor_super",
+    "durability": 400,
+    "power": 475000,
+    "energy_consumption": 500000,
+    "damage_modifier": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 15, 20 ] },
+      { "item": "steel_chunk", "count": [ 6, 10 ] },
+      { "item": "scrap", "count": [ 6, 10 ] },
+      { "item": "e_scrap", "count": [ 5, 15 ] },
+      { "item": "bearing", "count": [ 25, 60 ] },
+      { "item": "cable", "charges": [ 20, 30 ] }
+    ],
+    "damage_reduction": { "all": 60 }
   }
 ]

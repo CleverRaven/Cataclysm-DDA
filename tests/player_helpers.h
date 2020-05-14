@@ -1,10 +1,27 @@
 #pragma once
-#ifndef PLAYER_HELPERS_H
-#define PLAYER_HELPERS_H
+#ifndef CATA_TESTS_PLAYER_HELPERS_H
+#define CATA_TESTS_PLAYER_HELPERS_H
 
 #include <string>
 
-int get_remaining_charges( const std::string &tool_id );
-void clear_player();
+#include "type_id.h"
 
-#endif
+class item;
+class npc;
+class player;
+struct point;
+
+using itype_id = std::string;
+
+int get_remaining_charges( const std::string &tool_id );
+bool player_has_item_of_type( const std::string & );
+void clear_character( player &, bool debug_storage = true );
+void clear_avatar();
+void process_activity( player &dummy );
+
+npc &spawn_npc( const point &, const std::string &npc_class );
+void give_and_activate_bionic( player &, bionic_id const & );
+
+item tool_with_ammo( const itype_id &tool, int qty );
+
+#endif // CATA_TESTS_PLAYER_HELPERS_H

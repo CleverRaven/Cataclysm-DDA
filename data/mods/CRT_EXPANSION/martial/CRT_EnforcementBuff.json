@@ -1,0 +1,126 @@
+[
+  {
+    "id": "manual_crt_enforcement",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": { "str": "C.R.I.T Enforcement manual" },
+    "description": "An advanced military manual on C.R.I.T Enforcer melee.",
+    "book_data": { "martial_art": "style_crt_enforcement" }
+  },
+  {
+    "id": "book_martial",
+    "type": "item_group",
+    "items": [ [ "manual_crt_enforcement", 5 ] ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_crt_enforcement",
+    "name": "C.R.I.T Enforcement",
+    "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies.  Each attack landed increases your armor by 0.125 and offers other combat bonuses based on stats.",
+    "initiate": [ "You ready yourself to stand your ground.", "%s draws a line in the sand." ],
+    "arm_block": 2,
+    "leg_block": 5,
+    "static_buffs": [
+      {
+        "id": "crt_enforcement_static",
+        "name": "Unyielding Front",
+        "description": "Stand strong in the face of adversity. +1 armor.  STR provides accuracy and minor bash arpen.",
+        "unarmed_allowed": false,
+        "melee_allowed": true,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 1.0 },
+          { "stat": "armor", "type": "cut", "scale": 1.0 },
+          { "stat": "armor", "type": "stab", "scale": 1.0 },
+          { "stat": "hit", "scaling-stat": "str", "scale": 0.4 }
+        ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "crt_enforcement_hit_buff",
+        "name": "Bulwark",
+        "description": "+0.5 armor and other small bonuses per stack.  Max of 2 stacks",
+        "unarmed_allowed": false,
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [
+          { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
+          { "stat": "armor", "type": "bash", "scale": 1 },
+          { "stat": "armor", "type": "cut", "scale": 1 },
+          { "stat": "armor", "type": "stab", "scale": 1 },
+          { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 0.1 },
+          { "stat": "armor", "type": "cut", "scaling-stat": "str", "scale": 0.1 },
+          { "stat": "armor", "type": "stab", "scaling-stat": "str", "scale": 0.1 }
+        ]
+      }
+    ],
+    "techniques": [ "tec_crt_enforcement_normal", "tec_crt_enforcement_rapid", "tec_crt_enforcement_brutal" ],
+    "weapons": [
+      "knife_crt",
+      "crt_nstick",
+      "crt_knuckledusters",
+      "baton-extended",
+      "cudgel",
+      "sword_wood",
+      "sword_nail",
+      "2x4",
+      "pipe",
+      "bat",
+      "bwirebat",
+      "nailbat",
+      "nailboard",
+      "bat_metal",
+      "cane",
+      "mace",
+      "morningstar",
+      "tonfa",
+      "tonfa_wood",
+      "PR24-extended",
+      "glass_macuahuitl"
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_enforcement_normal",
+    "name": "Reprimand",
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
+    "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ],
+    "messages": [ "You clock %s's in a weak spot to knock em down", "<npcname> smashes in %s's face" ],
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_enforcement_rapid",
+    "name": "Forced Compliance",
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "movecost", "scaling-stat": "str", "scale": -1.3 }
+    ],
+    "messages": [ "You swiftly swipe your weapon's tip at %s", "<npcname> swiftly jabs their weapon into %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_enforcement_brutal",
+    "name": "Roomsweeper",
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "movecost", "scaling-stat": "str", "scale": -0.5 }
+    ],
+    "crit_tec": true,
+    "messages": [ "You steady your arm and release a crushing blow at %s", "<npcname> releases a crushing blow at %s" ],
+    "stun_dur": 3,
+    "knockback_dist": 2
+  }
+]

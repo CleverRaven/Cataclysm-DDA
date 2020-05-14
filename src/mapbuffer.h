@@ -1,17 +1,16 @@
 #pragma once
-#ifndef MAPBUFFER_H
-#define MAPBUFFER_H
+#ifndef CATA_SRC_MAPBUFFER_H
+#define CATA_SRC_MAPBUFFER_H
 
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
 
-#include "enums.h"
+#include "point.h"
 
-struct point;
-struct tripoint;
-struct submap;
+class submap;
+class JsonIn;
 
 /**
  * Store, buffer, save and load the entire world map.
@@ -42,9 +41,7 @@ class mapbuffer
          * is not stored than and the caller must take of the submap object
          * on their own (and properly delete it).
          */
-        bool add_submap( int x, int y, int z, std::unique_ptr<submap> &sm );
         bool add_submap( const tripoint &p, std::unique_ptr<submap> &sm );
-        bool add_submap( int x, int y, int z, submap *sm );
         bool add_submap( const tripoint &p, submap *sm );
 
         /** Get a submap stored in this buffer.
@@ -55,11 +52,10 @@ class mapbuffer
          * and could not be loaded. The mapbuffer takes care of the returned
          * submap object, don't delete it on your own.
          */
-        submap *lookup_submap( int x, int y, int z );
         submap *lookup_submap( const tripoint &p );
 
     private:
-        typedef std::map<tripoint, submap *> submap_map_t;
+        using submap_map_t = std::map<tripoint, submap *>;
 
     public:
         inline submap_map_t::iterator begin() {
@@ -83,4 +79,4 @@ class mapbuffer
 
 extern mapbuffer MAPBUFFER;
 
-#endif
+#endif // CATA_SRC_MAPBUFFER_H

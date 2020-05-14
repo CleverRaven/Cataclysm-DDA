@@ -14,8 +14,9 @@ import os
 import sys
 import argparse
 import pathlib
+import contextlib
 import xml.etree.ElementTree
-from datetime import date, datetime, timedelta
+from datetime import time as dtime, date, datetime, timedelta
 
 
 log = logging.getLogger('generate_changelog')
@@ -45,7 +46,7 @@ class JenkinsBuild:
         return f'{self.__class__.__name__}[{self.number} - {self.last_hash} - {self.build_dttm} - {self.build_result}]'
 
 
-class Commit:
+class Commit(object):
     """Representation of a generic GitHub Commit"""
 
     def __init__(self, hash_id, message, commit_dttm, author, parents):
@@ -62,6 +63,9 @@ class Commit:
     def committed_after(self, commit_dttm):
         return self.commit_dttm is not None and self.commit_dttm >= commit_dttm
 
+    def committed_before(self, commit_dttm):
+        return self.commit_dttm is not None and self.commit_dttm <= commit_dttm
+
     @property
     def is_merge(self):
         return len(self.parents) > 1
@@ -70,7 +74,7 @@ class Commit:
         return f'{self.__class__.__name__}[{self.hash} - {self.commit_dttm} - {self.message} BY {self.author}]'
 
 
-class PullRequest:
+class PullRequest(object):
     """Representation of a generic GitHub Pull Request"""
 
     def __init__(self, pr_id, title, author, state, body, merge_hash, merge_dttm, update_dttm):
@@ -98,8 +102,14 @@ class PullRequest:
     def merged_after(self, merge_dttm):
         return self.merge_dttm is not None and self.merge_dttm >= merge_dttm
 
+    def merged_before(self, merge_dttm):
+        return self.merge_dttm is not None and self.merge_dttm <= merge_dttm
+
     def updated_after(self, update_dttm):
         return self.update_dttm is not None and self.update_dttm >= update_dttm
+
+    def updated_before(self, update_dttm):
+        return self.update_dttm is not None and self.update_dttm <= update_dttm
 
     def __str__(self):
         return f'{self.__class__.__name__}[{self.id} - {self.merge_dttm} - {self.title} BY {self.author}]'
@@ -124,7 +134,7 @@ class SummaryType:
 class CDDAPullRequest(PullRequest):
     """A Pull Request with logic specific to CDDA Repository and their "Summary" descriptions"""
 
-    SUMMARY_REGEX = r'(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?'
+    SUMMARY_REGEX = re.compile( r'^`*(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?', re.MULTILINE )
 
     VALID_SUMMARY_CATEGORIES = (
         'Content',
@@ -354,12 +364,15 @@ class JenkinsBuildRepository:
     def get_build_by_number(self, build_number):
         return self.ref_by_build_number[build_number] if build_number in self.ref_by_build_number else None
 
-    def get_previous_successful_build(self, build_number):
+    def get_previous_build(self, build_number, condition=lambda x: True):
         for x in range(build_number - 1, 0, -1):
             prev_build = self.get_build_by_number(x)
-            if prev_build is not None and prev_build.was_successful():
+            if prev_build is not None and condition(prev_build):
                 return prev_build
         return None
+
+    def get_previous_successful_build(self, build_number):
+        return self.get_previous_build(build_number, lambda x: x.was_successful())
 
     def get_all_builds(self, filter_by=None, sort_by=None):
         """Return all Builds in Repository. No order is guaranteed."""
@@ -403,9 +416,10 @@ class JenkinsApi:
         """Return the builds from Jenkins. API limits the result to last 999 builds."""
         request_url = self.JENKINS_BUILD_LIST_API + '?' + urllib.parse.urlencode(self.JENKINS_BUILD_LONG_LIST_PARAMS)
         api_request = urllib.request.Request(request_url)
+        log.debug(f'Processing Request {api_request.full_url}')
         with urllib.request.urlopen(api_request) as api_response:
-            log.debug(f'Request DONE {api_request.full_url}')
             api_data = xml.etree.ElementTree.fromstring(api_response.read())
+        log.debug('Jenkins Request DONE!')
 
         for build_data in api_data:
             yield self._create_build_from_api_data(build_data)
@@ -428,7 +442,7 @@ class JenkinsApi:
 
         jb_last_hash = None
         jb_branch = None
-        if jb_build_result == 'SUCCESS':
+        if build_data.find(r'.//action/lastBuiltRevision/branch/SHA1') is not None:
             jb_last_hash = build_data.find(r'.//action/lastBuiltRevision/branch/SHA1').text
             jb_branch = build_data.find(r'.//action/lastBuiltRevision/branch/name').text
 
@@ -447,9 +461,13 @@ class CommitApi:
 
             params:
                 min_commit_dttm = None or minimum commit date to be part of the result set (UTC+0 timezone)
-            params:
-                max_commit_dttm = None or maximum commit date to be part of the result set
+                max_commit_dttm = None or maximum commit date to be part of the result set (UTC+0 timezone)
         """
+        if min_commit_dttm is None:
+            min_commit_dttm = datetime.min
+        if max_commit_dttm is None:
+            max_commit_dttm = datetime.utcnow()
+
         results_queue = collections.deque()
         request_generator = CommitApiGenerator(self.api_token, min_commit_dttm, max_commit_dttm, branch)
         threaded = MultiThreadedGitHubApi()
@@ -457,18 +475,20 @@ class CommitApi:
                                       self._process_commit_data_callback(results_queue),
                                       max_threads=max_threads)
 
-        return (commit for commit in results_queue if commit.committed_after(min_commit_dttm))
+        return (commit for commit in results_queue
+                if commit.committed_after(min_commit_dttm) and commit.committed_before(max_commit_dttm))
 
     def _process_commit_data_callback(self, results_queue):
         """Returns a callback that will process data into Commits instances and stop threads when needed."""
-        def _process_commit_data_callback_closure(json_data, request_generator):
+        def _process_commit_data_callback_closure(json_data, request_generator, api_request):
             nonlocal results_queue
             commit_list = [self._create_commit_from_api_data(x) for x in json_data]
             for commit in commit_list:
                 results_queue.append(commit)
 
             if request_generator.is_active and len(commit_list) == 0:
-                log.debug(f'Target page found, stop giving threads more requests')
+                log.debug(f'Target page found, stop giving threads more requests.'
+                          f' Target URL: {api_request.full_url}')
                 request_generator.deactivate()
         return _process_commit_data_callback_closure
 
@@ -484,7 +504,10 @@ class CommitApi:
         ### I rather have a name that doesn't match that leave it empty.
         ### Anyways, I'm surprised but GitHub API sucks, is super inconsistent and not well thought or documented.
         if commit_data['author'] is not None:
-            commit_author = commit_data['author']['login']
+            if 'login' in commit_data['author']:
+                commit_author = commit_data['author']['login']
+            else:
+                commit_author = 'null'
         else:
             commit_author = commit_data['commit']['author']['name']
         commit_message = commit_data['commit']['message'].splitlines()[0] if commit_data['commit']['message'] else ''
@@ -532,45 +555,50 @@ class PullRequestApi:
         else:
             return api_data['items'][0]['number']
 
-    def get_pr_list(self, min_dttm, max_dttm, state='all', merged_only=False, max_threads=15):
+    def get_pr_list(self, min_dttm, max_dttm=None, state='all', merged_only=False, max_threads=15):
         """Return a list of PullRequests from specified commit date up to now. Order is not guaranteed by threads.
 
             params:
                 min_dttm = None or minimum update date on the PR to be part of the result set (UTC+0 timezone)
-                min_dttm = None or maximum update date on the PR to be part of the result set (UTC+0 timezone)
+                max_dttm = None or maximum update date on the PR to be part of the result set (UTC+0 timezone)
                 state = 'open' | 'closed' | 'all'
                 merged_only = search only 'closed' state PRs, and filter PRs by merge date instead of update date
         """
+        if min_dttm is None:
+            min_dttm = datetime.min
+        if max_dttm is None:
+            max_dttm = datetime.utcnow()
+
         results_queue = collections.deque()
         request_generator = PullRequestApiGenerator(self.api_token, state if not merged_only else 'closed')
         threaded = MultiThreadedGitHubApi()
         threaded.process_api_requests(request_generator,
-                                      self._process_pr_data_callback(results_queue, min_dttm, max_dttm, merged_only),
+                                      self._process_pr_data_callback(results_queue, min_dttm),
                                       max_threads=max_threads)
 
         if merged_only:
-            return (pr for pr in results_queue if pr.is_merged and pr.merged_after(min_dttm))
+            return (pr for pr in results_queue
+                    if pr.is_merged and pr.merged_after(min_dttm) and pr.merged_before(max_dttm))
         else:
-            return (pr for pr in results_queue if pr.updated_after(min_dttm))
+            return (pr for pr in results_queue
+                    if pr.updated_after(min_dttm) and pr.updated_before(max_dttm))
 
-    def _process_pr_data_callback(self, results_queue, min_dttm, max_dttm, merged_only):
+    def _process_pr_data_callback(self, results_queue, min_dttm):
         """Returns a callback that will process data into Pull Requests objects and stop threads when needed."""
-        def _process_pr_data_callback_closure(json_data, request_generator):
-            nonlocal results_queue, min_dttm, merged_only
+        def _process_pr_data_callback_closure(json_data, request_generator, api_request):
+            nonlocal results_queue, min_dttm
             pull_request_list = [self._create_pr_from_api_data(x) for x in json_data]
             for pr in pull_request_list:
-                if not merged_only or pr.is_merged:
-                    results_queue.append(pr)
+                results_queue.append(pr)
 
-            target_page_found = False
-            if min_dttm is not None and merged_only:
-                target_page_found = not any(pr.merged_after(min_dttm) for pr in pull_request_list)
-            if min_dttm is not None and not merged_only:
-                target_page_found = not any(pr.updated_after(min_dttm) for pr in pull_request_list)
+            ### this check on update date makes sure we get the GitHub API pages we need
+            ### a more precise PR filter of the result is made from results_queue later
+            target_page_found = not any(pr.updated_after(min_dttm) for pr in pull_request_list)
 
             if len(pull_request_list) == 0 or target_page_found:
                 if request_generator.is_active:
-                    log.debug(f'Target page found, stop giving threads more requests')
+                    log.debug(f'Target page found, stop giving threads more requests.'
+                              f' Target URL: {api_request.full_url}')
                     request_generator.deactivate()
 
         return _process_pr_data_callback_closure
@@ -605,7 +633,7 @@ class MultiThreadedGitHubApi:
         ### start threads
         threads = []
         for x in range(1, max_threads + 1):
-            t = threading.Thread(target=self._exit_on_exception(self._process_api_requests_on_threads),
+            t = threading.Thread(target=exit_on_exception(self._process_api_requests_on_threads),
                                  args=(request_generator, callback))
             t.name = f'WORKER_{x:03}'
             threads.append(t)
@@ -624,23 +652,12 @@ class MultiThreadedGitHubApi:
         log.debug(f'Thread Started!')
         api_request = request_generator.generate()
         while api_request is not None:
-            callback(do_github_request(api_request), request_generator)
+            callback(do_github_request(api_request), request_generator, api_request)
             api_request = request_generator.generate()
         log.debug(f'No more requests left, killing Thread.')
 
-    @staticmethod
-    def _exit_on_exception(func):
-        """Decorator to terminate the main script and all threads if a thread generates an Exception"""
-        def _exit_on_exception_closure(*args, **kwargs):
-            try:
-                func(*args, **kwargs)
-            except Exception as err:
-                log.exception(f'Unhandled Exception: {err}')
-                os._exit(-5)
-        return _exit_on_exception_closure
 
-
-class GitHubApiRequestBuilder:
+class GitHubApiRequestBuilder(object):
 
     def __init__(self, api_token, timezone='Etc/UTC'):
         self.api_token = api_token
@@ -670,7 +687,8 @@ class CommitApiGenerator(GitHubApiRequestBuilder):
 
     GITHUB_API_LIST_COMMITS = r'https://api.github.com/repos/CleverRaven/Cataclysm-DDA/commits'
 
-    def __init__(self, api_token, since_dttm=None, until_dttm=None, sha='master', initial_page=1, step=1, timezone='Etc/UTC'):
+    def __init__(self, api_token, since_dttm=None, until_dttm=None, sha='master',
+                 initial_page=1, step=1, timezone='Etc/UTC'):
         super().__init__(api_token, timezone)
         self.sha = sha
         self.since_dttm = since_dttm
@@ -770,12 +788,23 @@ class PullRequestApiGenerator(GitHubApiRequestBuilder):
         return super().create_request(self.GITHUB_API_LIST_PR, params)
 
 
+def exit_on_exception(func):
+    """Decorator to terminate the main script and all threads if a thread generates an Exception"""
+    def exit_on_exception_closure(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except Exception as err:
+            log.exception(f'Unhandled Exception: {err}')
+            os._exit(-10)
+    return exit_on_exception_closure
+
+
 def do_github_request(api_request, retry_on_limit=3):
     """Do an HTTP request to GitHub and retries in case of hitting API limits"""
     for retry in range(1, retry_on_limit + 2):
         try:
+            log.debug(f'Processing Request {api_request.full_url}')
             with urllib.request.urlopen(api_request) as api_response:
-                log.debug(f'Request DONE {api_request.full_url}')
                 return json.load(api_response)
         except urllib.error.HTTPError as err:
             ### hit rate limit, wait and retry
@@ -815,32 +844,56 @@ def read_personal_token(filename):
     return None
 
 
-def main_entry(argv):
-    parser = argparse.ArgumentParser(description='Generates Changelog from now until the specified date')
+@contextlib.contextmanager
+def smart_open(filename=None, *args, **kwargs):
+    if filename and (filename == '-' or filename == sys.stdout):
+        fh = sys.stdout
+    else:
+        fh = open(filename, *args, **kwargs)
 
-    output_style_group = parser.add_mutually_exclusive_group(required=True)
-    output_style_group.add_argument(
-        '-D', '--group-by-date',
-        action='store_true',
-        help='Indicates changes should be grouped by Date.'
-    )
-    output_style_group.add_argument(
-        '-B', '--group-by-build',
-        action='store_true',
-        help='Indicates changes should be grouped by Build.'
-    )
+    try:
+        yield fh
+    finally:
+        if fh is not sys.stdout:
+            fh.close()
+
+
+def validate_file_for_writing(filepath):
+    if (filepath is not None and
+        filepath != sys.stdout and
+            (not filepath.parent.exists()
+             or not filepath.parent.is_dir())):
+        return False
+
+
+def main_entry(argv):
+    parser = argparse.ArgumentParser(description='''Generates Changelog from now until the specified data.\ngenerate_changelog.py -D changelog_2019_03 -t ../repo_token -f -e 2019-04-01 2019-03-01''', formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument(
         'target_date',
-        help='Specify when should stop generating . Accepts "YYYY-MM-DD" ISO 8601 Date format.',
-        type=lambda d: datetime.combine(date.fromisoformat(d), datetime.min.time())
+        help='Specify when should stop generating. Accepts "YYYY-MM-DD" ISO 8601 Date format.',
+        type=lambda d: datetime.combine(date.fromisoformat(d), dtime.min)
+    )
+
+    parser.add_argument(
+        '-D', '--by-date',
+        help='Indicates changes should be presented grouped by Date. Requires a filename parameter, "-" for STDOUT',
+        type=lambda x: sys.stdout if x == '-' else pathlib.Path(x).expanduser().resolve(),
+        default=None
+    )
+
+    parser.add_argument(
+        '-B', '--by-build',
+        help='Indicates changes should be presented grouped by Build. Requires a filename parameter, "-" for STDOUT',
+        type=lambda x: sys.stdout if x == '-' else pathlib.Path(x).expanduser().resolve(),
+        default=None
     )
 
     parser.add_argument(
         '-e', '--end-date',
-        help='Specify when should start generating . Accepts "YYYY-MM-DD" ISO 8601 Date format.',
-        type=lambda d: datetime.combine(date.fromisoformat(d), datetime.min.time()),
-        default=None
+        help='Specify when should start generating. Accepts "YYYY-MM-DD" ISO 8601 Date format.',
+        type=lambda d: datetime.combine(date.fromisoformat(d), dtime.max),
+        default=datetime.utcnow()
     )
 
     parser.add_argument(
@@ -848,13 +901,6 @@ def main_entry(argv):
         help='Specify where to read the Personal Token. Default "~/.generate_changelog.token".',
         type=lambda x: pathlib.Path(x).expanduser().resolve(),
         default='~/.generate_changelog.token'
-    )
-
-    parser.add_argument(
-        '-o', '--output-file',
-        help='Specify where to write extracted information. Default to standard output.',
-        type=lambda x: pathlib.Path(x).expanduser().resolve(),
-        default=None
     )
 
     parser.add_argument(
@@ -880,49 +926,81 @@ def main_entry(argv):
 
     arguments = parser.parse_args(argv[1:])
 
-    if (arguments.end_date is None):
-        arguments.end_date=datetime.now()
-
     logging.basicConfig(level=logging.DEBUG if arguments.verbose else logging.INFO,
                         format='   LOG | %(threadName)s | %(levelname)s | %(message)s')
 
     log.debug(f'Commandline Arguments (+defaults): {arguments}')
 
-    if (arguments.output_file is not None and
-            (not arguments.output_file.parent.exists()
-             or not arguments.output_file.parent.is_dir())):
-        raise ValueError(f"Specified directory for Output File doesn't exist: {arguments.output_file.parent}")
+    if validate_file_for_writing(arguments.by_date):
+        raise ValueError(f"Specified directory in --by-date doesn't exist: {arguments.by_date.parent}")
 
-    if arguments.group_by_date:
-        main_by_date(arguments.target_date, arguments.end_date, arguments.token_file,
-                     arguments.output_file,arguments.include_summary_none, arguments.flatten_output)
-    elif arguments.group_by_build:
-        main_by_build(arguments.target_date, arguments.end_date, arguments.token_file,
-                      arguments.output_file,arguments.include_summary_none)
+    if validate_file_for_writing(arguments.by_build):
+        raise ValueError(f"Specified directory in --by-build doesn't exist: {arguments.by_build.parent}")
 
-
-def main_by_date(target_dttm, end_dttm, token_file, output_file, include_summary_none, flatten):
-    personal_token = read_personal_token(token_file)
+    personal_token = read_personal_token(arguments.token_file)
     if personal_token is None:
         log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
 
-    ### get data from GitHub API
-    commit_api = CommitApi(CommitFactory(), personal_token)
-    commit_repo = CommitRepository()
-    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
+    if arguments.by_date is None and arguments.by_build is None:
+        raise ValueError("Script should be called with either --by-date or --by-build arguments or both.")
 
-    pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
+    main_output(arguments.by_date, arguments.by_build, arguments.target_date, arguments.end_date,
+                personal_token, arguments.include_summary_none, arguments.flatten_output)
+
+
+def get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token):
+
+    def load_github_repos():
+        commit_api = CommitApi(CommitFactory(), personal_token)
+        commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
+
+        pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
+        pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
+
+    github_thread = threading.Thread(target=exit_on_exception(load_github_repos))
+    github_thread.name = 'WORKER_GIT'
+    github_thread.daemon = True
+    github_thread.start()
+
+    return github_thread
+
+
+def get_jenkins_api_data(build_repo):
+
+    def load_jenkins_repo():
+        jenkins_api = JenkinsApi(JenkinsBuildFactory())
+        build_repo.add_multiple(jenkins_api.get_build_list())
+
+    jenkins_thread = threading.Thread(target=exit_on_exception(load_jenkins_repo))
+    jenkins_thread.name = 'WORKER_JEN'
+    jenkins_thread.daemon = True
+    jenkins_thread.start()
+
+    return jenkins_thread
+
+
+def main_output(by_date, by_build, target_dttm, end_dttm, personal_token, include_summary_none, flatten):
+    threads = []
+
+    if by_build is not None:
+        build_repo = JenkinsBuildRepository()
+        threads.append(get_jenkins_api_data(build_repo))
+
     pr_repo = CDDAPullRequestRepository()
-    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
+    commit_repo = CommitRepository()
+    threads.append(get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token))
 
-    ### build script output
-    if output_file is None:
-        build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, sys.stdout,
-                             include_summary_none, flatten)
-    else:
-        with open(output_file, 'w', encoding='utf8') as opened_output_file:
-            build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, opened_output_file,
-                                 include_summary_none, flatten)
+    for thread in threads:
+        thread.join()
+
+    if by_date is not None:
+        with smart_open(by_date, 'w', encoding='utf8') as output_file:
+            build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm,
+                                 output_file, include_summary_none, flatten)
+
+    if by_build is not None:
+        with smart_open(by_build, 'w', encoding='utf8') as output_file:
+            build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none)
 
 
 def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_file,
@@ -969,53 +1047,40 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_fil
             if not flatten:
                 print(f"    MISC. COMMITS", file=output_file)
             for commit in commits_with_no_pr[curr_date]:
-                print(f"        * {commit.message} (by {commit.author} in Commit {commit.hash[:7]})", file=output_file)
+                if not flatten:
+                    print(f"        * {commit.message} (by {commit.author} in Commit {commit.hash[:7]})",
+                          file=output_file)
+                else:
+                    print(f"COMMIT {commit.message})", file=output_file)
             print(file=output_file)
 
         if curr_date in pr_with_invalid_summary or (include_summary_none and curr_date in pr_with_summary_none):
             if not flatten:
                 print(f"    MISC. PULL REQUESTS", file=output_file)
             for pr in pr_with_invalid_summary[curr_date]:
-                print(f"        * {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+                if not flatten:
+                    print(f"        * {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+                else:
+                    print(f"INVALID_SUMMARY {pr.title})", file=output_file)
             if include_summary_none:
                 for pr in pr_with_summary_none[curr_date]:
-                    print(f"        * [MINOR] {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+                    if not flatten:
+                        print(f"        * [MINOR] {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+                    else:
+                        print(f"MINOR {pr.title})", file=output_file)
             print(file=output_file)
 
         print(file=output_file)
 
 
-def main_by_build(target_dttm, end_dttm, token_file, output_file, include_summary_none):
-    personal_token = read_personal_token(token_file)
-    if personal_token is None:
-        log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
-
-    ### get data from GitHub API
-    commit_api = CommitApi(CommitFactory(), personal_token)
-    commit_repo = CommitRepository()
-    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
-
-    pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
-    pr_repo = CDDAPullRequestRepository()
-    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
-
-    jenkins_api = JenkinsApi(JenkinsBuildFactory())
-    build_repo = JenkinsBuildRepository()
-    build_repo.add_multiple((build for build in jenkins_api.get_build_list() if build.was_successful()))
-
-    ### build script output
-    if output_file is None:
-        build_output_by_build(build_repo, pr_repo, commit_repo, sys.stdout, include_summary_none)
-    else:
-        with open(output_file, 'w', encoding='utf8') as opened_output_file:
-            build_output_by_build(build_repo, pr_repo, commit_repo, opened_output_file, include_summary_none)
-
-
 def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none):
-    for build in build_repo.get_all_builds(sort_by=lambda x: -x.build_dttm.timestamp()):
+    ### "ABORTED" builds have no "hash" and fucks up the logic here... but just to be sure, ignore builds without hash
+    ### and changes will be atributed to next build availiable that does have a hash
+    for build in build_repo.get_all_builds(filter_by=lambda x: x.last_hash is not None,
+                                           sort_by=lambda x: -x.build_dttm.timestamp()):
         ### we need the previous build a hash/date hash
         ### to find commits / pull requests that got into the build
-        prev_build = build_repo.get_previous_successful_build(build.number)
+        prev_build = build_repo.get_previous_build(build.number, lambda x: x.last_hash is not None)
         if prev_build is None:
             break
 

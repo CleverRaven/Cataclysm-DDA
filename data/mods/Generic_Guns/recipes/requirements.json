@@ -1,0 +1,80 @@
+[
+  {
+    "id": "req_pistol_tiny",
+    "type": "requirement",
+    "//": "Components required for tiny pistol ammo",
+    "components": [ [ [ "pistol_tiny_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "req_pistol",
+    "type": "requirement",
+    "//": "Components required for pistol ammo",
+    "components": [ [ [ "pistol_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "req_pistol_magnum",
+    "type": "requirement",
+    "//": "Components required for magnum ammo",
+    "components": [ [ [ "pistol_magnum_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "req_rifle",
+    "type": "requirement",
+    "//": "Components required for rifle ammo",
+    "components": [ [ [ "rifle_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
+  },
+  {
+    "id": "req_rifle_huge",
+    "type": "requirement",
+    "//": "Components required for huge rifle ammo",
+    "components": [ [ [ "rifle_huge_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+  },
+  {
+    "id": "req_grenade",
+    "type": "requirement",
+    "//": "Components required for grenade cartridges",
+    "components": [ [ [ "grenade_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "req_shot",
+    "type": "requirement",
+    "//": "Components required for shotgun ammo",
+    "components": [ [ [ "shot_casing", 1 ] ], [ [ "shotgun_primer", 1 ] ] ]
+  },
+  {
+    "id": "req_penetrator",
+    "type": "requirement",
+    "//": "Components required for barrier/armor penetrators",
+    "components": [
+      [
+        [ "sheet_metal_small", 1 ],
+        [ "wire", 1 ],
+        [ "scrap_bronze", 1 ],
+        [ "scrap", 1 ],
+        [ "bearing", 1 ],
+        [ "nail", 1 ],
+        [ "combatnail", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "req_junk",
+    "type": "requirement",
+    "//": "Components required for junk ammunition",
+    "components": [
+      [
+        [ "scrap", 1 ],
+        [ "nail", 5 ],
+        [ "bb", 10 ],
+        [ "solder_wire", 5 ],
+        [ "platinum_small", 2 ],
+        [ "gold_small", 2 ],
+        [ "bearing", 2 ],
+        [ "lead", 3 ],
+        [ "silver_small", 3 ],
+        [ "bismuth", 3 ],
+        [ "shrapnel", 2 ]
+      ]
+    ]
+  }
+]

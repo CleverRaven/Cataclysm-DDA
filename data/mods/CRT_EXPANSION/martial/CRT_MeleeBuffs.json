@@ -1,0 +1,144 @@
+[
+  {
+    "id": "manual_crt_cqb",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": { "str": "CRIT CQB manual" },
+    "description": "An advanced military manual on CRIT general CQB.",
+    "book_data": { "martial_art": "style_crt_cqb" }
+  },
+  {
+    "id": "book_martial",
+    "type": "item_group",
+    "items": [ [ "manual_crt_cqb", 5 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "MARTIAL_CRT",
+    "name": "CRIT Melee Training",
+    "points": 3,
+    "description": "You have received CQB training.  For every hit you land, gain themed combat bonuses.",
+    "starting_trait": true,
+    "initial_ma_styles": [ "style_crt_cqb", "style_crt_blade", "style_crt_enforcement" ],
+    "valid": false
+  },
+  {
+    "type": "martial_art",
+    "id": "style_crt_cqb",
+    "name": "CRIT CQB",
+    "description": "A style centered around rapid strikes and piercing jabs.  Each attack landed adds a plethora of combat bonuses.",
+    "initiate": [ "You shift your weight for the oncoming fight.", "%s prepares for hand-to-hand battle." ],
+    "arm_block": 3,
+    "leg_block": 6,
+    "static_buffs": [
+      {
+        "id": "crt_cqb_static",
+        "name": "Tactful Initiative",
+        "description": "You have gained an advantage by always remaing mindful of common weaknesses. DEX provides dodge ability, accuracy and armor penetration.",
+        "unarmed_allowed": true,
+        "melee_allowed": false,
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.15 },
+          { "stat": "dodge", "scaling-stat": "dex", "scale": 0.1 },
+          { "stat": "hit", "scaling-stat": "dex", "scale": 0.15 }
+        ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "crt_cqb_hit_buff",
+        "name": "Fluid Tenacity",
+        "description": "+Atk Speed and other small bonuses based on DEX per stack.  Max of 5 stacks",
+        "unarmed_allowed": true,
+        "meledescription": false,
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "buff_duration": 2,
+        "max_stacks": 5,
+        "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "dex", "scale": -0.05 }, { "stat": "movecost", "scale": 0.1 } ],
+        "mult_bonuses": [ { "stat": "dodge", "scaling-stat": "dex", "scale": 1.0 } ]
+      }
+    ],
+    "techniques": [ "tec_crt_cqb_normal", "tec_crt_cqb_rapid", "tec_crt_cqb_precise", "tec_crt_cqb_arpen", "tec_crt_cqb_feint" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_cqb_normal",
+    "name": "Measured Footwork",
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": false,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.85 } ],
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.1 }
+    ],
+    "messages": [ "You quickly dig your fingers into %s", "<npcname> digs their fingers into %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_cqb_rapid",
+    "name": "Rapid Burst",
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": false,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.2 }
+    ],
+    "messages": [ "You swiftly impale your fingers into %s joints", "<npcname> swiftly impales their fingers into %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_cqb_feint",
+    "name": "Shifting Feint",
+    "messages": [ "You fake a quick strike toward %s", "<npcname> fakes a quick strike toward %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": false,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_cqb_precise",
+    "name": "Rapid Jab",
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": false,
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.25 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.15 }
+    ],
+    "crit_tec": true,
+    "messages": [ "You steady your hand and release a piercing jab at %s", "<npcname> releases a piercing jab at %s" ],
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_cqb_arpen",
+    "name": "Calculated Pierce",
+    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "weighting": 2,
+    "unarmed_allowed": true,
+    "melee_allowed": false,
+    "crit_ok": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.5 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ],
+    "messages": [
+      "You envision a gathering tempest and then release it's energy on %s's top half",
+      "<npcname> lands a piercing blow on %s's face"
+    ],
+    "stun_dur": 1,
+    "down_dur": 2
+  }
+]

@@ -3,7 +3,15 @@
     "type": "region_settings",
     "id": "desert_test",
     "default_oter": "field",
-    "default_groundcover": [ [ "t_searth_test", 3 ], [ "t_sand", 1 ] ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "region_terrain_and_furniture": {
+      "terrain": {
+        "t_region_groundcover": { "t_searth_test": 3, "t_sand": 1 },
+        "t_region_shrub": { "t_shrub": 1 },
+        "t_region_tree": { "t_tree_willow": 1, "t_tree_dead": 1 }
+      },
+      "furniture": { "f_region_flower": { "f_mutcactus_test": 1 } }
+    },
     "field_coverage": {
       "percent_coverage": 1.9333,
       "default_ter": "t_sand",
@@ -12,6 +20,21 @@
       "boosted_percent_coverage": 12.5,
       "boosted_other": { "t_shrub_blueberry": 0.0001, "t_shrub": 4.9, "f_mutcactus_test": 50.0 },
       "boosted_other_percent": 20.0
+    },
+    "overmap_lake_settings": {
+      "noise_threshold_lake": 0.25,
+      "lake_size_min": 20,
+      "lake_depth": -5,
+      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
+      "shore_extendable_overmap_terrain_aliases": [  ]
+    },
+    "overmap_forest_settings": {
+      "noise_threshold_forest": 0.6,
+      "noise_threshold_forest_thick": 0.7,
+      "noise_threshold_swamp_adjacent_water": 0.4,
+      "noise_threshold_swamp_isolated": 0.7,
+      "river_floodplain_buffer_distance_min": 1,
+      "river_floodplain_buffer_distance_max": 6
     },
     "forest_mapgen_settings": {
       "forest": {
@@ -76,27 +99,20 @@
       "random_point_max": 50,
       "random_point_size_scalar": 100,
       "trailhead_chance": 1,
+      "trailhead_road_distance": 6,
       "trail_center_variance": 3,
       "trail_width_offset_min": 1,
       "trail_width_offset_max": 3,
       "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 }
+      "trail_terrain": { "t_dirt": 1 },
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
-    "num_forests": 2,
-    "forest_size_min": 1,
-    "forest_size_max": 100,
-    "swamp_maxsize": 2,
-    "swamp_river_influence": 5,
-    "swamp_spread_chance": 8500,
     "city": {
-      "type": "town",
       "shop_radius": 30,
       "shop_sigma": 50,
       "park_radius": 20,
       "park_sigma": 80,
-      "house_basement_chance": 1,
-      "houses": { "house": 1, "house_base": 1 },
-      "basements": { "basement": 1, "basement_bionic": 1 },
+      "houses": { "house_w_1": 1, "duplex": 1 },
       "parks": { "park": 2, "pool": 1 },
       "shops": {
         "s_gas": 5,
@@ -111,13 +127,14 @@
         "s_lot": 6
       }
     },
-    "weather": { "base_temperature": 8.0, "base_humidity": 40.0, "base_pressure": 1015.0, "base_acid": 0.0 }
+    "weather": { "base_temperature": 8.0, "base_humidity": 40.0, "base_pressure": 1015.0, "base_acid": 0.0 },
+    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   },
   {
     "type": "overmap_terrain",
     "id": "s_restaurant_deserted_test",
     "name": "abandoned drive-through",
-    "sym": 94,
+    "sym": "^",
     "color": "dark_gray_magenta",
     "see_cost": 5,
     "extras": "build",
@@ -206,6 +223,7 @@
     "type": "terrain",
     "id": "t_searth_test",
     "name": "scorched earth",
+    "description": "",
     "symbol": ".",
     "color": "light_gray",
     "move_cost": 2,
@@ -215,11 +233,16 @@
     "type": "furniture",
     "id": "f_mutcactus_test",
     "name": "mutated cactus",
+    "description": "",
     "symbol": "f",
     "color": "green",
     "move_cost_mod": 4,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
-    "examine_action": "flower_poppy"
+    "examine_action": "flower_cactus"
+  },
+  {
+    "type": "region_settings",
+    "id": "river"
   }
 ]

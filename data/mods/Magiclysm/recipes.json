@@ -1,0 +1,33 @@
+[
+  {
+    "type": "recipe",
+    "result": "egg_owlbear",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "2 m",
+    "autolearn": true,
+    "result_mult": 40,
+    "byproducts": [ [ "stone_shell", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "egg_owlbear_rock", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "glow_light",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "spellcraft",
+    "difficulty": 3,
+    "time": "2 m",
+    "autolearn": true,
+    "components": [
+      [ [ "mana_potion_lesser", 1 ] ],
+      [ [ "flask_glass", 1 ], [ "beaker", 1 ] ],
+      [ [ "glow_dust", 2 ] ],
+      [ [ "diamond", 1 ], [ "bulette_pearl", 1 ] ],
+      [ [ "string_6", 1 ] ],
+      [ [ "rag", 2 ] ]
+    ]
+  }
+]

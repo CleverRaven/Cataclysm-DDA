@@ -1,7 +1,8 @@
 #pragma once
-#ifndef ITEMINFO_QUERY_H
-#define ITEMINFO_QUERY_H
+#ifndef CATA_SRC_ITEMINFO_QUERY_H
+#define CATA_SRC_ITEMINFO_QUERY_H
 
+#include <cstddef>
 #include <bitset>
 #include <string>
 #include <vector>
@@ -12,6 +13,7 @@ enum class iteminfo_parts : size_t {
     BASE_BARTER,
     BASE_VOLUME,
     BASE_WEIGHT,
+    BASE_LENGTH,
     BASE_RIGIDITY,
     BASE_DAMAGE,
     BASE_TOHIT,
@@ -33,6 +35,7 @@ enum class iteminfo_parts : size_t {
     FOOD_PORTIONS,
     FOOD_SMELL,
     FOOD_VITAMINS,
+    FOOD_VIT_EFFECTS,
     FOOD_CANNIBALISM,
     FOOD_TAINT,
     FOOD_POISON,
@@ -45,13 +48,15 @@ enum class iteminfo_parts : size_t {
     AMMO_REMAINING_OR_TYPES,
     AMMO_DAMAGE_VALUE,
     AMMO_DAMAGE_PROPORTIONAL,
+    AMMO_DAMAGE_CRIT_MULTIPLIER,
     AMMO_DAMAGE_AP,
     AMMO_DAMAGE_RANGE,
     AMMO_DAMAGE_DISPERSION,
     AMMO_DAMAGE_RECOIL,
     AMMO_FX_RECYCLED,
+    AMMO_FX_BLACKPOWDER,
     AMMO_FX_CANTMISSFIRE,
-    AMMO_FX_INDENDIARY,
+    AMMO_FX_INCENDIARY,
 
     DESCRIPTION_AUX_GUNMOD_HEADER,
 
@@ -63,6 +68,7 @@ enum class iteminfo_parts : size_t {
     AMMO_REMAINING,
     AMMO_UPSCOST,
 
+    GUN_DEFAULT_AMMO,
     GUN_MAX_RANGE,
     GUN_AIMING_STATS,
     GUN_DAMAGE,
@@ -164,7 +170,7 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_FLAGS_SIDED,
     DESCRIPTION_FLAGS_POWERARMOR,
     DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
-    DESCRIPTION_IRRIDATION,
+    DESCRIPTION_IRRADIATION,
 
     DESCRIPTION_RECHARGE_UPSMODDED,
     DESCRIPTION_RECHARGE_NORELOAD,
@@ -178,6 +184,7 @@ enum class iteminfo_parts : size_t {
 
     DESCRIPTION_TWOHANDED,
     DESCRIPTION_GUNMOD_DISABLESSIGHTS,
+    DESCRIPTION_GUNMOD_CONSUMABLE,
     DESCRIPTION_RADIOACTIVITY_DAMAGED,
     DESCRIPTION_RADIOACTIVITY_ALWAYS,
 
@@ -185,6 +192,8 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_BREWABLE_PRODUCTS,
 
     DESCRIPTION_FAULTS,
+
+    DESCRIPTION_POCKETS,
 
     DESCRIPTION_HOLSTERS,
 
@@ -247,4 +256,4 @@ class iteminfo_query : public iteminfo_query_base
         static const iteminfo_query anyflags;
 };
 
-#endif
+#endif // CATA_SRC_ITEMINFO_QUERY_H

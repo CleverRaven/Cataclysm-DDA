@@ -1,0 +1,22 @@
+[
+  {
+    "id": "generic_blinding_spray_1",
+    "type": "SPELL",
+    "name": { "str": "Blinding spray" },
+    "description": "Blinds enemy for a short time.",
+    "effect": "target_attack",
+    "effect_str": "blind",
+    "affected_body_parts": [ "EYES" ],
+    "valid_targets": [ "hostile" ],
+    "min_damage": 1,
+    "max_damage": 2,
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 100,
+    "max_duration": 300,
+    "spell_class": "NONE",
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET" ],
+    "energy_source": "NONE",
+    "damage_type": "bio"
+  }
+]

@@ -1,17 +1,22 @@
 #include <sstream>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "catch/catch.hpp"
-#include "game.h"
 #include "mutation.h"
 #include "npc.h"
 #include "player.h"
+#include "string_id.h"
+#include "type_id.h"
 
 std::string get_mutations_as_string( const player &p );
 
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
 // one they ultimately end up with depends on the order they were loaded from JSON
-void give_all_mutations( player &p, const mutation_category_trait &category,
-                         const bool include_postthresh )
+static void give_all_mutations( player &p, const mutation_category_trait &category,
+                                const bool include_postthresh )
 {
     const std::vector<trait_id> category_mutations = mutations_category[category.id];
 
@@ -36,7 +41,7 @@ void give_all_mutations( player &p, const mutation_category_trait &category,
     }
 }
 
-int get_total_category_strength( const player &p )
+static int get_total_category_strength( const player &p )
 {
     int total = 0;
     for( auto &i : p.mutation_category_level ) {

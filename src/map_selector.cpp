@@ -1,8 +1,12 @@
 #include "map_selector.h"
 
+#include <algorithm>
+#include <functional>
+#include <memory>
 #include <vector>
 
 #include "game.h"
+#include "game_constants.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "optional.h"
@@ -10,7 +14,7 @@
 
 map_selector::map_selector( const tripoint &pos, int radius, bool accessible )
 {
-    for( const auto &e : closest_tripoints_first( radius, pos ) ) {
+    for( const tripoint &e : closest_tripoints_first( pos, radius ) ) {
         if( !accessible || g->m.clear_path( pos, e, radius, 1, 100 ) ) {
             data.emplace_back( e );
         }
@@ -54,4 +58,11 @@ cata::optional<tripoint> random_point( const tripoint_range &range,
         return {};
     }
     return random_entry( suitable );
+}
+
+map_cursor::map_cursor( const tripoint &pos ) : pos_( g ? g->m.getabs( pos ) : pos ) { }
+
+map_cursor::operator tripoint() const
+{
+    return g ? g->m.getlocal( pos_ ) : pos_;
 }

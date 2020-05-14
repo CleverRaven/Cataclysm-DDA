@@ -1,12 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 """Run this script with -h for usage info and docs.
 """
 
 from __future__ import print_function
 
 import sys
-import os
-import json
 import argparse
 from util import import_data, matches_all_wheres, CDDAJSONWriter, WhereAction
 

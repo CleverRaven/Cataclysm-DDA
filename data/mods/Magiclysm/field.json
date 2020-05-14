@@ -1,0 +1,15 @@
+[
+  {
+    "id": "fd_clairvoyant",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "clairvoyance", "sym": "8", "dangerous": false } ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 12,
+    "dirty_transparency_cache": true,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "1 seconds",
+    "phase": "solid",
+    "display_field": false
+  }
+]

@@ -1,9 +1,23 @@
+#include <array>
+#include <functional>
+#include <list>
+#include <memory>
+#include <string>
+#include <vector>
+
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "npc.h"
 #include "player.h"
+#include "bodypart.h"
+#include "character.h"
+#include "item.h"
+#include "material.h"
+#include "type_id.h"
+#include "debug.h"
 
-void test_encumbrance_on(
+static void test_encumbrance_on(
     player &p,
     const std::vector<item> &clothing,
     const std::string &body_part,
@@ -12,7 +26,7 @@ void test_encumbrance_on(
 )
 {
     CAPTURE( body_part );
-    p.empty_traits();
+    p.clear_mutations();
     p.worn.clear();
     if( tweak_player ) {
         tweak_player( p );
@@ -25,7 +39,7 @@ void test_encumbrance_on(
     CHECK( enc.encumbrance == expected_encumbrance );
 }
 
-void test_encumbrance_items(
+static void test_encumbrance_items(
     const std::vector<item> &clothing,
     const std::string &body_part,
     const int expected_encumbrance,
@@ -43,7 +57,7 @@ void test_encumbrance_items(
     }
 }
 
-void test_encumbrance(
+static void test_encumbrance(
     const std::vector<itype_id> &clothing_types,
     const std::string &body_part,
     const int expected_encumbrance
@@ -70,7 +84,7 @@ struct add_trait {
 
 static constexpr int postman_shirt_e = 0;
 static constexpr int longshirt_e = 3;
-static constexpr int jacket_jean_e = 11;
+static constexpr int jacket_jean_e = 9;
 
 TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 {

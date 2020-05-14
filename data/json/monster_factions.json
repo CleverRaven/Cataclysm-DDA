@@ -17,7 +17,14 @@
   {
     "type": "MONSTER_FACTION",
     "name": "zombie",
-    "friendly": [ "blob", "cult" ],
+    "friendly": [ "blob", "cult", "zombie_aquatic" ],
+    "neutral": [ "small_animal", "insect", "fish" ],
+    "by_mood": "bee"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "zombie_aquatic",
+    "friendly": [ "blob", "cult", "zombie" ],
     "neutral": [ "small_animal", "insect" ],
     "by_mood": "bee"
   },
@@ -60,9 +67,33 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "defense_bot",
+    "base_faction": "bot",
+    "neutral": [ "cop_bot", "military", "utility_bot", "science", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "science",
+    "base_faction": "zombie",
+    "neutral": [ "bot" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "cop_bot",
     "base_faction": "bot",
     "neutral": [ "military", "defense_bot", "utility_bot", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mech_bot",
+    "base_faction": "bot",
+    "neutral": [ "cop_bot", "military", "utility_bot", "science", "small_animal", "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nurse_bot",
+    "base_faction": "bot",
+    "by_mood": "zombie"
   },
   {
     "type": "MONSTER_FACTION",

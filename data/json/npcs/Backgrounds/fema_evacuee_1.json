@@ -8,7 +8,7 @@
       {
         "text": "How did you get out?",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-        "trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "BRAVERY", 1 ], [ "TRUST", 1 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ] ] },
         "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
         "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
       },
@@ -25,7 +25,7 @@
       {
         "text": "How did you get out?",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-        "trial": { "type": "PERSUADE", "difficulty": 30 },
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ] ] },
         "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
         "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
       },
@@ -63,12 +63,23 @@
   {
     "id": "BGSS_FEMA_EVACUEE_1_NOTYET",
     "type": "talk_topic",
-    "dynamic_line": "That's a story for another day.  I don't really like thinking about it.",
-    "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000" },
+    "dynamic_line": "Maybe another time.  I don't really like thinking about it.",
     "responses": [
-      { "text": "Sorry.  Tell me more about that FEMA camp.", "topic": "BGSS_FEMA_EVACUEE_1_STORY2" },
-      { "text": "Sorry for asking.  <done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "Sorry for asking.  <end_talking>", "topic": "TALK_DONE" }
+      {
+        "text": "Sorry.  Tell me more about that FEMA camp.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 600 },
+        "topic": "BGSS_FEMA_EVACUEE_1_STORY2"
+      },
+      {
+        "text": "Sorry for asking.  <done_conversation_section>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 600 },
+        "topic": "TALK_FRIEND"
+      },
+      {
+        "text": "Sorry for asking.  <end_talking>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 600 },
+        "topic": "TALK_DONE"
+      }
     ]
   }
 ]

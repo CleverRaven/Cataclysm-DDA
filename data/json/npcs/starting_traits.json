@@ -1,7 +1,7 @@
 [
   {
     "//": "Mainlined from a mod originally written by Spencer Michaels",
-    "//": "This group picks out several negative and positive traits",
+    "//2": "This group picks out several negative and positive traits",
     "type": "trait_group",
     "id": "NPC_starting_traits",
     "subtype": "collection",
@@ -33,6 +33,7 @@
       { "group": "trait_group_TOUGH", "prob": 20 },
       { "group": "trait_group_WEAKSCENT", "prob": 10 },
       { "group": "trait_group_PAINRESIST", "prob": 10 },
+      { "group": "trait_group_PROJUNK", "prob": 5 },
       { "trait": "DEFT", "prob": 10 },
       { "trait": "DISRESISTANT", "prob": 10 },
       { "trait": "ADRENALINE", "prob": 10 },
@@ -58,21 +59,18 @@
       { "trait": "MEATARIAN", "prob": 5 },
       { "trait": "HOARDER", "prob": 10 },
       { "trait": "JITTERY", "prob": 10 },
-      { "trait": "ANTIJUNK", "prob": 5 },
       { "trait": "LACTOSE", "prob": 10 },
       { "trait": "VEGETARIAN", "prob": 15 },
       { "trait": "MOODSWINGS", "prob": 10 },
       { "trait": "SAVANT", "prob": 10 },
       { "trait": "SCHIZOPHRENIC", "prob": 1 },
       { "trait": "SQUEAMISH", "prob": 20 },
-      { "trait": "TRIGGERHAPPY", "prob": 10 },
       { "trait": "ANTIWHEAT", "prob": 5 },
-      { "trait": "WOOLALLERGY", "prob": 5 },
-      { "trait": "INCONSPICUOUS", "prob": 10 }
+      { "trait": "WOOLALLERGY", "prob": 5 }
     ]
   },
   {
-    "//": "This group picks out one of the exluding traits.",
+    "//": "This group picks out one of the excluding traits.",
     "type": "trait_group",
     "id": "trait_group_NONADDICTIVE",
     "subtype": "distribution",
@@ -130,10 +128,7 @@
     "type": "trait_group",
     "id": "trait_group_DRUNKEN",
     "subtype": "distribution",
-    "traits": [
-      { "collection": [ { "trait": "DRUNKEN", "prob": 50 }, { "trait": "TOLERANCE", "prob": 50 } ] },
-      { "trait": "LIGHTWEIGHT" }
-    ]
+    "traits": [ { "trait": "TOLERANCE" }, { "trait": "LIGHTWEIGHT" } ]
   },
   {
     "type": "trait_group",
@@ -188,7 +183,7 @@
     "type": "trait_group",
     "id": "trait_group_PSYCHOPATH",
     "subtype": "distribution",
-    "traits": [ { "trait": "PSYCHOPATH" }, { "trait": "PACIFIST" } ]
+    "traits": [ { "trait": "PSYCHOPATH" }, { "trait": "KILLER" }, { "trait": "PACIFIST" } ]
   },
   {
     "type": "trait_group",
@@ -212,7 +207,7 @@
     "type": "trait_group",
     "id": "trait_group_LIAR",
     "subtype": "distribution",
-    "//": "NOTE: These traits should be used as conditionals to affect the difficulty of NPCs lying about the expertises they know.",
+    "//": "NOTE: These traits should be used as conditionals to affect the difficulty of NPCs lying about the expertise they have.",
     "traits": [ { "trait": "LIAR" }, { "trait": "TRUTHTELLER" } ]
   },
   {
@@ -250,5 +245,11 @@
     "id": "trait_group_PAINRESIST",
     "subtype": "distribution",
     "traits": [ { "trait": "PAINRESIST" }, { "trait": "MORE_PAIN" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PROJUNK",
+    "subtype": "distribution",
+    "traits": [ { "trait": "PROJUNK" }, { "trait": "ANTIJUNK" } ]
   }
 ]

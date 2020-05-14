@@ -1,0 +1,34 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "MARSHMALLOW",
+    "anger_triggers": [ "HURT" ],
+    "fear_triggers": [ "FIRE" ],
+    "footsteps": "shlop."
+  },
+  {
+    "type": "SPECIES",
+    "id": "GUMMY",
+    "anger_triggers": [ "HURT" ],
+    "footsteps": "pop."
+  },
+  {
+    "type": "SPECIES",
+    "id": "CRACKER",
+    "fear_triggers": [ "HURT" ],
+    "footsteps": "tac."
+  },
+  {
+    "type": "SPECIES",
+    "id": "COOKIE",
+    "fear_triggers": [ "HURT", "SOUND" ],
+    "footsteps": "pat."
+  },
+  {
+    "type": "SPECIES",
+    "id": "CHEWGUM",
+    "anger_triggers": [ "FRIEND_DIED" ],
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "footsteps": "shlip."
+  }
+]

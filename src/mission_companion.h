@@ -1,96 +1,97 @@
 #pragma once
-#ifndef MISSION_COMPANION_H
-#define MISSION_COMPANION_H
+#ifndef CATA_SRC_MISSION_COMPANION_H
+#define CATA_SRC_MISSION_COMPANION_H
 
-#include <memory>
+#include <map>
 #include <string>
 #include <vector>
 
-#include "game.h"
-#include "map.h"
-#include "npc.h"
-#include "output.h"
+#include "calendar.h"
+#include "memory_fast.h"
+#include "optional.h"
+#include "point.h"
+#include "type_id.h"
 
-class martialart;
-class JsonObject;
-class mission;
-class time_point;
-class time_duration;
-class npc;
 class item;
-struct tripoint;
-struct comp_rank;
-class player;
+class monster;
+class npc;
 class npc_template;
+struct comp_rank;
 template<typename T>
 class string_id;
+
+using npc_ptr = shared_ptr_fast<npc>;
+using comp_list = std::vector<npc_ptr>;
 
 struct mission_entry {
     std::string id;
     std::string name_display;
-    std::string dir;
+    cata::optional<point> dir;
     std::string text;
-    bool priority;
-    bool possible;
+    bool priority = false;
+    bool possible = false;
 };
 
 class mission_data
 {
     public:
-        //see mission_key_push() for each key description
         std::vector<std::vector<mission_entry>> entries;
         mission_entry cur_key;
 
         mission_data();
         /**
-        * Adds the id's to the correct vectors (ie tabs) in the UI.
+        * Adds the id's to the correct vectors (i.e. tabs) in the UI.
         * @param id is the mission reference
         * @param name_display is string displayed
-        * @param dir is the direction of the expansion from the central camp, ie "[N]"
+        * @param dir is the direction of the expansion from the central camp, i.e. "[N]"
         * @param priority turns the mission key yellow and pushes to front of main tab
-        * @param possible grays the mission key when false
+        * @param possible grays the mission key when false and makes it impossible to select
         */
+        void add( const std::string &id, const std::string &name_display,
+                  const cata::optional<point> &dir, const std::string &text,
+                  bool priority = false, bool possible = true );
+        void add_return( const std::string &id, const std::string &name_display,
+                         const cata::optional<point> &dir, const std::string &text, bool possible = true );
+        void add_start( const std::string &id, const std::string &name_display,
+                        const cata::optional<point> &dir, const std::string &text, bool possible = true );
         void add( const std::string &id, const std::string &name_display = "",
                   const std::string &text = "" );
-        void add_start( const std::string &id, const std::string &name_display,
-                        const std::string &dir, const std::string &text, bool possible = true );
-        void add_return( const std::string &id, const std::string &name_display,
-                         const std::string &dir, const std::string &text, bool possible = true );
-        void add( const std::string &id, const std::string &name_display,
-                  const std::string &dir, const std::string &text,
-                  bool priority = false, bool possible = true );
 };
 
 namespace talk_function
 {
-/*mission_companion.cpp proves a set of functions that compress all the typical mission operations into a set of hard-coded
- *unique missions that don't fit well into the framework of the existing system.  These missions typically focus on
- *sending companions out on simulated adventures or tasks.  This is not meant to be a replacement for the existing system.
+/*
+ * mission_companion.cpp proves a set of functions that compress all the typical mission
+ * operations into a set of hard-coded unique missions that don't fit well into the framework of
+ * the existing system.  These missions typically focus on sending companions out on simulated
+ * adventures or tasks.  This is not meant to be a replacement for the existing system.
  */
 
-void camp_missions( mission_data &mission_key, npc &p );
-bool handle_camp_mission( mission_entry &cur_key, npc &p );
-
 //Identifies which mission set the NPC draws from
-void companion_mission( npc & );
+void companion_mission( npc &p );
+
+// Display the available missions and let the player choose one
+bool display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos,
+                              const std::string &role_id, const std::string &title );
+
 /**
  * Send a companion on an individual mission or attaches them to a group to depart later
  * Set @ref submap_coords and @ref pos.
  * @param desc is the description in the popup window
- * @param id is the value stored with the NPC when it is offloaded
+ * @param miss_id is the value stored with the NPC when it is offloaded
  * @param group is whether the NPC is waiting for additional members before departing together
  * @param equipment is placed in the NPC's special inventory and dropped when they return
  * @param skill_tested is the main skill for the quest
  * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
-std::shared_ptr<npc> individual_mission( npc &p, const std::string &desc, const std::string &id,
-        bool group = false, const std::vector<item *> &equipment = {},
-        const std::string &skill_tested = "", int skill_level = 0 );
-
-///Display items listed in @ref equipment to let the player pick what to give the departing NPC, loops until quit or empty.
-std::vector<item *> individual_mission_give_equipment( std::vector<item *> equipment,
-        const std::string &message = _( "Do you wish to give your companion additional items?" ) );
+npc_ptr individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
+                            bool group = false, const std::vector<item *> &equipment = {},
+                            const std::map<skill_id, int> &required_skills = {} );
+npc_ptr individual_mission( const tripoint &omt_pos, const std::string &role_id,
+                            const std::string &desc, const std::string &miss_id,
+                            bool group = false, const std::vector<item *> &equipment = {},
+                            const std::map<skill_id, int> &required_skills = {} );
 
 ///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const std::string &id );
@@ -113,37 +114,40 @@ void companion_skill_trainer( npc &comp, const std::string &skill_tested = "",
 void companion_skill_trainer( npc &comp, const skill_id &skill_tested,
                               time_duration time_worked = 1_hours, int difficulty = 1 );
 //Combat functions
-bool companion_om_combat_check( const std::vector<std::shared_ptr<npc>> &group,
-                                const tripoint &om_tgt,
+bool companion_om_combat_check( const comp_list &group, const tripoint &om_tgt,
                                 bool try_engage = false );
-void force_on_force( const std::vector<std::shared_ptr<npc>> &defender, const std::string &def_desc,
-                     const std::vector<std::shared_ptr<npc>> &attacker, const std::string &att_desc, int advantage );
-bool force_on_force( const std::vector<std::shared_ptr<npc>> &defender, const std::string &def_desc,
-                     const std::vector< monster * > &monsters_fighting, const std::string &att_desc, int advantage );
-int combat_score( const std::vector<std::shared_ptr<npc>> &group );    //Used to determine retreat
+void force_on_force( const comp_list &defender, const std::string &def_desc,
+                     const comp_list &attacker, const std::string &att_desc, int advantage );
+bool force_on_force( const comp_list &defender, const std::string &def_desc,
+                     const std::vector< monster * > &monsters_fighting,
+                     const std::string &att_desc, int advantage );
+int combat_score( const comp_list &group );    //Used to determine retreat
 int combat_score( const std::vector< monster * > &group );
-void attack_random( const std::vector<std::shared_ptr<npc>> &attacker,
-                    const std::vector<std::shared_ptr<npc>> &defender );
-void attack_random( const std::vector< monster * > &group,
-                    const std::vector<std::shared_ptr<npc>> &defender );
-void attack_random( const std::vector<std::shared_ptr<npc>> &attacker,
-                    const std::vector< monster * > &group );
-std::shared_ptr<npc> temp_npc( const string_id<npc_template> &type );
+void attack_random( const comp_list &attacker, const comp_list &defender );
+void attack_random( const std::vector< monster * > &group, const comp_list &defender );
+void attack_random( const comp_list &attacker, const std::vector< monster * > &group );
+npc_ptr temp_npc( const string_id<npc_template> &type );
 
 //Utility functions
 /// Returns npcs that have the given companion mission.
-std::vector<std::shared_ptr<npc>> companion_list( const npc &p, const std::string &id,
-                               bool contains = false );
-std::vector<std::shared_ptr<npc>> companion_sort( std::vector<std::shared_ptr<npc>> available,
-                               const std::string &skill_tested = "" );
-std::vector<comp_rank> companion_rank( const std::vector<std::shared_ptr<npc>> &available,
-                                       bool adj = true );
-std::shared_ptr<npc> companion_choose( const std::string &skill_tested = "", int skill_level = 0 );
-std::shared_ptr<npc> companion_choose_return( const npc &p, const std::string &id,
-        const time_point &deadline );
+comp_list companion_list( const npc &p, const std::string &mission_id, bool contains = false );
+comp_list companion_list( const tripoint &omt_pos, const std::string &role_id,
+                          const std::string &mission_id, bool contains = false );
+comp_list companion_sort( comp_list available,
+                          const std::map<skill_id, int> &required_skills = {} );
+std::vector<comp_rank> companion_rank( const comp_list &available, bool adj = true );
+npc_ptr companion_choose( const std::map<skill_id, int> &required_skills = {} );
+npc_ptr companion_choose_return( const npc &p, const std::string &mission_id,
+                                 const time_point &deadline );
+npc_ptr companion_choose_return( const tripoint &omt_pos, const std::string &role_id,
+                                 const std::string &mission_id, const time_point &deadline,
+                                 bool by_mission = true );
+
 //Return NPC to your party
 void companion_return( npc &comp );
 //Smash stuff, steal valuables, and change map maker
-std::vector<item *> loot_building( const tripoint site );
-}
-#endif
+// TODO: Make this return the loot gained
+void loot_building( const tripoint &site );
+
+} // namespace talk_function
+#endif // CATA_SRC_MISSION_COMPANION_H

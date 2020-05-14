@@ -49,7 +49,7 @@
         ],
         "entries": [
           { "item": "hk_mp5", "ammo-item": "9mmfmj", "charges": 30, "contents-item": "folding_stock" },
-          { "item": "mp5mag", "ammo-item": "9mmfmj", "charges": 30, "container-item": "chestrig" },
+          { "item": "mp5mag", "ammo-item": "9mmfmj", "charges": 30, "container-item": "tacvest" },
           { "item": "knife_combat", "container-item": "sheath" }
         ]
       },

@@ -1,66 +1,67 @@
 #include "start_location.h"
 
 #include <algorithm>
+#include <climits>
+#include <memory>
 
+#include "avatar.h"
+#include "calendar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "enums.h"
-#include "field.h"
+#include "enum_conversions.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
 #include "generic_factory.h"
+#include "int_id.h"
 #include "json.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
+#include "rng.h"
+#include "string_id.h"
 
-const efftype_id effect_bleed( "bleed" );
+class item;
 
 namespace
 {
-generic_factory<start_location> all_starting_locations( "starting location", "ident" );
-}
+generic_factory<start_location> all_start_locations( "start locations" );
+} // namespace
 
 /** @relates string_id */
 template<>
 const start_location &string_id<start_location>::obj() const
 {
-    return all_starting_locations.obj( *this );
+    return all_start_locations.obj( *this );
 }
 
 /** @relates string_id */
 template<>
 bool string_id<start_location>::is_valid() const
 {
-    return all_starting_locations.is_valid( *this );
-}
-
-start_location::start_location()
-    : _name( "null" ), _target( "shelter" )
-{
-}
-
-const string_id<start_location> &start_location::ident() const
-{
-    return id;
+    return all_start_locations.is_valid( *this );
 }
 
 std::string start_location::name() const
 {
-    return _( _name.c_str() );
+    return _name.translated();
 }
 
-std::string start_location::target() const
+int start_location::targets_count() const
 {
-    return _target;
+    return _omt_types.size();
 }
 
-const std::vector<start_location> &start_location::get_all()
+std::pair<std::string, ot_match_type> start_location::random_target() const
 {
-    return all_starting_locations.get_all();
+    return random_entry( _omt_types );
 }
 
 const std::set<std::string> &start_location::flags() const
@@ -68,25 +69,34 @@ const std::set<std::string> &start_location::flags() const
     return _flags;
 }
 
-void start_location::load_location( JsonObject &jo, const std::string &src )
-{
-    all_starting_locations.load( jo, src );
-}
-
-void start_location::load( JsonObject &jo, const std::string & )
+void start_location::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", _name );
-    mandatory( jo, was_loaded, "target", _target );
+    std::string ter;
+    ot_match_type ter_match_type = ot_match_type::type;
+    for( const JsonValue entry : jo.get_array( "terrain" ) ) {
+        if( entry.test_string() ) {
+            ter = entry.get_string();
+        } else {
+            JsonObject jot = entry.get_object();
+            ter = jot.get_string( "om_terrain" );
+            ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
+        }
+        _omt_types.emplace_back( ter, ter_match_type );
+    }
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
 
-void start_location::reset()
+void start_location::check() const
 {
-    all_starting_locations.reset();
+}
+
+void start_location::finalize()
+{
 }
 
 // check if tile at p should be boarded with some kind of furniture.
-void add_boardable( map &m, const tripoint &p, std::vector<tripoint> &vec )
+static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec )
 {
     if( m.has_furn( p ) ) {
         // Don't need to board this up, is already occupied
@@ -107,69 +117,56 @@ void add_boardable( map &m, const tripoint &p, std::vector<tripoint> &vec )
     vec.push_back( p );
 }
 
-void board_up( map &m, const tripoint &start, const tripoint &end )
+static void board_up( map &m, const tripoint_range &range )
 {
     std::vector<tripoint> furnitures1;
     std::vector<tripoint> furnitures2;
     std::vector<tripoint> boardables;
-    tripoint p;
-    p.z = m.get_abs_sub().z;
-    int &x = p.x;
-    int &y = p.y;
-    int &z = p.z;
-    for( x = start.x; x < end.x; x++ ) {
-        for( y = start.y; y < end.y; y++ ) {
-            bool must_board_around = false;
-            const ter_id t = m.ter( x, y );
-            if( t == t_window_domestic || t == t_window || t == t_window_no_curtains ) {
-                // Windows are always to the outside and must be boarded
+    for( const tripoint &p : range ) {
+        bool must_board_around = false;
+        const ter_id t = m.ter( p );
+        if( t == t_window_domestic || t == t_window || t == t_window_no_curtains ) {
+            // Windows are always to the outside and must be boarded
+            must_board_around = true;
+            m.ter_set( p, t_window_boarded );
+        } else if( t == t_door_c || t == t_door_locked || t == t_door_c_peep ) {
+            // Only board up doors that lead to the outside
+            if( m.is_outside( p + tripoint_north ) || m.is_outside( p + tripoint_south ) ||
+                m.is_outside( p + tripoint_east ) || m.is_outside( p + tripoint_west ) ) {
+                m.ter_set( p, t_door_boarded );
                 must_board_around = true;
-                m.ter_set( p, t_window_boarded );
-            } else if( t == t_door_c || t == t_door_locked || t == t_door_c_peep ) {
-                // Only board up doors that lead to the outside
-                if( m.is_outside( tripoint( x + 1, y, z ) ) ||
-                    m.is_outside( tripoint( x - 1, y, z ) ) ||
-                    m.is_outside( tripoint( x, y + 1, z ) ) ||
-                    m.is_outside( tripoint( x, y - 1, z ) ) ) {
-                    m.ter_set( p, t_door_boarded );
-                    must_board_around = true;
-                } else {
-                    // internal doors are opened instead
-                    m.ter_set( p, t_door_o );
-                }
+            } else {
+                // internal doors are opened instead
+                m.ter_set( p, t_door_o );
             }
-            if( must_board_around ) {
-                // Board up the surroundings of the door/window
-                add_boardable( m, tripoint( x + 1, y, z ), boardables );
-                add_boardable( m, tripoint( x - 1, y, z ), boardables );
-                add_boardable( m, tripoint( x, y + 1, z ), boardables );
-                add_boardable( m, tripoint( x, y - 1, z ), boardables );
-                add_boardable( m, tripoint( x + 1, y + 1, z ), boardables );
-                add_boardable( m, tripoint( x - 1, y + 1, z ), boardables );
-                add_boardable( m, tripoint( x + 1, y - 1, z ), boardables );
-                add_boardable( m, tripoint( x - 1, y - 1, z ), boardables );
+        }
+        if( must_board_around ) {
+            // Board up the surroundings of the door/window
+            for( const tripoint &neigh : points_in_radius( p, 1 ) ) {
+                if( neigh == p ) {
+                    continue;
+                }
+                add_boardable( m, neigh, boardables );
             }
         }
     }
     // Find all furniture that can be used to board up some place
-    for( x = start.x; x < end.x; x++ ) {
-        for( y = start.y; y < end.y; y++ ) {
-            if( std::find( boardables.begin(), boardables.end(), p ) != boardables.end() ) {
-                continue;
-            }
-            if( !m.has_furn( p ) ) {
-                continue;
-            }
-            // If the furniture is movable and the character can move it, use it to barricade
-            // g->u is workable here as NPCs by definition are not starting the game.  (Let's hope.)
-            ///\EFFECT_STR determines what furniture might be used as a starting area barricade
-            if( m.furn( p ).obj().move_str_req > 0 && m.furn( p ).obj().move_str_req < g->u.get_str() ) {
-                if( m.furn( p ).obj().movecost == 0 ) {
-                    // Obstacles are better, prefer them
-                    furnitures1.push_back( p );
-                } else {
-                    furnitures2.push_back( p );
-                }
+    for( const tripoint &p : range ) {
+        if( std::find( boardables.begin(), boardables.end(), p ) != boardables.end() ) {
+            continue;
+        }
+        if( !m.has_furn( p ) ) {
+            continue;
+        }
+        // If the furniture is movable and the character can move it, use it to barricade
+        // g->u is workable here as NPCs by definition are not starting the game.  (Let's hope.)
+        ///\EFFECT_STR determines what furniture might be used as a starting area barricade
+        if( m.furn( p ).obj().is_movable() && m.furn( p ).obj().move_str_req < g->u.get_str() ) {
+            if( m.furn( p ).obj().movecost == 0 ) {
+                // Obstacles are better, prefer them
+                furnitures1.push_back( p );
+            } else {
+                furnitures2.push_back( p );
             }
         }
     }
@@ -180,7 +177,7 @@ void board_up( map &m, const tripoint &start, const tripoint &end )
         m.furn_set( fp, f_null );
         auto destination_items = m.i_at( bp );
         for( const item &moved_item : m.i_at( fp ) ) {
-            destination_items.push_back( moved_item );
+            destination_items.insert( moved_item );
         }
         m.i_clear( fp );
     }
@@ -191,7 +188,7 @@ void start_location::prepare_map( tinymap &m ) const
     const int z = m.get_abs_sub().z;
     if( flags().count( "BOARDED" ) > 0 ) {
         m.build_outside_cache( z );
-        board_up( m, tripoint( 0, 0, z ), tripoint( m.getmapsize() * SEEX, m.getmapsize() * SEEY, z ) );
+        board_up( m, m.points_on_zlevel( z ) );
     } else {
         m.translate( t_window_domestic, t_curtains );
     }
@@ -199,13 +196,12 @@ void start_location::prepare_map( tinymap &m ) const
 
 tripoint start_location::find_player_initial_location() const
 {
-    popup_nowait( _( "Please wait as we build your world" ) );
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
-    const int radius = 32;
-    for( const point &omp : closest_points_first( radius, point_zero ) ) {
-        overmap &omap = overmap_buffer.get( omp.x, omp.y );
-        const tripoint omtstart = omap.find_random_omt( target() );
+    const int radius = 3;
+    for( const point &omp : closest_points_first( point_zero, radius ) ) {
+        overmap &omap = overmap_buffer.get( omp );
+        const tripoint omtstart = omap.find_random_omt( random_target() );
         if( omtstart != overmap::invalid_tripoint ) {
             return omtstart + point( omp.x * OMAPX, omp.y * OMAPY );
         }
@@ -218,9 +214,9 @@ tripoint start_location::find_player_initial_location() const
 void start_location::prepare_map( const tripoint &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const point player_location = omt_to_sm_copy( omtstart.x, omtstart.y );
+    const point player_location = omt_to_sm_copy( omtstart.xy() );
     tinymap player_start;
-    player_start.load( player_location.x, player_location.y, omtstart.z, false );
+    player_start.load( tripoint( player_location, omtstart.z ), false );
     prepare_map( player_start );
     player_start.save();
 }
@@ -233,9 +229,9 @@ void start_location::prepare_map( const tripoint &omtstart ) const
  * Maybe TODO: Allow "picking up" items or parts of bashable furniture
  *             and using them to help with bash attempts.
  */
-int rate_location( map &m, const tripoint &p, const bool must_be_inside,
-                   const int bash_str, const int attempt,
-                   int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
+static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
+                          const int bash_str, const int attempt,
+                          int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
@@ -294,13 +290,15 @@ void start_location::place_player( player &u ) const
     // Need the "real" map with it's inside/outside cache and the like.
     map &m = g->m;
     // Start us off somewhere in the center of the map
-    u.setx( SEEX * int( MAPSIZE / 2 ) );
-    u.sety( SEEY * int( MAPSIZE / 2 ) );
+    u.setx( HALF_MAPSIZE_X );
+    u.sety( HALF_MAPSIZE_Y );
     u.setz( g->get_levz() );
+    m.invalidate_map_cache( m.get_abs_sub().z );
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
-    const int bash = u.get_str(); // TODO: Allow using items here
+    // TODO: Allow using items here
+    const int bash = u.get_str();
 
     // Remember biggest found location
     // Sometimes it may be impossible to automatically found an ideal location
@@ -328,8 +326,8 @@ void start_location::place_player( player &u ) const
     };
 
     while( !found_good_spot && tries < 100 ) {
-        tripoint rand_point( ( SEEX * int( MAPSIZE / 2 ) ) + rng( 0, SEEX * 2 - 1 ),
-                             ( SEEY * int( MAPSIZE / 2 ) ) + rng( 0, SEEY * 2 - 1 ),
+        tripoint rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
+                             HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
                              u.posz() );
         check_spot( rand_point );
     }
@@ -351,47 +349,39 @@ void start_location::place_player( player &u ) const
     }
 }
 
-void start_location::burn( const tripoint &omtstart,
-                           const size_t count, const int rad ) const
+void start_location::burn( const tripoint &omtstart, const size_t count, const int rad ) const
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( player_location.x, player_location.y, player_location.z, false );
+    m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
-    const int ux = g->u.posx() % ( SEEX * int( MAPSIZE / 2 ) );
-    const int uy = g->u.posy() % ( SEEY * int( MAPSIZE / 2 ) );
+    const int ux = g->u.posx() % HALF_MAPSIZE_X;
+    const int uy = g->u.posy() % HALF_MAPSIZE_Y;
     std::vector<tripoint> valid;
-    tripoint p = player_location;
-    int &x = p.x;
-    int &y = p.y;
-    for( x = 0; x < m.getmapsize() * SEEX; x++ ) {
-        for( y = 0; y < m.getmapsize() * SEEY; y++ ) {
-            if( !( m.has_flag_ter( "DOOR", p ) ||
-                   m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
-                   m.is_outside( p ) ||
-                   ( x >= ux - rad && x <= ux + rad && y >= uy - rad && y <= uy + rad ) ) ) {
-                if( m.has_flag( "FLAMMABLE", p ) || m.has_flag( "FLAMMABLE_ASH", p ) ) {
-                    valid.push_back( p );
-                }
+    for( const tripoint &p : m.points_on_zlevel() ) {
+        if( !( m.has_flag_ter( "DOOR", p ) ||
+               m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
+               m.is_outside( p ) ||
+               ( p.x >= ux - rad && p.x <= ux + rad && p.y >= uy - rad && p.y <= uy + rad ) ) ) {
+            if( m.has_flag( "FLAMMABLE", p ) || m.has_flag( "FLAMMABLE_ASH", p ) ) {
+                valid.push_back( p );
             }
         }
     }
-    random_shuffle( valid.begin(), valid.end() );
+    std::shuffle( valid.begin(), valid.end(), rng_get_engine() );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
         m.add_field( valid[i], fd_fire, 3 );
     }
     m.save();
 }
 
-void start_location::add_map_special( const tripoint &omtstart,
-                                      const std::string &map_special ) const
+void start_location::add_map_extra( const tripoint &omtstart, const std::string &map_extra ) const
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( player_location.x, player_location.y, player_location.z, false );
+    m.load( player_location, false );
 
-    const auto ptr = MapExtras::get_function( map_special );
-    ptr( m, player_location );
+    MapExtras::apply_function( map_extra, m, player_location );
 
     m.save();
 }
@@ -399,24 +389,27 @@ void start_location::add_map_special( const tripoint &omtstart,
 void start_location::handle_heli_crash( player &u ) const
 {
     for( int i = 2; i < num_hp_parts; i++ ) { // Skip head + torso for balance reasons.
-        auto part = hp_part( i );
-        auto bp_part = u.hp_to_bp( part );
-        int roll = int( rng( 1, 8 ) );
+        const auto part = static_cast<hp_part>( i );
+        const auto bp_part = player::hp_to_bp( part );
+        const int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {
+            // Damage + Bleed
             case 1:
-            case 2:// Damage + Bleed
-                u.add_effect( effect_bleed, 6_minutes, bp_part );
+            case 2:
+                u.make_bleed( convert_bp( bp_part ).id(), 6_minutes );
             /* fallthrough */
             case 3:
             case 4:
-            case 5: { // Just damage
-                auto maxHp = u.get_hp_max( part );
+            // Just damage
+            case 5: {
+                const auto maxHp = u.get_hp_max( part );
                 // Body part health will range from 33% to 66% with occasional bleed
-                int dmg = int( rng( maxHp / 3, maxHp * 2 / 3 ) );
-                u.apply_damage( nullptr, bp_part, dmg );
+                const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
+                u.apply_damage( nullptr, convert_bp( bp_part ).id(), dmg );
                 break;
             }
-            default: // No damage
+            // No damage
+            default:
                 break;
         }
     }
@@ -426,22 +419,47 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id &type, flo
 {
     const tripoint spawn_location = omt_to_sm_copy( omtstart );
     tinymap m;
-    m.load( spawn_location.x, spawn_location.y, spawn_location.z, false );
+    m.load( spawn_location, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
-    float density = expected_points / ( ( 10 + 50 ) / 2 );
-    m.place_spawns( type, 1, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, density );
+    const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
+    m.place_spawns( type, 1, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), density );
     m.save();
 }
 
 void start_location::surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
         float expected_points ) const
 {
-    for( int x_offset = -1; x_offset <= 1; x_offset++ ) {
-        for( int y_offset = -1; y_offset <= 1; y_offset++ ) {
-            if( x_offset != 0 || y_offset != 0 ) {
-                add_monsters( omtstart + point( x_offset, y_offset ), type,
-                              roll_remainder( expected_points / 8.0f ) );
-            }
+    for( const tripoint &p : points_in_radius( omtstart, 1 ) ) {
+        if( p != omtstart ) {
+            add_monsters( p, type, roll_remainder( expected_points / 8.0f ) );
         }
     }
+}
+
+void start_locations::load( const JsonObject &jo, const std::string &src )
+{
+    all_start_locations.load( jo, src );
+}
+
+void start_locations::finalize_all()
+{
+    all_start_locations.finalize();
+    for( const start_location &start_loc : all_start_locations.get_all() ) {
+        const_cast<start_location &>( start_loc ).finalize();
+    }
+}
+
+void start_locations::check_consistency()
+{
+    all_start_locations.check();
+}
+
+void start_locations::reset()
+{
+    all_start_locations.reset();
+}
+
+const std::vector<start_location> &start_locations::get_all()
+{
+    return all_start_locations.get_all();
 }

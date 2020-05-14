@@ -1,9 +1,15 @@
-#include "catch/catch.hpp"
+#include <initializer_list>
+#include <limits>
+#include <memory>
+
 #include "calendar.h"
+#include "catch/catch.hpp"
+#include "enums.h"
+#include "item.h"
 #include "itype.h"
 #include "ret_val.h"
 #include "units.h"
-#include "item.h"
+#include "value_ptr.h"
 
 TEST_CASE( "item_volume", "[item]" )
 {
@@ -17,7 +23,7 @@ TEST_CASE( "item_volume", "[item]" )
              0_ml, 1_ml, i.volume(), big_volume
          } ) {
         INFO( "checking batteries that fit in " << v );
-        const long charges_that_should_fit = i.charges_per_volume( v );
+        const int charges_that_should_fit = i.charges_per_volume( v );
         i.charges = charges_that_should_fit;
         CHECK( i.volume() <= v ); // this many charges should fit
         i.charges++;
@@ -27,7 +33,7 @@ TEST_CASE( "item_volume", "[item]" )
 
 TEST_CASE( "simple_item_layers", "[item]" )
 {
-    CHECK( item( "arm_warmers" ).get_layer() == UNDERWEAR );
+    CHECK( item( "arm_warmers" ).get_layer() == UNDERWEAR_LAYER );
     CHECK( item( "10gal_hat" ).get_layer() == REGULAR_LAYER );
     CHECK( item( "baldric" ).get_layer() == WAIST_LAYER );
     CHECK( item( "aep_suit" ).get_layer() == OUTER_LAYER );
@@ -39,8 +45,18 @@ TEST_CASE( "gun_layer", "[item]" )
     item gun( "win70" );
     item mod( "shoulder_strap" );
     CHECK( gun.is_gunmod_compatible( mod ).success() );
-    gun.contents.push_back( mod );
+    gun.put_in( mod, item_pocket::pocket_type::MOD );
     CHECK( gun.get_layer() == BELTED_LAYER );
+}
+
+TEST_CASE( "stacking_cash_cards", "[item]" )
+{
+    // Differently-charged cash cards should stack if neither is zero.
+    item cash0( "cash_card", calendar::turn_zero, 0 );
+    item cash1( "cash_card", calendar::turn_zero, 1 );
+    item cash2( "cash_card", calendar::turn_zero, 2 );
+    CHECK( !cash0.stacks_with( cash1 ) );
+    CHECK( cash1.stacks_with( cash2 ) );
 }
 
 // second minute hour day week season year
@@ -134,22 +150,6 @@ TEST_CASE( "stacking_over_time", "[item]" )
         WHEN( "the items are aged a few seconds different but different seasons" ) {
             A.mod_rot( A.type->comestible->spoils - calendar::season_length() );
             B.mod_rot( B.type->comestible->spoils - calendar::season_length() );
-            B.mod_rot( 5_turns );
-            THEN( "they don't stack" ) {
-                CHECK( !A.stacks_with( B ) );
-            }
-        }
-        WHEN( "the items are aged the same to the year but different numbers of seconds" ) {
-            A.mod_rot( A.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( B.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( -5_turns );
-            THEN( "they stack" ) {
-                CHECK( A.stacks_with( B ) );
-            }
-        }
-        WHEN( "the items are aged a few seconds different but different years" ) {
-            A.mod_rot( A.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( B.type->comestible->spoils - calendar::year_length() );
             B.mod_rot( 5_turns );
             THEN( "they don't stack" ) {
                 CHECK( !A.stacks_with( B ) );

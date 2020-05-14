@@ -1,15 +1,21 @@
 # Region Settings
 
 The **region_settings** define the attributes for map generation that apply to an entire region.
-The general settings define the default overmap terrain and ground cover, as well as the factors
-that control forest and swamp growth. Additional sections are as follows:
+The general settings define the default overmap terrain and ground cover. Additional sections are
+as follows:
 
-|     Section      |                         Description                          |
-| ---------------- | ------------------------------------------------------------ |
-| `field_coverage` | Defines the flora that cover the `field` overmap terrain.    |
-| `city`           | Defines the structural compositions of cities.               |
-| `map_extras`     | Defines the map extra groups referenced by overmap terrains. |
-| `weather`        | Defines the base weather attributes for the region.          |
+|             Section             |                              Description                              |
+| ------------------------------- | --------------------------------------------------------------------- |
+| `region_terrain_and_furniture`  | Defines the resolution of regional terrain/furniture to actual types. |
+| `field_coverage`                | Defines the flora that cover the `field` overmap terrain.             |
+| `overmap_lake_settings`         | Defines parameters for generating lakes in the region.                |
+| `overmap_forest_settings`       | Defines parameters for generating forests and swamps in the region.   |
+| `forest_mapgen_settings`        | Defines flora (and "stuff") that cover the `forest` terrain types.    |
+| `forest_trail_settings`         | Defines the overmap and local structure of forest trails.             |
+| `city`                          | Defines the structural compositions of cities.                        |
+| `map_extras`                    | Defines the map extra groups referenced by overmap terrains.          |
+| `weather`                       | Defines the base weather attributes for the region.                   |
+| `overmap_feature_flag_settings` | Defines operations on overmap features based on their flags.          |
 
 Note that for the default region, all attributes and sections are required.
 
@@ -21,12 +27,6 @@ Note that for the default region, all attributes and sections are required.
 | `id`                    | Unique identfier for this region.                                  |
 | `default_oter`          | Default overmap terrain for this region.                           |
 | `default_groundcover`   | List of terrain types and weights applied as default ground cover. |
-| `num_forests`           | Number of forest "chunks".                                         |
-| `forest_size_min`       | Minimum size for a forest chunk, in # of overmap terrains.         |
-| `forest_size_max`       | Maximum size for a forest chunk, in # of overmap terrains          |
-| `swamp_maxsize`         | Maximum size for a swamp chunk, in # of overmap terrains.          |
-| `swamp_river_influence` | Impacts swamp chance near rivers. Higher = more.                   |
-| `swamp_spread_chance`   | One in X chance that a swamp is created outside a forest or field. |
 
 
 ### Example
@@ -38,15 +38,52 @@ Note that for the default region, all attributes and sections are required.
 	"default_groundcover": [
 		["t_grass", 4],
 		["t_dirt", 1]
-	],
-	"num_forests": 250,
-	"forest_size_min": 15,
-	"forest_size_max": 40,
-	"swamp_maxsize": 4,
-	"swamp_river_influence": 5,
-	"swamp_spread_chance": 8500
+	]
 }
 ```
+
+## Region Terrain / Furniture
+
+The **region_terrain_and_furniture** section defines the resolution of regional terrain/furniture
+to their actual terrain and furniture types for the region, with a weighted list for
+terrain/furniture entry that defines the relative weight of a given entry when mapgen resolves the
+regional entry to an actual entry.
+
+### Fields
+
+| Identifier  |                            Description                             |
+| ----------- | ------------------------------------------------------------------ |
+| `terrain`   | List of regional terrain and their corresponding weighted lists.   |
+| `furniture` | List of regional furniture and their corresponding weighted lists. |
+
+### Example
+```json
+{
+	"region_terrain_and_furniture": {
+		"terrain": {
+			"t_region_groundcover": {
+				"t_grass": 4,
+				"t_grass_long": 2,
+				"t_dirt": 1
+			}
+		},
+		"furniture": {
+			"f_region_flower": {
+				"f_black_eyed_susan": 1,
+				"f_lily": 1,
+				"f_flower_tulip": 1,
+				"f_flower_spurge": 1,
+				"f_chamomile": 1,
+				"f_dandelion": 1,
+				"f_datura": 1,
+				"f_dahlia": 1,
+				"f_bluebell": 1
+			}
+		}
+	}
+}
+```
+
 
 ## Field Coverage
 
@@ -83,6 +120,72 @@ cover the `field` overmap terrain.
 			"f_dandelion": 6.6
 		},
 		"boosted_other_percent": 50.0
+	}
+}
+```
+
+## Overmap Lake Settings
+
+The **overmap_lake_settings** section defines the attributes used in generating lakes on the
+overmap. The actual placement of these features is determined globally across all overmaps so that
+the edges of the features align, and these parameters are mostly about how those global features
+are interpreted. 
+
+### Fields
+
+|                 Identifier                 |                                 Description                                 |
+| ------------------------------------------ | --------------------------------------------------------------------------- |
+| `noise_threshold_lake`                     | [0, 1], x > value spawns a `lake_surface` or `lake_shore`.                  |
+| `lake_size_min`                            | Minimum size of the lake in overmap terrains for it to actually spawn.      |
+| `lake_depth`                               | Depth of lakes, expressed in Z-levels (e.g. -1 to -10).                     |
+| `shore_extendable_overmap_terrain`         | List of overmap terrains that can be extended to the shore if adjacent.     |
+| `shore_extendable_overmap_terrain_aliases` | Overmap terrains to treat as different overmap terrain for extending shore. |
+
+### Example
+
+```json
+{
+	"overmap_lake_settings": {
+		"noise_threshold_lake": 0.25,
+		"lake_size_min": 20,
+		"lake_depth": -5,
+		"shore_extendable_overmap_terrain": ["forest_thick", "forest_water", "field"],
+		"shore_extendable_overmap_terrain_aliases": [
+			{ "om_terrain": "forest", "om_terrain_match_type": "TYPE", "alias": "forest_thick" }
+		]
+	}
+}
+```
+
+## Overmap Forest Settings
+
+The **overmap_forest_settings** section defines the attributes used in generating forest and swamps
+on the overmap. The actual placement of these features is determined globally across all overmaps
+so that the edges of the features align, and these parameters are mostly about how those global
+features are interpreted.
+
+### Fields
+
+|               Identifier               |                              Description                               |
+| -------------------------------------- | ---------------------------------------------------------------------- |
+| `noise_threshold_forest`               | [0, 1], x > value spawns `forest`.                                     |
+| `noise_threshold_forest_thick`         | [0, 1], x > value spawns `forest_thick`.                               |
+| `noise_threshold_swamp_adjacent_water` | [0, 1], x > value spawns `forest_water` if forest near a waterbody.    |
+| `noise_threshold_swamp_isolated`       | [0, 1], x > value spawns `forest_water` if forest isolated from water. |
+| `river_floodplain_buffer_distance_min` | Minimum buffer distance in overmap terrains for river floodplains.     |
+| `river_floodplain_buffer_distance_max` | Maximum buffer distance in overmap terrains for river floodplains.     |
+
+### Example
+
+```json
+{
+	"overmap_forest_settings": {
+		"noise_threshold_forest": 0.25,
+		"noise_threshold_forest_thick": 0.3,
+		"noise_threshold_swamp_adjacent_water": 0.3,
+		"noise_threshold_swamp_isolated": 0.6,
+		"river_floodplain_buffer_distance_min": 3,
+		"river_floodplain_buffer_distance_max": 15
 	}
 }
 ```
@@ -261,11 +364,13 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 | `random_point_max`         | Maximum # of random points from contiguous forest used to form trail system.                |
 | `random_point_size_scalar` | Forest size is divided by this and added to the minimum number of random points.            |
 | `trailhead_chance`         | One in X chance a trailhead will spawn at end of trail near field.                          |
+| `trailhead_road_distance`  | Maximum distance trailhead can be from a road and still be created.                         |
 | `trail_center_variance`    | Center of the trail in mapgen is offset in X and Y by a random amount between +/- variance  |
 | `trail_width_offset_min`   | Trail width in mapgen is offset by `rng(trail_width_offset_min, trail_width_offset_max)`.   |
 | `trail_width_offset_max`   | Trail width is mapgen offset by `rng(trail_width_offset_min, trail_width_offset_max)`.      |
 | `clear_trail_terrain`      | Clear all previously defined `trail_terrain`.                                               |
 | `trail_terrain`            | Weighted list of terrain that will used for the trail.                                      |
+| `trailheads`               | Weighted list of overmap specials / city buildings that will be placed as trailheads.       |
 
 ### Example
 
@@ -279,12 +384,16 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 		"random_point_max": 50,
 		"random_point_size_scalar": 100,
 		"trailhead_chance": 1,
+		"trailhead_road_distance": 6,
 		"trail_center_variance": 3,
 		"trail_width_offset_min": 1,
 		"trail_width_offset_max": 3,
 		"clear_trail_terrain": false,
 		"trail_terrain": {
 			"t_dirt": 1
+		},
+		"trailheads": {
+			"trailhead_basic": 50
 		}
 	}
 }
@@ -303,9 +412,7 @@ relative placements of various classes of buildings.
 | `type`                  | City type identifier--currently unused.                            |
 | `shop_radius`           | Radial frequency of shop placement. Smaller number = more shops.   |
 | `park_radius`           | Radial frequency of park placement. Smaller number = more parks.   |
-| `house_basement_chance` | One in X chance that a house has a basement.                       |
 | `houses`                | Weighted list of overmap terrains and specials used for houses.    |
-| `basements`             | Weighted list of overmap terrains and specials used for basements. |
 | `parks`                 | Weighted list of overmap terrains and specials used for parks.     |
 | `shops`                 | Weighted list of overmap terrains and specials used for shops.     |
 
@@ -324,17 +431,11 @@ place the shop or park are based on the formula `rng( 0, 99 ) > X_radius * dista
 		"type": "town",
 		"shop_radius": 80,
 		"park_radius": 90,
-		"house_basement_chance": 5,
 		"houses": {
 			"house_two_story_basement": 1,
 			"house": 1000,
 			"house_base": 333,
 			"emptyresidentiallot": 20
-		},
-		"basements": {
-			"basement": 1000,
-			"basement_hidden_lab_stairs": 50,
-			"basement_bionic": 50
 		},
 		"parks": {
 			"park": 4,
@@ -384,12 +485,15 @@ The **weather** section defines the base weather attributes used for the region.
 
 ### Fields
 
-|     Identifier     |                              Description                              |
-| ------------------ | --------------------------------------------------------------------- |
-| `base_temperature` | Base temperature for the region in degrees Celsius.                   |
-| `base_humidity`    | Base humidity for the region in relative humidity %                   |
-| `base_pressure`    | Base pressure for the region in millibars.                            |
-| `base_acid`        | Base acid for the region in ? units. Value >= 1 is considered acidic. |
+|     Identifier                 |                              Description                              |
+| ------------------------------ | --------------------------------------------------------------------- |
+| `base_temperature`             | Base temperature for the region in degrees Celsius.                   |
+| `base_humidity`                | Base humidity for the region in relative humidity %                   |
+| `base_pressure`                | Base pressure for the region in millibars.                            |
+| `base_acid`                    | Base acid for the region in ? units. Value >= 1 is considered acidic. |
+| `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
+| `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
+| `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
 
 ### Example
 
@@ -399,7 +503,38 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_temperature": 6.5,
 		"base_humidity": 66.0,
 		"base_pressure": 1015.0,
+		"base_acid": 0.0,
+		"base_wind": 5.7,
+		"base_wind_distrib_peaks": 30,
+		"base_wind_season_variation": 64,
 		"base_acid": 0.0
+	}
+}
+```
+
+## Overmap Feature Flag Settings
+
+The **overmap_feature_flag_settings** section defines operations that operate on the flags assigned to overmap features.
+This is currently used to provide a mechanism for whitelisting and blacklisting locations on a per-region basis.
+
+### Fields
+
+|    Identifier     |                                        Description                                         |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| `clear_blacklist` | Clear all previously defined `blacklist`.                                                  |
+| `blacklist`       | List of flags. Any location with a matching flag will be excluded from overmap generation. |
+| `clear_whitelist` | Clear all previously defined `whitelist`.                                                  |
+| `whitelist`       | List of flags. Only locations with a matching flag will be included in overmap generation. |
+
+### Example
+
+```json
+{
+	"overmap_feature_flag_settings": {
+		"clear_blacklist": false,
+		"blacklist": [ "FUNGAL" ],
+		"clear_whitelist": false,
+		"whitelist": []
 	}
 }
 ```

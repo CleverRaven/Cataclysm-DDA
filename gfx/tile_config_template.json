@@ -115,6 +115,13 @@
             "multitile":false
         },
         {
+            "id":"highlight",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
             "id":"lighting_boomered_light",
             "fg":-1,
             "bg":-1,
@@ -1515,6 +1522,13 @@
         },
         {
             "id": "tr_shotgun_2",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
+            "id": "tr_shotgun_2_1",
             "fg":-1,
             "bg":-1,
             "rotates":false,
@@ -5700,14 +5714,14 @@
             "multitile":false
         },
         {
-            "id": "ring",
+            "id": "gold_ring",
             "fg":-1,
             "bg":-1,
             "rotates":false,
             "multitile":false
         },
         {
-            "id": "necklace",
+            "id": "silver_necklace",
             "fg":-1,
             "bg":-1,
             "rotates":false,
@@ -7389,7 +7403,7 @@
             "multitile":false
         },
         {
-            "id": "potato_raw",
+            "id": "potato",
             "fg":-1,
             "bg":-1,
             "rotates":false,
@@ -9411,13 +9425,6 @@
         },
         {
             "id": "fn57",
-            "fg":-1,
-            "bg":-1,
-            "rotates":false,
-            "multitile":false
-        },
-        {
-            "id": "hk_ucp",
             "fg":-1,
             "bg":-1,
             "rotates":false,

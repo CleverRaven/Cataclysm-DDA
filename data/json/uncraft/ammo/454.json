@@ -1,0 +1,18 @@
+[
+  {
+    "result": "454_Casull",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 20 ] ],
+      [ [ "454_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder_magnum_pistol", 20 ] ],
+      [ [ "copper", 20 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  }
+]

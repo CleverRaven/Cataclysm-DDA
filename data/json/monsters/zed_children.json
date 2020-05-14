@@ -2,12 +2,13 @@
   {
     "id": "mon_zombie_anklebiter",
     "type": "MONSTER",
-    "name": "anklebiter",
+    "name": { "str": "anklebiter" },
     "description": "This horrifying little mutated wretch looks to have once been a child, but its massive gaping jaws are now far more suggestive of a predatory beast.",
     "default_faction": "zombie",
+    "bodytype": "human",
     "species": [ "ZOMBIE" ],
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 35,
     "speed": 105,
     "material": [ "flesh" ],
@@ -23,19 +24,8 @@
     "harvest": "zombie",
     "vision_day": 30,
     "vision_night": 3,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 2
-      }
-    ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [
-        [ "default_zombie_clothes", 100 ],
-        [ "child_items", 65 ]
-      ]
-    },
+    "special_attacks": [ { "type": "bite", "cooldown": 2 } ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
@@ -44,14 +34,14 @@
   {
     "id": "mon_zombie_child",
     "type": "MONSTER",
-    "name": "zombie child",
-    "name_plural": "zombie children",
+    "name": { "str": "zombie child", "str_pl": "zombie children" },
     "description": "It was only a child, and little is different about it now aside from the hungry look in its eyes.  You'd be hard pressed to not feel like you were killing an actual child by putting it down.",
     "default_faction": "zombie",
+    "bodytype": "human",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE" ],
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 40,
     "speed": 65,
     "material": [ "flesh" ],
@@ -70,65 +60,37 @@
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": {
       "subtype": "collection",
-      "groups": [
-        [ "default_zombie_clothes", 100 ],
-        [ "child_items", 65 ]
-      ],
-      "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
+      "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ],
+      "//": "default zombie children clothing (always), additional items from child_items (sometimes)"
     },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "upgrades": {
-      "half_life": 14,
-      "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE"
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "GUILT", "NO_BREATHE", "REVIVES", "FILTHY" ]
-  },
-  {
-    "id": "mon_zombie_child_scorched",
-    "type": "MONSTER",
-    "name": "zombie kinderling",
-    "name_plural": "zombie kinderlings",
-    "description": "A tiny charred body, jumping and kicked and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
-    "default_faction": "zombie",
-    "species": [ "ZOMBIE" ],
-    "diff": 2,
-    "volume": "62500 ml",
-    "weight": 81500,
-    "hp": 35,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": "z",
-    "color": "i_brown",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 2,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "melee_cut": 5,
-    "armor_bash": 4,
-    "armor_cut": 5,
-    "armor_acid": 3,
-    "armor_fire": 15,
-    "vision_day": 25,
-    "vision_night": 3,
-    "harvest": "zombie",
-    "death_function": [ "NORMAL" ],
-    "upgrades": {
-      "half_life": 14,
-      "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE"
-    },
-    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "GUILT", "CLIMBS", "FILTHY" ]
+    "upgrades": { "half_life": 14, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "BLEED",
+      "POISON",
+      "GUILT",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_zombie_creepy",
     "type": "MONSTER",
-    "name": "creepy crawler",
+    "name": { "str": "creepy crawler" },
     "description": "What was once a child is now a mutant beast with blackened skin and massive eyes.  This abomination's vile form makes mockery of its human origin.",
     "default_faction": "zombie",
+    "bodytype": "human",
     "species": [ "ZOMBIE" ],
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 25,
     "speed": 55,
     "material": [ "flesh" ],
@@ -145,28 +107,36 @@
     "vision_night": 10,
     "harvest": "zombie",
     "special_attacks": [ [ "SHRIEK", 5 ] ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [
-        [ "default_zombie_clothes", 100 ],
-        [ "child_items", 65 ]
-      ]
-    },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BLEED",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "CLIMBS",
+      "FILTHY"
+    ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
     "id": "mon_zombie_shriekling",
     "type": "MONSTER",
-    "name": "shriekling",
+    "name": { "str": "shriekling" },
     "description": "This heavily mutated child zombie twitches and flails its limbs in painful looking spasms as it runs about.",
     "default_faction": "zombie",
+    "bodytype": "human",
     "species": [ "ZOMBIE" ],
     "diff": 2,
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 20,
     "speed": 95,
     "material": [ "flesh" ],
@@ -182,31 +152,36 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie",
-    "special_attacks": [
-      [ "SHRIEK", 5 ],
-      [ "scratch", 15 ]
-    ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [
-        [ "default_zombie_clothes", 100 ],
-        [ "child_items", 65 ]
-      ]
-    },
+    "special_attacks": [ [ "SHRIEK", 5 ], [ "scratch", 15 ] ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BLEED",
+      "GUILT",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY"
+    ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
   },
   {
     "id": "mon_zombie_snotgobbler",
     "type": "MONSTER",
-    "name": "snotgobbler",
+    "name": { "str": "snotgobbler" },
     "description": "This swollen, gooey looking mutant child looks bad, even for a zombie.  Maybe that's why it seems to want a hug so badly.",
     "default_faction": "zombie",
+    "bodytype": "human",
     "species": [ "ZOMBIE" ],
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 25,
     "speed": 65,
     "material": [ "flesh" ],
@@ -224,13 +199,7 @@
     "vision_night": 5,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 5 ] ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [
-        [ "default_zombie_clothes", 100 ],
-        [ "child_items", 65 ]
-      ]
-    },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "BOOMER" ],
     "burn_into": "mon_zombie_child_scorched",
     "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
@@ -239,12 +208,13 @@
   {
     "id": "mon_zombie_sproglodyte",
     "type": "MONSTER",
-    "name": "sproglodyte",
+    "name": { "str": "sproglodyte" },
     "description": "This crouching child-mutant's face is dominated by a pair of huge black eyes and its fingertips end in sharp claws.",
     "default_faction": "zombie",
+    "bodytype": "human",
     "species": [ "ZOMBIE" ],
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 30,
     "speed": 85,
     "material": [ "flesh" ],
@@ -260,36 +230,37 @@
     "vision_day": 10,
     "vision_night": 10,
     "harvest": "zombie",
-    "special_attacks": [
-      [ "scratch", 10 ],
-      {
-        "type": "leap",
-        "cooldown": 10,
-        "max_range": 5
-      }
-    ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [
-        [ "default_zombie_clothes", 100 ],
-        [ "child_items", 65 ]
-      ]
-    },
+    "special_attacks": [ [ "scratch", 10 ], { "type": "leap", "cooldown": 10, "max_range": 5 } ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BLEED",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "CLIMBS",
+      "FILTHY"
+    ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
     "id": "mon_zombie_waif",
     "type": "MONSTER",
-    "name": "howling waif",
+    "name": { "str": "howling waif" },
     "description": "Undeath has not been kind to the children of the apocalypse.  This one is little more than a reanimated membrane of skin stretched across tiny brittle bones.",
     "default_faction": "zombie",
+    "bodytype": "human",
     "species": [ "ZOMBIE" ],
     "diff": 2,
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 15,
     "speed": 65,
     "material": [ "bone" ],
@@ -303,65 +274,28 @@
     "melee_cut": 1,
     "dodge": 2,
     "armor_cut": 5,
+    "armor_bullet": 4,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie",
-    "special_attacks": [
-      [ "SHRIEK", 15 ],
-      [ "scratch", 10 ]
-    ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [
-        [ "default_zombie_clothes", 100 ],
-        [ "child_items", 65 ]
-      ]
-    },
+    "special_attacks": [ [ "SHRIEK", 15 ], [ "scratch", 10 ] ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "HARDTOSHOOT", "FILTHY" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BLEED",
+      "GUILT",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "HARDTOSHOOT",
+      "FILTHY"
+    ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
-  },
-  {
-    "id": "mon_zombie_child_fungus",
-    "type": "MONSTER",
-    "name": "fungal child",
-    "name_plural": "fungal children",
-    "description": "It is hard to recognize a human child in this creature.  Disgusting-looking mold covers most of its skin.  Many cracks perforate its body, with small fungal stalks poking through.",
-    "default_faction": "fungus",
-    "species": [ "FUNGUS" ],
-    "diff": 2,
-    "volume": "30000 ml",
-    "weight": 40750,
-    "hp": 35,
-    "speed": 50,
-    "material": [ "flesh" ],
-    "symbol": "z",
-    "color": "light_gray",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 2,
-    "dodge": 2,
-    "vision_day": 30,
-    "vision_night": 5,
-    "harvest": "zombie",
-    "special_attacks": [
-      [ "scratch", 15 ],
-      [ "FUNGUS", 200 ]
-    ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [
-        [ "default_zombie_clothes", 100 ],
-        [ "child_items", 65 ]
-      ],
-      "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
-    },
-    "death_function": [ "NORMAL" ],
-    "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "FILTHY" ]
   }
 ]

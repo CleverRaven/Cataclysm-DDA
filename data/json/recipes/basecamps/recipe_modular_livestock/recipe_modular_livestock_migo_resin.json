@@ -1,0 +1,140 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_coop_migo_resin_northeast",
+    "description": "We could use a coop to contain our chickens and other birds, so build a mi-go resin shack with a roof on the northeast side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_coop_migo_resin_northeast",
+    "blueprint_name": "northeast coop",
+    "blueprint_requires": [ { "id": "fbml_0" } ],
+    "blueprint_provides": [ { "id": "fbml_northeast" }, { "id": "chicken_coop" } ],
+    "blueprint_excludes": [ { "id": "fbml_northeast" } ],
+    "blueprint_needs": {
+      "time": "1 d 10 h 45 m",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
+        "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 40 ] ], [ [ "wire", 20 ] ], [ [ "hinge", 2 ] ], [ [ "alien_pod_resin", 68 ] ] ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_shack_migo_resin_southeast",
+    "description": "We could use a storage room for feed, animal gear and tools, so build a mi-go resin shack with a roof on the southeast side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_shack_migo_resin_southeast",
+    "blueprint_name": "southeast storage room",
+    "blueprint_requires": [ { "id": "fbml_0" } ],
+    "blueprint_provides": [ { "id": "fbml_southeast" } ],
+    "blueprint_excludes": [ { "id": "fbml_southeast" } ],
+    "blueprint_needs": {
+      "time": "1 d 8 h 40 m",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
+        "components": [
+          [ [ "2x4", 34 ] ],
+          [ [ "wood_sheet", 11 ], [ "wood_panel", 21 ] ],
+          [ [ "nail", 208 ] ],
+          [ [ "alien_pod_resin", 42 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable0_migo_resin_southwest",
+    "description": "We could use a stable for larger livestock, so build a mi-go resin shack with a roof on the southwest side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_stable0_migo_resin_southwest",
+    "blueprint_name": "southwest stable",
+    "blueprint_requires": [ { "id": "faction_base_livestock_0" } ],
+    "blueprint_provides": [ { "id": "fbml_southwest" }, { "id": "stables" } ],
+    "blueprint_excludes": [ { "id": "fbml_southwest" } ],
+    "blueprint_needs": {
+      "time": "1 d 12 h",
+      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
+        "components": [
+          [ [ "2x4", 25 ] ],
+          [ [ "nail", 92 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "alien_pod_resin", 64 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable1_migo_resin_west",
+    "description": "We could use an expansion for the stable, so build 2 more stalls on the west side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_stable1_migo_resin_west",
+    "blueprint_name": "west stable",
+    "blueprint_requires": [ { "id": "fbml_southwest" } ],
+    "blueprint_provides": [ { "id": "fbml_west" } ],
+    "blueprint_excludes": [ { "id": "fbml_west" } ],
+    "blueprint_needs": {
+      "time": "1 d 14 h",
+      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
+        "components": [
+          [ [ "2x4", 26 ] ],
+          [ [ "nail", 84 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "alien_pod_resin", 64 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_livestock_stable2_migo_resin_northwest",
+    "description": "We could use an expansion for the stable, so build 2 more stalls on the northwest side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_stable2_migo_resin_northwest",
+    "blueprint_name": "northwest stable",
+    "blueprint_requires": [ { "id": "fbml_west" } ],
+    "blueprint_provides": [ { "id": "fbml_northwest" } ],
+    "blueprint_excludes": [ { "id": "fbml_northwest" } ],
+    "blueprint_needs": {
+      "time": "1 d 13 h",
+      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
+        "components": [
+          [ [ "2x4", 26 ] ],
+          [ [ "nail", 84 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "alien_pod_resin", 64 ] ]
+        ]
+      }
+    }
+  }
+]

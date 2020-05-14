@@ -3,32 +3,24 @@
     "type": "snippet",
     "category": "flier",
     "text": [
-      "This is an advertisement for a local wildlife exhibit, claiming to have new and exciting animals on display.  Strangely, the only imagery on it is a stylized silhouette of a T. Rex.  The flier reads \"Witness the rebirth of the extinct, grand opening this week!\""
+      {
+        "id": "flier_dinomod_1",
+        "text": "This is an advertisement for a local wildlife exhibit, claiming to have new and exciting animals on display.  Strangely, the only imagery on it is a stylized silhouette of a T. Rex.  The flier reads \"Witness the rebirth of the extinct, grand opening this week!\""
+      }
     ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"SWAMPS BAD TEETH HUGE OHGOD\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"Why is that place just fucking crawling with lizards?\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"Fellow scaly bretheren!  Tonight we feast on the hairless apes.\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"where's some .700 t-rex medicine when you need it?\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"So is this what happens when you stray off the path and step on a butterfly?\"" ]
+    "text": [
+      { "id": "note_dinomod_1", "text": "\"SWAMPS BAD TEETH HUGE OHGOD\"" },
+      { "id": "note_dinomod_2", "text": "\"Why is that place just fucking crawling with lizards?\"" },
+      { "id": "note_dinomod_3", "text": "\"Fellow scaly bretheren!  Tonight we feast on the hairless apes.\"" },
+      { "id": "note_dinomod_4", "text": "\"where's some .700 t-rex medicine when you need it?\"" },
+      {
+        "id": "note_dinomod_5",
+        "text": "\"So is this what happens when you stray off the path and step on a butterfly?\""
+      }
+    ]
   }
 ]

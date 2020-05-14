@@ -1,104 +1,105 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_HUNTER_shirt_male",
-    "items":[
-      ["tshirt", 20],
-      ["tank_top", 20]
+    "type": "item_group",
+    "id": "NC_HUNTER_shirt",
+    "subtype": "distribution",
+    "entries": [ { "item": "tshirt", "prob": 20 }, { "item": "tank_top", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_HUNTER_gloves",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 60 },
+      { "item": "gloves_leather", "prob": 20 },
+      { "item": "gloves_fingerless", "prob": 20 }
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_HUNTER_shirt_female",
-    "items":[
-      ["tshirt", 20],
-      ["tank_top", 20]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_HUNTER_coat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 20 },
+      { "item": "hoodie", "prob": 20 },
+      { "item": "jacket_light", "prob": 20 },
+      { "item": "jacket_leather", "prob": 20 },
+      { "item": "trenchcoat", "prob": 20 },
+      { "item": "jacket_jean", "prob": 20 },
+      { "item": "jacket_flannel", "prob": 20 },
+      { "item": "jacket_windbreaker", "prob": 10 }
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_HUNTER_gloves",
-    "items":[
-      ["null", 60],
-      ["gloves_leather", 20],
-      ["gloves_fingerless", 20]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_HUNTER_hat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 40 },
+      { "item": "hat_ball", "prob": 40 },
+      { "item": "hat_hunting", "prob": 40 },
+      { "item": "hat_boonie", "prob": 20 }
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_HUNTER_coat",
-    "items":[
-      ["null", 20],
-      ["hoodie", 20],
-      ["jacket_light", 20],
-      ["jacket_leather", 20],
-      ["trenchcoat", 20],
-      ["jacket_jean", 20],
-      ["jacket_flannel", 20],
-      ["jacket_windbreaker", 10]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_HUNTER_extra",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 5 }, { "item": "backpack_leather", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_HUNTER_archery",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "crossbow", "prob": 20 },
+      { "item": "shortbow", "prob": 5 },
+      { "item": "compbow", "prob": 15 },
+      { "item": "recurbow", "prob": 15 },
+      { "item": "reflexbow", "prob": 10 },
+      { "item": "longbow", "prob": 10 },
+      { "item": "hand_crossbow", "prob": 15 },
+      { "item": "selfbow", "prob": 5 }
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_HUNTER_hat",
-    "items":[
-      ["null", 40],
-      ["hat_ball", 40],
-      ["hat_hunting", 40],
-      ["hat_boonie", 20]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_HUNTER_rifle",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "rifle_22", "prob": 5 },
+      { "item": "rifle_9mm", "prob": 5 },
+      { "item": "ruger_1022", "prob": 10 },
+      { "item": "browning_blr", "prob": 10 },
+      { "item": "remington_700", "prob": 10 },
+      { "item": "savage_111f", "prob": 5 },
+      { "item": "marlin_9a", "prob": 25 },
+      { "item": "m1903", "prob": 5 }
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_HUNTER_extra",
-    "items":[
-      ["null", 5],
-      ["backpack_leather", 25]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_HUNTER_archery",
-    "items":[
-      ["crossbow", 20],
-      ["shortbow", 5],
-      ["compbow", 15],
-      ["compositebow", 15],
-      ["recurbow", 15],
-      ["reflexbow", 10],
-      ["longbow", 10],
-      ["hand_crossbow", 15],
-      ["selfbow", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_HUNTER_rifle",
-    "items":[
-      ["rifle_22", 5],
-      ["rifle_9mm", 5],
-      ["ruger_1022", 10],
-      ["browning_blr", 10],
-      ["remington_700", 10],
-      ["savage_111f", 5],
-      ["marlin_9a", 25],
-      ["m1903", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_HUNTER_misc",
-    "items":[
-        ["sinew", 10],
-        ["water_clean", 20],
-        ["meat_cooked", 10],
-        ["meat", 40],
-        ["fish_cooked", 10],
-        ["fish", 10],
-        ["tallow", 10],
-        ["fat", 10],
-        ["dry_meat", 10],
-        ["dry_fish", 10],
-        ["dry_veggy", 10],
-        ["dry_fruit", 10],
-        ["salt", 10],
-        ["pepper", 10],
-        ["meat_smoked", 10],
-        ["meat_smoked", 10],
-        ["bone", 10],
-        ["fur", 10]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_HUNTER_misc",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "sinew", "prob": 10 },
+      { "item": "water_clean", "prob": 20 },
+      { "item": "meat_cooked", "prob": 10 },
+      { "item": "meat", "prob": 40 },
+      { "item": "fish_cooked", "prob": 10 },
+      { "item": "fish", "prob": 10 },
+      { "item": "tallow", "prob": 10 },
+      { "item": "fat", "prob": 10 },
+      { "item": "dry_meat", "prob": 10 },
+      { "item": "dry_fish", "prob": 10 },
+      { "item": "dry_veggy", "prob": 10 },
+      { "item": "dry_fruit", "prob": 10 },
+      { "item": "salt", "prob": 10 },
+      { "item": "pepper", "prob": 10 },
+      { "item": "meat_smoked", "prob": 10 },
+      { "item": "meat_smoked", "prob": 10 },
+      { "item": "bone", "prob": 10 },
+      { "item": "fur", "prob": 10 }
     ]
   }
 ]
