@@ -329,8 +329,8 @@
     "skill_used": "chemistry",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
+    "book_learn": [ [ "basic_chemistry", 2 ] ],
     "time": "7 m 30 s",
-    "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
