@@ -342,7 +342,7 @@
     "id": "POWERED",
     "type": "json_flag",
     "context": [ "TOOL" ],
-    "//": "If turned ON, it uses its own source of power, instead of relying on power of the user."
+    "//": "Objects with this flag do not drain player's stamina when used."
   },
   {
     "id": "PSYSHIELD_PARTIAL",
