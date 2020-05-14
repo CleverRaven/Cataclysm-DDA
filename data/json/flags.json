@@ -339,13 +339,6 @@
     "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
   },
   {
-    "id": "POWERED",
-    "type": "json_flag",
-    "context": [ "TOOL" ],
-    "//": "Objects with this flag use DEX instead of STR."
-    "//": Cannot change ID as it will break other interactions.
-  },
-  {
     "id": "PSYSHIELD_PARTIAL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
