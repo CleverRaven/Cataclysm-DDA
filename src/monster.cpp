@@ -2042,24 +2042,6 @@ int monster::shortest_special_cooldown() const
     return countdown;
 }
 
-void monster::normalize_ammo( const int old_ammo )
-{
-    int total_ammo = 0;
-    // Sum up the ammo entries to get a ratio.
-    for( const auto &ammo_entry : type->starting_ammo ) {
-        total_ammo += ammo_entry.second;
-    }
-    if( total_ammo == 0 ) {
-        // Should never happen, but protect us from a div/0 if it does.
-        return;
-    }
-    // Previous code gave robots 100 rounds of ammo.
-    // This reassigns whatever is left from that in the appropriate proportions.
-    for( const auto &ammo_entry : type->starting_ammo ) {
-        ammo[ammo_entry.first] = old_ammo * ammo_entry.second / ( 100 * total_ammo );
-    }
-}
-
 void monster::explode()
 {
     // Handled in mondeath::normal
