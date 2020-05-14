@@ -6753,7 +6753,8 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( mgroup == "GROUP_NULL" ) {
         return;
     }
-    const int chance = ( comest->rot_spawn_chance * get_option<int>( "CARRION_SPAWNRATE" ) ) / 100;
+    const int chance = static_cast<int>( comest->rot_spawn_chance *
+                                         get_option<float>( "CARRION_SPAWNRATE" ) );
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
         add_spawn( spawn_details.name, 1, pnt, false );

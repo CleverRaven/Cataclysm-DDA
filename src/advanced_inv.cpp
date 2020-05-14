@@ -77,13 +77,8 @@ enum aim_exit {
 
 // *INDENT-OFF*
 advanced_inventory::advanced_inventory()
-    : head_height( 5 )
-    , min_w_height( 10 )
-    , min_w_width( FULL_SCREEN_WIDTH )
-    , max_w_width( get_option<bool>( "AIM_WIDTH" ) ? TERMX : std::max( 120, TERMX - 2 * ( panel_manager::get_manager().get_width_right() + panel_manager::get_manager().get_width_left() ) ) )
-    , inCategoryMode( false )
+    : inCategoryMode( false )
     , recalc( true )
-    , redraw( true )
     , src( left )
     , dest( right )
     , filter_edit( false )
@@ -213,27 +208,6 @@ void advanced_inventory::init()
 
     src = ( save_state->active_left ) ? left : right;
     dest = ( save_state->active_left ) ? right : left;
-
-    w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
-    w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
-              static_cast<int>( TERMX );
-
-    //(TERMY>w_height)?(TERMY-w_height)/2:0;
-    headstart = 0;
-    colstart = TERMX > w_width ? ( TERMX - w_width ) / 2 : 0;
-
-    head = catacurses::newwin( head_height, w_width - minimap_width, point( colstart, headstart ) );
-    mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2,
-                                    point( colstart + ( w_width - ( minimap_width + 2 ) ), headstart ) );
-    minimap = catacurses::newwin( minimap_height, minimap_width,
-                                  point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
-    panes[left].window = catacurses::newwin( w_height, w_width / 2, point( colstart,
-                         headstart + head_height ) );
-    panes[right].window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
-                          headstart + head_height ) );
-
-    // 2 for the borders, 5 for the header stuff
-    itemsPerPage = w_height - 2 - 5;
 }
 
 void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool active )
@@ -655,10 +629,7 @@ void advanced_inventory::redraw_pane( side p )
     auto &pane = panes[p];
     if( recalc || pane.recalc ) {
         recalc_pane( p );
-    } else if( !( redraw || pane.redraw ) ) {
-        return;
     }
-    pane.redraw = false;
     pane.fix_index();
 
     const bool active = p == src;
@@ -1102,7 +1073,7 @@ void advanced_inventory::redraw_sidebar()
     input_context ctxt( "ADVANCED_INVENTORY" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    if( redraw && !is_processing() ) {
+    if( !is_processing() ) {
         werase( head );
         werase( minimap );
         werase( mm_border );
@@ -1119,7 +1090,6 @@ void advanced_inventory::redraw_sidebar()
         wrefresh( head );
         refresh_minimap();
     }
-    redraw = false;
 }
 
 void advanced_inventory::change_square( const aim_location changeSquare,
@@ -1140,7 +1110,6 @@ void advanced_inventory::change_square( const aim_location changeSquare,
         } else {
             swap_panes();
         }
-        redraw = true;
         // we need to check the original area if we can place items in vehicle storage
     } else if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
         bool in_vehicle_cargo = false;
@@ -1169,11 +1138,8 @@ void advanced_inventory::change_square( const aim_location changeSquare,
         if( dpane.get_area() == AIM_ALL ) {
             dpane.recalc = true;
         }
-        redraw = true;
     } else {
         popup( _( "You can't put items there!" ) );
-        // to clear the popup
-        redraw = true;
     }
 }
 
@@ -1279,8 +1245,6 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         spane.get_area() != AIM_ALL &&
         spane.in_vehicle() == dpane.in_vehicle() ) {
         popup( _( "Source area is the same as destination (%s)." ), squares[destarea].name );
-        // popup has messed up the screen
-        redraw = true;
         return false;
     }
     assert( !sitem->items.empty() );
@@ -1297,7 +1261,6 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     if( destarea == AIM_CONTAINER ) {
         if( !move_content( *sitem->items.front(),
                            *squares[destarea].get_container( to_vehicle ) ) ) {
-            redraw = true;
             return false;
         }
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
@@ -1370,8 +1333,12 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         advanced_inventory_pane &spane )
 {
     int ret = 0;
-    const int info_width = w_width / 2;
-    const int info_startx = colstart + ( src == advanced_inventory::side::left ? info_width : 0 );
+    const auto info_width = [this]() -> int {
+        return w_width / 2;
+    };
+    const auto info_startx = [this]() -> int {
+        return colstart + ( src == advanced_inventory::side::left ? w_width / 2 : 0 );
+    };
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         int idx = spane.get_area() == AIM_INVENTORY ? sitem->idx :
                   player::worn_position_to_index( sitem->idx );
@@ -1405,15 +1372,15 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
         data.handle_scrolling = true;
 
-        ret = draw_item_info( info_startx, info_width, 0, 0, data ).get_first_input();
+        ret = draw_item_info( [&]() -> catacurses::window {
+            return catacurses::newwin( 0, info_width(), point( info_startx(), 0 ) );
+        }, data ).get_first_input();
     }
     if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
         spane.scroll_by( +1 );
     } else if( ret == KEY_PPAGE || ret == KEY_UP ) {
         spane.scroll_by( -1 );
     }
-    // item info window overwrote the other pane and the header
-    redraw = true;
 }
 
 void advanced_inventory::display()
@@ -1426,10 +1393,61 @@ void advanced_inventory::display()
 
     exit = false;
     recalc = true;
-    redraw = true;
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    std::unique_ptr<string_input_popup> spopup;
+    std::unique_ptr<ui_adaptor> ui;
+    if( !is_processing() ) {
+        ui = std::make_unique<ui_adaptor>();
+        ui->on_screen_resize( [&]( ui_adaptor & ui ) {
+            constexpr int min_w_height = 10;
+            const int min_w_width = FULL_SCREEN_WIDTH;
+            const int max_w_width = get_option<bool>( "AIM_WIDTH" ) ? TERMX : std::max( 120,
+                                    TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
+                                                  panel_manager::get_manager().get_width_left() ) );
+
+            w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
+            w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
+                      static_cast<int>( TERMX );
+
+            //(TERMY>w_height)?(TERMY-w_height)/2:0;
+            headstart = 0;
+            colstart = TERMX > w_width ? ( TERMX - w_width ) / 2 : 0;
+
+            head = catacurses::newwin( head_height, w_width - minimap_width, point( colstart, headstart ) );
+            mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2,
+                                            point( colstart + ( w_width - ( minimap_width + 2 ) ), headstart ) );
+            minimap = catacurses::newwin( minimap_height, minimap_width,
+                                          point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
+            panes[left].window = catacurses::newwin( w_height, w_width / 2, point( colstart,
+                                 headstart + head_height ) );
+            panes[right].window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
+                                  headstart + head_height ) );
+
+            // 2 for the borders, 5 for the header stuff
+            itemsPerPage = w_height - 2 - 5;
+
+            if( filter_edit && spopup ) {
+                spopup->window( panes[src].window, point( 4, w_height - 1 ), w_width / 2 - 4 );
+            }
+
+            ui.position( point( colstart, headstart ), point( w_width, head_height + w_height ) );
+        } );
+        ui->mark_resize();
+
+        ui->on_redraw( [&]( const ui_adaptor & ) {
+            redraw_pane( advanced_inventory::side::left );
+            redraw_pane( advanced_inventory::side::right );
+            redraw_sidebar();
+
+            if( filter_edit && spopup ) {
+                draw_item_filter_rules( panes[dest].window, 1, 11, item_filter_type::FILTER );
+                mvwprintz( panes[src].window, point( 2, getmaxy( panes[src].window ) - 1 ), c_cyan, "< " );
+                mvwprintz( panes[src].window, point( w_width / 2 - 4, getmaxy( panes[src].window ) - 1 ), c_cyan,
+                           " >" );
+                spopup->query_string( /*loop=*/false, /*draw_only=*/true );
+            }
+        } );
+    }
 
     while( !exit ) {
         if( g->u.moves < 0 ) {
@@ -1439,9 +1457,9 @@ void advanced_inventory::display()
         dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
                advanced_inventory::side::left;
 
-        redraw_pane( advanced_inventory::side::left );
-        redraw_pane( advanced_inventory::side::right );
-        redraw_sidebar();
+        if( ui ) {
+            ui_manager::redraw();
+        }
 
         recalc = false;
         // source and destination pane
@@ -1454,10 +1472,6 @@ void advanced_inventory::display()
         const std::string action = is_processing() ? "MOVE_ALL_ITEMS" : ctxt.handle_input();
         if( action == "CATEGORY_SELECTION" ) {
             inCategoryMode = !inCategoryMode;
-            // We redraw to force the color change of the highlighted line and header text.
-            spane.redraw = true;
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            redraw = true;
         } else if( action == "ITEMS_DEFAULT" ) {
             for( side cside : {
                      left, right
@@ -1470,12 +1484,10 @@ void advanced_inventory::display()
                 }
                 pane.set_area( squares[location] );
             }
-            redraw = true;
         } else if( action == "SAVE_DEFAULT" ) {
             save_state->saved_area = panes[left].get_area();
             save_state->saved_area_right = panes[right].get_area();
             popup( _( "Default layout was saved." ) );
-            redraw = true;
         } else if( get_square( action, changeSquare ) ) {
             change_square( changeSquare, dpane, spane );
         } else if( action == "TOGGLE_FAVORITE" ) {
@@ -1487,7 +1499,6 @@ void advanced_inventory::display()
             }
             // In case we've merged faved and unfaved items
             recalc = true;
-            redraw = true;
         } else if( action == "MOVE_SINGLE_ITEM" ||
                    action == "MOVE_VARIABLE_ITEM" ||
                    action == "MOVE_ITEM_STACK" ) {
@@ -1499,35 +1510,31 @@ void advanced_inventory::display()
             if( show_sort_menu( spane ) ) {
                 recalc = true;
             }
-            redraw = true;
         } else if( action == "FILTER" ) {
-            string_input_popup spopup;
             std::string filter = spane.filter;
             filter_edit = true;
-            spopup.window( spane.window, point( 4, w_height - 1 ), w_width / 2 - 4 )
-            .max_length( 256 )
-            .text( filter );
-
-            draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
+            if( ui ) {
+                spopup = std::make_unique<string_input_popup>();
+                spopup->max_length( 256 ).text( filter );
+                ui->mark_resize();
+            }
 
             ime_sentry sentry;
 
             do {
-                mvwprintz( spane.window, point( 2, getmaxy( spane.window ) - 1 ), c_cyan, "< " );
-                mvwprintz( spane.window, point( w_width / 2 - 4, getmaxy( spane.window ) - 1 ), c_cyan, " >" );
-                std::string new_filter = spopup.query_string( false );
-                if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
+                if( ui ) {
+                    ui_manager::redraw();
+                }
+                std::string new_filter = spopup->query_string( false );
+                if( spopup->canceled() ) {
                     // restore original filter
                     spane.set_filter( filter );
                 } else {
                     spane.set_filter( new_filter );
                 }
-                redraw_pane( src );
-            } while( spopup.context().get_raw_input().get_first_input() != '\n' &&
-                     spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
+            } while( !spopup->canceled() && !spopup->confirmed() );
             filter_edit = false;
-            spane.redraw = true;
-            dpane.redraw = true;
+            spopup = nullptr;
         } else if( action == "RESET_FILTER" ) {
             spane.set_filter( "" );
         } else if( action == "TOGGLE_AUTO_PICKUP" ) {
@@ -1567,13 +1574,10 @@ void advanced_inventory::display()
             }
         } else if( action == "LEFT" ) {
             src = left;
-            redraw = true;
         } else if( action == "RIGHT" ) {
             src = right;
-            redraw = true;
         } else if( action == "TOGGLE_TAB" ) {
             src = dest;
-            redraw = true;
         } else if( action == "TOGGLE_VEH" ) {
             if( squares[spane.get_area()].can_store_in_vehicle() ) {
                 // swap the panes if going vehicle will show the same tile
@@ -1588,12 +1592,9 @@ void advanced_inventory::display()
                     if( dpane.get_area() == AIM_ALL ) {
                         dpane.recalc = true;
                     }
-                    // make sure to update the minimap as well!
-                    redraw = true;
                 }
             } else {
                 popup( _( "No vehicle storage space there!" ) );
-                redraw = true;
             }
         }
     }
@@ -1647,8 +1648,6 @@ bool advanced_inventory::query_destination( aim_location &def )
             return true;
         }
         popup( _( "You can't put items there!" ) );
-        // the popup has messed the screen up.
-        redraw = true;
         return false;
     }
 
@@ -1687,8 +1686,6 @@ bool advanced_inventory::query_destination( aim_location &def )
     while( menu.ret == UILIST_WAIT_INPUT ) {
         menu.query( false );
     }
-    // the menu has messed the screen up.
-    redraw = true;
     if( menu.ret >= AIM_SOUTHWEST && menu.ret <= AIM_NORTHEAST ) {
         assert( squares[menu.ret].canputitems() );
         def = static_cast<aim_location>( menu.ret );
@@ -1756,7 +1753,6 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Includes moving from/to inventory and around on the map.
     if( it.made_of_from_type( LIQUID ) && !it.is_frozen_liquid() ) {
         popup( _( "You can't pick up a liquid." ) );
-        redraw = true;
         return false;
     }
 
@@ -1765,7 +1761,6 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( amount > room_for && squares[destarea].id != AIM_WORN ) {
         if( room_for <= 0 ) {
             popup( _( "Destination area is full.  Remove some items first." ) );
-            redraw = true;
             return false;
         }
         amount = std::min( room_for, amount );
@@ -1782,7 +1777,6 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         } );
         if( cntmax <= 0 && !adds0 ) {
             popup( _( "Destination area has too many items.  Remove some first." ) );
-            redraw = true;
             return false;
         }
         // Items by charge count as a single item, regardless of the charges. As long as the
@@ -1800,7 +1794,6 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             const int weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
                 popup( _( "This is too heavy!" ) );
-                redraw = true;
                 return false;
             }
             amount = std::min( weightmax, amount );
@@ -1838,7 +1831,6 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
                      .query_int();
         }
         if( amount <= 0 ) {
-            redraw = true;
             return false;
         }
         if( amount > possible_max ) {
@@ -1943,7 +1935,6 @@ void advanced_inventory::swap_panes()
     std::swap( panes[left].window, panes[right].window );
     // Recalculation required for weight & volume
     recalc = true;
-    redraw = true;
 }
 
 void advanced_inventory::do_return_entry()

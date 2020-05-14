@@ -4685,6 +4685,9 @@ units::length item::length() const
     if( made_of( LIQUID ) || is_soft() ) {
         return 0_mm;
     }
+    if( is_corpse() ) {
+        return units::default_length_from_volume<int>( corpse->volume );
+    }
     return type->longest_side;
 }
 

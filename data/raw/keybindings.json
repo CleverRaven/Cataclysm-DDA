@@ -2975,5 +2975,11 @@
     "category": "NPC_TRADE",
     "name": "Cancel trading",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_PROFESSION_NAME",
+    "name": "Change profession name",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   }
 ]
