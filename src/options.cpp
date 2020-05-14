@@ -76,8 +76,7 @@ options_manager::options_manager() :
     pages_.emplace_back( interface_page_ );
     pages_.emplace_back( graphics_page_ );
     // when sharing maps only admin is allowed to change these.
-    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() )
-    {
+    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
         pages_.emplace_back( world_default_page_ );
         pages_.emplace_back( debug_page_ );
     }
