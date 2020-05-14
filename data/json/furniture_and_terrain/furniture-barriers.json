@@ -143,5 +143,26 @@
       "furn_set": "f_sandbag_half",
       "items": [ { "item": "bag_canvas", "count": [ 15, 20 ] }, { "item": "material_sand", "charges": [ 1000, 1200 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chainfence",
+    "name": "chain link fence",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "description": "A tall fence made of woven wires.  It doesn't suggest to stop, it just stops.",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_ALL_SYMBOL", "BURROWABLE" ],
+    "connects_to": "CHAINFENCE",
+    "examine_action": "chainfence",
+    "bash": {
+      "str_min": 10,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_chainfence_posts",
+      "items": [ { "item": "wire", "count": [ 8, 15 ] } ]
+    }
   }
 ]
