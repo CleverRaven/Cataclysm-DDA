@@ -513,11 +513,15 @@
     "volume": "800 ml",
     "price": 1999,
     "price_postapoc": 500,
+    "bashing": 2,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+	  "skill": "cooking",
     "required_level": 1,
     "max_level": 2,
     "intelligence": 5,
-    "time": "10 m",
-    "copy-from": "book_nonf_hard_cook_tpl"
+    "time": "10 m"
   },
   {
     "id": "cookbook_daintydishes",
@@ -543,7 +547,7 @@
     "max_level": 1,
     "time": "16 m",
     "fun": -1,
-    "copy-from": "book_nonf_soft_cook_tpl"
+    "copy-from": "cookbook_liverforkids"
   },
   {
     "id": "cookbook_foodfashions",
