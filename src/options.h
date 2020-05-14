@@ -297,8 +297,8 @@ class options_manager
         Page general_page_;
         Page interface_page_;
         Page graphics_page_;
-        Page debug_page_;
         Page world_default_page_;
+        Page debug_page_;
         Page android_page_;
 
         std::vector<std::reference_wrapper<Page>> pages_;
