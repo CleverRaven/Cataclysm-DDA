@@ -204,7 +204,7 @@
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "difficulty": 1,
     "autolearn": true,
     "time": "40 m",
