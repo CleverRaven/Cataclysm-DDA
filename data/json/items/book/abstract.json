@@ -40,7 +40,6 @@
     "price_postapoc": 2900,
     "material": [ "paper", "cardboard" ],
     "bashing": 2,
-    "chapters": 18,
     "copy-from": "book_nonf_tpl"
   },
   {
@@ -54,7 +53,6 @@
     "price_postapoc": 2700,
     "material": [ "paper" ],
     "bashing": 1,
-    "chapters": 18,
     "copy-from": "book_nonf_tpl"
   },
   {
