@@ -234,7 +234,7 @@
     "result": "poppy_pain",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "skills_required": [ "survival", 1 ],
     "difficulty": 2,
     "time": "5 m",
