@@ -3197,6 +3197,13 @@ void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
 {
+    if( p->fine_detail_vision_mod() > 4 ) {
+        //It got too dark during the process of reading, bail out.
+        act->set_to_null();
+        p->add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
+        return;
+    }
+
     if( p->is_player() ) {
         if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
             if( act->values.empty() ) {
