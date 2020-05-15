@@ -37,6 +37,8 @@
 
 static const std::string flag_FIREWOOD( "FIREWOOD" );
 
+static const item_category_id item_category_food( "food" );
+
 zone_manager::zone_manager()
 {
     types.emplace( zone_type_id( "NO_AUTO_PICKUP" ),
@@ -827,7 +829,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         return *cat.zone();
     }
 
-    if( cat.get_id() == "food" ) {
+    if( cat.get_id() == item_category_food ) {
         // skip food without comestible, like MREs
         if( const item *it_food = it.get_food() ) {
             if( it_food->get_comestible()->comesttype == "DRINK" ) {
