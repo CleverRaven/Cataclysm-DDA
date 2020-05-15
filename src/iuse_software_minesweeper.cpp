@@ -28,16 +28,8 @@ minesweeper_game::minesweeper_game()
     offset = point_zero;
 }
 
-void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
+void minesweeper_game::new_level()
 {
-    max.y = getmaxy( w_minesweeper ) - 2;
-    max.x = getmaxx( w_minesweeper ) - 2;
-
-    werase( w_minesweeper );
-
-    mLevel.clear();
-    mLevelReveal.clear();
-
     auto set_num = [&]( const std::string & sType, int &iVal, const int iMin, const int iMax ) {
         const std::string desc = string_format( _( "Min: %d Max: %d" ), iMin, iMax );
 
@@ -78,20 +70,26 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
             break;
         case 3:
         default:
-            level = min;
+            point new_level = min;
 
-            set_num( _( "Level width:" ), level.x, min.x, max.x );
-            set_num( _( "Level height:" ), level.y, min.y, max.y );
+            set_num( _( "Level width:" ), new_level.x, min.x, max.x );
+            set_num( _( "Level height:" ), new_level.y, min.y, max.y );
 
-            const int area = level.x * level.y;
-            iBombs = area * 0.1;
+            const int area = new_level.x * new_level.y;
+            int new_ibombs = area * 0.1;
 
-            set_num( _( "Number of bombs:" ), iBombs, iBombs, area * 0.6 );
+            set_num( _( "Number of bombs:" ), new_ibombs, new_ibombs, area * 0.6 );
+
+            level = new_level;
+            iBombs = new_ibombs;
             break;
     }
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     offset = ( max - level ) / 2 + point( 1, 1 );
+
+    mLevel.clear();
+    mLevelReveal.clear();
 
     int iRandX;
     int iRandY;
@@ -99,17 +97,17 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
         do {
             iRandX = rng( 0, level.x - 1 );
             iRandY = rng( 0, level.y - 1 );
-        } while( mLevel[iRandY][iRandX] == static_cast<int>( bomb ) );
+        } while( mLevel[iRandY][iRandX] == bomb );
 
-        mLevel[iRandY][iRandX] = static_cast<int>( bomb );
+        mLevel[iRandY][iRandX] = bomb;
     }
 
     for( int y = 0; y < level.y; y++ ) {
         for( int x = 0; x < level.x; x++ ) {
-            if( mLevel[y][x] == static_cast<int>( bomb ) ) {
+            if( mLevel[y][x] == bomb ) {
                 for( const point &p : closest_points_first( {x, y}, 1 ) ) {
                     if( p.x >= 0 && p.x < level.x && p.y >= 0 && p.y < level.y ) {
-                        if( mLevel[p.y][p.x] != static_cast<int>( bomb ) ) {
+                        if( mLevel[p.y][p.x] != bomb ) {
                             mLevel[p.y][p.x]++;
                         }
                     }
@@ -117,16 +115,6 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
             }
         }
     }
-
-    for( int y = 0; y < level.y; y++ ) {
-        mvwputch( w_minesweeper, offset + point( 0, y ), c_white, std::string( level.x, '#' ) );
-    }
-
-    mvwputch( w_minesweeper, offset, hilite( c_white ), "#" );
-
-    draw_custom_border( w_minesweeper, 1, 1, 1, 1, 1, 1, 1, 1, BORDER_COLOR,
-                        // NOLINTNEXTLINE(cata-use-named-point-constants)
-                        offset + point( -1, -1 ), level.y + 2, level.x + 2 );
 }
 
 bool minesweeper_game::check_win()
@@ -134,7 +122,7 @@ bool minesweeper_game::check_win()
     for( int y = 0; y < level.y; y++ ) {
         for( int x = 0; x < level.x; x++ ) {
             if( ( mLevelReveal[y][x] == flag || mLevelReveal[y][x] == unknown ) &&
-                mLevel[y][x] != static_cast<int>( bomb ) ) {
+                mLevel[y][x] != bomb ) {
                 return false;
             }
         }
@@ -145,38 +133,22 @@ bool minesweeper_game::check_win()
 
 int minesweeper_game::start_game()
 {
-    const int iCenterX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iCenterY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    catacurses::window w_minesweeper_border;
+    catacurses::window w_minesweeper;
 
-    catacurses::window w_minesweeper_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-            point( iCenterX, iCenterY ) );
-    catacurses::window w_minesweeper = catacurses::newwin( FULL_SCREEN_HEIGHT - 2,
-                                       FULL_SCREEN_WIDTH - 2, point( iCenterX + 1, iCenterY + 1 ) );
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int iCenterX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const int iCenterY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
-    draw_border( w_minesweeper_border );
-
-    std::vector<std::string> shortcuts;
-    shortcuts.push_back( _( "<n>ew level" ) );
-    shortcuts.push_back( _( "<f>lag" ) );
-    shortcuts.push_back( _( "<q>uit" ) );
-
-    int iWidth = 0;
-    for( auto &shortcut : shortcuts ) {
-        if( iWidth > 0 ) {
-            iWidth += 1;
-        }
-        iWidth += utf8_width( shortcut );
-    }
-
-    int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
-    for( auto &shortcut : shortcuts ) {
-        shortcut_print( w_minesweeper_border, point( iPos, 0 ), c_white, c_light_green, shortcut );
-        iPos += utf8_width( shortcut ) + 1;
-    }
-
-    mvwputch( w_minesweeper_border, point( 2, 0 ), hilite( c_white ), _( "Minesweeper" ) );
-
-    wrefresh( w_minesweeper_border );
+        w_minesweeper_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                               point( iCenterX, iCenterY ) );
+        w_minesweeper = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                                            point( iCenterX + 1, iCenterY + 1 ) );
+        max = point( FULL_SCREEN_WIDTH - 4, FULL_SCREEN_HEIGHT - 4 );
+        ui.position_from_window( w_minesweeper_border );
+    } );
+    ui.mark_resize();
 
     input_context ctxt( "MINESWEEPER" );
     ctxt.register_cardinal();
@@ -204,6 +176,89 @@ int minesweeper_game::start_game()
     int iPlayerY = 0;
     int iPlayerX = 0;
 
+    bool started = false;
+    bool boom = false;
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_minesweeper_border );
+        draw_border( w_minesweeper_border );
+
+        std::vector<std::string> shortcuts;
+        shortcuts.push_back( _( "<n>ew level" ) );
+        shortcuts.push_back( _( "<f>lag" ) );
+        shortcuts.push_back( _( "<q>uit" ) );
+
+        int iWidth = 0;
+        for( auto &shortcut : shortcuts ) {
+            if( iWidth > 0 ) {
+                iWidth += 1;
+            }
+            iWidth += utf8_width( shortcut );
+        }
+
+        int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
+        for( auto &shortcut : shortcuts ) {
+            shortcut_print( w_minesweeper_border, point( iPos, 0 ), c_white, c_light_green, shortcut );
+            iPos += utf8_width( shortcut ) + 1;
+        }
+
+        mvwputch( w_minesweeper_border, point( 2, 0 ), hilite( c_white ), _( "Minesweeper" ) );
+
+        wrefresh( w_minesweeper_border );
+
+        if( !started ) {
+            return;
+        }
+
+        werase( w_minesweeper );
+        draw_custom_border( w_minesweeper, 1, 1, 1, 1, 1, 1, 1, 1, BORDER_COLOR,
+                            // NOLINTNEXTLINE(cata-use-named-point-constants)
+                            offset + point( -1, -1 ), level.y + 2, level.x + 2 );
+        for( int y = 0; y < level.y; ++y ) {
+            for( int x = 0; x < level.x; ++x ) {
+                char ch = '?';
+                nc_color col = c_red;
+                const int num = mLevel[y][x];
+                switch( mLevelReveal[y][x] ) {
+                    case unknown:
+                        if( boom && num == bomb ) {
+                            ch = '*';
+                            col = h_red;
+                        } else {
+                            ch = '#';
+                            col = c_white;
+                        }
+                        break;
+                    case flag:
+                        ch = '!';
+                        if( boom && num == bomb ) {
+                            col = h_red;
+                        } else {
+                            col = c_yellow;
+                        }
+                        break;
+                    case seen: {
+                        if( num == bomb ) {
+                            ch = '*';
+                            col = boom ? h_red : c_red;
+                        } else if( num == 0 ) {
+                            ch = ' ';
+                            col = aColors[num];
+                        } else if( num >= 1 && num <= 8 ) {
+                            ch = '0' + num;
+                            col = aColors[num];
+                        }
+                        break;
+                    }
+                }
+                if( !boom && iPlayerX == x && iPlayerY == y ) {
+                    col = hilite( col );
+                }
+                mvwputch( w_minesweeper, offset + point( x, y ), col, ch );
+            }
+        }
+        wrefresh( w_minesweeper );
+    } );
+
     std::function<void ( int, int )> rec_reveal = [&]( const int y, const int x ) {
         if( mLevelReveal[y][x] == unknown || mLevelReveal[y][x] == flag ) {
             mLevelReveal[y][x] = seen;
@@ -216,108 +271,72 @@ int minesweeper_game::start_game()
                         }
                     }
                 }
+            }
+        }
+    };
 
-                mvwputch( w_minesweeper, offset + point( x, y ), c_black, " " );
-
-            } else {
-                mvwputch( w_minesweeper, offset + point( x, y ),
-                          x == iPlayerX && y == iPlayerY ? hilite( aColors[mLevel[y][x]] ) : aColors[mLevel[y][x]],
-                          to_string( mLevel[y][x] ) );
+    const auto &reveal_all = [&]() {
+        for( int y = 0; y < level.y; ++y ) {
+            for( int x = 0; x < level.x; ++x ) {
+                if( mLevelReveal[y][x] == unknown || ( mLevelReveal[y][x] == flag && mLevel[y][x] != bomb ) ) {
+                    mLevelReveal[y][x] = seen;
+                }
             }
         }
     };
 
     std::string action = "NEW";
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
     do {
         if( action == "NEW" ) {
-            new_level( w_minesweeper );
+            new_level();
 
             iPlayerY = 0;
             iPlayerX = 0;
+
+            started = true;
+            boom = false;
         }
 
-        wrefresh( w_minesweeper );
-
         if( check_win() ) {
+            reveal_all();
+            ui.invalidate_ui();
             popup_top( _( "Congratulations, you won!" ) );
 
             iScore = 30;
 
             action = "QUIT";
         } else {
+            ui_manager::redraw();
             action = ctxt.handle_input();
         }
 
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            if( iPlayerX + vec->x >= 0 && iPlayerX + vec->x < level.x && iPlayerY + vec->y >= 0 &&
-                iPlayerY + vec->y < level.y ) {
-
-                std::string sGlyph;
-
-                for( int i = 0; i < 2; i++ ) {
-                    nc_color cColor = c_white;
-                    if( mLevelReveal[iPlayerY][iPlayerX] == flag ) {
-                        sGlyph = "!";
-                        cColor = c_yellow;
-                    } else if( mLevelReveal[iPlayerY][iPlayerX] == seen ) {
-                        if( mLevel[iPlayerY][iPlayerX] == 0 ) {
-                            sGlyph = " ";
-                            cColor = c_black;
-                        } else {
-                            sGlyph = to_string( mLevel[iPlayerY][iPlayerX] );
-                            cColor = aColors[mLevel[iPlayerY][iPlayerX]];
-                        }
-                    } else {
-                        sGlyph = '#';
-                    }
-
-                    mvwputch( w_minesweeper, offset + point( iPlayerX, iPlayerY ),
-                              i == 0 ? cColor : hilite( cColor ), sGlyph );
-
-                    if( i == 0 ) {
-                        iPlayerX += vec->x;
-                        iPlayerY += vec->y;
-                    }
-                }
+            const int new_x = iPlayerX + vec->x;
+            const int new_y = iPlayerY + vec->y;
+            if( new_x >= 0 && new_x < level.x && new_y >= 0 && new_y < level.y ) {
+                iPlayerX = new_x;
+                iPlayerY = new_y;
             }
         } else if( action == "FLAG" ) {
             if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
                 mLevelReveal[iPlayerY][iPlayerX] = flag;
-                mvwputch( w_minesweeper, offset + point( iPlayerX, iPlayerY ), hilite( c_yellow ),
-                          "!" );
-
             } else if( mLevelReveal[iPlayerY][iPlayerX] == flag ) {
                 mLevelReveal[iPlayerY][iPlayerX] = unknown;
-                mvwputch( w_minesweeper, offset + point( iPlayerX, iPlayerY ), hilite( c_white ),
-                          "#" );
             }
         } else if( action == "CONFIRM" ) {
             if( mLevelReveal[iPlayerY][iPlayerX] != seen ) {
-                if( mLevel[iPlayerY][iPlayerX] == static_cast<int>( bomb ) ) {
-                    for( int y = 0; y < level.y; y++ ) {
-                        for( int x = 0; x < level.x; x++ ) {
-                            if( mLevel[y][x] == static_cast<int>( bomb ) ) {
-                                mvwputch( w_minesweeper, offset + point( x, y ), hilite( c_red ),
-                                          mLevelReveal[y][x] == flag ? "!" : "*" );
-                            }
-                        }
-                    }
-
-                    wrefresh( w_minesweeper );
-
+                if( mLevel[iPlayerY][iPlayerX] == bomb ) {
+                    boom = true;
+                    reveal_all();
+                    ui.invalidate_ui();
                     popup_top( _( "Boom, you're dead!  Better luck next time." ) );
                     action = "QUIT";
-
                 } else if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
                     rec_reveal( iPlayerY, iPlayerX );
                 }
             }
         }
-
     } while( action != "QUIT" );
 
     return iScore;

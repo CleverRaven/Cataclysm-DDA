@@ -2172,18 +2172,19 @@ int game::inventory_item_menu( item_location locThisItem,
         catacurses::window w_info;
         int iScrollHeight = 0;
 
-        ui_adaptor ui;
-        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        std::unique_ptr<ui_adaptor> ui = std::make_unique<ui_adaptor>();
+        ui->on_screen_resize( [&]( ui_adaptor & ui ) {
             w_info = catacurses::newwin( TERMY, iWidth(), point( iStartX(), 0 ) );
             iScrollHeight = TERMY - 2;
             ui.position_from_window( w_info );
         } );
-        ui.mark_resize();
+        ui->mark_resize();
 
-        ui.on_redraw( [&]( const ui_adaptor & ) {
+        ui->on_redraw( [&]( const ui_adaptor & ) {
             draw_item_info( w_info, data );
         } );
 
+        bool exit = false;
         do {
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
@@ -2202,6 +2203,11 @@ int game::inventory_item_menu( item_location locThisItem,
                 action_menu.vshift = 0;
             } else {
                 cMenu = 0;
+            }
+
+            if( action_menu.ret != UILIST_WAIT_INPUT && action_menu.ret != UILIST_UNBOUND ) {
+                exit = true;
+                ui = nullptr;
             }
 
             switch( cMenu ) {
@@ -2278,11 +2284,15 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case KEY_PPAGE:
                     iScrollPos -= iScrollHeight;
-                    ui.invalidate_ui();
+                    if( ui ) {
+                        ui->invalidate_ui();
+                    }
                     break;
                 case KEY_NPAGE:
                     iScrollPos += iScrollHeight;
-                    ui.invalidate_ui();
+                    if( ui ) {
+                        ui->invalidate_ui();
+                    }
                     break;
                 case '+':
                     if( !bHPR ) {
@@ -2301,7 +2311,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 default:
                     break;
             }
-        } while( action_menu.ret == UILIST_WAIT_INPUT || action_menu.ret == UILIST_UNBOUND );
+        } while( !exit );
     }
     return cMenu;
 }
