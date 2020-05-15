@@ -834,8 +834,16 @@ int iuse::vaccine( player *p, item *it, bool, const tripoint & )
 int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
-    p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
-    p->add_effect( effect_flushot, 30_days, num_bp, true );
+    time_point expiration_date = calendar::start_of_cataclysm + 24_weeks;
+    time_duration remaining_time = expiration_date - calendar::turn;
+    // FIXME Removing feedback and visible status would be more realistic
+    if( remaining_time > 0_turns ) {
+        p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
+        p->add_effect( effect_flushot, remaining_time, num_bp, false );
+    } else {
+        p->add_msg_if_player( m_bad,
+                              _( "You notice the date on the packaging is pretty old.  It may no longer be effective." ) );
+    }
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
@@ -1289,8 +1297,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
     } else if( effect <= 6 ) { // Radiation cleanse is below
         p.add_msg_if_player( m_good, _( "You feel better all over." ) );
         p.mod_painkiller( 30 );
-        iuse dummy;
-        dummy.purifier( &p, &it, false, p.pos() );
+        iuse::purifier( &p, &it, false, p.pos() );
         if( effect == 6 ) {
             p.set_rad( 0 );
         }
@@ -1436,7 +1443,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
                               _( "It tastes amazing, and you finish it quickly." ) );
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
         p->mod_painkiller( 30 );
-        this->purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
+        iuse::purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
         p->set_rad( 0 );
         p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player( m_good,
@@ -8331,7 +8338,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
 
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
-    pmenu.w_y = 0;
+    pmenu.w_y_setup = 0;
     pmenu.query();
 
     if( pmenu.ret < 0 || pmenu.ret >= static_cast<int>( vehs.size() ) ) {

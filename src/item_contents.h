@@ -11,6 +11,7 @@
 
 #include "enums.h"
 #include "item_pocket.h"
+#include "iteminfo_query.h"
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -98,6 +99,13 @@ class item_contents
         units::volume total_contained_volume() const;
         // gets the number of charges of liquid that can fit into the rest of the space
         int remaining_capacity_for_liquid( const item &liquid ) const;
+
+        /** If contents should contribute to encumbrance, returns a value
+         * between 0 and 1 indicating the position between minimum and maximum
+         * contribution it's currently making.  Otherwise, return 0 */
+        float relative_encumbrance() const;
+        /** True iff every pocket is rigid */
+        bool all_pockets_rigid() const;
 
         /** returns the best quality of the id that's contained in the item in CONTAINER pockets */
         int best_quality( const quality_id &id ) const;
@@ -188,7 +196,7 @@ class item_contents
         void remove_internal( const std::function<bool( item & )> &filter,
                               int &count, std::list<item> &res );
 
-        void info( std::vector<iteminfo> &info ) const;
+        void info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
         void combine( const item_contents &read_input );
 

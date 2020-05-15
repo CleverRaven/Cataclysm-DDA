@@ -765,78 +765,6 @@ void mdeath::kill_breathers( monster &/*z*/ )
     }
 }
 
-void mdeath::detonate( monster &z )
-{
-    weighted_int_list<std::string> amm_list;
-    for( const auto &amm : z.ammo ) {
-        amm_list.add( amm.first, amm.second );
-    }
-
-    std::vector<std::string> pre_dets;
-    for( int i = 0; i < 3; i++ ) {
-        if( amm_list.get_weight() <= 0 ) {
-            break;
-        }
-        // Grab one item
-        std::string tmp = *amm_list.pick();
-        // and reduce its weight by 1
-        amm_list.add_or_replace( tmp, amm_list.get_specific_weight( tmp ) - 1 );
-        // and stash it for use
-        pre_dets.push_back( tmp );
-    }
-
-    // Update any hardcoded explosion equivalencies
-    std::vector<std::pair<std::string, long>> dets;
-    for( const std::string &bomb_id : pre_dets ) {
-        if( bomb_id == "bot_grenade_hack" ) {
-            dets.push_back( std::make_pair( "grenade_act", 5 ) );
-        } else if( bomb_id == "bot_flashbang_hack" ) {
-            dets.push_back( std::make_pair( "flashbang_act", 5 ) );
-        } else if( bomb_id == "bot_gasbomb_hack" ) {
-            dets.push_back( std::make_pair( "gasbomb_act", 20 ) );
-        } else if( bomb_id == "bot_c4_hack" ) {
-            dets.push_back( std::make_pair( "c4armed", 10 ) );
-        } else if( bomb_id == "bot_mininuke_hack" ) {
-            dets.push_back( std::make_pair( "mininuke_act", 20 ) );
-        } else {
-            // Get the transformation item
-            const iuse_transform *actor = dynamic_cast<const iuse_transform *>(
-                                              item::find_type( bomb_id )->get_use( "transform" )->get_actor_ptr() );
-            if( actor == nullptr ) {
-                // Invalid bomb item, move to the next ammo item
-                add_msg( m_debug, "Invalid bomb type in detonate mondeath for %s.", z.name() );
-                continue;
-            }
-            dets.emplace_back( actor->target, actor->ammo_qty );
-        }
-    }
-
-    if( g->u.sees( z ) ) {
-        if( dets.empty() ) {
-            add_msg( m_info,
-                     //~ %s is the possessive form of the monster's name
-                     _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
-                     z.name() );
-        } else {
-            //~ %s is the possessive form of the monster's name
-            add_msg( m_bad, _( "The %s's hands fly to its remaining pockets, opening them!" ),
-                     z.name() );
-        }
-    }
-    // HACK, used to stop them from having ammo on respawn
-    z.add_effect( effect_no_ammo, 1_turns, num_bp, true );
-
-    // First die normally
-    mdeath::normal( z );
-    // Then detonate our suicide bombs
-    for( const auto &bombs : dets ) {
-        item bomb_item( bombs.first, 0 );
-        bomb_item.charges = bombs.second;
-        bomb_item.active = true;
-        g->m.add_item_or_charges( z.pos(), bomb_item );
-    }
-}
-
 void mdeath::broken_ammo( monster &z )
 {
     if( g->u.sees( z.pos() ) ) {
@@ -856,10 +784,6 @@ void make_mon_corpse( monster &z, int damageLvl )
         corpse.set_item_temperature( 310.15 );
     }
     corpse.set_damage( damageLvl );
-    if( z.has_effect( effect_pacified ) && z.type->in_species( ZOMBIE ) ) {
-        // Pacified corpses have a chance of becoming unpacified when regenerating.
-        corpse.set_var( "zlave", one_in( 2 ) ? "zlave" : "mutilated" );
-    }
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
@@ -898,4 +822,28 @@ void mdeath::conflagration( monster &z )
     const std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
 
+}
+
+void mdeath::necro_boomer( monster &z )
+{
+    std::string explode = string_format( _( "a %s explodes!" ), z.name() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    for( const tripoint &aoe : g->m.points_in_radius( z.pos(), 10 ) ) {
+        for( item &corpse : g->m.i_at( aoe ) ) {
+            if( !corpse.is_corpse() ) {
+                continue;
+            }
+            if( g->revive_corpse( aoe, corpse ) ) {
+                g->m.i_rem( aoe, &corpse );
+                break;
+            }
+        }
+    }
+    for( const tripoint &aoe : g->m.points_in_radius( z.pos(), 10 ) ) {
+        monster *mon = g->critter_at<monster>( aoe );
+        if( mon != nullptr && one_in( 10 ) ) {
+            mon->allow_upgrade();
+            mon->try_upgrade( false );
+        }
+    }
 }

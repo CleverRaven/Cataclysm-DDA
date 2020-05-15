@@ -7,9 +7,11 @@
 #include "enums.h"
 #include "game.h"
 #include "item.h"
+#include "iteminfo_query.h"
 #include "itype.h"
 #include "item_pocket.h"
 #include "map.h"
+#include "units.h"
 
 struct tripoint;
 
@@ -240,6 +242,11 @@ ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ||
+            pocket.is_type( item_pocket::pocket_type::CORPSE ) ||
+            pocket.is_type( item_pocket::pocket_type::MIGRATION ) ) {
+            continue;
+        }
         if( !pocket.rigid() ) {
             ret = ret_val<bool>::make_failure( _( "is not rigid" ) );
             continue;
@@ -501,7 +508,7 @@ bool item_contents::stacks_with( const item_contents &rhs ) const
     if( contents.size() != rhs.contents.size() ) {
         return false;
     }
-    return empty() || rhs.empty() ||
+    return ( empty() && rhs.empty() ) ||
            std::equal( contents.begin(), contents.end(),
                        rhs.contents.begin(),
     []( const item_pocket & a, const item_pocket & b ) {
@@ -667,11 +674,19 @@ std::list<const item *> item_contents::all_items_ptr() const
 
 item &item_contents::legacy_front()
 {
+    if( empty() ) {
+        debugmsg( "naively asked for first content item and will get a nullptr" );
+        return null_item_reference();
+    }
     return *all_items_top().front();
 }
 
 const item &item_contents::legacy_front() const
 {
+    if( empty() ) {
+        debugmsg( "naively asked for first content item and will get a nullptr" );
+        return null_item_reference();
+    }
     return *all_items_top().front();
 }
 
@@ -777,6 +792,44 @@ int item_contents::remaining_capacity_for_liquid( const item &liquid ) const
     return charges_of_liquid;
 }
 
+float item_contents::relative_encumbrance() const
+{
+    units::volume nonrigid_max_volume;
+    units::volume nonrigid_volume;
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( pocket.rigid() ) {
+            continue;
+        }
+        nonrigid_volume += pocket.contains_volume();
+        nonrigid_max_volume += pocket.max_contains_volume();
+    }
+    if( nonrigid_volume > nonrigid_max_volume ) {
+        debugmsg( "volume exceeds capacity (%sml > %sml)",
+                  to_milliliter( nonrigid_volume ), to_milliliter( nonrigid_max_volume ) );
+        return 1;
+    }
+    if( nonrigid_max_volume == 0_ml ) {
+        return 0;
+    }
+    return nonrigid_volume * 1.0 / nonrigid_max_volume;
+}
+
+bool item_contents::all_pockets_rigid() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( !pocket.rigid() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 units::volume item_contents::item_size_modifier() const
 {
     units::volume total_vol = 0_ml;
@@ -811,7 +864,7 @@ static void insert_separation_line( std::vector<iteminfo> &info )
     }
 }
 
-void item_contents::info( std::vector<iteminfo> &info ) const
+void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const
 {
     int pocket_number = 1;
     std::vector<iteminfo> contents_info;
@@ -835,15 +888,19 @@ void item_contents::info( std::vector<iteminfo> &info ) const
             pocket.contents_info( contents_info, pocket_number++, contents.size() != 1 );
         }
     }
-    int idx = 0;
-    for( const item_pocket &pocket : found_pockets ) {
-        insert_separation_line( info );
-        if( pocket_num[idx] > 1 ) {
-            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pockets (%d)</bold>" ),
-                               pocket_num[idx] ) );
+    if( parts->test( iteminfo_parts::DESCRIPTION_POCKETS ) ) {
+        int idx = 0;
+        for( const item_pocket &pocket : found_pockets ) {
+            insert_separation_line( info );
+            if( pocket_num[idx] > 1 ) {
+                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pockets (%d)</bold>" ),
+                                   pocket_num[idx] ) );
+            }
+            idx++;
+            pocket.general_info( info, idx, false );
         }
-        idx++;
-        pocket.general_info( info, idx, false );
     }
-    info.insert( info.end(), contents_info.begin(), contents_info.end() );
+    if( parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
+        info.insert( info.end(), contents_info.begin(), contents_info.end() );
+    }
 }

@@ -63,7 +63,6 @@ bool monexamine::pet_menu( monster &z )
 {
     enum choices {
         swap_pos = 0,
-        push_zlave,
         rename,
         attach_bag,
         remove_bag,
@@ -96,7 +95,6 @@ bool monexamine::pet_menu( monster &z )
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
-    amenu.addentry( push_zlave, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
     if( z.has_effect( effect_has_bag ) ) {
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
@@ -215,9 +213,6 @@ bool monexamine::pet_menu( monster &z )
     switch( choice ) {
         case swap_pos:
             swap( z );
-            break;
-        case push_zlave:
-            push( z );
             break;
         case rename:
             rename_pet( z );
@@ -681,8 +676,7 @@ void monexamine::kill_zslave( monster &z )
     if( !one_in( 3 ) ) {
         g->u.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
         item ball( "pheromone", 0 );
-        iuse pheromone;
-        pheromone.pheromone( &g->u, &ball, true, g->u.pos() );
+        iuse::pheromone( &g->u, &ball, true, g->u.pos() );
     }
 }
 

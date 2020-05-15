@@ -28,6 +28,8 @@ using itype_id = std::string;
 struct bionic_data {
     bionic_data();
 
+    bionic_id id;
+
     translation name;
     translation description;
     /** Power cost on activation */
@@ -41,46 +43,15 @@ struct bionic_data {
     /** Power bank size **/
     units::energy capacity = 0_kJ;
 
-    /** True if a bionic can be used by an NPC and installed on them */
-    bool npc_usable = false;
-    /** True if a bionic is a "faulty" bionic */
-    bool faulty = false;
-    bool power_source = false;
+
     /** Is true if a bionic is an active instead of a passive bionic */
     bool activated = false;
-    /** If true, then the bionic only has a function when activated, else it causes
-     *  it's effect every turn.
-     */
-    bool toggled = false;
-    /**
-     * If true, this bionic is a gun bionic and activating it will fire it.
-     * Prevents all other activation effects.
-     */
-    bool gun_bionic = false;
-    /**
-     * If true, this bionic is a weapon bionic and activating it will
-     * create (or destroy) bionic's fake_item in user's hands.
-     * Prevents all other activation effects.
-     */
-    bool weapon_bionic = false;
-    /**
-     * If true, this bionic can provide power to powered armor.
-     */
-    bool armor_interface = false;
-    /**
-    * If true, this bionic won't provide a warning if the player tries to sleep while it's active.
-    */
-    bool sleep_friendly = false;
-    /**
-    * If true, this bionic can't be incapacitated by electrical attacks.
-    */
-    bool shockproof = false;
     /**
     * If true, this bionic is included with another.
     */
     bool included = false;
     /**Factor modifiying weight capacity*/
-    float weight_capacity_modifier = 0.0f;
+    float weight_capacity_modifier = 1.0f;
     /**Bonus to weight capacity*/
     units::mass weight_capacity_bonus = 0_gram;
     /**Map of stats and their corresponding bonuses passively granted by a bionic*/
@@ -117,7 +88,7 @@ struct bionic_data {
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
-    std::map<body_part, size_t> occupied_bodyparts;
+    std::map<bodypart_str_id, size_t> occupied_bodyparts;
     /**
      * Body part encumbered by this bionic, mapped to the amount of encumbrance caused.
      */
@@ -155,7 +126,19 @@ struct bionic_data {
      */
     std::set<bionic_id> available_upgrades;
 
+    /**Requirement to bionic installation*/
+    requirement_id installation_requirement;
+
+    cata::flat_set<std::string> flags;
+    bool has_flag( const std::string &flag ) const;
+
     bool is_included( const bionic_id &id ) const;
+
+    bool was_loaded = false;
+    void load( const JsonObject &obj, std::string );
+    static void load_bionic( const JsonObject &jo, const std::string &src );
+    static const std::vector<bionic_data> &get_all();
+    static void check_bionic_consistency();
 };
 
 struct bionic {
@@ -208,13 +191,10 @@ class bionic_collection : public std::vector<bionic>
 };
 
 /**List of bodyparts occupied by a bionic*/
-std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid );
+std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
 
-void check_bionics();
-void finalize_bionics();
 void reset_bionics();
-// load a bionic from JSON
-void load_bionic( const JsonObject &jsobj );
+
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );

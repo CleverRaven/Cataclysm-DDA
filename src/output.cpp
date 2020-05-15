@@ -944,10 +944,13 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "ANY_INPUT" );
+    if( data.any_input ) {
+        ctxt.register_action( "ANY_INPUT" );
+    }
 
     std::string action;
-    do {
+    bool exit = false;
+    while( !exit ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
         if( data.handle_scrolling && action == "PAGE_UP" ) {
@@ -959,8 +962,12 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
+        } else if( action == "CONFIRM" || action == "QUIT" ) {
+            exit = true;
+        } else if( data.any_input && action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) {
+            exit = true;
         }
-    } while( action != "QUIT" && action != "CONFIRM" && action != "ANY_INPUT" );
+    }
 
     return ctxt.get_raw_input();
 }
@@ -1654,19 +1661,19 @@ void replace_name_tags( std::string &input )
 {
     // these need to replace each tag with a new randomly generated name
     while( input.find( "<full_name>" ) != std::string::npos ) {
-        replace_substring( input, "<full_name>", Name::get( nameIsFullName ),
+        replace_substring( input, "<full_name>", Name::get( nameFlags::IsFullName ),
                            false );
     }
     while( input.find( "<family_name>" ) != std::string::npos ) {
-        replace_substring( input, "<family_name>", Name::get( nameIsFamilyName ),
+        replace_substring( input, "<family_name>", Name::get( nameFlags::IsFamilyName ),
                            false );
     }
     while( input.find( "<given_name>" ) != std::string::npos ) {
-        replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
+        replace_substring( input, "<given_name>", Name::get( nameFlags::IsGivenName ),
                            false );
     }
     while( input.find( "<town_name>" ) != std::string::npos ) {
-        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
+        replace_substring( input, "<town_name>", Name::get( nameFlags::IsTownName ),
                            false );
     }
 }
@@ -1820,6 +1827,71 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
     const std::array<std::pair<double, char>, 1> ratings =
     {{ std::make_pair( 1.0, c ) }};
     return get_labeled_bar( val, width, label, ratings.begin(), ratings.end() );
+}
+
+/**
+ * Inserts a table into a window, with data right-aligned.
+ * @param pad Reduce table width by padding left side.
+ * @param line Line to insert table.
+ * @param columns Number of columns. Can be 1.
+ * @param nc_color &FG Default color of table text.
+ * @param divider To insert a character separating table entries. Can be blank.
+ * @param r_align true for right aligned, false for left aligned.
+ * @param data Text data to fill.
+ * Make sure each entry of the data vector fits into one cell, including divider if any.
+ */
+void insert_table( const catacurses::window &w, int pad, int line, int columns,
+                   const nc_color &FG, const std::string &divider, bool r_align,
+                   const std::vector<std::string> &data )
+{
+    const int width = getmaxx( w );
+    const int rows = getmaxy( w );
+    const int col_width = ( ( width - pad ) / columns );
+    int indent = 1;  // 1 for right window border
+    if( r_align ) {
+        indent = ( col_width * columns ) + 1;
+    }
+    int div = columns - 1;
+    int offset = 0;
+
+#if defined(__ANDROID__)
+    input_context ctxt( "INSERT_TABLE" );
+#endif
+    wattron( w, FG );
+    for( int i = 0; i < rows * columns; i++ ) {
+        if( i + offset * columns >= static_cast<int>( data.size() ) ) {
+            break;
+        }
+        int y = line + ( i / columns );
+        if( r_align ) {
+            indent -= col_width;
+        }
+        if( div != 0 ) {
+            if( r_align ) {
+                right_print( w, y, indent - utf8_width( divider ), FG, divider );
+            } else {
+                fold_and_print_from( w, point( indent + col_width - utf8_width( divider ), y ),
+                                     utf8_width( divider ), 0, FG, divider );
+            }
+            div--;
+        } else {
+            div = columns - 1;
+        }
+
+        if( r_align ) {
+            right_print( w, y, indent, c_white, data[i + offset * columns] );
+            if( indent == 1 ) {
+                indent = ( col_width * columns ) + 1;
+            }
+        } else {
+            fold_and_print_from( w, point( indent, y ), col_width, 0, c_white, data[i + offset * columns] );
+            indent += col_width;
+            if( indent == ( col_width * columns ) + 1 ) {
+                indent = 1;
+            }
+        }
+    }
+    wattroff( w, FG );
 }
 
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,

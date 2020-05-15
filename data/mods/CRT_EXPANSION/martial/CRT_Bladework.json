@@ -3,8 +3,9 @@
     "id": "manual_crt_blade",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "C.R.I.T Blade-work manual" },
-    "description": "An advanced military manual on C.R.I.T Blade-work.",
+    "name": "CRIT Blade-work manual",
+    "name_plural": "CRIT Blade-work manuals",
+    "description": "An advanced military manual on CRIT Blade-work.",
     "book_data": { "martial_art": "style_crt_blade" }
   },
   {
@@ -15,50 +16,83 @@
   {
     "type": "martial_art",
     "id": "style_crt_blade",
-    "name": "C.R.I.T Blade-work",
-    "description": "An offensive style that is centered around rapid slashes and prodding.  Each attack landed increases combat ability",
-    "initiate": [ "Initiate blade-work.", "%s initiates blade-work." ],
+    "name": "CRIT Blade-work",
+    "description": "An offensive style centered around rapid slashes and prodding.  Each attack landed increases combat ability but leaves you increasingly vunerable",
+    "initiate": [ "You prepare to whittle down your enemies.", "%s initiates blade-work." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
       {
         "id": "crt_blade_static",
-        "name": "C.R.I.T Calculation",
-        "description": "Increased accuracy along with minor cut and stab damage with piercing capability.",
-        "unarmed_allowed": true,
+        "name": "Calculating Eyes",
+        "description": "You have been taught how to properly utilize small to medium-sized sharp weaponry. Gain great Cutting and Stabbing Armor Penetration on top of minor Accuracy",
+        "unarmed_allowed": false,
         "melee_allowed": true,
-        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "skill_requirements": [ { "name": "melee", "level": 0 } ],
         "flat_bonuses": [
-          { "stat": "damage", "type": "stab", "scale": 1.0 },
-          { "stat": "damage", "type": "cut", "scale": 1.0 },
-          { "stat": "arpen", "type": "stab", "scale": 1.0 },
-          { "stat": "arpen", "type": "cut", "scale": 1.0 }
+          { "stat": "arpen", "type": "stab", "scale": 5.0 },
+          { "stat": "arpen", "type": "cut", "scale": 5.0 },
+          { "stat": "hit", "scale": 1.0 }
         ]
+      },
+      {
+        "id": "crt_blade_static_2",
+        "name": "Honed Movements",
+        "description": "Your skill and handling with sharp weaponry has improved. Gain extra Cutting and Stabbing damage.",
+        "unarmed_allowed": false,
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 3 }, { "name": "cutting", "level": 3 }, { "name": "stabbing", "level": 3 } ],
+        "flat_bonuses": [ { "stat": "damage", "type": "stab", "scale": 3.0 }, { "stat": "damage", "type": "cut", "scale": 3.0 } ]
       }
     ],
     "onhit_buffs": [
       {
         "id": "crt_blade_hit_buff",
-        "name": "C.R.I.T Intensity",
-        "description": "Additional DMG, and Arpen per stack.  Max of 5 stacks",
+        "name": "Unwavering Edge",
+        "description": "Gain minor Accuracy, Cutting and Stabbing Arpen per stack. Greatly reduces dodge skill. 2 stacks max",
         "unarmed_allowed": false,
         "melee_allowed": true,
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
-        "buff_duration": 1,
-        "max_stacks": 4,
+        "skill_requirements": [ { "name": "melee", "level": 0 } ],
+        "buff_duration": 2,
+        "max_stacks": 2,
         "flat_bonuses": [
-          { "stat": "damage", "type": "stab", "scale": 0.25 },
-          { "stat": "damage", "type": "cut", "scale": 0.5 },
-          { "stat": "arpen", "type": "cut", "scale": 1.0 }
+          { "stat": "arpen", "type": "stab", "scale": 1.0 },
+          { "stat": "arpen", "type": "cut", "scale": 1.0 },
+          { "stat": "dodge", "scale": -2.0 }
         ]
+      },
+      {
+        "id": "crt_blade_hit_buff_2",
+        "name": "Ruthlessness",
+        "description": "Additional Stabbing and Cutting damage per stack.  Reduces dodge attempts. 4 stacks max.",
+        "unarmed_allowed": false,
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "buff_duration": 1,
+        "bonus_dodges": -1,
+        "max_stacks": 4,
+        "flat_bonuses": [ { "stat": "damage", "type": "stab", "scale": 1.0 }, { "stat": "damage", "type": "cut", "scale": 1.0 } ]
+      },
+      {
+        "id": "crt_blade_hit_buff_3",
+        "name": "Rending Strikes",
+        "description": "Additional Armor penetration per stack.  Further reduces dodge attempts. 3 stacks max.",
+        "unarmed_allowed": false,
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 6 }, { "name": "piercing", "level": 4 }, { "name": "cutting", "level": 4 } ],
+        "buff_duration": 1,
+        "bonus_dodges": -1,
+        "max_stacks": 3,
+        "flat_bonuses": [ { "stat": "arpen", "type": "stab", "scale": 2.0 }, { "stat": "arpen", "type": "cut", "scale": 2.0 } ]
       }
     ],
-    "techniques": [ "tec_crt_blade_normal", "tec_crt_blade_rapid", "tec_crt_blade_precise", "tec_crt_blade_arpen", "tec_feint" ],
+    "techniques": [ "tec_crt_blade_rapid", "tec_crt_blade_slash", "tec_crt_blade_precise", "tec_crt_blade_execute" ],
     "weapons": [
       "sword_crt",
       "blade_crt",
       "knife_crt",
       "knife_combat",
+      "knife_combat_mod",
       "knife_hunting",
       "knife_rambo",
       "knife_rm42",
@@ -72,82 +106,110 @@
       "knife_bread",
       "knife_chef",
       "knife_butcher",
+      "knife_swissarmy",
       "makeshift_knife",
       "primitive_knife",
       "pockknife",
       "copper_knife",
       "diveknife",
       "kris",
+      "kris_fake",
       "switchblade",
-      "xacto"
+      "xacto",
+      "g_shovel",
+      "machete",
+      "kukri",
+      "survivor_machete",
+      "tanto",
+      "tanto_fake",
+      "tanto_inferior",
+      "kirpan",
+      "kirpan_cheap",
+      "sword_wood",
+      "sword_cane",
+      "sickle",
+      "honey_scraper",
+      "carver_off",
+      "carver_on",
+      "wasp_sting",
+      "fighter_sting",
+      "bee_sting",
+      "cutlass",
+      "cavalry_sabre",
+      "cavalry_sabre_fake",
+      "cutlass_inferior",
+      "glass_shiv",
+      "punch_dagger",
+      "scalpel",
+      "sharp_toothbrush"
     ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_crt_blade_normal",
-    "name": "Shimmer Flurry",
-    "skill_requirements": [ { "name": "unarmed", "level": 1 }, { "name": "melee", "level": 1 } ],
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 0.8 },
-      { "stat": "damage", "type": "cut", "scale": 0.7 },
-      { "stat": "damage", "type": "stab", "scale": 0.6 }
-    ],
-    "messages": [ "You release a blindingly fast slash at %s", "<npcname> slashes at %s" ]
   },
   {
     "type": "technique",
     "id": "tec_crt_blade_rapid",
     "name": "Tipped Intent",
-    "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "melee", "level": 2 } ],
-    "unarmed_allowed": true,
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "unarmed_allowed": false,
     "melee_allowed": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.77 },
-      { "stat": "damage", "type": "bash", "scale": 0.55 },
-      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "movecost", "scale": 0.7 },
+      { "stat": "damage", "type": "bash", "scale": 0.88 },
+      { "stat": "damage", "type": "cut", "scale": 0.88 },
       { "stat": "damage", "type": "stab", "scale": 0.88 }
     ],
-    "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ]
+    "messages": [ "You quickly jab your weapon at %s", "<npcname> quickly jabs their weapon at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_blade_slash",
+    "name": "Shimmer Flurry",
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "crit_ok": true,
+    "down_dur": 2,
+    "messages": [
+      "You release a blindingly fast low slash at %s and topple them off balance",
+      "<npcname> slashes at %s and shoves them down"
+    ]
   },
   {
     "type": "technique",
     "id": "tec_crt_blade_precise",
-    "name": "Decisive Blow",
-    "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "melee", "level": 3 } ],
-    "unarmed_allowed": true,
+    "name": "Mirage Slash",
+    "skill_requirements": [ { "name": "melee", "level": 6 } ],
+    "weighting": 1,
+    "unarmed_allowed": false,
     "melee_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.8 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 1.05 },
-      { "stat": "damage", "type": "stab", "scale": 1.0 }
-    ],
-    "crit_tec": true,
-    "messages": [ "You release a debilitating swipe at %s", "<npcname> releases a debilitating swipe at %s" ],
-    "down_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_crt_blade_arpen",
-    "name": "End Slash",
-    "skill_requirements": [ { "name": "unarmed", "level": 5 }, { "name": "melee", "level": 5 } ],
-    "weighting": 2,
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scale": 1.1 },
-      { "stat": "damage", "type": "stab", "scale": 1.1 },
-      { "stat": "arpen", "type": "stab", "scale": 0.25 },
-      { "stat": "arpen", "type": "cut", "scale": 0.5 }
-    ],
+    "downed_target": true,
+    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 1.2 }, { "stat": "damage", "type": "stab", "scale": 1.2 } ],
     "crit_tec": true,
     "messages": [
-      "You envision the tension of a fully drawn bow and then launch a piercing blow on %s's top half",
+      "You hold your blade taut, and then launch a piercing slash on %s's top half",
       "<npcname> lands a piercing blow on %s's face"
     ],
     "stun_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_blade_execute",
+    "name": "The Point",
+    "skill_requirements": [ { "name": "melee", "level": 6 } ],
+    "weighting": 3,
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "downed_target": true,
+    "stunned_target": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.3 },
+      { "stat": "damage", "type": "cut", "scale": 2 },
+      { "stat": "damage", "type": "stab", "scale": 2 }
+    ],
+    "flat_bonuses": [ { "stat": "arpen", "type": "cut", "scale": 10 }, { "stat": "arpen", "type": "stab", "scale": 10 } ],
+    "crit_ok": true,
+    "messages": [
+      "You drive your weapon down into %s's vulnerable center mass",
+      "<npcname> lands a deadly blow on %s's unguarded center mass"
+    ]
   }
 ]

@@ -39,6 +39,7 @@ struct tile_type {
     weighted_int_list<std::vector<int>> fg, bg;
     bool multitile = false;
     bool rotates = false;
+    bool animated = false;
     int height_3d = 0;
     point offset = point_zero;
 

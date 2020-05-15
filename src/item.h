@@ -530,6 +530,8 @@ class item : public visitable<item>
          */
         units::volume volume( bool integral = false ) const;
 
+        units::length length() const;
+
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
          * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
@@ -725,7 +727,6 @@ class item : public visitable<item>
          */
         item in_its_container() const;
         item in_container( const itype_id &container_type ) const;
-        /*@}*/
 
         bool item_has_uses_recursive() const;
 
@@ -1553,19 +1554,17 @@ class item : public visitable<item>
          * damage from attacks.
          */
         int get_coverage() const;
-        /**
-         * Returns the encumbrance value that this item has when worn by given
-         * player, when containing a particular volume of contents.
-         * Returns 0 if this can not be worn at all.
-         */
-        int get_encumber_when_containing(
-            const Character &, const units::volume &contents_volume ) const;
+
+        enum class encumber_flags {
+            none = 0,
+            assume_full = 1,
+        };
         /**
          * Returns the encumbrance value that this item has when worn by given
          * player.
          * Returns 0 if this is can not be worn at all.
          */
-        int get_encumber( const Character & ) const;
+        int get_encumber( const Character &, encumber_flags = encumber_flags::none ) const;
         /**
          * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
          * For non-armor it returns 1. The modifier is multiplied with the weight capacity of the character that wears the item.
@@ -2242,6 +2241,18 @@ class item : public visitable<item>
         float get_clothing_mod_val( clothing_mod_type type ) const;
         void update_clothing_mod_val();
 };
+
+inline item::encumber_flags operator&( item::encumber_flags l, item::encumber_flags r )
+{
+    using I = std::underlying_type_t<item::encumber_flags>;
+    return static_cast<item::encumber_flags>( static_cast<I>( l ) & static_cast<I>( r ) );
+}
+
+inline bool operator!( item::encumber_flags f )
+{
+    using I = std::underlying_type_t<item::encumber_flags>;
+    return !static_cast<I>( f );
+}
 
 bool item_compare_by_charges( const item &left, const item &right );
 bool item_ptr_compare_by_charges( const item *left, const item *right );

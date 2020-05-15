@@ -11,11 +11,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40x53mm",
+    "ammo_type": [ "40x53mm" ],
     "capacity": 50,
     "count": 25,
     "reliability": 6,
     "linkage": "ammolink40mm",
-    "flags": [ "MAG_BELT", "MAG_DESTROY" ]
+    "flags": [ "MAG_BELT", "MAG_DESTROY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x53mm": 50 } } ]
   }
 ]

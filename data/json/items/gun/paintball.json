@@ -13,7 +13,7 @@
     "material": [ "aluminum", "plastic" ],
     "flags": [ "NEVER_JAMS", "NON-FOULING" ],
     "skill": "smg",
-    "ammo": "paintball",
+    "ammo": [ "paintball" ],
     "weight": "1600 g",
     "volume": "1250 ml",
     "bashing": 5,
@@ -31,6 +31,7 @@
       [ "sights mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "paintball": 50 } } ]
   }
 ]

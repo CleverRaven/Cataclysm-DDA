@@ -784,9 +784,12 @@ static void smash()
         if( !mech_smash ) {
             u.increase_activity_level( MODERATE_EXERCISE );
             u.handle_melee_wear( u.weapon );
-            const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
-                                  ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
+
+            const int weight_cost = u.weapon.weight() / ( 16_gram );
+            const int encumbrance_cost = u.encumb( bp_arm_l ) + u.encumb( bp_arm_r );
+            const int mod_sta = 2 * ( weight_cost + encumbrance_cost + 50 ) * -1;
             u.mod_stamina( mod_sta );
+
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
@@ -1011,7 +1014,7 @@ static void sleep()
         // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.info().sleep_friendly ) {
+        if( bio.info().has_flag( "BIONIC_SLEEP_FRIENDLY" ) ) {
             continue;
         }
 

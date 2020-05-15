@@ -65,7 +65,7 @@ save_t save_t::from_base_path( const std::string &base_path )
 
 static std::string get_next_valid_worldname()
 {
-    std::string worldname = Name::get( nameIsWorldName );
+    std::string worldname = Name::get( nameFlags::IsWorldName );
 
     return worldname;
 }

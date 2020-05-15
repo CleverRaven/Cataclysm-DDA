@@ -1,9 +1,11 @@
 #include <clocale>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
 #include "catacharset.h"
 #include "catch/catch.hpp"
+#include "translations.h"
 
 TEST_CASE( "utf8_width", "[catacharset]" )
 {
@@ -50,4 +52,32 @@ TEST_CASE( "wstr_to_utf8", "[catacharset]" )
     std::string dest( u8"Hello, 世界!" );
     CHECK( wstr_to_utf8( src ) == dest );
     setlocale( LC_ALL, "C" );
+}
+
+TEST_CASE( "localized_compare", "[catacharset]" )
+{
+    try {
+        std::locale::global( std::locale( "en_US.UTF-8" ) );
+    } catch( std::runtime_error & ) {
+        // On platforms where we can't set the locale, ignore this test
+        return;
+    }
+    CAPTURE( setlocale( LC_ALL, nullptr ) );
+    CAPTURE( std::locale().name() );
+    std::string a = "a";
+    std::string b = "b";
+    std::string c = "c";
+    std::string A = "A";
+    std::string B = "B";
+    CHECK( !localized_compare( a, a ) );
+    CHECK( localized_compare( a, B ) );
+    CHECK( localized_compare( A, b ) );
+    CHECK( !localized_compare( B, a ) );
+    CHECK( !localized_compare( b, A ) );
+    CHECK( localized_compare( std::make_pair( a, a ), std::make_pair( a, B ) ) );
+    CHECK( localized_compare( std::make_tuple( a ), std::make_tuple( B ) ) );
+    CHECK( localized_compare( std::make_tuple( a, c, c ), std::make_tuple( B, a, a ) ) );
+    CHECK( localized_compare( std::make_tuple( a, a, c ), std::make_tuple( a, B, a ) ) );
+    CHECK( localized_compare( std::make_tuple( a, a, a ), std::make_tuple( a, a, B ) ) );
+    std::locale::global( std::locale::classic() );
 }

@@ -16,7 +16,7 @@
     "material": [ "steel" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "38",
+    "ammo": [ "38" ],
     "skill": "pistol",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 620,
@@ -33,7 +33,8 @@
       [ "stock mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38": 2 } } ]
   },
   {
     "id": "cop_38",
@@ -66,7 +67,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 4, "38": 4 } } ]
   },
   {
     "id": "model_10_revolver",
@@ -83,12 +85,13 @@
     "bashing": 9,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
-    "ammo": "38",
+    "ammo": [ "38" ],
     "dispersion": 480,
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "magazines": [ [ "38", [ "38_speedloader6" ] ] ]
+    "magazines": [ [ "38", [ "38_speedloader6" ] ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38": 6 } } ]
   },
   {
     "id": "rifle_38",
@@ -105,7 +108,7 @@
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "38",
+    "ammo": [ "38" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
@@ -126,7 +129,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38": 1 } } ]
   },
   {
     "id": "ruger_lcr_38",
@@ -144,7 +148,7 @@
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "38",
+    "ammo": [ "38" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 480,
     "durability": 10,
@@ -161,7 +165,8 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38": 5 } } ]
   },
   {
     "id": "sw_619",
@@ -195,6 +200,7 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 7, "38": 7 } } ]
   }
 ]

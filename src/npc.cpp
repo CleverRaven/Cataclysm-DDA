@@ -2089,7 +2089,6 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FLEE:
             return A_NEUTRAL;
         case MATT_FRIEND:
-        case MATT_ZLAVE:
             return A_FRIENDLY;
         case MATT_ATTACK:
             return A_HOSTILE;

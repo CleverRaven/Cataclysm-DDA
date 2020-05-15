@@ -441,7 +441,7 @@ void vehicle::turrets_set_targeting()
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
-        menu.w_y = 2;
+        menu.w_y_setup = 2;
 
         for( auto &p : turrets ) {
             menu.addentry( -1, has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
@@ -497,7 +497,7 @@ void vehicle::turrets_set_mode()
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
-        menu.w_y = 2;
+        menu.w_y_setup = 2;
 
         for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",

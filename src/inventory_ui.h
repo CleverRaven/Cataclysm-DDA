@@ -18,6 +18,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
@@ -217,6 +218,20 @@ class inventory_selector_preset
         std::vector<cell_t> cells;
 };
 
+class inventory_holster_preset : public inventory_selector_preset
+{
+    public:
+        inventory_holster_preset( const item_location &holster ) : holster( holster ) {}
+
+        /** Does this entry satisfy the basic preset conditions? */
+        bool is_shown( const item_location &contained ) const override {
+            return holster->can_contain( *contained ) && !holster->has_item( *contained );
+        }
+    private:
+        // this is the item that we are putting something into
+        item_location holster;
+};
+
 const inventory_selector_preset default_preset;
 
 class inventory_column
@@ -336,8 +351,16 @@ class inventory_column
 
         // whether or not to indent contained entries
         bool indent_entries() const {
-            return preset.indent_entries();
+            if( indent_entries_override ) {
+                return *indent_entries_override;
+            } else {
+                return preset.indent_entries();
+            }
         };
+
+        void set_indent_entries_override( bool entry_override ) {
+            indent_entries_override = entry_override;
+        }
 
     protected:
         struct entry_cell_cache_t {
@@ -409,6 +432,7 @@ class inventory_column
         std::vector<cell_t> cells;
         mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
+        cata::optional<bool> indent_entries_override = cata::nullopt;
         /** @return Number of visible cells */
         size_t visible_cells() const;
 };
@@ -448,6 +472,7 @@ class inventory_selector
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_contained_items( item_location container );
+        void add_contained_items( item_location container, inventory_column &column );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
@@ -592,6 +617,7 @@ class inventory_selector
             return get_column( active_column_index );
         }
 
+        void toggle_categorize_contained();
         void set_active_column( size_t index );
 
     protected:
@@ -648,6 +674,9 @@ class inventory_selector
 
         bool is_empty = true;
         bool display_stats = true;
+
+    public:
+        std::string action_bound_to_key( char key ) const;
 };
 
 inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
@@ -713,9 +742,9 @@ class inventory_drop_selector : public inventory_multiselector
 {
     public:
         inventory_drop_selector( player &p,
-                                 const inventory_selector_preset &preset = default_preset );
+                                 const inventory_selector_preset &preset = default_preset,
+                                 const std::string &selection_column_title = _( "ITEMS TO DROP" ) );
         drop_locations execute();
-
     protected:
         stats get_raw_stats() const override;
         /** Toggle item dropping */

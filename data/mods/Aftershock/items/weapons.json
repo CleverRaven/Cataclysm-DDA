@@ -12,7 +12,7 @@
     "symbol": "[",
     "looks_like": "flashlight",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "menu_text": "Activate",
@@ -51,7 +51,7 @@
     "material": [ "superalloy", "diamond" ],
     "symbol": "[",
     "color": "light_blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "turns_per_charge": 10,
     "cutting": 40,
     "to_hit": 2,
@@ -149,12 +149,13 @@
     "looks_like": "bio_int_enhancer",
     "color": "magenta",
     "skill": "launcher",
-    "ammo": "40x46mm",
+    "ammo": [ "40x46mm" ],
     "dispersion": 290,
     "durability": 6,
     "clip_size": 1,
     "reload": 150,
-    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "laser_rifle_cheap",
@@ -170,7 +171,7 @@
     "symbol": "(",
     "looks_like": "american_180",
     "color": "magenta",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "skill": "rifle",
     "range": 10,
     "ranged_damage": { "damage_type": "heat", "amount": 10 },
@@ -196,7 +197,7 @@
     "price": 99999999,
     "material": "steel",
     "skill": "launcher",
-    "ammo": "120mm",
+    "ammo": [ "120mm" ],
     "weight": "2500 g",
     "volume": "2500 ml",
     "bashing": 6,
@@ -204,7 +205,8 @@
     "dispersion": 60,
     "durability": 9,
     "clip_size": 1,
-    "loudness": 300
+    "loudness": 300,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
   },
   {
     "type": "GENERIC",

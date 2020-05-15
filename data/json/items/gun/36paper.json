@@ -13,11 +13,12 @@
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "wood" ],
-    "ammo": "36paper",
+    "ammo": [ "36paper" ],
     "dispersion": 450,
     "durability": 7,
     "blackpowder_tolerance": 96,
     "clip_size": 6,
-    "proportional": { "reload": 2.0 }
+    "proportional": { "reload": 2.0 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "36paper": 6 } } ]
   }
 ]

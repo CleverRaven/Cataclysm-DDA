@@ -106,6 +106,7 @@ static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
 
 static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
@@ -1022,7 +1023,14 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
     // Cenobites don't mind, though
     if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
-        eff_morale = eff_morale - get_perceived_pain();
+        int perceived_pain = get_perceived_pain();
+        if( has_trait( trait_MASOCHIST ) ) {
+            if( perceived_pain > 20 ) {
+                eff_morale = eff_morale - ( perceived_pain - 20 );
+            }
+        } else {
+            eff_morale = eff_morale - perceived_pain;
+        }
     }
 
     if( eff_morale < -99 ) {
@@ -1127,14 +1135,14 @@ void avatar::reset_stats()
     if( has_trait( trait_CHITIN2 ) || has_trait( trait_CHITIN3 ) || has_trait( trait_CHITIN_FUR3 ) ) {
         add_miss_reason( _( "Your chitin gets in the way." ), 1 );
     }
-    if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bp_eyes ) ) {
+    if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bodypart_id( "eyes" ) ) ) {
         mod_per_bonus( 1 );
     }
     if( has_trait( trait_INSECT_ARMS ) ) {
         add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
     }
     if( has_trait( trait_INSECT_ARMS_OK ) ) {
-        if( !wearing_something_on( bp_torso ) ) {
+        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 1 );
         } else {
             mod_dex_bonus( -1 );
@@ -1148,7 +1156,7 @@ void avatar::reset_stats()
         add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
     }
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
-        if( !wearing_something_on( bp_torso ) ) {
+        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
         } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
             mod_dex_bonus( -2 );
@@ -1229,10 +1237,10 @@ void avatar::reset_stats()
     mod_dodge_bonus( mabuff_dodge_bonus() -
                      ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
     // Whiskers don't work so well if they're covered
-    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
+    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
     }
-    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
+    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 2 );
     }
     // depending on mounts size, attacks will hit the mount and use their dodge rating.
@@ -1242,14 +1250,14 @@ void avatar::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const std::array<body_part, 5> parts{ { bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l } };
-        for( auto bp : parts ) {
+        static const std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
+        for( const bodypart_id &bp : parts ) {
             if( !wearing_something_on( bp ) ) {
                 mod_dodge_bonus( +1 );
             }
         }
         // Torso handled separately, bigger bonus
-        if( !wearing_something_on( bp_torso ) ) {
+        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dodge_bonus( 4 );
         }
     }

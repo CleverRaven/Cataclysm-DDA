@@ -22,6 +22,11 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const vpart_id vpart_battery_car( "battery_car" );
+static const vpart_id vpart_headlight( "headlight" );
+static const vpart_id vpart_vehicle_clock( "vehicle_clock" );
+static const vpart_id vpart_windshield( "windshield" );
+
 enum class outcome_type {
     Kill, Casualty
 };
@@ -125,11 +130,11 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     for( size_t i = 0; i < before_hp.size(); ++i ) {
         CAPTURE( i );
         INFO( target_vehicle->parts[ i ].name() );
-        if( target_vehicle->parts[ i ].info().get_id() == "battery_car" ||
-            target_vehicle->parts[ i ].info().get_id() == "headlight" ||
-            target_vehicle->parts[ i ].info().get_id() == "windshield" ) {
+        if( target_vehicle->parts[ i ].info().get_id() == vpart_battery_car ||
+            target_vehicle->parts[ i ].info().get_id() == vpart_headlight ||
+            target_vehicle->parts[ i ].info().get_id() == vpart_windshield ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else if( !( target_vehicle->parts[ i ].info().get_id() == "vehicle_clock" ) ) {
+        } else if( !( target_vehicle->parts[ i ].info().get_id() == vpart_vehicle_clock ) ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
         }
     }

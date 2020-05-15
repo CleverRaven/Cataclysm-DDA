@@ -12,7 +12,7 @@
     "material": "leather",
     "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ],
     "skill": "throw",
-    "ammo": "pebble",
+    "ammo": [ "pebble" ],
     "weight": "96 g",
     "volume": "250 ml",
     "price_postapoc": 250,
@@ -21,7 +21,8 @@
     "range": 8,
     "dispersion": 150,
     "durability": 6,
-    "clip_size": 1
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   },
   {
     "id": "slingshot",
@@ -35,7 +36,7 @@
     "material": "wood",
     "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ],
     "skill": "archery",
-    "ammo": "pebble",
+    "ammo": [ "pebble" ],
     "weight": "254 g",
     "volume": "250 ml",
     "price_postapoc": 50,
@@ -45,7 +46,8 @@
     "dispersion": 75,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   },
   {
     "id": "staff_sling",
@@ -70,7 +72,7 @@
     ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "skill": "throw",
-    "ammo": "rock",
+    "ammo": [ "rock" ],
     "weight": "2000 g",
     "volume": "3 L",
     "price_postapoc": 250,
@@ -80,7 +82,8 @@
     "range": 10,
     "dispersion": 200,
     "durability": 8,
-    "clip_size": 1
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1 } } ]
   },
   {
     "id": "wristrocket",
@@ -94,7 +97,7 @@
     "material": [ "steel", "plastic" ],
     "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ],
     "skill": "archery",
-    "ammo": "pebble",
+    "ammo": [ "pebble" ],
     "weight": "322 g",
     "volume": "500 ml",
     "price_postapoc": 250,
@@ -104,6 +107,7 @@
     "dispersion": 45,
     "durability": 7,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   }
 ]

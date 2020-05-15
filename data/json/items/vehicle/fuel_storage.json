@@ -14,8 +14,9 @@
     "capacity": 2000,
     "reliability": 10,
     "//": "mods will need to expand",
-    "ammo_type": "charcoal",
+    "ammo_type": [ "charcoal" ],
     "price": 3000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ]
   }
 ]

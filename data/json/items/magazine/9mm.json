@@ -12,11 +12,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 50,
     "reliability": 7,
     "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 50 } } ]
   },
   {
     "id": "glockbigmag",
@@ -31,11 +32,12 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 30,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 30 } } ]
   },
   {
     "id": "glockmag",
@@ -50,10 +52,11 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 15 } } ]
   },
   {
     "id": "glock17_17",
@@ -68,11 +71,12 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 17,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 17 } } ]
   },
   {
     "id": "glock17_22",
@@ -87,10 +91,11 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 22,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 22 } } ]
   },
   {
     "id": "glock_drum_50rd",
@@ -105,10 +110,11 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 50,
     "reliability": 8,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 50 } } ]
   },
   {
     "id": "glock_drum_100rd",
@@ -123,10 +129,11 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 100,
     "reliability": 8,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 100 } } ]
   },
   {
     "id": "m9bigmag",
@@ -141,11 +148,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 30,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 30 } } ]
   },
   {
     "id": "m9mag",
@@ -160,10 +168,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 15 } } ]
   },
   {
     "id": "mp5bigmag",
@@ -178,11 +187,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 50,
     "reliability": 8,
     "reload_time": 160,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 50 } } ]
   },
   {
     "id": "mp5mag",
@@ -198,7 +208,7 @@
     "symbol": "#",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 30 } } ],
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 30,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
@@ -216,10 +226,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 17,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 17 } } ]
   },
   {
     "id": "stenmag",
@@ -234,10 +245,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 32,
     "reliability": 6,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 32 } } ]
   },
   {
     "id": "survivor9mm_mag",
@@ -252,11 +264,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 20,
     "reliability": 1,
     "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 20 } } ]
   },
   {
     "id": "tec9mag",
@@ -271,10 +284,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 32,
     "reliability": 7,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 32 } } ]
   },
   {
     "id": "usp9mag",
@@ -289,10 +303,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 10,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 15 } } ]
   },
   {
     "id": "uzimag",
@@ -307,10 +322,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 32,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 32 } } ]
   },
   {
     "id": "kpf9mag",
@@ -325,10 +341,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 7,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 7 } } ]
   },
   {
     "id": "p320mag_17rd_9x19mm",
@@ -343,11 +360,12 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 17,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 17 } } ]
   },
   {
     "id": "bhp9mag_13rd",
@@ -362,10 +380,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 13,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 13 } } ]
   },
   {
     "id": "bhp9mag_15rd",
@@ -380,10 +399,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 15 } } ]
   },
   {
     "id": "p38mag",
@@ -398,10 +418,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 8,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 8 } } ]
   },
   {
     "id": "ppq9mag_10rd",
@@ -416,10 +437,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 10 } } ]
   },
   {
     "id": "ppq9mag_15rd",
@@ -434,10 +456,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 15 } } ]
   },
   {
     "id": "ppq9mag_17rd",
@@ -452,10 +475,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 17,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 17 } } ]
   },
   {
     "id": "hptc9mag_8rd",
@@ -470,10 +494,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 8,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 8 } } ]
   },
   {
     "id": "hptc9mag_10rd",
@@ -488,10 +513,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 10,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 10 } } ]
   },
   {
     "id": "hptc9mag_15rd",
@@ -506,10 +532,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 15,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 15 } } ]
   },
   {
     "id": "cz75mag_12rd",
@@ -524,10 +551,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 12,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 12 } } ]
   },
   {
     "id": "cz75mag_20rd",
@@ -542,10 +570,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 20,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 20 } } ]
   },
   {
     "id": "cz75mag_26rd",
@@ -560,10 +589,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 26,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 26 } } ]
   },
   {
     "id": "ccpmag",
@@ -578,9 +608,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "9mm",
+    "ammo_type": [ "9mm" ],
     "capacity": 8,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 8 } } ]
   }
 ]

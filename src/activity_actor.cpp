@@ -168,9 +168,10 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                           calendar::turn ) );
     }
 
-    who.mod_hunger( 5 );
-    who.mod_thirst( 5 );
-    who.mod_fatigue( 10 );
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    who.mod_stored_nutr( 5 - helpersize );
+    who.mod_thirst( 5 - helpersize );
+    who.mod_fatigue( 10 - ( helpersize * 2 ) );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
                            g->m.ter( location ).obj().name() );
 
@@ -486,7 +487,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
         who.cancel_activity();
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-            who.set_value( "THIEF_MODE", "THIF_ASK" );
+            who.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
 
         if( !keep_going ) {
@@ -584,32 +585,18 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
-void consume_activity_actor::start( player_activity &act, Character & )
+void consume_activity_actor::start( player_activity &act, Character &guy )
 {
-    const int charges = std::max( loc->charges, 1 );
-    int volume = units::to_milliliter( loc->volume() ) / charges;
-    time_duration time = 0_seconds;
-    const bool eat_verb  = loc->has_flag( flag_USE_EAT_VERB );
-    if( eat_verb || loc->get_comestible()->comesttype == "FOOD" ) {
-        time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
-    } else if( !eat_verb && loc->get_comestible()->comesttype == "DRINK" ) {
-        time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
-    } else if( loc->is_medication() ) {
-        time = time_duration::from_seconds(
-                   30 ); //Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
-    } else {
-        debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
-    }
+    int moves = to_moves<int>( guy.get_consume_time( *loc ) );
 
-    act.moves_total = to_moves<int>( time );
-    act.moves_left = to_moves<int>( time );
+    act.moves_total = moves;
+    act.moves_left = moves;
 }
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
     if( loc.where() == item_location::type::character ) {
         g->u.consume( loc );
-
     } else if( g->u.consume_item( *loc ) ) {
         loc.remove_item();
     }

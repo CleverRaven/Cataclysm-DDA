@@ -12,7 +12,7 @@
     "material": "plastic",
     "symbol": ";",
     "color": "green",
-    "ammo": "fish_bait",
+    "ammo": [ "fish_bait" ],
     "max_charges": 5,
     "use_action": "FISH_TRAP"
   },

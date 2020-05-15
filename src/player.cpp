@@ -925,40 +925,6 @@ void player::search_surroundings()
     }
 }
 
-int player::talk_skill() const
-{
-    /** @EFFECT_INT slightly increases talking skill */
-
-    /** @EFFECT_PER slightly increases talking skill */
-
-    /** @EFFECT_SPEECH increases talking skill */
-    int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
-    return ret;
-}
-
-int player::intimidation() const
-{
-    /** @EFFECT_STR increases intimidation factor */
-    int ret = get_str() * 2;
-    if( weapon.is_gun() ) {
-        ret += 10;
-    }
-    if( weapon.damage_melee( DT_BASH ) >= 12 ||
-        weapon.damage_melee( DT_CUT ) >= 12 ||
-        weapon.damage_melee( DT_STAB ) >= 12 ) {
-        ret += 5;
-    }
-
-    if( get_stim() > 20 ) {
-        ret += 2;
-    }
-    if( has_effect( effect_drunk ) ) {
-        ret -= 4;
-    }
-
-    return ret;
-}
-
 bool player::is_dead_state() const
 {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
@@ -1006,8 +972,6 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
-    const body_part bp_hit_token = bp_hit->token;
-
     bool u_see = g->u.sees( *this );
     if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
         if( is_player() ) {
@@ -1025,7 +989,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         // Should hit body part used for attack
         source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
     }
-    if( !wearing_something_on( bp_hit_token ) &&
+    if( !wearing_something_on( bp_hit ) &&
         ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
         int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
         if( !is_player() ) {
@@ -1043,7 +1007,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         spine_damage.add_damage( DT_STAB, spine );
         source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
     }
-    if( ( !( wearing_something_on( bp_hit_token ) ) ) && ( has_trait( trait_THORNS ) ) &&
+    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
         ( !( source->has_weapon() ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
@@ -1060,7 +1024,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         // so safer to target the torso
         source->deal_damage( this, bodypart_id( "torso" ), thorn_damage );
     }
-    if( ( !( wearing_something_on( bp_hit_token ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
+    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
                 add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
@@ -1120,7 +1084,7 @@ int player::get_num_crafting_helpers( int max ) const
     return std::min( max, static_cast<int>( helpers.size() ) );
 }
 
-bool player::immune_to( body_part bp, damage_unit dam ) const
+bool player::immune_to( const bodypart_id &bp, damage_unit dam ) const
 {
     if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ) {
         return true;
@@ -1129,7 +1093,7 @@ bool player::immune_to( body_part bp, damage_unit dam ) const
     passive_absorb_hit( bp, dam );
 
     for( const item &cloth : worn ) {
-        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
+        if( cloth.get_coverage() == 100 && cloth.covers( bp->token ) ) {
             cloth.mitigate_damage( dam );
         }
     }
@@ -1445,12 +1409,12 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     }
 }
 
-void player::add_pain_msg( int val, body_part bp ) const
+void player::add_pain_msg( int val, const bodypart_id &bp ) const
 {
     if( has_trait( trait_NOPAIN ) ) {
         return;
     }
-    if( bp == num_bp ) {
+    if( bp == bodypart_id( "num_bp" ) ) {
         if( val > 20 ) {
             add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
         } else if( val > 10 ) {
@@ -1465,19 +1429,19 @@ void player::add_pain_msg( int val, body_part bp ) const
     } else {
         if( val > 20 ) {
             add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
-                               body_part_name_accusative( bp ) );
+                               body_part_name_accusative( bp->token ) );
         } else if( val > 10 ) {
             add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
-                               body_part_name_accusative( bp ) );
+                               body_part_name_accusative( bp->token ) );
         } else if( val > 5 ) {
             add_msg_if_player( _( "Your %s is wracked with pain!" ),
-                               body_part_name_accusative( bp ) );
+                               body_part_name_accusative( bp->token ) );
         } else if( val > 1 ) {
             add_msg_if_player( _( "Your %s pains you!" ),
-                               body_part_name_accusative( bp ) );
+                               body_part_name_accusative( bp->token ) );
         } else {
             add_msg_if_player( _( "Your %s aches." ),
-                               body_part_name_accusative( bp ) );
+                               body_part_name_accusative( bp->token ) );
         }
     }
 }
@@ -1604,7 +1568,7 @@ void player::process_one_effect( effect &it, bool is_new )
             int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
             mod_pain( pain_inc );
             if( pain_inc > 0 ) {
-                add_pain_msg( val, bp );
+                add_pain_msg( val, convert_bp( bp ).id() );
             }
         }
     }
@@ -2015,7 +1979,7 @@ bool player::can_interface_armor() const
 {
     bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
     []( const bionic & b ) {
-        return b.powered && b.info().armor_interface;
+        return b.powered && b.info().has_flag( "BIONIC_ARMOR_INTERFACE" );
     } );
     return okay;
 }
@@ -2246,8 +2210,6 @@ item::reload_option player::select_ammo( const item &base,
     menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) :
                                base.has_flag( "RELOAD_AND_SHOOT" ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                base.tname() );
-    menu.w_width = -1;
-    menu.w_height = -1;
 
     // Construct item names
     std::vector<std::string> names;
@@ -2792,7 +2754,7 @@ void player::mend_item( item_location &&obj, bool interactive )
         uilist menu;
         menu.text = _( "Mend which fault?" );
         menu.desc_enabled = true;
-        menu.desc_lines = 0; // Let uilist handle description height
+        menu.desc_lines_hint = 0; // Let uilist handle description height
 
         constexpr int fold_width = 80;
 
@@ -3511,7 +3473,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item &gun, const ite
 
     for( const auto &e : mod.type->min_skills ) {
         // gain an additional chance for every level above the minimum requirement
-        skill_id sk = e.first == "weapon" ? gun.gun_skill() : skill_id( e.first );
+        skill_id sk = e.first.str() == "weapon" ? gun.gun_skill() : e.first;
         chances += std::max( get_skill_level( sk ) - e.second, 0 );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)

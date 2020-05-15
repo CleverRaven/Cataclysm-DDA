@@ -4,6 +4,7 @@
     "subtype": "collection",
     "id": "mon_zombie_survivor_death_drops",
     "magazine": 100,
+    "ammo": 60,
     "entries": [
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
@@ -15,7 +16,7 @@
           {
             "distribution": [
               { "group": "survivor_melee", "prob": 40, "damage": [ 1, 4 ] },
-              { "group": "guns_survival", "prob": 60, "damage": [ 1, 4 ] }
+              { "group": "survivor_longguns", "prob": 60, "contents-item": "shoulder_strap", "damage": [ 1, 4 ] }
             ],
             "prob": 50
           },
@@ -40,6 +41,57 @@
       [ "nailbat", 25 ],
       [ "pipe", 10 ],
       [ "spear_rebar", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_survivor_elite_death_drops",
+    "entries": [
+      { "group": "survivorzed_gloves", "damage": [ 1, 4 ] },
+      { "group": "survivorzed_boots", "damage": [ 1, 4 ] },
+      { "group": "survivorzed_head", "damage": [ 1, 4 ] },
+      { "group": "survivorzed_extra", "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          { "group": "survivorzed_suits", "prob": 25, "damage": [ 1, 4 ] },
+          {
+            "collection": [
+              { "group": "survivorzed_tops", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "survivorzed_bottoms", "prob": 25, "damage": [ 1, 4 ] }
+            ],
+            "prob": 75
+          }
+        ]
+      },
+      {
+        "distribution": [ { "group": "underwear", "prob": 1, "damage": [ 1, 4 ] }, { "group": "loincloth", "prob": 2, "damage": [ 1, 4 ] } ]
+      },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "group": "guns_pistol_common", "prob": 100 },
+              { "group": "guns_rifle_common", "prob": 20, "contents-item": "shoulder_strap" },
+              { "group": "guns_smg_common", "prob": 5, "contents-item": "shoulder_strap" },
+              { "group": "guns_shotgun_common", "prob": 40, "contents-item": "shoulder_strap" }
+            ],
+            "prob": 24
+          },
+          { "group": "grenades", "prob": 10 },
+          { "group": "mil_hw", "prob": 1 },
+          { "group": "launchers", "prob": 1 },
+          { "group": "stash_food", "prob": 40 },
+          { "group": "ammo_common", "prob": 26 },
+          { "group": "stash_drugs", "prob": 28 },
+          { "group": "gear_survival", "prob": 18 },
+          { "group": "mil_food", "prob": 22 },
+          { "group": "mil_food_nodrugs", "prob": 34 },
+          { "group": "shelter", "prob": 8 },
+          { "group": "mil_surplus", "prob": 6 }
+        ]
+      },
+      { "item": "cash_card", "charges-min": 50000, "charges-max": 150000 }
     ]
   },
   {
@@ -95,46 +147,28 @@
     ]
   },
   {
+    "id": "survivor_longguns",
     "type": "item_group",
-    "subtype": "collection",
-    "id": "mon_zombie_survivor_elite_death_drops",
+    "subtype": "distribution",
     "entries": [
-      { "group": "survivorzed_gloves", "damage": [ 1, 4 ] },
-      { "group": "survivorzed_boots", "damage": [ 1, 4 ] },
-      { "group": "survivorzed_head", "damage": [ 1, 4 ] },
-      { "group": "survivorzed_extra", "count": [ 3, 10 ], "damage": [ 1, 4 ] },
       {
         "distribution": [
-          { "group": "survivorzed_suits", "prob": 25, "damage": [ 1, 4 ] },
-          {
-            "collection": [
-              { "group": "survivorzed_tops", "prob": 25, "damage": [ 1, 4 ] },
-              { "group": "survivorzed_bottoms", "prob": 25, "damage": [ 1, 4 ] }
-            ],
-            "prob": 75
-          }
-        ]
+          { "group": "guns_smg_improvised", "prob": 10 },
+          { "group": "guns_rifle_improvised", "prob": 100 },
+          { "group": "guns_shotgun_improvised", "prob": 100 },
+          { "group": "guns_launcher_improvised", "prob": 30 }
+        ],
+        "prob": 200
       },
-      {
-        "distribution": [ { "group": "underwear", "prob": 10, "damage": [ 1, 4 ] }, { "group": "loincloth", "prob": 1, "damage": [ 1, 4 ] } ]
-      },
-      {
-        "distribution": [
-          { "group": "guns_common", "prob": 24 },
-          { "group": "grenades", "prob": 10 },
-          { "group": "mil_hw", "prob": 1 },
-          { "group": "launchers", "prob": 1 },
-          { "group": "stash_food", "prob": 40 },
-          { "group": "ammo_common", "prob": 26 },
-          { "group": "stash_drugs", "prob": 28 },
-          { "group": "gear_survival", "prob": 18 },
-          { "group": "mil_food", "prob": 22 },
-          { "group": "mil_food_nodrugs", "prob": 34 },
-          { "group": "shelter", "prob": 8 },
-          { "group": "mil_surplus", "prob": 6 }
-        ]
-      },
-      { "item": "cash_card", "prob": 25, "charges-min": 50000, "charges-max": 150000 }
+      { "item": "ar15", "prob": 5, "charges": [ 0, 30 ] },
+      { "item": "mossberg_500", "prob": 5, "charges": [ 0, 8 ] },
+      { "item": "remington_870", "prob": 5, "charges": [ 0, 6 ] },
+      { "item": "ruger_1022", "prob": 15, "charges": [ 0, 10 ] },
+      { "item": "shotgun_410", "prob": 10, "charges": [ 0, 1 ] },
+      { "item": "shotgun_s", "prob": 10, "charges": [ 0, 1 ] },
+      { "item": "shotgun_d", "prob": 10, "charges": [ 0, 2 ] },
+      { "item": "sten", "prob": 20, "charges": [ 0, 32 ] },
+      { "item": "sks", "prob": 10, "charges": [ 0, 10 ] }
     ]
   }
 ]

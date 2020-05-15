@@ -412,6 +412,11 @@ int player_morale::get_total_negative_value() const
     return std::sqrt( sum );
 }
 
+int player_morale::get_percieved_pain() const
+{
+    return perceived_pain;
+}
+
 int player_morale::get_total_positive_value() const
 {
     const morale_mult mult = get_temper_mult();
@@ -1029,12 +1034,12 @@ void player_morale::update_masochist_bonus()
     int bonus = 0;
 
     if( any_masochist ) {
-        bonus = perceived_pain / 2.5;
+        bonus = perceived_pain;
         if( amateur_masochist ) {
-            bonus = std::min( bonus, 25 );
+            bonus = std::min( bonus, 20 );
         }
         if( took_prozac ) {
-            bonus = bonus / 3;
+            bonus = bonus / 2;
         }
     }
     set_permanent( MORALE_PERM_MASOCHIST, bonus );
@@ -1083,10 +1088,6 @@ void player_morale::update_constrained_penalty()
 
 void player_morale::update_squeamish_penalty()
 {
-    if( !get_option<bool>( "FILTHY_MORALE" ) ) {
-        set_permanent( MORALE_PERM_FILTHY, 0 );
-        return;
-    }
     int penalty = 0;
     for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
         if( bpt.second.filthy > 0 ) {

@@ -12,7 +12,7 @@
     "material": [ "glass" ],
     "symbol": "!",
     "color": "cyan",
-    "ammo": "anesthetic",
+    "ammo": [ "anesthetic" ],
     "initial_charges": 3000,
     "max_charges": 3000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
@@ -36,7 +36,7 @@
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "power_draw": 1500000,
     "looks_like": "microwave",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ]
@@ -72,7 +72,7 @@
     "material": [ "ceramic", "superalloy" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "ampoule",
+    "ammo": [ "ampoule" ],
     "initial_charges": 2,
     "max_charges": 2,
     "charges_per_use": 1,

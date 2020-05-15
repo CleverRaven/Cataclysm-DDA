@@ -58,9 +58,6 @@ bool tile_iso;
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
-const std::vector<options_manager::id_and_option> options_manager::lang_options =
-    options_manager::get_lang_options();
-
 options_manager &get_options()
 {
     static options_manager single_instance;
@@ -1035,7 +1032,7 @@ std::unordered_set<std::string> options_manager::get_langs_with_translation_file
 
 std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 {
-    std::vector<options_manager::id_and_option> lang_options = {
+    std::vector<id_and_option> lang_options = {
         { "", translate_marker( "System language" ) },
         // Note: language names are in their own language and are *not* translated at all.
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
@@ -1055,9 +1052,9 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
         { "zh_TW", no_translation( R"(中文 (台灣))" ) },
     };
 
-    std::unordered_set<std::string> lang_list = options_manager::get_langs_with_translation_files();
+    std::unordered_set<std::string> lang_list = get_langs_with_translation_files();
 
-    std::vector<options_manager::id_and_option> options;
+    std::vector<id_and_option> options;
 
     lang_list.insert( "" ); // for System language option
     lang_list.insert( "en" ); // for English option
@@ -1365,7 +1362,7 @@ void options_manager::add_options_interface()
     };
 
     add( "USE_LANG", "interface", translate_marker( "Language" ),
-         translate_marker( "Switch Language." ), options_manager::lang_options, "" );
+         translate_marker( "Switch Language." ), options_manager::get_lang_options(), "" );
 
     add_empty_line();
 
@@ -2066,7 +2063,7 @@ void options_manager::add_options_world_default()
 
     add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
-         0, 1000, 100, COPT_NO_HIDE, "%i%%"
+         0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
        );
 
     add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),

@@ -291,12 +291,6 @@ class player : public Character
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
-        // Mental skills and stats
-        /** Returns a value used when attempting to convince NPC's of something */
-        int talk_skill() const;
-        /** Returns a value used when attempting to intimidate NPC's */
-        int intimidation() const;
-
         /**
          * Check if a given body part is immune to a given damage type
          *
@@ -308,7 +302,7 @@ class player : public Character
          * @param dam: Type of damage to check for
          * @returns true if given damage can not reduce hp of given body part
          */
-        bool immune_to( body_part bp, damage_unit dam ) const;
+        bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
@@ -316,7 +310,7 @@ class player : public Character
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
-        void add_pain_msg( int val, body_part bp ) const;
+        void add_pain_msg( int val, const bodypart_id &bp ) const;
 
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;

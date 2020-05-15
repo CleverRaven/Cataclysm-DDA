@@ -9,11 +9,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "ammo_grenade",
+    "ammo_type": [ "ammo_grenade" ],
     "capacity": 50,
     "count": 25,
     "reliability": 6,
     "linkage": "ammolinkgrenade",
-    "flags": [ "MAG_BELT", "MAG_DESTROY" ]
+    "flags": [ "MAG_BELT", "MAG_DESTROY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 50 } } ]
   }
 ]

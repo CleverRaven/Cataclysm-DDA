@@ -90,7 +90,6 @@ enum safe_mode_type {
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
-enum target_mode : int;
 
 struct special_game;
 
@@ -581,8 +580,14 @@ class game
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
-        int inventory_item_menu( item_location locThisItem, int startx = 0, int width = 50,
-                                 inventory_item_menu_positon position = RIGHT_OF_INFO );
+        int inventory_item_menu( item_location locThisItem,
+        const std::function<int()> &startx = []() {
+            return 0;
+        },
+        const std::function<int()> &width = []() {
+            return 50;
+        },
+        inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
@@ -655,7 +660,7 @@ class game
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
         void draw_hit_player( const Character &p, int dam );
         void draw_line( const tripoint &p, const tripoint &center_point,
-                        const std::vector<tripoint> &points );
+                        const std::vector<tripoint> &points, bool noreveal = false );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint );
         void draw_sct();
@@ -950,6 +955,7 @@ class game
 
         event_bus &events();
         stats_tracker &stats();
+        achievements_tracker &achievements();
         memorial_logger &memorial();
         spell_events &spell_events_subscriber();
 

@@ -369,7 +369,7 @@
     "loudness": 8,
     "skill": "archery",
     "min_strength": 6,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "1360 g",
     "volume": "2500 ml",
     "price_postapoc": 50,
@@ -379,7 +379,8 @@
     "range": 8,
     "dispersion": 1250,
     "durability": 4,
-    "clip_size": 1
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "shortbow",
@@ -395,7 +396,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 8,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "340 g",
     "volume": "1500 ml",
     "price_postapoc": 500,
@@ -408,7 +409,8 @@
     "dispersion": 1000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "compbow",
@@ -424,7 +426,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "archery",
     "min_strength": 9,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "907 g",
     "volume": "1500 ml",
     "price_postapoc": 3500,
@@ -444,7 +446,8 @@
       "target": "compbow_high",
       "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
-    }
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "compbow_high",
@@ -494,7 +497,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 12,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "400 g",
     "volume": "1750 ml",
     "price_postapoc": 3000,
@@ -507,7 +510,8 @@
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "recurbow",
@@ -523,7 +527,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 9,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "540 g",
     "volume": "2500 ml",
     "price_postapoc": 2000,
@@ -536,7 +540,8 @@
     "dispersion": 850,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "reflexbow",
@@ -551,7 +556,7 @@
     "material": [ "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "min_strength": 9,
     "weight": "400 g",
     "volume": "1500 ml",
@@ -565,7 +570,8 @@
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "hybridbow",
@@ -581,7 +587,7 @@
     "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 11,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "600 g",
     "volume": "3500 ml",
     "price_postapoc": 5000,
@@ -594,7 +600,8 @@
     "dispersion": 850,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "longbow",
@@ -609,7 +616,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 9,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "680 g",
     "volume": "3500 ml",
     "price_postapoc": 3000,
@@ -622,7 +629,8 @@
     "dispersion": 1000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "woodgreatbow",
@@ -656,7 +664,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT" ],
     "skill": "archery",
     "min_strength": 15,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "2000 g",
     "volume": "4 L",
     "price_postapoc": 3000,
@@ -668,7 +676,8 @@
     "range": 22,
     "dispersion": 1000,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "reflexrecurvebow",
@@ -684,7 +693,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 8,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "450 g",
     "volume": "2 L",
     "price_postapoc": 6000,
@@ -697,6 +706,7 @@
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }
 ]

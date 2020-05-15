@@ -1295,6 +1295,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_speaker",
+    "symbol": ",",
+    "color": "yellow",
+    "name": { "str": "broken loudspeaker" },
+    "category": "other",
+    "description": "A broken loudspeaker.  It's so unusually quiet now…  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "100 kg",
+    "volume": "50500 ml",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "processor",
     "symbol": ",",
     "color": "dark_gray",
@@ -2506,7 +2522,7 @@
       50000,
       100000
     ],
-    "ammo": "money"
+    "ammo": [ "money" ]
   },
   {
     "id": "robofac_test_data",

@@ -180,7 +180,7 @@
     "material": [ "glass" ],
     "symbol": ";",
     "color": "red",
-    "ammo": "thread",
+    "ammo": [ "thread" ],
     "initial_charges": 500,
     "max_charges": 1000,
     "artifact_data": { "charge_type": "ARTC_TIME" }

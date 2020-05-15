@@ -13,7 +13,7 @@
     "material": "steel",
     "symbol": "!",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": 7500,
     "use_action": "ECIG",

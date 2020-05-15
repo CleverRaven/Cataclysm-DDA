@@ -5,10 +5,11 @@
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
     "name": { "str": ".50 BMG ammo belt" },
-    "ammo_type": "50",
+    "ammo_type": [ "50" ],
     "capacity": 100,
     "count": 100,
-    "linkage": "ammolink50"
+    "linkage": "ammolink50",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 100 } } ]
   },
   {
     "id": "m107a1mag",
@@ -24,11 +25,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "50",
+    "ammo_type": [ "50" ],
     "capacity": 10,
     "reliability": 9,
     "reload_time": 130,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 10 } } ]
   },
   {
     "id": "as50mag",
@@ -43,11 +45,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "50",
+    "ammo_type": [ "50" ],
     "capacity": 10,
     "reliability": 9,
     "reload_time": 110,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 10 } } ]
   },
   {
     "id": "tac50mag",
@@ -62,10 +65,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "50",
+    "ammo_type": [ "50" ],
     "capacity": 5,
     "reliability": 9,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 5 } } ]
   }
 ]

@@ -1899,7 +1899,7 @@ void monster::knock_back_to( const tripoint &to )
 bool monster::will_reach( const point &p )
 {
     monster_attitude att = attitude( &g->u );
-    if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
+    if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND ) {
         return false;
     }
 

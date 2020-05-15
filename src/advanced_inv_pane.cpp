@@ -273,7 +273,6 @@ void advanced_inventory_pane::scroll_by( int offset )
     }
     mod_index( offset );
     skip_category_headers( offset > 0 ? +1 : -1 );
-    redraw = true;
 }
 
 void advanced_inventory_pane::scroll_category( int offset )
@@ -309,7 +308,6 @@ void advanced_inventory_pane::scroll_category( int offset )
     }
     // Make sure we land on an item entry.
     skip_category_headers( offset > 0 ? +1 : -1 );
-    redraw = true;
 }
 
 advanced_inv_listitem *advanced_inventory_pane::get_cur_item_ptr()

@@ -14,7 +14,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": [ "40" ],
     "range": 1,
     "dispersion": 480,
     "durability": 7,
@@ -37,7 +37,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": [ "40" ],
     "skill": "pistol",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 480,
@@ -75,7 +75,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": [ "40" ],
     "range": 1,
     "dispersion": 480,
     "durability": 7,
@@ -97,7 +97,7 @@
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "40",
+    "ammo": [ "40" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
@@ -118,7 +118,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 1 } } ]
   },
   {
     "id": "sig_40",
@@ -136,7 +137,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": [ "40" ],
     "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
@@ -173,7 +174,7 @@
     "bashing": 10,
     "material": "steel",
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": [ "40" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "dispersion": 590,
     "durability": 4,
@@ -213,7 +214,7 @@
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": [ "40" ],
     "skill": "pistol",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 620,
@@ -233,7 +234,8 @@
       [ "rail mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 6 } } ]
   },
   {
     "id": "sw_610",
@@ -267,7 +269,8 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "10mm": 6, "40": 6 } } ]
   },
   {
     "id": "hi_power_40",
@@ -284,7 +287,7 @@
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 8,
     "magazines": [ [ "40", [ "bhp40mag" ] ] ]
@@ -303,7 +306,7 @@
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 9,
     "magazines": [ [ "40", [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ] ] ]
@@ -323,7 +326,7 @@
     "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": [ "40" ],
     "dispersion": 480,
     "durability": 7,
     "magazines": [ [ "40", [ "hptjcpmag" ] ] ]

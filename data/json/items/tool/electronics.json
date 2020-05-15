@@ -13,7 +13,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_green",
-    "ammo": "plutonium",
+    "ammo": [ "plutonium" ],
     "max_charges": 2500,
     "flags": [ "IS_UPS" ]
   },
@@ -30,7 +30,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": "CAMERA",
     "magazines": [
@@ -61,7 +61,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": "CAMERA",
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
@@ -92,7 +92,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "cell_phone_flashlight",
@@ -127,28 +127,6 @@
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID" ]
-  },
-  {
-    "id": "control_laptop",
-    "type": "TOOL",
-    "name": { "str": "control laptop" },
-    "description": "A modified laptop, now capable of transmitting in the ultra-high frequencies utilized by robots.  Activate it to command robots from afar.",
-    "weight": "2721 g",
-    "volume": "1 L",
-    "price": 10000,
-    "price_postapoc": 8000,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 2,
-    "use_action": "ROBOTCONTROL",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ]
   },
   {
     "id": "directional_antenna",
@@ -197,7 +175,7 @@
     "material": "plastic",
     "symbol": ";",
     "color": "blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": "EINKTABLETPC",
     "flags": [ "WATCH" ],
@@ -231,7 +209,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "green",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "magazines": [
       [
         "battery",
@@ -260,7 +238,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": "GEIGER",
     "magazines": [
@@ -302,7 +280,7 @@
     "material": "plastic",
     "symbol": ":",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": "HAND_CRANK",
     "magazines": [
       [
@@ -333,7 +311,7 @@
     "price": 75000,
     "price_postapoc": 250,
     "bashing": 6,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
@@ -377,7 +355,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": "MP3",
     "charges_per_use": 1,
     "magazines": [
@@ -420,7 +398,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": "NOISE_EMITTER_OFF",
     "flags": [ "RADIO_MODABLE" ],
@@ -462,7 +440,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": "PORTABLE_GAME",
     "magazines": [
       [
@@ -492,7 +470,7 @@
     "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "initial_charges": 110,
     "max_charges": 120,
     "charges_per_use": 1,
@@ -550,7 +528,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
@@ -568,7 +546,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 10,
     "use_action": "VIBE",
     "magazines": [

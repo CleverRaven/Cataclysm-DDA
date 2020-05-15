@@ -139,5 +139,18 @@
       { "item": "bio_power_storage", "prob": 1 },
       { "item": "bio_torsionratchet", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret_speaker",
+    "items": [
+      { "item": "scrap", "count": [ 4, 6 ] },
+      { "item": "e_scrap", "count": [ 1, 2 ] },
+      { "item": "plastic_chunk", "count": [ 0, 2 ] },
+      { "item": "wood_panel", "count": 1 },
+      { "item": "2x4", "count": 4 },
+      { "item": "nail", "charges": [ 8, 10 ] },
+      { "item": "cable", "charges": [ 3, 4 ] }
+    ]
   }
 ]

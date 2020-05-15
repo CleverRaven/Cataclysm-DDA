@@ -14,7 +14,7 @@
     "to_hit": -1,
     "bashing": 12,
     "material": "steel",
-    "ammo": "50",
+    "ammo": [ "50" ],
     "range": 100,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 130,
@@ -38,7 +38,7 @@
     "to_hit": -1,
     "bashing": 12,
     "material": "steel",
-    "ammo": "50",
+    "ammo": [ "50" ],
     "skill": "rifle",
     "range": 110,
     "dispersion": 250,
@@ -93,7 +93,8 @@
       "dispersion": 60,
       "barrel_length": -1
     },
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 1 } } ]
   },
   {
     "id": "as50",
@@ -109,7 +110,7 @@
     "to_hit": -1,
     "bashing": 13,
     "material": "steel",
-    "ammo": "50",
+    "ammo": [ "50" ],
     "range": 115,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 80,
@@ -134,7 +135,7 @@
     "to_hit": -1,
     "bashing": 12,
     "material": "steel",
-    "ammo": "50",
+    "ammo": [ "50" ],
     "range": 45,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 50,
@@ -159,7 +160,7 @@
     "to_hit": -1,
     "bashing": 12,
     "material": "steel",
-    "ammo": "50",
+    "ammo": [ "50" ],
     "range": 45,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 110,
@@ -167,6 +168,7 @@
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "clip_size": 1,
-    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 1 } } ]
   }
 ]

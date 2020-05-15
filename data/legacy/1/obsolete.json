@@ -109,7 +109,7 @@
     "material": [ "iron", "wood" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "weight": 1814,
     "volume": 4,
     "bashing": 12,
@@ -130,7 +130,8 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "stock", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "pipe_shotgunsawn",
@@ -144,7 +145,7 @@
     "material": [ "iron", "wood" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "weight": 1133,
     "volume": 6,
     "bashing": 12,
@@ -156,7 +157,8 @@
     "durability": 6,
     "clip_size": 1,
     "loudness": 200,
-    "valid_mod_locations": [ [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "stock", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "type": "GUNMOD",
@@ -448,7 +450,7 @@
     "material": "wood",
     "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "archery",
-    "ammo": "dart",
+    "ammo": [ "dart" ],
     "weight": 440,
     "volume": 4,
     "bashing": 8,
@@ -456,7 +458,8 @@
     "dispersion": 75,
     "sight_dispersion": 150,
     "durability": 7,
-    "clip_size": 1
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "dart": 1 } } ]
   },
   {
     "type": "AMMO",

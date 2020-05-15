@@ -1186,7 +1186,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
 bool map::displace_water( const tripoint &p )
 {
     // Check for shallow water
-    if( has_flag( "SWIMMABLE", p ) && !has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( has_flag_ter( TFLAG_SHALLOW_WATER, p ) ) {
         int dis_places = 0;
         int sel_place = 0;
         for( int pass = 0; pass < 2; pass++ ) {
@@ -1203,9 +1203,7 @@ bool map::displace_water( const tripoint &p )
                     || has_flag( TFLAG_DEEP_WATER, temp ) ) {
                     continue;
                 }
-                ter_id ter0 = ter( temp );
-                if( ter0 == t_water_sh ||
-                    ter0 == t_water_dp || ter0 == t_water_moving_sh || ter0 == t_water_moving_dp ) {
+                if( has_flag_ter( TFLAG_SHALLOW_WATER, p ) || has_flag_ter( TFLAG_DEEP_WATER, p ) ) {
                     continue;
                 }
                 if( pass != 0 && dis_places == sel_place ) {
@@ -4128,6 +4126,10 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         return add_item( tile, obj );
     };
 
+    if( item_is_blacklisted( obj.typeId() ) ) {
+        return null_item_reference();
+    }
+
     // Some items never exist on map as a discrete item (must be contained by another item)
     if( obj.has_flag( "NO_DROP" ) ) {
         return null_item_reference();
@@ -4186,6 +4188,10 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
 item &map::add_item( const tripoint &p, item new_item )
 {
+    if( item_is_blacklisted( new_item.typeId() ) ) {
+        return null_item_reference();
+    }
+
     if( !inbounds( p ) ) {
         return null_item_reference();
     }
@@ -6744,10 +6750,11 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     }
     const auto &comest = item.get_comestible();
     mongroup_id mgroup = comest->rot_spawn;
-    if( mgroup == "GROUP_NULL" ) {
+    if( mgroup.is_null() ) {
         return;
     }
-    const int chance = ( comest->rot_spawn_chance * get_option<int>( "CARRION_SPAWNRATE" ) ) / 100;
+    const int chance = static_cast<int>( comest->rot_spawn_chance *
+                                         get_option<float>( "CARRION_SPAWNRATE" ) );
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
         add_spawn( spawn_details.name, 1, pnt, false );
