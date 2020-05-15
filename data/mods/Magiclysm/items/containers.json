@@ -72,5 +72,27 @@
         "magazine_well": "1 L"
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fridge_holding_1",
+    "name": { "str": "supergravity preservation box" },
+    "description": "A box that uses gravity magic to preserve food.  It makes the box much heavier, but anything in it lasts far longer and you can store more.",
+    "weight": "15 kg",
+    "volume": "100 L",
+    "price": "4000 USD",
+    "flags": [ "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "moves": 2300,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "500 kg",
+        "max_item_length": "1 meter",
+        "spoil_multiplier": 0.2,
+        "weight_multiplier": 2.5,
+        "rigid": true
+      }
+    ]
   }
 ]

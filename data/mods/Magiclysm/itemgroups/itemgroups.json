@@ -299,6 +299,7 @@
       { "item": "mtailors_kit", "prob": 100 },
       { "item": "mspider_box", "prob": 100 },
       { "item": "cauldron_demon_chitin", "prob": 20 },
+      { "item": "fridge_holding_1", "prob": 12 },
       { "item": "bag_holding_1", "prob": 8 },
       { "item": "bag_holding_2", "prob": 1 }
     ]
