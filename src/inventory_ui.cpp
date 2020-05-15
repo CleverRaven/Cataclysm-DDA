@@ -2417,7 +2417,7 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if( it->count_by_charges() ) {
-            dropping.emplace_back( it, entry.chosen_count );
+            dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
         } else {
             for( item_location loc : entry.locations ) {
                 if( count == 0 ) {
