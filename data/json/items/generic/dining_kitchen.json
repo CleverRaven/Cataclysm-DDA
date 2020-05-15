@@ -138,6 +138,7 @@
     "symbol": ")",
     "description": "A perfectly ordinary ceramic soup bowl.",
     "copy-from": "base_ceramic_dish",
+    "volume": "500 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -283,6 +284,7 @@
     "symbol": "U",
     "description": "A tall drinking glass.",
     "copy-from": "base_glass_dish",
+    "volume": "600 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -322,6 +324,7 @@
     "symbol": "u",
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
+    "volume": "500 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -393,7 +396,7 @@
     "copy-from": "base_plastic_dish",
     "pocket_data": [
       {
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "125 ml",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,
@@ -425,7 +428,7 @@
     "proportional": { "weight": 0.4, "volume": 0.5 },
     "description": "A plastic cup with a spill-proof lid, designed for use by children.",
     "copy-from": "base_plastic_dish",
-    "pocket_data": [ { "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "max_contains_volume": "125 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "sippycup1", "text": "This cup is decorated with cartoon bears." },
@@ -789,8 +792,7 @@
     "material": "steel",
     "color": "light_gray",
     "weight": "2490 g",
-    "volume": "9 L",
-    "//": "Volume assumes you can stick some stuff in the pot inside your bag",
+    "volume": "12800 ml",
     "bashing": 8,
     "pocket_data": [
       {
@@ -870,7 +872,7 @@
     "to_hit": -2,
     "pocket_data": [
       {
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "800 ml",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,

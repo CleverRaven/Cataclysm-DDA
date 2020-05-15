@@ -6549,6 +6549,11 @@ bool item::can_contain( const item &it ) const
         // does the set of all sets contain itself?
         return false;
     }
+    // disallow putting portable holes into bags of holding
+    if( contents.bigger_on_the_inside( volume() ) &&
+        it.contents.bigger_on_the_inside( it.volume() ) ) {
+        return false;
+    }
     for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( internal_it->contents.can_contain_rigid( it ).success() ) {
             return true;

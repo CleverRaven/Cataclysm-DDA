@@ -72,6 +72,17 @@ bool item_contents::full( bool allow_bucket ) const
     return true;
 }
 
+bool item_contents::bigger_on_the_inside( const units::volume &container_volume ) const
+{
+    bool bigger = false;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            bigger = pocket.bigger_on_the_inside( container_volume ) || bigger;
+        }
+    }
+    return bigger;
+}
+
 size_t item_contents::size() const
 {
     return contents.size();

@@ -78,6 +78,7 @@ class item_pocket
 
         bool rigid() const;
         bool watertight() const;
+        bool bigger_on_the_inside( const units::volume &container_size ) const;
 
         std::list<item *> all_items_top();
         std::list<const item *> all_items_top() const;
