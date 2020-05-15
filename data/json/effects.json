@@ -879,14 +879,8 @@
     "max_duration": "2 h",
     "int_add_val": 1,
     "int_dur_factor": "5 m",
-    "base_mods": { 
-    "speed_mod": [ -20 ], 
-    "str_mod": [ 0 ],
-    "dex_mod": [ -1 ], 
-    "per_mod": [ -2 ], 
-    "vomit_chance": [ 20 ] },
-    "scaling_mods": {"speed_mod": [ -10 ], "int_mod": [ -2 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -2 ] }
-
+    "base_mods": { "speed_mod": [ -20 ], "str_mod": [ 0 ], "dex_mod": [ -1 ], "per_mod": [ -2 ], "vomit_chance": [ 20 ] },
+    "scaling_mods": { "speed_mod": [ -10 ], "int_mod": [ -2 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -2 ] }
   },
   {
     "type": "effect_type",
