@@ -508,7 +508,7 @@
     "subcategory": "CSC_CHEM_DRUGS",
     "skill_used": "chemistry",
     "skills_required": [ "firstaid", 1 ],
-    "difficulty": 4,
+    "difficulty": 2,
     "time": "24 m",
     "book_learn": [
       [ "adv_chemistry", 2 ],
@@ -735,7 +735,7 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "45 m",
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "autolearn": true,
