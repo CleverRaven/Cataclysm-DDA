@@ -879,7 +879,7 @@ bool main_menu::new_character_tab()
                     sel2 = vSubItems.size() - 1;
                 }
                 on_move();
-            } else if( action == "RIGHT" || action == "NEXT_TAB") {
+            } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
                 sel2++;
                 if( sel2 >= static_cast<int>( vSubItems.size() ) ) {
                     sel2 = 0;
