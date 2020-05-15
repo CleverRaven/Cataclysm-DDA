@@ -1975,10 +1975,6 @@
   },
   {
     "type": "effect_type",
-    "id": "hunger_could_eat"
-  },
-  {
-    "type": "effect_type",
     "id": "hunger_hungry"
   },
   {

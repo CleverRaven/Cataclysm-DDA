@@ -138,7 +138,6 @@ static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_hot_speed( "hot_speed" );
 static const efftype_id effect_hunger_blank( "hunger_blank" );
-static const efftype_id effect_hunger_could_eat( "hunger_could_eat" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
 static const efftype_id effect_hunger_famished( "hunger_famished" );
 static const efftype_id effect_hunger_full( "hunger_full" );
@@ -4737,9 +4736,6 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             hunger_effect = effect_hunger_full;
         } else if( recently_ate && contains >= cap * 3 / 8 ) {
             hunger_effect = effect_hunger_satisfied;
-        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
-                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
-            hunger_effect = effect_hunger_could_eat;
         } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
             hunger_effect = effect_hunger_blank;
         } else {
@@ -4754,7 +4750,6 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         remove_effect( effect_hunger_engorged );
         remove_effect( effect_hunger_full );
         remove_effect( effect_hunger_satisfied );
-        remove_effect( effect_hunger_could_eat );
         remove_effect( effect_hunger_hungry );
         remove_effect( effect_hunger_very_hungry );
         remove_effect( effect_hunger_near_starving );
