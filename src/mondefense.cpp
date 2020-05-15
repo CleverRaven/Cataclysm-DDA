@@ -190,10 +190,10 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
             // ...skills...
             for( const std::pair<skill_id, int> skill : gunactor->fake_skills ) {
-                if( skill.first == "gun" ) {
+                if( skill.first == skill_gun ) {
                     tmp.set_skill_level( skill_gun, skill.second );
                 }
-                if( skill.first == "rifle" ) {
+                if( skill.first == skill_rifle ) {
                     tmp.set_skill_level( skill_rifle, skill.second );
                 }
             }

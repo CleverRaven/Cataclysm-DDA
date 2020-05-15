@@ -68,6 +68,8 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_visuals( "visuals" );
 
+static const item_category_id item_category_chems( "chems" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
@@ -1669,7 +1671,7 @@ time_duration Character::get_consume_time( const item &it )
         } else {
             time = time_duration::from_seconds( 5 ); //probably pills so quick
         }
-    } else if( it.get_category().get_id() == "chems" ) {
+    } else if( it.get_category().get_id() == item_category_chems ) {
         time = time_duration::from_seconds( std::max( ( volume / 15 ),
                                             1 ) ); //Consume 15 mL (1 tablespoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
