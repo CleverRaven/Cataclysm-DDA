@@ -464,32 +464,39 @@ void weather_effect::snowstorm()
 void weather_effect::mist()
 {
     if( calendar::once_every( g->weather.mist_spawn_time ) && is_player_outside() ) {
-        int radius = 3;
         mtype_id monster;
         std::string category;
-        /*  if( g->weather.mist_intensity < 2 ) {
-              monster = mon_mist_wraith;
-              category = "mist_summon_wraith";
-          } else if( g->weather.mist_intensity < 4 )  {*/
-        monster = mon_mist_spectre;
-        category = "mist_summon_spectre";
-        /*} else {
-            monster = mon_mist_phantom;
-            category = "mist_summon_phantom";
-        }*/
-
+        int rand = rng( 1, 3 );
+        switch( rand ) {
+            case 1:
+                monster = mon_mist_wraith;
+                category = "mist_summon_wraith";
+                break;
+            case 2:
+                monster = mon_mist_spectre;
+                category = "mist_summon_spectre";
+                break;
+            case 3:
+                monster = mon_mist_phantom;
+                category = "mist_summon_phantom";
+                break;
+            default:
+                debugmsg( "HUH?" );
+                break;
+        }
 
         tripoint target;
         bool found_location = false;
-        for( int i = 0; i < 10 && !found_location; i++ ) {
-            target = g->u.pos() + tripoint( rng( -radius, radius ),
-                                            rng( -radius, radius ), 0 );
-            if( game::can_place_monster( monster, target ) && g->m.is_outside( target ) ) {
+        int radius = 4;
+        for( int i = 0; i < 15 && !found_location; i++ ) {
+            target = g->u.pos() + tripoint( rng( -radius, radius ), rng( -radius, radius ), 0 );
+            if( game::can_place_monster( monster, target ) && g->m.is_outside( target ) &&
+                rl_dist( target, g->u.pos() ) > 2 ) {
                 found_location = true;
             }
         }
 
-        if( found_location && g->place_critter_around( monster, target, 3 ) != nullptr ) {
+        if( found_location && g->place_critter_at( monster, target ) != nullptr ) {
             g->u.add_msg_if_player( m_bad, "%s",
                                     SNIPPET.random_from_category( category ).value_or( translation() ) );
         }
@@ -499,10 +506,14 @@ void weather_effect::mist()
         g->weather.mist_intensity++;
         if( g->weather.mist_intensity > g->weather.mist_max_intensity ) {
             g->weather.mist_intensity = 0;
-            g->u.add_msg_if_player( m_good, _( "The mist evaporates away like it was never there." ) );
+            if( is_player_outside() ) {
+                g->u.add_msg_if_player( m_good, _( "The mist evaporates like it was never there." ) );
+            }
         } else {
-            g->u.add_msg_if_player( m_bad, "%s",
-                                    SNIPPET.random_from_category( "mist_increase_intensity" ).value_or( translation() ) );
+            if( is_player_outside() ) {
+                g->u.add_msg_if_player( m_bad, "%s",
+                                        SNIPPET.random_from_category( "mist_increase_intensity" ).value_or( translation() ) );
+            }
         }
 
     }

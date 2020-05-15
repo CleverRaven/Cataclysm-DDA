@@ -28,16 +28,27 @@
     "type": "snippet",
     "category": "mist_increase_intensity",
     "text": [
-      "The mist grows thicker.",
-      "The mist feels slightly stronger and more alive"      
+      "The mist thickens.",
+      "The mist feels slightly stronger and more alive."      
     ]
   },
   {
     "type": "snippet",
     "category": "mist_shouts",
     "text": [
-      "I'm sorry mommy!.",
-      "Stop sir that hurts."
+      "I'm sorry mommy!",
+      "Please stop sir, that hurts!",
+	  "Why? I tried my best!",
+	  "No, please get up, please be ok!",
+	  "Why would you lie about THAT?",
+	  "I never loved you!",
+	  "I only ever tolerated you!",
+	  "That's why I never trusted you!",
+	  "It's not fair!",
+	  "Enjoy the funeral, you sicko!",
+	  "Help!",
+	  "Cmon I can still be fun, there's no need for that!",
+	  "I can do better, I promise, please!"
     ]
   },
   {
