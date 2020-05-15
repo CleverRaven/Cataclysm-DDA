@@ -1712,8 +1712,10 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     sel_vehicle_part = &veh->parts[idx];
     sel_vpart_info = &sel_vehicle_part->info();
     std::string nmsg;
+    bool smash_remove = sel_vpart_info->has_flag( "SMASH_REMOVE" );
 
-    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
+    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) &&
+        !smash_remove ) {
         msg = _( "This vehicle cannot be modified in this way.\n" );
         return false;
     } else if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
@@ -1725,6 +1727,13 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         nmsg += string_format(
                     _( "<color_white>Removing the broken %1$s may yield some fragments.</color>\n" ),
                     sel_vehicle_part->name() );
+    } else if( smash_remove ) {
+        std::set<std::string> removed_names;
+        for( const item &it : sel_vehicle_part->pieces_for_broken_part() ) {
+            removed_names.insert( it.tname() );
+        }
+        nmsg += string_format( _( "<color_white>Removing the %1$s may yield:</color>\n> %2$s\n" ),
+                               sel_vehicle_part->name(), enumerate_as_string( removed_names ) );
     } else {
         item result_of_removal = sel_vehicle_part->properties_to_item();
         nmsg += string_format(
@@ -3117,25 +3126,33 @@ void veh_interact::complete_vehicle( player &p )
                 veh->tow_data.clear_towing();
             }
             bool broken = veh->parts[ vehicle_part ].is_broken();
+            bool smash_remove = veh->parts[vehicle_part].info().has_flag( "SMASH_REMOVE" );
 
             if( broken ) {
                 p.add_msg_if_player( _( "You remove the broken %1$s from the %2$s." ),
+                                     veh->parts[ vehicle_part ].name(), veh->name );
+            } else if( smash_remove ) {
+                p.add_msg_if_player( _( "You smash the %1$s to bits, removing it from the %2$s." ),
                                      veh->parts[ vehicle_part ].name(), veh->name );
             } else {
                 p.add_msg_if_player( _( "You remove the %1$s from the %2$s." ),
                                      veh->parts[ vehicle_part ].name(), veh->name );
             }
 
-            if( !broken ) {
-                resulting_items.push_back( veh->parts[vehicle_part].properties_to_item() );
-                for( const auto &sk : vpinfo.install_skills ) {
+            if( broken ) {
+                item_group::ItemList pieces = veh->parts[vehicle_part].pieces_for_broken_part();
+                resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
+            } else {
+                if( smash_remove ) {
+                    item_group::ItemList pieces = veh->parts[vehicle_part].pieces_for_broken_part();
+                    resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
+                } else {
+                    resulting_items.push_back( veh->parts[vehicle_part].properties_to_item() );
+                }
+                for( const std::pair<const skill_id, int> &sk : vpinfo.install_skills ) {
                     // removal is half as educational as installation
                     p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) / 2 );
                 }
-
-            } else {
-                auto pieces = veh->parts[vehicle_part].pieces_for_broken_part();
-                resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
             }
 
             if( veh->parts.size() < 2 ) {
