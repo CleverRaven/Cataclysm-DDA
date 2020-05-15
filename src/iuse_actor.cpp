@@ -2229,6 +2229,10 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
+    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
+        p.add_msg_if_player( _( "You can't read." ) );
+        return 0;
+    }
     std::vector<uilist_entry> uilist_initializer;
     uilist spellbook_uilist;
     spellbook_callback sp_cb;
