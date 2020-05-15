@@ -106,6 +106,7 @@ static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_nightmares( "nightmares" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_paid( "paid" );
@@ -180,6 +181,8 @@ static const mtype_id mon_zombie_gasbag_crawler( "mon_zombie_gasbag_crawler" );
 static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
+
+const morale_type MORALE_TRAUMATIC_MEMORY( "morale_traumatic_memory" );
 
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
@@ -5802,7 +5805,7 @@ bool mattack::speaker( monster *z )
 
 bool mattack::dissipate_drain( monster *z )
 {
-    Character *foe = static_cast<Character *>( z->attack_target() );
+    Character *foe = dynamic_cast<Character *>( z->attack_target() );
     if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
         return false;
     }
@@ -5819,15 +5822,36 @@ bool mattack::dissipate_drain( monster *z )
 
 bool mattack::dissipate_nightmares( monster *z )
 {
-    Character *foe = static_cast<Character *>( z->attack_target() );
+    Character *foe = dynamic_cast<Character *>( z->attack_target() );
+    if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
+        return false;
+    }
+    foe->add_effect( effect_disrupted_sleep, 8_hours );
+    foe->add_effect( effect_nightmares, 8_hours );
+    foe->add_msg_if_player( m_bad,
+                            _( "The %s touches you and dissipates, leaving an unsettling feeling behind." ), z->name() );
+
+    z->die( z );
+
+    return true;
+}
+
+bool mattack::dissipate_force_scream( monster *z )
+{
+    Character *foe = dynamic_cast<Character *>( z->attack_target() );
     if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
         return false;
     }
 
-    foe->add_effect( effect_disrupted_sleep, 8_hours );
+    foe->add_morale( MORALE_TRAUMATIC_MEMORY, -5, -15, 30_minutes );
     foe->add_msg_if_player( m_bad,
-                            _( "The %s touches you and dissipates, leaving an unsettling feeling behind." ), z->name() );
+                            _( "The %s touches you and dissipates, and you feel a memory surfacing so intensly you have no choice but to scream in response." ),
+                            z->name() );
+    std::string shout_message = string_format( "%s",
+                                SNIPPET.random_from_category( "mist_shouts" ).value_or( translation() ) );
 
+    foe->add_msg_if_player( m_info, "You hear yourself scream \"%s\"", shout_message );
+    foe->shout( shout_message );
     z->die( z );
 
     return true;

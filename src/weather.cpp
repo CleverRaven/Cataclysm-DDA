@@ -45,6 +45,7 @@ static const efftype_id effect_snow_glare( "snow_glare" );
 
 static const mtype_id mon_mist_wraith( "mon_mist_wraith" );
 static const mtype_id mon_mist_spectre( "mon_mist_spectre" );
+static const mtype_id mon_mist_phantom( "mon_mist_phantom" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
@@ -466,13 +467,16 @@ void weather_effect::mist()
         int radius = 3;
         mtype_id monster;
         std::string category;
-        if( g->weather.mist_intensity < 5 ) {
-            monster = mon_mist_wraith;
-            category = "mist_summon_wraith";
-        } else {
-            monster = mon_mist_spectre;
-            category = "mist_summon_spectre";
-        }
+        /*  if( g->weather.mist_intensity < 2 ) {
+              monster = mon_mist_wraith;
+              category = "mist_summon_wraith";
+          } else if( g->weather.mist_intensity < 4 )  {*/
+        monster = mon_mist_spectre;
+        category = "mist_summon_spectre";
+        /*} else {
+            monster = mon_mist_phantom;
+            category = "mist_summon_phantom";
+        }*/
 
 
         tripoint target;
@@ -495,7 +499,12 @@ void weather_effect::mist()
         g->weather.mist_intensity++;
         if( g->weather.mist_intensity > g->weather.mist_max_intensity ) {
             g->weather.mist_intensity = 0;
+            g->u.add_msg_if_player( m_good, _( "The mist evaporates away like it was never there." ) );
+        } else {
+            g->u.add_msg_if_player( m_bad, "%s",
+                                    SNIPPET.random_from_category( "mist_increase_intensity" ).value_or( translation() ) );
         }
+
     }
 }
 /**

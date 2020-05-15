@@ -383,5 +383,15 @@
     "id": "morale_perm_debug",
     "type": "morale_type",
     "text": "Debug Morale"
+  },
+  {
+    "id": "morale_traumatic_memory",
+    "type": "morale_type",
+    "text": "Relived a traumatic memory"
+  },
+  {
+    "id": "morale_nightmare",
+    "type": "morale_type",
+    "text": "Had a vivid nightmare"
   }
 ]

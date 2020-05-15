@@ -12,9 +12,40 @@
     "type": "snippet",
     "category": "mist_summon_spectre",
     "text": [
+      "You see a shape form in the mist that reminds you of a figure from a nightmare.",
+      "You see a shape form in the mist that reminds you of a dream monster."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "mist_summon_phantom",
+    "text": [
       "You see a shape form in the mist that reminds you of a creepy man that followed you when you were younger.",
-      "You see a shape form in the mist that reminds you of a teacher that hated you.",
-      "A shape forms in the mist and you could swear ."
+      "You see a shape form in the mist that reminds you of a teacher that hated you."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "mist_increase_intensity",
+    "text": [
+      "The mist grows thicker.",
+      "The mist feels slightly stronger and more alive"      
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "mist_shouts",
+    "text": [
+      "I'm sorry mommy!.",
+      "Stop sir that hurts."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "nightmares",
+    "text": [
+      "You awaken from a nightmare about being eaten alive while your friends applaud.",
+      "You awaken from a nightmare about being naked in a the artic tundra and freezing to death."
     ]
   }
 ]

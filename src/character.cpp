@@ -147,6 +147,7 @@ static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_nightmares( "nightmares" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill1( "pkill1" );
@@ -343,6 +344,8 @@ static const std::string flag_USE_UPS( "USE_UPS" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
+const morale_type MORALE_NIGHTMARE( "morale_nightmare" );
 
 namespace io
 {
@@ -7784,6 +7787,11 @@ void Character::wake_up()
         get_effect( effect_alarm_clock ).set_duration( 0_turns );
     }
     recalc_sight_limits();
+    if( has_effect( effect_nightmares ) ) {
+        add_msg_if_player( m_bad, "%s",
+                           SNIPPET.random_from_category( "nightmares" ).value_or( translation() ) );
+        add_morale( MORALE_NIGHTMARE, -5, -15, 30_minutes );
+    }
 }
 
 int Character::get_shout_volume() const

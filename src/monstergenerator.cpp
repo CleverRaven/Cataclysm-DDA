@@ -617,6 +617,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
     add_hardcoded_attack( "DISSIPATE_DRAIN", mattack::dissipate_drain );
     add_hardcoded_attack( "DISSIPATE_NIGHTMARES", mattack::dissipate_nightmares );
+    add_hardcoded_attack( "DISSIPATE_FORCE_SCREAM", mattack::dissipate_force_scream );
 }
 
 void MonsterGenerator::init_defense()
