@@ -275,6 +275,8 @@ class pocket_data
         float spoil_multiplier = 1.0f;
         // items' weight in this pocket are modified by this number
         float weight_multiplier = 1.0f;
+        // items' volume in this pocket are modified by this number for calculation of the containing object
+        float volume_multiplier = 1.0f;
         // the size that gets subtracted from the contents before it starts enlarging the item
         units::volume magazine_well = 0_ml;
         // base time it takes to pull an item out of the pocket

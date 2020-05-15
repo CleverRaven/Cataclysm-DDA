@@ -57,6 +57,7 @@ void pocket_data::load( const JsonObject &jo )
     }
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
     optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
+    optional( jo, was_loaded, "volume_multiplier", volume_multiplier, 1.0f );
     optional( jo, was_loaded, "magazine_well", magazine_well, volume_reader(), 0_ml );
     optional( jo, was_loaded, "moves", moves, 100 );
     optional( jo, was_loaded, "fire_protection", fire_protection, false );
@@ -325,13 +326,10 @@ units::volume item_pocket::item_size_modifier() const
     }
     units::volume total_vol = 0_ml;
     for( const item &it : contents ) {
-        if( is_type( item_pocket::pocket_type::MOD ) ) {
-            total_vol += it.volume( true );
-        } else {
-            total_vol += it.volume();
-        }
+        total_vol += it.volume( is_type( item_pocket::pocket_type::MOD ) );
     }
     total_vol -= data->magazine_well;
+    total_vol *= data->volume_multiplier;
     return std::max( 0_ml, total_vol );
 }
 
@@ -666,6 +664,12 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "Items in this pocket weigh <neutral>%.0f%%</neutral> their original weight." ),
                                           data->weight_multiplier * 100 ) );
+    }
+    if( data->volume_multiplier != 1.0f ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format(
+                               _( "This pocket expands at <neutral>%.0f%%</neutral> of the rate of volume of items inside." ),
+                               data->weight_multiplier * 100 ) );
     }
 }
 
