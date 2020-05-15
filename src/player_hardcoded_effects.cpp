@@ -666,9 +666,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
         if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
-            if( !is_npc() ) {
-                add_msg( m_bad, _( "You pass out." ) );
-            }
+            add_msg_if_player( m_bad, _( "You pass out." ) );
             fall_asleep( 2_hours );
             if( one_in( 6 ) ) {
                 // Set ourselves up for removal
