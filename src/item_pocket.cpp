@@ -292,6 +292,11 @@ units::volume item_pocket::volume_capacity() const
     return data->volume_capacity;
 }
 
+units::volume item_pocket::magazine_well() const
+{
+    return data->magazine_well;
+}
+
 units::volume item_pocket::max_contains_volume() const
 {
     return data->max_contains_volume();
@@ -1090,15 +1095,6 @@ bool item_pocket::rigid() const
 bool item_pocket::watertight() const
 {
     return data->watertight;
-}
-
-bool item_pocket::bigger_on_the_inside( const units::volume &container_volume ) const
-{
-    if( rigid() ) {
-        return max_contains_volume() > container_volume;
-    } else {
-        return data->magazine_well > container_volume && max_contains_volume() > container_volume;
-    }
 }
 
 void item_pocket::add( const item &it )

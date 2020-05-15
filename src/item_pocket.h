@@ -78,7 +78,6 @@ class item_pocket
 
         bool rigid() const;
         bool watertight() const;
-        bool bigger_on_the_inside( const units::volume &container_size ) const;
 
         std::list<item *> all_items_top();
         std::list<const item *> all_items_top() const;
@@ -101,6 +100,8 @@ class item_pocket
         // how many more of @it can this pocket hold?
         int remaining_capacity_for_item( const item &it ) const;
         units::volume volume_capacity() const;
+        // the amount of space this pocket can hold before it starts expanding
+        units::volume magazine_well() const;
         // The largest volume of contents this pocket can have.  Different from
         // volume_capacity because that doesn't take into account ammo containers.
         units::volume max_contains_volume() const;

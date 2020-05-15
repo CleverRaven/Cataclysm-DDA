@@ -1004,13 +1004,23 @@ void Item_factory::check_definitions() const
         std::string msg;
         const itype *type = &elem.second;
 
-        if( !type->pockets.empty() && !type->item_tags.count( "TARDIS" ) ) {
-            units::volume volume = type->volume;
-            if( type->count_by_charges() ) {
-                volume / type->charges_default();
+        if( !type->item_tags.count( "TARDIS" ) ) {
+            bool is_container = false;
+            for( const pocket_data &pocket : type->pockets ) {
+                if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+                    is_container = true;
+                    // no need to look further
+                    break;
+                }
             }
-            if( item_contents( type->pockets ).bigger_on_the_inside( volume ) ) {
-                msg += "is bigger on the inside.  consider using TARDIS flag.\n";
+            if( is_container ) {
+                units::volume volume = type->volume;
+                if( type->count_by_charges() ) {
+                    volume / type->charges_default();
+                }
+                if( item_contents( type->pockets ).bigger_on_the_inside( volume ) ) {
+                    msg += "is bigger on the inside.  consider using TARDIS flag.\n";
+                }
             }
         }
 

@@ -74,13 +74,17 @@ bool item_contents::full( bool allow_bucket ) const
 
 bool item_contents::bigger_on_the_inside( const units::volume &container_volume ) const
 {
-    bool bigger = false;
+    units::volume min_logical_volume = 0_ml;
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            bigger = pocket.bigger_on_the_inside( container_volume ) || bigger;
+            if( pocket.rigid() ) {
+                min_logical_volume += pocket.volume_capacity();
+            } else {
+                min_logical_volume += pocket.magazine_well();
+            }
         }
     }
-    return bigger;
+    return container_volume < min_logical_volume;
 }
 
 size_t item_contents::size() const
