@@ -206,12 +206,11 @@
     "dodge": 1,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "impale", 25 ] ],
     "attack_effs": [ { "id": "tetanus", "chance": 20 } ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into": "" },
     "flags": [
       "SEES",
       "HEARS",
