@@ -14,10 +14,6 @@
         "text": "This is a copy of \"The Unique and Its Property\" by Max Stirner.  A modern translation by Wolfi Landstreicher."
       },
       {
-        "id": "philosophy3",
-        "text": "This is a copy of Jean-Paul Sartre's \"Being and Nothingness\".  A key work in the existentialist tradition."
-      },
-      {
         "id": "philosophy4",
         "text": "A large, extended version of \"Madness and Civilisation\" by Michel Foucault.  The cover features a striking image of a Panopticonic Prison."
       },
@@ -153,16 +149,58 @@
       },
       { "id": "philosophy45", "text": "This is a copy of \"Anti-Capitalist Mentality\" by Ludwig von Mises." }
     ],
-    "weight": "350 g",
-    "volume": "750 ml",
-    "price": 1250,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "intelligence": 9,
-    "time": "36 m",
     "chapters": 44,
-    "fun": 3
+    "copy-from": "book_nonf_soft_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_mdlogic",
+    "type": "BOOK",
+    "name": { "str": "Modal Logic as Metaphysics", "str_pl": "copies of Modal Logic" },
+    "description": "A treatise on applying logical tools to questions about that nature of reality, this book contains detailed discussion of metaphysical issues.",
+    "//isbn13": 9780199552078,
+    "weight": "834 g",
+    "volume": "1249 ml",
+    "longest_side": "24 cm",
+    "price": 4895,
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_aesth",
+    "type": "BOOK",
+    "name": { "str": "Aesthetics: A Critical Anthology", "str_pl": "copies of Aesthetics" },
+    "description": "This hardbound anthology presents a collection of readings, scholarly works, and critical analyses on the subject of beauty.",
+    "//isbn13": 9780312003098,
+    "weight": "1139 g",
+    "volume": "1625 ml",
+    "longest_side": "24 cm",
+    "price": 6499,
+    "chapters": 48,
+    "copy-from": "book_nonf_hard_phil_tpl"
+  },
+  {
+    "id": "book_nonf_hard_phil_phinfo",
+    "type": "BOOK",
+    "name": { "str": "The Philosophy of Information", "str_pl": "copies of The Philosophy of Information" },
+    "description": "This university text details a critical investigation of the conceptual nature and basic principles of information.  The student will gain a thorough appreciation of the conceptual frameworks commonly used to describe and advance semantic investigations.",
+    "//isbn13": 9780199232383,
+    "weight": "800 g",
+    "volume": "1425 ml",
+    "longest_side": "24 cm",
+    "price": 8391,
+    "copy-from": "book_nonf_hard_phil_tpl",
+    "relative": { "intelligence": 1, "fun": -2 }
+  },
+  {
+    "id": "book_nonf_soft_phil_benoth",
+    "type": "BOOK",
+    "name": { "str": "Being and Nothingness", "str_pl": "copies of Being and Nothingness" },
+    "description": "This paperback is a copy of Jean-Paul Sartre's \"Being and Nothingness\".  A key work in the existentialist tradition.",
+    "//isbn13": 9780415278485,
+    "weight": "794 g",
+    "volume": "1 L",
+    "longest_side": "21 cm",
+    "price": 3400,
+    "price_postapoc": 50,
+    "copy-from": "book_nonf_soft_phil_tpl"
   }
 ]
