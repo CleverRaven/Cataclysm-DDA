@@ -129,7 +129,7 @@
     "type": "furniture",
     "id": "f_dryer",
     "name": "dryer",
-    "description": "A common household appliance used to quickly dry large batches of clothing, after they have been washed.",
+    "description": "A common household appliance used to quickly dry large batches of clothing after they have been washed.",
     "symbol": "{",
     "bgcolor": "white",
     "move_cost_mod": -1,
