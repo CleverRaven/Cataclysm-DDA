@@ -218,6 +218,9 @@ struct mutation_branch {
         // Multiplier for skill rust, defaulting to 1.
         float skill_rust_multiplier = 1.0f;
 
+        // Multiplier for consume time, defaulting to 1.
+        float consume_time_modifier = 1.0f;
+
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 
@@ -241,7 +244,7 @@ struct mutation_branch {
         std::set<std::string> allowed_category;
 
         /**List of body parts locked out of bionics*/
-        std::set<body_part> no_cbm_on_bp;
+        std::set<bodypart_str_id> no_cbm_on_bp;
 
         // amount of mana added or subtracted from max
         float mana_modifier = 0.0f;

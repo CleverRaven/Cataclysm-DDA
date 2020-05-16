@@ -210,7 +210,14 @@
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_muriatic_acid", "prob": 15 },
-      { "item": "denat_alcohol", "prob": 10 }
+      { "item": "denat_alcohol", "prob": 10 },
+      { "item": "textbook_extraction", "prob": 5 },
+      { "item": "butane_can", "prob": 10 },
+      { "item": "gasket_plastic", "prob": 10 },
+      { "item": "vac_pump", "prob": 3 },
+      { "item": "recovery_pump", "prob": 3 },
+      { "item": "filter_paper_qualitative", "prob": 5 },
+      { "item": "filter_paper_quantitative", "prob": 5 }
     ]
   },
   {
@@ -235,6 +242,7 @@
     "items": [
       [ "alarmclock", 60 ],
       [ "glasses_reading", 50 ],
+      [ "glasses_eye", 30 ],
       [ "novel_drama", 50 ],
       [ "novel_romance", 40 ],
       [ "novel_mystery", 40 ],
@@ -283,6 +291,8 @@
       { "item": "sponge", "prob": 5 },
       { "group": "tobacco_products", "prob": 151 },
       { "item": "weed", "prob": 10 },
+      { "item": "hi_q_shatter", "prob": 5 },
+      { "item": "hi_q_wax", "prob": 5 },
       { "item": "joint", "prob": 10 },
       { "item": "seed_weed", "prob": 5 },
       { "item": "seed_tobacco", "prob": 5 },
@@ -469,6 +479,7 @@
       { "item": "bacon", "prob": 25 },
       { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "ammonia", "prob": 24, "charges-min": 1 },
+      { "item": "butane_can", "prob": 10 },
       { "item": "milk_powder", "prob": 15 },
       { "item": "powder_eggs", "prob": 20 },
       {

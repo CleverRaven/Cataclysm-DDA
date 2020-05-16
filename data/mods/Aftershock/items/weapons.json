@@ -154,7 +154,8 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 150,
-    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "laser_rifle_cheap",
@@ -204,7 +205,8 @@
     "dispersion": 60,
     "durability": 9,
     "clip_size": 1,
-    "loudness": 300
+    "loudness": 300,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
   },
   {
     "type": "GENERIC",

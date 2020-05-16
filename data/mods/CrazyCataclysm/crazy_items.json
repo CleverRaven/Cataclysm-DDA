@@ -49,7 +49,7 @@
     "id": "bio_chest_gun",
     "name": { "str": "Ionic Overload Generator" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact.  Close range use is highly discouraged.",
-    "occupied_bodyparts": [ [ "TORSO", 20 ] ],
+    "occupied_bodyparts": [ [ "torso", 20 ] ],
     "act_cost": 500,
     "fake_item": "bio_ion_gun",
     "flags": [ "BIONIC_GUN" ]

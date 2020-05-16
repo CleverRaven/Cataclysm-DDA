@@ -341,7 +341,7 @@
     "quench": 37,
     "healthy": 2,
     "calories": 112,
-    "description": "Made from real Massachusetts cranberries.  Delicious and nutritious.",
+    "description": "Made from real Massachusetts cranberries.  Quite sour, but nutritious.",
     "price": 80,
     "price_postapoc": 50,
     "material": "fruit",
@@ -350,7 +350,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
-    "fun": 3
+    "fun": -1
   },
   {
     "type": "COMESTIBLE",

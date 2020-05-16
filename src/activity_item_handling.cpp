@@ -984,22 +984,18 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     inventory temp_inv;
     units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
-    const bool check_weight = p.backlog.front().id() == ACT_MULTIPLE_FARM ||
-                              activity_to_restore == ACT_MULTIPLE_FARM ||
-                              p.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
-                              activity_to_restore == ACT_MULTIPLE_CHOP_PLANKS ||
-                              p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
-                              activity_to_restore == ACT_MULTIPLE_BUTCHER ||
-                              p.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
-                              activity_to_restore == ACT_VEHICLE_DECONSTRUCTION ||
-                              p.backlog.front().id() == ACT_VEHICLE_REPAIR ||
-                              activity_to_restore == ACT_VEHICLE_REPAIR ||
-                              p.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
-                              activity_to_restore == ACT_MULTIPLE_CHOP_TREES ||
-                              p.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                              activity_to_restore == ACT_MULTIPLE_FISH ||
-                              p.backlog.front().id() == ACT_MULTIPLE_MINE ||
-                              activity_to_restore == ACT_MULTIPLE_MINE;
+    static const auto check_weight_if = []( const activity_id & id ) {
+        return id == ACT_MULTIPLE_FARM ||
+               id == ACT_MULTIPLE_CHOP_PLANKS ||
+               id == ACT_MULTIPLE_BUTCHER ||
+               id == ACT_VEHICLE_DECONSTRUCTION ||
+               id == ACT_VEHICLE_REPAIR ||
+               id == ACT_MULTIPLE_CHOP_TREES ||
+               id == ACT_MULTIPLE_FISH ||
+               id == ACT_MULTIPLE_MINE;
+    };
+    const bool check_weight = check_weight_if( activity_to_restore ) || ( !p.backlog.empty() &&
+                              check_weight_if( p.backlog.front().id() ) );
     bool found_welder = false;
     for( item *elem : p.inv_dump() ) {
         if( elem->has_quality( qual_WELD ) ) {

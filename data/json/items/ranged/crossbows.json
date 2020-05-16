@@ -315,7 +315,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   },
   {
     "id": "hand_crossbow",
@@ -351,7 +352,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "crossbow",
@@ -362,7 +364,7 @@
     "color": "green",
     "name": { "str": "crossbow" },
     "description": "A slow-loading hand weapon that launches bolts.  Stronger people can reload it much faster.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
-    "//": "150lb @ 10in powerstroke, 34in wood limbs, 37.7J, 0.337 slugs with a 0.066lb bolt",
+    "//2": "150lb @ 10in powerstroke, 34in wood limbs, 37.7J, 0.337 slugs with a 0.066lb bolt",
     "price": 6000,
     "price_postapoc": 3500,
     "material": [ "wood" ],
@@ -381,7 +383,8 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1200,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "compositecrossbow",
@@ -421,7 +424,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "compcrossbow",
@@ -461,7 +465,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "huge_crossbow",
@@ -490,7 +495,8 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 6000,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "rep_crossbow",
@@ -519,6 +525,7 @@
     "durability": 6,
     "clip_size": 10,
     "reload": 900,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 10 } } ]
   }
 ]

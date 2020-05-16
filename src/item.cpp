@@ -99,12 +99,18 @@ static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_plutonium( "plutonium" );
 
+static const item_category_id item_category_drugs( "drugs" );
+static const item_category_id item_category_food( "food" );
+static const item_category_id item_category_maps( "maps" );
+
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+
+static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
@@ -1366,7 +1372,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this );
         damage_instance dealt_damage = base_damage;
-        temp_mon.absorb_hit( bp_torso, dealt_damage );
+        temp_mon.absorb_hit( bodypart_id( "torso" ), dealt_damage );
         dealt_damage_instance dealt_dams;
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
@@ -1388,7 +1394,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
             }
-            temp_rs_mon.absorb_hit( bp_torso, dealt_rs_damage );
+            temp_rs_mon.absorb_hit( bodypart_id( "torso" ), dealt_rs_damage );
             dealt_damage_instance rs_dealt_dams;
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
@@ -1489,6 +1495,12 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   string_format( "<num> %s", weight_units() ),
                                   iteminfo::lower_is_better | iteminfo::is_decimal,
                                   convert_weight( weight() ) * batch ) );
+    }
+    if( parts->test( iteminfo_parts::BASE_LENGTH ) && length() > 0_mm ) {
+        info.push_back( iteminfo( "BASE", _( "Length: " ),
+                                  string_format( "<num> %s", length_units( length() ) ),
+                                  iteminfo::lower_is_better,
+                                  convert_length( length() ) ) );
     }
     if( !owner.is_null() ) {
         info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ),
@@ -2518,6 +2530,16 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                   encumbrance ) );
+
+        if( const islot_armor *t = find_armor_data() ) {
+            if( t->max_encumber != t->encumber ) {
+                const int encumbrance_when_full =
+                    get_encumber( g->u, encumber_flags::assume_full );
+                info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
+                                          iteminfo::no_newline | iteminfo::lower_is_better,
+                                          encumbrance_when_full ) );
+            }
+        }
     }
 
     // Whatever the last entry was, we want a newline at this point
@@ -3390,6 +3412,20 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     insert_separation_line( info );
 
+    if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
+        if( const islot_armor *t = find_armor_data() ) {
+            if( t->max_encumber != t->encumber ) {
+                info.emplace_back( "BASE",
+                                   _( "* This item is <info>not rigid</info>.  Its"
+                                      " volume and encumbrance increase with contents." ) );
+            } else if( !contents.all_pockets_rigid() ) {
+                info.emplace_back( "BASE",
+                                   _( "* This item is <info>not rigid</info>.  Its"
+                                      " volume increases with contents." ) );
+            }
+        }
+    }
+
     if( parts->test( iteminfo_parts::DESCRIPTION_CONDUCTIVITY ) ) {
         if( !conductive() ) {
             info.push_back( iteminfo( "BASE", _( "* This item <good>does not "
@@ -3689,7 +3725,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    contents.info( info );
+    contents.info( info, parts );
     contents_info( info, parts, batch, debug );
 
     if( get_option<bool>( "ENABLE_ASCII_ART_ITEM" ) ) {
@@ -3983,9 +4019,9 @@ void item::on_wear( Character &p )
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
             if( ( covers( bp_leg_l ) && p.is_limb_broken( hp_leg_r ) &&
-                  !p.worn_with_flag( flag_SPLINT, bp_leg_r ) ) ||
+                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
                 ( covers( bp_arm_l ) && p.is_limb_broken( hp_arm_r ) &&
-                  !p.worn_with_flag( flag_SPLINT, bp_arm_r ) ) ) {
+                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
         } else {
@@ -4650,6 +4686,17 @@ units::mass item::weight( bool, bool integral ) const
     return ret;
 }
 
+units::length item::length() const
+{
+    if( made_of( LIQUID ) || is_soft() ) {
+        return 0_mm;
+    }
+    if( is_corpse() ) {
+        return units::default_length_from_volume<int>( corpse->volume );
+    }
+    return type->longest_side;
+}
+
 units::volume item::corpse_volume( const mtype *corpse ) const
 {
     units::volume corpse_volume = corpse->volume;
@@ -5156,9 +5203,9 @@ int item::spoilage_sort_order()
     }
 
     if( get_comestible() ) {
-        if( get_category().get_id() == "food" ) {
+        if( get_category().get_id() == item_category_food ) {
             return bottom - 3;
-        } else if( get_category().get_id() == "drugs" ) {
+        } else if( get_category().get_id() == item_category_drugs ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -5336,13 +5383,7 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-int item::get_encumber( const Character &p ) const
-{
-    return get_encumber_when_containing( p, contents.item_size_modifier() );
-}
-
-int item::get_encumber_when_containing(
-    const Character &p, const units::volume & /* contents_volume */ ) const
+int item::get_encumber( const Character &p, encumber_flags flags ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
@@ -5350,6 +5391,14 @@ int item::get_encumber_when_containing(
         return is_gun() ? volume() / 750_ml : 0;
     }
     int encumber = t->encumber;
+
+    // Additional encumbrance from non-rigid pockets
+    float relative_encumbrance = 1;
+    if( !( flags & encumber_flags::assume_full ) ) {
+        relative_encumbrance = contents.relative_encumbrance();
+    }
+
+    encumber += std::ceil( relative_encumbrance * ( t->max_encumber - t->encumber ) );
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {
@@ -6256,7 +6305,7 @@ bool item::is_book() const
 
 bool item::is_map() const
 {
-    return get_category().get_id() == "maps";
+    return get_category().get_id() == item_category_maps;
 }
 
 bool item::seal()
@@ -7346,7 +7395,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
         } else if( e->is_gunmod() ) {
             for( const std::pair<const gun_mode_id, gun_modifier_data> &m : e->type->gunmod->mode_modifier ) {
                 //checks for melee gunmod, points to gunmod
-                if( m.first == "REACH" ) {
+                if( m.first == gun_mode_REACH ) {
                     res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
                                                      m.second.qty(), m.second.flags() } );
                     //otherwise points to the parent gun, not the gunmod
@@ -7667,7 +7716,7 @@ bool item::reload( player &u, item_location ammo, int qty )
             ammo_copy.charges = qty;
             put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
             ammo->ammo_consume( qty, tripoint_zero );
-        } else if( ammo->ammo_type() == "plutonium" ) {
+        } else if( ammo->ammo_type() == ammo_plutonium ) {
             curammo = ammo->type;
             ammo->charges -= qty;
 
@@ -8340,7 +8389,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         int charges_remaining = charges;
-        const int rounds_exploded = rng( 1, charges_remaining );
+        const int rounds_exploded = rng( 1, charges_remaining / 2 );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
         const islot_ammo &ammo_type = *type->ammo;
@@ -8348,6 +8397,10 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         if( ammo_type.special_cookoff ) {
             // If it has a special effect just trigger it.
             apply_ammo_effects( p, ammo_type.ammo_effects );
+        }
+        if( ammo_type.cookoff ) {
+            // If ammo type can burn, then create an explosion proportional to quantity.
+            explosion_handler::explosion( p, 3.0f * sqrtf( sqrtf( rounds_exploded / 25.0f ) ), 0.0f, false, 0 );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
@@ -9710,8 +9763,7 @@ skill_id item::contextualize_skill( const skill_id &id ) const
 
 bool item::is_filthy() const
 {
-    return has_flag( flag_FILTHY ) && ( get_option<bool>( "FILTHY_MORALE" ) ||
-                                        g->u.has_trait( trait_SQUEAMISH ) );
+    return has_flag( flag_FILTHY );
 }
 
 bool item::on_drop( const tripoint &pos )

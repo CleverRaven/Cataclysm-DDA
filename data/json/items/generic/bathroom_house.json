@@ -96,6 +96,7 @@
     "name": { "str": "dental floss", "str_pl": "rolls of dental floss" },
     "type": "GENERIC",
     "description": "Twenty-five yards of finely waxed thread wound up inside a plastic container.  Perfect for picking bits of smoked meat out of your teeth.  Disassemble to use the thread for something else.",
+    "weight": "28 g",
     "copy-from": "base_toiletries",
     "symbol": "~",
     "material": [ "plastic", "cotton" ]

@@ -1903,6 +1903,12 @@ class vehicle
 
         // current noise of vehicle (engine working, etc.)
         unsigned char vehicle_noise = 0;
+
+        // return vehicle part index and muffle value
+        std::pair<int, double> get_exhaust_part() const;
+
+        // destination for exhaust emissions
+        tripoint exhaust_dest( int part ) const;
 };
 
 #endif // CATA_SRC_VEHICLE_H

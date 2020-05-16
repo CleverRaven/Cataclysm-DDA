@@ -18,6 +18,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
@@ -215,6 +216,20 @@ class inventory_selector_preset
         };
 
         std::vector<cell_t> cells;
+};
+
+class inventory_holster_preset : public inventory_selector_preset
+{
+    public:
+        inventory_holster_preset( const item_location &holster ) : holster( holster ) {}
+
+        /** Does this entry satisfy the basic preset conditions? */
+        bool is_shown( const item_location &contained ) const override {
+            return holster->can_contain( *contained ) && !holster->has_item( *contained );
+        }
+    private:
+        // this is the item that we are putting something into
+        item_location holster;
 };
 
 const inventory_selector_preset default_preset;
@@ -659,6 +674,9 @@ class inventory_selector
 
         bool is_empty = true;
         bool display_stats = true;
+
+    public:
+        std::string action_bound_to_key( char key ) const;
 };
 
 inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
@@ -724,9 +742,9 @@ class inventory_drop_selector : public inventory_multiselector
 {
     public:
         inventory_drop_selector( player &p,
-                                 const inventory_selector_preset &preset = default_preset );
+                                 const inventory_selector_preset &preset = default_preset,
+                                 const std::string &selection_column_title = _( "ITEMS TO DROP" ) );
         drop_locations execute();
-
     protected:
         stats get_raw_stats() const override;
         /** Toggle item dropping */

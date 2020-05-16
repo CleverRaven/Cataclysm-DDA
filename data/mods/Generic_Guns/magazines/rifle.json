@@ -9,7 +9,8 @@
     "capacity": 500,
     "count": 100,
     "default_ammo": "rifle_ball",
-    "linkage": "ammolinkrifle"
+    "linkage": "ammolinkrifle",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 500 } } ]
   },
   {
     "id": "rifle_mag",

@@ -92,6 +92,7 @@ class item_location::impl
             ensure_unpacked();
             return !!what;
         }
+
     private:
         void ensure_unpacked() const {
             if( needs_unpacking ) {
@@ -551,8 +552,16 @@ class item_location::impl::item_in_container : public item_location::impl
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
+            } else if( container.held_by( ch ) ) {
+                // we don't need to move it in this case, it's in a pocket
+                // we just charge the obtain cost and leave it in place. otherwise
+                // it's liable to end up back in the same pocket, where shenanigans ensue
+                return item_location( container, target() );
             } else {
                 item *inv = &ch.i_add( *target(), should_stack );
+                if( inv->is_null() ) {
+                    debugmsg( "failed to add item to character inventory while obtaining from container" );
+                }
                 remove_item();
                 return item_location( ch, inv );
             }
@@ -685,6 +694,14 @@ item_location item_location::parent_item() const
     return item_location::nowhere;
 }
 
+bool item_location::has_parent() const
+{
+    if( where() == type::container ) {
+        return !!ptr->parent_item();
+    }
+    return false;
+}
+
 item_location::type item_location::where() const
 {
     return ptr->where();
@@ -737,4 +754,14 @@ const item *item_location::get_item() const
 void item_location::set_should_stack( bool should_stack ) const
 {
     ptr->should_stack = should_stack;
+}
+
+bool item_location::held_by( Character &who ) const
+{
+    if( where() == type::character && g->critter_at<Character>( position() ) == &who ) {
+        return true;
+    } else if( has_parent() ) {
+        return parent_item().held_by( who );
+    }
+    return false;
 }

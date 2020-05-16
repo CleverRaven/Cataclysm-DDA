@@ -32,7 +32,8 @@
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
     "material_thickness": 2,
-    "encumbrance": 9,
+    "encumbrance": 4,
+    "max_encumbrance": 9,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
@@ -211,7 +212,8 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 85,
-    "encumbrance": 7,
+    "encumbrance": 3,
+    "max_encumbrance": 7,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }

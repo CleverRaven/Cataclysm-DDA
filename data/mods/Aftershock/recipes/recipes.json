@@ -516,5 +516,20 @@
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "afs_titanium_small", 400 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "control_laptop",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "computer", 4 ],
+    "difficulty": 7,
+    "time": "25 m",
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "software_hacking", -1 ] ] ],
+    "components": [ [ [ "laptop", 1 ] ], [ [ "receiver", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "antenna", 1 ] ] ]
   }
 ]

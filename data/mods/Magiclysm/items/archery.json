@@ -25,7 +25,8 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 40,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow_orichalcum": 1, "arrow": 1 } } ]
   },
   {
     "type": "AMMO",

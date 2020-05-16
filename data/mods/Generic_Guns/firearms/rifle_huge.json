@@ -17,7 +17,8 @@
     "description": "Elegantly engraved, with deep glossy blued steel and figured wood, this break-action double rifle is almost too nice to shoot.  Your shoulder might beg you not to; the chambers are almost wide enough for two fingers and the recoil is monstruous.  You could probably kill anything with this, especially if you were to fire both barrels at once.",
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "clip_size": 2
+    "clip_size": 2,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle_huge": 2 } } ]
   },
   {
     "id": "rifle_huge_hmg",

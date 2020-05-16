@@ -195,7 +195,6 @@ void forage_finish( player_activity *act, player *p );
 void hotwire_finish( player_activity *act, player *p );
 void longsalvage_finish( player_activity *act, player *p );
 void pulp_finish( player_activity *act, player *p );
-void make_zlave_finish( player_activity *act, player *p );
 void pickaxe_finish( player_activity *act, player *p );
 void reload_finish( player_activity *act, player *p );
 void start_fire_finish( player_activity *act, player *p );

@@ -730,7 +730,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
         } );
         if( entry_with_loc != entries.end() ) {
             has_loc = true;
-            std::vector<item_location> locations = iter->locations;
+            std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
             entries.erase( entry_with_loc );
             inventory_entry nentry( locations, entry.get_category_ptr() );
@@ -1994,6 +1994,18 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
     return mode_data.at( m );
 }
 
+std::string inventory_selector::action_bound_to_key( char key ) const
+{
+    for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
+        for( char bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
+            if( key == bound_key ) {
+                return action_descriptor;
+            }
+        }
+    }
+    return std::string();
+}
+
 item_location inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
@@ -2221,8 +2233,8 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 }
 
 inventory_drop_selector::inventory_drop_selector( player &p,
-        const inventory_selector_preset &preset ) :
-    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
+        const inventory_selector_preset &preset, const std::string &selection_column_title ) :
+    inventory_multiselector( p, preset, selection_column_title ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {
 #if defined(__ANDROID__)
@@ -2405,13 +2417,14 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if( it->count_by_charges() ) {
-            dropping.emplace_back( it, entry.chosen_count );
+            dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
         } else {
             for( item_location loc : entry.locations ) {
                 if( count == 0 ) {
                     break;
                 }
                 dropping.emplace_back( loc, 1 );
+                count--;
             }
         }
     }

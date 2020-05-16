@@ -2090,7 +2090,7 @@ bool mattack::impale( monster *z )
         target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
         if( one_in( 60 / ( dam + 20 ) ) ) {
             if( target->is_player() || target->is_npc() ) {
-                target->as_character()->make_bleed( bp_torso, rng( 75_turns, 125_turns ), true );
+                target->as_character()->make_bleed( bodypart_id( "torso" ), rng( 75_turns, 125_turns ), true );
             } else {
                 target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
             }
@@ -4432,7 +4432,7 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
         if( target->is_player() || target->is_npc() ) {
-            target->as_character()->make_bleed( bp_head, 10_minutes );
+            target->as_character()->make_bleed( bodypart_id( "head" ), 10_minutes );
         } else {
             target->add_effect( effect_bleed, 10_minutes, bp_head );
         }
@@ -5275,7 +5275,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->as_character()->make_bleed( hit->token, rng( 75_turns, 125_turns ), true );
+            target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), true );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
@@ -5790,4 +5790,11 @@ bool mattack::dodge_check( monster *z, Creature *target )
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
     float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
     return rng( 0, 10000 ) < 10000 / ( 1 + 99 * std::exp( -.6 * dodge ) );
+}
+
+bool mattack::speaker( monster *z )
+{
+    sounds::sound( z->pos(), 60, sounds::sound_t::order,
+                   SNIPPET.random_from_category( "speaker_warning" ).value_or( translation() ) );
+    return true;
 }

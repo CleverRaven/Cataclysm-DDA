@@ -1388,20 +1388,10 @@ void sfx::do_footstep()
             ter_str_id( "t_machinery_old" ),
             ter_str_id( "t_machinery_electronic" ),
         };
-        static const std::set<ter_str_id> water = {
-            ter_str_id( "t_water_moving_sh" ),
-            ter_str_id( "t_water_moving_dp" ),
-            ter_str_id( "t_water_sh" ),
-            ter_str_id( "t_water_dp" ),
-            ter_str_id( "t_swater_sh" ),
-            ter_str_id( "t_swater_dp" ),
-            ter_str_id( "t_water_pool" ),
-            ter_str_id( "t_sewage" ),
-        };
         static const std::set<ter_str_id> chain_fence = {
             ter_str_id( "t_chainfence" ),
         };
-        if( !g->u.wearing_something_on( bp_foot_l ) ) {
+        if( !g->u.wearing_something_on( bodypart_id( "foot_l" ) ) ) {
             play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
@@ -1421,7 +1411,7 @@ void sfx::do_footstep()
             play_variant_sound( "plmove", "walk_metal", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
-        } else if( water.count( terrain ) > 0 ) {
+        } else if( terrain->has_flag( TFLAG_DEEP_WATER ) || terrain->has_flag( TFLAG_SHALLOW_WATER ) ) {
             play_variant_sound( "plmove", "walk_water", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
@@ -1440,20 +1430,10 @@ void sfx::do_footstep()
 void sfx::do_obstacle( const std::string &obst )
 {
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
-    //const auto terrain = g->m.ter( g->u.pos() ).id();
-    static const std::set<std::string> water = {
-        "t_water_sh",
-        "t_water_dp",
-        "t_water_moving_sh",
-        "t_water_moving_dp",
-        "t_swater_sh",
-        "t_swater_dp",
-        "t_water_pool",
-        "t_sewage",
-    };
     if( sfx::has_variant_sound( "plmove", obst ) ) {
         play_variant_sound( "plmove", obst, heard_volume, 0, 0.8, 1.2 );
-    } else if( water.count( obst ) > 0 ) {
+    } else if( ter_id( obst )->has_flag( TFLAG_SHALLOW_WATER ) ||
+               ter_id( obst )->has_flag( TFLAG_DEEP_WATER ) ) {
         play_variant_sound( "plmove", "walk_water", heard_volume, 0, 0.8, 1.2 );
     } else {
         play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0, 0.8, 1.2 );

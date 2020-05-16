@@ -1,7 +1,7 @@
 [
   {
     "//": "Mainlined from a mod originally written by Spencer Michaels",
-    "//": "This group picks out several negative and positive traits",
+    "//2": "This group picks out several negative and positive traits",
     "type": "trait_group",
     "id": "NPC_starting_traits",
     "subtype": "collection",

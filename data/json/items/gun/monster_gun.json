@@ -28,7 +28,8 @@
     "loudness": 2,
     "range": 12,
     "dispersion": 100,
-    "durability": 8
+    "durability": 8,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "barb": 1 } } ]
   },
   {
     "id": "emp_frond",

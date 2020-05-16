@@ -61,6 +61,9 @@
 #  make AUTO_BUILD_PREFIX=1
 # Install to system directories.
 #  make install
+# Install to $DIR ($DIR will contain bin and share directories).
+#  make PREFIX=$DIR
+#  make PREFIX=$DIR install
 # Use user's XDG base directories for save files and configs.
 #  make USE_XDG_DIR=1
 # Use user's home directory for save files.

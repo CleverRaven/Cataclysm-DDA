@@ -529,7 +529,7 @@ bool trapfunc::blade( const tripoint &, Creature *c, item * )
         add_msg( m_bad, _( "A blade swings out and hacks your %s!" ), c->get_name() );
     }
     c->add_msg_player_or_npc( m_bad, _( "A blade swings out and hacks your torso!" ),
-                              _( "A blade swings out and hacks <npcname>s torso!" ) );
+                              _( "A blade swings out and hacks <npcname>'s torso!" ) );
     damage_instance d;
     d.add_damage( DT_BASH, 12 );
     d.add_damage( DT_CUT, 30 );

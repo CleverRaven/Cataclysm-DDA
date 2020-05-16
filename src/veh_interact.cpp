@@ -663,6 +663,15 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
+static void print_message_to( catacurses::window &w_msg, const nc_color col,
+                              const std::string &msg )
+{
+    werase( w_msg );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, col, msg );
+    wrefresh( w_msg );
+}
+
 bool veh_interact::can_install_part()
 {
     if( sel_vpart_info == nullptr ) {
@@ -674,12 +683,11 @@ bool veh_interact::can_install_part()
     if( is_drive_conflict() ) {
         return false;
     }
-    if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
-        werase( w_msg );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                        _( "This part cannot be installed.\n" ) );
-        wrefresh( w_msg );
+    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This vehicle cannot be modified in this way.\n" ) );
+        return false;
+    } else if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This part cannot be installed.\n" ) );
         return false;
     }
 
@@ -687,11 +695,7 @@ bool veh_interact::can_install_part()
         if( std::none_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_tank();
         } ) ) {
-            werase( w_msg );
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                            _( "Funnels need to be installed over a tank." ) );
-            wrefresh( w_msg );
+            print_message_to( w_msg, c_light_red, _( "Funnels need to be installed over a tank." ) );
             return false;
         }
     }
@@ -700,11 +704,7 @@ bool veh_interact::can_install_part()
         if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_turret();
         } ) ) {
-            werase( w_msg );
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                            _( "Can't install turret on another turret." ) );
-            wrefresh( w_msg );
+            print_message_to( w_msg, c_light_red, _( "Can't install turret on another turret." ) );
             return false;
         }
     }
@@ -811,10 +811,7 @@ bool veh_interact::can_install_part()
 
     sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
 
-    werase( w_msg );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg );
-    wrefresh( w_msg );
+    print_message_to( w_msg, c_light_gray, msg );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
@@ -1189,13 +1186,16 @@ bool veh_interact::do_repair( std::string &msg )
         if( pt.is_broken() ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
-            if( !vp.has_flag( "NO_REPAIR" ) && !vp.repair_requirements().is_empty() &&
-                pt.base.max_damage() > 0 ) {
-                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
-                                  vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
-            } else {
+            if( vp.has_flag( "NO_REPAIR" ) || vp.repair_requirements().is_empty() ||
+                pt.base.max_damage() <= 0 ) {
                 nmsg += colorize( _( "This part cannot be repaired.\n" ), c_light_red );
                 ok = false;
+            } else if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) {
+                nmsg += colorize( _( "This vehicle cannot be repaired.\n" ), c_light_red );
+                ok = false;
+            } else {
+                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
+                                  vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
             }
         }
 
@@ -1728,12 +1728,11 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     sel_vpart_info = &sel_vehicle_part->info();
     std::string msg;
 
-    if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
-        werase( w_msg );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                        _( "This part cannot be uninstalled.\n" ) );
-        wrefresh( w_msg );
+    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This vehicle cannot be modified in this way.\n" ) );
+        return false;
+    } else if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This part cannot be uninstalled.\n" ) );
         return false;
     }
 
@@ -1804,10 +1803,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
     sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
 
-    werase( w_msg );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg );
-    wrefresh( w_msg );
+    print_message_to( w_msg, c_light_gray, msg );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
