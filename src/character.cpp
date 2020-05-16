@@ -1311,11 +1311,6 @@ int Character::get_working_leg_count() const
     return limb_count;
 }
 
-bool Character::is_limb_hindered( hp_part limb ) const
-{
-    return hp_cur[limb] < hp_max[limb] * .40;
-}
-
 bool Character::is_limb_disabled( hp_part limb ) const
 {
     return hp_cur[limb] <= hp_max[limb] * .125;
@@ -10262,13 +10257,13 @@ int Character::run_cost( int base_cost, bool diag ) const
                     75; // Mycal characters are faster on their home territory, even through things like shrubs
             }
         }
-        if( is_limb_hindered( hp_leg_l ) ) {
-            movecost += 25;
-        }
 
-        if( is_limb_hindered( hp_leg_r ) ) {
-            movecost += 25;
-        }
+        // Linearly increase move cost relative to individual leg hp.
+        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( hp_cur[hp_leg_l] ) /
+                                          static_cast<float>( hp_max[hp_leg_l] ) ) );
+        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( hp_cur[hp_leg_r] ) /
+                                          static_cast<float>( hp_max[hp_leg_r] ) ) );
+
         movecost *= mutation_value( "movecost_modifier" );
         if( flatground ) {
             movecost *= mutation_value( "movecost_flatground_modifier" );
