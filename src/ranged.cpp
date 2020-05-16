@@ -2703,7 +2703,15 @@ void target_ui::draw_terrain( player &pc )
             if( tile.z != center.z ) {
                 continue;
             }
-            g->m.drawsq( g->w_terrain, pc, tile, true, true, center );
+#ifdef TILES
+            if( use_tiles ) {
+                g->draw_highlight( tile );
+            } else {
+#endif
+                g->m.drawsq( g->w_terrain, pc, tile, true, true, center );
+#ifdef TILES
+            }
+#endif
         }
     }
 
