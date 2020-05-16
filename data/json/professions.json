@@ -3902,7 +3902,7 @@
   {
     "type": "profession",
     "ident": "fencer",
-    "name": "Competetive Fencer",
+    "name": "Competitive Fencer",
     "description": "You were an avid sport fencer, always practicing at local clubs and competing in tournaments.  You were on your way to have a few bouts at the club when the world ended.  Now you're in your most important tournament, the refs are all dead, and none of your opponents follow the rules.",
     "points": 5,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "dodge" } ],
