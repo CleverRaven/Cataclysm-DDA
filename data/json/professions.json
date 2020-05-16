@@ -1566,7 +1566,7 @@
     "type": "profession",
     "ident": "electrician",
     "name": "Electrician",
-    "description": "By coincidence, you were doing some electrical work for an evac shelter when the whole power grid went dead.  Unfortunately, you hadn't finished wiring anything up except the computer - fat lot of good that'll do.",
+    "description": "Small businesses often hired you for electrical work.  You were halfway through your latest job when the whole power grid went dead.",
     "points": 1,
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
@@ -2854,7 +2854,7 @@
     "type": "profession",
     "ident": "pizzaboy",
     "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
-    "description": "You were delivering the last pizza of the night to the local cryogenics lab when hungry zombies attempted to make a meal out of you.  Fleeing to the nearest shelter, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
+    "description": "You were delivering the last pizza of the night to the local cryogenics lab when hungry zombies attempted to make a meal out of you.  Fleeing for safety, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
     "points": 1,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "barter" }, { "level": 1, "name": "speech" } ],
     "items": {
@@ -2882,7 +2882,7 @@
     "type": "profession",
     "ident": "archaeologist",
     "name": "Archaeologist",
-    "description": "Following a clue from your dead grandfather's journal, you made your way to a long-lost temple, but then the ground started to shake uncontrollably.  You had a bad feeling about the situation, so you headed to the nearest shelter.",
+    "description": "Following a clue from your dead grandfather's journal, you made your way to a long-lost temple, but then the ground started to shake uncontrollably.  You had a bad feeling about that, so you got out of there quickly.",
     "points": 3,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "gun" } ],
     "items": {
