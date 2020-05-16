@@ -46,7 +46,7 @@ class item_pocket
             ERR_MOD,
             // trying to put a liquid into a non-watertight container
             ERR_LIQUID,
-            // trying to put a gas in a non-gastight container
+            // trying to put a gas in a non-airtight container
             ERR_GAS,
             // trying to put an item that wouldn't fit if the container were empty
             ERR_TOO_BIG,
@@ -284,7 +284,7 @@ class pocket_data
         // can hold liquids
         bool watertight = false;
         // can hold gas
-        bool gastight = false;
+        bool airtight = false;
         // the pocket will spill its contents if placed in another container
         bool open_container = false;
 
