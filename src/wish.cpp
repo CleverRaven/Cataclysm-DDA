@@ -446,7 +446,7 @@ class wish_item_callback: public uilist_callback
             incontainer( false ), has_flag( false ), spawn_everything( false ), standard_itype_ids( ids ) {
         }
 
-        void select( uilist *menu ) {
+        void select( uilist *menu ) override {
 
             if( standard_itype_ids[menu->selected]->phase == phase_id::LIQUID ) {
                 incontainer = true;
