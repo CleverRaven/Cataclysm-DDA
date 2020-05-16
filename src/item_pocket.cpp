@@ -61,7 +61,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "moves", moves, 100 );
     optional( jo, was_loaded, "fire_protection", fire_protection, false );
     optional( jo, was_loaded, "watertight", watertight, false );
-    optional( jo, was_loaded, "gastight", gastight, false );
+    optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
     optional( jo, was_loaded, "flag_restriction", flag_restriction );
     optional( jo, was_loaded, "rigid", rigid, false );
@@ -83,7 +83,7 @@ bool pocket_data::operator==( const pocket_data &rhs ) const
 {
     return rigid == rhs.rigid &&
            watertight == rhs.watertight &&
-           gastight == rhs.gastight &&
+           airtight == rhs.airtight &&
            fire_protection == rhs.fire_protection &&
            flag_restriction == rhs.flag_restriction &&
            type == rhs.type &&
@@ -641,7 +641,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION",
                            _( "This pocket can <info>contain a liquid</info>." ) );
     }
-    if( data->gastight ) {
+    if( data->airtight ) {
         info.emplace_back( "DESCRIPTION",
                            _( "This pocket can <info>contain a gas</info>." ) );
     }
@@ -767,7 +767,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
                    contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
     }
     if( it.made_of( phase_id::GAS ) ) {
-        if( !data->gastight ) {
+        if( !data->airtight ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_GAS, _( "can't contain gas" ) );
         }
