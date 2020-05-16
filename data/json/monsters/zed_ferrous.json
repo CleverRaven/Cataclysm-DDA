@@ -183,7 +183,7 @@
     "id": "mon_zombie_urchin",
     "type": "MONSTER",
     "name": { "str": "rust urchin" },
-    "description": "A spiked horror of a zombie covered in long rusty spikes. ",
+    "description": "A spiked horror of a zombie covered in long rusty spikes.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
