@@ -47,7 +47,7 @@
     "id": "mon_zombie_shell",
     "type": "MONSTER",
     "name": { "str": "rust shell zombie" },
-    "description": "This mangled body seems to develop a rusty spiked shell in its back.",
+    "description": "Jagged fragments of rust-bitten metal have fused into this zombie's flesh and displaced parts of its spine.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
