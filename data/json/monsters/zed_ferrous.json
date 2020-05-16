@@ -138,7 +138,7 @@
     "id": "mon_zombie_plated",
     "type": "MONSTER",
     "name": { "str": "rust plated zombie" },
-    "description": "A slow moving statue of a zombie covered with a scaly layer of rust.  Each step clangs with the sound of metal.",
+    "description": "Ruptures in this zombie's skin expose fragments of metal arranged like armor underneath.  Black sludge can be seen in places where the rust has receded.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
