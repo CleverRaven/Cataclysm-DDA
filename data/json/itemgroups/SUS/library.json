@@ -510,7 +510,7 @@
     "entries": [
       { "item": "book_nonf_hard_phil_mdlogic", "prob": 1 },
       { "item": "book_nonf_hard_phil_aesth", "prob": 1 },
-      { "item": "book_nonf_hard_phil_phinfo", "prob": 1 },
+      { "item": "book_nonf_hard_phil_phinfo", "prob": 1 }
     ]
   },
   {
