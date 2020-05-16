@@ -231,7 +231,7 @@
     "id": "mon_zombie_wrecking_ball",
     "type": "MONSTER",
     "name": { "str": "rust fist brute" },
-    "description": "This brute of a zombie is covered in rusted metal detritus. It's long arms end in wrecking balls made from loos metal smashed together",
+    "description": "This brute of a zombie is covered in rusted metal detritus.  Its long arms end in wrecking balls made from loose metal smashed together.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
