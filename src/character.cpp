@@ -5317,7 +5317,7 @@ void Character::update_bodytemp()
     // Current temperature and converging temperature calculations
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Skip eyes
-        if( bp == bodypart_id( "eyes" ) || bp == bodypart_id( "num_bp" ) ) {
+        if( bp == bodypart_id( "eyes" ) ) {
             continue;
         }
 
@@ -6722,10 +6722,13 @@ std::string Character::extended_description() const
     // This is a stripped-down version of the body_window function
     // This should be extracted into a separate function later on
     for( const bodypart_id bp : bps ) {
+<<<<<<< HEAD
         // Hide appendix from the player
         if( bp->id.is_null() ) {
             continue;
         }
+=======
+>>>>>>> appendectomy
         const std::string &bp_heading = body_part_name_as_heading( bp, 1 );
         hp_part hp = bp_to_hp( bp->token );
 

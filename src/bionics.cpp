@@ -1753,7 +1753,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_op, enum_bp ) && enum_bp != num_bp ) {
+                if( has_effect( effect_under_op, enum_bp ) ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
@@ -2494,7 +2494,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             case 3:
                 for( const bodypart_id &bp : get_all_body_parts() ) {
                     const body_part enum_bp = bp->token;
-                    if( has_effect( effect_under_op, enum_bp ) && enum_bp != num_bp ) {
+                    if( has_effect( effect_under_op, enum_bp ) ) {
                         if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                             continue;
                         }
