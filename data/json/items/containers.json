@@ -515,7 +515,7 @@
     "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
     "weight": "850 g",
     "volume": "2 L",
-    "//???": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
+    "//?": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
     "price_postapoc": 0,
     "pocket_data": [
@@ -578,7 +578,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
         "watertight": true,
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "20 kg",
