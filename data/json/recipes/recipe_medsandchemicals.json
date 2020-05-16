@@ -600,7 +600,7 @@
     "difficulty": 3,
     "time": "3 h",
     "batch_time_factors": [ 80, 4 ],
-    "book_learn": [ [ "adv_chemistry", 2 ], [ "textbook_chemistry", 2 ], [ "recipe_labchem", 2 ] ],
+    "book_learn": [ [ "adv_chemistry", 2 ], [ "textbook_chemistry", 2 ], [ "recipe_labchem", 2 ], [ "basic_chemistry", 2 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "charcoal", 50 ] ], [ [ "water_clean", 2 ], [ "water", 2 ] ] ]
