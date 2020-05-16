@@ -2321,12 +2321,6 @@ int game::inventory_item_menu( item_location locThisItem,
 bool game::handle_mouseview( input_context &ctxt, std::string &action )
 {
     cata::optional<tripoint> liveview_pos;
-    auto &mgr = panel_manager::get_manager();
-    const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
-    int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         action = ctxt.handle_input();
@@ -2335,15 +2329,11 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
             if( mouse_pos && ( !liveview_pos || *mouse_pos != *liveview_pos ) ) {
                 liveview_pos = mouse_pos;
                 liveview.show( *liveview_pos );
-                draw_panels( true );
-                const catacurses::window &w = catacurses::newwin( TERMY / 2, width,
-                                              point( sidebar_right ? TERMX - width : 0, 0 ) );
-                liveview.draw( w, TERMY / 2 );
             } else if( !mouse_pos ) {
                 liveview_pos.reset();
                 liveview.hide();
-                draw_panels( true );
             }
+            ui_manager::redraw();
         }
     } while( action == "MOUSE_MOVE" ); // Freeze animation when moving the mouse
 
@@ -6124,18 +6114,19 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         }
 
         const int max_width = getmaxx( w_look ) - column - 1;
-        for( const auto &it : item_names ) {
-            if( line >= last_line - 2 ) {
+        for( auto it = item_names.begin(); it != item_names.end(); ++it ) {
+            // last line but not last item
+            if( line + 1 >= last_line && std::next( it ) != item_names.end() ) {
                 mvwprintz( w_look, point( column, ++line ), c_yellow, _( "More items here…" ) );
                 break;
             }
 
-            if( it.second > 1 ) {
+            if( it->second > 1 ) {
                 trim_and_print( w_look, point( column, ++line ), max_width, c_white,
                                 pgettext( "%s is the name of the item.  %d is the quantity of that item.", "%s [%d]" ),
-                                it.first.c_str(), it.second );
+                                it->first.c_str(), it->second );
             } else {
-                trim_and_print( w_look, point( column, ++line ), max_width, c_white, it.first );
+                trim_and_print( w_look, point( column, ++line ), max_width, c_white, it->first );
             }
         }
     }
