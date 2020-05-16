@@ -3051,8 +3051,9 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading, const item *a
     return true;
 }
 
-bool player::unload( item &it )
+bool player::unload( item_location &loc )
 {
+    item &it = *loc;
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() ) {
         if( it.contents.empty() ) {
@@ -3138,7 +3139,7 @@ bool player::unload( item &it )
     if( target->is_magazine() ) {
         player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
         assign_activity( unload_mag_act );
-        activity.targets.emplace_back( item_location( *this, target ) );
+        activity.targets.emplace_back( loc );
 
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
@@ -3208,6 +3209,11 @@ bool player::unload( item &it )
     }
 
     add_msg( _( "You unload your %s." ), target->tname() );
+
+    if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+        loc.remove_item();
+    }
+
     return true;
 }
 
@@ -3417,7 +3423,9 @@ bool player::gunmod_remove( item &gun, item &mod )
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;
     }
-    if( mod.ammo_remaining() && !g->unload( mod ) ) {
+
+    item_location loc = item_location( *this, &mod );
+    if( mod.ammo_remaining() && !g->unload( loc ) ) {
         return false;
     }
 

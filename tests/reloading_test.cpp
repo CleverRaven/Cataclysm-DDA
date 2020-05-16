@@ -102,7 +102,8 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     item &glock = *guns.front();
     REQUIRE( glock.magazine_current() != nullptr );
     // We're expecting the magazine to end up in the inventory.
-    REQUIRE( g->unload( glock ) );
+    item_location glock_loc( dummy, &glock );
+    REQUIRE( g->unload( glock_loc ) );
     const std::vector<item *> glock_mags = dummy.items_with( []( const item & it ) {
         return it.typeId() == "glockmag";
     } );

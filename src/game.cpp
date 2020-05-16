@@ -2242,7 +2242,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     handle_contents_changed( locThisItem );
                     break;
                 case 'U':
-                    unload( oThisItem );
+                    unload( locThisItem );
                     handle_contents_changed( locThisItem );
                     break;
                 case 'r':
@@ -8706,9 +8706,9 @@ void game::reload_weapon( bool try_everything )
     reload_item();
 }
 
-bool game::unload( item &it )
+bool game::unload( item_location &loc )
 {
-    return u.unload( it );
+    return u.unload( loc );
 }
 
 void game::wield( item_location loc )
