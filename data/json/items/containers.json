@@ -314,8 +314,37 @@
     "color": "light_cyan"
   },
   {
+    "id": "condiment_bottle",
+    "type": "GENERIC",
+    "//TODO": "All instances of condiment_bottle_sealed and condiment_bottle_unsealed need to be replaced with this",
+    "category": "container",
+    "name": { "str": "condiment bottle" },
+    "description": "An inverted plastic bottle for condiments.  Still sealed from factory, preserves content from rot until opened.",
+    "weight": "19 g",
+    "volume": "500 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "spoil_multiplier": 0.6,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "moves": 450
+      }
+    ],
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
     "id": "condiment_bottle_sealed",
     "type": "GENERIC",
+    "//perKorGgenT": "all the _unsealed and _sealed container variants need to be obsoleted",
     "category": "container",
     "name": { "str": "condiment bottle" },
     "description": "An inverted plastic bottle for condiments.  Still sealed from factory, preserves content from rot until opened.",
@@ -343,6 +372,7 @@
   {
     "id": "condiment_bottle_unsealed",
     "type": "GENERIC",
+    "//perKorGgenT": "all the _unsealed and _sealed container variants need to be obsoleted",
     "category": "container",
     "name": { "str": "condiment bottle" },
     "description": "An inverted plastic bottle for condiments.",
@@ -591,6 +621,7 @@
     "id": "can_drink_unsealed",
     "copy-from": "can_drink",
     "type": "GENERIC",
+    "//perKorGgenT": "all the _unsealed and _sealed container variants need to be obsoleted",
     "name": { "str": "opened aluminum can" },
     "description": "An aluminum can, like what soda comes in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
@@ -626,6 +657,7 @@
     "id": "carton_unsealed",
     "copy-from": "carton_sealed",
     "type": "GENERIC",
+    "//perKorGgenT": "all the _unsealed and _sealed container variants need to be obsoleted",
     "name": { "str": "opened paper carton" },
     "description": "A half gallon carton constructed of a paper, aluminum and plastic laminate.  This one is open and its contents will spoil.",
     "symbol": ")",
@@ -688,6 +720,7 @@
     "id": "can_food_unsealed",
     "copy-from": "can_food",
     "type": "GENERIC",
+    "//perKorGgenT": "all the _unsealed and _sealed container variants need to be obsoleted",
     "name": { "str": "small opened tin can" },
     "description": "A small tin can, like what tuna comes in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
@@ -720,6 +753,7 @@
     "id": "can_medium_unsealed",
     "copy-from": "can_medium",
     "type": "GENERIC",
+    "//perKorGgenT": "all the _unsealed and _sealed container variants need to be obsoleted",
     "name": { "str": "medium opened tin can" },
     "description": "A medium tin can, like what soup comes in.  This one is opened and can't be easily sealed.",
     "looks_like": "can_food_unsealed",
@@ -890,6 +924,7 @@
     "id": "cup_plastic_unsealed",
     "copy-from": "cup_plastic",
     "type": "GENERIC",
+    "//perKorGgenT": "all the _unsealed and _sealed container variants need to be obsoleted",
     "name": { "str": "opened plastic cup" },
     "description": "A small, vacuum formed cup, essentially trash.",
     "symbol": ")",
@@ -1144,6 +1179,7 @@
     "id": "jar_glass_sealed",
     "copy-from": "jar_glass",
     "type": "GENERIC",
+    "//perKorGgenT": "all the _unsealed and _sealed container variants need to be obsoleted",
     "name": { "str": "sealed glass jar" },
     "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly and will preserve the contents from rot (assuming it was sterile before sealing).",
     "symbol": ")",
@@ -1612,9 +1648,18 @@
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
     "weight": "700 g",
     "volume": "4500 ml",
-    "price": 10,
     "material": "plastic",
-    "pocket_data": [ { "max_contains_volume": "4250 ml", "max_contains_weight": "9 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "4250 ml",
+        "max_contains_weight": "9 kg",
+        "moves": 120
+      }
+    ],
     "copy-from": "bucket",
     "delete": { "qualities": [ [ "BOIL", 2 ] ] }
   },
@@ -1681,11 +1726,11 @@
     "id": "can_food_big_unsealed",
     "copy-from": "can_food_big",
     "type": "GENERIC",
+    "//perKorGgenT": "all the _unsealed container variants need to be obsoleted",
     "name": { "str": "large opened tin can" },
     "description": "A large tin can, like what beans come in.  This one is opened and can't be easily sealed.",
     "symbol": ")",
     "color": "blue",
-    "pocket_data": [ { "open_container": true, "moves": 400, "watertight": false } ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
