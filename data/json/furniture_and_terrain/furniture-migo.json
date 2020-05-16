@@ -68,7 +68,7 @@
     "type": "furniture",
     "id": "f_alien_zapper",
     "name": "twitching frond",
-    "description": "A spine resembling the moth antennae juts from the ground, swaying gently in the air.  Every so often, a cascade of energy arcs along it and discharges into the ceiling.",
+    "description": "A spine resembling moth antennae juts from the ground, swaying gently in the air.  Every so often, a cascade of energy arcs along it and discharges into the ceiling.",
     "symbol": "F",
     "color": "light_blue",
     "move_cost_mod": 4,
