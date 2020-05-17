@@ -285,38 +285,35 @@ void body_part_type::check() const
     }
 }
 
-std::string body_part_name( body_part bp, int number )
+std::string body_part_name( const bodypart_id &bp, int number )
 {
-    const auto &bdy = get_bp( bp );
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
-    return number > 1 ? bdy.name_multiple.translated() : bdy.name.translated();
+    return number > 1 ? bp->name_multiple.translated() : bp->name.translated();
 }
 
-std::string body_part_name_accusative( body_part bp, int number )
+std::string body_part_name_accusative( const bodypart_id &bp, int number )
 {
-    const auto &bdy = get_bp( bp );
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
-    return number > 1 ? bdy.accusative_multiple.translated() : bdy.accusative.translated();
+    return number > 1 ? bp->accusative_multiple.translated() : bp->accusative.translated();
 }
 
-std::string body_part_name_as_heading( body_part bp, int number )
+std::string body_part_name_as_heading( const bodypart_id &bp, int number )
 {
-    const auto &bdy = get_bp( bp );
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
-    return number > 1 ? bdy.name_as_heading_multiple.translated() : bdy.name_as_heading.translated();
+    return number > 1 ? bp->name_as_heading_multiple.translated() : bp->name_as_heading.translated();
 }
 
-std::string body_part_hp_bar_ui_text( body_part bp )
+std::string body_part_hp_bar_ui_text( const bodypart_id &bp )
 {
-    return _( get_bp( bp ).hp_bar_ui_text );
+    return _( bp->hp_bar_ui_text );
 }
 
-std::string encumb_text( body_part bp )
+std::string encumb_text( const bodypart_id &bp )
 {
-    const std::string &txt = get_bp( bp ).encumb_text;
+    const std::string &txt = bp->encumb_text;
     return !txt.empty() ? _( txt ) : txt;
 }
 

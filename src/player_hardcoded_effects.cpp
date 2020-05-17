@@ -486,7 +486,7 @@ void player::hardcoded_effects( effect &it )
 
     const time_duration dur = it.get_duration();
     int intense = it.get_intensity();
-    body_part bp = it.get_bp();
+    const bodypart_id &bp = convert_bp( it.get_bp() ).id();
     bool sleeping = has_effect( effect_sleep );
     if( id == effect_dermatik ) {
         bool triggered = false;
@@ -495,7 +495,7 @@ void player::hardcoded_effects( effect &it )
             formication_chance += 14400 - to_turns<int>( dur );
         }
         if( one_in( formication_chance ) ) {
-            add_effect( effect_formication, 60_minutes, bp );
+            add_effect( effect_formication, 60_minutes, bp->token );
         }
         if( dur < 1_days && one_in( 14400 ) ) {
             vomit();
@@ -505,7 +505,7 @@ void player::hardcoded_effects( effect &it )
             // Choose how many insects; more for large characters
             ///\EFFECT_STR_MAX increases number of insects hatched from dermatik infection
             int num_insects = rng( 1, std::min( 3, str_max / 3 ) );
-            apply_damage( nullptr, convert_bp( bp ).id(), rng( 2, 4 ) * num_insects );
+            apply_damage( nullptr,  bp, rng( 2, 4 ) * num_insects );
             // Figure out where they may be placed
             add_msg_player_or_npc( m_bad,
                                    _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
@@ -518,7 +518,7 @@ void player::hardcoded_effects( effect &it )
                 }
             }
             g->events().send<event_type::dermatik_eggs_hatch>( getID() );
-            remove_effect( effect_formication, bp );
+            remove_effect( effect_formication, bp->token );
             moves -= 600;
             triggered = true;
         }
@@ -534,14 +534,16 @@ void player::hardcoded_effects( effect &it )
         if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
-                add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
+                add_msg( m_warning, _( "You start scratching your %s!" ),
+                         body_part_name_accusative( bp ) );
                 g->u.cancel_activity();
             } else if( g->u.sees( pos() ) ) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg( _( "%1$s starts scratching their %2$s!" ), name, body_part_name_accusative( bp ) );
+                add_msg( _( "%1$s starts scratching their %2$s!" ), name,
+                         body_part_name_accusative( bp ) );
             }
             moves -= 150;
-            apply_damage( nullptr, convert_bp( bp ).id(), 1 );
+            apply_damage( nullptr, bp, 1 );
         }
     } else if( id == effect_evil ) {
         // Worn or wielded; diminished effects
@@ -948,7 +950,7 @@ void player::hardcoded_effects( effect &it )
         if( !recovered ) {
             // Move up to infection
             if( dur > 6_hours ) {
-                add_effect( effect_infected, 1_turns, bp, true );
+                add_effect( effect_infected, 1_turns, bp->token, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
             } else if( has_effect( effect_strong_antibiotic ) ) {
@@ -1299,11 +1301,11 @@ void player::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_mending ) {
-        if( !is_limb_broken( bp_to_hp( bp ) ) ) {
+        if( !is_limb_broken( bp_to_hp( bp->token ) ) ) {
             it.set_duration( 0_turns );
         }
     } else if( id == effect_disabled ) {
-        if( !is_limb_broken( bp_to_hp( bp ) ) ) {
+        if( !is_limb_broken( bp_to_hp( bp->token ) ) ) {
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();
         }

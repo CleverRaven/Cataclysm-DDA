@@ -339,7 +339,7 @@ static void do_blast( const tripoint &p, const float power,
 
         for( const auto &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
-            const std::string hit_part_name = body_part_name_accusative( blp.bp->token );
+            const std::string hit_part_name = body_part_name_accusative( blp.bp );
             const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blp.armor_mul );
             const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();

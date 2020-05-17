@@ -1429,19 +1429,19 @@ void player::add_pain_msg( int val, const bodypart_id &bp ) const
     } else {
         if( val > 20 ) {
             add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
-                               body_part_name_accusative( bp->token ) );
+                               body_part_name_accusative( bp ) );
         } else if( val > 10 ) {
             add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
-                               body_part_name_accusative( bp->token ) );
+                               body_part_name_accusative( bp ) );
         } else if( val > 5 ) {
             add_msg_if_player( _( "Your %s is wracked with pain!" ),
-                               body_part_name_accusative( bp->token ) );
+                               body_part_name_accusative( bp ) );
         } else if( val > 1 ) {
             add_msg_if_player( _( "Your %s pains you!" ),
-                               body_part_name_accusative( bp->token ) );
+                               body_part_name_accusative( bp ) );
         } else {
             add_msg_if_player( _( "Your %s aches." ),
-                               body_part_name_accusative( bp->token ) );
+                               body_part_name_accusative( bp ) );
         }
     }
 }
@@ -1450,7 +1450,7 @@ void player::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect( it );
     double mod = 1;
-    body_part bp = it.get_bp();
+    const bodypart_id &bp = convert_bp( it.get_bp() ).id();
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits
@@ -1568,7 +1568,7 @@ void player::process_one_effect( effect &it, bool is_new )
             int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
             mod_pain( pain_inc );
             if( pain_inc > 0 ) {
-                add_pain_msg( val, convert_bp( bp ).id() );
+                add_pain_msg( val, bp );
             }
         }
     }
@@ -1589,11 +1589,11 @@ void player::process_one_effect( effect &it, bool is_new )
             }
         }
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
-            if( bp == num_bp ) {
+            if( bp == bodypart_id( "num_bp" ) ) {
                 if( val > 5 ) {
-                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp_torso ) );
+                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bodypart_id( "torso" ) ) );
                 } else {
-                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
+                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bodypart_id( "torso" ) ) );
                 }
                 apply_damage( nullptr, bodypart_id( "torso" ), val, true );
             } else {
@@ -1602,7 +1602,7 @@ void player::process_one_effect( effect &it, bool is_new )
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
-                apply_damage( nullptr, convert_bp( bp ).id(), val, true );
+                apply_damage( nullptr, bp, val, true );
             }
         }
     }
