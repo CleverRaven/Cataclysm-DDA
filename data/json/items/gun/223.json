@@ -305,6 +305,14 @@
     ]
   },
   {
+    "id": "m249_semi",
+    "type": "GUN",
+    "copy-from": "m249",
+    "name": { "str": "M249S" },
+    "description": "This is a semi-automatic civilian variant of the M249 machine gun, manufactured for sport shooting and collectors market.  Notably, it retains the ability to be belt fed, an uncommon feature in civilian firearms.",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
+  },
+  {
     "id": "m27iar",
     "copy-from": "h&k416a5",
     "type": "GUN",

@@ -333,7 +333,8 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
 
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            g->u.consume_item( liquid );
+            //I tried to convert this the to use the consume activity but couldn't get the transformation of this item into an item location quite right
+            g->u.consume( liquid );
             transfer_ok = true;
             break;
         case LD_ITEM: {

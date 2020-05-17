@@ -913,7 +913,8 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
         bool not_aiming = you.activity.id() != ACT_AIM;
         if( not_aiming && gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
             const auto previous_moves = you.moves;
-            g->unload( *gun );
+            item_location loc = item_location( you, gun.target );
+            g->unload( loc );
             // Give back time for unloading as essentially nothing has been done.
             // Note that reload_time has not been applied either.
             you.moves = previous_moves;
@@ -1027,7 +1028,8 @@ bool avatar_action::eat_here( avatar &you )
             g->m.ter_set( you.pos(), t_grass );
             add_msg( _( "You eat the underbrush." ) );
             item food( "underbrush", calendar::turn, 1 );
-            you.eat( food );
+            you.consume( food );
+            //I tried to convert this the to use the consume activity but couldn't get the transformation of this item into an item location quite right
             return true;
         }
     }
@@ -1040,7 +1042,8 @@ bool avatar_action::eat_here( avatar &you )
             you.moves -= 400;
             add_msg( _( "You eat the grass." ) );
             item food( item( "grass", calendar::turn, 1 ) );
-            you.eat( food );
+            you.consume( food );
+            //I tried to convert this the to use the consume activity but couldn't get the transformation of this item into an item location quite right
             if( g->m.ter( you.pos() ) == t_grass_tall ) {
                 g->m.ter_set( you.pos(), t_grass_long );
             } else if( g->m.ter( you.pos() ) == t_grass_long ) {
@@ -1069,17 +1072,17 @@ bool avatar_action::eat_here( avatar &you )
 void avatar_action::eat( avatar &you )
 {
     item_location loc = game_menus::inv::consume( you );
-    avatar_action::eat( you, loc );
+    avatar_action::eat( you, loc, true );
 }
 
-void avatar_action::eat( avatar &you, item_location loc )
+void avatar_action::eat( avatar &you, item_location loc, bool open_consume_menu )
 {
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    you.assign_activity( player_activity( consume_activity_actor( loc ) ) );
+    you.assign_activity( player_activity( consume_activity_actor( loc, open_consume_menu ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
@@ -1271,13 +1274,5 @@ void avatar_action::unload( avatar &you )
         return;
     }
 
-    item *it = loc.get_item();
-    if( loc.where() != item_location::type::character ) {
-        it = loc.obtain( you ).get_item();
-    }
-    if( you.unload( *it ) ) {
-        if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
-            you.remove_item( *it );
-        }
-    }
+    you.unload( loc );
 }

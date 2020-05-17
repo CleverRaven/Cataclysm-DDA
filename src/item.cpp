@@ -99,12 +99,18 @@ static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_plutonium( "plutonium" );
 
+static const item_category_id item_category_drugs( "drugs" );
+static const item_category_id item_category_food( "food" );
+static const item_category_id item_category_maps( "maps" );
+
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+
+static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
@@ -1656,6 +1662,11 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
                                   std::abs( static_cast<int>( med_item->charges ) * batch ) ) );
     }
 
+    if( parts->test( iteminfo_parts::MED_CONSUME_TIME ) ) {
+        info.push_back( iteminfo( "MED", _( "Consume time: " ),
+                                  to_string( g->u.get_consume_time( *med_item ) ) ) );
+    }
+
     if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
         info.emplace_back( "DESCRIPTION", _( "* Consuming this item is <bad>addicting</bad>." ) );
     }
@@ -1716,6 +1727,11 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         ( debug || ( g != nullptr && ( g->u.has_trait( trait_CARNIVORE ) ||
                                        g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
+    }
+
+    if( parts->test( iteminfo_parts::FOOD_CONSUME_TIME ) ) {
+        info.push_back( iteminfo( "FOOD", _( "Consume time: " ),
+                                  to_string( g->u.get_consume_time( *food_item ) ) ) );
     }
 
     auto format_vitamin = [&]( const std::pair<vitamin_id, int> &v, bool display_vitamins ) {
@@ -3119,8 +3135,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const auto &element : bid->encumbrance ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( convert_bp( element.first ).id(), 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3130,7 +3146,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   _( "<bold>Environmental Protection</bold>: " ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, size_t > &element : bid->env_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3140,7 +3156,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   _( "<bold>Bash Protection</bold>: " ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, size_t > &element : bid->bash_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3150,7 +3166,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   _( "<bold>Cut Protection</bold>: " ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, size_t > &element : bid->cut_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3159,7 +3175,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>: " ),
                                   iteminfo::no_newline ) );
         for( const std::pair<const bodypart_str_id, size_t > &element : bid->bullet_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -5197,9 +5213,9 @@ int item::spoilage_sort_order()
     }
 
     if( get_comestible() ) {
-        if( get_category().get_id() == "food" ) {
+        if( get_category().get_id() == item_category_food ) {
             return bottom - 3;
-        } else if( get_category().get_id() == "drugs" ) {
+        } else if( get_category().get_id() == item_category_drugs ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -6299,7 +6315,7 @@ bool item::is_book() const
 
 bool item::is_map() const
 {
-    return get_category().get_id() == "maps";
+    return get_category().get_id() == item_category_maps;
 }
 
 bool item::seal()
@@ -7389,7 +7405,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
         } else if( e->is_gunmod() ) {
             for( const std::pair<const gun_mode_id, gun_modifier_data> &m : e->type->gunmod->mode_modifier ) {
                 //checks for melee gunmod, points to gunmod
-                if( m.first == "REACH" ) {
+                if( m.first == gun_mode_REACH ) {
                     res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
                                                      m.second.qty(), m.second.flags() } );
                     //otherwise points to the parent gun, not the gunmod
@@ -7710,7 +7726,7 @@ bool item::reload( player &u, item_location ammo, int qty )
             ammo_copy.charges = qty;
             put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
             ammo->ammo_consume( qty, tripoint_zero );
-        } else if( ammo->ammo_type() == "plutonium" ) {
+        } else if( ammo->ammo_type() == ammo_plutonium ) {
             curammo = ammo->type;
             ammo->charges -= qty;
 

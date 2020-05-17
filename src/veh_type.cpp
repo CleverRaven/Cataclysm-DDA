@@ -73,6 +73,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "SEATBELT", VPFLAG_SEATBELT },
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
+    { "ROTOR_SIMPLE", VPFLAG_ROTOR_SIMPLE },
     { "FLOATS", VPFLAG_FLOATS },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
@@ -336,6 +337,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
     assign( jo, "emissions", def.emissions );
+    assign( jo, "exhaust", def.exhaust );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );
@@ -421,7 +423,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         load_wheel( def.wheel_info, jo );
     }
 
-    if( def.has_flag( "ROTOR" ) ) {
+    if( def.has_flag( "ROTOR" ) || def.has_flag( "ROTOR_SIMPLE" ) ) {
         load_rotor( def.rotor_info, jo );
     }
 
@@ -627,13 +629,23 @@ void vpart_info::check()
         if( !part.emissions.empty() && !part.has_flag( "EMITTER" ) ) {
             debugmsg( "vehicle part %s has emissions set, but the EMITTER flag is not set", part.id.c_str() );
         }
+        if( !part.exhaust.empty() && !part.has_flag( "EMITTER" ) ) {
+            debugmsg( "vehicle part %s has exhaust set, but the EMITTER flag is not set", part.id.c_str() );
+        }
         if( part.has_flag( "EMITTER" ) ) {
-            if( part.emissions.empty() ) {
-                debugmsg( "vehicle part %s has the EMITTER flag, but no emissions were set", part.id.c_str() );
+            if( part.emissions.empty() && part.exhaust.empty() ) {
+                debugmsg( "vehicle part %s has the EMITTER flag, but no emissions or exhaust were set",
+                          part.id.c_str() );
             } else {
                 for( const emit_id &e : part.emissions ) {
                     if( !e.is_valid() ) {
                         debugmsg( "vehicle part %s has the EMITTER flag, but invalid emission %s was set",
+                                  part.id.c_str(), e.str().c_str() );
+                    }
+                }
+                for( const emit_id &e : part.exhaust ) {
+                    if( !e.is_valid() ) {
+                        debugmsg( "vehicle part %s has the EMITTER flag, but invalid exhaust %s was set",
                                   part.id.c_str(), e.str().c_str() );
                     }
                 }
@@ -892,7 +904,10 @@ float vpart_info::wheel_or_rating() const
 
 int vpart_info::rotor_diameter() const
 {
-    return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
+    if( has_flag( VPFLAG_ROTOR ) || has_flag( VPFLAG_ROTOR_SIMPLE ) ) {
+        return rotor_info->rotor_diameter;
+    }
+    return 0;
 }
 
 const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const

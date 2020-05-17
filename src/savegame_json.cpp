@@ -118,6 +118,15 @@ static const activity_id ACT_AIM( "ACT_AIM" );
 
 static const efftype_id effect_riding( "riding" );
 
+static const ter_str_id t_ash( "t_ash" );
+static const ter_str_id t_rubble( "t_rubble" );
+static const ter_str_id t_pwr_sb_support_l( "t_pwr_sb_support_l" );
+static const ter_str_id t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
+static const ter_str_id t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
+static const ter_str_id t_wreckage( "t_wreckage" );
+
+static const trap_str_id tr_brazier( "tr_brazier" );
+
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
         "OBJECT_TERRAIN", "OBJECT_FURNITURE"
@@ -2692,6 +2701,7 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "is_following", is_following );
     data.read( "is_patrolling", is_patrolling );
     data.read( "autodrive_local_target", autodrive_local_target );
+    data.read( "airworthy", flyable );
     data.read( "summon_time_limit", summon_time_limit );
     data.read( "magic", magic );
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
@@ -2854,6 +2864,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "is_following", is_following );
     json.member( "is_patrolling", is_patrolling );
     json.member( "autodrive_local_target", autodrive_local_target );
+    json.member( "airworthy", flyable );
     json.member( "summon_time_limit", summon_time_limit );
     json.member( "magic", magic );
     json.end_object();
@@ -3830,24 +3841,24 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 for( int i = 0; i < SEEX; i++ ) {
                     const ter_str_id tid( jsin.get_string() );
 
-                    if( tid == "t_rubble" ) {
+                    if( tid == t_rubble ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_rubble" );
                         itm[i][j].insert( rock );
                         itm[i][j].insert( rock );
-                    } else if( tid == "t_wreckage" ) {
+                    } else if( tid == t_wreckage ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_wreckage" );
                         itm[i][j].insert( chunk );
                         itm[i][j].insert( chunk );
-                    } else if( tid == "t_ash" ) {
+                    } else if( tid == t_ash ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_ash" );
-                    } else if( tid == "t_pwr_sb_support_l" ) {
+                    } else if( tid == t_pwr_sb_support_l ) {
                         ter[i][j] = ter_id( "t_support_l" );
-                    } else if( tid == "t_pwr_sb_switchgear_l" ) {
+                    } else if( tid == t_pwr_sb_switchgear_l ) {
                         ter[i][j] = ter_id( "t_switchgear_l" );
-                    } else if( tid == "t_pwr_sb_switchgear_s" ) {
+                    } else if( tid == t_pwr_sb_switchgear_s ) {
                         ter[i][j] = ter_id( "t_switchgear_s" );
                     } else {
                         ter[i][j] = tid.id();
@@ -3939,7 +3950,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             const point p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( jsin.get_string() );
-            if( trid == "tr_brazier" ) {
+            if( trid == tr_brazier ) {
                 frn[p.x][p.y] = furn_id( "f_brazier" );
             } else {
                 trp[p.x][p.y] = trid.id();

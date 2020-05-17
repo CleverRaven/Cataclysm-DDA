@@ -1223,6 +1223,10 @@ class weapon_inventory_preset: public inventory_selector_preset
                 }
                 return std::string();
             }, _( "MOVES" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return string_format( "<color_yellow>%d</color>", loc.obtain_cost( this->p ) );
+            }, _( "WIELD COST" ) );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1749,15 +1753,10 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                                       skill_computer,
-                                       skill_electronics,
-                                       -1 );
-
             if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
+                chance_of_failure = 100 - bionic_success_chance( true, -1, difficulty, installer );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1844,16 +1843,10 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            // Override player's skills with surgeon skill
-            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                                       skill_computer,
-                                       skill_electronics,
-                                       20 );
-
             if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
+                chance_of_failure = 100 - bionic_success_chance( true, 20, difficulty, installer );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1931,15 +1924,10 @@ class bionic_uninstall_preset : public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                                       skill_computer,
-                                       skill_electronics,
-                                       -1 );
-
             if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
+                chance_of_failure = 100 - bionic_success_chance( true, -1, difficulty, installer );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );

@@ -1429,19 +1429,19 @@ void player::add_pain_msg( int val, const bodypart_id &bp ) const
     } else {
         if( val > 20 ) {
             add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
-                               body_part_name_accusative( bp->token ) );
+                               body_part_name_accusative( bp ) );
         } else if( val > 10 ) {
             add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
-                               body_part_name_accusative( bp->token ) );
+                               body_part_name_accusative( bp ) );
         } else if( val > 5 ) {
             add_msg_if_player( _( "Your %s is wracked with pain!" ),
-                               body_part_name_accusative( bp->token ) );
+                               body_part_name_accusative( bp ) );
         } else if( val > 1 ) {
             add_msg_if_player( _( "Your %s pains you!" ),
-                               body_part_name_accusative( bp->token ) );
+                               body_part_name_accusative( bp ) );
         } else {
             add_msg_if_player( _( "Your %s aches." ),
-                               body_part_name_accusative( bp->token ) );
+                               body_part_name_accusative( bp ) );
         }
     }
 }
@@ -1450,7 +1450,7 @@ void player::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect( it );
     double mod = 1;
-    body_part bp = it.get_bp();
+    const bodypart_id &bp = convert_bp( it.get_bp() ).id();
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits
@@ -1568,7 +1568,7 @@ void player::process_one_effect( effect &it, bool is_new )
             int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
             mod_pain( pain_inc );
             if( pain_inc > 0 ) {
-                add_pain_msg( val, convert_bp( bp ).id() );
+                add_pain_msg( val, bp );
             }
         }
     }
@@ -1589,11 +1589,11 @@ void player::process_one_effect( effect &it, bool is_new )
             }
         }
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
-            if( bp == num_bp ) {
+            if( bp == bodypart_id( "num_bp" ) ) {
                 if( val > 5 ) {
-                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp_torso ) );
+                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bodypart_id( "torso" ) ) );
                 } else {
-                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
+                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bodypart_id( "torso" ) ) );
                 }
                 apply_damage( nullptr, bodypart_id( "torso" ), val, true );
             } else {
@@ -1602,7 +1602,7 @@ void player::process_one_effect( effect &it, bool is_new )
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
-                apply_damage( nullptr, convert_bp( bp ).id(), val, true );
+                apply_damage( nullptr, bp, val, true );
             }
         }
     }
@@ -1987,166 +1987,6 @@ bool player::can_interface_armor() const
 bool player::has_mission_item( int mission_id ) const
 {
     return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
-}
-
-//Returns the amount of charges that were consumed by the player
-int player::drink_from_hands( item &water )
-{
-    int charges_consumed = 0;
-    if( query_yn( _( "Drink %s from your hands?" ),
-                  colorize( water.type_name(), water.color_in_inventory() ) ) ) {
-        // Create a dose of water no greater than the amount of water remaining.
-        item water_temp( water );
-        // If player is slaked water might not get consumed.
-        consume_item( water_temp );
-        charges_consumed = water.charges - water_temp.charges;
-        if( charges_consumed > 0 ) {
-            moves -= 350;
-        }
-    }
-
-    return charges_consumed;
-}
-
-// TODO: Properly split medications and food instead of hacking around
-bool player::consume_med( item &target )
-{
-    if( !target.is_medication() ) {
-        return false;
-    }
-
-    const itype_id tool_type = target.get_comestible()->tool;
-    const auto req_tool = item::find_type( tool_type );
-    bool tool_override = false;
-    if( tool_type == "syringe" && has_bionic( bio_syringe ) ) {
-        tool_override = true;
-    }
-    if( req_tool->tool ) {
-        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) &&
-            !tool_override ) {
-            add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ) );
-            return false;
-        }
-        use_charges( tool_type, req_tool->tool->charges_per_use );
-    }
-
-    int amount_used = 1;
-    if( target.type->has_use() ) {
-        amount_used = target.type->invoke( *this, target, pos() );
-        if( amount_used <= 0 ) {
-            return false;
-        }
-    }
-
-    // TODO: Get the target it was used on
-    // Otherwise injecting someone will give us addictions etc.
-    if( target.has_flag( "NO_INGEST" ) ) {
-        const auto &comest = *target.get_comestible();
-        // Assume that parenteral meds don't spoil, so don't apply rot
-        modify_health( comest );
-        modify_stimulation( comest );
-        modify_fatigue( comest );
-        modify_radiation( comest );
-        modify_addiction( comest );
-        modify_morale( target );
-    } else {
-        // Take by mouth
-        consume_effects( target );
-    }
-
-    mod_moves( -250 );
-    target.charges -= amount_used;
-    return target.charges <= 0;
-}
-
-static bool query_consume_ownership( item &target, player &p )
-{
-    if( !target.is_owned_by( p, true ) ) {
-        bool choice = true;
-        if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
-            choice = Pickup::query_thief();
-        }
-        if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
-            return false;
-        }
-        std::vector<npc *> witnesses;
-        for( npc &elem : g->all_npcs() ) {
-            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos() ) ) {
-                witnesses.push_back( &elem );
-            }
-        }
-        for( npc *elem : witnesses ) {
-            elem->say( "<witnessed_thievery>", 7 );
-        }
-        if( !witnesses.empty() && target.is_owned_by( p, true ) ) {
-            if( p.add_faction_warning( target.get_owner() ) ) {
-                for( npc *elem : witnesses ) {
-                    elem->make_angry();
-                }
-            }
-        }
-    }
-    return true;
-}
-
-bool player::consume_item( item &target )
-{
-    if( target.is_null() ) {
-        add_msg_if_player( m_info, _( "You do not have that item." ) );
-        return false;
-    }
-    if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
-        add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
-    }
-
-    // to try to reduce unecessary churn, this was left for now
-    item &comest = target;
-
-    if( comest.is_null() || target.is_craft() ) {
-        add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
-        if( is_npc() ) {
-            debugmsg( "%s tried to eat a %s", name, target.tname() );
-        }
-        return false;
-    }
-    if( is_player() && !query_consume_ownership( target, *this ) ) {
-        return false;
-    }
-    if( consume_med( comest ) ||
-        eat( comest ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
-        fuel_bionic_with( comest ) ) {
-
-        if( &target != &comest ) {
-            target.on_contents_changed();
-        }
-
-        return comest.charges <= 0;
-    }
-
-    return false;
-}
-
-bool player::consume( item_location loc )
-{
-    item &target = *loc;
-    bool wielding = is_wielding( target );
-    bool worn = is_worn( target );
-    const bool inv_item = !( wielding || worn );
-
-    if( consume_item( target ) ) {
-
-        i_rem( loc.get_item() );
-
-    } else if( inv_item ) {
-        if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
-            i_rem( &target );
-        }
-        inv.restack( *this );
-        inv.unsort();
-    }
-
-    return true;
 }
 
 bool player::add_faction_warning( const faction_id &id )
@@ -3051,8 +2891,9 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading, const item *a
     return true;
 }
 
-bool player::unload( item &it )
+bool player::unload( item_location &loc )
 {
+    item &it = *loc;
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() ) {
         if( it.contents.empty() ) {
@@ -3071,7 +2912,7 @@ bool player::unload( item &it )
             changed = changed || consumed || contained->charges != old_charges;
             if( consumed ) {
                 this->mod_moves( -this->item_handling_cost( *contained ) );
-                this->remove_item( *contained );
+                it.remove_item( *contained );
             }
         }
 
@@ -3138,7 +2979,7 @@ bool player::unload( item &it )
     if( target->is_magazine() ) {
         player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
         assign_activity( unload_mag_act );
-        activity.targets.emplace_back( item_location( *this, target ) );
+        activity.targets.emplace_back( loc );
 
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
@@ -3208,6 +3049,11 @@ bool player::unload( item &it )
     }
 
     add_msg( _( "You unload your %s." ), target->tname() );
+
+    if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+        loc.remove_item();
+    }
+
     return true;
 }
 
@@ -3354,8 +3200,13 @@ void player::use( item_location loc )
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
-        consume( loc );
-
+        if( avatar *u = as_avatar() ) {
+            u->assign_activity( player_activity( consume_activity_actor( item_location( *u, &used ) ) ) );
+        } else  {
+            const time_duration &consume_time = get_consume_time( used );
+            moves -= to_moves<int>( consume_time );
+            consume( used );
+        }
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
@@ -3417,7 +3268,9 @@ bool player::gunmod_remove( item &gun, item &mod )
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;
     }
-    if( mod.ammo_remaining() && !g->unload( mod ) ) {
+
+    item_location loc = item_location( *this, &mod );
+    if( mod.ammo_remaining() && !g->unload( loc ) ) {
         return false;
     }
 
@@ -3473,7 +3326,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item &gun, const ite
 
     for( const auto &e : mod.type->min_skills ) {
         // gain an additional chance for every level above the minimum requirement
-        skill_id sk = e.first == "weapon" ? gun.gun_skill() : skill_id( e.first );
+        skill_id sk = e.first.str() == "weapon" ? gun.gun_skill() : e.first;
         chances += std::max( get_skill_level( sk ) - e.second, 0 );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)

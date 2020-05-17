@@ -395,6 +395,8 @@ class Character : public Creature, public visitable<Character>
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
+        int get_standard_stamina_cost( item *thrown_item = nullptr );
+
         /**Get bonus to max_hp from excess stored fat*/
         int get_fat_to_hp() const;
 
@@ -785,8 +787,6 @@ class Character : public Creature, public visitable<Character>
         int get_working_leg_count() const;
         /** Returns true if the limb is disabled(12.5% or less hp)*/
         bool is_limb_disabled( hp_part limb ) const;
-        /** Returns true if the limb is hindered(40% or less hp) */
-        bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( hp_part limb ) const;
         /** source of truth of whether a Character can run */
@@ -1063,17 +1063,11 @@ class Character : public Creature, public visitable<Character>
         /** Adds a bionic to my_bionics[] */
         void add_bionic( const bionic_id &b );
         /**Calculate skill bonus from tiles in radius*/
-        float env_surgery_bonus( int radius );
+        float env_surgery_bonus( int radius ) const;
         /** Calculate skill for (un)installing bionics */
-        float bionics_adjusted_skill( const skill_id &most_important_skill,
-                                      const skill_id &important_skill,
-                                      const skill_id &least_important_skill,
-                                      int skill_level = -1 );
+        float bionics_adjusted_skill( bool autodoc, int skill_level = -1 ) const;
         /** Calculate non adjusted skill for (un)installing bionics */
-        int bionics_pl_skill( const skill_id &most_important_skill,
-                              const skill_id &important_skill,
-                              const skill_id &least_important_skill,
-                              int skill_level = -1 );
+        int bionics_pl_skill( bool autodoc, int skill_level = -1 ) const;
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
@@ -1930,10 +1924,7 @@ class Character : public Creature, public visitable<Character>
         /** Value of the body temperature corrected by climate control **/
         int temp_corrected_by_climate_control( int temperature ) const;
 
-        bool in_sleep_state() const override {
-            return Creature::in_sleep_state() || activity.id() == "ACT_TRY_SLEEP";
-        }
-
+        bool in_sleep_state() const override;
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
         void update_vitamins( const vitamin_id &vit );
         /**

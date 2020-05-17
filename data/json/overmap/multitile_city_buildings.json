@@ -512,6 +512,16 @@
   },
   {
     "type": "city_building",
+    "id": "house_33",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_33_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "house_33_basement_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_33_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "house_08",
     "locations": [ "land" ],
     "overmaps": [

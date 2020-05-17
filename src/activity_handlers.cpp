@@ -3197,6 +3197,13 @@ void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
 {
+    if( p->fine_detail_vision_mod() > 4 ) {
+        //It got too dark during the process of reading, bail out.
+        act->set_to_null();
+        p->add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
+        return;
+    }
+
     if( p->is_player() ) {
         if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
             if( act->values.empty() ) {
@@ -3426,7 +3433,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
                     if( u_see ) {
                         p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
-                                                  _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp->token ) );
+                                                  _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp ) );
                     }
 
                     if( bp == bodypart_id( "eyes" ) ) {
@@ -3447,7 +3454,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
                                               _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
-                                              body_part_name_accusative( bp->token ) );
+                                              body_part_name_accusative( bp ) );
                 }
             }
         } else {
@@ -3492,7 +3499,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),
                                               _( "The Autodoc is stitching <npcname>'s %s back up." ),
-                                              body_part_name_accusative( bp->token ) );
+                                              body_part_name_accusative( bp ) );
                 }
             }
         } else {
@@ -4487,8 +4494,8 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
 
 static void blood_magic( player *p, int cost )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
     int max_hp_part = 0;

@@ -1753,14 +1753,14 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_op, enum_bp ) && enum_bp != num_bp ) {
+                if( has_effect( effect_under_op, enum_bp ) ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
                     bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
                     apply_damage( this, bp, rng( 2, 6 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                           body_part_name_accusative( enum_bp ) );
+                                           body_part_name_accusative( bp ) );
                 }
             }
             break;
@@ -1777,7 +1777,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
                     apply_damage( this, bp, rng( 30, 80 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                            _( "<npcname>'s %s is severely damaged." ),
-                                           body_part_name_accusative( enum_bp ) );
+                                           body_part_name_accusative( bp ) );
                 }
             }
             break;
@@ -1847,7 +1847,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                     patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                                       body_part_name_accusative( enum_bp ) );
+                                                       body_part_name_accusative( bp ) );
                     }
                 }
             }
@@ -1866,7 +1866,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                                        _( "<npcname>'s %s is severely damaged." ),
-                                                       body_part_name_accusative( enum_bp ) );
+                                                       body_part_name_accusative( bp ) );
                     }
                 }
             }
@@ -1957,13 +1957,23 @@ void Character::consume_installation_requirment( bionic_id bid )
 }
 
 // bionic manipulation adjusted skill
-float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
-        const skill_id &important_skill,
-        const skill_id &least_important_skill,
-        int skill_level )
+float Character::bionics_adjusted_skill( bool autodoc, int skill_level ) const
 {
-    int pl_skill = bionics_pl_skill( most_important_skill, important_skill, least_important_skill,
-                                     skill_level );
+    skill_id most_important_skill;
+    skill_id important_skill;
+    skill_id least_important_skill;
+
+    if( autodoc ) {
+        most_important_skill = skill_firstaid;
+        important_skill = skill_computer;
+        least_important_skill = skill_electronics;
+    } else {
+        most_important_skill = skill_electronics;
+        important_skill = skill_firstaid;
+        least_important_skill = skill_mechanics;
+    }
+
+    int pl_skill = bionics_pl_skill( autodoc, skill_level );
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
@@ -1972,10 +1982,22 @@ float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
     return adjusted_skill;
 }
 
-int Character::bionics_pl_skill( const skill_id &most_important_skill,
-                                 const skill_id &important_skill,
-                                 const skill_id &least_important_skill, int skill_level )
+int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
 {
+    skill_id most_important_skill;
+    skill_id important_skill;
+    skill_id least_important_skill;
+
+    if( autodoc ) {
+        most_important_skill = skill_firstaid;
+        important_skill = skill_computer;
+        least_important_skill = skill_electronics;
+    } else {
+        most_important_skill = skill_electronics;
+        important_skill = skill_firstaid;
+        least_important_skill = skill_mechanics;
+    }
+
     int pl_skill;
     if( skill_level == -1 ) {
         pl_skill = int_cur                                  * 4 +
@@ -2001,6 +2023,11 @@ int Character::bionics_pl_skill( const skill_id &most_important_skill,
                  disp_name() );
     }
     return pl_skill;
+}
+
+int bionic_success_chance( bool autodoc, int skill_level, int difficulty, const Character &target )
+{
+    return bionic_manip_cos( target.bionics_adjusted_skill( autodoc, skill_level ), difficulty );
 }
 
 // bionic manipulation chance of success
@@ -2070,19 +2097,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
     }
 
     // removal of bionics adds +2 difficulty over installation
-    float adjusted_skill;
-    if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                         skill_computer,
-                         skill_electronics,
-                         skill_level );
-    } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
-                         skill_firstaid,
-                         skill_mechanics,
-                         skill_level );
-    }
-    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
+    int chance_of_success = bionic_success_chance( autodoc, skill_level, difficulty + 2,
+                            installer );
 
     if( chance_of_success >= 100 ) {
         if( !g->u.query_yn(
@@ -2114,29 +2130,8 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     }
 
     // removal of bionics adds +2 difficulty over installation
-    float adjusted_skill;
-    int pl_skill;
-    if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                         skill_computer,
-                         skill_electronics,
-                         skill_level );
-        pl_skill = installer.bionics_pl_skill( skill_firstaid,
-                                               skill_computer,
-                                               skill_electronics,
-                                               skill_level );
-    } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
-                         skill_firstaid,
-                         skill_mechanics,
-                         skill_level );
-        pl_skill = installer.bionics_pl_skill( skill_electronics,
-                                               skill_firstaid,
-                                               skill_mechanics,
-                                               skill_level );
-    }
-
-    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
+    int pl_skill = bionics_pl_skill( autodoc, skill_level );
+    int chance_of_success = bionic_success_chance( autodoc, skill_level, difficulty + 2, installer );
 
     // Surgery is imminent, retract claws or blade if active
     for( size_t i = 0; i < installer.my_bionics->size(); i++ ) {
@@ -2298,7 +2293,6 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
 
     const bionic_id &bioid = type.bionic->id;
     const int difficult = type.bionic->difficulty;
-    float adjusted_skill;
 
     // if we're doing self install
     if( !autodoc && installer.is_avatar() ) {
@@ -2306,18 +2300,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
                installer.has_installation_requirment( bioid );
     }
 
-    if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                         skill_computer,
-                         skill_electronics,
-                         skill_level );
-    } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
-                         skill_firstaid,
-                         skill_mechanics,
-                         skill_level );
-    }
-    int chance_of_success = bionic_manip_cos( adjusted_skill, difficult );
+    int chance_of_success = bionic_success_chance( autodoc, skill_level, difficult, installer );
 
     std::vector<std::string> conflicting_muts;
     for( const trait_id &mid : bioid->canceled_mutations ) {
@@ -2337,10 +2320,10 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     // show all requirements which are not satisfied
     if( !issues.empty() ) {
         std::string detailed_info;
-        for( auto &elem : issues ) {
+        for( const std::pair<const bodypart_id, int> &elem : issues ) {
             //~ <Body part name>: <number of slots> more slot(s) needed.
             detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
-                                            body_part_name_as_heading( elem.first->token, 1 ),
+                                            body_part_name_as_heading( elem.first, 1 ),
                                             elem.second );
         }
         popup( _( "Not enough space for bionic installation!%s" ), detailed_info );
@@ -2364,7 +2347,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     return true;
 }
 
-float Character::env_surgery_bonus( int radius )
+float Character::env_surgery_bonus( int radius ) const
 {
     float bonus = 1.0;
     for( const tripoint &cell : g->m.points_in_radius( pos(), radius ) ) {
@@ -2386,28 +2369,8 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     const bionic_id &bioid = type.bionic->id;
     const bionic_id &upbioid = bioid->upgraded_bionic;
     const int difficulty = type.bionic->difficulty;
-    float adjusted_skill;
-    int pl_skill;
-    if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                         skill_computer,
-                         skill_electronics,
-                         skill_level );
-        pl_skill = installer.bionics_pl_skill( skill_firstaid,
-                                               skill_computer,
-                                               skill_electronics,
-                                               skill_level );
-    } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
-                         skill_firstaid,
-                         skill_mechanics,
-                         skill_level );
-        pl_skill = installer.bionics_pl_skill( skill_electronics,
-                                               skill_firstaid,
-                                               skill_mechanics,
-                                               skill_level );
-    }
-    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty );
+    int pl_skill = installer.bionics_pl_skill( autodoc, skill_level );
+    int chance_of_success = bionic_success_chance( autodoc, skill_level, difficulty, installer );
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
@@ -2531,14 +2494,14 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             case 3:
                 for( const bodypart_id &bp : get_all_body_parts() ) {
                     const body_part enum_bp = bp->token;
-                    if( has_effect( effect_under_op, enum_bp ) && enum_bp != num_bp ) {
+                    if( has_effect( effect_under_op, enum_bp ) ) {
                         if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                             continue;
                         }
                         bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
                         apply_damage( this, bp, rng( 30, 80 ), true );
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                               body_part_name_accusative( enum_bp ) );
+                                               body_part_name_accusative( bp ) );
                     }
                 }
                 drop_cbm = true;
@@ -2593,11 +2556,11 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
         return "";
     }
     std::string desc = intro;
-    for( const std::pair<const string_id<body_part_type>, size_t> &elem : bio_id->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
         desc += ( each_bp_on_new_line ? "\n" : " " );
         //~ <Bodypart name> (<number of occupied slots> slots);
         desc += string_format( _( "%s (%i slots);" ),
-                               body_part_name_as_heading( elem.first->token, 1 ),
+                               body_part_name_as_heading( elem.first.id(), 1 ),
                                elem.second );
     }
     return desc;

@@ -1128,6 +1128,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( vpindex == -1 || !veh->can_unmount( vpindex ) ) {
                     continue;
                 }
+                // If removing this part would make the vehicle non-flyable, avoid it
+                if( veh->would_prevent_flyable( vpinfo ) ) {
+                    return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
+                }
                 // this is the same part that somebody else wants to work on, or already is.
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
                                vpindex ) != already_working_indexes.end() ) {
@@ -1173,6 +1177,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( part_elem->is_broken() || part_elem->damage() == 0 ||
                     part_elem->info().repair_requirements().is_empty() ) {
                     continue;
+                }
+                // If repairing this part would make the vehicle non-flyable, avoid it
+                if( veh->would_prevent_flyable( vpinfo ) ) {
+                    return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
                 }
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
                                vpindex ) != already_working_indexes.end() ) {

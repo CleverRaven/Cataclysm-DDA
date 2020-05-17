@@ -6,6 +6,7 @@
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "character.h"
 #include "computer_session.h"
 #include "debug.h"
@@ -587,6 +588,10 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
 
 void consume_activity_actor::start( player_activity &act, Character &guy )
 {
+    if( !loc ) {
+        debugmsg( "Item location to be consumed should not be null." );
+        return;
+    }
     int moves = to_moves<int>( guy.get_consume_time( *loc ) );
 
     act.moves_total = moves;
@@ -595,13 +600,21 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
+    if( !loc ) {
+        debugmsg( "Item location to be consumed should not be null." );
+        act.set_to_null();
+        return;
+    }
     if( loc.where() == item_location::type::character ) {
         g->u.consume( loc );
-    } else if( g->u.consume_item( *loc ) ) {
+    } else if( g->u.consume( *loc ) ) {
         loc.remove_item();
     }
     if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
         g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
+    if( open_consume_menu ) {
+        avatar_action::eat( g->u );
     }
     act.set_to_null();
 }

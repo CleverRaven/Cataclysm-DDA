@@ -17,7 +17,7 @@ namespace avatar_action
 
 /** Eat food or fuel  'E' (or 'a') */
 void eat( avatar &you );
-void eat( avatar &you, item_location loc );
+void eat( avatar &you, item_location loc, bool open_consume_menu = false );
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here( avatar &you );

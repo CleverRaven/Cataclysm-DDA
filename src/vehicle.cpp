@@ -3703,14 +3703,8 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
     if( rng( 1, 10000 ) > joules ) {
         return;
     }
-    point p = parts[part].mount;
     intensity = std::max( joules / 10000, static_cast<double>( intensity ) );
-    // Move back from engine/muffler until we find an open space
-    while( relative_parts.find( p ) != relative_parts.end() ) {
-        p.x += ( velocity < 0 ? 1 : -1 );
-    }
-    point q = coord_translate( p );
-    const tripoint dest = global_pos3() + tripoint( q, 0 );
+    const tripoint dest = exhaust_dest( part );
     g->m.mod_field_intensity( dest, type, intensity );
 }
 
@@ -3731,16 +3725,9 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     const std::string heli_noise = translate_marker( "WUMPWUMPWUMP!" );
     double noise = 0.0;
     double mufflesmoke = 0.0;
-    double muffle = 1.0;
-    double m = 0.0;
-    int exhaust_part = -1;
-    for( const vpart_reference &vp : get_avail_parts( "MUFFLER" ) ) {
-        m = 1.0 - ( 1.0 - vp.info().bonus / 100.0 ) * vp.part().health_percent();
-        if( m < muffle ) {
-            muffle = m;
-            exhaust_part = static_cast<int>( vp.part_index() );
-        }
-    }
+    double muffle;
+    int exhaust_part;
+    std::tie( exhaust_part, muffle ) = get_exhaust_part();
 
     bool bad_filter = false;
     bool combustion = false;
@@ -3933,6 +3920,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
             d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR" ) );
+            d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR_SIMPLE" ) );
             d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
@@ -4094,12 +4082,28 @@ bool vehicle::has_sufficient_rotorlift() const
 
 bool vehicle::is_rotorcraft() const
 {
-    return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
+    return ( has_part( "ROTOR" ) || has_part( "ROTOR_SIMPLE" ) ) && has_sufficient_rotorlift() &&
+           player_in_control( g->u );
+}
+
+bool vehicle::is_flyable() const
+{
+    return flyable;
+}
+
+void vehicle::set_flyable( bool val )
+{
+    flyable = val;
 }
 
 int vehicle::get_z_change() const
 {
     return requested_z_change;
+}
+
+bool vehicle::would_prevent_flyable( const vpart_info &vpinfo ) const
+{
+    return is_flyable() && has_part( "ROTOR" ) && !vpinfo.has_flag( "SIMPLE_PART" );
 }
 
 bool vehicle::is_flying_in_air() const
@@ -5502,7 +5506,7 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
             solar_panels.push_back( p );
         }
-        if( vpi.has_flag( VPFLAG_ROTOR ) ) {
+        if( vpi.has_flag( VPFLAG_ROTOR ) || vpi.has_flag( VPFLAG_ROTOR_SIMPLE ) ) {
             rotors.push_back( p );
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
@@ -6599,6 +6603,10 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
 
 void vehicle::update_time( const time_point &update_to )
 {
+    double muffle;
+    int exhaust_part;
+    std::tie( exhaust_part, muffle ) = get_exhaust_part();
+
     // Parts emitting fields
     for( int idx : emitters ) {
         const vehicle_part &pt = parts[idx];
@@ -6607,6 +6615,13 @@ void vehicle::update_time( const time_point &update_to )
         }
         for( const emit_id &e : pt.info().emissions ) {
             g->m.emit_field( global_part_pos3( pt ), e );
+        }
+        for( const emit_id &e : pt.info().exhaust ) {
+            if( exhaust_part == -1 ) {
+                g->m.emit_field( global_part_pos3( pt ), e );
+            } else {
+                g->m.emit_field( exhaust_dest( exhaust_part ), e );
+            }
         }
         discharge_battery( pt.info().epower );
     }
@@ -6852,6 +6867,33 @@ bool vehicle::refresh_zones()
         return true;
     }
     return false;
+}
+
+
+std::pair<int, double> vehicle::get_exhaust_part() const
+{
+    double muffle = 1.0;
+    double m = 0.0;
+    int exhaust_part = -1;
+    for( const vpart_reference &vp : get_avail_parts( "MUFFLER" ) ) {
+        m = 1.0 - ( 1.0 - vp.info().bonus / 100.0 ) * vp.part().health_percent();
+        if( m < muffle ) {
+            muffle = m;
+            exhaust_part = static_cast<int>( vp.part_index() );
+        }
+    }
+    return std::make_pair( exhaust_part, muffle );
+}
+
+tripoint vehicle::exhaust_dest( int part ) const
+{
+    point p = parts[part].mount;
+    // Move back from engine/muffler until we find an open space
+    while( relative_parts.find( p ) != relative_parts.end() ) {
+        p.x += ( velocity < 0 ? 1 : -1 );
+    }
+    point q = coord_translate( p );
+    return global_pos3() + tripoint( q, 0 );
 }
 
 template<>

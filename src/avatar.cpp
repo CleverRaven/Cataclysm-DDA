@@ -1508,7 +1508,20 @@ void avatar::cycle_move_mode()
     }
 }
 
+bool avatar::wield( item_location target )
+{
+    return wield( *target, target.obtain_cost( *this ) );
+}
+
 bool avatar::wield( item &target )
+{
+    return wield( target,
+                  item_handling_cost( target, true,
+                                      is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :
+                                      INVENTORY_HANDLING_PENALTY ) );
+}
+
+bool avatar::wield( item &target, const int obtain_cost )
 {
     if( is_wielding( target ) ) {
         return true;
@@ -1541,8 +1554,7 @@ bool avatar::wield( item &target )
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
     bool worn = is_worn( target );
-    int mv = item_handling_cost( target, true,
-                                 worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
+    const int mv = obtain_cost;
 
     if( worn ) {
         target.on_takeoff( *this );
