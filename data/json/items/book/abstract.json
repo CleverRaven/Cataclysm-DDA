@@ -107,7 +107,7 @@
     "fun": 1,
     "time": "36 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "price_post": 500, "price_post": -2500, "intelligence": 3 }
+    "relative": { "price": 500, "price_post": -2500, "intelligence": 3 }
   },
   {
     "abstract": "book_nonf_soft_phil_tpl",
@@ -117,7 +117,7 @@
     "fun": 1,
     "time": "36 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "price_post": 400, "price_post": -2600, "intelligence": 3 }
+    "relative": { "price": 400, "price_post": -2600, "intelligence": 3 }
   },
   {
     "abstract": "paperback_occult",
