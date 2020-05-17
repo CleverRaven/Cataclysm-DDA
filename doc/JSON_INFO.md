@@ -1883,23 +1883,26 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 ```C++
 "pocket_data": [
   {
-    "pocket_type": "CONTAINER",               // The typical container pocket. Pockets can also be MAGAZINE.
-    "min_item_volume": "0 ml",                // The minimum volume of item that can be placed into this pocket.  For reference, 1 ml is a small grain of uncooked rice, and 16 ml is a 6 sided die from a game like monopoly or yahtzee.
-    "max_contains_volume": mandatory,         // the maximum volume this pocket can hold, totaled among all contained items
-    "max_contains_weight": mandatory,         // The maximum weight this pocket can hold, totaled among all container items.  For reference, a bowling ball is about 6 kg.
-    "ammo_restriction": { "ammotype": count }, // this overrides the three previous values to be an ammotype and count instead. you can contain any number of unique ammotypes each with different counts, and the container will only hold one type (as of now.) if this is left out, it will be empty.
-    "spoil_multiplier": 1.0,                  // how putting an item in this pocket affects spoilage. less than 1.0 and the item will be preserved longer.
-    "weight_multiplier": 1.0,                 // The items in this pocket magically weigh less inside than outside.  Nothing in vanilla should have a weight_multiplies.
-    "magazine_well": "0 ml",                  // only works if rigid = false, this is the amount of space you can put items in the pocket before it starts expanding
-    "moves": 100,                             // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
-    "fire_protection": false,                 // If the pocket protects the contained items from exploding in a fire or not.  This is for protecting ammo from exploding if the container is tossed into a fire.
-    "watertight": false,                      // can contain liquid
-    "airtight": false,                        // can contain gas
-    "open_container": false,                  // Default is false. If true, the contents of this pocket will spill if this item is placed into another item.
-    "flag_restriction": [ "FLAG1", "FLAG2" ], // items can only be placed into this pocket if they have a flag that matches one of these flags.
-    "rigid": false,                           // Default is false. If false, this pocket's contents contribute to this item's size. If true, they do not.  Think glass jar vs plastic bag: a plastic bag containing nothing takes up almost no space, whereas a glass jar containing nothing takes up as much space as a completely full glass jar. The property magazine_well only works if rigid is false.
-    "holster": false, // if this value is set to true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
-    "sealed_data": { "spoil_multiplier": 0.0 } // have anything in sealed_data means the pocket cannot be resealed. Additionally, the sealed version of the pocket will override the unsealed version of the same datatype.
+    "pocket_type": "CONTAINER",       // Typical container pocket. Pockets can also be MAGAZINE.
+    "max_contains_volume": mandatory, // Maximum volume this pocket can hold, totaled among all contained items.  For example "2 L" or "2000 ml" would hold two liters of items.
+    "max_contains_weight": mandatory, // Maximum weight this pocket can hold, totaled among all container items.  For example "6 kg" is about enough to contain a bowling ball.
+    "min_item_volume": "0 ml",        // Minimum volume of item that can be placed into this pocket.  Items smaller than this cannot be placed in the pocket.
+    "max_item_volume": "0 ml",        // Maximum volume of item that can fit through the opening into this pocket.  For example, a 2-liter bottle has a "17 ml" opening.
+    "max_item_length": "0 mm",        // Maximum length of items that can fit in this pocket, by their longest_side.
+    "spoil_multiplier": 1.0,          // How putting an item in this pocket affects spoilage.  Less than 1.0 and the item will be preserved longer; 0.0 will preserve indefinitely.
+    "weight_multiplier": 1.0,         // The items in this pocket magically weigh less inside than outside.  Nothing in vanilla should have a weight_multiplier.
+    "moves": 100,                     // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
+    "rigid": false,                   // Default false. If true, this pocket's size is fixed, and does not expand when filled.  A glass jar would be rigid, while a plastic bag is not.
+    "magazine_well": "0 ml",          // Amount of space you can put items in the pocket before it starts expanding.  Only works if rigid = false.
+    "watertight": false,              // Default false. If true, can contain liquid.
+    "airtight": false,                // Default false. If true, can contain gas.
+    "holster": false,                 // Default false. If true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
+    "open_container": false,          // Default false. If true, the contents of this pocket will spill if this item is placed into another item.
+    "fire_protection": false,         // Default false. If true, the pocket protects the contained items from exploding if tossed into a fire.
+    "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume and weight to use the given ammo type instead.  A pocket can contain any number of unique ammotypes each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
+    "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
+
+    "sealed_data": { "spoil_multiplier": 0.0 } // Having anything in sealed_data means the pocket cannot be resealed.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
 ]
 ```
