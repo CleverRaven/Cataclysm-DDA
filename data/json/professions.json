@@ -557,7 +557,7 @@
     "type": "profession",
     "ident": "labtech",
     "name": "Lab Technician",
-    "description": "Thanks to years of study and hard work in the lab, you're familiar with the basics of scientific inquiry.  Only one question remains: can you undo the very Cataclysm you helped create?",
+    "description": "Thanks to years of study and hard work in the lab, you're familiar with the basics of scientific inquiry.  Only one question remains: can you undo the very Cataclysm your colleagues helped create?",
     "points": 3,
     "skills": [
       { "level": 2, "name": "computer" },
