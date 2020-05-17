@@ -121,7 +121,8 @@ inline SDL_Color color_pixel_darken( const SDL_Color &color )
 
 }
 
-inline SDL_Color color_pixel_sepia( const SDL_Color &color, const float &gammav, const SDL_Color &color_a, const SDL_Color &color_b )
+inline SDL_Color color_pixel_sepia( const SDL_Color &color, const float &gammav,
+                                    const SDL_Color &color_a, const SDL_Color &color_b )
 {
     if( is_black( color ) ) {
         return color;
