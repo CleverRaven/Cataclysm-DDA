@@ -86,10 +86,9 @@ TEST_CASE( "item_in_container", "[item][item_location]" )
 
     REQUIRE( backpack_loc.where() == item_location::type::character );
     REQUIRE( jeans_loc.where() == item_location::type::container );
-
-    CHECK( backpack_loc.obtain_cost( dummy ) +
-           backpack_loc->contents.obtain_cost( *jeans_loc ) ==
-           jeans_loc.obtain_cost( dummy ) );
+    const int obtain_cost_calculation = ( backpack_loc.obtain_cost( dummy ) / 2 ) +
+                                        dummy.item_handling_cost( *jeans_loc, true, backpack_loc->contents.obtain_cost( *jeans_loc ) );
+    CHECK( obtain_cost_calculation == jeans_loc.obtain_cost( dummy ) );
 
     CHECK( jeans_loc.parent_item() == backpack_loc );
 }

@@ -7693,7 +7693,7 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
         mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
     }
 
-    return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
+    return std::max( mv, 0 );
 }
 
 int Character::item_store_cost( const item &it, const item & /* container */, bool penalties,
