@@ -470,6 +470,11 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
+        /**
+        * Whether cities within radius will be revealed or not
+        */
+        bool reveal_cities;
+
         void reveal_targets( const tripoint &center, const std::pair<std::string, ot_match_type> &target,
                              int reveal_distance ) const;
 

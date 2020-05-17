@@ -271,8 +271,18 @@ static void draw_city_labels( const catacurses::window &w, const tripoint &cente
             continue;   // right under the cursor.
         }
 
-        if( !overmap_buffer.seen( tripoint( city_pos, center.z ) ) ) {
-            continue;   // haven't seen it.
+        tripoint city_tripos = tripoint( city_pos, center.z );
+        bool is_seen = overmap_buffer.seen( city_tripos );
+        bool is_known_faraway_city = false;
+
+        if( overmap_buffer.known_unseen_city_centers.count( city_tripos ) > 0 ) {
+            is_known_faraway_city = true;
+        }
+        if( is_seen && is_known_faraway_city ) {
+            // Remove unneccessary entries to release memory
+            overmap_buffer.known_unseen_city_centers.erase( city_tripos );
+        } else if( !is_seen && !is_known_faraway_city ) {
+            continue;   // Have not seen it
         }
 
         mvwprintz( w, point( text_x_min, text_y ), i_yellow, element.city->name );

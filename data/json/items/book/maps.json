@@ -24,6 +24,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
+	  "reveal_cities": true,
       "terrain": [
         "hiway",
         "road",
@@ -49,6 +50,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
+	  "reveal_cities": false,
       "terrain": [ "hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "s_hunting", "mil_surplus", "s_gas" ],
       "message": "You add roads and possible supply points to your map."
     }
@@ -63,6 +65,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
+	  "reveal_cities": true,
       "terrain": [
         "hiway",
         "road",
@@ -88,6 +91,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
+	  "reveal_cities": false,
       "terrain": [ "subway", "sub_station" ],
       "message": "You add subway lines and underground stations to your map."
     }
@@ -102,6 +106,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
+	  "reveal_cities": false,
       "terrain": [ "forest_trail", "trailhead" ],
       "message": "You add trails and trailheads to your map."
     }
@@ -116,6 +121,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
+	  "reveal_cities": true,
       "terrain": [ "hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore", "museum" ],
       "message": "You add roads and tourist attractions to your map."
     }
@@ -130,6 +136,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
+	  "reveal_cities": true,
       "terrain": [
         "hiway",
         "road",

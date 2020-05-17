@@ -1211,6 +1211,8 @@ void reveal_map_actor::load( const JsonObject &obj )
 {
     radius = obj.get_int( "radius" );
     message = obj.get_string( "message" );
+    reveal_cities = obj.get_bool( "reveal_cities" );
+
     std::string ter;
     ot_match_type ter_match_type;
     for( const JsonValue entry : obj.get_array( "terrain" ) ) {
@@ -1258,6 +1260,16 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
             reveal_targets( tripoint( center.xy(), z ), omt, 0 );
         }
     }
+    // Saves the unseen cities discovered by the activated map to display their labels on the overmap
+    if (reveal_cities) {
+        std::vector<city_reference> nearby_cities = overmap_buffer.get_cities_near(center, radius);
+        for (city_reference city_ref : nearby_cities) {
+            if (!overmap_buffer.seen(city_ref.abs_sm_pos)) {
+                overmap_buffer.known_unseen_city_centers.emplace(city_ref.abs_sm_pos);
+            }
+        }
+    }
+
     if( !message.empty() ) {
         p.add_msg_if_player( m_good, "%s", _( message ) );
     }

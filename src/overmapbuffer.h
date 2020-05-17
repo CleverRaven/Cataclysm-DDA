@@ -509,6 +509,13 @@ class overmapbuffer
         */
         bool check_ot_existing( const std::string &otype, ot_match_type match_type, const tripoint &loc );
         bool check_overmap_special_type_existing( const overmap_special_id &id, const tripoint &loc );
+
+        /**
+        * Contains the city center position of cities which have been discovered by a
+        * map but have yet to be seen
+        */
+        std::unordered_set<tripoint> known_unseen_city_centers;
+
     private:
         /**
          * Go thorough the monster groups of the overmap and move out-of-bounds
