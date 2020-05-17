@@ -100,6 +100,26 @@
     "copy-from": "book_nonf_hard_tpl"
   },
   {
+    "abstract": "book_nonf_hard_phil_tpl",
+    "type": "BOOK",
+    "name": "Hardcover Philosophy",
+    "description": "This is a template for books about philosophy.",
+    "fun": 1,
+    "time": "36 m",
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "price": 500, "price_post": -2500, "intelligence": 3 }
+  },
+  {
+    "abstract": "book_nonf_soft_phil_tpl",
+    "type": "BOOK",
+    "name": "Softcover Philosophy.",
+    "description": "This is a template for paperbacks about philosophy.",
+    "fun": 1,
+    "time": "36 m",
+    "copy-from": "book_nonf_soft_tpl",
+    "relative": { "price": 400, "price_post": -2600, "intelligence": 3 }
+  },
+  {
     "abstract": "paperback_occult",
     "type": "BOOK",
     "name": "template for mass produced books on esoteric subjects",
