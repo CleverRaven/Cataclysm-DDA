@@ -130,12 +130,9 @@ inline SDL_Color color_pixel_sepia( const SDL_Color &color, const float &gammav,
 
     /*
      *  Objective is to provide a gradient between two color points
-     *  (sepia_dark and sepia_light) based on the grayscale value.
+     *  (color_a and color_b) based on the grayscale value.
      *  This presents an effect intended to mimic a faded sepia photograph.
      */
-
-    const SDL_Color sepia_dark = { 39, 23, 19, color.a};
-    const SDL_Color sepia_light = { 241, 220, 163, color.a};
 
     const Uint8 av = average_pixel_color( color );
     const float pv = av / 255.0;
