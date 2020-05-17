@@ -121,7 +121,7 @@ inline SDL_Color color_pixel_darken( const SDL_Color &color )
 
 }
 
-inline SDL_Color color_pixel_sepia( const SDL_Color &color )
+inline SDL_Color color_pixel_sepia( const SDL_Color &color, const float &gammav, const SDL_Color &color_a, const SDL_Color &color_b )
 {
     if( is_black( color ) ) {
         return color;
@@ -137,12 +137,25 @@ inline SDL_Color color_pixel_sepia( const SDL_Color &color )
     const SDL_Color sepia_light = { 241, 220, 163, color.a};
 
     const Uint8 av = average_pixel_color( color );
-    const float gammav = 1.6;
     const float pv = av / 255.0;
     const Uint8 finalv =
         std::min( static_cast<int>( std::round( std::pow( pv, gammav ) * 150 ) ), 100 );
 
-    return mix_colors( sepia_dark, sepia_light, finalv );
+    return mix_colors( color_a, color_b, finalv );
+}
+
+inline SDL_Color color_pixel_sepia_light( const SDL_Color &color )
+{
+    const SDL_Color sepia_dark = { 39, 23, 19, color.a};
+    const SDL_Color sepia_light = { 241, 220, 163, color.a};
+    return color_pixel_sepia( color, 1.6f, sepia_dark, sepia_light );
+}
+
+inline SDL_Color color_pixel_sepia_dark( const SDL_Color &color )
+{
+    const SDL_Color sepia_dark = { 39, 23, 19, color.a};
+    const SDL_Color sepia_light = { 70, 66, 60, color.a};
+    return color_pixel_sepia( color, 1.0f, sepia_dark, sepia_light );
 }
 
 SDL_Color curses_color_to_SDL( const nc_color &color );
