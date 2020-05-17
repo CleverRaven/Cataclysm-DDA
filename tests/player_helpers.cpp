@@ -69,7 +69,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.stomach.empty();
     dummy.guts.empty();
     item food( "debug_nutrition" );
-    dummy.eat( food );
+    dummy.consume( food );
 
     dummy.empty_skills();
     dummy.clear_morale();
