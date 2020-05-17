@@ -1121,7 +1121,7 @@
     "type": "profession",
     "ident": "k9_cop",
     "name": "K9 Officer",
-    "description": "You spent your career busting drug smugglers with your faithful canine companion.  Now the world has ended, and none of that matters anymore.  Your loyal dog is still with you, though, ready to face the Cataclysm together.",
+    "description": "You spent your career busting drug smugglers with your faithful canine companion.  Now the world has ended, and none of that matters anymore.  Your loyal dog is still at your side, though, ready to face the Cataclysm with you.",
     "points": 4,
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 2, "name": "survival" } ],
     "traits": [ "PROF_POLICE" ],
