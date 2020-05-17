@@ -9,8 +9,10 @@
 
 #include "clone_ptr.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 
 class Character;
 class JsonIn;
@@ -105,25 +107,42 @@ class activity_actor
 class aim_activity_actor : public activity_actor
 {
     public:
+        enum class WeaponSource {
+            Wielded,
+            Bionic,
+            Mutation,
+            NumWeaponSources
+        };
+
+        WeaponSource weapon_source = WeaponSource::Wielded;
+        shared_ptr_fast<item> fake_weapon = nullptr;
+        units::energy bp_cost_per_shot = 0_J;
         bool first_turn = true;
         std::string action = "";
         bool snap_to_target = false;
         bool shifting_view = false;
         tripoint view_offset = tripoint_zero;
-
         /** Target UI requested to abort aiming */
         bool aborted = false;
-
         /** Target UI requested to fire */
         bool finished = false;
-
         /**
          * Target UI requested to abort aiming and reload weapon
          * Implies aborted = true
          */
         bool reload_requested = false;
 
+
         aim_activity_actor() = default;
+
+        /** Aiming wielded gun */
+        static aim_activity_actor use_wielded();
+
+        /** Aiming fake gun provided by a bionic */
+        static aim_activity_actor use_bionic( const item &fake_gun, const units::energy &cost_per_shot );
+
+        /** Aiming fake gun provided by a mutation */
+        static aim_activity_actor use_mutation( const item &fake_gun );
 
         activity_id get_type() const override {
             return activity_id( "ACT_AIM" );
@@ -139,6 +158,8 @@ class aim_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        item *get_weapon();
 };
 
 class dig_activity_actor : public activity_actor

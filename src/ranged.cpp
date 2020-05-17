@@ -338,14 +338,13 @@ class target_ui
         void on_target_accepted( player &pc, bool harmful );
 };
 
-target_handler::trajectory target_handler::mode_fire( player &pc, item &weapon,
-        aim_activity_actor &activity )
+target_handler::trajectory target_handler::mode_fire( player &pc, aim_activity_actor &activity )
 {
     target_ui ui = target_ui();
     ui.mode = target_ui::TargetMode::Fire;
     ui.activity = &activity;
-    ui.relevant = &weapon;
-    gun_mode gun = weapon.gun_current_mode();
+    ui.relevant = activity.get_weapon();
+    gun_mode gun = ui.relevant->gun_current_mode();
     ui.range = gun.target->gun_range( &pc );
     ui.ammo = gun->ammo_data();
 
@@ -431,59 +430,6 @@ target_handler::trajectory target_handler::mode_spell( player &pc, spell_id sp, 
 {
     return mode_spell( pc, g->u.magic.get_spell( sp ), no_fail, no_mana );
 }
-
-bool targeting_data::is_valid() const
-{
-    return weapon_source != WEAPON_SOURCE_INVALID;
-}
-
-targeting_data targeting_data::use_wielded()
-{
-    return targeting_data{
-        WEAPON_SOURCE_WIELDED,
-        nullptr,
-        0_J,
-    };
-}
-
-targeting_data targeting_data::use_bionic( const item &fake_gun,
-        const units::energy &cost_per_shot )
-{
-    return targeting_data{
-        WEAPON_SOURCE_BIONIC,
-        shared_ptr_fast<item>( new item( fake_gun ) ),
-        cost_per_shot
-    };
-}
-
-targeting_data targeting_data::use_mutation( const item &fake_gun )
-{
-    return targeting_data{
-        WEAPON_SOURCE_MUTATION,
-        shared_ptr_fast<item>( new item( fake_gun ) ),
-        0_J
-    };
-}
-
-namespace io
-{
-template<>
-std::string enum_to_string<weapon_source_enum>( weapon_source_enum data )
-{
-    switch( data ) {
-        // *INDENT-OFF*
-        case WEAPON_SOURCE_INVALID: return "WS_INVALID";
-        case WEAPON_SOURCE_WIELDED: return "WS_WIELDED";
-        case WEAPON_SOURCE_BIONIC: return "WS_BIONIC";
-        case WEAPON_SOURCE_MUTATION: return "WS_MUTATION";
-        // *INDENT-ON*
-        case NUM_WEAPON_SOURCES:
-            break;
-    }
-    debugmsg( "Invalid weapon source" );
-    abort();
-}
-} // namespace io
 
 static double occupied_tile_fraction( m_size target_size )
 {

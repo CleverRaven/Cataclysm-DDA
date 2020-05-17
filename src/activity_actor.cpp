@@ -44,6 +44,56 @@ static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
+template<>
+struct enum_traits<aim_activity_actor::WeaponSource> {
+    static constexpr aim_activity_actor::WeaponSource last =
+        aim_activity_actor::WeaponSource::NumWeaponSources;
+};
+
+namespace io
+{
+using WS = aim_activity_actor::WeaponSource;
+
+template<>
+std::string enum_to_string<WS>( WS data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case WS::Wielded: return "Wielded";
+        case WS::Bionic: return "Bionic";
+        case WS::Mutation: return "Mutation";
+            // *INDENT-ON*
+        case WS::NumWeaponSources:
+            break;
+    }
+    debugmsg( "Invalid weapon source" );
+    abort();
+}
+} // namespace io
+
+aim_activity_actor aim_activity_actor::use_wielded()
+{
+    return aim_activity_actor();
+}
+
+aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
+        const units::energy &cost_per_shot )
+{
+    aim_activity_actor act = aim_activity_actor();
+    act.weapon_source = WeaponSource::Bionic;
+    act.bp_cost_per_shot = cost_per_shot;
+    act.fake_weapon = shared_ptr_fast<item>( new item( fake_gun ) );
+    return act;
+}
+
+aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
+{
+    aim_activity_actor act = aim_activity_actor();
+    act.weapon_source = WeaponSource::Mutation;
+    act.fake_weapon = shared_ptr_fast<item>( new item( fake_gun ) );
+    return act;
+}
+
 void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
     // Time spent on aiming is determined on the go by the player
@@ -79,6 +129,11 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "weapon_source", weapon_source );
+    if( weapon_source == WeaponSource::Bionic || weapon_source == WeaponSource::Mutation ) {
+        jsout.member( "fake_weapon", *fake_weapon );
+    }
+    jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
     jsout.member( "snap_to_target", snap_to_target );
@@ -94,6 +149,12 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     JsonObject data = jsin.get_object();
 
+    data.read( "weapon_source", actor.weapon_source );
+    if( actor.weapon_source == WeaponSource::Bionic || actor.weapon_source == WeaponSource::Mutation ) {
+        actor.fake_weapon = shared_ptr_fast<item>( new item() );
+        data.read( "fake_weapon", *actor.fake_weapon );
+    }
+    data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
     data.read( "snap_to_target", actor.snap_to_target );
@@ -101,6 +162,23 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "view_offset", actor.view_offset );
 
     return actor.clone();
+}
+
+item *aim_activity_actor::get_weapon()
+{
+    switch( weapon_source ) {
+        case WeaponSource::Wielded:
+            // Check for lost gun (e.g. yanked by zombie technician)
+            // TODO: check that this is the same gun that was used to start aiming
+            return g->u.weapon.is_null() ? nullptr : &g->u.weapon;
+        case WeaponSource::Bionic:
+        case WeaponSource::Mutation:
+            // TODO: check if the player lost relevant bionic/mutation
+            return fake_weapon.get();
+        default:
+            debugmsg( "Invalid weapon source value" );
+            return nullptr;
+    }
 }
 
 void dig_activity_actor::start( player_activity &act, Character & )

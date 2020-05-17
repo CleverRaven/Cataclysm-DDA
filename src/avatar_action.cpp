@@ -825,30 +825,7 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
 
 void avatar_action::aim_do_turn( avatar &you, map &m, aim_activity_actor &activity )
 {
-    targeting_data &args = you.get_targeting_data();
-
-    item *weapon = nullptr;
-    switch( args.weapon_source ) {
-        case WEAPON_SOURCE_WIELDED:
-            // TODO: if wielding a gun, check that this is the same gun that was used to start aiming
-            if( !you.weapon.is_null() ) {
-                // Gun wasn't lost (e.g. yanked by zombie technician)
-                weapon = &you.weapon;
-            }
-            break;
-
-        case WEAPON_SOURCE_BIONIC:
-        case WEAPON_SOURCE_MUTATION:
-            // TODO: this should check if the player lost relevant bionic/mutation
-            weapon = args.cached_fake_weapon.get();
-            break;
-
-        case WEAPON_SOURCE_INVALID:
-        case NUM_WEAPON_SOURCES:
-            debugmsg( "Expected valid targeting data" );
-            break;
-    }
-
+    item *weapon = activity.get_weapon();
     if( !weapon || !can_fire_weapon( you, m, *weapon ) ) {
         activity.aborted = true;
         return;
@@ -904,7 +881,7 @@ void avatar_action::aim_do_turn( avatar &you, map &m, aim_activity_actor &activi
 
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, *weapon, activity );
+    target_handler::trajectory trajectory = target_handler::mode_fire( you, activity );
 
     if( activity.aborted ) {
         if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
@@ -940,8 +917,8 @@ void avatar_action::aim_do_turn( avatar &you, map &m, aim_activity_actor &activi
     int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
 
     // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
-    if( shots_fired && ( args.bp_cost_per_shot > 0_J ) ) {
-        you.mod_power_level( -args.bp_cost_per_shot * shots_fired );
+    if( shots_fired && ( activity.bp_cost_per_shot > 0_J ) ) {
+        you.mod_power_level( -activity.bp_cost_per_shot * shots_fired );
     }
     g->reenter_fullscreen();
 }
@@ -962,24 +939,18 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     }
 
-    targeting_data args = targeting_data::use_wielded();
-    you.set_targeting_data( args );
-    you.assign_activity( aim_activity_actor(), false );
+    you.assign_activity( aim_activity_actor::use_wielded(), false );
 }
 
 void avatar_action::fire_ranged_mutation( avatar &you, const item &fake_gun )
 {
-    targeting_data args = targeting_data::use_mutation( fake_gun );
-    you.set_targeting_data( args );
-    you.assign_activity( aim_activity_actor(), false );
+    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ), false );
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
                                         units::energy cost_per_shot )
 {
-    targeting_data args = targeting_data::use_bionic( fake_gun, cost_per_shot );
-    you.set_targeting_data( args );
-    you.assign_activity( aim_activity_actor(), false );
+    you.assign_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ), false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
