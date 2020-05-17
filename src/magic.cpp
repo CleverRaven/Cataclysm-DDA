@@ -1771,7 +1771,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
             // TODO: Get a more user-friendly group name
             if( MonsterGroupManager::isValidMonsterGroup( mongroup_id( sp.effect_data() ) ) ) {
-                monster_name = "of " + sp.effect_data();
+                monster_name = "from " + sp.effect_data();
             } else {
                 debugmsg( "Unknown monster group: %s", sp.effect_data() );
             }
