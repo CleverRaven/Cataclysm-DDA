@@ -3072,7 +3072,7 @@ bool player::unload( item_location &loc )
             changed = changed || consumed || contained->charges != old_charges;
             if( consumed ) {
                 this->mod_moves( -this->item_handling_cost( *contained ) );
-                this->remove_item( *contained );
+                it.remove_item( *contained );
             }
         }
 
