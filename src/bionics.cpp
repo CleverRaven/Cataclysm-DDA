@@ -281,6 +281,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "fake_item", fake_item, itype_id() );
 
     optional( jsobj, was_loaded, "enchantments", enchantments );
+    optional( jsobj, was_loaded, "spell_on_activation", spell_on_activate );
 
     optional( jsobj, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
     optional( jsobj, was_loaded, "exothermic_power_gen", exothermic_power_gen );
@@ -557,6 +558,11 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
             if( !burn_fuel( b, true ) ) {
                 return false;
             }
+        }
+
+        if( !bio.activate_spell( *this ) ) {
+            // the spell this bionic uses was unable to be cast
+            return false;
         }
 
         // We can actually activate now, do activation-y things
