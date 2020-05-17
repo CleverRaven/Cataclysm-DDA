@@ -3135,7 +3135,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<body_part, int> &element : bid->encumbrance ) {
+        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( convert_bp( element.first ).id(), 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
