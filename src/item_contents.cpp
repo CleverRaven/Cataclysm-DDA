@@ -78,7 +78,7 @@ bool item_contents::bigger_on_the_inside( const units::volume &container_volume 
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             if( pocket.rigid() ) {
-                min_logical_volume += pocket.volume_capacity();
+                min_logical_volume += pocket.max_contains_volume();
             } else {
                 min_logical_volume += pocket.magazine_well();
             }
