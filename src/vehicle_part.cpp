@@ -461,7 +461,8 @@ bool vehicle_part::is_light() const
            vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
            vp.has_flag( VPFLAG_AISLE_LIGHT ) ||
            vp.has_flag( VPFLAG_DOME_LIGHT ) ||
-           vp.has_flag( VPFLAG_ATOMIC_LIGHT );
+           vp.has_flag( VPFLAG_ATOMIC_LIGHT ) ||
+           vp.has_flag( VPFLAG_SUNROOF );
 }
 
 bool vehicle_part::is_fuel_store( bool skip_broke ) const

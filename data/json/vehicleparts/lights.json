@@ -248,5 +248,28 @@
     "copy-from": "lit_aisle_horizontal",
     "type": "vehicle_part",
     "symbol": "H"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "sunroof",
+    "name": { "str": "sunroof" },
+    "symbol": "O",
+    "looks_like": "t_wall_glass",
+    "color": "light_cyan",
+    "broken_symbol": "0",
+    "broken_color": "light_gray",
+    "damage_modifier": 70,
+    "durability": 50,
+    "description": "A sheet of glass that lets the sun in.  It has a plastic shutter than can be closed to block the sun.",
+    "item": "glass_sheet",
+    "location": "roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WINDOW", "ROOF", "SUNROOF", "OPENABLE" ],
+    "breaks_into": [ { "item": "glass_shard", "count": [ 25, 50 ] } ],
+    "damage_reduction": { "all": 28 }
   }
 ]
