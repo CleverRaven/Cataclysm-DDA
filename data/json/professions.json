@@ -3423,7 +3423,7 @@
     "type": "profession",
     "ident": "bionic_student",
     "name": "Bionic Student",
-    "description": "Your parents were so obsessed with making sure you aced every test that they had you outfitted with bionics to enhance your intellect and memory.  Now you're facing the hardest test yet.",
+    "description": "Your parents were so obsessed with making sure you aced every test that they had you outfitted with bionics to enhance your intellect and memory.  Now you're facing the hardest test yet, and you're not sure if those are the right kind of tools for the job.",
     "points": 3,
     "CBMs": [ "bio_batteries", "bio_power_storage", "bio_int_enhancer", "bio_memory" ],
     "items": {
