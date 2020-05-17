@@ -440,7 +440,7 @@
     "type": "profession",
     "ident": "sheltered_survivor",
     "name": "Sheltered Survivor",
-    "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food and reading books.  Now it is winter, and you hope the rag-tag collection of skills you've picked up will keep you alive.",
+    "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering with stuff in the bunker.  Now it is winter - time to face the world above.",
     "points": 4,
     "skills": [
       { "level": 2, "name": "tailor" },
@@ -465,7 +465,7 @@
     "type": "profession",
     "ident": "sheltered_militia",
     "name": "Sheltered Militia",
-    "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food and practicing your aim.  Now it is winter, and you hope your collection of guns will keep you alive.",
+    "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter with your collection of guns.  You've spent the past months eating canned food and practicing your aim.  Now it is winter - time to face the world above.",
     "points": 4,
     "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
     "items": {
