@@ -826,7 +826,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     return ret_val<edible_rating>::make_success();
 }
 
-bool eat( item &food, player &you, bool force = false )
+static bool eat( item &food, player &you, bool force = false )
 {
     if( !food.is_food() ) {
         return false;
@@ -1716,7 +1716,7 @@ static bool query_consume_ownership( item &target, player &p )
 }
 
 // TODO: Properly split medications and food instead of hacking around
-bool consume_med( item &target, player &you )
+static bool consume_med( item &target, player &you )
 {
     if( !target.is_medication() ) {
         return false;
