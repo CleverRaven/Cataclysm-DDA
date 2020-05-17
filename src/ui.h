@@ -132,6 +132,10 @@ class uilist;
 class uilist_callback
 {
     public:
+
+        /**
+        * After a new item is selected, call this once
+        */
         virtual void select( uilist * ) {}
         virtual bool key( const input_context &, const input_event &/*key*/, int /*entnum*/,
                           uilist * ) {
