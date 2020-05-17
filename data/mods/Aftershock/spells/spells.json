@@ -1,7 +1,7 @@
 [
   {
     "id": "skullgun_snapback",
-    "type": "SPELL"
+    "type": "SPELL",
     "name": "Skullgun Snapback",
     "//": "Used for activating skullgun cbm, not castable",
     "description": "This fake spell occurs on skullgun activation.  May be fatal if done in critical condition.",
@@ -9,6 +9,6 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "min_damage": 10,
     "max_damage": 10,
-    "damage_type": "bio",
-    ]
+    "damage_type": "bio"
   }
+]
