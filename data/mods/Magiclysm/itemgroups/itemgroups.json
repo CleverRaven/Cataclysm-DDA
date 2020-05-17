@@ -181,7 +181,7 @@
           { "group": "enchanted_rings_uncommon", "prob": 5 },
           { "group": "enchanted_combat_items", "prob": 10 },
           { "group": "enchanted_belts", "prob": 2 },
-          { "group": "enchanted_mish", "prob": 1 }
+          { "group": "enchanted_misc", "prob": 1 }
         ],
         "prob": 15
       },
