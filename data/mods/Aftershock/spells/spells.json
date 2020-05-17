@@ -10,5 +10,20 @@
     "min_damage": 82,
     "max_damage": 166,
     "damage_type": "fire"
+  },
+  {
+    "id": "skullgun_snapback",
+    "type": "SPELL",
+    "name": "Skullgun Snapback",
+    "//": "Used for activating skullgun cbm, not castable",
+    "description": "This fake spell occurs on skullgun activation.  May be fatal if done in critical condition.",
+    "effect": "target_attack",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_FAIL" ],
+    "effect": "target_attack",
+    "min_damage": 10,
+    "max_damage": 10,
+    "message": "Your head snaps back from the force of the shot.",
+    "damage_type": "bio"
   }
 ]
