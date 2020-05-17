@@ -322,6 +322,7 @@ void map::generate_lightmap( const int zlev )
         apply_character_light( guy );
     }
 
+    std::vector<std::pair<tripoint, float>> lm_override;
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -376,7 +377,7 @@ void map::generate_lightmap( const int zlev )
                         }
                         const int light_override = cur->local_light_override();
                         if( light_override >= 0.0 ) {
-                            lm[p.x][p.y].fill( light_override );
+                            lm_override.push_back( std::pair<tripoint, float>( p, light_override ) );
                         }
                     }
                 }
@@ -483,6 +484,9 @@ void map::generate_lightmap( const int zlev )
         if( light_source_buffer[p.x][p.y] > 0.0 ) {
             apply_light_source( p, light_source_buffer[p.x][p.y] );
         }
+    }
+    for( const std::pair<tripoint, float> &elem : lm_override ) {
+        lm[elem.first.x][elem.first.y].fill( elem.second );
     }
 }
 
