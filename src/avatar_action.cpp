@@ -850,13 +850,13 @@ void avatar_action::aim_do_turn( avatar &you, map &m, aim_activity_actor &activi
     }
 
     if( !weapon || !can_fire_weapon( you, m, *weapon ) ) {
-        you.cancel_activity();
+        activity.aborted = true;
         return;
     }
     gun_mode gun = weapon->gun_current_mode();
 
     // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
-    int moves_before_reload = you.moves;
+    // TODO: handle cases when reloading takes a long time
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         if( !gun->ammo_remaining() ) {
             const auto ammo_location_is_valid = [&]() -> bool {
@@ -878,12 +878,14 @@ void avatar_action::aim_do_turn( avatar &you, map &m, aim_activity_actor &activi
                                       weapon, you.ammo_location ) : you.select_ammo( *gun );
             if( !opt ) {
                 // Menu canceled
+                activity.aborted = true;
                 return;
             }
             int reload_time = 0;
             reload_time += opt.moves();
             if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
+                activity.aborted = true;
                 return;
             }
 
@@ -944,7 +946,7 @@ void avatar_action::aim_do_turn( avatar &you, map &m, aim_activity_actor &activi
     g->reenter_fullscreen();
 }
 
-void avatar_action::fire_wielded_weapon( avatar &you, map &m )
+void avatar_action::fire_wielded_weapon( avatar &you )
 {
     item &weapon = you.weapon;
     if( weapon.is_gunmod() ) {
@@ -965,14 +967,14 @@ void avatar_action::fire_wielded_weapon( avatar &you, map &m )
     you.assign_activity( aim_activity_actor(), false );
 }
 
-void avatar_action::fire_ranged_mutation( avatar &you, map &m, const item &fake_gun )
+void avatar_action::fire_ranged_mutation( avatar &you, const item &fake_gun )
 {
     targeting_data args = targeting_data::use_mutation( fake_gun );
     you.set_targeting_data( args );
     you.assign_activity( aim_activity_actor(), false );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gun,
+void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
                                         units::energy cost_per_shot )
 {
     targeting_data args = targeting_data::use_bionic( fake_gun, cost_per_shot );

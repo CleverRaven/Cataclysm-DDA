@@ -1358,7 +1358,7 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        avatar_action::fire_wielded_weapon( g->u, g->m );
+        avatar_action::fire_wielded_weapon( g->u );
     } else if( u.weapon.current_reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
@@ -2050,7 +2050,7 @@ bool game::handle_action()
             case ACTION_FIRE_BURST: {
                 gun_mode_id original_mode = u.weapon.gun_get_mode_id();
                 if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
-                    avatar_action::fire_wielded_weapon( u, m );
+                    avatar_action::fire_wielded_weapon( u );
                     u.weapon.gun_set_mode( original_mode );
                 }
                 break;

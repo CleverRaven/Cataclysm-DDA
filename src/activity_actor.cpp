@@ -65,7 +65,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 }
 
-void aim_activity_actor::finish( player_activity &act, Character &who )
+void aim_activity_actor::finish( player_activity &act, Character &/*who*/ )
 {
     act.set_to_null();
     if( reload_requested ) {

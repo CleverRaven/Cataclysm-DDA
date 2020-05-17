@@ -48,13 +48,13 @@ void mend( avatar &you, item_location loc );
 void aim_do_turn( avatar &you, map &m, aim_activity_actor &activity );
 
 /** Checks if the wielded weapon is a gun and can be fired then starts interactive aiming */
-void fire_wielded_weapon( avatar &you, map &m );
+void fire_wielded_weapon( avatar &you );
 
 /** Stores fake gun specified by the mutation and starts interactive aiming */
-void fire_ranged_mutation( avatar &you, map &m, const item &fake_gun );
+void fire_ranged_mutation( avatar &you, const item &fake_gun );
 
 /** Stores fake gun specified by the bionic and starts interactive aiming */
-void fire_ranged_bionic( avatar &you, map &m, const item &fake_gun, units::energy cost_per_shot );
+void fire_ranged_bionic( avatar &you, const item &fake_gun, units::energy cost_per_shot );
 
 /**
  * Checks if the player can manually (with their 2 hands, not via vehicle controls)
