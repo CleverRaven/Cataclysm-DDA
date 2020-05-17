@@ -39,8 +39,6 @@
 #include "vpart_range.h"
 #include "weather.h"
 
-static const bionic_id bio_night( "bio_night" );
-
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
 
@@ -484,14 +482,6 @@ void map::generate_lightmap( const int zlev )
     for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
         if( light_source_buffer[p.x][p.y] > 0.0 ) {
             apply_light_source( p, light_source_buffer[p.x][p.y] );
-        }
-    }
-
-    if( g->u.has_active_bionic( bio_night ) ) {
-        for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
-            if( rl_dist( p, g->u.pos() ) < 2 ) {
-                lm[p.x][p.y].fill( LIGHT_AMBIENT_MINIMAL );
-            }
         }
     }
 }
