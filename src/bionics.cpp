@@ -2320,7 +2320,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     // show all requirements which are not satisfied
     if( !issues.empty() ) {
         std::string detailed_info;
-        for( const std::pair<bodypart_id, int> &elem : issues ) {
+        for( const std::pair<const bodypart_id, int> &elem : issues ) {
             //~ <Body part name>: <number of slots> more slot(s) needed.
             detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
                                             body_part_name_as_heading( elem.first, 1 ),
