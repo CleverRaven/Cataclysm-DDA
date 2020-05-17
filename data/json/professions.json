@@ -825,7 +825,7 @@
     "type": "profession",
     "ident": "maid",
     "name": { "male": "Butler", "female": "Maid" },
-    "description": "You were hired to take care of the housekeeping for a wealthy family.  Naturally, when things got bad, they all took off on an unplanned vacation and left you to your fate.",
+    "description": "You were hired to take care of the housekeeping for a wealthy family.  Naturally, when things got bad, they all took off on a family vacation to somewhere unknown, leaving you to your fate.",
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "tailor" } ],
     "items": {
