@@ -1696,7 +1696,7 @@
     "type": "profession",
     "ident": "patient",
     "name": "Patient",
-    "description": "When the diagnosis came back positive, you made a vow: to fight for your life, and to never give in to despair.",
+    "description": "When the diagnosis came back positive, you made a vow: to fight for your life, and to never give in to despair.  Now is the time to renew that vow.",
     "points": -2,
     "items": {
       "both": { "items": [ "jeans", "tshirt", "socks", "sneakers", "wristwatch" ], "entries": [ { "group": "charged_cell_phone" } ] },
