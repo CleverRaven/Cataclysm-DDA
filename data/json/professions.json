@@ -2978,7 +2978,7 @@
     "type": "profession",
     "ident": "farmer",
     "name": "Farmer",
-    "description": "A patch of soil and some water and sunlight were all you ever needed; why should things be any different now?  With a handful of seeds and your trusty hoe, it's time to rebuild the Earth, one plant at a time.",
+    "description": "A patch of soil, some water, and sunlight were all you ever needed; why should things be any different now?  With a handful of seeds and your trusty hoe, it's time to rebuild the Earth, one plant at a time.",
     "points": 1,
     "items": {
       "both": {
