@@ -578,9 +578,9 @@
     "type": "profession",
     "ident": "mechanic",
     "name": "Home Mechanic",
-    "description": "Although you never got your driver's license, you've always loved working on cars.  You've kept hold of some handy tools for the job, and at least now you'll never want for materials.",
+    "description": "You've always loved cars, and there's nothing like getting under the hood and fixing it yourself.  You've kept hold of some handy tools for the job, and at least now you'll never want for parts.",
     "points": 2,
-    "skills": [ { "level": 3, "name": "mechanics" } ],
+    "skills": [ { "level": 3, "name": "mechanics" }, { "level": 1, "name": "driving" } ],
     "items": {
       "both": {
         "items": [ "slingpack", "tank_top", "jeans", "socks", "boots_steel", "duct_tape", "screwdriver", "wristwatch", "mag_cars" ],
