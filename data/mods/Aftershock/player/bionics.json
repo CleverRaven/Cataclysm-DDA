@@ -57,5 +57,17 @@
     "act_cost": 5,
     "react_cost": 5,
     "time": 200
+  },
+  {
+    "id": "bio_skullgun",
+    "type": "bionic",
+    "name": { "str": "Skullgun CBM" },
+    "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
+    "occupied_bodyparts": [ [ "head", 5 ] ],
+    "encumbrance": [ [ "head", 5 ] ],
+    "act_cost": "35 J",
+    "fake_item": "bio_skullgun_gun",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
+    "stat_bonus": [ [ "INT", -4 ], [ "PER", -2 ] ]
   }
 ]

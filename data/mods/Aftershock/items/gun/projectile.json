@@ -1,0 +1,25 @@
+[
+  {
+    "id": "bio_skullgun_gun",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "bionic skullgun" },
+    "description": "Bionic one-shot subdermal .40 pistol integrated with your head.",
+    "volume": "80 ml",
+    "price": 0,
+    "to_hit": -2,
+    "bashing": 3,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "shotgun",
+    "ammo": [ "shot" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -8 },
+    "dispersion": 855,
+    "durability": 6,
+    "clip_size": 1,
+    "reload": 200,
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
+  }
+]
