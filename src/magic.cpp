@@ -1730,6 +1730,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     const int damage = sp.damage();
     std::string damage_string;
+    std::string range_string;
     std::string aoe_string;
     // if it's any type of attack spell, the stats are normal.
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
@@ -1768,7 +1769,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     } else if( fx == "summon" ) {
         std::string monster_name = "FIXME";
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
-            // TODO: Get a more user-friendly group name, and make it fit better the available space
+            // TODO: Get a more user-friendly group name
             if( MonsterGroupManager::isValidMonsterGroup( mongroup_id( sp.effect_data() ) ) ) {
                 monster_name = "of " + sp.effect_data();
             } else {
@@ -1783,11 +1784,15 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
     }
 
-    print_colored_text( w_menu, point( h_col1, line ), gray, gray, damage_string );
+    range_string = string_format( "%s: %s", _( "Range" ),
+                                  sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) );
+
+    // Range / AOE in two columns
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray, range_string );
     print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, aoe_string );
 
-    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "Range" ), sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) ) );
+    // One line for damage / healing / spawn / summon effect
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, damage_string );
 
     // todo: damage over time here, when it gets implemeted
 
