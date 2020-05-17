@@ -1614,7 +1614,8 @@ static bool drink_nectar( player &p )
         p.moves -= to_moves<int>( 30_seconds );
         add_msg( _( "You drink some nectar." ) );
         item nectar( "nectar", calendar::turn, 1 );
-        p.eat( nectar );
+        p.consume( nectar );
+        //I tried to convert this the to use the consume activity but couldn't get the transformation of this item into an item location quite right
         return true;
     }
 
@@ -1658,7 +1659,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         p.moves -= to_moves<int>( 30_seconds ); // You take your time...
         add_msg( _( "You slowly suck up the nectar." ) );
         item poppy( "poppy_nectar", calendar::turn, 1 );
-        p.eat( poppy );
+        p.consume( poppy );
+        //I tried to convert this the to use the consume activity but couldn't get the transformation of this item into an item location quite right
         p.mod_fatigue( 20 );
         p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
@@ -3133,7 +3135,8 @@ void iexamine::keg( player &p, const tripoint &examp )
                 return;
 
             case HAVE_A_DRINK:
-                if( !p.eat( drink ) ) {
+                if( !p.consume( drink ) ) {
+                    //I tried to convert this the to use the consume activity but couldn't get the transformation of this item into an item location quite right
                     return; // They didn't actually drink
                 }
 
@@ -3142,7 +3145,6 @@ void iexamine::keg( player &p, const tripoint &examp )
                              drink_tname, keg_name );
                     g->m.i_clear( examp );
                 }
-                p.moves -= to_moves<int>( 5_seconds );
                 return;
 
             case REFILL: {

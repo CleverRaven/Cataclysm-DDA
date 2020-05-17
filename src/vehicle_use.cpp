@@ -2071,7 +2071,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case DRINK: {
             item water( "water_clean", 0 );
-            if( g->u.eat( water ) ) {
+            if( g->u.can_consume( water ) ) {
+                //I tried to convert this the to use the consume activity but couldn't get the transformation of this item into an item location quite right
+                g->u.consume( water );
                 drain( "water_clean", 1 );
                 g->u.moves -= 250;
             }

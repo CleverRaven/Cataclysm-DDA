@@ -362,6 +362,7 @@ class consume_activity_actor : public activity_actor
 {
     private:
         item_location loc;
+        bool open_consume_menu;
 
         /**
          * @pre @p other is a consume_activity_actor
@@ -371,8 +372,8 @@ class consume_activity_actor : public activity_actor
             return loc == c_actor.loc;
         }
     public:
-        consume_activity_actor( const item_location &loc ) :
-            loc( loc ) {}
+        consume_activity_actor( const item_location &loc, bool open_consume_menu = false ) :
+            loc( loc ), open_consume_menu( open_consume_menu ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_CONSUME" );

@@ -1989,166 +1989,6 @@ bool player::has_mission_item( int mission_id ) const
     return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
 }
 
-//Returns the amount of charges that were consumed by the player
-int player::drink_from_hands( item &water )
-{
-    int charges_consumed = 0;
-    if( query_yn( _( "Drink %s from your hands?" ),
-                  colorize( water.type_name(), water.color_in_inventory() ) ) ) {
-        // Create a dose of water no greater than the amount of water remaining.
-        item water_temp( water );
-        // If player is slaked water might not get consumed.
-        consume_item( water_temp );
-        charges_consumed = water.charges - water_temp.charges;
-        if( charges_consumed > 0 ) {
-            moves -= 350;
-        }
-    }
-
-    return charges_consumed;
-}
-
-// TODO: Properly split medications and food instead of hacking around
-bool player::consume_med( item &target )
-{
-    if( !target.is_medication() ) {
-        return false;
-    }
-
-    const itype_id tool_type = target.get_comestible()->tool;
-    const auto req_tool = item::find_type( tool_type );
-    bool tool_override = false;
-    if( tool_type == "syringe" && has_bionic( bio_syringe ) ) {
-        tool_override = true;
-    }
-    if( req_tool->tool ) {
-        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) &&
-            !tool_override ) {
-            add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ) );
-            return false;
-        }
-        use_charges( tool_type, req_tool->tool->charges_per_use );
-    }
-
-    int amount_used = 1;
-    if( target.type->has_use() ) {
-        amount_used = target.type->invoke( *this, target, pos() );
-        if( amount_used <= 0 ) {
-            return false;
-        }
-    }
-
-    // TODO: Get the target it was used on
-    // Otherwise injecting someone will give us addictions etc.
-    if( target.has_flag( "NO_INGEST" ) ) {
-        const auto &comest = *target.get_comestible();
-        // Assume that parenteral meds don't spoil, so don't apply rot
-        modify_health( comest );
-        modify_stimulation( comest );
-        modify_fatigue( comest );
-        modify_radiation( comest );
-        modify_addiction( comest );
-        modify_morale( target );
-    } else {
-        // Take by mouth
-        consume_effects( target );
-    }
-
-    mod_moves( -250 );
-    target.charges -= amount_used;
-    return target.charges <= 0;
-}
-
-static bool query_consume_ownership( item &target, player &p )
-{
-    if( !target.is_owned_by( p, true ) ) {
-        bool choice = true;
-        if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
-            choice = Pickup::query_thief();
-        }
-        if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
-            return false;
-        }
-        std::vector<npc *> witnesses;
-        for( npc &elem : g->all_npcs() ) {
-            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos() ) ) {
-                witnesses.push_back( &elem );
-            }
-        }
-        for( npc *elem : witnesses ) {
-            elem->say( "<witnessed_thievery>", 7 );
-        }
-        if( !witnesses.empty() && target.is_owned_by( p, true ) ) {
-            if( p.add_faction_warning( target.get_owner() ) ) {
-                for( npc *elem : witnesses ) {
-                    elem->make_angry();
-                }
-            }
-        }
-    }
-    return true;
-}
-
-bool player::consume_item( item &target )
-{
-    if( target.is_null() ) {
-        add_msg_if_player( m_info, _( "You do not have that item." ) );
-        return false;
-    }
-    if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
-        add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
-    }
-
-    // to try to reduce unecessary churn, this was left for now
-    item &comest = target;
-
-    if( comest.is_null() || target.is_craft() ) {
-        add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
-        if( is_npc() ) {
-            debugmsg( "%s tried to eat a %s", name, target.tname() );
-        }
-        return false;
-    }
-    if( is_player() && !query_consume_ownership( target, *this ) ) {
-        return false;
-    }
-    if( consume_med( comest ) ||
-        eat( comest ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
-        fuel_bionic_with( comest ) ) {
-
-        if( &target != &comest ) {
-            target.on_contents_changed();
-        }
-
-        return comest.charges <= 0;
-    }
-
-    return false;
-}
-
-bool player::consume( item_location loc )
-{
-    item &target = *loc;
-    bool wielding = is_wielding( target );
-    bool worn = is_worn( target );
-    const bool inv_item = !( wielding || worn );
-
-    if( consume_item( target ) ) {
-
-        i_rem( loc.get_item() );
-
-    } else if( inv_item ) {
-        if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
-            i_rem( &target );
-        }
-        inv.restack( *this );
-        inv.unsort();
-    }
-
-    return true;
-}
-
 bool player::add_faction_warning( const faction_id &id )
 {
     const auto it = warning_record.find( id );
@@ -3354,8 +3194,13 @@ void player::use( item_location loc )
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
-        consume( loc );
-
+        if( avatar *u = as_avatar() ) {
+            u->assign_activity( player_activity( consume_activity_actor( item_location( *u, &used ) ) ) );
+        } else  {
+            const time_duration &consume_time = get_consume_time( used );
+            moves -= to_moves<int>( consume_time );
+            consume( used );
+        }
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {

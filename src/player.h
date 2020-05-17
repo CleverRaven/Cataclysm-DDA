@@ -333,16 +333,12 @@ class player : public Character
          */
         void siphon( vehicle &veh, const itype_id &desired_liquid );
 
-        /** used for drinking from hands, returns how many charges were consumed */
-        int drink_from_hands( item &water );
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
         bool consume( item_location loc );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume_item( item &target );
+        bool consume( item &target );
 
-        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat( item &food, bool force = false );
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
 
@@ -785,15 +781,6 @@ class player : public Character
 
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
-
-    private:
-
-        /**
-         * Consumes an item as medication.
-         * @param target Item consumed. Must be a medication or a container of medication.
-         * @return Whether the target was fully consumed.
-         */
-        bool consume_med( item &target );
 
     private:
 
