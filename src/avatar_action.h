@@ -11,6 +11,7 @@ class item;
 class item_location;
 class map;
 class turret_data;
+class aim_activity_actor;
 
 namespace avatar_action
 {
@@ -44,7 +45,7 @@ void mend( avatar &you, item_location loc );
  * Validates avatar's targeting_data, then handles interactive parts of gun firing
  * (target selection, aiming, etc.)
  */
-void aim_do_turn( avatar &you, map &m );
+void aim_do_turn( avatar &you, map &m, aim_activity_actor &activity );
 
 /** Checks if the wielded weapon is a gun and can be fired then starts interactive aiming */
 void fire_wielded_weapon( avatar &you, map &m );

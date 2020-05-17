@@ -9,6 +9,7 @@
 
 class JsonIn;
 class JsonOut;
+class aim_activity_actor;
 class item;
 class player;
 class spell;
@@ -75,9 +76,8 @@ using trajectory = std::vector<tripoint>;
 
 /**
  * Firing ranged weapon. This mode allows spending moves on aiming.
- * 'reload_requested' is set to 'true' if user aborted aiming to reload the gun/change ammo
  */
-trajectory mode_fire( player &pc, item &weapon, bool &reload_requested );
+trajectory mode_fire( player &pc, item &weapon, aim_activity_actor &activity );
 
 /** Throwing item */
 trajectory mode_throw( player &pc, item &relevant, bool blind_throwing );

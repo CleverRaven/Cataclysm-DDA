@@ -44,6 +44,65 @@ static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
+void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    // Time spent on aiming is determined on the go by the player
+    act.moves_total = 1;
+    act.moves_left = 1;
+}
+
+void aim_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
+        avatar_action::aim_do_turn( *you, g->m, *this );
+    } else {
+        debugmsg( "ACT_AIM not implemented for NPCs" );
+        aborted = true;
+    }
+    first_turn = false;
+    if( aborted || finished ) {
+        act.moves_left = 0;
+    }
+}
+
+void aim_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    if( reload_requested ) {
+        // Reload the gun / select different arrows
+        // May assign ACT_RELOAD
+        g->reload_wielded( true );
+    }
+}
+
+void aim_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "first_turn", first_turn );
+    jsout.member( "action", action );
+    jsout.member( "snap_to_target", snap_to_target );
+    jsout.member( "shifting_view", shifting_view );
+    jsout.member( "view_offset", view_offset );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
+{
+    aim_activity_actor actor = aim_activity_actor();
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "first_turn", actor.first_turn );
+    data.read( "action", actor.action );
+    data.read( "snap_to_target", actor.snap_to_target );
+    data.read( "shifting_view", actor.shifting_view );
+    data.read( "view_offset", actor.view_offset );
+
+    return actor.clone();
+}
+
 void dig_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
@@ -646,6 +705,7 @@ namespace activity_actors
 // Please keep this alphabetically sorted
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
+    { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },

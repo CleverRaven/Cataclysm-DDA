@@ -102,6 +102,45 @@ class activity_actor
         virtual void serialize( JsonOut &jsout ) const = 0;
 };
 
+class aim_activity_actor : public activity_actor
+{
+    public:
+        bool first_turn = true;
+        std::string action = "";
+        bool snap_to_target = false;
+        bool shifting_view = false;
+        tripoint view_offset = tripoint_zero;
+
+        /** Target UI requested to abort aiming */
+        bool aborted = false;
+
+        /** Target UI requested to fire */
+        bool finished = false;
+
+        /**
+         * Target UI requested to abort aiming and reload weapon
+         * Implies aborted = true
+         */
+        bool reload_requested = false;
+
+        aim_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_AIM" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<aim_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class dig_activity_actor : public activity_actor
 {
     private:

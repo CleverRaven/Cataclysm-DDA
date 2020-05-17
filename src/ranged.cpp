@@ -139,6 +139,8 @@ class target_ui
         bool no_fail = false;
         // Spell does not require mana
         bool no_mana = false;
+        // Relevant activity
+        aim_activity_actor *activity = nullptr;
 
         enum class ExitCode {
             Abort,
@@ -147,10 +149,8 @@ class target_ui
             Reload
         };
 
-        // Initialize UI and run the event loop.
-        // Uses public members to determine UI contents
-        // If exit_code != nullptr, exit code will be written into provided address
-        target_handler::trajectory run( player &pc, ExitCode *exit_code = nullptr );
+        // Initialize UI and run the event loop
+        target_handler::trajectory run( player &pc );
 
     private:
         enum class Status {
@@ -339,19 +339,17 @@ class target_ui
 };
 
 target_handler::trajectory target_handler::mode_fire( player &pc, item &weapon,
-        bool &reload_requested )
+        aim_activity_actor &activity )
 {
     target_ui ui = target_ui();
     ui.mode = target_ui::TargetMode::Fire;
+    ui.activity = &activity;
     ui.relevant = &weapon;
     gun_mode gun = weapon.gun_current_mode();
     ui.range = gun.target->gun_range( &pc );
     ui.ammo = gun->ammo_data();
 
-    target_ui::ExitCode exit_code;
-    trajectory result = ui.run( pc, &exit_code );
-    reload_requested = exit_code == target_ui::ExitCode::Reload;
-    return result;
+    return ui.run( pc );
 }
 
 target_handler::trajectory target_handler::mode_throw( player &pc, item &relevant,
@@ -1892,7 +1890,7 @@ double player::gun_value( const item &weap, int ammo ) const
     return std::max( 0.0, gun_value );
 }
 
-target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
+target_handler::trajectory target_ui::run( player &pc )
 {
     if( mode == TargetMode::Spell && !no_mana && !casting->can_cast( pc ) ) {
         pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
@@ -1920,26 +1918,22 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     bool attack_was_confirmed = false;
     bool reentered = false;
     tripoint manual_view_offset = pc.view_offset;
-    if( mode == TargetMode::Fire ) {
-        if( pc.activity.id() == ACT_AIM ) {
-            // We were in this UI during previous turn...
-            reentered = true;
-            std::string act_data = pc.activity.str_values[0];
-            if( act_data == "AIM" ) {
-                // ...and ran out of moves while aiming.
-            } else {
-                // ...and selected 'aim and shoot', but ran out of moves.
-                // So, skip retrieving input and go straight to the action.
-                action = act_data;
-                attack_was_confirmed = true;
-            }
-            // Load state to keep the ui consistent across turns
-            snap_to_target = pc.activity.str_values[1] == "snap";
-            shifting_view = pc.activity.values[0] == 1;
-            manual_view_offset = pc.activity.coords[0];
-            // Clear the activity, we'll re-set it later if we need to.
-            pc.cancel_activity();
+    if( mode == TargetMode::Fire && !activity->first_turn ) {
+        // We were in this UI during previous turn...
+        reentered = true;
+        std::string act_data = activity->action;
+        if( act_data == "AIM" ) {
+            // ...and ran out of moves while aiming.
+        } else {
+            // ...and selected 'aim and shoot', but ran out of moves.
+            // So, skip retrieving input and go straight to the action.
+            action = act_data;
+            attack_was_confirmed = true;
         }
+        // Load state to keep the ui consistent across turns
+        snap_to_target = activity->snap_to_target;
+        shifting_view = activity->shifting_view;
+        manual_view_offset = activity->view_offset;
     }
 
     // Restore view to how it was during previos turn in this ui
@@ -2072,6 +2066,9 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     switch( loop_exit_code ) {
         case ExitCode::Abort: {
             traj.clear();
+            if( mode == TargetMode::Fire ) {
+                activity->aborted = true;
+            }
             break;
         }
         case ExitCode::Fire: {
@@ -2080,29 +2077,22 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             break;
         }
         case ExitCode::Timeout: {
-            // We've ran out of moves. Set activity to ACT_AIM, so we'll
-            // automatically re-enter the aiming UI on the next turn.
-            // pc.activity.str_values[0] remembers which action, AIM or *_SHOT,
-            // we didn't have the time to finish.
+            // We've ran out of moves, save UI state
             traj.clear();
-            pc.assign_activity( ACT_AIM, 0, 0 );
-            pc.activity.str_values.push_back( timed_out_action );
-            // Save UI state
-            pc.activity.str_values.push_back( snap_to_target ? "snap" : "nosnap" );
-            pc.activity.values.push_back( shifting_view ? 1 : 0 );
-            pc.activity.coords.push_back( manual_view_offset );
+            activity->action = timed_out_action;
+            activity->snap_to_target = snap_to_target;
+            activity->shifting_view = shifting_view;
+            activity->view_offset = manual_view_offset;
             break;
         }
         case ExitCode::Reload: {
-            // Calling function will handle reloading for us
             traj.clear();
+            activity->aborted = true;
+            activity->reload_requested = true;
             break;
         }
     }
 
-    if( exit_code ) {
-        *exit_code = loop_exit_code;
-    }
     return traj;
 }
 

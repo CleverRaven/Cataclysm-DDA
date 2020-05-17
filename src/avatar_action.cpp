@@ -823,7 +823,7 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
     return false;
 }
 
-void avatar_action::aim_do_turn( avatar &you, map &m )
+void avatar_action::aim_do_turn( avatar &you, map &m, aim_activity_actor &activity )
 {
     targeting_data &args = you.get_targeting_data();
 
@@ -853,14 +853,10 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
         you.cancel_activity();
         return;
     }
-
-    int reload_time = 0;
     gun_mode gun = weapon->gun_current_mode();
 
-    // TODO: use MODERATE_EXERCISE if firing a bow
-    you.increase_activity_level( LIGHT_EXERCISE );
-
     // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
+    int moves_before_reload = you.moves;
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         if( !gun->ammo_remaining() ) {
             const auto ammo_location_is_valid = [&]() -> bool {
@@ -884,6 +880,7 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
                 // Menu canceled
                 return;
             }
+            int reload_time = 0;
             reload_time += opt.moves();
             if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
@@ -897,43 +894,47 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
             int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
+            you.moves -= reload_time;
             g->refresh_all();
         }
     }
+    int moves_before_ui = you.moves;
 
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
-    bool reload_requested;
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, *weapon, reload_requested );
+    target_handler::trajectory trajectory = target_handler::mode_fire( you, *weapon, activity );
 
-    //may be changed in target_ui
-    gun = weapon->gun_current_mode();
+    if( activity.aborted ) {
+        if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+            bool refund = activity.first_turn && you.moves == moves_before_ui;
+            int moves_before_unload = you.moves;
 
-    if( trajectory.empty() ) {
-        bool not_aiming = you.activity.id() != ACT_AIM;
-        if( not_aiming && gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-            const auto previous_moves = you.moves;
             item_location loc = item_location( you, gun.target );
             g->unload( loc );
+
             // Give back time for unloading as essentially nothing has been done.
-            // Note that reload_time has not been applied either.
-            you.moves = previous_moves;
+            if( refund ) {
+                you.moves = moves_before_unload;
+            }
         }
         g->reenter_fullscreen();
-
-        if( reload_requested ) {
-            // Reload the gun / select different arrows
-            g->reload_wielded( true );
-        }
         return;
     }
+    if( trajectory.empty() ) {
+        // Still aiming
+        return;
+    }
+    activity.finished = true;
+
+    // TODO: move everything below to aim_activity_actor::finish()
+
     // Recenter our view
     g->draw_ter();
     wrefresh( g->w_terrain );
     g->draw_panels();
 
-    you.moves -= reload_time;
-
+    // Update gun mode since target UI may change it
+    gun = weapon->gun_current_mode();
     int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
 
     // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
@@ -961,14 +962,14 @@ void avatar_action::fire_wielded_weapon( avatar &you, map &m )
 
     targeting_data args = targeting_data::use_wielded();
     you.set_targeting_data( args );
-    avatar_action::aim_do_turn( you, m );
+    you.assign_activity( aim_activity_actor(), false );
 }
 
 void avatar_action::fire_ranged_mutation( avatar &you, map &m, const item &fake_gun )
 {
     targeting_data args = targeting_data::use_mutation( fake_gun );
     you.set_targeting_data( args );
-    avatar_action::aim_do_turn( you, m );
+    you.assign_activity( aim_activity_actor(), false );
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gun,
@@ -976,7 +977,7 @@ void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gu
 {
     targeting_data args = targeting_data::use_bionic( fake_gun, cost_per_shot );
     you.set_targeting_data( args );
-    avatar_action::aim_do_turn( you, m );
+    you.assign_activity( aim_activity_actor(), false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
