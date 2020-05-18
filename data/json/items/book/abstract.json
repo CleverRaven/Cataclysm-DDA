@@ -145,7 +145,7 @@
     "type": "BOOK",
     "name": "Hardcover Nonfiction Sports Book",
     "description": "This is a template.",
-    "fun": 2,
+    "fun": 1,
     "copy-from": "book_nonf_hard_tpl"
   },
   {
@@ -153,7 +153,7 @@
     "type": "BOOK",
     "name": "Softcover Nonfiction Sports Book.",
     "description": "This is a template.",
-    "fun": 2,
+    "fun": 1,
     "copy-from": "book_nonf_soft_tpl"
   },
   {
@@ -162,7 +162,7 @@
     "name": "Hardcover Fictional Sports Book",
     "description": "This is a template.",
     "fun": 2,
-    "copy-from": "book_nonf_hard_tpl"
+    "copy-from": "book_fict_hard_tpl"
   },
   {
     "abstract": "book_fict_soft_sports_tpl",
@@ -170,7 +170,7 @@
     "name": "Softcover Fictional Sports Book.",
     "description": "This is a template.",
     "fun": 2,
-    "copy-from": "book_nonf_soft_tpl"
+    "copy-from": "book_fict_soft_tpl"
   },
   {
     "abstract": "paperback_occult",
