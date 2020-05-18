@@ -1328,7 +1328,7 @@
     "copy-from": "dks_mon_crystal_mite",
     "type": "MONSTER",
     "name": { "str": "engorged crystal seed" },
-    "description": "A swollen crystal mite, now grown to about the size of a cat, heavy enough with accumulated biomass to settle down and begin germinating into a proper crystal mass.",
+    "description": "A swollen crystal seed, now grown to about the size of a cat, heavy enough with accumulated biomass to settle down and begin germinating into a proper crystal mass.",
     "volume": "3840 ml",
     "weight": "4608 g",
     "speed": 20,
