@@ -10447,15 +10447,22 @@ std::vector<Creature *> Character::get_visible_creatures( const int range ) cons
     } );
 }
 
-std::vector<Creature *> Character::get_targetable_creatures( const int range ) const
+std::vector<Creature *> Character::get_targetable_creatures( const int range, bool melee ) const
 {
-    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        bool can_see = sees( critter ) || sees_with_infrared( critter );
-        if( can_see )   //handles the case where we can see something with glass in the way or a mutation lets us see through walls
+    std::vector<ter_id> glass = { t_door_glass_c, t_door_glass_o, t_door_glass_frosted_c, t_door_glass_frosted_o, t_wall_glass, t_wall_glass_alarm,
+                                  t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open, t_laminated_glass, t_ballistic_glass,
+                                  t_reinforced_door_glass_o, t_reinforced_door_glass_c
+                                };
+    return g->get_creatures_if( [this, range, melee, &glass]( const Creature & critter ) -> bool {
+        //the call to map.sees is to make sure that even if we can see it through walls
+        //via a mutation or cbm we only attack targets with a line of sight
+        bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && g->m.sees( pos(), critter.pos(), 100 ) );
+        if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
             std::vector<tripoint> path = g->m.find_clear_path( pos(), critter.pos() );
             for( const tripoint &point : path ) {
-                if( g->m.impassable( point ) ) {
+                const ter_id ter = g->m.ter( point );
+                if( std::find( glass.begin(), glass.end(), ter ) != glass.end() ) {
                     can_see = false;
                     break;
                 }
