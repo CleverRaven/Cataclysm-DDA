@@ -1,0 +1,13 @@
+[
+  {
+    "id": "head_go_bye",
+    "type": "SPELL",
+    "name": "Cranial Explosion",
+    "description": "This fake spell occurs on cranial bomb activation.  Likely fatal.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "min_damage": 70,
+    "max_damage": 115,
+    "damage_type": "heat"
+  }
+]
