@@ -1766,7 +1766,7 @@ static bool consume_med( item &target, player &you )
     return target.charges <= 0;
 }
 
-bool player::consume( item &target )
+bool player::consume( item &target, bool force )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1791,7 +1791,7 @@ bool player::consume( item &target )
         return false;
     }
     if( consume_med( comest, *this ) ||
-        eat( comest, *this ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
+        eat( comest, *this, force ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
         fuel_bionic_with( comest ) ) {
 
         if( &target != &comest ) {
@@ -1804,7 +1804,7 @@ bool player::consume( item &target )
     return false;
 }
 
-bool player::consume( item_location loc )
+bool player::consume( item_location loc, bool force )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
@@ -1815,7 +1815,7 @@ bool player::consume( item_location loc )
     bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
 
-    if( consume( target ) ) {
+    if( consume( target, force ) ) {
 
         i_rem( loc.get_item() );
 

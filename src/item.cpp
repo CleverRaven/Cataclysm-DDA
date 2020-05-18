@@ -6154,13 +6154,15 @@ bool item::is_comestible() const
 
 bool item::is_food() const
 {
-    return is_comestible() && ( get_comestible()->comesttype == "FOOD" ||
-                                get_comestible()->comesttype == "DRINK" );
+    const std::string comest_type = get_comestible() ? get_comestible()->comesttype : "";
+    return is_comestible() && ( comest_type == "FOOD" ||
+                                comest_type == "DRINK" );
 }
 
 bool item::is_medication() const
 {
-    return is_comestible() && get_comestible()->comesttype == "MED";
+    const std::string comest_type = get_comestible() ? get_comestible()->comesttype : "";
+    return is_comestible() && comest_type == "MED";
 }
 
 bool item::is_brewable() const
