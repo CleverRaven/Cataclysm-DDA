@@ -251,11 +251,7 @@
     "vision_night": 3,
     "harvest": "mutant_human",
     "path_settings": { "max_dist": 4 },
-    "special_attacks": [
-      [ "BOOMER", 20 ],
-      { "type": "bite", "cooldown": 5, "min_mul": 0.75, "no_infection_chance": 10 },
-      [ "SHRIEK", 10 ]
-    ],
+    "special_attacks": [ [ "BOOMER", 20 ], { "type": "bite", "cooldown": 5, "min_mul": 0.75, "no_infection_chance": 10 }, [ "SHRIEK", 10 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "BOOMER", "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "dks_mon_stray_tender" },
