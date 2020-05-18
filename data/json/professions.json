@@ -661,7 +661,7 @@
     "type": "profession",
     "ident": "basketball_player",
     "name": "Basketball Player",
-    "description": "Your first major game was abruptly cancelled when the Cataclysm struck in the third quarter.  Quick feet and good reflexes meant you were among the lucky few to escape the stadium alive.",
+    "description": "Your first major game was abruptly cancelled when zombies stormed the court.  Quick feet and good reflexes meant you were among the lucky few to escape the stadium alive.",
     "points": 1,
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" } ],
     "items": {
