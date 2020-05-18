@@ -192,7 +192,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     }
 
     for( const auto &e : clothing ) {
-        wear_item( item( e ) );
+        wear_item( item( e ), false );
     }
 
     for( item &e : worn ) {
