@@ -559,23 +559,6 @@
   },
   {
     "type": "recipe",
-    "result": "ammonia",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
-    "difficulty": 5,
-    "time": "36 m",
-    "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 5 ] ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [
-      [ [ "water_clean", 1 ], [ "water", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "charcoal", 5 ], [ "coal_lump", 5 ], [ "lye_powder", 20 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "oxy_powder",
     "byproducts": [ [ "salt_water", 2 ] ],
     "category": "CC_CHEM",
