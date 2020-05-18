@@ -38,7 +38,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "22", [ "a180mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "a180mag" ]
+      }
+    ]
   },
   {
     "id": "marlin_9a",
@@ -63,7 +71,6 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 19,
-    "magazines": [ [ "22", [ "marlin_tubeloader" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -80,7 +87,15 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "marlin_tubeloader" ]
+      }
+    ]
   },
   {
     "id": "moss_brownie",
@@ -195,7 +210,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ]
+      }
+    ]
   },
   {
     "id": "ruger_lcr_22",
@@ -206,8 +229,15 @@
     "weight": "420 g",
     "ammo": [ "22" ],
     "clip_size": 8,
-    "magazines": [ [ "22", [ "22_speedloader8" ] ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 8 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "22_speedloader8" ]
+      }
+    ]
   },
   {
     "id": "sig_mosquito",
@@ -245,7 +275,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "22", [ "mosquitomag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mosquitomag" ]
+      }
+    ]
   },
   {
     "id": "sw_22",
@@ -266,7 +304,15 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "magazines": [ [ "22", [ "sw22mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "sw22mag" ]
+      }
+    ]
   },
   {
     "id": "j22",
@@ -288,7 +334,15 @@
     "durability": 5,
     "min_cycle_recoil": 39,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "22", [ "j22mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "j22mag" ]
+      }
+    ]
   },
   {
     "id": "walther_p22",
@@ -309,6 +363,14 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "magazines": [ [ "22", [ "wp22mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "wp22mag" ]
+      }
+    ]
   }
 ]

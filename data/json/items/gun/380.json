@@ -14,7 +14,15 @@
     "ammo": [ "380" ],
     "min_cycle_recoil": 270,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
-    "magazines": [ [ "380", [ "mac11mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mac11mag" ]
+      }
+    ]
   },
   {
     "id": "kp3at",
@@ -28,7 +36,15 @@
     "price_postapoc": 1750,
     "ammo": [ "380" ],
     "min_cycle_recoil": 270,
-    "magazines": [ [ "380", [ "kp3atmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "kp3atmag" ]
+      }
+    ]
   },
   {
     "id": "fn1910",
@@ -49,7 +65,15 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 270,
-    "magazines": [ [ "380", [ "fn1910mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "fn1910mag" ]
+      }
+    ]
   },
   {
     "id": "rugerlcp",
@@ -70,7 +94,15 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 270,
-    "magazines": [ [ "380", [ "rugerlcpmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rugerlcpmag" ]
+      }
+    ]
   },
   {
     "id": "hptcf380",
@@ -90,7 +122,15 @@
     "ammo": [ "380" ],
     "dispersion": 480,
     "durability": 7,
-    "magazines": [ [ "380", [ "hptcf380mag_8rd", "hptcf380mag_10rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hptcf380mag_8rd", "hptcf380mag_10rd" ]
+      }
+    ]
   },
   {
     "id": "taurus_spectrum",
@@ -112,6 +152,14 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 225,
-    "magazines": [ [ "380", [ "taurus_spectrum_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "taurus_spectrum_mag" ]
+      }
+    ]
   }
 ]
