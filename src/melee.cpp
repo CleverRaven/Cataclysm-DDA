@@ -1622,7 +1622,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             }
         }
 
-        thing_blocked_with = body_part_name( bp_hit->token );
+        thing_blocked_with = body_part_name( bp_hit );
     }
 
     if( has_shield ) {

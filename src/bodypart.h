@@ -208,21 +208,21 @@ side opposite_side( side s );
 const std::array<size_t, 12> bp_aiOther = {{0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10}};
 
 /** Returns the matching name of the body_part token. */
-std::string body_part_name( body_part bp, int number = 1 );
+std::string body_part_name( const bodypart_id &bp, int number = 1 );
 
 /** Returns the matching accusative name of the body_part token, i.e. "Shrapnel hits your X".
  *  These are identical to body_part_name above in English, but not in some other languages. */
-std::string body_part_name_accusative( body_part bp, int number = 1 );
+std::string body_part_name_accusative( const bodypart_id &bp, int number = 1 );
 
 /** Returns the name of the body parts in a context where the name is used as
  * a heading or title e.g. "Left Arm". */
-std::string body_part_name_as_heading( body_part bp, int number );
+std::string body_part_name_as_heading( const bodypart_id &bp, int number );
 
 /** Returns the body part text to be displayed in the HP bar */
-std::string body_part_hp_bar_ui_text( body_part bp );
+std::string body_part_hp_bar_ui_text( const bodypart_id &bp );
 
 /** Returns the matching encumbrance text for a given body_part token. */
-std::string encumb_text( body_part bp );
+std::string encumb_text( const bodypart_id &bp );
 
 /** Returns a random body_part token. main_parts_only will limit it to arms, legs, torso, and head. */
 body_part random_body_part( bool main_parts_only = false );

@@ -781,12 +781,12 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
                      is_monster() ?
                      skin_name() :
-                     body_part_name_accusative( bp_hit ) );
+                     body_part_name_accusative( bp_hit_id ) );
         } else if( is_player() ) {
             //monster hits player ranged
             //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
             add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                               body_part_name_accusative( bp_hit ),
+                               body_part_name_accusative( bp_hit_id ),
                                dealt_dam.total_damage() );
         } else if( source != nullptr ) {
             if( source->is_player() ) {

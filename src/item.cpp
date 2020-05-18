@@ -1662,6 +1662,11 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
                                   std::abs( static_cast<int>( med_item->charges ) * batch ) ) );
     }
 
+    if( parts->test( iteminfo_parts::MED_CONSUME_TIME ) ) {
+        info.push_back( iteminfo( "MED", _( "Consume time: " ),
+                                  to_string( g->u.get_consume_time( *med_item ) ) ) );
+    }
+
     if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
         info.emplace_back( "DESCRIPTION", _( "* Consuming this item is <bad>addicting</bad>." ) );
     }
@@ -1722,6 +1727,11 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         ( debug || ( g != nullptr && ( g->u.has_trait( trait_CARNIVORE ) ||
                                        g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
+    }
+
+    if( parts->test( iteminfo_parts::FOOD_CONSUME_TIME ) ) {
+        info.push_back( iteminfo( "FOOD", _( "Consume time: " ),
+                                  to_string( g->u.get_consume_time( *food_item ) ) ) );
     }
 
     auto format_vitamin = [&]( const std::pair<vitamin_id, int> &v, bool display_vitamins ) {
@@ -3125,8 +3135,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const auto &element : bid->encumbrance ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( convert_bp( element.first ).id(), 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3136,7 +3146,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   _( "<bold>Environmental Protection</bold>: " ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, size_t > &element : bid->env_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3146,7 +3156,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   _( "<bold>Bash Protection</bold>: " ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, size_t > &element : bid->bash_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3156,7 +3166,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   _( "<bold>Cut Protection</bold>: " ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, size_t > &element : bid->cut_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3165,7 +3175,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>: " ),
                                   iteminfo::no_newline ) );
         for( const std::pair<const bodypart_str_id, size_t > &element : bid->bullet_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }

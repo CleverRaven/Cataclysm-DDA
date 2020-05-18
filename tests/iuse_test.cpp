@@ -301,14 +301,14 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
 
     SECTION( "coffee reduces fatigue, but does not give stimulant effect" ) {
         item coffee( "coffee", 0, item::default_charges_tag{} );
-        dummy.consume_item( coffee );
+        dummy.consume( coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
     }
 
     SECTION( "atomic caffeine greatly reduces fatigue, and increases stimulant effect" ) {
         item atomic_coffee( "atomic_coffee", 0, item::default_charges_tag{} );
-        dummy.consume_item( atomic_coffee );
+        dummy.consume( atomic_coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
     }
@@ -551,7 +551,7 @@ TEST_CASE( "panacea", "[iuse][panacea]" )
     SECTION( "panacea gives cure-all effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "cureall" ) ) );
 
-        dummy.consume_item( panacea );
+        dummy.consume( panacea );
         CHECK( dummy.has_effect( efftype_id( "cureall" ) ) );
     }
 }

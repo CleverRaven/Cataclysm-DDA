@@ -437,7 +437,7 @@ void memorial_logger::notify( const cata::event &e )
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
-                     body_part_name( part ) );
+                     body_part_name( convert_bp( part ).id() ) );
             }
             break;
         }

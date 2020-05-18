@@ -1047,6 +1047,16 @@ bool veh_interact::do_install( std::string &msg )
                     default:
                         break;
                 }
+                // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
+                // It can only be the player doing this - an npc won't work well with query_yn
+                if( veh->would_prevent_flyable( *sel_vpart_info ) ) {
+                    if( query_yn(
+                            _( "Installing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
+                        veh->set_flyable( false );
+                    } else {
+                        return false;
+                    }
+                }
                 if( veh->is_foldable() && !sel_vpart_info->has_flag( "FOLDABLE" ) &&
                     !query_yn( _( "Installing this part will make the vehicle unfoldable.  Continue?" ) ) ) {
                     return true;
@@ -1182,7 +1192,8 @@ bool veh_interact::do_repair( std::string &msg )
 
         std::string nmsg;
 
-        bool ok;
+        // this will always be set, but the gcc thinks that sometimes it won't be
+        bool ok = true;
         if( pt.is_broken() ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
@@ -1193,6 +1204,17 @@ bool veh_interact::do_repair( std::string &msg )
             } else if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) {
                 nmsg += colorize( _( "This vehicle cannot be repaired.\n" ), c_light_red );
                 ok = false;
+            } else if( veh->would_prevent_flyable( vp ) ) {
+                // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
+                // It can only be the player doing this - an npc won't work well with query_yn
+                if( query_yn(
+                        _( "Repairing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
+                    veh->set_flyable( false );
+                } else {
+                    nmsg += colorize( _( "You chose not to install this part to keep the vehicle flyable.\n" ),
+                                      c_light_red );
+                    ok = false;
+                }
             } else {
                 ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
                                   vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
@@ -1861,6 +1883,17 @@ bool veh_interact::do_remove( std::string &msg )
                     return false;
                 default:
                     break;
+            }
+
+            // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
+            // It can only be the player doing this - an npc won't work well with query_yn
+            if( veh->would_prevent_flyable( veh->parts[part].info() ) ) {
+                if( query_yn(
+                        _( "Removing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
+                    veh->set_flyable( false );
+                } else {
+                    return false;
+                }
             }
             const std::vector<npc *> helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {

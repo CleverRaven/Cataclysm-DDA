@@ -46,7 +46,7 @@ class item_pocket
             ERR_MOD,
             // trying to put a liquid into a non-watertight container
             ERR_LIQUID,
-            // trying to put a gas in a non-gastight container
+            // trying to put a gas in a non-airtight container
             ERR_GAS,
             // trying to put an item that wouldn't fit if the container were empty
             ERR_TOO_BIG,
@@ -275,6 +275,8 @@ class pocket_data
         float spoil_multiplier = 1.0f;
         // items' weight in this pocket are modified by this number
         float weight_multiplier = 1.0f;
+        // items' volume in this pocket are modified by this number for calculation of the containing object
+        float volume_multiplier = 1.0f;
         // the size that gets subtracted from the contents before it starts enlarging the item
         units::volume magazine_well = 0_ml;
         // base time it takes to pull an item out of the pocket
@@ -284,7 +286,7 @@ class pocket_data
         // can hold liquids
         bool watertight = false;
         // can hold gas
-        bool gastight = false;
+        bool airtight = false;
         // the pocket will spill its contents if placed in another container
         bool open_container = false;
 
