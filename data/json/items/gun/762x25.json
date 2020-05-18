@@ -38,7 +38,15 @@
       [ "rail mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "762x25", [ "ppshmag", "ppshdrum" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ppshmag", "ppshdrum" ]
+      }
+    ]
   },
   {
     "id": "tokarev",
@@ -59,6 +67,14 @@
     "dispersion": 225,
     "durability": 7,
     "min_cycle_recoil": 270,
-    "magazines": [ [ "762x25", [ "tokarevmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "tokarevmag" ]
+      }
+    ]
   }
 ]

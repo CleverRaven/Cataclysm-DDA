@@ -17,8 +17,16 @@
     "durability": 7,
     "barrel_length": "750 ml",
     "ammo": [ "410shot" ],
-    "magazines": [ [ "410shot", [ "saiga410mag_10rd", "saiga410mag_30rd" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "saiga410mag_10rd", "saiga410mag_30rd" ]
+      }
+    ]
   },
   {
     "id": "shotgun_410",
