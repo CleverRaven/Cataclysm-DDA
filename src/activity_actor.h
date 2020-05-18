@@ -121,7 +121,7 @@ class aim_activity_actor : public activity_actor
         std::string action = "";
         bool snap_to_target = false;
         bool shifting_view = false;
-        tripoint view_offset = tripoint_zero;
+        tripoint initial_view_offset;
         /** Target UI requested to abort aiming */
         bool aborted = false;
         /** Target UI requested to fire */
@@ -133,7 +133,7 @@ class aim_activity_actor : public activity_actor
         bool reload_requested = false;
         std::vector<tripoint> fin_trajectory;
 
-        aim_activity_actor() = default;
+        aim_activity_actor();
 
         /** Aiming wielded gun */
         static aim_activity_actor use_wielded();
@@ -161,6 +161,7 @@ class aim_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
         item *get_weapon();
+        void restore_view();
         // Load/unload a RELOAD_AND_SHOOT weapon
         bool load_RAS_weapon();
         void unload_RAS_weapon();

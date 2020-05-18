@@ -74,6 +74,11 @@ std::string enum_to_string<WS>( WS data )
 }
 } // namespace io
 
+aim_activity_actor::aim_activity_actor()
+{
+    initial_view_offset = g->u.view_offset;
+}
+
 aim_activity_actor aim_activity_actor::use_wielded()
 {
     return aim_activity_actor();
@@ -152,6 +157,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
 void aim_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
+    restore_view();
     if( aborted ) {
         unload_RAS_weapon();
         if( reload_requested ) {
@@ -180,6 +186,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 
 void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
 {
+    restore_view();
     unload_RAS_weapon();
 }
 
@@ -196,7 +203,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "action", action );
     jsout.member( "snap_to_target", snap_to_target );
     jsout.member( "shifting_view", shifting_view );
-    jsout.member( "view_offset", view_offset );
+    jsout.member( "initial_view_offset", initial_view_offset );
 
     jsout.end_object();
 }
@@ -217,7 +224,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "action", actor.action );
     data.read( "snap_to_target", actor.snap_to_target );
     data.read( "shifting_view", actor.shifting_view );
-    data.read( "view_offset", actor.view_offset );
+    data.read( "initial_view_offset", actor.initial_view_offset );
 
     return actor.clone();
 }
@@ -236,6 +243,16 @@ item *aim_activity_actor::get_weapon()
         default:
             debugmsg( "Invalid weapon source value" );
             return nullptr;
+    }
+}
+
+void aim_activity_actor::restore_view()
+{
+    bool changed_z = g->u.view_offset.z != initial_view_offset.z;
+    g->u.view_offset = initial_view_offset;
+    if( changed_z ) {
+        g->m.invalidate_map_cache( g->u.view_offset.z );
+        g->refresh_all();
     }
 }
 

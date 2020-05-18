@@ -1863,7 +1863,6 @@ target_handler::trajectory target_ui::run( player &pc )
     std::string action;
     bool attack_was_confirmed = false;
     bool reentered = false;
-    tripoint manual_view_offset = pc.view_offset;
     if( mode == TargetMode::Fire && !activity->first_turn ) {
         // We were in this UI during previous turn...
         reentered = true;
@@ -1879,12 +1878,7 @@ target_handler::trajectory target_ui::run( player &pc )
         // Load state to keep the ui consistent across turns
         snap_to_target = activity->snap_to_target;
         shifting_view = activity->shifting_view;
-        manual_view_offset = activity->view_offset;
     }
-
-    // Restore view to how it was during previos turn in this ui
-    const tripoint saved_view_offset = pc.view_offset;
-    set_view_offset( pc, manual_view_offset );
 
     // Initialize cursor position
     src = pc.pos();
@@ -2004,11 +1998,6 @@ target_handler::trajectory target_ui::run( player &pc )
         }
     } // for(;;)
 
-    // Since the activity can be cancelled at any time, we restore the view now
-    // but save it if we need it in this ui on the next turn
-    manual_view_offset = pc.view_offset;
-    set_view_offset( pc, saved_view_offset );
-
     switch( loop_exit_code ) {
         case ExitCode::Abort: {
             traj.clear();
@@ -2028,7 +2017,6 @@ target_handler::trajectory target_ui::run( player &pc )
             activity->action = timed_out_action;
             activity->snap_to_target = snap_to_target;
             activity->shifting_view = shifting_view;
-            activity->view_offset = manual_view_offset;
             break;
         }
         case ExitCode::Reload: {
