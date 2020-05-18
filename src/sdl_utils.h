@@ -165,8 +165,8 @@ inline SDL_Color color_pixel_blue_dark( const SDL_Color &color )
 
 inline SDL_Color color_pixel_custom( const SDL_Color &color )
 {
-    const SDL_Color dark = { get_option<int>( "MEMORY_RGB_DARK_RED" ), get_option<int>( "MEMORY_RGB_DARK_GREEN" ), get_option<int>( "MEMORY_RGB_DARK_BLUE" ), color.a };
-    const SDL_Color light = { get_option<int>( "MEMORY_RGB_BRIGHT_RED" ), get_option<int>( "MEMORY_RGB_BRIGHT_GREEN" ), get_option<int>( "MEMORY_RGB_BRIGHT_BLUE" ), color.a };
+    const SDL_Color dark = { static_cast<Uint8>( get_option<int>( "MEMORY_RGB_DARK_RED" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_DARK_GREEN" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_DARK_BLUE" ) ), color.a };
+    const SDL_Color light = { static_cast<Uint8>( get_option<int>( "MEMORY_RGB_BRIGHT_RED" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_BRIGHT_GREEN" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_BRIGHT_BLUE" ) ), color.a };
     return color_pixel_mixer( color, get_option<float>( "MEMORY_GAMMA" ), dark, light );
 }
 
