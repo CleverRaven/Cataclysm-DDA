@@ -882,7 +882,7 @@
       [ "SCREW_FINE", 1 ],
       [ "BUTCHER", 11 ],
       [ "FILE", 2 ],
-      [ "REAM", 1 ],
+      [ "REAM", 2 ],
       [ "VISE", 1 ]
     ],
     "use_action": [ "HAMMER", "CROWBAR" ]
