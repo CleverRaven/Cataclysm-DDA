@@ -730,11 +730,7 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
 }
 
 // TODO: Move data/functions related to targeting out of game class
-/**
- * Checks if the weapon is valid and if the player meets certain conditions for firing it.
- * @return True if all conditions are true, otherwise false.
- */
-static bool can_fire_weapon( avatar &you, const map &m, const item &weapon )
+bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weapon )
 {
     if( !weapon.is_gun() ) {
         debugmsg( "Expected item to be a gun" );
@@ -821,106 +817,6 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
         add_msg( m_info, message );
     }
     return false;
-}
-
-void avatar_action::aim_do_turn( avatar &you, map &m, aim_activity_actor &activity )
-{
-    item *weapon = activity.get_weapon();
-    if( !weapon || !can_fire_weapon( you, m, *weapon ) ) {
-        activity.aborted = true;
-        return;
-    }
-    gun_mode gun = weapon->gun_current_mode();
-
-    // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
-    // TODO: handle cases when reloading takes a long time
-    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        if( !gun->ammo_remaining() ) {
-            const auto ammo_location_is_valid = [&]() -> bool {
-                if( !you.ammo_location )
-                {
-                    return false;
-                }
-                if( !gun->can_reload_with( you.ammo_location->typeId() ) )
-                {
-                    return false;
-                }
-                if( square_dist( you.pos(), you.ammo_location.position() ) > 1 )
-                {
-                    return false;
-                }
-                return true;
-            };
-            item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                                      weapon, you.ammo_location ) : you.select_ammo( *gun );
-            if( !opt ) {
-                // Menu canceled
-                activity.aborted = true;
-                return;
-            }
-            int reload_time = 0;
-            reload_time += opt.moves();
-            if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
-                // Reload not allowed
-                activity.aborted = true;
-                return;
-            }
-
-            // Burn 0.2% max base stamina x the strength required to fire.
-            you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
-                             get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
-            // At low stamina levels, firing starts getting slow.
-            int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
-            reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
-
-            you.moves -= reload_time;
-            g->refresh_all();
-        }
-    }
-    int moves_before_ui = you.moves;
-
-    g->temp_exit_fullscreen();
-    m.draw( g->w_terrain, you.pos() );
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, activity );
-
-    if( activity.aborted ) {
-        if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-            bool refund = activity.first_turn && you.moves == moves_before_ui;
-            int moves_before_unload = you.moves;
-
-            item_location loc = item_location( you, gun.target );
-            g->unload( loc );
-
-            // Give back time for unloading as essentially nothing has been done.
-            if( refund ) {
-                you.moves = moves_before_unload;
-            }
-        }
-        g->reenter_fullscreen();
-        return;
-    }
-    if( trajectory.empty() ) {
-        // Still aiming
-        return;
-    }
-    activity.finished = true;
-
-    // TODO: move everything below to aim_activity_actor::finish()
-
-    // Recenter our view
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
-
-    // Update gun mode since target UI may change it
-    gun = weapon->gun_current_mode();
-    int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
-
-    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
-    if( shots_fired && ( activity.bp_cost_per_shot > 0_J ) ) {
-        you.mod_power_level( -activity.bp_cost_per_shot * shots_fired );
-    }
-    g->reenter_fullscreen();
 }
 
 void avatar_action::fire_wielded_weapon( avatar &you )

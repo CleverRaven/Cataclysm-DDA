@@ -42,10 +42,11 @@ void autoattack( avatar &you, map &m );
 void mend( avatar &you, item_location loc );
 
 /**
- * Validates avatar's targeting_data, then handles interactive parts of gun firing
- * (target selection, aiming, etc.)
+ * Checks if the weapon is valid and if the player meets certain conditions for firing it.
+ * Used for validating ACT_AIM and turret weapon
+ * @return True if all conditions are true, otherwise false.
  */
-void aim_do_turn( avatar &you, map &m, aim_activity_actor &activity );
+bool can_fire_weapon( avatar &you, const map &m, const item &weapon );
 
 /** Checks if the wielded weapon is a gun and can be fired then starts interactive aiming */
 void fire_wielded_weapon( avatar &you );
