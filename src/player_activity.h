@@ -39,6 +39,8 @@ class player_activity
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left = 0;
+        /** Controls whether this activity can be cancelled with 'pause' action */
+        bool interruptable_with_kb = true;
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
