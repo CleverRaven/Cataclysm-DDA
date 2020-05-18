@@ -613,6 +613,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
         put_in( set_ammo, item_pocket::pocket_type::MAGAZINE );
 
     } else if( magazine_integral() ) {
+        curammo = atype;
         const item temp_ammo( atype, calendar::turn, std::min( qty, ammo_capacity() ) );
         put_in( temp_ammo, item_pocket::pocket_type::MAGAZINE );
 
@@ -7108,7 +7109,7 @@ const itype *item::ammo_data() const
     if( is_gun() && !contents.empty() ) {
         return contents.first_ammo().ammo_data();
     }
-    return nullptr;
+    return curammo;
 }
 
 itype_id item::ammo_current() const
