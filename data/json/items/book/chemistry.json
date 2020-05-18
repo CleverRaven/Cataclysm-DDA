@@ -3,7 +3,7 @@
     "id": "adv_chemistry",
     "type": "BOOK",
     "name": { "str": "Advanced Physical Chemistry", "str_pl": "copies of Advanced Physical Chemistry" },
-    "description": "A university-level textbook on advanced principles of chemistry, both organic and inorganic.",
+    "description": "A university-level textbook on advanced principles of physical chemistry and all its branches: thermochemistry, electrochemistry, solid-state chemistry, photochemistry, quantum chemistry et cetera.",
     "weight": "1712 g",
     "volume": "2 L",
     "price": 7950,
