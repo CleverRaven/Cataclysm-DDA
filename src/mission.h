@@ -219,7 +219,7 @@ struct mission_type {
         bool has_generic_rewards = true;
 
         // A limited subset of the talk_effects on the mission
-        std::vector<std::pair<int, std::string>> likely_rewards;
+        std::vector<std::pair<int, itype_id>> likely_rewards;
 
         // Points of origin
         std::vector<mission_origin> origins;
@@ -365,7 +365,7 @@ class mission
         int get_id() const;
         const itype_id &get_item_id() const;
         character_id get_npc_id() const;
-        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
+        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         bool has_generic_rewards() const;
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and

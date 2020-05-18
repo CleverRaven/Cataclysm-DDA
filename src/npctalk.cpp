@@ -2080,7 +2080,7 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
 
     // Update structure used by mission descriptions.
     if( cost <= 0 ) {
-        likely_rewards.push_back( std::pair<int, std::string>( count, item_name ) );
+        likely_rewards.push_back( std::pair<int, itype_id>( count, item_name ) );
     }
 }
 
@@ -2371,7 +2371,7 @@ void talk_effect_fun_t::set_add_mission( const std::string &mission_id )
     };
 }
 
-const std::vector<std::pair<int, std::string>> &talk_effect_fun_t::get_likely_rewards() const
+const std::vector<std::pair<int, itype_id>> &talk_effect_fun_t::get_likely_rewards() const
 {
     return likely_rewards;
 }

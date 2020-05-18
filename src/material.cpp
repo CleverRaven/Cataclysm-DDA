@@ -103,9 +103,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
         _burn_data.emplace_back( mbd );
     }
 
-    for( JsonArray pair : jsobj.get_array( "burn_products" ) ) {
-        _burn_products.emplace_back( pair.get_string( 0 ), static_cast< float >( pair.get_float( 1 ) ) );
-    }
+    jsobj.read( "burn_products", _burn_products, true );
 
     optional( jsobj, was_loaded, "compact_accepts", _compact_accepts,
               auto_flags_reader<material_id>() );

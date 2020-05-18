@@ -570,7 +570,8 @@ void json_item_substitution::load( const JsonObject &jo )
 
     if( item_mode ) {
         if( jo.has_member( "bonus" ) ) {
-            bonuses.emplace_back( title, trait_requirements( jo.get_object( "bonus" ) ) );
+            bonuses.emplace_back( itype_id( title ),
+                                  trait_requirements( jo.get_object( "bonus" ) ) );
         }
 
         for( const JsonValue sub : jo.get_array( "sub" ) ) {

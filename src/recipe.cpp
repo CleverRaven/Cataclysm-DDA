@@ -185,7 +185,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "book_learn" ) ) {
         booksets.clear();
         for( JsonArray arr : jo.get_array( "book_learn" ) ) {
-            booksets.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_int( 1 ) : -1 );
+            booksets.emplace( itype_id( arr.get_string( 0 ) ),
+                              arr.size() > 1 ? arr.get_int( 1 ) : -1 );
         }
     }
 
@@ -251,13 +252,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                                           provide.get_int( "amount", 1 ) ) );
             }
             // all blueprints provide themselves with needing it written in JSON
-            bp_provides.emplace_back( std::make_pair( result_, 1 ) );
+            bp_provides.emplace_back( std::make_pair( result_.str(), 1 ) );
             for( JsonObject require : jo.get_array( "blueprint_requires" ) ) {
                 bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
                                           require.get_int( "amount", 1 ) ) );
             }
             // all blueprints exclude themselves with needing it written in JSON
-            bp_excludes.emplace_back( std::make_pair( result_, 1 ) );
+            bp_excludes.emplace_back( std::make_pair( result_.str(), 1 ) );
             for( JsonObject exclude : jo.get_array( "blueprint_excludes" ) ) {
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
