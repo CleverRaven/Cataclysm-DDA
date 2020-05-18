@@ -1016,7 +1016,7 @@ void Item_factory::check_definitions() const
             if( is_container ) {
                 units::volume volume = type->volume;
                 if( type->count_by_charges() ) {
-                    volume / type->charges_default();
+                    volume /= type->charges_default();
                 }
                 if( item_contents( type->pockets ).bigger_on_the_inside( volume ) ) {
                     msg += "is bigger on the inside.  consider using TARDIS flag.\n";
