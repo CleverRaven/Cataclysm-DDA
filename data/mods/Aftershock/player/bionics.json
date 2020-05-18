@@ -64,6 +64,6 @@
     "name": { "str": "Cranium Bomb" },
     "description": "You've worked for some nasty people.  People who installed a bomb at the top of your spine.  They are all dead now but there is unfortunately a dead man switch if you don't check in roughly every thirty days.  You need this out and fast.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
-    "enchantments": "cranial_explosion"
+    "enchantments": [ "cranial_explosion" ]
   }
 ]
