@@ -1484,7 +1484,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
 {
     //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
     parts[part_index].open = opening;
-    if ( parts[part_index].info().has_flag( VPFLAG_SUNROOF ) ) {
+    if( parts[part_index].info().has_flag( VPFLAG_SUNROOF ) ) {
         parts[part_index].enabled = opening;
     }
 

@@ -427,7 +427,7 @@ void map::generate_lightmap( const int zlev )
                 continue;
             }
 
-            if ( vp.has_flag( VPFLAG_SUNROOF ) ) {
+            if( vp.has_flag( VPFLAG_SUNROOF ) ) {
                 float outside_light_level = g->natural_light_level( 0 );
                 add_light_source( src, outside_light_level );
             } else if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
