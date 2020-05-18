@@ -7738,10 +7738,8 @@ bool item::reload( player &u, item_location ammo, int qty )
         } else {
             curammo = ammo->type;
             qty = std::min( qty, ammo->charges );
-            item item_copy( *ammo );
             ammo->charges -= qty;
-            item_copy.charges = qty;
-            put_in( item_copy, item_pocket::pocket_type::MAGAZINE );
+            charges += qty;
         }
     }
 
