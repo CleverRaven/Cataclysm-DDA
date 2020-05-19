@@ -259,7 +259,6 @@
       { "item": "match_trigger", "prob": 2 },
       { "item": "grapnel", "prob": 1 },
       { "item": "bucket", "prob": 4 },
-      { "item": "bot_laserturret", "prob": 1 },
       { "item": "sheath", "prob": 13 },
       { "item": "bootsheath", "prob": 8 },
       { "item": "toolbox", "prob": 1 },

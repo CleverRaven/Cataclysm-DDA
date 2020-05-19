@@ -2937,15 +2937,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_laserturret",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken laser turret" },
-    "weight": "110 kg",
-    "copy-from": "broken_turret"
-  },
-  {
-    "type": "GENERIC",
     "id": "broken_secubot",
     "symbol": ",",
     "color": "green",

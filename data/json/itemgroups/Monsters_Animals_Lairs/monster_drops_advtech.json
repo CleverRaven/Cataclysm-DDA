@@ -85,12 +85,6 @@
   },
   {
     "type": "item_group",
-    "id": "laserturret",
-    "subtype": "distribution",
-    "entries": [ { "item": "cerberus_laser", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
     "id": "turret_rifle",
     "subtype": "distribution",
     "entries": [ { "item": "556", "prob": 8 } ]
