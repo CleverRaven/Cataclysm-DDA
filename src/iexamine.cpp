@@ -3848,9 +3848,7 @@ static int getNearPumpCount( const tripoint &p, std::string &fuel_type )
         if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
             result++;
             fuel_type = "gasoline";
-        }
-        else if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) )
-        {
+        } else if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
             result++;
             fuel_type = "diesel";
         }
@@ -3858,7 +3856,8 @@ static int getNearPumpCount( const tripoint &p, std::string &fuel_type )
     return result;
 }
 
-cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &fuel_units, const std::string &fuel_type)
+cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &fuel_units,
+        const std::string &fuel_type )
 {
     cata::optional<tripoint> tank_loc;
     int distance = INT_MAX;
@@ -3868,15 +3867,12 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
         auto checkingTerr = g->m.ter( tmp );
 
-        if(fuel_type == "gasoline")
-        {
+        if( fuel_type == "gasoline" ) {
             if( checkingTerr != ter_str_id( "t_gas_tank" ) ) {
                 continue;
             }
-        }
-        else if(fuel_type == "diesel")
-        {
-            if( checkingTerr != ter_str_id( "t_diesel_tank" )) {
+        } else if( fuel_type == "diesel" ) {
+            if( checkingTerr != ter_str_id( "t_diesel_tank" ) ) {
                 continue;
             }
         }
@@ -3984,7 +3980,7 @@ cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int nu
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
         if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" )
-            || t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) && number == k++ ) {
+              || t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) && number == k++ ) {
             return tmp;
         }
     }
@@ -4048,7 +4044,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, const std::string
     int k = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
-        if(fuel_type == "gasoline") {
+        if( fuel_type == "gasoline" ) {
             if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                 if( number == k++ ) {
                     g->m.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
@@ -4056,8 +4052,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, const std::string
                     g->m.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
                 }
             }
-        }
-        else if(fuel_type == "diesel") {
+        } else if( fuel_type == "diesel" ) {
             if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
                 if( number == k++ ) {
                     g->m.ter_set( tmp, ter_str_id( "t_diesel_pump_a" ) );
@@ -4126,10 +4121,12 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     std::string gaspumpselected = str_to_illiterate_str( _( "Current " + fuelType + " pump: " ) ) +
                                   to_string( uistate.ags_pay_gas_selected_pump + 1 );
     amenu.addentry( 0, false, -1, gaspumpselected );
-    amenu.addentry( choose_pump, true, 'p', str_to_illiterate_str( _( "Choose a " + fuelType + " pump." ) ) );
+    amenu.addentry( choose_pump, true, 'p',
+                    str_to_illiterate_str( _( "Choose a " + fuelType + " pump." ) ) );
 
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your discount: " ) ) + discountName );
-    amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your price per " + fuelType + " unit: " ) ) +
+    amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your price per " + fuelType + " unit: " ) )
+                    +
                     format_money( pricePerUnit ) );
 
     if( can_hack ) {
