@@ -2189,8 +2189,9 @@ class Character : public Creature, public visitable<Character>
         float activity_level = NO_EXERCISE;
 
         trap_map known_traps;
-        std::array<encumbrance_data, num_bp> encumbrance_cache;
         mutable std::map<std::string, double> cached_info;
+        mutable std::array<encumbrance_data, num_bp> encumbrance_cache;
+        mutable bool encumbrance_cache_dirty = true;
         bool bio_soporific_powered_at_last_sleep_check;
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
