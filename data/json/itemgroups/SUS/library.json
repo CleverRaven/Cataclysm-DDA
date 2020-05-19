@@ -248,7 +248,8 @@
       { "group": "SUS_book_fict_soft_sports", "prob": 1 },
       { "group": "SUS_book_fict_hard_sports", "prob": 1 },
       { "group": "SUS_book_nonf_soft_sports", "prob": 1 },
-      { "group": "SUS_book_nonf_hard_sports", "prob": 1 }
+      { "group": "SUS_book_nonf_hard_sports", "prob": 1 },
+      { "group": "SUS_book_nonf_zine_sport", "prob": 1 }
     ]
   },
   {
@@ -451,11 +452,12 @@
       { "group": "SUS_book_nonf_soft_occult", "prob": 2 },
       { "group": "SUS_book_nonf_soft_psych", "prob": 6 },
       { "group": "SUS_book_nonf_soft_sports", "prob": 3 },
-      { "item": "book_nonf_soft_wedding_coolring", "prob": 2 },
-      { "item": "book_nonf_soft_parent_howtogen", "prob": 2 },
+      { "item": "book_nonf_soft_wedding_coolring", "prob": 1 },
+      { "item": "book_nonf_soft_parent_howtogen", "prob": 1 },
       { "item": "book_nonf_soft_safety_radiaea", "prob": 1 },
       { "item": "book_nonf_soft_mechnic_hotrod", "prob": 1 },
-      { "item": "book_nonf_soft_speech_naillaw", "prob": 1 }
+      { "item": "book_nonf_soft_speech_naillaw", "prob": 1 },
+      { "item": "book_nonf_soft_phil_benoth", "prob": 1 }
     ]
   },
   {
@@ -509,7 +511,8 @@
       { "item": "mag_cutting", "prob": 6 },
       { "item": "mag_cars", "prob": 10 },
       { "item": "mag_guns", "prob": 10 },
-      { "item": "mag_glam", "prob": 10 }
+      { "item": "mag_glam", "prob": 10 },
+      { "item": "mag_gaming", "prob": 10 }
     ]
   },
   {
@@ -517,13 +520,13 @@
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "Returns a single sports or games magazine.",
+    "//TODO": "rename this SUS_book_nonf_zine_sports",
     "subtype": "distribution",
     "entries": [
       { "item": "mag_unarmed", "prob": 1 },
       { "item": "mag_throwing", "prob": 1 },
       { "item": "mag_archery", "prob": 1 },
-      { "item": "mag_bashing", "prob": 1 },
-      { "item": "mag_gaming", "prob": 2 }
+      { "item": "mag_bashing", "prob": 1 }
     ]
   },
   {
