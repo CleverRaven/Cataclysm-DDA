@@ -147,7 +147,7 @@
     "type": "BOOK",
     "name": { "str": "Stratosphere: The Rise of Hoops", "str_pl": "copies of Stratosphere" },
     "description": "\"Stratosphere: The Rise of Hoops\" chronicles four decades of professional basketball against a backdrop of sustained social change.",
-    "//isbn13":  9781629376509,
+    "//isbn13": 9781629376509,
     "weight": "818 g",
     "volume": "1114 ml",
     "longest_side": "23 cm",
