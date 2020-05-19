@@ -32,10 +32,7 @@
         "...s9s...........s9s....",
         "........................"
       ],
-      "place_terrain": [
-        { "ter": "t_gas_tank", "x": 2, "y": 3 },
-        { "ter": "t_diesel_tank", "x": 4, "y": 3 }
-      ],
+      "place_terrain": [ { "ter": "t_gas_tank", "x": 2, "y": 3 }, { "ter": "t_diesel_tank", "x": 4, "y": 3 } ],
       "terrain": {
         "&": "t_atm",
         "+": "t_chaingate_l",
