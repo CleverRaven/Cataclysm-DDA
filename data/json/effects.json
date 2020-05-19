@@ -864,6 +864,30 @@
   },
   {
     "type": "effect_type",
+    "id": "taint",
+    "name": [ "Touched mind", "Touched mind", "Tainted mind", "Badly tainted mind" ],
+    "miss_messages": [ [ "Your sense of reality warps!", 3 ] ],
+    "speed_name": "Tainted",
+    "desc": [
+      "You are disoriented as strange visions flash through your mind.",
+      "You are overwhelmed by the disturbing imagery and concepts you're flooded with.",
+      "You can't comprehend the things around you…",
+      "You don't know what is and isn't real anymore…"
+    ],
+    "rating": "bad",
+    "max_intensity": 4,
+    "max_duration": "2 h",
+    "int_add_val": 1,
+    "int_dur_factor": "5 m",
+    "base_mods": { "speed_mod": [ -20 ], "str_mod": [ 0 ], "dex_mod": [ -1 ], "per_mod": [ -2 ], "vomit_chance": [ 20 ] },
+    "scaling_mods": { "speed_mod": [ -10 ], "int_mod": [ -2 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "tindrift"
+  },
+  {
+    "type": "effect_type",
     "id": "visuals",
     "name": [ "Hallucinating" ],
     "desc": [ "You can't trust everything that you see." ],
@@ -1950,5 +1974,51 @@
     "id": "ignore_fall_damage",
     "//": "Used for translocation via teleporter_list as a way to avoid fall damage by teleporting Z levels",
     "flags": [ "EFFECT_FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_full",
+    "name": [ "Full" ],
+    "desc": [ "You feel quite full, and a bit sluggish." ],
+    "apply_message": "You feel quite full, and a bit sluggish.",
+    "rating": "bad",
+    "base_mods": { "speed_mod": [ -2 ], "fatigue_amount": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_engorged",
+    "name": [ "Engorged" ],
+    "desc": [ "Your stomach is full to bursting. This was a mistake." ],
+    "apply_message": "Your stomach is full to bursting. This was a mistake.",
+    "rating": "bad",
+    "base_mods": { "speed_mod": [ -10 ], "fatigue_amount": [ 2 ], "vomit_chance": [ 5 ], "vomit_tick": [ 60 ], "pain_amount": [ 3 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_satisfied"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_hungry"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_very_hungry"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_near_starving"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_starving"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_famished"
+  },
+  {
+    "type": "effect_type",
+    "id": "hunger_blank"
   }
 ]

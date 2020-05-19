@@ -21,11 +21,18 @@
     "components": [ [ [ "chitin_piece", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
-    "id": "armor_kevlar_plate",
+    "id": "armor_kevlar_rigid",
     "type": "requirement",
     "//": "Shaping and attaching a rigid Kevlar plate to something, per 300 g of rigid Kevlar.  Time needed is 10 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "kevlar_plate", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "rigid_kevlar_plate", 1 ] ], [ [ "superglue", 1 ] ] ]
+  },
+  {
+    "id": "armor_kevlar_layered",
+    "type": "requirement",
+    "//": "Joining kevlar panels together into something like a kevlar vest or other armor per 80 g of Kevlar.  Time needed is 90 minutes per unit.",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_kevlar_layered", 1 ] ], [ [ "filament", 4, "LIST" ] ] ]
   },
   {
     "id": "armor_steel_plate",
@@ -224,11 +231,11 @@
     "components": [ [ [ "fur", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
-    "id": "tailoring_kevlar",
+    "id": "tailoring_kevlar_fabric",
     "type": "requirement",
     "//": "Crafting Kevlar items, per 101 g of Kevlar; 10 g + excessive weight of material is wasted, producing Kevlar scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching.",
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "sheet_kevlar", 22 ] ], [ [ "thread_kevlar", 1 ] ] ]
+    "components": [ [ [ "sheet_kevlar", 22 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
     "id": "tailoring_leather",

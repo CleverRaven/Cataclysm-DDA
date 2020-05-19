@@ -153,7 +153,6 @@ static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
-static const bionic_id bio_night( "bio_night" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_plutdump( "bio_plutdump" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
@@ -1605,11 +1604,7 @@ void Character::process_bionic( int b )
     }
 
     // Bionic effects on every turn they are active go here.
-    if( bio.id == bio_night ) {
-        if( calendar::once_every( 5_turns ) ) {
-            add_msg_if_player( m_neutral, _( "Artificial night generator active!" ) );
-        }
-    } else if( bio.id == bio_remote ) {
+    if( bio.id == bio_remote ) {
         if( g->remoteveh() == nullptr && get_value( "remote_controlling" ).empty() ) {
             bio.powered = false;
             add_msg_if_player( m_warning, _( "Your %s has lost connection and is turning off." ),

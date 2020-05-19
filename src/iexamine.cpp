@@ -1611,11 +1611,9 @@ static bool can_drink_nectar( const player &p )
 static bool drink_nectar( player &p )
 {
     if( can_drink_nectar( p ) ) {
-        p.moves -= to_moves<int>( 30_seconds );
         add_msg( _( "You drink some nectar." ) );
         item nectar( "nectar", calendar::turn, 1 );
-        p.consume( nectar );
-        //I tried to convert this the to use the consume activity but couldn't get the transformation of this item into an item location quite right
+        p.assign_activity( player_activity( consume_activity_actor( nectar, false ) ) );
         return true;
     }
 
@@ -1656,11 +1654,9 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
                        g->m.furnname( examp ) ) ) {
             return;
         }
-        p.moves -= to_moves<int>( 30_seconds ); // You take your time...
         add_msg( _( "You slowly suck up the nectar." ) );
         item poppy( "poppy_nectar", calendar::turn, 1 );
-        p.consume( poppy );
-        //I tried to convert this the to use the consume activity but couldn't get the transformation of this item into an item location quite right
+        p.assign_activity( player_activity( consume_activity_actor( poppy, false ) ) );
         p.mod_fatigue( 20 );
         p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
@@ -3135,11 +3131,10 @@ void iexamine::keg( player &p, const tripoint &examp )
                 return;
 
             case HAVE_A_DRINK:
-                if( !p.consume( drink ) ) {
-                    //I tried to convert this the to use the consume activity but couldn't get the transformation of this item into an item location quite right
+                if( !p.can_consume( drink ) ) {
                     return; // They didn't actually drink
                 }
-
+                p.assign_activity( player_activity( consume_activity_actor( drink, false ) ) );
                 if( drink.charges == 0 ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
@@ -4444,7 +4439,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
                 return;
             } else if( cyborg.typeId() == "bot_broken_cyborg" || cyborg.typeId() == "corpse" ) {
-                popup( _( "ERROR Bionic Level Assessement: FULL CYBORG.  Autodoc Mk. XI can't opperate.  Please move patient to appropriate facility.  Exiting." ) );
+                popup( _( "ERROR Bionic Level Assessment: FULL CYBORG.  Autodoc Mk. XI can't operate.  Please move patient to appropriate facility.  Exiting." ) );
                 return;
             }
 

@@ -334,10 +334,10 @@ class player : public Character
         void siphon( vehicle &veh, const itype_id &desired_liquid );
 
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( item_location loc );
+        bool consume( item_location loc, bool force = false );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume( item &target );
+        bool consume( item &target, bool force = false );
 
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;

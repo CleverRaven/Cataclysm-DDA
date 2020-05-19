@@ -137,14 +137,23 @@ static const efftype_id effect_heating_bionic( "heating_bionic" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_hot_speed( "hot_speed" );
+static const efftype_id effect_hunger_blank( "hunger_blank" );
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
+static const efftype_id effect_hunger_famished( "hunger_famished" );
+static const efftype_id effect_hunger_full( "hunger_full" );
+static const efftype_id effect_hunger_hungry( "hunger_hungry" );
+static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
+static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
+static const efftype_id effect_hunger_starving( "hunger_starving" );
+static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_jetinjector( "jetinjector" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_melatonin_supplements( "melatonin" );
 static const efftype_id effect_masked_scent( "masked_scent" );
+static const efftype_id effect_melatonin_supplements( "melatonin" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
@@ -220,7 +229,6 @@ static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id str_bio_cloak( "bio_cloak" );
-static const bionic_id str_bio_night( "bio_night" );
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
@@ -4264,64 +4272,23 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
-    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
-    const units::volume contains = stomach.contains();
-    const units::volume cap = stomach.capacity( *this );
-    std::string hunger_string;
-    nc_color hunger_color = c_white;
-    // i ate just now!
-    const bool just_ate = stomach.time_since_ate() < 15_minutes;
-    // i ate a meal recently enough that i shouldn't need another meal
-    const bool recently_ate = stomach.time_since_ate() < 3_hours;
-    if( calorie_deficit ) {
-        if( contains >= cap ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_green;
-        } else if( contains > cap * 3 / 4 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( just_ate && contains > cap / 2 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( just_ate ) {
-            hunger_string = _( "Hungry" );
-            hunger_color = c_yellow;
-        } else if( recently_ate ) {
-            hunger_string = _( "Very Hungry" );
-            hunger_color = c_yellow;
-        } else if( get_bmi() < character_weight_category::emaciated ) {
-            hunger_string = _( "Starving!" );
-            hunger_color = c_red;
-        } else if( get_bmi() < character_weight_category::underweight ) {
-            hunger_string = _( "Near starving" );
-            hunger_color = c_red;
-        } else {
-            hunger_string = _( "Famished" );
-            hunger_color = c_light_red;
-        }
-    } else {
-        if( contains >= cap * 5 / 6 ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_green;
-        } else if( contains > cap * 11 / 20 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( recently_ate && contains >= cap * 3 / 8 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
-            hunger_string.clear();
-        } else {
-            if( get_bmi() > character_weight_category::overweight ) {
-                hunger_string = _( "Hungry" );
-            } else {
-                hunger_string = _( "Very Hungry" );
-            }
-            hunger_color = c_yellow;
+    std::map<efftype_id, std::pair<std::string, nc_color> > hunger_states = {
+        { effect_hunger_engorged, std::make_pair( _( "Engorged" ), c_red ) },
+        { effect_hunger_full, std::make_pair( _( "Full" ), c_yellow ) },
+        { effect_hunger_satisfied, std::make_pair( _( "Satisfied" ), c_green ) },
+        { effect_hunger_blank, std::make_pair( _( "" ), c_white ) },
+        { effect_hunger_hungry, std::make_pair( _( "Hungry" ), c_yellow ) },
+        { effect_hunger_very_hungry, std::make_pair( _( "Very Hungry" ), c_yellow ) },
+        { effect_hunger_near_starving, std::make_pair( _( "Near starving" ), c_red ) },
+        { effect_hunger_starving, std::make_pair( _( "Starving!" ), c_red ) },
+        { effect_hunger_famished, std::make_pair( _( "Famished" ), c_light_red ) }
+    };
+    for( auto &hunger_state : hunger_states ) {
+        if( has_effect( hunger_state.first ) ) {
+            return hunger_state.second;
         }
     }
-
-    return std::make_pair( hunger_string, hunger_color );
+    return std::make_pair( _( "ERROR!" ), c_light_red );
 }
 
 std::pair<std::string, nc_color> Character::get_fatigue_description() const
@@ -4697,7 +4664,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             // you're engorged! your stomach is full to bursting!
             set_hunger( -61 );
         } else if( stomach.contains() >= stomach_capacity / 2 && get_hunger() > -21 ) {
-            // sated
+            // full
             set_hunger( -21 );
         } else if( stomach.contains() >= stomach_capacity / 8 && get_hunger() > -1 ) {
             // that's really all the food you need to feel full
@@ -4722,7 +4689,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             // you're engorged! your stomach is full to bursting!
             set_hunger( -61 );
         } else if( stomach.contains() >= stomach_capacity * 3 / 4 && get_hunger() > -21 ) {
-            // sated
+            // full
             set_hunger( -21 );
         } else if( stomach.contains() >= stomach_capacity / 2 && get_hunger() > -1 ) {
             // that's really all the food you need to feel full
@@ -4740,6 +4707,63 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     // since water is not limited by intake but by absorption, we can just set thirst to zero
     if( mycus || mouse ) {
         set_thirst( 0 );
+    }
+
+    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
+    const units::volume contains = stomach.contains();
+    const units::volume cap = stomach.capacity( *this );
+
+    efftype_id hunger_effect;
+    // i ate just now!
+    const bool just_ate = stomach.time_since_ate() < 15_minutes;
+    // i ate a meal recently enough that i shouldn't need another meal
+    const bool recently_ate = stomach.time_since_ate() < 3_hours;
+    if( calorie_deficit ) {
+        if( contains >= cap ) {
+            hunger_effect = effect_hunger_engorged;
+        } else if( contains > cap * 3 / 4 ) {
+            hunger_effect = effect_hunger_full;
+        } else if( just_ate && contains > cap / 2 ) {
+            hunger_effect = effect_hunger_satisfied;
+        } else if( just_ate ) {
+            hunger_effect = effect_hunger_hungry;
+        } else if( recently_ate ) {
+            hunger_effect = effect_hunger_very_hungry;
+        } else if( get_bmi() < character_weight_category::underweight ) {
+            hunger_effect = effect_hunger_near_starving;
+        } else if( get_bmi() < character_weight_category::emaciated ) {
+            hunger_effect = effect_hunger_starving;
+        } else {
+            hunger_effect = effect_hunger_famished;
+        }
+    } else {
+        if( contains >= cap * 5 / 6 ) {
+            hunger_effect = effect_hunger_engorged;
+        } else if( contains > cap * 11 / 20 ) {
+            hunger_effect = effect_hunger_full;
+        } else if( recently_ate && contains >= cap * 3 / 8 ) {
+            hunger_effect = effect_hunger_satisfied;
+        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
+            hunger_effect = effect_hunger_blank;
+        } else {
+            if( get_bmi() > character_weight_category::overweight ) {
+                hunger_effect = effect_hunger_hungry;
+            } else {
+                hunger_effect = effect_hunger_very_hungry;
+            }
+        }
+    }
+    if( !has_effect( hunger_effect ) ) {
+        remove_effect( effect_hunger_engorged );
+        remove_effect( effect_hunger_full );
+        remove_effect( effect_hunger_satisfied );
+        remove_effect( effect_hunger_hungry );
+        remove_effect( effect_hunger_very_hungry );
+        remove_effect( effect_hunger_near_starving );
+        remove_effect( effect_hunger_starving );
+        remove_effect( effect_hunger_famished );
+        remove_effect( effect_hunger_blank );
+        add_effect( hunger_effect, 24_hours, num_bp, true );
     }
 }
 
@@ -10676,11 +10700,7 @@ bool Character::sees( const tripoint &t, bool, int ) const
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
         return true;
     }
-    // Only check if we need to override if we already came to the opposite conclusion.
-    if( can_see && wanted_range < 15 && wanted_range > sight_range( 1 ) &&
-        has_active_bionic( str_bio_night ) ) {
-        can_see = false;
-    }
+
     if( can_see && wanted_range > unimpaired_range() ) {
         can_see = false;
     }
