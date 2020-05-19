@@ -57,6 +57,7 @@ enum spell_flag {
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     WITH_CONTAINER, // items spawned with container
+    SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     LAST
 };
 
