@@ -809,6 +809,7 @@
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
+    "healing_awake": 0,
     "healing_resting": -1,
     "mending_modifier": 0
   },
