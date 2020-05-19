@@ -71,6 +71,7 @@ static const skill_id skill_mechanics( "mechanics" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 static const quality_id qual_SELF_JACK( "SELF_JACK" );
+static const quality_id qual_SIPHON( "SIPHON" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -576,7 +577,7 @@ task_reason veh_interact::cant_do( char mode )
                     break;
                 }
             }
-            has_tools = crafting_inv.has_tools( "hose", 1 );
+            has_tools = crafting_inv.has_quality( qual_SIPHON, 1 );
             break;
 
         case 'd':
