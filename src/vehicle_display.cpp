@@ -159,7 +159,8 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
         if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {
             if( detail ) {
                 if( vp.ammo_current() == itype_battery ) {
-                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(), vp.ammo_capacity() );
+                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(),
+                                               vp.ammo_capacity( ammotype( "battery" ) ) );
                 } else {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;

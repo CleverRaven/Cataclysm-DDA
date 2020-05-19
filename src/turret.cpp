@@ -102,12 +102,12 @@ int turret_data::ammo_remaining() const
     return part->base.ammo_remaining();
 }
 
-int turret_data::ammo_capacity() const
+int turret_data::ammo_capacity( const ammotype &ammo ) const
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return 0;
     }
-    return part->base.ammo_capacity();
+    return part->base.ammo_capacity( ammo );
 }
 
 const itype *turret_data::ammo_data() const
@@ -216,7 +216,11 @@ bool turret_data::can_reload() const
         // always allow changing of magazines
         return true;
     }
-    return part->base.ammo_remaining() < part->base.ammo_capacity();
+    if( part->base.ammo_remaining() == 0 ) {
+        return true;
+    }
+    return part->base.ammo_remaining() <
+           part->base.ammo_capacity( part->base.ammo_data()->ammo->type );
 }
 
 bool turret_data::can_unload() const

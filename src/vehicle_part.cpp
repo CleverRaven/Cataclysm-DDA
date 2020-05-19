@@ -214,14 +214,14 @@ itype_id vehicle_part::ammo_current() const
     return itype_id::NULL_ID();
 }
 
-int vehicle_part::ammo_capacity() const
+int vehicle_part::ammo_capacity( const ammotype &ammo ) const
 {
     if( is_tank() ) {
         return item::find_type( ammo_current() )->charges_per_volume( base.get_total_capacity() );
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
-        return base.ammo_capacity();
+        return base.ammo_capacity( ammo );
     }
 
     return 0;
@@ -240,6 +240,11 @@ int vehicle_part::ammo_remaining() const
     return 0;
 }
 
+int vehicle_part::remaining_ammo_capacity() const
+{
+    return base.remaining_ammo_capacity();
+}
+
 int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 {
     const itype *liquid = item::find_type( ammo );
@@ -248,7 +253,8 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
     if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
         base.contents.clear_items();
         const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
-        const int limit = units::from_milliliter( ammo_capacity() ) / stack;
+        const int limit = units::from_milliliter( ammo_capacity( item::find_type(
+                              ammo )->ammo->type ) ) / stack;
         // assuming "ammo" isn't really going into a magazine as this is a vehicle part
         base.put_in( item( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit ),
                      item_pocket::pocket_type::CONTAINER );
@@ -256,11 +262,17 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
     }
 
     if( is_turret() ) {
-        return base.ammo_set( ammo, qty ).ammo_remaining();
+        if( base.is_magazine() ) {
+            return base.ammo_set( ammo, qty ).ammo_remaining();
+        } else if( !base.magazine_default().is_null() ) {
+            item mag( base.magazine_default() );
+            mag.ammo_set( ammo, qty );
+            base.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        }
     }
 
     if( is_fuel_store() ) {
-        base.ammo_set( ammo, qty >= 0 ? qty : ammo_capacity() );
+        base.ammo_set( ammo, qty >= 0 ? qty : ammo_capacity( item::find_type( ammo )->ammo->type ) );
         return base.ammo_remaining();
     }
 
@@ -354,7 +366,7 @@ bool vehicle_part::can_reload( const item &obj ) const
         }
     }
 
-    return ammo_remaining() < ammo_capacity();
+    return ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )

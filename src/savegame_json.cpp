@@ -2500,13 +2500,13 @@ void vehicle_part::deserialize( JsonIn &jsin )
 
     // with VEHICLE tag migrate fuel tanks only if amount field exists
     if( base.has_flag( "VEHICLE" ) ) {
-        if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != itype_battery ) {
+        if( data.has_int( "amount" ) && !base.ammo_types().empty() && legacy_fuel != itype_battery ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
 
         // without VEHICLE flag always migrate both batteries and fuel tanks
     } else {
-        if( ammo_capacity() > 0 ) {
+        if( !base.ammo_types().empty() ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
         base.item_tags.insert( "VEHICLE" );
